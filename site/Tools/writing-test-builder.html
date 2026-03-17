@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing Test Builder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    .container {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      background: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      margin: 0;
+      flex: 0 0 auto;
+    }
+    
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .download-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      filter: brightness(1.1);
+    }
+    
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    .left-panel {
+      padding: 30px;
+      overflow-y: auto;
+      height: 100%;
+      border-right: 3px solid #e5e7eb;
+    }
+    
+    .right-panel {
+      padding: 30px;
+      background: #f9fafb;
+      overflow-y: auto;
+      height: 100%;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f9fafb;
+      border-radius: 15px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+    
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+    
+    .input-group input:focus,
+    .input-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+    
+    .input-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .task-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .task-card h3 {
+      color: #1f2937;
+      margin-bottom: 15px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .preview-window {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .preview-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .preview-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 10px;
+      object-fit: contain;
+    }
+    
+    .preview-logo-text {
+      font-weight: 700;
+      color: #667eea;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    
+    .preview-test-id {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 600;
+    }
+    
+    .preview-heading {
+      font-size: 13px;
+      color: #374151;
+      margin: 5px 0;
+    }
+    
+    .preview-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-top: 10px;
+    }
+    
+    .preview-task {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .preview-task h4 {
+      color: #667eea;
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .preview-target {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .preview-prompt {
+      color: #1f2937;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    
+    .scenario-box {
+      background: #fef3c7;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #f59e0b;
+    }
+    
+    .scenario-box h4 {
+      color: #92400e;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    
+    .scenario-text {
+      color: #78350f;
+      line-height: 1.6;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+    
+    .info-badge {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    /* OCR Upload Buttons */
+    .textarea-with-upload {
+      position: relative;
+    }
+    
+    .upload-buttons {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    
+    .upload-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .upload-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    
+    .upload-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .upload-btn.paste {
+      background: #3b82f6;
+    }
+    
+    .upload-btn.upload {
+      background: #f59e0b;
+    }
+    
+    .hidden-file-input {
+      display: none;
+    }
+    
+    /* OCR Preview Modal */
+    .ocr-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .ocr-modal.show {
+      display: flex;
+    }
+    
+    .ocr-modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .ocr-modal h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .ocr-preview-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .ocr-transcription {
+      width: 100%;
+      min-height: 150px;
+      padding: 12px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      margin-bottom: 20px;
+      resize: vertical;
+    }
+    
+    .ocr-modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    
+    .ocr-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .ocr-btn.cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    
+    .ocr-btn.confirm {
+      background: #10b981;
+      color: white;
+    }
+    
+    .ocr-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+    
+    .ocr-loading {
+      text-align: center;
+      padding: 20px;
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .ocr-spinner {
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Universal Input Section */
+    .universal-section {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 2px solid #047857;
+    }
+    
+    .universal-section h2 {
+      color: white;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .universal-section p {
+      color: #d1fae5;
+      font-size: 13px;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .universal-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .universal-btn {
+      background: white;
+      color: #047857;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .universal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    
+    /* Paste Zone */
+    .paste-zone {
+      border: 2px dashed rgba(255,255,255,0.5);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      background: rgba(255,255,255,0.1);
+      margin-top: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .paste-zone:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.8);
+    }
+    
+    .paste-zone-text {
+      color: white;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    
+    .paste-zone-icon {
+      font-size: 32px;
+      opacity: 0.8;
+    }
+    
+    /* Image Gallery in Paste Zone */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .image-preview-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.2);
+      cursor: move;
+      user-select: none;
+    }
+    
+    .image-preview-item.dragging {
+      opacity: 0.5;
+      border-color: #4CAF50;
+    }
+    
+    .image-preview-item.drag-over {
+      border-color: #2196F3;
+      background-color: rgba(33, 150, 243, 0.2);
+    }
+    
+    .image-preview-item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+    
+    .image-remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+    
+    .image-remove-btn:hover {
+      opacity: 1;
+    }
+    
+    .transcribe-action {
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .transcribe-action.visible {
+      display: block;
+    }
+    
+    .image-popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .image-popup-overlay.active {
+      display: flex;
+    }
+    
+    .image-popup-overlay img {
+      max-width: 95%;
+      max-height: 95%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+    }
+    
+    .transcribe-action.visible {
+      display: block;
+    }
+    
+    .transcribe-btn-inline {
+      background: white;
+      color: #047857;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+      width: 100%;
+    }
+    
+    .transcribe-btn-inline:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📝 Writing Test Builder</h1>
+      <div class="header-buttons">
+        <button class="download-btn" onclick="downloadWritingQuestionsJS()">
+          ⬇️ Download writing-questions.js
+        </button>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <!-- Left Panel: Editor -->
+      <div class="left-panel">
+        
+        <!-- Universal Input Section -->
+        <div class="universal-section">
+          <h2>🎯 Universal Input - All Tasks at Once</h2>
+          <p>Paste or upload an image containing ALL tasks (1.1, 1.2, and 2). AI will automatically extract and distribute the text to each task field.</p>
+          <div class="universal-buttons">
+            <button class="universal-btn" onclick="document.getElementById('file_universal').click()">📁 Upload Image(s) (All Tasks)</button>
+            <input type="file" id="file_universal" class="hidden-file-input" accept="image/*" multiple onchange="uploadUniversalImage(this)">
+          </div>
+          <div class="paste-zone" id="pasteZone">
+            <div id="pasteZoneContent">
+              <div class="paste-zone-icon">📋</div>
+              <div class="paste-zone-text">Or click here and press Ctrl+V to paste image(s)</div>
+            </div>
+            <div id="imageGallery" class="image-gallery"></div>
+            <div id="transcribeAction" class="transcribe-action">
+              <button class="transcribe-btn-inline" onclick="startInlineTranscription()">🤖 Start Transcription</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Content Generation Section -->
+        <div class="universal-section" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-color: #6d28d9;">
+          <h2>🤖 AI Content Generator</h2>
+          <p>Generate high-quality Band 9 sample answers and topic vocabulary automatically. Natural, human-like writing with proper HTML formatting.</p>
+          <div class="universal-buttons">
+            <button class="universal-btn" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #78350f;" onclick="generateAIContent()">
+              ✨ Generate Samples & Vocabulary
+            </button>
+          </div>
+          <div id="aiGenerationProgress" style="color: white; font-size: 13px; margin-top: 10px; min-height: 20px;"></div>
+        </div>
+        
+        <!-- AI Generation Confirmation Modal -->
+        <div id="aiConfirmModal" class="modal">
+          <div class="modal-content" style="max-width: 600px;">
+            <h2 style="margin-top: 0;">🤖 Confirm AI Content Generation</h2>
+            <div id="aiConfirmContent" style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 0 0 15px 0; font-weight: 600; color: #1f2937;">This will generate:</p>
+              <ul style="margin: 0; padding-left: 20px; color: #374151;">
+                <li style="margin-bottom: 8px;"><strong>Task 1.1 Sample:</strong> <span id="confirmT11Type"></span> (~70 words)</li>
+                <li style="margin-bottom: 8px;"><strong>Task 1.2 Sample:</strong> <span id="confirmT12Type"></span> (~185 words)</li>
+                <li style="margin-bottom: 8px;"><strong>Task 2 Sample:</strong> <span id="confirmT2Type"></span> (~230 words)</li>
+                <li><strong>Topic Vocabulary:</strong> 15-20 items per task (English-Uzbek)</li>
+              </ul>
+              <p style="margin: 15px 0 0 0; font-size: 13px; color: #6b7280;">All content will be formatted with proper HTML and color-coded spans for easy copy-paste.</p>
+            </div>
+            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+              <button onclick="closeAIConfirmModal()" style="padding: 12px 24px; background: #e5e7eb; color: #1f2937; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">Cancel</button>
+              <button onclick="confirmAIGeneration()" style="padding: 12px 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #78350f; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;">✨ Generate Now</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Settings Section -->
+        <div class="section">
+          <h2>⚙️ Test Settings</h2>
+          
+          <div class="input-group">
+            <label>Logo URL</label>
+            <input type="text" id="logoUrl" value="https://i.ibb.co/WN0XY5Lv/logo.png">
+          </div>
+          
+          <div class="input-group">
+            <label>Logo Wording</label>
+            <input type="text" id="logoWording" value="Mock Stream">
+          </div>
+          
+          <div class="input-group">
+            <label>Test Identifier (e.g., WM-10)</label>
+            <input type="text" id="testIdentifier" value="WM-10">
+          </div>
+          
+          <div class="input-group">
+            <label>Heading 1</label>
+            <input type="text" id="heading1" value="Bilim va malakalarni baholash agentligi">
+          </div>
+          
+          <div class="input-group">
+            <label>Heading 2</label>
+            <input type="text" id="heading2" value="Chet tilini bilish darajasi">
+          </div>
+          
+          <div class="input-group">
+            <label>Exam Title</label>
+            <input type="text" id="examTitle" value="Writing exam">
+          </div>
+        </div>
+        
+        <!-- Part 1 Scenario -->
+        <div class="section">
+          <h2>📧 Part 1 Context & Scenario</h2>
+          
+          <div class="input-group">
+            <label>Context (Brief intro - appears at top)</label>
+            <input type="text" id="p1_context" placeholder="e.g., You are a member of the Music Club. You received this email from the club leader." value="You are a resident in a neighborhood safety program. You received an email from the Neighborhood Office.">
+          </div>
+          
+          <div class="input-group">
+            <label>Scenario (Main content/email - appears below context)</label>
+            <div class="upload-buttons">
+              <button class="upload-btn paste" onclick="pasteImage('p1_scenario')">📋 Paste Image</button>
+              <button class="upload-btn upload" onclick="document.getElementById('file_p1_scenario').click()">📁 Upload Image</button>
+              <input type="file" id="file_p1_scenario" class="hidden-file-input" accept="image/*" onchange="uploadImage('p1_scenario', this)">
+            </div>
+            <textarea id="p1_scenario">Dear Resident,
+
+Our Neighborhood Office has launched a new safety programme including CCTV cameras, evening workshops, and lighting improvements. We want your feedback! What do you think? Do you have any concerns or suggestions? Please write to us.
+
+Neighborhood Manager</textarea>
+          </div>
+        </div>
+        
+        <!-- Task 1.1 -->
+        <div class="task-card">
+          <h3>✍️ Task 1.1</h3>
+          
+          <div class="input-group">
+            <label>Title</label>
+            <input type="text" id="t11_title" value="Task 1.1">
+          </div>
+          
+          <div class="input-group">
+            <label>Word Count Target</label>
+            <input type="text" id="t11_target" value="50–70 words">
+          </div>
+          
+          <div class="input-group">
+            <label>Prompt</label>
+            <div class="upload-buttons">
+              <button class="upload-btn paste" onclick="pasteImage('t11_prompt')">📋 Paste Image</button>
+              <button class="upload-btn upload" onclick="document.getElementById('file_t11_prompt').click()">📁 Upload Image</button>
+              <input type="file" id="file_t11_prompt" class="hidden-file-input" accept="image/*" onchange="uploadImage('t11_prompt', this)">
+            </div>
+            <textarea id="t11_prompt">Write a note to your friend. Tell your friend about the safety programme and give your opinion. Write about 50 words.</textarea>
+          </div>
+        </div>
+        
+        <!-- Task 1.2 -->
+        <div class="task-card">
+          <h3>✍️ Task 1.2</h3>
+          
+          <div class="input-group">
+            <label>Title</label>
+            <input type="text" id="t12_title" value="Task 1.2">
+          </div>
+          
+          <div class="input-group">
+            <label>Word Count Target</label>
+            <input type="text" id="t12_target" value="120–150 words">
+          </div>
+          
+          <div class="input-group">
+            <label>Prompt</label>
+            <div class="upload-buttons">
+              <button class="upload-btn paste" onclick="pasteImage('t12_prompt')">📋 Paste Image</button>
+              <button class="upload-btn upload" onclick="document.getElementById('file_t12_prompt').click()">📁 Upload Image</button>
+              <input type="file" id="file_t12_prompt" class="hidden-file-input" accept="image/*" onchange="uploadImage('t12_prompt', this)">
+            </div>
+            <textarea id="t12_prompt">Write a letter to the Neighborhood Office manager. Explain your opinion on the programme and suggest one or two improvements. Write 120–150 words.</textarea>
+          </div>
+        </div>
+        
+        <!-- Task 2 -->
+        <div class="task-card">
+          <h3>✍️ Task 2</h3>
+          
+          <div class="input-group">
+            <label>Title</label>
+            <input type="text" id="t2_title" value="Task 2">
+          </div>
+          
+          <div class="input-group">
+            <label>Word Count Target</label>
+            <input type="text" id="t2_target" value="180–200 words">
+          </div>
+          
+          <div class="input-group">
+            <label>Prompt</label>
+            <div class="upload-buttons">
+              <button class="upload-btn paste" onclick="pasteImage('t2_prompt')">📋 Paste Image</button>
+              <button class="upload-btn upload" onclick="document.getElementById('file_t2_prompt').click()">📁 Upload Image</button>
+              <input type="file" id="file_t2_prompt" class="hidden-file-input" accept="image/*" onchange="uploadImage('t2_prompt', this)">
+            </div>
+            <textarea id="t2_prompt">You are writing a blog post for a digital wellbeing site. The topic is: "Practical ways to reduce screen time without deleting your apps." Write your blog post, giving reasons and examples. Write 180–200 words.</textarea>
+          </div>
+        </div>
+        
+        <!-- Generated Samples Section -->
+        <div class="section">
+          <h2>📝 Generated Samples (Editable)</h2>
+          <p style="color: #6b7280; margin-bottom: 20px;">AI-generated Band 9 samples will appear here. You can review and edit them before downloading.</p>
+          
+          <div class="task-card">
+            <h3>Task 1.1 Sample</h3>
+            <div class="input-group">
+              <textarea id="sample_t11" placeholder="Task 1.1 sample will appear here after generation..." style="min-height: 150px; font-family: 'Georgia', serif;"></textarea>
+            </div>
+          </div>
+          
+          <div class="task-card">
+            <h3>Task 1.2 Sample</h3>
+            <div class="input-group">
+              <textarea id="sample_t12" placeholder="Task 1.2 sample will appear here after generation..." style="min-height: 250px; font-family: 'Georgia', serif;"></textarea>
+            </div>
+          </div>
+          
+          <div class="task-card">
+            <h3>Task 2 Sample</h3>
+            <div class="input-group">
+              <textarea id="sample_t2" placeholder="Task 2 sample will appear here after generation..." style="min-height: 300px; font-family: 'Georgia', serif;"></textarea>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Generated Vocabulary Section -->
+        <div class="section">
+          <h2>📚 Generated Vocabulary (Editable)</h2>
+          <p style="color: #6b7280; margin-bottom: 20px;">Topic vocabulary in JSON format. You can edit the English-Uzbek pairs before downloading.</p>
+          
+          <div class="task-card">
+            <h3>Task 1.1 Vocabulary</h3>
+            <div class="input-group">
+              <textarea id="vocab_t11" placeholder='Task 1.1 vocabulary will appear here in JSON format:\n[{"en": "phrase", "uz": "tarjima"}, ...]' style="min-height: 200px; font-family: 'Courier New', monospace; font-size: 13px;"></textarea>
+            </div>
+          </div>
+          
+          <div class="task-card">
+            <h3>Task 1.2 Vocabulary</h3>
+            <div class="input-group">
+              <textarea id="vocab_t12" placeholder='Task 1.2 vocabulary will appear here in JSON format...' style="min-height: 200px; font-family: 'Courier New', monospace; font-size: 13px;"></textarea>
+            </div>
+          </div>
+          
+          <div class="task-card">
+            <h3>Task 2 Vocabulary</h3>
+            <div class="input-group">
+              <textarea id="vocab_t2" placeholder='Task 2 vocabulary will appear here in JSON format...' style="min-height: 200px; font-family: 'Courier New', monospace; font-size: 13px;"></textarea>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Right Panel: Preview -->
+      <div class="right-panel">
+        <div class="preview-window">
+          <div class="preview-header">
+            <img id="previewLogo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo" class="preview-logo">
+            <div class="preview-logo-text" id="previewLogoText">Mock Stream</div>
+            <div class="preview-test-id" id="previewTestId">WM-10</div>
+            <div class="preview-heading" id="previewHeading1">Bilim va malakalarni baholash agentligi</div>
+            <div class="preview-heading" id="previewHeading2">Chet tilini bilish darajasi</div>
+            <div class="preview-title" id="previewTitle">Writing exam</div>
+          </div>
+          
+          <div class="scenario-box">
+            <h4>📧 Part 1 Scenario</h4>
+            <div class="scenario-text" id="previewScenario">Dear Resident,
+
+Our Neighborhood Office has launched a new safety programme including CCTV cameras, evening workshops, and lighting improvements. We want your feedback! What do you think? Do you have any concerns or suggestions? Please write to us.
+
+Neighborhood Manager</div>
+          </div>
+          
+          <div class="preview-task">
+            <h4 id="previewT11Title">Task 1.1 <span class="info-badge" id="previewT11Target">50–70 words</span></h4>
+            <div class="preview-prompt" id="previewT11Prompt">Write a note to your friend. Tell your friend about the safety programme and give your opinion. Write about 50 words.</div>
+          </div>
+          
+          <div class="preview-task">
+            <h4 id="previewT12Title">Task 1.2 <span class="info-badge" id="previewT12Target">120–150 words</span></h4>
+            <div class="preview-prompt" id="previewT12Prompt">Write a letter to the Neighborhood Office manager. Explain your opinion on the programme and suggest one or two improvements. Write 120–150 words.</div>
+          </div>
+          
+          <div class="preview-task">
+            <h4 id="previewT2Title">Task 2 <span class="info-badge" id="previewT2Target">180–200 words</span></h4>
+            <div class="preview-prompt" id="previewT2Prompt">You are writing a blog post for a digital wellbeing site. The topic is: "Practical ways to reduce screen time without deleting your apps." Write your blog post, giving reasons and examples. Write 180–200 words.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- OCR Preview Modal -->
+  <div id="ocrModal" class="ocr-modal">
+    <div class="ocr-modal-content">
+      <h2>🤖 OCR Transcription Preview</h2>
+      <div id="ocrLoading" class="ocr-loading" style="display:none;">
+        <div class="ocr-spinner"></div>
+        <div>Transcribing image with OpenAI Vision...</div>
+      </div>
+      <div id="ocrContent" style="display:none;">
+        <img id="ocrPreviewImage" class="ocr-preview-image" alt="Preview">
+        <textarea id="ocrTranscription" class="ocr-transcription" placeholder="Transcribed text will appear here..."></textarea>
+        <div class="ocr-modal-buttons">
+          <button class="ocr-btn cancel" onclick="closeOCRModal()">Cancel</button>
+          <button class="ocr-btn confirm" onclick="confirmOCRTranscription()">✓ Use This Text</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Real-time preview updates
+    const inputs = [
+      { id: 'logoUrl', preview: 'previewLogo', attr: 'src' },
+      { id: 'logoWording', preview: 'previewLogoText' },
+      { id: 'testIdentifier', preview: 'previewTestId' },
+      { id: 'heading1', preview: 'previewHeading1' },
+      { id: 'heading2', preview: 'previewHeading2' },
+      { id: 'examTitle', preview: 'previewTitle' },
+      { id: 'p1_scenario', preview: 'previewScenario' },
+      { id: 't11_title', preview: 'previewT11Title' },
+      { id: 't11_target', preview: 'previewT11Target' },
+      { id: 't11_prompt', preview: 'previewT11Prompt' },
+      { id: 't12_title', preview: 'previewT12Title' },
+      { id: 't12_target', preview: 'previewT12Target' },
+      { id: 't12_prompt', preview: 'previewT12Prompt' },
+      { id: 't2_title', preview: 'previewT2Title' },
+      { id: 't2_target', preview: 'previewT2Target' },
+      { id: 't2_prompt', preview: 'previewT2Prompt' }
+    ];
+    
+    inputs.forEach(item => {
+      const input = document.getElementById(item.id);
+      const preview = document.getElementById(item.preview);
+      
+      if (input && preview) {
+        input.addEventListener('input', () => {
+          if (item.attr === 'src') {
+            preview.src = input.value;
+          } else {
+            preview.textContent = input.value;
+          }
+        });
+      }
+    });
+    
+    // Download writing-questions.js
+    function downloadWritingQuestionsJS() {
+      // Get samples from editable fields
+      const t11Sample = document.getElementById('sample_t11').value;
+      const t12Sample = document.getElementById('sample_t12').value;
+      const t2Sample = document.getElementById('sample_t2').value;
+      
+      // Get vocabulary from editable fields
+      let vocabulary = null;
+      try {
+        const vocab_t11 = document.getElementById('vocab_t11').value;
+        const vocab_t12 = document.getElementById('vocab_t12').value;
+        const vocab_t2 = document.getElementById('vocab_t2').value;
+        
+        if (vocab_t11 || vocab_t12 || vocab_t2) {
+          vocabulary = {
+            task11: vocab_t11 ? JSON.parse(vocab_t11) : [],
+            task12: vocab_t12 ? JSON.parse(vocab_t12) : [],
+            task2: vocab_t2 ? JSON.parse(vocab_t2) : []
+          };
+        }
+      } catch (e) {
+        console.warn('Vocabulary JSON parse error:', e);
+      }
+      
+      const data = {
+        settings: {
+          logoUrl: document.getElementById('logoUrl').value,
+          logoWording: document.getElementById('logoWording').value,
+          testIdentifier: document.getElementById('testIdentifier').value,
+          heading1: document.getElementById('heading1').value,
+          heading2: document.getElementById('heading2').value,
+          examTitle: document.getElementById('examTitle').value
+        },
+        tasks: {
+          p1_context: document.getElementById('p1_context').value,
+          p1_scenario: document.getElementById('p1_scenario').value,
+          t11: {
+            title: document.getElementById('t11_title').value,
+            target: document.getElementById('t11_target').value,
+            prompt: document.getElementById('t11_prompt').value,
+            sample: t11Sample || ''
+          },
+          t12: {
+            title: document.getElementById('t12_title').value,
+            target: document.getElementById('t12_target').value,
+            prompt: document.getElementById('t12_prompt').value,
+            sample: t12Sample || ''
+          },
+          t2: {
+            title: document.getElementById('t2_title').value,
+            target: document.getElementById('t2_target').value,
+            prompt: document.getElementById('t2_prompt').value,
+            sample: t2Sample || ''
+          }
+        },
+        vocabulary: vocabulary
+      };
+      
+      // Generate file content
+      const fileContent = `// ================================================================================
+// WRITING MOCK TEST - QUESTIONS DATA
+// ================================================================================
+// This file contains all question content for the Writing Mock Test
+// Update this file to change questions across all writing mocks automatically
+// ================================================================================
+
+window.WRITING_TEST_DATA = ${JSON.stringify(data, null, 2)};
+`;
+      
+      // Download
+      const blob = new Blob([fileContent], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      // Prompt user for mock number
+      const mockNum = prompt('Enter writing mock test number (01-99):', '10');
+      if (!mockNum) {
+        alert('Download cancelled.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      // Parse and validate number
+      const num = parseInt(mockNum);
+      if (isNaN(num) || num < 1 || num > 99) {
+        alert('Please enter a valid number between 1 and 99.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      // Format filename with padding
+      const paddedNum = num.toString().padStart(2, '0');
+      const filename = num === 1 ? 'writing-questions.js' : `writing-questions${paddedNum}.js`;
+      
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ ${filename} downloaded successfully!\\n\\nPlace it in your project folder and update the script tag in your HTML.`);
+    }
+    
+    // ================================================================================
+    // OCR FUNCTIONALITY - Paste/Upload Images and Transcribe with OpenAI Vision
+    // ================================================================================
+    
+    let currentTargetField = null;
+    let currentImageData = null;
+    let isUniversalInput = false;
+    let uploadedImages = []; // Store multiple images
+    
+    // Get OpenAI API Key from backend
+    async function getAPIKey() {
+      const response = await fetch('https://davirbek.alwaysdata.net/key');
+      const data = await response.json();
+      return data.key;
+    }
+    
+    // Setup paste zone
+    document.addEventListener('DOMContentLoaded', () => {
+      const pasteZone = document.getElementById('pasteZone');
+      
+      // Make paste zone focusable
+      pasteZone.setAttribute('tabindex', '0');
+      
+      // Click to focus
+      pasteZone.addEventListener('click', () => {
+        pasteZone.focus();
+      });
+      
+      // Handle paste event
+      pasteZone.addEventListener('paste', async (e) => {
+        e.preventDefault();
+        const items = e.clipboardData.items;
+        const newImages = [];
+        
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            newImages.push(items[i].getAsFile());
+          }
+        }
+        
+        if (newImages.length === 0) {
+          alert('📋 No image found in clipboard. Please copy an image first.');
+          return;
+        }
+        
+        // Add new images to existing ones
+        isUniversalInput = true;
+        currentTargetField = 'universal';
+        uploadedImages = uploadedImages.concat(newImages);
+        displayImagesInGallery(uploadedImages);
+      });
+      
+      // Visual feedback on focus
+      pasteZone.addEventListener('focus', () => {
+        pasteZone.style.background = 'rgba(255,255,255,0.2)';
+        pasteZone.style.borderColor = 'rgba(255,255,255,1)';
+      });
+      
+      pasteZone.addEventListener('blur', () => {
+        pasteZone.style.background = 'rgba(255,255,255,0.1)';
+        pasteZone.style.borderColor = 'rgba(255,255,255,0.5)';
+      });
+    });
+    
+    // Universal Input - Paste all tasks at once
+    async function pasteUniversalImage() {
+      isUniversalInput = true;
+      currentTargetField = 'universal';
+      
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        
+        for (const item of clipboardItems) {
+          const imageTypes = item.types.filter(type => type.startsWith('image/'));
+          
+          if (imageTypes.length > 0) {
+            const blob = await item.getBlob(imageTypes[0]);
+            processImage(blob);
+            return;
+          }
+        }
+        
+        alert('📋 No image found in clipboard. Please copy an image first.');
+      } catch (err) {
+        console.error('Clipboard error:', err);
+        alert('❌ Could not access clipboard. Please use the Upload button instead or make sure you have copied an image.');
+      }
+    }
+    
+    // Universal Input - Upload all tasks at once
+    function uploadUniversalImage(input) {
+      isUniversalInput = true;
+      currentTargetField = 'universal';
+      const files = Array.from(input.files);
+      
+      if (files.length === 0) return;
+      
+      const imageFiles = files.filter(file => file.type.startsWith('image/'));
+      
+      if (imageFiles.length === 0) {
+        alert('❌ Please select image files only.');
+        input.value = '';
+        return;
+      }
+      
+      // Add new images to existing ones
+      uploadedImages = uploadedImages.concat(imageFiles);
+      displayImagesInGallery(uploadedImages);
+      input.value = '';
+    }
+    
+    // Display images in the paste zone gallery
+    function displayImagesInGallery(imageFiles) {
+      const gallery = document.getElementById('imageGallery');
+      const pasteZoneContent = document.getElementById('pasteZoneContent');
+      const transcribeAction = document.getElementById('transcribeAction');
+      
+      // Hide placeholder text
+      pasteZoneContent.style.display = 'none';
+      
+      // Clear gallery
+      gallery.innerHTML = '';
+      
+      // Convert all images to base64 and display
+      const promises = imageFiles.map((file, index) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const imageData = e.target.result;
+            
+            // Create preview item
+            const item = document.createElement('div');
+            item.className = 'image-preview-item';
+            item.draggable = true;
+            item.dataset.index = index;
+            item.innerHTML = `
+              <img src="${imageData}" alt="Image ${index + 1}">
+              <button class="image-remove-btn" onclick="removeImage(${index})" title="Remove">×</button>
+            `;
+            
+            // Double click/tap to view image in fullscreen
+            let lastClickTime = 0;
+            
+            item.addEventListener('click', (event) => {
+              if (event.target.classList.contains('image-remove-btn')) return;
+              
+              const currentTime = new Date().getTime();
+              const timeDiff = currentTime - lastClickTime;
+              
+              if (timeDiff < 300 && timeDiff > 0) {
+                // Double click detected
+                showImagePopup(imageData);
+                lastClickTime = 0; // Reset to avoid triple-click
+              } else {
+                lastClickTime = currentTime;
+              }
+            });
+            
+            // Drag and drop reordering
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('drop', handleDrop);
+            item.addEventListener('dragenter', handleDragEnter);
+            item.addEventListener('dragleave', handleDragLeave);
+            item.addEventListener('dragend', handleDragEnd);
+            
+            gallery.appendChild(item);
+            
+            resolve(imageData);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+      
+      Promise.all(promises).then(imageDataArray => {
+        currentImageData = imageDataArray;
+        transcribeAction.classList.add('visible');
+      });
+    }
+    
+    // Show image popup on long press
+    function showImagePopup(imageSrc) {
+      let popup = document.getElementById('imagePopupOverlay');
+      if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'imagePopupOverlay';
+        popup.className = 'image-popup-overlay';
+        popup.innerHTML = '<img src="" alt="Preview">';
+        document.body.appendChild(popup);
+        
+        popup.addEventListener('mouseup', hideImagePopup);
+        popup.addEventListener('touchend', hideImagePopup);
+        popup.addEventListener('click', hideImagePopup);
+      }
+      
+      popup.querySelector('img').src = imageSrc;
+      popup.classList.add('active');
+    }
+    
+    // Hide image popup
+    function hideImagePopup() {
+      const popup = document.getElementById('imagePopupOverlay');
+      if (popup) {
+        popup.classList.remove('active');
+      }
+    }
+    
+    // Drag and drop handlers
+    let draggedElement = null;
+    let draggedIndex = null;
+    
+    function handleDragStart(e) {
+      draggedElement = this;
+      draggedIndex = parseInt(this.dataset.index);
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+    
+    function handleDragEnter(e) {
+      if (this !== draggedElement) {
+        this.classList.add('drag-over');
+      }
+    }
+    
+    function handleDragLeave(e) {
+      this.classList.remove('drag-over');
+    }
+    
+    function handleDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      this.classList.remove('drag-over');
+      
+      if (draggedElement !== this) {
+        const targetIndex = parseInt(this.dataset.index);
+        
+        // Reorder arrays
+        const movedImage = uploadedImages.splice(draggedIndex, 1)[0];
+        const movedData = currentImageData.splice(draggedIndex, 1)[0];
+        
+        uploadedImages.splice(targetIndex, 0, movedImage);
+        currentImageData.splice(targetIndex, 0, movedData);
+        
+        // Refresh display
+        displayImagesInGallery(uploadedImages);
+      }
+      
+      return false;
+    }
+    
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.image-preview-item').forEach(item => {
+        item.classList.remove('drag-over');
+      });
+    }
+    
+    // Remove image from gallery
+    function removeImage(index) {
+      uploadedImages.splice(index, 1);
+      
+      if (uploadedImages.length === 0) {
+        // Reset to initial state
+        const gallery = document.getElementById('imageGallery');
+        const pasteZoneContent = document.getElementById('pasteZoneContent');
+        const transcribeAction = document.getElementById('transcribeAction');
+        
+        gallery.innerHTML = '';
+        pasteZoneContent.style.display = 'block';
+        transcribeAction.classList.remove('visible');
+        currentImageData = null;
+      } else {
+        // Re-display remaining images
+        displayImagesInGallery(uploadedImages);
+      }
+    }
+    
+    // Start inline transcription
+    async function startInlineTranscription() {
+      const transcribeBtn = document.querySelector('.transcribe-btn-inline');
+      const originalText = transcribeBtn.innerHTML;
+      
+      try {
+        transcribeBtn.disabled = true;
+        transcribeBtn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #047857;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;margin-right:8px;"></span>Transcribing...';
+        
+        const apiKey = await getAPIKey();
+        
+        // Prepare images for API call
+        let imagesToProcess = [];
+        if (Array.isArray(currentImageData)) {
+          imagesToProcess = currentImageData;
+        } else if (currentImageData) {
+          imagesToProcess = [currentImageData];
+        }
+        
+        if (imagesToProcess.length === 0) {
+          throw new Error('No images to process');
+        }
+        
+        // Build content array for Vision API to extract structured data
+        const contentArray = [
+          {
+            type: 'text',
+            text: `Extract the text for the writing tasks from the image(s) and return ONLY a valid JSON object (no markdown, no code blocks, no extra text):
+
+{"context": "brief context sentence", "scenario": "formatted email/letter content with \\n line breaks", "t11_prompt": "task 1.1 text", "t12_prompt": "task 1.2 text", "t2_prompt": "task 2 text"}
+
+IMPORTANT - Extract the exact text for:
+- context: The brief intro line (e.g., "You are a member of the Music Club. You received this email from the club leader.") - usually appears in a "Context:" box at the very top
+- scenario: The main content/email that follows. FORMAT IT AS A PROPER LETTER with \\n line breaks:
+  * Put a blank line (\\n\\n) AFTER the greeting (e.g., "Dear Member,\\n\\n")
+  * Put blank lines between paragraphs
+  * Put a blank line BEFORE the signature/closing (e.g., "\\n\\nThe Club Leader")
+  * Example format: "Dear Member,\\n\\nWe are planning activities...\\n\\nPlease write back.\\n\\nThe Club Leader"
+- t11_prompt: Task 1.1 instruction
+- t12_prompt: Task 1.2 instruction
+- t2_prompt: Task 2 instruction
+
+The context is the SHORT introduction, and the scenario is the FULL email/letter content with proper letter formatting using \\n for line breaks.
+
+If multiple images are provided, combine the content appropriately.`
+          }
+        ];
+        
+        // Add all images to content
+        imagesToProcess.forEach((imageData, index) => {
+          transcribeBtn.innerHTML = `<span style="display:inline-block;width:14px;height:14px;border:2px solid #047857;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;margin-right:8px;"></span>Processing ${index + 1}/${imagesToProcess.length}...`;
+          contentArray.push({
+            type: 'image_url',
+            image_url: { url: imageData }
+          });
+        });
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{ role: 'user', content: contentArray }],
+            max_tokens: 2000,
+            temperature: 0.3
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        const transcription = data.choices[0].message.content.trim();
+        
+        // Now show modal with transcription result
+        const modal = document.getElementById('ocrModal');
+        const loading = document.getElementById('ocrLoading');
+        const content = document.getElementById('ocrContent');
+        const previewImg = document.getElementById('ocrPreviewImage');
+        const transcriptionArea = document.getElementById('ocrTranscription');
+        
+        modal.classList.add('show');
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        
+        // Show first image
+        previewImg.src = imagesToProcess[0];
+        
+        transcriptionArea.value = transcription;
+        transcriptionArea.readOnly = false;
+        
+        // Hide start transcription button in modal
+        const transcribeBtn2 = document.getElementById('startTranscriptionBtn');
+        if (transcribeBtn2) transcribeBtn2.style.display = 'none';
+        
+      } catch (error) {
+        alert('❌ Transcription failed: ' + error.message);
+      } finally {
+        transcribeBtn.disabled = false;
+        transcribeBtn.innerHTML = originalText;
+      }
+    }
+    
+    // Show preview for multiple images (legacy - not used anymore)
+    function showMultiImagePreview(imageFiles) {
+      const modal = document.getElementById('ocrModal');
+      const loading = document.getElementById('ocrLoading');
+      const content = document.getElementById('ocrContent');
+      const previewImg = document.getElementById('ocrPreviewImage');
+      const transcriptionArea = document.getElementById('ocrTranscription');
+      
+      modal.classList.add('show');
+      loading.style.display = 'block';
+      content.style.display = 'none';
+      
+      // Convert all images to base64
+      const promises = imageFiles.map(file => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
+        });
+      });
+      
+      Promise.all(promises).then(imageDataArray => {
+        currentImageData = imageDataArray; // Store array of images
+        
+        // Show first image as preview
+        previewImg.src = imageDataArray[0];
+        
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        
+        transcriptionArea.value = `${imageFiles.length} image(s) uploaded.\n\nClick "Start Transcription" button below to extract text from all images.`;
+        transcriptionArea.readOnly = true;
+        
+        // Add transcription button
+        let transcribeBtn = document.getElementById('startTranscriptionBtn');
+        if (!transcribeBtn) {
+          const buttonContainer = document.querySelector('.ocr-modal-buttons');
+          transcribeBtn = document.createElement('button');
+          transcribeBtn.id = 'startTranscriptionBtn';
+          transcribeBtn.className = 'ocr-btn confirm';
+          transcribeBtn.style.marginRight = 'auto';
+          transcribeBtn.innerHTML = '🤖 Start Transcription';
+          transcribeBtn.onclick = async function() {
+            await startTranscription();
+          };
+          buttonContainer.insertBefore(transcribeBtn, buttonContainer.firstChild);
+        }
+        transcribeBtn.style.display = 'block';
+      });
+    }
+    
+    // Paste image from clipboard
+    async function pasteImage(targetId) {
+      isUniversalInput = false;
+      currentTargetField = targetId;
+      
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        
+        for (const item of clipboardItems) {
+          // Look for image types
+          const imageTypes = item.types.filter(type => type.startsWith('image/'));
+          
+          if (imageTypes.length > 0) {
+            const blob = await item.getBlob(imageTypes[0]);
+            processImage(blob);
+            return;
+          }
+        }
+        
+        alert('📋 No image found in clipboard. Please copy an image first.');
+      } catch (err) {
+        console.error('Clipboard error:', err);
+        alert('❌ Could not access clipboard. Please use the Upload button instead or make sure you have copied an image.');
+      }
+    }
+    
+    // Upload image from file
+    function uploadImage(targetId, input) {
+      isUniversalInput = false;
+      currentTargetField = targetId;
+      const file = input.files[0];
+      
+      if (!file) return;
+      
+      if (!file.type.startsWith('image/')) {
+        alert('❌ Please select an image file.');
+        input.value = '';
+        return;
+      }
+      
+      processImage(file);
+      input.value = ''; // Reset file input
+    }
+    
+    // Process image and show OCR modal
+    function processImage(blob) {
+      const reader = new FileReader();
+      
+      reader.onload = async function(e) {
+        currentImageData = e.target.result;
+        
+        // Show modal
+        const modal = document.getElementById('ocrModal');
+        const loading = document.getElementById('ocrLoading');
+        const content = document.getElementById('ocrContent');
+        const previewImg = document.getElementById('ocrPreviewImage');
+        const transcriptionArea = document.getElementById('ocrTranscription');
+        
+        modal.classList.add('show');
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        
+        previewImg.src = currentImageData;
+        transcriptionArea.value = 'Click "Start Transcription" button below to extract text from this image.';
+        transcriptionArea.readOnly = true;
+        
+        // Add transcription button if it doesn't exist
+        let transcribeBtn = document.getElementById('startTranscriptionBtn');
+        if (!transcribeBtn) {
+          const buttonContainer = document.querySelector('.ocr-modal-buttons');
+          transcribeBtn = document.createElement('button');
+          transcribeBtn.id = 'startTranscriptionBtn';
+          transcribeBtn.className = 'ocr-btn confirm';
+          transcribeBtn.style.marginRight = 'auto';
+          transcribeBtn.innerHTML = '🤖 Start Transcription';
+          transcribeBtn.onclick = async function() {
+            await startTranscription();
+          };
+          buttonContainer.insertBefore(transcribeBtn, buttonContainer.firstChild);
+        }
+        transcribeBtn.style.display = 'block';
+      };
+      
+      reader.readAsDataURL(blob);
+    }
+    
+    // Transcribe image using OpenAI Vision API
+    async function transcribeImage(base64Image) {
+      try {
+        // Get API key from backend
+        const apiKey = await getAPIKey();
+        
+        // Call OpenAI Vision API
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: 'Please transcribe all the text from this image exactly as it appears. Include all formatting, line breaks, and punctuation. If there are multiple sections or paragraphs, preserve their structure. Do not add any commentary or explanations - just provide the exact transcription.'
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: base64Image
+                    }
+                  }
+                ]
+              }
+            ],
+            max_tokens: 1000
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || 'API request failed');
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+      } catch (error) {
+        throw new Error('Transcription failed: ' + error.message);
+      }
+    }
+    
+    // Transcribe universal image (all tasks at once)
+    async function transcribeUniversalImage(base64Image) {
+      try {
+        const apiKey = await getAPIKey();
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: `Please transcribe all text from this image. It contains writing tasks. Extract everything exactly as it appears, preserving all formatting and line breaks.`
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: base64Image
+                    }
+                  }
+                ]
+              }
+            ],
+            max_tokens: 2000,
+            temperature: 0.3
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || 'API request failed');
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+      } catch (error) {
+        throw new Error('Universal transcription failed: ' + error.message);
+      }
+    }
+    
+    // Close OCR modal
+    function closeOCRModal() {
+      document.getElementById('ocrModal').classList.remove('show');
+      const transcriptionArea = document.getElementById('ocrTranscription');
+      transcriptionArea.readOnly = false;
+      const transcribeBtn = document.getElementById('startTranscriptionBtn');
+      if (transcribeBtn) transcribeBtn.style.display = 'none';
+      currentTargetField = null;
+      currentImageData = null;
+      isUniversalInput = false;
+    }
+    
+    // Start transcription (triggered by button)
+    async function startTranscription() {
+      const loading = document.getElementById('ocrLoading');
+      const content = document.getElementById('ocrContent');
+      const transcriptionArea = document.getElementById('ocrTranscription');
+      const transcribeBtn = document.getElementById('startTranscriptionBtn');
+      
+      try {
+        // Hide content, show loading
+        content.style.display = 'none';
+        loading.style.display = 'block';
+        
+        let transcription = '';
+        
+        // Handle multiple images
+        if (Array.isArray(currentImageData)) {
+          const imageCount = currentImageData.length;
+          
+          for (let i = 0; i < currentImageData.length; i++) {
+            const loadingDiv = document.querySelector('#ocrLoading > div:last-child');
+            if (loadingDiv) {
+              loadingDiv.textContent = `Transcribing image ${i + 1} of ${imageCount}...`;
+            }
+            
+            const singleTranscription = isUniversalInput 
+              ? await transcribeUniversalImage(currentImageData[i])
+              : await transcribeImage(currentImageData[i]);
+            
+            transcription += singleTranscription + '\n\n';
+          }
+        } else {
+          // Single image
+          transcription = isUniversalInput 
+            ? await transcribeUniversalImage(currentImageData)
+            : await transcribeImage(currentImageData);
+        }
+        
+        // Show result
+        transcriptionArea.value = transcription.trim();
+        transcriptionArea.readOnly = false;
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        
+        // Hide the start button after transcription
+        if (transcribeBtn) transcribeBtn.style.display = 'none';
+        
+      } catch (error) {
+        loading.style.display = 'none';
+        content.style.display = 'block';
+        transcriptionArea.value = '❌ Transcription failed: ' + error.message;
+        transcriptionArea.readOnly = false;
+      }
+    }
+    
+    // Confirm and use transcription
+    function confirmOCRTranscription() {
+      const transcription = document.getElementById('ocrTranscription').value;
+      
+      if (isUniversalInput && transcription) {
+        // For universal input, parse the already-transcribed text and distribute
+        distributeTranscribedText(transcription);
+      } else if (currentTargetField && transcription) {
+        // Single field input
+        const targetTextarea = document.getElementById(currentTargetField);
+        targetTextarea.value = transcription;
+        
+        // Trigger input event to update preview
+        targetTextarea.dispatchEvent(new Event('input'));
+      }
+      
+      closeOCRModal();
+    }
+    
+    // Distribute already-transcribed text to task fields (no API call needed)
+    function distributeTranscribedText(transcribedText) {
+      try {
+        // Try to parse as JSON first
+        let parsed;
+        try {
+          // Clean up any markdown code blocks
+          let jsonText = transcribedText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+          
+          // Try to find JSON object
+          const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            jsonText = jsonMatch[0];
+          }
+          
+          parsed = JSON.parse(jsonText);
+        } catch (e) {
+          // If not JSON, use the raw text for all fields
+          document.getElementById('t11_prompt').value = transcribedText;
+          document.getElementById('t11_prompt').dispatchEvent(new Event('input'));
+          document.getElementById('t12_prompt').value = transcribedText;
+          document.getElementById('t12_prompt').dispatchEvent(new Event('input'));
+          document.getElementById('t2_prompt').value = transcribedText;
+          document.getElementById('t2_prompt').dispatchEvent(new Event('input'));
+          return;
+        }
+        
+        // Distribute parsed JSON to fields
+        if (parsed.context) {
+          document.getElementById('p1_context').value = parsed.context;
+          document.getElementById('p1_context').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.scenario) {
+          document.getElementById('p1_scenario').value = parsed.scenario;
+          document.getElementById('p1_scenario').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.t11_prompt) {
+          document.getElementById('t11_prompt').value = parsed.t11_prompt;
+          document.getElementById('t11_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.t12_prompt) {
+          document.getElementById('t12_prompt').value = parsed.t12_prompt;
+          document.getElementById('t12_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.t2_prompt) {
+          document.getElementById('t2_prompt').value = parsed.t2_prompt;
+          document.getElementById('t2_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        alert('✅ Text distributed successfully!');
+        
+      } catch (error) {
+        console.error('Distribution error:', error);
+        alert('❌ Failed to distribute text automatically.\n\nPlease manually copy the text from the preview to each task field.');
+      }
+    }
+    
+    // Distribute universal text to all task fields
+    async function distributeUniversalText(previewText) {
+      try {
+        const apiKey = await getAPIKey();
+        
+        // Prepare images for API call
+        let imagesToProcess = [];
+        if (Array.isArray(currentImageData)) {
+          imagesToProcess = currentImageData;
+        } else if (currentImageData) {
+          imagesToProcess = [currentImageData];
+        }
+        
+        if (imagesToProcess.length === 0) {
+          throw new Error('No images to process');
+        }
+        
+        // Build content array for Vision API
+        const contentArray = [
+          {
+            type: 'text',
+            text: `Extract the text for these three writing tasks from the image(s) and return ONLY a valid JSON object (no markdown, no code blocks, no extra text):
+
+{"t11_prompt": "task 1.1 text here", "t12_prompt": "task 1.2 text here", "t2_prompt": "task 2 text here"}
+
+Extract the exact text for each task. If multiple images are provided, combine the content appropriately.`
+          }
+        ];
+        
+        // Add all images to content
+        imagesToProcess.forEach(imageData => {
+          contentArray.push({
+            type: 'image_url',
+            image_url: { url: imageData }
+          });
+        });
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{ role: 'user', content: contentArray }],
+            max_tokens: 2000,
+            temperature: 0.3
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        let jsonText = data.choices[0].message.content.trim();
+        
+        // Clean up the response
+        jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        const jsonMatch = jsonText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          jsonText = jsonMatch[0];
+        }
+        
+        const parsed = JSON.parse(jsonText);
+        
+        // Distribute to fields
+        if (parsed.t11_prompt) {
+          document.getElementById('t11_prompt').value = parsed.t11_prompt;
+          document.getElementById('t11_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.t12_prompt) {
+          document.getElementById('t12_prompt').value = parsed.t12_prompt;
+          document.getElementById('t12_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        if (parsed.t2_prompt) {
+          document.getElementById('t2_prompt').value = parsed.t2_prompt;
+          document.getElementById('t2_prompt').dispatchEvent(new Event('input'));
+        }
+        
+        alert('✅ All tasks have been populated successfully!');
+      } catch (error) {
+        console.error('Distribution error:', error);
+        alert('❌ Failed to distribute text automatically.\n\nPlease manually copy the text from the preview to each task field.');
+      }
+    }
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeOCRModal();
+      }
+    });
+    
+    // ================================================================================
+    // AI CONTENT GENERATION - Samples & Vocabulary
+    // ================================================================================
+    
+    async function generateAIContent() {
+      // Get all prompts
+      const scenario = document.getElementById('p1_scenario').value;
+      const t11Prompt = document.getElementById('t11_prompt').value;
+      const t12Prompt = document.getElementById('t12_prompt').value;
+      const t2Prompt = document.getElementById('t2_prompt').value;
+      
+      if (!scenario || !t11Prompt || !t12Prompt || !t2Prompt) {
+        alert('❌ Please fill in all task prompts first before generating content.');
+        return;
+      }
+      
+      // Show confirmation modal with preview
+      document.getElementById('confirmT11Type').textContent = 'Informal note to a friend';
+      document.getElementById('confirmT12Type').textContent = 'Formal letter';
+      document.getElementById('confirmT2Type').textContent = 'Auto-detect type from prompt';
+      
+      const modal = document.getElementById('aiConfirmModal');
+      modal.classList.add('show');
+    }
+    
+    function closeAIConfirmModal() {
+      const modal = document.getElementById('aiConfirmModal');
+      modal.classList.remove('show');
+    }
+    
+    async function confirmAIGeneration() {
+      closeAIConfirmModal();
+      
+      const progressDiv = document.getElementById('aiGenerationProgress');
+      const btn = document.querySelector('.universal-btn[onclick="generateAIContent()"]');
+      const originalText = btn.innerHTML;
+      
+      try {
+        btn.disabled = true;
+        btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #78350f;border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;"></span> Generating...';
+        
+        // Get all prompts
+        const scenario = document.getElementById('p1_scenario').value;
+        const t11Prompt = document.getElementById('t11_prompt').value;
+        const t12Prompt = document.getElementById('t12_prompt').value;
+        const t2Prompt = document.getElementById('t2_prompt').value;
+        
+        progressDiv.innerHTML = '⏳ Step 1/4: Generating Task 1.1 sample...';
+        const apiKey = await getAPIKey();
+        
+        // Generate all samples
+        const t11Sample = await generateSample(apiKey, scenario, t11Prompt, '1.1', 'informal note to a friend', 70);
+        progressDiv.innerHTML = '⏳ Step 2/4: Generating Task 1.2 sample...';
+        
+        const t12Sample = await generateSample(apiKey, scenario, t12Prompt, '1.2', 'formal letter', 150);
+        progressDiv.innerHTML = '⏳ Step 3/4: Generating Task 2 sample...';
+        
+        // Auto-detect task type from prompt (blog, magazine, forum, etc.)
+        const t2Sample = await generateSample(apiKey, null, t2Prompt, '2', 'auto-detect from prompt', 200);
+        progressDiv.innerHTML = '⏳ Step 4/4: Generating topic vocabulary...';
+        
+        // Generate vocabulary
+        const vocabulary = await generateVocabulary(apiKey, scenario, t11Prompt, t12Prompt, t2Prompt);
+        
+        // Download the complete file
+        downloadContentFile(t11Sample, t12Sample, t2Sample, vocabulary);
+        
+        progressDiv.innerHTML = '✅ Content generated successfully! Check your downloads.';
+        setTimeout(() => progressDiv.innerHTML = '', 5000);
+        
+      } catch (error) {
+        progressDiv.innerHTML = `❌ Error: ${error.message}`;
+        setTimeout(() => progressDiv.innerHTML = '', 8000);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+    
+    // Generate a single sample answer
+    async function generateSample(apiKey, scenario, prompt, taskNum, taskType, targetWords) {
+      let attempts = 0;
+      const maxAttempts = 3;
+      
+      while (attempts < maxAttempts) {
+        attempts++;
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'system',
+              content: `You are an IELTS Writing expert creating Band 9 sample answers. Write naturally, like a real human would write - NOT robotic or AI-like.
+
+CRITICAL REQUIREMENTS:
+1. Sound 100% HUMAN and NATURAL - use contractions, natural flow, conversational tone where appropriate
+2. STRICT WORD COUNT: You MUST write AT LEAST ${targetWords} words. This is MANDATORY. I will verify the word count and reject your response if it's below ${targetWords} words.
+3. Use advanced vocabulary, collocations, and phrasal verbs naturally
+4. Include proper formatting with HTML tags
+5. ${taskType === 'auto-detect from prompt' ? 'IMPORTANT: Read the prompt carefully to detect the writing type (blog post, magazine article, online forum post, essay, etc.) and write in that exact style and format.' : `Write as a ${taskType}.`}
+
+FORMAT YOUR RESPONSE AS HTML with these span classes for highlighting:
+- <span class="ml-token colloc">collocations</span> (blue, bold)
+- <span class="ml-token phrasal">phrasal verbs</span> (green, underlined)
+- <span class="ml-token adv">advanced adverbs</span> (orange, italic)
+- <span class="ml-token modal">modal verbs</span> (default color)
+- <span class="ml-token idiom">idioms</span> (purple, underlined)
+
+Example: "I'm <span class="ml-token adv">actually happy</span> they're <span class="ml-token phrasal">doing something</span> about <span class="ml-token colloc">safety concerns</span>."
+
+Make it sound REAL and HUMAN, not like ChatGPT wrote it.
+
+REMINDER: Your response must be AT LEAST ${targetWords} words. Count every word carefully before submitting.`
+            }, {
+              role: 'user',
+              content: scenario 
+                ? `Scenario: ${scenario}\n\nTask ${taskNum}: ${prompt}\n\nREMINDER: Write at least ${targetWords} words. This is mandatory.`
+                : `Task ${taskNum}: ${prompt}\n\nREMEMBER: Pay attention to what the prompt asks you to write (blog post, magazine article, forum post, etc.) and write in that exact style.\n\nREMINDER: Write at least ${targetWords} words. This is mandatory.`
+            }],
+            temperature: 0.9,
+            max_tokens: 1500
+          })
+        });
+        
+        const data = await response.json();
+        const generatedText = data.choices[0].message.content.trim();
+        
+        // Count words (strip HTML tags for accurate count)
+        const textOnly = generatedText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const wordCount = textOnly.split(/\s+/).length;
+        
+        console.log(`Task ${taskNum} - Attempt ${attempts}: Generated ${wordCount} words (target: ${targetWords}+)`);
+        
+        // Verify word count meets minimum requirement
+        if (wordCount >= targetWords) {
+          return generatedText;
+        }
+        
+        // If not enough words and we have attempts left, try again
+        if (attempts < maxAttempts) {
+          console.log(`Task ${taskNum} - Insufficient word count (${wordCount}/${targetWords}). Retrying...`);
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retry
+        }
+      }
+      
+      // If all attempts failed, throw error
+      throw new Error(`Task ${taskNum}: Failed to generate ${targetWords}+ words after ${maxAttempts} attempts. Please try again.`);
+    }
+    
+    // Generate vocabulary
+    async function generateVocabulary(apiKey, scenario, t11Prompt, t12Prompt, t2Prompt) {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [{
+            role: 'system',
+            content: `Generate topic-specific vocabulary for IELTS Writing tasks. Return ONLY valid JSON with this exact structure:
+
+{
+  "task11": [
+    {"en": "phrase in English", "uz": "translation in Uzbek"}
+  ],
+  "task12": [
+    {"en": "phrase in English", "uz": "translation in Uzbek"}
+  ],
+  "task2": [
+    {"en": "phrase in English", "uz": "translation in Uzbek"}
+  ]
+}
+
+Include 15-20 items per task. Use natural, informal expressions for Task 1.1, formal vocabulary for Task 1.2, and academic/semi-formal for Task 2.`
+          }, {
+            role: 'user',
+            content: `Generate vocabulary for these tasks:\\n\\nScenario: ${scenario}\\n\\nTask 1.1: ${t11Prompt}\\n\\nTask 1.2: ${t12Prompt}\\n\\nTask 2: ${t2Prompt}`
+          }],
+          temperature: 0.7,
+          max_tokens: 2000
+        })
+      });
+      
+      const data = await response.json();
+      let jsonText = data.choices[0].message.content.trim();
+      jsonText = jsonText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');
+      return JSON.parse(jsonText);
+    }
+    
+    // Download complete content file
+    function downloadContentFile(t11Sample, t12Sample, t2Sample, vocabulary) {
+      // Populate editable sample fields
+      document.getElementById('sample_t11').value = t11Sample;
+      document.getElementById('sample_t12').value = t12Sample;
+      document.getElementById('sample_t2').value = t2Sample;
+      
+      // Populate editable vocabulary fields
+      document.getElementById('vocab_t11').value = JSON.stringify(vocabulary.task11, null, 2);
+      document.getElementById('vocab_t12').value = JSON.stringify(vocabulary.task12, null, 2);
+      document.getElementById('vocab_t2').value = JSON.stringify(vocabulary.task2, null, 2);
+      
+      // Scroll to samples section
+      const samplesSection = document.getElementById('sample_t11').closest('.section');
+      if (samplesSection) {
+        samplesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      
+      // Show success message
+      alert('✅ Content generated successfully!\n\nSamples and vocabulary have been populated in the editable fields below.\n\nReview and edit them if needed, then click "💾 Download Questions JS" to save everything.');
+    }
+
+    /* ===== Exit Protection ===== */
+    let hasUnsavedChanges = false;
+    
+    // Track changes on all input fields
+    document.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('input', () => {
+        hasUnsavedChanges = true;
+      });
+    });
+    
+    // Reset flag when file is downloaded
+    const originalDownloadClick = document.getElementById('downloadBtn')?.onclick;
+    document.getElementById('downloadBtn')?.addEventListener('click', () => {
+      setTimeout(() => { hasUnsavedChanges = false; }, 500);
+    });
+    
+    // Warn before exit/refresh
+    window.addEventListener('beforeunload', (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>

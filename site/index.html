@@ -1,0 +1,3987 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <title>Mock Stream</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <!-- Site Config (swap this script to change brand/skin) -->
+  <script src="site-config/site-config.js"></script>
+  <script>
+    if (window.SITE_CONFIG) {
+      document.title = window.SITE_CONFIG.brandName;
+      var fav = document.getElementById('site-favicon');
+      if (fav) fav.href = window.SITE_CONFIG.logoUrl;
+    }
+  </script>
+  <style>
+    :root {
+      --brand: #116a60;
+      --brand-glow: rgba(17, 106, 96, 0.3);
+      --ink: #0e141b;
+      --muted: #5a6a75;
+      --bg: #f3f9f7;
+      --card: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --brand: #5fd6c1;
+      --brand-glow: rgba(95, 214, 193, 0.3);
+      --ink: #e6f1ef;
+      --muted: #a8b5b2;
+      --bg: #0b1211;
+      --card: #0f1716;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    /* ===== ADMIN PANEL STYLES (Light Theme) ===== */
+    .admin-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .admin-modal-overlay.show {
+      display: flex;
+    }
+
+    .admin-passcode-modal {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      animation: adminSlideIn 0.3s ease;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    @keyframes adminSlideIn {
+      from {
+        transform: scale(0.9) translateY(-20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .admin-passcode-modal h2 {
+      color: #f59e0b;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .admin-passcode-modal p {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .admin-passcode-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      color: #1e293b;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 4px;
+      font-family: 'Consolas', monospace;
+      margin-bottom: 16px;
+    }
+
+    .admin-passcode-input:focus {
+      outline: none;
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+
+    .admin-passcode-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+
+    .admin-passcode-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .admin-cancel-btn {
+      background: #e2e8f0;
+      color: #475569;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .admin-error {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* Admin Panel */
+    .admin-panel {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      max-width: 1100px;
+      width: 98%;
+      max-height: 95vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: adminSlideIn 0.3s ease;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .admin-panel-header {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-panel-header h2 {
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-close-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .admin-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .admin-panel-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      background: #f8fafc;
+    }
+
+    /* One-Time Passcode Section */
+    .otp-section {
+      background: linear-gradient(135deg, #059669, #047857);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+    }
+
+    .otp-section h3 {
+      color: white;
+      font-size: 13px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .otp-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .otp-input {
+      flex: 1;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      color: #1e293b;
+      font-size: 15px;
+      font-family: 'Consolas', monospace;
+    }
+
+    .otp-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .otp-input:focus {
+      outline: none;
+      border-color: white;
+    }
+
+    .otp-apply-btn {
+      padding: 10px 20px;
+      background: white;
+      border: none;
+      border-radius: 8px;
+      color: #047857;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .otp-status {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    /* Unified Grid Layout */
+    .unified-grid {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .grid-header {
+      display: grid;
+      grid-template-columns: 70px repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .grid-header-cell {
+      padding: 10px 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .grid-header-cell.mock-num-header {
+      background: #475569;
+      font-size: 11px;
+    }
+
+    .grid-header-cell.speaking {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .grid-header-cell.writing {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    }
+
+    .grid-header-cell.reading {
+      background: linear-gradient(135deg, #0d9488, #0f766e);
+    }
+
+    .grid-header-cell.listening {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+
+    .grid-body {
+      background: #f8fafc;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .grid-row {
+      display: grid;
+      grid-template-columns: 70px repeat(4, 1fr);
+      gap: 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .grid-row:last-child {
+      border-bottom: none;
+    }
+
+    .grid-row:hover {
+      background: #ecfdf5;
+    }
+
+    .grid-cell {
+      padding: 6px 6px;
+      font-size: 10px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      border-right: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .grid-cell:hover {
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .grid-cell:last-child {
+      border-right: none;
+    }
+
+    .grid-cell.mock-num-cell {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      color: #475569;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      cursor: default;
+    }
+
+    .grid-cell.mock-num-cell:hover {
+      background: #fff;
+    }
+
+    .grid-cell .promo-code {
+      color: #b45309;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .grid-cell .ai-code {
+      color: #047857;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .grid-cell .code-type-label {
+      font-size: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 700px) {
+      .grid-header, .grid-row {
+        grid-template-columns: 50px repeat(4, 1fr);
+      }
+      .grid-cell { font-size: 8px; padding: 4px 3px; }
+      .grid-header-cell { font-size: 10px; padding: 8px 4px; }
+    }
+
+    .grid-row.copied {
+      background: #d1fae5;
+    }
+
+    /* No OTP placeholder */
+    .no-otp-hint {
+      color: #64748b;
+      font-size: 12px;
+      text-align: center;
+      padding: 20px;
+      grid-column: 1 / -1;
+    }
+
+    .code-item-ready {
+      color: #10b981;
+      font-size: 9px;
+      margin-top: 4px;
+    }
+
+    /* Ready credentials */
+    .ready-credential {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ready-credential:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .ready-credential.copied {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    }
+
+    .ready-credential-label {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 11px;
+    }
+
+    .ready-credential-value {
+      color: white;
+      font-family: 'Consolas', monospace;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .ready-credential-hint {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 11px;
+    }
+
+    /* Scrollbar */
+    .admin-panel-body::-webkit-scrollbar,
+    .column-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .admin-panel-body::-webkit-scrollbar-track,
+    .column-body::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .admin-panel-body::-webkit-scrollbar-thumb,
+    .column-body::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    /* Download Button in Admin Panel */
+    .admin-download-btn {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      margin-left: 12px;
+    }
+
+    .admin-download-btn:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Download Modal */
+    .download-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10002;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .download-modal-overlay.show {
+      display: flex;
+    }
+
+    .download-modal {
+      background: white;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+      animation: adminSlideIn 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+    }
+
+    .download-modal-header {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      padding: 16px 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .download-modal-header h3 {
+      color: white;
+      font-size: 16px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .download-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .download-section {
+      margin-bottom: 20px;
+    }
+
+    .download-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .download-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+
+    .download-options {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .download-option {
+      flex: 1;
+      min-width: 90px;
+      padding: 12px 14px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      background: #f9fafb;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .download-option:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    .download-option.selected {
+      border-color: #3b82f6;
+      background: #dbeafe;
+    }
+
+    .download-option .check-indicator {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .download-option.selected .check-indicator {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+
+    .download-option.selected .check-indicator::after {
+      content: '✓';
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      position: absolute;
+      top: -2px;
+      left: 2px;
+    }
+
+    .select-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .select-actions button {
+      font-size: 11px;
+      padding: 4px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #f9fafb;
+      cursor: pointer;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .select-actions button:hover {
+      background: #e5e7eb;
+    }
+
+    .download-option-icon {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .download-option-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .download-checkboxes {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .download-range-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border: 1px solid #bae6fd;
+      margin-bottom: 10px;
+    }
+
+    .range-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0369a1;
+      white-space: nowrap;
+    }
+
+    .range-input {
+      width: 60px;
+      padding: 6px 8px;
+      border: 2px solid #e0f2fe;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      background: white;
+      color: #0c4a6e;
+      transition: all 0.2s;
+    }
+
+    .range-input:focus {
+      outline: none;
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    }
+
+    .range-separator {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .download-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .download-checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #3b82f6;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .download-checkbox-label {
+      font-size: 13px;
+      color: #374151;
+      flex: 1;
+    }
+
+    .download-checkbox-hint {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .download-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      flex-shrink: 0;
+    }
+
+    .download-cancel-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      background: white;
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .download-cancel-btn:hover {
+      background: #f3f4f6;
+      border-color: #d1d5db;
+    }
+
+    .download-confirm-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .download-confirm-btn:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-1px);
+    }
+
+    /* Responsive styles for download modal */
+    @media (max-width: 480px) {
+      .download-modal-overlay {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+      }
+
+      .download-modal {
+        max-height: 85vh;
+        border-radius: 14px;
+      }
+
+      .download-modal-header {
+        padding: 14px 16px;
+      }
+
+      .download-modal-header h3 {
+        font-size: 15px;
+      }
+
+      .download-modal-body {
+        padding: 16px;
+      }
+
+      .download-section {
+        margin-bottom: 16px;
+      }
+
+      .download-section-title {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .download-options {
+        gap: 6px;
+      }
+
+      .download-option {
+        min-width: 80px;
+        padding: 10px 12px;
+        border-radius: 8px;
+      }
+
+      .download-option-icon {
+        font-size: 20px;
+      }
+
+      .download-option-label {
+        font-size: 11px;
+      }
+
+      .download-range-row {
+        padding: 8px 12px;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .range-label {
+        font-size: 11px;
+      }
+
+      .range-input {
+        width: 50px;
+        padding: 5px 6px;
+        font-size: 12px;
+      }
+
+      .download-checkbox-row {
+        padding: 8px 12px;
+        gap: 8px;
+      }
+
+      .download-checkbox-row input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+      }
+
+      .download-checkbox-label {
+        font-size: 12px;
+      }
+
+      .download-checkbox-hint {
+        font-size: 9px;
+      }
+
+      .download-modal-actions {
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 14px;
+      }
+
+      .download-cancel-btn,
+      .download-confirm-btn {
+        padding: 10px;
+        font-size: 12px;
+        border-radius: 8px;
+      }
+    }
+
+    @media (max-height: 600px) {
+      .download-modal-overlay {
+        align-items: flex-start;
+        padding-top: 10px;
+      }
+
+      .download-modal {
+        max-height: 95vh;
+      }
+
+      .download-modal-body {
+        padding: 14px;
+      }
+
+      .download-section {
+        margin-bottom: 14px;
+      }
+    }
+
+    .download-confirm-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Toast notification */
+    .admin-toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      z-index: 10001;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .admin-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Browser Recommendation Notice */
+    .browser-notice-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .browser-notice {
+      background: white;
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: popIn 0.3s ease;
+    }
+
+    .browser-notice-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .browser-notice h3 {
+      color: #1e293b;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .browser-notice p {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .browser-notice-highlight {
+      color: #4285f4;
+      font-weight: 600;
+    }
+
+    .browser-notice-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .browser-notice-btn {
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .browser-notice-btn.primary {
+      background: linear-gradient(135deg, #4285f4, #1a73e8);
+      color: white;
+    }
+
+    .browser-notice-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 133, 244, 0.4);
+    }
+
+    .browser-notice-btn.secondary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .browser-notice-btn.secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    .browser-notice-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .browser-notice-footer {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Copy Menu Popup */
+    .copy-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.15s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .copy-menu {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      min-width: 280px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      animation: popIn 0.2s ease;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .copy-menu-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .copy-menu-btn {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .copy-menu-btn:last-child {
+      margin-bottom: 0;
+    }
+
+    .copy-menu-btn.entry {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+
+    .copy-menu-btn.entry:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .copy-menu-btn.ai {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .copy-menu-btn.ai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .copy-menu-btn.both {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+
+    .copy-menu-btn.both:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .copy-menu-btn.cancel {
+      background: #e2e8f0;
+      color: #64748b;
+    }
+
+    .copy-menu-btn.cancel:hover {
+      background: #cbd5e1;
+    }
+
+    .copy-menu-btn .btn-icon {
+      font-size: 16px;
+    }
+
+    .copy-menu-code {
+      font-family: 'Consolas', monospace;
+      font-size: 11px;
+      opacity: 0.9;
+      margin-left: auto;
+    }
+
+    /* Welcome Screen */
+    #welcomeScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      background: var(--bg);
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #welcomeScreen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Animated Background */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 80%, var(--brand-glow) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--brand-glow) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(17, 106, 96, 0.05) 0%, transparent 70%);
+      z-index: 0;
+      animation: bgPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--brand);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 15s infinite;
+    }
+
+    .particle:nth-child(1) {
+      left: 10%;
+      animation-delay: 0s;
+      animation-duration: 12s;
+    }
+
+    .particle:nth-child(2) {
+      left: 20%;
+      animation-delay: 2s;
+      animation-duration: 14s;
+    }
+
+    .particle:nth-child(3) {
+      left: 30%;
+      animation-delay: 4s;
+      animation-duration: 11s;
+    }
+
+    .particle:nth-child(4) {
+      left: 40%;
+      animation-delay: 1s;
+      animation-duration: 16s;
+    }
+
+    .particle:nth-child(5) {
+      left: 50%;
+      animation-delay: 3s;
+      animation-duration: 13s;
+    }
+
+    .particle:nth-child(6) {
+      left: 60%;
+      animation-delay: 5s;
+      animation-duration: 15s;
+    }
+
+    .particle:nth-child(7) {
+      left: 70%;
+      animation-delay: 2s;
+      animation-duration: 12s;
+    }
+
+    .particle:nth-child(8) {
+      left: 80%;
+      animation-delay: 4s;
+      animation-duration: 14s;
+    }
+
+    .particle:nth-child(9) {
+      left: 90%;
+      animation-delay: 1s;
+      animation-duration: 11s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-100vh) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* Main Content */
+    .content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Logo Container */
+    .logo-container {
+      position: relative;
+      margin-bottom: 30px;
+      animation: logoFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .logo-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      background: var(--brand);
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.4;
+      animation: logoGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes logoGlow {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    .logo {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 10px 30px var(--brand-glow));
+      border-radius: 50%;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .logo.loaded {
+      opacity: 1;
+    }
+
+    /* Logo loading spinner */
+    .logo-spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(17,106,96,0.15);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: logoSpin 0.8s linear infinite;
+      transition: opacity 0.4s ease;
+    }
+
+    .logo-spinner.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes logoSpin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Logo Ring Animation */
+    .logo-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border: 3px solid var(--brand);
+      border-radius: 50%;
+      opacity: 0;
+      animation: ringPulse 2s ease-out infinite;
+    }
+
+    .logo-ring:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    .logo-ring:nth-child(3) {
+      animation-delay: 1s;
+    }
+
+    @keyframes ringPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Title */
+    .title {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--brand);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+
+    /* Continue Button */
+    .continue-btn {
+      position: relative;
+      padding: 18px 60px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--brand) 0%, #0e5950 100%);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 30px var(--brand-glow);
+    }
+
+    .continue-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px var(--brand-glow);
+    }
+
+    .continue-btn:hover::before {
+      left: 100%;
+    }
+
+    .continue-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .btn-arrow {
+      display: inline-block;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .continue-btn:hover .btn-arrow {
+      transform: translateX(5px);
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .logo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .logo-glow {
+        width: 150px;
+        height: 150px;
+      }
+
+      .logo-ring {
+        width: 140px;
+        height: 140px;
+      }
+
+      .title {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        padding: 0 20px;
+      }
+
+      .continue-btn {
+        padding: 16px 50px;
+        font-size: 16px;
+      }
+
+      .progress-container {
+        width: 240px;
+      }
+
+      .progress-label {
+        font-size: 12px;
+      }
+
+      .progress-steps {
+        font-size: 10px;
+      }
+
+      /* Reduce particle count on mobile for performance */
+      .particle:nth-child(n+6) {
+        display: none;
+      }
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+
+      .logo,
+      .logo-glow,
+      .logo-ring,
+      .particle,
+      .bg-pattern {
+        animation: none !important;
+      }
+
+      .progress-fill {
+        animation: none !important;
+      }
+
+      .logo {
+        transform: none;
+      }
+
+      .logo-ring {
+        display: none;
+      }
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .continue-btn:hover {
+        transform: none;
+      }
+
+      .continue-btn:active {
+        transform: scale(0.95);
+        background: linear-gradient(135deg, #0e5950 0%, var(--brand) 100%);
+      }
+    }
+
+    /* Loading state */
+    .loading .continue-btn {
+      pointer-events: none;
+    }
+
+    .loading .continue-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-container {
+      width: 280px;
+      margin-top: 30px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.4s ease;
+    }
+
+    .progress-container.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress-status {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .progress-percent {
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--ring, #cfe1dd);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [data-theme="dark"] .progress-bar {
+      background: rgba(95, 214, 193, 0.2);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand) 0%, #0e8a7d 50%, var(--brand) 100%);
+      background-size: 200% 100%;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+      animation: progressShimmer 1.5s ease-in-out infinite;
+    }
+
+    @keyframes progressShimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .progress-steps {
+      margin-top: 15px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      min-height: 16px;
+    }
+
+    /* ===== IFRAME CONTAINER ===== */
+    #appFrame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      background: var(--bg);
+    }
+
+    #appFrame.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ===== FULLSCREEN SUGGESTION POPUP ===== */
+    .fs-suggest-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .fs-suggest-overlay.visible { opacity: 1; pointer-events: auto; }
+    .fs-suggest-overlay.hiding { opacity: 0; pointer-events: none; }
+
+    .fs-suggest-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 28px 24px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      transform: scale(0.9) translateY(12px);
+      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .fs-suggest-overlay.visible .fs-suggest-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .fs-suggest-icon { font-size: 44px; margin-bottom: 12px; }
+    .fs-suggest-title { font-size: 18px; font-weight: 700; color: #0e141b; margin-bottom: 6px; }
+    .fs-suggest-text { font-size: 14px; color: #5a6a75; line-height: 1.5; margin-bottom: 24px; }
+    .fs-suggest-btns { display: flex; gap: 10px; }
+
+    .fs-suggest-ok {
+      flex: 1; padding: 12px 0; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .fs-suggest-ok:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(249,115,22,0.4); }
+
+    .fs-suggest-skip {
+      flex: 1; padding: 12px 0; border: 2px solid #e2e8f0; border-radius: 12px;
+      background: transparent; color: #5a6a75; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .fs-suggest-skip:hover { background: #f1f5f9; }
+
+    /* ===== NAME INPUT OVERLAY ===== */
+    .name-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .name-overlay.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .name-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 36px 28px 28px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      animation: cardSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+
+    @keyframes cardSlideUp {
+      from {
+        transform: translateY(40px) scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .name-card-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #116a60, #0d9488);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(17, 106, 96, 0.35);
+    }
+
+    .name-card h2 {
+      color: #116a60;
+      font-size: 22px;
+      margin: 0 0 4px;
+      font-weight: 800;
+    }
+
+    .name-card .name-card-sub {
+      color: #6b7280;
+      font-size: 13px;
+      margin: 0 0 24px;
+    }
+
+    .name-field-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .name-field-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 6px;
+      padding-left: 2px;
+    }
+
+    .name-field-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+      background: #f9fafb;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .name-field-group input:focus {
+      border-color: #116a60;
+      box-shadow: 0 0 0 3px rgba(17, 106, 96, 0.15);
+      background: #fff;
+    }
+
+    .name-field-group input.invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+
+    .name-field-error {
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 4px;
+      padding-left: 2px;
+      min-height: 16px;
+    }
+
+    .name-submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #116a60, #0d9488);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(17, 106, 96, 0.35);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .name-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(17, 106, 96, 0.45);
+    }
+
+    .name-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .name-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <!-- Hamburger Menu Button -->
+  <div class="hamburger-menu" id="hamburgerBtn" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Sidebar Menu -->
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <h3>Menu</h3>
+    <ul>
+      <li><a href="landing.html" target="_self"><span class="menu-icon">🏠</span> Home</a></li>
+      <li><a href="Speaking Mocks.html" target="_self"><span class="menu-icon">🎤</span> Speaking Mocks</a></li>
+      <li><a href="Writing Mocks.html" target="_self"><span class="menu-icon">✍️</span> Writing Mocks</a></li>
+      <li><a href="Speaking IELTS Booking.html" target="_self"><span class="menu-icon">📅</span> IELTS Speaking</a></li>
+      <li><a href="Writing IELTS Mock.html" target="_self"><span class="menu-icon">📝</span> IELTS Writing</a></li>
+    </ul>
+  </nav>
+
+  <!-- Welcome Screen (shown initially) -->
+  <div id="welcomeScreen">
+    <!-- Animated Background -->
+    <div class="bg-pattern"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="logo-container">
+        <div class="logo-glow"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-ring"></div>
+        <div class="logo-spinner" id="logoSpinner"></div>
+        <img id="logo" src="" alt="" class="logo">
+        <script>
+          (function() {
+            var img = document.getElementById('logo');
+            var spinner = document.getElementById('logoSpinner');
+            var src = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+            function onLoaded() {
+              img.classList.add('loaded');
+              if (spinner) spinner.classList.add('hidden');
+            }
+            img.onload = onLoaded;
+            img.onerror = onLoaded; // still hide spinner on error
+            img.src = src;
+            // If already cached
+            if (img.complete && img.naturalWidth > 0) onLoaded();
+          })();
+        </script>
+      </div>
+
+      <h1 class="title" id="brandTitle">Mock Stream</h1>
+      <script>document.getElementById('brandTitle').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
+      <p class="subtitle">Your gateway to exam success. Practice makes perfect.</p>
+
+      <button class="continue-btn" id="continueBtn" onclick="enterAndContinue()">
+        Continue
+        <span class="btn-arrow">→</span>
+      </button>
+
+      <!-- Progress Bar (shown during loading) -->
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-label">
+          <span class="progress-status" id="progressStatus">Initializing...</span>
+          <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-steps" id="progressSteps"></div>
+      </div>
+    </div>
+
+    <!-- Name Input Overlay (shown after Continue, while loading runs in background) -->
+    <div class="name-overlay" id="nameOverlay">
+      <div class="name-card">
+        <div class="name-card-icon">👤</div>
+        <h2>Ismingizni kiriting</h2>
+        <p class="name-card-sub">Familiyangiz va ismingizni kiriting</p>
+
+        <div class="name-field-group">
+          <label for="nameInputSurname">Familiya (Surname)</label>
+          <input type="text" id="nameInputSurname" placeholder="Aliyev" autocomplete="off" autocorrect="off"
+            spellcheck="false">
+          <div class="name-field-error" id="surnameError"></div>
+        </div>
+
+        <div class="name-field-group">
+          <label for="nameInputFirstname">Ism (Name)</label>
+          <input type="text" id="nameInputFirstname" placeholder="Sardor" autocomplete="off" autocorrect="off"
+            spellcheck="false">
+          <div class="name-field-error" id="firstnameError"></div>
+        </div>
+
+        <button class="name-submit-btn" id="nameSubmitBtn" onclick="submitCandidateName()">
+          Davom etish <span style="font-size:20px">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p id="footerCopyright">&copy; 2025 Mock Stream. All rights reserved.</p>
+      <script>(function(){var el=document.getElementById('footerCopyright');if(window.SITE_CONFIG)el.innerHTML='&copy; '+new Date().getFullYear()+' '+window.SITE_CONFIG.brandName+'. All rights reserved.';})()</script>
+    </footer>
+  </div>
+
+  <!-- App iframe (loads landing.html and all other pages) -->
+  <iframe id="appFrame" src="about:blank" allow="fullscreen; microphone; camera" allowfullscreen></iframe>
+
+  <!-- Fullscreen Suggestion Popup (lives in parent so click has user-gesture context) -->
+  <div class="fs-suggest-overlay" id="fsSuggestOverlay">
+    <div class="fs-suggest-card">
+      <div class="fs-suggest-icon">🖥️</div>
+      <div class="fs-suggest-title">Go Full Screen?</div>
+      <div class="fs-suggest-text">Full screen gives you a distraction-free exam experience.</div>
+      <div class="fs-suggest-btns">
+        <button class="fs-suggest-ok" id="fsSuggestOk">Let's go!</button>
+        <button class="fs-suggest-skip" id="fsSuggestSkip">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Passcode Modal -->
+  <div class="admin-modal-overlay" id="adminPasscodeModal">
+    <div class="admin-passcode-modal">
+      <h2>🔐 Admin Access</h2>
+      <p>Enter the admin passcode to continue</p>
+      <input type="password" class="admin-passcode-input" id="adminPasscodeInput" placeholder="••••••••" maxlength="20">
+      <div class="admin-error" id="adminPasscodeError"></div>
+      <button class="admin-passcode-btn" id="adminPasscodeSubmit">Unlock Admin Panel</button>
+      <button class="admin-cancel-btn" onclick="closeAdminModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div class="admin-modal-overlay" id="adminPanelModal">
+    <div class="admin-panel">
+      <div class="admin-panel-header">
+        <h2>🛠️ Admin Panel</h2>
+        <div style="display: flex; align-items: center;">
+          <button class="admin-download-btn" onclick="openDownloadModal()">📥 Download PDF</button>
+          <button class="admin-close-btn" onclick="closeAdminPanel()">×</button>
+        </div>
+      </div>
+      <div class="admin-panel-body">
+        <!-- Two OTP Sections Side by Side -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+          <!-- Regular OTP Section (without AI) -->
+          <div class="otp-section" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <h3>🎟️ Regular Codes</h3>
+            <div style="font-size:11px;color:rgba(255,255,255,0.85);margin:-8px 0 8px;font-weight:500;">Without AI
+              analysis</div>
+            <div class="otp-input-row">
+              <input type="text" class="otp-input" id="entryOtpInput" placeholder="Regular OTP (e.g., 202686018615)">
+              <button class="otp-apply-btn" id="entryOtpBtn" onclick="validateEntryOTP()">Verify</button>
+            </div>
+            <div class="otp-status" id="entryOtpStatus">Year auto-stripped for codes</div>
+          </div>
+
+          <!-- Premium OTP Section (with AI) -->
+          <div class="otp-section" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <h3>⭐ Premium Codes</h3>
+            <div style="font-size:11px;color:rgba(255,255,255,0.85);margin:-8px 0 8px;font-weight:500;">With AI analysis
+            </div>
+            <div class="otp-input-row">
+              <input type="text" class="otp-input" id="aiOtpInput" placeholder="Premium OTP (e.g., 148784)">
+              <button class="otp-apply-btn" id="aiOtpBtn" onclick="validateAiOTP()">Verify</button>
+            </div>
+            <div class="otp-status" id="aiOtpStatus">Validates with admin0709 backend</div>
+          </div>
+        </div>
+
+        <!-- Full Mock Codes Section -->
+        <div style="margin-bottom:16px;">
+          <div class="column-header" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px 12px 0 0;padding:12px 16px;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;">
+            <span>📝</span>
+            <span>Full Mock Codes</span>
+          </div>
+          <div id="fullMockCodesBody" style="background:#fff;border:2px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;padding:16px;min-height:60px;">
+            <div class="no-otp-hint">Verify at least one OTP above to see full mock codes</div>
+          </div>
+        </div>
+
+        <!-- Unified Mock Grid -->
+        <div class="unified-grid">
+          <div class="grid-header">
+            <div class="grid-header-cell mock-num-header">#</div>
+            <div class="grid-header-cell speaking">🎤 Speaking</div>
+            <div class="grid-header-cell writing">✍️ Writing</div>
+            <div class="grid-header-cell reading">📖 Reading</div>
+            <div class="grid-header-cell listening">🎧 Listening</div>
+          </div>
+          <div class="grid-body" id="unifiedGridBody">
+            <div class="no-otp-hint">Enter OTP above to see ready credentials</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="admin-toast" id="adminToast">Copied!</div>
+
+  <!-- Download Options Modal -->
+  <div class="download-modal-overlay" id="downloadModal" onclick="closeDownloadModal(event)">
+    <div class="download-modal" onclick="event.stopPropagation()">
+      <div class="download-modal-header">
+        <h3>📥 Download Mock Codes</h3>
+      </div>
+      <div class="download-modal-body">
+        <!-- Step 1: Choose type -->
+        <div class="download-section">
+          <div class="download-section-title">Which mock codes do you want to download?</div>
+          <div class="download-options">
+            <div class="download-option" data-type="fullmock" onclick="toggleDownloadType('fullmock')">
+              <span class="check-indicator"></span>
+              <span class="download-option-icon">📝</span>
+              <span class="download-option-label">Full Mock</span>
+            </div>
+            <div class="download-option" data-type="speaking" onclick="toggleDownloadType('speaking')">
+              <span class="check-indicator"></span>
+              <span class="download-option-icon">🎤</span>
+              <span class="download-option-label">Speaking</span>
+            </div>
+            <div class="download-option" data-type="writing" onclick="toggleDownloadType('writing')">
+              <span class="check-indicator"></span>
+              <span class="download-option-icon">✍️</span>
+              <span class="download-option-label">Writing</span>
+            </div>
+            <div class="download-option" data-type="reading" onclick="toggleDownloadType('reading')">
+              <span class="check-indicator"></span>
+              <span class="download-option-icon">📖</span>
+              <span class="download-option-label">Reading</span>
+            </div>
+            <div class="download-option" data-type="listening" onclick="toggleDownloadType('listening')">
+              <span class="check-indicator"></span>
+              <span class="download-option-icon">🎧</span>
+              <span class="download-option-label">Listening</span>
+            </div>
+          </div>
+          <div class="select-actions">
+            <button onclick="selectAllDownloadTypes()">Select All</button>
+            <button onclick="deselectAllDownloadTypes()">Deselect All</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Speaking options (shown when speaking or both selected) -->
+        <div class="download-section" id="speakingOptionsSection" style="display: none;">
+          <div class="download-section-title">🎤 Speaking Code Options</div>
+          <div class="download-range-row">
+            <span class="range-label">Mock Range:</span>
+            <input type="number" id="speakingFromMock" class="range-input" placeholder="From" min="1" value="1">
+            <span class="range-separator">to</span>
+            <input type="number" id="speakingToMock" class="range-input" placeholder="To" min="1" value="30">
+          </div>
+          <div class="download-checkboxes">
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="speakingWithAI" checked>
+              <div>
+                <div class="download-checkbox-label">Premium Code</div>
+                <div class="download-checkbox-hint">Include Premium codes (with AI)</div>
+              </div>
+            </label>
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="speakingWithoutAI" checked>
+              <div>
+                <div class="download-checkbox-label">Regular Code</div>
+                <div class="download-checkbox-hint">Include Regular codes (without AI)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Step 3: Writing options (shown when writing or both selected) -->
+        <div class="download-section" id="writingOptionsSection" style="display: none;">
+          <div class="download-section-title">✍️ Writing Code Options</div>
+          <div class="download-range-row">
+            <span class="range-label">Mock Range:</span>
+            <input type="number" id="writingFromMock" class="range-input" placeholder="From" min="1" value="1">
+            <span class="range-separator">to</span>
+            <input type="number" id="writingToMock" class="range-input" placeholder="To" min="1" value="30">
+          </div>
+          <div class="download-checkboxes">
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="writingWithAI" checked>
+              <div>
+                <div class="download-checkbox-label">Premium Code</div>
+                <div class="download-checkbox-hint">Include Premium codes (with AI)</div>
+              </div>
+            </label>
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="writingWithoutAI" checked>
+              <div>
+                <div class="download-checkbox-label">Regular Code</div>
+                <div class="download-checkbox-hint">Include Regular codes (without AI)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Reading options (shown when reading or all selected) -->
+        <div class="download-section" id="readingOptionsSection" style="display: none;">
+          <div class="download-section-title">📖 Reading Code Options</div>
+          <div class="download-range-row">
+            <span class="range-label">Mock Range:</span>
+            <input type="number" id="readingFromMock" class="range-input" placeholder="From" min="1" value="1">
+            <span class="range-separator">to</span>
+            <input type="number" id="readingToMock" class="range-input" placeholder="To" min="1" value="30">
+          </div>
+          <div class="download-checkboxes">
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="readingWithAI" checked>
+              <div>
+                <div class="download-checkbox-label">Premium Code</div>
+                <div class="download-checkbox-hint">Include Premium codes (with AI)</div>
+              </div>
+            </label>
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="readingWithoutAI" checked>
+              <div>
+                <div class="download-checkbox-label">Regular Code</div>
+                <div class="download-checkbox-hint">Include Regular codes (without AI)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Listening options (shown when listening or all selected) -->
+        <div class="download-section" id="listeningOptionsSection" style="display: none;">
+          <div class="download-section-title">🎧 Listening Code Options</div>
+          <div class="download-range-row">
+            <span class="range-label">Mock Range:</span>
+            <input type="number" id="listeningFromMock" class="range-input" placeholder="From" min="1" value="1">
+            <span class="range-separator">to</span>
+            <input type="number" id="listeningToMock" class="range-input" placeholder="To" min="1" value="30">
+          </div>
+          <div class="download-checkboxes">
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="listeningWithAI" checked>
+              <div>
+                <div class="download-checkbox-label">Premium Code</div>
+                <div class="download-checkbox-hint">Include Premium codes (with AI)</div>
+              </div>
+            </label>
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="listeningWithoutAI" checked>
+              <div>
+                <div class="download-checkbox-label">Regular Code</div>
+                <div class="download-checkbox-hint">Include Regular codes (without AI)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Full Mock options (shown when fullmock or all selected) -->
+        <div class="download-section" id="fullmockOptionsSection" style="display: none;">
+          <div class="download-section-title">📝 Full Mock Code Options</div>
+          <div class="download-checkboxes">
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="fullmockWithPremium" checked>
+              <div>
+                <div class="download-checkbox-label">Premium Full Mock Code</div>
+                <div class="download-checkbox-hint">Include Premium full mock code (with AI)</div>
+              </div>
+            </label>
+            <label class="download-checkbox-row">
+              <input type="checkbox" id="fullmockWithRegular" checked>
+              <div>
+                <div class="download-checkbox-label">Regular Full Mock Code</div>
+                <div class="download-checkbox-hint">Include Regular full mock code (without AI)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="download-modal-actions">
+          <button class="download-cancel-btn" onclick="closeDownloadModal()">Cancel</button>
+          <button class="download-confirm-btn" id="downloadConfirmBtn" onclick="generatePDF()" disabled>
+            <span>📄</span> Generate PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load promocode files for admin panel -->
+  <script src="speaking-promocodes.js"></script>
+  <script src="writing-promocodes.js"></script>
+  <script src="reading-promocodes.js"></script>
+  <script src="listening-promocodes.js"></script>
+  <script src="speaking-mock-codes.js"></script>
+  <script src="writing-mock-codes.js"></script>
+  <script src="reading-mock-codes.js"></script>
+  <script src="listening-mock-codes.js"></script>
+
+  <script>
+
+
+    // ===== ADMIN PANEL FUNCTIONALITY =====
+    // Passcode is validated via backend (alwaysdata)
+    let logoTapCount = 0;
+    let logoTapTimer = null;
+
+    // Logo tap detection (5 taps to open admin)
+    document.addEventListener('DOMContentLoaded', function () {
+      const logo = document.getElementById('logo');
+      if (logo) {
+        logo.addEventListener('click', function (e) {
+          e.stopPropagation();
+          logoTapCount++;
+
+          // Reset counter after 2 seconds of no taps
+          clearTimeout(logoTapTimer);
+          logoTapTimer = setTimeout(() => {
+            logoTapCount = 0;
+          }, 2000);
+
+          // Open admin modal after 5 taps
+          if (logoTapCount >= 5) {
+            logoTapCount = 0;
+            openAdminPasscodeModal();
+          }
+        });
+      }
+    });
+
+    function openAdminPasscodeModal() {
+      const modal = document.getElementById('adminPasscodeModal');
+      modal.classList.add('show');
+      document.getElementById('adminPasscodeInput').value = '';
+      document.getElementById('adminPasscodeError').textContent = '';
+      document.getElementById('adminPasscodeInput').focus();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminPasscodeModal').classList.remove('show');
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('adminPanelModal').classList.remove('show');
+    }
+
+    // Admin passcode verification
+    document.addEventListener('DOMContentLoaded', function () {
+      const submitBtn = document.getElementById('adminPasscodeSubmit');
+      const input = document.getElementById('adminPasscodeInput');
+
+      if (submitBtn) {
+        submitBtn.addEventListener('click', verifyAdminPasscode);
+      }
+
+      if (input) {
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') verifyAdminPasscode();
+        });
+      }
+    });
+
+    async function verifyAdminPasscode() {
+      const input = document.getElementById('adminPasscodeInput');
+      const error = document.getElementById('adminPasscodeError');
+      const submitBtn = document.getElementById('adminPasscodeSubmit');
+      const enteredCode = input.value.trim();
+
+      if (!enteredCode) {
+        error.textContent = '❌ Please enter a passcode';
+        return;
+      }
+
+      // Show loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳';
+      }
+      error.textContent = 'Verifying...';
+      error.style.color = '#fbbf24';
+
+      try {
+        // Verify with alwaysdata backend using BSB code
+        const response = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            passcode: enteredCode,
+            type: 'bsb',
+            validate: true,
+            timestamp: Date.now(),
+            source: 'admin-panel-index'
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Server error');
+        }
+
+        const data = await response.json();
+
+        if (data.access) {
+          // Success! Open admin panel
+          error.textContent = '';
+          closeAdminModal();
+          openAdminPanel();
+        } else {
+          throw new Error('Invalid code');
+        }
+      } catch (err) {
+        error.textContent = '❌ Incorrect passcode';
+        error.style.color = '#f87171';
+        input.value = '';
+        input.focus();
+      } finally {
+        // Reset button state
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enter';
+        }
+      }
+    }
+
+    function openAdminPanel() {
+      document.getElementById('adminPanelModal').classList.add('show');
+      // Initial load with no OTP
+      renderCredentials();
+    }
+
+    let currentEntryOTP = '';
+    let currentAiOTP = '';
+    let entryOtpValidated = false;
+    let aiOtpValidated = false;
+
+    // Validate Regular OTP (without AI) with davirbek backend
+    // Admin enters full passcode with year (e.g., 202686018615)
+    // System validates with backend, then strips year for code generation
+    async function validateEntryOTP() {
+      const input = document.getElementById('entryOtpInput');
+      const status = document.getElementById('entryOtpStatus');
+      const btn = document.getElementById('entryOtpBtn');
+      const enteredOtp = input.value.trim().replace(/\D/g, ''); // Remove non-digits
+
+      if (!enteredOtp) {
+        status.textContent = '❌ Please enter Regular OTP';
+        status.style.color = '#fca5a5';
+        entryOtpValidated = false;
+        currentEntryOTP = '';
+        renderCredentials();
+        return;
+      }
+
+      // Validate that it's 12 digits (4-digit year + 8-digit passcode)
+      if (enteredOtp.length !== 12) {
+        status.textContent = '❌ Regular OTP must be 12 digits (year + passcode)';
+        status.style.color = '#fca5a5';
+        entryOtpValidated = false;
+        currentEntryOTP = '';
+        renderCredentials();
+        return;
+      }
+
+      // Show loading state
+      btn.disabled = true;
+      btn.textContent = '⏳';
+      status.textContent = 'Verifying...';
+      status.style.color = 'rgba(255,255,255,0.9)';
+
+      try {
+        // Validate with backend using full passcode (with year)
+        const response = await fetch('https://davirbek.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: enteredOtp })
+        });
+
+        if (!response.ok) throw new Error('Server error');
+
+        const data = await response.json();
+
+        if (data.access || data.valid) {
+          entryOtpValidated = true;
+          // Strip the year (first 4 digits) and store just the 8-digit passcode
+          currentEntryOTP = enteredOtp.substring(4); // e.g., 202686018615 → 86018615
+          status.textContent = '✅ Regular OTP verified! (year stripped)';
+          status.style.color = '#a7f3d0';
+          renderCredentials();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (err) {
+        entryOtpValidated = false;
+        currentEntryOTP = '';
+        status.textContent = '❌ Invalid Regular OTP';
+        status.style.color = '#fca5a5';
+        renderCredentials();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify';
+      }
+    }
+
+    // Validate Premium OTP (with AI) with admin0709 backend
+    async function validateAiOTP() {
+      const input = document.getElementById('aiOtpInput');
+      const status = document.getElementById('aiOtpStatus');
+      const btn = document.getElementById('aiOtpBtn');
+      const enteredOtp = input.value.trim();
+
+      if (!enteredOtp) {
+        status.textContent = '❌ Please enter Premium OTP';
+        status.style.color = '#fca5a5';
+        aiOtpValidated = false;
+        currentAiOTP = '';
+        renderCredentials();
+        return;
+      }
+
+      // Validate that it's a number
+      const passcodeInt = parseInt(enteredOtp, 10);
+      if (isNaN(passcodeInt)) {
+        status.textContent = '❌ Premium OTP must be a number';
+        status.style.color = '#fca5a5';
+        aiOtpValidated = false;
+        currentAiOTP = '';
+        renderCredentials();
+        return;
+      }
+
+      // Show loading state
+      btn.disabled = true;
+      btn.textContent = '⏳';
+      status.textContent = 'Verifying...';
+      status.style.color = 'rgba(255,255,255,0.9)';
+
+      try {
+        const response = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: passcodeInt })
+        });
+
+        if (!response.ok) throw new Error('Server error');
+
+        const data = await response.json();
+
+        if (data.access || data.valid) {
+          aiOtpValidated = true;
+          currentAiOTP = enteredOtp;
+          status.textContent = '✅ Premium OTP verified!';
+          status.style.color = '#a7f3d0';
+          renderCredentials();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (err) {
+        aiOtpValidated = false;
+        currentAiOTP = '';
+        status.textContent = '❌ Invalid Premium OTP';
+        status.style.color = '#fca5a5';
+        renderCredentials();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Verify';
+      }
+    }
+
+    // Allow Enter key to verify
+    document.addEventListener('DOMContentLoaded', function () {
+      const entryInput = document.getElementById('entryOtpInput');
+      const aiInput = document.getElementById('aiOtpInput');
+
+      if (entryInput) {
+        entryInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') validateEntryOTP();
+        });
+      }
+
+      if (aiInput) {
+        aiInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') validateAiOTP();
+        });
+      }
+    });
+
+    function renderCredentials() {
+      renderUnifiedGrid();
+      renderFullMockCodes();
+    }
+
+    // Insert fillers into regular 8-digit code → 12 digits (4,7,5,3 at positions 1,4,7,10)
+    function buildRegularFullMockCode(raw8) {
+      // raw8 = "93029315" → "943072953135"
+      return '' + raw8[0] + '4' + raw8[1] + raw8[2] + '7' + raw8[3] + raw8[4] + '5' + raw8[5] + raw8[6] + '3' + raw8[7];
+    }
+
+    // Insert fillers into premium 6-digit code → 10 digits (3,9,6,1 at positions 1,4,6,8)
+    function buildPremiumFullMockCode(raw6) {
+      // raw6 = "446740" → "4346976410"
+      return '' + raw6[0] + '3' + raw6[1] + raw6[2] + '9' + raw6[3] + '6' + raw6[4] + '1' + raw6[5];
+    }
+
+    function renderFullMockCodes() {
+      const body = document.getElementById('fullMockCodesBody');
+      if (!body) return;
+
+      if (!entryOtpValidated && !aiOtpValidated) {
+        body.innerHTML = '<div class="no-otp-hint">Verify at least one OTP above to see full mock codes</div>';
+        return;
+      }
+
+      let html = '';
+
+      if (entryOtpValidated && currentEntryOTP) {
+        const fullMockRegular = buildRegularFullMockCode(currentEntryOTP);
+        html += `
+          <div style="margin-bottom:12px;padding:12px;background:#fff7ed;border:2px solid #f59e0b;border-radius:10px;cursor:pointer;" onclick="copyToClipboard('${fullMockRegular}')">
+            <div style="font-size:11px;font-weight:700;color:#b45309;margin-bottom:4px;">🎟️ REGULAR FULL MOCK CODE</div>
+            <div style="font-family:monospace;font-size:18px;font-weight:700;letter-spacing:2px;color:#92400e;">${fullMockRegular}</div>
+            <div style="font-size:10px;color:#d97706;margin-top:4px;">Tap to copy</div>
+          </div>`;
+      }
+
+      if (aiOtpValidated && currentAiOTP) {
+        const fullMockPremium = buildPremiumFullMockCode(currentAiOTP);
+        html += `
+          <div style="margin-bottom:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;cursor:pointer;" onclick="copyToClipboard('${fullMockPremium}')">
+            <div style="font-size:11px;font-weight:700;color:#047857;margin-bottom:4px;">⭐ PREMIUM FULL MOCK CODE</div>
+            <div style="font-family:monospace;font-size:18px;font-weight:700;letter-spacing:2px;color:#065f46;">${fullMockPremium}</div>
+            <div style="font-size:10px;color:#059669;margin-top:4px;">Tap to copy</div>
+          </div>`;
+      }
+
+      body.innerHTML = html;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('adminToast');
+        if (toast) {
+          toast.textContent = 'Copied!';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 1500);
+        }
+      });
+    }
+
+    function renderUnifiedGrid() {
+      const body = document.getElementById('unifiedGridBody');
+      if (!body) return;
+
+      if (!entryOtpValidated && !aiOtpValidated) {
+        body.innerHTML = '<div class="no-otp-hint">Verify at least one OTP above to see credentials</div>';
+        return;
+      }
+
+      const types = [
+        { key: 'speaking', promos: window.SPEAKING_MOCK_PROMOCODES, ais: window.SPEAKING_MOCK_CODES, buildR: window.buildSpeakingRegularCode, buildP: window.buildSpeakingPremiumCode },
+        { key: 'writing', promos: window.WRITING_MOCK_PROMOCODES, ais: window.WRITING_MOCK_CODES, buildR: window.buildWritingRegularCode, buildP: window.buildWritingPremiumCode },
+        { key: 'reading', promos: window.READING_MOCK_PROMOCODES, ais: window.READING_MOCK_CODES, buildR: window.buildReadingRegularCode, buildP: window.buildReadingPremiumCode },
+        { key: 'listening', promos: window.LISTENING_MOCK_PROMOCODES, ais: window.LISTENING_MOCK_CODES, buildR: window.buildListeningRegularCode, buildP: window.buildListeningPremiumCode }
+      ];
+
+      // Collect all mock numbers across all types
+      const allNums = new Set();
+      types.forEach(t => {
+        if (t.promos) Object.keys(t.promos).forEach(k => { const n = parseInt(k); if (!isNaN(n)) allNums.add(n); });
+        if (t.ais) Object.keys(t.ais).forEach(k => { const n = parseInt(k); if (!isNaN(n)) allNums.add(n); });
+      });
+      const sortedMocks = [...allNums].sort((a, b) => a - b);
+
+      body.innerHTML = '';
+
+      for (const mockNum of sortedMocks) {
+        const paddedKey = String(mockNum).padStart(2, '0');
+        const row = document.createElement('div');
+        row.className = 'grid-row';
+
+        // Mock number cell
+        const numCell = document.createElement('div');
+        numCell.className = 'grid-cell mock-num-cell';
+        numCell.textContent = paddedKey;
+        row.appendChild(numCell);
+
+        // One cell per type
+        types.forEach(t => {
+          const promoData = t.promos && (t.promos[paddedKey] || t.promos[String(mockNum)] || t.promos[mockNum]);
+          const aiData = t.ais && (t.ais[mockNum] || t.ais[paddedKey] || t.ais[String(mockNum)]);
+
+          let regular = '';
+          if (entryOtpValidated && currentEntryOTP && promoData && promoData.fillers && t.buildR) {
+            regular = t.buildR(currentEntryOTP, promoData.fillers);
+          }
+          let premium = '';
+          if (aiOtpValidated && currentAiOTP && aiData && aiData.fillers && t.buildP) {
+            premium = t.buildP(currentAiOTP, aiData.fillers);
+          }
+
+          const cell = document.createElement('div');
+          cell.className = 'grid-cell';
+
+          let html = '';
+          if (regular) html += '<div><span class="code-type-label">R:</span> <span class="promo-code">' + regular + '</span></div>';
+          if (premium) html += '<div><span class="code-type-label">P:</span> <span class="ai-code">' + premium + '</span></div>';
+          if (!regular && !premium) html = '<span style="color:#cbd5e1;font-size:9px;">—</span>';
+          cell.innerHTML = html;
+
+          // Click to copy with menu
+          cell.onclick = () => {
+            if (regular || premium) {
+              showCopyMenu(paddedKey, regular, premium, [regular, premium].filter(Boolean).join('\n'), row, t.key);
+            }
+          };
+
+          row.appendChild(cell);
+        });
+
+        body.appendChild(row);
+      }
+    }
+
+    // Show copy selection menu
+    function showCopyMenu(mockLabel, entryCode, aiCode, bothCodes, rowElement, typeLabel) {
+      // Create overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'copy-menu-overlay';
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          overlay.remove();
+        }
+      };
+
+      // Create menu with only available options
+      const menu = document.createElement('div');
+      menu.className = 'copy-menu';
+
+      const titleExtra = typeLabel ? ' ' + typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1) : '';
+      let buttonsHtml = `<div class="copy-menu-title">📋 Copy${titleExtra} Mock ${mockLabel}</div>`;
+
+      if (entryCode) {
+        buttonsHtml += `
+        <button class="copy-menu-btn entry" data-copy="entry">
+          <span class="btn-icon">🎟️</span>
+          <span>Regular Code</span>
+          <span class="copy-menu-code">${entryCode}</span>
+        </button>
+      `;
+      }
+
+      if (aiCode) {
+        buttonsHtml += `
+        <button class="copy-menu-btn ai" data-copy="ai">
+          <span class="btn-icon">🤖</span>
+          <span>Premium Code</span>
+          <span class="copy-menu-code">${aiCode}</span>
+        </button>
+      `;
+      }
+
+      if (entryCode && aiCode) {
+        buttonsHtml += `
+        <button class="copy-menu-btn both" data-copy="both">
+          <span class="btn-icon">📑</span>
+          <span>Copy All</span>
+        </button>
+      `;
+      }
+
+      buttonsHtml += `
+      <button class="copy-menu-btn cancel" data-copy="cancel">
+        <span>Cancel</span>
+      </button>
+    `;
+
+      menu.innerHTML = buttonsHtml;
+
+      // Handle button clicks
+      menu.querySelectorAll('.copy-menu-btn').forEach(btn => {
+        btn.onclick = () => {
+          const action = btn.dataset.copy;
+          let textToCopy = '';
+          let message = '';
+
+          switch (action) {
+            case 'entry':
+              textToCopy = entryCode;
+              message = 'Regular code copied!';
+              break;
+            case 'ai':
+              textToCopy = aiCode;
+              message = 'Premium code copied!';
+              break;
+            case 'both':
+              textToCopy = bothCodes;
+              message = 'Both codes copied!';
+              break;
+            case 'cancel':
+              overlay.remove();
+              return;
+          }
+
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            showToast(message);
+            rowElement.classList.add('copied');
+            setTimeout(() => rowElement.classList.remove('copied'), 1000);
+            overlay.remove();
+          });
+        };
+      });
+
+      overlay.appendChild(menu);
+      document.body.appendChild(overlay);
+    }
+
+    function copyCode(code, elementId) {
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('Copied: ' + code);
+
+        // Visual feedback
+        const el = document.getElementById(elementId);
+        if (el) {
+          el.classList.add('copied');
+          setTimeout(() => el.classList.remove('copied'), 1000);
+        }
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('adminToast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // ===== DOWNLOAD PDF FUNCTIONALITY =====
+    let selectedDownloadTypes = new Set();
+
+    function openDownloadModal() {
+      if (!entryOtpValidated && !aiOtpValidated) {
+        showToast('⚠️ Please verify at least one OTP first');
+        return;
+      }
+      document.getElementById('downloadModal').classList.add('show');
+      resetDownloadModal();
+    }
+
+    function closeDownloadModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('downloadModal').classList.remove('show');
+    }
+
+    function resetDownloadModal() {
+      selectedDownloadTypes.clear();
+      document.querySelectorAll('.download-option').forEach(opt => opt.classList.remove('selected'));
+      updateDownloadSections();
+      document.getElementById('downloadConfirmBtn').disabled = true;
+    }
+
+    function toggleDownloadType(type) {
+      const opt = document.querySelector('.download-option[data-type="' + type + '"]');
+      if (selectedDownloadTypes.has(type)) {
+        selectedDownloadTypes.delete(type);
+        opt.classList.remove('selected');
+      } else {
+        selectedDownloadTypes.add(type);
+        opt.classList.add('selected');
+      }
+      updateDownloadSections();
+      document.getElementById('downloadConfirmBtn').disabled = selectedDownloadTypes.size === 0;
+    }
+
+    function selectAllDownloadTypes() {
+      ['fullmock', 'speaking', 'writing', 'reading', 'listening'].forEach(t => {
+        selectedDownloadTypes.add(t);
+        const opt = document.querySelector('.download-option[data-type="' + t + '"]');
+        if (opt) opt.classList.add('selected');
+      });
+      updateDownloadSections();
+      document.getElementById('downloadConfirmBtn').disabled = false;
+    }
+
+    function deselectAllDownloadTypes() {
+      selectedDownloadTypes.clear();
+      document.querySelectorAll('.download-option').forEach(opt => opt.classList.remove('selected'));
+      updateDownloadSections();
+      document.getElementById('downloadConfirmBtn').disabled = true;
+    }
+
+    function updateDownloadSections() {
+      document.getElementById('speakingOptionsSection').style.display = selectedDownloadTypes.has('speaking') ? 'block' : 'none';
+      document.getElementById('writingOptionsSection').style.display = selectedDownloadTypes.has('writing') ? 'block' : 'none';
+      document.getElementById('readingOptionsSection').style.display = selectedDownloadTypes.has('reading') ? 'block' : 'none';
+      document.getElementById('listeningOptionsSection').style.display = selectedDownloadTypes.has('listening') ? 'block' : 'none';
+      document.getElementById('fullmockOptionsSection').style.display = selectedDownloadTypes.has('fullmock') ? 'block' : 'none';
+    }
+
+    async function generatePDF() {
+      if (selectedDownloadTypes.size === 0 || (!entryOtpValidated && !aiOtpValidated)) return;
+
+      const btn = document.getElementById('downloadConfirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Generating...';
+
+      try {
+        // Get options
+        const options = {
+          types: [...selectedDownloadTypes],
+          speaking: {
+            withAI: document.getElementById('speakingWithAI')?.checked ?? true,
+            withEntry: document.getElementById('speakingWithoutAI')?.checked ?? true,
+            fromMock: parseInt(document.getElementById('speakingFromMock')?.value) || 1,
+            toMock: parseInt(document.getElementById('speakingToMock')?.value) || 999
+          },
+          writing: {
+            withAI: document.getElementById('writingWithAI')?.checked ?? true,
+            withEntry: document.getElementById('writingWithoutAI')?.checked ?? true,
+            fromMock: parseInt(document.getElementById('writingFromMock')?.value) || 1,
+            toMock: parseInt(document.getElementById('writingToMock')?.value) || 999
+          },
+          reading: {
+            withAI: document.getElementById('readingWithAI')?.checked ?? true,
+            withEntry: document.getElementById('readingWithoutAI')?.checked ?? true,
+            fromMock: parseInt(document.getElementById('readingFromMock')?.value) || 1,
+            toMock: parseInt(document.getElementById('readingToMock')?.value) || 999
+          },
+          listening: {
+            withAI: document.getElementById('listeningWithAI')?.checked ?? true,
+            withEntry: document.getElementById('listeningWithoutAI')?.checked ?? true,
+            fromMock: parseInt(document.getElementById('listeningFromMock')?.value) || 1,
+            toMock: parseInt(document.getElementById('listeningToMock')?.value) || 999
+          },
+          fullmock: {
+            withPremium: document.getElementById('fullmockWithPremium')?.checked ?? true,
+            withRegular: document.getElementById('fullmockWithRegular')?.checked ?? true
+          }
+        };
+
+        // Get logo URL from first speaking mock
+        let logoUrl = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png'; // default
+        if (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) {
+          logoUrl = window.SPEAKING_TEST_DATA.settings.logoUrl;
+        }
+
+        // Generate PDF content
+        const pdfContent = generatePDFContent(options, logoUrl);
+
+        // Create and download PDF using print
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(pdfContent);
+        printWindow.document.close();
+
+        // Wait for images to load then print
+        setTimeout(() => {
+          printWindow.print();
+        }, 500);
+
+        showToast('✅ PDF generated successfully!');
+        closeDownloadModal();
+
+      } catch (error) {
+        console.error('PDF generation error:', error);
+        showToast('❌ Error generating PDF');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>📄</span> Generate PDF';
+      }
+    }
+
+    function generatePDFContent(options, logoUrl) {
+      const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      const selectedTypes = options.types || [];
+
+      let fullMockSection = '';
+
+      // Generate Full Mock codes
+      if (selectedTypes.includes('fullmock')) {
+        let fmRegular = '';
+        let fmPremium = '';
+        if (entryOtpValidated && currentEntryOTP && (options.fullmock?.withRegular !== false)) {
+          fmRegular = buildRegularFullMockCode(currentEntryOTP);
+        }
+        if (aiOtpValidated && currentAiOTP && (options.fullmock?.withPremium !== false)) {
+          fmPremium = buildPremiumFullMockCode(currentAiOTP);
+        }
+        if (fmRegular || fmPremium) {
+          fullMockSection = '<div style="margin-bottom:24px;padding:18px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #8b5cf6;border-radius:14px;">';
+          fullMockSection += '<div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #c4b5fd;padding-bottom:12px;margin-bottom:14px;"><span style="font-size:22px;">📝</span><span style="font-size:18px;font-weight:800;color:#5b21b6;">Full Mock Codes</span></div>';
+          fullMockSection += '<table style="width:100%;">';
+          if (fmRegular) {
+            fullMockSection += '<tr><td style="padding:10px 8px;font-weight:700;color:#b45309;font-size:12px;width:80px;vertical-align:middle;">🎟️ Regular</td><td style="padding:10px 8px;"><span style="background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;padding:8px 14px;border-radius:8px;font-family:Consolas,monospace;font-size:15px;font-weight:800;letter-spacing:2px;display:inline-block;border:1px solid #f59e0b;">' + fmRegular + '</span></td></tr>';
+          }
+          if (fmPremium) {
+            fullMockSection += '<tr><td style="padding:10px 8px;font-weight:700;color:#047857;font-size:12px;width:80px;vertical-align:middle;">⭐ Premium</td><td style="padding:10px 8px;"><span style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#064e3b;padding:8px 14px;border-radius:8px;font-family:Consolas,monospace;font-size:15px;font-weight:800;letter-spacing:2px;display:inline-block;border:1px solid #10b981;">' + fmPremium + '</span></td></tr>';
+          }
+          fullMockSection += '</table></div>';
+        }
+      }
+
+      // Define which types to include
+      const typeConfigs = [];
+      const typeList = [
+        { key: 'speaking', icon: '🎤', label: 'Speaking', color: '#d97706', promos: window.SPEAKING_MOCK_PROMOCODES, ais: window.SPEAKING_MOCK_CODES, buildR: window.buildSpeakingRegularCode, buildP: window.buildSpeakingPremiumCode },
+        { key: 'writing', icon: '✍️', label: 'Writing', color: '#1d4ed8', promos: window.WRITING_MOCK_PROMOCODES, ais: window.WRITING_MOCK_CODES, buildR: window.buildWritingRegularCode, buildP: window.buildWritingPremiumCode },
+        { key: 'reading', icon: '📖', label: 'Reading', color: '#0f766e', promos: window.READING_MOCK_PROMOCODES, ais: window.READING_MOCK_CODES, buildR: window.buildReadingRegularCode, buildP: window.buildReadingPremiumCode },
+        { key: 'listening', icon: '🎧', label: 'Listening', color: '#6d28d9', promos: window.LISTENING_MOCK_PROMOCODES, ais: window.LISTENING_MOCK_CODES, buildR: window.buildListeningRegularCode, buildP: window.buildListeningPremiumCode }
+      ];
+
+      typeList.forEach(t => {
+        if (selectedTypes.includes(t.key)) typeConfigs.push(t);
+      });
+
+      // Build unified data keyed by mock number
+      const mockData = {}; // { 1: { speaking: {r,p}, writing: {r,p}, ... }, ... }
+      typeConfigs.forEach(t => {
+        const promos = t.promos || {};
+        const ais = t.ais || {};
+        const allKeys = [...new Set([...Object.keys(promos), ...Object.keys(ais)].map(k => parseInt(k)))].filter(n => !isNaN(n));
+        const opts = options[t.key] || {};
+        const fromMock = opts.fromMock || 1;
+        const toMock = opts.toMock || 999;
+
+        allKeys.filter(n => n >= fromMock && n <= toMock).forEach(mockNum => {
+          if (!mockData[mockNum]) mockData[mockNum] = {};
+          const paddedKey = String(mockNum).padStart(2, '0');
+          const promoData = promos[paddedKey] || promos[String(mockNum)] || promos[mockNum];
+          const aiData = ais[mockNum] || ais[paddedKey] || ais[String(mockNum)];
+
+          let regular = '';
+          if (entryOtpValidated && currentEntryOTP && promoData && promoData.fillers && t.buildR && (opts.withEntry !== false)) {
+            regular = t.buildR(currentEntryOTP, promoData.fillers);
+          }
+          let premium = '';
+          if (aiOtpValidated && currentAiOTP && aiData && aiData.fillers && t.buildP && (opts.withAI !== false)) {
+            premium = t.buildP(currentAiOTP, aiData.fillers);
+          }
+
+          mockData[mockNum] = mockData[mockNum] || {};
+          mockData[mockNum][t.key] = { regular, premium };
+        });
+      });
+
+      const sortedMocks = Object.keys(mockData).map(Number).sort((a, b) => a - b);
+      const colCount = typeConfigs.length;
+      const colWidth = colCount === 1 ? '80%' : (colCount === 2 ? '42%' : Math.floor(80 / colCount) + '%');
+
+      // Responsive layout based on column count
+      const useLandscape = colCount >= 3;
+      const pageSize = useLandscape ? 'A4 landscape' : 'A4';
+      const maxWidth = useLandscape ? '1100px' : (colCount === 2 ? '800px' : '600px');
+      const codeFontSize = colCount <= 2 ? '10px' : '8px';
+      const labelFontSize = colCount <= 2 ? '8px' : '7px';
+      const headerFontSize = colCount <= 2 ? '12px' : '10px';
+      const numWidth = colCount <= 2 ? '50px' : '40px';
+
+      // Build table rows
+      let tableRows = '';
+      sortedMocks.forEach(mockNum => {
+        const paddedKey = String(mockNum).padStart(2, '0');
+        let row = '<tr style="border-bottom:1px solid #f1f5f9;">';
+        row += '<td style="padding:5px 6px;font-weight:600;color:#475569;font-size:' + (colCount <= 2 ? '12px' : '10px') + ';white-space:nowrap;text-align:center;width:' + numWidth + ';">' + paddedKey + '</td>';
+
+        typeConfigs.forEach(t => {
+          const data = (mockData[mockNum] && mockData[mockNum][t.key]) || {};
+          let cellHtml = '';
+          if (data.regular) cellHtml += '<div><span style="font-size:' + labelFontSize + ';color:#94a3b8;font-weight:600;">R:</span> <span style="background:#fef3c7;color:#b45309;padding:1px 4px;border-radius:3px;font-family:Consolas,monospace;font-size:' + codeFontSize + ';font-weight:600;">' + data.regular + '</span></div>';
+          if (data.premium) cellHtml += '<div><span style="font-size:' + labelFontSize + ';color:#94a3b8;font-weight:600;">P:</span> <span style="background:#d1fae5;color:#047857;padding:1px 4px;border-radius:3px;font-family:Consolas,monospace;font-size:' + codeFontSize + ';font-weight:600;">' + data.premium + '</span></div>';
+          if (!cellHtml) cellHtml = '<span style="color:#e2e8f0;">—</span>';
+          row += '<td style="padding:4px 5px;vertical-align:middle;">' + cellHtml + '</td>';
+        });
+        row += '</tr>';
+        tableRows += row;
+      });
+
+      // Build header cells
+      const headerBgs = { speaking: '#d97706', writing: '#1d4ed8', reading: '#0f766e', listening: '#6d28d9' };
+      let headerCells = '<th style="background:#475569;color:#fff;padding:8px 6px;font-size:' + headerFontSize + ';font-weight:700;width:' + numWidth + ';text-align:center;">#</th>';
+      typeConfigs.forEach(t => {
+        headerCells += '<th style="background:' + headerBgs[t.key] + ';color:#fff;padding:8px 6px;font-size:' + headerFontSize + ';font-weight:700;text-align:center;">' + t.icon + ' ' + t.label + '</th>';
+      });
+
+      const rangeText = sortedMocks.length > 0 ? 'Mock ' + String(sortedMocks[0]).padStart(2,'0') + ' - ' + String(sortedMocks[sortedMocks.length-1]).padStart(2,'0') : '';
+
+      // Build type label for title
+      const typeLabels = typeConfigs.map(t => t.label);
+      const titleDesc = typeLabels.length === 4 ? 'All Mock Types' : typeLabels.join(' & ');
+
+      return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mock Codes - ${today}</title>
+  <style>
+    @page { margin: 12mm; size: ${pageSize}; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      padding: 16px;
+      line-height: 1.3;
+    }
+    .container {
+      max-width: ${maxWidth};
+      margin: 0 auto;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #0f766e, #0d9488);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .header-text h1 {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .header-text p {
+      color: rgba(255,255,255,0.85);
+      font-size: 12px;
+    }
+    .meta-bar {
+      background: #f1f5f9;
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .content {
+      padding: 16px 20px;
+    }
+    .legend {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .legend-title {
+      font-weight: 600;
+      color: #92400e;
+    }
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .mock-table th {
+      border: none;
+    }
+    .mock-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .footer {
+      background: #f8fafc;
+      padding: 12px 24px;
+      text-align: center;
+      font-size: 10px;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="${logoUrl}" alt="Logo" class="logo" crossorigin="anonymous">
+      <div class="header-text">
+        <h1>Mock Exam Codes</h1>
+        <p>Official credentials for ${titleDesc} Mocks</p>
+      </div>
+    </div>
+    <div class="meta-bar">
+      <span>📅 Generated: ${today}</span>
+      <span>${rangeText} (${sortedMocks.length} mocks)</span>
+    </div>
+    <div class="content">
+      <div class="legend">
+        <span class="legend-title">📋 Legend:</span>
+        <span><span style="background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600;">R</span> = Regular</span>
+        <span><span style="background:#d1fae5;color:#047857;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600;">P</span> = Premium</span>
+      </div>
+      ${fullMockSection}
+      <table class="mock-table">
+        <thead><tr>${headerCells}</tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <div class="footer">
+      🔒 Confidential - For authorized use only | Generated by Admin Panel
+    </div>
+  </div>
+</body>
+</html>`;
+    }
+
+    // Load question files for logo/wording (optional — only override if SITE_CONFIG is absent)
+    const script = document.createElement('script');
+    script.src = 'questions S/questions.js';
+    script.onload = function () {
+      if (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings) {
+        const settings = window.SPEAKING_TEST_DATA.settings;
+        if (settings.logoUrl && !(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl)) {
+          document.getElementById('logo').src = settings.logoUrl;
+        }
+        if (settings.logoWording && !(window.SITE_CONFIG && window.SITE_CONFIG.brandName)) {
+          document.getElementById('brandTitle').textContent = settings.logoWording;
+        }
+      }
+    };
+    document.head.appendChild(script);
+
+    // Auto System Theme Detection
+    const html = document.documentElement;
+    function applySystemTheme() {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    }
+    applySystemTheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const appFrame = document.getElementById('appFrame');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill = document.getElementById('progressFill');
+    const progressPercent = document.getElementById('progressPercent');
+    const progressStatus = document.getElementById('progressStatus');
+    const progressSteps = document.getElementById('progressSteps');
+
+    let isLoading = false;
+
+    // Loading steps with messages
+    const loadingSteps = [
+      { percent: 0, status: 'Initializing...', step: 'Starting up' },
+      { percent: 8, status: 'Loading resources...', step: 'Fetching core assets' },
+      { percent: 18, status: 'Loading resources...', step: 'Downloading stylesheets' },
+      { percent: 28, status: 'Preparing interface...', step: 'Building UI components' },
+      { percent: 38, status: 'Preparing interface...', step: 'Rendering elements' },
+      { percent: 48, status: 'Loading mock data...', step: 'Importing question banks' },
+      { percent: 58, status: 'Loading mock data...', step: 'Parsing exam content' },
+      { percent: 68, status: 'Configuring settings...', step: 'Applying preferences' },
+      { percent: 78, status: 'Configuring settings...', step: 'Initializing modules' },
+      { percent: 86, status: 'Almost ready...', step: 'Final preparations' },
+      { percent: 94, status: 'Finalizing...', step: 'Verifying integrity' },
+      { percent: 100, status: 'Ready!', step: 'Launching application...' }
+    ];
+
+    // Animate progress bar
+    function animateProgress(onComplete) {
+      let currentStep = 0;
+      const totalDuration = 25000; // 25 seconds total for all 99 mocks to preload
+      const stepDuration = totalDuration / loadingSteps.length;
+
+      function updateProgress() {
+        if (currentStep >= loadingSteps.length) {
+          if (onComplete) onComplete();
+          return;
+        }
+
+        const step = loadingSteps[currentStep];
+        progressFill.style.width = step.percent + '%';
+        progressPercent.textContent = step.percent + '%';
+        progressStatus.textContent = step.status;
+        progressSteps.textContent = step.step;
+
+        currentStep++;
+
+        // Add some randomness to feel more natural (±200ms)
+        const variance = Math.random() * 400 - 200;
+        const delay = stepDuration + variance;
+
+        setTimeout(updateProgress, Math.max(300, delay));
+      }
+
+      updateProgress();
+    }
+
+    // ===== NAME INPUT VALIDATION & SUBMISSION =====
+    // Auto-capitalize and filter non-letter characters on name inputs
+    function setupNameInput(inputEl) {
+      inputEl.addEventListener('input', function () {
+        const pos = this.selectionStart;
+        // Allow only letters (including Unicode), spaces, apostrophes, hyphens
+        let val = this.value.replace(/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/g, '');
+        // Remove leading spaces
+        val = val.replace(/^\s+/, '');
+        // Auto-capitalize each word
+        val = val.replace(/(^|[\s'-])([a-zA-Z\u00C0-\u024F\u0400-\u04FF])/g, (_, sep, c) => sep + c.toUpperCase());
+        this.value = val;
+        // Restore cursor position
+        const newPos = Math.min(pos, val.length);
+        this.selectionStart = this.selectionEnd = newPos;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const surnameInput = document.getElementById('nameInputSurname');
+      const firstnameInput = document.getElementById('nameInputFirstname');
+      if (surnameInput) setupNameInput(surnameInput);
+      if (firstnameInput) setupNameInput(firstnameInput);
+
+      // Allow Enter key to submit name
+      [surnameInput, firstnameInput].forEach(inp => {
+        if (inp) inp.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') submitCandidateName();
+        });
+      });
+
+      // Auto-jump from surname to firstname on space key
+      if (surnameInput && firstnameInput) {
+        surnameInput.addEventListener('keydown', function (e) {
+          if (e.key === ' ' || e.code === 'Space') {
+            const val = this.value.trim();
+            if (val.length >= 2) {
+              e.preventDefault();
+              this.value = val;
+              firstnameInput.focus();
+            }
+          }
+        });
+      }
+    });
+
+    function validateNameField(value) {
+      const trimmed = value.trim();
+      if (trimmed.length < 2) return 'Kamida 2 ta harf kiriting';
+      if (/[0-9]/.test(trimmed)) return 'Raqamlar kiritish mumkin emas';
+      if (/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/.test(trimmed)) return 'Faqat harflar kiritish mumkin';
+      // Check that it's not just random single characters (must have at least 2 consecutive letters)
+      if (!/[a-zA-Z\u00C0-\u024F\u0400-\u04FF]{2,}/.test(trimmed)) return 'Iltimos, to\'g\'ri ism kiriting';
+      return null;
+    }
+
+    let nameSubmitted = false;
+    let pendingTryShowApp = null;
+
+    function submitCandidateName() {
+      const surnameInput = document.getElementById('nameInputSurname');
+      const firstnameInput = document.getElementById('nameInputFirstname');
+      const surnameError = document.getElementById('surnameError');
+      const firstnameError = document.getElementById('firstnameError');
+
+      const surnameErr = validateNameField(surnameInput.value);
+      const firstnameErr = validateNameField(firstnameInput.value);
+
+      surnameError.textContent = surnameErr || '';
+      firstnameError.textContent = firstnameErr || '';
+
+      if (surnameErr) { surnameInput.classList.add('invalid'); } else { surnameInput.classList.remove('invalid'); }
+      if (firstnameErr) { firstnameInput.classList.add('invalid'); } else { firstnameInput.classList.remove('invalid'); }
+
+      if (surnameErr || firstnameErr) {
+        // Focus the first invalid field
+        if (surnameErr) surnameInput.focus();
+        else firstnameInput.focus();
+        return;
+      }
+
+      const fullName = surnameInput.value.trim() + ' ' + firstnameInput.value.trim();
+      sessionStorage.setItem('CANDIDATE_FULL_NAME', fullName);
+
+      // Request microphone permission once (applies to all same-origin iframes)
+      if (!sessionStorage.getItem('microphonePermissionRequested')) {
+        sessionStorage.setItem('microphonePermissionRequested', 'true');
+        navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+          // Permission granted — stop tracks immediately (we just needed the prompt)
+          stream.getTracks().forEach(function(t) { t.stop(); });
+          sessionStorage.setItem('microphonePermissionGranted', 'true');
+          console.log('[Welcome] Microphone permission granted');
+          // Show fullscreen suggestion right after mic access
+          showFullscreenSuggestion();
+        }).catch(function(e) {
+          console.warn('[Welcome] Microphone permission denied or unavailable:', e.message);
+          // Still show fullscreen suggestion even if mic denied
+          showFullscreenSuggestion();
+        });
+      } else {
+        // Mic already requested in this session, show fullscreen suggestion directly
+        showFullscreenSuggestion();
+      }
+
+      // Hide name overlay with animation
+      const overlay = document.getElementById('nameOverlay');
+      overlay.style.transition = 'opacity 0.3s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.style.opacity = '';
+        overlay.style.transition = '';
+      }, 300);
+
+      nameSubmitted = true;
+      // If loading already finished while name was being entered, show app now
+      if (pendingTryShowApp) pendingTryShowApp();
+    }
+
+    // Enter fullscreen and show app in iframe
+    function enterAndContinue() {
+      if (isLoading) return;
+      isLoading = true;
+
+      const btn = document.getElementById('continueBtn');
+      btn.style.opacity = '0';
+      btn.style.transform = 'scale(0.9)';
+      btn.style.pointerEvents = 'none';
+
+      // Show progress bar AND name overlay
+      setTimeout(() => {
+        btn.style.display = 'none';
+        progressContainer.classList.add('visible');
+        // Show the name input overlay
+        document.getElementById('nameOverlay').classList.add('show');
+        // Auto-focus surname field
+        setTimeout(() => {
+          const sInput = document.getElementById('nameInputSurname');
+          if (sInput) sInput.focus();
+        }, 400);
+      }, 300);
+
+      // Request fullscreen on the whole document
+      const elem = document.documentElement;
+
+      const startLoading = () => {
+        // Start preloading iframe in background
+        appFrame.src = 'landing.html';
+
+        let iframeReady = false;
+        let mocksReady = false;
+        let progressDone = false;
+
+        const tryShowApp = () => {
+          // Wait for all four: iframe loaded, mocks preloaded, progress done, AND name submitted
+          if (iframeReady && mocksReady && progressDone && nameSubmitted) {
+            // Small delay for smooth transition
+            setTimeout(() => {
+              welcomeScreen.classList.add('hidden');
+              appFrame.classList.add('active');
+              // Push history state so back button works properly
+              history.pushState({ page: 'app' }, '', '');
+            }, 300);
+          }
+        };
+
+        // Store tryShowApp so the name submit can trigger it later
+        pendingTryShowApp = tryShowApp;
+
+        // Listen for mocksReady message from iframe
+        const mocksReadyHandler = (event) => {
+          if (event.data === 'mocksReady') {
+            mocksReady = true;
+            console.log('✅ All mocks preloaded - received signal from iframe');
+            tryShowApp();
+          }
+        };
+        window.addEventListener('message', mocksReadyHandler);
+
+        // Mark iframe as ready when loaded
+        appFrame.onload = () => {
+          iframeReady = true;
+          tryShowApp();
+        };
+
+        // Start progress animation
+        animateProgress(() => {
+          progressDone = true;
+          tryShowApp();
+        });
+
+        // Fallback: if mocks don't report ready within 30 seconds, proceed anyway
+        setTimeout(() => {
+          if (!mocksReady) {
+            console.log('⚠️ Mocks preload timeout - proceeding anyway');
+            mocksReady = true;
+            tryShowApp();
+          }
+        }, 30000);
+      };
+
+      // Lock to portrait orientation on mobile
+      function lockPortrait() {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch(() => { });
+        }
+      }
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().then(() => {
+          lockPortrait();
+          startLoading();
+        }).catch(startLoading);
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+        lockPortrait();
+        startLoading();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+        lockPortrait();
+        startLoading();
+      } else {
+        startLoading();
+      }
+    }
+
+    // ===== FULLSCREEN SUGGESTION =====
+    function showFullscreenSuggestion() {
+      var overlay = document.getElementById('fsSuggestOverlay');
+      if (!overlay) return;
+
+      // Skip if already fullscreen or user dismissed this session
+      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (isFS || sessionStorage.getItem('fs_suggestion_done')) {
+        overlay.style.display = 'none';
+        return;
+      }
+
+      // Show with slight delay
+      setTimeout(function () { overlay.classList.add('visible'); }, 300);
+
+      function dismiss() {
+        overlay.classList.remove('visible');
+        overlay.classList.add('hiding');
+        setTimeout(function () { overlay.style.display = 'none'; }, 350);
+        sessionStorage.setItem('fs_suggestion_done', '1');
+      }
+
+      document.getElementById('fsSuggestOk').addEventListener('click', function () {
+        dismiss();
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen().then(function() {
+            console.log('[Fullscreen] Entered fullscreen successfully');
+          }).catch(function (err) {
+            console.warn('[Fullscreen] requestFullscreen failed:', err.message || err);
+          });
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+      });
+
+      document.getElementById('fsSuggestSkip').addEventListener('click', dismiss);
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) dismiss();
+      });
+    }
+
+    // Reset welcome screen to initial state
+    function resetWelcomeScreen() {
+      welcomeScreen.classList.remove('hidden');
+      appFrame.classList.remove('active');
+      appFrame.src = 'about:blank';
+
+      // Reset button
+      const btn = document.getElementById('continueBtn');
+      btn.innerHTML = 'Continue <span class="btn-arrow">→</span>';
+      btn.style.display = '';
+      btn.style.opacity = '1';
+      btn.style.transform = '';
+      btn.style.pointerEvents = '';
+      document.body.classList.remove('loading');
+
+      // Reset progress bar
+      progressContainer.classList.remove('visible');
+      progressFill.style.width = '0%';
+      progressPercent.textContent = '0%';
+      progressStatus.textContent = 'Initializing...';
+      progressSteps.textContent = '';
+
+      isLoading = false;
+    }
+
+    // Listen for messages from iframe to navigate back to welcome or landing
+    window.addEventListener('message', function (event) {
+      if (event.data === 'showWelcome') {
+        resetWelcomeScreen();
+        // Clear history state when going to welcome
+        history.replaceState({ page: 'welcome' }, '', '');
+      } else if (event.data === 'returnToLanding') {
+        // Navigate iframe back to landing page (stay in fullscreen)
+        appFrame.src = 'landing.html';
+      }
+    });
+
+    // ========== BROWSER HISTORY MANAGEMENT ==========
+    // Push state when entering the app
+    function pushAppState() {
+      history.pushState({ page: 'app' }, '', '');
+    }
+
+    // Handle browser back button
+    window.addEventListener('popstate', function (event) {
+      // If we're in the app (iframe showing), go back to landing or handle iframe navigation
+      if (appFrame.classList.contains('active')) {
+        // Send message to iframe to handle back navigation
+        try {
+          appFrame.contentWindow.postMessage('browserBack', '*');
+        } catch (e) {
+          // If iframe can't receive message, just prevent going back to welcome
+        }
+        // Push state again to prevent exiting the app
+        // The iframe will handle its own back navigation
+        history.pushState({ page: 'app' }, '', '');
+      }
+    });
+
+    // Initialize history state
+    history.replaceState({ page: 'welcome' }, '', '');
+
+    // Note: Exiting fullscreen no longer resets to welcome screen
+    // Users can tap/click anywhere to re-enter fullscreen
+
+    // Also allow Enter key to continue
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !welcomeScreen.classList.contains('hidden')) {
+        enterAndContinue();
+      }
+    });
+
+    // ========== ANTI-CHEAT & DEV TOOLS PROTECTION ==========
+    let adminModeActive = false;
+    let consoleClearInterval;
+
+    // Prevent right-click context menu
+    document.addEventListener('contextmenu', function (e) {
+      if (adminModeActive) return true;
+      e.preventDefault();
+      return false;
+    });
+
+    // Block all keyboard shortcuts that could reveal source/devtools
+    document.addEventListener('keydown', function (e) {
+      // Admin bypass shortcut: Shift+Ctrl+Alt+K
+      if (e.shiftKey && e.ctrlKey && e.altKey && e.keyCode === 75) {
+        e.preventDefault();
+        activateAdminMode();
+        return false;
+      }
+
+      // If admin mode is active, allow all shortcuts
+      if (adminModeActive) return true;
+
+      // Block F keys
+      const blockedFKeys = [
+        112, // F1 - Help
+        113, // F2
+        114, // F3 - Find
+        115, // F4
+        116, // F5 - Refresh (allow with limitation)
+        117, // F6
+        118, // F7
+        119, // F8
+        120, // F9
+        121, // F10 - Menu
+        122, // F11 - Fullscreen
+        123  // F12 - DevTools
+      ];
+
+      // Block F12 always
+      if (e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block other F keys except F5 (refresh) and F11 (fullscreen)
+      if (blockedFKeys.includes(e.keyCode) && ![116, 122].includes(e.keyCode)) {
+        e.preventDefault();
+        return false;
+      }
+
+      // Block Ctrl combinations
+      if (e.ctrlKey) {
+        const blockedCtrl = [
+          85,  // U - View source
+          83,  // S - Save
+          80,  // P - Print
+          71,  // G - Find next
+          70,  // F - Find
+          72,  // H - History
+          74,  // J - Downloads
+          68   // D - Bookmark
+        ];
+
+        if (blockedCtrl.includes(e.keyCode)) {
+          e.preventDefault();
+          return false;
+        }
+      }
+
+      // Block Ctrl+Shift combinations
+      if (e.ctrlKey && e.shiftKey) {
+        const blockedCtrlShift = [
+          73,  // I - DevTools Inspector
+          74,  // J - Console
+          67,  // C - Element picker
+          75,  // K - Firefox Console
+          69,  // E - Network panel
+          77,  // M - Responsive mode
+          83,  // S - Save As
+          46,  // Delete - Clear data
+          80,  // P - Print preview
+          68   // D - Bookmark all
+        ];
+
+        if (blockedCtrlShift.includes(e.keyCode)) {
+          e.preventDefault();
+          return false;
+        }
+      }
+
+      // Block Alt combinations
+      if (e.altKey) {
+        const blockedAlt = [
+          115, // F4 - Close window
+          68,  // D - Address bar
+          69,  // E - Edit menu
+          70,  // F - File menu
+          72,  // H - Help menu
+          84,  // T - Tools menu
+          86   // V - View menu
+        ];
+
+        if (blockedAlt.includes(e.keyCode)) {
+          e.preventDefault();
+          return false;
+        }
+      }
+
+      // Block Ctrl+Alt combinations
+      if (e.ctrlKey && e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // Admin mode activation function
+    function activateAdminMode() {
+      if (adminModeActive) {
+        console.log('Admin mode already active');
+        return;
+      }
+
+      adminModeActive = true;
+
+      console.log('%c🔓 ADMIN MODE ACTIVATED', 'color: #10b981; font-size: 20px; font-weight: bold;');
+      console.log('%c- All shortcuts unlocked', 'color: #60a5fa;');
+      console.log('%c- Right-click enabled', 'color: #60a5fa;');
+      console.log('%c- DevTools accessible', 'color: #60a5fa;');
+      console.log('%c- Console logging restored', 'color: #60a5fa;');
+
+      // Stop clearing console
+      clearInterval(consoleClearInterval);
+
+      // Visual notification
+      const notification = document.createElement('div');
+      notification.innerHTML = '🔓 Admin Mode Active';
+      notification.style.cssText = `
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      z-index: 999999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      animation: slideIn 0.3s ease;
+      font-family: system-ui, -apple-system, sans-serif;
+    `;
+      document.body.appendChild(notification);
+
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.style.transition = 'opacity 0.3s ease';
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Detect DevTools opening via debugger
+    (function detectDevTools() {
+      const threshold = 160;
+      let devtoolsOpen = false;
+
+      const emitEvent = (isOpen) => {
+        if (adminModeActive) return; // Skip if admin mode
+        if (isOpen !== devtoolsOpen) {
+          devtoolsOpen = isOpen;
+          if (isOpen) {
+            // DevTools detected
+            console.log('%c⚠️ Developer Tools Detected', 'color: red; font-size: 24px; font-weight: bold;');
+            console.log('%cThis area is protected. Please close Developer Tools.', 'color: orange; font-size: 14px;');
+          }
+        }
+      };
+
+      // Check window size difference (devtools docked)
+      setInterval(() => {
+        if (!adminModeActive) {
+          const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+          const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+          emitEvent(widthThreshold || heightThreshold);
+        }
+      }, 1000);
+
+      // Debugger detection
+      const detectDebugger = () => {
+        const start = performance.now();
+        debugger;
+        const end = performance.now();
+        if (end - start > 100) {
+          emitEvent(true);
+        }
+      };
+
+      // Uncomment below to enable debugger detection (can be annoying)
+      // setInterval(detectDebugger, 3000);
+    })();
+
+    // Disable text selection on the page
+    document.addEventListener('selectstart', function (e) {
+      if (adminModeActive) return true;
+      // Allow selection only in input fields
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return true;
+      }
+      e.preventDefault();
+      return false;
+    });
+
+    // Disable drag and drop
+    document.addEventListener('dragstart', function (e) {
+      if (adminModeActive) return true;
+      e.preventDefault();
+      return false;
+    });
+
+    // Disable copy
+    document.addEventListener('copy', function (e) {
+      if (adminModeActive) return true;
+      // Allow copy only from input fields
+      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // Override console methods to prevent code inspection
+    (function () {
+      const noop = () => { };
+      const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'dirxml', 'group', 'groupCollapsed', 'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'count'];
+
+      // Store original for admin toast functionality
+      window._originalConsoleLog = console.log;
+
+      // Don't completely disable - just clear periodically instead
+      // This keeps the admin panel functional while still protecting
+      // DISABLED FOR DEBUGGING - uncomment when done
+      // consoleClearInterval = setInterval(() => {
+      //   if (!adminModeActive) {
+      //     console.clear();
+      //   }
+      // }, 1000);
+    })();
+  </script>
+  <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
+  <script src="holiday-snowflakes.js"></script>
+</body>
+
+</html>

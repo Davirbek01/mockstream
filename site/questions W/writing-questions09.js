@@ -1,0 +1,299 @@
+// ================================================================================
+// WRITING MOCK TEST - QUESTIONS DATA
+// ================================================================================
+// This file contains all question content for the Writing Mock Test
+// Update this file to change questions across all writing mocks automatically
+// ================================================================================
+
+window.WRITING_TEST_DATA = {
+  "settings": {
+    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoWording": "Mock Stream",
+    "testIdentifier": "mock_stream",
+    "heading1": "Bilim va malakalarni baholash agentligi",
+    "heading2": "Chet tilini bilish darajasi",
+    "examTitle": "Writing exam"
+  },
+  "tasks": {
+    "p1_context": "You are a student at a university.",
+    "p1_scenario": "Dear Students,\n\nOur university is launching a Green Campus Initiative. We plan to install solar panels, create recycling stations, start a campus garden, and reduce single-use plastics. We invite students to share ideas on how to make our campus more environmentally friendly and how to encourage student participation in sustainability efforts.\n\nThe Sustainability Office",
+    "t11": {
+      "title": "Task 1.1",
+      "target": "50–70 words",
+      "prompt": "Write a message to a classmate about the Green Campus Initiative. Share your thoughts and discuss which initiatives you think would be most effective.",
+      "sample": "Hey!\n\nHave you heard about the <span class=\"ml-token colloc\">Green Campus Initiative</span>? I think it's <span class=\"ml-token adv\">really great</span> that the uni is <span class=\"ml-token phrasal\">taking action</span> on this! The <span class=\"ml-token colloc\">campus garden</span> sounds fun – we <span class=\"ml-token modal\">could</span> grow our own veggies! I'm also <span class=\"ml-token adv\">totally</span> on board with <span class=\"ml-token colloc\">reducing plastic waste</span>. Maybe they <span class=\"ml-token modal\">should</span> ban plastic bottles in the cafeteria? What do you think <span class=\"ml-token modal\">would</span> work best?\n\nCatch you in class!\n",
+      "sampleA1": "<p>Hi [Classmate's Name],<br>Green campus! Good?<br>Recycle? Yes!<br>Bye.</p>",
+      "sampleA2": "<p>Hi [Classmate's Name],<br>I see green campus news. It is good. Solar panels are nice, and garden is good too. I think recycle is important because it helps the planet. What do you think? See you!</p>",
+      "sampleB1": "<p>Hey [Classmate's Name],<br>Did you see the email about the Green Campus Initiative? I think it's a good idea. I like the sound of the campus garden; it would be nice to have fresh vegetables. Also, reducing plastic is important. I think the recycling stations would be really effective. What do you think we should do to help?</p>",
+      "sampleB2": "<p>Hi [Classmate's Name],<br>Have you seen the announcement about the Green Campus Initiative? I'm really pleased the university is finally focusing on sustainability. I think the solar panels are a great long-term investment, and the campus garden could be a really nice community space. However, I think reducing single-use plastics will have the most immediate impact. Perhaps a campaign to encourage reusable coffee cups and water bottles? What are your thoughts on the most effective strategies?</p>"
+    },
+    "t12": {
+      "title": "Task 1.2",
+      "target": "120–150 words",
+      "prompt": "Write a formal email to the Sustainability Office responding to their message. Suggest specific initiatives and explain how students could be encouraged to participate.",
+      "sample": "<p>Dear Sustainability Office,</p>\n\n<p>I am writing to express my <span class=\"ml-token colloc\">enthusiastic support</span> for the Green Campus Initiative and to offer some suggestions.</p>\n\n<p><span class=\"ml-token adv\">Firstly</span>, I believe installing <span class=\"ml-token colloc\">water refill stations</span> throughout campus <span class=\"ml-token modal\">would</span> significantly reduce <span class=\"ml-token colloc\">single-use plastic</span> consumption. <span class=\"ml-token adv\">Additionally</span>, creating a <span class=\"ml-token colloc\">student-led eco club</span> <span class=\"ml-token modal\">could</span> help spread awareness and organize <span class=\"ml-token colloc\">environmental activities</span>.</p>\n\n<p>To encourage participation, the university <span class=\"ml-token modal\">might</span> consider offering <span class=\"ml-token colloc\">course credits</span> for sustainability-related volunteer work. <span class=\"ml-token adv\">Furthermore</span>, hosting a monthly <span class=\"ml-token colloc\">eco-challenge</span> with prizes <span class=\"ml-token modal\">could</span> motivate students to adopt <span class=\"ml-token colloc\">greener habits</span>.</p>\n\n<p>The <span class=\"ml-token colloc\">campus garden</span> initiative is <span class=\"ml-token adv\">particularly</span> appealing. Perhaps workshops on <span class=\"ml-token colloc\">sustainable gardening</span> <span class=\"ml-token modal\">could</span> be arranged to engage more students.</p>\n\n<p>I <span class=\"ml-token phrasal\">look forward to</span> contributing to a <span class=\"ml-token colloc\">greener campus</span>.</p>\n\n<p>Yours sincerely,<br>Emily Chen</p>",
+      "sampleA1": "<p>Hi Sustainability Office,<br>I like green campus.<br>Recycle good. Garden good.<br>Bye.</p>",
+      "sampleA2": "<p>Hi,<br>I want a green campus. I think we need more recycling bins, and maybe a garden. It is good for the campus. We can also use less plastic bottles because they are bad. Students can help if we ask them. Thank you.<br>Bye</p>",
+      "sampleB1": "<p>Dear Sustainability Office,<br><br>I am writing about the Green Campus Initiative. I think it is a good idea. I have some ideas.<br><br>First, we could have more places to recycle. Also, maybe we could have a day where people learn about the environment. I think students would like to help if we made it fun. For example, we could have prizes for the best recycling.<br><br>Thank you for listening.<br><br>Sincerely,<br>[Your Name]</p>",
+      "sampleB2": "<p>Dear Sustainability Office,<br><br>I am writing in response to your message about the Green Campus Initiative. I am very supportive of this and have a few suggestions to contribute.<br><br>Firstly, I think it would be beneficial to introduce reusable coffee cups with a discount for students who use them at campus cafes. This would reduce the amount of disposable cups used daily. Furthermore, we could organize workshops on how to live more sustainably, covering topics such as reducing food waste and energy consumption. To encourage student participation, we could create a point system where students earn points for attending sustainability events or participating in green initiatives, which can then be redeemed for rewards like gift cards or university merchandise. Perhaps a social media campaign showcasing student efforts could also motivate others.<br><br>Thank you for considering my suggestions. I look forward to seeing the positive impact of the Green Campus Initiative.<br><br>Yours sincerely,<br>[Your Name]</p>"
+    },
+    "t2": {
+      "title": "Task 2",
+      "target": "180–200 words",
+      "prompt": "You are writing an article for your university newspaper. The topic is: \"Should universities take the lead in promoting environmental sustainability?\" Write your article, giving reasons and examples.",
+      "sample": "<h2>Universities: Pioneers of Environmental Sustainability</h2>\n\n<p>As the world grapples with <span class=\"ml-token colloc\">climate change</span>, the question arises: <span class=\"ml-token modal\">should</span> universities be at the forefront of <span class=\"ml-token colloc\">environmental sustainability</span>? I firmly believe they <span class=\"ml-token modal\">should</span>, and here's why.</p>\n\n<p><span class=\"ml-token adv\">Firstly</span>, universities are <span class=\"ml-token colloc\">hubs of innovation</span>. With access to research facilities and <span class=\"ml-token colloc\">bright minds</span>, they are uniquely positioned to develop <span class=\"ml-token colloc\">sustainable solutions</span>. For example, many universities have pioneered <span class=\"ml-token colloc\">renewable energy</span> technologies that are now used globally.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, universities shape <span class=\"ml-token colloc\">future leaders</span>. By embedding <span class=\"ml-token colloc\">sustainability principles</span> into education, they can ensure that graduates carry these values into their careers. Students who experience <span class=\"ml-token colloc\">green campuses</span> are more likely to advocate for <span class=\"ml-token colloc\">environmental responsibility</span> in their workplaces.</p>\n\n<p><span class=\"ml-token adv\">Furthermore</span>, universities have <span class=\"ml-token colloc\">significant carbon footprints</span>. With thousands of students and staff, implementing <span class=\"ml-token colloc\">eco-friendly practices</span> <span class=\"ml-token modal\">could</span> have a <span class=\"ml-token colloc\">substantial impact</span>.</p>\n\n<p>However, <span class=\"ml-token colloc\">meaningful change</span> requires commitment. Universities <span class=\"ml-token modal\">must</span> allocate resources and involve students in <span class=\"ml-token colloc\">decision-making processes</span>.</p>\n\n<p><span class=\"ml-token adv\">Ultimately</span>, universities have both the capacity and the responsibility to lead by example. The <span class=\"ml-token idiom\">time to act</span> is now.</p>",
+      "sampleA1": "<p>Hi!<br>I like green campus. Trees good. Recycle good. No plastic good. Bye!</p>",
+      "sampleA2": "<p>Hello,<br>I think university should be green. It is important for the world. We can recycle paper and plastic. And we can have a garden. It is good for us and good for animals. But some students don't care. We need to tell them why it is important. Thank you.</p>",
+      "sampleB1": "<p>Should universities be more green? I think yes. It's very important for the environment. For example, we can recycle more things like paper and bottles. Also, the university could use less plastic. That would be good. I think students should help too. We can have a club to clean up the campus and plant trees. However, it's not easy. Some people don't care about recycling. But if we all try, we can make a difference. In my opinion, the university should show us how to be more environmentally friendly.</p>",
+      "sampleB2": "<p>Universities play a crucial role in shaping future generations, and therefore, they should definitely take the lead in promoting environmental sustainability. There are several reasons why this is important.<br><br>Firstly, universities are centers of knowledge and innovation. They can research and develop new technologies and practices that reduce our impact on the environment. For instance, universities can invest in renewable energy sources like solar power and wind turbines.<br><br>Secondly, universities educate future leaders. By integrating sustainability into the curriculum, they can equip students with the knowledge and skills to address environmental challenges in their future careers. This includes teaching about climate change, resource management, and sustainable development.<br><br>Finally, universities can serve as models for other institutions and communities. By implementing sustainable practices on campus, such as reducing waste, conserving energy, and promoting sustainable transportation, they can demonstrate the benefits of environmental responsibility. However, it requires a concerted effort from both the university administration and the students. It's time to make changes.</p>"
+    }
+  },
+  "vocabulary": {
+    "task11": [
+      {
+        "en": "have you heard",
+        "uz": "eshitdingizmi"
+      },
+      {
+        "en": "really great",
+        "uz": "juda ajoyib"
+      },
+      {
+        "en": "taking action",
+        "uz": "harakat qilmoq"
+      },
+      {
+        "en": "sounds fun",
+        "uz": "qiziqarli eshitiladi"
+      },
+      {
+        "en": "on board with",
+        "uz": "qo'llab-quvvatlayman"
+      },
+      {
+        "en": "reducing waste",
+        "uz": "chiqindilarni kamaytirish"
+      },
+      {
+        "en": "ban plastic",
+        "uz": "plastikni taqiqlash"
+      },
+      {
+        "en": "catch you later",
+        "uz": "keyinroq ko'rishamiz"
+      },
+      {
+        "en": "grow our own",
+        "uz": "o'zimiz yetishtirish"
+      },
+      {
+        "en": "what do you think",
+        "uz": "nima deb o'ylaysiz"
+      },
+      {
+        "en": "eco-friendly",
+        "uz": "ekologik"
+      },
+      {
+        "en": "campus garden",
+        "uz": "kampus bog'i"
+      },
+      {
+        "en": "green stuff",
+        "uz": "yashil narsalar"
+      },
+      {
+        "en": "pretty cool",
+        "uz": "juda ajoyib"
+      },
+      {
+        "en": "totally agree",
+        "uz": "to'liq qo'shilaman"
+      },
+      {
+        "en": "should try",
+        "uz": "sinab ko'rish kerak"
+      },
+      {
+        "en": "plastic bottles",
+        "uz": "plastik shishalar"
+      },
+      {
+        "en": "recycling bins",
+        "uz": "qayta ishlash qutilari"
+      },
+      {
+        "en": "makes sense",
+        "uz": "mantiqan to'g'ri"
+      },
+      {
+        "en": "see you soon",
+        "uz": "tez orada ko'rishamiz"
+      }
+    ],
+    "task12": [
+      {
+        "en": "Dear Office",
+        "uz": "Hurmatli Ofis"
+      },
+      {
+        "en": "enthusiastic support",
+        "uz": "g'ayratli qo'llab-quvvatlash"
+      },
+      {
+        "en": "offer suggestions",
+        "uz": "takliflar bermoq"
+      },
+      {
+        "en": "water refill stations",
+        "uz": "suv to'ldirish stansiyalari"
+      },
+      {
+        "en": "single-use plastic",
+        "uz": "bir martalik plastik"
+      },
+      {
+        "en": "student-led club",
+        "uz": "talabalar boshchiligidagi klub"
+      },
+      {
+        "en": "spread awareness",
+        "uz": "xabardorlikni oshirmoq"
+      },
+      {
+        "en": "environmental activities",
+        "uz": "ekologik tadbirlar"
+      },
+      {
+        "en": "course credits",
+        "uz": "kurs kreditlari"
+      },
+      {
+        "en": "volunteer work",
+        "uz": "ko'ngillilik ishi"
+      },
+      {
+        "en": "eco-challenge",
+        "uz": "eko-musobaqa"
+      },
+      {
+        "en": "greener habits",
+        "uz": "yashilroq odatlar"
+      },
+      {
+        "en": "sustainable gardening",
+        "uz": "barqaror bog'dorchilik"
+      },
+      {
+        "en": "engage students",
+        "uz": "talabalarni jalb qilmoq"
+      },
+      {
+        "en": "look forward to",
+        "uz": "intiqlik bilan kutmoq"
+      },
+      {
+        "en": "greener campus",
+        "uz": "yashilroq kampus"
+      },
+      {
+        "en": "yours sincerely",
+        "uz": "hurmat bilan"
+      },
+      {
+        "en": "particularly appealing",
+        "uz": "ayniqsa jozibador"
+      },
+      {
+        "en": "motivate participation",
+        "uz": "ishtirokni rag'batlantirmoq"
+      },
+      {
+        "en": "reduce consumption",
+        "uz": "iste'molni kamaytirmoq"
+      }
+    ],
+    "task2": [
+      {
+        "en": "climate change",
+        "uz": "iqlim o'zgarishi"
+      },
+      {
+        "en": "environmental sustainability",
+        "uz": "ekologik barqarorlik"
+      },
+      {
+        "en": "hubs of innovation",
+        "uz": "innovatsiya markazlari"
+      },
+      {
+        "en": "sustainable solutions",
+        "uz": "barqaror yechimlar"
+      },
+      {
+        "en": "renewable energy",
+        "uz": "qayta tiklanadigan energiya"
+      },
+      {
+        "en": "future leaders",
+        "uz": "kelajak liderlari"
+      },
+      {
+        "en": "sustainability principles",
+        "uz": "barqarorlik tamoyillari"
+      },
+      {
+        "en": "green campuses",
+        "uz": "yashil kampuslar"
+      },
+      {
+        "en": "environmental responsibility",
+        "uz": "ekologik mas'uliyat"
+      },
+      {
+        "en": "carbon footprints",
+        "uz": "uglerod izlari"
+      },
+      {
+        "en": "eco-friendly practices",
+        "uz": "ekologik amaliyotlar"
+      },
+      {
+        "en": "substantial impact",
+        "uz": "sezilarli ta'sir"
+      },
+      {
+        "en": "meaningful change",
+        "uz": "mazmunli o'zgarish"
+      },
+      {
+        "en": "allocate resources",
+        "uz": "resurslarni ajratmoq"
+      },
+      {
+        "en": "decision-making processes",
+        "uz": "qaror qabul qilish jarayonlari"
+      },
+      {
+        "en": "lead by example",
+        "uz": "namuna ko'rsatmoq"
+      },
+      {
+        "en": "time to act",
+        "uz": "harakat qilish vaqti"
+      },
+      {
+        "en": "bright minds",
+        "uz": "yorqin onglar"
+      },
+      {
+        "en": "pioneered technologies",
+        "uz": "kashshof texnologiyalar"
+      },
+      {
+        "en": "global impact",
+        "uz": "global ta'sir"
+      }
+    ]
+  }
+};

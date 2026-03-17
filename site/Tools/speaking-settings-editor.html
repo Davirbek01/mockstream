@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings Editor - IELTS Speaking Mock Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      background: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin: 0;
+      flex: 1;
+      text-align: left;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .download-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      filter: brightness(1.1);
+    }
+
+    .download-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .left-panel {
+      padding: 30px;
+      overflow-y: auto;
+      height: 100%;
+      border-right: 3px solid #e5e7eb;
+    }
+
+    .right-panel {
+      padding: 30px;
+      background: #f9fafb;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .section {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f9fafb;
+      border-radius: 15px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+
+    .input-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .input-group textarea.large {
+      min-height: 150px;
+    }
+
+    .input-group small {
+      display: block;
+      color: #6b7280;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .collapsible-header:hover {
+      opacity: 0.8;
+    }
+
+    .collapse-icon {
+      font-size: 18px;
+      transition: transform 0.3s;
+    }
+
+    .collapsed .collapse-icon {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+      display: block;
+    }
+
+    .collapsed .collapsible-content {
+      display: none;
+    }
+
+    .question-section {
+      background: #fef9e7;
+      border: 2px solid #fcd34d;
+    }
+
+    .question-section h2 {
+      color: #b45309;
+    }
+
+    .question-badge {
+      background: #667eea;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .image-section {
+      background: #ede9fe;
+      border: 2px solid #c4b5fd;
+    }
+
+    .image-section h2 {
+      color: #5b21b6;
+    }
+
+    .questions-edit-section {
+      display: none;
+    }
+
+    .questions-edit-section.show {
+      display: block;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-input-button {
+      display: block;
+      padding: 30px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border: 3px dashed #3b82f6;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .file-input-button:hover {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border-color: #2563eb;
+    }
+
+    .file-input-button span {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .file-input-button p {
+      color: #1e40af;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .loaded-file-info {
+      background: #f0fdf4;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .loaded-file-info.show {
+      display: block;
+    }
+
+    .loaded-file-info h3 {
+      color: #065f46;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .loaded-file-info p {
+      color: #047857;
+      font-size: 13px;
+    }
+
+    .preview-window {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .preview-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 10px;
+      border: 3px solid #e5e7eb;
+    }
+
+    .preview-channel {
+      display: inline-block;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .preview-title {
+      font-size: 18px;
+      color: #1f2937;
+      margin: 15px 0 8px 0;
+      font-weight: 700;
+    }
+
+    .preview-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .preview-section {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .preview-section h3 {
+      color: #667eea;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .preview-item {
+      background: #f9fafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .preview-item strong {
+      color: #374151;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .preview-item span {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .right-panel {
+        display: none;
+      }
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>⚙️ Settings Editor</h1>
+      <div class="header-buttons">
+        <button class="download-btn" onclick="saveSettings()" id="saveBtn" disabled>
+          💾 Save & Download
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content: Left Panel (Settings) + Right Panel (Preview) -->
+    <div class="main-content">
+      
+      <!-- LEFT PANEL: Settings Form -->
+      <div class="left-panel">
+        
+        <!-- Load File Section -->
+        <div class="section">
+          <h2>📂 Load questions.js File</h2>
+          <div class="file-input-wrapper">
+            <input type="file" id="fileInput" accept=".js" onchange="loadQuestionsFile(event)">
+            <div class="file-input-button">
+              <span>📁</span>
+              <p>Drop or click to load questions.js</p>
+            </div>
+          </div>
+          <div id="fileInfo" class="loaded-file-info">
+            <h3>✅ Loaded</h3>
+            <p id="fileName"></p>
+          </div>
+        </div>
+
+        <!-- Settings Form (Hidden until file is loaded) -->
+        <div id="settingsForm" style="display:none;">
+          
+          <!-- Global Settings -->
+          <div class="section">
+            <h2>🎨 Global Settings</h2>
+            <div class="input-group">
+              <label>Logo URL</label>
+              <input type="text" id="logoUrl" oninput="updatePreview()">
+              <small>Image URL for your logo</small>
+            </div>
+            <div class="input-group">
+              <label>Logo Wording</label>
+              <input type="text" id="logoWording" oninput="updatePreview()">
+              <small>Text displayed below logo</small>
+            </div>
+            <div class="input-group">
+              <label>Telegram Channel</label>
+              <input type="text" id="telegramChannel" oninput="updatePreview()">
+              <small>@username format</small>
+            </div>
+            <div class="input-group">
+              <label>Test Identifier</label>
+              <input type="text" id="testIdentifier" oninput="updatePreview()">
+              <small>Short code (e.g., SM, MT)</small>
+            </div>
+          </div>
+
+          <!-- Headings -->
+          <div class="section">
+            <h2>📝 Test Headings</h2>
+            <div class="input-group">
+              <label>Heading 1</label>
+              <input type="text" id="heading1" oninput="updatePreview()">
+            </div>
+            <div class="input-group">
+              <label>Heading 2</label>
+              <input type="text" id="heading2" oninput="updatePreview()">
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- Questions Edit Section (shown after file load) -->
+        <div class="questions-edit-section" id="questionsEditSection">
+          
+          <!-- Part 2 Images (Q4, Q5, Q6) -->
+          <div class="section image-section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>🖼️ Images for Q4, Q5, Q6</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <div class="input-group">
+                <label>Image 1 URL</label>
+                <input type="text" id="editImg1" oninput="updateQuestionsFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Image 1 Alt Text</label>
+                <input type="text" id="editImg1Alt" oninput="updateQuestionsFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Image 2 URL</label>
+                <input type="text" id="editImg2" oninput="updateQuestionsFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Image 2 Alt Text</label>
+                <input type="text" id="editImg2Alt" oninput="updateQuestionsFromEdit()">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Questions will be dynamically generated here -->
+          <div id="questionsContainer"></div>
+          
+        </div>
+        
+      </div>
+
+      <!-- RIGHT PANEL: Live Preview -->
+      <div class="right-panel">
+        <div class="preview-window">
+          <div class="preview-header">
+            <img id="previewLogo" class="preview-logo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo">
+            <div id="previewLogoText" style="font-weight:700;font-size:16px;color:#667eea;">Mock Stream</div>
+            <a id="previewChannel" class="preview-channel" href="https://t.me/mock_stream" target="_blank">@mock_stream</a>
+            <h3 id="previewHeading1" class="preview-title"></h3>
+            <h4 id="previewHeading2" class="preview-subtitle"></h4>
+          </div>
+
+          <div class="preview-section">
+            <h3>⚙️ Current Settings</h3>
+            <div class="preview-item">
+              <strong>Test Identifier:</strong>
+              <span id="previewTestId">-</span>
+            </div>
+            <div class="preview-item">
+              <strong>Logo URL:</strong>
+              <span id="previewLogoUrl" style="word-break:break-all;font-size:11px;">-</span>
+            </div>
+            <div class="preview-item">
+              <strong>Telegram:</strong>
+              <span id="previewTelegram">-</span>
+            </div>
+          </div>
+          
+          <!-- Images Preview (shown after file load) -->
+          <div class="preview-section" id="imagesPreviewSection" style="display: none;">
+            <h3>🖼️ Images for Q4, Q5, Q6</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 120px;">
+                <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;">Image 1</div>
+                <img id="previewImg1" src="" alt="" style="width: 100%; max-height: 150px; object-fit: contain; border-radius: 6px; border: 1px solid #e5e7eb; background: #f9fafb;">
+              </div>
+              <div style="flex: 1; min-width: 120px;">
+                <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;">Image 2</div>
+                <img id="previewImg2" src="" alt="" style="width: 100%; max-height: 150px; object-fit: contain; border-radius: 6px; border: 1px solid #e5e7eb; background: #f9fafb;">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Questions Preview (shown after file load) -->
+          <div class="preview-section" id="questionsPreviewSection" style="display: none;">
+            <h3>🎤 Questions Overview</h3>
+            <div id="questionsPreviewList"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let loadedData = null;
+    let loadedFileName = '';
+
+    function loadQuestionsFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      loadedFileName = file.name;
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        try {
+          let content = e.target.result;
+          
+          // Create a temporary script element to execute the file
+          const scriptTag = document.createElement('script');
+          scriptTag.textContent = content;
+          document.head.appendChild(scriptTag);
+          
+          // Get the data from global scope
+          if (typeof window.SPEAKING_TEST_DATA !== 'undefined') {
+            loadedData = window.SPEAKING_TEST_DATA;
+          } else if (typeof window.questionsData !== 'undefined') {
+            loadedData = window.questionsData;
+          } else {
+            throw new Error('No valid data found. File must contain SPEAKING_TEST_DATA or questionsData.');
+          }
+          
+          // Remove the script tag
+          document.head.removeChild(scriptTag);
+
+          // Show success message
+          document.getElementById('fileName').textContent = `File: ${loadedFileName}`;
+          document.getElementById('fileInfo').classList.add('show');
+
+          // Populate form with existing values
+          populateForm();
+
+          // Show settings form
+          document.getElementById('settingsForm').style.display = 'block';
+          
+          // Enable save button
+          document.getElementById('saveBtn').disabled = false;
+
+          // Update preview
+          updatePreview();
+
+        } catch (error) {
+          alert('Error loading file: ' + error.message + '\n\nMake sure this is a valid questions.js file from the test-builder.');
+          console.error(error);
+        }
+      };
+
+      reader.readAsText(file);
+    }
+
+    function populateForm() {
+      if (!loadedData || !loadedData.settings) return;
+
+      const settings = loadedData.settings;
+
+      // Populate global settings
+      document.getElementById('logoUrl').value = settings.logoUrl || '';
+      document.getElementById('logoWording').value = settings.logoWording || '';
+      document.getElementById('telegramChannel').value = settings.telegramChannel || '';
+      document.getElementById('testIdentifier').value = settings.testIdentifier || '';
+      document.getElementById('heading1').value = settings.heading1 || '';
+      document.getElementById('heading2').value = settings.heading2 || '';
+      
+      // Show questions edit section
+      document.getElementById('questionsEditSection').classList.add('show');
+      
+      // Populate images
+      if (loadedData.images) {
+        document.getElementById('editImg1').value = loadedData.images.img1 || '';
+        document.getElementById('editImg1Alt').value = loadedData.images.img1Alt || '';
+        document.getElementById('editImg2').value = loadedData.images.img2 || '';
+        document.getElementById('editImg2Alt').value = loadedData.images.img2Alt || '';
+      }
+      
+      // Generate question editing fields
+      generateQuestionFields();
+    }
+    
+    function generateQuestionFields() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+      
+      if (!loadedData.questions) return;
+      
+      loadedData.questions.forEach((q, index) => {
+        const partClass = q.part === 'Part 1' ? '' : (q.part === 'Part 2' ? 'image-section' : 'question-section');
+        const section = document.createElement('div');
+        section.className = `section question-section`;
+        section.innerHTML = `
+          <div class="collapsible-header" onclick="toggleSection(this)">
+            <h2>
+              🎤 Q${q.number} - ${q.part}
+              <span class="question-badge">${q.badge}</span>
+            </h2>
+            <span class="collapse-icon">▼</span>
+          </div>
+          <div class="collapsible-content collapsed-content">
+            <div class="input-group">
+              <label>Prompt</label>
+              <textarea id="editQ${index}Prompt" oninput="updateQuestionFromEdit(${index})">${q.prompt || ''}</textarea>
+            </div>
+            <div class="input-group">
+              <label>Prep Time (seconds)</label>
+              <input type="number" id="editQ${index}PrepTime" value="${q.prepTime || 5}" oninput="updateQuestionFromEdit(${index})">
+            </div>
+            <div class="input-group">
+              <label>Speak Time (seconds)</label>
+              <input type="number" id="editQ${index}SpeakTime" value="${q.speakTime || 30}" oninput="updateQuestionFromEdit(${index})">
+            </div>
+            <div class="input-group">
+              <label>Sample Answer (HTML supported)</label>
+              <textarea id="editQ${index}Sample" class="large" oninput="updateQuestionFromEdit(${index})">${escapeHtml(q.sampleAnswer || '')}</textarea>
+            </div>
+            <div class="input-group">
+              <label>Vocabulary - Sentence Starters (one per line)</label>
+              <textarea id="editQ${index}VocabStarters" oninput="updateQuestionFromEdit(${index})">${(q.vocabulary?.sentenceStarters || []).join('\n')}</textarea>
+            </div>
+            <div class="input-group">
+              <label>Vocabulary - Phrases (one per line, HTML supported)</label>
+              <textarea id="editQ${index}VocabPhrases" oninput="updateQuestionFromEdit(${index})">${(q.vocabulary?.phrases || []).join('\n')}</textarea>
+            </div>
+            <div class="input-group">
+              <label>Vocabulary - Idioms (one per line, HTML supported)</label>
+              <textarea id="editQ${index}VocabIdioms" oninput="updateQuestionFromEdit(${index})">${(q.vocabulary?.idioms || []).join('\n')}</textarea>
+            </div>
+          </div>
+        `;
+        // Start collapsed by default
+        section.classList.add('collapsed');
+        container.appendChild(section);
+      });
+    }
+    
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+    
+    function unescapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+    }
+    
+    function updateQuestionFromEdit(index) {
+      if (!loadedData.questions || !loadedData.questions[index]) return;
+      
+      const q = loadedData.questions[index];
+      
+      q.prompt = document.getElementById(`editQ${index}Prompt`).value;
+      q.prepTime = parseInt(document.getElementById(`editQ${index}PrepTime`).value) || 5;
+      q.speakTime = parseInt(document.getElementById(`editQ${index}SpeakTime`).value) || 30;
+      q.sampleAnswer = unescapeHtml(document.getElementById(`editQ${index}Sample`).value);
+      
+      // Update vocabulary
+      if (!q.vocabulary) {
+        q.vocabulary = { title: '', sentenceStarters: [], phrases: [], idioms: [] };
+      }
+      q.vocabulary.sentenceStarters = document.getElementById(`editQ${index}VocabStarters`).value.split('\n').filter(s => s.trim());
+      q.vocabulary.phrases = document.getElementById(`editQ${index}VocabPhrases`).value.split('\n').filter(s => s.trim());
+      q.vocabulary.idioms = document.getElementById(`editQ${index}VocabIdioms`).value.split('\n').filter(s => s.trim());
+      
+      hasUnsavedChanges = true;
+      updateQuestionsPreview();
+    }
+    
+    function updateQuestionsFromEdit() {
+      if (!loadedData.images) {
+        loadedData.images = {};
+      }
+      
+      loadedData.images.img1 = document.getElementById('editImg1').value;
+      loadedData.images.img1Alt = document.getElementById('editImg1Alt').value;
+      loadedData.images.img2 = document.getElementById('editImg2').value;
+      loadedData.images.img2Alt = document.getElementById('editImg2Alt').value;
+      
+      hasUnsavedChanges = true;
+      updateImagesPreview();
+    }
+    
+    function toggleSection(header) {
+      const section = header.closest('.section');
+      section.classList.toggle('collapsed');
+    }
+
+    function updatePreview() {
+      // Update logo
+      const logoUrl = document.getElementById('logoUrl').value;
+      document.getElementById('previewLogo').src = logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      document.getElementById('previewLogoUrl').textContent = logoUrl || '-';
+
+      // Update logo text
+      const logoWording = document.getElementById('logoWording').value;
+      document.getElementById('previewLogoText').textContent = logoWording || 'Mock Stream';
+
+      // Update telegram
+      const telegram = document.getElementById('telegramChannel').value;
+      document.getElementById('previewChannel').textContent = telegram || '@mock_stream';
+      document.getElementById('previewChannel').href = `https://t.me/${telegram.replace('@', '')}`;
+      document.getElementById('previewTelegram').textContent = telegram || '-';
+
+      // Update headings
+      const heading1 = document.getElementById('heading1').value;
+      const heading2 = document.getElementById('heading2').value;
+      document.getElementById('previewHeading1').textContent = heading1 || '';
+      document.getElementById('previewHeading2').textContent = heading2 || '';
+
+      // Update test identifier
+      const testId = document.getElementById('testIdentifier').value;
+      document.getElementById('previewTestId').textContent = testId || '-';
+      
+      // Update images preview if loaded
+      if (loadedData && loadedData.images) {
+        updateImagesPreview();
+      }
+      
+      // Update questions preview if loaded
+      if (loadedData && loadedData.questions) {
+        updateQuestionsPreview();
+      }
+    }
+    
+    function updateImagesPreview() {
+      const previewSection = document.getElementById('imagesPreviewSection');
+      
+      if (!loadedData || !loadedData.images) {
+        previewSection.style.display = 'none';
+        return;
+      }
+      
+      previewSection.style.display = 'block';
+      
+      const img1 = document.getElementById('editImg1')?.value || loadedData.images.img1 || '';
+      const img1Alt = document.getElementById('editImg1Alt')?.value || loadedData.images.img1Alt || '';
+      const img2 = document.getElementById('editImg2')?.value || loadedData.images.img2 || '';
+      const img2Alt = document.getElementById('editImg2Alt')?.value || loadedData.images.img2Alt || '';
+      
+      document.getElementById('previewImg1').src = img1;
+      document.getElementById('previewImg1').alt = img1Alt;
+      document.getElementById('previewImg2').src = img2;
+      document.getElementById('previewImg2').alt = img2Alt;
+    }
+    
+    function updateQuestionsPreview() {
+      const previewSection = document.getElementById('questionsPreviewSection');
+      const previewList = document.getElementById('questionsPreviewList');
+      
+      if (!loadedData || !loadedData.questions) {
+        previewSection.style.display = 'none';
+        return;
+      }
+      
+      previewSection.style.display = 'block';
+      previewList.innerHTML = '';
+      
+      loadedData.questions.forEach((q, index) => {
+        // Strip HTML tags for preview
+        const stripHtml = (html) => html ? html.replace(/<[^>]*>/g, '') : '';
+        const sampleText = stripHtml(q.sampleAnswer || '');
+        
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+        item.style.marginBottom = '12px';
+        item.style.paddingBottom = '10px';
+        item.style.borderBottom = '1px solid #e5e7eb';
+        item.innerHTML = `
+          <strong style="color: #4f46e5;">Q${q.number} (${q.part}) - ${q.badge}</strong>
+          <div style="margin-top: 4px; font-size: 12px; color: #374151;">
+            <strong>Prompt:</strong> ${q.prompt || '<em>No prompt</em>'}
+          </div>
+          <div style="margin-top: 6px;">
+            <div onclick="toggleSamplePreview(${index})" style="cursor: pointer; font-size: 11px; color: #059669; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              <span id="sampleToggle${index}">▶</span> Sample Answer
+            </div>
+            <div id="sampleContent${index}" style="display: none; margin-top: 6px; font-size: 11px; color: #065f46; background: #ecfdf5; padding: 8px 10px; border-radius: 6px; max-height: 200px; overflow-y: auto; line-height: 1.5;">
+              ${sampleText || '<em>No sample answer</em>'}
+            </div>
+          </div>
+        `;
+        previewList.appendChild(item);
+      });
+    }
+    
+    function toggleSamplePreview(index) {
+      const content = document.getElementById(`sampleContent${index}`);
+      const toggle = document.getElementById(`sampleToggle${index}`);
+      
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggle.textContent = '▼';
+      } else {
+        content.style.display = 'none';
+        toggle.textContent = '▶';
+      }
+    }
+
+    function saveSettings() {
+      if (!loadedData) {
+        alert('Please load a questions.js file first!');
+        return;
+      }
+
+      // Update settings from form
+      loadedData.settings = {
+        ...loadedData.settings,
+        logoUrl: document.getElementById('logoUrl').value.trim(),
+        logoWording: document.getElementById('logoWording').value.trim(),
+        telegramChannel: document.getElementById('telegramChannel').value.trim(),
+        testIdentifier: document.getElementById('testIdentifier').value.trim(),
+        heading1: document.getElementById('heading1').value.trim(),
+        heading2: document.getElementById('heading2').value.trim()
+      };
+      
+      // Images are already updated via updateQuestionsFromEdit
+      // Questions are already updated via updateQuestionFromEdit
+      
+      const updatedData = loadedData;
+
+      // Prompt user for mock number
+      const mockNum = prompt('Enter mock test number (01-99):', '01');
+      if (!mockNum) {
+        alert('Download cancelled.');
+        return;
+      }
+      
+      // Parse and validate number
+      const num = parseInt(mockNum);
+      if (isNaN(num) || num < 1 || num > 99) {
+        alert('Please enter a valid number between 1 and 99.');
+        return;
+      }
+      
+      // Format filename with padding
+      const paddedNum = num.toString().padStart(2, '0');
+      const filename = num === 1 ? 'questions.js' : `questions${paddedNum}.js`;
+
+      // Generate JavaScript file content
+      const fileContent = `// ================================================================================
+// SPEAKING MOCK TEST - QUESTIONS DATA
+// ================================================================================
+// This file contains all question content for the Speaking Mock Test
+// Update this file to change questions across all 9 sections automatically
+// ================================================================================
+
+window.SPEAKING_TEST_DATA = ${JSON.stringify(updatedData, null, 2)};
+`;
+
+      // Create blob and download
+      const blob = new Blob([fileContent], { type: 'application/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert(`✅ ${filename} downloaded successfully!\n\nPlace it in your project folder.`);
+    }
+
+    function resetForm() {
+      if (confirm('Reset to original values from the loaded file?')) {
+        populateForm();
+        updatePreview();
+      }
+    }
+
+    // Drag and drop support
+    const fileInputWrapper = document.querySelector('.file-input-wrapper');
+    
+    if (fileInputWrapper) {
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        fileInputWrapper.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        fileInputWrapper.addEventListener(eventName, () => {
+          fileInputWrapper.querySelector('.file-input-button').style.borderColor = '#2563eb';
+          fileInputWrapper.querySelector('.file-input-button').style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)';
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        fileInputWrapper.addEventListener(eventName, () => {
+          fileInputWrapper.querySelector('.file-input-button').style.borderColor = '#3b82f6';
+          fileInputWrapper.querySelector('.file-input-button').style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+        });
+      });
+
+      fileInputWrapper.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          document.getElementById('fileInput').files = files;
+          loadQuestionsFile({ target: { files: files } });
+        }
+      });
+    }
+
+    /* ===== Exit Protection ===== */
+    let hasUnsavedChanges = false;
+    
+    // Track changes on all input fields (use event delegation for dynamic fields)
+    document.addEventListener('input', (e) => {
+      if (e.target.matches('input, textarea')) {
+        hasUnsavedChanges = true;
+      }
+    });
+    
+    // Reset flag when file is downloaded
+    document.getElementById('saveBtn')?.addEventListener('click', () => {
+      setTimeout(() => { hasUnsavedChanges = false; }, 500);
+    });
+    
+    // Warn before exit/refresh
+    window.addEventListener('beforeunload', (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing Settings Editor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      background: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin: 0;
+      flex: 1;
+      text-align: left;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .left-panel {
+      padding: 30px;
+      overflow-y: auto;
+      height: 100%;
+      border-right: 3px solid #e5e7eb;
+    }
+
+    .right-panel {
+      padding: 30px;
+      background: #f9fafb;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .section {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f9fafb;
+      border-radius: 15px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.3s;
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .input-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+
+    .input-group textarea.large {
+      min-height: 150px;
+    }
+
+    .task-edit-section {
+      display: none;
+    }
+
+    .task-edit-section.show {
+      display: block;
+    }
+
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .collapsible-header:hover {
+      opacity: 0.8;
+    }
+
+    .collapse-icon {
+      font-size: 18px;
+      transition: transform 0.3s;
+    }
+
+    .collapsed .collapse-icon {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+      display: block;
+    }
+
+    .collapsed .collapsible-content {
+      display: none;
+    }
+
+    .preview-window {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .preview-header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .preview-logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 15px;
+      object-fit: contain;
+    }
+
+    .preview-logo-text {
+      font-weight: 700;
+      color: #667eea;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .preview-test-id {
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .preview-heading {
+      font-size: 13px;
+      color: #374151;
+      margin: 5px 0;
+    }
+
+    .preview-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-top: 15px;
+    }
+
+    .info-box {
+      background: #dbeafe;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .info-box p {
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.6;
+      margin: 5px 0;
+    }
+
+    .file-upload-area {
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .file-upload-area:hover {
+      border-color: #667eea;
+      background: #f9fafb;
+    }
+
+    .file-upload-area.drag-over {
+      border-color: #667eea;
+      background: #ede9fe;
+    }
+
+    .upload-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .upload-text {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* Task Preview Styles */
+    .task-preview {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px solid #e5e7eb;
+      display: none;
+    }
+
+    .task-preview.show {
+      display: block;
+    }
+
+    .task-section {
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .task-section h4 {
+      color: #667eea;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .task-section .task-label {
+      background: #667eea;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .task-section .target-badge {
+      background: #10b981;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+
+    .task-prompt {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: white;
+      border-radius: 6px;
+      border-left: 3px solid #667eea;
+    }
+
+    .task-sample {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+      padding: 10px;
+      background: #fef3c7;
+      border-radius: 6px;
+      border-left: 3px solid #f59e0b;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .task-sample-label {
+      font-weight: 600;
+      color: #92400e;
+      font-size: 11px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .vocab-section {
+      background: #ecfdf5;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid #a7f3d0;
+    }
+
+    .vocab-section h4 {
+      color: #059669;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .vocab-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .vocab-item {
+      background: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 11px;
+      color: #374151;
+      border: 1px solid #d1fae5;
+    }
+
+    .scenario-box {
+      background: #fef9e7;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #fcd34d;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #92400e;
+    }
+
+    .scenario-label {
+      font-weight: 700;
+      color: #b45309;
+      font-size: 12px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .context-box {
+      background: #ede9fe;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #5b21b6;
+      font-style: italic;
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⚙️ Writing Test Settings Editor</h1>
+      <div class="header-buttons">
+        <button class="btn btn-secondary" onclick="loadFromFile()">📁 Load from File</button>
+        <button class="btn" onclick="downloadSettings()">⬇️ Download Settings</button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <!-- Left Panel: Editor -->
+      <div class="left-panel">
+        
+        <div class="section">
+          <h2>🖼️ Branding Settings</h2>
+          
+          <div class="input-group">
+            <label>Logo URL</label>
+            <input type="text" id="logoUrl" value="https://i.ibb.co/WN0XY5Lv/logo.png" oninput="updatePreview()">
+          </div>
+          
+          <div class="input-group">
+            <label>Logo Wording (e.g., Mock Stream)</label>
+            <input type="text" id="logoWording" value="Mock Stream" oninput="updatePreview()">
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>📋 Test Information</h2>
+          
+          <div class="input-group">
+            <label>Test Identifier (e.g., WM-10)</label>
+            <input type="text" id="testIdentifier" value="WM-10" oninput="updatePreview()">
+          </div>
+          
+          <div class="input-group">
+            <label>Heading 1</label>
+            <input type="text" id="heading1" value="Bilim va malakalarni baholash agentligi" oninput="updatePreview()">
+          </div>
+          
+          <div class="input-group">
+            <label>Heading 2</label>
+            <input type="text" id="heading2" value="Chet tilini bilish darajasi" oninput="updatePreview()">
+          </div>
+          
+          <div class="input-group">
+            <label>Exam Title</label>
+            <input type="text" id="examTitle" value="Writing exam" oninput="updatePreview()">
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>📂 Load Existing Settings</h2>
+          <div class="file-upload-area" onclick="document.getElementById('fileInput').click()" id="dropZone">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">
+              Click or drag writing-questions.js file here
+            </div>
+          </div>
+          <input type="file" id="fileInput" accept=".js" onchange="handleFileSelect(event)">
+        </div>
+        
+        <!-- Task Editing Sections (shown after file upload) -->
+        <div class="task-edit-section" id="taskEditSection">
+          
+          <!-- Part 1 Context & Scenario -->
+          <div class="section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>📧 Part 1 Context & Scenario</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <div class="input-group">
+                <label>Context (Brief intro)</label>
+                <input type="text" id="editContext" placeholder="e.g., You are a member of the Music Club..." oninput="updateTaskPreviewFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Scenario (Email/Letter content)</label>
+                <textarea id="editScenario" class="large" placeholder="Dear Member,&#10;&#10;Write the scenario here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Task 1.1 -->
+          <div class="section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>✏️ Task 1.1</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <div class="input-group">
+                <label>Word Target</label>
+                <input type="text" id="editT11Target" value="50–70 words" oninput="updateTaskPreviewFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Prompt</label>
+                <textarea id="editT11Prompt" placeholder="Write the task prompt here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Sample Answer (can include HTML for highlighting)</label>
+                <textarea id="editT11Sample" class="large" placeholder="Write the sample answer here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Task 1.2 -->
+          <div class="section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>✏️ Task 1.2</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <div class="input-group">
+                <label>Word Target</label>
+                <input type="text" id="editT12Target" value="120–150 words" oninput="updateTaskPreviewFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Prompt</label>
+                <textarea id="editT12Prompt" placeholder="Write the task prompt here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Sample Answer (can include HTML for highlighting)</label>
+                <textarea id="editT12Sample" class="large" placeholder="Write the sample answer here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Task 2 -->
+          <div class="section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>✏️ Task 2</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <div class="input-group">
+                <label>Word Target</label>
+                <input type="text" id="editT2Target" value="180–200 words" oninput="updateTaskPreviewFromEdit()">
+              </div>
+              <div class="input-group">
+                <label>Prompt</label>
+                <textarea id="editT2Prompt" placeholder="Write the task prompt here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Sample Answer (can include HTML for highlighting)</label>
+                <textarea id="editT2Sample" class="large" placeholder="Write the sample answer here..." oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Vocabulary -->
+          <div class="section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+              <h2>📚 Topic Vocabulary</h2>
+              <span class="collapse-icon">▼</span>
+            </div>
+            <div class="collapsible-content">
+              <p style="font-size: 12px; color: #6b7280; margin-bottom: 15px;">
+                Enter vocabulary as JSON array: [{"en": "word", "uz": "translation"}, ...]
+              </p>
+              <div class="input-group">
+                <label>Task 1.1 Vocabulary</label>
+                <textarea id="editVocabT11" placeholder='[{"en": "Hey there!", "uz": "Salom!"}]' oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Task 1.2 Vocabulary</label>
+                <textarea id="editVocabT12" placeholder='[{"en": "Dear Sir/Madam", "uz": "Hurmatli janob/xonim"}]' oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Task 2 Vocabulary</label>
+                <textarea id="editVocabT2" placeholder='[{"en": "In my opinion", "uz": "Mening fikrimcha"}]' oninput="updateTaskPreviewFromEdit()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+
+      <!-- Right Panel: Preview -->
+      <div class="right-panel">
+        <div class="preview-window">
+          <div class="preview-header">
+            <img id="previewLogo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo" class="preview-logo">
+            <div class="preview-logo-text" id="previewLogoText">Mock Stream</div>
+            <div class="preview-test-id" id="previewTestId">WM-10</div>
+            <div class="preview-heading" id="previewHeading1">Bilim va malakalarni baholash agentligi</div>
+            <div class="preview-heading" id="previewHeading2">Chet tilini bilish darajasi</div>
+            <div class="preview-title" id="previewTitle">Writing exam</div>
+          </div>
+          
+          <div class="info-box" id="infoBox">
+            <p><strong>ℹ️ How to use:</strong></p>
+            <p>1. Edit the settings in the left panel</p>
+            <p>2. Preview updates in real-time</p>
+            <p>3. Click "Download Settings" to get updated writing-questions.js</p>
+            <p>4. Or load an existing writing-questions.js file to edit its settings</p>
+          </div>
+
+          <!-- Task Preview (shown after file upload) -->
+          <div class="task-preview" id="taskPreview">
+            
+            <!-- Context -->
+            <div class="context-box" id="previewContext">
+              Loading context...
+            </div>
+            
+            <!-- Scenario -->
+            <div class="scenario-box">
+              <span class="scenario-label">📧 Part 1 Scenario:</span>
+              <span id="previewScenario">Loading scenario...</span>
+            </div>
+            
+            <!-- Task 1.1 -->
+            <div class="task-section">
+              <h4>
+                <span class="task-label">Task 1.1</span>
+                <span id="previewT11Target" class="target-badge">50-70 words</span>
+              </h4>
+              <div class="task-prompt" id="previewT11Prompt">Loading prompt...</div>
+              <div class="task-sample">
+                <span class="task-sample-label">📝 Sample Answer:</span>
+                <div id="previewT11Sample">Loading sample...</div>
+              </div>
+            </div>
+            
+            <!-- Task 1.2 -->
+            <div class="task-section">
+              <h4>
+                <span class="task-label">Task 1.2</span>
+                <span id="previewT12Target" class="target-badge">120-150 words</span>
+              </h4>
+              <div class="task-prompt" id="previewT12Prompt">Loading prompt...</div>
+              <div class="task-sample">
+                <span class="task-sample-label">📝 Sample Answer:</span>
+                <div id="previewT12Sample">Loading sample...</div>
+              </div>
+            </div>
+            
+            <!-- Task 2 -->
+            <div class="task-section">
+              <h4>
+                <span class="task-label">Task 2</span>
+                <span id="previewT2Target" class="target-badge">180-200 words</span>
+              </h4>
+              <div class="task-prompt" id="previewT2Prompt">Loading prompt...</div>
+              <div class="task-sample">
+                <span class="task-sample-label">📝 Sample Answer:</span>
+                <div id="previewT2Sample">Loading sample...</div>
+              </div>
+            </div>
+            
+            <!-- Vocabulary -->
+            <div class="vocab-section" id="vocabSection" style="display: none;">
+              <h4>📚 Topic Vocabulary</h4>
+              <div id="vocabT11" style="margin-bottom: 10px;">
+                <strong style="font-size: 11px; color: #047857;">Task 1.1:</strong>
+                <div class="vocab-list" id="vocabT11List"></div>
+              </div>
+              <div id="vocabT12" style="margin-bottom: 10px;">
+                <strong style="font-size: 11px; color: #047857;">Task 1.2:</strong>
+                <div class="vocab-list" id="vocabT12List"></div>
+              </div>
+              <div id="vocabT2">
+                <strong style="font-size: 11px; color: #047857;">Task 2:</strong>
+                <div class="vocab-list" id="vocabT2List"></div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Real-time preview update
+    function updatePreview() {
+      document.getElementById('previewLogo').src = document.getElementById('logoUrl').value;
+      document.getElementById('previewLogoText').textContent = document.getElementById('logoWording').value;
+      document.getElementById('previewTestId').textContent = document.getElementById('testIdentifier').value;
+      document.getElementById('previewHeading1').textContent = document.getElementById('heading1').value;
+      document.getElementById('previewHeading2').textContent = document.getElementById('heading2').value;
+      document.getElementById('previewTitle').textContent = document.getElementById('examTitle').value;
+      
+      // Update task preview if data is loaded
+      if (window.loadedTasks) {
+        updateTaskPreview();
+      }
+    }
+    
+    // Update task preview with loaded data
+    function updateTaskPreview() {
+      const tasks = window.loadedTasks;
+      const vocab = window.loadedVocabulary;
+      
+      if (!tasks) return;
+      
+      // Show task preview, hide info box
+      document.getElementById('taskPreview').classList.add('show');
+      document.getElementById('infoBox').style.display = 'none';
+      
+      // Context
+      if (tasks.p1_context) {
+        document.getElementById('previewContext').textContent = tasks.p1_context;
+      }
+      
+      // Scenario
+      if (tasks.p1_scenario) {
+        document.getElementById('previewScenario').textContent = tasks.p1_scenario;
+      }
+      
+      // Task 1.1
+      if (tasks.t11) {
+        document.getElementById('previewT11Target').textContent = tasks.t11.target || '50-70 words';
+        document.getElementById('previewT11Prompt').textContent = tasks.t11.prompt || '';
+        document.getElementById('previewT11Sample').innerHTML = cleanSampleHtml(tasks.t11.sample || 'No sample available');
+      }
+      
+      // Task 1.2
+      if (tasks.t12) {
+        document.getElementById('previewT12Target').textContent = tasks.t12.target || '120-150 words';
+        document.getElementById('previewT12Prompt').textContent = tasks.t12.prompt || '';
+        document.getElementById('previewT12Sample').innerHTML = cleanSampleHtml(tasks.t12.sample || 'No sample available');
+      }
+      
+      // Task 2
+      if (tasks.t2) {
+        document.getElementById('previewT2Target').textContent = tasks.t2.target || '180-200 words';
+        document.getElementById('previewT2Prompt').textContent = tasks.t2.prompt || '';
+        document.getElementById('previewT2Sample').innerHTML = cleanSampleHtml(tasks.t2.sample || 'No sample available');
+      }
+      
+      // Vocabulary
+      if (vocab && (vocab.task11?.length || vocab.task12?.length || vocab.task2?.length)) {
+        document.getElementById('vocabSection').style.display = 'block';
+        
+        // Task 1.1 vocab
+        const vocabT11List = document.getElementById('vocabT11List');
+        vocabT11List.innerHTML = '';
+        if (vocab.task11) {
+          vocab.task11.forEach(item => {
+            const el = document.createElement('span');
+            el.className = 'vocab-item';
+            el.textContent = item.en;
+            el.title = item.uz || '';
+            vocabT11List.appendChild(el);
+          });
+        }
+        
+        // Task 1.2 vocab
+        const vocabT12List = document.getElementById('vocabT12List');
+        vocabT12List.innerHTML = '';
+        if (vocab.task12) {
+          vocab.task12.forEach(item => {
+            const el = document.createElement('span');
+            el.className = 'vocab-item';
+            el.textContent = item.en;
+            el.title = item.uz || '';
+            vocabT12List.appendChild(el);
+          });
+        }
+        
+        // Task 2 vocab
+        const vocabT2List = document.getElementById('vocabT2List');
+        vocabT2List.innerHTML = '';
+        if (vocab.task2) {
+          vocab.task2.forEach(item => {
+            const el = document.createElement('span');
+            el.className = 'vocab-item';
+            el.textContent = item.en;
+            el.title = item.uz || '';
+            vocabT2List.appendChild(el);
+          });
+        }
+      }
+    }
+    
+    // Clean sample HTML (extract text from HTML if needed)
+    function cleanSampleHtml(sample) {
+      if (!sample) return '';
+      // Remove markdown code blocks
+      let cleaned = sample.replace(/```html\n?/g, '').replace(/```\n?/g, '');
+      // Remove full HTML document structure if present
+      cleaned = cleaned.replace(/<!DOCTYPE html>[\s\S]*?<body>/gi, '');
+      cleaned = cleaned.replace(/<\/body>[\s\S]*?<\/html>/gi, '');
+      cleaned = cleaned.replace(/<html[\s\S]*?>/gi, '');
+      cleaned = cleaned.replace(/<head>[\s\S]*?<\/head>/gi, '');
+      // Convert newlines to <br> for plain text
+      if (!cleaned.includes('<p>') && !cleaned.includes('<span')) {
+        cleaned = cleaned.replace(/\n/g, '<br>');
+      }
+      return cleaned;
+    }
+    
+    // Populate edit fields with loaded data
+    function populateEditFields() {
+      const tasks = window.loadedTasks;
+      const vocab = window.loadedVocabulary;
+      
+      if (!tasks) return;
+      
+      // Show task edit section
+      document.getElementById('taskEditSection').classList.add('show');
+      
+      // Context & Scenario
+      document.getElementById('editContext').value = tasks.p1_context || '';
+      document.getElementById('editScenario').value = tasks.p1_scenario || '';
+      
+      // Task 1.1
+      document.getElementById('editT11Target').value = tasks.t11?.target || '50–70 words';
+      document.getElementById('editT11Prompt').value = tasks.t11?.prompt || '';
+      document.getElementById('editT11Sample').value = tasks.t11?.sample || '';
+      
+      // Task 1.2
+      document.getElementById('editT12Target').value = tasks.t12?.target || '120–150 words';
+      document.getElementById('editT12Prompt').value = tasks.t12?.prompt || '';
+      document.getElementById('editT12Sample').value = tasks.t12?.sample || '';
+      
+      // Task 2
+      document.getElementById('editT2Target').value = tasks.t2?.target || '180–200 words';
+      document.getElementById('editT2Prompt').value = tasks.t2?.prompt || '';
+      document.getElementById('editT2Sample').value = tasks.t2?.sample || '';
+      
+      // Vocabulary
+      if (vocab) {
+        document.getElementById('editVocabT11').value = vocab.task11 ? JSON.stringify(vocab.task11, null, 2) : '';
+        document.getElementById('editVocabT12').value = vocab.task12 ? JSON.stringify(vocab.task12, null, 2) : '';
+        document.getElementById('editVocabT2').value = vocab.task2 ? JSON.stringify(vocab.task2, null, 2) : '';
+      }
+    }
+    
+    // Update preview from edit fields
+    function updateTaskPreviewFromEdit() {
+      // Update loadedTasks from edit fields
+      if (!window.loadedTasks) {
+        window.loadedTasks = {
+          p1_context: '',
+          p1_scenario: '',
+          t11: { title: 'Task 1.1', target: '', prompt: '', sample: '' },
+          t12: { title: 'Task 1.2', target: '', prompt: '', sample: '' },
+          t2: { title: 'Task 2', target: '', prompt: '', sample: '' }
+        };
+      }
+      
+      const tasks = window.loadedTasks;
+      
+      // Context & Scenario
+      tasks.p1_context = document.getElementById('editContext').value;
+      tasks.p1_scenario = document.getElementById('editScenario').value;
+      
+      // Task 1.1
+      if (!tasks.t11) tasks.t11 = { title: 'Task 1.1' };
+      tasks.t11.target = document.getElementById('editT11Target').value;
+      tasks.t11.prompt = document.getElementById('editT11Prompt').value;
+      tasks.t11.sample = document.getElementById('editT11Sample').value;
+      
+      // Task 1.2
+      if (!tasks.t12) tasks.t12 = { title: 'Task 1.2' };
+      tasks.t12.target = document.getElementById('editT12Target').value;
+      tasks.t12.prompt = document.getElementById('editT12Prompt').value;
+      tasks.t12.sample = document.getElementById('editT12Sample').value;
+      
+      // Task 2
+      if (!tasks.t2) tasks.t2 = { title: 'Task 2' };
+      tasks.t2.target = document.getElementById('editT2Target').value;
+      tasks.t2.prompt = document.getElementById('editT2Prompt').value;
+      tasks.t2.sample = document.getElementById('editT2Sample').value;
+      
+      // Vocabulary
+      try {
+        const vocabT11 = document.getElementById('editVocabT11').value;
+        const vocabT12 = document.getElementById('editVocabT12').value;
+        const vocabT2 = document.getElementById('editVocabT2').value;
+        
+        if (!window.loadedVocabulary) {
+          window.loadedVocabulary = { task11: [], task12: [], task2: [] };
+        }
+        
+        if (vocabT11) window.loadedVocabulary.task11 = JSON.parse(vocabT11);
+        if (vocabT12) window.loadedVocabulary.task12 = JSON.parse(vocabT12);
+        if (vocabT2) window.loadedVocabulary.task2 = JSON.parse(vocabT2);
+      } catch (e) {
+        // Ignore JSON parse errors during typing
+      }
+      
+      // Update preview
+      updateTaskPreview();
+    }
+    
+    // Toggle collapsible section
+    function toggleSection(header) {
+      const section = header.closest('.section');
+      section.classList.toggle('collapsed');
+    }
+
+    // Download settings as writing-questions.js
+    function downloadSettings() {
+      // First, sync any edited values to loadedTasks
+      if (document.getElementById('taskEditSection').classList.contains('show')) {
+        updateTaskPreviewFromEdit();
+      }
+      
+      const settings = {
+        logoUrl: document.getElementById('logoUrl').value,
+        logoWording: document.getElementById('logoWording').value,
+        testIdentifier: document.getElementById('testIdentifier').value,
+        heading1: document.getElementById('heading1').value,
+        heading2: document.getElementById('heading2').value,
+        examTitle: document.getElementById('examTitle').value
+      };
+
+      // Use edited tasks or defaults
+      const tasks = window.loadedTasks || {
+        p1_context: "You are a resident in a neighborhood safety program. You received an email from the Neighborhood Office.",
+        p1_scenario: "Dear Resident,\nOur Neighborhood Office has launched a new safety programme including CCTV cameras, evening workshops, and lighting improvements. We want your feedback! What do you think? Do you have any concerns or suggestions? Please write to us.\nNeighborhood Manager",
+        t11: {
+          title: "Task 1.1",
+          target: "50–70 words",
+          prompt: "Write a note to your friend. Tell your friend about the safety programme and give your opinion. Write about 50 words.",
+          sample: ""
+        },
+        t12: {
+          title: "Task 1.2",
+          target: "120–150 words",
+          prompt: "Write a letter to the Neighborhood Office manager. Explain your opinion on the programme and suggest one or two improvements. Write 120–150 words.",
+          sample: ""
+        },
+        t2: {
+          title: "Task 2",
+          target: "180–200 words",
+          prompt: "You are writing a blog post for a digital wellbeing site. The topic is: \"Practical ways to reduce screen time without deleting your apps.\" Write your blog post, giving reasons and examples. Write 180–200 words.",
+          sample: ""
+        }
+      };
+      
+      // Use edited vocabulary or defaults
+      const vocabulary = window.loadedVocabulary || {
+        task11: [],
+        task12: [],
+        task2: []
+      };
+
+      const data = { settings, tasks, vocabulary };
+
+      const fileContent = `// ================================================================================
+// WRITING MOCK TEST - QUESTIONS DATA
+// ================================================================================
+// This file contains all question content for the Writing Mock Test
+// Update this file to change questions across all writing mocks automatically
+// ================================================================================
+
+window.WRITING_TEST_DATA = ${JSON.stringify(data, null, 2)};
+`;
+
+      const blob = new Blob([fileContent], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      const mockNum = prompt('Enter writing mock test number (01-99):', '10');
+      if (!mockNum) {
+        alert('Download cancelled.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      const num = parseInt(mockNum);
+      if (isNaN(num) || num < 1 || num > 99) {
+        alert('Please enter a valid number between 1 and 99.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      const paddedNum = num.toString().padStart(2, '0');
+      const filename = num === 1 ? 'writing-questions.js' : `writing-questions${paddedNum}.js`;
+      
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ ${filename} downloaded successfully!\\n\\nReplace the existing file in your project folder.`);
+    }
+
+    // Load from file
+    function loadFromFile() {
+      document.getElementById('fileInput').click();
+    }
+
+    // Handle file selection
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      console.log('Loading file:', file.name);
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const content = e.target.result;
+          
+          console.log('File content length:', content.length);
+          console.log('First 500 chars:', content.substring(0, 500));
+          
+          // Clear any previous data
+          delete window.WRITING_TEST_DATA;
+          
+          // Create a temporary script element to execute the file
+          const scriptTag = document.createElement('script');
+          scriptTag.textContent = content;
+          
+          // Add error handler for script errors
+          scriptTag.onerror = function(err) {
+            console.error('Script error:', err);
+          };
+          
+          document.head.appendChild(scriptTag);
+          
+          console.log('WRITING_TEST_DATA after script:', typeof window.WRITING_TEST_DATA);
+          console.log('WRITING_TEST_DATA value:', window.WRITING_TEST_DATA);
+          
+          // Check if data was loaded
+          let data = window.WRITING_TEST_DATA;
+          
+          // If still not found, try extracting and evaluating manually
+          if (!data) {
+            console.log('Script injection failed, trying manual extraction...');
+            
+            // Check if user accidentally uploaded a Speaking file
+            if (window.SPEAKING_TEST_DATA) {
+              throw new Error('This is a SPEAKING questions file. Please upload a WRITING questions file (from "questions W" folder).');
+            }
+            
+            // Try to find and extract the JSON object
+            const match = content.match(/window\.WRITING_TEST_DATA\s*=\s*(\{[\s\S]*\})\s*;?\s*$/);
+            if (match) {
+              console.log('Found WRITING_TEST_DATA pattern, extracting...');
+              try {
+                // Use Function constructor to evaluate
+                const fn = new Function('return ' + match[1]);
+                data = fn();
+                console.log('Manual extraction successful:', data);
+              } catch (fnErr) {
+                console.error('Function constructor failed:', fnErr);
+              }
+            }
+          }
+          
+          // Remove the script tag
+          try { document.head.removeChild(scriptTag); } catch(e) {}
+          
+          if (!data) {
+            throw new Error('No valid data found. File must contain WRITING_TEST_DATA. Make sure you upload a file from the "questions W" folder.');
+          }
+          
+          console.log('Data loaded:', data);
+          console.log('Settings:', data?.settings);
+          
+          if (!data.settings) {
+            throw new Error('Invalid file structure: settings not found.');
+          }
+
+          // Load settings
+          document.getElementById('logoUrl').value = data.settings?.logoUrl || '';
+          document.getElementById('logoWording').value = data.settings?.logoWording || '';
+          document.getElementById('testIdentifier').value = data.settings?.testIdentifier || '';
+          document.getElementById('heading1').value = data.settings?.heading1 || '';
+          document.getElementById('heading2').value = data.settings?.heading2 || '';
+          document.getElementById('examTitle').value = data.settings?.examTitle || '';
+          
+          // Store tasks and vocabulary for later download
+          window.loadedTasks = data.tasks;
+          window.loadedVocabulary = data.vocabulary;
+          window.WRITING_TEST_DATA = data;
+          
+          // Populate edit fields
+          populateEditFields();
+          
+          updatePreview();
+          alert('✅ File loaded successfully! You can now edit all settings, tasks, and vocabulary.');
+          
+        } catch (error) {
+          console.error('Error loading file:', error);
+          alert('Error loading file: ' + error.message);
+        }
+      };
+      
+      reader.readAsText(file);
+    }
+
+    // Drag and drop support
+    const dropZone = document.getElementById('dropZone');
+    
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+    
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        document.getElementById('fileInput').files = files;
+        handleFileSelect({ target: { files } });
+      }
+    });
+
+    /* ===== Exit Protection ===== */
+    let hasUnsavedChanges = false;
+    
+    // Track changes on all input fields
+    document.querySelectorAll('input, textarea').forEach(el => {
+      el.addEventListener('input', () => {
+        hasUnsavedChanges = true;
+      });
+    });
+    
+    // Reset flag when file is downloaded
+    document.getElementById('downloadBtn')?.addEventListener('click', () => {
+      setTimeout(() => { hasUnsavedChanges = false; }, 500);
+    });
+    
+    // Warn before exit/refresh
+    window.addEventListener('beforeunload', (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>

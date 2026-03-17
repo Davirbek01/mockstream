@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEFR Reading Mock Tests</title>
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <!-- Site Config (swap this script to change brand/skin) -->
+  <script src="site-config/site-config.js"></script>
+  <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
+  <script src="questions S/questions.js"></script>
+  <!-- Reading mock code configs -->
+  <script src="passcodes.js"></script>
+  <script src="reading-promocodes.js"></script>
+  <script src="reading-mock-codes.js"></script>
+  <style>
+    :root {
+      --primary: #0d9488;
+      --primary-light: #ccfbf1;
+      --primary-dark: #0f766e;
+      --secondary: #6366f1;
+      --success: #10b981;
+      --bg: #f0fdfa;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, #d1fae5 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 24px;
+      color: white;
+      box-shadow: 0 10px 40px rgba(13, 148, 136, 0.3);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: white;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-wording {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .official-titles {
+      text-align: left;
+    }
+
+    .official-line1 {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+
+    .official-line2 {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .official-line3 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      transition: all 0.3s;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .info-desk {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .info-desk-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .info-desk-item .icon {
+      font-size: 18px;
+    }
+
+    .info-desk-item .label {
+      opacity: 0.8;
+      font-size: 12px;
+    }
+
+    .info-desk-item .value {
+      font-weight: 700;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-5px);
+    }
+
+    .tests-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .test-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 24px;
+      border: 2px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .test-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(13, 148, 136, 0.15);
+    }
+
+    .test-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .test-info {
+      flex: 1;
+    }
+
+    .test-info h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .test-info p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .test-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .meta-item.level {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .test-arrow {
+      font-size: 24px;
+      color: var(--primary);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .test-card:hover .test-arrow {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+
+    .coming-soon {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .coming-soon .test-icon {
+      background: var(--border);
+    }
+
+    .coming-soon-badge {
+      background: var(--muted);
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .test-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .test-meta {
+        justify-content: center;
+      }
+
+      .header-top {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .official-titles {
+        text-align: center;
+      }
+
+      .official-line1 {
+        font-size: 12px;
+      }
+
+      .official-line2 {
+        font-size: 11px;
+      }
+
+      .official-line3 {
+        font-size: 18px;
+      }
+
+      .info-desk {
+        gap: 16px;
+      }
+
+      .info-desk-item {
+        font-size: 12px;
+      }
+
+      .test-arrow {
+        display: none;
+      }
+    }
+
+    /* Name Input Modal */
+    .name-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .name-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .name-modal {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.3s ease;
+    }
+
+    .name-modal-overlay.active .name-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .name-modal-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .name-modal h2 {
+      color: var(--text);
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .name-modal p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .name-input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 18px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.3s;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    .name-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+    }
+
+    .name-input::placeholder {
+      color: #cbd5e1;
+    }
+
+    .name-submit-btn {
+      width: 100%;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .name-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(13, 148, 136, 0.3);
+    }
+
+    .name-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .name-hint {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Custom Alert Popup */
+    .custom-alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .custom-alert-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .custom-alert {
+      background: white;
+      border-radius: 20px;
+      padding: 32px 40px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      transform: scale(0.8) translateY(-20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .custom-alert-overlay.active .custom-alert {
+      transform: scale(1) translateY(0);
+    }
+
+    .custom-alert-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .custom-alert-message {
+      color: #334155;
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .custom-alert-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+    }
+
+    .custom-alert-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+    }
+
+    .custom-alert-btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Name Input Modal -->
+  <div class="name-modal-overlay" id="nameModal">
+    <div class="name-modal">
+      <div class="name-modal-icon">👤</div>
+      <h2>Enter Your Name</h2>
+      <p>Please enter your full name before starting the reading test. This will be included in your results.</p>
+      <div class="name-input-wrapper">
+        <input type="text" class="name-input" id="candidateName" placeholder="Your full name" autocomplete="name"
+          maxlength="50">
+      </div>
+      <button class="name-submit-btn" id="nameSubmitBtn" disabled>
+        <span>Continue to Tests</span>
+        <span>→</span>
+      </button>
+      <p class="name-hint">🔒 Your name is only used for test identification</p>
+    </div>
+  </div>
+
+  <!-- Custom Alert Popup -->
+  <div class="custom-alert-overlay" id="customAlert">
+    <div class="custom-alert">
+      <div class="custom-alert-icon">😊</div>
+      <div class="custom-alert-message" id="customAlertMessage">Message here</div>
+      <button class="custom-alert-btn" id="customAlertBtn">OK, I'll enter my real name</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <a href="landing.html" target="_top" class="back-btn">← Back to Home</a>
+
+      <div class="header-top">
+        <div class="logo-section">
+          <div class="header-logo">
+            <img id="logoImg" src="" alt="Logo">
+          </div>
+          <span class="logo-wording" id="logoWording"></span>
+        </div>
+
+        <div class="official-titles">
+          <div class="official-line1" id="gateHeading1">Bilim va malakalarni baholash agentligi</div>
+          <div class="official-line2" id="gateHeading2">Chet tilini bilish darajasini aniqlash imtihoni</div>
+          <div class="official-line3">Reading Test</div>
+        </div>
+        <script>if(window.SITE_CONFIG){var h1=document.getElementById('gateHeading1'),h2=document.getElementById('gateHeading2');if(h1&&SITE_CONFIG.heading1)h1.textContent=SITE_CONFIG.heading1;if(h2&&SITE_CONFIG.heading2)h2.textContent=SITE_CONFIG.heading2;}</script>
+      </div>
+
+      <div class="info-desk">
+        <div class="info-desk-item">
+          <span class="icon">📚</span>
+          <span><span class="label">Parts:</span> <span class="value">5</span></span>
+        </div>
+        <div class="info-desk-item">
+          <span class="icon">📝</span>
+          <span><span class="label">Questions:</span> <span class="value">35</span></span>
+        </div>
+        <div class="info-desk-item">
+          <span class="icon">⏱️</span>
+          <span><span class="label">Time:</span> <span class="value">60 min</span></span>
+        </div>
+        <div class="info-desk-item">
+          <span class="icon">📊</span>
+          <span><span class="label">Level:</span> <span class="value">B1-C1</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tests-grid" id="testsGrid">
+      <!-- Test cards will be generated here -->
+    </div>
+  </div>
+
+  <script>
+    // ===== BACK BUTTON (iframe support) =====
+    function goBack() {
+      try {
+        // Try calling parent's returnToLanding directly
+        if (window.parent && window.parent !== window) {
+          if (typeof window.parent.returnToLanding === 'function') {
+            window.parent.returnToLanding();
+            return;
+          }
+          // Try postMessage as fallback
+          window.parent.postMessage('returnToLanding', '*');
+          return;
+        }
+      } catch (e) {
+        console.log('Error calling parent:', e);
+      }
+      // Final fallback
+      window.location.href = 'landing.html';
+    }
+
+    // Get global settings
+    const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
+
+    // Set logo and wording
+    document.getElementById('logoImg').src = GLOBAL_LOGO_URL;
+    document.getElementById('logoWording').textContent = GLOBAL_LOGO_WORDING;
+
+    // Available tests
+    const tests = [
+      {
+        id: 'cefr-reading-test-01',
+        title: 'CEFR Reading Test 01',
+        description: 'Dinosaur Sounds, Festivals, The Beautiful Rose, Icon\'s Life, Rodeo',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-02',
+        title: 'CEFR Reading Test 02',
+        description: 'Thanksgiving, Hotels, Rock the Boat, Personality and Health, Plutons',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-03',
+        title: 'CEFR Reading Test 03',
+        description: 'Going to the Mall, Hotels & Jobs, Water and Climate Change, Cry-baby, California Earthquakes',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-04',
+        title: 'CEFR Reading Test 04',
+        description: 'Twin Sister, Cafés & Restaurants, Western Theatre, Snakes, San Francisco Tech Tax',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-05',
+        title: 'CEFR Reading Test 05',
+        description: 'Electric Cars, Job Advertisements, Falkland Islands, Fish and Chips, The Secret of the Yawn',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-06',
+        title: 'CEFR Reading Test 06',
+        description: 'Whales, UK Attractions, Sports History, The Selective Memory, Dugongs',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-07',
+        title: 'CEFR Reading Test 07',
+        description: 'Television, TV Programs, English Language, Nostradamus, Malaria',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-08',
+        title: 'CEFR Reading Test 08',
+        description: 'Buying Toys, Museums, Buses, The Rainmaker, History of Pencil',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-09',
+        title: 'CEFR Reading Test 09',
+        description: 'Spies, Job Announcements, Mass Media, World Book Day, Yawning',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-10',
+        title: 'CEFR Reading Test 10',
+        description: 'The Beatles, Clothing Stores, Becoming Successful, Scouts, The Cacao',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-11',
+        title: 'CEFR Reading Test 11',
+        description: 'Can Machines Think, Hotels, Jakarta, Sleep, Clothkits',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-12',
+        title: 'CEFR Reading Test 12',
+        description: 'University Exam Petition, Travel Tours, Locomotives, Deserts, The History of Salt',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-13',
+        title: 'CEFR Reading Test 13',
+        description: 'Health and Education, Home Products, Rivers, Silk Road Exhibition, Emojis',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      },
+      {
+        id: 'cefr-reading-test-14',
+        title: 'CEFR Reading Test 14',
+        description: 'Trillionaire Wealth Gap, Properties, Plastic Is No Longer Fantastic, Placebos, Dirty River But Clean Water',
+        questions: 35,
+        time: 60,
+        level: 'B1-C1',
+        available: true
+      }
+    ];
+
+    // Generate test cards
+    const grid = document.getElementById('testsGrid');
+
+    tests.forEach((test, index) => {
+      const card = document.createElement('a');
+      card.className = `test-card ${!test.available ? 'coming-soon' : ''}`;
+      card.href = test.available ? `CEFR Reading.html?test=${test.id}` : '#';
+
+      // Intercept click to show access code modal
+      if (test.available) {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          const mockNum = test.id.match(/(\d+)/);
+          const num = mockNum ? mockNum[1] : '1';
+          window._pendingReadingTest = { url: this.href, mockNumber: num };
+          showReadingAccessModal(num);
+        });
+      }
+
+      card.innerHTML = `
+        <div class="test-icon">📖</div>
+        <div class="test-info">
+          <h3>${test.title} ${!test.available ? '<span class="coming-soon-badge">Coming Soon</span>' : ''}</h3>
+          <p>${test.description}</p>
+          <div class="test-meta">
+            <span class="meta-item">📝 ${test.questions} Questions</span>
+            <span class="meta-item">⏱️ ${test.time} min</span>
+            <span class="meta-item level">${test.level}</span>
+          </div>
+        </div>
+        <span class="test-arrow">→</span>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    // ===== ANTI-CHEAT: Disable dev tools and context menu =====
+    (function initAntiCheat() {
+      // Block keyboard shortcuts for dev tools
+      document.addEventListener('keydown', function (e) {
+        // F12
+        if (e.key === 'F12' || e.keyCode === 123) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+I (Inspect)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+J (Console)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+Shift+C (Inspect element)
+        if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c' || e.keyCode === 67)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+U (View source)
+        if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+          e.preventDefault();
+          return false;
+        }
+        // Ctrl+S (Save page)
+        if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Block right-click context menu
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Disable text selection via keyboard (Ctrl+A)
+      document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && (e.key === 'A' || e.key === 'a' || e.keyCode === 65)) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Disable drag
+      document.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+        return false;
+      });
+    })();
+
+    // Fullscreen function
+    function enterFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => { });
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
+
+    // Universal fullscreen - tap anywhere to enter fullscreen
+    document.addEventListener('click', function (e) {
+      if (!document.fullscreenElement) {
+        enterFullscreen();
+      }
+    });
+
+    // Also handle touch for mobile devices
+    document.addEventListener('touchstart', function (e) {
+      if (!document.fullscreenElement) {
+        enterFullscreen();
+      }
+    }, { passive: true });
+
+    // ===== NAME VALIDATION =====
+    // Disabled: universal name input in index.html handles validation
+    function isValidName(name) {
+      return { valid: true };
+    }
+
+    // ===== NAME INPUT MODAL =====
+    (function initNameModal() {
+      const nameModal = document.getElementById('nameModal');
+      const nameInput = document.getElementById('candidateName');
+      const nameSubmitBtn = document.getElementById('nameSubmitBtn');
+      const mainContainer = document.querySelector('.container');
+
+      // Sync universal name if available
+      const universalName = sessionStorage.getItem('CANDIDATE_FULL_NAME');
+      if (universalName && !sessionStorage.getItem('cefrReadingCandidateName')) {
+        sessionStorage.setItem('cefrReadingCandidateName', universalName);
+      }
+
+      // Check if name already exists in session
+      const savedName = sessionStorage.getItem('cefrReadingCandidateName');
+      if (savedName && savedName.trim().length >= 2) {
+        // Name exists, show tests directly
+        nameModal.classList.remove('active');
+        mainContainer.style.display = 'block';
+      } else {
+        // Show name modal first
+        nameModal.classList.add('active');
+        mainContainer.style.display = 'none';
+        setTimeout(() => nameInput.focus(), 300);
+      }
+
+      // Enable/disable submit button based on input
+      nameInput.addEventListener('input', function () {
+        // Auto-capitalize each word
+        const words = this.value.split(' ');
+        const capitalized = words.map(word => {
+          if (word.length === 0) return word;
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+        if (this.value !== capitalized) {
+          const cursorPos = this.selectionStart;
+          this.value = capitalized;
+          this.setSelectionRange(cursorPos, cursorPos);
+        }
+
+        const name = this.value.trim();
+        nameSubmitBtn.disabled = name.length < 2;
+      });
+
+      // Handle submit
+      nameSubmitBtn.addEventListener('click', function () {
+        const name = nameInput.value.trim();
+        if (name.length >= 2) {
+          const validation = isValidName(name);
+          if (!validation.valid) {
+            showCustomAlert(validation.message);
+            return;
+          }
+          sessionStorage.setItem('cefrReadingCandidateName', name);
+          nameModal.classList.remove('active');
+          mainContainer.style.display = 'block';
+        }
+      });
+
+      // Handle Enter key
+      nameInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !nameSubmitBtn.disabled) {
+          nameSubmitBtn.click();
+        }
+      });
+
+      // Custom Alert Function
+      function showCustomAlert(message) {
+        const alertOverlay = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('customAlertMessage');
+        const alertBtn = document.getElementById('customAlertBtn');
+
+        alertMessage.textContent = message;
+        alertOverlay.classList.add('active');
+
+        // Handle OK button
+        alertBtn.onclick = function () {
+          alertOverlay.classList.remove('active');
+          setTimeout(() => {
+            nameInput.focus();
+            nameInput.select();
+          }, 300);
+        };
+
+        // Handle click outside to close
+        alertOverlay.onclick = function (e) {
+          if (e.target === alertOverlay) {
+            alertOverlay.classList.remove('active');
+            setTimeout(() => {
+              nameInput.focus();
+              nameInput.select();
+            }, 300);
+          }
+        };
+      }
+    })();
+  </script>
+
+  <!-- ===== READING ACCESS CODE MODAL ===== -->
+  <div id="readingAccessModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:100002;justify-content:center;align-items:center;">
+    <div style="background:white;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;">
+      <div style="font-size:48px;margin-bottom:12px;">🔐</div>
+      <h2 style="color:#0d9488;font-size:20px;margin-bottom:6px;">Access Code Required</h2>
+      <p id="readingAccessMockLabel" style="color:#64748b;font-size:13px;margin-bottom:20px;">Enter your code to start this reading mock</p>
+      <input type="text" id="readingAccessCodeInput" placeholder="Enter access code" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')" style="width:100%;padding:14px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:18px;text-align:center;letter-spacing:3px;font-weight:700;margin-bottom:12px;transition:border-color 0.3s;box-sizing:border-box;" onfocus="this.style.borderColor='#0d9488'" onblur="this.style.borderColor='#e2e8f0'">
+      <div id="readingAccessStatus" style="min-height:20px;font-size:13px;font-weight:600;margin-bottom:16px;"></div>
+      <div style="display:flex;gap:12px;">
+        <button onclick="closeReadingAccessModal()" style="flex:1;padding:12px;border:2px solid #e2e8f0;background:white;color:#64748b;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;">Cancel</button>
+        <button id="readingAccessVerifyBtn" onclick="verifyReadingAccessCode()" style="flex:1;padding:12px;border:none;background:linear-gradient(135deg,#0d9488,#0f766e);color:white;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;">Verify</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  </style>
+  <script>
+    // Super Access check
+    window.isSuperAccessUnlocked = window.isSuperAccessUnlocked || function () {
+      return sessionStorage.getItem('vipSessionAccess') === 'true';
+    };
+
+    // Reading mock requires code check
+    window.readingMockRequiresCode = function (mockNumber) {
+      if (window.isSuperAccessUnlocked()) return false;
+      const padded = String(mockNumber).padStart(2, '0');
+      if (window.READING_MOCK_PROMOCODES && window.READING_MOCK_PROMOCODES[padded]) return true;
+      return false;
+    };
+
+    // Validate reading access (regular 12-digit OR premium 10-digit)
+    window.validateFullReadingAccess = async function (inputValue, mockNumber) {
+      try {
+        if (window.isSuperAccessUnlocked()) {
+          var isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+          return { valid: true, premiumEntry: isVipAi };
+        }
+        var cleanInput = inputValue.trim().replace(/[-\s]/g, '');
+
+        // Premium 10-digit code (fillers at 1,4,6,8)
+        if (cleanInput.length === 10 && /^\d{10}$/.test(cleanInput) && window.extractReadingPremiumOTP) {
+          var aiPasscode = window.extractReadingPremiumOTP(cleanInput, mockNumber);
+          if (aiPasscode) {
+            try {
+              var passcodeInt = parseInt(aiPasscode, 10);
+              var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ passcode: passcodeInt })
+              });
+              if (resp.ok) {
+                var data = await resp.json();
+                if (data.access || data.valid) {
+                  sessionStorage.setItem('readingPremiumEntry', 'true');
+                  return { valid: true, premiumEntry: true };
+                }
+              }
+            } catch (e) { console.log('[Reading] Premium backend check failed'); }
+          }
+        }
+
+        // Regular 12-digit code (fillers at 1,4,7,10)
+        if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractReadingRegularOTP) {
+          // Check if this regular code was already used for this mock
+          var usedCodes = {};
+          try { usedCodes = JSON.parse(localStorage.getItem('usedReadingRegularCodes') || '{}'); } catch(e) {}
+          var mockKey = String(mockNumber).padStart(2, '0');
+          if (usedCodes[mockKey] === cleanInput) {
+            return { valid: false, error: 'This regular code has already been used for this mock. Please use a premium code.' };
+          }
+          var otp = window.extractReadingRegularOTP(cleanInput, mockNumber);
+          if (otp) {
+            var fullCode = new Date().getFullYear() + otp;
+            var resp2 = await fetch('https://davirbek.alwaysdata.net/verify', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: fullCode })
+            });
+            if (!resp2.ok) return { valid: false, error: 'Server error. Please try again.' };
+            var data2 = await resp2.json();
+            if (data2.access || data2.valid) {
+              usedCodes[mockKey] = cleanInput;
+              localStorage.setItem('usedReadingRegularCodes', JSON.stringify(usedCodes));
+              sessionStorage.setItem('readingPremiumEntry', 'false');
+              return { valid: true, premiumEntry: false };
+            } else {
+              return { valid: false, error: 'Invalid or expired code.' };
+            }
+          }
+        }
+
+        return { valid: false, error: 'Invalid code. Please check and try again.' };
+      } catch (err) {
+        return { valid: false, error: 'Connection error. Please check your internet.' };
+      }
+    };
+
+    function showReadingAccessModal(mockNum) {
+      // If super access or no code required, go directly
+      if (window.isSuperAccessUnlocked()) {
+        var isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+        sessionStorage.setItem('readingPremiumEntry', isVipAi ? 'true' : 'false');
+        window.location.href = window._pendingReadingTest.url;
+        return;
+      }
+      if (!window.readingMockRequiresCode(mockNum)) {
+        sessionStorage.setItem('readingPremiumEntry', 'false');
+        window.location.href = window._pendingReadingTest.url;
+        return;
+      }
+      var modal = document.getElementById('readingAccessModal');
+      var input = document.getElementById('readingAccessCodeInput');
+      var status = document.getElementById('readingAccessStatus');
+      var label = document.getElementById('readingAccessMockLabel');
+      label.textContent = 'Enter your code for Reading Mock ' + mockNum;
+      input.value = '';
+      status.textContent = '';
+      modal.style.display = 'flex';
+      setTimeout(function() { input.focus(); }, 200);
+    }
+
+    function closeReadingAccessModal() {
+      document.getElementById('readingAccessModal').style.display = 'none';
+      window._pendingReadingTest = null;
+    }
+
+    async function verifyReadingAccessCode() {
+      if (!window._pendingReadingTest) return;
+      var input = document.getElementById('readingAccessCodeInput');
+      var status = document.getElementById('readingAccessStatus');
+      var btn = document.getElementById('readingAccessVerifyBtn');
+      var code = input.value.trim();
+      if (!code) { status.style.color = '#dc2626'; status.textContent = '❌ Please enter your access code'; return; }
+      status.style.color = '#f59e0b'; status.textContent = '🔄 Validating...';
+      btn.disabled = true; btn.textContent = 'Validating...';
+      var result = await window.validateFullReadingAccess(code, window._pendingReadingTest.mockNumber);
+      if (result.valid) {
+        status.style.color = '#059669';
+        status.textContent = result.premiumEntry ? '✅ Premium access verified!' : '✅ Access verified!';
+        setTimeout(function() { window.location.href = window._pendingReadingTest.url; }, 600);
+      } else {
+        status.style.color = '#dc2626'; status.textContent = '❌ ' + result.error;
+        btn.disabled = false; btn.textContent = 'Verify';
+      }
+    }
+
+    // Enter key support
+    document.getElementById('readingAccessCodeInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') verifyReadingAccessCode();
+    });
+
+    // Close on backdrop click
+    document.getElementById('readingAccessModal').addEventListener('click', function(e) {
+      if (e.target === this) closeReadingAccessModal();
+    });
+  </script>
+</body>
+
+</html>

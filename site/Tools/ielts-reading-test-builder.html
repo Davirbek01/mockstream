@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Test Builder</title>
+    <link rel="shortcut icon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+    <style>
+        :root {
+            --primary: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #7c3aed;
+            --secondary-light: #ede9fe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Tabs for Passages */
+        .passage-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .passage-tab {
+            padding: 12px 24px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .passage-tab:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .passage-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .passage-tab .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+        }
+
+        .passage-tab.active .status-dot {
+            background: white;
+        }
+
+        .passage-tab.has-content .status-dot {
+            background: var(--success);
+        }
+
+        /* Main Layout */
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .builder-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header .badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .panel-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group label .required {
+            color: var(--danger);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Question Types Section */
+        .question-types-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--border);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-sections-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Question Section Card */
+        .question-section-card {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fafbfc;
+        }
+
+        .question-section-header {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, var(--secondary-light), #f5f3ff);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .question-section-header:hover {
+            background: linear-gradient(135deg, #ddd6fe, #ede9fe);
+        }
+
+        .question-section-title {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-section-title .type-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--secondary);
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .question-section-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-icon.edit {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .btn-icon.delete {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .question-section-body {
+            padding: 16px;
+            display: none;
+        }
+
+        .question-section-card.expanded .question-section-body {
+            display: block;
+        }
+
+        .question-section-card.expanded .question-section-header {
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        /* Question Type Selector */
+        .question-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-type-option {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .question-type-option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .question-type-option.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .question-type-option .icon {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        /* Questions Editor */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .question-item {
+            padding: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .question-item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .question-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .question-item input[type="text"],
+        .question-item textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .question-item input:focus,
+        .question-item textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .answer-input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .answer-input-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .answer-input-group input {
+            flex: 1;
+        }
+
+        /* MCQ Options */
+        .mcq-options {
+            margin-top: 12px;
+        }
+
+        .mcq-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .mcq-option .option-letter {
+            width: 28px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .mcq-option input[type="text"] {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .mcq-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Matching Section */
+        .matching-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .matching-column h4 {
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--muted);
+        }
+
+        .matching-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .matching-item .item-key {
+            min-width: 30px;
+            height: 28px;
+            background: var(--secondary-light);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--secondary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #6d28d9;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        /* Add Section Button */
+        .add-section-btn {
+            width: 100%;
+            padding: 16px;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-section-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Output Section */
+        .output-section {
+            margin-top: 30px;
+        }
+
+        .output-panel {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .output-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, var(--success-light), #ecfdf5);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .output-header h3 {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        #outputCode {
+            width: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: none;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            resize: vertical;
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Summary Stats */
+        .test-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .summary-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-card .label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* Headings List for Matching Headings */
+        .headings-list {
+            margin-top: 16px;
+        }
+
+        .heading-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .heading-item .roman {
+            min-width: 30px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .heading-item input {
+            flex: 1;
+        }
+
+        /* Explanation field */
+        .explanation-field {
+            margin-top: 8px;
+        }
+
+        .explanation-field textarea {
+            min-height: 60px;
+            font-size: 12px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background: var(--success);
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .question-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .matching-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📖 IELTS Reading Test Builder</h1>
+            <p>Create complete IELTS Reading tests with 3 passages and multiple question types</p>
+        </div>
+
+        <!-- Test Summary -->
+        <div class="test-summary">
+            <div class="summary-card">
+                <div class="value" id="totalPassages">0</div>
+                <div class="label">Passages Ready</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" id="totalQuestions">0</div>
+                <div class="label">Total Questions</div>
+            </div>
+            <div class="summary-card">
+                <div class="value" id="totalSections">0</div>
+                <div class="label">Question Sections</div>
+            </div>
+            <div class="summary-card">
+                <div class="value">60</div>
+                <div class="label">Minutes (Standard)</div>
+            </div>
+        </div>
+
+        <!-- Passage Tabs -->
+        <div class="passage-tabs">
+            <button class="passage-tab active" data-passage="1">
+                <span class="status-dot"></span>
+                Passage 1 (Easy)
+            </button>
+            <button class="passage-tab" data-passage="2">
+                <span class="status-dot"></span>
+                Passage 2 (Medium)
+            </button>
+            <button class="passage-tab" data-passage="3">
+                <span class="status-dot"></span>
+                Passage 3 (Hard)
+            </button>
+        </div>
+
+        <!-- Builder Layout -->
+        <div class="builder-layout">
+            <!-- Left Panel - Passage Content -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>📄 Passage Content</span>
+                    <span class="badge" id="passageBadge">Passage 1</span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Passage Title <span class="required">*</span></label>
+                        <input type="text" id="passageTitle" placeholder="e.g., The History of Chocolate">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Short Name (for selection menu)</label>
+                        <input type="text" id="passageShortName" placeholder="e.g., Chocolate History (2-3 words)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Display Title (shown above passage, bold & centered)</label>
+                        <input type="text" id="passageDisplayTitle" placeholder="e.g., THE HISTORY OF CHOCOLATE">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Caption/Subtitle (shown below title, italic & centered)</label>
+                        <input type="text" id="passageCaption" placeholder="e.g., How chocolate became the world's favorite treat">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Passage Text <span class="required">*</span></label>
+                        <textarea id="passageText" placeholder="Paste or type the reading passage here. Use double line breaks to separate paragraphs.
+
+You can include HTML formatting like <strong>bold</strong> or <em>italic</em> text."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Question Range Start</label>
+                            <input type="number" id="questionStart" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Question Range End</label>
+                            <input type="number" id="questionEnd" value="13" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Time Recommended (minutes)</label>
+                        <input type="number" id="timeRecommended" value="20" min="1">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="savePassage()">
+                        💾 Save Passage
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Question Sections -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span>❓ Question Sections</span>
+                    <span class="badge" id="sectionCount">0 sections</span>
+                </div>
+                <div class="panel-body">
+                    <div class="question-sections-list" id="questionSectionsList">
+                        <!-- Question sections will be added here -->
+                    </div>
+
+                    <button class="add-section-btn" onclick="openAddSectionModal()">
+                        ➕ Add Question Section
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <div class="output-panel">
+                <div class="output-header">
+                    <h3>📦 Generated JavaScript Code</h3>
+                    <div class="output-actions">
+                        <button class="btn btn-sm btn-outline" onclick="generateCode()">
+                            🔄 Generate Code
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="copyCode()">
+                            📋 Copy Code
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="downloadCode()">
+                            💾 Download JS File
+                        </button>
+                    </div>
+                </div>
+                <textarea id="outputCode" readonly placeholder="Click 'Generate Code' to create the JavaScript file..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal-overlay" id="addSectionModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add Question Section</h3>
+                <button class="modal-close" onclick="closeModal('addSectionModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Question Type <span class="required">*</span></label>
+                    <div class="question-type-grid" id="questionTypeGrid">
+                        <div class="question-type-option" data-type="tfng">
+                            <div class="icon">✓✗</div>
+                            True/False/Not Given
+                        </div>
+                        <div class="question-type-option" data-type="ynng">
+                            <div class="icon">👍👎</div>
+                            Yes/No/Not Given
+                        </div>
+                        <div class="question-type-option" data-type="mcq">
+                            <div class="icon">🔘</div>
+                            Multiple Choice
+                        </div>
+                        <div class="question-type-option" data-type="mcq-multi">
+                            <div class="icon">☑️</div>
+                            MCQ Multi-Answer
+                        </div>
+                        <div class="question-type-option" data-type="completion">
+                            <div class="icon">📝</div>
+                            Summary/Sentence Completion
+                        </div>
+                        <div class="question-type-option" data-type="short-answer">
+                            <div class="icon">✏️</div>
+                            Short Answer
+                        </div>
+                        <div class="question-type-option" data-type="matching-headings">
+                            <div class="icon">📑</div>
+                            Matching Headings
+                        </div>
+                        <div class="question-type-option" data-type="matching-info">
+                            <div class="icon">🔗</div>
+                            Matching Information
+                        </div>
+                        <div class="question-type-option" data-type="matching-features">
+                            <div class="icon">👤</div>
+                            Matching Features
+                        </div>
+                        <div class="question-type-option" data-type="matching-sentence-endings">
+                            <div class="icon">🔚</div>
+                            Sentence Endings
+                        </div>
+                        <div class="question-type-option" data-type="list-selection">
+                            <div class="icon">📋</div>
+                            List Selection
+                        </div>
+                        <div class="question-type-option" data-type="diagram-label">
+                            <div class="icon">🏷️</div>
+                            Diagram Labelling
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Question Start Number</label>
+                        <input type="number" id="sectionStartNum" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Question End Number</label>
+                        <input type="number" id="sectionEndNum" value="5" min="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Section Instructions (Optional)</label>
+                    <textarea id="sectionInstructions" rows="3" placeholder="e.g., Choose ONE WORD ONLY from the passage for each answer."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('addSectionModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addQuestionSection()">Add Section</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Section Modal -->
+    <div class="modal-overlay" id="editSectionModal">
+        <div class="modal" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 id="editSectionTitle">Edit Question Section</h3>
+                <button class="modal-close" onclick="closeModal('editSectionModal')">×</button>
+            </div>
+            <div class="modal-body" id="editSectionBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('editSectionModal')">Cancel</button>
+                <button class="btn btn-success" onclick="saveQuestionSection()">Save Questions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Data structure
+        const testData = {
+            passages: {
+                1: { title: '', shortName: '', displayTitle: '', caption: '', text: '', questionStart: 1, questionEnd: 13, timeRecommended: 20, sections: [] },
+                2: { title: '', shortName: '', displayTitle: '', caption: '', text: '', questionStart: 14, questionEnd: 26, timeRecommended: 20, sections: [] },
+                3: { title: '', shortName: '', displayTitle: '', caption: '', text: '', questionStart: 27, questionEnd: 40, timeRecommended: 20, sections: [] }
+            }
+        };
+
+        let currentPassage = 1;
+        let selectedQuestionType = null;
+        let editingSectionIndex = null;
+
+        // Question type configurations
+        const questionTypes = {
+            'tfng': {
+                name: 'True/False/Not Given',
+                options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                instruction: 'Do the following statements agree with the information given in the passage?'
+            },
+            'ynng': {
+                name: 'Yes/No/Not Given',
+                options: ['YES', 'NO', 'NOT GIVEN'],
+                instruction: 'Do the following statements agree with the claims of the writer?'
+            },
+            'mcq': {
+                name: 'Multiple Choice',
+                options: ['A', 'B', 'C', 'D'],
+                instruction: 'Choose the correct letter, A, B, C or D.'
+            },
+            'mcq-multi': {
+                name: 'Multiple Choice (Multi-Answer)',
+                options: ['A', 'B', 'C', 'D', 'E'],
+                instruction: 'Choose TWO letters, A-E.',
+                requiredAnswers: 2
+            },
+            'completion': {
+                name: 'Summary/Sentence Completion',
+                options: null,
+                instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.'
+            },
+            'short-answer': {
+                name: 'Short Answer Questions',
+                options: null,
+                instruction: 'Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer.'
+            },
+            'matching-headings': {
+                name: 'Matching Headings',
+                options: null,
+                instruction: 'Choose the correct heading for each paragraph from the list of headings below.'
+            },
+            'matching-info': {
+                name: 'Matching Information',
+                options: null,
+                instruction: 'Which paragraph contains the following information?'
+            },
+            'matching-features': {
+                name: 'Matching Features',
+                options: null,
+                instruction: 'Match each statement with the correct person/feature.'
+            },
+            'matching-sentence-endings': {
+                name: 'Matching Sentence Endings',
+                options: null,
+                instruction: 'Complete each sentence with the correct ending, A-G, below.'
+            },
+            'list-selection': {
+                name: 'List Selection',
+                options: null,
+                instruction: 'Choose TWO letters, A-E.'
+            },
+            'diagram-label': {
+                name: 'Diagram Labelling',
+                options: null,
+                instruction: 'Label the diagram below. Choose NO MORE THAN TWO WORDS from the passage for each answer.'
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initPassageTabs();
+            initQuestionTypeSelection();
+            loadPassageData();
+            updateStats();
+        });
+
+        function initPassageTabs() {
+            document.querySelectorAll('.passage-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    saveCurrentPassage();
+                    currentPassage = parseInt(this.dataset.passage);
+                    document.querySelectorAll('.passage-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    loadPassageData();
+                });
+            });
+        }
+
+        function initQuestionTypeSelection() {
+            document.querySelectorAll('.question-type-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.question-type-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedQuestionType = this.dataset.type;
+                });
+            });
+        }
+
+        function saveCurrentPassage() {
+            const passage = testData.passages[currentPassage];
+            passage.title = document.getElementById('passageTitle').value;
+            passage.shortName = document.getElementById('passageShortName').value;
+            passage.displayTitle = document.getElementById('passageDisplayTitle').value;
+            passage.caption = document.getElementById('passageCaption').value;
+            passage.text = document.getElementById('passageText').value;
+            passage.questionStart = parseInt(document.getElementById('questionStart').value) || 1;
+            passage.questionEnd = parseInt(document.getElementById('questionEnd').value) || 13;
+            passage.timeRecommended = parseInt(document.getElementById('timeRecommended').value) || 20;
+        }
+
+        function loadPassageData() {
+            const passage = testData.passages[currentPassage];
+            document.getElementById('passageTitle').value = passage.title;
+            document.getElementById('passageShortName').value = passage.shortName || '';
+            document.getElementById('passageDisplayTitle').value = passage.displayTitle || '';
+            document.getElementById('passageCaption').value = passage.caption || '';
+            document.getElementById('passageText').value = passage.text;
+            document.getElementById('questionStart').value = passage.questionStart;
+            document.getElementById('questionEnd').value = passage.questionEnd;
+            document.getElementById('timeRecommended').value = passage.timeRecommended;
+            document.getElementById('passageBadge').textContent = `Passage ${currentPassage}`;
+            
+            // Update section start number suggestion
+            document.getElementById('sectionStartNum').value = passage.questionStart;
+            
+            renderQuestionSections();
+            updatePassageTabStatus();
+        }
+
+        function savePassage() {
+            saveCurrentPassage();
+            updatePassageTabStatus();
+            updateStats();
+            showToast('Passage saved successfully!');
+        }
+
+        function updatePassageTabStatus() {
+            document.querySelectorAll('.passage-tab').forEach(tab => {
+                const passageNum = parseInt(tab.dataset.passage);
+                const passage = testData.passages[passageNum];
+                if (passage.title && passage.text) {
+                    tab.classList.add('has-content');
+                } else {
+                    tab.classList.remove('has-content');
+                }
+            });
+        }
+
+        function updateStats() {
+            let totalQuestions = 0;
+            let totalSections = 0;
+            let passagesReady = 0;
+
+            Object.values(testData.passages).forEach(passage => {
+                if (passage.title && passage.text) passagesReady++;
+                passage.sections.forEach(section => {
+                    totalSections++;
+                    totalQuestions += section.questions.length;
+                });
+            });
+
+            document.getElementById('totalPassages').textContent = passagesReady;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('totalSections').textContent = totalSections;
+            document.getElementById('sectionCount').textContent = `${testData.passages[currentPassage].sections.length} sections`;
+        }
+
+        function openAddSectionModal() {
+            selectedQuestionType = null;
+            document.querySelectorAll('.question-type-option').forEach(o => o.classList.remove('selected'));
+            
+            // Suggest next question number
+            const passage = testData.passages[currentPassage];
+            let nextStart = passage.questionStart;
+            if (passage.sections.length > 0) {
+                const lastSection = passage.sections[passage.sections.length - 1];
+                nextStart = Math.max(...lastSection.questions.map(q => q.number)) + 1;
+            }
+            document.getElementById('sectionStartNum').value = nextStart;
+            document.getElementById('sectionEndNum').value = nextStart + 4;
+            document.getElementById('sectionInstructions').value = '';
+            
+            document.getElementById('addSectionModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function addQuestionSection() {
+            if (!selectedQuestionType) {
+                showToast('Please select a question type!', 'error');
+                return;
+            }
+
+            const startNum = parseInt(document.getElementById('sectionStartNum').value);
+            const endNum = parseInt(document.getElementById('sectionEndNum').value);
+            const instructions = document.getElementById('sectionInstructions').value || questionTypes[selectedQuestionType].instruction;
+
+            const questions = [];
+            for (let i = startNum; i <= endNum; i++) {
+                const q = {
+                    number: i,
+                    text: '',
+                    answer: '',
+                    explanation: ''
+                };
+                
+                // Add type-specific fields
+                if (selectedQuestionType === 'mcq') {
+                    q.options = { A: '', B: '', C: '', D: '' };
+                }
+                if (selectedQuestionType === 'mcq-multi') {
+                    q.options = { A: '', B: '', C: '', D: '', E: '' };
+                    q.answer = ''; // Will store comma-separated like "A, C"
+                }
+                if (selectedQuestionType === 'matching-headings') {
+                    q.headings = [];
+                }
+                if (selectedQuestionType === 'matching-features' || selectedQuestionType === 'matching-info') {
+                    q.features = [];
+                }
+                
+                questions.push(q);
+            }
+
+            const section = {
+                type: selectedQuestionType,
+                typeName: questionTypes[selectedQuestionType].name,
+                instruction: instructions,
+                questions: questions,
+                headingsList: [],
+                featuresList: []
+            };
+
+            testData.passages[currentPassage].sections.push(section);
+            closeModal('addSectionModal');
+            renderQuestionSections();
+            updateStats();
+            showToast('Question section added!');
+        }
+
+        function renderQuestionSections() {
+            const container = document.getElementById('questionSectionsList');
+            const sections = testData.passages[currentPassage].sections;
+            
+            if (sections.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 40px;">No question sections yet. Click the button below to add one.</p>';
+                return;
+            }
+
+            container.innerHTML = sections.map((section, index) => {
+                const qRange = section.questions.length > 0 
+                    ? `Q${section.questions[0].number}-${section.questions[section.questions.length - 1].number}`
+                    : 'No questions';
+                
+                const filledCount = section.questions.filter(q => q.answer).length;
+                
+                return `
+                    <div class="question-section-card" data-index="${index}">
+                        <div class="question-section-header" onclick="toggleSection(${index})">
+                            <div class="question-section-title">
+                                <span class="type-badge">${section.type}</span>
+                                ${section.typeName}
+                                <span style="color: var(--muted); font-weight: 400;">(${qRange})</span>
+                            </div>
+                            <div class="question-section-actions">
+                                <span style="font-size: 12px; color: var(--muted);">${filledCount}/${section.questions.length} answers</span>
+                                <button class="btn-icon edit" onclick="event.stopPropagation(); editSection(${index})">✏️</button>
+                                <button class="btn-icon delete" onclick="event.stopPropagation(); deleteSection(${index})">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="question-section-body">
+                            <p style="font-size: 13px; color: var(--muted); margin-bottom: 12px;"><em>${section.instruction}</em></p>
+                            <div class="questions-preview">
+                                ${section.questions.slice(0, 3).map(q => `
+                                    <div style="padding: 8px 12px; background: #f8fafc; border-radius: 6px; margin-bottom: 6px; font-size: 13px;">
+                                        <strong>Q${q.number}:</strong> ${q.text || '<span style="color: var(--muted);">No question text</span>'}
+                                        ${q.answer ? `<span style="color: var(--success); margin-left: 10px;">✓ ${q.answer}</span>` : ''}
+                                    </div>
+                                `).join('')}
+                                ${section.questions.length > 3 ? `<p style="font-size: 12px; color: var(--muted);">... and ${section.questions.length - 3} more questions</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSection(index) {
+            const card = document.querySelector(`.question-section-card[data-index="${index}"]`);
+            card.classList.toggle('expanded');
+        }
+
+        function editSection(index) {
+            editingSectionIndex = index;
+            const section = testData.passages[currentPassage].sections[index];
+            
+            document.getElementById('editSectionTitle').textContent = `Edit: ${section.typeName}`;
+            
+            let html = `
+                <div class="form-group">
+                    <label>Section Instructions</label>
+                    <textarea id="editInstructions" rows="2">${section.instruction}</textarea>
+                </div>
+            `;
+
+            // Add headings list for matching headings
+            if (section.type === 'matching-headings') {
+                html += `
+                    <div class="form-group">
+                        <label>List of Headings (one per line, use i, ii, iii... format)</label>
+                        <textarea id="headingsList" rows="6" placeholder="i. First heading&#10;ii. Second heading&#10;iii. Third heading">${(section.headingsList || []).join('\n')}</textarea>
+                    </div>
+                `;
+            }
+
+            // Add features list for matching features
+            if (section.type === 'matching-features' || section.type === 'matching-info') {
+                html += `
+                    <div class="form-group">
+                        <label>List of Options (e.g., A, B, C... or paragraph letters)</label>
+                        <textarea id="featuresList" rows="4" placeholder="A. First person/feature&#10;B. Second person/feature">${(section.featuresList || []).join('\n')}</textarea>
+                    </div>
+                `;
+            }
+
+            html += '<div class="questions-list">';
+            
+            section.questions.forEach((q, qIndex) => {
+                html += `<div class="question-item">
+                    <div class="question-item-header">
+                        <div class="question-number">${q.number}</div>
+                        <span style="font-size: 12px; color: var(--muted);">Question ${qIndex + 1} of ${section.questions.length}</span>
+                    </div>`;
+
+                // Question text input
+                if (['tfng', 'ynng', 'short-answer', 'completion', 'diagram-label'].includes(section.type)) {
+                    html += `<textarea id="qtext_${qIndex}" rows="2" placeholder="Question/statement text">${q.text || ''}</textarea>`;
+                }
+
+                // For matching types, show paragraph/item reference
+                if (section.type === 'matching-headings') {
+                    html += `<input type="text" id="qtext_${qIndex}" placeholder="Paragraph letter (e.g., A, B, C)" value="${q.text || ''}">`;
+                }
+
+                if (section.type === 'matching-info' || section.type === 'matching-features') {
+                    html += `<textarea id="qtext_${qIndex}" rows="2" placeholder="Statement to match">${q.text || ''}</textarea>`;
+                }
+
+                // MCQ options
+                if (section.type === 'mcq') {
+                    html += `<textarea id="qtext_${qIndex}" rows="2" placeholder="Question text">${q.text || ''}</textarea>`;
+                    html += '<div class="mcq-options">';
+                    ['A', 'B', 'C', 'D'].forEach(letter => {
+                        html += `
+                            <div class="mcq-option">
+                                <span class="option-letter">${letter}</span>
+                                <input type="text" id="opt_${qIndex}_${letter}" placeholder="Option ${letter}" value="${(q.options && q.options[letter]) || ''}">
+                                <input type="radio" name="ans_${qIndex}" value="${letter}" ${q.answer === letter ? 'checked' : ''}>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                // MCQ Multi-Answer options (checkboxes)
+                if (section.type === 'mcq-multi') {
+                    html += `<textarea id="qtext_${qIndex}" rows="2" placeholder="Question text">${q.text || ''}</textarea>`;
+                    html += '<div class="mcq-options">';
+                    const selectedAnswers = (q.answer || '').split(',').map(a => a.trim());
+                    ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
+                        html += `
+                            <div class="mcq-option">
+                                <span class="option-letter">${letter}</span>
+                                <input type="text" id="opt_${qIndex}_${letter}" placeholder="Option ${letter}" value="${(q.options && q.options[letter]) || ''}">
+                                <input type="checkbox" name="ans_${qIndex}" value="${letter}" ${selectedAnswers.includes(letter) ? 'checked' : ''}>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    html += `<p style="font-size:11px;color:var(--muted);margin-top:6px;">Check the correct answers (typically 2)</p>`;
+                }
+
+                // List selection (multiple answers)
+                if (section.type === 'list-selection') {
+                    html += `<textarea id="qtext_${qIndex}" rows="2" placeholder="Question text">${q.text || ''}</textarea>`;
+                    html += `<div class="answer-input-group">
+                        <label>Correct Answers (comma separated):</label>
+                        <input type="text" id="ans_${qIndex}" placeholder="e.g., A, C" value="${q.answer || ''}">
+                    </div>`;
+                }
+
+                // Answer input for non-MCQ types
+                if (['tfng', 'ynng'].includes(section.type)) {
+                    html += `<div class="answer-input-group" style="margin-top: 10px;">
+                        <label>Answer:</label>
+                        <select id="ans_${qIndex}">
+                            <option value="">--select--</option>
+                            ${questionTypes[section.type].options.map(opt => 
+                                `<option value="${opt}" ${q.answer === opt ? 'selected' : ''}>${opt}</option>`
+                            ).join('')}
+                        </select>
+                    </div>`;
+                }
+
+                if (['completion', 'short-answer', 'matching-headings', 'matching-info', 'matching-features', 'diagram-label'].includes(section.type)) {
+                    html += `<div class="answer-input-group" style="margin-top: 10px;">
+                        <label>Answer:</label>
+                        <input type="text" id="ans_${qIndex}" placeholder="Correct answer" value="${q.answer || ''}">
+                    </div>`;
+                }
+
+                // Explanation field
+                html += `<div class="explanation-field">
+                    <textarea id="exp_${qIndex}" placeholder="Explanation (optional)">${q.explanation || ''}</textarea>
+                </div>`;
+
+                html += '</div>';
+            });
+
+            html += '</div>';
+
+            document.getElementById('editSectionBody').innerHTML = html;
+            document.getElementById('editSectionModal').classList.add('active');
+        }
+
+        function saveQuestionSection() {
+            const section = testData.passages[currentPassage].sections[editingSectionIndex];
+            
+            section.instruction = document.getElementById('editInstructions').value;
+
+            // Save headings list
+            if (section.type === 'matching-headings') {
+                const headingsInput = document.getElementById('headingsList');
+                if (headingsInput) {
+                    section.headingsList = headingsInput.value.split('\n').filter(h => h.trim());
+                }
+            }
+
+            // Save features list
+            if (section.type === 'matching-features' || section.type === 'matching-info') {
+                const featuresInput = document.getElementById('featuresList');
+                if (featuresInput) {
+                    section.featuresList = featuresInput.value.split('\n').filter(f => f.trim());
+                }
+            }
+
+            section.questions.forEach((q, qIndex) => {
+                // Get question text
+                const textEl = document.getElementById(`qtext_${qIndex}`);
+                if (textEl) q.text = textEl.value;
+
+                // Get answer
+                if (section.type === 'mcq') {
+                    const selectedRadio = document.querySelector(`input[name="ans_${qIndex}"]:checked`);
+                    q.answer = selectedRadio ? selectedRadio.value : '';
+                    // Get options
+                    q.options = {};
+                    ['A', 'B', 'C', 'D'].forEach(letter => {
+                        const optEl = document.getElementById(`opt_${qIndex}_${letter}`);
+                        if (optEl) q.options[letter] = optEl.value;
+                    });
+                } else if (section.type === 'mcq-multi') {
+                    // Get all checked checkboxes for multi-answer
+                    const checkedBoxes = document.querySelectorAll(`input[name="ans_${qIndex}"]:checked`);
+                    q.answer = Array.from(checkedBoxes).map(cb => cb.value).join(', ');
+                    // Get options
+                    q.options = {};
+                    ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
+                        const optEl = document.getElementById(`opt_${qIndex}_${letter}`);
+                        if (optEl) q.options[letter] = optEl.value;
+                    });
+                } else {
+                    const ansEl = document.getElementById(`ans_${qIndex}`);
+                    if (ansEl) q.answer = ansEl.value;
+                }
+
+                // Get explanation
+                const expEl = document.getElementById(`exp_${qIndex}`);
+                if (expEl) q.explanation = expEl.value;
+            });
+
+            closeModal('editSectionModal');
+            renderQuestionSections();
+            updateStats();
+            showToast('Questions saved!');
+        }
+
+        function deleteSection(index) {
+            if (confirm('Are you sure you want to delete this section?')) {
+                testData.passages[currentPassage].sections.splice(index, 1);
+                renderQuestionSections();
+                updateStats();
+                showToast('Section deleted');
+            }
+        }
+
+        function generateCode() {
+            saveCurrentPassage();
+            
+            // Build the full test data object
+            const output = {
+                testInfo: {
+                    totalQuestions: 40,
+                    totalTime: 60,
+                    passages: 3
+                },
+                passages: []
+            };
+
+            for (let i = 1; i <= 3; i++) {
+                const p = testData.passages[i];
+                const passageObj = {
+                    id: i,
+                    title: p.title,
+                    shortName: p.shortName || p.title,
+                    difficulty: i === 1 ? 'Easy' : (i === 2 ? 'Medium' : 'Hard'),
+                    questionRange: `${p.questionStart}-${p.questionEnd}`,
+                    timeRecommended: p.timeRecommended,
+                    passageHeader: {
+                        title: `READING PASSAGE ${i}`,
+                        instruction: `You should spend about ${p.timeRecommended} minutes on <strong>Questions ${p.questionStart}-${p.questionEnd}</strong>, which are based on Reading Passage ${i} below.`
+                    },
+                    passage: formatPassageText(p.text, p.displayTitle, p.caption),
+                    questionSections: p.sections.map(section => ({
+                        type: section.type,
+                        typeName: section.typeName,
+                        title: `Questions ${section.questions[0]?.number || ''}-${section.questions[section.questions.length - 1]?.number || ''}`,
+                        instruction: section.instruction,
+                        headingsList: section.headingsList || [],
+                        featuresList: section.featuresList || [],
+                        questions: section.questions.map(q => {
+                            const qObj = {
+                                id: q.number,
+                                text: q.text
+                            };
+                            if (section.type === 'mcq' && q.options) {
+                                qObj.options = Object.values(q.options).filter(o => o);
+                            }
+                            if (section.type === 'mcq-multi' && q.options) {
+                                qObj.options = Object.values(q.options).filter(o => o);
+                            }
+                            return qObj;
+                        })
+                    })),
+                    correctAnswers: {},
+                    explanations: {}
+                };
+
+                // Build answers and explanations
+                p.sections.forEach(section => {
+                    section.questions.forEach(q => {
+                        // Handle multiple acceptable answers (comma-separated)
+                        const answers = q.answer.split(',').map(a => a.trim().toUpperCase()).filter(a => a);
+                        passageObj.correctAnswers[`q${q.number}`] = answers.length === 1 ? answers : answers;
+                        if (q.explanation) {
+                            passageObj.explanations[`q${q.number}`] = q.explanation;
+                        }
+                    });
+                });
+
+                output.passages.push(passageObj);
+            }
+
+            const code = `// IELTS Reading Test - Generated ${new Date().toLocaleDateString()}
+// This file contains all 3 passages with questions, answers, and explanations
+
+window.IELTS_READING_TEST = ${JSON.stringify(output, null, 4)};
+`;
+
+            document.getElementById('outputCode').value = code;
+            showToast('Code generated successfully!');
+        }
+
+        function formatPassageText(text, displayTitle, caption) {
+            if (!text) return '';
+            let output = '';
+            
+            // Add display title if provided (bold, centered)
+            if (displayTitle) {
+                output += `<h2 class="passage-title">${displayTitle}</h2>\n\n`;
+            }
+            
+            // Add caption if provided (italic, centered)
+            if (caption) {
+                output += `<p class="passage-caption">${caption}</p>\n\n`;
+            }
+            
+            // Convert double newlines to paragraph tags
+            const paragraphs = text.split(/\n\n+/);
+            output += paragraphs.map(p => `<p>${p.trim()}</p>`).join('\n\n');
+            return output;
+        }
+
+        function copyCode() {
+            const code = document.getElementById('outputCode').value;
+            if (!code) {
+                showToast('Generate code first!', 'error');
+                return;
+            }
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('Code copied to clipboard!');
+            });
+        }
+
+        function downloadCode() {
+            const code = document.getElementById('outputCode').value;
+            if (!code) {
+                showToast('Generate code first!', 'error');
+                return;
+            }
+
+            const filename = prompt('Enter filename (without .js):', 'ielts-reading-test-01');
+            if (!filename) return;
+
+            const blob = new Blob([code], { type: 'application/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}.js`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('File downloaded!');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'error' ? 'var(--danger)' : 'var(--success)';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

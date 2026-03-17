@@ -1,0 +1,2739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard Builder — Generate Vocabulary JS Files</title>
+  <style>
+    :root {
+      --bg1: #667eea;
+      --bg2: #764ba2;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --accent: #667eea;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.1rem;
+    }
+
+    .main-card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title span {
+      background: var(--accent);
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .cards-section {
+      margin-top: 30px;
+      border-top: 2px solid #f1f5f9;
+      padding-top: 25px;
+    }
+
+    .cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .card-count {
+      background: linear-gradient(135deg, var(--accent), var(--bg2));
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--bg2));
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .card-entry {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .card-entry:hover {
+      border-color: var(--accent);
+    }
+
+    .card-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-number {
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .delete-card {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+
+    .delete-card:hover {
+      background: #fef2f2;
+    }
+
+    .card-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 700px) {
+      .card-fields { grid-template-columns: 1fr; }
+    }
+
+    .card-fields input {
+      padding: 10px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .card-fields input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .card-fields input::placeholder {
+      color: #94a3b8;
+    }
+
+    .example-field {
+      grid-column: 1 / -1;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .output-section {
+      margin-top: 20px;
+    }
+
+    .output-box {
+      background: #1e293b;
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .output-box pre {
+      color: #e2e8f0;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+    }
+
+    .filename-display {
+      background: #f1f5f9;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filename-display code {
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .tips {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-top: 20px;
+    }
+
+    .tips h4 {
+      color: #92400e;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips ul {
+      color: #a16207;
+      margin-left: 20px;
+      font-size: 0.9rem;
+    }
+
+    .tips li {
+      margin-bottom: 4px;
+    }
+
+    /* Branding Section Styles */
+    .branding-section {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .branding-section .section-title {
+      color: #166534;
+    }
+
+    .branding-section .section-title span {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .color-input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .color-input-row input[type="color"] {
+      width: 50px;
+      height: 40px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    .color-input-row input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+    }
+
+    .custom-colors {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px dashed #86efac;
+    }
+
+    .color-preview {
+      margin-top: 15px;
+    }
+
+    .color-preview-box {
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: background 0.3s;
+    }
+
+    .preview-label {
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+    }
+
+    .bulk-import {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px dashed #e2e8f0;
+    }
+
+    .bulk-import textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .template-btns {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .template-btn {
+      padding: 8px 16px;
+      background: #f1f5f9;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .template-btn:hover {
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    .hidden { display: none; }
+
+    /* AI Generation Styles */
+    .ai-section {
+      background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+      border: 2px solid #a5b4fc;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .ai-section .section-title {
+      color: #4338ca;
+    }
+
+    .ai-section .section-title span {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+    }
+
+    .api-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .api-status-badge.connected {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .api-status-badge.disconnected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .api-status-badge.loading {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .ai-prompt-area {
+      width: 100%;
+      min-height: 80px;
+      padding: 12px 16px;
+      border: 2px solid #c7d2fe;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 15px;
+    }
+
+    .ai-prompt-area:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+
+    .ai-options {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .ai-options label {
+      font-weight: 600;
+      color: #4338ca;
+      font-size: 0.9rem;
+    }
+
+    .ai-options select, .ai-options input[type="number"] {
+      padding: 8px 12px;
+      border: 2px solid #c7d2fe;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .btn-ai {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ai:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-ai:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ai-status {
+      margin-top: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .ai-status.loading {
+      display: block;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .ai-status.success {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .ai-status.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #92400e;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .preset-prompts {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .preset-btn {
+      padding: 6px 12px;
+      background: #fff;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+      background: #6366f1;
+      color: #fff;
+      border-color: #6366f1;
+    }
+
+    /* ========== FLASHCARD PREVIEW STYLES ========== */
+    .preview-section {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 2px solid #f1f5f9;
+    }
+
+    .preview-container {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      padding: 30px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255,255,255,.1) 0%, transparent 50%),
+                 radial-gradient(circle at 80% 80%, rgba(255,255,255,.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .preview-header h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .preview-counter {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+
+    .preview-progress {
+      width: 100%;
+      max-width: 300px;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      margin: 10px auto 0;
+      overflow: hidden;
+    }
+
+    .preview-progress-bar {
+      height: 100%;
+      background: #10b981;
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    .flashcard-preview {
+      perspective: 1000px;
+      max-width: 600px;
+      margin: 0 auto 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 320px;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-front, .flashcard-back {
+      position: absolute;
+      width: 100%;
+      min-height: 320px;
+      backface-visibility: hidden;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
+    }
+
+    .flashcard-front {
+      background: #ffffff;
+    }
+
+    .flashcard-back {
+      background: #f8fafc;
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-term {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 800;
+      color: #1e3a5f;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .flashcard-definition {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      font-weight: 700;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .flashcard-translation {
+      font-size: 1.1rem;
+      color: #667eea;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .flashcard-example {
+      background: #e8f4fc;
+      border-left: 4px solid #667eea;
+      padding: 15px 20px;
+      border-radius: 0 12px 12px 0;
+      font-size: 1rem;
+      color: #334155;
+      font-style: italic;
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .preview-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .preview-btn {
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-btn-nav {
+      background: #ffffff;
+      border: none;
+      color: #1e293b;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .preview-btn-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .preview-btn-flip {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .preview-btn-flip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+    }
+
+    .no-cards-message {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+    }
+
+    /* Flip Side Input Section */
+    .flip-input-section {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 25px;
+    }
+
+    .flip-input-section .section-title {
+      color: #166534;
+    }
+
+    .flip-input-section .section-title span {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .flip-input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .flip-input-area {
+      width: 100%;
+      min-height: 120px;
+      padding: 15px;
+      border: 2px dashed #86efac;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: 'Consolas', monospace;
+      resize: vertical;
+      margin-bottom: 15px;
+      background: #fff;
+    }
+
+    .flip-input-area:focus {
+      outline: none;
+      border-color: #22c55e;
+      border-style: solid;
+    }
+
+    .flip-input-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-ai-fill {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ai-fill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-ai-fill:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .upload-btn {
+      background: #fff;
+      border: 2px solid #86efac;
+      color: #166534;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-btn:hover {
+      background: #f0fdf4;
+      border-color: #22c55e;
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    .flip-status {
+      margin-top: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .flip-status.loading, .examples-status.loading {
+      display: block;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .flip-status.success, .examples-status.success {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .flip-status.error, .examples-status.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .examples-status {
+      margin-top: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .format-hint {
+      background: #fff;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 12px 15px;
+      font-size: 0.85rem;
+      color: #166534;
+      margin-bottom: 15px;
+    }
+
+    .format-hint code {
+      background: #dcfce7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Consolas', monospace;
+    }
+
+    /* Front Side Input Section */
+    .front-input-section {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #93c5fd;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .front-input-section .section-title {
+      color: #1e40af;
+    }
+
+    .front-input-section .section-title span {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    .front-input-area {
+      width: 100%;
+      min-height: 120px;
+      padding: 15px;
+      border: 2px dashed #93c5fd;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 15px;
+      background: #fff;
+    }
+
+    .front-input-area:focus {
+      outline: none;
+      border-color: #3b82f6;
+      border-style: solid;
+    }
+
+    .front-input-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-front-add {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-front-add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .upload-btn-front {
+      background: #fff;
+      border: 2px solid #93c5fd;
+      color: #1e40af;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-btn-front:hover {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+
+    .front-status {
+      margin-top: 15px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .front-status.loading {
+      display: block;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .front-status.success {
+      display: block;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .front-status.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .format-hint-front {
+      background: #fff;
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      padding: 12px 15px;
+      font-size: 0.85rem;
+      color: #1e40af;
+      margin-bottom: 15px;
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🃏 Flashcard Builder</h1>
+      <p>Generate vocabulary JS files for your flashcard app</p>
+    </div>
+
+    <div class="main-card">
+      <div class="section-title"><span>1</span> File Settings</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category Name</label>
+          <input type="text" id="categoryName" placeholder="e.g., idioms, animals, phrasal-verbs">
+        </div>
+        <div class="form-group">
+          <label>File Number</label>
+          <input type="number" id="fileNumber" value="01" min="1" max="99" placeholder="01">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Display Title</label>
+          <input type="text" id="displayTitle" placeholder="e.g., Idioms Flashcards">
+        </div>
+        <div class="form-group">
+          <label>Card Type</label>
+          <select id="cardType">
+            <option value="idiom">Idiom (i, en, uz, ex)</option>
+            <option value="vocab">Vocabulary (word, en, uz, ex)</option>
+            <option value="phrasal">Phrasal Verb (verb, en, uz, ex)</option>
+            <option value="custom">Custom Fields</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Branding Section -->
+      <div class="branding-section">
+        <div class="section-title"><span>🎨</span> Branding & Colors (Optional)</div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Logo URL</label>
+            <input type="url" id="logoUrl" placeholder="https://example.com/logo.jpg">
+            <small style="color: #64748b; font-size: 0.8rem;">Direct image link (e.g., from ibb.co)</small>
+          </div>
+          <div class="form-group">
+            <label>Brand Name</label>
+            <input type="text" id="brandName" placeholder="e.g., Bekzod's Flashcards">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Subtitle</label>
+            <input type="text" id="brandSubtitle" placeholder="e.g., Bekzod Turg'unov">
+          </div>
+          <div class="form-group">
+            <label>Color Theme</label>
+            <select id="colorTheme" onchange="updateColorInputs()">
+              <option value="default">Default (Purple)</option>
+              <option value="teal">Teal/Green</option>
+              <option value="blue">Blue</option>
+              <option value="orange">Orange</option>
+              <option value="pink">Pink</option>
+              <option value="custom">Custom Colors</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="customColorSection" class="custom-colors hidden">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Background Color 1</label>
+              <div class="color-input-row">
+                <input type="color" id="bgColor1" value="#667eea">
+                <input type="text" id="bgColor1Text" value="#667eea" placeholder="#667eea">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Background Color 2</label>
+              <div class="color-input-row">
+                <input type="color" id="bgColor2" value="#764ba2">
+                <input type="text" id="bgColor2Text" value="#764ba2" placeholder="#764ba2">
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Accent Color</label>
+              <div class="color-input-row">
+                <input type="color" id="accentColor" value="#667eea">
+                <input type="text" id="accentColorText" value="#667eea" placeholder="#667eea">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Progress Bar Color</label>
+              <div class="color-input-row">
+                <input type="color" id="progressColor" value="#fbbf24">
+                <input type="text" id="progressColorText" value="#fbbf24" placeholder="#fbbf24">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="color-preview" id="colorPreview">
+          <div class="color-preview-box" id="colorPreviewBox">
+            <div class="preview-label">Preview</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Generation Section -->
+      <div class="ai-section">
+        <div class="section-title"><span>🤖</span> AI Flashcard Generator</div>
+        
+        <div class="api-status-badge loading" id="apiStatusBadge">
+          <span class="spinner"></span> Connecting to server...
+        </div>
+
+        <div class="preset-prompts">
+          <span style="font-size: 0.85rem; color: #4338ca; font-weight: 600;">Quick prompts:</span>
+          <button class="preset-btn" onclick="setPrompt('common idioms')">Common Idioms</button>
+          <button class="preset-btn" onclick="setPrompt('business vocabulary')">Business Vocab</button>
+          <button class="preset-btn" onclick="setPrompt('academic words')">Academic Words</button>
+          <button class="preset-btn" onclick="setPrompt('phrasal verbs')">Phrasal Verbs</button>
+          <button class="preset-btn" onclick="setPrompt('IELTS vocabulary')">IELTS Vocab</button>
+          <button class="preset-btn" onclick="setPrompt('animal names')">Animals</button>
+          <button class="preset-btn" onclick="setPrompt('food vocabulary')">Food</button>
+        </div>
+
+        <textarea class="ai-prompt-area" id="aiPrompt" placeholder="Describe what flashcards you want to generate...&#10;Example: Generate 20 common English idioms related to success and hard work"></textarea>
+
+        <div class="ai-options">
+          <label>Cards to generate:</label>
+          <input type="number" id="aiCardCount" value="10" min="1" max="100" style="width: 70px;">
+          
+          <label style="margin-left: 15px;">Model:</label>
+          <select id="aiModel">
+            <option value="gpt-4o-mini">GPT-4o Mini (Fast & Cheap)</option>
+            <option value="gpt-4o">GPT-4o (Best Quality)</option>
+            <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Legacy)</option>
+          </select>
+        </div>
+
+        <button class="btn-ai" id="generateAiBtn" onclick="generateWithAI()">
+          🤖 Generate with AI
+        </button>
+
+        <div class="ai-status" id="aiStatus"></div>
+      </div>
+
+      <!-- Front Side Input Section -->
+      <div class="front-input-section">
+        <div class="section-title"><span>📝</span> Front Side - Add Terms</div>
+        
+        <div class="format-hint-front">
+          ✏️ <strong>Type, paste, or upload</strong> your words/phrases/idioms (one per line). Then use "AI Fill" to auto-generate definitions!
+        </div>
+
+        <textarea class="front-input-area" id="frontInputArea" placeholder="Enter your terms here (one per line)...
+
+Example:
+break the ice
+hit the road
+piece of cake
+once in a blue moon
+the ball is in your court"></textarea>
+
+        <div class="front-input-actions">
+          <button class="btn-front-add" onclick="addTermsFromFrontInput()">
+            ➕ Add Terms as Cards
+          </button>
+          
+          <button class="upload-btn-front" onclick="document.getElementById('frontFileUpload').click()">
+            📁 Upload File
+          </button>
+          <input type="file" id="frontFileUpload" class="file-input-hidden" accept=".txt,.csv,image/*,.pdf" onchange="handleFrontFileUpload(event)">
+          
+          <button class="btn btn-outline" onclick="document.getElementById('frontInputArea').value = ''">
+            🗑️ Clear
+          </button>
+        </div>
+
+        <div class="front-status" id="frontStatus"></div>
+      </div>
+
+      <!-- Cards Section -->
+      <div class="cards-section">
+        <div class="cards-header">
+          <div class="section-title"><span>2</span> Add Flashcards</div>
+          <div class="card-count">Total: <span id="totalCards">0</span> cards</div>
+        </div>
+
+        <div class="template-btns">
+          <button class="template-btn" onclick="addCard()">➕ Add Single Card</button>
+          <button class="template-btn" onclick="addMultipleCards(5)">➕ Add 5 Cards</button>
+          <button class="template-btn" onclick="addMultipleCards(10)">➕ Add 10 Cards</button>
+          <button class="template-btn" onclick="toggleBulkImport()">📋 Bulk Import</button>
+        </div>
+
+        <div id="bulkImportSection" class="bulk-import hidden">
+          <label style="font-weight: 600; display: block; margin-bottom: 8px;">Bulk Import (one card per line)</label>
+          <textarea id="bulkInput" placeholder="Format: term | english meaning | uzbek translation | example sentence
+kick the bucket | to die | o'lmoq | He kicked the bucket last year.
+piece of cake | very easy | juda oson | This test was a piece of cake."></textarea>
+          <button class="btn btn-primary" onclick="importBulk()">Import Cards</button>
+        </div>
+
+        <div id="cardsContainer"></div>
+
+        <button class="btn btn-primary" onclick="addCard()" style="margin-top: 15px;">
+          ➕ Add New Card
+        </button>
+      </div>
+
+      <!-- Flip Side Input Section -->
+      <div class="flip-input-section">
+        <div class="flip-input-header">
+          <div class="section-title"><span>🔄</span> Flip Side Auto-Fill</div>
+          <button class="btn-ai-fill" id="aiFillBtn" onclick="aiFillFlipSide()">
+            🤖 AI Fill All Cards
+          </button>
+        </div>
+
+        <div class="format-hint">
+          📋 <strong>Paste definitions</strong> - Supports multiple formats:
+          <ul style="margin: 8px 0 0 20px; font-size: 0.85rem;">
+            <li><code>(Uzbek) [English]</code> — e.g., <code>(Aniqroq nima?) [Explain / clarify]</code></li>
+            <li><code>term | definition | uzbek | example</code> — pipe-separated</li>
+            <li>One definition per line (matches cards in order)</li>
+          </ul>
+        </div>
+
+        <textarea class="flip-input-area" id="flipInputArea" placeholder="Paste your definitions here (one per line)...
+
+Format 1 - Parentheses & Brackets:
+(Uzbek translation) [English definition/category]
+(Aniqroq nimani nazarda tutyapsan?) [Explain / clarify (super common)]
+(Bu nimani anglatadi o'zi?) [Explain / clarify]
+
+Format 2 - Pipe separated:
+term | english definition | uzbek translation | example
+break the ice | make people comfortable | muzni sindirish | He told a joke."></textarea>
+
+        <div class="flip-input-actions">
+          <button class="upload-btn" onclick="document.getElementById('fileUpload').click()">
+            📁 Upload File
+          </button>
+          <input type="file" id="fileUpload" class="file-input-hidden" accept=".txt,.csv,.pdf,image/*" onchange="handleFileUpload(event)">
+          
+          <button class="btn btn-primary" onclick="parseAndFillFlipSide()">
+            ✅ Apply to Cards
+          </button>
+          
+          <button class="btn btn-outline" onclick="document.getElementById('flipInputArea').value = ''">
+            🗑️ Clear
+          </button>
+        </div>
+
+        <div class="flip-status" id="flipStatus"></div>
+      </div>
+
+      <!-- Example Sentences Input Section -->
+      <div class="examples-input-section" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid #fbbf24; border-radius: 15px; padding: 20px; margin-top: 20px;">
+        <div class="section-title" style="color: #92400e;"><span style="background: linear-gradient(135deg, #f59e0b, #d97706);">💬</span> Example Sentences (Optional)</div>
+        
+        <div class="format-hint" style="background: #fff; border-color: #fbbf24; color: #92400e;">
+          📝 <strong>Paste example sentences</strong> — one per line, in the same order as your cards
+        </div>
+
+        <textarea class="flip-input-area" id="examplesInputArea" style="border-color: #fbbf24; min-height: 100px;" placeholder="Paste example sentences here (one per line)...
+
+What do you mean exactly? Can you explain?
+I don't understand. What's that supposed to mean?
+How do you mean? I'm confused."></textarea>
+
+        <div class="flip-input-actions">
+          <button class="btn btn-primary" onclick="applyExamplesToCards()" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            ✅ Apply Examples to Cards
+          </button>
+          
+          <button class="btn btn-outline" onclick="document.getElementById('examplesInputArea').value = ''">
+            🗑️ Clear
+          </button>
+        </div>
+
+        <div class="examples-status" id="examplesStatus"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-row">
+        <button class="btn btn-success" onclick="generateCode()">⚡ Generate JS Code</button>
+        <button class="btn btn-outline" onclick="clearAll()">🗑️ Clear All</button>
+        <button class="btn btn-outline" onclick="saveToLocalStorage()">💾 Save Draft</button>
+        <button class="btn btn-outline" onclick="loadFromLocalStorage()">📂 Load Draft</button>
+      </div>
+
+      <!-- Output -->
+      <div id="outputSection" class="output-section hidden">
+        <div class="section-title"><span>3</span> Generated Code</div>
+        
+        <div class="filename-display" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            📄 Filename: <code id="generatedFilename">category01.js</code>
+            <span style="color: var(--text-light); font-size: 0.9rem;">→ Save in <strong>flashcards/</strong> folder</span>
+          </div>
+          <button class="btn btn-success" onclick="downloadJsFile()" style="padding: 10px 20px; font-size: 0.9rem;">
+            📥 Download JS File
+          </button>
+        </div>
+
+        <div class="output-box">
+          <button class="copy-btn" onclick="copyCode()">📋 Copy</button>
+          <pre id="codeOutput"></pre>
+        </div>
+      </div>
+
+      <div class="tips">
+        <h4>💡 Quick Tips</h4>
+        <ul>
+          <li>Save generated JS files in the <code>flashcards/</code> folder</li>
+          <li>Use consistent naming: <code>category01.js</code>, <code>category02.js</code>, etc.</li>
+          <li>Update <code>Idioms.html</code> script src to load your new file</li>
+          <li>Use "Bulk Import" for faster data entry with pipe-separated values</li>
+        </ul>
+      </div>
+
+      <!-- Flashcard Preview Section -->
+      <div class="preview-section">
+        <div class="section-title"><span>👁️</span> Live Preview</div>
+        
+        <div class="preview-container">
+          <div class="preview-header">
+            <h2>✨ <span id="previewTitle">Flashcards</span></h2>
+            <div class="preview-counter">Card <span id="previewCurrent">1</span> of <span id="previewTotal">0</span></div>
+            <div class="preview-progress">
+              <div class="preview-progress-bar" id="previewProgress" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="flashcard-preview" id="flashcardPreview">
+            <div class="no-cards-message" id="noCardsMessage">
+              Add some cards above to see the preview! 🃏
+            </div>
+            <div class="flashcard-inner" id="flashcardInner" style="display: none;">
+              <div class="flashcard-front">
+                <div class="flashcard-term" id="previewTerm">Your term here</div>
+              </div>
+              <div class="flashcard-back">
+                <div class="flashcard-definition" id="previewDefinition">English definition</div>
+                <div class="flashcard-translation" id="previewTranslation">(Uzbek translation)</div>
+                <div class="flashcard-example" id="previewExample">Example sentence goes here.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-controls">
+            <button class="preview-btn preview-btn-nav" onclick="previewPrev()">← Previous</button>
+            <button class="preview-btn preview-btn-flip" onclick="previewFlip()">🔄 Flip Card</button>
+            <button class="preview-btn preview-btn-nav" onclick="previewNext()">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cardCount = 0;
+
+    // Field configurations for different card types
+    const fieldConfigs = {
+      idiom: [
+        { key: 'i', placeholder: 'Idiom phrase', label: 'Idiom' },
+        { key: 'en', placeholder: 'English meaning', label: 'English' },
+        { key: 'uz', placeholder: 'Uzbek translation', label: 'Uzbek' },
+        { key: 'ex', placeholder: 'Example sentence', label: 'Example', fullWidth: true }
+      ],
+      vocab: [
+        { key: 'word', placeholder: 'Word', label: 'Word' },
+        { key: 'en', placeholder: 'English definition', label: 'English' },
+        { key: 'uz', placeholder: 'Uzbek translation', label: 'Uzbek' },
+        { key: 'ex', placeholder: 'Example sentence', label: 'Example', fullWidth: true }
+      ],
+      phrasal: [
+        { key: 'verb', placeholder: 'Phrasal verb', label: 'Verb' },
+        { key: 'en', placeholder: 'English meaning', label: 'English' },
+        { key: 'uz', placeholder: 'Uzbek translation', label: 'Uzbek' },
+        { key: 'ex', placeholder: 'Example sentence', label: 'Example', fullWidth: true }
+      ],
+      custom: [
+        { key: 'term', placeholder: 'Term', label: 'Term' },
+        { key: 'en', placeholder: 'English', label: 'English' },
+        { key: 'uz', placeholder: 'Uzbek', label: 'Uzbek' },
+        { key: 'ex', placeholder: 'Example', label: 'Example', fullWidth: true }
+      ]
+    };
+
+    function getFields() {
+      const type = document.getElementById('cardType').value;
+      return fieldConfigs[type];
+    }
+
+    function addCard(data = null) {
+      cardCount++;
+      const container = document.getElementById('cardsContainer');
+      const fields = getFields();
+      
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card-entry';
+      cardDiv.id = `card-${cardCount}`;
+      
+      let fieldsHTML = fields.map((f, idx) => {
+        const value = data ? (data[f.key] || data[Object.keys(data)[idx]] || '') : '';
+        const className = f.fullWidth ? 'example-field' : '';
+        return `<input type="text" class="${className}" data-key="${f.key}" placeholder="${f.placeholder}" value="${escapeHtml(value)}">`;
+      }).join('');
+
+      cardDiv.innerHTML = `
+        <div class="card-entry-header">
+          <span class="card-number">Card #${cardCount}</span>
+          <button class="delete-card" onclick="deleteCard(${cardCount})">🗑️ Delete</button>
+        </div>
+        <div class="card-fields">
+          ${fieldsHTML}
+        </div>
+      `;
+      
+      container.appendChild(cardDiv);
+      updateCardCount();
+    }
+
+    function addMultipleCards(count) {
+      for (let i = 0; i < count; i++) {
+        addCard();
+      }
+    }
+
+    function deleteCard(id) {
+      const card = document.getElementById(`card-${id}`);
+      if (card) {
+        card.remove();
+        updateCardCount();
+      }
+    }
+
+    function updateCardCount() {
+      const cards = document.querySelectorAll('.card-entry');
+      document.getElementById('totalCards').textContent = cards.length;
+    }
+
+    function toggleBulkImport() {
+      const section = document.getElementById('bulkImportSection');
+      section.classList.toggle('hidden');
+    }
+
+    function importBulk() {
+      const input = document.getElementById('bulkInput').value.trim();
+      if (!input) return;
+
+      const lines = input.split('\n').filter(l => l.trim());
+      const fields = getFields();
+
+      lines.forEach(line => {
+        const parts = line.split('|').map(p => p.trim());
+        const data = {};
+        fields.forEach((f, idx) => {
+          data[f.key] = parts[idx] || '';
+        });
+        addCard(data);
+      });
+
+      document.getElementById('bulkInput').value = '';
+      document.getElementById('bulkImportSection').classList.add('hidden');
+    }
+
+    // ========== COLOR THEME HANDLING ==========
+    
+    const colorThemes = {
+      default: { bg1: '#667eea', bg2: '#764ba2', accent: '#667eea', progress: '#fbbf24' },
+      teal: { bg1: '#0f766e', bg2: '#134e4a', accent: '#0f766e', progress: '#22c55e' },
+      blue: { bg1: '#2563eb', bg2: '#1e40af', accent: '#2563eb', progress: '#38bdf8' },
+      orange: { bg1: '#ea580c', bg2: '#c2410c', accent: '#ea580c', progress: '#fbbf24' },
+      pink: { bg1: '#db2777', bg2: '#9d174d', accent: '#db2777', progress: '#f472b6' }
+    };
+
+    function updateColorInputs() {
+      const theme = document.getElementById('colorTheme').value;
+      const customSection = document.getElementById('customColorSection');
+      
+      if (theme === 'custom') {
+        customSection.classList.remove('hidden');
+      } else {
+        customSection.classList.add('hidden');
+        // Apply preset colors
+        if (colorThemes[theme]) {
+          const colors = colorThemes[theme];
+          document.getElementById('bgColor1').value = colors.bg1;
+          document.getElementById('bgColor1Text').value = colors.bg1;
+          document.getElementById('bgColor2').value = colors.bg2;
+          document.getElementById('bgColor2Text').value = colors.bg2;
+          document.getElementById('accentColor').value = colors.accent;
+          document.getElementById('accentColorText').value = colors.accent;
+          document.getElementById('progressColor').value = colors.progress;
+          document.getElementById('progressColorText').value = colors.progress;
+        }
+      }
+      updateColorPreview();
+    }
+
+    function getSelectedColors() {
+      const theme = document.getElementById('colorTheme').value;
+      if (theme !== 'custom' && colorThemes[theme]) {
+        return colorThemes[theme];
+      }
+      return {
+        bg1: document.getElementById('bgColor1Text').value || '#667eea',
+        bg2: document.getElementById('bgColor2Text').value || '#764ba2',
+        accent: document.getElementById('accentColorText').value || '#667eea',
+        progress: document.getElementById('progressColorText').value || '#fbbf24'
+      };
+    }
+
+    function updateColorPreview() {
+      const colors = getSelectedColors();
+      const previewBox = document.getElementById('colorPreviewBox');
+      previewBox.style.background = `linear-gradient(135deg, ${colors.bg1} 0%, ${colors.bg2} 100%)`;
+    }
+
+    // Sync color picker with text input
+    function setupColorSync() {
+      ['bgColor1', 'bgColor2', 'accentColor', 'progressColor'].forEach(id => {
+        const colorInput = document.getElementById(id);
+        const textInput = document.getElementById(id + 'Text');
+        
+        colorInput.addEventListener('input', () => {
+          textInput.value = colorInput.value;
+          updateColorPreview();
+        });
+        
+        textInput.addEventListener('input', () => {
+          if (/^#[0-9A-Fa-f]{6}$/.test(textInput.value)) {
+            colorInput.value = textInput.value;
+          }
+          updateColorPreview();
+        });
+      });
+    }
+
+    // Initialize color sync on page load
+    document.addEventListener('DOMContentLoaded', setupColorSync);
+
+    let currentFilename = 'category01.js';
+    let currentCode = '';
+
+    function generateCode() {
+      const category = document.getElementById('categoryName').value.trim() || 'vocabulary';
+      const fileNum = String(document.getElementById('fileNumber').value).padStart(2, '0');
+      const title = document.getElementById('displayTitle').value.trim() || `${category} Flashcards`;
+      const cardType = document.getElementById('cardType').value;
+      const fields = getFields();
+
+      const cards = [];
+      document.querySelectorAll('.card-entry').forEach(cardEl => {
+        const inputs = cardEl.querySelectorAll('input');
+        const cardData = {};
+        let hasContent = false;
+
+        inputs.forEach((input, idx) => {
+          const key = input.dataset.key || fields[idx].key;
+          const value = input.value.trim();
+          if (value) hasContent = true;
+          cardData[key] = value;
+        });
+
+        if (hasContent) {
+          cards.push(cardData);
+        }
+      });
+
+      if (cards.length === 0) {
+        alert('Please add at least one card with content!');
+        return;
+      }
+
+      currentFilename = `${category}${fileNum}.js`;
+      
+      // Get branding options
+      const logoUrl = document.getElementById('logoUrl').value.trim();
+      const brandName = document.getElementById('brandName').value.trim();
+      const brandSubtitle = document.getElementById('brandSubtitle').value.trim();
+      const colorTheme = document.getElementById('colorTheme').value;
+      const colors = getSelectedColors();
+      
+      // Generate the JS code - compact format matching idioms01.js
+      const cardsJson = cards.map(card => {
+        const entries = Object.entries(card)
+          .map(([k, v]) => `${k}:"${escapeQuotes(v)}"`)
+          .join(', ');
+        return `    {${entries}}`;
+      }).join(',\n');
+
+      // Build branding section if any branding is set
+      let brandingCode = '';
+      if (logoUrl || brandName || brandSubtitle || colorTheme !== 'default') {
+        if (logoUrl) brandingCode += `  // Custom branding\n  logo: "${escapeQuotes(logoUrl)}",\n`;
+        if (brandName) brandingCode += `  brand: "${escapeQuotes(brandName)}",\n`;
+        if (brandSubtitle) brandingCode += `  subtitle: "${escapeQuotes(brandSubtitle)}",\n`;
+        if (colorTheme !== 'default') {
+          brandingCode += `  // Custom colors\n  colors: {\n    bg1: "${colors.bg1}",\n    bg2: "${colors.bg2}",\n    accent: "${colors.accent}",\n    progress: "${colors.progress}"\n  },\n`;
+        }
+      }
+
+      currentCode = `// Flashcard Data: ${title}
+// This file can be loaded by the flashcard viewer
+
+window.FLASHCARD_DATA = {
+  title: "${escapeQuotes(title)}",
+${brandingCode}  cards: [
+${cardsJson}
+  ]
+};
+`;
+
+      document.getElementById('generatedFilename').textContent = currentFilename;
+      document.getElementById('codeOutput').textContent = currentCode;
+      document.getElementById('outputSection').classList.remove('hidden');
+      
+      // Scroll to output
+      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function downloadJsFile() {
+      if (!currentCode) {
+        alert('Please generate the code first!');
+        return;
+      }
+      
+      const blob = new Blob([currentCode], { type: 'application/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = currentFilename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function copyCode() {
+      const code = document.getElementById('codeOutput').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Are you sure you want to clear all cards?')) {
+        document.getElementById('cardsContainer').innerHTML = '';
+        cardCount = 0;
+        updateCardCount();
+        document.getElementById('outputSection').classList.add('hidden');
+      }
+    }
+
+    function saveToLocalStorage() {
+      const data = {
+        categoryName: document.getElementById('categoryName').value,
+        fileNumber: document.getElementById('fileNumber').value,
+        displayTitle: document.getElementById('displayTitle').value,
+        cardType: document.getElementById('cardType').value,
+        cards: []
+      };
+
+      document.querySelectorAll('.card-entry').forEach(cardEl => {
+        const cardData = {};
+        cardEl.querySelectorAll('input').forEach(input => {
+          cardData[input.dataset.key] = input.value;
+        });
+        data.cards.push(cardData);
+      });
+
+      localStorage.setItem('flashcardBuilderDraft', JSON.stringify(data));
+      alert('Draft saved successfully!');
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('flashcardBuilderDraft');
+      if (!saved) {
+        alert('No saved draft found!');
+        return;
+      }
+
+      const data = JSON.parse(saved);
+      document.getElementById('categoryName').value = data.categoryName || '';
+      document.getElementById('fileNumber').value = data.fileNumber || '01';
+      document.getElementById('displayTitle').value = data.displayTitle || '';
+      document.getElementById('cardType').value = data.cardType || 'idiom';
+
+      // Clear existing cards
+      document.getElementById('cardsContainer').innerHTML = '';
+      cardCount = 0;
+
+      // Add saved cards
+      data.cards.forEach(cardData => {
+        addCard(cardData);
+      });
+
+      alert('Draft loaded successfully!');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function escapeQuotes(text) {
+      return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+    }
+
+    // Update card fields when type changes
+    document.getElementById('cardType').addEventListener('change', function() {
+      const container = document.getElementById('cardsContainer');
+      if (container.children.length > 0) {
+        if (confirm('Changing card type will reset all cards. Continue?')) {
+          container.innerHTML = '';
+          cardCount = 0;
+          updateCardCount();
+        } else {
+          // Revert selection - we'd need to track previous value
+        }
+      }
+    });
+
+    // Initialize with one card
+    addCard();
+
+    // ========== AI GENERATION ==========
+    
+    let API_KEY = null;
+
+    // Fetch API key from backend on page load
+    async function loadApiKey() {
+      const badge = document.getElementById('apiStatusBadge');
+      try {
+        const response = await fetch('https://davirbek.alwaysdata.net/key', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to connect');
+        }
+        const data = await response.json();
+        API_KEY = data.key;
+        badge.className = 'api-status-badge connected';
+        badge.innerHTML = '✅ AI Ready - Connected to server';
+        console.log('API Key loaded from server');
+      } catch (error) {
+        console.error('Error fetching API key:', error);
+        badge.className = 'api-status-badge disconnected';
+        badge.innerHTML = '❌ Server unavailable - Try refreshing';
+      }
+    }
+
+    // Load API key when page loads
+    loadApiKey();
+
+    function setPrompt(topic) {
+      const cardType = document.getElementById('cardType').value;
+      const count = document.getElementById('aiCardCount').value;
+      
+      let prompt = '';
+      switch(cardType) {
+        case 'idiom':
+          prompt = `Generate ${count} ${topic} in English. Include commonly used expressions with clear meanings.`;
+          break;
+        case 'vocab':
+          prompt = `Generate ${count} ${topic} words. Include useful everyday vocabulary.`;
+          break;
+        case 'phrasal':
+          prompt = `Generate ${count} ${topic}. Include common phrasal verbs used in everyday English.`;
+          break;
+        default:
+          prompt = `Generate ${count} flashcards about ${topic}.`;
+      }
+      
+      document.getElementById('aiPrompt').value = prompt;
+    }
+
+    function showAiStatus(message, type) {
+      const status = document.getElementById('aiStatus');
+      status.className = 'ai-status ' + type;
+      status.innerHTML = type === 'loading' ? `<span class="spinner"></span>${message}` : message;
+    }
+
+    async function generateWithAI() {
+      const prompt = document.getElementById('aiPrompt').value.trim();
+      const cardCount = parseInt(document.getElementById('aiCardCount').value) || 10;
+      const model = document.getElementById('aiModel').value;
+      const cardType = document.getElementById('cardType').value;
+
+      if (!API_KEY) {
+        alert('Server connection failed. Please refresh the page and try again.');
+        loadApiKey(); // Try to reconnect
+        return;
+      }
+
+      if (!prompt) {
+        alert('Please enter a prompt describing what flashcards you want!');
+        return;
+      }
+
+      const btn = document.getElementById('generateAiBtn');
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Generating...';
+      showAiStatus('Connecting to OpenAI... This may take 10-30 seconds.', 'loading');
+
+      // Build the system prompt based on card type
+      const fields = fieldConfigs[cardType];
+      const fieldKeys = fields.map(f => f.key);
+      const fieldDesc = fields.map(f => `"${f.key}": "${f.label}"`).join(', ');
+
+      const systemPrompt = `You are a flashcard generator for language learning. Generate exactly ${cardCount} flashcards.
+
+Each flashcard must be a JSON object with these exact fields: ${fieldDesc}
+
+Rules:
+- "en" = English meaning/definition
+- "uz" = Uzbek translation
+- "ex" = Example sentence using the term in context
+- Keep meanings concise but clear
+- Examples should be natural, everyday sentences
+- Return ONLY a valid JSON array of objects, no other text
+- No markdown, no code blocks, just pure JSON array`;
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: model,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: prompt }
+            ],
+            temperature: 0.7,
+            max_tokens: 4000
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || 'API request failed');
+        }
+
+        const data = await response.json();
+        const content = data.choices[0].message.content.trim();
+
+        // Parse the JSON response
+        let cards;
+        try {
+          // Try to extract JSON if wrapped in code blocks
+          let jsonStr = content;
+          if (content.includes('```')) {
+            jsonStr = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+          }
+          cards = JSON.parse(jsonStr);
+        } catch (e) {
+          throw new Error('Failed to parse AI response. The model returned invalid JSON.');
+        }
+
+        if (!Array.isArray(cards) || cards.length === 0) {
+          throw new Error('AI did not return a valid array of cards.');
+        }
+
+        // Add the cards to the builder
+        cards.forEach(card => addCard(card));
+
+        showAiStatus(`✅ Successfully generated ${cards.length} flashcards!`, 'success');
+
+      } catch (error) {
+        console.error('AI Generation Error:', error);
+        showAiStatus(`❌ Error: ${error.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 Generate with AI';
+      }
+    }
+
+    // ========== FRONT SIDE INPUT ==========
+
+    function showFrontStatus(message, type) {
+      const status = document.getElementById('frontStatus');
+      status.className = 'front-status ' + type;
+      status.innerHTML = type === 'loading' ? `<span class="spinner"></span>${message}` : message;
+    }
+
+    function addTermsFromFrontInput() {
+      const input = document.getElementById('frontInputArea').value.trim();
+      if (!input) {
+        alert('Please enter some terms first!');
+        return;
+      }
+
+      const lines = input.split('\n').filter(l => l.trim());
+      const termKey = getTermKey();
+      let addedCount = 0;
+
+      lines.forEach(line => {
+        const term = line.trim();
+        if (term) {
+          // Create card with just the term (front side only)
+          const cardData = {};
+          cardData[termKey] = term;
+          cardData.en = '';
+          cardData.uz = '';
+          cardData.ex = '';
+          addCard(cardData);
+          addedCount++;
+        }
+      });
+
+      if (addedCount > 0) {
+        showFrontStatus(`✅ Added ${addedCount} terms! Now use "AI Fill All Cards" to generate definitions.`, 'success');
+        document.getElementById('frontInputArea').value = '';
+        updatePreview();
+      }
+    }
+
+    async function handleFrontFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showFrontStatus('📄 Processing file...', 'loading');
+
+      try {
+        if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+          // Use OCR via OpenAI Vision to extract terms
+          await extractTermsFromImage(file);
+        } else {
+          // Text file - read directly
+          const text = await file.text();
+          document.getElementById('frontInputArea').value = text;
+          showFrontStatus(`✅ File loaded: ${file.name}`, 'success');
+        }
+      } catch (error) {
+        console.error('File upload error:', error);
+        showFrontStatus(`❌ Error processing file: ${error.message}`, 'error');
+      }
+
+      // Reset file input
+      event.target.value = '';
+    }
+
+    async function extractTermsFromImage(file) {
+      if (!API_KEY) {
+        showFrontStatus('❌ AI not connected. Please refresh the page.', 'error');
+        return;
+      }
+
+      showFrontStatus('🔍 Extracting terms with AI Vision...', 'loading');
+
+      // Convert file to base64
+      const base64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(file);
+      });
+
+      const mimeType = file.type || 'image/png';
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: `Extract all vocabulary words, phrases, idioms, or expressions from this image.
+Return ONLY the terms/phrases, one per line.
+Do not include definitions or translations - just the terms themselves.
+If there are numbered items, remove the numbers.`
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: `data:${mimeType};base64,${base64}`
+                    }
+                  }
+                ]
+              }
+            ],
+            max_tokens: 2000
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || 'Vision API failed');
+        }
+
+        const data = await response.json();
+        const extractedText = data.choices[0].message.content.trim();
+        
+        document.getElementById('frontInputArea').value = extractedText;
+        showFrontStatus(`✅ Extracted terms from image. Click "Add Terms as Cards" to add them.`, 'success');
+
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    // ========== FLIP SIDE INPUT & AI FILL ==========
+
+    function showFlipStatus(message, type) {
+      const status = document.getElementById('flipStatus');
+      status.className = 'flip-status ' + type;
+      status.innerHTML = type === 'loading' ? `<span class="spinner"></span>${message}` : message;
+    }
+
+    function showExamplesStatus(message, type) {
+      const status = document.getElementById('examplesStatus');
+      if (status) {
+        status.className = 'flip-status ' + type;
+        status.innerHTML = type === 'loading' ? `<span class="spinner"></span>${message}` : message;
+      }
+    }
+
+    function parseDefinitionLine(line) {
+      // Try Format 1: (Uzbek) [English]
+      const parenBracketMatch = line.match(/^\s*\(([^)]+)\)\s*\[([^\]]+)\]\s*$/);
+      if (parenBracketMatch) {
+        return {
+          uz: parenBracketMatch[1].trim(),
+          en: parenBracketMatch[2].trim(),
+          ex: ''
+        };
+      }
+
+      // Try Format 2: term | en | uz | ex (pipe separated)
+      if (line.includes('|')) {
+        const parts = line.split('|').map(p => p.trim());
+        if (parts.length >= 2) {
+          return {
+            term: parts[0].toLowerCase(),
+            en: parts[1] || '',
+            uz: parts[2] || '',
+            ex: parts[3] || ''
+          };
+        }
+      }
+
+      // Format 3: Just plain text - treat as definition
+      return {
+        en: line.trim(),
+        uz: '',
+        ex: ''
+      };
+    }
+
+    function parseAndFillFlipSide() {
+      const input = document.getElementById('flipInputArea').value.trim();
+      if (!input) {
+        alert('Please paste or enter some definitions first!');
+        return;
+      }
+
+      const lines = input.split('\n').filter(l => l.trim());
+      const cardElements = document.querySelectorAll('.card-entry');
+      
+      if (cardElements.length === 0) {
+        showFlipStatus(`⚠️ No cards found. Add terms first using "Front Side - Add Terms".`, 'error');
+        return;
+      }
+
+      // Check if lines contain term references (pipe format with terms)
+      const hasTermReferences = lines.some(l => l.includes('|') && l.split('|')[0].trim().length > 0);
+      
+      let filledCount = 0;
+
+      if (hasTermReferences) {
+        // Build term -> definition map
+        const definitions = {};
+        lines.forEach(line => {
+          const parsed = parseDefinitionLine(line);
+          if (parsed.term) {
+            definitions[parsed.term] = parsed;
+          }
+        });
+
+        // Match by term
+        cardElements.forEach(cardEl => {
+          const inputs = cardEl.querySelectorAll('input');
+          const term = inputs[0].value.trim().toLowerCase();
+          
+          if (term && definitions[term]) {
+            const def = definitions[term];
+            if (inputs[1] && def.en) { inputs[1].value = def.en; filledCount++; }
+            if (inputs[2] && def.uz) { inputs[2].value = def.uz; }
+            if (inputs[3] && def.ex) { inputs[3].value = def.ex; }
+          }
+        });
+      } else {
+        // Match by order (line by line to card by card)
+        const cardArray = Array.from(cardElements);
+        
+        lines.forEach((line, idx) => {
+          if (idx < cardArray.length) {
+            const cardEl = cardArray[idx];
+            const inputs = cardEl.querySelectorAll('input');
+            const parsed = parseDefinitionLine(line);
+            
+            if (inputs[1] && parsed.en) { inputs[1].value = parsed.en; filledCount++; }
+            if (inputs[2] && parsed.uz) { inputs[2].value = parsed.uz; }
+            if (inputs[3] && parsed.ex) { inputs[3].value = parsed.ex; }
+          }
+        });
+      }
+
+      if (filledCount > 0) {
+        showFlipStatus(`✅ Filled ${filledCount} cards with definitions!`, 'success');
+        updatePreview();
+      } else {
+        showFlipStatus(`⚠️ No definitions applied. Check format or card count.`, 'error');
+      }
+    }
+
+    function applyExamplesToCards() {
+      const input = document.getElementById('examplesInputArea').value.trim();
+      if (!input) {
+        alert('Please paste some example sentences first!');
+        return;
+      }
+
+      const lines = input.split('\n').filter(l => l.trim());
+      const cardElements = document.querySelectorAll('.card-entry');
+      
+      if (cardElements.length === 0) {
+        showExamplesStatus(`⚠️ No cards found. Add terms first.`, 'error');
+        return;
+      }
+
+      const cardArray = Array.from(cardElements);
+      let filledCount = 0;
+
+      lines.forEach((line, idx) => {
+        if (idx < cardArray.length) {
+          const cardEl = cardArray[idx];
+          const inputs = cardEl.querySelectorAll('input');
+          // Example is the 4th input (index 3)
+          if (inputs[3]) {
+            inputs[3].value = line.trim();
+            filledCount++;
+          }
+        }
+      });
+
+      if (filledCount > 0) {
+        showExamplesStatus(`✅ Added ${filledCount} example sentences!`, 'success');
+        updatePreview();
+      } else {
+        showExamplesStatus(`⚠️ No examples applied. Check card count.`, 'error');
+      }
+    }
+
+    async function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showFlipStatus('📄 Processing file...', 'loading');
+
+      try {
+        if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+          // Use OCR via OpenAI Vision
+          await processImageOrPdf(file);
+        } else {
+          // Text file - read directly
+          const text = await file.text();
+          document.getElementById('flipInputArea').value = text;
+          showFlipStatus(`✅ File loaded: ${file.name}`, 'success');
+        }
+      } catch (error) {
+        console.error('File upload error:', error);
+        showFlipStatus(`❌ Error processing file: ${error.message}`, 'error');
+      }
+
+      // Reset file input
+      event.target.value = '';
+    }
+
+    async function processImageOrPdf(file) {
+      if (!API_KEY) {
+        showFlipStatus('❌ AI not connected. Please refresh the page.', 'error');
+        return;
+      }
+
+      showFlipStatus('🔍 Extracting text with AI Vision...', 'loading');
+
+      // Convert file to base64
+      const base64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(file);
+      });
+
+      const mimeType = file.type || 'image/png';
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: `Extract vocabulary/terms from this image. For each term found, provide:
+- The term/word/phrase
+- English definition
+- Uzbek translation (if visible, otherwise leave empty)
+- Example sentence (if visible, otherwise create one)
+
+Format each line as: term | english definition | uzbek translation | example sentence
+
+Only output the formatted lines, nothing else.`
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: `data:${mimeType};base64,${base64}`
+                    }
+                  }
+                ]
+              }
+            ],
+            max_tokens: 4000
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || 'Vision API failed');
+        }
+
+        const data = await response.json();
+        const extractedText = data.choices[0].message.content.trim();
+        
+        document.getElementById('flipInputArea').value = extractedText;
+        showFlipStatus(`✅ Extracted text from image. Review and click "Apply to Cards".`, 'success');
+
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    async function aiFillFlipSide() {
+      if (!API_KEY) {
+        alert('AI not connected. Please refresh the page.');
+        return;
+      }
+
+      // Collect all terms from cards
+      const termKey = getTermKey();
+      const terms = [];
+      const cardElements = [];
+
+      document.querySelectorAll('.card-entry').forEach(cardEl => {
+        const inputs = cardEl.querySelectorAll('input');
+        const term = inputs[0].value.trim();
+        if (term) {
+          terms.push(term);
+          cardElements.push(cardEl);
+        }
+      });
+
+      if (terms.length === 0) {
+        alert('Please add some terms/words first!');
+        return;
+      }
+
+      const btn = document.getElementById('aiFillBtn');
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Generating...';
+      showFlipStatus(`🤖 AI is generating definitions for ${terms.length} terms...`, 'loading');
+
+      const cardType = document.getElementById('cardType').value;
+      let termLabel = 'term';
+      switch(cardType) {
+        case 'idiom': termLabel = 'idiom/expression'; break;
+        case 'vocab': termLabel = 'word'; break;
+        case 'phrasal': termLabel = 'phrasal verb'; break;
+      }
+
+      const systemPrompt = `You are a vocabulary expert. For each ${termLabel} provided, give:
+1. A clear, concise English definition
+2. Uzbek translation
+3. A natural example sentence
+
+Return a JSON array with objects containing: "term", "en", "uz", "ex"
+Match the terms exactly as provided. Return ONLY valid JSON, no markdown.`;
+
+      const userPrompt = `Generate definitions for these ${termLabel}s:\n${terms.map((t, i) => `${i+1}. ${t}`).join('\n')}`;
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o-mini',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            temperature: 0.7,
+            max_tokens: 4000
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || 'API request failed');
+        }
+
+        const data = await response.json();
+        let content = data.choices[0].message.content.trim();
+
+        // Parse JSON
+        if (content.includes('```')) {
+          content = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+        }
+        const definitions = JSON.parse(content);
+
+        // Create a map of term -> definition
+        const defMap = {};
+        definitions.forEach(d => {
+          defMap[d.term.toLowerCase()] = d;
+        });
+
+        // Fill in the cards
+        let filledCount = 0;
+        cardElements.forEach((cardEl, idx) => {
+          const inputs = cardEl.querySelectorAll('input');
+          const term = inputs[0].value.trim().toLowerCase();
+          const def = defMap[term];
+
+          if (def) {
+            if (inputs[1]) inputs[1].value = def.en || '';
+            if (inputs[2]) inputs[2].value = def.uz || '';
+            if (inputs[3]) inputs[3].value = def.ex || '';
+            filledCount++;
+          }
+        });
+
+        showFlipStatus(`✅ AI filled ${filledCount} of ${terms.length} cards!`, 'success');
+        updatePreview();
+
+      } catch (error) {
+        console.error('AI Fill Error:', error);
+        showFlipStatus(`❌ Error: ${error.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 AI Fill All Cards';
+      }
+    }
+
+    // ========== FLASHCARD PREVIEW ==========
+    
+    let previewIndex = 0;
+    let isFlipped = false;
+
+    function getPreviewCards() {
+      const cards = [];
+      const fields = getFields();
+      
+      document.querySelectorAll('.card-entry').forEach(cardEl => {
+        const cardData = {};
+        let hasContent = false;
+        
+        cardEl.querySelectorAll('input').forEach((input, idx) => {
+          const key = input.dataset.key || fields[idx].key;
+          const value = input.value.trim();
+          if (value) hasContent = true;
+          cardData[key] = value;
+        });
+        
+        if (hasContent) {
+          cards.push(cardData);
+        }
+      });
+      
+      return cards;
+    }
+
+    function getTermKey() {
+      const cardType = document.getElementById('cardType').value;
+      switch(cardType) {
+        case 'idiom': return 'i';
+        case 'vocab': return 'word';
+        case 'phrasal': return 'verb';
+        default: return 'term';
+      }
+    }
+
+    function updatePreview() {
+      const cards = getPreviewCards();
+      const title = document.getElementById('displayTitle').value || 'Flashcards';
+      
+      document.getElementById('previewTitle').textContent = title;
+      document.getElementById('previewTotal').textContent = cards.length;
+      
+      const noCardsMsg = document.getElementById('noCardsMessage');
+      const flashcardInner = document.getElementById('flashcardInner');
+      
+      if (cards.length === 0) {
+        noCardsMsg.style.display = 'block';
+        flashcardInner.style.display = 'none';
+        document.getElementById('previewCurrent').textContent = '0';
+        document.getElementById('previewProgress').style.width = '0%';
+        return;
+      }
+      
+      noCardsMsg.style.display = 'none';
+      flashcardInner.style.display = 'block';
+      
+      // Ensure index is valid
+      if (previewIndex >= cards.length) previewIndex = cards.length - 1;
+      if (previewIndex < 0) previewIndex = 0;
+      
+      const card = cards[previewIndex];
+      const termKey = getTermKey();
+      
+      // Update front side
+      document.getElementById('previewTerm').textContent = card[termKey] || 'No term';
+      
+      // Update back side
+      document.getElementById('previewDefinition').textContent = card.en || 'No definition';
+      document.getElementById('previewTranslation').textContent = card.uz ? `(${card.uz})` : '';
+      document.getElementById('previewExample').textContent = card.ex || 'No example';
+      
+      // Update counter and progress
+      document.getElementById('previewCurrent').textContent = previewIndex + 1;
+      const progress = ((previewIndex + 1) / cards.length) * 100;
+      document.getElementById('previewProgress').style.width = progress + '%';
+      
+      // Reset flip state
+      if (isFlipped) {
+        document.getElementById('flashcardInner').classList.remove('flipped');
+        isFlipped = false;
+      }
+    }
+
+    function previewFlip() {
+      const flashcardInner = document.getElementById('flashcardInner');
+      flashcardInner.classList.toggle('flipped');
+      isFlipped = !isFlipped;
+    }
+
+    function previewPrev() {
+      const cards = getPreviewCards();
+      if (cards.length === 0) return;
+      
+      previewIndex--;
+      if (previewIndex < 0) previewIndex = cards.length - 1;
+      updatePreview();
+    }
+
+    function previewNext() {
+      const cards = getPreviewCards();
+      if (cards.length === 0) return;
+      
+      previewIndex++;
+      if (previewIndex >= cards.length) previewIndex = 0;
+      updatePreview();
+    }
+
+    // Auto-update preview when cards change
+    function setupPreviewUpdates() {
+      // Watch for input changes in cards
+      document.getElementById('cardsContainer').addEventListener('input', debounce(updatePreview, 300));
+      
+      // Watch for title changes
+      document.getElementById('displayTitle').addEventListener('input', debounce(updatePreview, 300));
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Initialize preview updates
+    setupPreviewUpdates();
+    
+    // Override addCard to update preview
+    const originalAddCard = addCard;
+    addCard = function(data) {
+      originalAddCard(data);
+      setTimeout(updatePreview, 100);
+    };
+
+    // Override deleteCard to update preview
+    const originalDeleteCard = deleteCard;
+    deleteCard = function(id) {
+      originalDeleteCard(id);
+      setTimeout(updatePreview, 100);
+      autoSave();
+    };
+
+    // ============ AUTO-SAVE & CACHE FUNCTIONALITY ============
+    const STORAGE_KEY = 'flashcard-builder-draft';
+    let hasUnsavedChanges = false;
+
+    function autoSave() {
+      const data = {
+        displayTitle: document.getElementById('displayTitle').value,
+        filename: document.getElementById('filename').value,
+        frontSide: document.getElementById('frontSide').value,
+        flipSide: document.getElementById('flipSide').value,
+        cards: cards,
+        savedAt: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      hasUnsavedChanges = true;
+    }
+
+    function loadDraft() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          const savedTime = new Date(data.savedAt).toLocaleString();
+          if (confirm(`📝 Found unsaved draft from ${savedTime}\n\nTitle: "${data.displayTitle || 'Untitled'}"\nCards: ${data.cards?.length || 0}\n\nWould you like to restore it?`)) {
+            document.getElementById('displayTitle').value = data.displayTitle || '';
+            document.getElementById('filename').value = data.filename || '';
+            document.getElementById('frontSide').value = data.frontSide || 'i';
+            document.getElementById('flipSide').value = data.flipSide || 'en';
+            
+            cards = data.cards || [];
+            cardCounter = cards.length > 0 ? Math.max(...cards.map(c => c.id)) + 1 : 1;
+            renderCards();
+            updatePreview();
+            hasUnsavedChanges = false;
+          }
+        } catch (e) {
+          console.error('Error loading draft:', e);
+        }
+      }
+    }
+
+    function clearDraft() {
+      localStorage.removeItem(STORAGE_KEY);
+      hasUnsavedChanges = false;
+    }
+
+    // Warn before leaving if there are unsaved changes
+    window.addEventListener('beforeunload', function(e) {
+      if (hasUnsavedChanges && cards.length > 0) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+        return e.returnValue;
+      }
+    });
+
+    // Auto-save on form input changes
+    document.getElementById('displayTitle').addEventListener('input', autoSave);
+    document.getElementById('filename').addEventListener('input', autoSave);
+    document.getElementById('frontSide').addEventListener('change', autoSave);
+    document.getElementById('flipSide').addEventListener('change', autoSave);
+
+    // Override addCard to also auto-save
+    const originalAddCardForSave = addCard;
+    addCard = function(data) {
+      originalAddCardForSave(data);
+      autoSave();
+    };
+
+    // Clear draft when file is downloaded successfully
+    const originalDownload = downloadFile;
+    downloadFile = function() {
+      originalDownload();
+      clearDraft();
+    };
+
+    // Load draft on page load
+    loadDraft();
+  </script>
+</body>
+</html>

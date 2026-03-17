@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flashcards — Interactive Learning</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <!-- Site Config (swap this script to change brand/skin) -->
+  <script src="site-config/site-config.js"></script>
+  <!-- jsPDF for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg1: #667eea;
+      --bg2: #764ba2;
+      --card-front: #ffffff;
+      --card-back: #f8fafc;
+      --text: #0f172a;
+      --text-light: #475569;
+      --text-accent: #667eea;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, .35);
+      --shadow-hover: 0 35px 60px -15px rgba(0, 0, 0, .45);
+      --border: rgba(255, 255, 255, .18);
+      --progress: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateX(-3px);
+    }
+
+    /* Mobile - minimize back button, hide download PDF */
+    @media (max-width: 768px) {
+      .back-btn {
+        padding: 8px 12px;
+        font-size: 16px;
+        top: 12px;
+        left: 12px;
+      }
+      .back-btn span {
+        display: none;
+      }
+      .download-pdf-btn {
+        display: none !important;
+      }
+    }
+
+    .download-pdf-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, .3);
+    }
+
+    .download-pdf-btn:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, .4);
+    }
+
+    .download-pdf-btn:active {
+      transform: translateY(0);
+    }
+
+    .download-pdf-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, .1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, .08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeInDown 0.6s ease;
+    }
+
+    .header h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      width: min(400px, 90vw);
+      height: 6px;
+      background: rgba(255, 255, 255, .2);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      margin: 0 auto;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--progress), #34d399);
+      border-radius: 10px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px rgba(16, 185, 129, .5);
+    }
+
+    .progress-text {
+      color: rgba(255, 255, 255, .9);
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+    }
+
+    .wrap {
+      width: min(840px, 94vw);
+      height: min(68vh, 700px);
+      position: relative;
+      perspective: 1500px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .card-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card-container.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 32px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card.front {
+      background: linear-gradient(135deg, var(--card-front) 0%, #fefefe 100%);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .9);
+    }
+
+    .card.back {
+      background: linear-gradient(135deg, var(--card-back) 0%, #ffffff 100%);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .9);
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      padding: clamp(24px, 5vh, 48px) clamp(28px, 5vw, 56px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .idiom {
+      font-weight: 800;
+      line-height: 1.15;
+      font-size: clamp(32px, 6.5vw, 64px);
+      background: linear-gradient(135deg, var(--text) 0%, var(--text-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .idiom .tag {
+      display: block;
+      font-size: 0.35em;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--text-light);
+      -webkit-text-fill-color: var(--text-light);
+      margin-bottom: 0.4rem;
+      letter-spacing: normal;
+      opacity: 0.8;
+    }
+
+    .def {
+      max-width: 58ch;
+      animation: fadeIn 0.6s ease 0.1s both;
+    }
+
+    .def b {
+      display: block;
+      font-weight: 800;
+      font-size: clamp(22px, 4.8vw, 34px);
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .def em {
+      display: block;
+      font-style: italic;
+      color: var(--text-accent);
+      font-size: clamp(17px, 3.8vw, 24px);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .ex {
+      margin-top: 1.2rem;
+      padding: 1rem 1.5rem;
+      background: rgba(102, 126, 234, .08);
+      border-left: 4px solid var(--text-accent);
+      border-radius: 12px;
+      text-align: left;
+      font-size: clamp(15px, 3.5vw, 19px);
+      line-height: 1.6;
+      color: var(--text-light);
+    }
+
+    .ex strong {
+      font-weight: 700;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .ex-english {
+      display: block;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .ex-uzbek {
+      display: block;
+      color: var(--text-accent);
+      font-size: 0.9em;
+      font-style: italic;
+      opacity: 0.85;
+      padding-left: 0.5rem;
+      border-left: 2px solid var(--text-accent);
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-prev,
+    .btn-next {
+      background: rgba(255, 255, 255, .95);
+      color: var(--text);
+      border: 2px solid rgba(255, 255, 255, .3);
+    }
+
+    .btn-flip {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, .2);
+      padding: 14px 36px;
+    }
+
+    .hint {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, .8);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+      animation: fadeIn 1.2s ease 0.4s both;
+    }
+
+    .hint strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Brand styling */
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brandtext {
+      text-align: left;
+    }
+
+    .brandtext .line1 {
+      font-weight: 800;
+      letter-spacing: -.02em;
+      font-size: 16px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+      line-height: 1.2;
+    }
+
+    .brandtext .line2 {
+      font-weight: 600;
+      opacity: .9;
+      font-size: 11px;
+      color: rgba(255, 255, 255, .9);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media(max-width:768px) {
+      .brand {
+        gap: 8px;
+      }
+
+      .logo {
+        width: 28px;
+        height: 28px;
+      }
+
+      .brandtext .line1 {
+        font-size: 13px;
+      }
+
+      .brandtext .line2 {
+        font-size: 9px;
+      }
+
+      .controls {
+        gap: 0.5rem;
+      }
+
+      .btn {
+        padding: 12px 16px;
+        font-size: 14px;
+        gap: 4px;
+      }
+
+      .btn-flip {
+        padding: 12px 20px;
+      }
+
+      .wrap {
+        height: min(60vh, 600px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="landing.html?openModal=flashcards" class="back-btn" title="Back to Flashcard Selection"
+    onclick="goBack(); return false;">
+    ← <span>Home</span>
+  </a>
+  <button class="download-pdf-btn" id="downloadPdfBtn" title="Download as PDF">
+    <svg viewBox="0 0 24 24">
+      <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
+    </svg>
+    Download PDF
+  </button>
+  <div class="header">
+    <div class="brand" id="brandContainer" style="display:none;">
+      <div class="logo" id="logoContainer">
+        <img id="logoImg" src="" alt="Logo" />
+      </div>
+      <div class="brandtext">
+        <div class="line1" id="brandTitle"></div>
+        <div class="line2" id="brandSubtitle"></div>
+      </div>
+    </div>
+    <h1 id="pageTitle">✨ Flashcards</h1>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">Card 1 of 20</div>
+  </div>
+
+  <div class="wrap" id="wrap" aria-live="polite">
+    <div class="card-container" id="cardContainer">
+      <div class="card front" role="button" aria-label="Front of flashcard">
+        <div class="face">
+          <div class="idiom" id="frontText">Loading…</div>
+        </div>
+      </div>
+      <div class="card back" role="button" aria-label="Back of flashcard">
+        <div class="face">
+          <div class="def" id="backText">
+            <b></b>
+            <em></em>
+            <div class="ex" id="example"><strong></strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-prev" id="btnPrev" aria-label="Previous card">
+      <span>←</span> Previous
+    </button>
+    <button class="btn btn-flip" id="btnFlip" aria-label="Flip card">
+      🔄 Flip Card
+    </button>
+    <button class="btn btn-next" id="btnNext" aria-label="Next card">
+      Next <span>→</span>
+    </button>
+  </div>
+  <!-- Load global settings from speaking mock -->
+  <script src="questions S/questions.js"></script>
+  <script>
+    // Get global logo and branding from speaking settings
+    const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
+
+    // Get topic from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const topic = urlParams.get('topic') || 'idioms01';
+
+    // Dynamically load the flashcard JS file
+    const script = document.createElement('script');
+    script.src = `flashcards/${topic}.js`;
+    script.onload = function () {
+      initFlashcards();
+    };
+    script.onerror = function () {
+      alert('Failed to load flashcard topic: ' + topic);
+    };
+    document.head.appendChild(script);
+
+    let CARDS = [];
+    let index = 0;
+    let flipped = false;
+
+    const cardContainer = document.getElementById('cardContainer');
+    const frontText = document.getElementById('frontText');
+    const backText = document.getElementById('backText');
+    const exText = document.getElementById('example').querySelector('strong');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnFlip = document.getElementById('btnFlip');
+
+    function initFlashcards() {
+      // Get cards from loaded file
+      CARDS = window.FLASHCARD_DATA ? window.FLASHCARD_DATA.cards : [];
+      const data = window.FLASHCARD_DATA || {};
+
+      // Update page title
+      if (data.title) {
+        document.getElementById('pageTitle').textContent = data.title;
+        document.title = data.title + ' — Interactive Learning';
+      }
+
+      // Apply custom branding if provided
+      if (data.logo || data.brand || GLOBAL_LOGO_URL) {
+        const brandContainer = document.getElementById('brandContainer');
+        brandContainer.style.display = 'flex';
+
+        // Always use global logo from speaking settings
+        document.getElementById('logoImg').src = GLOBAL_LOGO_URL;
+
+        // Use flashcard title as brand, but show global wording as subtitle
+        if (data.brand || data.title) {
+          document.getElementById('brandTitle').textContent = data.brand || data.title;
+        }
+        // Always use global logo wording as subtitle
+        document.getElementById('brandSubtitle').textContent = GLOBAL_LOGO_WORDING;
+        // Hide default title if brand is shown
+        if (data.brand) {
+          document.getElementById('pageTitle').style.display = 'none';
+        }
+      }
+
+      // Apply custom colors if provided
+      if (data.colors) {
+        const root = document.documentElement;
+        if (data.colors.bg1) root.style.setProperty('--bg1', data.colors.bg1);
+        if (data.colors.bg2) root.style.setProperty('--bg2', data.colors.bg2);
+        if (data.colors.accent) root.style.setProperty('--text-accent', data.colors.accent);
+        if (data.colors.progress) root.style.setProperty('--progress', data.colors.progress);
+      }
+
+      // Shuffle for variety
+      (function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+      })(CARDS);
+
+      // Initialize display
+      render();
+    }
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+
+    function updateProgress() {
+      const progress = ((index + 1) / CARDS.length) * 100;
+      progressFill.style.width = progress + '%';
+      progressText.textContent = `Card ${index + 1} of ${CARDS.length}`;
+    }
+
+    function render() {
+      const c = CARDS[index % CARDS.length];
+      // Support different front-side keys: i (idioms), word (vocab), verb (phrasal), term (custom)
+      const frontContent = c.i || c.word || c.verb || c.term || '';
+
+      // Check for formality tags like [Formal]
+      const tagMatch = frontContent.match(/^(\[.*?\])\s*(.*)/);
+      if (tagMatch) {
+        frontText.innerHTML = `<span class="tag">${escapeHtml(tagMatch[1])}</span>${escapeHtml(tagMatch[2])}`;
+      } else {
+        frontText.textContent = frontContent;
+      }
+      backText.querySelector('b').textContent = c.en || '';
+      backText.querySelector('em').textContent = c.uz ? '(' + c.uz + ')' : '';
+
+      // Parse example: check for separate exUz field first, then inline (Uzbek) format
+      const exampleText = c.ex || '';
+      const exampleUzText = c.exUz || '';
+
+      if (exampleUzText) {
+        // Has separate Uzbek translation field
+        exText.innerHTML = `<span class="ex-english">${escapeHtml(exampleText)}</span><span class="ex-uzbek">${escapeHtml(exampleUzText)}</span>`;
+      } else {
+        // Check for inline (Uzbek translation) format
+        const uzMatch = exampleText.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+        if (uzMatch) {
+          exText.innerHTML = `<span class="ex-english">${escapeHtml(uzMatch[1].trim())}</span><span class="ex-uzbek">${escapeHtml(uzMatch[2].trim())}</span>`;
+        } else {
+          // Plain text
+          exText.textContent = exampleText;
+        }
+      }
+      updateProgress();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function nextCard() {
+      index = (index + 1) % CARDS.length;
+      flipped = false;
+      cardContainer.classList.remove('flipped');
+      render();
+    }
+
+    function prevCard() {
+      index = (index - 1 + CARDS.length) % CARDS.length;
+      flipped = false;
+      cardContainer.classList.remove('flipped');
+      render();
+    }
+
+    function flipCard() {
+      flipped = !flipped;
+      cardContainer.classList.toggle('flipped', flipped);
+    }
+
+    // Button event listeners
+    btnPrev.addEventListener('click', prevCard);
+    btnNext.addEventListener('click', nextCard);
+    btnFlip.addEventListener('click', flipCard);
+
+    // Touch gestures
+    let startX = 0, startY = 0, isTouch = false;
+    const THRESH = 50;
+    const area = document.getElementById('wrap');
+
+    area.addEventListener('touchstart', e => {
+      if (!e.touches[0]) return;
+      isTouch = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    area.addEventListener('touchend', e => {
+      if (!isTouch) return;
+      isTouch = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dx) > THRESH) {
+          flipCard();
+        }
+      } else {
+        if (dy < -THRESH) {
+          nextCard();
+        } else if (dy > THRESH) {
+          prevCard();
+        }
+      }
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        flipCard();
+      }
+      if (e.key === 'ArrowUp') {
+        nextCard();
+      }
+      if (e.key === 'ArrowDown') {
+        prevCard();
+      }
+      if (e.key === ' ') {
+        e.preventDefault();
+        flipCard();
+      }
+    });
+
+    // Initialize will be called when script loads via initFlashcards()
+
+    // ===== PDF DOWNLOAD FUNCTIONALITY =====
+    document.getElementById('downloadPdfBtn').addEventListener('click', async function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+
+      // Page dimensions
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 15;
+      const contentWidth = pageWidth - (margin * 2);
+
+      // Colors
+      const primaryColor = [102, 126, 234]; // #667eea
+      const secondaryColor = [118, 75, 162]; // #764ba2
+      const textColor = [15, 23, 42]; // #0f172a
+      const lightTextColor = [71, 85, 105]; // #475569
+      const accentBg = [248, 250, 252]; // #f8fafc
+      const accentColor = [102, 126, 234];
+
+      // Get metadata
+      const data = window.FLASHCARD_DATA || {};
+      // Always use global logo from speaking settings
+      const logoUrl = GLOBAL_LOGO_URL;
+      const brandTitle = data.brand || data.title || 'Flashcards';
+      // Always use global wording for subtitle
+      const subtitle = GLOBAL_LOGO_WORDING;
+      const cards = data.cards || [];
+
+      // Function to load image as base64
+      async function loadImageAsBase64(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = function () {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            try {
+              resolve(canvas.toDataURL('image/jpeg', 0.9));
+            } catch (e) {
+              resolve(null);
+            }
+          };
+          img.onerror = () => resolve(null);
+          img.src = url;
+        });
+      }
+
+      // Load logo
+      let logoBase64 = null;
+      try {
+        logoBase64 = await loadImageAsBase64(logoUrl);
+      } catch (e) {
+        console.log('Could not load logo');
+      }
+
+      let yPos = margin;
+
+      // ===== HEADER DESIGN =====
+      // Gradient header background
+      doc.setFillColor(...primaryColor);
+      doc.rect(0, 0, pageWidth, 50, 'F');
+
+      // Decorative circles
+      doc.setFillColor(255, 255, 255);
+      doc.setGState(new doc.GState({ opacity: 0.08 }));
+      doc.circle(pageWidth - 20, 10, 30, 'F');
+      doc.circle(pageWidth - 5, 35, 20, 'F');
+      doc.setGState(new doc.GState({ opacity: 1 }));
+
+      // Logo
+      if (logoBase64) {
+        try {
+          doc.addImage(logoBase64, 'JPEG', margin, 10, 28, 28);
+        } catch (e) { }
+      }
+
+      // Clean title (remove emojis)
+      const cleanTitle = brandTitle.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
+      const cleanSubtitle = subtitle.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
+
+      // Title text
+      const titleX = logoBase64 ? margin + 34 : margin;
+      const maxTitleWidth = pageWidth - titleX - 60; // Leave space for right side info
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      const titleLines = doc.splitTextToSize(cleanTitle, maxTitleWidth);
+      doc.text(titleLines[0] || cleanTitle, titleX, 22);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(cleanSubtitle || 'Vocabulary Learning', titleX, 32);
+
+      // Info on right side (in a box for better visibility)
+      doc.setFillColor(255, 255, 255);
+      doc.setGState(new doc.GState({ opacity: 0.15 }));
+      doc.roundedRect(pageWidth - margin - 45, 12, 45, 24, 3, 3, 'F');
+      doc.setGState(new doc.GState({ opacity: 1 }));
+
+      doc.setFontSize(8);
+      doc.setTextColor(255, 255, 255);
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      doc.text(dateStr, pageWidth - margin - 22.5, 20, { align: 'center' });
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${cards.length} Cards`, pageWidth - margin - 22.5, 30, { align: 'center' });
+
+      yPos = 55;
+
+      // ===== FLASHCARDS DESIGN =====
+      // Create a beautiful 2-column layout
+      const cardWidth = (contentWidth - 8) / 2;
+      const cardHeight = 48;
+      let col = 0;
+
+      cards.forEach((card, idx) => {
+        // Check if we need a new page
+        if (yPos + cardHeight > pageHeight - 20) {
+          doc.addPage();
+          yPos = margin;
+
+          // Mini header on subsequent pages
+          doc.setFillColor(...primaryColor);
+          doc.rect(0, 0, pageWidth, 12, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.text(`${cleanTitle} - Flashcards`, margin, 8);
+          doc.text(`Page ${doc.getNumberOfPages()}`, pageWidth - margin, 8, { align: 'right' });
+          yPos = 20;
+          col = 0;
+        }
+
+        const x = margin + (col * (cardWidth + 8));
+        const y = yPos;
+
+        // Card background with shadow effect
+        doc.setFillColor(240, 240, 245);
+        doc.roundedRect(x + 1, y + 1, cardWidth, cardHeight, 3, 3, 'F');
+
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(226, 232, 240);
+        doc.roundedRect(x, y, cardWidth, cardHeight, 3, 3, 'FD');
+
+        // Number badge
+        doc.setFillColor(...primaryColor);
+        doc.roundedRect(x + 3, y + 3, 10, 6, 1, 1, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${idx + 1}`, x + 8, y + 7, { align: 'center' });
+
+        // Word/Idiom (front)
+        const frontText = card.i || card.word || card.verb || card.term || '';
+        doc.setTextColor(...primaryColor);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        const frontLines = doc.splitTextToSize(frontText, cardWidth - 8);
+        doc.text(frontLines[0] || '', x + 4, y + 16);
+
+        // Meaning (en)
+        doc.setTextColor(...textColor);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        const enText = card.en || '';
+        const enLines = doc.splitTextToSize(enText, cardWidth - 8);
+        doc.text(enLines.slice(0, 2).join('\n'), x + 4, y + 24);
+
+        // Uzbek translation
+        if (card.uz) {
+          doc.setTextColor(...lightTextColor);
+          doc.setFont('helvetica', 'italic');
+          doc.setFontSize(8);
+          const uzLines = doc.splitTextToSize(`(${card.uz})`, cardWidth - 8);
+          doc.text(uzLines[0] || '', x + 4, y + 34);
+        }
+
+        // Example (truncated)
+        if (card.ex) {
+          doc.setFillColor(...accentBg);
+          doc.roundedRect(x + 3, y + 38, cardWidth - 6, 7, 1, 1, 'F');
+          doc.setDrawColor(...accentColor);
+          doc.setLineWidth(0.5);
+          doc.line(x + 3, y + 38, x + 3, y + 45);
+
+          doc.setTextColor(...lightTextColor);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(7);
+          // Remove Uzbek part from example for display
+          let exText = card.ex.split('(')[0].trim();
+          const exLines = doc.splitTextToSize(exText, cardWidth - 12);
+          doc.text(exLines[0] || '', x + 5, y + 43);
+        }
+
+        col++;
+        if (col >= 2) {
+          col = 0;
+          yPos += cardHeight + 6;
+        }
+      });
+
+      // ===== WORD LIST PAGE =====
+      doc.addPage();
+      yPos = margin;
+
+      // Header
+      doc.setFillColor(...secondaryColor);
+      doc.rect(0, 0, pageWidth, 30, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Quick Reference List', margin, 20);
+
+      yPos = 40;
+
+      // Create numbered list
+      doc.setFontSize(9);
+      const colWidth = (contentWidth - 10) / 3;
+
+      cards.forEach((card, idx) => {
+        const col = idx % 3;
+        const rowInPage = Math.floor((idx % 45) / 3);
+
+        if (idx > 0 && idx % 45 === 0) {
+          doc.addPage();
+          yPos = margin;
+
+          // Mini header
+          doc.setFillColor(...secondaryColor);
+          doc.rect(0, 0, pageWidth, 12, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.text('Quick Reference List (continued)', margin, 8);
+          yPos = 20;
+        }
+
+        const x = margin + (col * (colWidth + 5));
+        const y = yPos + (rowInPage * 12);
+
+        // Number
+        doc.setTextColor(...primaryColor);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${idx + 1}.`, x, y);
+
+        // Word
+        const frontText = card.i || card.word || card.verb || card.term || '';
+        doc.setTextColor(...textColor);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        const wordText = doc.splitTextToSize(frontText, colWidth - 8)[0];
+        doc.text(wordText, x + 8, y);
+
+        // Translation
+        if (card.en) {
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(...lightTextColor);
+          doc.setFontSize(7);
+          const transText = doc.splitTextToSize(card.en, colWidth - 8)[0];
+          doc.text(transText, x + 8, y + 4);
+        }
+      });
+
+      // ===== FOOTER ON ALL PAGES =====
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFillColor(248, 250, 252);
+        doc.rect(0, pageHeight - 10, pageWidth, 10, 'F');
+        doc.setTextColor(...lightTextColor);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Generated from Interactive Flashcard Platform', margin, pageHeight - 4);
+        doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageHeight - 4, { align: 'right' });
+      }
+
+      // Save PDF
+      const fileName = `${brandTitle.replace(/[^a-z0-9]/gi, '_')}_Flashcards.pdf`;
+      doc.save(fileName);
+    });
+  </script>
+
+  <!-- ===== LEAVE WARNING PROTECTION ===== -->
+  <script>
+    (function () {
+      let sessionActive = false;
+      window.__okToLeave = false;
+
+      // Mark session as active when cards are rendered
+      const originalRender = window.render;
+      if (typeof originalRender === 'function') {
+        window.render = function () {
+          sessionActive = true;
+          return originalRender.apply(this, arguments);
+        };
+      } else {
+        // Fallback: mark as active shortly after load
+        setTimeout(function () { sessionActive = true; }, 1000);
+      }
+
+      // Create leave warning modal
+      function createLeaveWarningModal() {
+        if (document.getElementById('leaveWarningModal')) return;
+
+        const modalHTML = `
+      <div id="leaveWarningModal" style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999999;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+      ">
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+          border-radius: 20px;
+          padding: 40px;
+          max-width: 420px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          animation: leaveModalPop 0.3s ease-out;
+        ">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+          ">
+            <span style="font-size: 40px;">⚠️</span>
+          </div>
+          <h2 style="
+            color: #f8fafc;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+          ">Leaving Session?</h2>
+          <p style="
+            color: #94a3b8;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+          ">
+            Are you sure you want to leave?<br>
+            <strong style="color: #f87171;">Your current progress will be lost!</strong>
+          </p>
+          <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <button id="leaveStayBtn" style="
+              padding: 14px 35px;
+              border: none;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #667eea, #764ba2);
+              color: white;
+              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            ">✓ Continue Learning</button>
+            <button id="leaveConfirmBtn" style="
+              padding: 14px 35px;
+              border: 2px solid #475569;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: transparent;
+              color: #94a3b8;
+            ">Leave Anyway</button>
+          </div>
+        </div>
+      </div>
+      <style>
+        @keyframes leaveModalPop {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        #leaveStayBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        #leaveConfirmBtn:hover {
+          background: #334155;
+          border-color: #64748b;
+          color: #e2e8f0;
+        }
+      </style>
+    `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        document.getElementById('leaveStayBtn').addEventListener('click', function () {
+          hideLeaveWarningModal();
+        });
+
+        document.getElementById('leaveConfirmBtn').addEventListener('click', function () {
+          window.__okToLeave = true;
+          hideLeaveWarningModal();
+          if (window.parent !== window) {
+            window.parent.postMessage({ action: 'returnToLanding', openModal: 'flashcards' }, '*');
+          } else {
+            window.location.href = 'landing.html?openModal=flashcards';
+          }
+        });
+      }
+
+      // Custom goBack function for back button
+      function goBack() {
+        if (sessionActive && !window.__okToLeave) {
+          showLeaveWarningModal();
+          return;
+        }
+        window.__okToLeave = true;
+        // Use postMessage if in iframe, else direct navigation
+        if (window.parent !== window) {
+          window.parent.postMessage({ action: 'returnToLanding', openModal: 'flashcards' }, '*');
+        } else {
+          window.location.href = 'landing.html?openModal=flashcards';
+        }
+      }
+      // Make goBack available globally
+      window.goBack = goBack;
+
+      function showLeaveWarningModal() {
+        createLeaveWarningModal();
+        const modal = document.getElementById('leaveWarningModal');
+        modal.style.display = 'flex';
+      }
+
+      function hideLeaveWarningModal() {
+        const modal = document.getElementById('leaveWarningModal');
+        if (modal) modal.style.display = 'none';
+      }
+
+      // Back button trap using History API
+      function setupBackButtonTrap() {
+        history.pushState(null, '', location.href);
+        history.pushState(null, '', location.href);
+
+        window.addEventListener('popstate', function (e) {
+          if (sessionActive && !window.__okToLeave) {
+            history.pushState(null, '', location.href);
+            showLeaveWarningModal();
+          }
+        });
+      }
+
+      // Keyboard shortcuts blocking (F5, Ctrl+R, Ctrl+W)
+      window.addEventListener('keydown', function (e) {
+        if (!sessionActive || window.__okToLeave) return;
+
+        const isF5 = e.key === 'F5';
+        const isCtrlR = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r';
+        const isCtrlW = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w';
+
+        if (isF5 || isCtrlR || isCtrlW) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          showLeaveWarningModal();
+          return false;
+        }
+      }, true);
+
+      // Fallback beforeunload for browser button clicks
+      window.addEventListener('beforeunload', function (e) {
+        if (sessionActive && !window.__okToLeave) {
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        }
+      });
+
+      // Initialize back button trap on load
+      setupBackButtonTrap();
+    })();
+  </script>
+</body>
+
+</html>

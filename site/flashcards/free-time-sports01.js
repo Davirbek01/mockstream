@@ -1,0 +1,123 @@
+// Flashcard Data: Free Time, Hobbies & Sports Vocabulary (B1–B2)
+// This file can be loaded by the flashcard viewer
+
+window.FLASHCARD_DATA = {
+  title: "⚽ Free Time, Hobbies & Sports",
+  cards: [
+    // === SECTION 1: Free Time & Relaxation ===
+    {term: "spare time", en: "free time when you are not working or studying", uz: "bo'sh vaqt", ex: "I usually read articles in my spare time after finishing all my homework.", exUz: "Men odatda barcha uy vazifalarimni tugatgach bo'sh vaqtimda maqolalar o'qiyman."},
+    {term: "downtime", en: "time to rest and relax after being busy", uz: "dam olish vaqti", ex: "After a stressful week, I really need some downtime to relax properly.", exUz: "Stressli haftadan keyin yaxshilab dam olish uchun menga dam olish vaqti kerak."},
+    {term: "pastime", en: "an activity you do for pleasure in your free time", uz: "bo'sh vaqt mashg'uloti", ex: "Playing chess is my favourite pastime when I want to stay calm.", exUz: "Xotirjam bo'lishni xohlaganimda shaxmat o'ynash mening sevimli bo'sh vaqt mashg'ulotim."},
+    {term: "unwind", en: "to relax after stress or hard work", uz: "bo'shashmoq, dam olmoq", ex: "I usually unwind by watching light videos after a long school day.", exUz: "Men odatda uzun maktab kunidan keyin yengil videolar ko'rib bo'shashaman."},
+    {term: "wind down", en: "to gradually become calmer and more relaxed", uz: "sekin-asta tinchlanmoq", ex: "In the evening, I wind down with music before going to sleep.", exUz: "Kechqurun uxlashdan oldin musiqa bilan sekin-asta tinchlanaman."},
+    {term: "take a break", en: "to stop for a short rest", uz: "tanaffus qilmoq", ex: "After two hours of study, I take a break to clear my mind.", exUz: "Ikki soat o'qigandan keyin xayolimni tozalash uchun tanaffus qilaman."},
+    {term: "recharge", en: "to regain energy and feel fresh again", uz: "quvvat to'plamoq", ex: "A short walk outside helps me recharge when I feel exhausted.", exUz: "Charchaganimda tashqarida qisqa yurish menga quvvat to'plashga yordam beradi."},
+    {term: "kill time", en: "to spend time while waiting for something", uz: "vaqt o'tkazmoq", ex: "I kill time by scrolling my phone while waiting for the bus.", exUz: "Avtobus kutayotganda telefon titkilab vaqt o'tkazaman."},
+    {term: "make time for", en: "to arrange time in your schedule for something", uz: "vaqt ajratmoq", ex: "I always make time for exercise even during busy exam weeks.", exUz: "Imtihon haftalari band bo'lsa ham, mashq qilishga doim vaqt ajrataman."},
+    {term: "be in the mood for", en: "to feel like doing or having something", uz: "xohishi bo'lmoq", ex: "I'm in the mood for something quiet, not a noisy party today.", exUz: "Bugun shovqinli ziyofat emas, tinchroq narsani xohlayapman."},
+    {term: "once in a while", en: "sometimes, but not often", uz: "vaqti-vaqti bilan", ex: "I eat fast food once in a while, but I prefer home-cooked meals.", exUz: "Men vaqti-vaqti bilan fast food yeyman, lekin uy ovqatini afzal ko'raman."},
+    {term: "every now and then", en: "occasionally; from time to time", uz: "ba'zan, goh-goh", ex: "Every now and then, we go hiking to escape city noise.", exUz: "Ba'zan shahar shovqinidan qochish uchun tog'ga chiqamiz."},
+
+    // === SECTION 2: Social Activities ===
+    {term: "hang out", en: "to spend time casually with friends", uz: "birga vaqt o'tkazmoq", ex: "On weekends, I hang out with friends at a small café.", exUz: "Dam olish kunlari do'stlar bilan kichkina kafeda vaqt o'tkazaman."},
+    {term: "catch up", en: "to meet and share news after time apart", uz: "gaplashib olish, yangilik almashmoq", ex: "We met online to catch up after not seeing each other for months.", exUz: "Bir necha oy ko'rishmaganimizdan keyin onlayn uchrashib gaplashib oldik."},
+    {term: "meet up", en: "to meet someone, usually by arrangement", uz: "uchrashmoq", ex: "We plan to meet up after classes and study together.", exUz: "Darslardan keyin uchrashib birga o'qishni rejalashtiryapmiz."},
+    {term: "keep in touch", en: "to stay connected with someone", uz: "aloqada bo'lmoq", ex: "Even after graduation, we try to keep in touch regularly.", exUz: "Bitirgandan keyin ham muntazam aloqada bo'lishga harakat qilamiz."},
+    {term: "go for a walk", en: "to take a walk for pleasure or exercise", uz: "sayrga chiqmoq", ex: "In the evening, we go for a walk to relax.", exUz: "Kechqurun dam olish uchun sayrga chiqamiz."},
+    {term: "scroll", en: "to move through content on a phone or screen", uz: "telefon titkilamoq", ex: "I sometimes scroll social media before sleeping.", exUz: "Ba'zan uxlashdan oldin ijtimoiy tarmoqlarni titkilayman."},
+    {term: "read for pleasure", en: "to read because you enjoy it, not for study", uz: "zavq uchun o'qimoq", ex: "I read for pleasure in the evening to calm down.", exUz: "Kechqurun tinchlanish uchun zavq bilan kitob o'qiyman."},
+    {term: "grab coffee", en: "to get coffee quickly with someone", uz: "qahva ichib olish", ex: "We grabbed coffee after class and talked for an hour.", exUz: "Darsdan keyin qahva ichib olib, bir soat gaplashdik."},
+    {term: "get out of the house", en: "to leave home and go somewhere", uz: "uydan chiqmoq", ex: "I'm in the mood to get out of the house and meet friends.", exUz: "Men uydan chiqib do'stlar bilan uchrashishni xohlayapman."},
+
+    // === SECTION 3: Fitness & Exercise ===
+    {term: "work out", en: "to exercise, usually in a planned way", uz: "mashq qilmoq", ex: "I work out at home in the evenings to stay active.", exUz: "Faol bo'lish uchun kechqurun uyda mashq qilaman."},
+    {term: "stay in shape", en: "to keep your body fit and healthy", uz: "formada bo'lmoq", ex: "She walks every morning to stay in shape and feel energetic.", exUz: "U har tong yurib, formada bo'lish va o'zini tetik his qilishni xohlaydi."},
+    {term: "warm up", en: "to prepare your body before exercise", uz: "qizish", ex: "Always warm up properly before running to avoid injuries.", exUz: "Jarohat olmaslik uchun yugurishdan oldin doim yaxshi qizing."},
+    {term: "cool down", en: "to relax muscles after exercise", uz: "sovish", ex: "After training, I cool down with slow walking and stretching.", exUz: "Mashqdan keyin sekin yurib va cho'zilib sovib olaman."},
+    {term: "stretch", en: "to extend your muscles to avoid injury", uz: "cho'zilmoq", ex: "I always stretch my legs after running to prevent muscle pain.", exUz: "Mushak og'rig'ini oldini olish uchun yugurishdan keyin oyoqlarimni cho'zaman."},
+    {term: "build stamina", en: "to increase your physical endurance", uz: "chidamlilikni oshirmoq", ex: "Regular jogging helps me build stamina and run longer distances.", exUz: "Muntazam yugurish menga chidamlilikni oshirish va uzoqroq yugurishga yordam beradi."},
+    {term: "break a sweat", en: "to start sweating because of hard effort", uz: "terlab ketmoq", ex: "Just ten minutes of cardio makes me break a sweat quickly.", exUz: "Atigi o'n daqiqa kardio mashqi meni tez terlatib yuboradi."},
+    {term: "personal best", en: "your best-ever performance or result", uz: "shaxsiy rekord", ex: "I hit a personal best in swimming after weeks of training.", exUz: "Bir necha hafta mashqdan keyin suzishda shaxsiy rekord qo'ydim."},
+    {term: "push yourself", en: "to force yourself to try harder", uz: "o'zingni majburlamoq", ex: "It's good to push yourself, but you must listen to your body.", exUz: "O'zingni majburlash yaxshi, lekin tanangni tinglashing kerak."},
+    {term: "take it easy", en: "to do less and avoid too much effort", uz: "yengilroq qilmoq", ex: "My knee hurts today, so I'll take it easy at the gym.", exUz: "Bugun tizzam og'riyapti, shuning uchun zalda yengilroq qilaman."},
+    {term: "overdo it", en: "to do something too much", uz: "haddan oshirmoq", ex: "Don't overdo it on your first day, or you may get injured.", exUz: "Birinchi kuni haddan oshirmang, aks holda jarohat olishingiz mumkin."},
+    {term: "cardio", en: "exercise that increases heart rate", uz: "kardio mashq", ex: "I do cardio exercises to improve my heart health.", exUz: "Yurak sog'lig'ini yaxshilash uchun kardio mashqlar qilaman."},
+    {term: "strength training", en: "exercises to build muscle power", uz: "kuch mashqlari", ex: "Strength training helps me build stronger arms and shoulders.", exUz: "Kuch mashqlari qo'l va yelkalarni kuchliroq qiladi."},
+    {term: "train", en: "to practise a sport or skill seriously", uz: "mashq qilmoq, tayyorlanmoq", ex: "He trains every morning to improve his performance.", exUz: "U natijasini yaxshilash uchun har tong mashq qiladi."},
+    {term: "practise", en: "to do something repeatedly to improve", uz: "mashq qilmoq", ex: "I practise speaking daily to become more confident.", exUz: "Ishonchim oshishi uchun har kuni speaking mashq qilaman."},
+    {term: "compete", en: "to take part in a contest or match", uz: "musobaqalashmoq", ex: "She wants to compete at national level next year.", exUz: "U kelasi yil milliy darajada musobaqalashmoqchi."},
+
+    // === SECTION 4: Hobbies & Activities ===
+    {term: "take up (a hobby)", en: "to start a new hobby or activity", uz: "boshlamoq", ex: "Last year I took up swimming to improve my health.", exUz: "O'tgan yili sog'lig'imni yaxshilash uchun suzishni boshladim."},
+    {term: "give up", en: "to stop doing something", uz: "tashlab qo'ymoq", ex: "I tried to give up late-night gaming to sleep better.", exUz: "Yaxshi uxlash uchun kechasi o'yin o'ynashni tashlashga harakat qildim."},
+    {term: "try out", en: "to test something to see if you like it", uz: "sinab ko'rmoq", ex: "I want to try out badminton before joining the club.", exUz: "Klubga qo'shilishdan oldin badmintonni sinab ko'rmoqchiman."},
+    {term: "sign up for", en: "to register officially for something", uz: "ro'yxatdan o'tmoq", ex: "I signed up for a local gym to start training regularly.", exUz: "Muntazam mashq qilish uchun mahalliy sport zalga ro'yxatdan o'tdim."},
+    {term: "stick with", en: "to continue doing something despite difficulty", uz: "davom ettirmoq", ex: "Even when it was hard, I decided to stick with my routine.", exUz: "Qiyin bo'lsa ham, rejamni davom ettirishga qaror qildim."},
+    {term: "burn out", en: "to become extremely tired and lose motivation", uz: "holdan toyib ketmoq, charchab ketmoq", ex: "If you study without rest, you may burn out quickly.", exUz: "Dam olmasdan o'qisangiz, tezda holdan toyib ketishingiz mumkin."},
+    {term: "get back into (something)", en: "to start doing something again after a break", uz: "yana qaytib boshlamoq", ex: "I'm trying to get back into reading after a long break.", exUz: "Uzoq tanaffusdan keyin yana kitob o'qishga qaytib boshlashga harakat qilyapman."},
+    {term: "bake", en: "to cook in an oven", uz: "pishirmoq", ex: "I like to bake cakes at home on weekends.", exUz: "Dam olish kunlari uyda tort pishirishni yoqtiraman."},
+    {term: "paint", en: "to make pictures using paint", uz: "rasm chizmoq", ex: "She paints landscapes to relax after a busy day.", exUz: "U band kundan keyin dam olish uchun manzara rasmlar chizadi."},
+    {term: "learn guitar", en: "to start learning to play the guitar", uz: "gitara o'rganmoq", ex: "I want to learn guitar to play songs for friends.", exUz: "Do'stlarim uchun qo'shiqlar chalish uchun gitara o'rganmoqchiman."},
+    {term: "team sport", en: "a sport played by groups of players", uz: "jamoaviy sport", ex: "Football is a team sport that builds cooperation and trust.", exUz: "Futbol hamkorlik va ishonchni rivojlantiradigan jamoaviy sport."},
+    {term: "individual sport", en: "a sport played alone, not in a team", uz: "yakka sport", ex: "Swimming is an individual sport, but it still builds discipline.", exUz: "Suzish yakka sport, lekin u ham intizomni rivojlantiradi."},
+
+    // === SECTION 5: Sports & Games ===
+    {term: "kick off", en: "to start (a match or event)", uz: "boshlanmoq (o'yin)", ex: "The match kicks off at seven, so we should arrive early.", exUz: "O'yin soat yettida boshlanadi, shuning uchun erta borishimiz kerak."},
+    {term: "score a goal", en: "to get a point in football or hockey", uz: "gol urmoq", ex: "He scored a goal after receiving a perfect pass from his teammate.", exUz: "U jamoadoshidan mukammal pas olgach gol urdi."},
+    {term: "make a pass", en: "to send the ball to a teammate", uz: "pas bermoq", ex: "She made a quick pass to avoid losing the ball.", exUz: "To'pni yo'qotmaslik uchun u tez pas berdi."},
+    {term: "defend", en: "to protect your goal or area from attack", uz: "himoyalanmoq", ex: "We need to defend better if we want to win today.", exUz: "Bugun yutmoqchi bo'lsak, yaxshiroq himoyalanishimiz kerak."},
+    {term: "come from behind", en: "to win after being behind in score", uz: "orqadan yetib yutmoq", ex: "They came from behind and won the match in the final minutes.", exUz: "Ular orqadan yetib, so'nggi daqiqalarda o'yinni yutishdi."},
+    {term: "call it a day", en: "to stop working or playing for today", uz: "buguncha bas qilmoq", ex: "We practiced for hours, so let's call it a day now.", exUz: "Biz soatlab mashq qildik, endi buguncha bas qilaylik."},
+    {term: "take turns", en: "to do something one after another", uz: "navbat bilan qilmoq", ex: "We take turns choosing the music during long car trips.", exUz: "Uzoq safarlarda musiqani navbat bilan tanlaymiz."},
+    {term: "fair play", en: "playing honestly and respecting the rules", uz: "halol o'yin", ex: "Fair play is more important than winning any competition.", exUz: "Har qanday musobaqada halol o'yin yutishdan muhimroq."},
+    {term: "play it safe", en: "to choose a careful, low-risk option", uz: "xavfsiz yo'l tutmoq", ex: "In defence, we played it safe to avoid mistakes.", exUz: "Xatoga yo'l qo'ymaslik uchun himoyada xavfsiz yo'l tutdik."},
+    {term: "go all out", en: "to use all your energy and effort", uz: "bor kuch bilan qilmoq", ex: "In the final game, we went all out from the first minute.", exUz: "Final o'yinda birinchi daqiqadan boshlab bor kuchimiz bilan harakat qildik."},
+    {term: "on the bench", en: "not playing and waiting as a substitute", uz: "zaxirada", ex: "He started on the bench but later came on and scored.", exUz: "U o'yinni zaxirada boshladi, keyin maydonga tushib gol urdi."},
+    {term: "a close game", en: "a match with a very small score difference", uz: "teng o'yin", ex: "It was a close game, and both teams had many chances.", exUz: "Bu teng o'yin bo'ldi va ikkala jamoada ham ko'p imkoniyatlar bo'ldi."},
+    {term: "catch a game", en: "to watch a match, often casually", uz: "o'yinni ko'rib olish", ex: "I'll catch a game on TV after I finish my homework.", exUz: "Uy vazifamni tugatgach, TVda o'yinni ko'rib olaman."},
+    {term: "watch the highlights", en: "to watch short best moments of a match", uz: "qisqa lavhalarni ko'rmoq", ex: "I watched the highlights in the morning because I missed the match.", exUz: "O'yinni o'tkazib yuborgani uchun ertalab qisqa lavhalarni ko'rdim."},
+    {term: "friendly match", en: "a non-competitive game for fun", uz: "o'rtoqlik o'yini", ex: "We are playing a friendly match with neighbours this weekend.", exUz: "Bu dam olish kuni qo'shnilar bilan o'rtoqlik o'yini o'ynaymiz."},
+
+    // === SECTION 6: Being a Fan ===
+    {term: "support a team", en: "to be a fan of a team", uz: "jamoani qo'llab-quvvatlamoq", ex: "I support a local team and attend their matches regularly.", exUz: "Men mahalliy jamoani qo'llab-quvvatlayman va o'yinlariga muntazam boraman."},
+    {term: "cheer on", en: "to encourage someone loudly", uz: "qarsak bilan ruhlantirmoq", ex: "We cheered on our friends loudly during the final race.", exUz: "Final poygada do'stlarimizga baland ovozda ruh berdik."},
+    {term: "root for", en: "to strongly support someone or a team", uz: "tomonini olmoq", ex: "I always root for the underdog in big competitions.", exUz: "Katta musobaqalarda doim autsayder tomonini olaman."},
+    {term: "underdog", en: "a person or team expected to lose", uz: "kutilmagan raqib, autsayder", ex: "The underdog surprised everyone by winning the final match.", exUz: "Kutilmagan raqib final o'yinni yutib, hammani hayratda qoldirdi."},
+    {term: "rivalry", en: "strong competition between teams or people", uz: "raqobat", ex: "The rivalry between the two clubs makes every match exciting.", exUz: "Ikki klub o'rtasidagi raqobat har bir o'yinni hayajonli qiladi."},
+    {term: "fan base", en: "group of people who support a team or person", uz: "muhlislar", ex: "That team has a huge fan base across the whole country.", exUz: "O'sha jamoaning butun mamlakat bo'ylab katta muhlislari bor."},
+    {term: "season ticket", en: "a ticket that allows entry for the whole season", uz: "mavsumiy abonement", ex: "He bought a season ticket to watch every home match.", exUz: "U har bir uy o'yinini ko'rish uchun mavsumiy abonement sotib oldi."},
+
+    // === SECTION 7: Idioms & Expressions ===
+    {term: "time flies", en: "time passes very quickly", uz: "vaqt tez o'tadi", ex: "Time flies when I'm playing football with my friends.", exUz: "Do'stlarim bilan futbol o'ynaganimda vaqt tez o'tadi."},
+    {term: "not my cup of tea", en: "something you do not like", uz: "yoqmaydigan narsa", ex: "Boxing is not my cup of tea, I prefer calmer sports.", exUz: "Boks menga yoqmaydi, men tinchroq sportlarni afzal ko'raman."},
+    {term: "a change is as good as a rest", en: "doing something different helps you relax", uz: "o'zgarish ham dam olishdek foydali", ex: "After exams, a short trip proves a change is as good as a rest.", exUz: "Imtihonlardan keyin qisqa sayohat o'zgarish ham dam olishdek foydali ekanini ko'rsatadi."},
+    {term: "on the same page", en: "to agree about something", uz: "bir fikrda bo'lmoq", ex: "We are on the same page about the training plan.", exUz: "Mashg'ulot rejasi bo'yicha bir fikrdamiz."},
+    {term: "piece of cake", en: "very easy to do", uz: "juda oson", ex: "The warm-up was a piece of cake for everyone.", exUz: "Qizish mashqi hamma uchun juda oson bo'ldi."},
+    {term: "call the shots", en: "to be the one who makes decisions", uz: "qaror qilmoq, boshqarib turmoq", ex: "Our captain calls the shots during important matches.", exUz: "Muhim o'yinlarda kapitan qaror qiladi."},
+    {term: "give it a go", en: "to try something new", uz: "urinib ko'rmoq", ex: "I'm nervous, but I'll give it a go and join the club.", exUz: "Hayajondaman, lekin urinib ko'rib klubga qo'shilaman."},
+    {term: "bounce back", en: "to recover after a loss or difficulty", uz: "o'zini tiklab olmoq", ex: "Good teams bounce back quickly after a disappointing defeat.", exUz: "Yaxshi jamoalar alamli mag'lubiyatdan keyin tezda o'zini tiklab oladi."},
+    {term: "under pressure", en: "in a stressful or demanding situation", uz: "bosim ostida", ex: "Some players perform better under pressure during important matches.", exUz: "Ba'zi o'yinchilar muhim o'yinlarda bosim ostida yaxshiroq o'ynaydi."},
+    {term: "in the long run", en: "over a long period of time", uz: "uzoq muddatda", ex: "Regular exercise helps your health in the long run.", exUz: "Muntazam mashq qilish uzoq muddatda sog'liq uchun foydali."},
+    {term: "pace yourself", en: "to not go too fast or use all energy at once", uz: "o'zingni tejamoq, me'yorida qilmoq", ex: "During long runs, you should pace yourself to avoid exhaustion.", exUz: "Uzoq yugurishda holdan toyib qolmaslik uchun o'zingni tejashing kerak."},
+    {term: "keep up with", en: "to stay at the same level or speed as others", uz: "orqada qolmaslik, yetib bormoq", ex: "It's hard to keep up with the class when lessons move quickly.", exUz: "Darslar tez o'tsa, sinfga yetib borish qiyin bo'ladi."},
+
+    // === SECTION 8: Personal Development & Wellness ===
+    {term: "make friends", en: "to form new friendships", uz: "do'st orttirmoq", ex: "Joining clubs helps students make friends and feel more confident.", exUz: "Klublarga qo'shilish o'quvchilarga do'st orttirishga va ishonchli bo'lishga yordam beradi."},
+    {term: "get into (new skills)", en: "to become interested in learning something new", uz: "qiziqib ketmoq", ex: "Many students get into photography after joining the media club.", exUz: "Ko'p o'quvchilar media klubga qo'shilgach fotografiyaga qiziqib ketadi."},
+    {term: "build a routine", en: "to create a regular habit or schedule", uz: "odat shakllantirmoq", ex: "I built a routine to study and work out every evening.", exUz: "Har kechqurun o'qish va mashq qilish uchun odat shakllantirdim."},
+    {term: "meet new people", en: "to get to know new individuals", uz: "yangi odamlar bilan tanishmoq", ex: "Travelling helps you meet new people from different cultures.", exUz: "Sayohat qilish turli madaniyatdagi yangi odamlar bilan tanishishga yordam beradi."},
+    {term: "zone out", en: "to lose focus or stop paying attention", uz: "xayoli chalg'imoq", ex: "I sometimes zone out when lessons become too long.", exUz: "Darslar juda uzun bo'lsa, ba'zan xayolim chalg'ib ketadi."},
+    {term: "team up", en: "to work together with others", uz: "bir jamoa bo'lib ishlamoq", ex: "We teamed up to prepare for the school sports competition.", exUz: "Maktab sport musobaqasiga tayyorlanish uchun bir jamoa bo'lib ishladik."},
+    {term: "clear your head", en: "to relax and stop thinking about problems", uz: "boshni tozalamoq", ex: "A short walk helps me clear my head after studying.", exUz: "O'qishdan keyin qisqa sayr boshimni tozalashga yordam beradi."},
+    {term: "avoid burning out", en: "to prevent extreme tiredness and loss of motivation", uz: "holdan toyib ketmaslik", ex: "Taking breaks helps you avoid burning out during exam season.", exUz: "Imtihon davrida tanaffus qilish holdan toyib ketmaslikka yordam beradi."},
+    {term: "set realistic goals", en: "to choose achievable targets", uz: "haqiqiy maqsad qo'ymoq", ex: "Set realistic goals so you don't feel disappointed quickly.", exUz: "Tez xafa bo'lmaslik uchun haqiqiy maqsadlar qo'ying."},
+    {term: "improve your form", en: "to correct the way you move or exercise", uz: "harakatni to'g'rilamoq", ex: "The coach helps players improve their form during training.", exUz: "Murabbiy mashg'ulot paytida o'yinchilarga harakatini to'g'rilashga yordam beradi."},
+    {term: "safe routine", en: "an exercise plan without high risk of injury", uz: "xavfsiz mashq rejasi", ex: "Beginners should follow a safe routine to avoid injuries.", exUz: "Boshlovchilar jarohat olmaslik uchun xavfsiz mashq rejasiga amal qilishi kerak."},
+    {term: "keep up your routine", en: "to continue your regular schedule", uz: "rejangni davom ettirmoq", ex: "Even during holidays, I try to keep up my routine.", exUz: "Ta'tilda ham rejamni davom ettirishga harakat qilaman."},
+    {term: "focus on steady improvement", en: "to aim for slow but continuous progress", uz: "barqaror rivojlanishga e'tibor qaratmoq", ex: "Athletes focus on steady improvement rather than quick results.", exUz: "Sportchilar tez natijadan ko'ra barqaror rivojlanishga e'tibor qaratadi."},
+    {term: "socialise", en: "to spend time with others in a friendly way", uz: "ijtimoiylashmoq", ex: "Sports help teenagers socialise and build confidence.", exUz: "Sport o'smirlarga ijtimoiylashish va ishonchni oshirishga yordam beradi."},
+    {term: "reduce stress", en: "to lower feelings of pressure and worry", uz: "stressni kamaytirmoq", ex: "Yoga helps me reduce stress after a long school day.", exUz: "Yoga uzun maktab kunidan keyin stressni kamaytirishga yordam beradi."},
+    {term: "balanced schedule", en: "a plan with equal time for work and rest", uz: "muvozanatli jadval", ex: "A balanced schedule helps students study and relax properly.", exUz: "Muvozanatli jadval o'quvchilarga to'g'ri o'qish va dam olishga yordam beradi."},
+    {term: "keep motivated", en: "to stay interested and enthusiastic", uz: "ruhni saqlamoq, motivatsiyani yo'qotmaslik", ex: "Joining a group helps me keep motivated and train regularly.", exUz: "Guruhga qo'shilish menga motivatsiyani saqlash va muntazam mashq qilishga yordam beradi."}
+  ]
+};

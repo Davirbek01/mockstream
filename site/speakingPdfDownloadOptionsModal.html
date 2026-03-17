@@ -1,0 +1,12 @@
+<!-- Speaking PDF Download Options Modal -->
+<div id="speakingPdfDownloadOptionsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border:2px solid var(--purple);border-radius:20px;padding:30px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+    <h3 style="font-size:24px;color:var(--purple);margin-bottom:8px;">📥 Download PDF</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">Choose which PDF to download for Mock <span id="speakingPdfDownloadMockNum">XX</span></p>
+    <div style="display:flex;gap:10px;flex-direction:column;margin-bottom:16px;">
+      <button id="speakingPdfDownloadQuestionsBtn" style="padding:12px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Download Questions PDF</button>
+      <button id="speakingPdfDownloadSamplesBtn" style="padding:12px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Download Samples PDF</button>
+    </div>
+    <button onclick="closeSpeakingPdfDownloadOptionsModal()" style="padding:12px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<!-- Speaking PDF Passcode Modal -->
+<div id="speakingPdfPasscodeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border:2px solid var(--purple);border-radius:20px;padding:30px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+    <h3 style="font-size:24px;color:var(--purple);margin-bottom:8px;">🔐 Verify Access</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">Enter your backend-validated code</p>
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <input type="text" id="speakingPdfPasscodeInput" placeholder="Enter passcode" autocomplete="off" style="flex:1;padding:12px;border:2px solid var(--ring);border-radius:10px;font-size:14px;background:var(--bg);color:var(--ink);">
+    </div>
+    <div id="speakingPdfPasscodeError" style="font-size:13px;margin-bottom:16px;height:20px;"></div>
+    <div style="display:flex;gap:10px;flex-direction:column;">
+      <button id="speakingPdfPasscodeSubmit" onclick="verifySpeakingPdfPasscode()" style="padding:12px;background:linear-gradient(135deg,var(--purple) 0%,#7c3aed 100%);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Unlock Download</button>
+      <button onclick="closeSpeakingPdfPasscodeModal()" style="padding:12px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Speaking PDF Mock Number Modal -->
+<div id="speakingPdfMockNumberModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border:2px solid var(--purple);border-radius:20px;padding:30px;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+    <h3 style="font-size:24px;color:var(--purple);margin-bottom:8px;">📋 Select Mock Number</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">Enter the mock number to download (1-30)</p>
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <input type="number" id="speakingPdfMockNumberInput" placeholder="Enter mock number" autocomplete="off" min="1" max="30" style="flex:1;padding:12px;border:2px solid var(--ring);border-radius:10px;font-size:14px;background:var(--bg);color:var(--ink);">
+    </div>
+    <div id="speakingPdfMockNumberError" style="font-size:13px;margin-bottom:16px;height:20px;"></div>
+    <div style="display:flex;gap:10px;flex-direction:column;">
+      <button id="speakingPdfMockNumberSubmit" onclick="downloadSpeakingMockPdf()" style="padding:12px;background:linear-gradient(135deg,var(--purple) 0%,#7c3aed 100%);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Download PDF</button>
+      <button onclick="closeSpeakingPdfMockNumberModal()" style="padding:12px;background:var(--bg);color:var(--muted);border:2px solid var(--ring);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pass Generator - Admin Tool</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      min-height: 100vh;
+      color: #e2e8f0;
+      padding: 20px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #374151, #1f2937);
+      border: 2px solid #475569;
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .tab-btn:hover {
+      border-color: #60a5fa;
+      transform: translateY(-2px);
+    }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-color: #60a5fa;
+    }
+    
+    .tab-content {
+      display: none;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid #334155;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title span {
+      font-size: 1.8rem;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .codes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding: 10px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 12px;
+    }
+    
+    .code-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #374151, #1f2937);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #475569;
+    }
+    
+    .code-item label {
+      color: #94a3b8;
+      font-size: 13px;
+      min-width: 60px;
+    }
+    
+    .code-item input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #f8fafc;
+      font-size: 14px;
+      font-family: 'Consolas', monospace;
+      text-align: center;
+    }
+    
+    .code-item input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    
+    /* File Output Section */
+    .output-section {
+      margin-top: 24px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .output-title {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .output-code {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 12px;
+      color: #a5f3fc;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    /* Status Messages */
+    .status {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: none;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .status.success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+    
+    .status.error {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+    
+    /* Duplicate warning input highlight */
+    .duplicate-warning {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+      animation: pulse-warning 1s ease-in-out;
+    }
+    
+    @keyframes pulse-warning {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3); }
+      50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.5); }
+    }
+    
+    /* Duplicate Warning Modal */
+    .warning-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .warning-modal {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid #ef4444;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      animation: scaleIn 0.2s ease;
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .warning-modal-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .warning-modal-title {
+      color: #ef4444;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    
+    .warning-modal-message {
+      color: #e2e8f0;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .warning-modal-message strong {
+      color: #fbbf24;
+    }
+    
+    .warning-modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    
+    .warning-modal-btn {
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .warning-modal-btn.cancel {
+      background: #475569;
+      color: white;
+    }
+    
+    .warning-modal-btn.confirm {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+    
+    .warning-modal-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .quick-actions h3 {
+      color: #60a5fa;
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .quick-actions-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    /* Instructions */
+    .instructions {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .instructions h3 {
+      color: #fbbf24;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .instructions ul {
+      color: #94a3b8;
+      font-size: 13px;
+      padding-left: 20px;
+    }
+    
+    .instructions li {
+      margin-bottom: 6px;
+    }
+    
+    .instructions code {
+      background: rgba(0,0,0,0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #a5f3fc;
+      font-family: 'Consolas', monospace;
+    }
+    
+    /* Download buttons area */
+    .download-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    /* Range selector */
+    .range-selector {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .range-selector label {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    
+    .range-selector input {
+      width: 80px;
+      background: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #f8fafc;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .range-selector input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔐 Pass Generator</h1>
+      <p>Manage all Speaking & Writing mock codes and AI access codes in one place</p>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('speaking-mock')">🎤 Speaking Mock Codes</button>
+      <button class="tab-btn" onclick="showTab('writing-mock')">✍️ Writing Mock Codes</button>
+      <button class="tab-btn" onclick="showTab('speaking-promo')">🎙️ Speaking Promocodes</button>
+      <button class="tab-btn" onclick="showTab('writing-promo')">📝 Writing Promocodes</button>
+    </div>
+    
+    <!-- Speaking Mock Codes Tab -->
+    <div id="tab-speaking-mock" class="tab-content active">
+      <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <ul>
+          <li>These are <strong>2-6 character alphanumeric codes</strong> required for AI scoring access</li>
+          <li>Supports: <code>3847</code> (digits), <code>K5N6</code> (mixed), <code>ABCD</code> (letters)</li>
+          <li>Format: <code>CODE-passcode</code> (e.g., <code>3847-912907m</code> or <code>K5N6-912907m</code>)</li>
+          <li>Each mock has a unique code that students must enter along with their one-time passcode</li>
+        </ul>
+      </div>
+      
+      <div class="section-header">
+        <div class="section-title">
+          <span>🎤</span> Speaking AI Mock Codes
+        </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" onclick="randomizeCodes('speaking-mock')">🎲 Randomize All</button>
+          <button class="btn btn-primary" onclick="generateOutput('speaking-mock')">📄 Generate JS</button>
+        </div>
+      </div>
+      
+      <div class="range-selector">
+        <label>Show mocks:</label>
+        <input type="number" id="speaking-mock-start" value="1" min="1" max="99">
+        <label>to</label>
+        <input type="number" id="speaking-mock-end" value="99" min="1" max="99">
+        <button class="btn btn-primary" onclick="renderCodes('speaking-mock')" style="padding:8px 16px;font-size:12px;">Apply</button>
+      </div>
+      
+      <div id="speaking-mock-grid" class="codes-grid"></div>
+      
+      <div class="output-section">
+        <div class="output-header">
+          <span class="output-title">Generated JavaScript Output</span>
+          <button class="btn btn-success" onclick="copyToClipboard('speaking-mock-output')">📋 Copy</button>
+        </div>
+        <pre id="speaking-mock-output" class="output-code">Click "Generate JS" to see the output...</pre>
+        <div class="download-area">
+          <button class="btn btn-success" onclick="downloadFile('speaking-mock')">💾 Download speaking-mock-codes.js</button>
+          <button class="btn btn-warning" onclick="saveToFile('speaking-mock')">📁 Save to File (Manual)</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Writing Mock Codes Tab -->
+    <div id="tab-writing-mock" class="tab-content">
+      <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <ul>
+          <li>These are <strong>2-6 character alphanumeric codes</strong> required for AI scoring access</li>
+          <li>Supports: <code>5291</code> (digits), <code>K5N6</code> (mixed), <code>ABCD</code> (letters)</li>
+          <li>Format: <code>CODE-passcode</code> (e.g., <code>5291-912907m</code> or <code>K5N6-912907m</code>)</li>
+          <li>Each mock has a unique code that students must enter along with their one-time passcode</li>
+        </ul>
+      </div>
+      
+      <div class="section-header">
+        <div class="section-title">
+          <span>✍️</span> Writing AI Mock Codes
+        </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" onclick="randomizeCodes('writing-mock')">🎲 Randomize All</button>
+          <button class="btn btn-primary" onclick="generateOutput('writing-mock')">📄 Generate JS</button>
+        </div>
+      </div>
+      
+      <div class="range-selector">
+        <label>Show mocks:</label>
+        <input type="number" id="writing-mock-start" value="1" min="1" max="99">
+        <label>to</label>
+        <input type="number" id="writing-mock-end" value="99" min="1" max="99">
+        <button class="btn btn-primary" onclick="renderCodes('writing-mock')" style="padding:8px 16px;font-size:12px;">Apply</button>
+      </div>
+      
+      <div id="writing-mock-grid" class="codes-grid"></div>
+      
+      <div class="output-section">
+        <div class="output-header">
+          <span class="output-title">Generated JavaScript Output</span>
+          <button class="btn btn-success" onclick="copyToClipboard('writing-mock-output')">📋 Copy</button>
+        </div>
+        <pre id="writing-mock-output" class="output-code">Click "Generate JS" to see the output...</pre>
+        <div class="download-area">
+          <button class="btn btn-success" onclick="downloadFile('writing-mock')">💾 Download writing-mock-codes.js</button>
+          <button class="btn btn-warning" onclick="saveToFile('writing-mock')">📁 Save to File (Manual)</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Speaking Promocodes Tab -->
+    <div id="tab-speaking-promo" class="tab-content">
+      <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <ul>
+          <li>These are <strong>2-character codes</strong> for mock test entry access</li>
+          <li>Supports: <code>K7</code> (letter+digit), <code>AB</code> (2 letters), <code>42</code> (2 digits), <code>7K</code> (digit+letter)</li>
+          <li>Format: <code>XX-passcode</code> (e.g., <code>K7-2025912907m</code> or <code>AB-2025912907m</code>)</li>
+          <li>Students use these to access specific mock tests</li>
+        </ul>
+      </div>
+      
+      <div class="section-header">
+        <div class="section-title">
+          <span>🎙️</span> Speaking Mock Entry Promocodes
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" onclick="randomizeCodes('speaking-promo')">🎲 Randomize All</button>
+          <button class="btn btn-primary" onclick="generateOutput('speaking-promo')">📄 Generate JS</button>
+        </div>
+      </div>
+      
+      <div class="range-selector">
+        <label>Show mocks:</label>
+        <input type="number" id="speaking-promo-start" value="1" min="1" max="99">
+        <label>to</label>
+        <input type="number" id="speaking-promo-end" value="99" min="1" max="99">
+        <button class="btn btn-primary" onclick="renderCodes('speaking-promo')" style="padding:8px 16px;font-size:12px;">Apply</button>
+      </div>
+      
+      <div id="speaking-promo-grid" class="codes-grid"></div>
+      
+      <div class="output-section">
+        <div class="output-header">
+          <span class="output-title">Generated JavaScript Output</span>
+          <button class="btn btn-success" onclick="copyToClipboard('speaking-promo-output')">📋 Copy</button>
+        </div>
+        <pre id="speaking-promo-output" class="output-code">Click "Generate JS" to see the output...</pre>
+        <div class="download-area">
+          <button class="btn btn-success" onclick="downloadFile('speaking-promo')">💾 Download speaking-promocodes.js</button>
+          <button class="btn btn-warning" onclick="saveToFile('speaking-promo')">📁 Save to File (Manual)</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Writing Promocodes Tab -->
+    <div id="tab-writing-promo" class="tab-content">
+      <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <ul>
+          <li>These are <strong>2-character codes</strong> for mock test entry access</li>
+          <li>Supports: <code>H3</code> (letter+digit), <code>AB</code> (2 letters), <code>42</code> (2 digits), <code>3H</code> (digit+letter)</li>
+          <li>Format: <code>XX-passcode</code> (e.g., <code>H3-2025912907m</code> or <code>AB-2025912907m</code>)</li>
+          <li>Students use these to access specific mock tests</li>
+        </ul>
+      </div>
+      
+      <div class="section-header">
+        <div class="section-title">
+          <span>📝</span> Writing Mock Entry Promocodes
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-warning" onclick="randomizeCodes('writing-promo')">🎲 Randomize All</button>
+          <button class="btn btn-primary" onclick="generateOutput('writing-promo')">📄 Generate JS</button>
+        </div>
+      </div>
+      
+      <div class="range-selector">
+        <label>Show mocks:</label>
+        <input type="number" id="writing-promo-start" value="1" min="1" max="99">
+        <label>to</label>
+        <input type="number" id="writing-promo-end" value="99" min="1" max="99">
+        <button class="btn btn-primary" onclick="renderCodes('writing-promo')" style="padding:8px 16px;font-size:12px;">Apply</button>
+      </div>
+      
+      <div id="writing-promo-grid" class="codes-grid"></div>
+      
+      <div class="output-section">
+        <div class="output-header">
+          <span class="output-title">Generated JavaScript Output</span>
+          <button class="btn btn-success" onclick="copyToClipboard('writing-promo-output')">📋 Copy</button>
+        </div>
+        <pre id="writing-promo-output" class="output-code">Click "Generate JS" to see the output...</pre>
+        <div class="download-area">
+          <button class="btn btn-success" onclick="downloadFile('writing-promo')">💾 Download writing-promocodes.js</button>
+          <button class="btn btn-warning" onclick="saveToFile('writing-promo')">📁 Save to File (Manual)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="status" class="status"></div>
+  
+  <script>
+    // Data storage for all codes
+    const codesData = {
+      'speaking-mock': {},
+      'writing-mock': {},
+      'speaking-promo': {},
+      'writing-promo': {}
+    };
+    
+    // Initialize with 99 mocks
+    for (let i = 1; i <= 99; i++) {
+      codesData['speaking-mock'][i] = generateRandom4Digit();
+      codesData['writing-mock'][i] = generateRandom4Digit();
+      codesData['speaking-promo'][i] = generateRandomLetterNumber();
+      codesData['writing-promo'][i] = generateRandomLetterNumber();
+    }
+    
+    // Try to load existing codes from the JS files
+    loadExistingCodes();
+    
+    function generateRandom4Digit() {
+      return String(Math.floor(1000 + Math.random() * 9000));
+    }
+    
+    // Generate random alphanumeric mock code (2-6 characters)
+    function generateRandomMockCode(format = 'digits') {
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const digits = '0123456789';
+      const alphanumeric = letters + digits;
+      
+      switch(format) {
+        case 'digits': // 4 digits (3847)
+          return String(Math.floor(1000 + Math.random() * 9000));
+        case 'mixed4': // 4 chars mixed (K5N6)
+          let mixed = '';
+          for (let i = 0; i < 4; i++) {
+            mixed += alphanumeric[Math.floor(Math.random() * alphanumeric.length)];
+          }
+          return mixed;
+        case 'letters4': // 4 letters (ABCD)
+          let lettersCode = '';
+          for (let i = 0; i < 4; i++) {
+            lettersCode += letters[Math.floor(Math.random() * letters.length)];
+          }
+          return lettersCode;
+        default:
+          return String(Math.floor(1000 + Math.random() * 9000));
+      }
+    }
+    
+    // Generate random 2-character promocode (can be letters, numbers, or mixed)
+    function generateRandomLetterNumber() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const digits = '0123456789';
+      
+      // Randomly choose format: 2 letters, 2 digits, or letter+digit, or digit+letter
+      const formats = [
+        () => letters[Math.floor(Math.random() * letters.length)] + digits[Math.floor(Math.random() * digits.length)],  // Letter + Digit (K7)
+        () => letters[Math.floor(Math.random() * letters.length)] + letters[Math.floor(Math.random() * letters.length)],  // Two letters (AB)
+        () => digits[Math.floor(Math.random() * digits.length)] + digits[Math.floor(Math.random() * digits.length)],  // Two digits (42)
+        () => digits[Math.floor(Math.random() * digits.length)] + letters[Math.floor(Math.random() * letters.length)],  // Digit + Letter (7K)
+      ];
+      
+      return formats[Math.floor(Math.random() * formats.length)]();
+    }
+    
+    // Generate specific format promocode
+    function generatePromocode(format) {
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const digits = '0123456789';
+      
+      switch(format) {
+        case 'letter-digit': // K7
+          return letters[Math.floor(Math.random() * letters.length)] + digits[Math.floor(Math.random() * digits.length)];
+        case 'two-letters': // AB
+          return letters[Math.floor(Math.random() * letters.length)] + letters[Math.floor(Math.random() * letters.length)];
+        case 'two-digits': // 42
+          return digits[Math.floor(Math.random() * digits.length)] + digits[Math.floor(Math.random() * digits.length)];
+        case 'digit-letter': // 7K
+          return digits[Math.floor(Math.random() * digits.length)] + letters[Math.floor(Math.random() * letters.length)];
+        default:
+          return generateRandomLetterNumber();
+      }
+    }
+    
+    function loadExistingCodes() {
+      // Load speaking-mock-codes.js
+      const scriptSpeakingMock = document.createElement('script');
+      scriptSpeakingMock.src = '../speaking-mock-codes.js?' + Date.now();
+      scriptSpeakingMock.onload = function() {
+        if (window.SPEAKING_MOCK_CODES) {
+          for (let key in window.SPEAKING_MOCK_CODES) {
+            codesData['speaking-mock'][parseInt(key)] = window.SPEAKING_MOCK_CODES[key];
+          }
+          renderCodes('speaking-mock');
+        }
+      };
+      document.head.appendChild(scriptSpeakingMock);
+      
+      // Load writing-mock-codes.js
+      const scriptWritingMock = document.createElement('script');
+      scriptWritingMock.src = '../writing-mock-codes.js?' + Date.now();
+      scriptWritingMock.onload = function() {
+        if (window.WRITING_MOCK_CODES) {
+          for (let key in window.WRITING_MOCK_CODES) {
+            codesData['writing-mock'][parseInt(key)] = window.WRITING_MOCK_CODES[key];
+          }
+          renderCodes('writing-mock');
+        }
+      };
+      document.head.appendChild(scriptWritingMock);
+      
+      // Load speaking-promocodes.js
+      const scriptSpeakingPromo = document.createElement('script');
+      scriptSpeakingPromo.src = '../speaking-promocodes.js?' + Date.now();
+      scriptSpeakingPromo.onload = function() {
+        if (window.SPEAKING_MOCK_PROMOCODES) {
+          for (let key in window.SPEAKING_MOCK_PROMOCODES) {
+            const mockNum = parseInt(key);
+            codesData['speaking-promo'][mockNum] = window.SPEAKING_MOCK_PROMOCODES[key];
+          }
+          renderCodes('speaking-promo');
+        }
+      };
+      document.head.appendChild(scriptSpeakingPromo);
+      
+      // Load writing-promocodes.js
+      const scriptWritingPromo = document.createElement('script');
+      scriptWritingPromo.src = '../writing-promocodes.js?' + Date.now();
+      scriptWritingPromo.onload = function() {
+        if (window.WRITING_MOCK_PROMOCODES) {
+          for (let key in window.WRITING_MOCK_PROMOCODES) {
+            const mockNum = parseInt(key);
+            codesData['writing-promo'][mockNum] = window.WRITING_MOCK_PROMOCODES[key];
+          }
+          renderCodes('writing-promo');
+        }
+      };
+      document.head.appendChild(scriptWritingPromo);
+      
+      // Initial render after a short delay
+      setTimeout(() => {
+        renderCodes('speaking-mock');
+        renderCodes('writing-mock');
+        renderCodes('speaking-promo');
+        renderCodes('writing-promo');
+      }, 500);
+    }
+    
+    function showTab(tabId) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById('tab-' + tabId).classList.add('active');
+      event.target.classList.add('active');
+    }
+    
+    function renderCodes(type) {
+      const grid = document.getElementById(type + '-grid');
+      const startInput = document.getElementById(type + '-start');
+      const endInput = document.getElementById(type + '-end');
+      
+      const start = parseInt(startInput.value) || 1;
+      const end = parseInt(endInput.value) || 99;
+      
+      let html = '';
+      for (let i = start; i <= end; i++) {
+        const code = codesData[type][i] || '';
+        const isPromo = type.includes('promo');
+        const isMock = type.includes('mock');
+        const placeholder = isPromo ? 'AB or A1' : (isMock ? '3847 or K5N6' : '1234');
+        const maxLen = isPromo ? 4 : (isMock ? 6 : 4);  // Mock codes: up to 6, Promo: up to 4
+        
+        html += `
+          <div class="code-item" id="item-${type}-${i}">
+            <label>Mock ${i}:</label>
+            <input type="text" 
+                   id="${type}-${i}" 
+                   value="${code}" 
+                   maxlength="${maxLen}"
+                   placeholder="${placeholder}"
+                   onchange="updateCode('${type}', ${i}, this.value)"
+                   oninput="checkDuplicateRealtime('${type}', ${i}, this.value)"
+                   style="text-transform: uppercase;">
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+    
+    function updateCode(type, mockNum, value) {
+      const newValue = value.toUpperCase();
+      const duplicate = findDuplicate(type, mockNum, newValue);
+      
+      if (duplicate && newValue.length > 0) {
+        showDuplicateWarning(type, mockNum, newValue, duplicate, function(confirmed) {
+          if (confirmed) {
+            codesData[type][mockNum] = newValue;
+            clearDuplicateHighlight(type, mockNum);
+          } else {
+            // Revert to old value
+            const input = document.getElementById(`${type}-${mockNum}`);
+            if (input) input.value = codesData[type][mockNum];
+            clearDuplicateHighlight(type, mockNum);
+          }
+        });
+      } else {
+        codesData[type][mockNum] = newValue;
+        clearDuplicateHighlight(type, mockNum);
+      }
+    }
+    
+    function findDuplicate(type, currentMock, newValue) {
+      if (!newValue || newValue.trim() === '') return null;
+      
+      for (let i = 1; i <= 99; i++) {
+        if (i !== currentMock && codesData[type][i] === newValue) {
+          return i;
+        }
+      }
+      return null;
+    }
+    
+    function checkDuplicateRealtime(type, mockNum, value) {
+      const newValue = value.toUpperCase();
+      const input = document.getElementById(`${type}-${mockNum}`);
+      const duplicate = findDuplicate(type, mockNum, newValue);
+      
+      if (duplicate && newValue.length > 0) {
+        input.classList.add('duplicate-warning');
+      } else {
+        input.classList.remove('duplicate-warning');
+      }
+    }
+    
+    function clearDuplicateHighlight(type, mockNum) {
+      const input = document.getElementById(`${type}-${mockNum}`);
+      if (input) input.classList.remove('duplicate-warning');
+    }
+    
+    function showDuplicateWarning(type, mockNum, newValue, duplicateMock, callback) {
+      const typeLabel = type.replace('-', ' ').replace('mock', 'Mock').replace('promo', 'Promo');
+      const overlay = document.createElement('div');
+      overlay.className = 'warning-modal-overlay';
+      overlay.innerHTML = `
+        <div class="warning-modal">
+          <div class="warning-modal-icon">⚠️</div>
+          <div class="warning-modal-title">Duplicate Code Detected!</div>
+          <div class="warning-modal-message">
+            The code <strong>"${newValue}"</strong> is already used by <strong>Mock ${duplicateMock}</strong> in ${typeLabel}.<br><br>
+            Do you still want to use this code for Mock ${mockNum}?<br>
+            <small style="color:#94a3b8;">(This will create a duplicate - not recommended)</small>
+          </div>
+          <div class="warning-modal-buttons">
+            <button class="warning-modal-btn cancel" onclick="closeDuplicateWarning(this, false)">❌ Cancel</button>
+            <button class="warning-modal-btn confirm" onclick="closeDuplicateWarning(this, true)">✓ Use Anyway</button>
+          </div>
+        </div>
+      `;
+      
+      overlay._callback = callback;
+      document.body.appendChild(overlay);
+    }
+    
+    function closeDuplicateWarning(btn, confirmed) {
+      const overlay = btn.closest('.warning-modal-overlay');
+      if (overlay._callback) overlay._callback(confirmed);
+      overlay.remove();
+    }
+    
+    function randomizeCodes(type) {
+      const isPromo = type.includes('promo');
+      for (let i = 1; i <= 99; i++) {
+        codesData[type][i] = isPromo ? generateRandomLetterNumber() : generateRandom4Digit();
+      }
+      renderCodes(type);
+      showStatus('All codes randomized!', 'success');
+    }
+    
+    function generateOutput(type) {
+      let output = '';
+      const date = new Date().toLocaleString();
+      
+      if (type === 'speaking-mock') {
+        output = `// Speaking Mock AI Codes - Each mock has a unique 4-digit code
+// Generated: ${date}
+// Format: XXXX-passcode (e.g., 2847-912907m)
+// These codes are required along with the one-time passcode to access AI scoring
+
+const SPEAKING_MOCK_CODES = {
+`;
+        for (let i = 1; i <= 99; i++) {
+          const comma = i < 99 ? ',' : '';
+          output += `  ${i}: "${codesData[type][i]}"${comma}\n`;
+        }
+        output += `};
+
+// Export for use in Speaking Mocks.html
+window.SPEAKING_MOCK_CODES = SPEAKING_MOCK_CODES;`;
+      }
+      else if (type === 'writing-mock') {
+        output = `// Writing Mock AI Codes - Each mock has a unique 4-digit code
+// Generated: ${date}
+// Format: XXXX-passcode (e.g., 5291-912907m)
+// These codes are required along with the one-time passcode to access AI scoring
+
+const WRITING_MOCK_CODES = {
+`;
+        for (let i = 1; i <= 99; i++) {
+          const comma = i < 99 ? ',' : '';
+          output += `  ${i}: "${codesData[type][i]}"${comma}\n`;
+        }
+        output += `};
+
+// Export for use in Writing Mocks.html
+window.WRITING_MOCK_CODES = WRITING_MOCK_CODES;`;
+      }
+      else if (type === 'speaking-promo') {
+        output = `// Speaking Mock Promocodes
+// Generated: ${date}
+// Each mock test has a unique static promocode (letter + number combination)
+// Format: PROMOCODE-ONETIMEPASSCODE (e.g., X5-2025912907m)
+// Promocode is static, one-time passcode is dynamic from backend
+
+window.SPEAKING_MOCK_PROMOCODES = {
+  // Randomized promocodes for each mock (unpredictable pattern)
+`;
+        for (let i = 1; i <= 99; i++) {
+          const key = String(i).padStart(2, '0');
+          const comma = i < 99 ? ',' : '';
+          output += `  "${key}": "${codesData[type][i]}"${comma}\n`;
+        }
+        output += `};`;
+      }
+      else if (type === 'writing-promo') {
+        output = `// Writing Mock Promocodes
+// Generated: ${date}
+// Each mock test has a unique static promocode (letter + number combination)
+// Format: PROMOCODE-ONETIMEPASSCODE (e.g., H3-2025912907m)
+// Promocode is static, one-time passcode is dynamic from backend
+
+window.WRITING_MOCK_PROMOCODES = {
+  // Randomized promocodes for each mock (different from speaking promocodes)
+`;
+        for (let i = 1; i <= 99; i++) {
+          const key = String(i).padStart(2, '0');
+          const comma = i < 99 ? ',' : '';
+          output += `  "${key}": "${codesData[type][i]}"${comma}\n`;
+        }
+        output += `};`;
+      }
+      
+      document.getElementById(type + '-output').textContent = output;
+      showStatus('JavaScript generated!', 'success');
+    }
+    
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showStatus('Copied to clipboard!', 'success');
+      }).catch(() => {
+        showStatus('Failed to copy', 'error');
+      });
+    }
+    
+    function downloadFile(type) {
+      generateOutput(type);
+      const content = document.getElementById(type + '-output').textContent;
+      
+      let filename = '';
+      if (type === 'speaking-mock') filename = 'speaking-mock-codes.js';
+      else if (type === 'writing-mock') filename = 'writing-mock-codes.js';
+      else if (type === 'speaking-promo') filename = 'speaking-promocodes.js';
+      else if (type === 'writing-promo') filename = 'writing-promocodes.js';
+      
+      const blob = new Blob([content], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      showStatus(`Downloaded ${filename}!`, 'success');
+    }
+    
+    function saveToFile(type) {
+      generateOutput(type);
+      
+      let filename = '';
+      if (type === 'speaking-mock') filename = 'speaking-mock-codes.js';
+      else if (type === 'writing-mock') filename = 'writing-mock-codes.js';
+      else if (type === 'speaking-promo') filename = 'speaking-promocodes.js';
+      else if (type === 'writing-promo') filename = 'writing-promocodes.js';
+      
+      alert(`To save to the actual file:\n\n1. Click "Copy" to copy the generated code\n2. Open the file: ${filename}\n3. Select all (Ctrl+A) and paste (Ctrl+V)\n4. Save the file (Ctrl+S)\n\nOr use the "Download" button and replace the file manually.`);
+    }
+    
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = 'status ' + type;
+      status.style.display = 'block';
+      
+      setTimeout(() => {
+        status.style.display = 'none';
+      }, 3000);
+    }
+    
+    // Initial render
+    document.addEventListener('DOMContentLoaded', function() {
+      // Codes will be rendered after loading existing files
+    });
+  </script>
+</body>
+</html>

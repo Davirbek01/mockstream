@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice Tests</title>
+    <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+    <link rel="stylesheet" href="site-config/responsive-scaling.css">
+    <!-- Site Config (swap this script to change brand/skin) -->
+    <script src="site-config/site-config.js"></script>
+    <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
+    <!-- Reading mock code configs -->
+    <script src="passcodes.js"></script>
+    <script src="reading-promocodes.js"></script>
+    <script src="reading-mock-codes.js"></script>
+    <style>
+        :root {
+            --primary: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #7c3aed;
+            --secondary-light: #ede9fe;
+            --success: #10b981;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .passages-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .passage-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .passage-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(3, 105, 161, 0.15);
+        }
+
+        .passage-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-light), #bae6fd);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .passage-info {
+            flex: 1;
+        }
+
+        .passage-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .passage-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .passage-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .passage-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .arrow-icon {
+            font-size: 24px;
+            color: var(--primary);
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .passage-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .no-tests {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--card);
+            border-radius: 16px;
+            border: 2px dashed var(--border);
+        }
+
+        .no-tests-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .no-tests h3 {
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .no-tests p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .passage-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .passage-meta {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .arrow-icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <a href="landing.html" target="_top" class="back-btn">← Back to Home</a>
+                <div class="logo-section" style="margin-top: -10px;">
+                    <a href="landing.html" target="_top"
+                        style="text-decoration:none;display:flex;align-items:center;gap:12px;"
+                        onclick="event.preventDefault(); goBack();">
+                        <div class="header-logo"
+                            style="width:50px;height:50px;border-radius:50%;background:white;padding:5px;">
+                            <img id="logoImg" src="" alt="Logo"
+                                style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                            <script>document.getElementById('logoImg').src=(window.SITE_CONFIG&&window.SITE_CONFIG.logoUrl)||'https://i.ibb.co/WN0XY5Lv/logo.png';</script>
+                        </div>
+                        <span class="logo-wording" style="color:white;font-weight:700;">Mock Stream</span>
+                        <script>document.querySelector('.logo-wording').textContent=(window.SITE_CONFIG&&window.SITE_CONFIG.brandName)||'Mock Stream';</script>
+                    </a>
+                </div>
+            </div>
+            <h1>📖 IELTS Reading Tests</h1>
+            <p>Select a passage to practice your reading skills</p>
+        </div>
+
+        <div class="passages-grid" id="passagesGrid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading available tests...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Back navigation logic
+        function goBack() {
+            try {
+                if (window.parent && window.parent !== window) {
+                    if (typeof window.parent.returnToLanding === 'function') {
+                        window.parent.returnToLanding();
+                        return;
+                    }
+                    window.parent.postMessage('returnToLanding', '*');
+                    return;
+                }
+            } catch (e) {
+                console.log('Error calling parent:', e);
+            }
+            window.location.href = 'landing.html';
+        }
+
+        // Add compatibility aliases
+        window.goBack = goBack;
+        window.goToLanding = goBack;
+
+        // Attach to back button
+        document.addEventListener('DOMContentLoaded', function () {
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    goBack();
+                });
+            }
+        });
+
+        // Automatically discover and load reading tests
+        const readingTests = [];
+
+        // List of possible file patterns to check
+        const filePatterns = [
+            'ielts-reading-01.js',
+            'ielts-reading-02.js',
+            'ielts-reading-03.js',
+            'ielts-reading-04.js',
+            'ielts-reading-05.js',
+            'ielts-reading-06.js',
+            'ielts-reading-07.js',
+            'ielts-reading-08.js',
+            'ielts-reading-09.js',
+            'ielts-reading-10.js',
+            'ielts-reading-test-01.js',
+            'ielts-reading-test-02.js',
+            'ielts-reading-test-03.js',
+            'ielts-reading-test-04.js',
+            'ielts-reading-test-05.js',
+            'ielts-reading-test-06.js',
+            'ielts-reading-test-07.js',
+            'ielts-reading-test-08.js',
+            'ielts-reading-test-09.js',
+            'ielts-reading-test-10.js',
+            'ielts-reading-test-11.js',
+            'ielts-reading-test-12.js',
+            'ielts-reading-test-13.js',
+            'ielts-reading-test-14.js',
+            'ielts-reading-test-15.js',
+            'ielts-reading-test-16.js',
+            'ielts-reading-test-17.js',
+            'ielts-reading-test-18.js',
+            'ielts-reading-test-19.js',
+            'ielts-reading-test-20.js',
+            'ielts-reading-test-21.js',
+            'ielts-reading-test-22.js',
+            'ielts-reading-test-23.js',
+            'ielts-reading-test-24.js',
+            'ielts-reading-test-25.js',
+            'ielts-reading-test-26.js',
+            'ielts-reading-test-27.js',
+            'ielts-reading-test-28.js',
+            'ielts-reading-test-29.js'
+        ];
+
+        async function loadTest(filename) {
+            return new Promise((resolve) => {
+                const script = document.createElement('script');
+                script.src = 'questions IELTS R/' + filename;
+                script.onload = function () {
+                    if (window.IELTS_READING_TEST) {
+                        const test = window.IELTS_READING_TEST;
+
+                        // Handle both single-passage format and multi-passage format (from test builder)
+                        let shortName, title, questions, time;
+
+                        if (test.passages && Array.isArray(test.passages) && test.passages.length > 0) {
+                            // Multi-passage format from test builder
+                            // Build combined title showing all passage short names
+                            const passageNames = test.passages.map(function (p, index) {
+                                const name = p.shortName || p.title || 'Passage ' + (index + 1);
+                                return 'P' + (index + 1) + ': ' + name;
+                            });
+                            shortName = passageNames.join(' - ');
+                            title = test.passages[0].title || 'Reading Test';
+
+                            // Count questions from ALL passages (not just first)
+                            questions = 0;
+                            test.passages.forEach(function (passage) {
+                                if (passage.questionSections) {
+                                    passage.questionSections.forEach(function (section) {
+                                        questions += section.questions ? section.questions.length : 0;
+                                    });
+                                }
+                            });
+                            if (questions === 0) questions = test.testInfo?.totalQuestions || 40;
+
+                            // Total time for all passages
+                            time = test.testInfo?.totalTime || 60;
+                        } else {
+                            // Single-passage format (original format)
+                            shortName = test.shortName || test.title || 'Reading Test';
+                            title = test.title || 'Reading Test';
+                            questions = test.totalQuestions || 13;
+                            time = test.timeRecommended || 20;
+                        }
+
+                        readingTests.push({
+                            file: filename,
+                            shortName: shortName,
+                            title: title,
+                            questions: questions,
+                            time: time
+                        });
+                        // Clear for next test
+                        window.IELTS_READING_TEST = null;
+                    }
+                    resolve(true);
+                };
+                script.onerror = function () {
+                    resolve(false);
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        async function discoverTests() {
+            for (const pattern of filePatterns) {
+                await loadTest(pattern);
+            }
+            renderTests();
+        }
+
+        function renderTests() {
+            const grid = document.getElementById('passagesGrid');
+
+            if (readingTests.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-tests">
+                        <div class="no-tests-icon">📚</div>
+                        <h3>No Tests Available</h3>
+                        <p>Reading tests will appear here once they are added.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = readingTests.map((test, index) => `
+                <a href="IELTS reading.html?test=${test.file}" class="passage-card" data-mock-num="${String(index + 1).padStart(2, '0')}" data-test-url="IELTS reading.html?test=${test.file}">
+                    <div class="passage-number">${index + 1}</div>
+                    <div class="passage-info">
+                        <div class="passage-label">Test ${index + 1}</div>
+                        <div class="passage-title">${test.shortName || test.title}</div>
+                        <div class="passage-meta">
+                            <span>📝 ${test.questions} questions</span>
+                            <span>⏱️ ${test.time} minutes</span>
+                        </div>
+                    </div>
+                    <div class="arrow-icon">→</div>
+                </a>
+            `).join('');
+
+            // Intercept clicks on passage cards
+            grid.addEventListener('click', function(e) {
+                var card = e.target.closest('.passage-card');
+                if (!card) return;
+                e.preventDefault();
+                var mockNum = card.getAttribute('data-mock-num');
+                var testUrl = card.getAttribute('data-test-url');
+                window._pendingReadingTest = { url: testUrl, mockNumber: mockNum };
+                showReadingAccessModal(mockNum);
+            });
+        }
+
+        // Initialize - auto-discover tests
+        document.addEventListener('DOMContentLoaded', function () {
+            discoverTests();
+
+            // Name Input Modal Logic
+            (function () {
+                var fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME');
+                if (fullName && !sessionStorage.getItem('CANDIDATE_NAME')) {
+                    sessionStorage.setItem('CANDIDATE_NAME', fullName);
+                }
+            })();
+
+            if (!sessionStorage.getItem('CANDIDATE_NAME')) {
+                const nameModalHTML = `
+                    <div id="nameInputModal" style="
+                        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                        background: rgba(0, 0, 0, 0.85); z-index: 10000;
+                        display: flex; justify-content: center; align-items: center;
+                        backdrop-filter: blur(5px);
+                    ">
+                        <div style="
+                            background: white; padding: 40px; border-radius: 16px;
+                            max-width: 450px; width: 90%; text-align: center;
+                            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                            animation: slideUp 0.4s ease-out;
+                        ">
+                            <h2 style="color: #0369a1; margin-bottom: 20px; font-weight: 700;">Welcome to IELTS Reading</h2>
+                            <p style="color: #64748b; margin-bottom: 25px; font-size: 16px;">Please enter your full name to view available tests.</p>
+                            <input type="text" id="candidateNameInput" placeholder="Full Name (e.g. John Doe)" style="
+                                width: 100%; padding: 15px; margin-bottom: 25px;
+                                border: 2px solid #e2e8f0; border-radius: 10px;
+                                font-size: 16px; outline: none; transition: border-color 0.3s;
+                            ">
+                            <button id="saveNameBtn" style="
+                                background: linear-gradient(135deg, #0369a1, #0284c7);
+                                color: white; border: none; padding: 15px 40px;
+                                border-radius: 10px; font-size: 16px; font-weight: 600;
+                                cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(3, 105, 161, 0.3);
+                                transition: transform 0.2s;
+                            ">Continue</button>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', nameModalHTML);
+
+                const btn = document.getElementById('saveNameBtn');
+                const input = document.getElementById('candidateNameInput');
+
+                function saveAndClose() {
+                    const name = input.value.trim();
+                    if (name) {
+                        sessionStorage.setItem('CANDIDATE_NAME', name);
+                        document.getElementById('nameInputModal').remove();
+                    } else {
+                        input.style.borderColor = '#ef4444';
+                        input.focus();
+                    }
+                }
+
+                btn.addEventListener('click', saveAndClose);
+                input.addEventListener('keydown', (e) => { if (e.key === 'Enter') saveAndClose(); });
+                input.focus();
+            }
+        });
+    </script>
+
+    <!-- ===== READING ACCESS CODE MODAL ===== -->
+    <div id="readingAccessModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:100002;justify-content:center;align-items:center;">
+      <div style="background:white;border-radius:20px;padding:32px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp 0.3s ease;">
+        <div style="font-size:48px;margin-bottom:12px;">🔐</div>
+        <h2 style="color:#0369a1;font-size:20px;margin-bottom:6px;">Access Code Required</h2>
+        <p id="readingAccessMockLabel" style="color:#64748b;font-size:13px;margin-bottom:20px;">Enter your code to start this reading mock</p>
+        <input type="text" id="readingAccessCodeInput" placeholder="Enter access code" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')" style="width:100%;padding:14px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:18px;text-align:center;letter-spacing:3px;font-weight:700;margin-bottom:12px;transition:border-color 0.3s;box-sizing:border-box;" onfocus="this.style.borderColor='#0369a1'" onblur="this.style.borderColor='#e2e8f0'">
+        <div id="readingAccessStatus" style="min-height:20px;font-size:13px;font-weight:600;margin-bottom:16px;"></div>
+        <div style="display:flex;gap:12px;">
+          <button onclick="closeReadingAccessModal()" style="flex:1;padding:12px;border:2px solid #e2e8f0;background:white;color:#64748b;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;">Cancel</button>
+          <button id="readingAccessVerifyBtn" onclick="verifyReadingAccessCode()" style="flex:1;padding:12px;border:none;background:linear-gradient(135deg,#0369a1,#0284c7);color:white;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;">Verify</button>
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    </style>
+    <script>
+      window.isSuperAccessUnlocked = window.isSuperAccessUnlocked || function () {
+        return sessionStorage.getItem('vipSessionAccess') === 'true';
+      };
+      window.readingMockRequiresCode = function (mockNumber) {
+        if (window.isSuperAccessUnlocked()) return false;
+        var padded = String(mockNumber).padStart(2, '0');
+        if (window.READING_MOCK_PROMOCODES && window.READING_MOCK_PROMOCODES[padded]) return true;
+        return false;
+      };
+      window.validateFullReadingAccess = async function (inputValue, mockNumber) {
+        try {
+          if (window.isSuperAccessUnlocked()) {
+            var isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+            return { valid: true, premiumEntry: isVipAi };
+          }
+          var cleanInput = inputValue.trim().replace(/[-\s]/g, '');
+          if (cleanInput.length === 10 && /^\d{10}$/.test(cleanInput) && window.extractReadingPremiumOTP) {
+            var aiPasscode = window.extractReadingPremiumOTP(cleanInput, mockNumber);
+            if (aiPasscode) {
+              try {
+                var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                });
+                if (resp.ok) { var data = await resp.json(); if (data.access || data.valid) { sessionStorage.setItem('readingPremiumEntry', 'true'); return { valid: true, premiumEntry: true }; } }
+              } catch (e) {}
+            }
+          }
+          if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractReadingRegularOTP) {
+            var usedCodes = {}; try { usedCodes = JSON.parse(localStorage.getItem('usedReadingRegularCodes') || '{}'); } catch(e) {}
+            var mockKey = String(mockNumber).padStart(2, '0');
+            if (usedCodes[mockKey] === cleanInput) { return { valid: false, error: 'This regular code has already been used for this mock. Please use a premium code.' }; }
+            var otp = window.extractReadingRegularOTP(cleanInput, mockNumber);
+            if (otp) {
+              var fullCode = new Date().getFullYear() + otp;
+              var resp2 = await fetch('https://davirbek.alwaysdata.net/verify', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: fullCode })
+              });
+              if (!resp2.ok) return { valid: false, error: 'Server error. Please try again.' };
+              var data2 = await resp2.json();
+              if (data2.access || data2.valid) { usedCodes[mockKey] = cleanInput; localStorage.setItem('usedReadingRegularCodes', JSON.stringify(usedCodes)); sessionStorage.setItem('readingPremiumEntry', 'false'); return { valid: true, premiumEntry: false }; }
+              else return { valid: false, error: 'Invalid or expired code.' };
+            }
+          }
+          return { valid: false, error: 'Invalid code. Please check and try again.' };
+        } catch (err) { return { valid: false, error: 'Connection error. Please check your internet.' }; }
+      };
+      function showReadingAccessModal(mockNum) {
+        if (window.isSuperAccessUnlocked()) {
+          var isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
+          sessionStorage.setItem('readingPremiumEntry', isVipAi ? 'true' : 'false');
+          window.location.href = window._pendingReadingTest.url; return;
+        }
+        if (!window.readingMockRequiresCode(mockNum)) {
+          sessionStorage.setItem('readingPremiumEntry', 'false');
+          window.location.href = window._pendingReadingTest.url; return;
+        }
+        var modal = document.getElementById('readingAccessModal');
+        document.getElementById('readingAccessCodeInput').value = '';
+        document.getElementById('readingAccessStatus').textContent = '';
+        document.getElementById('readingAccessMockLabel').textContent = 'Enter your code for Reading Mock ' + mockNum;
+        modal.style.display = 'flex';
+        setTimeout(function() { document.getElementById('readingAccessCodeInput').focus(); }, 200);
+      }
+      function closeReadingAccessModal() {
+        document.getElementById('readingAccessModal').style.display = 'none';
+        window._pendingReadingTest = null;
+      }
+      async function verifyReadingAccessCode() {
+        if (!window._pendingReadingTest) return;
+        var input = document.getElementById('readingAccessCodeInput');
+        var status = document.getElementById('readingAccessStatus');
+        var btn = document.getElementById('readingAccessVerifyBtn');
+        var code = input.value.trim();
+        if (!code) { status.style.color = '#dc2626'; status.textContent = '❌ Please enter your access code'; return; }
+        status.style.color = '#f59e0b'; status.textContent = '🔄 Validating...';
+        btn.disabled = true; btn.textContent = 'Validating...';
+        var result = await window.validateFullReadingAccess(code, window._pendingReadingTest.mockNumber);
+        if (result.valid) {
+          status.style.color = '#059669';
+          status.textContent = result.premiumEntry ? '✅ Premium access verified!' : '✅ Access verified!';
+          setTimeout(function() { window.location.href = window._pendingReadingTest.url; }, 600);
+        } else {
+          status.style.color = '#dc2626'; status.textContent = '❌ ' + result.error;
+          btn.disabled = false; btn.textContent = 'Verify';
+        }
+      }
+      document.getElementById('readingAccessCodeInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') verifyReadingAccessCode(); });
+      document.getElementById('readingAccessModal').addEventListener('click', function(e) { if (e.target === this) closeReadingAccessModal(); });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,3179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speaking Test Builder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    .container {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      background: white;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      margin: 0;
+      flex: 0 0 auto;
+    }
+    
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .header-subtitle {
+      font-size: 12px;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+    
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .download-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      filter: brightness(1.1);
+    }
+    
+    .download-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* Text Formatting Toolbar */
+    .format-toolbar {
+      position: absolute;
+      background: #1f2937;
+      border-radius: 8px;
+      padding: 8px;
+      display: none;
+      z-index: 10000;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      gap: 4px;
+      flex-wrap: wrap;
+      max-width: 400px;
+    }
+    
+    .format-toolbar.active {
+      display: flex;
+    }
+    
+    .format-btn {
+      background: #374151;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .format-btn:hover {
+      background: #4b5563;
+    }
+    
+    .format-btn.active {
+      background: #3b82f6;
+    }
+    
+    .format-divider {
+      width: 1px;
+      background: #4b5563;
+      margin: 0 4px;
+    }
+    
+    .color-picker-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .color-input {
+      width: 30px;
+      height: 26px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 0;
+    }
+    
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    .left-panel {
+      padding: 30px;
+      overflow-y: auto;
+      height: 100%;
+      border-right: 3px solid #e5e7eb;
+    }
+    
+    .right-panel {
+      padding: 30px;
+      background: #f9fafb;
+      overflow-y: auto;
+      height: 100%;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: #f9fafb;
+      border-radius: 15px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 14px;
+    }
+    
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+    
+    .input-group input:focus,
+    .input-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+    
+    .input-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    .question-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .question-card h3 {
+      color: #1f2937;
+      margin-bottom: 15px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .ocr-section {
+      background: #fef3c7;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 2px dashed #f59e0b;
+    }
+    
+    .ocr-section label {
+      color: #92400e;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    
+    .ocr-btn {
+      background: #f59e0b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    
+    .ocr-btn:hover {
+      background: #d97706;
+    }
+    
+    .ocr-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .preview-window {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .preview-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .preview-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
+      border-radius: 10px;
+      object-fit: contain;
+      background: #f3f4f6;
+    }
+    
+    .preview-channel {
+      color: #667eea;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .preview-question {
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .preview-question h4 {
+      color: #667eea;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    .preview-question p {
+      color: #1f2937;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .preview-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .preview-images img {
+      width: 100%;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .toggle-section {
+      background: #ede9fe;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      border: 1px solid #c4b5fd;
+      user-select: none;
+    }
+    
+    .toggle-section:hover {
+      background: #ddd6fe;
+    }
+    
+    .toggle-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .toggle-content.active {
+      max-height: 2000px;
+    }
+    
+    .small-input {
+      display: inline-block;
+      width: 80px;
+      padding: 8px;
+      margin-left: 10px;
+    }
+    
+    .badge {
+      background: #667eea;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .success-msg {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    
+    .error-msg {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+<script src="../telegram-compat.js"></script>
+</head>
+<body>
+  <!-- Text Formatting Toolbar -->
+  <div id="formatToolbar" class="format-toolbar">
+    <button class="format-btn" onclick="formatText('bold')" title="Bold"><b>B</b></button>
+    <button class="format-btn" onclick="formatText('italic')" title="Italic"><i>I</i></button>
+    <button class="format-btn" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+    <div class="format-divider"></div>
+    <div class="color-picker-wrapper">
+      <input type="color" class="color-input" id="textColor" value="#000000" title="Text Color">
+    </div>
+    <div class="color-picker-wrapper">
+      <input type="color" class="color-input" id="bgColor" value="#ffff00" title="Highlight">
+    </div>
+    <div class="format-divider"></div>
+    <button class="format-btn" onclick="formatText('justifyLeft')" title="Align Left">≡</button>
+    <button class="format-btn" onclick="formatText('justifyCenter')" title="Center">≣</button>
+    <button class="format-btn" onclick="formatText('justifyRight')" title="Align Right">≡</button>
+    <div class="format-divider"></div>
+    <button class="format-btn" onclick="formatText('insertUnorderedList')" title="Bullet List">• List</button>
+    <button class="format-btn" onclick="formatText('insertOrderedList')" title="Numbered List">1. List</button>
+    <div class="format-divider"></div>
+    <button class="format-btn" onclick="formatText('removeFormat')" title="Clear Formatting">✕ Clear</button>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div class="header-title">
+        <h1>🎓 Speaking Test Builder</h1>
+      </div>
+      <div id="global-progress" style="font-size:12px;max-width:300px;text-align:center;"></div>
+      <div class="header-buttons">
+        <button class="download-btn" style="background:#3b82f6;" onclick="document.getElementById('bulkImageUpload').click()" title="Upload question images">
+          <span>📸 Bulk Upload</span>
+        </button>
+        <input type="file" id="bulkImageUpload" accept="image/*" multiple style="display:none;" onchange="handleBulkImageUpload(event)">
+        <button class="download-btn" style="background:#ef4444;" onclick="undoLastChange()" title="Undo last change">
+          <span id="undo-btn">↶</span>
+        </button>
+        <button class="download-btn" style="background:#f59e0b;" onclick="clearAllFields()" title="Clear all inputs">
+          <span>🗑️</span>
+        </button>
+        <button class="download-btn" style="background:#10b981;" onclick="refineAllQuestions()" title="Refine all questions">
+          <span id="refine-all-btn">✨</span>
+        </button>
+        <button class="download-btn" style="background:#7c3aed;" onclick="aiGenerateAllQuestions()" title="AI generate all">
+          <span id="ai-all-btn">🤖</span>
+        </button>
+        <button class="download-btn" style="background:#3b82f6;" onclick="previewInNewTab()" title="Preview in new tab">
+          <span>👁️</span>
+        </button>
+        <button class="download-btn" style="background:#10b981;" onclick="downloadQuestionsJS()" title="Download questions.js">
+          <span>⬇️</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <!-- LEFT PANEL: INPUTS -->
+      <div class="left-panel">
+        
+        <!-- GLOBAL SETTINGS -->
+        <div class="section">
+          <h2 onclick="toggleGlobalSettings()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;">
+            🌐 Global Settings 
+            <span id="global-settings-arrow" style="font-size:14px;transition:transform 0.2s;">▼</span>
+          </h2>
+          
+          <div id="global-settings-content" style="display:none;margin-top:16px;">
+            <div class="input-group">
+              <label>Logo URL</label>
+              <input type="text" id="logoUrl" placeholder="https://i.ibb.co/example/logo.png" value="https://i.ibb.co/WN0XY5Lv/logo.png">
+            </div>
+            
+            <div class="input-group">
+              <label>Logo Wording</label>
+              <input type="text" id="logoWording" placeholder="Mock Stream" value="Mock Stream">
+            </div>
+            
+            <div class="input-group">
+              <label>Telegram Channel/Profile</label>
+              <input type="text" id="telegramChannel" placeholder="@mock_stream" value="@mock_stream">
+            </div>
+            
+            <div class="input-group">
+              <label>Test Identifier (for Telegram filename)</label>
+              <input type="text" id="testIdentifier" placeholder="SM" value="SM" title="This will appear after name and date in Telegram zip filename (e.g., 'John Doe 26/11/25 SM.zip')">
+            </div>
+            
+            <div class="input-group">
+              <label>Main Heading (Gate Window)</label>
+              <input type="text" id="heading1" placeholder="Bilim va malakalarni baholash agentligi" value="Bilim va malakalarni baholash agentligi" onkeyup="updatePreview()">
+            </div>
+            
+            <div class="input-group">
+              <label>Sub Heading (Gate Window)</label>
+              <input type="text" id="heading2" placeholder="Chet tilini bilish darajasi" value="" onkeyup="updatePreview()">
+            </div>
+            
+
+          </div>
+        </div>
+        
+        <!-- UNIVERSAL QUESTION INPUT -->
+        <div class="section" style="background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);border:2px solid #3b82f6;margin-bottom:24px;">
+          <h2 style="color:#1e40af;display:flex;align-items:center;gap:8px;">
+            <span>📋</span>
+            <span>Insert All Questions</span>
+          </h2>
+          <p style="font-size:13px;color:#1e40af;margin-bottom:16px;">Quickly populate all 8 questions using one of three methods:</p>
+          
+          <!-- Method Selection Tabs -->
+          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+            <button onclick="switchInputMethod('manual')" id="tab-manual" class="input-method-tab active" style="flex:1;min-width:120px;padding:10px;border:2px solid #3b82f6;border-radius:8px;background:white;color:#1e40af;font-weight:600;cursor:pointer;transition:all 0.2s;">
+              ⌨️ Manual Text
+            </button>
+            <button onclick="switchInputMethod('paste')" id="tab-paste" class="input-method-tab" style="flex:1;min-width:120px;padding:10px;border:2px solid #cbd5e1;border-radius:8px;background:white;color:#64748b;font-weight:600;cursor:pointer;transition:all 0.2s;">
+              📋 Paste Image
+            </button>
+            <button onclick="switchInputMethod('upload')" id="tab-upload" class="input-method-tab" style="flex:1;min-width:120px;padding:10px;border:2px solid #cbd5e1;border-radius:8px;background:white;color:#64748b;font-weight:600;cursor:pointer;transition:all 0.2s;">
+              📁 Upload File
+            </button>
+          </div>
+          
+          <!-- Manual Input Method -->
+          <div id="method-manual" class="input-method-panel">
+            <div class="input-group">
+              <label style="font-weight:600;color:#1e40af;">Paste all 8 questions (one per line or separated by blank lines)</label>
+              <textarea id="universal-manual-input" placeholder="Example:&#10;Do you have many books at home?&#10;Do you like any foreign singers?&#10;What is your favorite item of clothing?&#10;What do you see in these pictures?&#10;..." style="height:200px;font-family:monospace;font-size:13px;"></textarea>
+            </div>
+            <button onclick="processManualInput()" style="width:100%;padding:12px;background:#3b82f6;color:white;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;margin-top:8px;">
+              📝 Preview & Confirm Distribution
+            </button>
+            <div id="universal-manual-status" style="margin-top:12px;"></div>
+          </div>
+          
+          <!-- Paste Image Method -->
+          <div id="method-paste" class="input-method-panel" style="display:none;">
+            <div style="background:white;padding:16px;border-radius:8px;border:2px dashed #3b82f6;text-align:center;">
+              <p style="margin-bottom:12px;color:#1e40af;font-weight:600;">📸 Paste screenshot from clipboard (Ctrl+V)</p>
+              <p style="font-size:12px;color:#64748b;margin-bottom:12px;">After pasting all images, click Continue to extract questions</p>
+              <div id="universal-paste-area" style="min-height:150px;background:#f8fafc;border-radius:6px;display:flex;flex-wrap:wrap;gap:8px;padding:8px;align-items:flex-start;overflow-y:auto;max-height:300px;">
+                <div style="width:100%;text-align:center;color:#94a3b8;font-size:13px;padding:20px;" id="paste-placeholder">Click here and press Ctrl+V to paste images</div>
+              </div>
+            </div>
+            <button onclick="processPastedImages()" id="paste-continue-btn" style="width:100%;padding:12px;background:#3b82f6;color:white;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;margin-top:12px;display:none;">
+              ⚡ Continue - Extract Questions
+            </button>
+            <div id="universal-paste-status" style="margin-top:12px;"></div>
+          </div>
+          
+          <!-- Upload File Method -->
+          <div id="method-upload" class="input-method-panel" style="display:none;">
+            <div style="background:white;padding:16px;border-radius:8px;border:2px dashed #3b82f6;text-align:center;">
+              <p style="margin-bottom:12px;color:#1e40af;font-weight:600;">📁 Upload image file(s) containing questions</p>
+              <input type="file" id="universal-file-input" accept="image/*" multiple style="display:none;" onchange="handleUniversalFileUpload(event)">
+              <button onclick="document.getElementById('universal-file-input').click()" style="padding:12px 24px;background:#3b82f6;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                Choose Files
+              </button>
+              <p style="font-size:12px;color:#64748b;margin-top:12px;">Supports multiple images (Questions 1-8 will be extracted)</p>
+            </div>
+            <div id="universal-upload-status" style="margin-top:12px;"></div>
+          </div>
+        </div>
+        
+        <!-- QUESTIONS 1-8 -->
+        <div id="questionsContainer"></div>
+        
+      </div>
+      
+      <!-- RIGHT PANEL: PREVIEW -->
+      <div class="right-panel">
+        <div class="preview-window">
+          <div class="preview-header">
+            <img id="previewLogo" class="preview-logo" src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Logo">
+            <div id="previewLogoText" style="font-weight:700;font-size:16px;color:#667eea;">Mock Stream</div>
+            <a id="previewChannel" class="preview-channel" href="https://t.me/mock_stream" target="_blank">@mock_stream</a>
+            <h3 id="previewHeading1" style="text-align:center;color:#1f2937;margin-top:20px;font-size:17px;"></h3>
+            <h4 id="previewHeading2" style="text-align:center;color:#3a6a64;margin-top:8px;font-size:13px;"></h4>
+          </div>
+          
+          <h3 style="text-align:center;color:#1f2937;margin-bottom:20px;margin-top:30px;">Question Preview</h3>
+          
+          <div id="previewQuestions"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Initialize questions data from existing structure
+    const questionsData = [
+      { number: 1, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, prompt: "What is the best movie you've ever seen?", hasImages: false },
+      { number: 2, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, prompt: 'Would you want to be an actor in the future?', hasImages: false },
+      { number: 3, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, prompt: 'Where do you usually buy your clothes?', hasImages: false },
+      { number: 4, part: 'Part 1', badge: '45s', prepTime: 10, speakTime: 45, prompt: 'What do you see in these pictures?', hasImages: true },
+      { number: 5, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, prompt: 'What are the advantages of attending a festival compared to a museum visit?', hasImages: true },
+      { number: 6, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, prompt: 'Why might some people find museums boring?', hasImages: true },
+      { number: 7, part: 'Part 2', badge: '2:00', prepTime: 60, speakTime: 120, prompt: 'Discuss the following points:', bulletPoints: ['Can you describe a trip that left a lasting impression on you?', 'What do you think made a trip special?', 'How does traveling affect one\'s attitude toward life and cultures?'], hasImages: false },
+      { number: 8, part: 'Part 3 (Discussion)', badge: '2:00', prepTime: 60, speakTime: 120, prompt: 'Art classes should be mandatory in schools.', promptInstruction: 'Discuss both sides and give your opinion.', debatePoints: { for: ['Encourages creativity and self-expression', 'Improves problem-solving skills', 'Provides a break from academic subjects'], against: ['Not everyone is interested in art', 'Reduces time for core subjects', 'Expensive to implement in all schools'] }, hasImages: false }
+    ];
+    
+    // Generate question input forms
+    function generateQuestionForms() {
+      const container = document.getElementById('questionsContainer');
+      
+      questionsData.forEach((q, index) => {
+        const html = `
+          <div class="question-card">
+            <h3>📝 Question ${q.number} - ${q.part} <span class="badge">${q.badge}</span></h3>
+            
+            <!-- OCR Section -->
+            <div class="ocr-section">
+              <label>📸 Extract Text from Image (OpenAI Vision)</label>
+              <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="ocr-btn" onclick="pasteAndOCR(${index})" style="flex:1;min-width:150px;">
+                  <span id="ocr-btn-text-${index}">📋 Paste & Extract</span>
+                </button>
+                <button class="ocr-btn" onclick="uploadAndOCR(${index})" style="flex:1;min-width:150px;background:#f59e0b;">
+                  <span id="upload-btn-text-${index}">📁 Upload & Extract</span>
+                </button>
+                <input type="file" id="upload-input-${index}" accept="image/*" style="display:none;" onchange="handleIndividualUpload(${index}, event)">
+              </div>
+              <div id="ocr-result-${index}"></div>
+            </div>
+            
+            <!-- Manual Input -->
+            ${!q.bulletPoints ? `
+              <div class="input-group">
+                <label>Question Text</label>
+                <textarea id="q${q.number}-prompt" onkeyup="updatePreview()">${q.prompt}</textarea>
+              </div>
+            ` : ''}
+            
+            ${q.bulletPoints ? `
+              <div class="input-group">
+                <label>Bullet Points (one per line)</label>
+                <textarea id="q${q.number}-bullets" onkeyup="updatePreview()">${q.bulletPoints.join('\n')}</textarea>
+              </div>
+            ` : ''}
+            
+            ${q.debatePoints ? `
+              <div class="input-group">
+                <label>Debate Points (FOR) - one per line</label>
+                <textarea id="q${q.number}-for" onkeyup="updatePreview()">${q.debatePoints.for.join('\n')}</textarea>
+              </div>
+              <div class="input-group">
+                <label>Debate Points (AGAINST) - one per line</label>
+                <textarea id="q${q.number}-against" onkeyup="updatePreview()">${q.debatePoints.against.join('\n')}</textarea>
+              </div>
+            ` : ''}
+            
+            ${q.number === 4 ? `
+              <div class="input-group">
+                <label>Image 1 URL (for picture description)</label>
+                <input type="text" id="sharedImg1" placeholder="https://i.ibb.co/example/image1.png" value="https://i.ibb.co/SDwRVyw8/image.png" onkeyup="updatePreview()">
+              </div>
+              <div class="input-group">
+                <label>Image 2 URL (for picture description)</label>
+                <input type="text" id="sharedImg2" placeholder="https://i.ibb.co/example/image2.png" value="https://i.ibb.co/rT8fKFs/image.png" onkeyup="updatePreview()">
+              </div>
+            ` : !q.hasImages ? `
+              <div class="input-group" style="display:none;">
+                <label>Picture URL (optional)</label>
+                <input type="text" id="q${q.number}-img" placeholder="https://i.ibb.co/example.png" onkeyup="updatePreview()">
+              </div>
+            ` : ''}
+            
+            <div class="input-group" style="display:none;">
+              <label>Prep Time (seconds)</label>
+              <input type="number" class="small-input" id="q${q.number}-prep" value="${q.prepTime}" onkeyup="updatePreview()">
+              <label style="margin-left:20px;">Speak Time (seconds)</label>
+              <input type="number" class="small-input" id="q${q.number}-speak" value="${q.speakTime}" onkeyup="updatePreview()">
+            </div>
+            
+            <!-- Sample Answer Section -->
+            <div class="toggle-section" onclick="toggleSection(this)">
+              <strong>📚 Sample Answer</strong> (click to expand)
+            </div>
+            <div class="toggle-content">
+              <div class="input-group" style="margin-top:15px;">
+                <textarea id="q${q.number}-sample" placeholder="Enter sample answer here..." onkeyup="updatePreview()"></textarea>
+                <div style="display:flex;gap:10px;margin-top:10px;">
+                  <button class="ocr-btn" style="flex:1;background:#10b981;" onclick="refineSample(${index})">
+                    <span id="refine-sample-${index}">✨ Refine (Format)</span>
+                  </button>
+                  <button class="ocr-btn" style="flex:1;background:#7c3aed;" onclick="aiGenerateSample(${index})">
+                    <span id="ai-sample-${index}">🤖 AI Fill</span>
+                  </button>
+                </div>
+                <div id="sample-progress-${index}"></div>
+              </div>
+            </div>
+            
+            <!-- Vocabulary Section -->
+            <div class="toggle-section" onclick="toggleSection(this)">
+              <strong>📖 Topic Vocabulary</strong> (click to expand)
+            </div>
+            <div class="toggle-content">
+              <div style="display:flex;gap:10px;margin:15px 0 10px 0;">
+                <button class="ocr-btn" style="flex:1;background:#10b981;" onclick="refineVocabulary(${index})">
+                  <span id="refine-vocab-${index}">✨ Refine (Format)</span>
+                </button>
+                <button class="ocr-btn" style="flex:1;background:#7c3aed;" onclick="aiGenerateVocabulary(${index})">
+                  <span id="ai-vocab-${index}">🤖 AI Fill</span>
+                </button>
+              </div>
+              <div id="vocab-progress-${index}"></div>
+              <div class="input-group" style="margin-top:15px;">
+                <label>Sentence Starters (one per line)</label>
+                <textarea id="q${q.number}-vocab-starters" placeholder="Example: 'Yes, we have quite a collection...' - 'Ha, bizda ancha ko'p kitoblar bor...'" onkeyup="updatePreview()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Phrases (one per line)</label>
+                <textarea id="q${q.number}-vocab-phrases" placeholder="Example: <strong>quite a collection</strong> - 'ancha katta to'plam'" onkeyup="updatePreview()"></textarea>
+              </div>
+              <div class="input-group">
+                <label>Idioms (one per line)</label>
+                <textarea id="q${q.number}-vocab-idioms" placeholder="Example: <strong>big reader</strong> - 'ko'p o'qiydigan odam'" onkeyup="updatePreview()"></textarea>
+              </div>
+            </div>
+            
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+    }
+    
+    // Toggle expandable sections
+    function toggleSection(element) {
+      const content = element.nextElementSibling;
+      content.classList.toggle('active');
+    }
+    
+    // OCR function using OpenAI Vision API
+    async function pasteAndOCR(index) {
+      const btnText = document.getElementById(`ocr-btn-text-${index}`);
+      const resultDiv = document.getElementById(`ocr-result-${index}`);
+      
+      // Create a temporary input area for paste
+      const pasteInput = document.createElement('div');
+      pasteInput.contentEditable = true;
+      pasteInput.style.cssText = 'position:fixed;left:-9999px;opacity:0;';
+      document.body.appendChild(pasteInput);
+      pasteInput.focus();
+      
+      // Show loading message
+      btnText.innerHTML = '<span class="loading"></span> Click and paste (Ctrl+V)...';
+      resultDiv.innerHTML = '<div style="background:#fef3c7;color:#92400e;padding:8px;border-radius:6px;font-size:12px;">📋 Focus is set. Press Ctrl+V to paste your image now.</div>';
+      
+      // Handle paste event
+      pasteInput.addEventListener('paste', async (e) => {
+        e.preventDefault();
+        document.body.removeChild(pasteInput);
+        
+        const items = e.clipboardData.items;
+        let imageBlob = null;
+        
+        for (let item of items) {
+          if (item.type.indexOf('image') !== -1) {
+            imageBlob = item.getAsFile();
+            break;
+          }
+        }
+        
+        if (!imageBlob) {
+          resultDiv.innerHTML = '<div class="error-msg">❌ No image found in clipboard. Copy an image first!</div>';
+          btnText.textContent = 'Paste & Extract Text';
+          return;
+        }
+        
+        // Show loading
+        btnText.innerHTML = '<span class="loading"></span> Extracting...';
+        resultDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;font-size:12px;">🤖 Processing image with AI...</div>';
+        
+        // Convert to base64
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          const base64 = e.target.result;
+          
+          try {
+            const apiKey = await getAPIKey();
+            
+            // Call OpenAI Vision API
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{
+                  role: 'user',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'You are an expert at extracting text from IELTS Speaking test images. Look carefully at this image and extract the question text. Return ONLY the question text itself, no extra commentary. If there are bullet points, include them. If there are FOR/AGAINST points, include them with labels. Be precise and accurate.'
+                    },
+                    {
+                      type: 'image_url',
+                      image_url: { url: base64 }
+                    }
+                  ]
+                }],
+                max_tokens: 800
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (data.error) {
+              throw new Error(data.error.message || 'Failed to extract text');
+            }
+            
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+              throw new Error('Invalid response from API');
+            }
+            
+            const extractedText = data.choices[0].message.content.trim();
+            
+            if (!extractedText || extractedText.includes('unable to')) {
+              throw new Error('Could not extract text from image. Please ensure the image contains clear, readable question text.');
+            }
+            
+            // Insert into textarea
+            const questionNum = questionsData[index].number;
+            document.getElementById(`q${questionNum}-prompt`).value = extractedText;
+            updatePreview();
+            
+            // Show success
+            btnText.textContent = 'Paste & Extract Text';
+            resultDiv.innerHTML = '<div class="success-msg">✅ Text extracted successfully!</div>';
+            
+          } catch (error) {
+            console.error('OCR Error:', error);
+            btnText.textContent = 'Paste & Extract Text';
+            resultDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+          }
+        };
+        reader.readAsDataURL(imageBlob);
+        
+      }, { once: true }); // Only listen once
+      
+      // Remove the input if user doesn't paste within 10 seconds
+      setTimeout(() => {
+        if (document.body.contains(pasteInput)) {
+          document.body.removeChild(pasteInput);
+          btnText.textContent = 'Paste & Extract Text';
+          resultDiv.innerHTML = '<div style="background:#fef2f2;color:#991b1b;padding:8px;border-radius:6px;font-size:12px;">⏰ Timed out. Click the button and paste quickly.</div>';
+        }
+      }, 10000);
+    }
+    
+    // Upload function for individual questions
+    function uploadAndOCR(index) {
+      const fileInput = document.getElementById(`upload-input-${index}`);
+      fileInput.click();
+    }
+    
+    async function handleIndividualUpload(index, event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const btnText = document.getElementById(`upload-btn-text-${index}`);
+      const resultDiv = document.getElementById(`ocr-result-${index}`);
+      
+      // Show loading
+      btnText.innerHTML = '<span class="loading"></span> Extracting...';
+      resultDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;font-size:12px;">🤖 Processing uploaded image with AI...</div>';
+      
+      try {
+        // Convert to base64
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          const base64 = e.target.result;
+          
+          try {
+            const apiKey = await getAPIKey();
+            
+            // Call OpenAI Vision API
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{
+                  role: 'user',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'You are an expert at extracting text from IELTS Speaking test images. Look carefully at this image and extract the question text. Return ONLY the question text itself, no extra commentary. If there are bullet points, include them. If there are FOR/AGAINST points, include them with labels. Be precise and accurate.'
+                    },
+                    {
+                      type: 'image_url',
+                      image_url: { url: base64 }
+                    }
+                  ]
+                }],
+                max_tokens: 800
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (data.error) {
+              throw new Error(data.error.message || 'Failed to extract text');
+            }
+            
+            if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+              throw new Error('Invalid response from API');
+            }
+            
+            const extractedText = data.choices[0].message.content.trim();
+            
+            if (!extractedText || extractedText.includes('unable to')) {
+              throw new Error('Could not extract text from image. Please ensure the image contains clear, readable question text.');
+            }
+            
+            // Insert into textarea
+            const questionNum = questionsData[index].number;
+            document.getElementById(`q${questionNum}-prompt`).value = extractedText;
+            updatePreview();
+            
+            // Show success
+            btnText.innerHTML = '📁 Upload & Extract';
+            resultDiv.innerHTML = '<div class="success-msg">✅ Text extracted from uploaded image!</div>';
+            setTimeout(() => resultDiv.innerHTML = '', 4000);
+            
+          } catch (error) {
+            console.error('Upload OCR Error:', error);
+            btnText.innerHTML = '📁 Upload & Extract';
+            resultDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+          }
+        };
+        
+        reader.readAsDataURL(file);
+        
+      } catch (error) {
+        console.error('File Upload Error:', error);
+        btnText.innerHTML = '📁 Upload & Extract';
+        resultDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+      
+      // Reset file input
+      event.target.value = '';
+    }
+    
+    // Update live preview
+    function updatePreview() {
+      const previewLogo = document.getElementById('previewLogo');
+      const previewLogoText = document.getElementById('previewLogoText');
+      const previewChannel = document.getElementById('previewChannel');
+      const previewHeading1 = document.getElementById('previewHeading1');
+      const previewHeading2 = document.getElementById('previewHeading2');
+      const previewQuestions = document.getElementById('previewQuestions');
+      
+      // Update global settings
+      const logoUrl = document.getElementById('logoUrl').value;
+      const logoWording = document.getElementById('logoWording').value;
+      const telegram = document.getElementById('telegramChannel').value;
+      const heading1 = document.getElementById('heading1').value;
+      const heading2 = document.getElementById('heading2').value;
+      
+      previewLogo.src = logoUrl || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      previewLogoText.textContent = logoWording || 'Mock Stream';
+      previewChannel.textContent = telegram || '@mock_stream';
+      previewChannel.href = `https://t.me/${telegram.replace('@', '')}`;
+      previewHeading1.innerHTML = heading1 || '';
+      previewHeading2.innerHTML = heading2 || '';
+      
+      // Update questions preview
+      let html = '';
+      questionsData.forEach(q => {
+        const prompt = document.getElementById(`q${q.number}-prompt`)?.value || q.prompt;
+        const img = document.getElementById(`q${q.number}-img`)?.value || '';
+        
+        let questionContent = `<p>${prompt}</p>`;
+        
+        // Q7: Show bullet points
+        if (q.number === 7) {
+          const bullets = document.getElementById('q7-bullets')?.value || '';
+          if (bullets) {
+            const bulletList = bullets.split('\n').filter(l => l.trim()).map(b => `<li>${b}</li>`).join('');
+            questionContent = `
+              <p style="font-weight:600;color:#059669;margin-bottom:8px;">${prompt}</p>
+              <ul style="margin-left:20px;line-height:1.6;">${bulletList}</ul>
+            `;
+          }
+        }
+        
+        // Q8: Show debate points
+        if (q.number === 8) {
+          const forPoints = document.getElementById('q8-for')?.value || '';
+          const againstPoints = document.getElementById('q8-against')?.value || '';
+          const forList = forPoints.split('\n').filter(l => l.trim()).map(p => `<li>${p}</li>`).join('');
+          const againstList = againstPoints.split('\n').filter(l => l.trim()).map(p => `<li>${p}</li>`).join('');
+          
+          questionContent = `
+            <p style="font-weight:700;font-size:16px;color:#059669;margin-bottom:12px;">${prompt}</p>
+            ${forPoints ? `
+              <div style="background:#ecfdf5;padding:10px;border-radius:6px;margin-bottom:8px;">
+                <strong style="color:#059669;">FOR:</strong>
+                <ul style="margin:4px 0 0 20px;line-height:1.6;">${forList}</ul>
+              </div>
+            ` : ''}
+            ${againstPoints ? `
+              <div style="background:#fef2f2;padding:10px;border-radius:6px;">
+                <strong style="color:#dc2626;">AGAINST:</strong>
+                <ul style="margin:4px 0 0 20px;line-height:1.6;">${againstList}</ul>
+              </div>
+            ` : ''}
+          `;
+        }
+        
+        html += `
+          <div class="preview-question">
+            <h4>Question ${q.number} - ${q.part} <span class="badge">${q.badge}</span></h4>
+            ${questionContent}
+            ${img ? `<div style="margin-top:15px;"><img src="${img}" style="width:100%;border-radius:8px;border:2px solid #e5e7eb;"></div>` : ''}
+            ${q.hasImages ? `
+              <div class="preview-images">
+                <img src="${document.getElementById('sharedImg1').value}" alt="Image 1">
+                <img src="${document.getElementById('sharedImg2').value}" alt="Image 2">
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+      
+      previewQuestions.innerHTML = html;
+    }
+    
+    // Download questions.js file
+    function downloadQuestionsJS() {
+      const data = {
+        settings: {
+          logoUrl: document.getElementById('logoUrl').value,
+          logoWording: document.getElementById('logoWording').value,
+          telegramChannel: document.getElementById('telegramChannel').value,
+          testIdentifier: document.getElementById('testIdentifier').value || 'SM',
+          heading1: document.getElementById('heading1').value,
+          heading2: document.getElementById('heading2').value
+        },
+        images: {
+          img1: document.getElementById('sharedImg1').value,
+          img2: document.getElementById('sharedImg2').value,
+          img1Alt: 'Festival event',
+          img2Alt: 'Museum visit'
+        },
+        questions: []
+      };
+      
+      questionsData.forEach(q => {
+        // Get prompt - for Q7, use generic instruction as prompt
+        let prompt;
+        if (q.number === 7) {
+          // Use a generic instruction for Q7 prompt
+          prompt = 'Discuss the following points:';
+        } else {
+          const promptEl = document.getElementById(`q${q.number}-prompt`);
+          prompt = promptEl ? promptEl.value : q.prompt;
+        }
+        
+        const questionObj = {
+          number: q.number,
+          part: q.part,
+          badge: q.badge,
+          prepTime: parseInt(document.getElementById(`q${q.number}-prep`)?.value) || q.prepTime,
+          speakTime: parseInt(document.getElementById(`q${q.number}-speak`)?.value) || q.speakTime,
+          prompt: prompt,
+          hasImages: q.hasImages
+        };
+        
+        // Add bullet points if exists (all bullets for Q7, no duplication)
+        const bullets = document.getElementById(`q${q.number}-bullets`);
+        if (bullets) {
+          const lines = bullets.value.split('\n').filter(l => l.trim());
+          if (lines.length > 0) questionObj.bulletPoints = lines;
+        }
+        
+        // Add debate points if exists
+        const forPoints = document.getElementById(`q${q.number}-for`);
+        const againstPoints = document.getElementById(`q${q.number}-against`);
+        if (forPoints && againstPoints) {
+          questionObj.debatePoints = {
+            for: forPoints.value.split('\n').filter(l => l.trim()),
+            against: againstPoints.value.split('\n').filter(l => l.trim())
+          };
+        }
+        
+        // Add sample answer
+        const sample = document.getElementById(`q${q.number}-sample`);
+        if (sample && sample.value.trim()) {
+          questionObj.sampleAnswer = sample.value;
+        }
+        
+        // Add vocabulary
+        const vocabStarters = document.getElementById(`q${q.number}-vocab-starters`);
+        const vocabPhrases = document.getElementById(`q${q.number}-vocab-phrases`);
+        const vocabIdioms = document.getElementById(`q${q.number}-vocab-idioms`);
+        
+        if (vocabStarters || vocabPhrases || vocabIdioms) {
+          questionObj.vocabulary = {
+            title: `Q${q.number} - ${questionObj.prompt.substring(0, 50)}...`,
+            sentenceStarters: vocabStarters?.value.split('\n').filter(l => l.trim()) || [],
+            phrases: vocabPhrases?.value.split('\n').filter(l => l.trim()) || [],
+            idioms: vocabIdioms?.value.split('\n').filter(l => l.trim()) || []
+          };
+        }
+        
+        data.questions.push(questionObj);
+      });
+      
+      // Generate file content
+      const fileContent = `// ================================================================================
+// SPEAKING MOCK TEST - QUESTIONS DATA
+// ================================================================================
+// This file contains all question content for the Speaking Mock Test
+// Update this file to change questions across all 9 sections automatically
+// ================================================================================
+
+window.SPEAKING_TEST_DATA = ${JSON.stringify(data, null, 2)};
+`;
+      
+      // Download
+      const blob = new Blob([fileContent], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      // Prompt user for mock number
+      const mockNum = prompt('Enter mock test number (01-99):', '01');
+      if (!mockNum) {
+        alert('Download cancelled.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      // Parse and validate number
+      const num = parseInt(mockNum);
+      if (isNaN(num) || num < 1 || num > 99) {
+        alert('Please enter a valid number between 1 and 99.');
+        URL.revokeObjectURL(url);
+        return;
+      }
+      
+      // Format filename with padding
+      const paddedNum = num.toString().padStart(2, '0');
+      const filename = num === 1 ? 'questions.js' : `questions${paddedNum}.js`;
+      
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ ${filename} downloaded successfully!\n\nPlace it in your project folder.`);
+    }
+    
+    // ============================================================================
+    // AI FORMATTING & GENERATION FUNCTIONS
+    // ============================================================================
+    
+    // Get OpenAI API Key
+    async function getAPIKey() {
+      const response = await fetch('https://davirbek.alwaysdata.net/key');
+      const data = await response.json();
+      return data.key;
+    }
+    
+    // Refine Sample Answer (format existing text)
+    async function refineSample(index) {
+      const questionNum = questionsData[index].number;
+      const sampleTextarea = document.getElementById(`q${questionNum}-sample`);
+      const btnText = document.getElementById(`refine-sample-${index}`);
+      const progressDiv = document.getElementById(`sample-progress-${index}`);
+      const plainText = sampleTextarea.value.trim();
+      
+      if (!plainText) {
+        progressDiv.innerHTML = '<div class="error-msg">❌ Please enter sample text first</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        return;
+      }
+      
+      // Save state before making changes
+      saveState();
+      
+      try {
+        btnText.innerHTML = '<span class="loading"></span> Refining...';
+        progressDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;">⏳ Formatting your text with proper HTML tags...</div>';
+        
+        const apiKey = await getAPIKey();
+        const prompt = document.getElementById(`q${questionNum}-prompt`).value;
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'system',
+              content: `You are a speaking test content formatter. Format the sample answer to sound natural and human-like (band 8.5-9 level) with proper HTML tags.
+
+ENHANCE THE TEXT TO INCLUDE:
+- Natural hesitations/fillers: "well," "you know," "I mean," "sort of," "kind of"
+- Contractions: "I'm," "don't," "it's," "haven't," "I'd say"
+- Casual transitions: "Anyway," "By the way," "Actually"
+- Personal touches: "In my experience," "I remember when," "Personally"
+- Discourse markers: "So," "Well," "The thing is"
+
+HTML FORMATTING (apply to advanced elements):
+- <span class="ml-token adv">word</span> for sophisticated adverbs
+- <span class="ml-token phrasal">phrase</span> for phrasal verbs
+- <span class="ml-token colloc">phrase</span> for natural collocations
+- <span class="ml-token idiom">phrase</span> for idioms
+- <span class="ml-token proverb">"quote"</span> for proverbs/quotes
+
+Make it sound like authentic human speech, not robotic or AI-generated. Return ONLY the formatted HTML text.`
+            }, {
+              role: 'user',
+              content: `Question: ${prompt}\n\nEnhance and format this to sound more natural and human-like:\n${plainText}`
+            }],
+            temperature: 0.3,
+            max_tokens: 1000
+          })
+        });
+        
+        const data = await response.json();
+        const formatted = data.choices[0].message.content.trim();
+        
+        sampleTextarea.value = formatted;
+        updatePreview();
+        
+        btnText.textContent = '✨ Refine (Format)';
+        progressDiv.innerHTML = '<div class="success-msg">✅ Sample answer formatted successfully!</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        
+      } catch (error) {
+        console.error('Refine Error:', error);
+        btnText.textContent = '✨ Refine (Format)';
+        progressDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // AI Generate Sample Answer (create from scratch)
+    async function aiGenerateSample(index) {
+      const questionNum = questionsData[index].number;
+      const sampleTextarea = document.getElementById(`q${questionNum}-sample`);
+      const btnText = document.getElementById(`ai-sample-${index}`);
+      const progressDiv = document.getElementById(`sample-progress-${index}`);
+      const prompt = document.getElementById(`q${questionNum}-prompt`).value;
+      const questionData = questionsData[index];
+      
+      if (!prompt.trim()) {
+        progressDiv.innerHTML = '<div class="error-msg">❌ Please enter question text first</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        return;
+      }
+      
+      // Save state before making changes
+      saveState();
+      
+      try {
+        btnText.innerHTML = '<span class="loading"></span> Generating...';
+        
+        const apiKey = await getAPIKey();
+        
+        // Check if this is a picture-based question (Q4, Q5, Q6)
+        const isPictureQuestion = questionData.hasImages;
+        let messages = [];
+        
+        if (isPictureQuestion) {
+          // Get shared image URLs for Q4, Q5, Q6
+          const img1 = document.getElementById('sharedImg1').value.trim();
+          const img2 = document.getElementById('sharedImg2').value.trim();
+          
+          if (!img1 && !img2) {
+            progressDiv.innerHTML = '<div class="error-msg">❌ Please add image URLs first for picture-based questions</div>';
+            setTimeout(() => progressDiv.innerHTML = '', 3000);
+            btnText.textContent = '🤖 AI Fill';
+            return;
+          }
+          
+          progressDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;">⏳ AI is analyzing the images and generating answer...</div>';
+          
+          // Build messages with image analysis
+          messages = [{
+            role: 'system',
+            content: `You are an IELTS Speaking test expert who creates band 8.5-9 level sample answers that sound completely natural and human-like, NOT robotic or AI-generated.
+
+CRITICAL REQUIREMENTS:
+1. Sound like a REAL native speaker having a casual conversation
+2. Use natural speech patterns with hesitations, fillers, and contractions
+3. Include personal anecdotes and authentic examples
+4. Vary sentence structure naturally (mix short and long sentences)
+5. Use idiomatic expressions and colloquial language appropriately
+6. Avoid overly academic, formal, or textbook-like phrasing
+
+NATURAL SPEECH ELEMENTS TO INCLUDE:
+- Hesitations/Fillers: "well," "you know," "I mean," "sort of," "kind of," "actually," "honestly"
+- Contractions: "I'm," "don't," "it's," "haven't," "I'd say," "that's," "there's"
+- Casual Transitions: "Anyway," "By the way," "Speaking of which," "Come to think of it"
+- Personal Touches: "In my experience," "I remember when," "Personally," "From what I've seen"
+- Self-correction: "or rather," "what I mean is," "to be more precise"
+- Discourse Markers: "So," "Well," "Actually," "You see," "The thing is"
+
+HTML FORMATTING (apply to advanced vocabulary/grammar):
+- <span class="ml-token adv">word</span> for sophisticated adverbs
+- <span class="ml-token phrasal">phrase</span> for phrasal verbs
+- <span class="ml-token colloc">phrase</span> for natural collocations
+- <span class="ml-token idiom">phrase</span> for idioms
+- <span class="ml-token proverb">"quote"</span> for proverbs/quotes
+
+BAND 8.5-9 CHARACTERISTICS:
+- Sophisticated vocabulary used naturally (not forced)
+- Complex grammar structures (conditionals, passives, inversion, etc.)
+- Idiomatic language and collocations
+- Extended, well-developed responses
+- Smooth transitions between ideas
+- Precise and nuanced language
+- Natural pauses and rhythm in speech
+
+Return ONLY the formatted HTML answer that sounds like authentic human speech.`
+          }, {
+            role: 'user',
+            content: [
+              { type: 'text', text: `Question: ${prompt}\n\nAnalyze these images and generate a natural, band 8.5-9 sample answer that sounds like a real person speaking:` },
+              ...(img1 ? [{ type: 'image_url', image_url: { url: img1, detail: 'high' } }] : []),
+              ...(img2 ? [{ type: 'image_url', image_url: { url: img2, detail: 'high' } }] : [])
+            ]
+          }];
+        } else {
+          // Text-only question (no images)
+          progressDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;">⏳ AI is generating a sample answer with formatting...</div>';
+          
+          // Check if this is Q7 (bullet points) or Q8 (debate points)
+          let additionalContext = '';
+          
+          if (questionData.bulletPoints && questionData.bulletPoints.length > 0) {
+            // Question 7 - Include bullet points to cover
+            additionalContext = `\n\nYou MUST address ALL of these points in your answer:\n${questionData.bulletPoints.map((p, i) => `${i + 1}. ${p}`).join('\n')}\n\nDevelop each point naturally with examples and explanations. Make sure to cover all points thoroughly.`;
+          } else if (questionData.debatePoints) {
+            // Question 8 - Include debate points (FOR and AGAINST)
+            const forPoints = document.getElementById(`q${questionNum}-for`)?.value.trim().split('\n').filter(p => p.trim());
+            const againstPoints = document.getElementById(`q${questionNum}-against`)?.value.trim().split('\n').filter(p => p.trim());
+            
+            if (forPoints && forPoints.length > 0 && againstPoints && againstPoints.length > 0) {
+              additionalContext = `\n\nThis is a balanced discussion question. You MUST:\n\n1. Discuss ARGUMENTS FOR (agree/support):\n${forPoints.map((p, i) => `   ${i + 1}. ${p}`).join('\n')}\n\n2. Discuss ARGUMENTS AGAINST (disagree/oppose):\n${againstPoints.map((p, i) => `   ${i + 1}. ${p}`).join('\n')}\n\n3. Give your personal opinion at the end\n\nDevelop and justify each point with examples, explanations, and reasoning. Present both sides fairly before stating your view.`;
+            }
+          }
+          
+          messages = [{
+            role: 'system',
+            content: `You are an IELTS Speaking test expert who creates band 8.5-9 level sample answers that sound completely natural and human-like, NOT robotic or AI-generated.
+
+CRITICAL REQUIREMENTS:
+1. Sound like a REAL native speaker having a casual conversation
+2. Use natural speech patterns with hesitations, fillers, and contractions
+3. Include personal anecdotes and authentic examples
+4. Vary sentence structure naturally (mix short and long sentences)
+5. Use idiomatic expressions and colloquial language appropriately
+6. Avoid overly academic, formal, or textbook-like phrasing
+
+NATURAL SPEECH ELEMENTS TO INCLUDE:
+- Hesitations/Fillers: "well," "you know," "I mean," "sort of," "kind of," "actually," "honestly"
+- Contractions: "I'm," "don't," "it's," "haven't," "I'd say," "that's," "there's"
+- Casual Transitions: "Anyway," "By the way," "Speaking of which," "Come to think of it"
+- Personal Touches: "In my experience," "I remember when," "Personally," "From what I've seen"
+- Self-correction: "or rather," "what I mean is," "to be more precise"
+- Discourse Markers: "So," "Well," "Actually," "You see," "The thing is"
+
+HTML FORMATTING (apply to advanced vocabulary/grammar):
+- <span class="ml-token adv">word</span> for sophisticated adverbs
+- <span class="ml-token phrasal">phrase</span> for phrasal verbs
+- <span class="ml-token colloc">phrase</span> for natural collocations
+- <span class="ml-token idiom">phrase</span> for idioms
+- <span class="ml-token proverb">"quote"</span> for proverbs/quotes
+
+BAND 8.5-9 CHARACTERISTICS:
+- Sophisticated vocabulary used naturally (not forced)
+- Complex grammar structures (conditionals, passives, inversion, etc.)
+- Idiomatic language and collocations
+- Extended, well-developed responses
+- Smooth transitions between ideas
+- Precise and nuanced language
+- Natural pauses and rhythm in speech
+
+Return ONLY the formatted HTML answer that sounds like authentic human speech.`
+          }, {
+            role: 'user',
+            content: `Generate a natural, band 8.5-9 sample answer for: ${prompt}${additionalContext}`
+          }];
+        }
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 1000
+          })
+        });
+        
+        const data = await response.json();
+        const generated = data.choices[0].message.content.trim();
+        
+        sampleTextarea.value = generated;
+        updatePreview();
+        
+        btnText.textContent = '🤖 AI Fill';
+        progressDiv.innerHTML = `<div class="success-msg">✅ Sample answer generated successfully${isPictureQuestion ? ' (with image analysis)' : ''}!</div>`;
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        
+      } catch (error) {
+        console.error('AI Generate Error:', error);
+        btnText.textContent = '🤖 AI Fill';
+        progressDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // Refine Vocabulary (format existing text)
+    async function refineVocabulary(index) {
+      const questionNum = questionsData[index].number;
+      const startersTextarea = document.getElementById(`q${questionNum}-vocab-starters`);
+      const phrasesTextarea = document.getElementById(`q${questionNum}-vocab-phrases`);
+      const idiomsTextarea = document.getElementById(`q${questionNum}-vocab-idioms`);
+      const btnText = document.getElementById(`refine-vocab-${index}`);
+      const progressDiv = document.getElementById(`vocab-progress-${index}`);
+      
+      const starters = startersTextarea.value.trim();
+      const phrases = phrasesTextarea.value.trim();
+      const idioms = idiomsTextarea.value.trim();
+      
+      if (!starters && !phrases && !idioms) {
+        progressDiv.innerHTML = '<div class="error-msg">❌ Please enter vocabulary items first</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        return;
+      }
+      
+      // Save state before making changes
+      saveState();
+      
+      try {
+        btnText.innerHTML = '<span class="loading"></span> Refining...';
+        progressDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;">⏳ Formatting vocabulary with HTML tags...</div>';
+        
+        const apiKey = await getAPIKey();
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'system',
+              content: `Format vocabulary items with HTML tags. For phrases and idioms, wrap key terms in <strong></strong>. Return in the same format (one per line). Examples:
+
+Phrases: <strong>quite a collection</strong> - "ancha katta to'plam"
+Idioms: <strong>big reader</strong> - "ko'p o'qiydigan odam"
+
+Return three sections separated by "---SECTION---": starters, phrases, idioms.`
+            }, {
+              role: 'user',
+              content: `Format these:\n\nStarters:\n${starters || 'none'}\n\nPhrases:\n${phrases || 'none'}\n\nIdioms:\n${idioms || 'none'}`
+            }],
+            temperature: 0.2,
+            max_tokens: 800
+          })
+        });
+        
+        const data = await response.json();
+        const formatted = data.choices[0].message.content.trim();
+        const sections = formatted.split('---SECTION---').map(s => s.trim());
+        
+        if (sections[0] && starters) startersTextarea.value = sections[0];
+        if (sections[1] && phrases) phrasesTextarea.value = sections[1];
+        if (sections[2] && idioms) idiomsTextarea.value = sections[2];
+        
+        updatePreview();
+        
+        btnText.textContent = '✨ Refine (Format)';
+        progressDiv.innerHTML = '<div class="success-msg">✅ Vocabulary formatted successfully!</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        
+      } catch (error) {
+        console.error('Refine Vocab Error:', error);
+        btnText.textContent = '✨ Refine (Format)';
+        progressDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // AI Generate Vocabulary (create from scratch)
+    async function aiGenerateVocabulary(index) {
+      const questionNum = questionsData[index].number;
+      const startersTextarea = document.getElementById(`q${questionNum}-vocab-starters`);
+      const phrasesTextarea = document.getElementById(`q${questionNum}-vocab-phrases`);
+      const idiomsTextarea = document.getElementById(`q${questionNum}-vocab-idioms`);
+      const btnText = document.getElementById(`ai-vocab-${index}`);
+      const progressDiv = document.getElementById(`vocab-progress-${index}`);
+      const prompt = document.getElementById(`q${questionNum}-prompt`).value;
+      
+      if (!prompt.trim()) {
+        progressDiv.innerHTML = '<div class="error-msg">❌ Please enter question text first</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        return;
+      }
+      
+      // Save state before making changes
+      saveState();
+      
+      try {
+        btnText.innerHTML = '<span class="loading"></span> Generating...';
+        progressDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:8px;border-radius:6px;margin-top:8px;font-size:12px;">⏳ AI is generating topic vocabulary...</div>';
+        
+        const apiKey = await getAPIKey();
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'system',
+              content: `Generate topic vocabulary for IELTS Speaking. Create:
+
+1. Sentence Starters (3-4 items): Opening phrases in English with Uzbek translations
+   Example: '"Yes, we have quite a collection..." - "Ha, bizda ancha ko\\'p kitoblar bor..."'
+
+2. Phrases (5-6 items): Useful collocations with <strong> tags and Uzbek translations
+   Example: '<strong>quite a collection</strong> - "ancha katta to\\'plam"'
+
+3. Idioms (3-4 items): Idioms and quotes with <strong> tags and/or translations
+   Example: '<strong>big reader</strong> - "ko\\'p o\\'qiydigan odam"'
+
+Return three sections separated by "---SECTION---" (starters, phrases, idioms). One item per line.`
+            }, {
+              role: 'user',
+              content: `Generate vocabulary for: ${prompt}`
+            }],
+            temperature: 0.7,
+            max_tokens: 1000
+          })
+        });
+        
+        const data = await response.json();
+        const generated = data.choices[0].message.content.trim();
+        const sections = generated.split('---SECTION---').map(s => s.trim());
+        
+        if (sections[0]) startersTextarea.value = sections[0];
+        if (sections[1]) phrasesTextarea.value = sections[1];
+        if (sections[2]) idiomsTextarea.value = sections[2];
+        
+        updatePreview();
+        
+        btnText.textContent = '🤖 AI Fill';
+        progressDiv.innerHTML = '<div class="success-msg">✅ Vocabulary generated successfully!</div>';
+        setTimeout(() => progressDiv.innerHTML = '', 3000);
+        
+      } catch (error) {
+        console.error('AI Generate Vocab Error:', error);
+        btnText.textContent = '🤖 AI Fill';
+        progressDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // ============================================================================
+    // UNIVERSAL AI FUNCTIONS FOR ALL 8 QUESTIONS
+    // ============================================================================
+    
+    // Refine All Questions (format existing samples and vocabulary)
+    async function refineAllQuestions() {
+      const btn = document.getElementById('refine-all-btn');
+      const progress = document.getElementById('global-progress');
+      
+      // Save state before making changes
+      saveState();
+      
+      btn.innerHTML = '<span class="loading"></span> Refining All...';
+      progress.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">⏳ Starting to refine all 8 questions...</div>';
+      
+      let successCount = 0;
+      let failCount = 0;
+      
+      for (let i = 0; i < questionsData.length; i++) {
+        const q = questionsData[i];
+        progress.innerHTML = `<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">⏳ Processing Question ${q.number}/8 - Refining sample and vocabulary...</div>`;
+        
+        try {
+          // Refine sample
+          await refineSample(i);
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          // Refine vocabulary
+          await refineVocabulary(i);
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          successCount++;
+        } catch (error) {
+          console.error(`Error refining Q${q.number}:`, error);
+          failCount++;
+        }
+      }
+      
+      btn.textContent = '✨ Refine All (8 Questions)';
+      progress.innerHTML = `<div class="success-msg">✅ Completed! ${successCount} questions refined successfully${failCount > 0 ? `, ${failCount} failed` : ''}.</div>`;
+      setTimeout(() => progress.innerHTML = '', 5000);
+    }
+    
+    // Bulk Image Upload and OCR with OpenAI Vision
+    async function handleBulkImageUpload(event) {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+      
+      const progress = document.getElementById('global-progress');
+      progress.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">📸 Processing images...</div>';
+      
+      try {
+        const apiKey = await getAPIKey();
+        
+        // Convert all images to base64
+        const imagePromises = files.map(file => {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.readAsDataURL(file);
+          });
+        });
+        
+        const base64Images = await Promise.all(imagePromises);
+        
+        // Prepare images for OpenAI Vision API
+        const imageMessages = base64Images.map(img => ({
+          type: 'image_url',
+          image_url: { url: img }
+        }));
+        
+        progress.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">🤖 Transcribing with AI...</div>';
+        
+        // Call OpenAI Vision API
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'system',
+              content: `You are a text extraction assistant. Extract all speaking questions from the uploaded images. 
+              
+Return EXACTLY 8 questions in this format:
+Q1: [question text]
+Q2: [question text]
+Q3: [question text]
+Q4: [question text]
+Q5: [question text]
+Q6: [question text]
+Q7: [question text]
+Q8: [question text]
+
+Rules:
+- Extract the actual question text only
+- Maintain original wording
+- One question per line
+- Number them Q1 through Q8
+- If an image contains multiple questions, extract them in order
+- If fewer than 8 questions found, mark missing ones as "Q[N]: [Not found in images]"`
+            }, {
+              role: 'user',
+              content: imageMessages
+            }],
+            max_tokens: 2000
+          })
+        });
+        
+        const data = await response.json();
+        const extracted = data.choices[0].message.content;
+        
+        // Parse the response
+        const lines = extracted.trim().split('\\n');
+        const questions = {};
+        
+        for (const line of lines) {
+          const match = line.match(/^Q(\\d+):\\s*(.+)$/);
+          if (match) {
+            const qNum = parseInt(match[1]);
+            const qText = match[2].trim();
+            if (qNum >= 1 && qNum <= 8 && !qText.includes('[Not found')) {
+              questions[qNum] = qText;
+            }
+          }
+        }
+        
+        // Fill in the question prompts
+        for (const [qNum, qText] of Object.entries(questions)) {
+          const promptInput = document.getElementById(`q${qNum}-prompt`);
+          if (promptInput) {
+            promptInput.value = qText;
+          }
+        }
+        
+        const count = Object.keys(questions).length;
+        progress.innerHTML = `<div class="success-msg">✅ Extracted ${count} question${count !== 1 ? 's' : ''}! Review and generate samples/vocabulary as needed.</div>`;
+        setTimeout(() => progress.innerHTML = '', 5000);
+        
+        // Clear file input
+        event.target.value = '';
+        
+      } catch (error) {
+        console.error('Bulk upload error:', error);
+        progress.innerHTML = '<div class="error-msg">❌ Upload failed: ' + error.message + '</div>';
+        setTimeout(() => progress.innerHTML = '', 5000);
+      }
+    }
+    
+    // AI Generate All Questions (generate samples and vocabulary from scratch)
+    async function aiGenerateAllQuestions() {
+      const btn = document.getElementById('ai-all-btn');
+      const progress = document.getElementById('global-progress');
+      
+      // Read image URLs directly from Question 4 inputs
+      const img1Url = document.getElementById('sharedImg1')?.value.trim() || '';
+      const img2Url = document.getElementById('sharedImg2')?.value.trim() || '';
+      
+      // Start the actual generation process
+      await performAIGeneration(img1Url, img2Url);
+    }
+    
+    // Actual AI generation function
+    async function performAIGeneration(img1Url, img2Url) {
+      const btn = document.getElementById('ai-all-btn');
+      const progress = document.getElementById('global-progress');
+      
+      // Save state before making changes
+      saveState();
+      
+      btn.innerHTML = '<span class="loading"></span> Generating All...';
+      progress.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">🤖 Starting AI generation for all 8 questions...</div>';
+      
+      let successCount = 0;
+      let failCount = 0;
+      let imageDescriptions = null;
+      
+      try {
+        const apiKey = await getAPIKey();
+        
+        // First, analyze the images using Vision API
+        if (img1Url && img2Url) {
+          progress.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">👁️ Analyzing images with OpenAI Vision...</div>';
+          
+          try {
+            const visionResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{
+                  role: 'user',
+                  content: [
+                    {
+                      type: 'text',
+                      text: 'Describe these two images in detail for IELTS Speaking practice. Focus on: objects, people, activities, settings, colors, emotions. Keep descriptions clear and suitable for speaking practice.'
+                    },
+                    {
+                      type: 'image_url',
+                      image_url: { url: img1Url }
+                    },
+                    {
+                      type: 'image_url', 
+                      image_url: { url: img2Url }
+                    }
+                  ]
+                }],
+                max_tokens: 800
+              })
+            });
+            
+            const visionData = await visionResponse.json();
+            imageDescriptions = visionData.choices[0].message.content.trim();
+            
+          } catch (error) {
+            console.error('Vision API error:', error);
+            progress.innerHTML = '<div style="background:#fef3c7;color:#92400e;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">⚠️ Could not analyze images, proceeding with text-based generation...</div>';
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+        }
+        
+        for (let i = 0; i < questionsData.length; i++) {
+          const q = questionsData[i];
+          const questionNum = q.number;
+          
+          // For Q7, check bullets instead of prompt
+          let prompt;
+          if (questionNum === 7) {
+            const bulletsEl = document.getElementById('q7-bullets');
+            prompt = bulletsEl ? bulletsEl.value.trim() : '';
+          } else {
+            const promptEl = document.getElementById(`q${questionNum}-prompt`);
+            prompt = promptEl ? promptEl.value.trim() : '';
+          }
+          
+          if (!prompt) {
+            progress.innerHTML = `<div style="background:#fef3c7;color:#92400e;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">⚠️ Question ${questionNum} has no prompt text - skipping...</div>`;
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            failCount++;
+            continue;
+          }
+          
+          progress.innerHTML = `<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-size:14px;font-weight:600;">🤖 Processing Question ${questionNum}/8 - Generating Band 9 sample and vocabulary...</div>`;
+          
+          try {
+            // Build context-aware prompt
+            let contextPrompt = prompt;
+            
+            // For Q4: Include image analysis
+            if (questionNum === 4 && imageDescriptions) {
+              contextPrompt += `\n\nDetailed image descriptions:\n${imageDescriptions}`;
+            }
+            // For Q4: Include image URLs as fallback
+            else if (questionNum === 4) {
+              contextPrompt += `\n\nImages to describe:\n- Image 1: ${img1Url}\n- Image 2: ${img2Url}`;
+            }
+            
+            // For Q7: Include bullet points
+            if (questionNum === 7) {
+              const bullets = document.getElementById('q7-bullets').value.trim();
+              if (bullets) {
+                contextPrompt += `\n\nDiscuss these points:\n${bullets}`;
+              }
+            }
+            
+            // For Q8: Include debate points
+            if (questionNum === 8) {
+              const forPoints = document.getElementById('q8-for').value.trim();
+              const againstPoints = document.getElementById('q8-against').value.trim();
+              if (forPoints && againstPoints) {
+                contextPrompt += `\n\nFOR arguments:\n${forPoints}\n\nAGAINST arguments:\n${againstPoints}`;
+              }
+            }
+            
+            // Generate Sample Answer
+            const sampleResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{
+                  role: 'system',
+                  content: `You are an IELTS Speaking expert. Generate a BAND 9 level sample answer with proper HTML formatting:
+
+- Use <span class="ml-token adv">word</span> for adverbs (really, honestly, incredibly, genuinely, etc.)
+- Use <span class="ml-token phrasal">phrase</span> for phrasal verbs (pick up, figure out, hang out, step into, etc.)
+- Use <span class="ml-token colloc">phrase</span> for collocations (high-street stores, social experience, making it my career, etc.)
+- Use <span class="ml-token idiom">phrase</span> for idioms (let your hair down, put all eggs in one basket, etc.)
+- Use <span class="ml-token proverb">"quote"</span> for proverbs/quotes
+
+Band 9 characteristics:
+- Natural, fluent, sophisticated vocabulary
+- Complex grammatical structures
+- Clear topic development and coherence
+- Idiomatic expressions and linking phrases
+- Personal examples and opinions
+
+IMPORTANT: Return ONLY the formatted HTML content (no code fences, no \`\`\`html markers, no explanations).`
+                }, {
+                  role: 'user',
+                  content: `Generate a Band 9 sample answer for: ${contextPrompt}`
+                }],
+                temperature: 0.8,
+                max_tokens: 1200
+              })
+            });
+            
+            const sampleData = await sampleResponse.json();
+            let generatedSample = sampleData.choices[0].message.content.trim();
+            
+            // Remove code fences if present
+            generatedSample = generatedSample.replace(/^```html\n?/i, '').replace(/\n?```$/,'').trim();
+            
+            document.getElementById(`q${questionNum}-sample`).value = generatedSample;
+            
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Generate Vocabulary
+            const vocabResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{
+                  role: 'system',
+                  content: `You are an IELTS Speaking vocabulary expert. Generate Band 9 vocabulary for the given topic.
+
+FORMAT REQUIREMENTS:
+Return exactly 3 sections in this format:
+
+STARTERS:
+- "Honestly speaking, I..." - "Rostini aytsam, men..."
+- "From my perspective..." - "Mening nuqtai nazarimdan..."
+- "I'd have to say that..." - "Shuni aytishim kerakki..."
+
+PHRASES:
+- <strong>extensive collection</strong> - "keng kolleksiya"
+- <strong>avid reader</strong> - "qizg'in o'quvchi"
+- <strong>literary treasures</strong> - "adabiy xazinalar"
+
+IDIOMS:
+- <strong>bookworm</strong> - "kitobxon"
+- "A room without books is like a body without a soul" - "Kitobsiz xona jonsiz tanaga o'xshaydi"
+- <strong>page-turner</strong> - "qiziqarli kitob"
+
+Make it sophisticated and Band 9 level. Each section should have 3-5 items.`
+                }, {
+                  role: 'user',
+                  content: `Generate vocabulary for: ${prompt}`
+                }],
+                temperature: 0.7,
+                max_tokens: 1000
+              })
+            });
+            
+            const vocabData = await vocabResponse.json();
+            const generatedVocab = vocabData.choices[0].message.content.trim();
+            
+            // Parse sections using more flexible approach
+            const startersMatch = generatedVocab.match(/STARTERS:\s*(.*?)(?=PHRASES:|$)/s);
+            const phrasesMatch = generatedVocab.match(/PHRASES:\s*(.*?)(?=IDIOMS:|$)/s);
+            const idiomsMatch = generatedVocab.match(/IDIOMS:\s*(.*?)$/s);
+            
+            if (startersMatch) {
+              const starters = startersMatch[1].trim().split('\n').filter(l => l.trim()).map(l => l.replace(/^-\s*/, '')).join('\n');
+              document.getElementById(`q${questionNum}-vocab-starters`).value = starters;
+            }
+            
+            if (phrasesMatch) {
+              const phrases = phrasesMatch[1].trim().split('\n').filter(l => l.trim()).map(l => l.replace(/^-\s*/, '')).join('\n');
+              document.getElementById(`q${questionNum}-vocab-phrases`).value = phrases;
+            }
+            
+            if (idiomsMatch) {
+              const idioms = idiomsMatch[1].trim().split('\n').filter(l => l.trim()).map(l => l.replace(/^-\s*/, '')).join('\n');
+              document.getElementById(`q${questionNum}-vocab-idioms`).value = idioms;
+            }
+            
+            updatePreview();
+            successCount++;
+            
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+          } catch (error) {
+            console.error(`Error generating Q${questionNum}:`, error);
+            failCount++;
+          }
+        }
+        
+        btn.textContent = '🤖 AI Fill All (8 Questions)';
+        progress.innerHTML = `<div class="success-msg">✅ AI Generation Complete! ${successCount} questions generated successfully${failCount > 0 ? `, ${failCount} failed/skipped` : ''}. Review and download when ready.</div>`;
+        setTimeout(() => progress.innerHTML = '', 8000);
+        
+      } catch (error) {
+        console.error('AI Generate All Error:', error);
+        btn.textContent = '🤖 AI Fill All (8 Questions)';
+        progress.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // Undo functionality - state management
+    let changeHistory = [];
+    
+    function saveState() {
+      // Capture current state of all questions
+      const state = {
+        timestamp: Date.now(),
+        questions: questionsData.map(q => ({
+          number: q.number,
+          sample: document.getElementById(`sample${q.number}`)?.value || '',
+          vocabulary: document.getElementById(`vocabulary${q.number}`)?.value || ''
+        }))
+      };
+      changeHistory.push(state);
+      
+      // Limit history to last 20 changes
+      if (changeHistory.length > 20) {
+        changeHistory.shift();
+      }
+      
+      // Update undo button state
+      updateUndoButton();
+    }
+    
+    function undoLastChange() {
+      if (changeHistory.length === 0) {
+        alert('No changes to undo');
+        return;
+      }
+      
+      // Get last saved state
+      const lastState = changeHistory.pop();
+      
+      // Restore all questions
+      lastState.questions.forEach(q => {
+        const sampleField = document.getElementById(`sample${q.number}`);
+        const vocabField = document.getElementById(`vocabulary${q.number}`);
+        
+        if (sampleField) sampleField.value = q.sample;
+        if (vocabField) vocabField.value = q.vocabulary;
+      });
+      
+      // Update preview
+      updatePreview();
+      
+      // Update undo button state
+      updateUndoButton();
+      
+      // Show feedback
+      const progress = document.getElementById('progress');
+      progress.innerHTML = '<div class="success-msg">↶ Restored previous state</div>';
+      setTimeout(() => progress.innerHTML = '', 3000);
+    }
+    
+    function updateUndoButton() {
+      const undoBtn = document.querySelector('button[onclick="undoLastChange()"]');
+      if (undoBtn) {
+        if (changeHistory.length === 0) {
+          undoBtn.disabled = true;
+          undoBtn.style.opacity = '0.5';
+          undoBtn.style.cursor = 'not-allowed';
+        } else {
+          undoBtn.disabled = false;
+          undoBtn.style.opacity = '1';
+          undoBtn.style.cursor = 'pointer';
+        }
+      }
+    }
+    
+    // ============================================================================
+    // TEXT FORMATTING FUNCTIONS
+    // ============================================================================
+    
+    let currentTextarea = null;
+    const toolbar = document.getElementById('formatToolbar');
+    
+    // Show formatting toolbar on text selection
+    function handleTextSelection(event) {
+      const textarea = event.target;
+      if (!textarea.matches('textarea, input[type="text"]')) return;
+      
+      currentTextarea = textarea;
+      const selection = window.getSelection().toString();
+      
+      if (selection.length > 0) {
+        const rect = textarea.getBoundingClientRect();
+        toolbar.style.top = (rect.top - 50 + window.scrollY) + 'px';
+        toolbar.style.left = (rect.left + window.scrollX) + 'px';
+        toolbar.classList.add('active');
+      } else {
+        toolbar.classList.remove('active');
+      }
+    }
+    
+    // Apply formatting to selected text
+    function formatText(command) {
+      if (!currentTextarea) return;
+      
+      const start = currentTextarea.selectionStart;
+      const end = currentTextarea.selectionEnd;
+      const selectedText = currentTextarea.value.substring(start, end);
+      
+      if (!selectedText) return;
+      
+      let formattedText = selectedText;
+      
+      switch(command) {
+        case 'bold':
+          formattedText = `<strong>${selectedText}</strong>`;
+          break;
+        case 'italic':
+          formattedText = `<em>${selectedText}</em>`;
+          break;
+        case 'underline':
+          formattedText = `<u>${selectedText}</u>`;
+          break;
+        case 'removeFormat':
+          formattedText = selectedText.replace(/<[^>]*>/g, '');
+          break;
+        case 'insertUnorderedList':
+          const items = selectedText.split('\\n').filter(i => i.trim());
+          formattedText = '<ul>\\n' + items.map(i => `  <li>${i.trim()}</li>`).join('\\n') + '\\n</ul>';
+          break;
+        case 'insertOrderedList':
+          const numberedItems = selectedText.split('\\n').filter(i => i.trim());
+          formattedText = '<ol>\\n' + numberedItems.map(i => `  <li>${i.trim()}</li>`).join('\\n') + '\\n</ol>';
+          break;
+        case 'justifyLeft':
+          formattedText = `<div style="text-align:left">${selectedText}</div>`;
+          break;
+        case 'justifyCenter':
+          formattedText = `<div style="text-align:center">${selectedText}</div>`;
+          break;
+        case 'justifyRight':
+          formattedText = `<div style="text-align:right">${selectedText}</div>`;
+          break;
+      }
+      
+      currentTextarea.value = currentTextarea.value.substring(0, start) + formattedText + currentTextarea.value.substring(end);
+      currentTextarea.focus();
+      currentTextarea.setSelectionRange(start, start + formattedText.length);
+      
+      updatePreview();
+    }
+    
+    // Apply color formatting
+    document.getElementById('textColor').addEventListener('change', function() {
+      if (!currentTextarea) return;
+      const start = currentTextarea.selectionStart;
+      const end = currentTextarea.selectionEnd;
+      const selectedText = currentTextarea.value.substring(start, end);
+      if (!selectedText) return;
+      
+      const formattedText = `<span style="color:${this.value}">${selectedText}</span>`;
+      currentTextarea.value = currentTextarea.value.substring(0, start) + formattedText + currentTextarea.value.substring(end);
+      updatePreview();
+    });
+    
+    document.getElementById('bgColor').addEventListener('change', function() {
+      if (!currentTextarea) return;
+      const start = currentTextarea.selectionStart;
+      const end = currentTextarea.selectionEnd;
+      const selectedText = currentTextarea.value.substring(start, end);
+      if (!selectedText) return;
+      
+      const formattedText = `<span style="background-color:${this.value}">${selectedText}</span>`;
+      currentTextarea.value = currentTextarea.value.substring(0, start) + formattedText + currentTextarea.value.substring(end);
+      updatePreview();
+    });
+    
+    // Hide toolbar on click outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.format-toolbar') && !e.target.matches('textarea, input[type="text"]')) {
+        toolbar.classList.remove('active');
+      }
+    });
+    
+    // ============================================================================
+    // UTILITY FUNCTIONS
+    // ============================================================================
+    
+    function clearAllFields() {
+      if (!confirm('Clear all inputs? This will erase all questions, samples, and vocabulary.')) return;
+      
+      // Clear global settings
+      document.getElementById('logoUrl').value = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+      document.getElementById('logoWording').value = 'MOCK SPEAKING';
+      document.getElementById('telegramChannel').value = '@mock_stream';
+      document.getElementById('heading1').value = 'Welcome to Speaking Mock Test';
+      document.getElementById('heading2').value = 'This test contains 8 questions';
+      document.getElementById('sharedImg1').value = '';
+      document.getElementById('sharedImg2').value = '';
+      
+      // Clear all questions
+      for (let i = 0; i < questionsData.length; i++) {
+        const q = questionsData[i];
+        document.getElementById(`q${q.number}-prompt`).value = q.prompt || '';
+        document.getElementById(`q${q.number}-sample`).value = '';
+        document.getElementById(`q${q.number}-vocab-starters`).value = '';
+        document.getElementById(`q${q.number}-vocab-phrases`).value = '';
+        document.getElementById(`q${q.number}-vocab-idioms`).value = '';
+      }
+      
+      updatePreview();
+      alert('✅ All fields cleared!');
+    }
+    
+    function previewInNewTab() {
+      const questionsJS = generateQuestionsJSContent();
+      const htmlContent = `
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Preview - Speaking Mock Test</title></head>
+<body style="margin:0;padding:20px;font-family:Arial,sans-serif;">
+<h1>Preview Mode</h1>
+<p>This is a preview of your questions.js data structure.</p>
+<pre style="background:#f3f4f6;padding:20px;border-radius:8px;overflow:auto;">${questionsJS.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+</body></html>`;
+      
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+    
+    // Initialize
+    generateQuestionForms();
+    updatePreview();
+    updateUndoButton(); // Initialize undo button state
+    
+    // Attach text selection listener to document
+    document.addEventListener('mouseup', handleTextSelection);
+    document.addEventListener('keyup', handleTextSelection);
+    
+    // Listen to global settings changes
+    document.getElementById('logoUrl').addEventListener('keyup', updatePreview);
+    document.getElementById('logoWording').addEventListener('keyup', updatePreview);
+    document.getElementById('telegramChannel').addEventListener('keyup', updatePreview);
+    document.getElementById('sharedImg1').addEventListener('keyup', updatePreview);
+    document.getElementById('sharedImg2').addEventListener('keyup', updatePreview);
+
+    // ========== PASSCODE GENERATOR ==========
+    let generatedCodes = [];
+
+    function generateRandomCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = '';
+      for (let i = 0; i < 4; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      code += '-';
+      for (let i = 0; i < 4; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    function generatePasscodes() {
+      const quantity = parseInt(document.getElementById('passcodeQuantity').value);
+      
+      if (!quantity || quantity < 1 || quantity > 500) {
+        alert('Please enter a valid quantity (1-500)');
+        return;
+      }
+
+      const generateBtn = document.getElementById('generatePasscodesBtn');
+      generateBtn.disabled = true;
+      generateBtn.textContent = 'Generating...';
+
+      // Generate unique codes
+      generatedCodes = [];
+      const codeSet = new Set();
+      
+      while (codeSet.size < quantity) {
+        codeSet.add(generateRandomCode());
+      }
+      
+      generatedCodes = Array.from(codeSet);
+
+      // Display codes with "student" prefix and quotation marks for easy copy-paste
+      const formattedCodes = generatedCodes.map(code => `  "student${code}"`).join(',\n');
+      document.getElementById('generatedCodesDisplay').value = formattedCodes;
+      document.getElementById('downloadPasscodesBtn').disabled = false;
+      
+      generateBtn.disabled = false;
+      generateBtn.textContent = 'Generate Passcodes';
+      
+      alert(`Successfully generated ${generatedCodes.length} unique passcodes!`);
+    }
+
+    function downloadPasscodesFile() {
+      if (generatedCodes.length === 0) {
+        alert('No passcodes to download. Generate some first!');
+        return;
+      }
+
+      const fileContent = `// Premium Access Passcodes
+// Generated: ${new Date().toLocaleString()}
+// Total Codes: ${generatedCodes.length}
+// Format: name+passcode (case-insensitive for name)
+// INSTRUCTIONS: Replace "student" with actual student name before selling
+// Example: Change "studentW908-RQAJ" to "dilbarW908-RQAJ" for student Dilbar
+
+window.PREMIUM_PASSCODES = [
+${generatedCodes.map(code => `  "student${code}"`).join(',\n')}
+];
+
+// DO NOT EDIT BELOW - System functions
+window.validatePasscode = function(combinedKey) {
+  if (!combinedKey) return false;
+  const cleanKey = combinedKey.trim().toLowerCase();
+  
+  // Check if any passcode matches (passcodes stored in lowercase)
+  return window.PREMIUM_PASSCODES.some(code => code.toLowerCase() === cleanKey);
+};
+
+window.isPremiumUnlocked = function() {
+  return localStorage.getItem('premiumUnlocked') === 'true';
+};
+
+window.getUsedPasscode = function() {
+  return localStorage.getItem('usedPasscode');
+};
+
+window.unlockPremium = function(combinedKey) {
+  if (window.validatePasscode(combinedKey)) {
+    localStorage.setItem('premiumUnlocked', 'true');
+    localStorage.setItem('usedPasscode', combinedKey.trim().toLowerCase());
+    return true;
+  }
+  return false;
+};
+`;
+
+      const blob = new Blob([fileContent], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'passcodes.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert('passcodes.js downloaded! Replace the existing file in your project root directory.');
+    }
+
+    // ============================================
+    // UNIVERSAL INPUT METHODS
+    // ============================================
+    
+    function switchInputMethod(method) {
+      // Hide all panels
+      document.querySelectorAll('.input-method-panel').forEach(panel => panel.style.display = 'none');
+      document.querySelectorAll('.input-method-tab').forEach(tab => {
+        tab.style.borderColor = '#cbd5e1';
+        tab.style.color = '#64748b';
+        tab.classList.remove('active');
+      });
+      
+      // Show selected panel
+      document.getElementById(`method-${method}`).style.display = 'block';
+      const tab = document.getElementById(`tab-${method}`);
+      tab.style.borderColor = '#3b82f6';
+      tab.style.color = '#1e40af';
+      tab.classList.add('active');
+    }
+    
+    // Method 1: Manual Text Input
+    function processManualInput() {
+      const input = document.getElementById('universal-manual-input').value.trim();
+      const statusDiv = document.getElementById('universal-manual-status');
+      
+      if (!input) {
+        statusDiv.innerHTML = '<div class="error-msg">Please enter questions first!</div>';
+        return;
+      }
+      
+      // Split by newlines and filter empty lines
+      const lines = input.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      
+      if (lines.length < 8) {
+        if (!confirm(`Only ${lines.length} questions detected. Continue anyway?`)) return;
+      }
+      
+      // Parse and create preview similar to image processing
+      let parsedQuestions = {
+        q1: '', q2: '', q3: '', q4: '', q5: '', q6: '',
+        q7: { topic: '', bullets: [] },
+        q8: { topic: '', for: [], against: [] }
+      };
+      
+      // Assign questions 1-6 directly, removing question numbers
+      for (let i = 0; i < Math.min(6, lines.length); i++) {
+        // Remove leading question numbers like "1.", "1)", "Q1:", "Q1.", etc.
+        let cleanLine = lines[i].replace(/^(?:Q?\d+[\.\):]?\s*)/i, '').trim();
+        parsedQuestions[`q${i + 1}`] = cleanLine;
+      }
+      
+      // Handle Q7: Collect all remaining lines as bullet points (until we find Q8 or reach end)
+      if (lines.length >= 7) {
+        let q7Lines = [];
+        let q8StartIndex = -1;
+        
+        // Find where Q8 might start (look for debate/opinion keywords)
+        for (let i = 6; i < lines.length; i++) {
+          if (lines[i].toLowerCase().includes('should') || 
+              lines[i].toLowerCase().includes('mandatory') ||
+              lines[i].toLowerCase().includes('agree') ||
+              lines[i].match(/discuss|debate|opinion/i)) {
+            q8StartIndex = i;
+            break;
+          }
+        }
+        
+        // If Q8 found, Q7 bullets are lines 7 to Q8 start
+        // Otherwise, all remaining lines are Q7 bullets
+        const endIndex = q8StartIndex > 0 ? q8StartIndex : lines.length;
+        for (let i = 6; i < endIndex; i++) {
+          // Remove leading numbers, bullets, or "7." prefix for Q7 bullets
+          let cleanLine = lines[i].replace(/^(?:7\.?\s*|Q?7[\.\):]?\s*|[-•*]\s*|\d+[\.\)]\s*)/i, '').trim();
+          if (cleanLine) {
+            q7Lines.push(cleanLine);
+          }
+        }
+        
+        parsedQuestions.q7.bullets = q7Lines;
+        
+        // Handle Q8 if found - parse topic and FOR/AGAINST points
+        if (q8StartIndex > 0 && q8StartIndex < lines.length) {
+          // Remove "8." or "Q8:" from the topic
+          parsedQuestions.q8.topic = lines[q8StartIndex].replace(/^(?:Q?\d+[\.\):]?\s*)/i, '').trim();
+          
+          // Look for FOR and AGAINST sections in remaining lines
+          let inForSection = false;
+          let inAgainstSection = false;
+          
+          for (let i = q8StartIndex + 1; i < lines.length; i++) {
+            const line = lines[i];
+            const lowerLine = line.toLowerCase();
+            
+            // Detect section headers
+            if (lowerLine.match(/^for[:\s-]/i) || lowerLine.includes('support') || lowerLine.includes('advantages')) {
+              inForSection = true;
+              inAgainstSection = false;
+              continue;
+            } else if (lowerLine.match(/^against[:\s-]/i) || lowerLine.includes('oppose') || lowerLine.includes('disadvantages')) {
+              inForSection = false;
+              inAgainstSection = true;
+              continue;
+            }
+            
+            // Add points to appropriate section
+            // Remove leading dashes, bullets, or numbers
+            const cleanLine = line.replace(/^[-•*]\s*/, '').replace(/^\d+[\.\)]\s*/, '').trim();
+            
+            if (cleanLine) {
+              if (inForSection) {
+                parsedQuestions.q8.for.push(cleanLine);
+              } else if (inAgainstSection) {
+                parsedQuestions.q8.against.push(cleanLine);
+              }
+            }
+          }
+        }
+      }
+      
+      // Build preview message
+      let previewHTML = '<div style="max-height:400px;overflow-y:auto;text-align:left;background:#f8fafc;padding:16px;border-radius:8px;margin:16px 0;">';
+      previewHTML += '<h4 style="color:#1e40af;margin:0 0 12px 0;">📝 Parsed Questions Preview:</h4>';
+      
+      for (let i = 1; i <= 6; i++) {
+        if (parsedQuestions[`q${i}`]) {
+          previewHTML += `<div style="margin-bottom:12px;padding:8px;background:white;border-radius:6px;border-left:4px solid #3b82f6;"><strong style="color:#3b82f6;">Q${i}:</strong> ${parsedQuestions[`q${i}`]}</div>`;
+        }
+      }
+      
+      if (parsedQuestions.q7.bullets && parsedQuestions.q7.bullets.length > 0) {
+        previewHTML += `<div style="margin-bottom:12px;padding:8px;background:white;border-radius:6px;border-left:4px solid #059669;"><strong style="color:#059669;">Q7 Bullet Points:</strong><ul style="margin:4px 0 0 20px;">`;
+        parsedQuestions.q7.bullets.forEach(b => previewHTML += `<li>${b}</li>`);
+        previewHTML += '</ul></div>';
+      }
+      
+      if (parsedQuestions.q8.topic) {
+        previewHTML += `<div style="margin-bottom:12px;padding:8px;background:white;border-radius:6px;border-left:4px solid #7c3aed;"><strong style="color:#7c3aed;">Q8 Topic:</strong> ${parsedQuestions.q8.topic}`;
+        
+        if (parsedQuestions.q8.for.length > 0) {
+          previewHTML += '<div style="margin-top:8px;"><strong style="color:#059669;font-size:13px;">FOR:</strong><ul style="margin:2px 0 0 20px;font-size:13px;">';
+          parsedQuestions.q8.for.forEach(p => previewHTML += `<li>${p}</li>`);
+          previewHTML += '</ul></div>';
+        }
+        
+        if (parsedQuestions.q8.against.length > 0) {
+          previewHTML += '<div style="margin-top:8px;"><strong style="color:#dc2626;font-size:13px;">AGAINST:</strong><ul style="margin:2px 0 0 20px;font-size:13px;">';
+          parsedQuestions.q8.against.forEach(p => previewHTML += `<li>${p}</li>`);
+          previewHTML += '</ul></div>';
+        }
+        
+        previewHTML += '</div>';
+      }
+      
+      previewHTML += '</div>';
+      
+      statusDiv.innerHTML = `
+        <div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:20px;margin-top:16px;">
+          <h3 style="color:#1e40af;margin:0 0 12px 0;font-size:16px;">✅ Manual Input Processed!</h3>
+          <p style="color:#1e40af;margin:0 0 12px 0;font-size:13px;">Review the parsed questions below:</p>
+          ${previewHTML}
+          <div style="display:flex;gap:8px;margin-top:16px;">
+            <button onclick="confirmAndPlaceManualQuestions()" style="flex:1;padding:12px;background:#10b981;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+              ✅ Distribute to Question Inputs
+            </button>
+            <button onclick="document.getElementById('universal-manual-status').innerHTML=''" style="flex:1;padding:12px;background:#ef4444;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+              ❌ Cancel
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Store parsed questions globally for confirmation
+      window.tempManualQuestions = parsedQuestions;
+    }
+    
+    // Method 2: Paste Image from Clipboard
+    let pastedImages = [];
+    const pasteArea = document.getElementById('universal-paste-area');
+    if (pasteArea) {
+      pasteArea.setAttribute('tabindex', '0');
+      pasteArea.addEventListener('click', () => pasteArea.focus());
+      
+      pasteArea.addEventListener('paste', async (e) => {
+        e.preventDefault();
+        const items = e.clipboardData.items;
+        
+        // Process all image items from clipboard
+        let imageCount = 0;
+        for (let item of items) {
+          if (item.type.indexOf('image') !== -1) {
+            const blob = item.getAsFile();
+            
+            // Convert to base64 and store
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const base64 = e.target.result;
+              const imageIndex = pastedImages.length;
+              pastedImages.push(base64);
+              
+              // Remove placeholder on first image
+              if (pastedImages.length === 1) {
+                const placeholder = document.getElementById('paste-placeholder');
+                if (placeholder) placeholder.remove();
+              }
+              
+              // Create draggable image container
+              const container = document.createElement('div');
+              container.className = 'draggable-image';
+              container.draggable = true;
+              container.dataset.index = imageIndex;
+              container.style.cssText = 'display:inline-block;position:relative;margin:4px;cursor:move;transition:transform 0.2s ease;';
+              
+              // Image element
+              const img = document.createElement('img');
+              img.src = base64;
+              img.style.cssText = 'width:120px;height:120px;object-fit:cover;border-radius:8px;border:2px solid #3b82f6;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:all 0.3s ease;';
+              
+              // Order badge
+              const badge = document.createElement('div');
+              badge.className = 'image-order-badge';
+              badge.textContent = imageIndex + 1;
+              badge.style.cssText = 'position:absolute;top:-8px;right:-8px;background:#3b82f6;color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;box-shadow:0 2px 4px rgba(0,0,0,0.2);z-index:10;';
+              
+              // Create popup overlay (hidden by default)
+              const popupOverlay = document.createElement('div');
+              popupOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:10000;';
+              
+              const popupContent = document.createElement('div');
+              popupContent.style.cssText = 'position:relative;max-width:90%;max-height:90%;';
+              
+              const popupImg = document.createElement('img');
+              popupImg.src = base64;
+              popupImg.style.cssText = 'max-width:100%;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);';
+              
+              const closeBtn = document.createElement('button');
+              closeBtn.textContent = '✕ Close';
+              closeBtn.style.cssText = 'position:absolute;top:-50px;right:0;background:#ef4444;color:white;border:none;padding:12px 24px;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+              
+              const imageLabel = document.createElement('div');
+              imageLabel.textContent = `Image ${imageIndex + 1}`;
+              imageLabel.style.cssText = 'position:absolute;top:-50px;left:0;background:#3b82f6;color:white;padding:12px 24px;border-radius:8px;font-size:16px;font-weight:600;';
+              
+              popupContent.appendChild(popupImg);
+              popupContent.appendChild(closeBtn);
+              popupContent.appendChild(imageLabel);
+              popupOverlay.appendChild(popupContent);
+              document.body.appendChild(popupOverlay);
+              
+              // Long press detection
+              let pressTimer = null;
+              let isDragging = false;
+              
+              container.addEventListener('mousedown', (e) => {
+                isDragging = false;
+                pressTimer = setTimeout(() => {
+                  if (!isDragging) {
+                    popupOverlay.style.display = 'flex';
+                    imageLabel.textContent = `Image ${parseInt(container.dataset.index) + 1}`;
+                    container.draggable = false; // Disable drag when viewing
+                  }
+                }, 500); // 500ms long press
+              });
+              
+              container.addEventListener('mousemove', () => {
+                isDragging = true;
+                if (pressTimer) {
+                  clearTimeout(pressTimer);
+                }
+              });
+              
+              container.addEventListener('mouseup', () => {
+                if (pressTimer) {
+                  clearTimeout(pressTimer);
+                }
+              });
+              
+              container.addEventListener('mouseleave', () => {
+                if (pressTimer) {
+                  clearTimeout(pressTimer);
+                }
+              });
+              
+              // Close popup
+              closeBtn.addEventListener('click', () => {
+                popupOverlay.style.display = 'none';
+                container.draggable = true; // Re-enable drag
+              });
+              
+              popupOverlay.addEventListener('click', (e) => {
+                if (e.target === popupOverlay) {
+                  popupOverlay.style.display = 'none';
+                  container.draggable = true; // Re-enable drag
+                }
+              });
+              
+              container.appendChild(img);
+              container.appendChild(badge);
+              
+              // Drag events
+              container.addEventListener('dragstart', handleDragStart);
+              container.addEventListener('dragover', handleDragOver);
+              container.addEventListener('drop', handleDrop);
+              container.addEventListener('dragend', handleDragEnd);
+              
+              pasteArea.appendChild(container);
+              
+              // Show continue button
+              document.getElementById('paste-continue-btn').style.display = 'block';
+              
+              document.getElementById('universal-paste-status').innerHTML = 
+                `<div style="background:#dbeafe;color:#1e40af;padding:10px;border-radius:8px;font-size:13px;font-weight:600;">📸 ${pastedImages.length} image(s) ready. Drag to reorder, then click Continue.</div>`;
+            };
+            reader.readAsDataURL(blob);
+            imageCount++;
+          }
+        }
+        
+        if (imageCount === 0) {
+          document.getElementById('universal-paste-status').innerHTML = 
+            '<div class="error-msg">❌ No images found in clipboard. Copy image files first!</div>';
+        }
+      });
+    }
+    
+    // Drag and drop functions for image reordering
+    let draggedElement = null;
+    
+    function handleDragStart(e) {
+      draggedElement = this;
+      this.style.opacity = '0.5';
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+    
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+      
+      if (draggedElement !== this) {
+        // Get indices
+        const draggedIndex = parseInt(draggedElement.dataset.index);
+        const targetIndex = parseInt(this.dataset.index);
+        
+        // Swap images in array
+        [pastedImages[draggedIndex], pastedImages[targetIndex]] = [pastedImages[targetIndex], pastedImages[draggedIndex]];
+        
+        // Swap DOM elements
+        const parent = this.parentNode;
+        const draggedNext = draggedElement.nextSibling;
+        const targetNext = this.nextSibling;
+        
+        if (draggedNext === this) {
+          parent.insertBefore(this, draggedElement);
+        } else if (targetNext === draggedElement) {
+          parent.insertBefore(draggedElement, this);
+        } else {
+          parent.insertBefore(draggedElement, targetNext);
+          parent.insertBefore(this, draggedNext);
+        }
+        
+        // Swap indices
+        draggedElement.dataset.index = targetIndex;
+        this.dataset.index = draggedIndex;
+        
+        // Update badges
+        draggedElement.querySelector('.image-order-badge').textContent = targetIndex + 1;
+        this.querySelector('.image-order-badge').textContent = draggedIndex + 1;
+      }
+      
+      return false;
+    }
+    
+    function handleDragEnd(e) {
+      this.style.opacity = '1';
+      draggedElement = null;
+    }
+    
+    // Process all pasted images
+    async function processPastedImages() {
+      if (pastedImages.length === 0) {
+        alert('No images pasted yet!');
+        return;
+      }
+      
+      const statusDiv = document.getElementById('universal-paste-status');
+      const btn = document.getElementById('paste-continue-btn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Processing...';
+      
+      try {
+        const apiKey = await getAPIKey();
+        
+        // Build image content array for GPT-4o Vision
+        const imageContents = pastedImages.map(base64 => ({
+          type: 'image_url',
+          image_url: { url: base64 }
+        }));
+        
+        statusDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-weight:600;">🤖 Analyzing all images and extracting questions...</div>';
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{
+              role: 'user',
+              content: [
+                {
+                  type: 'text',
+                  text: `Extract IELTS Speaking questions from these images. Return them in this exact format:
+
+1. [Question 1 text]
+2. [Question 2 text]
+3. [Question 3 text]
+4. [Question 4 text]
+5. [Question 5 text]
+6. [Question 6 text]
+7. [First bullet point for Q7]
+[Second bullet point for Q7]
+[Third bullet point for Q7]
+8. [Question 8 debate topic]
+FOR:
+- [First FOR point]
+- [Second FOR point]
+- [Third FOR point]
+AGAINST:
+- [First AGAINST point]
+- [Second AGAINST point]
+- [Third AGAINST point]
+
+IMPORTANT: For Question 7 (Part 2), list each bullet point on a separate line without numbering. For Question 8 (Part 3 debate), clearly separate FOR and AGAINST points under those headings.`
+                },
+                ...imageContents
+              ]
+            }],
+            max_tokens: 1500
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error.message || 'API Error');
+        }
+        
+        const extractedText = data.choices[0].message.content.trim();
+        
+        // Show transcribed text in the manual input textarea
+        const manualTextarea = document.getElementById('universal-manual-input');
+        manualTextarea.value = extractedText;
+        
+        // Switch to manual text tab to show the transcribed content
+        switchInputMethod('manual');
+        
+        statusDiv.innerHTML = `
+          <div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:20px;margin-top:16px;">
+            <h3 style="color:#1e40af;margin:0 0 12px 0;font-size:16px;">✅ Transcription Complete!</h3>
+            <p style="color:#1e40af;margin:0 0 12px 0;font-size:13px;">Questions have been transcribed and placed in the Manual Text area. Review and click "Preview & Confirm Distribution" when ready.</p>
+            <div style="display:flex;gap:8px;margin-top:16px;">
+              <button onclick="document.getElementById('universal-paste-status').innerHTML=''" style="flex:1;padding:12px;background:#10b981;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                ✅ Got it
+              </button>
+            </div>
+          </div>
+        `;
+        
+        // Clear pasted images
+        pastedImages = [];
+        pasteArea.innerHTML = '<div style="width:100%;text-align:center;color:#94a3b8;font-size:13px;padding:20px;" id="paste-placeholder">Click here and press Ctrl+V to paste images</div>';
+        btn.style.display = 'none';
+        btn.disabled = false;
+        btn.textContent = '⚡ Continue - Extract Questions';
+        
+        // Reset
+        pastedImages = [];
+        pasteArea.innerHTML = '<div style="width:100%;text-align:center;color:#94a3b8;font-size:13px;padding:20px;" id="paste-placeholder">Click here and press Ctrl+V to paste images</div>';
+        btn.style.display = 'none';
+        btn.disabled = false;
+        btn.textContent = '⚡ Continue - Extract Questions';
+        
+        setTimeout(() => statusDiv.innerHTML = '', 8000);
+        
+      } catch (error) {
+        console.error('Paste OCR Error:', error);
+        statusDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+        btn.disabled = false;
+        btn.textContent = '⚡ Continue - Extract Questions';
+      }
+    }
+    
+    // Method 3: Upload File
+    async function handleUniversalFileUpload(event) {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+      
+      const statusDiv = document.getElementById('universal-upload-status');
+      statusDiv.innerHTML = '<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-weight:600;">📤 Processing images...</div>';
+      
+      // Process all images
+      for (let i = 0; i < files.length; i++) {
+        await processUniversalImage(files[i], 'universal-upload-status', i + 1, files.length);
+      }
+      
+      event.target.value = ''; // Reset input
+    }
+    
+    // Common image processing function
+    async function processUniversalImage(file, statusDivId, currentNum = 1, totalNum = 1) {
+      const statusDiv = document.getElementById(statusDivId);
+      statusDiv.innerHTML = `<div style="background:#dbeafe;color:#1e40af;padding:12px;border-radius:8px;font-weight:600;">🤖 Extracting questions from image ${currentNum}/${totalNum}...</div>`;
+      
+      try {
+        const apiKey = await getAPIKey();
+        const reader = new FileReader();
+        
+        reader.onload = async (e) => {
+          const base64Image = e.target.result;
+          
+          const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o',
+              messages: [{
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: 'Extract all IELTS Speaking questions from this image. Return ONLY the questions, one per line, numbered 1-8. Remove any instructions or extra text. If fewer than 8 questions, return what you find.'
+                  },
+                  {
+                    type: 'image_url',
+                    image_url: { url: base64Image }
+                  }
+                ]
+              }],
+              max_tokens: 1000
+            })
+          });
+          
+          const data = await response.json();
+          const extractedText = data.choices[0].message.content.trim();
+          
+          // Show transcribed text in the manual input textarea
+          const manualTextarea = document.getElementById('universal-manual-input');
+          manualTextarea.value = extractedText;
+          
+          // Switch to manual text tab to show the transcribed content
+          switchInputMethod('manual');
+          
+          statusDiv.innerHTML = `
+            <div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:20px;margin-top:16px;">
+              <h3 style="color:#1e40af;margin:0 0 12px 0;font-size:16px;">✅ Transcription Complete!</h3>
+              <p style="color:#1e40af;margin:0 0 12px 0;font-size:13px;">Questions have been transcribed and placed in the Manual Text area. Review and click "Preview & Confirm Distribution" when ready.</p>
+              <div style="display:flex;gap:8px;margin-top:16px;">
+                <button onclick="document.getElementById('universal-upload-status').innerHTML=''" style="flex:1;padding:12px;background:#10b981;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;">
+                  ✅ Got it
+                </button>
+              </div>
+            </div>
+          `;
+          
+          // Reset file input
+          event.target.value = '';
+        };
+        
+        reader.readAsDataURL(file);
+        
+      } catch (error) {
+        console.error('Universal OCR Error:', error);
+        statusDiv.innerHTML = '<div class="error-msg">❌ Error: ' + error.message + '</div>';
+      }
+    }
+    
+    // Confirm and place extracted questions
+    function confirmAndPlaceQuestions() {
+      const parsed = window.tempParsedQuestions;
+      if (!parsed) {
+        alert('No questions to place!');
+        return;
+      }
+      
+      // Place Q1-Q6
+      for (let i = 1; i <= 6; i++) {
+        const textarea = document.getElementById(`q${i}-prompt`);
+        if (textarea && parsed[`q${i}`]) {
+          textarea.value = parsed[`q${i}`];
+        }
+      }
+      
+      // Place Q7
+      if (parsed.q7.topic) {
+        const q7Prompt = document.getElementById('q7-prompt');
+        const q7Bullets = document.getElementById('q7-bullets');
+        if (q7Prompt) q7Prompt.value = parsed.q7.topic;
+        if (q7Bullets && parsed.q7.bullets.length > 0) {
+          q7Bullets.value = parsed.q7.bullets.join('\n');
+        }
+      }
+      
+      // Place Q8
+      if (parsed.q8.topic) {
+        const q8Prompt = document.getElementById('q8-prompt');
+        const q8For = document.getElementById('q8-for');
+        const q8Against = document.getElementById('q8-against');
+        if (q8Prompt) q8Prompt.value = parsed.q8.topic;
+        if (q8For && parsed.q8.for.length > 0) {
+          q8For.value = parsed.q8.for.join('\n');
+        }
+        if (q8Against && parsed.q8.against.length > 0) {
+          q8Against.value = parsed.q8.against.join('\n');
+        }
+      }
+      
+      updatePreview();
+      
+      // Clear status and reset
+      document.getElementById('universal-paste-status').innerHTML = 
+        '<div class="success-msg">✅ All questions placed successfully!</div>';
+      setTimeout(() => {
+        document.getElementById('universal-paste-status').innerHTML = '';
+      }, 5000);
+      
+      delete window.tempParsedQuestions;
+    }
+    
+    // Confirm and place manual questions
+    function confirmAndPlaceManualQuestions() {
+      const parsed = window.tempManualQuestions;
+      if (!parsed) {
+        alert('No questions to place!');
+        return;
+      }
+      
+      // Place Q1-Q6
+      for (let i = 1; i <= 6; i++) {
+        const textarea = document.getElementById(`q${i}-prompt`);
+        if (textarea && parsed[`q${i}`]) {
+          textarea.value = parsed[`q${i}`];
+        }
+      }
+      
+      // Place Q7 - Only bullets, each line on a new line
+      if (parsed.q7.bullets && parsed.q7.bullets.length > 0) {
+        const q7Bullets = document.getElementById('q7-bullets');
+        if (q7Bullets) q7Bullets.value = parsed.q7.bullets.join('\n');
+      }
+      
+      // Place Q8 - Topic and FOR/AGAINST points
+      if (parsed.q8.topic) {
+        const q8Prompt = document.getElementById('q8-prompt');
+        const q8For = document.getElementById('q8-for');
+        const q8Against = document.getElementById('q8-against');
+        
+        if (q8Prompt) q8Prompt.value = parsed.q8.topic;
+        
+        if (q8For && parsed.q8.for && parsed.q8.for.length > 0) {
+          q8For.value = parsed.q8.for.join('\n');
+        }
+        
+        if (q8Against && parsed.q8.against && parsed.q8.against.length > 0) {
+          q8Against.value = parsed.q8.against.join('\n');
+        }
+      }
+      
+      updatePreview();
+      
+      // Clear status and reset
+      document.getElementById('universal-manual-status').innerHTML = 
+        '<div class="success-msg">✅ All questions distributed successfully!</div>';
+      document.getElementById('universal-manual-input').value = '';
+      
+      setTimeout(() => {
+        document.getElementById('universal-manual-status').innerHTML = '';
+      }, 5000);
+      
+      delete window.tempManualQuestions;
+    }
+    
+    // Toggle Global Settings dropdown
+    function toggleGlobalSettings() {
+      const content = document.getElementById('global-settings-content');
+      const arrow = document.getElementById('global-settings-arrow');
+      
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+        arrow.textContent = '▲';
+      } else {
+        content.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+        arrow.textContent = '▼';
+      }
+    }
+  </script>
+
+  <!-- Passcode Generator Section -->
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <button onclick="document.getElementById('passcodeGeneratorPanel').style.display='block'" 
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 25px; border-radius: 50px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
+      🔑 Generate Passcodes
+    </button>
+  </div>
+
+  <div id="passcodeGeneratorPanel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto;">
+    <div style="max-width: 700px; margin: 50px auto; background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 50px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px;">
+          🔑 Premium Passcode Generator
+        </h2>
+        <button onclick="document.getElementById('passcodeGeneratorPanel').style.display='none'" 
+                style="background: #f0f0f0; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; cursor: pointer; color: #666;">
+          ×
+        </button>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+        <p style="margin: 0; color: #555; line-height: 1.6;">
+          <strong>📋 How it works:</strong><br>
+          1. Generate passcodes (e.g., "W908-RQAJ")<br>
+          2. When student buys, add their name: <code>"studentW908-RQAJ"</code> → <code>"dilbarW908-RQAJ"</code><br>
+          3. Student enters their name + passcode to unlock<br>
+          4. Name is case-insensitive (Dilbar = dilbar = DILBAR)<br><br>
+          <strong>🔒 Anti-sharing:</strong> If shared, wrong name = unlock fails!
+        </p>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">
+          Number of Passcodes
+        </label>
+        <input type="number" 
+               id="passcodeQuantity" 
+               value="50" 
+               min="1" 
+               max="500"
+               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
+      </div>
+
+      <button id="generatePasscodesBtn" 
+              onclick="generatePasscodes()"
+              style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-bottom: 20px; transition: transform 0.2s;">
+        Generate Passcodes
+      </button>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">
+          Generated Passcodes
+        </label>
+        <textarea id="generatedCodesDisplay" 
+                  readonly
+                  placeholder="Generated passcodes will appear here..."
+                  style="width: 100%; height: 300px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; resize: vertical; box-sizing: border-box; background: #f9f9f9;"></textarea>
+      </div>
+
+      <button id="downloadPasscodesBtn" 
+              onclick="downloadPasscodesFile()"
+              disabled
+              style="width: 100%; background: #10b981; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: transform 0.2s;">
+        📥 Download passcodes.js
+      </button>
+
+      <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+        <strong>⚠️ Important:</strong> 
+        <ol style="margin: 8px 0 0 0; padding-left: 20px;">
+          <li>Download the generated <code>passcodes.js</code> file</li>
+          <li>Open it and replace <code>"student"</code> with actual student names</li>
+          <li>Example: <code>"studentW908-RQAJ"</code> → <code>"dilbarW908-RQAJ"</code></li>
+          <li>Replace the file in your project root directory</li>
+          <li>Give student their name + passcode combo</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== Exit Protection ===== */
+    let hasUnsavedChanges = false;
+    
+    // Track changes on all input fields
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', () => {
+        hasUnsavedChanges = true;
+      });
+      el.addEventListener('change', () => {
+        hasUnsavedChanges = true;
+      });
+    });
+    
+    // Reset flag when file is downloaded
+    document.getElementById('downloadBtn')?.addEventListener('click', () => {
+      setTimeout(() => { hasUnsavedChanges = false; }, 500);
+    });
+    
+    // Warn before exit/refresh
+    window.addEventListener('beforeunload', (e) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  </script>
+</body>
+</html>

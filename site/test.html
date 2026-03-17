@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test — IELTS Practice</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <!-- Site Config (swap this script to change brand/skin) -->
+  <script src="site-config/site-config.js"></script>
+  <!-- jsPDF for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root{ 
+      --bg1:#667eea; --bg2:#764ba2; 
+      --card:#ffffff;
+      --text:#0f172a; --text-light:#475569; --text-accent:#667eea;
+      --correct:#10b981; --wrong:#ef4444;
+      --shadow:0 25px 50px -12px rgba(0,0,0,.35);
+      --shadow-hover:0 35px 60px -15px rgba(0,0,0,.45);
+      --border:rgba(255,255,255,.18);
+    }
+    
+    *{box-sizing:border-box; margin:0; padding:0;}
+    
+    html,body{height:100%; overflow:hidden;}
+    
+    .back-btn{
+      position:fixed;
+      top:20px;
+      left:20px;
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(10px);
+      color:#fff;
+      text-decoration:none;
+      padding:10px 18px;
+      border-radius:50px;
+      font-weight:600;
+      font-size:14px;
+      transition:all 0.3s ease;
+      z-index:100;
+      border:1px solid rgba(255,255,255,0.2);
+    }
+    .back-btn:hover{
+      background:rgba(255,255,255,0.25);
+      transform:translateX(-3px);
+    }
+
+    /* Mobile - minimize back button, hide download PDF */
+    @media (max-width: 768px) {
+      .back-btn {
+        padding: 8px 12px;
+        font-size: 16px;
+        top: 12px;
+        left: 12px;
+      }
+      .back-btn span {
+        display: none;
+      }
+      .download-pdf-btn {
+        display: none !important;
+      }
+    }
+
+    .download-pdf-btn{
+      position:fixed;
+      top:20px;
+      right:20px;
+      background:linear-gradient(135deg, #10b981, #059669);
+      backdrop-filter:blur(10px);
+      color:#fff;
+      text-decoration:none;
+      padding:10px 18px;
+      border-radius:50px;
+      font-weight:600;
+      font-size:14px;
+      transition:all 0.3s ease;
+      z-index:100;
+      border:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      box-shadow:0 4px 12px rgba(16,185,129,.3);
+    }
+    .download-pdf-btn:hover{
+      background:linear-gradient(135deg, #059669, #047857);
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(16,185,129,.4);
+    }
+    .download-pdf-btn:active{
+      transform:translateY(0);
+    }
+    .download-pdf-btn svg{
+      width:16px;
+      height:16px;
+      fill:currentColor;
+    }
+    
+    body{
+      font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      background-attachment:fixed;
+      color:var(--text); 
+      -webkit-tap-highlight-color:transparent;
+      display:flex; 
+      flex-direction:column;
+      align-items:center; 
+      justify-content:center;
+      padding:20px;
+      position:relative;
+    }
+    
+    body::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 20% 50%, rgba(255,255,255,.1) 0%, transparent 50%),
+                 radial-gradient(circle at 80% 80%, rgba(255,255,255,.08) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    
+    .header{
+      text-align:center;
+      margin-bottom:2rem;
+      animation:fadeInDown 0.6s ease;
+    }
+    
+    .header h1{
+      font-size:clamp(28px, 5vw, 42px);
+      font-weight:800;
+      color:#ffffff;
+      text-shadow:0 4px 12px rgba(0,0,0,.2);
+      letter-spacing:-0.02em;
+      margin-bottom:0.5rem;
+    }
+    
+    .progress-bar{
+      width:min(400px, 90vw);
+      height:6px;
+      background:rgba(255,255,255,.2);
+      border-radius:10px;
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+      margin:0 auto;
+    }
+    
+    .progress-fill{
+      height:100%;
+      background:linear-gradient(90deg, var(--text-accent), #8b5cf6);
+      border-radius:10px;
+      transition:width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:0 0 20px rgba(102,126,234,.5);
+    }
+    
+    .progress-text{
+      color:rgba(255,255,255,.9);
+      font-size:14px;
+      font-weight:600;
+      margin-top:0.5rem;
+      text-shadow:0 2px 4px rgba(0,0,0,.2);
+    }
+
+    .score-display{
+      display:flex;
+      gap:1.5rem;
+      justify-content:center;
+      margin-top:0.5rem;
+    }
+
+    .score-item{
+      color:rgba(255,255,255,.95);
+      font-size:15px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+
+    .score-item .icon{
+      font-size:18px;
+    }
+    
+    .wrap{ 
+      width:min(840px, 94vw); 
+      height:auto;
+      position:relative;
+      perspective:1500px;
+      animation:fadeInUp 0.8s ease;
+      display:flex;
+      flex-direction:column;
+      margin:20px 0;
+    }
+    
+    .question-card{
+      position:relative;
+      width:100%;
+      height:auto;
+      border-radius:32px;
+      background:linear-gradient(135deg, var(--card) 0%, #fefefe 100%);
+      border:2px solid var(--border);
+      box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.9);
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      padding:clamp(24px, 5vh, 48px) clamp(28px, 5vw, 56px);
+      padding-bottom:clamp(32px, 6vh, 64px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      opacity:0;
+      transform:translateY(30px);
+      transition:all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .question-card.active{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .question-card.exit{
+      opacity:0;
+      transform:translateY(-30px);
+    }
+    
+    .question-number{
+      font-size:14px;
+      font-weight:700;
+      color:var(--text-accent);
+      text-transform:uppercase;
+      letter-spacing:0.1em;
+      margin-bottom:1.5rem;
+      padding:8px 20px;
+      background:linear-gradient(135deg, rgba(102,126,234,.1), rgba(139,92,246,.1));
+      border-radius:50px;
+    }
+    
+    .question-type{
+      font-size:clamp(15px, 2.5vw, 18px);
+      font-weight:600;
+      color:var(--text-light);
+      margin-bottom:0.75rem;
+      text-align:center;
+    }
+    
+    .question-text{
+      font-size:clamp(24px, 4vw, 36px);
+      font-weight:800;
+      color:var(--text);
+      text-align:center;
+      margin-bottom:2rem;
+      line-height:1.3;
+      letter-spacing:-0.02em;
+    }
+    
+    .options{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:1rem;
+      width:100%;
+      max-width:600px;
+    }
+
+    @media(max-width:768px){
+      .options{
+        grid-template-columns:1fr;
+        max-width:400px;
+      }
+    }
+    
+    .option-btn{
+      padding:1.25rem 1.5rem;
+      font-size:18px;
+      font-weight:600;
+      border:3px solid #e2e8f0;
+      border-radius:16px;
+      background:linear-gradient(135deg, #ffffff, #f8fafc);
+      cursor:pointer;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .option-btn::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(102,126,234,.1), rgba(139,92,246,.1));
+      opacity:0;
+      transition:opacity 0.3s ease;
+    }
+    
+    .option-btn:hover:not(.disabled){
+      border-color:var(--text-accent);
+      transform:translateY(-3px);
+      box-shadow:0 12px 24px -6px rgba(102,126,234,.25);
+    }
+    
+    .option-btn:hover:not(.disabled)::before{
+      opacity:1;
+    }
+    
+    .option-btn.correct{
+      border-color:var(--correct) !important;
+      background:linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+      animation:correctPulse 0.5s ease;
+    }
+    
+    .option-btn.wrong{
+      border-color:var(--wrong) !important;
+      background:linear-gradient(135deg, #fee2e2, #fecaca) !important;
+      animation:wrongShake 0.5s ease;
+    }
+    
+    .option-btn.disabled{
+      cursor:not-allowed;
+      opacity:0.7;
+    }
+
+    .option-btn.disabled:not(.correct):not(.wrong){
+      opacity:0.5;
+    }
+
+    .wrong-meaning{
+      position:absolute;
+      top:-32px;
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--wrong);
+      color:white;
+      padding:4px 12px;
+      border-radius:8px;
+      font-size:12px;
+      font-weight:600;
+      white-space:nowrap;
+      z-index:10;
+      animation:fadeInDown 0.3s ease;
+    }
+
+    .wrong-meaning::after{
+      content:'';
+      position:absolute;
+      bottom:-6px;
+      left:50%;
+      transform:translateX(-50%);
+      border-left:6px solid transparent;
+      border-right:6px solid transparent;
+      border-top:6px solid var(--wrong);
+    }
+
+    .correct-meaning{
+      position:absolute;
+      top:-32px;
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--correct);
+      color:white;
+      padding:4px 12px;
+      border-radius:8px;
+      font-size:12px;
+      font-weight:600;
+      white-space:nowrap;
+      z-index:10;
+      animation:fadeInDown 0.3s ease;
+    }
+
+    .correct-meaning::after{
+      content:'';
+      position:absolute;
+      bottom:-6px;
+      left:50%;
+      transform:translateX(-50%);
+      border-left:6px solid transparent;
+      border-right:6px solid transparent;
+      border-top:6px solid var(--correct);
+    }
+    
+    .feedback{
+      margin-top:1.5rem;
+      padding:1rem 2rem;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:600;
+      text-align:center;
+      opacity:0;
+      transform:translateY(10px);
+      transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width:100%;
+    }
+    
+    .feedback.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+    
+    .feedback.correct-msg{
+      background:linear-gradient(135deg, #d1fae5, #a7f3d0);
+      color:#065f46;
+      border:2px solid #6ee7b7;
+    }
+    
+    .feedback.wrong-msg{
+      background:linear-gradient(135deg, #fee2e2, #fecaca);
+      color:#991b1b;
+      border:2px solid #fca5a5;
+    }
+
+    .countdown-timer{
+      position:absolute;
+      bottom:20px;
+      right:20px;
+      width:44px;
+      height:44px;
+      opacity:0;
+      transition:opacity 0.3s ease;
+    }
+
+    .countdown-timer.show{
+      opacity:1;
+    }
+
+    .countdown-timer svg{
+      width:100%;
+      height:100%;
+      transform:rotate(-90deg);
+    }
+
+    .countdown-circle-bg{
+      fill:none;
+      stroke:#e2e8f0;
+      stroke-width:4;
+    }
+
+    .countdown-circle-progress{
+      fill:none;
+      stroke:url(#timerGradient);
+      stroke-width:4;
+      stroke-linecap:round;
+      transition:stroke-dashoffset 0.1s linear, opacity 0.3s ease;
+    }
+
+    .countdown-text{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      font-size:16px;
+      font-weight:700;
+      color:var(--text-accent);
+      animation:pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%, 100%{ transform:translate(-50%, -50%) scale(1); opacity:1; }
+      50%{ transform:translate(-50%, -50%) scale(1.1); opacity:0.8; }
+    }
+    
+    .speaker-btn{
+      position:absolute;
+      top:20px;
+      left:20px;
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      background:linear-gradient(135deg, var(--text-accent), #8b5cf6);
+      border:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 12px rgba(102,126,234,.3);
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index:10;
+    }
+
+    .speaker-btn:hover{
+      transform:scale(1.1);
+      box-shadow:0 6px 16px rgba(102,126,234,.4);
+    }
+
+    .speaker-btn:active{
+      transform:scale(0.95);
+    }
+
+    .speaker-btn svg{
+      width:20px;
+      height:20px;
+      fill:white;
+    }
+
+    .speaker-btn.speaking{
+      animation:speakingPulse 0.6s ease-in-out infinite;
+    }
+
+    @keyframes speakingPulse{
+      0%, 100%{ transform:scale(1); }
+      50%{ transform:scale(1.15); }
+    }
+
+    .results-card{
+      position:relative;
+      width:100%;
+      border-radius:32px;
+      background:linear-gradient(135deg, var(--card) 0%, #fefefe 100%);
+      border:2px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:48px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      opacity:0;
+      transform:scale(0.9);
+      transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .results-card.show{
+      opacity:1;
+      transform:scale(1);
+    }
+
+    .results-icon{
+      font-size:72px;
+      margin-bottom:1rem;
+      animation:bounce 1s ease infinite;
+    }
+
+    .results-title{
+      font-size:36px;
+      font-weight:800;
+      color:var(--text);
+      margin-bottom:0.5rem;
+    }
+
+    .results-score{
+      font-size:24px;
+      font-weight:700;
+      color:var(--text-accent);
+      margin-bottom:1rem;
+    }
+
+    .results-message{
+      font-size:18px;
+      color:var(--text-light);
+      text-align:center;
+      max-width:400px;
+      margin-bottom:2rem;
+      line-height:1.6;
+    }
+
+    .btn-restart{
+      padding:16px 40px;
+      font-size:18px;
+      font-weight:700;
+      border:none;
+      border-radius:50px;
+      background:linear-gradient(135deg, var(--text-accent), #8b5cf6);
+      color:white;
+      cursor:pointer;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:0 8px 24px rgba(102,126,234,.4);
+    }
+
+    .btn-restart:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(102,126,234,.5);
+    }
+    
+    @keyframes fadeIn{
+      from{ opacity:0; }
+      to{ opacity:1; }
+    }
+    
+    @keyframes fadeInUp{
+      from{ opacity:0; transform:translateY(30px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+    
+    @keyframes fadeInDown{
+      from{ opacity:0; transform:translateY(-30px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes correctPulse{
+      0%, 100%{ transform:scale(1); }
+      50%{ transform:scale(1.05); }
+    }
+
+    @keyframes wrongShake{
+      0%, 100%{ transform:translateX(0); }
+      25%{ transform:translateX(-10px); }
+      75%{ transform:translateX(10px); }
+    }
+
+    @keyframes bounce{
+      0%, 100%{ transform:translateY(0); }
+      50%{ transform:translateY(-20px); }
+    }
+
+    /* Loading state */
+    .loading-card{
+      position:relative;
+      width:100%;
+      border-radius:32px;
+      background:linear-gradient(135deg, var(--card) 0%, #fefefe 100%);
+      border:2px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:60px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .loading-spinner{
+      width:50px;
+      height:50px;
+      border:4px solid #e2e8f0;
+      border-top-color:var(--text-accent);
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin-bottom:20px;
+    }
+
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
+    }
+
+    .loading-text{
+      font-size:18px;
+      color:var(--text-light);
+      font-weight:600;
+    }
+
+    /* Brand styling */
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:0.75rem;
+    }
+    .logo{
+      width:36px; height:36px;
+      border-radius:999px;
+      background:#fff;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .logo img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .brandtext{ text-align:left; }
+    .brandtext .line1{
+      font-weight:800;
+      letter-spacing:-.02em;
+      font-size:16px;
+      color:#fff;
+      text-shadow:0 2px 8px rgba(0,0,0,.2);
+      line-height:1.2;
+    }
+    .brandtext .line2{
+      font-weight:600;
+      opacity:.9;
+      font-size:11px;
+      color:rgba(255,255,255,.9);
+    }
+
+    .error-card{
+      position:relative;
+      width:100%;
+      border-radius:32px;
+      background:linear-gradient(135deg, #fee2e2, #fecaca);
+      border:2px solid #fca5a5;
+      padding:40px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+
+    .error-icon{
+      font-size:48px;
+      margin-bottom:15px;
+    }
+
+    .error-title{
+      font-size:24px;
+      font-weight:700;
+      color:#991b1b;
+      margin-bottom:10px;
+    }
+
+    .error-message{
+      font-size:16px;
+      color:#b91c1c;
+      margin-bottom:20px;
+    }
+
+    .error-message code{
+      background:rgba(0,0,0,0.1);
+      padding:2px 8px;
+      border-radius:4px;
+    }
+
+    @media(max-width:768px){
+      .brand{
+        gap:8px;
+      }
+      .logo{
+        width:28px; height:28px;
+      }
+      .brandtext .line1{
+        font-size:13px;
+      }
+      .brandtext .line2{
+        font-size:9px;
+      }
+      .option-btn{
+        padding:1rem 1.2rem;
+        font-size:16px;
+      }
+      .wrap{
+        margin:10px 0;
+      }
+      .question-card{
+        padding:20px 24px;
+        padding-bottom:24px;
+        border-radius:24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="landing.html" class="back-btn" title="Back to Home" onclick="goBack(); return false;">
+    ← <span>Home</span>
+  </a>
+  <button class="download-pdf-btn" id="downloadPdfBtn" title="Download as PDF">
+    <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+    Download PDF
+  </button>
+  <div class="header">
+    <div class="brand" id="brandContainer" style="display:none;">
+      <div class="logo" id="logoContainer">
+        <img id="logoImg" src="" alt="Logo"/>
+      </div>
+      <div class="brandtext">
+        <div class="line1" id="brandTitle"></div>
+        <div class="line2" id="brandSubtitle"></div>
+      </div>
+    </div>
+    <h1 id="testTitle">📚 Loading Test...</h1>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">Loading...</div>
+    <div class="score-display">
+      <div class="score-item">
+        <span class="icon">✓</span>
+        <span id="correctCount">0</span>
+      </div>
+      <div class="score-item">
+        <span class="icon">✗</span>
+        <span id="wrongCount">0</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="wrap" id="wrap">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading questions...</div>
+    </div>
+  </div>
+
+  <!-- Load global settings from speaking mock -->
+  <script src="questions S/questions.js"></script>
+  <script>
+    // Get global logo and branding from speaking settings
+    const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
+    
+    // ===== DYNAMIC LOADING =====
+    const urlParams = new URLSearchParams(window.location.search);
+    const testFile = urlParams.get('test');
+    const testType = urlParams.get('type') || 'vocabulary'; // 'vocabulary' or 'grammar'
+
+    let ALL_QUESTIONS = [];
+    let QUESTIONS = [];
+    let currentQuestion = 0;
+    let correctAnswers = 0;
+    let wrongAnswers = 0;
+    let answered = false;
+    const wrap = document.getElementById('wrap');
+
+    function showError(message) {
+      wrap.innerHTML = `
+        <div class="error-card">
+          <div class="error-icon">❌</div>
+          <div class="error-title">Failed to Load Test</div>
+          <div class="error-message">${message}</div>
+          <button class="btn-restart" onclick="window.history.back()">← Go Back</button>
+        </div>
+      `;
+    }
+
+    function loadTest() {
+      if (!testFile) {
+        showError('No test file specified. Use <code>?test=filename</code> in URL.<br><br>Example: <code>test.html?test=vocab01&type=vocabulary</code>');
+        return;
+      }
+
+      // Determine folder based on type
+      const folder = testType === 'grammar' ? 'questions G' : 'questions V';
+      const scriptPath = `${folder}/${testFile}.js`;
+
+      // Create script element to load external JS
+      const script = document.createElement('script');
+      script.src = scriptPath;
+      script.onload = () => {
+        // Check if ALL_QUESTIONS was loaded
+        if (typeof window.ALL_QUESTIONS !== 'undefined' && window.ALL_QUESTIONS.length > 0) {
+          ALL_QUESTIONS = window.ALL_QUESTIONS;
+          initTest();
+        } else {
+          showError(`File loaded but no questions found in <code>${scriptPath}</code>`);
+        }
+      };
+      script.onerror = () => {
+        showError(`Could not load <code>${scriptPath}</code><br><br>Make sure the file exists in the <code>${folder}/</code> folder.`);
+      };
+      document.head.appendChild(script);
+    }
+
+    function initTest() {
+      // Shuffle and pick questions
+      QUESTIONS = shuffleArray([...ALL_QUESTIONS]);
+      
+      // Check for custom metadata
+      const meta = window.TEST_META || {};
+      
+      // Update title
+      const titleMap = {
+        'vocabulary': '📚 Vocabulary Test',
+        'grammar': '📝 Grammar Test'
+      };
+      const defaultTitle = titleMap[testType] || '📚 Test';
+      document.getElementById('testTitle').textContent = meta.title || defaultTitle;
+      document.title = `${meta.title || defaultTitle} — IELTS Practice`;
+
+      // Apply custom branding if provided
+      if (meta.logo || meta.brand || GLOBAL_LOGO_URL) {
+        const brandContainer = document.getElementById('brandContainer');
+        brandContainer.style.display = 'flex';
+        
+        // Always use global logo from speaking settings
+        document.getElementById('logoImg').src = GLOBAL_LOGO_URL;
+        
+        // Use test title as brand, but show global wording as subtitle
+        if (meta.brand || meta.title) {
+          document.getElementById('brandTitle').textContent = meta.brand || meta.title;
+        }
+        // Always use global logo wording as subtitle
+        document.getElementById('brandSubtitle').textContent = GLOBAL_LOGO_WORDING;
+        // Hide default title if brand is shown
+        if (meta.brand) {
+          document.getElementById('testTitle').style.display = 'none';
+        }
+      }
+
+      // Apply custom colors if provided
+      if (meta.colors) {
+        const root = document.documentElement;
+        if (meta.colors.bg1) root.style.setProperty('--bg1', meta.colors.bg1);
+        if (meta.colors.bg2) root.style.setProperty('--bg2', meta.colors.bg2);
+        if (meta.colors.accent) root.style.setProperty('--text-accent', meta.colors.accent);
+      }
+
+      // Clear loading and start test
+      wrap.innerHTML = '';
+      showQuestion(0);
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function updateProgress() {
+      const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${QUESTIONS.length}`;
+      document.getElementById('correctCount').textContent = correctAnswers;
+      document.getElementById('wrongCount').textContent = wrongAnswers;
+    }
+
+    function createQuestionCard(index) {
+      const q = QUESTIONS[index];
+      const shuffledOptions = shuffleArray([...q.options]);
+
+      const card = document.createElement('div');
+      card.className = 'question-card';
+      
+      card.innerHTML = `
+        <button class="speaker-btn" title="Listen">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </button>
+        <div class="countdown-timer">
+          <svg viewBox="0 0 44 44">
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <circle class="countdown-circle-bg" cx="22" cy="22" r="18"/>
+            <circle class="countdown-circle-progress" cx="22" cy="22" r="18"/>
+          </svg>
+          <span class="countdown-text">3</span>
+        </div>
+        <div class="question-number">Question ${index + 1}</div>
+        <div class="question-type">${q.type}</div>
+        <div class="question-text">${q.question}</div>
+        <div class="options">
+          ${shuffledOptions.map(opt => `
+            <button class="option-btn" data-answer="${opt}">${opt}</button>
+          `).join('')}
+        </div>
+        <div class="feedback"></div>
+      `;
+
+      const speakerBtn = card.querySelector('.speaker-btn');
+      const optionBtns = card.querySelectorAll('.option-btn');
+      const feedback = card.querySelector('.feedback');
+
+      // Text-to-speech for question
+      speakerBtn.addEventListener('click', () => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          
+          let textToSpeak = q.question.replace(/_+/g, 'blank');
+          
+          const utterance = new SpeechSynthesisUtterance(textToSpeak);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.9;
+          
+          speakerBtn.classList.add('speaking');
+          utterance.onend = () => speakerBtn.classList.remove('speaking');
+          utterance.onerror = () => speakerBtn.classList.remove('speaking');
+          
+          window.speechSynthesis.speak(utterance);
+        }
+      });
+
+      optionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (answered) return;
+          
+          answered = true;
+          const selectedAnswer = btn.dataset.answer;
+          const isCorrect = selectedAnswer === q.correct;
+
+          optionBtns.forEach(b => {
+            b.classList.add('disabled');
+            if (b.dataset.answer === q.correct) {
+              b.classList.add('correct');
+            }
+          });
+
+          if (isCorrect) {
+            btn.classList.add('correct');
+            correctAnswers++;
+            feedback.textContent = q.def || 'Correct!';
+            feedback.className = 'feedback correct-msg show';
+          } else {
+            btn.classList.add('wrong');
+            wrongAnswers++;
+            
+            // Add wrong meaning tooltip
+            if (q.meanings && q.meanings[selectedAnswer]) {
+              const wrongMeaning = document.createElement('div');
+              wrongMeaning.className = 'wrong-meaning';
+              wrongMeaning.textContent = q.meanings[selectedAnswer];
+              btn.style.position = 'relative';
+              btn.appendChild(wrongMeaning);
+            }
+            
+            feedback.textContent = q.def || 'Incorrect';
+            feedback.className = 'feedback wrong-msg show';
+          }
+
+          updateProgress();
+          
+          // Start countdown timer
+          const delayTime = 3000;
+          const timerElement = card.querySelector('.countdown-timer');
+          const progressCircle = card.querySelector('.countdown-circle-progress');
+          const timerText = card.querySelector('.countdown-text');
+          const radius = progressCircle.r.baseVal.value;
+          const circumference = 2 * Math.PI * radius;
+          
+          timerElement.classList.add('show');
+          progressCircle.style.strokeDasharray = circumference;
+          progressCircle.style.strokeDashoffset = 0;
+          
+          let timeLeft = delayTime / 1000;
+          timerText.textContent = Math.ceil(timeLeft);
+          
+          const timerInterval = setInterval(() => {
+            timeLeft -= 0.1;
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+              timerElement.style.opacity = '0';
+            } else {
+              const progress = timeLeft / (delayTime / 1000);
+              const offset = circumference * (1 - progress);
+              progressCircle.style.strokeDashoffset = offset;
+              progressCircle.style.opacity = progress;
+              timerText.textContent = Math.ceil(timeLeft);
+            }
+          }, 100);
+          
+          // Auto advance
+          setTimeout(() => {
+            clearInterval(timerInterval);
+            if (currentQuestion < QUESTIONS.length - 1) {
+              currentQuestion++;
+              showQuestion(currentQuestion);
+            } else {
+              showResults();
+            }
+          }, delayTime);
+        });
+      });
+
+      return card;
+    }
+
+    function showQuestion(index) {
+      answered = false;
+
+      const existingCards = wrap.querySelectorAll('.question-card');
+      existingCards.forEach(card => {
+        card.classList.add('exit');
+        setTimeout(() => card.remove(), 500);
+      });
+
+      setTimeout(() => {
+        if (index < QUESTIONS.length) {
+          const card = createQuestionCard(index);
+          wrap.appendChild(card);
+          setTimeout(() => card.classList.add('active'), 50);
+          updateProgress();
+        } else {
+          showResults();
+        }
+      }, 500);
+    }
+
+    function showResults() {
+      const percentage = Math.round((correctAnswers / QUESTIONS.length) * 100);
+      let icon = '🎉';
+      let title = 'Excellent!';
+      let message = 'Outstanding performance! You have mastered this topic.';
+
+      if (percentage < 50) {
+        icon = '📖';
+        title = 'Keep Studying!';
+        message = 'Practice makes perfect. Review and try again!';
+      } else if (percentage < 70) {
+        icon = '👍';
+        title = 'Good Job!';
+        message = 'You\'re making progress! A bit more practice will help.';
+      } else if (percentage < 90) {
+        icon = '⭐';
+        title = 'Great Work!';
+        message = 'Very impressive! You have a solid understanding.';
+      }
+
+      const resultsCard = document.createElement('div');
+      resultsCard.className = 'results-card';
+      resultsCard.innerHTML = `
+        <div class="results-icon">${icon}</div>
+        <div class="results-title">${title}</div>
+        <div class="results-score">Score: ${correctAnswers}/${QUESTIONS.length} (${percentage}%)</div>
+        <div class="results-message">${message}</div>
+        <button class="btn-restart" onclick="location.reload()">
+          🔄 Take Test Again
+        </button>
+      `;
+
+      wrap.innerHTML = '';
+      wrap.appendChild(resultsCard);
+      setTimeout(() => resultsCard.classList.add('show'), 100);
+    }
+
+    // Initialize
+    loadTest();
+
+    // ===== PDF DOWNLOAD FUNCTIONALITY =====
+    document.getElementById('downloadPdfBtn').addEventListener('click', async function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      
+      // Page dimensions
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+      const contentWidth = pageWidth - (margin * 2);
+      
+      // Colors
+      const primaryColor = [102, 126, 234]; // #667eea
+      const secondaryColor = [118, 75, 162]; // #764ba2
+      const textColor = [15, 23, 42]; // #0f172a
+      const lightTextColor = [71, 85, 105]; // #475569
+      const accentBg = [248, 250, 252]; // #f8fafc
+      
+      // Get metadata
+      const meta = window.TEST_META || {};
+      // Always use global logo from speaking settings
+      const logoUrl = GLOBAL_LOGO_URL;
+      const brandTitle = meta.brand || 'Vocabulary Test';
+      // Always use global wording for subtitle
+      const subtitle = GLOBAL_LOGO_WORDING;
+      
+      // Function to load image as base64
+      async function loadImageAsBase64(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            try {
+              resolve(canvas.toDataURL('image/jpeg', 0.9));
+            } catch(e) {
+              resolve(null);
+            }
+          };
+          img.onerror = () => resolve(null);
+          img.src = url;
+        });
+      }
+      
+      // Load logo
+      let logoBase64 = null;
+      try {
+        logoBase64 = await loadImageAsBase64(logoUrl);
+      } catch(e) {
+        console.log('Could not load logo');
+      }
+      
+      let yPos = margin;
+      
+      // ===== HEADER DESIGN =====
+      // Clean title (remove emojis)
+      const cleanTitle = brandTitle.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
+      const cleanSubtitle = subtitle.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/gu, '').trim();
+      
+      // Gradient header background
+      doc.setFillColor(...primaryColor);
+      doc.rect(0, 0, pageWidth, 50, 'F');
+      
+      // Add subtle pattern overlay
+      doc.setFillColor(255, 255, 255);
+      doc.setGState(new doc.GState({opacity: 0.05}));
+      for(let i = 0; i < pageWidth; i += 10) {
+        doc.circle(i, 25, 20, 'F');
+      }
+      doc.setGState(new doc.GState({opacity: 1}));
+      
+      // Logo
+      if (logoBase64) {
+        try {
+          doc.addImage(logoBase64, 'JPEG', margin, 10, 30, 30);
+        } catch(e) {}
+      }
+      
+      // Title text
+      const titleX = logoBase64 ? margin + 38 : margin;
+      const maxTitleWidth = pageWidth - titleX - 55;
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(20);
+      const titleLines = doc.splitTextToSize(cleanTitle, maxTitleWidth);
+      doc.text(titleLines[0] || cleanTitle, titleX, 25);
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(cleanSubtitle || 'Practice Questions', titleX, 35);
+      
+      // Date on right side (in a box)
+      doc.setFillColor(255, 255, 255);
+      doc.setGState(new doc.GState({opacity: 0.15}));
+      doc.roundedRect(pageWidth - margin - 45, 12, 45, 26, 3, 3, 'F');
+      doc.setGState(new doc.GState({opacity: 1}));
+      
+      doc.setFontSize(8);
+      doc.setTextColor(255, 255, 255);
+      const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      doc.text(dateStr, pageWidth - margin - 22.5, 22, { align: 'center' });
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${ALL_QUESTIONS.length} Questions`, pageWidth - margin - 22.5, 32, { align: 'center' });
+      
+      yPos = 60;
+      
+      // ===== QUESTIONS =====
+      const questions = ALL_QUESTIONS;
+      
+      questions.forEach((q, idx) => {
+        // Check if we need a new page
+        if (yPos > pageHeight - 60) {
+          doc.addPage();
+          yPos = margin;
+          
+          // Mini header on subsequent pages
+          doc.setFillColor(...primaryColor);
+          doc.rect(0, 0, pageWidth, 15, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'bold');
+          doc.text(cleanTitle, margin, 10);
+          doc.text(`Page ${doc.getNumberOfPages()}`, pageWidth - margin, 10, { align: 'right' });
+          yPos = 25;
+        }
+        
+        // Question number badge
+        doc.setFillColor(...primaryColor);
+        doc.roundedRect(margin, yPos, 12, 6, 1, 1, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${idx + 1}`, margin + 6, yPos + 4.2, { align: 'center' });
+        
+        // Question type
+        doc.setTextColor(...lightTextColor);
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(9);
+        doc.text(q.type || 'Fill in the blank:', margin + 16, yPos + 4);
+        
+        yPos += 10;
+        
+        // Question text
+        doc.setTextColor(...textColor);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        const questionLines = doc.splitTextToSize(q.question, contentWidth);
+        doc.text(questionLines, margin, yPos);
+        yPos += questionLines.length * 5 + 4;
+        
+        // Options in 2x2 grid
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        const opts = q.options;
+        const optLabels = ['A', 'B', 'C', 'D'];
+        const colWidth = (contentWidth - 10) / 2;
+        
+        for(let i = 0; i < opts.length; i++) {
+          const col = i % 2;
+          const row = Math.floor(i / 2);
+          const x = margin + (col * (colWidth + 10));
+          const y = yPos + (row * 8);
+          
+          // Option box
+          doc.setFillColor(...accentBg);
+          doc.setDrawColor(226, 232, 240);
+          doc.roundedRect(x, y - 4.5, colWidth, 7, 1, 1, 'FD');
+          
+          // Option label
+          doc.setTextColor(...primaryColor);
+          doc.setFont('helvetica', 'bold');
+          doc.text(`${optLabels[i]}.`, x + 2, y);
+          
+          // Option text
+          doc.setTextColor(...textColor);
+          doc.setFont('helvetica', 'normal');
+          const optText = doc.splitTextToSize(opts[i], colWidth - 12)[0];
+          doc.text(optText, x + 10, y);
+        }
+        
+        yPos += Math.ceil(opts.length / 2) * 8 + 8;
+        
+        // Divider line
+        doc.setDrawColor(226, 232, 240);
+        doc.setLineWidth(0.3);
+        doc.line(margin, yPos, pageWidth - margin, yPos);
+        yPos += 8;
+      });
+      
+      // ===== ANSWER KEY PAGE =====
+      doc.addPage();
+      yPos = margin;
+      
+      // Answer key header
+      doc.setFillColor(...secondaryColor);
+      doc.rect(0, 0, pageWidth, 35, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Answer Key', margin, 22);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${cleanTitle} - ${questions.length} Questions`, margin, 30);
+      
+      yPos = 45;
+      
+      // Answers in grid
+      const answersPerRow = 5;
+      const answerBoxWidth = (contentWidth - (answersPerRow - 1) * 5) / answersPerRow;
+      
+      questions.forEach((q, idx) => {
+        const col = idx % answersPerRow;
+        const row = Math.floor(idx / answersPerRow);
+        
+        if (col === 0 && row > 0 && yPos + 20 > pageHeight - margin) {
+          doc.addPage();
+          yPos = margin;
+        }
+        
+        const x = margin + (col * (answerBoxWidth + 5));
+        const y = yPos + (row % 15) * 14;
+        
+        // Question number box
+        doc.setFillColor(...primaryColor);
+        doc.roundedRect(x, y, 8, 10, 1, 1, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${idx + 1}`, x + 4, y + 6.5, { align: 'center' });
+        
+        // Answer
+        doc.setFillColor(209, 250, 229); // green bg
+        doc.setDrawColor(16, 185, 129);
+        doc.roundedRect(x + 10, y, answerBoxWidth - 12, 10, 1, 1, 'FD');
+        
+        doc.setTextColor(6, 95, 70);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        const answerText = doc.splitTextToSize(q.correct, answerBoxWidth - 16)[0];
+        doc.text(answerText, x + 12, y + 6.5);
+        
+        // Move to next row section
+        if (col === answersPerRow - 1 && (row + 1) % 15 === 0 && row > 0) {
+          yPos += 15 * 14 + 10;
+        }
+      });
+      
+      // ===== FOOTER ON ALL PAGES =====
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFillColor(248, 250, 252);
+        doc.rect(0, pageHeight - 12, pageWidth, 12, 'F');
+        doc.setTextColor(...lightTextColor);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Generated from Interactive Test Platform', margin, pageHeight - 5);
+        doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageHeight - 5, { align: 'right' });
+      }
+      
+      // Save PDF
+      const fileName = `${brandTitle.replace(/[^a-z0-9]/gi, '_')}_Test.pdf`;
+      doc.save(fileName);
+    });
+  </script>
+
+<!-- ===== LEAVE WARNING PROTECTION ===== -->
+<script>
+(function() {
+  let testInProgress = false;
+  let testFinished = false;
+  window.__okToLeave = false;
+
+  // Mark test as in progress when first question is shown
+  const originalShowQuestion = window.showQuestion;
+  if (typeof originalShowQuestion === 'function') {
+    window.showQuestion = function(index) {
+      testInProgress = true;
+      return originalShowQuestion.apply(this, arguments);
+    };
+  } else {
+    // Fallback: mark as in progress shortly after load
+    setTimeout(function() { testInProgress = true; }, 1000);
+  }
+
+  // Mark as finished when results are shown
+  const originalShowResults = window.showResults;
+  if (typeof originalShowResults === 'function') {
+    window.showResults = function() {
+      testFinished = true;
+      return originalShowResults.apply(this, arguments);
+    };
+  }
+
+  // Create leave warning modal
+  function createLeaveWarningModal() {
+    if (document.getElementById('leaveWarningModal')) return;
+    
+    const modalHTML = `
+      <div id="leaveWarningModal" style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999999;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+      ">
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+          border-radius: 20px;
+          padding: 40px;
+          max-width: 420px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          animation: leaveModalPop 0.3s ease-out;
+        ">
+          <div style="
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+          ">
+            <span style="font-size: 40px;">⚠️</span>
+          </div>
+          <h2 style="
+            color: #f8fafc;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+          ">Wait! Test in Progress</h2>
+          <p style="
+            color: #94a3b8;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+          ">
+            Are you sure you want to leave?<br>
+            <strong style="color: #f87171;">Your progress will be lost!</strong>
+          </p>
+          <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <button id="leaveStayBtn" style="
+              padding: 14px 35px;
+              border: none;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #667eea, #764ba2);
+              color: white;
+              box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            ">✓ Continue Test</button>
+            <button id="leaveConfirmBtn" style="
+              padding: 14px 35px;
+              border: 2px solid #475569;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: transparent;
+              color: #94a3b8;
+            ">Leave Anyway</button>
+          </div>
+        </div>
+      </div>
+      <style>
+        @keyframes leaveModalPop {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        #leaveStayBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        #leaveConfirmBtn:hover {
+          background: #334155;
+          border-color: #64748b;
+          color: #e2e8f0;
+        }
+      </style>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    document.getElementById('leaveStayBtn').addEventListener('click', function() {
+      hideLeaveWarningModal();
+    });
+    
+    document.getElementById('leaveConfirmBtn').addEventListener('click', function() {
+      window.__okToLeave = true;
+      hideLeaveWarningModal();
+      const _tp = new URLSearchParams(window.location.search);
+      const _type = _tp.get('type');
+      if (window.parent !== window) {
+        window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
+      } else {
+        window.location.href = 'landing.html?openModal=' + (_type || '');
+      }
+    });
+  }
+
+  // Custom goBack function for back button
+  function goBack() {
+    if (testInProgress && !testFinished && !window.__okToLeave) {
+      showLeaveWarningModal();
+      return;
+    }
+    window.__okToLeave = true;
+    const _tp = new URLSearchParams(window.location.search);
+    const _type = _tp.get('type');
+    // Use postMessage if in iframe, else direct navigation
+    if (window.parent !== window) {
+      window.parent.postMessage({ action: 'returnToLanding', openModal: _type || '' }, '*');
+    } else {
+      window.location.href = 'landing.html?openModal=' + (_type || '');
+    }
+  }
+  // Make goBack available globally
+  window.goBack = goBack;
+
+  function showLeaveWarningModal() {
+    createLeaveWarningModal();
+    const modal = document.getElementById('leaveWarningModal');
+    modal.style.display = 'flex';
+  }
+
+  function hideLeaveWarningModal() {
+    const modal = document.getElementById('leaveWarningModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  // Back button trap using History API
+  function setupBackButtonTrap() {
+    history.pushState(null, '', location.href);
+    history.pushState(null, '', location.href);
+    
+    window.addEventListener('popstate', function(e) {
+      if (testInProgress && !testFinished && !window.__okToLeave) {
+        history.pushState(null, '', location.href);
+        showLeaveWarningModal();
+      }
+    });
+  }
+
+  // Keyboard shortcuts blocking (F5, Ctrl+R, Ctrl+W)
+  window.addEventListener('keydown', function(e) {
+    if (!testInProgress || testFinished || window.__okToLeave) return;
+    
+    const isF5 = e.key === 'F5';
+    const isCtrlR = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r';
+    const isCtrlW = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w';
+    
+    if (isF5 || isCtrlR || isCtrlW) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      showLeaveWarningModal();
+      return false;
+    }
+  }, true);
+
+  // Fallback beforeunload for browser button clicks
+  window.addEventListener('beforeunload', function(e) {
+    if (testInProgress && !testFinished && !window.__okToLeave) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
+
+  // Initialize back button trap on load
+  setupBackButtonTrap();
+})();
+</script>
+</body>
+</html>
