@@ -1,0 +1,36 @@
+// Grammar Test: Countable & Uncountable — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I need <b>___</b> sugar for my coffee.", correct: "some", options: ["some", "a", "any", "many"], def: "Sugar is uncountable, so we use 'some'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "How <b>___</b> milk do you want?", correct: "much", options: ["much", "many", "a lot", "few"], def: "Milk is uncountable, so 'much' is used.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Can you give me some <b>___</b> about my job?", correct: "advice", options: ["advice", "advices", "a advice", "an advice"], def: "'Advice' is uncountable, so it doesn't have a plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "There isn't <b>___</b> water in the bottle.", correct: "much", options: ["much", "many", "a lot", "few"], def: "Water is uncountable; 'much' is used with negative uncountable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She bought <b>___</b> new furniture for her house.", correct: "some", options: ["some", "a", "an", "many"], def: "'Furniture' is uncountable and used with 'some'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I need some <b>___</b> about the train times.", correct: "information", options: ["information", "informations", "an information", "a information"], def: "Information is uncountable; it has no plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Do you have <b>___</b> free time this weekend?", correct: "much", options: ["much", "many", "a lot", "few"], def: "Time is uncountable, so we use 'much'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "How <b>___</b> students are in the class?", correct: "many", options: ["many", "much", "a lot", "little"], def: "Students are countable, so 'many' is correct.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I ate some <b>___</b> after dinner.", correct: "fruit", options: ["fruit", "fruits", "a fruit", "an fruit"], def: "Fruit is usually uncountable in general sense.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She gave me <b>___</b> good news today.", correct: "some", options: ["some", "a", "an", "many"], def: "'News' is uncountable, thus we use 'some'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "There are <b>___</b> people at the party.", correct: "many", options: ["many", "much", "a little", "less"], def: "People are countable, therefore we use 'many'.", level: "B1–B2"},
+  {type: "Find the error:", question: "I <b>drank</b> too <b>many</b> coffee <b>this</b> morning, <b>I'm</b> jittery.", correct: "many", options: ["drank", "many", "this", "I'm"], def: "'Coffee' is uncountable, so use 'much' instead of 'many'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I have a lot of <b>___</b> to do tonight.", correct: "homework", options: ["homework", "homeworks", "a homework", "the homework"], def: "Homework is uncountable; it doesn't have a plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We don't have <b>___</b> eggs for the cake.", correct: "many", options: ["many", "much", "a lot", "little"], def: "Eggs are countable; 'many' is used with countable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "How <b>___</b> rice do you want?", correct: "much", options: ["much", "many", "a few", "less"], def: "Rice is uncountable, so 'much' is correct.", level: "B1–B2"},
+  {type: "Find the error:", question: "There <b>is</b> a <b>lot</b> of <b>cars</b> parked <b>outside</b>.", correct: "is", options: ["is", "lot", "cars", "outside"], def: "'Cars' is plural, so use 'are' instead of 'is'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> today is very nice.", correct: "weather", options: ["weather", "weathers", "a weather", "an weather"], def: "Weather is uncountable; it doesn't have a plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I need <b>___</b> help with my homework.", correct: "some", options: ["some", "a", "any", "many"], def: "Help is uncountable, so 'some' is appropriate.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He doesn't have <b>___</b> friends in this city.", correct: "many", options: ["many", "much", "a lot", "little"], def: "Friends are countable, so 'many' is used.", level: "B1–B2"},
+  {type: "Find the error:", question: "She drinks <b>a</b> water <b>every</b> <b>morning</b> <b>before</b> work.", correct: "a", options: ["a", "every", "before", "morning"], def: "Water is uncountable; the article 'a' is incorrect.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He has a lot of <b>___</b> about history.", correct: "knowledge", options: ["knowledge", "knowledges", "a knowledge", "an knowledge"], def: "Knowledge is uncountable; it has no plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "There isn't <b>___</b> space in the car.", correct: "much", options: ["much", "many", "a lot", "few"], def: "Space is uncountable, so 'much' is used.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "How <b>___</b> books did you buy?", correct: "many", options: ["many", "much", "a lot", "little"], def: "Books are countable, therefore 'many' is correct.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't have much <b>___</b> to spend.", correct: "money", options: ["money", "moneys", "a money", "an money"], def: "Money is uncountable; it doesn't have a plural form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She needs <b>___</b> time to finish the project.", correct: "more", options: ["more", "many", "much", "few"], def: "Time is uncountable, so we use 'more'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He has <b>___</b> experience in marketing.", correct: "a lot of", options: ["a lot of", "many", "much", "few"], def: "Experience is uncountable, so 'a lot of' is used.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I need to buy <b>___</b> milk for my coffee.", correct: "some", options: ["some", "a", "an", "any"], def: "'Some' is used with uncountable nouns in affirmative sentences.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "How <b>___</b> sugar do you want in your tea?", correct: "much", options: ["much", "many", "a lot", "few"], def: "'Much' is used with uncountable nouns to ask about quantity.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Can you give me some <b>___</b> about my job?", correct: "advice", options: ["advice", "advices", "an advice", "a advice"], def: "'Advice' is uncountable and doesn't take a plural form or article.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She has <b>___</b> friends in her new city.", correct: "few", options: ["few", "little", "much", "some"], def: "'Few' is used with countable nouns like 'friends'.", level: "B1–B2"}
+];

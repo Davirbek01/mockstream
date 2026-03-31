@@ -1,0 +1,36 @@
+// Grammar Test: Modifiers & Intensifiers — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "She is <b>___</b> happy to see you.", correct: "very", options: ["very", "more", "too", "so"], def: "\"Very\" is a common intensifier to strengthen adjectives.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This cake is <b>___</b> delicious!", correct: "absolutely", options: ["absolutely", "little", "bit", "much"], def: "\"Absolutely\" intensifies the adjective \"delicious.\"", level: "B1–B2"},
+  {type: "Find the error:", question: "He is <b>more</b> <b>taller</b> <b>than</b> his <b>brother</b>.", correct: "more", options: ["more", "than", "brother", "taller"], def: "You can't use \"more\" with the \"-er\" form. Use just \"taller.\"", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Be <b>___</b> when you cross the road.", correct: "careful", options: ["careful", "carefully", "more careful", "carefuller"], def: "\"Careful\" is the adjective needed after \"be\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The movie was <b>___</b> good.", correct: "really", options: ["really", "real", "more", "so"], def: "\"Really\" modifies the adjective \"good\" as an intensifier.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> tired to go out.", correct: "too", options: ["too", "very", "so", "more"], def: "\"Too\" indicates a level beyond what is desired.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He ran <b>___</b> to catch the bus.", correct: "quickly", options: ["quickly", "quick", "more quick", "quicker"], def: "\"Quickly\" is the adverb to modify the verb \"ran\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I am <b>___</b> certain about my answer.", correct: "quite", options: ["quite", "quiet", "more", "so"], def: "\"Quite\" is an intensifier, meaning fairly or rather.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is the <b>___</b> student in the class.", correct: "smartest", options: ["smartest", "smarter", "more smart", "smart"], def: "\"Smartest\" is the superlative form for comparison.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They are <b>___</b> to be here.", correct: "happy", options: ["happy", "happily", "more happy", "happier"], def: "\"Happy\" is the adjective needed after \"are\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It's an <b>___</b> beautiful day.", correct: "incredibly", options: ["incredibly", "incredible", "more", "so"], def: "\"Incredibly\" modifies the adjective \"beautiful\".", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This exercise is <b>___</b> easy.", correct: "relatively", options: ["relatively", "relative", "more", "so"], def: "\"Relatively\" indicates a moderate degree of easiness.", level: "B1–B2"},
+  {type: "Find the error:", question: "He is <b>more</b> <b>busy</b> today <b>than</b> he <b>was</b> yesterday.", correct: "more", options: ["more", "busy", "than", "was"], def: "Use \"busier\" instead of \"more busy\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The turtle walks <b>___</b>.", correct: "slowly", options: ["slowly", "slow", "more slow", "slower"], def: "\"Slowly\" is the adverb to modify the verb \"walks\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> a good singer.", correct: "such", options: ["such", "so", "very", "more"], def: "\"Such\" is used before \"a/an + adjective + noun\".", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> intelligent.", correct: "exceptionally", options: ["exceptionally", "exception", "more", "so"], def: "\"Exceptionally\" intensifies the adjective \"intelligent\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Please speak <b>___</b>.", correct: "loudly", options: ["loudly", "loud", "more loud", "louder"], def: "\"Loudly\" is the adverb to modify the verb \"speak\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The water was <b>___</b> cold.", correct: "extremely", options: ["extremely", "extreme", "more", "so"], def: "\"Extremely\" is used to intensify \"cold\".", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> kind.", correct: "remarkably", options: ["remarkably", "remark", "more", "so"], def: "\"Remarkably\" intensifies the adjective \"kind\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "This test is <b>___</b>.", correct: "easy", options: ["easy", "easily", "more easy", "easier"], def: "\"Easy\" is the adjective needed after \"is\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The room was <b>___</b> quiet.", correct: "surprisingly", options: ["surprisingly", "surprise", "more", "so"], def: "\"Surprisingly\" modifies the adjective \"quiet\".", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> good at tennis.", correct: "incredibly", options: ["incredibly", "incredible", "more", "so"], def: "\"Incredibly\" intensifies the adjective \"good\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He arrived <b>___</b>.", correct: "late", options: ["late", "lately", "more late", "later"], def: "\"Late\" is the correct adverb to modify \"arrived\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> busy today.", correct: "extremely", options: ["extremely", "extreme", "more", "so"], def: "\"Extremely\" is used to intensify \"busy\".", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This book is <b>___</b> interesting.", correct: "absolutely", options: ["absolutely", "absolute", "more", "so"], def: "\"Absolutely\" intensifies the adjective \"interesting\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> happy to see you.", correct: "very", options: ["very", "more", "too", "lot"], def: "\"Very\" is a common intensifier to describe happiness.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This book is <b>___</b> interesting.", correct: "really", options: ["really", "more", "much", "good"], def: "\"Really\" intensifies the adjective \"interesting\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Be <b>___</b> when you cross the road.", correct: "careful", options: ["careful", "carefully", "more careful", "care"], def: "\"Careful\" is the adjective needed after \"be\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The movie was <b>___</b> good that I watched it twice.", correct: "so", options: ["so", "such", "very", "too"], def: "\"So\" is used with an adjective to show a result.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is an <b>___</b> good student.", correct: "extremely", options: ["extremely", "much", "lot", "more"], def: "\"Extremely\" is a strong intensifier for \"good\".", level: "B1–B2"}
+];

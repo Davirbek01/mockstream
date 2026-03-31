@@ -79,16 +79,16 @@ window.ALL_QUESTIONS = [
   {type: "Complete the sentence", question: "\"I ___ this phone for five years.\" (still have it)", correct: "have had", options: ["have had", "am having", "have", "had"], def: "Present Perfect for state continuing to present"},
 
   // Question 21 (C1)
-  {type: "Complete the sentence", question: "(C1) \"To date, we ___ only minor technical issues.\"", correct: "have experienced", options: ["experience", "are experiencing", "have experienced", "experienced"], def: "Present Perfect with 'to date' (formal, up to now)"},
+  {type: "Complete the sentence", question: "\"To date, we ___ only minor technical issues.\"", correct: "have experienced", options: ["experience", "are experiencing", "have experienced", "experienced"], def: "Present Perfect with 'to date' (formal, up to now)"},
 
   // Question 22 (C1)
-  {type: "Complete the sentence", question: "(C1) \"As things stand, I ___ on fluency rather than accuracy.\"", correct: "am focusing", options: ["focus", "am focusing", "have focused", "focused"], def: "Present Continuous with 'as things stand' (current situation)"},
+  {type: "Complete the sentence", question: "\"As things stand, I ___ on fluency rather than accuracy.\"", correct: "am focusing", options: ["focus", "am focusing", "have focused", "focused"], def: "Present Continuous with 'as things stand' (current situation)"},
 
   // Question 23 (C2)
-  {type: "Complete the sentence", question: "(C2 nuance: irritation) \"He ___ forgetting his password!\"", correct: "is always", options: ["always is", "is always", "has always", "always has"], def: "'is always + V-ing' expresses annoyance/irritation"},
+  {type: "Complete the sentence", question: "\"He ___ forgetting his password!\"", correct: "is always", options: ["always is", "is always", "has always", "always has"], def: "'is always + V-ing' expresses annoyance/irritation"},
 
   // Question 24 (C2)
-  {type: "Complete the sentence", question: "(C2 nuance: temporary state) \"I'm usually calm, but today I ___ quite stressed.\"", correct: "am feeling", options: ["feel", "am feeling", "have felt", "have been feeling"], def: "Present Continuous for temporary states (today)"},
+  {type: "Complete the sentence", question: "\"I'm usually calm, but today I ___ quite stressed.\"", correct: "am feeling", options: ["feel", "am feeling", "have felt", "have been feeling"], def: "Present Continuous for temporary states (today)"},
 
   // Question 25
   {type: "Choose the correct form", question: "Choose the most natural sentence (formal writing):", correct: "I know the policy very well.", options: ["I am knowing the policy very well.", "I know the policy very well.", "I have been knowing the policy very well.", "I'm knowing the policy very well."], def: "'Know' is a stative verb — use Present Simple"},

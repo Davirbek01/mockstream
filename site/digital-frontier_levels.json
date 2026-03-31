@@ -1,0 +1,638 @@
+{
+  "intermediate": [
+    {
+      "term": "doomscrolling",
+      "uz": "yomon xabarlarni o'qish",
+      "uzDef": "faqat yomon yangiliklarni o'qish va ko'rish odati, bu stressni oshiradi.",
+      "ex": "I spent hours doomscrolling last night and now I feel terrible.",
+      "exUz": "Men kecha tuni bilan soatlab yomon xabarlarni o'qib chiqdim va endi o'zimni juda yomon his qilyapman."
+    },
+    {
+      "term": "digital detox",
+      "uz": "raqamli detoks",
+      "uzDef": "texnologiyadan vaqtincha voz kechish, masalan smartfon, kompyuter va ijtimoiy tarmoqlardan.",
+      "ex": "I'm planning a digital detox for the weekend to disconnect and relax.",
+      "exUz": "Men dam olish kunlarida raqamli detoks qilishni rejalashtiryapman, aloqani uzib, dam olish uchun."
+    },
+    {
+      "term": "phishing scam",
+      "uz": "firibgarlik",
+      "uzDef": "shaxsiy ma'lumotlarni o'g'irlash maqsadida soxta elektron pochta orqali aldash.",
+      "ex": "Be careful of phishing scams that ask for your bank details.",
+      "exUz": "Bank ma'lumotlaringizni so'ragan firibgarliklardan ehtiyot bo'ling."
+    },
+    {
+      "term": "go viral",
+      "uz": "tarqalib ketmoq",
+      "uzDef": "internetda tez tarqalib, ko'p odamlar tomonidan ko'rilish.",
+      "ex": "The video of the cat playing the piano went viral overnight.",
+      "exUz": "Pianino chalayotgan mushukning videosi bir kechada tarqalib ketdi."
+    },
+    {
+      "term": "cybersecurity",
+      "uz": "kiberxavfsizlik",
+      "uzDef": "kompyuter va internet ma'lumotlarini himoya qilish tizimi.",
+      "ex": "Cybersecurity is a major concern for all companies nowadays.",
+      "exUz": "Kiberxavfsizlik hozirgi kunda barcha kompaniyalar uchun katta muammo."
+    },
+    {
+      "term": "tech-savvy",
+      "uz": "texnologiyadan xabardor",
+      "uzDef": "texnologiyalarni yaxshi tushunuvchi va mohirlik bilan ishlatuvchi.",
+      "ex": "You need to be tech-savvy to work in this field.",
+      "exUz": "Bu sohada ishlash uchun siz texnologiyalardan xabardor bo'lishingiz kerak."
+    },
+    {
+      "term": "online presence",
+      "uz": "onlayn mavjudlik",
+      "uzDef": "internetdagi shaxsiy yoki biznes profil, veb-sayt, ijtimoiy tarmoqlardagi faollik.",
+      "ex": "It's important to maintain a professional online presence.",
+      "exUz": "Professional onlayn mavjudlikni saqlash muhim."
+    },
+    {
+      "term": "digital footprint",
+      "uz": "raqamli iz",
+      "uzDef": "internetda qoldirilgan ma'lumotlar, xabarlar, rasmlar va boshqa narsalar.",
+      "ex": "Think carefully about your digital footprint before posting anything online.",
+      "exUz": "Onlaynda biror narsa joylashtirishdan oldin raqamli izingiz haqida yaxshilab o'ylab ko'ring."
+    },
+    {
+      "term": "scroll through",
+      "uz": "varaqlash",
+      "uzDef": "ekrandagi ma'lumotlarni tezda ko'rish uchun yuqoriga yoki pastga siljitish.",
+      "ex": "I often scroll through social media when I'm bored.",
+      "exUz": "Zerikkanimda ko'pincha ijtimoiy tarmoqlarni varaqlayman."
+    },
+    {
+      "term": "log in",
+      "uz": "kirish",
+      "uzDef": "saytga yoki dasturga foydalanuvchi nomi va parol bilan kirish.",
+      "ex": "Don't forget to log in to your account before starting work.",
+      "exUz": "Ishni boshlashdan oldin hisobingizga kirishni unutmang."
+    },
+    {
+      "term": "sign up",
+      "uz": "ro'yxatdan o'tish",
+      "uzDef": "xizmat, dastur yoki saytga a'zo bo'lish uchun ro'yxatdan o'tish jarayoni.",
+      "ex": "You need to sign up for an account to use this app.",
+      "exUz": "Bu ilovani ishlatish uchun siz hisob yaratib, ro'yxatdan o'tishingiz kerak."
+    },
+    {
+      "term": "stay connected",
+      "uz": "aloqada bo'lmoq",
+      "uzDef": "internet, telefon yoki ijtimoiy tarmoqlar orqali doimiy aloqada bo'lish.",
+      "ex": "Social media helps people stay connected with friends and family.",
+      "exUz": "Ijtimoiy tarmoqlar odamlarga do'stlari va oilasi bilan aloqada bo'lishga yordam beradi."
+    },
+    {
+      "term": "online community",
+      "uz": "onlayn jamoa",
+      "uzDef": "internetda umumiy manfaatlar asosida birlashgan odamlar guruhi.",
+      "ex": "I found a supportive online community for writers.",
+      "exUz": "Men yozuvchilar uchun qo'llab-quvvatlovchi onlayn jamoa topdim."
+    },
+    {
+      "term": "user-friendly",
+      "uz": "qulay",
+      "uzDef": "ishlatish oson, tushunarli interfeysga ega.",
+      "ex": "This app is very user-friendly, even for beginners.",
+      "exUz": "Bu ilova juda qulay, hatto yangi boshlanuvchilar uchun ham."
+    },
+    {
+      "term": "bandwidth",
+      "uz": "o'tkazuvchanlik",
+      "uzDef": "ma'lumotlarni uzatish tezligi yoki imkoniyati.",
+      "ex": "We need more bandwidth to stream videos smoothly.",
+      "exUz": "Videolarni muammosiz uzatish uchun bizga ko'proq o'tkazuvchanlik kerak."
+    },
+    {
+      "term": "cloud storage",
+      "uz": "bulutli xotira",
+      "uzDef": "ma'lumotlarni internetdagi serverda saqlash.",
+      "ex": "I use cloud storage to back up all my important files.",
+      "exUz": "Men barcha muhim fayllarimni zaxiralash uchun bulutli xotiradan foydalanaman."
+    },
+    {
+      "term": "cutting-edge",
+      "uz": "eng so'nggi",
+      "uzDef": "eng zamonaviy, yangi va innovatsion texnologiya.",
+      "ex": "The company is developing cutting-edge AI technology.",
+      "exUz": "Kompaniya eng so'nggi sun'iy intellekt texnologiyasini ishlab chiqmoqda."
+    },
+    {
+      "term": "digital native",
+      "uz": "raqamli avlod",
+      "uzDef": "texnologiya bilan o'sgan avlod, texnologiyani yaxshi biluvchi.",
+      "ex": "Digital natives are comfortable using new technologies.",
+      "exUz": "Raqamli avlod yangi texnologiyalardan foydalanishda o'zini qulay his qiladi."
+    },
+    {
+      "term": "online platform",
+      "uz": "onlayn platforma",
+      "uzDef": "internetda xizmatlar taklif qiluvchi sayt yoki dastur.",
+      "ex": "YouTube is a popular online platform for sharing videos.",
+      "exUz": "YouTube - videolarni baham ko'rish uchun mashhur onlayn platforma."
+    },
+    {
+      "term": "virtual reality",
+      "uz": "virtual reallik",
+      "uzDef": "kompyuter tomonidan yaratilgan sun'iy muhit.",
+      "ex": "Virtual reality is used in gaming and education.",
+      "exUz": "Virtual reallik o'yinlarda va ta'limda qo'llaniladi."
+    },
+    {
+      "term": "augmented reality",
+      "uz": "kengaytirilgan reallik",
+      "uzDef": "haqiqiy dunyoni kompyuter grafikasi bilan boyitish.",
+      "ex": "Augmented reality apps are becoming more common.",
+      "exUz": "Kengaytirilgan reallik ilovalari tobora keng tarqalmoqda."
+    },
+    {
+      "term": "data breach",
+      "uz": "ma'lumotlar buzilishi",
+      "uzDef": "shaxsiy ma'lumotlarning ruxsatsiz kirish natijasida o'g'irlanishi.",
+      "ex": "The company announced a data breach affecting millions of users.",
+      "exUz": "Kompaniya millionlab foydalanuvchilarga ta'sir qiluvchi ma'lumotlar buzilishi haqida e'lon qildi."
+    },
+    {
+      "term": "digital divide",
+      "uz": "raqamli tafovut",
+      "uzDef": "texnologiyaga kirish imkoniyatidagi tengsizlik.",
+      "ex": "We need to bridge the digital divide and provide access to technology for everyone.",
+      "exUz": "Biz raqamli tafovutni bartaraf etishimiz va hammaga texnologiyaga kirish imkoniyatini berishimiz kerak."
+    },
+    {
+      "term": "mute someone",
+      "uz": "ovozsiz qilish",
+      "uzDef": "onlayn uchrashuvda yoki qo'ng'iroqda birovning ovozini o'chirish.",
+      "ex": "Could you mute yourself when you're not speaking?",
+      "exUz": "Gapirmayotganingizda ovozingizni o'chirib qo'yishingiz mumkinmi?"
+    },
+    {
+      "term": "bandwidth hog",
+      "uz": "o'tkazuvchanlikni yeyuvchi",
+      "uzDef": "internet aloqasidan katta miqdordagi o'tkazuvchanlikni ishlatadigan dastur yoki faoliyat.",
+      "ex": "Streaming videos can be a real bandwidth hog.",
+      "exUz": "Videolarni oqimlash haqiqiy o'tkazuvchanlikni yeyuvchi bo'lishi mumkin."
+    },
+    {
+      "term": "throw shade",
+      "uz": "kinoya qilmoq",
+      "uzDef": "birovni nozik, ammo salbiy tarzda tanqid qilish.",
+      "ex": "She threw shade at my new phone on social media.",
+      "exUz": "U ijtimoiy tarmoqlarda mening yangi telefonimni kinoya qildi."
+    },
+    {
+      "term": "unplug",
+      "uz": "uzoq turmoq",
+      "uzDef": "texnologiyadan (telefon, kompyuter) vaqtincha uzoqlashish.",
+      "ex": "I need to unplug this weekend and just relax.",
+      "exUz": "Men dam olish kunlarida texnologiyadan uzoqlashib, dam olishim kerak."
+    },
+    {
+      "term": "in real life (IRL)",
+      "uz": "haqiqiy hayotda",
+      "uzDef": "internetdan tashqari, real hayotda.",
+      "ex": "We met online and then met IRL a few weeks later.",
+      "exUz": "Biz onlayn tanishdik va keyin bir necha hafta o'tgach haqiqiy hayotda uchrashdik."
+    },
+    {
+      "term": "behind the curve",
+      "uz": "ortda qolmoq",
+      "uzDef": "yangi texnologiyalar yoki tendentsiyalardan xabardor emas.",
+      "ex": "I'm feeling a little behind the curve when it comes to new gadgets.",
+      "exUz": "Yangi gadjetlar haqida gap ketganda, men biroz ortda qolayotgandek his qilyapman."
+    },
+    {
+      "term": "plug and play",
+      "uz": "uladi va ishlat",
+      "uzDef": "o'rnatishni talab qilmaydigan, ulagandan so'ng darhol ishlaydigan.",
+      "ex": "This printer is plug and play, so it's easy to set up.",
+      "exUz": "Bu printer 'uladi va ishlat' turiga kiradi, shuning uchun uni o'rnatish oson."
+    }
+  ],
+  "upper-intermediate": [
+    {
+      "term": "filter bubble",
+      "uz": "filtr pufagi",
+      "uzDef": "Internetda shaxsiy qiziqishlarga mos keladigan ma'lumotlar bilan o'ralash",
+      "ex": "It's hard to escape the filter bubble when social media algorithms only show you what you already agree with.",
+      "exUz": "Ijtimoiy tarmoq algoritmlari faqat siz rozi bo'lgan narsalarni ko'rsatganda, filtr pufagidan qochish qiyin."
+    },
+    {
+      "term": "digital nomad",
+      "uz": "raqamli ko'chmanchi",
+      "uzDef": "Internet orqali ishlaydigan va joydan joyga ko'chib yuradigan shaxs",
+      "ex": "Becoming a digital nomad was the best decision I ever made; I can work from anywhere!",
+      "exUz": "Raqamli ko'chmanchi bo'lish men qabul qilgan eng yaxshi qaror edi; men har qanday joydan ishlashim mumkin!"
+    },
+    {
+      "term": "down the rabbit hole",
+      "uz": "chuqurga tushmoq",
+      "uzDef": "Bir mavzuga qiziqib, u haqida ko'p vaqt sarflash",
+      "ex": "I started watching cat videos and ended up going down the rabbit hole of conspiracy theories.",
+      "exUz": "Men mushuk videolarini tomosha qilishni boshladim va oxir-oqibat fitna nazariyalari chuquriga tushib qoldim."
+    },
+    {
+      "term": "virtually overnight",
+      "uz": "deyarli bir kechada",
+      "uzDef": "Tez va qisqa vaqt ichida, juda tez",
+      "ex": "That app became popular virtually overnight; everyone's using it now.",
+      "exUz": "Bu ilova deyarli bir kechada mashhur bo'lib ketdi; hozir hamma undan foydalanmoqda."
+    },
+    {
+      "term": "keyboard warrior",
+      "uz": "klaviatura jangchisi",
+      "uzDef": "Internetda tajovuzkor bo'lgan, lekin hayotda uyatchan shaxs",
+      "ex": "Don't pay attention to keyboard warriors; they're just trying to get a reaction.",
+      "exUz": "Klaviatura jangchilariga e'tibor bermang; ular shunchaki reaksiya olishga harakat qilishyapti."
+    },
+    {
+      "term": "IRL meetup",
+      "uz": "HAda uchrashuv",
+      "uzDef": "Internetda tanishgan odamlarning haqiqiy hayotda uchrashuvi",
+      "ex": "We're planning an IRL meetup for our online gaming group next month.",
+      "exUz": "Biz keyingi oy onlayn o'yin guruhimiz uchun HAda uchrashuv rejalashtiryapmiz."
+    },
+    {
+      "term": "oversharing",
+      "uz": "haddan ziyodashish",
+      "uzDef": "Shaxsiy ma'lumotlarni haddan tashqari ko'p oshkor qilish",
+      "ex": "I think she's oversharing on social media; everyone knows her business.",
+      "exUz": "Menimcha, u ijtimoiy tarmoqlarda haddan tashqari ko'p ma'lumot oshkor qilmoqda; hamma uning ishlarini biladi."
+    },
+    {
+      "term": "stream content",
+      "uz": "kontent translyatsiya",
+      "uzDef": "Internet orqali video, musiqa yoki boshqa ma'lumotlarni uzatish",
+      "ex": "I prefer to stream content rather than download it.",
+      "exUz": "Men kontentni yuklab olishdan ko'ra translyatsiya qilishni afzal ko'raman."
+    },
+    {
+      "term": "tech-dependent",
+      "uz": "texnologiyaga bog'liq",
+      "uzDef": "Texnologiyalarga juda ko'p tayanadigan",
+      "ex": "Our society has become so tech-dependent that we can't function without our devices.",
+      "exUz": "Jamiyatimiz texnologiyaga shunchalik bog'liq bo'lib qoldiki, biz qurilmalarimizsiz ishlay olmaymiz."
+    },
+    {
+      "term": "go off-grid",
+      "uz": "tarmoqdan uzilish",
+      "uzDef": "Texnologiyalardan butunlay voz kechish",
+      "ex": "Sometimes I just want to go off-grid and escape all the digital noise.",
+      "exUz": "Ba'zan men shunchaki tarmoqdan uzilib, barcha raqamli shovqinlardan qochishni xohlayman."
+    },
+    {
+      "term": "social bot",
+      "uz": "ijtimoiy bot",
+      "uzDef": "Ijtimoiy tarmoqlarda avtomatik ravishda harakat qiladigan dastur",
+      "ex": "It's getting harder to tell the difference between real people and social bots online.",
+      "exUz": "Internetda haqiqiy odamlar va ijtimoiy botlar o'rtasidagi farqni aniqlash tobora qiyinlashib bormoqda."
+    },
+    {
+      "term": "echo chamber",
+      "uz": "akssado xona",
+      "uzDef": "Fikrlarning faqat tasdiqlanishi muhiti",
+      "ex": "Social media can become an echo chamber if you only follow people who agree with you.",
+      "exUz": "Agar siz faqat sizga rozi bo'lgan odamlarni kuzatsangiz, ijtimoiy media akssado xonaga aylanishi mumkin."
+    },
+    {
+      "term": "algorithmic bias",
+      "uz": "algoritmik tarafkashlik",
+      "uzDef": "Algoritmlar tomonidan yaratilgan tarafkashlik yoki adolatsizlik",
+      "ex": "We need to be aware of algorithmic bias in AI systems.",
+      "exUz": "Biz AI tizimlaridagi algoritmik tarafkashlikdan xabardor bo'lishimiz kerak."
+    },
+    {
+      "term": "attention economy",
+      "uz": "diqqat iqtisodiyoti",
+      "uzDef": "Diqqat resurs sifatida baholanadigan tizim",
+      "ex": "In the attention economy, companies are constantly fighting for our time and focus.",
+      "exUz": "Diqqat iqtisodiyotida kompaniyalar doimo bizning vaqtimiz va e'tiborimiz uchun kurashmoqdalar."
+    },
+    {
+      "term": "cancel culture",
+      "uz": "bekor qilish madaniyati",
+      "uzDef": "Noto'g'ri harakatlari uchun odamlarni ommaviy qoralash",
+      "ex": "Cancel culture can be harsh and unforgiving.",
+      "exUz": "Bekor qilish madaniyati shafqatsiz va kechirmaydigan bo'lishi mumkin."
+    },
+    {
+      "term": "digital wellbeing",
+      "uz": "raqamli farovonlik",
+      "uzDef": "Texnologiyalardan sog'lom va muvozanatli foydalanish",
+      "ex": "It's important to prioritize digital wellbeing and set boundaries with technology.",
+      "exUz": "Raqamli farovonlikni ustuvor qilish va texnologiya bilan chegaralar belgilash muhim."
+    },
+    {
+      "term": "content creator",
+      "uz": "kontent yaratuvchi",
+      "uzDef": "Internetda kontent yaratadigan shaxs",
+      "ex": "She's a successful content creator on YouTube.",
+      "exUz": "U YouTube'da muvaffaqiyatli kontent yaratuvchisi."
+    },
+    {
+      "term": "digital literacy",
+      "uz": "raqamli savodxonlik",
+      "uzDef": "Raqamli texnologiyalardan samarali foydalanish qobiliyati",
+      "ex": "Digital literacy is essential in today's world.",
+      "exUz": "Raqamli savodxonlik bugungi kunda juda muhim."
+    },
+    {
+      "term": "internet troll",
+      "uz": "internet troll",
+      "uzDef": "Internetda provokatsiya qiladigan odam",
+      "ex": "Don't feed the internet trolls; just ignore them.",
+      "exUz": "Internet trollarini boqmang; shunchaki ularga e'tibor bermang."
+    },
+    {
+      "term": "cyberbullying",
+      "uz": "kiberbulling",
+      "uzDef": "Internet orqali ta'qib qilish",
+      "ex": "Cyberbullying can have serious consequences.",
+      "exUz": "Kiberbulling jiddiy oqibatlarga olib kelishi mumkin."
+    },
+    {
+      "term": "social media influencer",
+      "uz": "ta'sir o'tkazuvchi",
+      "uzDef": "Ijtimoiy tarmoqlarda katta ta'sirga ega shaxs",
+      "ex": "Social media influencers can have a big impact on consumer behavior.",
+      "exUz": "Ijtimoiy tarmoq ta'sir o'tkazuvchilari iste'molchilar xulq-atvoriga katta ta'sir ko'rsatishi mumkin."
+    },
+    {
+      "term": "go live",
+      "uz": "jonli efirga chiqish",
+      "uzDef": "Internetda jonli video translyatsiya qilish",
+      "ex": "I'm going live on Instagram later to talk about my new book.",
+      "exUz": "Men keyinroq Instagramda yangi kitobim haqida gapirish uchun jonli efirga chiqaman."
+    },
+    {
+      "term": "online privacy",
+      "uz": "onlayn maxfiylik",
+      "uzDef": "Shaxsiy ma'lumotlarni internetda himoya qilish",
+      "ex": "Online privacy is a growing concern for many people.",
+      "exUz": "Onlayn maxfiylik ko'pchilik uchun tobora dolzarb muammoga aylanib bormoqda."
+    },
+    {
+      "term": "data mining",
+      "uz": "ma'lumot qazish",
+      "uzDef": "Katta ma'lumotlar to'plamlaridan ma'lumot olish",
+      "ex": "Companies use data mining to understand consumer behavior.",
+      "exUz": "Kompaniyalar iste'molchilar xulq-atvorini tushunish uchun ma'lumot qazishdan foydalanadilar."
+    },
+    {
+      "term": "smart device",
+      "uz": "aqlli qurilma",
+      "uzDef": "Internetga ulangan va turli funksiyalarni bajaradigan qurilma",
+      "ex": "I have a smart device that controls the lights in my house.",
+      "exUz": "Mening uyimdagi chiroqlarni boshqaradigan aqlli qurilmam bor."
+    },
+    {
+      "term": "unsubscribe",
+      "uz": "obunani bekor qilish",
+      "uzDef": "Elektron pochta xabarlarini olishni to'xtatish",
+      "ex": "I need to unsubscribe from all these newsletters.",
+      "exUz": "Men bu barcha yangiliklardan obunani bekor qilishim kerak."
+    },
+    {
+      "term": "spoiler alert",
+      "uz": "buzg'unchi ogohlantirish",
+      "uzDef": "Hikoyaning muhim detallarini ochib berishdan oldin ogohlantirish",
+      "ex": "Spoiler alert: Don't read this if you haven't seen the movie!",
+      "exUz": "Buzg'unchi ogohlantirish: Agar filmni ko'rmagan bo'lsangiz, buni o'qimang!"
+    },
+    {
+      "term": "screen time",
+      "uz": "ekran vaqti",
+      "uzDef": "Ekran oldida o'tkazilgan vaqt",
+      "ex": "I need to reduce my screen time and spend more time outdoors.",
+      "exUz": "Men ekran vaqtimni qisqartirishim va ko'proq vaqtni tashqarida o'tkazishim kerak."
+    },
+    {
+      "term": "crowdfunding",
+      "uz": "ommaviy moliyalashtirish",
+      "uzDef": "Odamlardan pul yig'ish orqali loyihani moliyalashtirish",
+      "ex": "They're using crowdfunding to raise money for their startup.",
+      "exUz": "Ular o'z startupi uchun pul yig'ish uchun ommaviy moliyalashtirishdan foydalanmoqdalar."
+    },
+    {
+      "term": "livestream",
+      "uz": "jonli translyatsiya",
+      "uzDef": "Internetda jonli video ko'rsatish",
+      "ex": "I watched the concert on livestream.",
+      "exUz": "Men konsertni jonli translyatsiyada tomosha qildim."
+    }
+  ],
+  "advanced": [
+    {
+      "term": "digital age",
+      "uz": "raqamli davr",
+      "uzDef": "Texnologiyalar va internetning keng tarqalgan davri",
+      "ex": "We're living in the digital age, where information is at our fingertips.",
+      "exUz": "Biz raqamli davrda yashayapmiz, bu erda ma'lumotlar qo'limiz ostida."
+    },
+    {
+      "term": "wireless hotspot",
+      "uz": "simsiz nuqta",
+      "uzDef": "Simsiz internetga ulanish imkonini beruvchi joy",
+      "ex": "I found a wireless hotspot at the cafe so I could check my email.",
+      "exUz": "Men kafeda elektron pochtamni tekshirish uchun simsiz nuqta topdim."
+    },
+    {
+      "term": "online banking",
+      "uz": "onlayn bank",
+      "uzDef": "Internet orqali bank xizmatlaridan foydalanish",
+      "ex": "Online banking makes it easy to pay bills from home.",
+      "exUz": "Onlayn bank uyda o'tirib to'lovlarni amalga oshirishni osonlashtiradi."
+    },
+    {
+      "term": "digital disruption",
+      "uz": "raqamli buzilish",
+      "uzDef": "Texnologiya tufayli bozorda keskin o'zgarishlar",
+      "ex": "The music industry has experienced significant digital disruption.",
+      "exUz": "Musiqa sanoati sezilarli raqamli buzilishni boshdan kechirdi."
+    },
+    {
+      "term": "virtual assistant",
+      "uz": "virtual yordamchi",
+      "uzDef": "Ovozli buyruqlarni bajaruvchi dastur yoki qurilma",
+      "ex": "I use a virtual assistant to set reminders and play music.",
+      "exUz": "Men eslatmalar o'rnatish va musiqa ijro etish uchun virtual yordamchidan foydalanaman."
+    },
+    {
+      "term": "e-commerce",
+      "uz": "elektron tijorat",
+      "uzDef": "Internet orqali tovarlar va xizmatlarni sotish",
+      "ex": "E-commerce has revolutionized the way we shop.",
+      "exUz": "Elektron tijorat bizning xarid qilish usulimizni tubdan o'zgartirdi."
+    },
+    {
+      "term": "tech giant",
+      "uz": "texnologiya giganti",
+      "uzDef": "Katta va nufuzli texnologiya kompaniyasi",
+      "ex": "The tech giants are investing heavily in artificial intelligence.",
+      "exUz": "Texnologiya gigantlari sun'iy intellektga katta sarmoya kiritmoqdalar."
+    },
+    {
+      "term": "bandwidth-intensive",
+      "uz": "trafigi yuqori",
+      "uzDef": "Katta hajmdagi internet trafigini talab qiladigan",
+      "ex": "Video streaming is a bandwidth-intensive activity.",
+      "exUz": "Video oqim - bu trafigi yuqori faoliyat."
+    },
+    {
+      "term": "cybercrime",
+      "uz": "kiberjinoyat",
+      "uzDef": "Kompyuterlar va internet orqali sodir etiladigan jinoyatlar",
+      "ex": "Cybercrime is a growing threat to businesses and individuals.",
+      "exUz": "Kiberjinoyat korxonalar va shaxslar uchun o'sib borayotgan tahdiddir."
+    },
+    {
+      "term": "stay ahead",
+      "uz": "oldingi safda bo'lmoq",
+      "uzDef": "Raqobatda ustunlikni saqlab qolish",
+      "ex": "Companies need to innovate to stay ahead in the market.",
+      "exUz": "Kompaniyalar bozorda oldingi safda bo'lish uchun innovatsiyalar yaratishi kerak."
+    },
+    {
+      "term": "power user",
+      "uz": "tajribali foydalanuvchi",
+      "uzDef": "Dasturlarni mukammal biladigan odam",
+      "ex": "She's a power user of Photoshop, so she can do amazing things.",
+      "exUz": "U Photoshop dasturining tajribali foydalanuvchisi, shuning uchun u ajoyib narsalarni qila oladi."
+    },
+    {
+      "term": "internet of things",
+      "uz": "narsalar interneti",
+      "uzDef": "Bir-biriga ulangan qurilmalar tarmog'i",
+      "ex": "The Internet of Things is transforming our homes and cities.",
+      "exUz": "Narsalar interneti uylarimiz va shaharlarimizni o'zgartirmoqda."
+    },
+    {
+      "term": "social networking",
+      "uz": "ijtimoiy tarmoq",
+      "uzDef": "Internet orqali odamlar bilan aloqa o'rnatish",
+      "ex": "Social networking can be a great way to connect with friends and family.",
+      "exUz": "Ijtimoiy tarmoq do'stlar va oila bilan aloqa qilishning ajoyib usuli bo'lishi mumkin."
+    },
+    {
+      "term": "data privacy",
+      "uz": "ma'lumotlar maxfiyligi",
+      "uzDef": "Shaxsiy ma'lumotlarni himoya qilish",
+      "ex": "Data privacy is a major concern in the digital age.",
+      "exUz": "Ma'lumotlar maxfiyligi raqamli davrda asosiy muammo hisoblanadi."
+    },
+    {
+      "term": "tech boom",
+      "uz": "texnologiya rivoji",
+      "uzDef": "Texnologiya sohasidagi tez o'sish davri",
+      "ex": "The late 1990s saw a huge tech boom.",
+      "exUz": "1990-yillarning oxirlarida katta texnologiya rivoji kuzatildi."
+    },
+    {
+      "term": "cloud computing",
+      "uz": "bulutli hisoblash",
+      "uzDef": "Internet orqali ma'lumotlarni saqlash va ularga kirish",
+      "ex": "Cloud computing allows businesses to scale their operations easily.",
+      "exUz": "Bulutli hisoblash korxonalarga o'z faoliyatini osonlikcha kengaytirishga imkon beradi."
+    },
+    {
+      "term": "game changer",
+      "uz": "o'yin qoidasini o'zgartiruvchi",
+      "uzDef": "Vaziyatni tubdan o'zgartiruvchi narsa",
+      "ex": "This new technology is a real game changer for the industry.",
+      "exUz": "Bu yangi texnologiya sanoat uchun haqiqiy o'yin qoidasini o'zgartiruvchidir."
+    },
+    {
+      "term": "tech startup",
+      "uz": "texnologiya startapi",
+      "uzDef": "Yangi texnologiya kompaniyasi",
+      "ex": "He works at a tech startup developing new apps.",
+      "exUz": "U yangi ilovalarni ishlab chiquvchi texnologiya startapida ishlaydi."
+    },
+    {
+      "term": "online identity",
+      "uz": "onlayn shaxs",
+      "uzDef": "Internetda yaratilgan shaxsiy profil",
+      "ex": "Protecting your online identity is crucial for privacy.",
+      "exUz": "Maxfiylik uchun onlayn shaxsingizni himoya qilish juda muhim."
+    },
+    {
+      "term": "tech bubble",
+      "uz": "texnologiya pufagi",
+      "uzDef": "Texnologiya kompaniyalari aksiyalarining haddan tashqari qimmatlashuvi",
+      "ex": "Many investors lost money when the tech bubble burst in 2000.",
+      "exUz": "2000-yilda texnologiya pufagi yorilganda ko'plab investorlar pul yo'qotdilar."
+    },
+    {
+      "term": "digital marketing",
+      "uz": "raqamli marketing",
+      "uzDef": "Internet orqali mahsulot va xizmatlarni reklama qilish",
+      "ex": "Digital marketing is essential for reaching today's consumers.",
+      "exUz": "Raqamli marketing bugungi iste'molchilarga erishish uchun juda muhim."
+    },
+    {
+      "term": "tech support",
+      "uz": "texnik yordam",
+      "uzDef": "Texnologik muammolarni hal qilishda yordam berish",
+      "ex": "I called tech support to fix my computer problem.",
+      "exUz": "Kompyuterimdagi muammoni hal qilish uchun texnik yordamga qo'ng'iroq qildim."
+    },
+    {
+      "term": "go figure",
+      "uz": "tushunarsiz",
+      "uzDef": "Ajablanarli, kutilmagan holat",
+      "ex": "My phone died right before the meeting, go figure!",
+      "exUz": "Uchrashuvdan oldin telefonim o'chib qoldi, tushunarsiz!"
+    },
+    {
+      "term": "surf the web",
+      "uz": "internetda sayr qilish",
+      "uzDef": "Internetda turli saytlarni ko'rib chiqish",
+      "ex": "I like to surf the web in my free time.",
+      "exUz": "Bo'sh vaqtimda internetda sayr qilishni yoqtiraman."
+    },
+    {
+      "term": "data analytics",
+      "uz": "ma'lumotlar tahlili",
+      "uzDef": "Ma'lumotlarni o'rganish va tahlil qilish",
+      "ex": "Data analytics can help businesses make better decisions.",
+      "exUz": "Ma'lumotlar tahlili korxonalarga yaxshiroq qarorlar qabul qilishga yordam beradi."
+    },
+    {
+      "term": "tech layoffs",
+      "uz": "texnologiya qisqarishlari",
+      "uzDef": "Texnologiya kompaniyalarida ishdan bo'shatishlar",
+      "ex": "There have been a lot of tech layoffs recently.",
+      "exUz": "Yaqinda texnologiya qisqarishlari ko'p bo'ldi."
+    },
+    {
+      "term": "on demand",
+      "uz": "talab bo'yicha",
+      "uzDef": "Kerak bo'lganda darhol mavjud",
+      "ex": "We can watch movies on demand through streaming services.",
+      "exUz": "Biz oqimli xizmatlar orqali filmlarni talab bo'yicha tomosha qilishimiz mumkin."
+    },
+    {
+      "term": "digital transformation",
+      "uz": "raqamli transformatsiya",
+      "uzDef": "Texnologiyalar yordamida biznesni o'zgartirish",
+      "ex": "Digital transformation is changing the way businesses operate.",
+      "exUz": "Raqamli transformatsiya biznesning ishlash usulini o'zgartirmoqda."
+    },
+    {
+      "term": "digital wallet",
+      "uz": "raqamli hamyon",
+      "uzDef": "Telefon yoki kompyuterda pul saqlash",
+      "ex": "I use a digital wallet to pay for things with my phone.",
+      "exUz": "Men telefonim bilan narsalarga to'lash uchun raqamli hamyondan foydalanaman."
+    },
+    {
+      "term": "smart home",
+      "uz": "aqlli uy",
+      "uzDef": "Texnologiya bilan boshqariladigan uy",
+      "ex": "I dream of living in a smart home one day.",
+      "exUz": "Men bir kun kelib aqlli uyda yashashni orzu qilaman."
+    }
+  ]
+}

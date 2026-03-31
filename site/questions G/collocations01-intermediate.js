@@ -1,0 +1,36 @@
+// Grammar Test: Collocations — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I want to <b>make</b> a <b>___</b> with you.", correct: "deal", options: ["deal", "business", "contract", "agreement"], def: "\"Make a deal\" is a common collocation for agreements.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>___</b> a good impression on her boss.", correct: "made", options: ["made", "did", "had", "got"], def: "\"Made a good impression\" is the correct collocation.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It's <b>___</b> rain today.", correct: "raining", options: ["raining", "rain", "rainy", "rained"], def: "\"Heavy rain\" is the collocation; it is raining heavily.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They <b>made</b> a <b>___</b> to help the poor.", correct: "promise", options: ["promise", "vow", "swear", "word"], def: "\"Make a promise\" is the correct collocation here.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I need to <b>___</b> a decision soon.", correct: "make", options: ["make", "do", "take", "have"], def: "\"Make a decision\" is the correct collocation.", level: "B1–B2"},
+  {type: "Find the error:", question: "We <b>had</b> a <b>good</b> <b>time</b> at <b>the</b> party.", correct: "had", options: ["had", "good", "time", "the"], def: "No error. \"Have a good time\" is the correct collocation.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He has a <b>___</b> accent.", correct: "strong", options: ["strong", "strongly", "strength", "stronger"], def: "\"Strong accent\" is the correct collocation to describe an accent.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She likes to <b>take</b> <b>___</b>.", correct: "photos", options: ["photos", "pictures", "images", "photographs"], def: "\"Take photos/pictures\" is a common collocation.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> a shower.", correct: "having", options: ["having", "taking", "making", "doing"], def: "\"Have a shower\" is the common collocation.", level: "B1–B2"},
+  {type: "Find the error:", question: "I <b>did</b> my <b>best</b>, but <b>I</b> <b>failed</b>.", correct: "did", options: ["did", "best", "I", "failed"], def: "No error. \"Do my best\" is a normal idiom.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Let's <b>___</b> a look.", correct: "take", options: ["take", "do", "make", "have"], def: "\"Take a quick look\" is the correct collocation.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I need to <b>pay</b> <b>___</b> to what he says.", correct: "attention", options: ["attention", "mind", "regard", "notice"], def: "\"Pay attention\" is a common collocation.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> a lot of money on vacation.", correct: "spent", options: ["spent", "wasted", "lost", "used"], def: "\"Spend money\" is a standard collocation.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>is</b> <b>doing</b> <b>the</b> <b>housework</b>.", correct: "is", options: ["is", "doing", "the", "housework"], def: "No error. \"Do the housework\" is a normal idiom.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>made</b> a <b>___</b> mistake.", correct: "big", options: ["big", "large", "great", "huge"], def: "\"Big mistake\" is a more common idiom than \"large mistake\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "You should <b>keep</b> a <b>___</b>.", correct: "secret", options: ["secret", "mystery", "silence", "note"], def: "\"Keep a secret\" is a common idiom.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I want to <b>___</b> my best.", correct: "do", options: ["do", "make", "try", "have"], def: "\"Do my best\" is the correct collocation.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>had</b> a <b>___</b> time.", correct: "good", options: ["good", "well", "great", "nicely"], def: "\"Good time\" is correct: \"I had a good time\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We need to <b>find</b> a <b>___</b>.", correct: "solution", options: ["solution", "answer", "key", "way"], def: "\"Find a solution\" is a common collocation.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> an exam yesterday.", correct: "took", options: ["took", "made", "did", "had"], def: "\"Take an exam\" is the correct collocation.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>have</b> <b>___</b> fun.", correct: "much", options: ["much", "many", "a lot", "more"], def: "\"Much fun\" is correct with uncountable nouns like 'fun'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>gave</b> me some good <b>___</b>.", correct: "advice", options: ["advice", "advices", "suggestion", "opinion"], def: "\"Advice\" is uncountable here; no plural.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> a good job.", correct: "have", options: ["have", "do", "make", "take"], def: "\"Have a job\" implies that someone possesses the job.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>made</b> a <b>quick</b> <b>decision</b> <b>yesterday</b>.", correct: "made", options: ["made", "quick", "decision", "yesterday"], def: "No error. \"Make a decision\" is a normal idiom.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Please <b>turn</b> on <b>the</b> <b>___</b>.", correct: "light", options: ["light", "lighting", "lights", "lighter"], def: "\"Turn on the light\" is correct.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Can you <b>give</b> me a <b>___</b>?", correct: "hand", options: ["hand", "help", "support", "push"], def: "\"Give me a hand\" means help.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> a party last week.", correct: "had", options: ["had", "did", "made", "took"], def: "\"Have a party\" is correct.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I always <b>make</b> a <b>___</b> of tea in the morning.", correct: "cup", options: ["cup", "glass", "bottle", "can"], def: "\"Make a cup of tea\" is the correct collocation.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It's important to <b>___</b> a good impression at a job interview.", correct: "make", options: ["make", "do", "give", "take"], def: "The correct collocation is \"make a good impression\".", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>did</b> a <b>big</b> <b>mistake</b> when she <b>lied</b>.", correct: "did", options: ["did", "big", "mistake", "lied"], def: "The collocation is \"make a mistake\", not \"do a mistake\".", level: "B1–B2"}
+];

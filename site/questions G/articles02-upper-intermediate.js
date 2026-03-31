@@ -1,0 +1,36 @@
+// Grammar Test: Articles: Advanced Usage — Upper-Intermediate (B2–C1)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "She is <b>___</b> only person who understood my joke.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' to refer to a specific, unique person or thing.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "<b>___</b> more you study, the better you will do.", correct: "The", options: ["The", "A", "An", "-"], def: "Use 'the' with comparatives to show correlation.", level: "B2–C1"},
+  {type: "Find the error:", question: "<b>A</b> reason <b>for</b> his <b>success</b> is <b>hard work</b>.", correct: "A", options: ["A", "for", "success", "hard work"], def: "Omit 'a' before uncountable nouns used in a general sense.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He's <b>___</b> (expert) in this field.", correct: "an expert", options: ["an expert", "a expert", "the expert", "expert"], def: "Use 'an' before a vowel sound; 'expert' is singular countable.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "They went to <b>___</b> prison to visit their father.", correct: "-", options: ["-", "a", "the", "an"], def: "No article needed when visiting prison for its intended purpose.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> honest man.", correct: "an", options: ["an", "a", "the", "-"], def: "'Honest' begins with a vowel sound, so use 'an'.", level: "B2–C1"},
+  {type: "Find the error:", question: "She is <b>a</b> <b>university</b> student <b>studying</b> <b>medicine</b>.", correct: "a", options: ["a", "university", "studying", "medicine"], def: "Use 'a' before 'university' despite the initial vowel letter.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> (head) of the department.", correct: "the head", options: ["the head", "a head", "an head", "head"], def: "Use 'the' before unique positions like 'head of the department'.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "<b>___</b> rich should pay more taxes.", correct: "The", options: ["The", "A", "An", "-"], def: "Use 'the' to refer to a group of people (the rich).", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "What <b>___</b> beautiful day!", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' in exclamatory sentences with singular countable nouns.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> (European) woman.", correct: "a European", options: ["a European", "an European", "the European", "European"], def: "Use 'a' before 'European' because it sounds like /j/.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He plays <b>___</b> guitar very well.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before musical instruments.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> only child.", correct: "an", options: ["an", "a", "the", "-"], def: "Use 'the' when referring to a unique item.", level: "B2–C1"},
+  {type: "Find the error:", question: "I need <b>a</b> <b>hour</b> to <b>finish</b> <b>this</b>.", correct: "a", options: ["a", "hour", "finish", "this"], def: "Use 'an' before 'hour' because the 'h' is silent.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He is <b>___</b> (architect).", correct: "an architect", options: ["an architect", "a architect", "the architect", "architect"], def: "Use 'an' before words starting with a vowel sound.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> best student in the class.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before superlative adjectives.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He lives on <b>___</b> outskirts of town.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' with 'outskirts'.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> (university) professor.", correct: "a university", options: ["a university", "an university", "the university", "university"], def: "Use 'a' before 'university' because it sounds like /j/.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> CEO of the company.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' to refer to a specific, unique position.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She went to <b>___</b> United States.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before plural country names (United States).", level: "B2–C1"},
+  {type: "Find the error:", question: "This is <b>a</b> <b>most</b> interesting <b>book</b> I <b>have</b> read.", correct: "a", options: ["a", "most", "book", "have"], def: "Use 'the' with most to show superlative.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He is <b>___</b> (engineer).", correct: "an engineer", options: ["an engineer", "a engineer", "the engineer", "engineer"], def: "Use 'an' before a vowel sound; 'engineer' is singular countable.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "<b>___</b> Earth revolves around the sun.", correct: "The", options: ["The", "A", "An", "-"], def: "Use 'the' before names of planets (Earth).", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> only person I trust.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' when referring to a specific thing.", level: "B2–C1"},
+  {type: "Find the error:", question: "He is <b>a</b> <b>employee</b> at <b>the</b> <b>company</b>.", correct: "a", options: ["a", "employee", "the", "company"], def: "Use 'an' before 'employee' as it begins with vowel sound.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> (honorary) member.", correct: "an honorary", options: ["an honorary", "a honorary", "the honorary", "honorary"], def: "Use 'an' because 'honorary' starts with a vowel sound.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "They are <b>___</b> happiest people I know.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before superlative adjectives.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> United Nations representative.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before United Nations as a general reference.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "<b>___</b> meeting has been scheduled for next Tuesday.", correct: "The", options: ["The", "A", "An", "No article"], def: "Use 'the' for specific meetings known to both speaker and listener.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He's studying to become <b>___</b> engineer.", correct: "an", options: ["an", "a", "the", "no article"], def: "Use 'an' before vowel sounds; engineer starts with a vowel sound.", level: "B2–C1"}
+];

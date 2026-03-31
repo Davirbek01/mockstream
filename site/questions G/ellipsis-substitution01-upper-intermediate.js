@@ -1,0 +1,36 @@
+// Grammar Test: Ellipsis & Substitution — Upper-Intermediate (B2–C1)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I like coffee, and she <b>does</b>, <b>___</b>.", correct: "too", options: ["too", "also", "either", "neither"], def: "\"Too\" shows agreement with a positive statement.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He didn't go to the party, and <b>___</b> did she.", correct: "neither", options: ["neither", "either", "so", "too"], def: "\"Neither\" introduces a negative statement agreeing with a previous negative one.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I don't like spicy food, but he <b>___</b>.", correct: "does", options: ["does", "do", "did", "done"], def: "\"Does\" is the correct auxiliary verb for the 3rd person singular.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "If you need help, I'm happy to <b>___</b>.", correct: "help", options: ["help", "helping", "helped", "to help"], def: "Ellipsis: \"help\" replaces \"help you\".", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She said she would call, and she <b>___</b>.", correct: "did", options: ["did", "has", "was", "is"], def: "\"Did\" replaces the entire action of calling.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I'm going to the party, if you <b>___</b>.", correct: "are", options: ["are", "be", "were", "is"], def: "\"Are\" stands in for \"are going to the party\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He enjoys hiking, and <b>___</b> does his wife.", correct: "so", options: ["so", "too", "neither", "as"], def: "\"So\" shows agreement with a positive action using subject-verb inversion.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "I haven't seen the movie, but my sister <b>___</b>.", correct: "has", options: ["has", "did", "have", "is"], def: "\"Has\" substitutes for \"has seen the movie\".", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I can't swim, but he <b>___</b>.", correct: "can", options: ["can", "is", "does", "can to"], def: "\"Can\" stands in for \"can swim\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He <b>wanted</b> to go, but I told him <b>___</b>.", correct: "not to", options: ["not to", "don't", "to not", "no"], def: "\"Not to\" replaces \"not to go\".", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "I thought you were coming <b>___</b>.", correct: "too", options: ["too", "to", "also", "either"], def: "\"Too\" indicates that you are joining the speaker.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I haven't finished my work, but she <b>___</b>.", correct: "has", options: ["has", "have", "did", "is"], def: "\"Has\" substitutes for \"has finished her work\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "A: Do you need a ride? B: I <b>___</b>.", correct: "do", options: ["do", "am", "have", "will"], def: "\"Do\" replaces \"need a ride\".", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She said she couldn't come, and <b>___</b> did I.", correct: "neither", options: ["neither", "either", "so", "also"], def: "\"Neither\" introduces a negative agreeing statement.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "If I were rich, I <b>___</b> travel the world.", correct: "would", options: ["would", "will", "am", "should"], def: "\"Would\" expresses a hypothetical situation.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He's not going, and I'm not <b>___</b>.", correct: "either", options: ["either", "too", "so", "neither"], def: "\"Either\" is used with negative statements to show agreement.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "I don't want to go, and she doesn't <b>___</b>.", correct: "either", options: ["either", "too", "neither", "so"], def: "\"Either\" is used with negative statements to show agreement.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "A: Did you finish the report? B: Yes, I <b>___</b>.", correct: "did", options: ["did", "do", "have", "am"], def: "\"Did\" substitutes for \"finished the report\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I'd like to go to Italy, and so <b>___</b> my parents.", correct: "would", options: ["would", "do", "are", "did"], def: "\"Would\" is the correct auxiliary for \"I'd like\".", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She hasn't called, but she said she <b>___</b>.", correct: "would", options: ["would", "will", "does", "is"], def: "\"Would\" reflects the past reporting verb \"said\".", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He can speak French, and she <b>___</b> too.", correct: "can", options: ["can", "does", "is", "can to"], def: "\"Can\" substitutes for \"can speak French\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I don't want any cake, and he doesn't <b>___</b>.", correct: "either", options: ["either", "too", "also", "neither"], def: "\"Either\" is used with negative statements for agreement.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He hasn't finished, but she <b>___</b>.", correct: "has", options: ["has", "is", "did", "have"], def: "\"Has\" replaces \"has finished\".", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I like coffee, and so <b>___</b> my sister.", correct: "does", options: ["does", "is", "likes", "has"], def: "'So + auxiliary verb + subject' agrees with the subject in number/tense.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "They said they would call, but they <b>___</b>.", correct: "haven't", options: ["haven't", "didn't", "hadn't", "won't"], def: "'Haven't' is a contracted form of 'have not', substituting the action of calling.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I thought he was honest, but I was <b>___</b>.", correct: "mistaken", options: ["mistaken", "mistook", "mistaking", "being mistaken"], def: "'Mistaken' is the correct past participle adjective after 'was'.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "If you need help, I'm happy to <b>___</b>.", correct: "oblige", options: ["oblige", "help", "do", "assist"], def: "'Oblige' substitutes for the entire offer of help, a polite ellipsis.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "I haven't seen the film, but my brother <b>___</b>.", correct: "has", options: ["has", "did", "saw", "is"], def: "'Has' substitutes the verb 'seen' avoiding repetition.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> so.", correct: "hope", options: ["hope", "am hoping", "hoped", "hoping"], def: "'I hope so' is a common expression; 'so' replaces the hoped content.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "She claims to be an expert, but I doubt <b>___</b>.", correct: "it", options: ["it", "that", "so", "this"], def: "'It' substitutes the entire claim of being an expert.", level: "B2–C1"}
+];

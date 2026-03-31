@@ -164,4 +164,347 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Muvozanatli ovqatlanish yaxshi sog'liq uchun zarur."
         }
     }
+,
+    passageB1: `<p>Many doctors are worried because more and more people are <strong>overweight</strong>. We don't <strong>exercise</strong> enough, and we eat too many <strong>calories</strong> because we have a <strong>sedentary</strong> lifestyle. This means we sit down a lot. Because of this, more people are becoming <strong>obese</strong>, which can be bad for their health.</p>
+
+<p>Doctors are also worried about the number of people with <strong>anorexia</strong>. This is when people think they are too fat, even when they are very thin. It's a type of <strong>eating disorder</strong>. Sometimes they <strong>pretend</strong> to eat food, but they hide it and throw it away later. Anorexia is a serious illness. It can cause <strong>malnutrition</strong>, which means the body doesn't get enough food. This can make the body very weak and can even lead to death.</p>
+
+<p>Some people think that very thin <strong>fashion models</strong> and famous people are to blame for anorexia. Young people <strong>look up to</strong> them and try to be like them. But some experts say that anorexia is a problem with people's feelings. It used to be mostly young women who had anorexia, but now young men can have it too. And the people who get anorexia are getting younger. Some are only six years old.</p>
+
+<p>Another problem is <strong>bulimia</strong>. People with bulimia eat a lot of food at one time, called <strong>binge eating</strong>, and then they <strong>vomit</strong> to get rid of the food. Sometimes they use <strong>laxatives</strong> to do this. Bulimia is also serious. It can hurt a person's health and damage their teeth. Experts think that bulimia can also be caused by problems with feelings.</p>
+
+<p>It's okay to go on a <strong>diet</strong> for a short time if you want to lose weight. But you shouldn't do <strong>crash diets</strong>. It's better to eat a <strong>balanced diet</strong> and <strong>do some exercise</strong> regularly.</p>`,
+    translationB1: `<p>Ko'plab shifokorlar ko'proq odamlar <strong>ortiqcha vaznga</strong> ega bo'layotganidan xavotirda. Biz yetarli darajada <strong>mashq qilmaymiz</strong> va <strong>haroratli</strong> turmush tarzi tufayli juda ko'p <strong>kaloriya</strong> iste'mol qilamiz. Bu degani, biz ko'p o'tiramiz. Shuning uchun ham, ko'proq odamlar <strong>semirib</strong> ketmoqda, bu esa ularning sog'lig'iga yomon ta'sir qilishi mumkin.</p>
+
+<p>Shifokorlar <strong>anoreksiya</strong> bilan kasallangan odamlarning soni haqida ham xavotirda. Bu odamlar juda ozg'in bo'lishiga qaramay, o'zlarini juda semiz deb o'ylashadi. Bu <strong>ovqatlanish buzilishi</strong>ning bir turi. Ba'zida ular ovqat yeyayotgandek <strong>ko'rsatadi</strong>, lekin uni yashirib, keyin tashlab yuboradi. Anoreksiya - jiddiy kasallik. U <strong>to'yib ovqatlanmaslikka</strong> olib kelishi mumkin, ya'ni organizm yetarli oziq-ovqat olmaydi. Bu tanani juda zaiflashtirishi va hatto o'limga ham olib kelishi mumkin.</p>
+
+<p>Ba'zi odamlar juda ozg'in <strong>moda modellari</strong> va mashhur odamlar anoreksiyada aybdor deb o'ylashadi. Yoshlar ularga <strong>taqlid qiladi</strong> va ularga o'xshashga harakat qiladi. Ammo ba'zi mutaxassislarning fikriga ko'ra, anoreksiya odamlarning his-tuyg'ulari bilan bog'liq muammo. Ilgari asosan yosh ayollar anoreksiya bilan kasallangan bo'lsa, endi yosh erkaklar ham kasallanishi mumkin. Va anoreksiyaga chalingan odamlar tobora yosharib bormoqda. Ba'zilari atigi olti yoshda.</p>
+
+<p>Yana bir muammo - <strong>bulimiya</strong>. Bulimiya bilan kasallangan odamlar birdaniga juda ko'p ovqat yeyishadi, bu <strong>o'z-o'zidan ovqatlanish</strong> deb ataladi, keyin ovqatdan xalos bo'lish uchun <strong>qusadilar</strong>. Ba'zida ular buni qilish uchun <strong>ich suruvchi dorilar</strong>dan foydalanadilar. Bulimiya ham jiddiy. U inson salomatligiga zarar yetkazishi va tishlarini shikastlashi mumkin. Mutaxassislar bulimiya ham hissiyotlar bilan bog'liq muammolar tufayli kelib chiqishi mumkin deb hisoblashadi.</p>
+
+<p>Agar siz vazn yo'qotmoqchi bo'lsangiz, qisqa vaqt ichida <strong>parhez</strong>ga o'tish yaxshi. Ammo siz <strong>tezkor parhezlar</strong> qilmasligingiz kerak. <strong>Muvofiqlashtirilgan ovqatlanish</strong> va muntazam ravishda <strong>mashq qilish</strong> yaxshiroqdir.</p>`,
+    vocabularyB1: {
+        "overweight": {
+                "definition": "Weighing more than is healthy",
+                "uzbek": "Vazni me'yoridan ortiq",
+                "example": "He is overweight because he eats too much junk food.",
+                "exampleUzbek": "U juda ko'p zararli ovqatlar iste'mol qilgani uchun vazni me'yoridan ortiq."
+        },
+        "exercise": {
+                "definition": "Physical activity to stay healthy",
+                "uzbek": "Jismoniy mashq",
+                "example": "I try to exercise every day.",
+                "exampleUzbek": "Men har kuni jismoniy mashq qilishga harakat qilaman."
+        },
+        "calories": {
+                "definition": "Units of energy in food",
+                "uzbek": "Kaloriya",
+                "example": "This snack has a lot of calories.",
+                "exampleUzbek": "Bu gazakda juda ko'p kaloriya bor."
+        },
+        "sedentary": {
+                "definition": "Involving a lot of sitting and not much exercise",
+                "uzbek": "Kam harakat",
+                "example": "My job is sedentary, so I need to exercise after work.",
+                "exampleUzbek": "Mening ishim kam harakat talab qiladi, shuning uchun ishdan keyin mashq qilishim kerak."
+        },
+        "obese": {
+                "definition": "Very overweight, in a way that is unhealthy",
+                "uzbek": "Semirib ketgan",
+                "example": "Obese people are more likely to have health problems.",
+                "exampleUzbek": "Semirib ketgan odamlarda sog'liq muammolari bo'lish ehtimoli ko'proq."
+        },
+        "anorexia": {
+                "definition": "An eating disorder where people are afraid of gaining weight and eat very little.",
+                "uzbek": "Anoreksiya",
+                "example": "Anorexia can be a very dangerous illness.",
+                "exampleUzbek": "Anoreksiya juda xavfli kasallik bo'lishi mumkin."
+        },
+        "eating disorder": {
+                "definition": "A mental problem that causes a person to eat in a way that is bad for their health.",
+                "uzbek": "Ovqatlanish buzilishi",
+                "example": "Anorexia and bulimia are types of eating disorders.",
+                "exampleUzbek": "Anoreksiya va bulimiya ovqatlanish buzilishlarining turlari hisoblanadi."
+        },
+        "pretend": {
+                "definition": "To act as if something is true when it is not",
+                "uzbek": "O'zini ko'rsatmoq",
+                "example": "The child pretended to be a doctor.",
+                "exampleUzbek": "Bola o'zini shifokor qilib ko'rsatdi."
+        },
+        "malnutrition": {
+                "definition": "Lack of proper nutrition, caused by not having enough to eat or not eating the right things",
+                "uzbek": "Noto'g'ri ovqatlanish",
+                "example": "Malnutrition can weaken your immune system.",
+                "exampleUzbek": "Noto'g'ri ovqatlanish sizning immunitet tizimingizni zaiflashtirishi mumkin."
+        },
+        "fashion models": {
+                "definition": "People who wear and display clothes for advertising or in fashion shows",
+                "uzbek": "Modelyerlar",
+                "example": "Fashion models are often very tall and thin.",
+                "exampleUzbek": "Modelyerlar ko'pincha juda baland va ozg'in bo'ladi."
+        },
+        "look up to": {
+                "definition": "To admire and respect someone",
+                "uzbek": "Hurmat qilmoq",
+                "example": "I look up to my older brother.",
+                "exampleUzbek": "Men akamni hurmat qilaman."
+        },
+        "bulimia": {
+                "definition": "An eating disorder where someone eats a lot and then makes themselves vomit.",
+                "uzbek": "Bulimiya",
+                "example": "Bulimia can cause serious health problems.",
+                "exampleUzbek": "Bulimiya jiddiy sog'liq muammolariga olib kelishi mumkin."
+        },
+        "binge eating": {
+                "definition": "Eating a large amount of food in a short period of time.",
+                "uzbek": "Ko'p ovqat yeyish",
+                "example": "Binge eating is often followed by feelings of guilt.",
+                "exampleUzbek": "Ko'p ovqat yeyish ko'pincha aybdorlik hissi bilan birga keladi."
+        },
+        "vomit": {
+                "definition": "To throw up food from your stomach.",
+                "uzbek": "Qayt qilmoq",
+                "example": "The child vomited after eating too much candy.",
+                "exampleUzbek": "Bola juda ko'p konfet yegandan keyin qayt qildi."
+        },
+        "laxatives": {
+                "definition": "Medicine that helps you to empty your bowels more easily",
+                "uzbek": "Ich suruvchi",
+                "example": "Some people use laxatives to lose weight.",
+                "exampleUzbek": "Ba'zi odamlar vazn yo'qotish uchun ich suruvchi vositalardan foydalanadilar."
+        },
+        "diet": {
+                "definition": "A way of eating that is meant to help you lose weight or be healthy.",
+                "uzbek": "Parhez",
+                "example": "I'm on a diet to lose weight.",
+                "exampleUzbek": "Men vazn yo'qotish uchun parhezdaman."
+        },
+        "crash diets": {
+                "definition": "A diet where you try to lose a lot of weight very quickly",
+                "uzbek": "Tez parhez",
+                "example": "Crash diets are not good for your health.",
+                "exampleUzbek": "Tez parhezlar sog'lig'ingiz uchun yaxshi emas."
+        },
+        "balanced diet": {
+                "definition": "Eating the correct proportions of different foods",
+                "uzbek": "Muvofiq ovqatlanish",
+                "example": "A balanced diet includes fruits, vegetables, and protein.",
+                "exampleUzbek": "Muvofiq ovqatlanish mevalar, sabzavotlar va oqsillarni o'z ichiga oladi."
+        },
+        "do some exercise": {
+                "definition": "To engage in physical activity",
+                "uzbek": "Mashq qilmoq",
+                "example": "It's important to do some exercise every day.",
+                "exampleUzbek": "Har kuni mashq qilish muhim."
+        }
+},
+    passageB2: `<p>Doctors are increasingly <strong>concerned about</strong> the rising number of overweight patients. Many people are not getting enough exercise and are consuming too many calories, given their <strong>sedentary lifestyles</strong>. This is leading to a rise in obesity, which can <strong>pose a significant threat</strong> to overall health.</p>
+
+<p>On the other hand, there's also growing worry about the increasing number of people affected by anorexia nervosa. This is an eating disorder where individuals have a <strong>distorted body image</strong>, believing they are overweight even when they are dangerously thin. They might <strong>engage in behaviors</strong> like pretending to eat, hiding food, or secretly throwing it away. While sometimes referred to as a "slimmer's disease," this label <strong>trivializes the seriousness</strong> of the condition. Anorexia can lead to severe malnutrition, organ damage, and, in the worst cases, death.</p>
+
+<p>The media, particularly excessively thin models and celebrities, are often <strong>held accountable</strong> for the spread of anorexia. Young people, who are easily influenced, may see them as role models and try to <strong>emulate</strong> their appearance. However, some experts argue that anorexia is primarily an emotional or psychological disorder. While it was previously thought to mainly affect young women, it's now recognized that young men are also <strong>vulnerable to</strong> the condition. Furthermore, the age of those affected seems to be decreasing, with some sufferers as young as six years old.</p>
+
+<p>Bulimia nervosa is another eating disorder that is becoming more common. People with bulimia often experience periods of <strong>uncontrolled eating</strong>, or bingeing, followed by attempts to <strong>purge</strong> the food from their bodies, such as through vomiting or using laxatives. Bulimia is also a serious condition that can <strong>detrimentally affect</strong> general health, as well as causing problems like tooth decay. As with anorexia, it's believed that emotional and psychological factors can <strong>play a role in</strong> the development of bulimia.</p>
+
+<p>While dieting can be a healthy way to lose weight, it's important to avoid <strong>extreme measures</strong> like crash diets. A more sustainable approach is to maintain a balanced diet and <strong>incorporate regular physical activity</strong> into your routine.</p>`,
+    translationB2: `<p>Shifokorlar ortiqcha vaznli bemorlar sonining ortib borayotganidan <strong>juda xavotirda</strong>. Ko'pchilik odamlar yetarli darajada jismoniy mashq qilmayaptilar va <strong>harakatsiz turmush tarzi</strong>ni hisobga olgan holda, juda ko'p kaloriya iste'mol qilmoqdalar. Bu semizlikning ortishiga olib kelmoqda, bu esa umumiy salomatlikka <strong>jiddiy xavf tug'dirishi</strong> mumkin.</p>
+
+<p>Boshqa tomondan, anoreksiya nervozasi bilan kasallangan odamlar sonining ko'payishi ham xavotir uyg'otmoqda. Bu shunday ovqatlanish buzilishiki, bunda shaxslar <strong>tana tuzilishini noto'g'ri tasavvur qiladilar</strong>, hatto o'ta ozg'in bo'lsalar ham, o'zlarini ortiqcha vaznli deb hisoblaydilar. Ular go'yoki ovqat yeyayotgandek ko'rinish, ovqatni yashirish yoki yashirincha tashlab yuborish kabi <strong>xatti-harakatlarni amalga oshirishlari</strong> mumkin. Ba'zan "ozuvchilar kasalligi" deb atalsa-da, bu yorliq holatning <strong>jiddiyligini kamaytiradi</strong>. Anoreksiya og'ir ochlikka, organlarning shikastlanishiga va eng yomon holatlarda o'limga olib kelishi mumkin.</p>
+
+<p>Ommaviy axborot vositalari, ayniqsa haddan tashqari ozg'in modellar va mashhurlar, anoreksiyaning tarqalishida ko'pincha <strong>aybdor deb hisoblanadi</strong>. Oson ta'sirlanuvchi yoshlar ularni o'rnak sifatida ko'rishlari va ularning tashqi ko'rinishiga <strong>taqlid qilishga</strong> harakat qilishlari mumkin. Biroq, ba'zi ekspertlarning ta'kidlashicha, anoreksiya asosan hissiy yoki psixologik buzilishdir. Ilgari u asosan yosh ayollarga ta'sir qiladi deb hisoblangan bo'lsa, endilikda yosh erkaklar ham bu holatga <strong>zaif ekanligi</strong> tan olingan. Bundan tashqari, kasallanganlarning yoshi pasayib borayotgandek tuyuladi, ba'zi bemorlar olti yoshga ham yetmaydi.</p>
+
+<p>Bulimiya nervozasi - bu tobora ko'proq tarqalib borayotgan yana bir ovqatlanish buzilishi. Bulimiyasi bor odamlar ko'pincha <strong>nazorat qilib bo'lmaydigan darajada ko'p ovqat yeyish</strong>, yoki to'yib ovqatlanish davrlarini boshdan kechiradilar, so'ngra organizmlaridan ovqatni <strong>tozalashga</strong> urinadilar, masalan, qusish yoki ich suruvchi dorilarni qo'llash orqali. Bulimiya ham jiddiy holat bo'lib, u umumiy salomatlikka <strong>zarar yetkazishi</strong> mumkin, shuningdek, tishlarning yemirilishi kabi muammolarni keltirib chiqarishi mumkin. Anoreksiya kabi, hissiy va psixologik omillar bulimiyaning rivojlanishida <strong>rol o'ynashi</strong> mumkin deb hisoblanadi.</p>
+
+<p>Parhez tutish vazn yo'qotishning sog'lom usuli bo'lishi mumkin bo'lsa-da, tezkor parhezlar kabi <strong>keskin choralardan</strong> qochish muhimdir. Muvozanatli ovqatlanishni saqlash va o'z tartibingizga <strong>doimiy jismoniy faollikni kiritish</strong> yanada barqaror yondashuvdir.</p>`,
+    vocabularyB2: {
+        "concerned about": {
+                "definition": "Worried or anxious about something",
+                "uzbek": "Nimadandir xavotirda yoki tashvishda",
+                "example": "I am concerned about the rising cost of living.",
+                "exampleUzbek": "Men hayot narxining oshishi haqida xavotirdaman."
+        },
+        "sedentary lifestyles": {
+                "definition": "Lifestyles with little physical activity, often involving a lot of sitting",
+                "uzbek": "Kichik jismoniy faoliyat bilan hayot tarzi, ko'pincha ko'p o'tirishni o'z ichiga oladi",
+                "example": "Modern technology has contributed to more sedentary lifestyles.",
+                "exampleUzbek": "Zamonaviy texnologiyalar ko'proq harakatsiz hayot tarziga hissa qo'shdi."
+        },
+        "pose a significant threat": {
+                "definition": "To present a serious danger or risk",
+                "uzbek": "Jiddiy xavf yoki xavf tug'dirish",
+                "example": "Climate change poses a significant threat to our planet.",
+                "exampleUzbek": "Iqlim o'zgarishi sayyoramizga katta xavf solmoqda."
+        },
+        "distorted body image": {
+                "definition": "A false or inaccurate perception of one's own body",
+                "uzbek": "O'z tanasi haqida noto'g'ri yoki noaniq tushuncha",
+                "example": "Eating disorders are often linked to a distorted body image.",
+                "exampleUzbek": "Ovqatlanish buzilishlari ko'pincha buzilgan tana tasviri bilan bog'liq."
+        },
+        "engage in behaviors": {
+                "definition": "To participate or be involved in certain actions or activities",
+                "uzbek": "Ma'lum harakatlar yoki faoliyatda ishtirok etish yoki qatnashish",
+                "example": "Teenagers often engage in risky behaviors.",
+                "exampleUzbek": "O'smirlar ko'pincha xavfli xatti-harakatlarga aralashadilar."
+        },
+        "trivializes the seriousness": {
+                "definition": "Makes something serious seem unimportant or less significant",
+                "uzbek": "Jiddiy narsani ahamiyatsiz yoki kamroq ahamiyatga ega qiladi",
+                "example": "Using humor in that situation trivializes the seriousness of the issue.",
+                "exampleUzbek": "Bu vaziyatda hazildan foydalanish muammoning jiddiyligini kamaytiradi."
+        },
+        "held accountable": {
+                "definition": "Considered responsible for something; expected to answer for one's actions",
+                "uzbek": "Nimadir uchun mas'ul deb hisoblanadi; o'z harakatlari uchun javob berishi kutilmoqda",
+                "example": "The company was held accountable for the pollution it caused.",
+                "exampleUzbek": "Kompaniya o'zi keltirib chiqargan ifloslanish uchun javobgar deb topildi."
+        },
+        "emulate": {
+                "definition": "To try to be like someone or something that you admire",
+                "uzbek": "Siz qoyil qoladigan odamga yoki narsaga o'xshashga harakat qilish",
+                "example": "Many young athletes try to emulate their favorite sports stars.",
+                "exampleUzbek": "Ko'pgina yosh sportchilar o'zlarining sevimli sport yulduzlariga taqlid qilishga harakat qilishadi."
+        },
+        "vulnerable to": {
+                "definition": "Susceptible to being harmed or affected by something",
+                "uzbek": "Nimadir bilan zarar etkazilishi yoki ta'sirlanishi mumkin",
+                "example": "Children are more vulnerable to diseases.",
+                "exampleUzbek": "Bolalar kasalliklarga ko'proq moyil."
+        },
+        "uncontrolled eating": {
+                "definition": "Eating a large amount of food in a short period of time, often feeling a loss of control",
+                "uzbek": "Qisqa vaqt ichida ko'p miqdorda ovqat eyish, ko'pincha nazoratni yo'qotish hissi",
+                "example": "She experienced episodes of uncontrolled eating during stressful times.",
+                "exampleUzbek": "U stressli paytlarda nazoratsiz ovqatlanish epizodlarini boshdan kechirdi."
+        },
+        "purge": {
+                "definition": "To get rid of something unwanted, often by vomiting or using laxatives",
+                "uzbek": "Keraksiz narsadan xalos bo'lish, ko'pincha qusish yoki laksatiflardan foydalanish orqali",
+                "example": "People with bulimia may purge after eating large amounts of food.",
+                "exampleUzbek": "Bulimiyaga chalingan odamlar ko'p miqdorda ovqat eyishdan keyin tozalashlari mumkin."
+        },
+        "detrimentally affect": {
+                "definition": "To have a negative impact on something",
+                "uzbek": "Nimagadir salbiy ta'sir ko'rsatish",
+                "example": "Smoking can detrimentally affect your health.",
+                "exampleUzbek": "Chekish sizning sog'lig'ingizga zararli ta'sir ko'rsatishi mumkin."
+        },
+        "play a role in": {
+                "definition": "To have an effect or influence on something",
+                "uzbek": "Nimagadir ta'sir yoki ta'sir ko'rsatish",
+                "example": "Exercise plays a role in maintaining good health.",
+                "exampleUzbek": "Mashq qilish yaxshi sog'likni saqlashda rol o'ynaydi."
+        },
+        "extreme measures": {
+                "definition": "Actions that are drastic or severe",
+                "uzbek": "Keskin yoki og'ir harakatlar",
+                "example": "The company had to take extreme measures to avoid bankruptcy.",
+                "exampleUzbek": "Kompaniya bankrotlikdan qochish uchun ekstremal choralar ko'rishga majbur bo'ldi."
+        },
+        "incorporate regular physical activity": {
+                "definition": "To include physical exercise as a normal part of one's life",
+                "uzbek": "Jismoniy mashqlarni o'z hayotining normal qismi sifatida kiritish",
+                "example": "It's important to incorporate regular physical activity into your daily routine.",
+                "exampleUzbek": "Kundalik rejangizga muntazam jismoniy mashqlarni kiritish muhim."
+        }
+},
+    passageC1: `<p>The escalating rates of obesity are a growing concern within the medical community. A <strong>sedentary lifestyle</strong>, coupled with excessive caloric intake, is leading to a surge in obesity, with potentially dire consequences for public health. It could be argued that the modern convenience culture, with its reliance on technology and readily available processed foods, <strong>exacerbates the problem</strong>, thereby contributing to a range of health complications.</p>
+
+<p>Conversely, healthcare professionals are equally alarmed by the rising incidence of anorexia nervosa, a complex eating disorder characterized by a distorted body image. Sufferers often perceive themselves as overweight, even when dangerously underweight. This <strong>maladaptive perception</strong> frequently manifests as deceptive eating behaviors, such as concealing or discarding food. While sometimes casually referred to as a 'slimmer's disease,' the term belies the severity of the condition. Anorexia can lead to severe malnutrition, systemic collapse, and, ultimately, mortality. It is a condition that requires <strong>comprehensive intervention</strong>.</p>
+
+<p>The media's portrayal of excessively thin models and celebrities is often cited as a <strong>contributing factor</strong> to the prevalence of anorexia, particularly among young and impressionable individuals who may view them as aspirational figures. However, some experts posit that anorexia is fundamentally an emotional disorder, <strong>stemming from</strong> deep-seated psychological issues. While historically more prevalent among young women, anorexia is now increasingly recognized in young men, and alarmingly, the age of onset is decreasing, with cases reported in children as young as six. It is crucial to consider the <strong>multifaceted nature</strong> of this disorder.</p>
+
+<p>Bulimia nervosa represents another significant eating disorder, characterized by episodes of binge eating followed by <strong>compensatory behaviors</strong> such as self-induced vomiting or the misuse of laxatives. This cycle of overconsumption and purging can have a devastating impact on physical health, including severe dental erosion and electrolyte imbalances. As with anorexia, the etiology of bulimia is often linked to underlying emotional distress. It is essential to <strong>address the root causes</strong> of these disorders to achieve lasting recovery. <strong>Untreated bulimia</strong> can lead to long-term health complications.</p>
+
+<p>While short-term dieting for weight management may be acceptable, <strong>crash diets are ill-advised</strong> due to their potential for adverse health effects. A more sustainable approach involves adopting a balanced dietary regimen and incorporating regular physical activity into one's lifestyle. Ultimately, prioritising both physical and mental well-being is paramount in preventing and managing eating disorders. It is vital to <strong>foster a healthy relationship with food</strong> and one's body. Seeking professional help is <strong>paramount to recovery</strong>.</p>`,
+    translationC1: `<p>Semizlik darajasining oshib borayotgani tibbiyot sohasida tobora ko'proq tashvish uyg'otmoqda. <strong>Harakatlanmaydigan turmush tarzi</strong>, haddan tashqari kaloriya iste'mol qilish bilan birgalikda, semizlikning keskin ko'payishiga olib kelmoqda, bu esa jamiyat salomatligi uchun jiddiy oqibatlarga olib kelishi mumkin. Zamonaviy qulaylik madaniyati, texnologiyaga va tayyor mahsulotlarga tayanishi bilan, <strong>muammoni yanada kuchaytiradi</strong> va shu bilan bir qatorda bir qator sog'liq muammolariga hissa qo'shadi, deb ta'kidlash mumkin.</p>
+
+<p>Aksincha, sog'liqni saqlash mutaxassislari anoreksiya nervozasining ko'payib borayotganidan xavotirda, bu esa tana tasvirining buzilishi bilan tavsiflangan murakkab ovqatlanish buzilishi hisoblanadi. Bemorlar ko'pincha o'zlarini ortiqcha vaznli deb hisoblashadi, hatto juda oz vaznga ega bo'lsalar ham. Bu <strong>moslashuvchan bo'lmagan tushuncha</strong> ko'pincha ovqatni yashirish yoki tashlab yuborish kabi aldovchi ovqatlanish xatti-harakatlarida namoyon bo'ladi. Ba'zan "ozuvchilar kasalligi" deb atalsa-da, bu atama kasallikning jiddiyligini kamaytiradi. Anoreksiya og'ir ochlikka, tizimli kollapsga va oxir-oqibat o'limga olib kelishi mumkin. Bu <strong>har tomonlama aralashuvni</strong> talab qiladigan holatdir.</p>
+
+<p>Ommaviy axborot vositalarida haddan tashqari ozg'in modellar va mashhurlarning tasvirlanishi ko'pincha anoreksiyaning tarqalishiga <strong>hissa qo'shuvchi omil</strong> sifatida keltiriladi, ayniqsa, ularni ilhomlantiruvchi shaxslar sifatida ko'rishlari mumkin bo'lgan yosh va ta'sirchan odamlar orasida. Biroq, ba'zi ekspertlarning fikricha, anoreksiya, asosan, chuqur psixologik muammolardan <strong>kelib chiqadigan</strong> hissiy buzilishdir. Tarixan yosh ayollar orasida ko'proq tarqalgan bo'lsa-da, anoreksiya hozirda yosh erkaklarda ham tobora ko'proq aniqlanmoqda va eng yomon tomoni shundaki, kasallikning boshlanish yoshi pasayib bormoqda, hatto olti yoshgacha bo'lgan bolalarda ham holatlar qayd etilgan. Ushbu buzilishning <strong>ko'p qirrali tabiatini</strong> hisobga olish juda muhimdir.</p>
+
+<p>Bulimiya nervozasi yana bir muhim ovqatlanish buzilishi bo'lib, haddan tashqari ko'p ovqat yeyish epizodlari, so'ngra o'zini o'zi qustirish yoki surgi vositalaridan noto'g'ri foydalanish kabi <strong>kompensatsion xatti-harakatlar</strong> bilan tavsiflanadi. Haddan tashqari iste'mol qilish va tozalashning bu sikli jiddiy tish eroziyasi va elektrolitlar nomutanosibligi kabi jismoniy salomatlikka halokatli ta'sir ko'rsatishi mumkin. Anoreksiya kabi, bulimiyaning etiologiyasi ko'pincha yashirin hissiy azob bilan bog'liq. Uzoq muddatli tiklanishga erishish uchun ushbu buzilishlarning <strong>asosiy sabablarini bartaraf etish</strong> juda muhimdir. <strong>Davolanmagan bulimiya</strong> uzoq muddatli sog'liq muammolariga olib kelishi mumkin.</p>
+
+<p>Vaznni nazorat qilish uchun qisqa muddatli parhezlar qabul qilinishi mumkin bo'lsa-da, <strong>keskin parhezlar tavsiya etilmaydi</strong>, chunki ular salomatlikka salbiy ta'sir ko'rsatishi mumkin. Yanada barqaror yondashuv muvozanatli ovqatlanish rejimini qabul qilish va turmush tarziga muntazam jismoniy faollikni kiritishni o'z ichiga oladi. Oxir oqibat, ovqatlanish buzilishlarining oldini olish va ularni boshqarishda jismoniy va ruhiy farovonlikni birinchi o'ringa qo'yish juda muhimdir. Ovqat va o'z tanasi bilan <strong>sog'lom munosabatlarni rivojlantirish</strong> juda muhim. Professional yordamga murojaat qilish <strong>tiklanish uchun juda muhimdir</strong>.</p>`,
+    vocabularyC1: {
+        "sedentary lifestyle": {
+                "definition": "A way of life that involves little physical activity.",
+                "uzbek": "Kam harakatli turmush tarzi",
+                "example": "A sedentary lifestyle can increase the risk of heart disease.",
+                "exampleUzbek": "Kam harakatli turmush tarzi yurak kasalliklari xavfini oshirishi mumkin."
+        },
+        "exacerbates the problem": {
+                "definition": "Makes the problem worse.",
+                "uzbek": "Muammoni yanada og'irlashtiradi",
+                "example": "Lack of sleep exacerbates the problem of stress.",
+                "exampleUzbek": "Uyqusizlik stress muammosini yanada og'irlashtiradi."
+        },
+        "maladaptive perception": {
+                "definition": "A perception that is unhelpful and not conducive to healthy functioning.",
+                "uzbek": "Moslashuvchan bo'lmagan idrok",
+                "example": "Her maladaptive perception of her body led to anorexia.",
+                "exampleUzbek": "Uning tanasi haqidagi moslashuvchan bo'lmagan idroki anoreksiyaga olib keldi."
+        },
+        "comprehensive intervention": {
+                "definition": "A thorough and complete set of actions taken to deal with a problem.",
+                "uzbek": "Keng qamrovli aralashuv",
+                "example": "The child required comprehensive intervention to address his developmental delays.",
+                "exampleUzbek": "Bolaning rivojlanishdagi kechikishlarini bartaraf etish uchun keng qamrovli aralashuv talab qilindi."
+        },
+        "contributing factor": {
+                "definition": "Something that helps to cause a result.",
+                "uzbek": "Sabab bo'luvchi omil",
+                "example": "Stress is a contributing factor to many illnesses.",
+                "exampleUzbek": "Stress ko'plab kasalliklarga sabab bo'luvchi omil hisoblanadi."
+        },
+        "stemming from": {
+                "definition": "Arising from or originating in.",
+                "uzbek": "Kelib chiqadi",
+                "example": "His anxiety stems from childhood experiences.",
+                "exampleUzbek": "Uning tashvishi bolalikdagi tajribalaridan kelib chiqadi."
+        },
+        "multifaceted nature": {
+                "definition": "Having many aspects or sides.",
+                "uzbek": "Ko'p qirrali tabiat",
+                "example": "The multifaceted nature of the problem requires a complex solution.",
+                "exampleUzbek": "Muammoning ko'p qirrali tabiati murakkab yechimni talab qiladi."
+        },
+        "compensatory behaviors": {
+                "definition": "Actions taken to counteract or make up for something, often unhealthy in the context of eating disorders.",
+                "uzbek": "Kompensatsiya xatti-harakatlari",
+                "example": "Vomiting is a common compensatory behavior in bulimia.",
+                "exampleUzbek": "Qusish bulimiyada keng tarqalgan kompensatsiya xatti-harakatidir."
+        },
+        "address the root causes": {
+                "definition": "To deal with the fundamental or essential reasons for something.",
+                "uzbek": "Asosiy sabablarni bartaraf etish",
+                "example": "We need to address the root causes of poverty.",
+                "exampleUzbek": "Biz kambag'allikning asosiy sabablarini bartaraf etishimiz kerak."
+        },
+        "untreated bulimia": {
+                "definition": "Bulimia that has not received medical attention or therapy.",
+                "uzbek": "Davolanmagan bulimiya",
+                "example": "Untreated bulimia can lead to serious health problems.",
+                "exampleUzbek": "Davolanmagan bulimiya jiddiy sog'liq muammolariga olib kelishi mumkin."
+        },
+        "crash diets are ill-advised": {
+                "definition": "Very restrictive diets undertaken to lose weight quickly are not recommended.",
+                "uzbek": "Tez vazn yo'qotish uchun qattiq dietalar tavsiya etilmaydi",
+                "example": "Crash diets are ill-advised because they can be harmful to your health.",
+                "exampleUzbek": "Tez vazn yo'qotish uchun qattiq dietalar tavsiya etilmaydi, chunki ular sog'lig'ingizga zararli bo'lishi mumkin."
+        },
+        "foster a healthy relationship with food": {
+                "definition": "To encourage and develop a positive and balanced attitude towards eating.",
+                "uzbek": "Ovqat bilan sog'lom munosabatni rivojlantirish",
+                "example": "Therapy can help individuals foster a healthy relationship with food.",
+                "exampleUzbek": "Terapiya odamlarga ovqat bilan sog'lom munosabatni rivojlantirishga yordam beradi."
+        },
+        "paramount to recovery": {
+                "definition": "Of the greatest importance or significance for getting better.",
+                "uzbek": "Sog'ayish uchun eng muhim",
+                "example": "Support from family and friends is paramount to recovery.",
+                "exampleUzbek": "Oila va do'stlarning yordami sog'ayish uchun eng muhimdir."
+        }
+}
 };

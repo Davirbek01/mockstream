@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>Mall new? Cinema good. Parking bad. I like cinema.<br>Bye!</p>",
       "sampleA2": "<p>Hi!<br>The mall is new. They want to change it. I want a cinema and better parking because it is always full. What do you want?<br>See you!</p>",
       "sampleB1": "<p>Hey!<br>Have you heard about the mall renovation plans? I think it's a good idea. I would like a cinema because it would be fun to go there. Also, the parking is terrible, so they should definitely improve that. What do you think they should do?<br>Talk soon!</p>",
-      "sampleB2": "<p>Hi!<br>Guess what? The mall's getting a major renovation! I'm pretty excited about it. Honestly, a cinema would be fantastic; it's something that's really missing. Improved parking is essential too, it's always such a nightmare to find a space. What are your thoughts? Any specific changes you'd like to see them implement?<br>Let me know!</p>"
+      "sampleB2": "<p>Hi!<br>Guess what? The mall's getting a major renovation! I'm pretty excited about it. Honestly, a cinema would be fantastic; it's something that's really missing. Improved parking is essential too, it's always such a nightmare to find a space. What are your thoughts? Any specific changes you'd like to see them implement?<br>Let me know!</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Savdo markazini ta'mirlash rejalari haqida eshitdingmi? Kino teatri bo'lsa, juda zo'r bo'lardi – biz endi shahar bo'ylab mashina haydashimizga to'g'ri kelmasdi! Menimcha, ular albatta avtoturargohni ham yaxshilashlari kerak, u doim juda gavjum. Seningcha, ular yana nimani qo'shishlari kerak?</p>\n<p>Xabar ber!</p>",
+      "uzSampleA1": "<p>Salom!<br>Savdo markazi yangi? Kino yaxshi. Mashinalar turar joyi yomon. Menga kino yoqadi.<br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom!<br>Savdo markazi yangi. Ular uni o'zgartirmoqchi. Men kino va yaxshiroq to'xtash joyini xohlayman, chunki u har doim to'la bo'ladi. Sen nimani xohlaysan?<br>Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom!<br>Savdo markazini ta'mirlash rejalari haqida eshitdingizmi? Menimcha, bu yaxshi fikr. Men u yerga borish qiziqarli bo'lishi uchun kinoteatr bo'lishini xohlardim. Shuningdek, mashinalar qo'yish joyi juda yomon, shuning uchun ular buni albatta yaxshilashlari kerak. Sizningcha, ular nima qilishlari kerak?<br>Tez orada gaplashamiz!</p>",
+      "uzSampleB2": "<p>Salom!<br>Nima deb o'ylaysan? Savdo markazi katta ta'mirdan o'tyapti! Men bundan juda xursandman. Rostini aytsam, kinozal juda zo'r bo'lardi; bu narsa haqiqatan ham yetishmayapti. Yaxshilangan avtoturargoh ham juda muhim, joy topish har doim juda qiyin. Sening fikring qanday? Ular amalga oshirishini istagan aniq o'zgarishlar bormi?<br>Xabar ber!</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Mall,</p><br><p>I want a play area. And more food.  Parking bad. Bye.</p>",
       "sampleA2": "<p>Dear Mall,</p><br><p>I like the mall. I want a play area for kids because I have kids. And I want more food because I am hungry when I shop. Parking is bad, so you need more parking spaces. Thank you.</p><br><p>Bye,</p><br><p>A Shopper</p>",
       "sampleB1": "<p>Dear Mall Management,</p><br><p>I am writing to give my ideas about the mall renovation. I think a cinema would be a good idea because it would give people more to do. Also, the parking is often difficult, so improving the parking facilities would be helpful. In my opinion, a children's play area is also a good idea for families. However, I think you should also consider adding more coffee shops.</p><br><p>Thank you for listening to my suggestions.</p><br><p>Sincerely,<br>A Regular Shopper</p>",
-      "sampleB2": "<p>Dear Mall Management,</p><br><p>I am writing in response to your request for feedback regarding the proposed mall renovation. I believe several improvements would significantly enhance the shopping experience and encourage more frequent visits.</p><br><p>Firstly, while additional dining options are always welcome, I strongly support the addition of a cinema. This would transform the mall into a more comprehensive entertainment hub, particularly appealing to younger demographics and families. Secondly, addressing the current parking situation is crucial. The limited spaces and often chaotic layout deter shoppers, especially during peak hours. Investing in improved parking facilities, perhaps including a parking guidance system, would be highly beneficial. Finally, a dedicated children's play area would undoubtedly make the mall more attractive to families with young children, allowing parents to shop more freely. Furthermore, I suggest exploring options for more eco-friendly initiatives, such as solar panels or rainwater harvesting, to align with growing environmental awareness.</p><br><p>Thank you for considering my suggestions. I look forward to seeing the improvements.</p><br><p>Yours sincerely,<br>A Concerned Shopper</p>"
+      "sampleB2": "<p>Dear Mall Management,</p><br><p>I am writing in response to your request for feedback regarding the proposed mall renovation. I believe several improvements would significantly enhance the shopping experience and encourage more frequent visits.</p><br><p>Firstly, while additional dining options are always welcome, I strongly support the addition of a cinema. This would transform the mall into a more comprehensive entertainment hub, particularly appealing to younger demographics and families. Secondly, addressing the current parking situation is crucial. The limited spaces and often chaotic layout deter shoppers, especially during peak hours. Investing in improved parking facilities, perhaps including a parking guidance system, would be highly beneficial. Finally, a dedicated children's play area would undoubtedly make the mall more attractive to families with young children, allowing parents to shop more freely. Furthermore, I suggest exploring options for more eco-friendly initiatives, such as solar panels or rainwater harvesting, to align with growing environmental awareness.</p><br><p>Thank you for considering my suggestions. I look forward to seeing the improvements.</p><br><p>Yours sincerely,<br>A Concerned Shopper</p>",
+      "uzSample": "<p>Hurmatli Savdo Markazi Rahbariyati,</p>\n\n<p>Taklif etilayotgan ta'mirlash bo'yicha mijozlarning fikrini so'raganingiz uchun tashakkur. O'z fikrlarimni baham ko'rishdan mamnunman.</p>\n\n<p>Birinchidan, kinoteatr qo'shish juda foydali bo'lardi. Bu savdo markazini to'liq ko'ngilochar maskanga aylantiradi va ko'proq tashrif buyuruvchilarni jalb qiladi.</p>\n\n<p>Bundan tashqari, avtoturargoh imkoniyatlarini yaxshilash ustuvor vazifa bo'lishi kerak. Hozirgi avtoturargoh, ayniqsa dam olish kunlari, ko'pincha gavjum bo'ladi, bu esa xaridorlarni cho'chitadi.</p>\n\n<p>Bundan tashqari, bolalar o'yin maydonchasi savdo markazini oilalar uchun qulayroq qiladi va ota-onalarga bolalar ko'ngilxushlik qilayotganda xarid qilish imkonini beradi.</p>\n\n<p>Nihoyat, charchagan xaridorlar uchun savdo markazi bo'ylab ko'proq o'tirish joylarini qo'shishni taklif qilaman.</p>\n\n<p>Xarid qilish tajribamizni yaxshilashga bo'lgan sadoqatingiz uchun tashakkur.</p>\n\n<p>Hurmat bilan,<br>Doimiy Xaridor</p>",
+      "uzSampleA1": "<p>Salom, Savdo markazi,</p><br><p>Men oʻyin maydonchasini xohlayman. Va ko'proq ovqat. Mashinalar to'xtash joyi yomon. Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli Savdo Markazi,</p><br><p>Menga savdo markazi yoqadi. Men bolalar uchun o'yin maydonchasini xohlayman, chunki mening bolalarim bor. Va men ko'proq ovqat xohlayman, chunki men xarid qilganimda och qolaman. Mashinalar qo'yish joyi yomon, shuning uchun sizga ko'proq mashinalar qo'yish joylari kerak. Rahmat.</p><br><p>Xayr,</p><br><p>Xaridor</p>",
+      "uzSampleB1": "<p>Hurmatli Savdo Markazi Rahbariyati,</p><br><p>Men savdo markazini ta'mirlash bo'yicha o'z g'oyalarimni bildirish uchun yozyapman. O'ylashimcha, kinozal yaxshi fikr bo'lardi, chunki bu odamlarga ko'proq mashg'ulotlar beradi. Shuningdek, avtoturargoh ko'pincha qiyin, shuning uchun avtoturargoh sharoitlarini yaxshilash foydali bo'ladi. Mening fikrimcha, bolalar o'yin maydonchasi ham oilalar uchun yaxshi g'oya. Biroq, siz ko'proq qahvaxonalar qo'shishni ham o'ylab ko'rishingiz kerak.</p><br><p>Takliflarimni tinglaganingiz uchun rahmat.</p><br><p>Hurmat bilan,<br>Doimiy Xaridor</p>",
+      "uzSampleB2": "<p>Hurmatli Savdo Markazi Rahbariyati,</p><br><p>Men sizning savdo markazini ta'mirlash bo'yicha takliflaringizga javoban yozyapman. Bir nechta yaxshilanishlar xarid qilish tajribasini sezilarli darajada oshiradi va tez-tez tashrif buyurishga undaydi, deb hisoblayman.</p><br><p>Birinchidan, qo'shimcha ovqatlanish joylari har doim mamnuniyat bilan qabul qilinsa-da, men kinoteatr qo'shilishini qat'iy qo'llab-quvvatlayman. Bu savdo markazini yanada keng qamrovli ko'ngilochar markazga aylantiradi, ayniqsa yoshlar va oilalar uchun jozibali bo'ladi. Ikkinchidan, hozirgi avtoturargoh holatini hal qilish juda muhim. Cheklangan joylar va ko'pincha tartibsiz joylashuv xaridorlarni, ayniqsa eng gavjum soatlarda, bezovta qiladi. Yaxshilangan avtoturargoh inshootlariga, ehtimol avtoturargohga yo'naltiruvchi tizimni ham qo'shish juda foydali bo'ladi. Nihoyat, bolalar uchun maxsus o'yin maydonchasi, shubhasiz, savdo markazini yosh bolali oilalar uchun yanada jozibali qiladi va ota-onalarga erkinroq xarid qilish imkonini beradi. Bundan tashqari, o'sib borayotgan ekologik xabardorlikka moslashish uchun quyosh panellari yoki yomg'ir suvini yig'ish kabi ekologik toza tashabbuslar uchun imkoniyatlarni o'rganishni taklif qilaman.</p><br><p>Takliflarimni ko'rib chiqqaningiz uchun tashakkur. Yaxshilanishlarni ko'rishni intiqlik bilan kutaman.</p><br><p>Hurmat bilan,<br>Xavotirli Xaridor</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Mall,</p><p>I like cinema.  And food.  More food good.  Play area for kids is good.  Bye.</p>",
       "sampleA2": "<p>Dear Mall,</p><p>I like the mall.  I want a cinema because I like movies. And I want more places to eat because I am hungry when I shop. The parking is bad, so better parking is good.  Maybe a play area for kids, but I don't have kids. Thank you.</p>",
       "sampleB1": "<p>Dear Mall Management,</p><p>I am writing to give my opinion on the planned renovations. I think a cinema would be a great addition. Many people like to go to the movies, and it would bring more people to the mall. Also, improving the parking is very important. It's often difficult to find a space, especially on weekends. This makes me not want to visit.</p><p>I also think more restaurants would be good. There aren't enough choices now. However, I don't think a children's play area is necessary. There are already other things for kids to do. More shops would be better, especially clothes shops.</p><p>Thank you for considering my suggestions.</p>",
-      "sampleB2": "<p>Dear Mall Management,</p><p>I am writing to express my views on the proposed mall renovations. I believe the addition of a cinema and improved parking facilities are crucial to revitalizing the mall and attracting more visitors. Currently, the lack of entertainment options limits the mall's appeal, particularly in comparison to online shopping.</p><p>A cinema would not only provide entertainment but also encourage longer visits, potentially leading to increased spending in other stores. Furthermore, addressing the inadequate parking situation is essential. The current difficulty in finding parking spaces is a significant deterrent for many shoppers. Improved parking, perhaps through the addition of a parking garage, would alleviate this issue.</p><p>While additional dining options are welcome, I believe the focus should be on providing a diverse range of cuisines to cater to different tastes. A children's play area is a decent idea, but perhaps not as impactful as a cinema and better parking. Ultimately, the renovations should aim to create a more enjoyable and convenient shopping experience.</p>"
+      "sampleB2": "<p>Dear Mall Management,</p><p>I am writing to express my views on the proposed mall renovations. I believe the addition of a cinema and improved parking facilities are crucial to revitalizing the mall and attracting more visitors. Currently, the lack of entertainment options limits the mall's appeal, particularly in comparison to online shopping.</p><p>A cinema would not only provide entertainment but also encourage longer visits, potentially leading to increased spending in other stores. Furthermore, addressing the inadequate parking situation is essential. The current difficulty in finding parking spaces is a significant deterrent for many shoppers. Improved parking, perhaps through the addition of a parking garage, would alleviate this issue.</p><p>While additional dining options are welcome, I believe the focus should be on providing a diverse range of cuisines to cater to different tastes. A children's play area is a decent idea, but perhaps not as impactful as a cinema and better parking. Ultimately, the renovations should aim to create a more enjoyable and convenient shopping experience.</p>",
+      "uzSample": "<h2>Savdo markazlari onlayn xaridlarga qarshi: O'zgaruvchan manzara</h2>\n\n<p>Elektron tijoratning rivojlanishi bilan ko'pchilik savdo markazlarining o'limini bashorat qilmoqda. Biroq, menimcha, savdo markazlari hali ham hayotimizda muhim o'ringa ega - ular shunchaki rivojlanishi kerak.</p>\n\n<p>Birinchidan, savdo markazlari onlayn xaridlar ta'minlay olmaydigan ijtimoiy tajribani taklif etadi. Odamlar do'stlar bilan uchrashish, ovqatlanish va vitrinalarni tomosha qilishdan zavqlanishadi. Ko'pchilik uchun savdo markaziga sayohat shunchaki uy vazifasi emas, balki sayrdir.</p>\n\n<p>Bundan tashqari, ba'zi xaridlar jismoniy tajribani talab qiladi. Kiyimni kiyib ko'rish, elektronika mahsulotlarini sinovdan o'tkazish yoki atirlarni hidlashni onlayn tarzda takrorlab bo'lmaydi.</p>\n\n<p>Bundan tashqari, savdo markazlari tobora ko'ngilochar markazlarga aylanib bormoqda. Kinoteatrlar, restoranlar va tadbirlar o'tkaziladigan joylarga ega bo'lganlar gullab-yashnamoqda.</p>\n\n<p>Biroq, moslasha olmagan savdo markazlari qiynaladi. Noyob tajribalar va xizmatlarni taklif qilish juda muhim.</p>\n\n<p>Oxir oqibat, onlayn xaridlar qulaylikni taklif qilsa-da, savdo markazlari tajribani taklif qiladi. Eng muvaffaqiyatli savdo markazlari bu farqni tushunadigan va xaridorlarga shaxsan tashrif buyurish uchun sabab beradiganlardir.</p>",
+      "uzSampleA1": "<p>Salom Mall,</p><p>Men kinoni yaxshi ko'raman. Va ovqatni. Ko'proq ovqat yaxshi. Bolalar uchun o'yin maydoni yaxshi. Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli savdo markazi,</p><p>Menga savdo markazi yoqadi. Men kinoteatr xohlayman, chunki menga filmlar yoqadi. Va men ko'proq ovqatlanish joylarini xohlayman, chunki men xarid qilganimda och qolaman. Mashinalar qo'yish joyi yomon, shuning uchun yaxshiroq mashinalar qo'yish joyi yaxshi. Ehtimol, bolalar uchun o'yin maydonchasi, lekin mening bolalarim yo'q. Rahmat.</p>",
+      "uzSampleB1": "<p>Hurmatli Savdo Markazi Rahbariyati,</p><p>Men rejalashtirilgan ta'mirlashlar haqida o'z fikrimni bildirish uchun yozyapman. Menimcha, kinoteatr ajoyib qo'shimcha bo'lardi. Ko'p odamlar kinoga borishni yaxshi ko'rishadi va bu savdo markaziga ko'proq odam olib keladi. Shuningdek, avtoturargohni yaxshilash juda muhim. Ko'pincha joy topish qiyin, ayniqsa dam olish kunlarida. Bu meni tashrif buyurishni xohlamay qolishimga sabab bo'ladi.</p><p>Menimcha, ko'proq restoranlar ham yaxshi bo'lardi. Hozirda tanlovlar yetarli emas. Biroq, men bolalar o'yin maydonchasi zarur deb o'ylamayman. Bolalar uchun allaqachon boshqa narsalar bor. Ko'proq do'konlar yaxshiroq bo'lardi, ayniqsa kiyim do'konlari.</p><p>Takliflarimni ko'rib chiqqaningiz uchun rahmat.</p>",
+      "uzSampleB2": "<p>Hurmatli savdo markazi rahbariyati,</p><p>Men savdo markazini ta'mirlash bo'yicha takliflarga o'z fikrlarimni bildirish uchun yozyapman. Menimcha, kinoteatr qo'shilishi va avtoturargohlarning yaxshilanishi savdo markazini jonlantirish va ko'proq tashrif buyuruvchilarni jalb qilish uchun juda muhimdir. Hozirgi vaqtda ko'ngilochar imkoniyatlarning yo'qligi savdo markazining jozibasini cheklaydi, ayniqsa onlayn xaridlar bilan taqqoslaganda.</p><p>Kinoteatr nafaqat ko'ngilochar maskan bo'lib xizmat qiladi, balki tashriflarni uzoqroq qilishga ham yordam beradi, bu esa boshqa do'konlarda xarajatlarning ko'payishiga olib kelishi mumkin. Bundan tashqari, avtoturargoh bilan bog'liq muammoni hal qilish juda muhim. Hozirgi vaqtda avtoturargoh joylarini topishdagi qiyinchilik ko'plab xaridorlar uchun jiddiy to'siqdir. Yaxshilangan avtoturargoh, ehtimol avtoturargoh qurish orqali, bu muammoni hal qiladi.</p><p>Qo'shimcha ovqatlanish joylari mamnuniyat bilan qabul qilinadi, lekin menimcha, turli xil didlarga mos keladigan turli xil oshxonalarni taqdim etishga e'tibor qaratish kerak. Bolalar o'yin maydonchasi yaxshi fikr, lekin kinoteatr va yaxshiroq avtoturargoh kabi ta'sirli emas. Oxir oqibat, ta'mirlash yanada qulay va yoqimli xarid qilish tajribasini yaratishga qaratilgan bo'lishi kerak.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,143 @@ window.WRITING_TEST_DATA = {
         "uz": "o'zgaruvchan landshaft"
       }
     ]
+  },
+  "tokenTranslations": {
+    "mall renovation": {
+      "uz": "savdo markazini ta'mirlash",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "bo'lardi",
+      "type": "modal"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "parking": {
+      "uz": "avtoturargoh",
+      "type": "colloc"
+    },
+    "customer feedback": {
+      "uz": "mijozlar fikri",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "highly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "entertainment destination": {
+      "uz": "ko'ngilochar maskan",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "parking facilities": {
+      "uz": "avtoturargoh imkoniyatlari",
+      "type": "colloc"
+    },
+    "overcrowded": {
+      "uz": "odam gavjum",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "children's play area": {
+      "uz": "bolalar o'yin maydonchasi",
+      "type": "colloc"
+    },
+    "family-friendly": {
+      "uz": "oilaviy",
+      "type": "colloc"
+    },
+    "Finally": {
+      "uz": "Nihoyat",
+      "type": "adv"
+    },
+    "seating areas": {
+      "uz": "o'tirish joylari",
+      "type": "colloc"
+    },
+    "e-commerce": {
+      "uz": "elektron tijorat",
+      "type": "colloc"
+    },
+    "shopping malls": {
+      "uz": "savdo markazlari",
+      "type": "colloc"
+    },
+    "social experience": {
+      "uz": "ijtimoiy tajriba",
+      "type": "colloc"
+    },
+    "cannot": {
+      "uz": "mumkin emas",
+      "type": "modal"
+    },
+    "window shopping": {
+      "uz": "vitrinalarni tomosha qilish",
+      "type": "colloc"
+    },
+    "outing": {
+      "uz": "sayr",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Ustiga ustak",
+      "type": "adv"
+    },
+    "physical experience": {
+      "uz": "jismoniy tajriba",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "entertainment hubs": {
+      "uz": "ko'ngilochar maskanlar",
+      "type": "colloc"
+    },
+    "event spaces": {
+      "uz": "tadbir maydonlari",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "will": {
+      "uz": "-adi",
+      "type": "modal"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "convenience": {
+      "uz": "qulaylik",
+      "type": "colloc"
+    },
+    "experience": {
+      "uz": "tajriba",
+      "type": "colloc"
+    }
   }
 };

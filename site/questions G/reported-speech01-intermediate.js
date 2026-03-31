@@ -1,0 +1,36 @@
+// Grammar Test: Reported Speech — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "She said she <b>___</b> to go home.", correct: "wanted", options: ["wanted", "wants", "want", "is wanting"], def: "In reported speech, we usually shift the tense back one step.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He told me he <b>___</b> a new car.", correct: "was buying", options: ["was buying", "is buying", "bought", "buys"], def: "Past continuous in reported speech reflects continuous action in the past.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> all the cake.", correct: "had eaten", options: ["had eaten", "has eaten", "ate", "eats"], def: "Past perfect is used when reporting past actions before another past action.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> happy to be here.", correct: "were", options: ["were", "are", "was", "is"], def: "Present simple 'are' becomes past simple 'were' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I asked him <b>___</b> he liked pizza.", correct: "if", options: ["if", "that", "what", "when"], def: "'If' introduces reported yes/no questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He told me he <b>___</b> to the store yesterday.", correct: "had gone", options: ["had gone", "went", "has gone", "goes"], def: "Yesterday becomes past perfect in indirect speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> tired.", correct: "was", options: ["was", "is", "were", "are"], def: "'Is' changes to 'was' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He said he <b>___</b> going to the party.", correct: "was", options: ["was", "is", "were", "am"], def: "'Is' changes to 'was' even with 'going to'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> a movie last night.", correct: "had seen", options: ["had seen", "saw", "has seen", "sees"], def: "Last night also uses the past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She asked me what <b>___</b> my name was.", correct: "name", options: ["name", "is", "was", "were"], def: "Reported question uses statement word order.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He told me that he <b>___</b> English.", correct: "spoke", options: ["spoke", "speaks", "is speaking", "was speaking"], def: "Present simple 'speaks' becomes past simple 'spoke'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He asked me what I <b>___</b> yesterday.", correct: "had done", options: ["had done", "did", "have done", "do"], def: "Yesterday becomes past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> to the beach.", correct: "went", options: ["went", "go", "are going", "going"], def: "Simple past is used when reporting simple past events.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He said he <b>___</b> the movie.", correct: "liked", options: ["liked", "likes", "is liking", "was liking"], def: "Present simple 'likes' becomes past simple 'liked'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> hard.", correct: "had worked", options: ["had worked", "worked", "works", "is working"], def: "Past action before reporting uses past perfect.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He said he <b>___</b> be late.", correct: "would", options: ["would", "will", "can", "should"], def: "'Will' changes to 'would' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> I was going.", correct: "where", options: ["where", "if", "that", "what"], def: "'Where' introduces reported 'where' questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She said she <b>___</b> dinner.", correct: "had made", options: ["had made", "made", "makes", "is making"], def: "Past action before reporting uses past perfect.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> come to the party.", correct: "couldn't", options: ["couldn't", "can't", "didn't", "won't"], def: "'Cannot' changes to 'could not' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She said that she <b>___</b> a good time.", correct: "was having", options: ["was having", "is having", "had", "has"], def: "Past continuous in reported speech.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> in London.", correct: "had lived", options: ["had lived", "lived", "lives", "is living"], def: "Past action before reporting uses past perfect.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He said he <b>___</b> to the gym.", correct: "was going", options: ["was going", "is going", "went", "goes"], def: "'Is going' changes to 'was going' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> I needed help.", correct: "if", options: ["if", "that", "what", "when"], def: "'If' introduces reported yes/no questions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> to the park yesterday.", correct: "went", options: ["went", "goes", "had gone", "is going"], def: "In reported speech, 'said' requires past simple tense.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He told me he <b>___</b> a new car.", correct: "had bought", options: ["had bought", "bought", "buys", "is buying"], def: "Past simple changes to past perfect after 'told me'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> all the cake.", correct: "had eaten", options: ["had eaten", "ate", "has eaten", "eats"], def: "Past simple changes to past perfect after 'said'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> happy to be here.", correct: "were", options: ["were", "are", "was", "is"], def: "'Are' changes to 'were' in reported speech when reporting past events.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I asked him <b>___</b> he liked the movie.", correct: "if", options: ["if", "that", "what", "how"], def: "Use 'if' or 'whether' to report yes/no questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She told me she <b>___</b> to Italy the next year.", correct: "would go", options: ["would go", "will go", "went", "goes"], def: "'Will go' changes to 'would go' in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He said he <b>___</b> tired.", correct: "was", options: ["was", "is", "were", "be"], def: "'Am' changes to 'was' in reported speech.", level: "B1–B2"}
+];

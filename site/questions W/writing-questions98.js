@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p>\r\n<p>I go park. Good. Kids like. You go!</p>\r\n<p>Bye!</p>",
       "sampleA2": "<p>Hi [Friend's Name],</p>\r\n<p>I went to a park with my kids. It was fun! They have many things to do. It is safe, and the people are nice. You can go there with your kids. It is good for holidays!</p>\r\n<p>See you!</p>",
       "sampleB1": "<p>Hi [Friend's Name],</p>\r\n<p>I wanted to tell you about a place we visited recently, called ThrillZone adventure park. It was really good! My children had a lot of fun. They have zip lines and climbing, and I think your kids would enjoy it too. The staff were helpful, and it seemed very safe. You should consider going there during the holidays.</p>\r\n<p>Hope to see you soon,</p>\r\n<p>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],</p>\r\n<p>I hope this email finds you well.</p>\r\n<p>I'm writing to recommend a fantastic place to take the children during the upcoming holidays. We recently visited ThrillZone adventure park, and it exceeded all expectations. There's a great variety of activities, from zip-lining to challenging climbing walls, ensuring there's something to appeal to all ages. More importantly, the safety measures were comprehensive and the staff were incredibly attentive and professional. I believe your family would have a thoroughly enjoyable and memorable experience there. It's certainly worth considering.</p>\r\n<p>Best regards,</p>\r\n<p>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],</p>\r\n<p>I hope this email finds you well.</p>\r\n<p>I'm writing to recommend a fantastic place to take the children during the upcoming holidays. We recently visited ThrillZone adventure park, and it exceeded all expectations. There's a great variety of activities, from zip-lining to challenging climbing walls, ensuring there's something to appeal to all ages. More importantly, the safety measures were comprehensive and the staff were incredibly attentive and professional. I believe your family would have a thoroughly enjoyable and memorable experience there. It's certainly worth considering.</p>\r\n<p>Best regards,</p>\r\n<p>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, bolalar uchun ta'til mashg'ulotlarini qidiryapsan. Biz yaqinda ThrillZone sarguzasht parkiga bordik va u ajoyib edi! Zip laynlar, toqqa chiqish devorlari, to'siqlar yo'laklari – bolalarga juda yoqdi! Mutlaqo xavfsiz ham. Albatta, oilang bilan u yerga borishing kerak!</p>\n<p>O'zingni ehtiyot qil!</p>",
+      "uzSampleA1": "<p>Salom!</p>\n<p>Men parkga boraman. Yaxshi. Bolalarga yoqadi. Siz boring!</p>\n<p>Xayr!</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Men bolalarim bilan parkga bordim. Juda qiziqarli bo'ldi! U yerda ko'p narsalar bor. Xavfsiz va odamlari yaxshi. Siz ham bolalaringiz bilan u yerga borishingiz mumkin. Ta'til uchun yaxshi joy!</p>\n<p>Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Sizga yaqinda tashrif buyurgan joyimiz haqida aytmoqchi edim, u ThrillZone sarguzasht parki deb ataladi. U juda yaxshi edi! Mening bolalarim juda xursand bo'lishdi. Ularda zip laynlar va toqqa chiqish bor, va menimcha, sizning bolalaringizga ham yoqadi. Xodimlar yordam berishdi va u juda xavfsiz ko'rindi. Ta'til paytida u yerga borishni o'ylab ko'ring.</p>\n<p>Tez orada ko'rishguncha,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Aziz [Do'stingizning ismi],</p>\n<p>Umid qilamanki, bu xat sizga yaxshi yetib borgan.</p>\n<p>Sizga yaqinlashib kelayotgan ta'til davrida bolalarni olib borish uchun ajoyib joyni tavsiya qilmoqchiman. Yaqinda biz ThrillZone sarguzasht parkiga tashrif buyurdik va u barcha umidlarimizdan oshib tushdi. U yerda zip-layndan tortib, qiyin toqqa chiqish devorlarigacha bo'lgan turli xil mashg'ulotlar mavjud bo'lib, bu barcha yoshdagilarga mos kelishini ta'minlaydi. Eng muhimi, xavfsizlik choralari har tomonlama edi va xodimlar juda e'tiborli va professional edilar. Ishonamanki, sizning oilangiz u yerda juda yoqimli va unutilmas tajribaga ega bo'ladi. Albatta, ko'rib chiqishga arziydi.</p>\n<p>Eng yaxshi tilaklar bilan,</p>\n<p>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi ThrillZone!</p><br><p>It was fun! The park is good. My kids like it. Staff is nice. More swings please. Bye!</p>",
       "sampleA2": "<p>Dear ThrillZone,</p><br><p>Thank you for the park. It was good. My family liked the zipline and the climbing wall. The staff was helpful, and they explained everything. But the food was expensive, and we waited a long time for the rides. Maybe you can have more food and less waiting. Thank you!</p><br><p>Bye,<br>[Your Name]</p>",
       "sampleB1": "<p>Dear ThrillZone Team,</p><br><p>Thank you for the email. My family and I visited your adventure park last week, and we had a good time. I think the activities were exciting, especially the rope course. The staff were also very helpful and explained the safety rules clearly.</p><br><p>However, I have a few suggestions. The prices for the food and drinks were quite high. Also, there weren't enough places to sit down and relax. It would be good to have more benches or picnic tables. In my opinion, these changes would make the park even better.</p><br><p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear ThrillZone Team,</p><br><p>Thank you for your follow-up email regarding our recent visit to ThrillZone Adventure Park. Overall, we had a positive experience and appreciated the variety of activities available. We felt that the safety protocols were well-implemented, and the staff were consistently attentive and professional, which contributed significantly to our peace of mind.</p><br><p>That said, there are a couple of areas where improvements could enhance the visitor experience. Firstly, the signage throughout the park could be clearer, as we occasionally found ourselves unsure of the directions to specific attractions. Secondly, while we understand the need for safety regulations, the restrictions on bringing outside food and beverages felt somewhat limiting, particularly for families with young children or specific dietary requirements.</p><br><p>Perhaps offering more diverse and affordable food options within the park, or relaxing the restrictions slightly, could address this concern. Improved wayfinding would also be beneficial.</p><br><p>Thank you for considering my feedback. We look forward to visiting ThrillZone again in the future.</p><br><p>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear ThrillZone Team,</p><br><p>Thank you for your follow-up email regarding our recent visit to ThrillZone Adventure Park. Overall, we had a positive experience and appreciated the variety of activities available. We felt that the safety protocols were well-implemented, and the staff were consistently attentive and professional, which contributed significantly to our peace of mind.</p><br><p>That said, there are a couple of areas where improvements could enhance the visitor experience. Firstly, the signage throughout the park could be clearer, as we occasionally found ourselves unsure of the directions to specific attractions. Secondly, while we understand the need for safety regulations, the restrictions on bringing outside food and beverages felt somewhat limiting, particularly for families with young children or specific dietary requirements.</p><br><p>Perhaps offering more diverse and affordable food options within the park, or relaxing the restrictions slightly, could address this concern. Improved wayfinding would also be beneficial.</p><br><p>Thank you for considering my feedback. We look forward to visiting ThrillZone again in the future.</p><br><p>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli ThrillZone jamoasi,</p>\n<p>Sizning sarguzasht parkingizdagi tajribam haqida so'raganingiz uchun rahmat.</p>\n<p>Men tashrifdan juda ta'sirlandim. Xavfsizlik standartlari a'lo darajada edi va xodimlar har bir kishi to'g'ri jihoz kiyganiga ishonch hosil qilishdi. Mening bolalarim mashg'ulotlarda juda hayajonli vaqt o'tkazishdi. Tabiiy muhit uni yanada yoqimli qildi.</p>\n<p>Biroq, menda ba'zi takliflar bor. Oziq-ovqat tanlash imkoniyatlari juda cheklangan va qimmat edi. Bundan tashqari, mashhur attraksionlarga navbat kutish vaqtlari eng yuqori soatlarda ancha uzoq edi.</p>\n<p>Oilalar o'zlari bilan ovqat olib kelishlari mumkin bo'lgan piknik joylari bo'lishini xohlardim. Tungi sarguzasht seanslari juda hayajonli bo'lardi. Shuningdek, tez o'tish imkoniyati kutish vaqtlarini qisqartirishga yordam beradi.</p>\n<p>Umuman olganda, ThrillZone unutilmas oilaviy xotiralar taqdim etdi.</p>\n<p>Hurmat bilan,\n[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom, ThrillZone!</p><br><p>Qiziqarli bo'ldi! Park yaxshi. Bolalarimga yoqdi. Xodimlar yaxshi. Iltimos, ko'proq arg'imchoqlar bo'lsin. Xayr!</p>",
+      "uzSampleA2": "<p>Hurmatli ThrillZone,</p><br><p>Park uchun rahmat. Yaxshi edi. Mening oilamga zipline va toqqa chiqish devori yoqdi. Xodimlar yordam berishdi va hamma narsani tushuntirishdi. Lekin ovqat qimmat edi va biz attraksionlarni uzoq kutdik. Balki siz ko'proq ovqat va kamroq kutishni tashkil qila olasiz. Rahmat!</p><br><p>Xayr,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli ThrillZone jamoasi,</p><br><p>Elektron pochta uchun rahmat. O'tgan hafta oilam bilan sarguzasht bog'ingizga tashrif buyurdik va yaxshi vaqt o'tkazdik. O'ylashimcha, mashg'ulotlar, ayniqsa arqonli yo'lak juda hayajonli edi. Xodimlar ham juda yordam berishdi va xavfsizlik qoidalarini aniq tushuntirishdi.</p><br><p>Biroq, menda bir nechta takliflar bor. Oziq-ovqat va ichimliklar narxlari juda qimmat edi. Shuningdek, o'tirish va dam olish uchun joylar yetarli emas edi. Ko'proq o'rindiqlar yoki piknik stollari bo'lishi yaxshi bo'lardi. Mening fikrimcha, bu o'zgarishlar bog'ni yanada yaxshiroq qiladi.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli ThrillZone jamoasi,</p><br><p>ThrillZone sarguzasht parkiga yaqinda tashrifimiz bo'yicha sizning keyingi elektron pochtangiz uchun rahmat. Umuman olganda, biz ijobiy tajribaga ega bo'ldik va mavjud bo'lgan turli xil tadbirlarni qadrladik. Biz xavfsizlik protokollari yaxshi amalga oshirilganini va xodimlar doimiy ravishda e'tiborli va professional ekanligini his qildik, bu bizning xotirjamligimizga katta hissa qo'shdi.</p><br><p>Shunga qaramay, tashrif buyuruvchilar tajribasini yaxshilash mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, park bo'ylab yo'l-yo'riq ko'rsatkichlari aniqroq bo'lishi mumkin, chunki biz vaqti-vaqti bilan muayyan diqqatga sazovor joylarga qanday borishni bilmay qoldik. Ikkinchidan, xavfsizlik qoidalariga rioya qilish zarurligini tushunsak ham, tashqaridan ovqat va ichimliklar olib kelishga qo'yilgan cheklovlar biroz cheklangan bo'lib tuyuldi, ayniqsa yosh bolali yoki muayyan parhez talablari bo'lgan oilalar uchun.</p><br><p>Ehtimol, park ichida yanada xilma-xil va arzonroq ovqatlanish imkoniyatlarini taklif qilish yoki cheklovlarni biroz yumshatish bu muammoni hal qilishi mumkin. Yaxshilangan yo'l topish ham foydali bo'ladi.</p><br><p>Fikrlarimni ko'rib chiqayotganingiz uchun tashakkur. Kelajakda ThrillZonega yana tashrif buyurishni intiqlik bilan kutamiz.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I go park. It is fun. Kids play. Sun is good. Home is TV. Park is better. Bye!</p>",
       "sampleA2": "<p>Hello,<br><br>I think kids stay home too much. They watch TV and play games. It is not good. I like to play outside because it is fun. I can run and jump. My friends also like the park. But my brother likes TV. He says it is good but I think outside is better because you can get exercise. Maybe kids need to go outside more. It is healthy.<br><br>Bye!</p>",
       "sampleB1": "<p>Are kids spending too much time inside these days? I think so. In my opinion, children need to play outside more often.<br><br>Firstly, it's important for their health. If they stay inside all day, they don't get enough exercise. This can lead to problems like being overweight. Also, playing outside helps them build strong muscles.<br><br>Secondly, being outside is good for their minds. They can explore nature and learn new things. For example, they can see different types of plants and animals. However, I understand that sometimes it's not safe to play outside, or the weather is bad.<br><br>Overall, I believe that parents should encourage their children to spend more time outdoors. It's better for their health and their minds.</p>",
-      "sampleB2": "<p>The question of whether children are spending too much time indoors is a pertinent one in today's society. While technology offers undeniable benefits, I believe the current imbalance towards indoor activities is detrimental to children's development.<br><br>One key aspect is physical health. A sedentary lifestyle, often characterized by excessive screen time, contributes to rising rates of childhood obesity and related health issues. Outdoor play, on the other hand, promotes physical activity, builds strength, and improves coordination.<br><br>Furthermore, exposure to nature has a profound impact on mental well-being. Studies suggest that children who spend time outdoors exhibit reduced stress levels, improved attention spans, and enhanced creativity. The simulated environments of video games simply cannot replicate these benefits.<br><br>Admittedly, factors such as safety concerns and limited access to green spaces can make outdoor play challenging. However, parents and educators should actively seek opportunities to encourage outdoor activities. Investing in parks, playgrounds, and accessible natural environments is crucial for fostering a generation of healthy and well-rounded individuals.</p>"
+      "sampleB2": "<p>The question of whether children are spending too much time indoors is a pertinent one in today's society. While technology offers undeniable benefits, I believe the current imbalance towards indoor activities is detrimental to children's development.<br><br>One key aspect is physical health. A sedentary lifestyle, often characterized by excessive screen time, contributes to rising rates of childhood obesity and related health issues. Outdoor play, on the other hand, promotes physical activity, builds strength, and improves coordination.<br><br>Furthermore, exposure to nature has a profound impact on mental well-being. Studies suggest that children who spend time outdoors exhibit reduced stress levels, improved attention spans, and enhanced creativity. The simulated environments of video games simply cannot replicate these benefits.<br><br>Admittedly, factors such as safety concerns and limited access to green spaces can make outdoor play challenging. However, parents and educators should actively seek opportunities to encourage outdoor activities. Investing in parks, playgrounds, and accessible natural environments is crucial for fostering a generation of healthy and well-rounded individuals.</p>",
+      "uzSample": "<p>Zamonaviy bolalar avvalgi avlodlarga qaraganda ko'proq vaqtni uyda o'tkazmoqda. Menimcha, bu tendensiya ularning rivojlanishiga chinakam zarar yetkazadi.</p>\n\n<p>Birinchidan, ochiq havoda o'ynash jismoniy salomatlik uchun juda muhim. Muntazam faoliyat bo'lmagan holda, bolalar orasida bolalik semirishi, mushaklarning zaifligi va koordinatsiyaning yomonlashuvi kabi holatlar ko'paymoqda. Uyda harakatsiz o'tirish uzoq muddatli sog'liq muammolariga olib keladi.</p>\n\n<p>Ikkinchidan, tabiat bilan aloqa ruhiy farovonlik uchun foydali. Tadqiqotlar shuni ko'rsatadiki, tashqarida o'ynaydigan bolalarda xavotirlik darajasi pastroq, diqqatni jamlash qobiliyati yaxshiroq va ijodkorlik darajasi yuqori bo'ladi. Ekranlar bu afzalliklarni takrorlay olmaydi.</p>\n\n<p>Biroq, uyda o'tkazilgan vaqt butunlay salbiy emas. Xavfsizlik masalalari, ekstremal ob-havo va shahar muhiti ba'zan ochiq havoda o'ynashni qiyinlashtiradi. Bundan tashqari, ta'lim texnologiyalari qimmatli o'rganish imkoniyatlarini taklif etadi.</p>\n\n<p>Shunga qaramay, muvozanat juda muhim. Ota-onalar ekran vaqtini cheklashi va ochiq havoda mashg'ulotlarni rag'batlantirishi kerak. Maktablar jismoniy tarbiya va ochiq havoda tanaffuslarga ustuvor ahamiyat berishi kerak.</p>\n\n<p>Bundan tashqari, jamiyatlar bolalar o'rganishi mumkin bo'lgan xavfsiz ochiq maydonlar – parklar, o'yin maydonchalari va tabiat hududlarini yaratishi kerak.</p>\n\n<p>Xulosa qilib aytganda, bolalarni ko'proq tashqariga olib chiqish sog'lom, baxtli va yaxshi rivojlangan shaxslarni tarbiyalash uchun zarurdir.</p>",
+      "uzSampleA1": "<p>Salom!<br>Men parkga boraman. Bu qiziqarli. Bolalar o'ynaydi. Quyosh yaxshi. Uyda televizor. Park yaxshiroq. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br><br>Menimcha, bolalar uyda juda ko'p vaqt qolishadi. Ular televizor ko'rishadi va o'yinlar o'ynashadi. Bu yaxshi emas. Men tashqarida o'ynashni yaxshi ko'raman, chunki bu qiziqarli. Men yugurishim va sakrashim mumkin. Mening do'stlarimga ham park yoqadi. Lekin akam televizorni yaxshi ko'radi. Uning aytishicha, bu yaxshi, lekin menimcha tashqari yaxshiroq, chunki siz mashq qilishingiz mumkin. Ehtimol, bolalar ko'proq tashqariga chiqishlari kerak. Bu sog'lom.<br><br>Xayr!</p>",
+      "uzSampleB1": "<p>Bolalar hozirgi kunda juda ko'p vaqtni uyda o'tkazyaptimi? Menimcha, shunday. Mening fikrimcha, bolalar ko'proq tashqarida o'ynashlari kerak.<br><br>Birinchidan, bu ularning sog'lig'i uchun muhim. Agar ular kun bo'yi uyda qolsalar, yetarli jismoniy mashq qilmaydilar. Bu ortiqcha vazn kabi muammolarga olib kelishi mumkin. Shuningdek, tashqarida o'ynash ularga kuchli mushaklar qurishga yordam beradi.<br><br>Ikkinchidan, tashqarida bo'lish ularning aql-idroki uchun foydali. Ular tabiatni o'rganishlari va yangi narsalarni o'rganishlari mumkin. Masalan, ular turli xil o'simliklar va hayvonlarni ko'rishlari mumkin. Biroq, men tushunaman, ba'zida tashqarida o'ynash xavfsiz emas yoki ob-havo yomon.<br><br>Umuman olganda, men ota-onalar o'z farzandlarini ko'proq vaqtni tashqarida o'tkazishga undashlari kerak deb hisoblayman. Bu ularning sog'lig'i va aql-idroki uchun yaxshiroqdir.</p>",
+      "uzSampleB2": "<p>Bolalar bugungi kunda juda ko'p vaqtni uyda o'tkazayaptimi degan savol, bugungi jamiyatda dolzarbdir. Texnologiya inkor etib bo'lmaydigan foydalarni taklif qilsa-da, menimcha, hozirgi nomutanosiblik uy ichidagi mashg'ulotlarga qarab bolalarning rivojlanishiga zarar yetkazadi.<br><br>Asosiy jihatlardan biri jismoniy salomatlikdir. O'troq turmush tarzi, ko'pincha ekran oldida ortiqcha vaqt o'tkazish bilan tavsiflanadi, bolalar orasida semizlik darajasining oshishiga va tegishli sog'liq muammolariga olib keladi. Boshqa tomondan, ochiq havoda o'ynash jismoniy faollikni oshiradi, kuchni oshiradi va muvofiqlashtirishni yaxshilaydi.<br><br>Bundan tashqari, tabiat bilan aloqa qilish ruhiy farovonlikka katta ta'sir ko'rsatadi. Tadqiqotlar shuni ko'rsatadiki, ochiq havoda vaqt o'tkazadigan bolalarda stress darajasi pastroq, diqqatni jamlash qobiliyati yaxshiroq va ijodkorlik kuchaygan. Video o'yinlarning simulyatsiya qilingan muhiti bu afzalliklarni oddiygina takrorlay olmaydi.<br><br>Tan olish kerakki, xavfsizlik masalalari va yashil hududlarga kirishning cheklanganligi kabi omillar ochiq havoda o'ynashni qiyinlashtirishi mumkin. Biroq, ota-onalar va o'qituvchilar ochiq havoda mashg'ulotlarni rag'batlantirish uchun faol imkoniyatlar izlashlari kerak. Sog'lom va har tomonlama rivojlangan avlodni tarbiyalash uchun parklar, o'yin maydonchalari va qulay tabiiy muhitlarga sarmoya kiritish juda muhimdir.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,151 @@ window.WRITING_TEST_DATA = {
         "uz": "yaxshi rivojlangan shaxslar"
       }
     ]
+  },
+  "tokenTranslations": {
+    "holiday activities": {
+      "uz": "ta'til mashg'ulotlari",
+      "type": "colloc"
+    },
+    "just": {
+      "uz": "faqat",
+      "type": "adv"
+    },
+    "adventure park": {
+      "uz": "sarguzasht bog'i",
+      "type": "colloc"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "Perfectly": {
+      "uz": "mukammal tarzda",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "thoroughly": {
+      "uz": "puxta",
+      "type": "adv"
+    },
+    "safety standards": {
+      "uz": "xavfsizlik standartlari",
+      "type": "colloc"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "food options": {
+      "uz": "ovqat tanlovlari",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ko'proq",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "quite": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "picnic areas": {
+      "uz": "piknik hududlari",
+      "type": "colloc"
+    },
+    "Night adventure": {
+      "uz": "Tungi sarguzasht",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "fast-pass option": {
+      "uz": "tezkor o'tish imkoniyati",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Avvalo",
+      "type": "adv"
+    },
+    "outdoor play": {
+      "uz": "ochiq havoda o'yin",
+      "type": "colloc"
+    },
+    "childhood obesity": {
+      "uz": "bolalar semirishi",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "mental wellbeing": {
+      "uz": "ruhiy salomatlik",
+      "type": "colloc"
+    },
+    "creativity": {
+      "uz": "ijodkorlik",
+      "type": "colloc"
+    },
+    "cannot": {
+      "uz": "mumkin emas",
+      "type": "modal"
+    },
+    "educational technology": {
+      "uz": "ta'lim texnologiyalari",
+      "type": "colloc"
+    },
+    "Nevertheless": {
+      "uz": "Shunga qaramay",
+      "type": "adv"
+    },
+    "screen time": {
+      "uz": "ekran oldida o'tkazilgan vaqt",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "outdoor spaces": {
+      "uz": "ochiq havoda joylar",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    }
   }
 };

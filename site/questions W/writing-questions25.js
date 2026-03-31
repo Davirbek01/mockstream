@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi! <br> Library good. <br> I like books. <br> Study is good. <br> Bye!</p>",
       "sampleA2": "<p>Hi! <br> The library is changing! <br> I like the books, and I want to read more books at home. <br> But I don't like computers. <br> What do you think? </p>",
       "sampleB1": "<p>Hey! <br> The library is going to change! I think it's a good idea. <br> I really want the digital books because it's easier to read at home. Also, the study rooms are good because sometimes it's noisy. <br> What do you think about the changes? It will be interesting. </p>",
-      "sampleB2": "<p>Hi! <br> Did you see the library's announcement about the upgrades? I'm quite keen on the digital lending service; it would be so convenient to borrow e-books. I also think the quiet study pods are a great idea, especially during busy times. <br> I'm not sure about the computer workshops, though. What are your thoughts on those, and the extended hours? Let me know! </p>"
+      "sampleB2": "<p>Hi! <br> Did you see the library's announcement about the upgrades? I'm quite keen on the digital lending service; it would be so convenient to borrow e-books. I also think the quiet study pods are a great idea, especially during busy times. <br> I'm not sure about the computer workshops, though. What are your thoughts on those, and the extended hours? Let me know! </p>",
+      "uzSample": "<p>Salom!</p>\n<p>Nihoyat, kutubxona yangilanmoqda! Men raqamli kitob berish xizmatidan juda ham xursandman – uyda o'tirib elektron kitoblarni yuklab olishni tasavvur qiling-a! O'ylashimcha, ular albatta ko'proq o'qish joylarini ham qo'shishlari kerak. Seminarlar haqida nima deb o'ylaysan?</p>\n<p>Keling, muhokama qilamiz!</p>",
+      "uzSampleA1": "<p>Salom! <br> Kutubxona yaxshi. <br> Menga kitoblar yoqadi. <br> O'qish yaxshi. <br> Xayr!</p>",
+      "uzSampleA2": "<p>Salom! <br> Kutubxona o'zgaryapti! <br> Menga kitoblar yoqadi va men uyda ko'proq kitob o'qishni xohlayman. <br> Lekin menga kompyuterlar yoqmaydi. <br> Siz nima deb o'ylaysiz? </p>",
+      "uzSampleB1": "<p>Salom! <br> Kutubxona o'zgarmoqchi! Menimcha, bu yaxshi fikr. <br> Men uyda o'qish osonroq bo'lgani uchun raqamli kitoblarni juda xohlayman. Shuningdek, o'qish xonalari ham yaxshi, chunki ba'zan shovqin bo'ladi. <br> O'zgarishlar haqida nima deb o'ylaysiz? Qiziqarli bo'ladi. </p>",
+      "uzSampleB2": "<p>Salom! <br> Kutubxonaning yangilanishlar haqidagi e'lonini ko'rdingmi? Raqamli kitob berish xizmati menga juda yoqdi; elektron kitoblarni olish juda qulay bo'lardi. Shuningdek, shaxsiy o'qish joylari, ayniqsa gavjum paytlarda ajoyib g'oya deb o'ylayman. <br> Kompyuter bo'yicha seminarlar haqida esa, unchalik ishonchim komil emas. Sening fikring qanday, va ish vaqtining uzaytirilishi haqida nima deysan? Menga xabar ber! </p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like books. I want computer. I like night time. Bye!</p>",
       "sampleA2": "<p>Hello,<br>I like the library. I want ebooks because I can read them at home. And I want computers because I need to use internet. But I don't like study pods because I like to read with my friends. Thank you.<br>Bye,<br>A library user</p>",
       "sampleB1": "<p>Dear Head Librarian,<br><br>Thank you for asking us about the library changes. I think the digital lending is a good idea because it's easy to borrow books online. Also, the quiet study pods would be helpful for students who need to study. However, I don't think extending evening hours is necessary because the library is open long enough already. Maybe you could add more comfortable chairs? In my opinion, that would be useful.<br><br>Sincerely,<br>A Library User</p>",
-      "sampleB2": "<p>Dear Head Librarian,<br><br>I am writing to express my feedback on the proposed modernization efforts for our local library. I believe the addition of digital lending services would be a significant improvement. Providing access to e-books and audiobooks would cater to a wider audience and enhance convenience.<br><br>Furthermore, the creation of quiet study pods is a commendable idea. A dedicated space for focused work is essential for students and researchers alike. The current open layout can be disruptive, hindering concentration.<br><br>While extending evening hours may benefit some, I would suggest prioritizing improvements to the existing resources. Perhaps investing in a more comprehensive collection of academic journals or expanding the range of online databases would be more beneficial in the long run.<br><br>Thank you for considering my suggestions.<br><br>Yours sincerely,<br>A Concerned Library User</p>"
+      "sampleB2": "<p>Dear Head Librarian,<br><br>I am writing to express my feedback on the proposed modernization efforts for our local library. I believe the addition of digital lending services would be a significant improvement. Providing access to e-books and audiobooks would cater to a wider audience and enhance convenience.<br><br>Furthermore, the creation of quiet study pods is a commendable idea. A dedicated space for focused work is essential for students and researchers alike. The current open layout can be disruptive, hindering concentration.<br><br>While extending evening hours may benefit some, I would suggest prioritizing improvements to the existing resources. Perhaps investing in a more comprehensive collection of academic journals or expanding the range of online databases would be more beneficial in the long run.<br><br>Thank you for considering my suggestions.<br><br>Yours sincerely,<br>A Concerned Library User</p>",
+      "uzSample": "<p>Hurmatli Bosh Kutubxonachi,</p>\n\n<p>Kutubxona foydalanuvchilari bilan modernizatsiya rejalari bo'yicha maslahatlashganingiz uchun tashakkur. O'z fikrlarimni bildirishdan mamnunman.</p>\n\n<p>Birinchidan, raqamli kitob berish xizmati juda foydali bo'lardi. Elektron kitoblar va audiokitoblarni masofadan turib olish imkoniyati kutubxonani barcha foydalanuvchilar uchun yanada qulayroq qiladi.</p>\n\n<p>Bundan tashqari, diqqatni jamlab o'qish uchun joyga muhtoj bo'lgan talabalar uchun shaxsiy o'qish kabinalari juda qimmatli bo'lardi. Hozirgi ochiq rejadagi joylashuv chalg'itishi mumkin.</p>\n\n<p>Shuningdek, kechki soatlarni uzaytirish kunduzi tashrif buyura olmaydigan ishlaydigan mutaxassislarga mos keladi.</p>\n\n<p>Va nihoyat, foydalanuvchilar o'qiyotganda ichimliklardan bahramand bo'lishlari mumkin bo'lgan kafe zonasini qo'shishni taklif qilaman.</p>\n\n<p>Kutubxonamizni yaxshilashga bo'lgan sadoqatingiz uchun tashakkur.</p>\n\n<p>Hurmat bilan,<br>Doimiy Kutubxona Foydalanuvchisi</p>",
+      "uzSampleA1": "<p>Salom!<br>Menga kitoblar yoqadi. Men kompyuter xohlayman. Menga tun vaqti yoqadi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br>Menga kutubxona yoqadi. Men elektron kitoblarni xohlayman, chunki ularni uyda o'qiy olaman. Va men kompyuterlarni xohlayman, chunki menga internetdan foydalanish kerak. Lekin menga o'qish uchun joylar yoqmaydi, chunki men do'stlarim bilan o'qishni yoqtiraman. Rahmat.<br>Xayr,<br>Kutubxona foydalanuvchisi</p>",
+      "uzSampleB1": "<p>Hurmatli Bosh Kutubxonachi,<br><br>Kutubxonadagi o'zgarishlar haqida so'raganingiz uchun rahmat. Menimcha, raqamli kitob berish yaxshi fikr, chunki kitoblarni onlayn tarzda olish oson. Shuningdek, jim o'qish joylari o'qishga muhtoj bo'lgan talabalar uchun foydali bo'ladi. Biroq, menimcha, kechki soatlarni uzaytirish zarur emas, chunki kutubxona allaqachon yetarlicha uzoq vaqt ochiq. Balki siz yanada qulay stullar qo'shishingiz mumkin? Mening fikrimcha, bu foydali bo'lardi.<br><br>Hurmat bilan,<br>Kutubxona foydalanuvchisi</p>",
+      "uzSampleB2": "<p>Hurmatli Bosh Kutubxonachi,<br><br>Men mahalliy kutubxonamizni modernizatsiya qilish bo'yicha taklif etilayotgan harakatlar yuzasidan o'z fikrlarimni bildirish uchun yozyapman. Raqamli kitob berish xizmatlarini qo'shish muhim yaxshilanish bo'ladi, deb hisoblayman. Elektron kitoblar va audio kitoblarga kirishni ta'minlash kengroq auditoriyani qamrab oladi va qulaylikni oshiradi.<br><br>Bundan tashqari, sokin o'qish joylarini yaratish maqtovga loyiq g'oya. Diqqatni jamlagan holda ishlash uchun maxsus joy talabalar va tadqiqotchilar uchun birdek zarur. Hozirgi ochiq joylashuv konsentratsiyaga xalaqit berib, bezovta qilishi mumkin.<br><br>Kechki soatlarni uzaytirish ba'zilarga foyda keltirishi mumkin bo'lsa-da, men mavjud resurslarni yaxshilashga ustuvor ahamiyat berishni taklif qilaman. Ehtimol, akademik jurnallarning yanada kengroq to'plamiga sarmoya kiritish yoki onlayn ma'lumotlar bazalari turini kengaytirish uzoq muddatda foydaliroq bo'ladi.<br><br>Takliflarimni ko'rib chiqayotganingiz uchun tashakkur.<br><br>Hurmat bilan,<br>Xavotirdagi Kutubxona Foydalanuvchisi</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like books. Library is good. I want computer. Bye!</p>",
       "sampleA2": "<p>Hello,<br>I like the library. I read books there. I want computers because I don't have one at home. And I want to read books on the computer too. The library is good but it needs more computers. Thank you!</p>",
       "sampleB1": "<p>Dear Head Librarian,<br>I am writing to you about the library changes. I think the new services are a good idea. I would really like it if the library had computer training. I don't know much about computers, and I think it would help me get a job. Also, the quiet study pods sound good because it is hard to study at home. However, I think the library should stay open later, especially on weekends. This would help students who work during the day. For example, I could study after work if the library was open until 9 pm. Thank you for considering my ideas.</p>",
-      "sampleB2": "<p>Dear Head Librarian,<br>I am writing in response to the proposed modernization efforts at the library. I believe these changes represent a vital step in ensuring the library's continued relevance in our community.<br><br>Of the proposed services, digital lending and extended evening hours would be the most beneficial to me. Digital lending would provide convenient access to materials, particularly for those with limited mobility or busy schedules. Furthermore, extending the library's hours would allow students and working professionals greater flexibility in utilizing its resources.<br><br>Beyond these suggestions, I propose investing in more diverse programming. Workshops on topics such as financial literacy, resume writing, and coding would equip community members with valuable skills. Additionally, creating partnerships with local organizations could expand the library's reach and impact.<br><br>Ultimately, the library should strive to be a dynamic and inclusive space that meets the evolving needs of its patrons. These improvements would contribute significantly to achieving that goal.<br><br>Sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear Head Librarian,<br>I am writing in response to the proposed modernization efforts at the library. I believe these changes represent a vital step in ensuring the library's continued relevance in our community.<br><br>Of the proposed services, digital lending and extended evening hours would be the most beneficial to me. Digital lending would provide convenient access to materials, particularly for those with limited mobility or busy schedules. Furthermore, extending the library's hours would allow students and working professionals greater flexibility in utilizing its resources.<br><br>Beyond these suggestions, I propose investing in more diverse programming. Workshops on topics such as financial literacy, resume writing, and coding would equip community members with valuable skills. Additionally, creating partnerships with local organizations could expand the library's reach and impact.<br><br>Ultimately, the library should strive to be a dynamic and inclusive space that meets the evolving needs of its patrons. These improvements would contribute significantly to achieving that goal.<br><br>Sincerely,<br>[Your Name]</p>",
+      "uzSample": "<h2>Raqamli Davrda Kutubxonalar: Hali ham Muhimmi?</h2>\n\n<p>Axborot qo'limiz ostida mavjud bo'lgani sababli, ba'zilar jismoniy kutubxonalar dolzarbligicha qoladimi, degan savolni berishmoqda. Menimcha, ularning roli o'zgarib borayotgan bo'lsada, ular har qachongidan ham muhimroq.</p>\n\n<p>Birinchidan, kutubxonalar resurslarga teng imkoniyatni ta'minlaydi. Hamma ham internetga ulanish, kompyuterlar yoki kitoblarni sotib olishga qurbi yetmaydi. Kutubxonalar ushbu raqamli tafovutni bartaraf etib, bilimning barcha uchun ochiq bo'lishini ta'minlaydi.</p>\n\n<p>Bundan tashqari, kutubxonalar o'qish va mulohaza uchun tinch joylarni taklif etadi – shovqinli dunyomizda tobora kam uchraydigan narsa. Talabalar va tadqiqotchilar uchun bu muhit bebaho.</p>\n\n<p>Qolaversa, zamonaviy kutubxonalar kitoblardan tashqari rivojlandi. Hozirda ularning ko'pchiligi umrbod ta'limni rivojlantiradigan jamiyat dasturlari, seminarlar va ijtimoiy joylarni taklif etadi.</p>\n\n<p>Biroq, kutubxonalar moslashishi kerak. Jismoniy mavjudligini saqlab qolgan holda raqamli xizmatlarni qabul qilish muhim.</p>\n\n<p>Yakuniy xulosa shuki, jismoniy kutubxonalarni odamlar bilim va bir-birlari bilan bog'lanadigan jamiyat markazlari sifatida ko'rish kerak. Bu rolni faqat ekranlar bilan almashtirib bo'lmaydi.</p>",
+      "uzSampleA1": "<p>Salom!<br>Men kitoblarni yaxshi ko'raman. Kutubxona yaxshi. Men kompyuter xohlayman. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br>Menga kutubxona yoqadi. Men u yerda kitoblar o'qiyman. Men kompyuterlarni xohlayman, chunki uyimda yo'q. Va men kompyuterda ham kitoblar o'qishni xohlayman. Kutubxona yaxshi, lekin unga ko'proq kompyuterlar kerak. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli bosh kutubxonachi,<br>Men sizga kutubxonadagi o'zgarishlar haqida yozmoqdaman. Menimcha, yangi xizmatlar yaxshi g'oya. Agar kutubxonada kompyuter bo'yicha treninglar bo'lsa, men juda xursand bo'lardim. Men kompyuterlar haqida ko'p narsa bilmayman va bu menga ish topishga yordam beradi deb o'ylayman. Shuningdek, tinch o'qish joylari yaxshi fikr, chunki uyda o'qish qiyin. Biroq, menimcha, kutubxona kechroq, ayniqsa dam olish kunlari ochiq bo'lishi kerak. Bu kunduzi ishlaydigan talabalarga yordam beradi. Misol uchun, agar kutubxona soat 9 gacha ochiq bo'lsa, men ishdan keyin o'qishim mumkin edi. Fikrlarimni ko'rib chiqqaningiz uchun rahmat.</p>",
+      "uzSampleB2": "<p>Hurmatli kutubxona mudiri,<br>Men kutubxonada taklif etilayotgan modernizatsiya harakatlariga javoban yozmoqdaman. Menimcha, bu o'zgarishlar kutubxonaning jamiyatimizda doimiy ahamiyatga ega bo'lishini ta'minlashda muhim qadamdir.<br><br>Taklif etilayotgan xizmatlardan raqamli kreditlash va kechki soatlarni uzaytirish men uchun eng foydali bo'ladi. Raqamli kreditlash materiallarga qulay kirishni ta'minlaydi, ayniqsa harakatlanish qobiliyati cheklangan yoki band bo'lganlar uchun. Bundan tashqari, kutubxonaning ish vaqtini uzaytirish talabalar va ishlaydigan mutaxassislarga uning resurslaridan foydalanishda ko'proq moslashuvchanlik imkonini beradi.<br><br>Bu takliflardan tashqari, men yanada xilma-xil dasturlarga sarmoya kiritishni taklif qilaman. Moliyaviy savodxonlik, rezyume yozish va kodlash kabi mavzularda seminarlar o'tkazish jamiyat a'zolarini qimmatli ko'nikmalar bilan ta'minlaydi. Bundan tashqari, mahalliy tashkilotlar bilan hamkorlik qilish kutubxonaning ta'sir doirasini va ta'sirini kengaytirishi mumkin.<br><br>Oxir oqibat, kutubxona o'z homiylarining o'zgaruvchan ehtiyojlariga javob beradigan dinamik va inklyuziv makon bo'lishga intilishi kerak. Ushbu yaxshilanishlar ushbu maqsadga erishishga sezilarli hissa qo'shadi.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,159 @@ window.WRITING_TEST_DATA = {
         "uz": "jismoniy mavjudlik"
       }
     ]
+  },
+  "tokenTranslations": {
+    "finally": {
+      "uz": "nihoyat",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "digital lending": {
+      "uz": "raqamli kitob berish",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "study spaces": {
+      "uz": "o'qish joylari",
+      "type": "colloc"
+    },
+    "modernization plans": {
+      "uz": "modernizatsiya rejalari",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "digital lending service": {
+      "uz": "raqamli kitob berish xizmati",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "tremendously": {
+      "uz": "juda katta",
+      "type": "adv"
+    },
+    "accessible": {
+      "uz": "qulay",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "quiet study pods": {
+      "uz": "jim o'qish kabinalari",
+      "type": "colloc"
+    },
+    "extremely": {
+      "uz": "o'ta",
+      "type": "adv"
+    },
+    "open-plan layout": {
+      "uz": "ochiq rejadagi joylashuv",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "evening hours": {
+      "uz": "kechki soatlar",
+      "type": "colloc"
+    },
+    "cannot": {
+      "uz": "mumkin emas",
+      "type": "modal"
+    },
+    "café area": {
+      "uz": "kafe zonasi",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "physical libraries": {
+      "uz": "an'anaviy kutubxonalar",
+      "type": "colloc"
+    },
+    "equal access": {
+      "uz": "teng imkoniyat",
+      "type": "colloc"
+    },
+    "digital divide": {
+      "uz": "raqamli tafovut",
+      "type": "colloc"
+    },
+    "knowledge remains accessible": {
+      "uz": "bilim olish imkoniyati saqlanib qoladi",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "quiet spaces": {
+      "uz": "tinch joylar",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "invaluable": {
+      "uz": "bebaho",
+      "type": "colloc"
+    },
+    "community programs": {
+      "uz": "mahalliy dasturlar",
+      "type": "colloc"
+    },
+    "social spaces": {
+      "uz": "ijtimoiy joylar",
+      "type": "colloc"
+    },
+    "lifelong learning": {
+      "uz": "umrbod ta'lim",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "must": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "digital services": {
+      "uz": "raqamli xizmatlar",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "community hubs": {
+      "uz": "mahalliy markazlar",
+      "type": "colloc"
+    }
   }
 };

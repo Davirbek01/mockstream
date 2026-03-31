@@ -162,4 +162,333 @@ window.ARTICLE_DATA = {
             exampleUzbek: "DNK gumonlanuvchining DNKsi bilan mos keldi."
         }
     }
+,
+    passageB1: `<p>A man in London has been <strong>sentenced</strong> to prison for life for murder. This is surprising because the murder happened 18 years ago. At that time, the police <strong>questioned</strong> the man, Anthony Ruark. But they did not find enough <strong>evidence</strong> to <strong>charge</strong> him with the crime. He said he was somewhere else when the murder happened.</p>
+
+<p>Ruark probably thought he would not be <strong>caught</strong>. The woman who was murdered, who was <strong>strangled</strong>, used to be his girlfriend. He was still friends with her family after she died. He seemed like he had no guilt about the murder for many years.</p>
+
+<p>His <strong>conviction</strong> was partly because of new ways to <strong>detect</strong> crime and partly because of luck. Now, <strong>genetic fingerprinting</strong>, which uses DNA, is important in crime investigations. But it was not used in the UK when the murder happened. This <strong>process</strong> needs a sample of blood, saliva, skin, or something else from the person. This contains DNA. Scientists found that everyone has a different <strong>pattern</strong> in their DNA. This makes it a very good way to <strong>identify</strong> people.</p>
+
+<p>Computers also helped to <strong>convict</strong> Ruark. When he was found guilty of another crime last year, his DNA was put on a police <strong>database</strong>. At that time, the police were already looking again at the 1983 murder. They were investigating Ruark because someone had <strong>tipped off</strong> the police by phone.</p>
+
+<p>A sample from the murder <strong>scene</strong> was <strong>analysed</strong> using DNA. The <strong>analysis</strong> showed that the DNA was the same as Ruark's. He had left some body <strong>samples</strong> at the place where the crime happened. This is why he was found guilty after so many years.</p>
+
+<p>This is seen as a big success for modern crime-solving methods. The murderer's own body <strong>proved</strong> he was guilty.</p>`,
+    translationB1: `<p>Londonda bir erkak qotillik uchun umrbod qamoq jazosiga hukm qilindi. Bu hayratlanarli, chunki qotillik 18 yil oldin sodir bo'lgan edi. O'sha paytda politsiya Entoni Ruarkni <strong>so'roq qilgan</strong> edi. Ammo ular uni jinoyatda <strong>ayblashga</strong> yetarli <strong>dalil</strong> topa olishmadi. U qotillik sodir bo'lgan paytda boshqa joyda bo'lganini aytdi.</p>
+
+<p>Ruark uni <strong>ushlashmaydi</strong> deb o'ylagan bo'lsa kerak. <strong>Bo'g'ib o'ldirilgan</strong> ayol uning sobiq qiz do'sti edi. U vafotidan keyin ham uning oilasi bilan do'st bo'lib qoldi. U ko'p yillar davomida qotillikda hech qanday aybi yo'qdek tuyuldi.</p>
+
+<p>Uning <strong>aybdorligi</strong> qisman jinoyatni <strong>aniqlashning</strong> yangi usullari va qisman omad tufayli isbotlandi. Hozirda DNAdan foydalanadigan <strong>genetik barmoq izlari</strong> jinoyat tergovlarida muhim rol o'ynaydi. Ammo qotillik sodir bo'lgan paytda Buyuk Britaniyada bu usul qo'llanilmagan edi. Bu <strong>jarayon</strong> uchun odamning qoni, so'lagi, terisi yoki boshqa narsasidan namuna kerak bo'ladi. Bu DNAni o'z ichiga oladi. Olimlar har kimning DNAsida har xil <strong>naqsh</strong> borligini aniqlashdi. Bu odamlarni <strong>aniqlashning</strong> juda yaxshi usuli hisoblanadi.</p>
+
+<p>Kompyuterlar ham Ruarkni <strong>aybdor deb topishga</strong> yordam berdi. O'tgan yili u boshqa jinoyatda aybdor deb topilgach, uning DNAsi politsiya <strong>ma'lumotlar bazasiga</strong> kiritildi. O'sha paytda politsiya allaqachon 1983 yildagi qotillikni qayta ko'rib chiqayotgan edi. Ular Ruarkni tergov qilishayotgan edi, chunki kimdir telefon orqali politsiyaga <strong>xabar bergan</strong> edi.</p>
+
+<p>Qotillik <strong>joyidan</strong> olingan namuna DNK yordamida <strong>tahlil qilindi</strong>. <strong>Tahlil</strong> Ruarkning DNKsi bilan bir xil ekanligini ko'rsatdi. U jinoyat sodir bo'lgan joyda tana <strong>namunalarini</strong> qoldirgan edi. Shuning uchun u shuncha yildan keyin aybdor deb topildi.</p>
+
+<p>Bu zamonaviy jinoyatni hal qilish usullari uchun katta muvaffaqiyat sifatida ko'riladi. Qotilning o'z tanasi uning aybdorligini <strong>isbotladi</strong>.</p>`,
+    vocabularyB1: {
+        "sentenced": {
+                "definition": "Given a punishment by a court of law",
+                "uzbek": "Qonun tomonidan jazo berilgan",
+                "example": "The judge sentenced him to five years in prison.",
+                "exampleUzbek": "Sudya uni besh yilga qamoq jazosiga hukm qildi."
+        },
+        "questioned": {
+                "definition": "Asked questions by the police",
+                "uzbek": "Politsiya tomonidan so'roq qilingan",
+                "example": "The police questioned all the witnesses.",
+                "exampleUzbek": "Politsiya barcha guvohlarni so'roq qildi."
+        },
+        "evidence": {
+                "definition": "Facts or signs that show something is true",
+                "uzbek": "Biror narsaning to'g'riligini ko'rsatadigan faktlar yoki belgilar",
+                "example": "The police found evidence of a crime.",
+                "exampleUzbek": "Politsiya jinoyatning dalillarini topdi."
+        },
+        "charge": {
+                "definition": "To accuse someone of a crime",
+                "uzbek": "Kimnidir jinoyatda ayblash",
+                "example": "The police charged him with theft.",
+                "exampleUzbek": "Politsiya uni o'g'irlikda aybladi."
+        },
+        "caught": {
+                "definition": "Found doing something wrong",
+                "uzbek": "Noto'g'ri ish qilayotganda topilgan",
+                "example": "The thief was caught by the police.",
+                "exampleUzbek": "O'g'rini politsiya ushladi."
+        },
+        "strangled": {
+                "definition": "Killed by squeezing the throat",
+                "uzbek": "Bo'g'ib o'ldirilgan",
+                "example": "The victim was strangled with a rope.",
+                "exampleUzbek": "Jabrlanuvchi arqon bilan bo'g'ib o'ldirilgan."
+        },
+        "conviction": {
+                "definition": "The act of finding someone guilty in court",
+                "uzbek": "Sudda kimnidir aybdor deb topish harakati",
+                "example": "His conviction was a surprise to everyone.",
+                "exampleUzbek": "Uning aybdor deb topilishi hammaga kutilmagan hodisa bo'ldi."
+        },
+        "detect": {
+                "definition": "To discover or find something",
+                "uzbek": "Biror narsani aniqlash yoki topish",
+                "example": "The machine can detect even small amounts of radiation.",
+                "exampleUzbek": "Mashina hatto oz miqdordagi radiatsiyani ham aniqlay oladi."
+        },
+        "genetic fingerprinting": {
+                "definition": "Using DNA to identify someone",
+                "uzbek": "Kimnidir aniqlash uchun DNAdan foydalanish",
+                "example": "Genetic fingerprinting is used in many crime investigations.",
+                "exampleUzbek": "Genetik barmoq izlari ko'plab jinoyat tergovlarida qo'llaniladi."
+        },
+        "process": {
+                "definition": "A series of actions that lead to a result",
+                "uzbek": "Natijaga olib keladigan harakatlar seriyasi",
+                "example": "The process of making cheese takes several days.",
+                "exampleUzbek": "Pishloq tayyorlash jarayoni bir necha kun davom etadi."
+        },
+        "pattern": {
+                "definition": "A repeated design or arrangement",
+                "uzbek": "Takrorlanuvchi dizayn yoki tartib",
+                "example": "The pattern on the dress was very pretty.",
+                "exampleUzbek": "Ko'ylakdagi naqsh juda chiroyli edi."
+        },
+        "identify": {
+                "definition": "To recognize or find out who someone is",
+                "uzbek": "Kimnidir tanib olish yoki kimligini aniqlash",
+                "example": "Can you identify the person in the photo?",
+                "exampleUzbek": "Suratdagi odamni tanib olasizmi?"
+        },
+        "convict": {
+                "definition": "To prove someone is guilty of a crime in a court of law",
+                "uzbek": "Sudda kimningdir jinoyatda aybdorligini isbotlash",
+                "example": "The jury convicted him of murder.",
+                "exampleUzbek": "Hakamlar hay'ati uni qotillikda aybdor deb topdi."
+        },
+        "database": {
+                "definition": "A collection of information stored on a computer",
+                "uzbek": "Kompyuterda saqlanadigan ma'lumotlar to'plami",
+                "example": "The police have a database of fingerprints.",
+                "exampleUzbek": "Politsiyada barmoq izlari ma'lumotlar bazasi mavjud."
+        },
+        "tipped off": {
+                "definition": "To secretly give someone information",
+                "uzbek": "Kimdirga maxfiy ma'lumot berish",
+                "example": "Someone tipped off the police about the robbery.",
+                "exampleUzbek": "Kimdir politsiyaga o'g'irlik haqida ma'lumot berdi."
+        },
+        "scene": {
+                "definition": "The place where something happens",
+                "uzbek": "Biror narsa sodir bo'ladigan joy",
+                "example": "The police arrived at the scene of the accident.",
+                "exampleUzbek": "Politsiya baxtsiz hodisa joyiga yetib keldi."
+        },
+        "analysed": {
+                "definition": "Examined carefully to understand something",
+                "uzbek": "Biror narsani tushunish uchun diqqat bilan tekshirilgan",
+                "example": "The scientists analysed the data.",
+                "exampleUzbek": "Olimlar ma'lumotlarni tahlil qilishdi."
+        },
+        "analysis": {
+                "definition": "A careful study of something",
+                "uzbek": "Biror narsani ehtiyotkorlik bilan o'rganish",
+                "example": "The analysis showed that the water was polluted.",
+                "exampleUzbek": "Tahlil suvning ifloslanganligini ko'rsatdi."
+        },
+        "samples": {
+                "definition": "Small amounts of something used for testing",
+                "uzbek": "Sinov uchun ishlatiladigan biror narsaning kichik miqdori",
+                "example": "The doctor took blood samples.",
+                "exampleUzbek": "Shifokor qon namunalari oldi."
+        },
+        "proved": {
+                "definition": "Showed that something is true",
+                "uzbek": "Biror narsaning to'g'riligini ko'rsatdi",
+                "example": "The evidence proved he was guilty.",
+                "exampleUzbek": "Dalillar uning aybdorligini isbotladi."
+        }
+},
+    passageB2: `<p>A man in London has recently been sentenced to life imprisonment for a murder committed 18 years ago. What makes this case so remarkable is that Anthony Ruark, the convicted man, was initially questioned by the police shortly after the crime. However, at the time, the police investigation didn't <strong>uncover</strong> enough evidence to formally charge him. He even had an alibi, claiming he was elsewhere when the murder took place.</p>
+
+<p>Ruark must have believed he had successfully <strong>evaded justice</strong>. The victim, who had been strangled, was a former girlfriend. He even maintained friendly relationships with her family after her death, showing no outward signs of guilt or a <strong>troubled conscience</strong> throughout the years.</p>
+
+<p>His eventual conviction was a result of both advancements in forensic science and a degree of luck. DNA fingerprinting, which relies on unique DNA patterns, is now a crucial tool in forensic investigations. However, this technology wasn't available in the UK until after the murder. The process involves obtaining a sample of the suspect's blood, saliva, skin, or other bodily material containing cells and therefore DNA. Scientists discovered that the number and <strong>arrangement</strong> of certain repeated DNA sequences are unique to each individual, making it a highly accurate identification method.</p>
+
+<p>Computers also played a significant role in Ruark's <strong>subsequent</strong> conviction. After being convicted of a separate crime last year, his DNA profile was automatically added to a national police database. Around the same time, the police had already begun <strong>re-examining</strong> the 1983 murder, specifically Ruark's possible involvement, due to a telephone <strong>tip-off</strong> from a member of the public. This information prompted them to <strong>delve deeper</strong> into the cold case.</p>
+
+<p>A forensic sample taken from the original crime scene was then analysed using DNA profiling. The results showed a clear match between the DNA found at the scene and Ruark's DNA profile. He had unknowingly left <strong>biological samples</strong> at the crime scene, and this evidence ultimately led to his conviction so many years later. This case has been hailed as a major success for modern forensic science, demonstrating how a perpetrator's own body can <strong>seal their fate</strong>.</p>`,
+    translationB2: `<p>Londonda bir erkak 18 yil oldin sodir etilgan qotillik uchun umrbod qamoq jazosiga hukm qilindi. Bu ishni shunchalik e'tiborga molik qiladigan narsa shundaki, ayblanuvchi Entoni Ruark dastlab jinoyatdan ko'p o'tmay politsiya tomonidan so'roq qilingan. Ammo, o'sha paytda politsiya tergovi uni rasman ayblash uchun yetarli dalillarni <strong>aniqlay olmadi</strong>. U hatto qotillik sodir bo'lgan paytda boshqa joyda bo'lganini da'vo qilib, oqlanishga ham ega edi.</p>
+
+<p>Ruark adolatdan muvaffaqiyatli <strong>qutulib qoldim</strong> deb o'ylagan bo'lsa kerak. Bo'g'ib o'ldirilgan qurbon uning sobiq qiz do'sti edi. U hatto o'limidan keyin ham uning oilasi bilan do'stona munosabatlarni saqlab qoldi va yillar davomida hech qanday tashqi aybdorlik yoki <strong>vijdon azobi</strong> alomatlarini ko'rsatmadi.</p>
+
+<p>Uning oxir-oqibat hukm qilinishi ham sud tibbiyoti sohasidagi yutuqlar, ham omad natijasi bo'ldi. DNK barmoq izlari, noyob DNK namunalariga asoslangan holda, hozirda sud-tibbiy tekshiruvlarda muhim vosita hisoblanadi. Ammo, bu texnologiya Buyuk Britaniyada qotillikdan keyingina paydo bo'ldi. Jarayon gumonlanuvchining qoni, so'lagi, terisi yoki hujayralarni va shuning uchun DNKni o'z ichiga olgan boshqa tana materialidan namunani olishni o'z ichiga oladi. Olimlar ma'lum takroriy DNK ketma-ketliklarining soni va <strong>joylashuvi</strong> har bir shaxs uchun noyob ekanligini aniqladilar, bu uni juda aniq identifikatsiya usuliga aylantiradi.</p>
+
+<p>Kompyuterlar ham Ruarkning <strong>keyingi</strong> hukm qilinishida muhim rol o'ynadi. O'tgan yili alohida jinoyatda aybdor deb topilgandan so'ng, uning DNK profili avtomatik ravishda milliy politsiya ma'lumotlar bazasiga qo'shildi. Ayni paytda, politsiya allaqachon 1983 yildagi qotillikni, xususan, Ruarkning mumkin bo'lgan ishtirokini, jamoatchilikdan olingan telefon <strong>xabari</strong> tufayli <strong>qayta ko'rib chiqa boshlagan</strong> edi. Bu ma'lumot ularni bu eski ishni <strong>chuqurroq o'rganishga</strong> undadi.</p>
+
+<p>Keyin asl jinoyat joyidan olingan sud-tibbiy namunasi DNK profilidan foydalanib tahlil qilindi. Natijalar jinoyat joyida topilgan DNK va Ruarkning DNK profili o'rtasida aniq moslikni ko'rsatdi. U bilmagan holda jinoyat joyida <strong>biologik namunalarni</strong> qoldirgan edi va bu dalil oxir-oqibat ko'p yillar o'tib uning hukmiga olib keldi. Bu ish zamonaviy sud tibbiyotining asosiy muvaffaqiyati sifatida e'tirof etildi va jinoyatchining o'z tanasi qanday qilib ularning <strong>taqdirini hal qilishi</strong> mumkinligini ko'rsatdi.</p>`,
+    vocabularyB2: {
+        "uncover": {
+                "definition": "To discover something previously hidden or unknown.",
+                "uzbek": "oldinga yashiringan yoki noma'lum narsani kashf qilish",
+                "example": "The investigation uncovered new evidence that changed the course of the trial.",
+                "exampleUzbek": "Tergov sud jarayonining yo'nalishini o'zgartirgan yangi dalillarni ochib berdi."
+        },
+        "evaded justice": {
+                "definition": "To avoid being caught and punished for a crime.",
+                "uzbek": "jinoyat uchun qo'lga tushish va jazolanishdan qochish",
+                "example": "The suspect evaded justice for many years by living under a false name.",
+                "exampleUzbek": "Gumondor ko'p yillar davomida yolg'on nom ostida yashab, adolatdan qochdi."
+        },
+        "troubled conscience": {
+                "definition": "A feeling of guilt or remorse about something one has done wrong.",
+                "uzbek": "noto'g'ri qilgan ishi uchun aybdorlik yoki afsuslanish hissi",
+                "example": "He couldn't sleep at night because of his troubled conscience.",
+                "exampleUzbek": "U kechalari uxlay olmadi, chunki uning vijdoni azoblangan."
+        },
+        "arrangement": {
+                "definition": "The way in which things are placed or organized.",
+                "uzbek": "narsalar joylashtirilgan yoki tashkil etilgan usul",
+                "example": "The arrangement of the furniture in the room was very pleasing.",
+                "exampleUzbek": "Xonadagi mebellarning joylashuvi juda yoqimli edi."
+        },
+        "subsequent": {
+                "definition": "Coming after something in time; following.",
+                "uzbek": "vaqt o'tishi bilan keyinroq keladigan; keyingi",
+                "example": "The team won the first game and suffered a defeat in the subsequent match.",
+                "exampleUzbek": "Jamoa birinchi o'yinda g'alaba qozondi va keyingi o'yinda mag'lubiyatga uchradi."
+        },
+        "re-examining": {
+                "definition": "To examine something again, often in more detail.",
+                "uzbek": "biror narsani yana tekshirish, ko'pincha batafsilroq",
+                "example": "The police are re-examining the evidence in the cold case.",
+                "exampleUzbek": "Politsiya sovuq ish bo'yicha dalillarni qayta ko'rib chiqmoqda."
+        },
+        "tip-off": {
+                "definition": "A piece of information, usually given secretly, that warns someone about something or tells them how to do something.",
+                "uzbek": "axborot bo'lagi, odatda yashirincha beriladi, bu kimnidir biror narsa haqida ogohlantiradi yoki ularga biror narsani qanday qilishni aytadi",
+                "example": "The police received a tip-off about the planned robbery.",
+                "exampleUzbek": "Politsiya rejalashtirilgan o'g'irlik haqida ma'lumot oldi."
+        },
+        "delve deeper": {
+                "definition": "To investigate or examine something carefully and thoroughly.",
+                "uzbek": "biror narsani diqqat bilan va puxta tekshirish yoki o'rganish",
+                "example": "Researchers are delving deeper into the causes of the disease.",
+                "exampleUzbek": "Tadqiqotchilar kasallikning sabablarini chuqurroq o'rganmoqdalar."
+        },
+        "biological samples": {
+                "definition": "Materials taken from the body, such as blood, saliva, or tissue, for testing.",
+                "uzbek": "sinov uchun tanadan olingan materiallar, masalan, qon, so'lak yoki to'qima",
+                "example": "The lab analyzed the biological samples to identify the virus.",
+                "exampleUzbek": "Laboratoriya virusni aniqlash uchun biologik namunalarni tahlil qildi."
+        },
+        "seal their fate": {
+                "definition": "To ensure that something bad will definitely happen to someone.",
+                "uzbek": "kimdir bilan yomon narsa albatta sodir bo'lishini ta'minlash",
+                "example": "His confession sealed his fate; he was sentenced to life in prison.",
+                "exampleUzbek": "Uning iqrornomasi uning taqdirini muhrladi; u umrbod qamoq jazosiga hukm qilindi."
+        }
+},
+    passageC1: `<p>The recent life sentence handed down in London for a murder committed <strong>nearly two decades prior</strong> underscores the ever-increasing reach of forensic science. What renders this case particularly noteworthy is that Anthony Ruark, though initially questioned in the wake of the 1983 crime, evaded prosecution due to a <strong>paucity of evidence</strong>. He maintained an alibi that, at the time, proved <strong>insurmountable</strong> for investigators.</p>
+
+<p>Ruark, it would appear, operated under the presumption that he had <strong>successfully evaded justice</strong>. Despite having once been romantically involved with the victim, who died by strangulation, he maintained cordial relations with her family, seemingly devoid of any <strong>discernible remorse</strong> for his actions. His conviction, therefore, represents a confluence of both technological advancement and serendipity.</p>
+
+<p>The linchpin of the prosecution's case rested upon advancements in DNA technology. While genetic fingerprinting, a cornerstone of modern forensic analysis, was not yet <strong>fully realised</strong> in the UK at the time of the murder, its subsequent development proved instrumental. The process, predicated on obtaining biological samples such as blood, saliva, or skin cells, leverages the <strong>inherent uniqueness</strong> of individual DNA profiles. Specifically, the identification and analysis of variable number tandem repeats (VNTRs) within human DNA have proven to be an exceptionally reliable means of establishing identity, thereby <strong>revolutionising</strong> crime detection.</p>
+
+<p>Computers, too, played an <strong>indispensable role</strong> in Ruark's eventual apprehension. His DNA profile, obtained following a conviction for a separate crime the previous year, was automatically uploaded to a national police database. This coincided with the re-opening of the 1983 murder investigation, spurred by an anonymous tip-off, thereby <strong>catapulting</strong> Ruark back into the frame as a prime suspect. It could be argued that the <strong>synergy</strong> between technological advancement and human intelligence was key to cracking the case.</p>
+
+<p>Subsequent forensic analysis of samples collected at the original crime scene, utilising advanced DNA profiling techniques, conclusively linked Ruark to the murder. The presence of his biological material at the scene, undetected for nearly two decades, served as the <strong>definitive evidence</strong> that secured his conviction. This case stands as a testament to the power of modern forensic science, illustrating how the perpetrator's own biology can, ultimately, <strong>serve as his undoing</strong> and bring closure to decades old cases.</p>`,
+    translationC1: `<p>Yaqinda Londonda qariyb <strong>yigirma yil avval</strong> sodir etilgan qotillik uchun umrbod qamoq jazosining berilishi sud-tibbiyot fanining tobora kengayib borayotgan ta'sirini ko'rsatadi. Bu ishni ayniqsa e'tiborga molik qiladigan narsa shundaki, Entoni Ruark, 1983-yildagi jinoyatdan so'ng dastlab so'roq qilingan bo'lsa-da, <strong>dalillarning yetishmasligi</strong> tufayli jinoiy javobgarlikka tortilmadi. U o'sha paytda tergovchilar uchun <strong>yengib bo'lmas</strong> bo'lgan alibini saqlab qoldi.</p>
+
+<p>Ko'rinishidan, Ruark adolatdan <strong>muvaffaqiyatli qochib qutuldim</strong>, degan taxmin ostida harakat qilgan. Bir vaqtlar bo'g'ib o'ldirilgan jabrlanuvchi bilan romantik munosabatda bo'lganiga qaramay, u uning oilasi bilan samimiy munosabatlarni saqlab qoldi, go'yo o'z harakatlaridan hech qanday <strong>sezilarli pushaymonlik</strong> sezilmagandek. Shuning uchun uning hukmi texnologik taraqqiyot va omadning birgalikdagi natijasidir.</p>
+
+<p>Prokuratura ishining asosiy tayanchi DNK texnologiyasidagi yutuqlarga asoslangan edi. Zamonaviy sud-tibbiy tahlilning asosi bo'lgan genetik barmoq izlari, qotillik sodir bo'lgan paytda Buyuk Britaniyada <strong>to'liq amalga oshirilmagan</strong> bo'lsa-da, uning keyingi rivojlanishi muhim rol o'ynadi. Qon, so'lak yoki teri hujayralari kabi biologik namunalarni olishga asoslangan jarayon individual DNK profillarining <strong>o'ziga xosligidan</strong> foydalanadi. Xususan, inson DNKsida o'zgaruvchan sonli tandem takrorlanishlarini (VNTR) aniqlash va tahlil qilish shaxsni aniqlashning juda ishonchli usuli ekanligi isbotlandi va shu bilan jinoyatni aniqlashda <strong>inqilob qildi</strong>.</p>
+
+<p>Kompyuterlar ham Ruarkni oxir-oqibat ushlashda <strong>ajralmas rol</strong> o'ynadi. Uning o'tgan yili alohida jinoyat uchun hukm qilinganidan so'ng olingan DNK profili avtomatik ravishda milliy politsiya ma'lumotlar bazasiga yuklandi. Bu 1983-yildagi qotillik tergovining qayta ochilishi bilan bir vaqtga to'g'ri keldi, bu esa anonim xabar bilan turtki bo'ldi va shu bilan Ruarkni asosiy gumonlanuvchi sifatida qayta <strong>olib chiqdi</strong>. Texnologik taraqqiyot va inson aql-zakovati o'rtasidagi <strong>sinergiya</strong> ishni hal qilishning kaliti bo'ldi, deb ta'kidlash mumkin.</p>
+
+<p>Dastlabki jinoyat joyida to'plangan namunalarni keyingi sud-tibbiy tahlili, ilg'or DNK profillash usullaridan foydalangan holda, Ruarkning qotillikka aloqadorligini yakuniy tarzda isbotladi. Uning biologik materialining deyarli yigirma yil davomida aniqlanmagan holda voqea joyida bo'lishi uning hukmini ta'minlagan <strong>qat'iy dalil</strong> bo'lib xizmat qildi. Ushbu ish zamonaviy sud-tibbiyot fanining kuchidan dalolat beradi, bu jinoyatchining o'z biologiyasi qanday qilib oxir-oqibatda <strong>uning halokatiga olib kelishi</strong> va o'nlab yillar davom etgan ishlarga nuqta qo'yishini ko'rsatadi.</p>`,
+    vocabularyC1: {
+        "nearly two decades prior": {
+                "definition": "Almost twenty years before the present time.",
+                "uzbek": "Hozirgi vaqtdan deyarli yigirma yil oldin.",
+                "example": "The events unfolded nearly two decades prior to the trial.",
+                "exampleUzbek": "Voqealar sud jarayonidan deyarli yigirma yil oldin sodir bo'lgan."
+        },
+        "paucity of evidence": {
+                "definition": "A lack or scarcity of evidence.",
+                "uzbek": "Dalillarning yetishmasligi yoki kamligi.",
+                "example": "Due to the paucity of evidence, the case was initially dismissed.",
+                "exampleUzbek": "Dalillarning kamligi sababli ish dastlab rad etildi."
+        },
+        "insurmountable": {
+                "definition": "Too great to be overcome; impossible to surmount.",
+                "uzbek": "Yengib bo'lmaydigan; engib o'tishning iloji yo'q.",
+                "example": "The legal challenges seemed insurmountable at first.",
+                "exampleUzbek": "Huquqiy muammolar dastlab yengib bo'lmaydigandek tuyuldi."
+        },
+        "successfully evaded justice": {
+                "definition": "Managed to avoid being caught and punished for a crime.",
+                "uzbek": "Jinoyat uchun qo'lga tushishdan va jazolanishdan qochishga muvaffaq bo'ldi.",
+                "example": "He believed he had successfully evaded justice for years.",
+                "exampleUzbek": "U yillar davomida adolatdan muvaffaqiyatli qochib qutuldim deb o'yladi."
+        },
+        "discernible remorse": {
+                "definition": "Noticeable or perceptible regret or guilt.",
+                "uzbek": "Sezilarli yoki aniq afsus yoki aybdorlik hissi.",
+                "example": "There was no discernible remorse in his voice as he spoke of the crime.",
+                "exampleUzbek": "U jinoyat haqida gapirganda uning ovozida hech qanday afsus sezilmadi."
+        },
+        "fully realised": {
+                "definition": "Completely developed or brought into being.",
+                "uzbek": "To'liq rivojlangan yoki amalga oshirilgan.",
+                "example": "The potential of the technology was not fully realised until years later.",
+                "exampleUzbek": "Texnologiyaning imkoniyatlari ko'p yillar o'tgach to'liq amalga oshirilmadi."
+        },
+        "inherent uniqueness": {
+                "definition": "The natural and essential quality of being unlike anything else.",
+                "uzbek": "Boshqa hech narsaga o'xshamaydigan tabiiy va muhim sifat.",
+                "example": "The inherent uniqueness of each fingerprint makes it a reliable form of identification.",
+                "exampleUzbek": "Har bir barmoq izining o'ziga xosligi uni ishonchli identifikatsiya shakliga aylantiradi."
+        },
+        "revolutionising": {
+                "definition": "Completely changing or transforming something.",
+                "uzbek": "Nimadirni butunlay o'zgartirish yoki transformatsiya qilish.",
+                "example": "The internet is revolutionising the way we communicate.",
+                "exampleUzbek": "Internet bizning muloqot usulimizni tubdan o'zgartirmoqda."
+        },
+        "indispensable role": {
+                "definition": "A role that is absolutely necessary or essential.",
+                "uzbek": "Mutlaqo zarur yoki muhim rol.",
+                "example": "Technology plays an indispensable role in modern medicine.",
+                "exampleUzbek": "Texnologiya zamonaviy tibbiyotda ajralmas rol o'ynaydi."
+        },
+        "catapulting": {
+                "definition": "Propelling or launching someone or something rapidly into a particular situation or state.",
+                "uzbek": "Kimnidir yoki nimanidir tezda ma'lum bir vaziyatga yoki holatga olib chiqish yoki uchirish.",
+                "example": "The scandal catapulted him into the national spotlight.",
+                "exampleUzbek": "Janjal uni milliy e'tibor markaziga olib chiqdi."
+        },
+        "synergy": {
+                "definition": "The interaction or cooperation of two or more organizations, substances, or other agents to produce a combined effect greater than the sum of their separate effects.",
+                "uzbek": "Ikki yoki undan ortiq tashkilot, modda yoki boshqa agentlarning o'zaro ta'siri yoki hamkorligi ularning alohida ta'sirining yig'indisidan kattaroq kombinatsiyalashgan effektni hosil qilish.",
+                "example": "The synergy between the two departments led to increased productivity.",
+                "exampleUzbek": "Ikki bo'lim o'rtasidagi sinergiya unumdorlikning oshishiga olib keldi."
+        },
+        "definitive evidence": {
+                "definition": "Evidence that is conclusive and leaves no room for doubt.",
+                "uzbek": "Shubha uchun joy qoldirmaydigan ishonchli dalil.",
+                "example": "The DNA test provided definitive evidence of his guilt.",
+                "exampleUzbek": "DNK testi uning aybdorligining aniq dalilini taqdim etdi."
+        },
+        "serve as his undoing": {
+                "definition": "Be the cause of someone's downfall or ruin.",
+                "uzbek": "Kimdir qulashining yoki vayron bo'lishining sababi bo'lish.",
+                "example": "His arrogance would eventually serve as his undoing.",
+                "exampleUzbek": "Uning takabburligi oxir-oqibat uning qulashiga sabab bo'ladi."
+        },
+        "underscores": {
+                "definition": "Highlights or emphasizes something.",
+                "uzbek": "Nimadirni ta'kidlaydi yoki urg'u beradi.",
+                "example": "This event underscores the importance of preparation.",
+                "exampleUzbek": "Bu voqea tayyorgarlikning muhimligini ta'kidlaydi."
+        }
+}
 };

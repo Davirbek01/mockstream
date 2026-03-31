@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I go Paws & Claws. Good!<br>Dog happy. You go!<br>Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I went to Paws & Claws. It was good for my dog. The people are nice and my dog looks clean. You should go there with your dog, but it is a little expensive.<br>See you later!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about Paws & Claws grooming salon. I took my dog there last week, and I was really happy with the service. The staff were friendly and gentle with him. <br>I think you should try it for your pet. It's a bit pricey, but worth it in my opinion. Let me know what you think if you go!<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br>I wanted to recommend a grooming salon I recently tried, Paws & Claws. I was quite impressed with their service. The staff were exceptionally gentle with my pet, and the grooming was top-notch. <br>Given your search for a reliable groomer, I believe Paws & Claws would be an excellent option for Bella. While their services are a bit more expensive than some other salons, the quality justifies the cost. I suggest you give them a call to discuss your pet's specific needs and perhaps book an appointment. Let me know what you decide!<br>Kind regards,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br>I wanted to recommend a grooming salon I recently tried, Paws & Claws. I was quite impressed with their service. The staff were exceptionally gentle with my pet, and the grooming was top-notch. <br>Given your search for a reliable groomer, I believe Paws & Claws would be an excellent option for Bella. While their services are a bit more expensive than some other salons, the quality justifies the cost. I suggest you give them a call to discuss your pet's specific needs and perhaps book an appointment. Let me know what you decide!<br>Kind regards,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Men nihoyat Maks uchun ajoyib sartaroshxonani topdim! Paws & Claws xodimlari u bilan juda muloyim edilar. Uning juni hozir juda ajoyib ko'rinadi!</p>\n<p>Siz albatta Bellani u yerga olib borishingiz kerak!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Men \"Paws & Claws\"ga boraman. Yaxshi!<br>It xursand. Siz boring!<br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom [Do'stingizning ismi],<br>Men \"Paws & Claws\"ga bordim. Mening itim uchun yaxshi bo'ldi. Odamlari yaxshi va itim toza ko'rinadi. Siz ham itingiz bilan u yerga borishingiz kerak, lekin u biroz qimmatroq.<br>Keyinroq ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sizga \"Paws & Claws\" grooming saloni haqida aytib bermoqchi edim. O'tgan hafta itimni o'sha yerga olib bordim va xizmatdan juda xursand bo'ldim. Xodimlar u bilan do'stona va muloyim munosabatda bo'lishdi.<br>O'ylashimcha, siz ham uy hayvoningiz uchun sinab ko'rishingiz kerak. Narxi biroz qimmatroq, lekin menimcha arziydi. Agar borsangiz, fikringizni bildiring!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Aziz [Do'stingizning ismi],<br>Yaqinda o'zim foydalangan grooming salonini tavsiya qilmoqchiman, \"Paws & Claws\". Ularning xizmatidan juda ta'sirlandim. Xodimlar uy hayvonimga juda muloyim munosabatda bo'lishdi va grooming juda yuqori darajada edi.<br>Ishonchli groomer qidirayotganingizni hisobga olsak, \"Paws & Claws\" Bella uchun ajoyib tanlov bo'ladi deb o'ylayman. Ularning xizmatlari boshqa salonlarga qaraganda biroz qimmatroq bo'lsa-da, sifati narxini oqlaydi. Uy hayvoningizning maxsus ehtiyojlarini muhokama qilish va ehtimol, uchrashuvni bron qilish uchun ularga qo'ng'iroq qilishingizni maslahat beraman. Nima qaror qilganingizni menga xabar bering!<br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Paws & Claws,<br> I like my dog clean. Good job. Dog happy. I happy. Bye.</p>",
       "sampleA2": "<p>Hi Paws & Claws,<br> Thank you for my dog. The dog is clean and smells good. I think the people are nice. But it is expensive. Maybe you can have cheaper price? And maybe you can wash cats too? I have a cat. Thank you!</p>",
       "sampleB1": "<p>Dear Paws & Claws Team,<br><br>Thank you for grooming my dog yesterday. I think the service was good. The staff were friendly and seemed to like animals. My dog looked very nice after the grooming. <br><br>However, I think you could improve a few things. For example, it would be good to have more information about the different types of shampoos you use. Also, maybe you could offer a discount for first-time customers. I would also like to see longer opening hours. <br><br>Overall, I was happy with the service and I would recommend your salon to other pet owners.<br><br>Sincerely,<br>A Pet Owner</p>",
-      "sampleB2": "<p>Dear Paws & Claws Team,<br><br>I am writing to provide feedback on the grooming service my dog received last week. Overall, I was quite pleased with the experience, but I also have a few suggestions that I believe could enhance your already commendable services.<br><br>Firstly, I appreciated the patience and care your groomers demonstrated when handling my somewhat anxious dog. It was clear they prioritize the animals' well-being. The grooming itself was also of a high standard; my dog's coat was beautifully trimmed and clean.<br><br>However, I believe there's room for improvement in the scheduling process. It was somewhat difficult to find an appointment time that suited my schedule, so perhaps offering extended hours or more flexible booking options could be beneficial. Additionally, providing clients with detailed information regarding the specific products used during the grooming session would be a valuable addition.<br><br>Thank you for your attention to these matters. I look forward to returning with my pet in the future.<br><br>Sincerely,<br>A Satisfied Customer</p>"
+      "sampleB2": "<p>Dear Paws & Claws Team,<br><br>I am writing to provide feedback on the grooming service my dog received last week. Overall, I was quite pleased with the experience, but I also have a few suggestions that I believe could enhance your already commendable services.<br><br>Firstly, I appreciated the patience and care your groomers demonstrated when handling my somewhat anxious dog. It was clear they prioritize the animals' well-being. The grooming itself was also of a high standard; my dog's coat was beautifully trimmed and clean.<br><br>However, I believe there's room for improvement in the scheduling process. It was somewhat difficult to find an appointment time that suited my schedule, so perhaps offering extended hours or more flexible booking options could be beneficial. Additionally, providing clients with detailed information regarding the specific products used during the grooming session would be a valuable addition.<br><br>Thank you for your attention to these matters. I look forward to returning with my pet in the future.<br><br>Sincerely,<br>A Satisfied Customer</p>",
+      "uzSample": "<p>Hurmatli \"Panjalar va Tirnoqlar\" jamoasi,</p>\n\n<p>Sizning parvarishlash xizmatlaringizdan mamnunligimni bildirish uchun yozyapman.</p>\n\n<p>Avvalo, xodimlaringiz mening itimga juda ehtiyotkorlik bilan munosabatda bo'lishdi. U odatda notanish odamlar bilan xavotirda bo'ladi, lekin sizning sartaroshlaringiz uni o'zini erkin his qilishiga yordam berishdi.</p>\n\n<p>Bundan tashqari, parvarishlash sifati a'lo darajada edi. Uning juni juda sog'lom va yaxshi parvarishlangan ko'rinadi.</p>\n\n<p>Biroq, menda ba'zi takliflar bor. Uchrashuv haqida SMS orqali eslatmalar yuborish juda foydali bo'lardi.</p>\n\n<p>Qo'shimcha ravishda, doimiy mijozlar uchun chegirmalar bilan sodiqlik dasturini taqdim etish qadrlanadi.</p>\n\n<p>Bundan tashqari, parvarishdan so'ng uy hayvonlarining fotosurat xizmatlarini qo'shish mashhur qo'shimcha bo'lishi mumkin.</p>\n\n<p>Bizning sevimli uy hayvonlarimizga g'amxo'rlik qilganingiz uchun tashakkur.</p>\n\n<p>Eng yaxshi tilaklar bilan,<br>Baxtli uy hayvonlari egasi</p>",
+      "uzSampleA1": "<p>Salom Paws & Claws,<br> Mening itim toza bo'lishini xohlayman. Yaxshi ish. It xursand. Men xursandman. Xayr.</p>",
+      "uzSampleA2": "<p>Salom Paws & Claws,<br> Mening itim uchun rahmat. It toza va yaxshi hidlanyapti. O'ylaymanki, odamlar yaxshi. Lekin bu qimmat. Balki sizda arzonroq narx bo'lishi mumkin? Va balki siz mushuklarni ham yuva olasizmi? Mening mushugim bor. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli \"Panjalar va Tirnoqlar\" jamoasi,<br><br>Kechagi itimni parvarish qilganingiz uchun rahmat. Menimcha, xizmat yaxshi bo'ldi. Xodimlar do'stona edi va hayvonlarni yaxshi ko'rishardi. Mening itim parvarishdan keyin juda chiroyli ko'rindi.<br><br>Biroq, menimcha, siz bir nechta narsani yaxshilashingiz mumkin. Misol uchun, siz ishlatadigan shampunlarning turli xillari haqida ko'proq ma'lumotga ega bo'lish yaxshi bo'lardi. Shuningdek, birinchi marta kelgan mijozlar uchun chegirma taklif qilishingiz mumkin. Men uzoqroq ish vaqtlarini ham ko'rishni xohlardim.<br><br>Umuman olganda, men xizmatdan mamnun bo'ldim va sizning saloningizni boshqa uy hayvonlari egalariga tavsiya qilaman.<br><br>Hurmat bilan,<br>Uy hayvonining egasi</p>",
+      "uzSampleB2": "<p>Hurmatli \"Panjalar va Tirnoqlar\" jamoasi,<br><br>Sizga o'tgan hafta mening itimga ko'rsatilgan parvarishlash xizmati haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, men tajribadan juda mamnun bo'ldim, lekin sizning allaqachon maqtovga sazovor xizmatlaringizni yaxshilashi mumkin bo'lgan bir nechta takliflarim ham bor.<br><br>Avvalo, sizning sartaroshlaringiz mening biroz xavotirli itimga munosabatda sabr-toqat va g'amxo'rlik ko'rsatganini qadrladim. Ularning hayvonlarning farovonligini birinchi o'ringa qo'yishi aniq edi. Parvarishlashning o'zi ham yuqori standartga ega edi; mening itimning juni chiroyli tarzda qirqilgan va toza edi.<br><br>Biroq, menimcha, rejalashtirish jarayonida yaxshilanishga joy bor. Mening jadvalimga mos keladigan uchrashuv vaqtini topish biroz qiyin edi, shuning uchun, ehtimol, uzaytirilgan soatlar yoki moslashuvchan bron qilish imkoniyatlarini taklif qilish foydali bo'lishi mumkin. Bundan tashqari, mijozlarga parvarishlash seansi davomida ishlatiladigan aniq mahsulotlar haqida batafsil ma'lumot berish qimmatli qo'shimcha bo'ladi.<br><br>Ushbu masalalarga e'tiboringiz uchun tashakkur. Kelajakda uy hayvonim bilan qaytib kelishni intiqlik bilan kutaman.<br><br>Hurmat bilan,<br>Qoniqish hosil qilgan mijoz</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p>\r\n<p>I have dog. Grooming is good. Dog is happy. I like it. Bye!</p>",
       "sampleA2": "<p>Hello,</p>\r\n<p>I took my dog to the grooming place. It was good. The people were nice and my dog liked it. But it was expensive. I think they should have more toys for the dogs. And maybe cheaper prices. Thank you!</p>",
       "sampleB1": "<p>Dear Paws & Claws Team,</p>\r\n<p>Thank you for your email. I wanted to give you some feedback about my recent visit. Overall, I was quite happy with the service. The groomer was very friendly and seemed to really care about my dog. The quality of the grooming was good, and my dog looked very smart afterwards.</p>\r\n<p>However, I think you could improve a couple of things. Firstly, the waiting area was a bit small, especially when there were several dogs waiting. Also, it would be great if you offered a teeth cleaning service. I think many pet owners would be interested in that.</p>\r\n<p>Thank you again for a good experience.</p>\r\n<p>Sincerely,<br>A Happy Customer</p>",
-      "sampleB2": "<p>Dear Paws & Claws Team,</p>\r\n<p>I am writing to provide feedback regarding my recent experience at your grooming salon. On the whole, I was satisfied with the services provided, but I also have some suggestions for potential improvements.</p>\r\n<p>The quality of the grooming itself was commendable. My dog's coat was impeccably styled, and the groomer clearly demonstrated expertise in handling a somewhat anxious animal. I appreciated the gentle approach adopted by your staff, which immediately put my pet at ease.</p>\r\n<p>However, I believe there are areas where you could enhance the overall customer experience. Firstly, the appointment scheduling system could be more streamlined. I found the online booking process somewhat cumbersome. Secondly, while I understand the necessity of charging for premium services, the pricing structure felt slightly opaque. A more detailed breakdown of costs would be beneficial.</p>\r\n<p>In terms of additional services, I would suggest considering the introduction of specialized treatments for sensitive skin, as this is a common concern among pet owners. Furthermore, offering workshops on basic at-home grooming techniques could attract new clients and foster customer loyalty.</p>\r\n<p>Thank you for your attention to these matters. I look forward to seeing how you implement these suggestions in the future.</p>\r\n<p>Yours sincerely,<br>A Valued Customer</p>"
+      "sampleB2": "<p>Dear Paws & Claws Team,</p>\r\n<p>I am writing to provide feedback regarding my recent experience at your grooming salon. On the whole, I was satisfied with the services provided, but I also have some suggestions for potential improvements.</p>\r\n<p>The quality of the grooming itself was commendable. My dog's coat was impeccably styled, and the groomer clearly demonstrated expertise in handling a somewhat anxious animal. I appreciated the gentle approach adopted by your staff, which immediately put my pet at ease.</p>\r\n<p>However, I believe there are areas where you could enhance the overall customer experience. Firstly, the appointment scheduling system could be more streamlined. I found the online booking process somewhat cumbersome. Secondly, while I understand the necessity of charging for premium services, the pricing structure felt slightly opaque. A more detailed breakdown of costs would be beneficial.</p>\r\n<p>In terms of additional services, I would suggest considering the introduction of specialized treatments for sensitive skin, as this is a common concern among pet owners. Furthermore, offering workshops on basic at-home grooming techniques could attract new clients and foster customer loyalty.</p>\r\n<p>Thank you for your attention to these matters. I look forward to seeing how you implement these suggestions in the future.</p>\r\n<p>Yours sincerely,<br>A Valued Customer</p>",
+      "uzSample": "<h2>Uy hayvonlarini professional parvarishlash: Zaruratmi yoki hashamat?</h2>\n\n<p>Bu uy hayvonlari egalari orasida qiziqarli bahs. Ko'p yillar davomida itlarga egalik qilib, men professional parvarishlash shunchaki erkalashdan ko'proq narsa deb hisoblayman.</p>\n\n<p>Birinchidan, muntazam parvarishlash sog'liq muammolarining oldini oladi. Professional sartaroshlar egalari e'tibor bermasligi mumkin bo'lgan teri kasalliklari, parazitlar yoki infektsiyalarning erta belgilarini aniqlashlari mumkin.</p>\n\n<p>Bundan tashqari, ayrim zotlar haqiqatan ham professional parvarishga muhtoj. Uzun sochli itlar og'riqli chigalliklarning oldini olish uchun to'g'ri jun parvarishiga muhtoj, ba'zi zotlar esa maxsus parvarishlash usullarini talab qiladi.</p>\n\n<p>Qolaversa, professional tirnoq olish va quloqlarni tozalash to'g'ri tayyorgarlik va uskunalar bo'lmasa, uyda xavfsiz bajarish qiyin.</p>\n\n<p>Biroq, men tan olamanki, minimal ehtiyojlarga ega bo'lgan qisqa sochli zotlar uchun asosiy parvarishlashni uyda ham bajarish mumkin.</p>\n\n<p>Yakuniy xulosa shuki, har bir uy hayvoni har oyda salonga tashrif buyurishi shart bo'lmasa-da, professional parvarishlash hashamat emas, balki profilaktik sog'liqni saqlash sifatida qaralishi kerak.</p>\n\n<p>Uy hayvonlarini parvarishlash bo'yicha sizning tajribangiz qanday?</p>",
+      "uzSampleA1": "<p>Salom!</p>\n<p>Menda it bor. Itni parvarish qilish yaxshi. It xursand. Menga yoqadi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,</p>\n<p>Men itimni sartaroshxonaga olib bordim. Yaxshi bo'ldi. Odamlar yaxshi edi va itimga yoqdi. Lekin qimmat edi. O'ylashimcha, itlar uchun ko'proq o'yinchoqlar bo'lishi kerak. Va balki arzonroq narxlar. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli Paws & Claws jamoasi,</p>\n<p>Elektron pochtangiz uchun rahmat. Yaqinda tashrif buyurganim haqida ba'zi fikr-mulohazalarimni bermoqchi edim. Umuman olganda, xizmatdan juda mamnun bo'ldim. Sartarosh juda do'stona edi va itimga chin dildan g'amxo'rlik qilganga o'xshardi. Sartaroshlik sifati yaxshi edi va itim keyin juda aqlli ko'rindi.</p>\n<p>Biroq, menimcha, siz bir-ikki narsani yaxshilashingiz mumkin. Birinchidan, kutish joyi biroz kichik edi, ayniqsa bir nechta itlar kutayotganida. Shuningdek, agar siz tish tozalash xizmatini taklif qilsangiz, juda yaxshi bo'lardi. O'ylaymanki, ko'plab uy hayvonlari egalari bundan manfaatdor bo'lishadi.</p>\n<p>Yaxshi tajriba uchun yana bir bor rahmat.</p>\n<p>Hurmat bilan,<br>Baxtli mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli \"Paws & Claws\" jamoasi,</p>\n<p>Men sizning grooming saloningizda yaqinda bo'lgan tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, ko'rsatilgan xizmatlardan qoniqdim, lekin men ham potentsial yaxshilanishlar uchun ba'zi takliflarga egaman.</p>\n<p>Groomingning sifati maqtashga arziydi. Mening itimning juni benuqson uslubda taralgan edi va groomer biroz xavotirli hayvon bilan muomala qilishda o'z mahoratini aniq ko'rsatdi. Xodimlaringiz tomonidan qo'llanilgan muloyim yondashuvni qadrladim, bu mening uy hayvonimni darhol xotirjam qildi.</p>\n<p>Biroq, men umumiy mijozlar tajribasini yaxshilashingiz mumkin bo'lgan sohalar bor deb hisoblayman. Birinchidan, uchrashuvlarni rejalashtirish tizimi yanada soddalashtirilishi mumkin. Onlayn bron qilish jarayoni biroz murakkab tuyuldi. Ikkinchidan, premium xizmatlar uchun to'lov olish zarurligini tushunsam ham, narxlar tuzilishi biroz noaniq tuyuldi. Xarajatlarning batafsilroq taqsimoti foydali bo'ladi.</p>\n<p>Qo'shimcha xizmatlar nuqtai nazaridan, uy hayvonlari egalari orasida keng tarqalgan muammo bo'lgan sezgir teri uchun maxsus muolajalarni joriy etishni ko'rib chiqishni taklif qilaman. Bundan tashqari, uyda groomingning asosiy usullari bo'yicha seminarlar taklif qilish yangi mijozlarni jalb qilishi va mijozlar sadoqatini mustahkamlashi mumkin.</p>\n<p>Ushbu masalalarga e'tiboringiz uchun tashakkur. Kelajakda ushbu takliflarni qanday amalga oshirishingizni ko'rishni intiqlik bilan kutaman.</p>\n<p>Hurmat bilan,<br>Qadrdon mijoz</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,155 @@ window.WRITING_TEST_DATA = {
         "uz": "asosiy pardozlash"
       }
     ]
+  },
+  "tokenTranslations": {
+    "finally": {
+      "uz": "nihoyat",
+      "type": "adv"
+    },
+    "grooming salon": {
+      "uz": "parvarishlash saloni",
+      "type": "colloc"
+    },
+    "so": {
+      "uz": "shunday qilib",
+      "type": "adv"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "grooming services": {
+      "uz": "parvarishlash xizmatlari",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Avvalo",
+      "type": "adv"
+    },
+    "exceptional": {
+      "uz": "favqulodda",
+      "type": "adv"
+    },
+    "anxious": {
+      "uz": "xavotirda",
+      "type": "colloc"
+    },
+    "at ease": {
+      "uz": "xotirjam",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "quality of grooming": {
+      "uz": "parvarishlash sifati",
+      "type": "colloc"
+    },
+    "incredibly": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "appointment reminders": {
+      "uz": "qabul vaqtini eslatish",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "loyalty program": {
+      "uz": "sodiqlik dasturi",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari yana",
+      "type": "adv"
+    },
+    "pet photography": {
+      "uz": "uy hayvonlari fotosurati",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "beloved pets": {
+      "uz": "aziz uy hayvonlari",
+      "type": "colloc"
+    },
+    "fascinating": {
+      "uz": "qiziqarli",
+      "type": "adv"
+    },
+    "regular grooming": {
+      "uz": "doimiy parvarish",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "skin conditions": {
+      "uz": "teri kasalliklari",
+      "type": "colloc"
+    },
+    "genuinely": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "need": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "coat maintenance": {
+      "uz": "jun parvarishi",
+      "type": "colloc"
+    },
+    "nail trimming": {
+      "uz": "tirnoqlarni olish",
+      "type": "colloc"
+    },
+    "ear cleaning": {
+      "uz": "quloqlarni tozalash",
+      "type": "colloc"
+    },
+    "difficult to perform": {
+      "uz": "bajarish qiyin",
+      "type": "colloc"
+    },
+    "acknowledge": {
+      "uz": "tan olish",
+      "type": "adv"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "preventive healthcare": {
+      "uz": "profilaktik sog'liqni saqlash",
+      "type": "colloc"
+    }
   }
 };

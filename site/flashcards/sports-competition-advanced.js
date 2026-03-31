@@ -1,0 +1,47 @@
+// Flashcard Data: Sports & Competition — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🏅 Sports & Competition: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Sports & Competition",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "world-class athlete", en: "", uz: "jahon darajasidagi sportchi", uzDef: "Eng yuqori darajadagi, dunyo bo'ylab tan olingan sportchi.", ex: "She's a world-class athlete; her dedication is unmatched.", exUz: "U jahon darajasidagi sportchi; uning fidoyiligi tengsiz."},
+    {term: "a walkover", en: "", uz: "oson g'alaba", uzDef: "Osonlik bilan erishilgan g'alaba, raqobat yo'q.", ex: "The match was a walkover; their opponents barely put up a fight.", exUz: "O'yin oson g'alaba bo'ldi; ularning raqiblari deyarli qarshilik ko'rsatmadi."},
+    {term: "in the running", en: "", uz: "imkoniyati bor", uzDef: "G'alaba qozonish yoki muvaffaqiyatga erishish imkoniyati bor.", ex: "Several companies are still in the running for the contract.", exUz: "Bir nechta kompaniyalar hali ham shartnoma uchun imkoniyatga ega."},
+    {term: "a frontrunner", en: "", uz: "peshqadam", uzDef: "Musobaqada yoki tanlovda oldinda borayotgan ishtirokchi.", ex: "He's considered a frontrunner in the mayoral election.", exUz: "U mer saylovida peshqadam deb hisoblanadi."},
+    {term: "the front runner", en: "", uz: "asosiy nomzod", uzDef: "Musobaqada yoki tanlovda g'alaba qozonish uchun eng katta imkoniyatga ega bo'lgan shaxs.", ex: "She's currently the front runner in the polls.", exUz: "Hozirda u so'rovnomalarda asosiy nomzod."},
+    {term: "on top of the game", en: "", uz: "ustunlik qilmoq", uzDef: "Ishni yaxshi bilmoq, vaziyatni nazorat qilmoq.", ex: "She's really on top of the game when it comes to marketing.", exUz: "U marketingga kelganda haqiqatan ham ustunlik qiladi."},
+    {term: "a tough act", en: "", uz: "qiyin vazifa", uzDef: "O'rnini bosish qiyin bo'lgan shaxs yoki vazifa.", ex: "Replacing him will be a tough act to follow.", exUz: "Uning o'rnini bosish qiyin vazifa bo'ladi."},
+    {term: "stay ahead of", en: "", uz: "oldinda bo'lmoq", uzDef: "Boshqalardan oldinda bo'lish, ustunlikni saqlab qolish.", ex: "We need to innovate to stay ahead of the competition.", exUz: "Raqobatdan oldinda bo'lish uchun biz innovatsiya qilishimiz kerak."},
+    {term: "get the upper hand", en: "", uz: "ustunlikka erishmoq", uzDef: "Boshqalardan ustun kelish, afzallikka ega bo'lmoq.", ex: "They managed to get the upper hand in the negotiations.", exUz: "Ular muzokaralarda ustunlikka erishishga muvaffaq bo'lishdi."},
+    {term: "trounce the opposition", en: "", uz: "mag'lub etmoq", uzDef: "Raqibni juda katta farq bilan yutmoq, ularni tor-mor qilmoq.", ex: "Our team completely trounced the opposition, winning by a landslide.", exUz: "Bizning jamoa raqibni butunlay mag'lub etdi, juda katta farq bilan g'alaba qozondi."},
+    {term: "neck-and-neck", en: "", uz: "yonma-yon", uzDef: "Tengma-teng, bir xil natija ko'rsatib borayotgan.", ex: "The two runners were neck-and-neck for most of the race.", exUz: "Ikki yuguruvchi poyganing ko'p qismida yonma-yon kelishdi."},
+    {term: "peak performance", en: "", uz: "eng yuqori natija", uzDef: "Sportchining eng yaxshi, maksimal natija ko'rsatishi.", ex: "She attributed her team's victory to peak performance from all the players.", exUz: "U jamoasining g'alabasini barcha o'yinchilarning eng yuqori natijasi bilan izohladi."},
+    {term: "a sporting chance", en: "", uz: "imkoniyat", uzDef: "Ozgina bo'lsa ham, muvaffaqiyatga erishish imkoniyati.", ex: "Even with his injury, he felt he still had a sporting chance to win the race.", exUz: "Jarohati bo'lishiga qaramay, u poygada g'alaba qozonish uchun imkoniyati bor deb hisobladi."},
+    {term: "grit and determination", en: "", uz: "qat'iyat", uzDef: "Qiyinchiliklarga qaramay, o'z maqsadiga erishish uchun qat'iyat va iroda.", ex: "It was their grit and determination that ultimately led them to victory.", exUz: "Ularning qat'iyati va irodasi ularni oxir-oqibat g'alabaga olib keldi."},
+    {term: "competitive edge", en: "", uz: "ustunlik", uzDef: "Raqobatda boshqalardan ustun bo'lishga imkon beradigan afzallik.", ex: "His experience gave him a competitive edge over the other candidates.", exUz: "Uning tajribasi unga boshqa nomzodlarga nisbatan ustunlik berdi."},
+    {term: "fair and square", en: "", uz: "halol", uzDef: "Adolatli qoidalar asosida, hech qanday hiyla ishlatmasdan.", ex: "They won the match fair and square, with no arguments about the referee's decisions.", exUz: "Ular uchrashuvda halol g'alaba qozonishdi, hakam qarorlari haqida hech qanday bahs bo'lmadi."},
+    {term: "in the zone", en: "", uz: "diqqat markazida", uzDef: "O'z ishiga to'liq diqqatini jamlagan va unumli holatda.", ex: "The basketball player was totally in the zone, sinking every shot.", exUz: "Basketbolchi to'liq diqqat markazida edi, har bir to'pni savatga tashladi."},
+    {term: "grind to a halt", en: "", uz: "to'xtab qolmoq", uzDef: "Jarayon asta-sekin sekinlashib, keyin butunlay to'xtash.", ex: "Negotiations between the teams ground to a halt after the disagreement.", exUz: "Jamoalar o'rtasidagi muzokaralar kelishmovchilikdan so'ng to'xtab qoldi."},
+    {term: "a wake-up call", en: "", uz: "ogohlantiruv", uzDef: "Kutilmagan voqea, xato yoki muammo haqida ogohlantiruvchi signal.", ex: "The defeat was a wake-up call for the team, forcing them to re-evaluate their strategy.", exUz: "Mag'lubiyat jamoa uchun ogohlantiruv bo'ldi, ularni o'z strategiyalarini qayta ko'rib chiqishga majbur qildi."},
+    {term: "take the bull by horns", en: "", uz: "tavakkal qilmoq", uzDef: "Qiyin vaziyatda faol harakat qilish, muammoni dadil hal qilish.", ex: "Instead of complaining, she decided to take the bull by the horns and solve the problem herself.", exUz: "Shikoyat qilish o'rniga, u tavakkal qilib, muammoni o'zi hal qilishga qaror qildi."},
+    {term: "a war of attrition", en: "", uz: "charchash urushi", uzDef: "Uzoq davom etadigan va resurslarni tugatadigan raqobat.", ex: "The negotiations became a war of attrition, with each side waiting for the other to give in.", exUz: "Muzokaralar charchash urushiga aylandi, har bir tomon boshqasining taslim bo'lishini kutardi."},
+    {term: "throw down the gauntlet", en: "", uz: "chaqiriq tashlamoq", uzDef: "Raqibga ochiqchasiga qarshi chiqish, bellashuvga chaqirish.", ex: "The CEO threw down the gauntlet to his competitors, promising to double sales within a year.", exUz: "Bosh direktor raqobatchilariga chaqiriq tashladi va bir yil ichida savdoni ikki baravar oshirishga va'da berdi."},
+    {term: "stay ahead of the curve", en: "", uz: "zamondan ilg'or", uzDef: "Oxirgi tendentsiyalardan xabardor bo'lish, raqobatda oldinda bo'lish.", ex: "To succeed in this industry, you need to stay ahead of the curve and constantly innovate.", exUz: "Bu sohada muvaffaqiyat qozonish uchun siz zamondan ilg'or bo'lishingiz va doimo yangilik yaratishingiz kerak."},
+    {term: "rise through the ranks", en: "", uz: "daraja oshmoq", uzDef: "Past lavozimdan boshlab, bosqichma-bosqich yuqori lavozimlarga ko'tarilish.", ex: "He started as an intern and rose through the ranks to become a senior manager.", exUz: "U stajyor sifatida ish boshladi va bosqichma-bosqich yuqori menejer lavozimiga ko'tarildi."},
+    {term: "play it safe", en: "", uz: "ehtiyot bo'lmoq", uzDef: "Xavfni minimallashtirish uchun konservativ yondashuvni tanlash.", ex: "The team decided to play it safe and not take any unnecessary risks in the final minutes.", exUz: "Jamoa ehtiyot bo'lishga va so'nggi daqiqalarda keraksiz xavflarni olmaslikka qaror qildi."},
+    {term: "a real contender", en: "", uz: "asosiy da'vogar", uzDef: "G'alaba qozonish uchun jiddiy imkoniyatga ega bo'lgan shaxs yoki jamoa.", ex: "With their recent victories, they've proven they are a real contender for the championship.", exUz: "So'nggi g'alabalari bilan ular chempionat uchun asosiy da'vogar ekanliklarini isbotladilar."},
+    {term: "steal the show", en: "", uz: "diqqat tortmoq", uzDef: "Boshqalardan ko'ra ko'proq diqqat va olqishlarga sazovor bo'lmoq.", ex: "The young gymnast stole the show with her incredible routine.", exUz: "Yosh gimnastikachi o'zining ajoyib chiqishi bilan diqqatni tortdi."},
+    {term: "make a comeback", en: "", uz: "qaytish qilmoq", uzDef: "Uzoq tanaffusdan so'ng yana muvaffaqiyatli faoliyatni boshlash.", ex: "The veteran player made a remarkable comeback after his injury.", exUz: "Tajribali o'yinchi jarohatidan so'ng ajoyib tarzda qaytdi."},
+    {term: "a nail-biting finish", en: "", uz: "hayajonli yakun", uzDef: "Oxirigacha g'olib noma'lum bo'lgan juda hayajonli yakun.", ex: "The game had a nail-biting finish, with the winning goal scored in the last second.", exUz: "O'yinning hayajonli yakuni bo'ldi, g'alaba goli so'nggi soniyada urildi."},
+    {term: "a one-horse race", en: "", uz: "oson g'alaba", uzDef: "Yagona da'vogar borligi sababli, g'alabasi oldindan ma'lum bo'lgan poyga.", ex: "The election was a one-horse race; everyone knew who was going to win.", exUz: "Saylov oson g'alaba edi; hamma kim g'alaba qozonishini bilardi."}
+  ]
+};

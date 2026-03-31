@@ -1,0 +1,47 @@
+// Flashcard Data: Justice & Fairness — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "⚖️ Justice & Fairness: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Justice & Fairness",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "uphold the law", en: "", uz: "qonunni qo'llab-quvvatlash", uzDef: "Qonunni hurmat qilish va uning bajarilishini ta'minlash.", ex: "It's the police's job to uphold the law, no matter how unpopular it may be.", exUz: "Politsiyaning vazifasi qonunni qo'llab-quvvatlash, u qanchalik mashhur bo'lmasin."},
+    {term: "administer justice", en: "", uz: "adolatni o'rnatmoq", uzDef: "Sud va qonun orqali adolatni ta'minlash jarayoni.", ex: "The courts are there to administer justice fairly and impartially.", exUz: "Sudlar adolatni xolis va betaraf tarzda o'rnatish uchun mavjud."},
+    {term: "a question of ethics", en: "", uz: "axloq masalasi", uzDef: "To'g'ri yoki noto'g'ri harakatni aniqlash bilan bog'liq muammo.", ex: "The CEO's actions raised a question of ethics within the company.", exUz: "Bosh direktorning harakatlari kompaniya ichida axloq masalasini ko'tardi."},
+    {term: "misuse of power", en: "", uz: "hokimiyatni suiiste'mol qilish", uzDef: "O'z vakolatlaridan noto'g'ri, shaxsiy manfaatlar uchun foydalanish.", ex: "The investigation revealed a serious misuse of power within the government.", exUz: "Tergov hukumat ichida hokimiyatni jiddiy suiiste'mol qilish holatini aniqladi."},
+    {term: "in the interest of justice", en: "", uz: "adolat yuzasidan", uzDef: "Adolatni ta'minlash maqsadida qilinadigan harakat.", ex: "The judge released the suspect on bail in the interest of justice.", exUz: "Sudya adolat yuzasidan gumonlanuvchini garov evaziga ozod qildi."},
+    {term: "legal loophole", en: "", uz: "qonuniy bo'shliq", uzDef: "Qonundagi kamchilik, undan foydalanib qonunni chetlab o'tish.", ex: "The company exploited a legal loophole to avoid paying taxes.", exUz: "Kompaniya soliq to'lashdan qochish uchun qonuniy bo'shliqdan foydalandi."},
+    {term: "serve as a deterrent", en: "", uz: "tiyib turuvchi omil", uzDef: "Boshqalarni xuddi shunday harakatlardan to'xtatuvchi narsa.", ex: "The harsh penalty should serve as a deterrent to future crimes.", exUz: "Qattiq jazo kelajakdagi jinoyatlar uchun tiyib turuvchi omil bo'lishi kerak."},
+    {term: "rules are bent", en: "", uz: "qoidalar buzilgan", uzDef: "Qoidalar o'zgartirilgan yoki buzilgan, noto'g'ri ish qilingan.", ex: "It was obvious that rules were bent to favor one of the candidates.", exUz: "Nomzodlardan biriga yordam berish uchun qoidalar buzilgani aniq edi."},
+    {term: "a moral imperative", en: "", uz: "axloqiy zarurat", uzDef: "To'g'ri deb hisoblangan narsani qilish uchun kuchli ichki tuyg'u.", ex: "Many feel there's a moral imperative to help those less fortunate.", exUz: "Ko'pchilik o'zidan zaifroq odamlarga yordam berish axloqiy zarurat deb hisoblaydi."},
+    {term: "to come clean", en: "", uz: "tan olish", uzDef: "Yashiringan narsani, ayniqsa noto'g'ri ishni oshkor qilish.", ex: "He decided to come clean about his involvement in the scandal.", exUz: "U janjalga aloqadorligini tan olishga qaror qildi."},
+    {term: "get a fair hearing", en: "", uz: "adil eshituv", uzDef: "Ishni xolis va adolatli tarzda ko'rib chiqish imkoniyati.", ex: "Everyone deserves to get a fair hearing, regardless of their background.", exUz: "Har bir inson, kelib chiqishidan qat'iy nazar, adil eshituvga loyiq."},
+    {term: "on principle", en: "", uz: "prinsipial jihatdan", uzDef: "Shaxsiy e'tiqod yoki axloqiy qoidalar asosida.", ex: "I disagree with the proposal on principle; it's simply unfair.", exUz: "Men taklifga prinsipial jihatdan qo'shilmayman; bu oddiygina adolatsizlik."},
+    {term: "in the dock", en: "", uz: "sudlanuvchi o'rindig'ida", uzDef: "Sudda ayblanuvchi sifatida javob berish.", ex: "The former CEO found himself in the dock, accused of fraud.", exUz: "Sobiq bosh direktor firibgarlikda ayblanib, sudlanuvchi o'rindig'ida o'tirdi."},
+    {term: "equality before the law", en: "", uz: "qonun oldida tenglik", uzDef: "Hamma qonun oldida teng huquqli bo'lishi kerakligi.", ex: "Equality before the law is a fundamental principle of our society.", exUz: "Qonun oldida tenglik jamiyatimizning asosiy tamoyilidir."},
+    {term: "hand down a sentence", en: "", uz: "hukm chiqarmoq", uzDef: "Sud tomonidan jinoyatchiga jazo belgilash.", ex: "The judge handed down a severe sentence to the convicted criminal.", exUz: "Sudya sudlangan jinoyatchiga qattiq hukm chiqardi."},
+    {term: "turn a blind eye to", en: "", uz: "e'tibor bermaslik", uzDef: "Noto'g'ri ishni ko'rmaganga olish, unga qarshi choralar ko'rmaslik.", ex: "The authorities can't continue to turn a blind eye to the corruption.", exUz: "Hukumat korrupsiyaga e'tibor bermaslikda davom eta olmaydi."},
+    {term: "a miscarriage of justice", en: "", uz: "adolatsizlik holati", uzDef: "Noto'g'ri hukm tufayli begunoh odamning jazolanishi.", ex: "Releasing the wrongly convicted man can't undo the miscarriage of justice.", exUz: "Noto'g'ri hukm qilingan odamni ozod qilish adolatsizlik holatini bartaraf eta olmaydi."},
+    {term: "beyond the pale", en: "", uz: "qabul qilib bo'lmas", uzDef: "Axloqiy jihatdan qabul qilib bo'lmaydigan, ruxsat etilmagan.", ex: "His behavior was beyond the pale; he was completely disrespectful.", exUz: "Uning xulq-atvori qabul qilib bo'lmas edi; u butunlay hurmatsizlik qildi."},
+    {term: "play by the rules", en: "", uz: "qoidalar bo'yicha o'ynamoq", uzDef: "Belgilangan qoidalarga rioya qilish, halol ish tutish.", ex: "If you want to succeed, you have to play by the rules, even when it's difficult.", exUz: "Agar muvaffaqiyatga erishmoqchi bo'lsangiz, qiyin bo'lsa ham, qoidalar bo'yicha o'ynashingiz kerak."},
+    {term: "a kangaroo court", en: "", uz: "soxta sud", uzDef: "Adolatsiz, qonuniy asosga ega bo'lmagan sud.", ex: "The tribunal was nothing more than a kangaroo court; the outcome was predetermined.", exUz: "Tribunal soxta suddan boshqa hech narsa emas edi; natija oldindan belgilab qo'yilgan."},
+    {term: "justice demands", en: "", uz: "adolat talab qiladi", uzDef: "Adolatni ta'minlash uchun zarur bo'lgan harakat.", ex: "Justice demands that the guilty parties are held responsible for their actions.", exUz: "Adolat aybdor tomonlarning o'z harakatlari uchun javobgar bo'lishini talab qiladi."},
+    {term: "in violation of", en: "", uz: "qonun buzilishi", uzDef: "Qonun, shartnoma yoki qoidaga zid harakat qilish.", ex: "His actions were in direct violation of company policy.", exUz: "Uning harakatlari kompaniya siyosatining to'g'ridan-to'g'ri buzilishi edi."},
+    {term: "to be held liable", en: "", uz: "javobgar bo'lmoq", uzDef: "Qonuniy javobgarlikka tortilish, xatosi uchun to'lov to'lash.", ex: "The company was held liable for the damages caused by its negligence.", exUz: "Kompaniya o'zining beparvoligi tufayli etkazilgan zarar uchun javobgar deb topildi."},
+    {term: "equality of opportunity", en: "", uz: "imkoniyatlar tengligi", uzDef: "Hamma uchun bir xil muvaffaqiyatga erishish imkoniyati.", ex: "We need to ensure equality of opportunity for all members of society.", exUz: "Biz jamiyatning barcha a'zolari uchun imkoniyatlar tengligini ta'minlashimiz kerak."},
+    {term: "right the scales", en: "", uz: "tenglikni tiklash", uzDef: "Noto'g'ri vaziyatni to'g'rilash, tenglikni ta'minlash.", ex: "The government is trying to right the scales and provide more support to disadvantaged communities.", exUz: "Hukumat tenglikni tiklashga va kam ta'minlangan jamiyatlarga ko'proq yordam ko'rsatishga harakat qilmoqda."},
+    {term: "a level playing field", en: "", uz: "teng sharoit", uzDef: "Adolatli va teng imkoniyatlar ta'minlangan vaziyat.", ex: "We need to create a level playing field so that everyone has a fair chance to succeed.", exUz: "Biz hamma muvaffaqiyat qozonishi uchun teng sharoit yaratishimiz kerak."},
+    {term: "abuse of authority", en: "", uz: "hokimiyatni suiiste'mol qilish", uzDef: "O'z lavozimidan noto'g'ri, shaxsiy manfaatlar uchun foydalanish.", ex: "The investigation focused on allegations of abuse of authority by senior officials.", exUz: "Tergov yuqori lavozimli amaldorlar tomonidan hokimiyatni suiiste'mol qilish haqidagi da'volarga qaratildi."},
+    {term: "a matter of principle", en: "", uz: "prinsip masalasi", uzDef: "Shaxsiy axloqiy qadriyatlar bilan bog'liq muhim qaror.", ex: "For her, it was a matter of principle; she couldn't compromise her beliefs.", exUz: "U uchun bu prinsip masalasi edi; u o'z e'tiqodlaridan voz kecha olmadi."},
+    {term: "take the moral high ground", en: "", uz: "axloqiy ustunlikni egallash", uzDef: "Axloqiy jihatdan to'g'ri harakat qilish, namuna bo'lish.", ex: "Instead of retaliating, they decided to take the moral high ground.", exUz: "Qasos olish o'rniga, ular axloqiy ustunlikni egallashga qaror qilishdi."},
+    {term: "within the letter of the law", en: "", uz: "qonun doirasida", uzDef: "Qonunga to'liq rioya qilgan holda, lekin ruhiga zid bo'lishi mumkin.", ex: "He operated within the letter of the law, even though his actions were morally questionable.", exUz: "U qonun doirasida harakat qildi, garchi uning harakatlari axloqiy jihatdan shubhali bo'lsa ham."}
+  ]
+};

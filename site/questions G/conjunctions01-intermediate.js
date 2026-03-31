@@ -1,0 +1,36 @@
+// Grammar Test: Conjunctions — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I like tea, <b>___</b> my sister prefers coffee.", correct: "but", options: ["but", "so", "and", "because"], def: "\"But\" shows contrast between tea and coffee preferences.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She went to the store <b>___</b> she needed milk.", correct: "because", options: ["because", "so", "but", "or"], def: "\"Because\" gives the reason why she went to the store.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I arrive.", correct: "when", options: ["when", "if", "because", "so"], def: "\"When\" indicates the time of the phone call.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is tired, <b>___</b> he will go to work.", correct: "but", options: ["but", "so", "and", "because"], def: "\"But\" shows a contrast despite his tiredness.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will eat an apple <b>___</b> a banana.", correct: "or", options: ["or", "and", "but", "because"], def: "\"Or\" provides a choice between apple and banana.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I have finished my work.", correct: "after", options: ["after", "before", "because", "so"], def: "\"After\" shows the order of the actions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She studies hard <b>___</b> she wants to pass the exam.", correct: "because", options: ["because", "but", "so", "and"], def: "\"Because\" explains the reason for studying hard.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will go to the park <b>___</b> it is sunny.", correct: "if", options: ["if", "because", "but", "so"], def: "\"If\" introduces a condition for going to the park.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "We will stay home <b>___</b> it rains.", correct: "if", options: ["if", "because", "so", "but"], def: "\"If\" introduces the condition for staying home.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I want to buy a car, <b>___</b> I don't have enough money.", correct: "but", options: ["but", "so", "and", "because"], def: "\"But\" connects the desire with the lack of money.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is rich, <b>___</b> he is not happy.", correct: "but", options: ["but", "so", "and", "because"], def: "\"But\" shows a contrast between wealth and happiness.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will go out <b>___</b> I eat dinner.", correct: "after", options: ["after", "before", "because", "so"], def: "\"After\" shows the order of the two actions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He went to the park <b>___</b> it was a sunny day.", correct: "because", options: ["because", "but", "so", "and"], def: "\"Because\" explains the reason for going to the park.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Do you want tea <b>___</b> coffee?", correct: "or", options: ["or", "and", "but", "because"], def: "\"Or\" gives a choice between tea and coffee.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will visit you <b>___</b> I call you.", correct: "before", options: ["before", "after", "because", "so"], def: "\"Before\" shows which action happens first.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I studied hard, <b>___</b> I passed the exam.", correct: "so", options: ["so", "but", "and", "because"], def: "\"So\" indicates the result of studying hard.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She likes to read <b>___</b> write.", correct: "and", options: ["and", "but", "so", "because"], def: "\"And\" connects two similar activities.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I arrive at the hotel.", correct: "when", options: ["when", "because", "so", "but"], def: "\"When\" indicates the time of the phone call.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is rich, <b>___</b> he doesn't have any friends.", correct: "but", options: ["but", "so", "and", "because"], def: "\"But\" shows a contrast between wealth and friendship.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will stay at home <b>___</b> I am sick.", correct: "because", options: ["because", "so", "but", "if"], def: "\"Because\" explains why I'll stay home.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "You can play <b>___</b> you finish your homework.", correct: "after", options: ["after", "before", "because", "so"], def: "\"After\" shows the order of actions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She didn't study, <b>___</b> she failed the test.", correct: "so", options: ["so", "because", "but", "and"], def: "\"So\" shows the result of not studying.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I like dogs <b>___</b> cats.", correct: "and", options: ["and", "but", "or", "so"], def: "\"And\" connects two things I like.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I want to go to the park <b>___</b> it is raining.", correct: "but", options: ["but", "so", "because", "and"], def: "\"But\" shows contrast between wanting to go and the rain.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is tired <b>___</b> she stayed up late.", correct: "because", options: ["because", "but", "so", "or"], def: "\"Because\" explains the reason for being tired.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will go to the party <b>___</b> I finish my work.", correct: "if", options: ["if", "weather", "because", "so"], def: "\"If\" introduces a condition for going to the party.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We can eat pizza <b>___</b> pasta for dinner.", correct: "or", options: ["or", "and", "but", "so"], def: "\"Or\" shows a choice between two options.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He studied hard <b>___</b> he passed the exam.", correct: "so", options: ["so", "but", "because", "if"], def: "\"So\" shows the result of studying hard.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I am going to the store <b>___</b> I need milk.", correct: "because", options: ["because", "but", "so", "if"], def: "\"Because\" explains the reason for going to the store.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is tall, <b>___</b> his brother is short.", correct: "but", options: ["but", "so", "because", "and"], def: "\"But\" shows a contrast between the two brothers.", level: "B1–B2"}
+];

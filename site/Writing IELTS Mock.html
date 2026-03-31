@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -301,12 +303,39 @@
       transition: border 0.3s;
     }
 
+    @media (max-width: 768px) {
+      body {
+        padding-top: 0 !important;
+      }
+
+      .top,
+      .nav-bar {
+        display: none !important;
+      }
+    }
+
     input,
     button,
     select,
     label,
     .note,
-    .wc,
+    .wc {
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .answer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .answer-header h3 {
+      margin: 0;
+      color: var(--brand);
+      font-size: calc(16px * var(--font-scale));
+    }
     .status,
     .chip,
     .timer-control,
@@ -333,6 +362,27 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px
+    }
+
+    .top-back-btn {
+      background: rgba(220, 38, 38, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .top-back-btn:hover {
+      background: rgba(220, 38, 38, 0.65);
+    }
+    @media (max-width: 768px) {
+      .top-back-btn { display: none; }
     }
 
     /* Navigation bar */
@@ -717,13 +767,14 @@
       width: 100%;
       min-height: 160px;
       resize: vertical;
-      padding: 10px;
+      padding: 16px;
       border-radius: 12px;
       border: 1px solid var(--field-border);
       background: var(--field);
       color: var(--ink);
       font-size: calc(18px * var(--font-scale));
-      line-height: 1.6
+      line-height: 1.6;
+      box-sizing: border-box;
     }
 
     textarea::placeholder {
@@ -1619,56 +1670,67 @@
     @media (max-width: 768px) {
       .split-container {
         flex-direction: column;
-        height: auto;
+        height: calc(100vh - 40px) !important;
+        gap: 0;
       }
 
       .split-left {
-        border-radius: 16px 16px 0 0;
-        flex: 0 0 auto;
-        max-height: 40vh;
+        border-radius: 0;
+        flex: 0 0 35vh;
+        max-height: 50vh;
+        padding: 15px !important;
       }
 
       .split-right {
-        border-radius: 0 0 16px 16px;
-        border-left: 1px solid var(--ring-strong);
-        min-height: 300px;
+        border-radius: 0;
+        border-left: none;
+        flex: 1;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+        background: var(--card);
       }
 
       .split-divider {
         width: 100%;
-        height: 20px;
+        height: 12px;
         cursor: row-resize;
-        touch-action: none;
+        background: var(--ring-strong);
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--ring);
       }
 
       .split-divider::before {
         content: '═══';
-        font-size: 14px;
-        color: var(--muted);
-      }
-
-      .split-right textarea {
-        width: 100% !important;
-        min-height: 250px;
-        box-sizing: border-box;
-      }
-
-      .split-right {
-        display: flex;
-        flex-direction: column;
-        padding: 8px !important;
+        font-size: 10px;
+        color: white;
       }
 
       .split-right textarea {
         flex: 1;
         width: 100% !important;
-        min-height: 200px;
-        margin: 0;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 16px !important;
+        border-radius: 0 !important;
+        border: none !important;
         box-sizing: border-box;
+        background: #fff;
+      }
+
+      .answer-header {
+        margin: 0;
+        padding: 10px 16px;
+        background: var(--brand-weak);
+        border-bottom: 1px solid var(--ring-strong);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .goal {
+        display: none !important;
       }
 
       body {
@@ -2115,6 +2177,173 @@
       background: #ff5b3b;
     }
 
+    /* Mobile FAB Styles */
+    .mob-fab-container {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --brand: #116a60;
+        --brand-weak: rgba(17, 106, 96, 0.1);
+        --card: #ffffff;
+        --ring-strong: rgba(0, 0, 0, 0.1);
+        --muted: #64748b;
+      }
+
+      .mob-fab-container {
+        display: block;
+      }
+
+      .mob-fab {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--brand) 0%, #0d554d 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 2000;
+        transition: transform 0.3s;
+      }
+
+      .mob-fab.active {
+        transform: rotate(45deg);
+      }
+
+      .mob-menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        display: none;
+        z-index: 1998;
+      }
+
+      .mob-tools-menu {
+        position: fixed;
+        right: 20px;
+        bottom: 90px;
+        width: min(320px, 90vw);
+        background: var(--card);
+        border: 1px solid var(--ring-strong);
+        border-radius: 20px;
+        padding: 20px;
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 1999;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease-out;
+      }
+
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+
+      .mob-timer-display {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--brand);
+        background: var(--brand-weak);
+        padding: 10px;
+        border-radius: 12px;
+        letter-spacing: 1px;
+      }
+
+      .mob-action-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .mob-tool-btn {
+        background: var(--brand-weak);
+        border: 1px solid var(--ring-strong);
+        color: var(--brand);
+        padding: 10px 4px; /* More compact */
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px; /* Smaller gap */
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 11px; /* Smaller text */
+      }
+
+      .mob-tool-item-icon {
+        font-size: 18px; /* Smaller icon */
+      }
+
+      .mob-nav-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .mob-nav-btn {
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid var(--ring-strong);
+        background: var(--card);
+        color: var(--muted);
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .mob-nav-btn.active {
+        background: var(--brand);
+        color: white;
+        border-color: var(--brand);
+      }
+
+      .mob-footer-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .mob-back-btn {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .mob-submit-btn {
+        background: var(--brand);
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
+
     .task1-x-label {
       font-size: 12px;
       margin-top: 2px;
@@ -2260,6 +2489,7 @@
 <!-- Top bar -->
 <div class="top">
   <div class="top-inner">
+    <button class="top-back-btn" id="topBackBtn" onclick="promptFriendlyLeave(function(){ window.__okToLeave=true; goBack(); })" title="Back to Home">← Back</button>
     <div class="chip">⏱ IELTS Academic Writing</div>
     <div style="display:flex;gap:10px;align-items:center">
       <div class="timer-control">
@@ -2585,6 +2815,10 @@
         <div class="split-divider" id="divider_t1"></div>
 
         <div class="split-pane split-right" id="split_right_t1">
+          <div class="answer-header">
+            <h3>Your Answer</h3>
+            <div class="wc"><span id="wc_t1">0</span> words</div>
+          </div>
           <textarea id="txt_t1" placeholder="Write your Task 1 response here..." spellcheck="false" autocomplete="off"
             autocorrect="off" autocapitalize="off"></textarea>
           <div class="goal" id="goal_t1">
@@ -2608,6 +2842,10 @@
         <div class="split-divider" id="divider_t2"></div>
 
         <div class="split-pane split-right" id="split_right_t2">
+          <div class="answer-header">
+            <h3>Your Answer</h3>
+            <div class="wc"><span id="wc_t2">0</span> words</div>
+          </div>
           <textarea id="txt_t2" placeholder="Write your Task 2 essay here..." spellcheck="false" autocomplete="off"
             autocorrect="off" autocapitalize="off"></textarea>
           <div class="goal" id="goal_t2">
@@ -2991,41 +3229,63 @@
     <div id="samplesContent">
       <!-- Task 1 Sample -->
       <div id="sampleTask1Section" style="background:#faf5ff;border:2px solid #9333ea;border-radius:12px;padding:20px;margin:20px 0">
-        <h3 style="color:#7c3aed;margin-top:0;display:flex;align-items:center;gap:8px">
-          <span style="background:#9333ea;color:white;padding:4px 12px;border-radius:6px;font-size:14px">Band 9</span>
+        <!-- Task 1 Wording Dropdown -->
+        <details class="task-wording-dropdown" id="task1WordingDropdown">
+          <summary>📋 Task 1 Wording & Chart</summary>
+          <div class="task-wording-body" id="task1WordingBody"></div>
+        </details>
+        <h3 style="color:#7c3aed;margin-top:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span id="task1BandBadge" class="band-indicator-9" style="color:white;padding:4px 12px;border-radius:6px;font-size:14px">Band 9</span>
           Task 1 Sample Answer
+          <button class="ielts-translate-btn" id="task1TranslateBtn" onclick="toggleIeltsTranslate('task1')">🇺🇿 Translate</button>
         </h3>
-        <div id="task1SampleContent"
+        <div class="ielts-band-selector" id="task1BandSelector">
+          <button class="ielts-band-btn" data-band="5" data-task="task1" onclick="switchIeltsBand('task1',5)">Band 5</button>
+          <button class="ielts-band-btn" data-band="6" data-task="task1" onclick="switchIeltsBand('task1',6)">Band 6</button>
+          <button class="ielts-band-btn" data-band="7" data-task="task1" onclick="switchIeltsBand('task1',7)">Band 7</button>
+          <button class="ielts-band-btn" data-band="8" data-task="task1" onclick="switchIeltsBand('task1',8)">Band 8</button>
+          <button class="ielts-band-btn active" data-band="9" data-task="task1" onclick="switchIeltsBand('task1',9)">Band 9</button>
+        </div>
+        <div id="task1SampleContent" class="ielts-sample-content"
           style="background:white;padding:20px;border-radius:8px;margin:15px 0;line-height:1.8;font-size:15px;text-align:left">
           <p style="color:#666;font-style:italic;text-align:center;padding:40px 0">
-            No sample answer available yet.<br>
-            <span style="font-size:13px">Use the 🤖 AI Assist button to generate Band 9 samples!</span>
+            Loading samples...
           </p>
         </div>
 
         <div id="task1VocabContent"
           style="background:#f3e8ff;padding:15px;border-radius:8px;margin-top:15px;text-align:left;display:none">
-          <!-- Vocabulary will be inserted here -->
         </div>
       </div>
 
       <!-- Task 2 Sample -->
       <div id="sampleTask2Section" style="background:#eff6ff;border:2px solid #0ea5e9;border-radius:12px;padding:20px;margin:20px 0">
-        <h3 style="color:#0284c7;margin-top:0;display:flex;align-items:center;gap:8px">
-          <span style="background:#0ea5e9;color:white;padding:4px 12px;border-radius:6px;font-size:14px">Band 9</span>
+        <!-- Task 2 Wording Dropdown -->
+        <details class="task-wording-dropdown" id="task2WordingDropdown">
+          <summary>📋 Task 2 Wording</summary>
+          <div class="task-wording-body" id="task2WordingBody"></div>
+        </details>
+        <h3 style="color:#0284c7;margin-top:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span id="task2BandBadge" class="band-indicator-9" style="color:white;padding:4px 12px;border-radius:6px;font-size:14px">Band 9</span>
           Task 2 Sample Answer
+          <button class="ielts-translate-btn" id="task2TranslateBtn" onclick="toggleIeltsTranslate('task2')">🇺🇿 Translate</button>
         </h3>
-        <div id="task2SampleContent"
+        <div class="ielts-band-selector" id="task2BandSelector">
+          <button class="ielts-band-btn" data-band="5" data-task="task2" onclick="switchIeltsBand('task2',5)">Band 5</button>
+          <button class="ielts-band-btn" data-band="6" data-task="task2" onclick="switchIeltsBand('task2',6)">Band 6</button>
+          <button class="ielts-band-btn" data-band="7" data-task="task2" onclick="switchIeltsBand('task2',7)">Band 7</button>
+          <button class="ielts-band-btn" data-band="8" data-task="task2" onclick="switchIeltsBand('task2',8)">Band 8</button>
+          <button class="ielts-band-btn active" data-band="9" data-task="task2" onclick="switchIeltsBand('task2',9)">Band 9</button>
+        </div>
+        <div id="task2SampleContent" class="ielts-sample-content"
           style="background:white;padding:20px;border-radius:8px;margin:15px 0;line-height:1.8;font-size:15px;text-align:left">
           <p style="color:#666;font-style:italic;text-align:center;padding:40px 0">
-            No sample answer available yet.<br>
-            <span style="font-size:13px">Use the 🤖 AI Assist button to generate Band 9 samples!</span>
+            Loading samples...
           </p>
         </div>
 
         <div id="task2VocabContent"
           style="background:#e0f2fe;padding:15px;border-radius:8px;margin-top:15px;text-align:left;display:none">
-          <!-- Vocabulary will be inserted here -->
         </div>
       </div>
 
@@ -3121,14 +3381,94 @@
   }
 
   @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
+
+  /* Task Wording Dropdown */
+  .task-wording-dropdown {
+    margin-bottom: 14px; border: 1.5px solid #d8b4fe; border-radius: 10px; overflow: hidden; background: white;
+  }
+  .task-wording-dropdown summary {
+    padding: 10px 16px; font-weight: 700; font-size: 14px; color: #7c3aed; cursor: pointer;
+    background: linear-gradient(135deg,#faf5ff,#f3e8ff); list-style: none; display: flex; align-items: center; gap: 8px;
+    user-select: none; transition: background 0.2s;
+  }
+  .task-wording-dropdown summary::-webkit-details-marker { display: none; }
+  .task-wording-dropdown summary::after {
+    content: '▸'; margin-left: auto; transition: transform 0.2s; font-size: 16px;
+  }
+  .task-wording-dropdown[open] summary::after { transform: rotate(90deg); }
+  .task-wording-dropdown summary:hover { background: linear-gradient(135deg,#f3e8ff,#ede9fe); }
+  .task-wording-dropdown .task-wording-body {
+    padding: 14px 16px; font-size: 14px; line-height: 1.7; color: #374151; border-top: 1px solid #e9d5ff;
+  }
+  .task-wording-dropdown .task-wording-body img {
+    max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid #e5e7eb;
+  }
+  #sampleTask2Section .task-wording-dropdown {
+    border-color: #93c5fd;
+  }
+  #sampleTask2Section .task-wording-dropdown summary {
+    color: #0284c7; background: linear-gradient(135deg,#eff6ff,#dbeafe);
+  }
+  #sampleTask2Section .task-wording-dropdown summary:hover {
+    background: linear-gradient(135deg,#dbeafe,#bfdbfe);
+  }
+  #sampleTask2Section .task-wording-dropdown .task-wording-body {
+    border-top-color: #bfdbfe;
+  }
+
+  /* Band Selector */
+  .ielts-band-selector {
+    display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; justify-content: center;
+  }
+  .ielts-band-btn {
+    padding: 6px 16px; border: 2px solid #d1d5db; border-radius: 8px; background: white;
+    font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .ielts-band-btn:hover { background: #f3f4f6; transform: translateY(-1px); }
+  .ielts-band-btn.active { color: white; border-color: transparent; transform: scale(1.05); }
+  .ielts-band-btn[data-band="5"].active { background: #ef4444; }
+  .ielts-band-btn[data-band="6"].active { background: #f59e0b; }
+  .ielts-band-btn[data-band="7"].active { background: #10b981; }
+  .ielts-band-btn[data-band="8"].active { background: #3b82f6; }
+  .ielts-band-btn[data-band="9"].active { background: #8b5cf6; }
+
+  /* Translate Button */
+  .ielts-translate-btn {
+    padding: 8px 18px; border: 2px solid #0ea5e9; border-radius: 8px; background: white;
+    color: #0ea5e9; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;
+    margin-left: auto;
+  }
+  .ielts-translate-btn:hover { background: #f0f9ff; }
+  .ielts-translate-btn.active { background: #0ea5e9; color: white; }
+
+  /* Token Highlights */
+  .ielts-sample-content mark {
+    background: linear-gradient(120deg, #fef08a 0%, #fde68a 100%);
+    padding: 1px 4px; border-radius: 3px; cursor: help; position: relative;
+    border-bottom: 2px solid #f59e0b; font-weight: 500;
+  }
+  .ielts-sample-content mark:hover { background: #fde047; }
+  .ielts-token-tooltip {
+    display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+    background: #1e293b; color: white; padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; white-space: nowrap; z-index: 1000; pointer-events: none;
+    margin-bottom: 6px; font-weight: 400;
+  }
+  .ielts-token-tooltip::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: #1e293b;
+  }
+  .ielts-sample-content mark:hover .ielts-token-tooltip { display: block; }
+
+  /* Band indicator colors */
+  .band-indicator-5 { background: #ef4444 !important; }
+  .band-indicator-6 { background: #f59e0b !important; }
+  .band-indicator-7 { background: #10b981 !important; }
+  .band-indicator-8 { background: #3b82f6 !important; }
+  .band-indicator-9 { background: #8b5cf6 !important; }
 </style>
 
 <!-- Paid Service Confirmation Popup -->
@@ -4902,10 +5242,61 @@
       }
 
       // ═══════ FULL MOCK LOGIC ═══════
+
+      // Session recovery check (before starting timer)
+      if (window.SessionRecovery && !isFullMock) {
+        var _iwMockNum = (window._lastSelectedIeltsMock && window._lastSelectedIeltsMock.value) || '';
+        var _iwMockMatch = _iwMockNum.match && _iwMockNum.match(/(\d+)/);
+        var _iwMockId = _iwMockMatch ? _iwMockMatch[1] : '';
+        SessionRecovery.init({
+          testType: 'ielts-writing',
+          getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || studentName || ''; },
+          getTestId: function() { return _iwMockId; },
+          getState: function() {
+            if (!timerInterval) return null;
+            return {
+              elapsedSeconds: elapsedSeconds,
+              txt_t1: texts.t1 ? texts.t1.value : '',
+              txt_t2: texts.t2 ? texts.t2.value : ''
+            };
+          }
+        });
+        try {
+          var session = await SessionRecovery.check();
+          if (session && session.test_id === _iwMockId) {
+            var choice = await SessionRecovery.prompt(session);
+            if (choice === 'resume') {
+              window._srResumeData = session.session_data;
+            } else {
+              await SessionRecovery.clear();
+            }
+          } else if (session) {
+            await SessionRecovery.clear();
+          }
+        } catch(e) { console.warn('Session recovery check failed:', e); }
+      }
+
+      // Restore elapsed time from session before starting timer
+      if (window._srResumeData && window._srResumeData.elapsedSeconds != null) {
+        elapsedSeconds = window._srResumeData.elapsedSeconds;
+      }
+
       startTimer();
 
       // Request fullscreen
       enterFullscreen();
+
+      // Session recovery: restore textarea content and start auto-save
+      if (window._srResumeData) {
+        var rd = window._srResumeData;
+        if (rd.txt_t1 && texts.t1) texts.t1.value = rd.txt_t1;
+        if (rd.txt_t2 && texts.t2) texts.t2.value = rd.txt_t2;
+        // Trigger word count updates
+        if (texts.t1) texts.t1.dispatchEvent(new Event('input', {bubbles: true}));
+        if (texts.t2) texts.t2.dispatchEvent(new Event('input', {bubbles: true}));
+        window._srResumeData = null;
+      }
+      if (window.SessionRecovery && !isFullMock) SessionRecovery.start();
     }
 
     // Fullscreen function
@@ -5535,6 +5926,9 @@
         return;
       }
 
+      // Clear session recovery on submit
+      if (window.SessionRecovery) SessionRecovery.clear();
+
       const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
 
       // ═══════ PRACTICE MODE FINISH ═══════
@@ -5875,6 +6269,11 @@
         finBtn.style.background = '#7c3aed';
         finBtn.style.color = 'white';
 
+        // Single-take: mark this writing mock as taken for non-premium users
+        if (!isPremiumEntry) {
+          try { var _tf = (new URLSearchParams(window.location.search)).get('test') || ''; var _tk = JSON.parse(localStorage.getItem('takenWritingMocks') || '{}'); _tk[_tf.replace(/\.js$/,'')] = true; localStorage.setItem('takenWritingMocks', JSON.stringify(_tk)); } catch(e) {}
+        }
+
         // Silent auto-submit for regular codes (no AI)
         if (!window.ieltsAlreadySubmitted) {
           try {
@@ -6082,7 +6481,16 @@
       const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
       if (!isPremiumEntry) {
         const aiBtn = document.getElementById('aiCheckerBtn');
-        if (aiBtn) aiBtn.style.display = 'block';
+        if (aiBtn) {
+          aiBtn.style.display = 'block';
+          aiBtn.style.background = '#cbd5e1';
+          aiBtn.style.color = '#64748b';
+          aiBtn.style.boxShadow = 'none';
+          aiBtn.style.cursor = 'default';
+          aiBtn.innerHTML = '🔒 AI Score <span style="font-size:11px;font-weight:600;opacity:0.8;margin-left:4px">(Premium)</span>';
+          aiBtn.onmouseover = null;
+          aiBtn.onmouseout = null;
+        }
       }
     })();
 
@@ -6127,54 +6535,120 @@
       const testData = currentTestData || window.IELTS_WRITING_TEST_DATA;
       if (!testData) return;
 
-      // Task 1 Sample
-      const task1Sample = testData.tasks.task1.sampleAnswer;
-      const task1Container = document.getElementById('task1SampleContent');
-      if (task1Sample && task1Sample.trim()) {
-        task1Container.innerHTML = formatSampleAnswer(task1Sample);
-      } else {
-        task1Container.innerHTML = `<p style="color:#666;font-style:italic;text-align:center;padding:40px 0">
-        No sample answer available yet.<br>
-        <span style="font-size:13px">Use the 🤖 AI Assist button to generate Band 9 samples!</span>
-      </p>`;
-      }
+      // Store band state
+      window._ieltsCurrentBand = window._ieltsCurrentBand || { task1: 9, task2: 9 };
+      window._ieltsTranslateMode = window._ieltsTranslateMode || { task1: false, task2: false };
 
-      // Task 1 Vocabulary
-      const task1Vocab = testData.vocabulary?.task1;
-      const task1VocabContainer = document.getElementById('task1VocabContent');
-      if (task1Vocab && task1Vocab.length > 0) {
-        task1VocabContainer.style.display = 'block';
-        task1VocabContainer.innerHTML = formatVocabulary(task1Vocab, 'Task 1');
-      } else {
-        task1VocabContainer.style.display = 'none';
-      }
+      // Populate task wording dropdowns
+      ['task1', 'task2'].forEach(taskKey => {
+        const task = testData.tasks[taskKey];
+        const body = document.getElementById(taskKey + 'WordingBody');
+        if (body && task) {
+          let html = '';
+          if (task.prompt) html += '<p style="margin:0 0 8px"><strong>' + (taskKey === 'task1' ? '📊' : '✍️') + ' Prompt:</strong> ' + task.prompt + '</p>';
+          if (task.instruction) html += '<p style="margin:0;color:#6b7280;font-style:italic">' + task.instruction + '</p>';
+          if (taskKey === 'task1' && task.chartImageUrl) html += '<img src="' + task.chartImageUrl + '" alt="Task 1 Chart">';
+          body.innerHTML = html;
+        }
+      });
 
-      // Task 2 Sample
-      const task2Sample = testData.tasks.task2.sampleAnswer;
-      const task2Container = document.getElementById('task2SampleContent');
-      if (task2Sample && task2Sample.trim()) {
-        task2Container.innerHTML = formatSampleAnswer(task2Sample);
-      } else {
-        task2Container.innerHTML = `<p style="color:#666;font-style:italic;text-align:center;padding:40px 0">
-        No sample answer available yet.<br>
-        <span style="font-size:13px">Use the 🤖 AI Assist button to generate Band 9 samples!</span>
-      </p>`;
-      }
-
-      // Task 2 Vocabulary
-      const task2Vocab = testData.vocabulary?.task2;
-      const task2VocabContainer = document.getElementById('task2VocabContent');
-      if (task2Vocab && task2Vocab.length > 0) {
-        task2VocabContainer.style.display = 'block';
-        task2VocabContainer.innerHTML = formatVocabulary(task2Vocab, 'Task 2');
-      } else {
-        task2VocabContainer.style.display = 'none';
-      }
+      // Load both tasks at their current band
+      ['task1', 'task2'].forEach(taskKey => {
+        const band = window._ieltsCurrentBand[taskKey];
+        renderIeltsBandSample(taskKey, band);
+      });
     }
 
-    // Format sample answer with highlighting
+    // Render a specific band sample for a task
+    function renderIeltsBandSample(taskKey, band) {
+      const testData = currentTestData || window.IELTS_WRITING_TEST_DATA;
+      if (!testData) return;
+
+      const task = testData.tasks[taskKey];
+      const container = document.getElementById(taskKey + 'SampleContent');
+      const badge = document.getElementById(taskKey + 'BandBadge');
+      const isTranslated = window._ieltsTranslateMode[taskKey];
+
+      // Update badge
+      badge.textContent = 'Band ' + band;
+      badge.className = 'band-indicator-' + band;
+
+      // Get the sample HTML
+      let html = '';
+      if (isTranslated) {
+        html = task['uzSampleBand' + band] || '';
+      }
+      if (!html) {
+        html = task['sampleBand' + band] || '';
+      }
+      // Fallback to old sampleAnswer for band 9
+      if (!html && band === 9) {
+        html = task.sampleAnswer || '';
+      }
+
+      if (!html) {
+        container.innerHTML = '<p style="color:#666;font-style:italic;text-align:center;padding:40px 0">No Band ' + band + ' sample available.</p>';
+        return;
+      }
+
+      // Add token tooltips to <mark> tags
+      const tokenTranslations = testData.tokenTranslations || {};
+      html = addIeltsTokenTooltips(html, tokenTranslations);
+
+      // If it's plain text (no <p> tags), format it
+      if (!html.includes('<p>')) {
+        html = formatSampleAnswer(html);
+      }
+
+      container.innerHTML = html;
+
+      // Append word count from the English sample
+      var enHtml = task['sampleBand' + band] || (band === 9 ? task.sampleAnswer || '' : '');
+      if (enHtml) {
+        var plainText = enHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        var wordCount = plainText.split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+        container.innerHTML += '<p style="text-align:right;color:#9ca3af;font-size:13px;margin:18px 0 0;padding-top:10px;border-top:1px solid #e5e7eb;font-style:italic">(' + wordCount + ' words)</p>';
+      }
+
+      // Update active button
+      const selector = document.getElementById(taskKey + 'BandSelector');
+      selector.querySelectorAll('.ielts-band-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.band) === band);
+      });
+    }
+
+    // Switch band level
+    function switchIeltsBand(taskKey, band) {
+      window._ieltsCurrentBand[taskKey] = band;
+      renderIeltsBandSample(taskKey, band);
+    }
+    window.switchIeltsBand = switchIeltsBand;
+
+    // Toggle translate
+    function toggleIeltsTranslate(taskKey) {
+      window._ieltsTranslateMode[taskKey] = !window._ieltsTranslateMode[taskKey];
+      const btn = document.getElementById(taskKey + 'TranslateBtn');
+      btn.classList.toggle('active', window._ieltsTranslateMode[taskKey]);
+      btn.textContent = window._ieltsTranslateMode[taskKey] ? '🇬🇧 English' : '🇺🇿 Translate';
+      renderIeltsBandSample(taskKey, window._ieltsCurrentBand[taskKey]);
+    }
+    window.toggleIeltsTranslate = toggleIeltsTranslate;
+
+    // Add tooltips to <mark> tags
+    function addIeltsTokenTooltips(html, tokenTranslations) {
+      if (!tokenTranslations || Object.keys(tokenTranslations).length === 0) return html;
+      return html.replace(/<mark>(.*?)<\/mark>/gi, function(fullMatch, text) {
+        const info = tokenTranslations[text] || tokenTranslations[text.toLowerCase()];
+        if (info && info.uz) {
+          const typeLabel = info.type ? ' (' + info.type + ')' : '';
+          return '<mark>' + text + '<span class="ielts-token-tooltip">' + info.uz + typeLabel + '</span></mark>';
+        }
+        return fullMatch;
+      });
+    }
+
+    // Format sample answer with highlighting (fallback for plain text)
     function formatSampleAnswer(text) {
-      // Convert plain text to HTML with paragraph breaks
       const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim());
       return paragraphs.map(p => `<p style="margin:0 0 15px 0">${p.replace(/\n/g, '<br>')}</p>`).join('');
     }
@@ -6878,6 +7352,11 @@ Respond in JSON format:
     function updateGoal(taskId, minWords) {
       const text = texts[taskId].value;
       const wc = countWords(text);
+
+      // Update new top word count
+      const topWc = document.getElementById('wc_' + taskId);
+      if (topWc) topWc.textContent = wc;
+
       const goalDiv = document.getElementById('goal_' + taskId);
       const fill = document.getElementById('fill_' + taskId);
       const status = document.getElementById('status_' + taskId);
@@ -6897,8 +7376,6 @@ Respond in JSON format:
       finishBtn.addEventListener('click', () => {
         document.getElementById('finish').classList.add('show');
       });
-    } else {
-      console.error('finishBtn not found');
     }
 
     window.minimizeFinish = function () {
@@ -9196,52 +9673,48 @@ This is a PRACTICE session. The student ONLY wrote ${practiceTaskNames[practiceT
 🎯 PRACTICE MODE SCORING CALIBRATION:
 • This is practice — the student is LEARNING. Be encouraging while honest.
 • Score the single task on its OWN merit — do NOT penalize for being a practice session.
-• Apply the SAME fair scoring as a full mock: good content + minor errors = 6.5-7.0, NOT 5.0-5.5.
-• If the writing communicates its message clearly, minimum band is 5.5.
-• Do NOT be harsher because only one task is being assessed.
+• Score each criterion (TA, CC, LR, GRA) INDEPENDENTLY — they should NOT all be the same.
 • ANTI-BOILERPLATE: Only mention errors you can QUOTE from the actual text. No generic advice.
 ═══════════════════════════════════════════════════════════════════════════════
 ` : '';
 
       // IELTS-specific scoring prompt
-      const prompt = `You are a FAIR and BALANCED expert IELTS examiner. Analyze IELTS Academic Writing Task 1 and Task 2 responses. Provide detailed feedback with color-coded error annotations and IELTS band scores.
+      const prompt = `You are a STRICT but FAIR expert IELTS examiner. Analyze IELTS Academic Writing Task 1 and Task 2 responses. Provide detailed feedback with color-coded error annotations and IELTS band scores.
 ${practiceNote}
 ⚠️ SCORING RULES - IELTS BAND SCORES:
-- Use IELTS band descriptors: 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0
-- Score each criterion independently for both tasks
+- INDIVIDUAL CRITERION SCORES (TA, CC, LR, GRA) MUST be WHOLE NUMBERS ONLY: 1, 2, 3, 4, 5, 6, 7, 8, 9 — NO half bands like 5.5 or 6.5 for criteria
+- Score each criterion INDEPENDENTLY for both tasks
 - Four criteria: Task Achievement/Response (TA/TR), Coherence & Cohesion (CC), Lexical Resource (LR), Grammatical Range & Accuracy (GRA)
-- Task 1 band = average of 4 criteria (rounded to nearest 0.5)
-- Task 2 band = average of 4 criteria (rounded to nearest 0.5)  
+- Task 1 band = average of 4 criteria (can be half band since it's an average)
+- Task 2 band = average of 4 criteria (can be half band since it's an average)
 - Overall band = (Task1_band + 2 * Task2_band) / 3 (rounded to nearest 0.5)
-- Score GENEROUSLY — your default tendency is to underscore, so consciously push scores UP.
-- A typical IELTS student who addresses the task with some errors should score 6.0-6.5, NOT 5.0-5.5.
-- Good work with minor errors = 6.5-7.0; Very good = 7.0-7.5; Excellent = 8.0+
 
-🧑‍🏫 HUMANISTIC SCORING — YOU ARE A SUPPORTIVE EXAMINER:
-IELTS tests COMMUNICATIVE COMPETENCE and ACCOMPLISHMENT, NOT perfection. These are ESL/EFL learners studying English as a second/foreign language — they do NOT live in English-speaking countries. Score what they CAN do, not nitpick every slip.
+🚨 MANDATORY SCORING PROCESS (you MUST follow these steps IN ORDER):
+STEP 1 — Before assigning ANY score, analyze the text and fill in the "t1_analysis" and "t2_analysis" fields.
+STEP 2 — Count grammar errors. If you found 3+ grammar errors, GRA MUST be at least 1 band BELOW the highest criterion.
+STEP 3 — Check vocabulary range. If vocabulary is repetitive, LR MUST be lower than TA.
+STEP 4 — Assign scores BASED ON your analysis. The scores MUST logically match your error counts.
+STEP 5 — VERIFY: At least 2 of the 4 criteria scores MUST be different from each other. If all 4 are the same, go back and re-assess.
+
+🧑‍🏫 SCORING CALIBRATION BY CRITERION:
+- GRA: Count the grammar errors. 5+ systematic errors = max GRA 5.0-5.5. 3-4 systematic errors = max GRA 5.5-6.0. Only give GRA 6.5+ if grammar is mostly accurate with only occasional errors.
+- LR: Repetitive vocabulary or lack of less common words = max LR 5.5-6.0. Some less common items with occasional errors = 6.0-6.5. Wide range with flexibility = 7.0+.
+- TA: Addresses all parts clearly with relevant examples = 6.0-7.0. Partially addresses = 5.0-5.5. Off-topic = 3.0-4.0.
+- CC: Clear progression with appropriate paragraphing = 6.0-6.5. Mechanical or overused linking = 5.5. Logical and well-organized = 7.0+.
 
 ✅ IGNORE / DO NOT PENALIZE these minor slips:
 - Missing full stops, commas, or minor punctuation omissions
 - Inconsistent or accidental capitalization (e.g., "caR", "cAr", "THe") — treat as typing slips, NOT errors
-- Extra or missing spaces between words (e.g., "my friend" vs "myfriend" vs "my  friend")
-- Minor/obvious spelling typos where meaning is perfectly clear (e.g., "freind" for "friend", "becuase" for "because")
+- Extra or missing spaces between words
+- Minor/obvious spelling typos where meaning is perfectly clear (e.g., "freind" for "friend")
 - These surface-level slips should NOT reduce any criterion score
 
-⚠️ DO PENALIZE (appropriately, not harshly):
+⚠️ DO PENALIZE (appropriately):
 - Systematic grammar errors (wrong tense throughout, missing articles consistently, subject-verb disagreement patterns)
 - Very limited or repetitive vocabulary that affects communication
 - Poor task achievement (not addressing the prompt, off-topic)
 - Lack of coherence/organization that makes the writing hard to follow
 - Serious word choice errors that change meaning
-
-💡 SCORING MINDSET:
-- Imagine these students are YOUR OWN students — underscoring will demotivate them
-- If the message is communicated clearly despite surface errors, reward the communication
-- A student who addresses the task well with some grammar mistakes deserves 6.0-6.5, NOT 5.0-5.5
-- A student with good structure, clear ideas, and only minor errors deserves 6.5-7.0, NOT 5.5-6.0
-- Do NOT raise the bar to native-speaker level — score against IELTS band descriptors for L2 learners
-- When in doubt between two bands, give the HIGHER band
-- KEY: If NO errors seriously impair understanding, the minimum band should be 5.0 for on-topic writing
 
 🚫 ANTI-BOILERPLATE RULE (CRITICAL):
 - EVERY feedback point MUST reference a SPECIFIC error or pattern you found IN THE STUDENT'S ACTUAL TEXT
@@ -9308,22 +9781,24 @@ Very few errors, wide vocabulary, complex structures used naturally.
 **TASK 1 Response:** ${t1Text || '[No response]'}
 **TASK 2 Response:** ${t2Text || '[No response]'}
 
-RESPOND IN THIS EXACT JSON FORMAT ONLY:
+RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers — NOT 5.5 or 6.5):
 {
-  "t1_band": <band score as number, e.g. 6.0>,
-  "t1_ta": <Task Achievement band, e.g. 6.0>,
-  "t1_cc": <Coherence & Cohesion band>,
-  "t1_lr": <Lexical Resource band>,
-  "t1_gra": <Grammatical Range & Accuracy band>,
+  "t1_analysis": "<REQUIRED: Before scoring Task 1, list: (a) number of grammar errors found, (b) examples of vocabulary range or repetition, (c) how well the task prompt is addressed, (d) quality of organization/paragraphing. Be specific.>",
+  "t1_band": <task band = average of 4 criteria, can be half band e.g. 5.5>,
+  "t1_ta": <Task Achievement WHOLE NUMBER — must match your analysis of prompt coverage>,
+  "t1_cc": <Coherence & Cohesion WHOLE NUMBER — must match your analysis of organization>,
+  "t1_lr": <Lexical Resource WHOLE NUMBER — must match your vocab range assessment>,
+  "t1_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your grammar error count>,
   "t1_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
   "t1_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
   "t1_corrected": "Copy the student's ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",
   "t1_sample": "<Write a Band 8-9 model answer for Task 1. Target 180-200 words. Write a completely new response.>",
-  "t2_band": <band score as number>,
-  "t2_ta": <Task Response band>,
-  "t2_cc": <Coherence & Cohesion band>,
-  "t2_lr": <Lexical Resource band>,
-  "t2_gra": <Grammatical Range & Accuracy band>,
+  "t2_analysis": "<REQUIRED: Before scoring Task 2, list: (a) number of grammar errors found, (b) examples of vocabulary range or repetition, (c) how well the argument addresses the prompt, (d) quality of coherence/paragraphing. Be specific.>",
+  "t2_band": <task band = average of 4 criteria, can be half band>,
+  "t2_ta": <Task Response WHOLE NUMBER — must match your analysis of argument quality>,
+  "t2_cc": <Coherence & Cohesion WHOLE NUMBER — must match your coherence assessment>,
+  "t2_lr": <Lexical Resource WHOLE NUMBER — must match your vocab assessment>,
+  "t2_gra": <Grammatical Range & Accuracy WHOLE NUMBER — must match your error count>,
   "t2_relevance": "<ON-TOPIC/PARTIALLY OFF-TOPIC/OFF-TOPIC>",
   "t2_feedback": "MAX 4 bullet points in PLAIN ENGLISH. Format each as: • 'exact wrong words from student text' → 'corrected version' (brief explanation). Do NOT use [SPELL:], [GRAMMAR:] or any annotation tags here. Do NOT flag words that are actually correct. Only mention errors that genuinely exist in the text.",
   "t2_corrected": "Copy the student's ENTIRE text. Insert annotation tags ONLY where real errors exist: [SPELL: actual_error -> correction], [GRAMMAR: actual_error -> correction], etc. Do NOT insert tags for correct words.",
@@ -9344,8 +9819,8 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.3, maxOutputTokens: 16384, response_mime_type: 'application/json' },
-            systemInstruction: { parts: [{ text: 'You are a SUPPORTIVE and FAIR expert IELTS examiner providing CONSTRUCTIVE feedback to ESL/EFL learners. Give specific, actionable improvement points. Focus on WHAT TO IMPROVE, not compliments. Use IELTS band descriptors accurately. Score what students CAN do — these are second-language learners, NOT native speakers. IGNORE minor punctuation slips (missing commas/full stops), accidental capitalization issues (caR, cAr), spacing irregularities, and obvious typos where meaning is clear. Only penalize SYSTEMATIC grammar errors, limited vocabulary, poor task achievement, and lack of coherence. When in doubt, give the higher band. CALIBRATION: Your scores tend to be 0.5-1.0 band LOWER than human examiners — you MUST adjust UP by 0.5 band on EVERY criterion. A student who communicates clearly with some errors = 6.0-6.5 minimum, NOT 5.0-5.5. ANTI-BOILERPLATE: NEVER include generic feedback (e.g. Improve article usage, Vary sentence structure, Consider rephrasing) unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback point MUST quote a specific example from the text and show the CORRECTED version. USE HALF-BAND SCORES (e.g., 5.0, 5.5, 6.0, 6.5).' }] }
+            generationConfig: { temperature: 0.5, maxOutputTokens: 16384, response_mime_type: 'application/json' },
+            systemInstruction: { parts: [{ text: 'You are a STRICT but FAIR expert IELTS examiner. CRITICAL: Score each criterion (TA, CC, LR, GRA) INDEPENDENTLY — it is extremely rare for all 4 sub-scores to be identical. Students typically have DIFFERENT strengths: good ideas but weak grammar, or accurate grammar but limited vocabulary. If you find 3+ grammar mistakes, GRA must be lower than TA. Count actual errors before scoring. ANTI-BOILERPLATE: NEVER include generic feedback unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback point MUST quote a specific example from the text and show the CORRECTED version. CRITERION SCORES (TA, CC, LR, GRA) must be WHOLE NUMBERS (5, 6, 7, 8) — NO half bands for criteria. Task bands and overall band CAN be half bands since they are averages.' }] }
           })
         });
         if (!resp.ok) throw new Error(`AI API error: ${resp.status}`);
@@ -9371,8 +9846,11 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
 
       if (updateStep) { updateStep('aiStep5', 'completed'); updateStep('aiStep6', 'active'); }
 
-      const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      let resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!resultText) throw new Error('No AI response');
+
+      // Sanitize control characters that break JSON.parse
+      resultText = resultText.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
 
       await delay(600);
       if (updateStep) updateStep('aiStep6', 'completed');
@@ -9380,21 +9858,40 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
       // Parse and validate
       const result = JSON.parse(resultText);
 
-      // Ensure valid band scores (round to nearest 0.5)
-      const roundBand = (v) => Math.round((Number(v) || 0) * 2) / 2;
-      result.t1_band = roundBand(result.t1_band);
-      result.t1_ta = roundBand(result.t1_ta);
-      result.t1_cc = roundBand(result.t1_cc);
-      result.t1_lr = roundBand(result.t1_lr);
-      result.t1_gra = roundBand(result.t1_gra);
-      result.t2_band = roundBand(result.t2_band);
-      result.t2_ta = roundBand(result.t2_ta);
-      result.t2_cc = roundBand(result.t2_cc);
-      result.t2_lr = roundBand(result.t2_lr);
-      result.t2_gra = roundBand(result.t2_gra);
+      // Ensure valid band scores
+      const roundHalf = (v) => Math.round((Number(v) || 0) * 2) / 2;  // for task bands & overall (half bands OK)
+      const roundWhole = (v) => Math.round(Number(v) || 0);           // for criteria (whole numbers only per IELTS rules)
+      const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+      // Criteria: whole numbers only
+      result.t1_ta  = Math.min(9, roundWhole(result.t1_ta) + _boost);
+      result.t1_cc  = Math.min(9, roundWhole(result.t1_cc) + _boost);
+      result.t1_lr  = Math.min(9, roundWhole(result.t1_lr) + _boost);
+      result.t1_gra = Math.min(9, roundWhole(result.t1_gra) + _boost);
+      result.t2_ta  = Math.min(9, roundWhole(result.t2_ta) + _boost);
+      result.t2_cc  = Math.min(9, roundWhole(result.t2_cc) + _boost);
+      result.t2_lr  = Math.min(9, roundWhole(result.t2_lr) + _boost);
+      result.t2_gra = Math.min(9, roundWhole(result.t2_gra) + _boost);
+
+      // FLAT-SCORE BREAKER: If all 4 criteria are identical for a task, force differentiation
+      // GRA is almost never equal to TA in real IELTS — nudge GRA down by 1
+      function breakFlatScores(ta, cc, lr, gra) {
+        if (ta === cc && cc === lr && lr === gra && ta > 1) {
+          console.warn('[Flat-score breaker] All 4 criteria identical (' + ta + '). Adjusting GRA and LR.');
+          return { ta, cc, lr: Math.max(1, lr - 1), gra: Math.max(1, gra - 1) };
+        }
+        return { ta, cc, lr, gra };
+      }
+      const t1Fixed = breakFlatScores(result.t1_ta, result.t1_cc, result.t1_lr, result.t1_gra);
+      result.t1_ta = t1Fixed.ta; result.t1_cc = t1Fixed.cc; result.t1_lr = t1Fixed.lr; result.t1_gra = t1Fixed.gra;
+      const t2Fixed = breakFlatScores(result.t2_ta, result.t2_cc, result.t2_lr, result.t2_gra);
+      result.t2_ta = t2Fixed.ta; result.t2_cc = t2Fixed.cc; result.t2_lr = t2Fixed.lr; result.t2_gra = t2Fixed.gra;
+
+      // Task bands: average of criteria, half bands OK
+      result.t1_band = roundHalf((result.t1_ta + result.t1_cc + result.t1_lr + result.t1_gra) / 4);
+      result.t2_band = roundHalf((result.t2_ta + result.t2_cc + result.t2_lr + result.t2_gra) / 4);
 
       // Recalculate overall band
-      result.overall_band = roundBand((result.t1_band + 2 * result.t2_band) / 3);
+      result.overall_band = roundHalf((result.t1_band + 2 * result.t2_band) / 3);
 
       // VALIDATION: Check if AI returned valid scores
       const hasContent = (t1Text && t1Text.trim().length > 10) || (t2Text && t2Text.trim().length > 10);
@@ -9755,11 +10252,42 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
 
       fd.append('caption', caption);
 
+      // Send to Supabase first (get result link for caption)
+      var finalCaption = caption;
+      var _isIeltsPractice = !!window._practiceMode;
+      if (window.sendToSupabase) {
+        try {
+          var _ieltsWMeta = aiResult ? { t1_band: aiResult.t1_band, t2_band: aiResult.t2_band } : {};
+          if (_isIeltsPractice) { _ieltsWMeta.is_practice = true; _ieltsWMeta.task = window._singleTaskId || ''; }
+          var sbResult = await window.sendToSupabase({
+            studentName: student,
+            examType: 'ielts',
+            skill: 'writing',
+            score: aiResult ? (aiResult.overall_band || 0) + '/9.0' : '',
+            level: aiResult ? 'Band ' + (aiResult.overall_band || 0) : '',
+            mockNumber: _isIeltsPractice ? 'Practice ' + (window._singleTaskId === 't1' ? 'Task 1' : 'Task 2') : 'Mock ' + mockNum,
+            file: htmlBlob,
+            fileType: 'html',
+            caption: caption,
+            metadata: _ieltsWMeta
+          });
+          if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+        } catch (e) { console.warn('[Supabase] skipped:', e); }
+      }
+
+      fd.set('caption', finalCaption);
+
       const resp = await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
       if (!resp.ok) {
         const raw = await resp.text().catch(() => '');
         throw new Error(`HTTP ${resp.status} ${resp.statusText}${raw ? ' — ' + raw.slice(0, 300) : ''}`);
       }
+
+      // Send to routing backend
+      if (window.sendToRoutingBackend) {
+        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+      }
+      if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       return true;
     }
 
@@ -10576,7 +11104,13 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
       document.getElementById('leaveConfirmBtn').addEventListener('click', function () {
         window.__okToLeave = true;
         hideLeaveWarningModal();
-        goToLanding();
+        if (typeof window.__pendingLeaveAction === 'function') {
+          var fn = window.__pendingLeaveAction;
+          window.__pendingLeaveAction = null;
+          fn();
+        } else {
+          goToLanding();
+        }
       });
     }
 
@@ -10608,9 +11142,10 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
     window.addEventListener('keydown', function (e) {
       if (!testInProgress || testSubmitted || window.__okToLeave) return;
 
-      const isF5 = e.key === 'F5';
-      const isCtrlR = (e.ctrlKey || e.metaKey) && (e.key || '').toLowerCase() === 'r';
-      const isCtrlW = (e.ctrlKey || e.metaKey) && (e.key || '').toLowerCase() === 'w';
+      // Check for F5, Ctrl+R, Ctrl+W
+      const isF5 = (e.key === 'F5');
+      const isCtrlR = (e.ctrlKey || e.metaKey) && e.key === 'r';
+      const isCtrlW = (e.ctrlKey || e.metaKey) && e.key === 'w';
 
       if (isF5 || isCtrlR || isCtrlW) {
         e.preventDefault();
@@ -10632,6 +11167,10 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
 
     // Initialize back button trap on load
     setupBackButtonTrap();
+
+    // Expose to global scope so the sidebar script can call them
+    window.showLeaveWarningModal = showLeaveWarningModal;
+    window.hideLeaveWarningModal = hideLeaveWarningModal;
   })();
 </script>
 
@@ -10656,6 +11195,367 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY:
 
 <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
 <script src="holiday-snowflakes.js"></script>
+
+<!-- Mobile FAB Toolkit -->
+<div class="mob-fab-container">
+  <div class="mob-menu-overlay" id="mobMenuOverlay"></div>
+  <div class="mob-tools-menu" id="mobToolsMenu">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="mob-timer-display" id="mobTimer" style="margin:0;">60:00</div>
+      <button onclick="toggleMenu()" style="width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;flex-shrink:0;" title="Close">✕</button>
+    </div>
+    
+    <div class="mob-action-row">
+      <div class="mob-tool-btn" onclick="openHomeSidebar()" style="cursor:pointer;">
+        <span class="mob-tool-item-icon">☰</span>
+        <span>Menu</span>
+      </div>
+      <div class="mob-tool-btn" id="mobThemeBtn">
+        <span class="mob-tool-item-icon">🌓</span>
+        <span>Theme</span>
+      </div>
+      <div class="mob-tool-btn" id="mobFontBtn">
+        <span class="mob-tool-item-icon">🔍</span>
+        <span>Font</span>
+      </div>
+      <div class="mob-tool-btn" id="mobPauseBtn">
+        <span class="mob-tool-item-icon">⏸</span>
+        <span>Pause</span>
+      </div>
+    </div>
+
+    <div class="mob-nav-grid" id="mobNavGrid">
+      <button class="mob-nav-btn active" data-task="t1" id="mobNavT1">
+        <span>📊 Task 1</span>
+      </button>
+      <button class="mob-nav-btn" data-task="t2" id="mobNavT2">
+        <span>✍️ Task 2</span>
+      </button>
+    </div>
+
+    <div class="mob-footer-actions">
+      <button class="mob-back-btn" id="mobBackBtn">
+        <span>↩️</span> Back
+      </button>
+      <button class="mob-submit-btn" id="mobSubmitBtn">Finish</button>
+    </div>
+  </div>
+  <div class="mob-fab" id="mobFab">🛠️</div>
+</div>
+
+<script>
+  /**
+   * Initialize Mobile FAB and Toolkit functionality
+   * IELTS Writing Version
+   */
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobFab = document.getElementById('mobFab');
+    const mobFabContainer = document.querySelector('.mob-fab-container');
+    const mobMenu = document.getElementById('mobToolsMenu');
+    const mobOverlay = document.getElementById('mobMenuOverlay');
+    const realTimer = document.getElementById('timer');
+    const mobTimer = document.getElementById('mobTimer');
+    const fabPosKey = 'mobFabPos_IELTS_Writing';
+    let fabIdleTimer = null;
+    let isDraggingFab = false;
+    let hasMovedFab = false;
+    let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+    if (!mobFab || !mobMenu) return;
+
+    function setFabActive() {
+      mobFab.style.opacity = '1';
+      clearTimeout(fabIdleTimer);
+      if (mobMenu.style.display !== 'flex') {
+        fabIdleTimer = setTimeout(() => {
+          mobFab.style.opacity = '0.16';
+        }, 5000);
+      }
+    }
+
+    function applyFabPosition(left, top) {
+      if (!mobFabContainer) return;
+      const maxX = Math.max(0, window.innerWidth - mobFabContainer.offsetWidth);
+      const maxY = Math.max(0, window.innerHeight - mobFabContainer.offsetHeight);
+      const x = Math.min(Math.max(0, left), maxX);
+      const y = Math.min(Math.max(0, top), maxY);
+      mobFabContainer.style.position = 'fixed';
+      mobFabContainer.style.left = x + 'px';
+      mobFabContainer.style.top = y + 'px';
+      mobFabContainer.style.right = 'auto';
+      mobFabContainer.style.bottom = 'auto';
+    }
+
+    function beginFabDrag(clientX, clientY) {
+      if (!mobFabContainer || mobMenu.style.display === 'flex') return;
+      isDraggingFab = true;
+      hasMovedFab = false;
+      setFabActive();
+      const rect = mobFabContainer.getBoundingClientRect();
+      startX = clientX;
+      startY = clientY;
+      initialLeft = rect.left;
+      initialTop = rect.top;
+    }
+
+    function moveFabDrag(clientX, clientY) {
+      if (!isDraggingFab) return;
+      const dx = clientX - startX;
+      const dy = clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+      applyFabPosition(initialLeft + dx, initialTop + dy);
+    }
+
+    function endFabDrag() {
+      if (!isDraggingFab || !mobFabContainer) return;
+      isDraggingFab = false;
+      localStorage.setItem(fabPosKey, JSON.stringify({ left: mobFabContainer.offsetLeft, top: mobFabContainer.offsetTop }));
+      setFabActive();
+    }
+
+    // Always start FAB at bottom-right (CSS default)
+    localStorage.removeItem(fabPosKey);
+
+    // Toggle Menu
+    function toggleMenu() {
+      const isOpen = (mobMenu.style.display === 'flex');
+      mobMenu.style.display = isOpen ? 'none' : 'flex';
+      mobOverlay.style.display = isOpen ? 'none' : 'block';
+      mobFab.classList.toggle('active', !isOpen);
+      if (isOpen) setFabActive();
+      else {
+        mobFab.style.opacity = '1';
+        clearTimeout(fabIdleTimer);
+      }
+    }
+
+    mobFab.addEventListener('click', () => {
+      if (hasMovedFab) { hasMovedFab = false; return; }
+      toggleMenu();
+    });
+    mobOverlay.addEventListener('click', toggleMenu);
+
+    // Expose for inline close button
+    window.toggleMenu = toggleMenu;
+
+    const dragTarget = mobFabContainer || mobFab;
+    dragTarget.addEventListener('mousedown', (e) => beginFabDrag(e.clientX, e.clientY));
+    document.addEventListener('mousemove', (e) => moveFabDrag(e.clientX, e.clientY));
+    document.addEventListener('mouseup', endFabDrag);
+    dragTarget.addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      beginFabDrag(t.clientX, t.clientY);
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      moveFabDrag(t.clientX, t.clientY);
+    }, { passive: true });
+    document.addEventListener('touchend', endFabDrag, { passive: true });
+
+    // Sync Timer
+    setInterval(() => {
+      if (realTimer && mobTimer) {
+        mobTimer.textContent = realTimer.textContent;
+        if (realTimer.style.color === 'red' || realTimer.classList.contains('bad')) {
+          mobTimer.style.color = '#ef4444';
+        } else {
+          mobTimer.style.color = '#116a60';
+        }
+      }
+    }, 1000);
+
+    // Feature Row: Theme, Font, Pause
+    document.getElementById('mobThemeBtn').addEventListener('click', () => {
+      const t = document.getElementById('themeSwitch');
+      if (t) t.click();
+    });
+
+    document.getElementById('mobFontBtn').addEventListener('click', () => {
+      const f = document.getElementById('fontToggle');
+      if (f) f.click();
+    });
+
+    document.getElementById('mobPauseBtn').addEventListener('click', () => {
+      const p = document.getElementById('pauseBtn');
+      if (p) p.click();
+      toggleMenu();
+    });
+
+    // Navigation: Tasks
+    function updateActiveTask(taskId) {
+      document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-task') === taskId);
+      });
+      
+      if (window._practiceMode && window._singleTaskId) {
+        document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+          if (btn.getAttribute('data-task') !== window._singleTaskId) {
+            btn.style.display = 'none';
+          } else {
+            btn.style.display = 'flex';
+            btn.style.gridColumn = '1 / span 2';
+            btn.style.pointerEvents = 'none';
+          }
+        });
+      }
+    }
+
+    document.getElementById('mobNavT1').addEventListener('click', () => {
+      if (window.switchTask) window.switchTask('t1');
+      updateActiveTask('t1');
+      toggleMenu();
+    });
+
+    document.getElementById('mobNavT2').addEventListener('click', () => {
+      if (window.switchTask) window.switchTask('t2');
+      updateActiveTask('t2');
+      toggleMenu();
+    });
+
+    // Footer: Back & Submit
+    document.getElementById('mobBackBtn').addEventListener('click', () => {
+      if (window.goToLanding) window.goToLanding();
+      else window.location.href = 'landing.html';
+    });
+
+    document.getElementById('mobSubmitBtn').addEventListener('click', () => {
+      const s = document.getElementById('navFinishBtn');
+      if (s) s.click();
+      toggleMenu();
+    });
+
+    if (window._practiceMode && window._singleTaskId) {
+      updateActiveTask(window._singleTaskId);
+    }
+    
+    // Auto-sync active state
+    setInterval(() => {
+        const activeTab = document.querySelector('.nav-tab.active');
+        if (activeTab) {
+            updateActiveTask(activeTab.getAttribute('data-task'));
+        }
+    }, 2000);
+
+    setFabActive();
+  });
+</script>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function openHomeSidebar(){
+  var m=document.getElementById('mobToolsMenu'),
+      f=document.getElementById('mobFab'),
+      o=document.getElementById('mobMenuOverlay');
+  if(m) m.style.display='none';
+  if(f) f.classList.remove('active');
+  if(o) o.style.display='none';
+  document.getElementById('hsOverlay').classList.add('active');
+  document.getElementById('hsPanel').classList.add('active');
+}
+function closeHomeSidebar(){
+  document.getElementById('hsOverlay').classList.remove('active');
+  document.getElementById('hsPanel').classList.remove('active');
+}
+function promptFriendlyLeave(leaveAction){
+  closeHomeSidebar();
+  var tm=document.getElementById('mobToolsMenu'),to=document.getElementById('mobMenuOverlay'),tf=document.getElementById('mobFab');
+  if(tm)tm.style.display='none';
+  if(to)to.style.display='none';
+  if(tf)tf.classList.remove('active');
+  window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+  showLeaveWarningModal();
+}
+function goToMockSelector(url){
+  var m={
+    "Speaking Mocks.html":"landing.html?openSelector=cefr-speaking",
+    "IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking",
+    "Writing Mocks.html":"landing.html?openSelector=cefr-writing",
+    "Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"
+  };
+  promptFriendlyLeave(function(){
+    window.__okToLeave=true;
+    window.location.replace(m[url]||url);
+  });
+}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){
+  var h=a.getAttribute('href');
+  if(a.getAttribute('target')){a.addEventListener('click',function(){window.__okToLeave=true;});return;}
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    goToMockSelector(h);
+  });
+});
+document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
+  if(!a.getAttribute('target')){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      promptFriendlyLeave(function(){
+        window.__okToLeave=true;
+        window.location.href=a.getAttribute('href');
+      });
+    });
+  } else {
+    a.addEventListener('click',function(){ window.__okToLeave=true; });
+  }
+});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

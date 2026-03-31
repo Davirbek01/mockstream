@@ -1,0 +1,47 @@
+// Flashcard Data: Communication & Language — Upper-Intermediate (B2–C1)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "💬 Communication & Language: Upper-Intermediate",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Communication & Language",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#7c3aed",
+    bg2: "#4c1d95",
+    accent: "#7c3aed",
+    progress: "#a78bfa"
+  },
+  cards: [
+    {term: "to have a way with words", en: "", uz: "so'zga chechan", uzDef: "Gapirishda yoki yozishda juda mahoratli bo'lish, ta'sirchan ifodalash.", ex: "She really has a way with words; her speeches are always so moving.", exUz: "Uning so'zga chechanligi bor; nutqlari har doim juda ta'sirli."},
+    {term: "can't make head nor tail", en: "", uz: "hech narsa tushunmaslik", uzDef: "Nimadirni umuman tushunmaslik, anglay olmaslik.", ex: "I can't make head nor tail of these instructions; they're so confusing!", exUz: "Men bu ko'rsatmalarga umuman tushunmayapman; ular juda chalkash!"},
+    {term: "touch base", en: "", uz: "aloqada bo'lmoq", uzDef: "Qisqa vaqt ichida aloqada bo'lish, yangiliklardan xabar olish.", ex: "Let's touch base next week to discuss the project's progress.", exUz: "Kelgusi hafta loyihaning borishi haqida gaplashish uchun aloqada bo'lamiz."},
+    {term: "food for thought", en: "", uz: "o'ylash uchun narsa", uzDef: "O'ylashga, muhokama qilishga arziydigan fikr yoki g'oya.", ex: "That documentary gave me a lot of food for thought about environmental issues.", exUz: "Bu hujjatli film menga atrof-muhit muammolari haqida o'ylash uchun ko'p narsa berdi."},
+    {term: "to be on the same page", en: "", uz: "bir fikrda bo'lmoq", uzDef: "Bir xil tushunchaga ega bo'lish, kelishilgan fikrda bo'lish.", ex: "We need to make sure everyone's on the same page before we start the presentation.", exUz: "Taqdimotni boshlashdan oldin hamma bir fikrda ekanligiga ishonch hosil qilishimiz kerak."},
+    {term: "in a nutshell", en: "", uz: "qisqasi", uzDef: "Qisqa va aniq qilib aytganda, asosiy mazmunini berish.", ex: "In a nutshell, the meeting was productive but exhausting.", exUz: "Qisqasi, yig'ilish samarali, lekin charchatuvchi bo'ldi."},
+    {term: "to spell something out", en: "", uz: "izohlab bermoq", uzDef: "Batafsil tushuntirib berish, hamma narsani aniq qilib aytish.", ex: "I had to spell out the instructions for him because he wasn't understanding.", exUz: "U tushunmagani uchun, men unga ko'rsatmalarni batafsil tushuntirib berishim kerak edi."},
+    {term: "get the ball rolling", en: "", uz: "boshlamoq", uzDef: "Biror narsani boshlash, harakatga keltirish.", ex: "Let's get the ball rolling on this project by assigning tasks.", exUz: "Keling, vazifalarni belgilash orqali ushbu loyihani boshlaymiz."},
+    {term: "to put across", en: "", uz: "yetkazmoq", uzDef: "Fikrni, ma'lumotni aniq va tushunarli tarzda yetkazish.", ex: "She's really good at putting her ideas across in a clear and concise way.", exUz: "U o'z g'oyalarini aniq va qisqa tarzda yetkazishda juda yaxshi."},
+    {term: "talk at cross-purposes", en: "", uz: "bir-birini tushunmaslik", uzDef: "Notog'ri tushunish tufayli bir-biri bilan kelishmaslik, adashish.", ex: "We were talking at cross-purposes because I thought he meant something else.", exUz: "Biz bir-birimizni noto'g'ri tushundik, chunki men u boshqa narsani nazarda tutayapti deb o'yladim."},
+    {term: "crystal clear", en: "", uz: "juda aniq", uzDef: "Hech qanday shubha yoki chalkashliksiz, juda tushunarli.", ex: "The instructions were crystal clear, so I had no trouble assembling the furniture.", exUz: "Ko'rsatmalar juda aniq edi, shuning uchun men mebelni yig'ishda hech qanday qiyinchilikka duch kelmadim."},
+    {term: "to hear something straight from the horse's mouth", en: "", uz: "ishonchli manbadan eshitmoq", uzDef: "To'g'ridan-to'g'ri manbadan, ishonchli odamdan eshitish.", ex: "I heard straight from the horse's mouth that she's getting promoted.", exUz: "Uning lavozimi ko'tarilayotganini to'g'ridan-to'g'ri manbadan eshitdim."},
+    {term: "get your wires crossed", en: "", uz: "adashmoq", uzDef: "Noto'g'ri tushunish natijasida chalkashib ketmoq, adashmoq.", ex: "We must have got our wires crossed; I thought the meeting was tomorrow.", exUz: "Biz adashgan bo'lishimiz kerak; Men yig'ilish ertaga deb o'yladim."},
+    {term: "word for word", en: "", uz: "so'zma-so'z", uzDef: "Har bir so'zni aynan takrorlab, o'zgartirmasdan aytish.", ex: "He repeated the message word for word, so I knew he was serious.", exUz: "U xabarni so'zma-so'z takrorladi, shuning uchun men uning jiddiy ekanligini bildim."},
+    {term: "out of touch", en: "", uz: "aloqani uzgan", uzDef: "Biron narsa haqida ma'lumotga ega bo'lmaslik, xabardor bo'lmaslik.", ex: "He's been out of touch with the latest trends in technology.", exUz: "U texnologiyadagi so'nggi tendentsiyalardan bexabar."},
+    {term: "to put your foot in it", en: "", uz: "bejirim gapirmoq", uzDef: "Noqulay vaziyatga tushishga olib keladigan narsani aytish yoki qilish.", ex: "I really put my foot in it when I asked her about her ex-husband.", exUz: "Men unga sobiq eri haqida savol berganimda, men haqiqatan ham bejirim gapirdim."},
+    {term: "on the grapevine", en: "", uz: "mish-mish", uzDef: "Rasmiy bo'lmagan tarzda, mish-mishlar orqali tarqalgan xabar.", ex: "I heard on the grapevine that they're planning to merge the two departments.", exUz: "Mish-mishlarga ko'ra, ular ikki bo'limni birlashtirishni rejalashtirmoqda."},
+    {term: "a figure of speech", en: "", uz: "ko'chma ma'no", uzDef: "So'zning to'g'ridan-to'g'ri ma'nosidan farqli ravishda ishlatilishi.", ex: "'Break a leg' is just a figure of speech, meaning 'good luck'.", exUz: "'Omad tilayman' shunchaki ko'chma ma'no, ya'ni 'omadingizni bersin'."},
+    {term: "to get your point across", en: "", uz: "fikringni yetkazmoq", uzDef: "Fikringizni boshqalarga tushunarli qilib yetkazish.", ex: "Using visual aids can help you get your point across more effectively.", exUz: "Vizual vositalardan foydalanish fikringizni yanada samaraliroq yetkazishga yordam beradi."},
+    {term: "to be economical with the truth", en: "", uz: "rostni kamaytirish", uzDef: "To'liq rostni aytmaslik, yolg'onni yashirishga harakat qilish.", ex: "The politician was being economical with the truth about his finances.", exUz: "Siyosatchi o'z moliyasi haqida rostni kamaytirayotgan edi."},
+    {term: "in black and white", en: "", uz: "qora va oq", uzDef: "Yozma ravishda, chop etilgan holda, aniq va shubhasiz.", ex: "I need to see the agreement in black and white before I sign anything.", exUz: "Nimaga imzo chekishdan oldin kelishuvni qora va oq rangda ko'rishim kerak."},
+    {term: "at the end of the day", en: "", uz: "oxir-oqibatda", uzDef: "Muhokama qilinayotgan vaziyatning eng muhim jihati.", ex: "At the end of the day, what matters is that we tried our best.", exUz: "Oxir-oqibatda, muhimi shundaki, biz qo'limizdan kelganicha harakat qildik."},
+    {term: "air your dirty laundry", en: "", uz: "sirlarni ochmoq", uzDef: "Shaxsiy muammolarini omma oldida muhokama qilmoq.", ex: "I don't want to air my dirty laundry in public, so let's talk about this in private.", exUz: "Men o'z shaxsiy muammolarimni omma oldida muhokama qilmoqchi emasman, shuning uchun bu haqda shaxsiy suhbatlashamiz."},
+    {term: "a golden opportunity", en: "", uz: "oltin imkoniyat", uzDef: "Qo'ldan boy berib bo'lmaydigan, juda yaxshi imkoniyat.", ex: "This job offer is a golden opportunity to advance my career.", exUz: "Bu ish taklifi mening faoliyatimni rivojlantirish uchun oltin imkoniyatdir."},
+    {term: "run something by someone", en: "", uz: "baho olish", uzDef: "Fikr yoki rejalarni boshqalarga ko'rsatib baho olish.", ex: "Can I run my presentation by you before I give it to the team?", exUz: "Taqdimotni jamoaga berishdan oldin sizga ko'rsatsam maylimi?"},
+    {term: "get the wrong end of the stick", en: "", uz: "noto'g'ri tushunmoq", uzDef: "Nimadirni noto'g'ri tushunib, noto'g'ri xulosaga kelish.", ex: "I think you've got the wrong end of the stick; I wasn't criticizing you.", exUz: "Menimcha, siz noto'g'ri tushundingiz; Men sizni tanqid qilmagan edim."},
+    {term: "hear a pin drop", en: "", uz: "jimjitlik", uzDef: "Juda jim, hatto ignaning tushishi ham eshitiladigan darajada.", ex: "You could hear a pin drop in the room when the CEO announced the layoffs.", exUz: "Bosh direktor ishdan bo'shatishni e'lon qilganida, xonada jimjitlik hukm surdi."},
+    {term: "in a word", en: "", uz: "bir so'z bilan", uzDef: "Qisqacha aytganda, bir so'z bilan ifodalash.", ex: "In a word, the performance was spectacular.", exUz: "Bir so'z bilan aytganda, ijro ajoyib edi."},
+    {term: "to be up front", en: "", uz: "ochiq bo'lmoq", uzDef: "Rostgo'y, ochiq, yashirmasdan gapirish.", ex: "I want to be up front with you: there are some challenges we need to address.", exUz: "Men siz bilan ochiq bo'lishni xohlayman: biz hal qilishimiz kerak bo'lgan ba'zi muammolar bor."},
+    {term: "to put it bluntly", en: "", uz: "ochiq aytganda", uzDef: "Qattiq, to'g'ri so'z bilan aytish, muloyimlikni chetlab o'tish.", ex: "To put it bluntly, the project is a disaster.", exUz: "Ochiq aytganda, loyiha halokatga uchradi."}
+  ]
+};

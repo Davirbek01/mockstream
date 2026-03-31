@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="site-config/responsive-scaling.css">
     <!-- Site Config (swap this script to change brand/skin) -->
     <script src="site-config/site-config.js"></script>
+    <script src="supabase-send.js"></script>
+    <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -273,6 +275,45 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
+        .hdr-back-btn, .hdr-pause-btn, .hdr-finish-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .hdr-back-btn {
+            background: rgba(13, 148, 136, 0.25);
+            border-color: rgba(13, 148, 136, 0.4);
+        }
+        .hdr-back-btn:hover {
+            background: rgba(13, 148, 136, 0.45);
+        }
+        .hdr-pause-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .hdr-finish-btn {
+            background: rgba(220, 38, 38, 0.25);
+            border-color: rgba(220, 38, 38, 0.4);
+        }
+        .hdr-finish-btn:hover {
+            background: rgba(220, 38, 38, 0.45);
+        }
+        @media (max-width: 768px) {
+            .hdr-back-btn, .hdr-pause-btn, .hdr-finish-btn {
+                display: none;
+            }
+        }
+
         .zoom-btn .zoom-level {
             position: absolute;
             bottom: -2px;
@@ -379,9 +420,9 @@
         .tutorial-card {
             background: white;
             color: var(--text);
-            padding: 40px;
-            border-radius: 32px;
-            max-width: 800px;
+            padding: 28px;
+            border-radius: 24px;
+            max-width: 640px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -391,32 +432,32 @@
 
         .tutorial-header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
         }
 
         .tutorial-title {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 900;
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .tutorial-subtitle {
             color: var(--text-light);
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .tutorial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .tutorial-item {
             background: #f8fafc;
-            padding: 24px;
-            border-radius: 20px;
+            padding: 14px 16px;
+            border-radius: 14px;
             border: 1px solid var(--border);
             transition: transform 0.2s;
         }
@@ -429,47 +470,83 @@
         }
 
         .tutorial-icon {
-            font-size: 24px;
-            margin-bottom: 12px;
+            font-size: 20px;
+            margin-bottom: 8px;
         }
 
         .tutorial-item-title {
             font-weight: 800;
-            font-size: 17px;
+            font-size: 15px;
             color: var(--text);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .tutorial-item-desc {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-light);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .tutorial-footer {
             display: flex;
             gap: 16px;
             justify-content: center;
-            margin-top: 32px;
+            margin-top: 20px;
         }
 
         /* Mobile alignment fix */
         @media (max-width: 600px) {
             .tutorial-card {
-                padding: 32px 24px;
+                padding: 20px 16px;
                 text-align: center;
+                border-radius: 20px;
+            }
+
+            .tutorial-header {
+                margin-bottom: 16px;
+            }
+
+            .tutorial-title {
+                font-size: 22px;
+            }
+
+            .tutorial-subtitle {
+                font-size: 14px;
             }
 
             .tutorial-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 16px;
             }
 
             .tutorial-item {
                 text-align: center;
+                padding: 14px;
+                border-radius: 14px;
             }
 
             .tutorial-icon {
-                margin: 0 auto 12px;
+                margin: 0 auto 8px;
+                font-size: 20px;
+            }
+
+            .tutorial-item-title {
+                font-size: 15px;
+                margin-bottom: 4px;
+            }
+
+            .tutorial-item-desc {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            .tutorial-footer {
+                margin-top: 16px;
+            }
+
+            #tutorial-overlay {
+                padding: 12px;
             }
         }
 
@@ -477,9 +554,9 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px 48px;
-            border-radius: 16px;
-            font-size: 18px;
+            padding: 14px 36px;
+            border-radius: 14px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
@@ -1294,19 +1371,82 @@
             }
 
             .mod-tut-page-title {
-                font-size: 22px;
+                font-size: 18px;
+                margin-bottom: 6px;
+            }
+
+            .mod-tut-page-icon {
+                font-size: 32px;
+                margin-bottom: 4px;
             }
 
             .mod-tut-page-desc {
-                font-size: 15px;
+                font-size: 13px;
+                line-height: 1.4;
             }
 
             .mod-tut-header {
-                padding: 16px;
+                padding: 12px 16px;
+            }
+
+            .mod-tut-icon-box {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+                border-radius: 10px;
+            }
+
+            .mod-tut-title {
+                font-size: 18px;
+            }
+
+            .mod-tut-steps {
+                font-size: 12px;
+            }
+
+            .mod-tut-body {
+                padding: 14px 16px;
             }
 
             .mod-tut-footer {
-                padding: 20px;
+                padding: 12px 16px;
+                gap: 10px;
+            }
+
+            .mod-tut-btn {
+                padding: 10px 28px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            .mod-tut-card {
+                border-radius: 20px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            #module-tutorial-overlay {
+                padding: 12px;
+            }
+
+            .tut-grid {
+                grid-template-columns: 1fr;
+                gap: 2px;
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+
+            .tut-bi-en {
+                margin-bottom: 8px;
+                font-size: 13px;
+            }
+
+            .tut-bi-sep {
+                margin: 8px 0;
+            }
+
+            .tut-bi-uz {
+                font-size: 12px;
             }
         }
 
@@ -1349,9 +1489,9 @@
                 gap: 16px !important;
             }
 
-            /* Compact header on mobile */
+            /* Hide header on mobile — FAB provides all controls */
             .header {
-                padding: 6px 10px;
+                display: none !important;
             }
 
             .header-content {
@@ -1469,7 +1609,7 @@
             .reading-mode .split-view.mobile-split-view {
                 display: flex !important;
                 flex-direction: column !important;
-                height: calc(100vh - 70px) !important;
+                height: 100vh !important;
                 gap: 0 !important;
                 overflow: hidden !important;
             }
@@ -1548,6 +1688,7 @@
 
             .main-container {
                 padding: 0 8px 120px;
+                margin-top: 0;
             }
 
             .part-nav {
@@ -1969,8 +2110,10 @@
             border-radius: 14px;
             z-index: 3000;
             display: none;
-            max-height: 320px;
+            max-height: min(320px, 45vh);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
             animation: popIn 0.2s ease-out;
         }
 
@@ -2418,7 +2561,7 @@
             }
 
             .writing-task-container {
-                height: calc(100vh - 110px) !important;
+                height: 100vh !important;
                 overflow: hidden !important;
             }
 
@@ -3334,16 +3477,432 @@
                 page-break-inside: avoid;
             }
 
-            /* Print color support */
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
+        }
+
+        /* ===== MOBILE FAB & TOOLKIT (CEFR) ===== */
+        .mob-fab-container {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+        }
+
+        .mob-fab {
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mob-fab:active {
+            transform: scale(0.9);
+        }
+
+        /* Toolkit Menu Overlay */
+        .mob-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 10000;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        .mob-menu-overlay.show { display: block; }
+
+        /* Toolkit Menu — centered dialog (matches individual mock FAB style) */
+        .mob-tools-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 92vw;
+            max-width: 370px;
+            background: rgba(240, 253, 244, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--primary);
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+            padding: 14px 16px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            animation: mobMenuAppear 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10001;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .mob-tools-menu.show { display: flex; }
+
+        @keyframes mobMenuAppear {
+            from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .menu-close {
+            background: rgba(0,0,0,0.08);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Tools Grid */
+        .tools-section {
+            margin-bottom: 0;
+        }
+
+        .tools-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .tool-btn {
+            flex: 1;
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 8px 6px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:active {
+            transform: scale(0.96);
+        }
+
+        .tool-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tool-btn i {
+            font-size: 16px;
+        }
+
+        .tool-btn span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* Timer in Menu */
+        .menu-timer {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 6px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .menu-timer-val {
+            font-size: 20px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--primary);
+        }
+
+        /* Module Nav in Menu */
+        .menu-nav-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .menu-nav-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 8px 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            gap: 4px;
+        }
+
+        .menu-nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        .menu-nav-btn.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.2);
+        }
+
+        /* Finish Confirm Modal */
+        .finish-confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 20000;
+        }
+        .finish-confirm-overlay.show { display: flex; align-items: center; justify-content: center; }
+
+        .finish-confirm-dialog {
+            background: white;
+            border-radius: 20px;
+            padding: 28px 24px 20px;
+            width: 90vw;
+            max-width: 360px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+            animation: finishConfirmIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        @keyframes finishConfirmIn {
+            from { opacity: 0; transform: scale(0.85) translateY(10px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .finish-confirm-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: #fef2f2;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
+
+        .finish-confirm-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .finish-confirm-msg {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .finish-confirm-warn {
+            display: inline-block;
+            background: #fff7ed;
+            color: #c2410c;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        .finish-confirm-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .finish-confirm-btns button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .finish-btn-cancel {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .finish-btn-cancel:hover { background: #e2e8f0; }
+
+        .finish-btn-confirm {
+            background: #dc2626;
+            color: white;
+        }
+        .finish-btn-confirm:hover { background: #b91c1c; }
+
+        /* Pause Overlay */
+        .pause-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 20001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .pause-overlay.show {
+            display: flex;
+        }
+        .pause-overlay .pause-label {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: pausePulse 2s ease-in-out infinite;
+        }
+        .pause-overlay .btn-resume {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 16px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pause-overlay .btn-resume:active {
+            transform: scale(0.95);
+        }
+        @keyframes pausePulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .mob-fab-container {
+                display: block !important;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- Mobile FAB & Toolkit (CEFR) -->
+    <div class="mob-fab-container" id="mobFabContainer" style="display:none !important;">
+        <button class="mob-fab" id="mobFab">
+            🛠️
+        </button>
+    </div>
+
+    <!-- Toolkit Menu Overlay -->
+    <div class="mob-menu-overlay" id="mobMenuOverlay"></div>
+
+    <!-- Toolkit Menu -->
+    <div class="mob-tools-menu" id="mobToolsMenu">
+        <div class="menu-header">
+            <span class="menu-title">🛠️ Toolkit</span>
+            <button class="menu-close" id="mobMenuClose">✕</button>
+        </div>
+
+        <div class="menu-timer">
+            <div class="menu-timer-val" id="menuTimerVal">00:00</div>
+        </div>
+
+        <div class="tools-section" id="mobNavSection">
+            <span class="tools-label">Sections</span>
+            <div class="menu-nav-list" id="mobNavList"></div>
+        </div>
+
+        <div class="tools-section">
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openHomeSidebar()" style="background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border-color:#0d9488;">
+                    <i style="font-style:normal;font-size:20px;">☰</i>
+                    <span>Home</span>
+                </button>
+                <button class="tool-btn" onclick="promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav('landing.html?openModal=fullmock');})">
+                    <i>🔙</i>
+                    <span>Back</span>
+                </button>
+                <button class="tool-btn" id="mobFontDecBtn">
+                    <i style="font-style:normal;font-weight:700">A−</i>
+                    <span>Smaller</span>
+                </button>
+                <button class="tool-btn" id="mobFontIncBtn">
+                    <i style="font-style:normal;font-weight:700">A+</i>
+                    <span>Bigger</span>
+                </button>
+                <button class="tool-btn" id="mobPauseBtn">
+                    <i>⏸️</i>
+                    <span>Pause</span>
+                </button>
+                <button class="tool-btn" style="border-color:#dc2626; color:#dc2626;" id="mobFinishBtn">
+                    <i>🏁</i>
+                    <span>Finish</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Overlay -->
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-label">⏸ Test Paused</div>
+        <button class="btn-resume" id="pauseResumeBtn">
+            <i class="fa fa-play" style="font-style:normal">▶</i> Resume
+        </button>
+    </div>
+
+    <!-- Finish Confirm Modal -->
+    <div class="finish-confirm-overlay" id="finishConfirmOverlay">
+        <div class="finish-confirm-dialog">
+            <div class="finish-confirm-icon">⚠️</div>
+            <div class="finish-confirm-title">End this module?</div>
+            <div class="finish-confirm-msg">You are about to finish the current module and move on to the next one.</div>
+            <div class="finish-confirm-warn">⛔ You won't be able to return to this module</div>
+            <div class="finish-confirm-btns">
+                <button class="finish-btn-cancel" id="finishCancelBtn">Go Back</button>
+                <button class="finish-btn-confirm" id="finishConfirmBtn">End Module</button>
+            </div>
+        </div>
+    </div>
+
     <div id="gate">
         <div class="gate-card">
             <a href="landing.html?openModal=fullmock" class="gate-back-btn" title="Back to Home">
@@ -3605,6 +4164,15 @@
                 <div class="timer-box">
                     <div class="timer-value" id="display-timer">00:00</div>
                 </div>
+                <button class="hdr-back-btn" id="hdrBackBtn" title="Back to Home">
+                    🔙 Back
+                </button>
+                <button class="hdr-pause-btn" id="hdrPauseBtn" title="Pause Test">
+                    ⏸️ Pause
+                </button>
+                <button class="hdr-finish-btn" id="hdrFinishBtn" title="Finish Module">
+                    🏁 Finish
+                </button>
                 <button class="zoom-btn" id="btnZoom" title="Zoom In">
                     🔍
                 </button>
@@ -4078,6 +4646,320 @@
             examFinishTime: null,
             isPremiumVip: false // true = premium VIP (AI scoring), false = regular or passcode entry
         };
+
+        // Session Recovery init for full mock
+        if (window.SessionRecovery) {
+          SessionRecovery.init({
+            testType: 'cefr-full-mock',
+            getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+            getTestId: function() { return state.referenceNumber || ''; },
+            getState: function() {
+              if (!state.examStarted || state.step >= 4) return null;
+              var sd = {
+                step: state.step, candidateName: state.candidateName,
+                testIds: state.testIds, referenceNumber: state.referenceNumber,
+                currentPart: state.currentPart, answers: state.answers,
+                timeRemaining: state.timeRemaining, scores: state.scores,
+                scaledScores: state.scaledScores, isPremiumVip: state.isPremiumVip,
+                writingTaskPrompts: state.writingTaskPrompts,
+                speakingQuestionPrompts: state.speakingQuestionPrompts
+              };
+              if (state.step === 3 && typeof speakingState !== 'undefined') {
+                sd.speakingCurrentQ = speakingState.currentQ;
+              }
+              return sd;
+            }
+          });
+        }
+
+        // ===== MOBILE FAB LOGIC (CEFR) =====
+        function initMobileFAB() {
+            const mobFab = document.getElementById('mobFab');
+            const mobFabContainer = document.getElementById('mobFabContainer');
+            const mobToolsMenu = document.getElementById('mobToolsMenu');
+            const mobMenuOverlay = document.getElementById('mobMenuOverlay');
+            const mobMenuClose = document.getElementById('mobMenuClose');
+            const menuTimerVal = document.getElementById('menuTimerVal');
+            const fabPosKey = 'mobFabPos_FullMock_CEFR';
+
+            if (!mobFab) return;
+
+            let fabIdleTimer = null;
+            let isDraggingFab = false;
+            let hasMovedFab = false;
+            let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+            function setFabActive() {
+                mobFab.style.opacity = '1';
+                clearTimeout(fabIdleTimer);
+                if (!mobToolsMenu.classList.contains('show')) {
+                    fabIdleTimer = setTimeout(() => {
+                        mobFab.style.opacity = '0.16';
+                    }, 5000);
+                }
+            }
+
+            function applyFabPosition(left, top) {
+                if (!mobFabContainer) return;
+                const maxX = Math.max(0, window.innerWidth - mobFabContainer.offsetWidth);
+                const maxY = Math.max(0, window.innerHeight - mobFabContainer.offsetHeight);
+                const x = Math.min(Math.max(0, left), maxX);
+                const y = Math.min(Math.max(0, top), maxY);
+                mobFabContainer.style.position = 'fixed';
+                mobFabContainer.style.left = x + 'px';
+                mobFabContainer.style.top = y + 'px';
+                mobFabContainer.style.right = 'auto';
+                mobFabContainer.style.bottom = 'auto';
+            }
+
+            function beginFabDrag(clientX, clientY) {
+                if (mobToolsMenu.classList.contains('show') || !mobFabContainer) return;
+                isDraggingFab = true;
+                hasMovedFab = false;
+                setFabActive();
+                const rect = mobFabContainer.getBoundingClientRect();
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+            }
+
+            function moveFabDrag(clientX, clientY) {
+                if (!isDraggingFab) return;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+                applyFabPosition(initialLeft + dx, initialTop + dy);
+            }
+
+            function endFabDrag() {
+                if (!isDraggingFab || !mobFabContainer) return;
+                isDraggingFab = false;
+                localStorage.setItem(fabPosKey, JSON.stringify({ left: mobFabContainer.offsetLeft, top: mobFabContainer.offsetTop }));
+                setFabActive();
+            }
+
+            // Always start FAB at bottom-right (CSS default)
+            localStorage.removeItem(fabPosKey);
+
+            function toggleMenu(show) {
+                if (show) {
+                    mobToolsMenu.classList.add('show');
+                    mobMenuOverlay.classList.add('show');
+                    mobFab.style.opacity = '1';
+                    clearTimeout(fabIdleTimer);
+                    updateMenuTimer();
+                    updateMenuNav();
+                } else {
+                    mobToolsMenu.classList.remove('show');
+                    mobMenuOverlay.classList.remove('show');
+                    setFabActive();
+                }
+            }
+
+            mobFab.addEventListener('click', () => {
+                if (hasMovedFab) { hasMovedFab = false; return; }
+                toggleMenu(true);
+            });
+            if (mobMenuClose) mobMenuClose.addEventListener('click', () => toggleMenu(false));
+            if (mobMenuOverlay) mobMenuOverlay.addEventListener('click', () => toggleMenu(false));
+
+            const dragTarget = mobFabContainer || mobFab;
+            dragTarget.addEventListener('mousedown', (e) => beginFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mousemove', (e) => moveFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mouseup', endFabDrag);
+            dragTarget.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                beginFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                moveFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchend', endFabDrag, { passive: true });
+
+            // Sync Timer
+            function updateMenuTimer() {
+                const timerVal = document.getElementById('display-timer')?.textContent || '00:00';
+                if (menuTimerVal) menuTimerVal.textContent = timerVal;
+            }
+
+            // Sync Navigation
+            function updateMenuNav() {
+                const navList = document.getElementById('mobNavList');
+                const navSection = document.getElementById('mobNavSection');
+                if (!navList) return;
+                navList.innerHTML = '';
+
+                // Hide sections for speaking (auto-advancing, no manual navigation)
+                if (state.modules[state.step] === 'SPEAKING') {
+                    if (navSection) navSection.style.display = 'none';
+                    return;
+                }
+                if (navSection) navSection.style.display = '';
+
+                const parts = state.currentTestData?.parts || state.currentTestData?.passages || [];
+                parts.forEach((p, idx) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'menu-nav-btn' + (state.currentPart === idx ? ' active' : '');
+                    const label = state.modules[state.step] === 'WRITING' ? (p.title || `Task ${idx + 1}`) : `${idx + 1}`;
+                    btn.innerHTML = `<span>${label}</span>${state.currentPart === idx ? ' <span>✓</span>' : ''}`;
+                    btn.onclick = () => {
+                        state.currentPart = idx;
+                        if (state.modules[state.step] === 'WRITING') {
+                            if (typeof switchWritingTask === 'function') switchWritingTask(idx);
+                        } else {
+                            if (typeof renderPart === 'function') renderPart();
+                        }
+                        updateMenuNav();
+                        toggleMenu(false);
+                    };
+                    navList.appendChild(btn);
+                });
+            }
+
+            // Font Size (A- / A+) — uses existing zoom system
+            document.getElementById('mobFontDecBtn').onclick = () => {
+                const zoomBtn = document.getElementById('btnZoom');
+                if (!zoomBtn) return;
+                // Cycle backwards through zoom levels: find current index and go back
+                const mc = document.getElementById('module-container');
+                if (!mc) return;
+                let cur = 0;
+                if (mc.classList.contains('zoom-3')) cur = 3;
+                else if (mc.classList.contains('zoom-2')) cur = 2;
+                else if (mc.classList.contains('zoom-1')) cur = 1;
+                if (cur <= 0) return; // already at smallest
+                mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');
+                const next = cur - 1;
+                if (next > 0) mc.classList.add('zoom-' + next);
+                // sync header zoom button badge
+                let badge = zoomBtn.querySelector('.zoom-level');
+                if (next === 0) { if (badge) badge.remove(); }
+                else { if (!badge) { badge = document.createElement('span'); badge.className = 'zoom-level'; zoomBtn.appendChild(badge); } badge.textContent = next; }
+            };
+            document.getElementById('mobFontIncBtn').onclick = () => {
+                const zoomBtn = document.getElementById('btnZoom');
+                if (!zoomBtn) return;
+                const mc = document.getElementById('module-container');
+                if (!mc) return;
+                let cur = 0;
+                if (mc.classList.contains('zoom-3')) cur = 3;
+                else if (mc.classList.contains('zoom-2')) cur = 2;
+                else if (mc.classList.contains('zoom-1')) cur = 1;
+                if (cur >= 3) return; // already at largest
+                mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');
+                const next = cur + 1;
+                mc.classList.add('zoom-' + next);
+                let badge = zoomBtn.querySelector('.zoom-level');
+                if (!badge) { badge = document.createElement('span'); badge.className = 'zoom-level'; zoomBtn.appendChild(badge); }
+                badge.textContent = next;
+            };
+
+            // Pause/Resume Toggle
+            window.examPaused = false;
+            const pauseOverlay = document.getElementById('pauseOverlay');
+            const pauseResumeBtn = document.getElementById('pauseResumeBtn');
+
+            function doPause() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = true;
+                if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+                if (mod === 'LISTENING' && audio && !audio.paused) audio.pause();
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingState !== 'undefined' && speakingState.timerInterval) {
+                        clearInterval(speakingState.timerInterval);
+                        speakingState.timerInterval = null;
+                        speakingState._wasPaused = true;
+                    }
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
+                    if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
+                }
+                toggleMenu(false);
+                pauseOverlay.classList.add('show');
+            }
+
+            function doResume() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = false;
+                startTimer();
+                if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingState !== 'undefined' && speakingState._wasPaused && speakingState.isRunning) {
+                        speakingState._wasPaused = false;
+                        speakingState.timerInterval = setInterval(() => {
+                            if (speakingState.phase === 'prep') {
+                                speakingState.prepRemaining--;
+                                if (typeof updateSpeakingDialDisplay === 'function') updateSpeakingDialDisplay();
+                                if (speakingState.prepRemaining <= 0) {
+                                    if (typeof playPrepEndingBeep === 'function') playPrepEndingBeep();
+                                    speakingState.phase = 'speak';
+                                    if (typeof updateSpeakingPhaseDisplay === 'function') updateSpeakingPhaseDisplay();
+                                    if (typeof startSpeakingRecording === 'function') startSpeakingRecording(speakingState.currentQ);
+                                }
+                            } else {
+                                speakingState.speakRemaining--;
+                                if (typeof updateSpeakingDialDisplay === 'function') updateSpeakingDialDisplay();
+                                if (speakingState.speakRemaining <= 0) {
+                                    if (typeof advanceToNextQuestion === 'function') advanceToNextQuestion();
+                                }
+                            }
+                        }, 1000);
+                    }
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && currentSpeakingAudio.paused && currentSpeakingAudio.currentTime > 0) currentSpeakingAudio.play().catch(() => {});
+                    if (window.speechSynthesis && window.speechSynthesis.paused) window.speechSynthesis.resume();
+                }
+                pauseOverlay.classList.remove('show');
+            }
+
+            document.getElementById('mobPauseBtn').onclick = () => { doPause(); };
+            document.getElementById('hdrBackBtn').onclick = () => { promptFriendlyLeave(function(){ window.__okToLeave = true; _iframeNav('landing.html?openModal=fullmock'); }); };
+            document.getElementById('hdrPauseBtn').onclick = () => { doPause(); };
+            pauseResumeBtn.onclick = () => { doResume(); };
+
+            // Finish Button — custom confirm modal
+            const finishOverlay = document.getElementById('finishConfirmOverlay');
+            const finishCancelBtn = document.getElementById('finishCancelBtn');
+            const finishConfirmBtn = document.getElementById('finishConfirmBtn');
+
+            document.getElementById('mobFinishBtn').onclick = () => {
+                toggleMenu(false);
+                finishOverlay.classList.add('show');
+            };
+
+            document.getElementById('hdrFinishBtn').onclick = () => {
+                finishOverlay.classList.add('show');
+            };
+
+            finishCancelBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+            };
+
+            finishConfirmBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+                if (typeof finishMod === 'function') finishMod();
+            };
+
+            finishOverlay.addEventListener('click', (e) => {
+                if (e.target === finishOverlay) finishOverlay.classList.remove('show');
+            });
+
+            // Update timer display in menu every second if open
+            setInterval(() => {
+                if (mobToolsMenu.classList.contains('show')) {
+                    updateMenuTimer();
+                }
+            }, 1000);
+
+            setFabActive();
+        }
+
+        // Initialize FAB after state is ready
+        setTimeout(initMobileFAB, 1000);
 
         // Clean up any corrupted history on page load (one-time fix)
         (function cleanupHistory() {
@@ -4896,7 +5778,16 @@
             }
         })();
 
+        // Re-enter fullscreen if the landing page was in fullscreen
+        function enterFullscreen() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
         document.getElementById('start-exam-btn').onclick = async () => {
+            enterFullscreen();
             const rawName = document.getElementById('candidate-name-input').value;
             const result = validateAndFormatName(rawName);
             const passcodeInput = document.getElementById('passcode-input');
@@ -5088,7 +5979,36 @@
                 console.warn('[Full Mock] Microphone not available - Speaking will work without recording');
             });
 
+            // Session recovery check
+            if (window.SessionRecovery) {
+              try {
+                var session = await SessionRecovery.check();
+                if (session) {
+                  var choice = await SessionRecovery.prompt(session);
+                  if (choice === 'resume') {
+                    var sd = session.session_data;
+                    state.step = sd.step || 0;
+                    state.testIds = sd.testIds || state.testIds;
+                    state.referenceNumber = sd.referenceNumber || state.referenceNumber;
+                    state.answers = sd.answers || state.answers;
+                    state.scores = sd.scores || state.scores;
+                    state.scaledScores = sd.scaledScores || state.scaledScores;
+                    state.isPremiumVip = sd.isPremiumVip || false;
+                    state.writingTaskPrompts = sd.writingTaskPrompts || null;
+                    state.speakingQuestionPrompts = sd.speakingQuestionPrompts || null;
+                    window._srResumeData = sd;
+                    showModuleTutorial(state.step);
+                    SessionRecovery.start();
+                    return;
+                  } else {
+                    await SessionRecovery.clear();
+                  }
+                }
+              } catch(e) { console.warn('Session recovery check failed:', e); }
+            }
+
             showModuleTutorial(0);
+            if (window.SessionRecovery) SessionRecovery.start();
         }
 
         async function startModule() {
@@ -5207,6 +6127,29 @@
 
                 state.timeRemaining = (state.currentTestData.testInfo?.totalTime || 40) * 60;
                 startTimer(); renderPart();
+
+                // Session recovery: restore timer + part + answers for current module
+                if (window._srResumeData) {
+                  var rd = window._srResumeData;
+                  if (rd.timeRemaining != null) state.timeRemaining = rd.timeRemaining;
+                  if (rd.currentPart != null) { state.currentPart = rd.currentPart; renderPart(); }
+                  if (state.step === 3 && rd.speakingCurrentQ > 0 && typeof speakingState !== 'undefined') {
+                    // Speaking fast-forward: skip to saved question
+                    speakingState.currentQ = rd.speakingCurrentQ;
+                    speakingState.phase = 'prep';
+                    renderPart();
+                  } else {
+                    var mod = state.modules[state.step].toLowerCase();
+                    if (state.answers[mod] && Object.keys(state.answers[mod]).length > 0) {
+                      SessionRecovery.restoreAnswers(state.answers[mod]);
+                    }
+                  }
+                  window._srResumeData = null;
+                }
+
+                // Show FAB now that test is actually running
+                var fabC = document.getElementById('mobFabContainer');
+                if (fabC) fabC.style.removeProperty('display');
             };
             s.onerror = () => {
                 alert("Failed to load test module: " + fname);
@@ -5437,7 +6380,7 @@
                 let c = p.content || p.passageContent || '';
                 (p.questions || []).forEach(q => {
                     const pat = new RegExp(`\\[${q.id}\\]|<span class="gap-input" data-gap="${q.id}">.*?</span>`, 'g');
-                    c = c.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" class="gap-input" style="width:140px;" value="${state.answers.listening[q.id] || ''}" oninput="state.answers.listening['${q.id}']=this.value.trim()"></span>`);
+                    c = c.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" class="gap-input" style="width:140px;" value="${state.answers.listening[q.id] || ''}" oninput="state.answers.listening['${q.id}']=this.value.trim()"></span>`);
                 });
                 return `<div class="passage-card">${c}</div>`;
             }
@@ -5521,7 +6464,7 @@
                             ${item.text} 
                             <span style="display:inline-flex;align-items:center;">
                                 <span class="gap-number">${item.gapId}</span>
-                                <input type="text" class="gap-input" style="width:160px;" 
+                                <input type="text" autocomplete="off" class="gap-input" style="width:160px;" 
                                     value="${state.answers.listening[item.gapId] || ''}" 
                                     oninput="state.answers.listening['${item.gapId}']=this.value.trim()">
                             </span>
@@ -5947,7 +6890,7 @@
                 let c = (p.passage && p.passage.content) || '';
                 (p.questions || []).forEach(q => {
                     const pat = new RegExp(`<span class="gap" data-gap="${q.id}">.*?</span>`, 'g');
-                    c = c.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" class="gap-input" style="width:120px;" value="${state.answers.reading[q.id] || ''}" oninput="state.answers.reading['${q.id}']=this.value.trim()"></span>`);
+                    c = c.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" class="gap-input" style="width:120px;" value="${state.answers.reading[q.id] || ''}" oninput="state.answers.reading['${q.id}']=this.value.trim()"></span>`);
                 });
                 // Full width for gap-fill-text since questions are embedded in passage
                 return `<div class="passage-card"><h3>${(p.passage && p.passage.title) || 'Passage'}</h3>${c}</div>`;
@@ -6021,7 +6964,7 @@
                         let summaryContent = section.summaryText || '';
                         (section.questions || []).forEach(q => {
                             const pat = new RegExp(`<span class="gap-input" data-gap="${q.id}">.*?</span>`, 'g');
-                            summaryContent = summaryContent.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" class="gap-input" style="width:120px;" value="${state.answers.reading[q.id] || ''}" oninput="state.answers.reading['${q.id}']=this.value.trim()"></span>`);
+                            summaryContent = summaryContent.replace(pat, `<span style="display:inline-flex;align-items:center;"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" class="gap-input" style="width:120px;" value="${state.answers.reading[q.id] || ''}" oninput="state.answers.reading['${q.id}']=this.value.trim()"></span>`);
                         });
                         questionsHtml += `<div class="passage-card" style="font-size:17px;line-height:1.8;">${summaryContent}</div>`;
                     }
@@ -6264,6 +7207,17 @@
         let currentSpeakingAudio = null; // Reference to currently playing Audio object
         let currentSpeakingResolve = null; // Reference to the resolve function of the active audio promise
 
+        // iOS audio unlock: create a persistent audio element and prime it on user gesture
+        window._iosAudioEl = null;
+        function _iosUnlockAudio() {
+            if (window._iosAudioEl) return;
+            var a = new Audio();
+            a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+            a.volume = 0;
+            a.play().then(function() { a.pause(); }).catch(function() {});
+            window._iosAudioEl = a;
+        }
+
         function renderS(p) {
             // Add speaking mode class
             document.body.classList.add('speaking-mode');
@@ -6285,6 +7239,18 @@
             // Get part label for the current question
             const partLabels = ['Part 1.1', 'Part 1.2', 'Part 2', 'Part 3'];
             const currentPartLabel = partLabels[currentPartIndex];
+
+            // Part indicator (1.1, 1.2, 2, 3)
+            const partStepLabels = ['1.1', '1.2', '2', '3'];
+            let partIndicatorHtml = `<div class="speaking-part-indicator">`;
+            partStepLabels.forEach((label, i) => {
+                if (i > 0) {
+                    partIndicatorHtml += `<div class="speaking-part-connector${i <= currentPartIndex ? ' completed' : ''}"></div>`;
+                }
+                const cls = i < currentPartIndex ? 'completed' : (i === currentPartIndex ? 'active' : '');
+                partIndicatorHtml += `<div class="speaking-part-step ${cls}">${i < currentPartIndex ? '' : label}</div>`;
+            });
+            partIndicatorHtml += `</div>`;
 
             // Timer dials
             const prepTime = q.prepTime || 5;
@@ -6389,7 +7355,7 @@
                 startSpeakingTimers();
             }
 
-            return timerDialsHtml + recHtml + questionHtml;
+            return partIndicatorHtml + timerDialsHtml + recHtml + questionHtml;
         }
 
         function formatSpeakingTime(seconds) {
@@ -6702,7 +7668,8 @@
                     console.log(`🔊 Playing GTTS audio for Q${questionNumber} from cache`);
 
                     const audioUrl = URL.createObjectURL(gttsAudioCache[cacheKey]);
-                    const audio = new Audio(audioUrl);
+                    const audio = window._iosAudioEl || new Audio();
+                    audio.src = audioUrl;
                     audio.volume = 1.0;
 
                     await new Promise((resolve) => {
@@ -6768,7 +7735,9 @@
         function playAudioFile(url) {
             return new Promise((resolve) => {
                 stopSpeakingAudio(); // Stop any current playback before starting new
-                const audio = new Audio(url);
+                const audio = window._iosAudioEl || new Audio();
+                audio.src = url;
+                audio.volume = 1.0;
                 currentSpeakingAudio = audio;
                 currentSpeakingResolve = resolve;
                 audio.onended = () => {
@@ -6807,8 +7776,10 @@
         function speakWithBrowser(text) {
             return new Promise((resolve) => {
                 if (!window.speechSynthesis) return resolve();
+                window.speechSynthesis.cancel();
                 const ut = new SpeechSynthesisUtterance(text);
                 ut.lang = 'en-US';
+                ut.rate = 0.9;
                 // Find a natural English voice if possible
                 const voices = window.speechSynthesis.getVoices();
                 const voice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) || voices[0];
@@ -6817,6 +7788,7 @@
                 ut.onend = resolve;
                 ut.onerror = resolve;
                 window.speechSynthesis.speak(ut);
+                setTimeout(resolve, 15000);
             });
         }
 
@@ -7083,6 +8055,48 @@
         document.getElementById('btn-prev').onclick = () => { if (state.currentPart > 0) { state.currentPart--; renderPart(); } };
         document.getElementById('btn-next').onclick = () => { if (state.currentPart < state.currentTestData.parts.length - 1) { state.currentPart++; renderPart(); } else finishMod(); };
 
+        // British ↔ American spelling variant pairs
+        var SPELLING_PAIRS = [
+          ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+          ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+          ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+          ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+          ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+          ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+        ];
+        var _spellingMap = {};
+        SPELLING_PAIRS.forEach(function(pair) {
+          pair.forEach(function(w, i) {
+            var wl = w.toLowerCase();
+            if (!_spellingMap[wl]) _spellingMap[wl] = [];
+            pair.forEach(function(v, j) { if (i !== j && _spellingMap[wl].indexOf(v.toLowerCase()) === -1) _spellingMap[wl].push(v.toLowerCase()); });
+          });
+          pair.forEach(function(w, i) {
+            var ws = w.toLowerCase() + 's';
+            if (!_spellingMap[ws]) _spellingMap[ws] = [];
+            pair.forEach(function(v, j) { if (i !== j && _spellingMap[ws].indexOf(v.toLowerCase() + 's') === -1) _spellingMap[ws].push(v.toLowerCase() + 's'); });
+          });
+        });
+        function getSpellingVariants(word) {
+          if (!word) return [];
+          return _spellingMap[word.toLowerCase()] || [];
+        }
+
+        function matchesAnswer(userAns, correctArr) {
+            if (!userAns) return false;
+            var arr = Array.isArray(correctArr) ? correctArr : [correctArr];
+            var uLow = userAns.toString().toLowerCase().trim();
+            if (arr.some(function(c){ return c.toString().toLowerCase().trim() === uLow; })) return true;
+            var userVariants = getSpellingVariants(uLow);
+            if (userVariants.length > 0 && arr.some(function(c){ return userVariants.indexOf(c.toString().toLowerCase().trim()) !== -1; })) return true;
+            if (arr.some(function(c){ var v = getSpellingVariants(c.toString().toLowerCase().trim()); return v.indexOf(uLow) !== -1; })) return true;
+            if (arr.length > 1) {
+                var parts = userAns.toString().split(/\s*[\/]\s*|\s+or\s+/i).map(function(p){ return p.toLowerCase().trim(); }).filter(Boolean);
+                if (parts.length > 1 && parts.some(function(p){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === p; }) || getSpellingVariants(p).some(function(v){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === v; }); }); })) return true;
+            }
+            return false;
+        }
+
         function finalizeModule(m) {
             // Store module data for detailed report
             state.moduleData[m] = JSON.parse(JSON.stringify(state.currentTestData));
@@ -7093,7 +8107,7 @@
                     if (!p.answers) return;
                     Object.entries(p.answers).forEach(([q, k]) => {
                         t++; const u = (state.answers[m][q] || '').toLowerCase();
-                        if (Array.isArray(k)) { if (k.some(s => s.toLowerCase() === u)) c++; } else if (k.toLowerCase() === u) c++;
+                        if (matchesAnswer(state.answers[m][q] || '', k)) c++;
                     });
                 });
                 state.scores[m] = { c, t };
@@ -7121,39 +8135,14 @@
             mainAudio.pause();
             const finishedStep = state.step;
             const finishedMod = state.modules[finishedStep].toLowerCase();
-            // detailed report showed that isRevision logic was split. 
-            // Now consolidating to always use the modern corner timer.
 
-            // Show corner countdown for all module breaks (non-blocking)
-            const countdown = document.getElementById('part-countdown');
-            const countdownNum = document.getElementById('part-countdown-number');
-            const countdownText = countdown.querySelector('.part-countdown-text');
+            finalizeModule(finishedMod);
+            state.step++;
 
-            countdownText.textContent = 'Next module starts in';
-            countdown.classList.add('show');
-            let t = 30; // 30 second break
-            countdownNum.textContent = t;
-
-            if (partCountdownInterval) clearInterval(partCountdownInterval);
-            partCountdownInterval = setInterval(() => {
-                t--;
-                countdownNum.textContent = t;
-                if (t <= 0) {
-                    clearInterval(partCountdownInterval);
-                    countdown.classList.remove('show');
-                    completeBreak();
-                }
-            }, 1000);
-
-            function completeBreak() {
-                finalizeModule(finishedMod);
-                state.step++;
-
-                if (state.step < state.modules.length) {
-                    showModuleTutorial(state.step);
-                } else {
-                    showRes();
-                }
+            if (state.step < state.modules.length) {
+                showModuleTutorial(state.step);
+            } else {
+                showRes();
             }
         }
 
@@ -7501,6 +8490,7 @@
         }
 
         async function confirmPhotoAndStartSpeaking() {
+            _iosUnlockAudio();
             if (!state.candidatePhoto) {
                 alert('Please add a photo first.');
                 return;
@@ -7771,7 +8761,8 @@ Empty responses = 0 points and skip analysis for that task.`;
                     result.t11_score = Math.round(result.t11_score || 0);
                     result.t12_score = Math.round(result.t12_score || 0);
                     result.t2_score = Math.round(result.t2_score || 0);
-                    result.raw_score = result.t11_score + result.t12_score + result.t2_score;
+                    const _wBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    result.raw_score = Math.min(16, result.t11_score + result.t12_score + result.t2_score + _wBoost);
 
                     // Recalculate certificate score based on integer raw score
                     const scoreMap = { 16: 75, 15: 69, 14: 65, 13: 63, 12: 61, 11: 57, 10: 53, 9: 50, 8: 47, 7: 43, 6: 40, 5: 37, 4: 33, 3: 28, 2: 21, 1: 14, 0: 0 };
@@ -8080,6 +9071,16 @@ Respond ONLY in JSON format:
                 const dataAnalysis = await resAnalysis.json();
                 const result = JSON.parse(dataAnalysis.candidates[0].content.parts[0].text);
 
+                // Apply score boost from site config (temporary measure)
+                const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                if (_sBoost && result.raw_score > 0) {
+                    result.raw_score = Math.min(21, (result.raw_score || 0) + _sBoost);
+                    const _sMap = { 21:75,20:71,19:67,18:64,17:61,16:57,15:54,14:51,13:49,12:46,11:43,10:40,9:38,8:35,7:32,6:29,5:26,4:23,3:19,2:15,1:11,0:0 };
+                    result.certificate_score = _sMap[result.raw_score] || Math.round(result.raw_score * 3.57);
+                    const cs = result.certificate_score;
+                    result.cefr_level = cs >= 65 ? 'C1' : cs >= 51 ? 'B2' : cs >= 35 ? 'B1' : 'Below B1';
+                }
+
                 result.recorded_count = recordings.length;
                 // Store transcriptions in result for reports
                 result.transcriptions = transcriptions;
@@ -8217,6 +9218,8 @@ Respond ONLY in JSON format:
 
         async function showRes() {
             clearInterval(state.timerInterval);
+            // Clear session recovery when exam is fully complete
+            if (window.SessionRecovery) SessionRecovery.clear();
 
             const overlay = document.getElementById('results-overlay');
             const body = document.getElementById('results-body');
@@ -8320,9 +9323,9 @@ Respond ONLY in JSON format:
         </div>
 
                 <div id="results-actions" style="display:none; flex-direction:column; gap:8px;">
-                     <button onclick="downloadCertificate()" 
+                     <button onclick="showCertificatePreview()" 
                             style="display:flex; align-items:center; justify-content:center; gap:8px; margin: 0 auto; background:var(--primary); color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:700; cursor:pointer; font-size:15px; transition:all 0.3s; width:100%; max-width:300px; box-shadow:0 4px 12px rgba(13,148,136,0.2);">
-                        <span>📜</span> Download Certificate PDF
+                        <span>📜</span> Show Certificate
                     </button>
                     <button onclick="showDetailedResults()" 
                             style="display:flex; align-items:center; justify-content:center; gap:6px; margin: 0 auto; background:#f1f5f9; color:var(--text); border:1px solid #e2e8f0; padding:10px 20px; border-radius:12px; font-weight:600; cursor:pointer; font-size:14px; transition:all 0.3s; width:100%; max-width:260px;">
@@ -8335,10 +9338,17 @@ Respond ONLY in JSON format:
             // ===== PREMIUM vs REGULAR VIP LOGIC =====
             if (state.isPremiumVip) {
                 // PREMIUM: Run AI analysis for Writing & Speaking
-                const [writingResult, speakingResult] = await Promise.all([
-                    analyzeWritingWithGemini(),
-                    analyzeSpeakingWithGemini()
-                ]);
+                let writingResult = null, speakingResult = null;
+                try {
+                    [writingResult, speakingResult] = await Promise.all([
+                        analyzeWritingWithGemini(),
+                        analyzeSpeakingWithGemini()
+                    ]);
+                } catch (aiErr) {
+                    console.error('[Results] AI analysis Promise.all failed:', aiErr);
+                    writingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
+                    speakingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
+                }
 
                 state.aiResults.writing = writingResult;
                 state.aiResults.speaking = speakingResult;
@@ -8424,7 +9434,7 @@ Respond ONLY in JSON format:
                 return;
             }
 
-            const MAX_RETRIES = 3;
+            const MAX_RETRIES = 2;
             const RETRY_DELAY = 5000; // 5 seconds between retries
 
             for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -8556,6 +9566,28 @@ Respond ONLY in JSON format:
                     const caption = `📋 FULL MOCK EXAM RESULTS\n👤 Candidate: #${safeName}\n${!hasAiScores ? '⭐ Entry: Regular VIP (no AI scoring)\n' : '🤖 Entry: Premium AI VIP\n'}\n📊 MODULES:\n🎯 Overall Score: ${overallScore}/75 (${overallLevel})\n🎧 Listening: ${lScore}/75\n📖 Reading: ${rScore}/75\n✍️ Writing: ${hasAiScores ? wScore + '/75' : 'N/A (Premium)'}\n🎤 Speaking: ${hasAiScores ? sScore + '/75' : 'N/A (Premium)'}\n\n📁 Mock Details:\n🎧 Listening: ${lMock}\n📖 Reading: ${rMock}\n✍️ Writing: ${wMock}\n🎤 Speaking: ${sMock}\n\n⏱️ Time:\n📅 ${dateStr}\n🟢 Start: ${startStr}\n🔴 Finish: ${finishStr}\n⏳ Used: ${usedTimeStr}\n\n🏛️ Center: #${CENTER_ID}\n📊 #${CENTER_ID}_${d}_${m}_${yy}\n📊 #${CENTER_ID}_${m}_${yy}\n📊 #${CENTER_ID}_${y}\nOverall:\n📊 #all_${d}_${m}_${yy}\n📊 #all_${m}_${yy}\n📊 #all_${y}\nFull Mock: #${overallLevel.replace(' ', '_')}`;
                     fd.append('caption', caption);
 
+                    // Send to Supabase first (get result link for caption)
+                    var finalCaption = caption;
+                    if (window.sendToSupabase) {
+                      try {
+                        var sbResult = await window.sendToSupabase({
+                          studentName: candidateName,
+                          examType: 'cefr',
+                          skill: 'full-mock',
+                          score: overallScore + '/75',
+                          level: overallLevel,
+                          mockNumber: 'Full Mock',
+                          file: mainZipBlob,
+                          fileType: 'zip',
+                          caption: caption,
+                          metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAiScores }
+                        });
+                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                      } catch (e) { console.warn('[Supabase] skipped:', e); }
+                    }
+
+                    fd.set('caption', finalCaption);
+
                     // Send to backend with extended timeout
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 seconds
@@ -8571,6 +9603,12 @@ Respond ONLY in JSON format:
                     if (resp.ok) {
                         console.log('[Telegram] ✅ Full mock results sent successfully');
                         telegramSentSuccessfully = true; // Mark as sent to prevent duplicates
+
+                        // Send to routing backend
+                        if (window.sendToRoutingBackend) {
+                            await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: new File([mainZipBlob], 'FullMock_' + safeName + '_' + dateTag + '.zip', { type: 'application/zip' }) });
+                        }
+                        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
                         return; // Success - exit function
                     } else {
                         throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
@@ -8584,6 +9622,7 @@ Respond ONLY in JSON format:
                     } else {
                         console.error('[Telegram] ❌ All retry attempts exhausted. Results NOT sent.');
                         // Silent failure - candidates should not know about Telegram
+                        if (window.msProgress) window.msProgress.hide();
                     }
                 }
             }
@@ -8593,11 +9632,128 @@ Respond ONLY in JSON format:
         function generateListeningReportHTML(name, date, time) {
             const sl = state.scores.listening;
             const answers = state.answers.listening || {};
+            const data = state.moduleData.listening;
+            const pct = sl.t > 0 ? Math.round((sl.c / sl.t) * 100) : 0;
 
-            let answersHTML = '';
-            Object.entries(answers).forEach(([q, ans]) => {
-                answersHTML += `<tr><td>Q${q}</td><td>${ans || '-'}</td></tr>`;
-            });
+            // CEFR level from score
+            function getCEFR(s) {
+                if (s <= 6) return { level: 'Below B1', color: '#ef4444', bg: '#fee2e2' };
+                if (s <= 16) return { level: 'B1', color: '#f59e0b', bg: '#fef3c7' };
+                if (s <= 25) return { level: 'B2', color: '#3b82f6', bg: '#dbeafe' };
+                return { level: 'C1', color: '#10b981', bg: '#d1fae5' };
+            }
+            const cefr = getCEFR(sl.c);
+            const wrong = sl.t - sl.c;
+
+            // Build per-part scores and answer rows
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+            let qNum = 0;
+
+            if (data && data.parts) {
+                data.parts.forEach((part, pIdx) => {
+                    if (!part.answers) return;
+                    let pc = 0, pt = 0;
+                    const partAnswerKeys = Object.keys(part.answers);
+
+                    partAnswerKeys.forEach(qKey => {
+                        pt++;
+                        qNum++;
+                        const correctVal = part.answers[qKey];
+                        const userAns = (answers[qKey] || '').trim();
+                        const isCorrect = matchesAnswer(userAns, correctVal);
+                        if (isCorrect) pc++;
+
+                        const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                        const statusIcon = !userAns ? '—' : isCorrect ? '✓' : '✗';
+                        const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+                        const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : correctVal;
+
+                        answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qNum + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">—</span>') + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td>' +
+                            '</tr>';
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + (part.title || 'Part ' + (pIdx + 1)) + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#0d9488;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+
+                    // Detailed per-question section
+                    detailsHTML += '<div style="margin-bottom:16px;"><div style="background:#0d948815;padding:10px 14px;border-radius:8px 8px 0 0;border:1px solid #e2e8f0;border-bottom:none;">' +
+                        '<span style="font-weight:700;color:#0d9488;">' + (part.title || 'Part ' + (pIdx + 1)) + '</span>' +
+                        (part.instruction ? '<div style="font-size:12px;color:#64748b;margin-top:4px;">' + part.instruction.substring(0, 200) + (part.instruction.length > 200 ? '...' : '') + '</div>' : '') +
+                        '</div><div style="border:1px solid #e2e8f0;border-radius:0 0 8px 8px;padding:10px;">';
+
+                    const partOptions = part.options || [];
+                    partAnswerKeys.forEach(qKey => {
+                        const correctVal = part.answers[qKey];
+                        const userAns = (answers[qKey] || '').trim();
+                        const isCorrect = matchesAnswer(userAns, correctVal);
+
+                        const question = part.questions ? part.questions.find(q => q.id == qKey) : null;
+                        let questionContext = '';
+                        let optionsDisplay = '';
+
+                        if (part.type === 'mcq-reply' || part.type === 'mcq' || part.type === 'mcq-long') {
+                            if (question && question.options) {
+                                optionsDisplay = question.options.map(function(opt) {
+                                    var isUserChoice = userAns === opt.letter;
+                                    var isCorrectAnswer = (Array.isArray(correctVal) ? correctVal[0] : correctVal) === opt.letter;
+                                    var s = 'padding:3px 8px;border-radius:4px;margin:2px 0;font-size:12px;';
+                                    if (isCorrectAnswer) s += 'background:#dcfce7;color:#16a34a;';
+                                    else if (isUserChoice && !isCorrect) s += 'background:#fee2e2;color:#dc2626;text-decoration:line-through;';
+                                    else s += 'color:#6b7280;';
+                                    return '<div style="' + s + '">' + opt.letter + ': ' + opt.text + '</div>';
+                                }).join('');
+                            }
+                            if (question && question.question) questionContext = question.question;
+                        } else if (part.type === 'gap-fill-form' || part.type === 'gap-fill' || part.type === 'note-completion') {
+                            if (question && question.hint) questionContext = question.hint;
+                            else if (part.formContent) {
+                                var fi = part.formContent.find(function(f) { return f.gapId == qKey; });
+                                if (fi) questionContext = fi.text + ' ____' + (fi.gapSuffix || '');
+                            }
+                        } else if (part.type === 'matching-speakers' || part.type === 'matching') {
+                            var speaker = part.speakers ? part.speakers.find(function(s) { return s.id == qKey; }) : null;
+                            if (speaker) questionContext = speaker.label;
+                            if (partOptions.length) {
+                                var co = partOptions.find(function(o) { return o.letter === (Array.isArray(correctVal) ? correctVal[0] : correctVal); });
+                                var uo = partOptions.find(function(o) { return o.letter === userAns; });
+                                if (co) optionsDisplay = '<div style="font-size:12px;color:#16a34a;">✓ ' + co.letter + ': ' + co.text + '</div>';
+                                if (uo && !isCorrect) optionsDisplay += '<div style="font-size:12px;color:#dc2626;text-decoration:line-through;">✗ ' + uo.letter + ': ' + uo.text + '</div>';
+                            }
+                        } else if (part.type === 'map-labeling') {
+                            if (question && question.place) questionContext = 'Place: ' + question.place;
+                        } else if (part.type === 'sentence-completion') {
+                            if (question && question.sentence) questionContext = question.sentence;
+                        } else if (part.type === 'true-false-ng' || part.type === 'yes-no-ng') {
+                            if (question && question.statement) questionContext = question.statement;
+                        } else if (part.type === 'heading-matching') {
+                            if (question && question.paragraph) questionContext = 'Paragraph ' + question.paragraph;
+                        }
+
+                        var correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : correctVal;
+                        detailsHTML += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                            '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qKey + '</span>' +
+                            '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? '✓ Correct' : '✗ Wrong') + '</span></div>' +
+                            (questionContext ? '<div style="color:#374151;font-size:13px;line-height:1.5;margin-bottom:6px;padding:6px 8px;background:#f8fafc;border-radius:6px;border-left:3px solid #cbd5e1;">' + questionContext + '</div>' : '') +
+                            (optionsDisplay ? '<div style="margin-bottom:6px;">' + optionsDisplay + '</div>' : '') +
+                            '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                            '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                            (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                            '</div></div>';
+                    });
+
+                    detailsHTML += '</div></div>';
+                });
+            }
 
             return `<!DOCTYPE html>
 <html lang="en">
@@ -8605,14 +9761,15 @@ Respond ONLY in JSON format:
     <meta charset="UTF-8">
     <title>Listening Report - ${name}</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f9fafb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f9fafb; color: #1e293b; }
         .header { background: linear-gradient(135deg, #0d9488, #0f766e); color: white; padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 24px; }
         .header h1 { margin: 0 0 10px 0; font-size: 28px; }
-        .score-card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; margin-bottom: 24px; }
-        .score { font-size: 48px; font-weight: 800; color: #0d9488; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f1f5f9; font-weight: 600; }
+        details { margin-bottom: 16px; }
+        details > summary { cursor: pointer; user-select: none; font-weight: 700; font-size: 16px; padding: 14px 18px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] > summary { border-radius: 12px 12px 0 0; }
+        details > .content { background: white; padding: 16px; border-radius: 0 0 12px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
@@ -8620,15 +9777,60 @@ Respond ONLY in JSON format:
         <h1>🎧 Listening Module Report</h1>
         <p>${name} | ${date} ${time}</p>
     </div>
-    <div class="score-card">
-        <div class="score">${sl.c} / ${sl.t}</div>
-        <p>Correct Answers</p>
+
+    <!-- Score Card -->
+    <div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">
+        <div style="font-size:48px;font-weight:800;color:#0d9488;">${sl.c} / ${sl.t}</div>
+        <div style="font-size:16px;color:#64748b;margin:4px 0 12px;">Score: ${pct}%</div>
+        <div style="display:inline-block;background:${cefr.bg};color:${cefr.color};padding:6px 20px;border-radius:20px;font-weight:700;font-size:15px;">${cefr.level}</div>
     </div>
-    <h3>Candidate Answers</h3>
-    <table>
-        <tr><th>Question</th><th>Answer</th></tr>
-        ${answersHTML}
-    </table>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;">
+            <div style="font-size:24px;font-weight:800;color:#16a34a;">${sl.c}</div>
+            <div style="font-size:12px;color:#16a34a;font-weight:600;">✓ Correct</div>
+        </div>
+        <div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;">
+            <div style="font-size:24px;font-weight:800;color:#dc2626;">${wrong}</div>
+            <div style="font-size:12px;color:#dc2626;font-weight:600;">✗ Incorrect</div>
+        </div>
+        <div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;">
+            <div style="font-size:24px;font-weight:800;color:#0284c7;">${sl.t}</div>
+            <div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div>
+        </div>
+    </div>
+
+    <!-- Part Results -->
+    ${partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : ''}
+
+    <!-- Answer Summary -->
+    <details>
+        <summary>📋 Answer Summary</summary>
+        <div class="content">
+            <table style="width:100%;border-collapse:collapse;">
+                <tr style="background:#f1f5f9;">
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>
+                    <th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th>
+                </tr>
+                ${answerRowsHTML}
+            </table>
+        </div>
+    </details>
+
+    <!-- Detailed Questions -->
+    <details>
+        <summary>📝 Detailed Questions & Answers</summary>
+        <div class="content">
+            ${detailsHTML}
+        </div>
+    </details>
+
+    <div style="text-align:center;margin-top:24px;" class="no-print">
+        <button onclick="window.print()" style="background:linear-gradient(135deg,#0d9488,#0f766e);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">📄 Save as PDF</button>
+    </div>
 </body>
 </html>`;
         }
@@ -8637,11 +9839,125 @@ Respond ONLY in JSON format:
         function generateReadingReportHTML(name, date, time) {
             const sr = state.scores.reading;
             const answers = state.answers.reading || {};
+            const data = state.moduleData.reading;
+            const pct = sr.t > 0 ? Math.round((sr.c / sr.t) * 100) : 0;
 
-            let answersHTML = '';
-            Object.entries(answers).forEach(([q, ans]) => {
-                answersHTML += `<tr><td>Q${q}</td><td>${ans || '-'}</td></tr>`;
-            });
+            function getCEFR(s) {
+                if (s <= 6) return { level: 'Below B1', color: '#ef4444', bg: '#fee2e2' };
+                if (s <= 16) return { level: 'B1', color: '#f59e0b', bg: '#fef3c7' };
+                if (s <= 25) return { level: 'B2', color: '#3b82f6', bg: '#dbeafe' };
+                return { level: 'C1', color: '#10b981', bg: '#d1fae5' };
+            }
+            const cefr = getCEFR(sr.c);
+            const wrong = sr.t - sr.c;
+
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+            let qNum = 0;
+
+            if (data && data.parts) {
+                data.parts.forEach((part, pIdx) => {
+                    if (!part.answers) return;
+                    let pc = 0, pt = 0;
+                    const partAnswerKeys = Object.keys(part.answers);
+
+                    partAnswerKeys.forEach(qKey => {
+                        pt++;
+                        qNum++;
+                        const correctVal = part.answers[qKey];
+                        const userAns = (answers[qKey] || '').trim();
+                        const isCorrect = matchesAnswer(userAns, correctVal);
+                        if (isCorrect) pc++;
+
+                        const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                        const statusIcon = !userAns ? '—' : isCorrect ? '✓' : '✗';
+                        const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+                        const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : correctVal;
+
+                        answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qNum + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">—</span>') + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td>' +
+                            '</tr>';
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + (part.title || 'Part ' + (pIdx + 1)) + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#3b82f6;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+
+                    detailsHTML += '<div style="margin-bottom:16px;"><div style="background:#3b82f615;padding:10px 14px;border-radius:8px 8px 0 0;border:1px solid #e2e8f0;border-bottom:none;">' +
+                        '<span style="font-weight:700;color:#3b82f6;">' + (part.title || 'Part ' + (pIdx + 1)) + '</span>' +
+                        (part.instruction ? '<div style="font-size:12px;color:#64748b;margin-top:4px;">' + part.instruction.substring(0, 200) + (part.instruction.length > 200 ? '...' : '') + '</div>' : '') +
+                        '</div><div style="border:1px solid #e2e8f0;border-radius:0 0 8px 8px;padding:10px;">';
+
+                    const partOptions = part.options || [];
+                    partAnswerKeys.forEach(qKey => {
+                        const correctVal = part.answers[qKey];
+                        const userAns = (answers[qKey] || '').trim();
+                        const isCorrect = matchesAnswer(userAns, correctVal);
+
+                        const question = part.questions ? part.questions.find(q => q.id == qKey) : null;
+                        let questionContext = '';
+                        let optionsDisplay = '';
+
+                        if (part.type === 'mcq-reply' || part.type === 'mcq' || part.type === 'mcq-long') {
+                            if (question && question.options) {
+                                optionsDisplay = question.options.map(function(opt) {
+                                    var isUserChoice = userAns === opt.letter;
+                                    var isCorrectAnswer = (Array.isArray(correctVal) ? correctVal[0] : correctVal) === opt.letter;
+                                    var s = 'padding:3px 8px;border-radius:4px;margin:2px 0;font-size:12px;';
+                                    if (isCorrectAnswer) s += 'background:#dcfce7;color:#16a34a;';
+                                    else if (isUserChoice && !isCorrect) s += 'background:#fee2e2;color:#dc2626;text-decoration:line-through;';
+                                    else s += 'color:#6b7280;';
+                                    return '<div style="' + s + '">' + opt.letter + ': ' + opt.text + '</div>';
+                                }).join('');
+                            }
+                            if (question && question.question) questionContext = question.question;
+                        } else if (part.type === 'gap-fill-form' || part.type === 'gap-fill' || part.type === 'note-completion') {
+                            if (question && question.hint) questionContext = question.hint;
+                            else if (part.formContent) {
+                                var fi = part.formContent.find(function(f) { return f.gapId == qKey; });
+                                if (fi) questionContext = fi.text + ' ____' + (fi.gapSuffix || '');
+                            }
+                        } else if (part.type === 'matching-speakers' || part.type === 'matching') {
+                            var speaker = part.speakers ? part.speakers.find(function(s) { return s.id == qKey; }) : null;
+                            if (speaker) questionContext = speaker.label;
+                            if (partOptions.length) {
+                                var co = partOptions.find(function(o) { return o.letter === (Array.isArray(correctVal) ? correctVal[0] : correctVal); });
+                                var uo = partOptions.find(function(o) { return o.letter === userAns; });
+                                if (co) optionsDisplay = '<div style="font-size:12px;color:#16a34a;">✓ ' + co.letter + ': ' + co.text + '</div>';
+                                if (uo && !isCorrect) optionsDisplay += '<div style="font-size:12px;color:#dc2626;text-decoration:line-through;">✗ ' + uo.letter + ': ' + uo.text + '</div>';
+                            }
+                        } else if (part.type === 'map-labeling') {
+                            if (question && question.place) questionContext = 'Place: ' + question.place;
+                        } else if (part.type === 'sentence-completion') {
+                            if (question && question.sentence) questionContext = question.sentence;
+                        } else if (part.type === 'true-false-ng' || part.type === 'yes-no-ng') {
+                            if (question && question.statement) questionContext = question.statement;
+                        } else if (part.type === 'heading-matching') {
+                            if (question && question.paragraph) questionContext = 'Paragraph ' + question.paragraph;
+                        }
+
+                        var correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : correctVal;
+                        detailsHTML += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                            '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qKey + '</span>' +
+                            '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? '✓ Correct' : '✗ Wrong') + '</span></div>' +
+                            (questionContext ? '<div style="color:#374151;font-size:13px;line-height:1.5;margin-bottom:6px;padding:6px 8px;background:#f8fafc;border-radius:6px;border-left:3px solid #cbd5e1;">' + questionContext + '</div>' : '') +
+                            (optionsDisplay ? '<div style="margin-bottom:6px;">' + optionsDisplay + '</div>' : '') +
+                            '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                            '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                            (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                            '</div></div>';
+                    });
+
+                    detailsHTML += '</div></div>';
+                });
+            }
 
             return `<!DOCTYPE html>
 <html lang="en">
@@ -8649,14 +9965,15 @@ Respond ONLY in JSON format:
     <meta charset="UTF-8">
     <title>Reading Report - ${name}</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f9fafb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f9fafb; color: #1e293b; }
         .header { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 24px; }
         .header h1 { margin: 0 0 10px 0; font-size: 28px; }
-        .score-card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; margin-bottom: 24px; }
-        .score { font-size: 48px; font-weight: 800; color: #3b82f6; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f1f5f9; font-weight: 600; }
+        details { margin-bottom: 16px; }
+        details > summary { cursor: pointer; user-select: none; font-weight: 700; font-size: 16px; padding: 14px 18px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] > summary { border-radius: 12px 12px 0 0; }
+        details > .content { background: white; padding: 16px; border-radius: 0 0 12px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
@@ -8664,15 +9981,60 @@ Respond ONLY in JSON format:
         <h1>📖 Reading Module Report</h1>
         <p>${name} | ${date} ${time}</p>
     </div>
-    <div class="score-card">
-        <div class="score">${sr.c} / ${sr.t}</div>
-        <p>Correct Answers</p>
+
+    <!-- Score Card -->
+    <div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">
+        <div style="font-size:48px;font-weight:800;color:#3b82f6;">${sr.c} / ${sr.t}</div>
+        <div style="font-size:16px;color:#64748b;margin:4px 0 12px;">Score: ${pct}%</div>
+        <div style="display:inline-block;background:${cefr.bg};color:${cefr.color};padding:6px 20px;border-radius:20px;font-weight:700;font-size:15px;">${cefr.level}</div>
     </div>
-    <h3>Candidate Answers</h3>
-    <table>
-        <tr><th>Question</th><th>Answer</th></tr>
-        ${answersHTML}
-    </table>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;">
+            <div style="font-size:24px;font-weight:800;color:#16a34a;">${sr.c}</div>
+            <div style="font-size:12px;color:#16a34a;font-weight:600;">✓ Correct</div>
+        </div>
+        <div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;">
+            <div style="font-size:24px;font-weight:800;color:#dc2626;">${wrong}</div>
+            <div style="font-size:12px;color:#dc2626;font-weight:600;">✗ Incorrect</div>
+        </div>
+        <div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;">
+            <div style="font-size:24px;font-weight:800;color:#0284c7;">${sr.t}</div>
+            <div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div>
+        </div>
+    </div>
+
+    <!-- Part Results -->
+    ${partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : ''}
+
+    <!-- Answer Summary -->
+    <details>
+        <summary>📋 Answer Summary</summary>
+        <div class="content">
+            <table style="width:100%;border-collapse:collapse;">
+                <tr style="background:#f1f5f9;">
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>
+                    <th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>
+                    <th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th>
+                </tr>
+                ${answerRowsHTML}
+            </table>
+        </div>
+    </details>
+
+    <!-- Detailed Questions -->
+    <details>
+        <summary>📝 Detailed Questions & Answers</summary>
+        <div class="content">
+            ${detailsHTML}
+        </div>
+    </details>
+
+    <div style="text-align:center;margin-top:24px;" class="no-print">
+        <button onclick="window.print()" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">📄 Save as PDF</button>
+    </div>
 </body>
 </html>`;
         }
@@ -8935,7 +10297,7 @@ Respond ONLY in JSON format:
                         <div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">${sampleAnswer}</div>
                     </details>
                     ` : ''}
-                    <p class="audio-ref">🎤 Audio: answer_q${q.number}.webm</p>
+                    <div style="margin-top:12px;"><audio controls style="width:100%;"><source src="answer_q${q.number}.webm" type="audio/webm"></audio></div>
                 </div>`;
             });
 
@@ -9168,7 +10530,7 @@ Respond ONLY in JSON format:
                     </div>
                     <p class="prompt">${q.prompt}</p>
                     ${questionContext}
-                    <p class="audio-ref">🎤 Audio: answer_q${q.number}.webm</p>
+                    <div style="margin-top:12px;"><audio controls style="width:100%;"><source src="answer_q${q.number}.webm" type="audio/webm"></audio></div>
                 </div>`;
             });
 
@@ -9185,7 +10547,6 @@ Respond ONLY in JSON format:
         .question { background: white; padding: 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .question h3 { margin: 0 0 12px 0; color: #d97706; }
         .question .prompt { background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 12px; }
-        .audio-ref { color: #6b7280; font-style: italic; font-size: 14px; margin-top: 12px; }
         .print-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin: 24px auto; }
         .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
         @media print { .print-btn { display: none !important; } }
@@ -9337,6 +10698,273 @@ Respond ONLY in JSON format:
                 }
             }
         });
+
+        // ===== CERTIFICATE PREVIEW POPUP =====
+        async function showCertificatePreview() {
+            const btn = event?.currentTarget;
+            let originalText = '';
+            if (btn) {
+                originalText = btn.innerHTML;
+                btn.innerHTML = '<span>⏳</span> Loading Certificate...';
+                btn.disabled = true;
+            }
+
+            try {
+                // Build the certificate HTML (same as generateCertificatePDF but for display)
+                const certHtml = buildCertificateHTML();
+
+                // Create or get popup overlay
+                let popup = document.getElementById('certificate-preview-popup');
+                if (!popup) {
+                    popup = document.createElement('div');
+                    popup.id = 'certificate-preview-popup';
+                    document.body.appendChild(popup);
+                }
+
+                popup.style.cssText = 'position:fixed; inset:0; z-index:100000; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; padding:10px; overflow-y:auto; backdrop-filter:blur(4px);';
+                popup.innerHTML = `
+                    <div style="background:white; border-radius:16px; max-width:850px; width:100%; max-height:95vh; overflow-y:auto; position:relative; box-shadow:0 25px 60px rgba(0,0,0,0.3);">
+                        <!-- Close button -->
+                        <button onclick="closeCertificatePreview()" style="position:sticky; top:8px; float:right; margin:8px 8px 0 0; z-index:10; background:rgba(0,0,0,0.6); color:white; border:none; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">&times;</button>
+                        
+                        <!-- Certificate render area -->
+                        <div id="cert-preview-render" style="padding:10px; display:flex; justify-content:center;">
+                            <div style="transform-origin:top center; width:800px;" id="cert-preview-scale-wrap">
+                                ${certHtml}
+                            </div>
+                        </div>
+
+                        <!-- Download button at bottom -->
+                        <div style="padding:12px 20px 20px; text-align:center; border-top:1px solid #e5e7eb; background:#f8fafc; border-radius:0 0 16px 16px;">
+                            <button id="cert-download-btn" onclick="downloadCertificateFromPreview()" style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,#0d9488,#0f766e); color:white; border:none; padding:12px 32px; border-radius:12px; font-weight:700; cursor:pointer; font-size:15px; box-shadow:0 4px 12px rgba(13,148,136,0.3); transition:all 0.3s;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 16px rgba(13,148,136,0.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 12px rgba(13,148,136,0.3)'">
+                                <span>📥</span> Download Certificate PDF
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                popup.style.display = 'flex';
+
+                // Generate QR code inside the preview
+                const qrEl = popup.querySelector('#cert-qrcode');
+                if (qrEl) {
+                    qrEl.innerHTML = '';
+                    new QRCode(qrEl, {
+                        text: (window.SITE_CONFIG && window.SITE_CONFIG.telegramUrl) || 'https://t.me/mock_stream',
+                        width: 90,
+                        height: 90,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+
+                // Scale certificate to fit popup on small screens
+                requestAnimationFrame(() => {
+                    const wrap = document.getElementById('cert-preview-scale-wrap');
+                    if (wrap) {
+                        const parent = wrap.parentElement;
+                        const parentWidth = parent.clientWidth - 20;
+                        if (parentWidth < 800) {
+                            const scale = parentWidth / 800;
+                            wrap.style.transform = `scale(${scale})`;
+                            wrap.style.marginBottom = `-${(1 - scale) * wrap.scrollHeight}px`;
+                        }
+                    }
+                });
+
+                // Close on backdrop click
+                popup.addEventListener('click', function(e) {
+                    if (e.target === popup) closeCertificatePreview();
+                });
+
+            } catch (err) {
+                console.error('[Certificate] Preview Error:', err);
+            } finally {
+                if (btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        function closeCertificatePreview() {
+            const popup = document.getElementById('certificate-preview-popup');
+            if (popup) popup.style.display = 'none';
+        }
+
+        async function downloadCertificateFromPreview() {
+            const btn = document.getElementById('cert-download-btn');
+            let originalText = '';
+            if (btn) {
+                originalText = btn.innerHTML;
+                btn.innerHTML = '<span>⏳</span> Generating PDF...';
+                btn.disabled = true;
+            }
+            try {
+                await generateCertificatePDF(false);
+            } catch (err) {
+                console.error('[Certificate] Download Error:', err);
+                alert('Could not download PDF. Please try again.');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        function buildCertificateHTML() {
+            const overall = state.overall.score;
+            const level = state.overall.level;
+            const { l, r, w, s } = state.scaledScores;
+
+            const now = new Date();
+            const issueDate = now.toLocaleDateString('uz-UZ', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const validDate = new Date(now.getFullYear() + 2, now.getMonth(), now.getDate()).toLocaleDateString('uz-UZ', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const refNum = state.referenceNumber || (Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6)).toUpperCase();
+
+            const bgPattern = `data:image/svg+xml;base64,${btoa(`
+                <svg width="60" height="30" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 15 Q 15 0 30 15 T 60 15" fill="none" stroke="#f97316" stroke-width="0.3" stroke-opacity="0.1"/>
+                    <path d="M0 25 Q 15 10 30 25 T 60 25" fill="none" stroke="#f97316" stroke-width="0.3" stroke-opacity="0.1"/>
+                </svg>
+            `)}`;
+
+            const wavyBorderSide = `data:image/svg+xml;base64,${btoa(`
+                <svg width="40" height="100" viewBox="0 0 40 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0 Q 30 25 0 50 Q 30 75 0 100" fill="none" stroke="#f97316" stroke-width="1.5" stroke-opacity="0.6"/>
+                    <path d="M5 0 Q 35 25 5 50 Q 35 75 5 100" fill="none" stroke="#f97316" stroke-width="0.8" stroke-opacity="0.4"/>
+                    <path d="M10 0 Q 40 25 10 50 Q 40 75 10 100" fill="none" stroke="#f97316" stroke-width="0.4" stroke-opacity="0.2"/>
+                </svg>
+            `)}`;
+
+            const wavyBorderTop = `data:image/svg+xml;base64,${btoa(`
+                <svg width="100" height="40" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0 Q 25 30 50 0 Q 75 30 100 0" fill="none" stroke="#f97316" stroke-width="1.5" stroke-opacity="0.6"/>
+                    <path d="M0 5 Q 25 35 50 5 Q 75 35 100 5" fill="none" stroke="#f97316" stroke-width="0.8" stroke-opacity="0.4"/>
+                    <path d="M0 10 Q 25 40 50 10 Q 75 40 100 10" fill="none" stroke="#f97316" stroke-width="0.4" stroke-opacity="0.2"/>
+                </svg>
+            `)}`;
+
+            return `
+                <div id="cert-target-preview" style="width: 800px; min-height: 1120px; background: #fffdfa; position: relative; color: #1e293b; font-family: 'Times New Roman', Times, serif; box-sizing: border-box; overflow: hidden; padding: 60px;">
+                    <div style="position: absolute; inset: 0; background-image: url('${bgPattern}'); background-repeat: repeat; opacity: 0.8; z-index: 1;"></div>
+                    <div style="position: absolute; inset: 0; background: #fffdfa; opacity: 0.4; z-index: 2;"></div>
+                    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 40px; background-image: url('${wavyBorderSide}'); background-repeat: repeat-y; z-index: 3;"></div>
+                    <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 40px; background-image: url('${wavyBorderSide}'); background-repeat: repeat-y; transform: scaleX(-1); z-index: 3;"></div>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 40px; background-image: url('${wavyBorderTop}'); background-repeat: repeat-x; z-index: 3;"></div>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background-image: url('${wavyBorderTop}'); background-repeat: repeat-x; transform: scaleY(-1); z-index: 3;"></div>
+                    <div style="position: absolute; inset: 45px; border: 1.5px solid #f97316; opacity: 0.5; z-index: 3; pointer-events: none;"></div>
+                    <div style="position: relative; z-index: 4;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+                            <div style="width: 250px; font-size: 8px; font-weight: 700; text-transform: uppercase; line-height: 1.4; color: #1e293b;">
+                                O'ZBEKISTON RESPUBLIKASI<br>OLIY TA'LIM, FAN VA INNOVATSIYALAR VAZIRLIGI HUZURIDAGI<br>${(window.SITE_CONFIG && window.SITE_CONFIG.heading1) ? window.SITE_CONFIG.heading1.toUpperCase() : 'BILIM VA MALAKALARNI BAHOLASH AGENTLIGI'}
+                            </div>
+                            <div style="text-align: center; flex: 1;">
+                                <img src="${(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png'}" style="width: 85px; height: 85px; margin-bottom: 5px;">
+                            </div>
+                            <div style="width: 250px; font-size: 8px; font-weight: 700; text-transform: uppercase; line-height: 1.4; text-align: right; color: #1e293b;">
+                                AGENCY FOR ASSESSMENT OF KNOWLEDGE AND COMPETENCES UNDER THE MINISTRY OF HIGHER EDUCATION, SCIENCE AND INNOVATIONS OF THE REPUBLIC OF UZBEKISTAN
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <div style="font-size: 13px; font-weight: 700; color: #f97316; margin-bottom: 4px;">CHET TILINI BILISH DARAJASI TO'G'RISIDA</div>
+                            <div style="font-size: 36px; font-weight: 900; color: #f97316; letter-spacing: 4px; margin: 4px 0;">SERTIFIKAT</div>
+                            <div style="font-size: 26px; font-weight: 800; color: #f97316;">CERTIFICATE</div>
+                            <div style="font-size: 11px; font-weight: 700; color: #f97316; letter-spacing: 1px;">OF FOREIGN LANGUAGE PROFICIENCY</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px; padding-left: 5px;">
+                            <div style="font-size: 11px; font-weight: 600;">Sertifikat № | Reference Number</div>
+                            <div style="font-size: 14px; font-weight: 900; border: 2px solid #000; padding: 4px 25px; background: #fff; line-height: 1;">${refNum}</div>
+                        </div>
+                        <div style="margin-bottom: 40px;">
+                            <div style="font-size: 11px; font-weight: 800; background: #f3f4f6; border-left: 4px solid #1e293b; padding: 8px 15px; margin-bottom: 20px;">
+                                Talabgor to'g'risidagi ma'lumot | Candidate Details
+                            </div>
+                            <div style="display: flex; gap: 40px; align-items: flex-start;">
+                                <div style="flex: 1;">
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                                            <td style="padding: 12px 5px; color: #475569; width: 220px;">Familiyasi | Surname:</td>
+                                            <td style="padding: 12px 5px; font-weight: 900; text-transform: uppercase;">${state.candidateName.split(' ')[0] || ''}</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                                            <td style="padding: 12px 5px; color: #475569;">Ismi | First Name:</td>
+                                            <td style="padding: 12px 5px; font-weight: 900; text-transform: uppercase;">${state.candidateName.split(' ').slice(1).join(' ') || ''}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px 5px; color: #475569;">Foreign Language:</td>
+                                            <td style="padding: 12px 5px;">
+                                                <span style="font-weight: 900; border: 2px solid #000; padding: 4px 30px; background: #fff;">INGLIZ TILI</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="width: 145px; height: 185px; border: 2px solid #cbd5e1; background: white; display: flex; align-items: center; justify-content: center; position: relative; overflow:hidden;">
+                                    ${state.candidatePhoto ?
+                `<img src="${state.candidatePhoto}" style="width: 100%; height: 100%; object-fit: cover;">` :
+                `<img src="${(window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png'}" style="width: 60%; opacity: 0.15; filter: grayscale(1);">
+                                     <div style="position: absolute; bottom: 8px; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Candidate Photo</div>`}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 45px;">
+                            <div>
+                                <div style="font-size: 12px; font-weight: 800; margin-bottom: 20px;">Test sinovi natijalari | Test Results</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 13px; line-height: 1.2;">Tinglab tushunish |<br>Listening</div>
+                                        <div style="border: 2px solid #000; width: 60px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; background: #fff;">${l}</div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 13px; line-height: 1.2;">O'qish |<br>Reading</div>
+                                        <div style="border: 2px solid #000; width: 60px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 22px; background: #fff;">${r}</div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 13px; line-height: 1.2;">Yozish |<br>Writing</div>
+                                        <div style="border: 2px solid #000; width: 60px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: ${state.isPremiumVip ? '22' : '13'}px; background: #fff;">${state.isPremiumVip ? (w || 0) : 'N/A'}</div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="font-size: 13px; line-height: 1.2;">Gapirish |<br>Speaking</div>
+                                        <div style="border: 2px solid #000; width: 60px; height: 45px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: ${state.isPremiumVip ? '22' : '13'}px; background: #fff;">${state.isPremiumVip ? (s || 0) : 'N/A'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 20px; justify-content: center;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="font-size: 13px; font-weight: 800;">Daraja |<br>Level</div>
+                                    <div style="border: 2px solid #000; width: 100px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 24px; background: #fffbeb;">${level}</div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="font-size: 13px; font-weight: 800;">Umumiy ball |<br>Overall Score</div>
+                                    <div style="border: 2px solid #000; width: 100px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 24px; background: #f0fdfa;">${overall}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top: 1px dashed #cbd5e1; margin-bottom: 25px;"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; position: relative; min-height: 120px;">
+                            <div style="line-height: 2; width: 250px;">
+                                <div style="font-size: 11px; font-weight: 600;">Berilgan sanasi | Date of Issue: <span style="font-weight: 900;">${issueDate}</span></div>
+                                <div style="font-size: 11px; font-weight: 600;">Amal qilish muddati | Valid until: <span style="font-weight: 900;">${validDate}</span></div>
+                            </div>
+                            <div style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); text-align: center;">
+                                <div id="cert-qrcode" style="width: 100px; height: 100px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px;"></div>
+                                <div style="font-size: 9px; color: #64748b; font-weight: 600;">${(window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream'}</div>
+                            </div>
+                            <div style="text-align: right; width: 250px;">
+                                <div style="font-size: 19px; font-weight: 900; color: #1e293b; margin-bottom: 2px; letter-spacing: 0.5px;">${(window.SITE_CONFIG && window.SITE_CONFIG.directorName) || 'D. KHASANOV'}</div>
+                                <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 20px;">${(window.SITE_CONFIG && window.SITE_CONFIG.directorTitle) || 'Direktor | Director'}</div>
+                                <div style="font-size: 8px; font-weight: 600; color: #94a3b8; font-style: italic; white-space: nowrap;">
+                                    sertifikatning haqiqiyligini ${(window.SITE_CONFIG && window.SITE_CONFIG.siteDomain) || 'mockstream.site'} orqali tekshirish mumkin
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         async function downloadCertificate() {
             const btn = event?.currentTarget;
             let originalText = '';
@@ -9799,9 +11427,7 @@ Respond ONLY in JSON format:
 
                 Object.entries(part.answers).forEach(([qKey, correctVal]) => {
                     const userAns = (state.answers[mod][qKey] || '').trim();
-                    const isCorrect = Array.isArray(correctVal)
-                        ? correctVal.some(v => v.toLowerCase() === userAns.toLowerCase())
-                        : correctVal.toLowerCase() === userAns.toLowerCase();
+                    const isCorrect = matchesAnswer(userAns, correctVal);
 
                     const question = part.questions?.find(q => q.id == qKey);
                     let questionContext = '';
@@ -10268,6 +11894,81 @@ Respond ONLY in JSON format:
     <button id="mobile-passage-toggle" onclick="toggleMobilePassage()">
         <span style="font-size:18px">📖</span> Show Passage
     </button>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function _iframeNav(url){
+  if(window!==window.top){
+    try{var o=url.indexOf('landing.html')!==-1?{action:'closeLearningTool',openModal:(url.match(/openSelector=([^&]+)/)||url.match(/openModal=([^&]+)/)|| [])[1]||''}:{action:'closeLearningTool',openModal:''};window.parent.postMessage(o,'*');return;}catch(e){}
+  }
+  window.location.href=url;
+}
+function openHomeSidebar(){var m=document.getElementById('mobToolsMenu'),o=document.getElementById('mobMenuOverlay');if(m)m.classList.remove('show');if(o)o.classList.remove('show');document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
+function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
+function createLeaveWarningModal(){if(document.getElementById('leaveWarningModal'))return;var html='<div id="leaveWarningModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;justify-content:center;align-items:center;backdrop-filter:blur(5px);"><div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);animation:lwPop 0.3s ease-out;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 10px 30px rgba(245,158,11,0.3);"><span style="font-size:40px;">⚠️</span></div><h2 style="color:#f8fafc;font-size:24px;margin-bottom:15px;font-weight:700;">Leave Exam?</h2><p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:30px;">Are you sure you want to leave?<br><strong style="color:#f87171;">Your progress will be lost!</strong></p><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><button id="lwStayBtn" style="padding:14px 35px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:linear-gradient(135deg,#0d9488,#0f766e);color:white;box-shadow:0 4px 15px rgba(13,148,136,0.3);">✓ Continue Exam</button><button id="lwLeaveBtn" style="padding:14px 35px;border:2px solid #475569;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:transparent;color:#94a3b8;">Leave Anyway</button></div></div></div><style>@keyframes lwPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}#lwStayBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,0.4)}#lwLeaveBtn:hover{background:#334155;border-color:#64748b;color:#e2e8f0}</style>';document.body.insertAdjacentHTML('beforeend',html);document.getElementById('lwStayBtn').addEventListener('click',function(){hideLeaveWarningModal();});document.getElementById('lwLeaveBtn').addEventListener('click',function(){window.__okToLeave=true;var a=window.__pendingLeaveAction;hideLeaveWarningModal();if(typeof a==='function'){a();}});}
+function showLeaveWarningModal(){createLeaveWarningModal();var m=document.getElementById('leaveWarningModal');if(m)m.style.display='flex';}
+function hideLeaveWarningModal(){var m=document.getElementById('leaveWarningModal');if(m)m.style.display='none';window.__pendingLeaveAction=null;}
+function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.getElementById('mobToolsMenu'),to=document.getElementById('mobMenuOverlay');if(tm)tm.classList.remove('show');if(to)to.classList.remove('show');window.__pendingLeaveAction=(typeof leaveAction==='function')?leaveAction:null;showLeaveWarningModal();}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
+document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
+document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

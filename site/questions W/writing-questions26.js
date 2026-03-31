@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Car good. DriveEasy good. You go DriveEasy. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I rented a car. It was DriveEasy. It was good and easy. The car was nice. You should use DriveEasy because it is good. Bye.</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I just rented a car from DriveEasy for my trip. It was really good! The car was in good condition, and the pick-up was easy. I think you should use them for your road trip. It will be easier for you. Also, the price was okay. Good luck!</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>I wanted to tell you about my recent car rental experience with DriveEasy. Since you're planning a road trip, I thought it might be helpful. The whole process was surprisingly smooth, and the car was in excellent condition. I'd definitely recommend checking them out. It might save you some hassle, and their prices seem competitive. Let me know if you have any questions!</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>I wanted to tell you about my recent car rental experience with DriveEasy. Since you're planning a road trip, I thought it might be helpful. The whole process was surprisingly smooth, and the car was in excellent condition. I'd definitely recommend checking them out. It might save you some hassle, and their prices seem competitive. Let me know if you have any questions!</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Men yaqinda sayohatim uchun DriveEasy’dan mashina ijaraga oldim va bu juda oson bo'ldi! Mashina a'lo darajada edi va olib ketish juda tez bo'ldi. Sayohating uchun albatta ulardan bron qiling!</p>\n<p>Ularning narxlari ham ancha maqbul!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Mashina yaxshi. DriveEasy yaxshi. Sen DriveEasyga bor. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men mashina ijaraga oldim. U DriveEasy edi. U yaxshi va oson edi. Mashina chiroyli edi. Siz DriveEasy'dan foydalanishingiz kerak, chunki u yaxshi. Xayr.</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],<br>Men yaqinda DriveEasy'dan mashina ijaraga oldim, sayohatim uchun. Juda yaxshi bo'ldi! Mashina yaxshi holatda edi va olib ketish oson bo'ldi. O'ylaymanki, siz ham yo'l sayohatingiz uchun ulardan foydalanishingiz kerak. Siz uchun osonroq bo'ladi. Bundan tashqari, narxi ham yaxshi edi. Omad!</p>",
+      "uzSampleB2": "<p>Salom, [Do'stingizning ismi],<br>Sizga yaqinda DriveEasy kompaniyasidan mashina ijaraga olganim haqida aytmoqchi edim. Siz sayohatga chiqmoqchi bo'lganingiz uchun, bu sizga yordam berishi mumkin deb o'yladim. Butun jarayon juda oson kechdi va mashina a'lo holatda edi. Men ularni tekshirib ko'rishni tavsiya qilaman. Bu sizni ba'zi muammolardan qutqarishi mumkin va ularning narxlari raqobatbardoshga o'xshaydi. Agar savollaringiz bo'lsa, menga xabar bering!</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi DriveEasy,</p><br><p>Car is good. I like car. Pick up okay. Bye.</p>",
       "sampleA2": "<p>Hi DriveEasy,</p><br><p>The car was good, and I liked driving it. But the pick up was slow, and I waited a long time. The people were nice, but I was late. Maybe you can be faster next time. Thank you.</p><br><p>Bye,</p><br><p>A Customer</p>",
       "sampleB1": "<p>Dear DriveEasy Team,</p><br><p>I am writing to you about my recent car rental. Overall, it was a good experience. The car was clean and comfortable. The pick-up process was mostly smooth, although there was a bit of a wait.</p><br><p>I think you could improve the experience by having more staff available at peak times. Also, it would be helpful if you offered a discount for returning customers. In my opinion, this would encourage people to use your service again.</p><br><p>Thank you for your service.</p><br><p>Sincerely,<br>A Customer</p>",
-      "sampleB2": "<p>Dear DriveEasy Team,</p><br><p>I am writing to provide feedback regarding my recent car rental experience. Generally, I was satisfied with the vehicle itself; it was clean, reliable, and well-maintained. The pick-up process, while efficient in some respects, could benefit from some adjustments.</p><br><p>Specifically, the waiting time upon arrival was longer than anticipated. Perhaps implementing a more streamlined check-in system, or offering a priority service for pre-booked customers, could alleviate this issue. Furthermore, clearer signage within the rental facility would be beneficial for first-time users.</p><br><p>While the overall experience was positive, addressing these minor inconveniences would significantly enhance customer satisfaction and encourage repeat business. Thank you for your attention to these matters.</p><br><p>Yours sincerely,<br>A Satisfied Customer</p>"
+      "sampleB2": "<p>Dear DriveEasy Team,</p><br><p>I am writing to provide feedback regarding my recent car rental experience. Generally, I was satisfied with the vehicle itself; it was clean, reliable, and well-maintained. The pick-up process, while efficient in some respects, could benefit from some adjustments.</p><br><p>Specifically, the waiting time upon arrival was longer than anticipated. Perhaps implementing a more streamlined check-in system, or offering a priority service for pre-booked customers, could alleviate this issue. Furthermore, clearer signage within the rental facility would be beneficial for first-time users.</p><br><p>While the overall experience was positive, addressing these minor inconveniences would significantly enhance customer satisfaction and encourage repeat business. Thank you for your attention to these matters.</p><br><p>Yours sincerely,<br>A Satisfied Customer</p>",
+      "uzSample": "<p>Hurmatli DriveEasy jamoasi,</p>\n\n<p>Sizning avtomobil ijarasi xizmatingiz bo'yicha o'z tajribamni baham ko'rish uchun yozyapman.</p>\n\n<p>Avvalo, avtomobilning holati a'lo darajada edi. Mashina toza, yaxshi saqlangan va sayohatim davomida bemalol haydaldim.</p>\n\n<p>Bundan tashqari, mashinani olish jarayoni samarali bo'ldi. Xodimlar do'stona munosabatda bo'lishdi va hamma narsani aniq tushuntirishdi.</p>\n\n<p>Biroq, mening ba'zi takliflarim bor. Bron qilish va raqamli kalitlar uchun mobil ilovani taklif qilish jarayonni yanada soddalashtiradi.</p>\n\n<p>Qo'shimcha ravishda, yo'lda yordam berish qamrovini standart xususiyat sifatida taqdim etish mijozlarga xotirjamlikni beradi.</p>\n\n<p>Bundan tashqari, doimiy mijozlar uchun chegirmalar bilan sodiqlik dasturi meni yana siz bilan bron qilishga undaydi.</p>\n\n<p>Yoqimli ijara tajribasi uchun rahmat.</p>\n\n<p>Hurmat bilan,<br>Baxtli mijoz</p>",
+      "uzSampleA1": "<p>Salom DriveEasy,</p><br><p>Mashina yaxshi. Menga mashina yoqdi. Olib ketish yaxshi. Xayr.</p>",
+      "uzSampleA2": "<p>Salom DriveEasy,</p><br><p>Mashina yaxshi edi va menga haydash yoqdi. Lekin olib ketish sekin bo'ldi va men uzoq kutdim. Odamlar yaxshi edi, lekin men kechikdim. Balki keyingi safar tezroq bo'lishingiz mumkin. Rahmat.</p><br><p>Xayr,</p><br><p>Mijoz</p>",
+      "uzSampleB1": "<p>Hurmatli DriveEasy jamoasi,</p><br><p>Men sizga yaqinda avtomobil ijaraga olganim haqida yozmoqdaman. Umuman olganda, bu yaxshi tajriba bo'ldi. Mashina toza va qulay edi. Mashinani olish jarayoni asosan muammosiz kechdi, garchi biroz kutishga to'g'ri keldi.</p><br><p>O'ylaymanki, eng gavjum vaqtlarda ko'proq xodimlarni jalb qilish orqali tajribani yaxshilashingiz mumkin. Shuningdek, agar siz qaytib kelgan mijozlar uchun chegirma taklif qilsangiz, foydali bo'lardi. Mening fikrimcha, bu odamlarni sizning xizmatingizdan yana foydalanishga undaydi.</p><br><p>Xizmatingiz uchun rahmat.</p><br><p>Hurmat bilan,<br>Bir mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli DriveEasy jamoasi,</p><br><p>Men yaqinda avtomobil ijarasi bo'yicha tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, men avtomobilning o'zi bilan qoniqdim; u toza, ishonchli va yaxshi saqlangan edi. Olishtirish jarayoni, ba'zi jihatlarda samarali bo'lsa-da, ba'zi tuzatishlardan foyda ko'rishi mumkin.</p><br><p>Xususan, yetib kelgandan keyin kutish vaqti kutilganidan uzoqroq bo'ldi. Ehtimol, yanada soddalashtirilgan ro'yxatdan o'tish tizimini joriy etish yoki oldindan buyurtma bergan mijozlar uchun ustuvor xizmatni taklif qilish bu muammoni hal qilishi mumkin. Bundan tashqari, ijara ob'ektida aniqroq belgilar birinchi marta foydalanuvchilar uchun foydali bo'ladi.</p><br><p>Umumiy tajriba ijobiy bo'lsa-da, bu kichik noqulayliklarni bartaraf etish mijozlar ehtiyojini sezilarli darajada oshiradi va qayta murojaat qilishga undaydi. Ushbu masalalarga e'tiboringiz uchun tashakkur.</p><br><p>Hurmat bilan,<br>Qoniqish hosil qilgan mijoz</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi DriveEasy!</p><br><p>Car good. Pick up okay. I like car. Thank you. Bye.</p>",
       "sampleA2": "<p>Dear DriveEasy,</p><p>The car was good, and the pick up was easy. But the car was a little dirty. I want the car to be clean next time. And the price was okay, but maybe a little cheaper next time? Thank you.</p><p>Bye,</p><p>[Your Name]</p>",
       "sampleB1": "<p>Dear DriveEasy Team,</p><p>Thank you for your email. Overall, my experience renting the car was positive. The car was in good condition and drove well. The pick-up process was mostly smooth, although there was a slight delay because the person at the desk was busy. </p><p>One thing that could be improved is the cleanliness of the car. It wasn't very dirty, but there were some crumbs and dust inside. Also, it would be helpful if you provided a map of the area with the rental. I think these small changes would make the rental experience even better for future customers.</p><p>Sincerely,</p><p>[Your Name]</p>",
-      "sampleB2": "<p>Dear DriveEasy Team,</p><p>Thank you for your follow-up email. My recent rental experience with DriveEasy was generally satisfactory, although there are a few areas that could be enhanced. The vehicle's performance was commendable, and I appreciated the fuel efficiency. However, the pick-up process was somewhat disorganized, resulting in an unnecessary delay. Streamlining this process would significantly improve the initial customer experience.</p><p>Furthermore, while the car was adequately clean, a more thorough interior detailing would be beneficial. Considering the premium you charge, customers expect a pristine vehicle. Finally, offering a complimentary GPS navigation system or a smartphone mount would be a valuable addition, particularly for customers unfamiliar with the area. Implementing these suggestions would undoubtedly elevate DriveEasy's service and reinforce customer loyalty.</p><p>Sincerely,</p><p>[Your Name]</p>"
+      "sampleB2": "<p>Dear DriveEasy Team,</p><p>Thank you for your follow-up email. My recent rental experience with DriveEasy was generally satisfactory, although there are a few areas that could be enhanced. The vehicle's performance was commendable, and I appreciated the fuel efficiency. However, the pick-up process was somewhat disorganized, resulting in an unnecessary delay. Streamlining this process would significantly improve the initial customer experience.</p><p>Furthermore, while the car was adequately clean, a more thorough interior detailing would be beneficial. Considering the premium you charge, customers expect a pristine vehicle. Finally, offering a complimentary GPS navigation system or a smartphone mount would be a valuable addition, particularly for customers unfamiliar with the area. Implementing these suggestions would undoubtedly elevate DriveEasy's service and reinforce customer loyalty.</p><p>Sincerely,</p><p>[Your Name]</p>",
+      "uzSample": "<h2>Ijara Mashinalari va Jamoat Transporti: Sayohat Qilishning Eng Yaxshi Usuli</h2>\n\n<p>Yangi joyga tashrif buyurganingizda, u yerda qanday harakatlanishingiz tajribangizni sezilarli darajada shakllantiradi. Barcha variantlarni sinab ko'rganimdan so'ng, mening fikrim quyidagicha.</p>\n\n<p>Birinchidan, ijaraga olingan mashinalar beqiyos erkinlikni taqdim etadi. Siz yashirin gavharlarni o'rganishingiz, xohlagan vaqtingizda to'xtashingiz va o'z jadvalingizni yaratishingiz mumkin. Qishloq joylariga sayohat qilish uchun mashina ko'pincha zarurdir.</p>\n\n<p>Bundan tashqari, oila yoki guruhlar bilan sayohat qilish bir nechta jamoat transporti chiptalariga qaraganda mashina ijarasini yanada tejamli qiladi.</p>\n\n<p>Biroq, gavjum shaharlarda jamoat transporti ko'pincha tezroq va stresssizdir. Mashina qo'yish muammolari va tirbandlik shahar bo'ylab sayohatni buzishi mumkin.</p>\n\n<p>Qo'shimcha ravishda, ekskursiya gidlari mahalliy bilim va mustaqil sayohatchilar o'tkazib yuborishi mumkin bo'lgan ichki ma'lumotlarni taqdim etadi.</p>\n\n<p>Oxir oqibat, eng yaxshi variant sizning manzilingizga bog'liq. Manzarali yo'nalishlar va qishloq joylari uchun mashina ijaraga oling. Yaxshi tranzitga ega shaharlar uchun g'ildiraklarni tashlab keting.</p>\n\n<p>Sizning sayohat qilishning afzal ko'rgan usulingiz qanday?</p>",
+      "uzSampleA1": "<p>Salom DriveEasy!</p><br><p>Mashina yaxshi. Olib kelish yaxshi. Menga mashina yoqdi. Rahmat. Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli DriveEasy,</p><p>Mashina yaxshi edi va olib ketish oson bo'ldi. Lekin mashina biroz iflos edi. Keyingi safar mashinaning toza bo'lishini xohlayman. Narxi ham yaxshi edi, lekin keyingi safar biroz arzonroq bo'lsa yaxshi bo'lardi? Rahmat.</p><p>Xayr,</p><p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli DriveEasy jamoasi,</p><p>Elektron pochtangiz uchun rahmat. Umuman olganda, mashinani ijaraga olish tajribam ijobiy bo'ldi. Mashina yaxshi holatda edi va yaxshi haydadi. Mashinani olish jarayoni asosan muammosiz kechdi, garchi stoldagi odam band bo'lgani uchun biroz kechikish bo'ldi.</p><p>Yaxshilanishi mumkin bo'lgan bir narsa - mashinaning tozaligi. U juda iflos emas edi, lekin ichida ba'zi mayda narsalar va chang bor edi. Shuningdek, agar siz ijaraga olish bilan birga hududning xaritasini taqdim etsangiz, foydali bo'lardi. O'ylaymanki, bu kichik o'zgarishlar kelajakdagi mijozlar uchun ijaraga olish tajribasini yanada yaxshilaydi.</p><p>Hurmat bilan,</p><p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli DriveEasy jamoasi,</p><p>E'tiboringiz uchun rahmat. DriveEasy bilan yaqinda bo'lgan ijara tajribam umuman olganda qoniqarli bo'ldi, garchi yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud. Avtomobilning ishlashi maqtovga loyiq edi va men yoqilg'i tejamkorligini qadrladim. Biroq, olib ketish jarayoni biroz tartibsiz edi, bu esa keraksiz kechikishga olib keldi. Ushbu jarayonni soddalashtirish dastlabki mijoz tajribasini sezilarli darajada yaxshilaydi.</p><p>Bundan tashqari, mashina yetarlicha toza bo'lsa-da, ichki qismini yanada yaxshilab tozalash foydali bo'lar edi. Siz oladigan yuqori narxni hisobga olsak, mijozlar benuqson avtomobilni kutishadi. Nihoyat, bepul GPS navigatsiya tizimini yoki smartfon ushlagichini taklif qilish, ayniqsa, hudud bilan tanish bo'lmagan mijozlar uchun qimmatli qo'shimcha bo'ladi. Ushbu takliflarni amalga oshirish, shubhasiz, DriveEasy xizmatini yuqori darajaga ko'taradi va mijozlarning sodiqligini mustahkamlaydi.</p><p>Hurmat bilan,</p><p>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,151 @@ window.WRITING_TEST_DATA = {
         "uz": "afzal usul"
       }
     ]
+  },
+  "tokenTranslations": {
+    "just": {
+      "uz": "faqat",
+      "type": "adv"
+    },
+    "super": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "perfect condition": {
+      "uz": "a'lo holat",
+      "type": "colloc"
+    },
+    "pick-up": {
+      "uz": "olib ketish",
+      "type": "colloc"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "Definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "pretty": {
+      "uz": "anchagina",
+      "type": "adv"
+    },
+    "car rental service": {
+      "uz": "avtomobil ijarasi xizmati",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "avvalo",
+      "type": "adv"
+    },
+    "vehicle condition": {
+      "uz": "transport vositasining holati",
+      "type": "colloc"
+    },
+    "impeccable": {
+      "uz": "benuqson",
+      "type": "colloc"
+    },
+    "smoothly": {
+      "uz": "ravon",
+      "type": "adv"
+    },
+    "Moreover": {
+      "uz": "qolaversa",
+      "type": "adv"
+    },
+    "pick-up process": {
+      "uz": "olib ketish jarayoni",
+      "type": "colloc"
+    },
+    "clearly": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "ammo",
+      "type": "adv"
+    },
+    "mobile app": {
+      "uz": "mobil ilova",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "-moqchi edim",
+      "type": "modal"
+    },
+    "Additionally": {
+      "uz": "qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "roadside assistance": {
+      "uz": "yo'lda yordam",
+      "type": "colloc"
+    },
+    "peace of mind": {
+      "uz": "xotirjamlik",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "bundan tashqari",
+      "type": "adv"
+    },
+    "loyalty program": {
+      "uz": "sodiqlik dasturi",
+      "type": "colloc"
+    },
+    "rental experience": {
+      "uz": "ijara tajribasi",
+      "type": "colloc"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "rental cars": {
+      "uz": "ijaraga olingan mashinalar",
+      "type": "colloc"
+    },
+    "unmatched freedom": {
+      "uz": "misli ko'rilmagan erkinlik",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "often": {
+      "uz": "ko'pincha",
+      "type": "adv"
+    },
+    "car rental": {
+      "uz": "mashina ijarasi",
+      "type": "colloc"
+    },
+    "cost-effective": {
+      "uz": "tejamkor",
+      "type": "colloc"
+    },
+    "public transport": {
+      "uz": "jamoat transporti",
+      "type": "colloc"
+    },
+    "guided tours": {
+      "uz": "gid bilan sayohatlar",
+      "type": "colloc"
+    },
+    "insider access": {
+      "uz": "ichkaridan kirish imkoniyati",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "scenic routes": {
+      "uz": "manzarali yo'nalishlar",
+      "type": "colloc"
+    }
   }
 };

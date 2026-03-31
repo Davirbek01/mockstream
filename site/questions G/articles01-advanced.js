@@ -1,0 +1,36 @@
+// Grammar Test: Articles — Advanced (C1–C2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> university is known for its research output.", correct: "The", options: ["The", "A", "An", "Ø"], def: "Use 'the' for a specific, known university.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "<b>___</b> understanding of quantum physics requires diligent study.", correct: "An", options: ["An", "A", "The", "Ø"], def: "Use 'an' before a vowel sound.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> amount of energy worries scientists.", correct: "The consumed", options: ["The consumed", "A consuming", "The consuming", "Consumed"], def: "Use 'the consumed' to specify the energy amount.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> author of several influential papers.", correct: "the", options: ["the", "a", "an", "Ø"], def: "'The' is used because it is specific.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "She submitted it for <b>___</b> peer review.", correct: "Ø", options: ["Ø", "a", "an", "the"], def: "No article is needed before 'peer review' here.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> results were surprising.", correct: "The published", options: ["The published", "A published", "Published", "The publishing"], def: "'The published' refers to specific results.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "This is <b>___</b> most compelling evidence we have.", correct: "the", options: ["the", "a", "an", "Ø"], def: "'The' is used before superlative adjectives.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "We need <b>___</b> more data before drawing conclusions.", correct: "Ø", options: ["Ø", "a", "an", "the"], def: "No article needed before 'more data' in general sense.", level: "C1–C2"},
+  {type: "Find the error:", question: "<b>A</b> research <b>suggests</b> that <b>the</b> climate <b>is</b> changing.", correct: "A", options: ["A", "suggests", "the", "is"], def: "It should be 'Research' (uncountable) without article.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "He presented <b>___</b> study at the conference.", correct: "the conducted", options: ["the conducted", "a conducted", "the conducting", "conducted"], def: "'The conducted' refers to a specific study.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> use of technology is increasing rapidly.", correct: "The", options: ["The", "A", "An", "Ø"], def: "'The' specifies a known, general use of technology.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "She has <b>___</b> master's degree in physics.", correct: "a", options: ["a", "an", "the", "Ø"], def: "Use 'a' before a consonant sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "They <b>a</b>nalysed a <b>effect</b> <b>of</b> the <b>treatment</b>.", correct: "a", options: ["a", "effect", "of", "treatment"], def: "It should be 'the effect' as it is specific.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "They presented <b>___</b> data.", correct: "the analyzed", options: ["the analyzed", "analyzed", "a analyzed", "the analysing"], def: "'The analyzed' refers to specific analyzed data.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> honourable man.", correct: "an", options: ["an", "a", "the", "Ø"], def: "'An' is used because 'honourable' starts with vowel sound.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "<b>___</b> research is ongoing.", correct: "Ø", options: ["Ø", "a", "an", "the"], def: "No article needed before uncountable 'research' here.", level: "C1–C2"},
+  {type: "Find the error:", question: "She studied <b>a</b> <b>history</b> of the <b>region</b> <b>extensively</b>.", correct: "a", options: ["a", "history", "region", "extensively"], def: "It should be 'the history', referring to specific history.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> evidence suggests a link.", correct: "The examined", options: ["The examined", "Examined", "An examined", "Examining"], def: "'The examined' specifies which evidence.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "This is <b>___</b> unique opportunity.", correct: "a", options: ["a", "an", "the", "Ø"], def: "'A' is used, despite 'unique' starting with a vowel letter.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "They live in <b>___</b> European country.", correct: "a", options: ["a", "an", "the", "Ø"], def: "Use 'a' before 'European' (sounds like 'y').", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> findings are consistent.", correct: "The presented", options: ["The presented", "Presented", "A presented", "Presenting"], def: "'The presented' refers to specific findings.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> only person who understands.", correct: "the", options: ["the", "a", "an", "Ø"], def: "'The' is used to indicate the only one.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He works as <b>___</b> university professor.", correct: "a", options: ["a", "an", "the", "Ø"], def: "Use 'a' before a consonant sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "This provides <b>a</b> <b>evidence</b> for the <b>theory</b> <b>being</b> true.", correct: "a", options: ["a", "evidence", "theory", "being"], def: "It should be 'evidence' (uncountable) without article.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> literature suggests otherwise.", correct: "The reviewed", options: ["The reviewed", "Reviewed", "A reviewed", "Reviewing"], def: "'The reviewed' refers to specific literature.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "It's <b>___</b> honour to be here.", correct: "an", options: ["an", "a", "the", "Ø"], def: "'An' is used before 'honour' due to the silent 'h'.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "They need <b>___</b> unbiased analysis.", correct: "an", options: ["an", "a", "the", "Ø"], def: "Use 'an' before a vowel sound.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> more we learn about black holes, <b>___</b> stranger they seem.", correct: "The / the", options: ["The / the", "A / the", "The / a", "A / a"], def: "Parallel increase requires 'the' before comparative adjectives.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "It is <b>___</b> accepted theory, despite some minor discrepancies.", correct: "a generally", options: ["a generally", "generally a", "an generally", "a general"], def: "Adverb modifies the adjective; 'generally' before 'accepted'.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "He argued that this was <b>___</b> [unique] opportunity.", correct: "a unique", options: ["a unique", "an unique", "the unique", "unique"], def: "'Unique' sounds like it begins with a consonant, so use 'a'.", level: "C1–C2"}
+];

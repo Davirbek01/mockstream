@@ -1,0 +1,36 @@
+// Grammar Test: Auxiliary Verbs — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I <b>___</b> finished my homework yet.", correct: "haven't", options: ["haven't", "hasn't", "didn't", "don't"], def: "'Haven't' is the correct negative auxiliary verb for 'I' with 'finished'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> you like to go to the cinema?", correct: "Would", options: ["Would", "Do", "Are", "Have"], def: "'Would' is the correct auxiliary verb to make a polite offer.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>don't</b> <b>want</b> to <b>go</b> to the <b>party</b>.", correct: "don't", options: ["don't", "want", "go", "party"], def: "The auxiliary verb 'don't' is incorrect; it should be 'doesn't' for 'she'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> going to the store.", correct: "is", options: ["is", "are", "am", "be"], def: "'Is' is the correct form of the auxiliary verb 'be' with 'he'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They <b>___</b> playing football now.", correct: "are", options: ["are", "is", "am", "be"], def: "'Are' is the correct auxiliary verb to form the present continuous tense.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> seen that movie before.", correct: "have", options: ["have", "has", "is", "am"], def: "'Have' is the correct auxiliary verb to use with 'I' in present perfect.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> you like coffee?", correct: "Do", options: ["Do", "Does", "Are", "Is"], def: "'Do' is the correct auxiliary verb to form the question with 'you'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>___</b> speak English very well.", correct: "can", options: ["can", "is", "does", "will"], def: "'Can' is the correct modal auxiliary verb to express ability.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>___</b> to work tomorrow.", correct: "will go", options: ["will go", "goes", "going", "went"], def: "'Will go' is the correct way to express future tense.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> a car.", correct: "have", options: ["have", "has", "is", "are"], def: "'Have' is the correct auxiliary verb to use with 'they'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you seen my keys?", correct: "Have", options: ["Have", "Has", "Are", "Do"], def: "'Have' is the correct auxiliary verb to start a present perfect question.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "We <b>___</b> to the beach yesterday.", correct: "went", options: ["went", "go", "gone", "going"], def: "'Went' is the correct past simple form of the verb 'go'. No auxiliary needed.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Where <b>___</b> you going?", correct: "are", options: ["are", "is", "am", "be"], def: "'Are' is the correct form of the auxiliary verb 'be' for 'you'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>___</b> like to drink tea.", correct: "would", options: ["would", "do", "am", "is"], def: "'Would' expresses a polite preference or wish.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> finished dinner when I arrived.", correct: "had", options: ["had", "have", "has", "did"], def: "'Had' is used to form the past perfect tense.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> you help me?", correct: "Can", options: ["Can", "Do", "Are", "Is"], def: "'Can' is a modal auxiliary verb to ask for help.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "You <b>___</b> to be quiet in the library.", correct: "have", options: ["have", "has", "are", "is"], def: "'Have' + 'to' expresses obligation for 'you'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>___</b> been working here for five years.", correct: "has", options: ["has", "have", "is", "are"], def: "'Has' is used with 'she' to form the present perfect continuous tense.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> like chocolate.", correct: "does", options: ["does", "do", "is", "are"], def: "'Does' is the correct auxiliary verb to use with 'she' in the negative.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They <b>___</b> visit us next week.", correct: "will", options: ["will", "are", "do", "is"], def: "'Will' indicates future tense.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> able to come to the party.", correct: "am", options: ["am", "is", "are", "have"], def: "'Am' is the correct auxiliary verb to use with 'I'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> there any milk in the fridge?", correct: "Is", options: ["Is", "Are", "Am", "Be"], def: "'Is' is the correct auxiliary verb to use with 'there' and singular 'milk'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We <b>___</b> go to the park if it rains.", correct: "won't", options: ["won't", "don't", "isn't", "aren't"], def: "'Won't' is the contraction of 'will not', expressing future negative.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>___</b> been to Japan.", correct: "has", options: ["has", "have", "is", "are"], def: "'Has' is the correct auxiliary verb for 'he' in present perfect.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>___</b> been studying all day.", correct: "has", options: ["has", "have", "is", "are"], def: "Singular subjects (she) use 'has' in the present perfect continuous tense.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> to the party last night.", correct: "didn't go", options: ["didn't go", "don't go", "haven't gone", "not go"], def: "'Didn't' is the correct auxiliary for past simple negative.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>Do</b> he <b>like</b> to <b>play</b> football <b>every</b> day?", correct: "Do", options: ["Do", "like", "play", "every"], def: "The correct auxiliary for 'he' is 'Does' in present simple.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> going to the store later.", correct: "am", options: ["am", "is", "are", "be"], def: "'Am' is the correct form of 'be' for the subject 'I'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We <b>___</b> finished our homework yet.", correct: "haven't", options: ["haven't", "hasn't", "didn't", "isn't"], def: "'Haven't' is the correct auxiliary for 'we' in present perfect negative.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> you like some tea?", correct: "Would", options: ["Would", "Do", "Are", "Is"], def: "'Would' is used to make a polite offer or request.", level: "B1–B2"}
+];

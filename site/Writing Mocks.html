@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script src="session-recovery.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -470,6 +472,27 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px
+    }
+
+    .top-back-btn {
+      background: rgba(220, 38, 38, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .top-back-btn:hover {
+      background: rgba(220, 38, 38, 0.65);
+    }
+    @media (max-width: 768px) {
+      .top-back-btn { display: none; }
     }
 
     .chip {
@@ -1015,9 +1038,222 @@
     }
 
     @media (max-width: 768px) {
+      /* Hide standard navigation components */
+      .top, .task-nav, .timebar {
+        display: none !important;
+      }
+
+      .layout {
+        height: 100vh !important;
+        margin-top: 0 !important;
+      }
+      
+      body {
+        padding-top: 0 !important;
+      }
+
+      .main-container {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .task-container {
+        height: 100vh !important;
+      }
+
+      .task-split {
+        height: 100vh !important;
+      }
+
       [data-theme="dark"] .task-prompt-side {
         border-right: none !important;
         border-bottom-color: #5fd6c1 !important;
+      }
+
+      /* Mobile FAB Styles */
+      .mobile-fab-container {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-fab {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #116a60 0%, #0d9488 100%);
+        color: white;
+        border: 4px solid white;
+        box-shadow: 0 8px 25px rgba(17, 106, 96, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 2;
+        padding: 0;
+      }
+
+      .mobile-fab.open {
+        transform: rotate(135deg);
+        background: #ef4444;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+      }
+
+      /* Mobile Menu Styles */
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 99998;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .mobile-menu-overlay.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .mobile-tools-menu {
+        position: fixed;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        width: 90%;
+        max-width: 400px;
+        background: var(--card);
+        border-radius: 24px;
+        padding: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+        display: none;
+        opacity: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--ring-strong);
+      }
+
+      .mobile-tools-menu.active {
+        display: block;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .mob-tool-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 12px;
+      }
+
+      .mob-timer-display {
+        background: var(--brand-weak);
+        color: var(--brand);
+        padding: 12px 20px;
+        border-radius: 16px;
+        font-size: 24px;
+        font-weight: 800;
+        flex: 1;
+        text-align: center;
+        font-family: monospace;
+        border: 2px solid var(--ring-strong);
+      }
+
+      .mob-nav-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .mob-nav-btn {
+        padding: 12px 8px;
+        border-radius: 12px;
+        background: var(--card);
+        border: 2px solid var(--ring-strong);
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .mob-nav-btn.active {
+        background: var(--brand);
+        color: white;
+        border-color: var(--brand);
+      }
+
+      .mob-action-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .mob-tool-btn {
+        flex: 1;
+        min-width: 0;
+        padding: 8px 4px;
+        border-radius: 12px;
+        border: 2px solid var(--ring-strong);
+        background: var(--card);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .mob-footer-actions {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+      }
+
+      .mob-back-btn {
+        flex: 0 0 100px;
+        padding: 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border: none;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mob-submit-btn {
+        flex: 1;
+        padding: 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #116a60 0%, #0d9488 100%);
+        color: white;
+        border: none;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(17, 106, 96, 0.3);
       }
     }
 
@@ -2387,6 +2623,74 @@
       text-underline-offset: 2px;
     }
 
+    .samples-card .ml-translate-btn {
+      background: #2563eb;
+      margin-left: 0;
+      font-size: 0.82em;
+      padding: 8px 12px;
+    }
+    .samples-card .ml-translate-btn:hover {
+      background: #1d4ed8;
+    }
+    .samples-card .ml-translate-btn.active {
+      background: #f59e0b;
+      color: #111827;
+    }
+    .samples-card .ml-translate-btn.active:hover {
+      background: #d97706;
+    }
+
+    /* Token translation tooltip */
+    .ml-token-tooltip {
+      position: absolute;
+      z-index: 9999;
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.4;
+      max-width: 320px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      white-space: normal;
+    }
+    .ml-token-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .ml-token-tooltip .tt-uz {
+      color: #fbbf24;
+      display: block;
+      font-size: 0.95rem;
+    }
+    .ml-token-tooltip .tt-type {
+      color: #94a3b8;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .ml-token-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: var(--arrow-pos, 50%);
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid #1e293b;
+    }
+    .ml-token[data-uz] {
+      cursor: pointer;
+    }
+
     /* Answer text readability */
     .samples-card .ml-answer {
       line-height: 1.8;
@@ -2423,15 +2727,9 @@
       .samples-card .ml-hero h2 {
         font-size: calc(1.1rem * var(--font-scale))
       }
-    }
 
-    @media (max-width: 640px) {
-      .samples-card .ml-body {
-        font-size: calc(1rem * var(--font-scale))
-      }
-
-      .samples-card .ml-hero h2 {
-        font-size: calc(1.1rem * var(--font-scale))
+      .samples-card .ml-chars {
+        display: none;
       }
     }
 
@@ -2780,6 +3078,7 @@
   <!-- TOP BAR -->
   <div class="top" role="banner">
     <div class="top-inner">
+      <button class="top-back-btn" id="topBackBtn" onclick="promptFriendlyLeave(function(){ window.__okToLeave=true; goBack(); })" title="Back to Home">← Back</button>
       <div class="switch" id="themeSwitch" title="Toggle theme" aria-label="Toggle theme">
         <span class="switch-icon"></span>
         <div class="knob"></div>
@@ -4185,6 +4484,7 @@
             </div>
             <div class="ml-meta">
               <span class="ml-badge ml-chars" id="sample-t11-wordcount">70 words</span>
+              <button class="ml-btn ml-translate-btn" data-translate data-task="t11">🇺🇿 Translate</button>
             </div>
           </div>
           <div class="ml-body">
@@ -4216,6 +4516,7 @@
             </div>
             <div class="ml-meta">
               <span class="ml-badge ml-chars" id="sample-t12-wordcount">185 words</span>
+              <button class="ml-btn ml-translate-btn" data-translate data-task="t12">🇺🇿 Translate</button>
             </div>
           </div>
           <div class="ml-body">
@@ -4273,6 +4574,7 @@
             </div>
             <div class="ml-meta">
               <span class="ml-badge ml-chars" id="sample-t2-wordcount">230 words</span>
+              <button class="ml-btn ml-translate-btn" data-translate data-task="t2">🇺🇿 Translate</button>
             </div>
           </div>
           <div class="ml-body">
@@ -6361,6 +6663,13 @@
           const dataKey = 'sample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
           contentEl.dataset[dataKey] = task[key] ? encodeURIComponent(cleanSample(task[key])) : '';
         });
+        // Store Uzbek translations
+        contentEl.dataset.uzSampleC1c2 = task.uzSample ? encodeURIComponent(cleanSample(task.uzSample)) : '';
+        ['A1','A2','B1','B2'].forEach(lvl => {
+          const uzKey = 'uzSample' + lvl;
+          const uzDataKey = 'uzSample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
+          contentEl.dataset[uzDataKey] = task[uzKey] ? encodeURIComponent(cleanSample(task[uzKey])) : '';
+        });
         const wordCount = countSampleWords(cleanedSample);
         const taskType = extractTaskType(task.prompt, defaultType);
         if (headingEl) headingEl.textContent = `${taskType} (~${wordCount} words)`;
@@ -6378,6 +6687,15 @@
 
       // Attach level selector click handlers
       initWritingLevelButtons();
+
+      // Reset translate buttons
+      document.querySelectorAll('.ml-translate-btn[data-translate]').forEach(btn => {
+        btn.classList.remove('active');
+        btn.innerHTML = '🇺🇿 Translate';
+      });
+
+      // Annotate token translations
+      annotateWritingTokenTranslations();
     }
 
     function initWritingLevelButtons() {
@@ -6388,8 +6706,11 @@
         btn.addEventListener('click', () => {
           const card = btn.closest('.ml-qa-card') || btn.closest('article');
           const answerDiv = card.querySelector('.ml-answer');
+          const translateBtn = card.querySelector('[data-translate]');
+          const isTranslated = translateBtn && translateBtn.classList.contains('active');
           const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1/C2':'sampleC1c2'};
-          const dataKey = levelMap[btn.dataset.level];
+          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1/C2':'uzSampleC1c2'};
+          const dataKey = isTranslated ? uzLevelMap[btn.dataset.level] : levelMap[btn.dataset.level];
           const sampleHtml = answerDiv.dataset[dataKey];
 
           if (sampleHtml) {
@@ -6404,8 +6725,116 @@
               const wc = text.split(' ').filter(w => w.length > 0).length;
               wordCountEl.textContent = `${wc} words`;
             }
+            annotateWritingTokenTranslations();
           }
         });
+      });
+
+      // Translate toggle buttons
+      document.querySelectorAll('.ml-translate-btn[data-translate]').forEach(btn => {
+        btn.replaceWith(btn.cloneNode(true));
+      });
+      document.querySelectorAll('.ml-translate-btn[data-translate]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.ml-qa-card') || btn.closest('article');
+          const answerDiv = card.querySelector('.ml-answer');
+          const activeLevel = card.querySelector('.ml-level-btn.active');
+          const level = activeLevel ? activeLevel.dataset.level : 'C1/C2';
+          const levelMap = {'A1':'sampleA1','A2':'sampleA2','B1':'sampleB1','B2':'sampleB2','C1/C2':'sampleC1c2'};
+          const uzLevelMap = {'A1':'uzSampleA1','A2':'uzSampleA2','B1':'uzSampleB1','B2':'uzSampleB2','C1/C2':'uzSampleC1c2'};
+
+          const isTranslated = btn.classList.contains('active');
+          if (isTranslated) {
+            const engHtml = answerDiv.dataset[levelMap[level]];
+            if (engHtml) answerDiv.innerHTML = decodeURIComponent(engHtml);
+            btn.classList.remove('active');
+            btn.innerHTML = '\ud83c\uddfa\ud83c\uddff Translate';
+          } else {
+            const uzHtml = answerDiv.dataset[uzLevelMap[level]];
+            if (uzHtml) {
+              answerDiv.innerHTML = decodeURIComponent(uzHtml);
+              btn.classList.add('active');
+              btn.innerHTML = '\ud83c\uddec\ud83c\udde7 Original';
+            }
+          }
+          const wordCountEl = card.querySelector('.ml-badge.ml-chars');
+          if (wordCountEl) {
+            const text = answerDiv.innerText.replace(/\s+/g, ' ').trim();
+            const wc = text.split(' ').filter(w => w.length > 0).length;
+            wordCountEl.textContent = `${wc} words`;
+          }
+          annotateWritingTokenTranslations();
+        });
+      });
+    }
+
+    // ===== WRITING TOKEN TRANSLATION TOOLTIPS =====
+    let _writingTokenTooltip = null;
+
+    function annotateWritingTokenTranslations() {
+      const data = window.WRITING_TEST_DATA;
+      if (!data || !data.tokenTranslations) return;
+      const translations = data.tokenTranslations;
+
+      const lookup = {};
+      for (const [en, val] of Object.entries(translations)) {
+        lookup[en.toLowerCase().replace(/^"|"$/g, '').trim()] = val;
+        const stripped = en.replace(/[""\"]/g, '').trim().toLowerCase();
+        if (stripped !== en.toLowerCase()) lookup[stripped] = val;
+      }
+
+      document.querySelectorAll('.ml-answer .ml-token').forEach(span => {
+        const text = span.textContent.trim();
+        const key = text.toLowerCase().replace(/^"|"$/g, '').replace(/[""\"]/g, '').replace(/,\s*$/, '').trim();
+        let match = lookup[key] || lookup[text.toLowerCase().trim()] || lookup[text.toLowerCase().replace(/,\s*$/, '').trim()];
+        if (!match) {
+          const withQuotes = '"' + key + '"';
+          match = lookup[withQuotes];
+        }
+        if (match) {
+          span.setAttribute('data-uz', match.uz);
+          span.setAttribute('data-uz-type', match.type);
+        }
+      });
+
+      if (!_writingTokenTooltip) {
+        _writingTokenTooltip = document.createElement('div');
+        _writingTokenTooltip.className = 'ml-token-tooltip';
+        document.body.appendChild(_writingTokenTooltip);
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.ml-token[data-uz]') && !e.target.closest('.ml-token-tooltip')) {
+            _writingTokenTooltip.classList.remove('visible');
+          }
+        });
+      }
+
+      document.querySelectorAll('.ml-answer .ml-token[data-uz]').forEach(span => {
+        span.onclick = (e) => {
+          e.stopPropagation();
+          const uz = span.getAttribute('data-uz');
+          const uzType = span.getAttribute('data-uz-type') || '';
+          const typeLabels = { adv: 'Adverbial', colloc: 'Collocation', phrasal: 'Phrasal verb', idiom: 'Idiom', proverb: 'Proverb', modal: 'Modal' };
+
+          _writingTokenTooltip.innerHTML = `<span class="tt-uz">${uz}</span><span class="tt-type">${typeLabels[uzType] || uzType}</span>`;
+
+          const rect = span.getBoundingClientRect();
+          const scrollY = window.scrollY || document.documentElement.scrollTop;
+          const scrollX = window.scrollX || document.documentElement.scrollLeft;
+
+          _writingTokenTooltip.classList.add('visible');
+
+          const ttWidth = _writingTokenTooltip.offsetWidth;
+          let left = rect.left + scrollX + (rect.width / 2) - (ttWidth / 2);
+          left = Math.max(8 + scrollX, Math.min(left, window.innerWidth + scrollX - ttWidth - 8));
+          const top = rect.bottom + scrollY + 8;
+
+          _writingTokenTooltip.style.left = left + 'px';
+          _writingTokenTooltip.style.top = top + 'px';
+
+          const arrowLeft = rect.left + scrollX + (rect.width / 2) - left;
+          _writingTokenTooltip.style.cssText += `; --arrow-pos: ${arrowLeft}px`;
+        };
       });
     }
 
@@ -7154,25 +7583,252 @@
     }
     function startTimer() {
       startedAt = Date.now();
+      const mobDisplay = document.getElementById('mobTimerDisplay');
       if (window._practiceMode) {
         remaining = 0;
         timerEl.textContent = fmt(0);
+        if (mobDisplay) mobDisplay.textContent = fmt(0);
         timebar.style.display = 'none';
         ticking = setInterval(() => {
-          if (!paused) { remaining++; timerEl.textContent = fmt(remaining); }
+          if (!paused) { 
+            remaining++; 
+            const timeStr = fmt(remaining);
+            timerEl.textContent = timeStr; 
+            if (mobDisplay) mobDisplay.textContent = timeStr;
+          }
         }, 1000);
         return;
       }
-      timerEl.textContent = fmt(remaining); updateTimebar();
+      timerEl.textContent = fmt(remaining); 
+      if (mobDisplay) mobDisplay.textContent = fmt(remaining);
+      updateTimebar();
       ticking = setInterval(() => {
         if (!paused) {
           remaining = Math.max(remaining - 1, 0);
-          timerEl.textContent = fmt(remaining);
+          const timeStr = fmt(remaining);
+          timerEl.textContent = timeStr;
+          if (mobDisplay) mobDisplay.textContent = timeStr;
           updateTimebar();
           if (remaining === 900 || remaining === 300 || remaining === 60) beep();
           if (remaining === 0) { clearInterval(ticking); submitNow(true); }
         }
       }, 1000);
+    }
+
+    /* ===== Mobile FAB Logic ===== */
+    function initMobileFAB() {
+      const fab = document.getElementById('mobileFab');
+      const container = document.getElementById('mobileFabContainer');
+      const menu = document.getElementById('mobileToolsMenu');
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const fabPosKey = 'mobileFabPos_CEFR_Writing';
+      let fabIdleTimer = null;
+      let isDraggingFab = false;
+      let hasMovedFab = false;
+      let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+      
+      if (!fab || !menu) return;
+
+      const setFabActive = () => {
+        fab.style.opacity = '1';
+        clearTimeout(fabIdleTimer);
+        if (!menu.classList.contains('active')) {
+          fabIdleTimer = setTimeout(() => {
+            fab.style.opacity = '0.16';
+          }, 5000);
+        }
+      };
+
+      const applyFabPosition = (left, top) => {
+        if (!container) return;
+        const maxX = Math.max(0, window.innerWidth - container.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - container.offsetHeight);
+        const x = Math.min(Math.max(0, left), maxX);
+        const y = Math.min(Math.max(0, top), maxY);
+        container.style.position = 'fixed';
+        container.style.left = x + 'px';
+        container.style.top = y + 'px';
+        container.style.right = 'auto';
+        container.style.bottom = 'auto';
+      };
+
+      const beginFabDrag = (clientX, clientY) => {
+        if (!container || menu.classList.contains('active')) return;
+        isDraggingFab = true;
+        hasMovedFab = false;
+        setFabActive();
+        const rect = container.getBoundingClientRect();
+        startX = clientX;
+        startY = clientY;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+      };
+
+      const moveFabDrag = (clientX, clientY) => {
+        if (!isDraggingFab) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+        applyFabPosition(initialLeft + dx, initialTop + dy);
+      };
+
+      const endFabDrag = () => {
+        if (!isDraggingFab || !container) return;
+        isDraggingFab = false;
+        localStorage.setItem(fabPosKey, JSON.stringify({ left: container.offsetLeft, top: container.offsetTop }));
+        setFabActive();
+      };
+
+      // Always start FAB at bottom-right (CSS default)
+      localStorage.removeItem(fabPosKey);
+
+      const isMobile = () => window.innerWidth <= 768;
+      
+      const updateVisibility = () => {
+        if (isMobile()) {
+          container.style.display = 'flex';
+        } else {
+          container.style.display = 'none';
+          closeMenu();
+        }
+      };
+
+      const toggleMenu = () => {
+        const isOpen = menu.classList.contains('active');
+        if (isOpen) closeMenu();
+        else openMenu();
+      };
+
+      const openMenu = () => {
+        fab.style.opacity = '1';
+        clearTimeout(fabIdleTimer);
+        menu.style.display = 'block';
+        overlay.style.display = 'block';
+        setTimeout(() => {
+          menu.classList.add('active');
+          overlay.classList.add('active');
+          fab.classList.add('open');
+        }, 10);
+        updateActiveTask();
+      };
+
+      const closeMenu = () => {
+        menu.classList.remove('active');
+        overlay.classList.remove('active');
+        fab.classList.remove('open');
+        setFabActive();
+        setTimeout(() => {
+          if (!menu.classList.contains('active')) {
+            menu.style.display = 'none';
+            overlay.style.display = 'none';
+          }
+        }, 300);
+      };
+
+      const updateActiveTask = () => {
+        if (window._practiceMode) {
+          const targetTid = window._singleTaskId;
+          document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+            if (btn.dataset.mobTask === targetTid) {
+              btn.style.display = 'block';
+              btn.classList.add('active');
+              btn.style.pointerEvents = 'none';
+            } else {
+              btn.style.display = 'none';
+            }
+          });
+          const grid = document.querySelector('.mob-nav-grid');
+          if (grid) grid.style.gridTemplateColumns = '1fr';
+          return;
+        }
+
+        const activeMainBtn = document.querySelector('.task-nav-btn.active');
+        if (activeMainBtn) {
+          const tid = activeMainBtn.dataset.task;
+          document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mobTask === tid);
+          });
+        }
+      };
+
+      fab.addEventListener('click', () => {
+        if (hasMovedFab) { hasMovedFab = false; return; }
+        toggleMenu();
+      });
+      overlay.addEventListener('click', closeMenu);
+
+      // Expose for inline close button
+      window.toggleMenu = toggleMenu;
+
+      const dragTarget = container || fab;
+      dragTarget.addEventListener('mousedown', (e) => beginFabDrag(e.clientX, e.clientY));
+      document.addEventListener('mousemove', (e) => moveFabDrag(e.clientX, e.clientY));
+      document.addEventListener('mouseup', endFabDrag);
+      dragTarget.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        if (!t) return;
+        beginFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchmove', (e) => {
+        const t = e.touches[0];
+        if (!t) return;
+        moveFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchend', endFabDrag, { passive: true });
+
+      // Tool actions
+      document.getElementById('mobThemeBtn').addEventListener('click', () => {
+        const themeBtn = document.getElementById('themeSwitch');
+        if (themeBtn) themeBtn.click();
+      });
+
+      document.getElementById('mobFontBtn').addEventListener('click', () => {
+        const fontBtn = document.getElementById('fontMagnifier');
+        if (fontBtn) fontBtn.click();
+      });
+
+      document.getElementById('mobPauseBtn').addEventListener('click', () => {
+        const pauseBtn = document.getElementById('pauseBtn');
+        if (pauseBtn) pauseBtn.click();
+        closeMenu();
+      });
+
+      // Part Nav actions
+      document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tid = btn.dataset.mobTask;
+          const mainBtn = document.querySelector(`.task-nav-btn[data-task="${tid}"]`);
+          if (mainBtn) mainBtn.click();
+          updateActiveTask();
+          closeMenu();
+        });
+      });
+
+      // Submit action
+      document.getElementById('mobSubmitBtn').addEventListener('click', () => {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) submitBtn.click();
+        closeMenu();
+      });
+
+      // Back action
+      document.getElementById('mobBackBtn').addEventListener('click', () => {
+        if (typeof window.goToLanding === 'function') {
+          window.goToLanding();
+        } else {
+          window.location.href = 'landing.html';
+        }
+      });
+
+      window.addEventListener('resize', updateVisibility);
+      updateVisibility();
+      setFabActive();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileFAB);
+    } else {
+      initMobileFAB();
     }
 
     // Start computer-delivered exam
@@ -7200,6 +7856,44 @@
         startTimer();
         return;
       }
+
+      // Session recovery check (before fullscreen)
+      if (window.SessionRecovery) {
+        SessionRecovery.init({
+          testType: 'cefr-writing',
+          getUserId: function() { return sessionStorage.getItem('CANDIDATE_FULL_NAME') || (document.getElementById('cand') ? document.getElementById('cand').value : '') || ''; },
+          getTestId: function() { return selectedMockNumber || ''; },
+          getState: function() {
+            if (!testStarted || !ticking) return null;
+            return {
+              remaining: remaining,
+              t11: document.getElementById('t11') ? document.getElementById('t11').value : '',
+              t12: document.getElementById('t12') ? document.getElementById('t12').value : '',
+              t2: document.getElementById('t2') ? document.getElementById('t2').value : '',
+              mockNumber: selectedMockNumber
+            };
+          }
+        });
+        try {
+          var session = await SessionRecovery.check();
+          if (session && session.test_id === (selectedMockNumber || '')) {
+            var choice = await SessionRecovery.prompt(session);
+            if (choice === 'resume') {
+              window._srResumeData = session.session_data;
+            } else {
+              await SessionRecovery.clear();
+            }
+          } else if (session) {
+            await SessionRecovery.clear();
+          }
+        } catch(e) { console.warn('Session recovery check failed:', e); }
+      }
+
+      // Restore timer from saved session before starting
+      if (window._srResumeData && window._srResumeData.remaining != null) {
+        remaining = window._srResumeData.remaining;
+      }
+
       // Request fullscreen
       try {
         const elem = document.documentElement;
@@ -7227,6 +7921,16 @@
 
       // Start the exam
       startTimer();
+
+      // Session recovery: restore textarea content and start auto-save
+      if (window._srResumeData) {
+        var rd = window._srResumeData;
+        if (rd.t11 && document.getElementById('t11')) document.getElementById('t11').value = rd.t11;
+        if (rd.t12 && document.getElementById('t12')) document.getElementById('t12').value = rd.t12;
+        if (rd.t2 && document.getElementById('t2')) document.getElementById('t2').value = rd.t2;
+        window._srResumeData = null;
+      }
+      if (window.SessionRecovery) SessionRecovery.start();
     }
 
     // Generate paper-based exam PDF
@@ -7619,7 +8323,8 @@
     resumeBtn.addEventListener('click', () => setPaused(false));
 
     /* ===== Refresh (passcode) ===== */
-    let __okToLeave = false;
+    var __okToLeave = false;
+    window.__okToLeave = false;
     // Removed refresh button functionality but keeping passcode logic for potential future use
 
     /* ===== Exit protection with friendly modal ===== */
@@ -7669,7 +8374,13 @@
       document.getElementById('leaveWarningLeave').addEventListener('click', function () {
         __okToLeave = true;
         hideLeaveWarningModal();
-        window.location.reload();
+        if (typeof window.__pendingLeaveAction === 'function') {
+          var fn = window.__pendingLeaveAction;
+          window.__pendingLeaveAction = null;
+          fn();
+        } else {
+          window.location.reload();
+        }
       });
     }
 
@@ -7739,7 +8450,7 @@
     // Fallback for browser refresh button (can't override browser's native dialog)
     window.addEventListener('beforeunload', (e) => {
       const isNavigatingToLanding = document.activeElement?.onclick?.toString().includes('goToLanding');
-      if (!__okToLeave && !isNavigatingToLanding && testStarted) {
+      if (!__okToLeave && !window.__okToLeave && !isNavigatingToLanding && testStarted) {
         e.preventDefault();
         e.returnValue = '';
       }
@@ -12618,11 +13329,37 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
       fd.append('caption', caption);
 
+      // Send to Supabase first (get result link for caption)
+      var finalCaption = caption;
+      if (window.sendToSupabase) {
+        try {
+          var sbResult = await window.sendToSupabase({
+            studentName: student,
+            examType: 'cefr',
+            skill: 'writing',
+            score: aiResult ? (aiResult.certificate_score || 0) + '/75' : '',
+            level: aiResult ? aiResult.cefr_level || '' : '',
+            mockNumber: 'Mock ' + mockNum,
+            file: docBlob,
+            fileType: 'html',
+            caption: caption,
+            metadata: aiResult ? { raw_score: aiResult.raw_score, t11: aiResult.t11_score, t12: aiResult.t12_score, t2: aiResult.t2_score } : {}
+          });
+          if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+        } catch (e) { console.warn('[Supabase] skipped:', e); }
+      }
+
+      fd.set('caption', finalCaption);
+
       const resp = await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
       if (!resp.ok) {
         const raw = await resp.text().catch(() => '');
         throw new Error(`HTTP ${resp.status} ${resp.statusText}${raw ? ' — ' + raw.slice(0, 300) : ''}`);
       }
+      if (window.sendToRoutingBackend) {
+        await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+      }
+      if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       return true;
     }
 
@@ -12814,12 +13551,39 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
           caption += '#Practice #CEFR_Writing';
           if (aiResult) caption += ' #AI_Scored';
 
-          fd.append('caption', caption);
+          // Send to Supabase first (get result link for caption)
+          var finalCaption = caption;
+          if (window.sendToSupabase) {
+            try {
+              var sbResult = await window.sendToSupabase({
+                studentName: student,
+                examType: 'cefr',
+                skill: 'writing',
+                score: aiResult ? (aiResult[taskId + '_score'] || 0) + '/' + maxS[taskId] : '',
+                level: aiResult ? aiResult.cefr_level || '' : '',
+                mockNumber: 'Practice ' + tNames[taskId],
+                file: docBlob,
+                fileType: 'html',
+                caption: caption,
+                metadata: { is_practice: true, task: taskId, score: aiResult ? aiResult[taskId + '_score'] : null }
+              });
+              if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+            } catch (e) { console.warn('[Supabase] practice skipped:', e); }
+          }
+
+          fd.append('caption', finalCaption);
 
           await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
           console.log('\u2705 Practice writing results sent to Telegram');
+
+          // Send to routing backend
+          if (window.sendToRoutingBackend) {
+            await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+          }
+          if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
         } catch(err) {
           console.error('Practice Telegram send error:', err);
+          if (window.msProgress) window.msProgress.hide();
         }
       })();
     }
@@ -12896,6 +13660,8 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
     /* ===== Submit ===== */
     async function submitNow(auto = false) {
       if (window._practiceMode) return submitPractice();
+      // Clear session recovery on submit
+      if (window.SessionRecovery) SessionRecovery.clear();
       const student = ($('#cand').value || '').trim();
       if (!student) {
         showCefrNotification('Name Required', 'Please enter your full name before submitting your work.', '👤', 7000);
@@ -13300,6 +14066,11 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
         window.scrollTo({ top: 0, behavior: 'smooth' });
         ['t11', 't12', 't2'].forEach(id => { const el = document.getElementById(id); el.readOnly = true; });
         __okToLeave = true;
+
+        // Single-take: mark this writing mock as taken for non-premium users
+        if (!isPremiumEntry) {
+          try { var _mn = window.SELECTED_WRITING_MOCK_NUMBER || '01'; var _tk = JSON.parse(localStorage.getItem('takenWritingMocks') || '{}'); _tk['cefr-writing-mock-' + _mn] = true; localStorage.setItem('takenWritingMocks', JSON.stringify(_tk)); } catch(e) {}
+        }
       } catch (err) {
         submissionSuccess = false;
         errorMessage = err.message || 'Unknown error';
@@ -14110,7 +14881,16 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
       if (!isPremiumEntry) {
         const aiBtn = document.getElementById('aiCheckerBtn');
-        if (aiBtn) aiBtn.style.display = 'block';
+        if (aiBtn) {
+          aiBtn.style.display = 'block';
+          aiBtn.style.background = '#cbd5e1';
+          aiBtn.style.color = '#64748b';
+          aiBtn.style.boxShadow = 'none';
+          aiBtn.style.cursor = 'default';
+          aiBtn.innerHTML = '🔒 AI Score <span style="font-size:11px;font-weight:600;opacity:0.8;margin-left:4px">(Premium)</span>';
+          aiBtn.onmouseover = null;
+          aiBtn.onmouseout = null;
+        }
         const practiceAiBtn = document.getElementById('practiceAiScoreBtn');
         if (practiceAiBtn) practiceAiBtn.style.display = 'block';
       }
@@ -14118,6 +14898,9 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
     // AI Checker functionality - Show beautiful passcode modal instead of prompt
     document.getElementById('aiCheckerBtn').addEventListener('click', async () => {
+      const isPrem = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      if (!isPrem) return;
+
       const aiBtn = document.getElementById('aiCheckerBtn');
       const originalText = aiBtn.textContent;
 
@@ -16950,6 +17733,12 @@ AREAS TO IMPROVE:
           throw new Error(`HTTP ${resp.status} ${resp.statusText}${raw ? ' — ' + raw.slice(0, 300) : ''}`);
         }
 
+        // Send to routing backend
+        if (window.sendToRoutingBackend) {
+          await window.sendToRoutingBackend({ skill: 'writing', caption: caption });
+        }
+        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
+
         // Success
         btn.textContent = '✅ Uploaded!';
         btn.style.background = '#10b981';
@@ -19008,6 +19797,175 @@ AREAS TO IMPROVE:
       <div id="aiDetailsContent" style="padding:24px;overflow-y:auto;flex:1;"></div>
     </div>
   </div>
+
+  <!-- Mobile Floating Navigation (FAB) -->
+  <div class="mobile-fab-container" id="mobileFabContainer" style="display: none;">
+    <div class="mobile-fab" id="mobileFab" title="Open Menu">
+      <span>🛠️</span>
+    </div>
+  </div>
+
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+  <div class="mobile-tools-menu" id="mobileToolsMenu">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+      <div style="text-align:center;color:var(--brand);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:1px;flex:1;">Exam Toolkit</div>
+      <button onclick="toggleMenu()" style="width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;flex-shrink:0;" title="Close">✕</button>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="mob-tool-row">
+      <div class="mob-timer-display" id="mobTimerDisplay">60:00</div>
+    </div>
+
+    <!-- Features Row -->
+    <div class="mob-action-row">
+      <button class="mob-tool-btn" onclick="openHomeSidebar()" title="Menu">
+        <span>☰</span>
+      </button>
+      <button class="mob-tool-btn" id="mobThemeBtn" title="Toggle Theme">
+        <span>🌓</span>
+      </button>
+      <button class="mob-tool-btn" id="mobFontBtn" title="Zoom Text">
+        <span>🔍</span>
+      </button>
+      <button class="mob-tool-btn" id="mobPauseBtn" title="Pause/Resume">
+        <span>⏸️</span>
+      </button>
+    </div>
+
+    <!-- Task Navigation Grid -->
+    <div class="mob-nav-grid">
+      <button class="mob-nav-btn active" data-mob-task="task11">Task 1.1</button>
+      <button class="mob-nav-btn" data-mob-task="task12">Task 1.2</button>
+      <button class="mob-nav-btn" data-mob-task="task2">Task 2</button>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="mob-footer-actions">
+      <button class="mob-back-btn" id="mobBackBtn" title="Return to Selector">
+        <span>🔙</span> Back
+      </button>
+      <button class="mob-submit-btn" id="mobSubmitBtn">
+        Submit 🚀
+      </button>
+    </div>
+  </div>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function openHomeSidebar(){
+  var m=document.getElementById('mobileToolsMenu'),
+      f=document.getElementById('mobileFab'),
+      o=document.getElementById('mobileMenuOverlay');
+  if(m){ m.classList.remove('active'); m.style.display='none'; }
+  if(f){ f.classList.remove('open'); }
+  if(o){ o.classList.remove('active'); o.style.display='none'; }
+  document.getElementById('hsOverlay').classList.add('active');
+  document.getElementById('hsPanel').classList.add('active');
+}
+function closeHomeSidebar(){
+  document.getElementById('hsOverlay').classList.remove('active');
+  document.getElementById('hsPanel').classList.remove('active');
+}
+function promptFriendlyLeave(leaveAction){
+  closeHomeSidebar();
+  var tm=document.getElementById('mobileToolsMenu'),to=document.getElementById('mobileMenuOverlay'),tf=document.getElementById('mobileFab');
+  if(tm){tm.classList.remove('active');tm.style.display='none';}
+  if(to){to.classList.remove('active');to.style.display='none';}
+  if(tf)tf.classList.remove('open');
+  window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+  showLeaveWarningModal();
+}
+function goToMockSelector(url){
+  var m={
+    "Speaking Mocks.html":"landing.html?openSelector=cefr-speaking",
+    "IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking",
+    "Writing Mocks.html":"landing.html?openSelector=cefr-writing",
+    "Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"
+  };
+  promptFriendlyLeave(function(){
+    window.__okToLeave=true;
+    window.location.replace(m[url]||url);
+  });
+}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){
+  var h=a.getAttribute('href');
+  if(a.getAttribute('target')){a.addEventListener('click',function(){window.__okToLeave=true;});return;}
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    goToMockSelector(h);
+  });
+});
+document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
+  if(!a.getAttribute('target')){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      promptFriendlyLeave(function(){
+        window.__okToLeave=true;
+        window.location.href=a.getAttribute('href');
+      });
+    });
+  } else {
+    a.addEventListener('click',function(){ window.__okToLeave=true; });
+  }
+});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,36 @@
+// Grammar Test: Conjunctions: Complex Linking — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>Even though</b> it was raining, <b>___</b> we went for a walk.", correct: "still", options: ["still", "but", "however", "so"], def: "'Even though' needs a contrast, 'still' shows that.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will call you <b>___</b> I arrive at the hotel.", correct: "as soon as", options: ["as soon as", "when", "while", "during"], def: "'As soon as' indicates immediate action after arrival.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he had waited for an hour, the bus finally came.", correct: "After", options: ["After", "During", "While", "Before"], def: "'After' indicates sequence of events.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I couldn't go <b>___</b> I was too busy.", correct: "because", options: ["because", "so", "but", "since"], def: "'Because' gives the reason for not going.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She studies hard <b>___</b> she wants to pass the exam.", correct: "because", options: ["because", "so", "but", "although"], def: "'Because' explains the reason for studying.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I'll call you <b>___</b> I finish work.", correct: "when", options: ["when", "while", "as", "if"], def: "'When' indicates the time of the action.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will go <b>___</b> I have time.", correct: "if", options: ["if", "because", "so", "but"], def: "'If' introduces a condition.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I ate quickly <b>___</b> I was late.", correct: "because", options: ["because", "but", "so", "if"], def: "'Because' provides the reason for eating quickly.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "We stayed inside <b>___</b> it was raining.", correct: "because", options: ["because", "since", "if", "until"], def: "'Because' gives the reason for staying inside.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is tired, <b>___</b> he is still working.", correct: "but", options: ["but", "so", "because", "if"], def: "'But' shows a contrast between tiredness and working.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She didn't study, <b>___</b> she failed the test.", correct: "so", options: ["so", "because", "but", "if"], def: "'So' indicates the result of not studying.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> she studies hard, she will pass.", correct: "If", options: ["If", "Because", "So", "Although"], def: "'If' introduces a condition for passing.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I was tired, I went to bed early.", correct: "Because", options: ["Because", "But", "So", "If"], def: "'Because' states the reason for going to bed early.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will visit you <b>___</b> I am in town.", correct: "when", options: ["when", "if", "because", "so"], def: "'When' indicates the time of the visit.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will go out <b>___</b> I eat dinner.", correct: "after", options: ["after", "since", "until", "before"], def: "'After' indicates the sequence of actions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He likes tea <b>___</b> coffee.", correct: "and", options: ["and", "but", "so", "because"], def: "'And' joins two similar items.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She wanted to go, <b>___</b> she was sick.", correct: "but", options: ["but", "so", "because", "if"], def: "'But' indicates a contrast.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I arrive.", correct: "when", options: ["when", "while", "as", "because"], def: "'When' indicates the time of the call.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> he is rich, he is not happy.", correct: "Although", options: ["Although", "Because", "So", "If"], def: "'Although' introduces a contrast.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will help you <b>___</b> you need it.", correct: "if", options: ["if", "because", "so", "but"], def: "'If' introduces a condition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will leave <b>___</b> I have finished.", correct: "when", options: ["when", "if", "because", "so"], def: "'When' indicates time of leaving.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I went to the store <b>___</b> I needed milk.", correct: "because", options: ["because", "so", "but", "if"], def: "'Because' gives the reason for going to the store.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is studying hard <b>___</b> he wants to pass.", correct: "because", options: ["because", "so", "but", "although"], def: "'Because' explains the reason for studying.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will go to the park <b>___</b> it stops raining.", correct: "after", options: ["after", "before", "while", "during"], def: "'After' shows that the park visit happens later than the rain stopping.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She stayed home <b>___</b> she was feeling sick.", correct: "because", options: ["because", "but", "so", "or"], def: "'Because' explains the reason why she stayed home.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I have <b>___</b> for my bus.", correct: "waited", options: ["waited", "waiting", "wait", "waits"], def: "Past participle 'waited' needed after 'have' for present perfect.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> he studied hard, he failed the exam.", correct: "Although", options: ["Although", "Because", "So", "And"], def: "'Although' introduces a contrasting idea.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I can't go <b>___</b> I have to work.", correct: "because", options: ["because", "so", "but", "if"], def: "'Because' gives the reason for not going.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will go home <b>___</b> I have <b>___</b> my work.", correct: "finished", options: ["finished", "finishing", "finish", "finishes"], def: "'Finished' is the past participle needed after 'have'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He will eat dinner <b>___</b> he gets home.", correct: "when", options: ["when", "if", "but", "or"], def: "'When' indicates the time the action will happen.", level: "B1–B2"}
+];

@@ -403,4 +403,281 @@ window.ARTICLE_DATA = {
             answer: "Answers will vary. Success might be measured by: weight lost, ability to maintain the diet, improved health markers, whether goals were achieved, long-term vs. short-term results, or overall satisfaction with the experience."
         }
     ]
+,
+    passageB1: `<p>Dear Pam,</p>
+<p>Remember when I said I would never go on a <strong>diet</strong> again? Well, I was wrong. I am <strong>counting calories</strong> and not eating very much.</p>
+<p>It's all because of Polly. She is getting married in July, and she wants me to be a <strong>bridesmaid</strong>. That's nice, because the wedding is in New York. But Polly is very <strong>slim</strong>. And the other bridesmaid, Polly's sister Jane, is also slim. I will probably look very big next to them, but I want to try to lose weight.</p>
+<p>My mother is not helping. She is worried I will become too thin and tells me I look <strong>pale</strong>. Also, my grandma is visiting, and her cooking is amazing! I have to eat alone and cook for myself. I can't watch everyone else eating her <strong>homemade</strong> pies while I eat steamed broccoli. If I did, I would <strong>forget about</strong> my diet.</p>
+<p>Life is not easy right now. I have to wake up very early to eat my small breakfast before Grandma starts cooking bacon and sausages or making pancakes. My mother tries to stop her because she is worried about Dad's <strong>cholesterol</strong>, but Grandma always cooks like that. My father and brother love these big breakfasts! I would too!</p>
+<p>I take a <strong>packed lunch</strong> – salad and water – and eat in the park if it's not raining. My work friends are starting to think I have a <strong>new man in my life</strong> and I am meeting him. I wish!</p>
+<p>I am sorry this letter is only about food. I don't think about much else these days. I really want to eat a steak, even though I don't usually eat much red meat.</p>
+<p>Much love,</p>
+<p>Alice</p>`,
+    translationB1: `<p>Qimmatli Pam,</p>
+<p>Esimda bo'lsa, men hech qachon yana <strong>parhez</strong> qilmayman degan edimmi? Xullas, men xato qilgan ekanman. Men hozir <strong>kaloriyalarni hisoblayapman</strong> va juda kam ovqat yeyapman.</p>
+<p>Buning hammasi Polly tufayli. U iyul oyida turmushga chiqyapti va meni <strong>kelin dugonasi</strong> bo'lishimni xohlaydi. Bu yaxshi, chunki to'y Nyu-Yorkda bo'ladi. Ammo Polly juda <strong>ozg'in</strong>. Va Pollyning singlisi Jeyn ham ozg'in. Men ularning yonida juda katta ko'rinishim mumkin, lekin men vazn tashlashga harakat qilmoqchiman.</p>
+<p>Oyam yordam bermayapti. U meni juda ham ozib ketishimdan xavotirda va <strong>rangim oqarganini</strong> aytyapti. Bundan tashqari, buvim mehmon bo'lib kelgan, va uning taomlari ajoyib! Men yolg'iz ovqatlanib, o'zimga ovqat tayyorlashim kerak. Boshqalar uning <strong>uyda tayyorlangan</strong> piroglarini yeyayotganini tomosha qilib, men dimlangan brokkoli yeyishim mumkin emas. Agar shunday qilsam, men parhezimni <strong>unutaman</strong>.</p>
+<p>Hozir hayot oson emas. Men buvim bekon va sosiska pishirishni yoki blinchik tayyorlashni boshlashidan oldin kichkina nonushtamni yeyish uchun juda erta turishim kerak. Oyam dadamning <strong>xolesterinidan</strong> xavotirda bo'lgani uchun uni to'xtatmoqchi bo'ladi, lekin buvim har doim shunday pishiradi. Dadam va akam bu katta nonushtalarni yaxshi ko'rishadi! Men ham yaxshi ko'rardim!</p>
+<p>Men o'zim bilan <strong>tushlik olib yuraman</strong> – salat va suv – va agar yomg'ir yog'masa, parkda ovqatlanaman. Ishdagi do'stlarim meni hayotimda <strong>yangi odam paydo bo'lgan</strong> deb o'ylashni boshlashdi va men u bilan uchrashyapman deb o'ylashyapti. Qaniydi shunday bo'lsa edi!</p>
+<p>Kechirasiz, bu xat faqat ovqat haqida. Men bu kunlarda boshqa narsa haqida o'ylamayapman. Men chindan ham biftek yegim kelyapti, garchi men odatda qizil go'shtni ko'p yemayman.</p>
+<p>Sevgi bilan,</p>
+<p>Alisa</p>`,
+    vocabularyB1: {
+        "diet": {
+                "definition": "A way of eating to lose weight or stay healthy.",
+                "uzbek": "Ozish yoki sog'lom bo'lish uchun ovqatlanish usuli.",
+                "example": "I'm going on a diet to lose weight for the summer.",
+                "exampleUzbek": "Men yoz uchun ozish uchun dietaga o'tirmoqchiman."
+        },
+        "counting calories": {
+                "definition": "Keeping track of the amount of energy in the food you eat.",
+                "uzbek": "Siz iste'mol qiladigan ovqatdagi energiya miqdorini kuzatib borish.",
+                "example": "She is counting calories to lose weight.",
+                "exampleUzbek": "U vazn yo'qotish uchun kaloriya hisoblamoqda."
+        },
+        "bridesmaid": {
+                "definition": "A woman who helps the bride at a wedding.",
+                "uzbek": "To'yda kelinga yordam beradigan ayol.",
+                "example": "She was asked to be a bridesmaid at her friend's wedding.",
+                "exampleUzbek": "Undan do'stining to'yida kelin o'rtoqligi so'raldi."
+        },
+        "slim": {
+                "definition": "Thin in an attractive way.",
+                "uzbek": "Chiroyli tarzda ingichka.",
+                "example": "She is very slim and fit.",
+                "exampleUzbek": "U juda ozg'in va sog'lom."
+        },
+        "pale": {
+                "definition": "Having skin that is lighter than usual.",
+                "uzbek": "Odatdagidan ochiqroq teri rangiga ega bo'lish.",
+                "example": "She looked pale and tired.",
+                "exampleUzbek": "U xiralashgan va charchagan ko'rinardi."
+        },
+        "homemade": {
+                "definition": "Made at home, not bought in a shop.",
+                "uzbek": "Uyda tayyorlangan, do'kondan sotib olinmagan.",
+                "example": "I love eating homemade bread.",
+                "exampleUzbek": "Men uyda tayyorlangan non yeyishni yaxshi ko'raman."
+        },
+        "forget about": {
+                "definition": "To stop thinking about something.",
+                "uzbek": "Biror narsa haqida o'ylashni to'xtatish.",
+                "example": "I need to forget about my problems and relax.",
+                "exampleUzbek": "Men muammolarimni unutib, dam olishim kerak."
+        },
+        "cholesterol": {
+                "definition": "A substance found in blood that can cause heart problems.",
+                "uzbek": "Qonda topilgan va yurak muammolariga olib kelishi mumkin bo'lgan modda.",
+                "example": "He needs to lower his cholesterol level.",
+                "exampleUzbek": "U xolesterin darajasini pasaytirish kerak."
+        },
+        "packed lunch": {
+                "definition": "A meal prepared at home to be eaten later, usually at work or school.",
+                "uzbek": "Keyinroq yeyish uchun uyda tayyorlangan ovqat, odatda ishda yoki maktabda.",
+                "example": "I take a packed lunch to work every day.",
+                "exampleUzbek": "Men har kuni ishga tushlik olib boraman."
+        },
+        "new man in my life": {
+                "definition": "A new romantic partner.",
+                "uzbek": "Yangi romantik sherik.",
+                "example": "Everyone thinks she has a new man in her life because she's always smiling.",
+                "exampleUzbek": "Hamma uni doim kulib yurgani uchun hayotida yangi erkak bor deb o'ylaydi."
+        }
+},
+    passageB2: `<p>Dear Pam,</p><p>Remember how I declared I'd <strong>sworn off</strong> dieting forever? Well, forget I said that. Here I am again, obsessively counting every calorie and basically living on lettuce.</p><p>It's all Polly's doing. She's getting married in July and has asked me to be a bridesmaid. Which is lovely, especially since the wedding is in New York. The slight <strong>hitch</strong>, however, is that Polly is incredibly slim. And to make matters worse, the other bridesmaid is her sister, Jane, who is equally slender. Realistically, no matter how hard I try, I'm going to feel <strong>out of proportion</strong> standing next to them, but I feel I have to make the effort.</p><p>Mum's not exactly helping matters. She keeps worrying I'll become anorexic – as if! – and saying I look too pale. As if that wasn't enough, Gran's visiting and her cooking is simply <strong>irresistible</strong>. I've had to resort to eating alone and preparing my own food. I simply can't bear watching everyone else <strong>devouring</strong> Gran's homemade pies while I'm picking at a bit of steamed broccoli. If I did, my diet would <strong>go out the window</strong>.</p><p>So, life's not exactly <strong>a bed of roses</strong> at the moment. I have to get up at the crack of dawn to eat my <strong>meagre</strong> breakfast before Gran starts cooking bacon and sausages or making pancakes. Mum tries to stop her, worried about Dad's cholesterol, but Gran's been cooking like this her whole life and she just <strong>brushes off</strong> Mum's concerns. Naturally, Dad and my brother love these huge breakfasts! I would too!</p><p>I take a packed lunch – salad and water – and eat it in the park, weather permitting. The others at work are getting suspicious. Apparently, some think I have a new boyfriend and I'm sneaking out to meet him. <strong>If only</strong>!</p><p>I apologise if this letter is all about food. It's just that it's constantly on my mind these days. I even find myself craving a steak, which is <strong>uncharacteristic</strong> of me, as I rarely eat red meat.</p><p>Much love,<br/>Alice</p>`,
+    translationB2: `<p>Salom Pam,</p><p>Eslaysanmi, men umrbod parhez qilmaslikka <strong>qasam ichganimni</strong> e'lon qilgandim? Xullas, uni unut. Mana men yana, har bir kaloriyani obsesif tarzda hisoblayapman va asosan salat bargi bilan kun kechiryapman.</p><p>Bularning hammasi Pollining ishi. U iyulda turmushga chiqyapti va mendan kelinoy bo'lishimni so'radi. Bu ajoyib, ayniqsa to'y Nyu-Yorkda bo'lishini hisobga olsak. Kichik <strong>to'siq</strong> shundaki, Polli juda ozg'in. Va vaziyatni yanada yomonlashtiradigan narsa, boshqa kelinoy uning singlisi Jeyn, u ham xuddi shunday nozik. Haqiqatan ham, qanchalik harakat qilmayin, ularning yonida tursam, <strong>proportsiyam buzilgan</strong> holda turganimni his qilaman, lekin men harakat qilishim kerak deb o'ylayman.</p><p>Oyim vaziyatni unchalik yaxshilayotgani yo'q. U doimo men anoreksik bo'lib qolishimdan xavotirda – go'yo! – va men juda rangim oqarganini aytadi. Xuddi shu kamdek, buvim mehmon bo'lib kelgan va uning taomlari shunchaki <strong>qarshilik ko'rsatib bo'lmas</strong> darajada. Men yolg'iz ovqatlanishga va o'zimga ovqat tayyorlashga majbur bo'ldim. Boshqalarning buvimning uy sharoitida tayyorlangan piroglarini <strong>ishtaha bilan yeyishini</strong> tomosha qilib, men bir bo'lak dimlangan brokkoli bilan ovqatlanishga toqat qilolmayman. Agar shunday qilsam, mening parhezim <strong>shamolga sovuriladi</strong>.</p><p>Demak, hayot hozirda <strong>gullab-yashnagan bog' emas</strong>. Men buvim bekon va kolbasa pishirishni yoki pankek tayyorlashni boshlashidan oldin, erta tongda turib, <strong>arzimas</strong> nonushtamni yeyishim kerak. Oyim otamning xolesterini haqida xavotirlanib, uni to'xtatishga harakat qiladi, lekin buvim umri davomida shunday ovqat pishirgan va u shunchaki oyimning xavotirlarini <strong>e'tiborsiz qoldiradi</strong>. Tabiiyki, otam va akam bu katta nonushtalarni yaxshi ko'radilar! Men ham xohlardim!</p><p>Men tushlikka – salat va suv – olib ketaman va ob-havo imkon bersa, uni parkda yeyman. Ishdagi boshqalar shubhalana boshladilar. Shekilli, ba'zilar mening yangi yigitim bor deb o'ylashadi va men u bilan uchrashish uchun yashirincha chiqib ketyapman. <strong>Qani endi shunday bo'lsa</strong>!</p><p>Agar bu xat faqat ovqat haqida bo'lsa, uzr so'rayman. Shunchaki, bu kunlarda doimo mening xayolimda. Hatto men go'shtli biftekni juda xohlayman, bu men uchun <strong>xos emas</strong>, chunki men kamdan-kam hollarda qizil go'sht yeyman.</p><p>Sevgi bilan,<br/>Alisa</p>`,
+    vocabularyB2: {
+        "sworn off": {
+                "definition": "Made a firm decision to stop doing something",
+                "uzbek": "Biror narsani qilishni to'xtatish haqida qat'iy qaror qabul qilish",
+                "example": "I've sworn off coffee because it makes me jittery.",
+                "exampleUzbek": "Men qahvani ichishni to'xtatdim, chunki u meni asabiylashtiradi."
+        },
+        "hitch": {
+                "definition": "A problem or difficulty, often a minor one",
+                "uzbek": "Muammo yoki qiyinchilik, ko'pincha kichik",
+                "example": "The only hitch in our plan is the weather.",
+                "exampleUzbek": "Bizning rejamizdagi yagona qiyinchilik ob-havo."
+        },
+        "out of proportion": {
+                "definition": "Too large or small in relation to something else",
+                "uzbek": "Boshqa narsaga nisbatan juda katta yoki kichik",
+                "example": "The punishment was out of proportion to the crime.",
+                "exampleUzbek": "Jazo jinoyatga mutanosib emas edi."
+        },
+        "irresistible": {
+                "definition": "Too attractive and tempting to be resisted",
+                "uzbek": "Juda jozibali va vasvasaga soladigan, qarshilik ko'rsatish qiyin",
+                "example": "The chocolate cake was irresistible.",
+                "exampleUzbek": "Shokoladli tort juda jozibali edi."
+        },
+        "devouring": {
+                "definition": "Eating something quickly and enthusiastically",
+                "uzbek": "Biror narsani tez va ishtiyoq bilan yeyish",
+                "example": "The children were devouring their ice cream.",
+                "exampleUzbek": "Bolalar muzqaymoqlarini yeyishardi."
+        },
+        "go out the window": {
+                "definition": "To be forgotten or abandoned",
+                "uzbek": "Unutilgan yoki tashlab ketilgan",
+                "example": "My diet plans went out the window when I saw the dessert menu.",
+                "exampleUzbek": "Shirinliklar menyusini ko'rganimda, mening dieta rejalari unutildi."
+        },
+        "a bed of roses": {
+                "definition": "An easy and pleasant situation",
+                "uzbek": "Oson va yoqimli vaziyat",
+                "example": "Life isn't always a bed of roses.",
+                "exampleUzbek": "Hayot har doim ham oson bo'lmaydi."
+        },
+        "meagre": {
+                "definition": "Very small or not enough",
+                "uzbek": "Juda kichik yoki yetarli emas",
+                "example": "They survived on a meagre diet of bread and water.",
+                "exampleUzbek": "Ular non va suvdan iborat bo'lgan kamtarona dieta bilan omon qolishdi."
+        },
+        "brushes off": {
+                "definition": "To dismiss or ignore something or someone",
+                "uzbek": "Biror narsani yoki kimnidir rad etish yoki e'tiborsiz qoldirish",
+                "example": "He brushed off my concerns about the project.",
+                "exampleUzbek": "U loyiha haqidagi xavotirlarimga e'tibor bermadi."
+        },
+        "If only": {
+                "definition": "Used to express a wish or regret",
+                "uzbek": "Istak yoki afsusni bildirish uchun ishlatiladi",
+                "example": "If only I had studied harder!",
+                "exampleUzbek": "Agar men qattiqroq o'qigan bo'lsam edi!"
+        },
+        "uncharacteristic": {
+                "definition": "Not typical of someone's usual behavior or character",
+                "uzbek": "Kimningdir odatdagi xulq-atvori yoki xarakteriga xos emas",
+                "example": "It's uncharacteristic of him to be late.",
+                "exampleUzbek": "Uning kechikishi g'ayrioddiy."
+        },
+        "doing": {
+                "definition": "Cause, fault.",
+                "uzbek": "Sabab, ayb.",
+                "example": "It's all her doing, she planned the party.",
+                "exampleUzbek": "Hammasi uning aybi, u ziyofatni rejalashtirgan edi."
+        },
+        "resort to": {
+                "definition": "To do something that you do not want to do because there is no other possibility.",
+                "uzbek": "Boshqa imkoniyat yo'qligi sababli qilishni istamagan narsani qilish.",
+                "example": "I had to resort to asking my parents for money.",
+                "exampleUzbek": "Men ota-onamdan pul so'rashga majbur bo'ldim."
+        },
+        "weather permitting": {
+                "definition": "Depending on the weather.",
+                "uzbek": "Ob-havoga qarab.",
+                "example": "We'll have a picnic tomorrow, weather permitting.",
+                "exampleUzbek": "Ertaga piknik qilamiz, agar ob-havo yaxshi bo'lsa."
+        },
+        "on my mind": {
+                "definition": "To be constantly thinking about something.",
+                "uzbek": "Doimo biror narsa haqida o'ylash.",
+                "example": "I've got a lot on my mind at the moment.",
+                "exampleUzbek": "Hozirda men juda ko'p narsalar haqida o'ylayapman."
+        }
+},
+    passageC1: `<p>Dearest Pam,</p>
+<p>Remember my emphatic declaration about <strong>eschewing</strong> diets for good? Well, consider it retracted. Here I am, once again, <strong>embroiled in</strong> the tedious ritual of calorie counting and subsisting on what feels like a perpetual salad.</p>
+<p>It's all Polly's doing, really. She's getting married in July and, much to my surprise, has asked me to be a bridesmaid. The prospect is undeniably lovely, especially given that the wedding is slated to take place in New York. However, the <strong>rub</strong>, from my perspective, is Polly's inherently slender physique. Compounding this is the fact that the other bridesmaid is Polly's sister, Jane, who is equally <strong>svelte</strong>. While I acknowledge that I'm unlikely to ever achieve their <strong>lithe</strong> figures, I feel compelled to make a concerted effort, lest I resemble an <strong>unwieldy</strong> vehicle standing beside them.</p>
+<p>My mother's well-intentioned anxieties are proving to be less than helpful; she's constantly voicing concerns about me developing anorexia – an absurd notion, frankly – and remarking on my increasingly <strong>pallid</strong> complexion. As if that weren't enough, Gran is currently visiting, and her culinary creations are, quite simply, <strong>irresistible</strong>. I've been forced to resort to eating in solitude and preparing my own meals. The mere thought of watching the rest of the family <strong>devour</strong> Gran's homemade pies while I <strong>nibble</strong> on a portion of steamed broccoli is enough to send my dietary resolve spiraling into oblivion.</p>
+<p>Consequently, life is not exactly <strong>a bed of roses</strong> at present. I'm compelled to rise before dawn to consume my meager breakfast before Gran commences her daily ritual of cooking bacon and sausages or preparing pancakes. My mother attempts to dissuade her, citing concerns about Dad's cholesterol levels, but for Gran, this style of cooking is a deeply ingrained habit, and she simply <strong>dismisses</strong> Mum's advice. Unsurprisingly, my father and brother are <strong>relishing</strong> these substantial breakfasts! As would I!</p>
+<p>I meticulously prepare a packed lunch – salad and a bottle of water – and consume it in the park, weather permitting. My colleagues are becoming increasingly suspicious, and apparently, some of them suspect that I have a clandestine romance and am rushing out to meet my new beau. If only!</p>
+<p>I apologize if this letter is entirely centered around food; it's simply that I find myself preoccupied with little else these days. I've even experienced an inexplicable craving for steak, despite rarely consuming red meat under normal circumstances. It's as if my body is <strong>rebelling</strong> against the deprivation.</p>
+<p>Much love,<br>Alice</p>`,
+    translationC1: `<p>Aziz Pam,</p>
+<p>Eslab qol, men umuman dieta qilmaslik haqida qat'iy bayonot bergandimmi? Xo'sh, uni bekor qilingan deb hisoblang. Mana men, yana bir bor, kaloriya hisoblashning zerikarli marosimiga <strong>aralashib</strong>, doimiy salatga o'xshash narsa bilan kun kechirmoqdaman.</p>
+<p>Bularning barchasi aslida Pollining ishi. U iyul oyida turmushga chiqyapti va, meni hayratda qoldirib, meni kelin o'rtog'i bo'lishimni so'radi. Bu istiqbol, ayniqsa to'y Nyu-Yorkda bo'lib o'tishi rejalashtirilganini hisobga olsak, inkor etib bo'lmaydigan darajada yoqimli. Biroq, mening nuqtai nazarimdan <strong>muammo</strong> shundaki, Polli tug'ma nozik qomatga ega. Bunga qo'shimcha ravishda, boshqa kelin o'rtog'i Pollining singlisi Jeyn bo'lib, u ham xuddi shunday <strong>qaddi-qomatli</strong>. Men ularning <strong>ingichka</strong> qomatlariga hech qachon erisha olmasligimni tan olsam-da, ularning yonida <strong>noqulay</strong> transport vositasiga o'xshab qolmaslik uchun astoydil harakat qilishga majburman.</p>
+<p>Onamning yaxshi niyatli xavotirlari unchalik yordam bermayapti; u doimo men anoreksiyaga chalinib qolishim haqida xavotir bildiradi - ochig'ini aytsam, bu bema'nilik - va mening tobora <strong>oqargan</strong> yuzim haqida gapiradi. Go'yo bu yetmagandek, buvim hozir mehmon, va uning pazandalik ijodlari shunchaki <strong>rad etib bo'lmas</strong>. Men yolg'izlikda ovqatlanishga va o'z ovqatlarimni tayyorlashga majbur bo'ldim. Qolgan oilaning buvimning uyda tayyorlangan piroglarini <strong>yutayotganini</strong>, men esa bir qism dimlangan brokkolini <strong>kemirayotganimni</strong> tomosha qilish fikrining o'ziyoq mening parhezga bo'lgan qat'iyatimni yo'qotish uchun yetarli.</p>
+<p>Natijada, hayot hozirda ayniqsa <strong>gulzor emas</strong>. Men buvim bekon va kolbasa pishirish yoki blinchik tayyorlashning kundalik marosimini boshlashidan oldin tong otmasdan turishga majburman va o'zimning ozgina nonushtamni yeyman. Onam dadamning xolesterin darajasi haqida xavotir bildirib, uni qaytarishga harakat qiladi, lekin buvim uchun bu pishirish uslubi chuqur o'rnashgan odatdir va u shunchaki onamning maslahatini <strong>rad etadi</strong>. Ajablanarlisi shundaki, dadam va akam bu to'yimli nonushtalardan <strong>rohatlanishyapti</strong>! Men ham xuddi shunday qilardim!</p>
+<p>Men ehtiyotkorlik bilan tushlik tayyorlayman - salat va bir shisha suv - va ob-havo imkon bersa, uni parkda iste'mol qilaman. Mening hamkasblarim tobora shubhalanib bormoqda va ko'rinishidan, ularning ba'zilari menda maxfiy ishqiy munosabat bor va yangi sevgilim bilan uchrashish uchun shoshayapman deb gumon qilishadi. Qani endi shunday bo'lsa edi!</p>
+<p>Agar bu xat butunlay ovqat haqida bo'lsa, uzr so'rayman; shunchaki, men o'zimni bu kunlarda boshqa hech narsa bilan band qilolmayapman. Men hatto odatda qizil go'shtni kamdan-kam iste'mol qilsam ham, biftekka tushunarsiz ishtiyoq sezdim. Go'yo mening tanam mahrumlikka qarshi <strong>isyon ko'tarayotgandek</strong>.</p>
+<p>Katta muhabbat bilan,<br>Alisa</p>`,
+    vocabularyC1: {
+        "eschewing": {
+                "definition": "Deliberately avoiding using something; abstaining from.",
+                "uzbek": "Bir narsadan qasddan qochish; tiyilish.",
+                "example": "He decided to eschew his usual unhealthy snacks for fruits and vegetables.",
+                "exampleUzbek": "U odatdagi zararli gazaklaridan meva va sabzavotlar foydasiga voz kechishga qaror qildi."
+        },
+        "embroiled in": {
+                "definition": "Deeply involved in (something complicated or controversial).",
+                "uzbek": "(Murakkab yoki bahsli narsaga) chuqur aralashgan.",
+                "example": "The company became embroiled in a legal battle over patent rights.",
+                "exampleUzbek": "Kompaniya patent huquqlari bo'yicha sud jangiga aralashib qoldi."
+        },
+        "rub": {
+                "definition": "A problem or difficulty.",
+                "uzbek": "Muammo yoki qiyinchilik.",
+                "example": "The rub is that we don't have enough funding for the project.",
+                "exampleUzbek": "Muammo shundaki, bizda loyiha uchun yetarli mablag' yo'q."
+        },
+        "svelte": {
+                "definition": "Slender and elegant.",
+                "uzbek": "Ingichka va nafis.",
+                "example": "She looked svelte in her new dress.",
+                "exampleUzbek": "U yangi ko'ylagida juda nafis ko'rinardi."
+        },
+        "lithe": {
+                "definition": "Thin, supple, and graceful.",
+                "uzbek": "Yupqa, egiluvchan va nafis.",
+                "example": "The dancer's lithe movements captivated the audience.",
+                "exampleUzbek": "Raqqosaning nafis harakatlari tomoshabinlarni hayratga soldi."
+        },
+        "unwieldy": {
+                "definition": "Difficult to carry or move because of its size, shape, or weight.",
+                "uzbek": "Hajmi, shakli yoki og'irligi tufayli ko'tarish yoki harakatlantirish qiyin.",
+                "example": "The large box was unwieldy and difficult to fit into the car.",
+                "exampleUzbek": "Katta quti juda noqulay edi va mashinaga sig'dirmasdi."
+        },
+        "pallid": {
+                "definition": "Pale, typically because of poor health.",
+                "uzbek": "Oqargan, odatda sog'lig'i yomonligi sababli.",
+                "example": "She looked pallid after being ill for a week.",
+                "exampleUzbek": "U bir hafta kasal bo'lganidan keyin juda oqargan ko'rinardi."
+        },
+        "irresistible": {
+                "definition": "Too attractive and tempting to be resisted.",
+                "uzbek": "Juda jozibali va vasvasaga soluvchi, qarshilik qilib bo'lmaydi.",
+                "example": "The aroma of freshly baked bread was irresistible.",
+                "exampleUzbek": "Yangi pishirilgan nonning hidi juda jozibali edi."
+        },
+        "devour": {
+                "definition": "Eat (food or prey) hungrily or quickly.",
+                "uzbek": "(Oziq-ovqat yoki o'lja) ochko'zlik bilan yoki tezda yemoq.",
+                "example": "The children devoured the pizza in minutes.",
+                "exampleUzbek": "Bolalar pitsani bir necha daqiqada yeb qo'yishdi."
+        },
+        "nibble": {
+                "definition": "To take small bites out of something.",
+                "uzbek": "Bir narsadan kichik tishlamlar olmoq.",
+                "example": "She nibbled on a cracker while reading.",
+                "exampleUzbek": "U o'qiyotganda krakerni tishladi."
+        },
+        "a bed of roses": {
+                "definition": "An easy and pleasant situation.",
+                "uzbek": "Oson va yoqimli vaziyat.",
+                "example": "Life isn't always a bed of roses.",
+                "exampleUzbek": "Hayot har doim ham oson emas."
+        },
+        "dismisses": {
+                "definition": "Treats something as unworthy of serious consideration.",
+                "uzbek": "Biror narsani jiddiy e'tiborga loyiq emas deb hisoblaydi.",
+                "example": "He dismissed her concerns as trivial.",
+                "exampleUzbek": "U uning tashvishlarini ahamiyatsiz deb hisobladi."
+        },
+        "relishing": {
+                "definition": "Enjoying greatly.",
+                "uzbek": "Katta zavq bilan bahramand bo'lmoq.",
+                "example": "They are relishing their vacation in Hawaii.",
+                "exampleUzbek": "Ular Gavayidagi ta'tildan katta zavq olishmoqda."
+        },
+        "rebelling": {
+                "definition": "Resisting authority or control.",
+                "uzbek": "Hokimiyatga yoki nazoratga qarshi turish.",
+                "example": "Teenagers often rebel against their parents' rules.",
+                "exampleUzbek": "O'smirlar ko'pincha ota-onalarining qoidalariga qarshi chiqishadi."
+        }
+}
 };

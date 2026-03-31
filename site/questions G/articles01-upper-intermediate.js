@@ -1,0 +1,36 @@
+// Grammar Test: Articles — Upper-Intermediate (B2–C1)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "He is <b>___</b> architect and she is <b>___</b> doctor.", correct: "an, a", options: ["an, a", "a, an", "the, the", "an, the"], def: "'An' precedes vowel sounds; 'a' precedes consonant sounds.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "What is <b>___</b> highest mountain in the world?", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before superlatives (highest, best, etc.).", level: "B2–C1"},
+  {type: "Find the error:", question: "She went to <b>a</b> school to <b>pick</b> up <b>her</b> <b>son</b>.", correct: "a", options: ["a", "pick", "her", "son"], def: "If specific, use 'the'; here, we assume it's *her* son's school.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He is <b>___</b> professor at Oxford University.", correct: "a history", options: ["a history", "an history", "the history", "history"], def: "Use 'a' before 'history' as the 'h' is pronounced.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I usually have <b>___</b> toast and coffee for breakfast.", correct: "-", options: ["-", "a", "the", "some"], def: "We don't use articles before uncountable nouns used generally.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "They are travelling to <b>___</b> United States next month.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before plural country names (United States, Netherlands).", level: "B2–C1"},
+  {type: "Find the error:", question: "<b>The</b> life <b>is</b> short, <b>so</b> make <b>the</b> most of it.", correct: "The", options: ["The", "is", "so", "the"], def: "Omit the article when referring to 'life' in general.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "It was <b>___</b> I've ever had.", correct: "the best experience", options: ["the best experience", "a best experience", "best experience", "an best experience"], def: "Superlatives need 'the'. Noun needs 'experience' not 'experiencing'.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "She plays <b>___</b> piano beautifully.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before musical instruments.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> honest man, despite what people say.", correct: "an", options: ["an", "a", "the", "-"], def: "'Honest' begins with a vowel sound ('o').", level: "B2–C1"},
+  {type: "Find the error:", question: "We went to <b>the</b> Italy <b>last</b> <b>summer</b> <b>for</b> vacation.", correct: "the", options: ["the", "last", "for", "summer"], def: "Do not use 'the' before most singular country names.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She is attending <b>___</b> in London.", correct: "a university", options: ["a university", "an university", "the university", "university"], def: "'University' starts with a consonant sound (yoo).", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> member of the committee.", correct: "a", options: ["a", "the", "an", "-"], def: "Indefinite article 'a' for a non-specific member.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She lives on <b>___</b> second floor.", correct: "the", options: ["the", "a", "an", "-"], def: "'The' is used with ordinal numbers (first, second, third).", level: "B2–C1"},
+  {type: "Find the error:", question: "I need <b>a</b> information <b>about</b> <b>the</b> <b>new</b> project.", correct: "a", options: ["a", "about", "new", "the"], def: "'Information' is uncountable; cannot use indefinite article 'a'.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "<b>___</b> revolves around the sun.", correct: "The Earth", options: ["The Earth", "Earth", "An Earth", "A Earth"], def: "Use 'the' before unique entities like 'Earth'.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> only person who can help.", correct: "the", options: ["the", "a", "an", "-"], def: "'The' is used because it's a specific, unique person.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> European woman.", correct: "a", options: ["a", "an", "the", "-"], def: "'European' starts with a consonant sound (yoo).", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "We watched <b>___</b> set.", correct: "the sun", options: ["the sun", "sun", "a sun", "an sun"], def: "Use 'the' before unique entities like 'sun'.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "They went to <b>___</b> cinema last night.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' when referring to a specific cinema.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She wants to be <b>___</b> actress.", correct: "an", options: ["an", "a", "the", "-"], def: "'Actress' starts with a vowel sound.", level: "B2–C1"},
+  {type: "Find the error:", question: "He g<b>a</b>ve me a advice <b>about</b> <b>the</b> <b>interview</b>.", correct: "a", options: ["a", "about", "interview", "the"], def: "'Advice' is uncountable; it cannot be preceded by 'a'.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "It takes <b>___</b> to get there.", correct: "an hour", options: ["an hour", "a hour", "the hour", "hour"], def: "'Hour' starts with a vowel sound (silent 'h').", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> most intelligent student in class.", correct: "the", options: ["the", "a", "an", "-"], def: "'The' is used before superlative adjectives.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> only child.", correct: "an", options: ["an", "a", "the", "-"], def: "Although 'only' starts with a vowel, it sounds like 'wun'.", level: "B2–C1"},
+  {type: "Find the error:", question: "I saw <b>the</b> <b>interesting</b> <b>film</b> last <b>night</b>.", correct: "the", options: ["the", "film", "night", "interesting"], def: "It should be 'an interesting film' because 'interesting' starts with vowel sound.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "They sailed across <b>___</b> .", correct: "the ocean", options: ["the ocean", "ocean", "a ocean", "an ocean"], def: "Use 'the' before oceans.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "We need <b>___</b> new printer for the office.", correct: "a", options: ["a", "the", "an", "-"], def: "Indefinite article 'a' as it's a general, unspecified printer.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> university professor.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' because 'university' starts with a consonant *sound* (yoo).", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> honest woman; I trust her completely.", correct: "an", options: ["an", "a", "the", "-"], def: "Use 'an' before words that begin with a vowel sound.", level: "B2–C1"}
+];

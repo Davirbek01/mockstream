@@ -1,0 +1,36 @@
+// Grammar Test: Noun Clauses — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I don't know <b>___</b> she is coming to the party.", correct: "if", options: ["if", "that", "what", "when"], def: "\"If\" introduces a noun clause expressing doubt or uncertainty.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> you need help, just ask.", correct: "If", options: ["If", "That", "What", "How"], def: "\"If\" introduces a noun clause acting as the subject of the sentence.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he said was interesting.", correct: "What", options: ["What", "That", "If", "Whether"], def: "\"What\" introduces a noun clause acting as the subject.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Tell me <b>___</b> you want to eat.", correct: "what", options: ["what", "that", "if", "when"], def: "\"What\" introduces a noun clause indicating the object of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked <b>___</b> I was going.", correct: "where", options: ["where", "that", "what", "how"], def: "\"Where\" introduces a noun clause indicating the location.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't understand <b>___</b> you did.", correct: "what", options: ["what", "that", "if", "whether"], def: "\"What\" introduces a noun clause indicating the object of the verb.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> he will arrive is uncertain.", correct: "Whether", options: ["Whether", "That", "What", "If"], def: "\"Whether\" introduces a noun clause acting as the subject.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It is important <b>___</b> we finish on time.", correct: "that", options: ["that", "what", "if", "when"], def: "\"That\" introduces a noun clause as a complement.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will tell you <b>___</b> I decide.", correct: "when", options: ["when", "what", "that", "if"], def: "\"When\" introduces a noun clause indicating the time.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I am not sure <b>___</b> he is telling the truth.", correct: "if", options: ["if", "that", "what", "when"], def: "\"If\" introduces a noun clause expressing doubt.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Do you know <b>___</b> she lives?", correct: "where", options: ["where", "that", "what", "how"], def: "\"Where\" indicates the location of something.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't <b>___</b> what he said.", correct: "believe", options: ["believe", "believes", "believing", "believed"], def: "The verb \"believe\" is used in its base form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She knows <b>___</b> she wants to do.", correct: "what", options: ["what", "that", "if", "when"], def: "\"What\" introduces a noun clause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He explained <b>___</b> he was late.", correct: "why", options: ["why", "that", "what", "how"], def: "\"Why\" introduces the reason for something.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> that he is right.", correct: "think", options: ["think", "thinks", "thinking", "thought"], def: "The verb \"think\" is used in its base form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It's not clear <b>___</b> he will come or not.", correct: "whether", options: ["whether", "that", "what", "if"], def: "\"Whether\" introduces two possible options.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I want to know <b>___</b> you did that.", correct: "why", options: ["why", "that", "what", "if"], def: "\"Why\" is correct here.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I believe <b>___</b> I saw.", correct: "what", options: ["what", "that", "if", "when"], def: "\"What\" introduces a noun clause as an object.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you decide is up to you.", correct: "What", options: ["What", "That", "If", "Whether"], def: "\"What\" introduces a noun clause acting as the subject.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She didn't say <b>___</b> she was going.", correct: "where", options: ["where", "that", "what", "how"], def: "\"Where\" specifies location.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Tell me <b>___</b> happened.", correct: "what", options: ["what", "that", "if", "when"], def: "\"What\" refers to something that happened.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We don't know <b>___</b> the meeting will be held.", correct: "when", options: ["when", "that", "what", "how"], def: "\"When\" refers to the time the meeting occurs.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Tell me <b>___</b> you are doing.", correct: "what", options: ["what", "that", "if", "when"], def: "\"What\" refers to an action or thing.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I don't know <b>___</b> she <b>went</b>.", correct: "where", options: ["where", "who", "when", "what"], def: "'Where' introduces a noun clause indicating location of the action.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he <b>said</b> was not true.", correct: "What", options: ["What", "That", "Which", "Who"], def: "'What' introduces a noun clause functioning as the subject.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I can't <b>___</b> <b>what</b> to <b>eat</b>.", correct: "decide", options: ["decide", "deciding", "decided", "to deciding"], def: "Need the base form after 'can't' and before the noun clause.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Do you know <b>___</b> time the <b>meeting</b> <b>starts</b>?", correct: "what", options: ["what", "when", "where", "who"], def: "'What' is the correct interrogative to use with 'time'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>asked</b> me <b>___</b> I <b>wanted</b> to <b>go</b>.", correct: "if", options: ["if", "that", "what", "when"], def: "'If' introduces a noun clause functioning as object of the verb 'asked'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't <b>___</b> <b>what</b> he <b>says</b>.", correct: "believe", options: ["believe", "believing", "believes", "believed"], def: "Need the base form after 'don't' and before noun clause.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It's important <b>___</b> you <b>finish</b> your <b>work</b>.", correct: "that", options: ["that", "what", "if", "where"], def: "'That' introduces a noun clause after the adjective 'important'.", level: "B1–B2"}
+];

@@ -1,0 +1,36 @@
+// Grammar Test: Subjunctive Mood — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I suggest that he <b>___</b> to the doctor.", correct: "go", options: ["go", "goes", "went", "is going"], def: "Subjunctive uses the base form of the verb after 'suggest'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It is important that she <b>___</b> on time.", correct: "be", options: ["be", "is", "will be", "was"], def: "Subjunctive uses the base form 'be' after 'important'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The teacher demands that every student <b>___</b> on time.", correct: "be", options: ["be", "is", "was", "will be"], def: "'Demand' triggers the subjunctive using the base form 'be'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The boss insisted that I <b>___</b> the report.", correct: "finish", options: ["finish", "finished", "finishes", "am finishing"], def: "'Insisted' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I wish I <b>___</b> taller.", correct: "were", options: ["were", "was", "am", "is"], def: "'Were' is used for wishes in the subjunctive.", level: "B1–B2"},
+  {type: "Find the error:", question: "If I <b>was</b> you, I <b>would</b> <b>go</b> to <b>the</b> party.", correct: "was", options: ["was", "would", "go", "the"], def: "'Were' is used after 'if' for hypothetical situations.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She suggests that he <b>___</b> early today.", correct: "leave", options: ["leave", "leaves", "left", "is leaving"], def: "'Suggest' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It is vital that he <b>___</b> the truth.", correct: "tell", options: ["tell", "tells", "told", "is telling"], def: "'Vital' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked that he <b>___</b> quiet.", correct: "be", options: ["be", "is", "was", "will be"], def: "'Asked' can trigger the subjunctive using the base form 'be'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The school requires that each student <b>___</b> a uniform.", correct: "wear", options: ["wear", "wears", "wore", "is wearing"], def: "'Require' triggers the subjunctive using the base form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I recommend that he <b>___</b> a break.", correct: "take", options: ["take", "takes", "took", "is taking"], def: "'Recommend' needs the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "If only I <b>___</b> more time.", correct: "had", options: ["had", "have", "would have", "am having"], def: "'Had' is used in 'if only' sentences for regrets.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I urge that she <b>___</b> harder for the exam.", correct: "study", options: ["study", "studies", "studied", "is studying"], def: "'Urge' triggers the subjunctive using the base form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It is crucial that she <b>___</b> the truth.", correct: "know", options: ["know", "knows", "knew", "is knowing"], def: "'Crucial' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They propose that we <b>___</b> a meeting.", correct: "hold", options: ["hold", "held", "are holding", "holds"], def: "'Propose' takes the subjunctive, so 'hold' is correct.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I wish I <b>___</b> to a new city.", correct: "had moved", options: ["had moved", "moved", "move", "moving"], def: "'Had moved' expresses a past wish (regret).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It is essential that he <b>___</b> here.", correct: "be", options: ["be", "is", "was", "will be"], def: "'Essential' triggers the subjunctive using the base form 'be'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She requests that he <b>___</b> her.", correct: "call", options: ["call", "calls", "called", "is calling"], def: "'Requests' takes the subjunctive form 'call'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He insists that she <b>___</b> until the end.", correct: "stay", options: ["stay", "stays", "stayed", "is staying"], def: "'Insist' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I suggest that she <b>___</b> more water.", correct: "drink", options: ["drink", "drinks", "drank", "is drinking"], def: "'Suggest' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "If I <b>___</b> rich, I would travel.", correct: "were", options: ["were", "was", "am", "is"], def: "'Were' is used for hypothetical situations.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The doctor advises that he <b>___</b> for a week.", correct: "rest", options: ["rest", "rests", "rested", "is resting"], def: "'Advise' triggers the subjunctive using the base form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It is imperative that he <b>___</b> on time.", correct: "arrive", options: ["arrive", "arrives", "arrived", "is arriving"], def: "'Imperative' requires the base form of the verb.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I propose that we <b>___</b> a vote.", correct: "take", options: ["take", "took", "are taking", "takes"], def: "'Propose' requires the subjunctive form 'take'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I suggest that he <b>___</b> to the doctor.", correct: "go", options: ["go", "goes", "going", "went"], def: "After 'suggest,' use the base form of the verb in the subjunctive.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It is important that she <b>___</b> on time.", correct: "arrive", options: ["arrive", "arrives", "arrived", "is arriving"], def: "After 'important,' use the base form of the verb in the subjunctive.", level: "B1–B2"},
+  {type: "Find the error:", question: "I wish I <b>was</b> taller <b>so</b> I <b>could</b> reach <b>that</b> shelf.", correct: "was", options: ["was", "so", "could", "that"], def: "'Wish' uses 'were' for unreal situations, not 'was'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I demand that he <b>___</b> (be) present at the meeting.", correct: "be", options: ["be", "is", "was", "will be"], def: "'Demand' needs the base form of 'be' in the subjunctive.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "If I <b>___</b> you, I would take the job.", correct: "were", options: ["were", "was", "am", "is"], def: "'Were' is used for hypothetical situations with 'if'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It is necessary that she <b>___</b> the application form.", correct: "complete", options: ["complete", "completes", "completed", "is completing"], def: "'Necessary' requires the base form of the verb.", level: "B1–B2"}
+];

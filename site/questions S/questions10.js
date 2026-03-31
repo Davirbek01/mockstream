@@ -28,6 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of clothes do you like to wear?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>When it comes to clothing, I <span class=\"ml-token adv\">genuinely</span> have a <span class=\"ml-token colloc\">preference for</span> pieces that are both comfortable and stylish. I am someone who <span class=\"ml-token phrasal\">leans towards</span> <span class=\"ml-token colloc\">casual wear</span>, as it allows me to feel <span class=\"ml-token idiom\">at ease</span> throughout my day. However, that being said, I also <span class=\"ml-token phrasal\">make an effort</span> to keep up with the latest trends, because I <span class=\"ml-token adv\">honestly</span> think that fashion is a <span class=\"ml-token colloc\">form of expression</span>.</p>\n\n<p><span class=\"ml-token proverb\">\"Clothes make the man.\"</span> This saying holds a certain truth for me, as I believe that wearing the right outfit can <span class=\"ml-token phrasal\">boost one's confidence</span> and make a <span class=\"ml-token colloc\">lasting impression</span>. For instance, when I'm attending a formal event, I tend to choose <span class=\"ml-token colloc\">tailored suits</span> that <span class=\"ml-token phrasal\">bring out</span> a sense of elegance and professionalism. On the other hand, if I’m just <span class=\"ml-token phrasal\">hanging out</span> with friends, you’ll most likely find me in a pair of jeans and a <span class=\"ml-token colloc\">simple t-shirt</span>.</p>\n\n<p>Moreover, I <span class=\"ml-token adv\">truly</span> appreciate <span class=\"ml-token colloc\">sustainable fashion</span> and often seek out brands that are environmentally conscious. I <span class=\"ml-token phrasal\">make it a point</span> to support <span class=\"ml-token colloc\">ethical brands</span> whenever possible. Overall, my clothing choices are a blend of comfort, style, and responsibility, and I <span class=\"ml-token adv\">believe</span> that's the perfect combination for me.</p>",
       "vocabulary": {
@@ -51,7 +52,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like t-shirt. And jeans. I like blue.</p>",
       "sampleA2": "<p>I like to wear casual clothes. I like jeans and t-shirts because they are comfortable. But sometimes I wear a dress when I go to a party.</p>",
       "sampleB1": "<p>I usually wear comfortable clothes. I like jeans and t-shirts most of the time. <span class=\"ml-token adv\">In my opinion</span>, they are easy to wear and practical. <span class=\"ml-token adv\">However</span>, if I go to a special event, I will wear something nicer, like a dress or a suit. I think it's important to dress appropriately for different situations.</p>",
-      "sampleB2": "<p><span class=\"ml-token adv\">Generally</span>, I prefer clothes that are both comfortable and stylish. I tend to <span class=\"ml-token phrasal\">gravitate towards</span> casual outfits for everyday wear, such as jeans and a nice top. <span class=\"ml-token adv\">However</span>, I also appreciate dressing up for certain occasions. <span class=\"ml-token adv\">For example</span>, if I'm going to a formal dinner, I might choose a dress or a smart pantsuit. <span class=\"ml-token adv\">Ultimately</span>, I think it's important to find clothes that make you feel confident and comfortable in your own skin.</p>"
+      "sampleB2": "<p><span class=\"ml-token adv\">Generally</span>, I prefer clothes that are both comfortable and stylish. I tend to <span class=\"ml-token phrasal\">gravitate towards</span> casual outfits for everyday wear, such as jeans and a nice top. <span class=\"ml-token adv\">However</span>, I also appreciate dressing up for certain occasions. <span class=\"ml-token adv\">For example</span>, if I'm going to a formal dinner, I might choose a dress or a smart pantsuit. <span class=\"ml-token adv\">Ultimately</span>, I think it's important to find clothes that make you feel confident and comfortable in your own skin.</p>",
+      "uzSampleAnswer": "<p>Kiyimga kelganda, men chin dildan ham qulay, ham zamonaviy bo'lgan narsalarni afzal ko'raman. Men kun davomida o'zimni erkin his qilishimga imkon beradigan kundalik kiyimlarga moyilman. Lekin shunga qaramay, men so'nggi tendensiyalardan xabardor bo'lishga harakat qilaman, chunki moda - bu o'zini ifoda etish shakli deb o'ylayman.</p>\n\n<p>\"Kiyim odamni yaratadi\". Bu maqol men uchun ma'lum bir haqiqatni anglatadi, chunki to'g'ri kiyimni kiyish o'ziga bo'lgan ishonchni oshirishi va uzoq muddatli taassurot qoldirishi mumkin deb hisoblayman. Misol uchun, rasmiy tadbirga borganimda, men nafislik va professionallik hissini uyg'otadigan tikilgan kostyumlarni tanlashga harakat qilaman. Boshqa tomondan, agar men shunchaki do'stlarim bilan vaqt o'tkazayotgan bo'lsam, meni ko'pincha jinsi shim va oddiy futbolkada ko'rasiz.</p>\n\n<p>Bundan tashqari, men barqaror modani juda qadrlayman va ko'pincha atrof-muhitga e'tiborli bo'lgan brendlarni qidiraman. Imkon qadar axloqiy brendlarni qo'llab-quvvatlashni maqsad qilaman. Umuman olganda, mening kiyim tanlovim qulaylik, uslub va mas'uliyatning aralashmasidir va menimcha, bu men uchun eng zo'r kombinatsiya.</p>",
+      "uzSampleA1": "<p>Men futbolkani yaxshi ko'raman. Va jinsilar. Men ko'k rangni yaxshi ko'raman.</p>",
+      "uzSampleA2": "<p>Men kundalik kiyimlar kiyishni yoqtiraman. Menga jinsi shimlar va futbolkalar yoqadi, chunki ular qulay. Lekin ba'zida men ziyofatga borganimda ko'ylak kiyaman.</p>",
+      "uzSampleB1": "<p>Men odatda qulay kiyimlar kiyaman. Ko'pincha jinsi shimlar va futbolkalarni yaxshi ko'raman. Mening fikrimcha, ularni kiyish oson va ular amaliy. Biroq, agar men maxsus tadbirga borsam, ko'ylak yoki kostyum kabi yanada chiroyli narsa kiyaman. Menimcha, turli vaziyatlar uchun mos kiyinish muhim.</p>",
+      "uzSampleB2": "<p>Umuman olganda, men ham qulay, ham zamonaviy bo'lgan kiyimlarni afzal ko'raman. Kundalik kiyim uchun jinsi va chiroyli bluzka kabi oddiy kiyimlarga moyilman. Biroq, men ma'lum holatlar uchun chiroyli kiyinishni ham qadrlayman. Misol uchun, agar men rasmiy kechki ovqatga boradigan bo'lsam, men ko'ylak yoki zamonaviy shim kostyumini tanlashim mumkin. Oxir oqibat, menimcha, o'zingizni ishonchli va qulay his qiladigan kiyimlarni topish muhim.</p>"
     },
     {
       "number": 2,
@@ -60,6 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can you describe a meal you can cook?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I can <span class=\"ml-token phrasal\">talk about</span> a dish that I enjoy cooking: homemade lasagna. Lasagna is <span class=\"ml-token colloc\">a classic Italian dish</span> that I <span class=\"ml-token adv\">thoroughly</span> enjoy making from scratch. To begin with, I prepare the pasta by making the dough and <span class=\"ml-token phrasal\">rolling it out</span> into thin sheets. This step <span class=\"ml-token idiom\">takes a bit of elbow grease</span>, but the result is <span class=\"ml-token adv\">definitely</span> worth it.</p>\n\n<p>For the sauce, I use a <span class=\"ml-token colloc\">hearty mixture</span> of minced beef, tomatoes, and herbs, allowing it to simmer until the flavors are <span class=\"ml-token adv\">richly</span> developed. Layering the pasta with the sauce, creamy béchamel, and a generous helping of mozzarella cheese is <span class=\"ml-token colloc\">a labor of love</span>. As it bakes in the oven, the aroma <span class=\"ml-token phrasal\">fills up</span> the entire kitchen, making it <span class=\"ml-token idiom\">hard to resist</span> sneaking a taste!</p>\n\n<p>Cooking this meal is <span class=\"ml-token colloc\">not just</span> about the food; it's about creating a <span class=\"ml-token colloc\">memorable experience</span>. I often invite friends over, and it's <span class=\"ml-token adv\">incredibly</span> rewarding to see them <span class=\"ml-token phrasal\">tuck into</span> the dish with gusto. Personally, I've found that cooking can be <span class=\"ml-token idiom\">a great way to let your hair down</span> and unwind after a long day. As the saying goes, <span class=\"ml-token proverb\">\"The way to a person's heart is through their stomach.\"</span> That's <span class=\"ml-token adv\">certainly</span> true in my case, as I believe that food <span class=\"ml-token phrasal\">brings people together</span> and nourishes not just the body but also the soul.</p>",
       "vocabulary": {
@@ -83,7 +90,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I can cook eggs.</p><p>I like eggs.</p><p>It is easy.</p>",
       "sampleA2": "<p>I can cook pasta.</p><p>I boil the pasta and then I add tomato sauce.</p><p>Sometimes I add cheese, and it is very good.</p><p>It is easy to cook.</p>",
       "sampleB1": "<p>I can cook spaghetti bolognese.</p><p>First, I fry some onions and meat.</p><p>Then, I add tomatoes and herbs.</p><p>I cook the spaghetti and mix everything together.</p><p>I think it's quite easy to make and it tastes good.</p>",
-      "sampleB2": "<p>I know how to make a decent chicken stir-fry.</p><p>I usually start by marinating the chicken in soy sauce and ginger.</p><p>Then, I chop up some vegetables like peppers, broccoli, and onions.</p><p>After that, I stir-fry the chicken until it's cooked through, and then I add the vegetables and some noodles.</p><p>It's a fairly quick and healthy meal, and you can easily adapt it to use whatever vegetables you have on hand.</p>"
+      "sampleB2": "<p>I know how to make a decent chicken stir-fry.</p><p>I usually start by marinating the chicken in soy sauce and ginger.</p><p>Then, I chop up some vegetables like peppers, broccoli, and onions.</p><p>After that, I stir-fry the chicken until it's cooked through, and then I add the vegetables and some noodles.</p><p>It's a fairly quick and healthy meal, and you can easily adapt it to use whatever vegetables you have on hand.</p>",
+      "uzSampleAnswer": "<p>Albatta, men o'zim tayyorlashni yoqtiradigan taom haqida gapira olaman: uyda tayyorlangan lazanya. Lazanya - bu klassik italyan taomi, uni men noldan tayyorlashdan juda zavqlanaman. Avvalo, men xamir qilib, uni yupqa qatlamlarga yoyib, pasta tayyorlayman. Bu bosqich biroz kuch talab qiladi, lekin natija bunga arziydi.</p>\n\n<p>Sous uchun men qiyma go'sht, pomidor va o'tlarning to'yimli aralashmasidan foydalanaman va ta'mlar boyib ketguncha qaynataman. Pastani sous, qaymoqli bechamel va mo'l-ko'l motsarella pishlog'i bilan qatlamlash - bu sevgi bilan qilingan mehnat. U pechda pishirilganda, xushbo'y hid butun oshxonani to'ldiradi, bu esa bir tatib ko'rishga qarshilik qilishni qiyinlashtiradi!</p>\n\n<p>Bu taomni tayyorlash faqatgina ovqat haqida emas; bu unutilmas tajriba yaratish demakdir. Men ko'pincha do'stlarimni taklif qilaman va ularning ishtaha bilan taomga yopishib olishlarini ko'rish juda yoqimli. Shaxsan men, ovqat pishirish uzoq kundan keyin dam olish va hordiq chiqarishning ajoyib usuli bo'lishi mumkinligini aniqladim. Aytishlaricha, \"Odamning qalbiga yo'l uning oshqozonidan o'tadi.\" Bu mening holatimda ham to'g'ri, chunki men ovqat odamlarni birlashtiradi va nafaqat tanani, balki ruhni ham oziqlantiradi, deb hisoblayman.</p>",
+      "uzSampleA1": "<p>Men tuxum pishira olaman.</p><p>Menga tuxum yoqadi.</p><p>Bu oson.</p>",
+      "uzSampleA2": "<p>Men makaron pishira olaman.</p><p>Men makaronni qaynataman va keyin tomat sousini qo'shaman.</p><p>Ba'zan men pishloq qo'shaman va u juda mazali bo'ladi.</p><p>Uni pishirish oson.</p>",
+      "uzSampleB1": "<p>Men spaghetti bolonezni tayyorlay olaman.</p><p>Avval, men biroz piyoz va go'shtni qovuraman.</p><p>Keyin, men pomidor va ko'katlarni qo'shaman.</p><p>Men spaghettini pishiraman va hamma narsani birga aralashtiraman.</p><p>Menimcha, uni tayyorlash juda oson va mazasi yaxshi.</p>",
+      "uzSampleB2": "<p>Men yaxshi tovuqli dimlama tayyorlashni bilaman.</p><p>Odatda, tovuqni soya sousi va zanjabilda marinadlashdan boshlayman.</p><p>Keyin, ba'zi sabzavotlarni, masalan, qalampir, brokkoli va piyozni maydalab to'g'rayman.</p><p>Shundan so'ng, tovuqni pishguncha dimlayman, keyin sabzavotlar va ba'zi noodlelarni qo'shaman.</p><p>Bu juda tez va foydali taom, va uni qo'lingizda bor sabzavotlardan foydalanish uchun osonlik bilan moslashtirishingiz mumkin.</p>"
     },
     {
       "number": 3,
@@ -92,6 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about a TV show you enjoy.",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>One TV show that I <span class=\"ml-token adv\">absolutely</span> adore is <em>Stranger Things</em>. This show, set in the 1980s, <span class=\"ml-token phrasal\">revolves around</span> a group of young friends who stumble upon a series of supernatural events. What <span class=\"ml-token adv\">truly</span> captivates me is the <span class=\"ml-token colloc\">intricate plot</span> and the <span class=\"ml-token colloc\">engaging character development</span>. The creators have <span class=\"ml-token phrasal\">brought to life</span> a nostalgic world that <span class=\"ml-token adv\">perfectly</span> blends fantasy with reality. <span class=\"ml-token proverb\">\"The devil is in the details,\"</span> and this show <span class=\"ml-token adv\">masterfully</span> incorporates subtle 80s references that make it <span class=\"ml-token adv\">exceptionally</span> appealing. I <span class=\"ml-token adv\">particularly</span> enjoy how the show <span class=\"ml-token idiom\">keeps you on the edge of your seat</span> with its unexpected twists. Watching it has become a <span class=\"ml-token colloc\">weekly ritual</span> for me, allowing me to <span class=\"ml-token idiom\">let my hair down</span> and escape reality for a while. <span class=\"ml-token proverb\">\"Old is gold,\"</span> and this series <span class=\"ml-token phrasal\">brings back</span> the charm of retro storytelling with a <span class=\"ml-token colloc\">modern twist</span>. I <span class=\"ml-token adv\">highly</span> recommend <em>Stranger Things</em> to anyone who enjoys a mix of mystery, adventure, and a <span class=\"ml-token colloc\">dash of nostalgia</span>.</p>",
       "vocabulary": {
@@ -115,7 +128,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like TV. I like cartoons.  I like Tom and Jerry. It is funny.</p>",
       "sampleA2": "<p>I like the TV show Friends. It is about friends in New York. They are funny and I like to watch them.  It is good because it makes me happy. I watch it with my family.</p>",
       "sampleB1": "<p>I enjoy watching The Great British Baking Show. It's a competition where people bake cakes and bread. I think it's interesting because I like to see what they create. Also, the judges are nice, but they give good criticism. Sometimes it makes me want to bake, but I'm not very good at it. <span class=\"ml-token adv\">However</span>, it's a relaxing show to watch after a long day.</p>",
-      "sampleB2": "<p>One TV show that I find <span class=\"ml-token adv\">particularly</span> engaging is 'Black Mirror'. It's an anthology series that explores the potential dystopian consequences of technology. What I appreciate most is its <span class=\"ml-token colloc\">thought-provoking</span> nature; each episode presents a unique scenario that forces you to consider the ethical implications of technological advancement. The show doesn't offer easy answers, and it often leaves you pondering complex questions long after the credits roll. While some episodes are <span class=\"ml-token adv\">certainly</span> unsettling, they serve as a cautionary tale about the direction society could be heading. It's a show that stays with you, prompting discussions and challenging your own perspectives on technology's role in our lives.</p>"
+      "sampleB2": "<p>One TV show that I find <span class=\"ml-token adv\">particularly</span> engaging is 'Black Mirror'. It's an anthology series that explores the potential dystopian consequences of technology. What I appreciate most is its <span class=\"ml-token colloc\">thought-provoking</span> nature; each episode presents a unique scenario that forces you to consider the ethical implications of technological advancement. The show doesn't offer easy answers, and it often leaves you pondering complex questions long after the credits roll. While some episodes are <span class=\"ml-token adv\">certainly</span> unsettling, they serve as a cautionary tale about the direction society could be heading. It's a show that stays with you, prompting discussions and challenging your own perspectives on technology's role in our lives.</p>",
+      "uzSampleAnswer": "<p>Men mutlaqo sevib tomosha qiladigan bir teleserial bu <em>Stranger Things</em>. 1980-yillarda bo'lib o'tadigan bu serial, bir qator g'ayritabiiy hodisalarga duch kelgan yosh do'stlar guruhi haqida hikoya qiladi. Meni chinakamiga o'ziga rom etadigan narsa bu murakkab syujet va qiziqarli personajlarning rivojlanishidir. Yaratuvchilar fantaziyani haqiqat bilan mukammal uyg'unlashtirgan nostaljik dunyoni jonlantirishga muvaffaq bo'lishdi. \"Iblis tafsilotlarda yashiringan\", va bu serial 80-yillarga oid nozik ishoralarni mohirlik bilan o'z ichiga oladi, bu uni juda jozibali qiladi. Ayniqsa, serialning kutilmagan burilishlari bilan sizni doimo hayajonda ushlab turishini yoqtiraman. Uni tomosha qilish men uchun har haftalik odatga aylandi, bu menga bir muddatga dam olish va voqelikdan qochish imkonini beradi. \"Eski oltin\", va bu serial retro hikoyalarning jozibasini zamonaviy tus bilan qaytaradi. <em>Stranger Things</em>ni sir, sarguzasht va bir ozgina nostalji aralashmasini yoqtiradigan har bir kishiga tavsiya qilaman.</p>",
+      "uzSampleA1": "<p>Men televizorni yaxshi ko'raman. Men multfilmlarni yaxshi ko'raman. Men Tom va Jerrini yaxshi ko'raman. U kulguli.</p>",
+      "uzSampleA2": "<p>Menga \"Do'stlar\" seriali yoqadi. U Nyu-Yorkdagi do'stlar haqida. Ular kulguli va men ularni tomosha qilishni yaxshi ko'raman.  U yaxshi, chunki u meni xursand qiladi. Men uni oilam bilan tomosha qilaman.</p>",
+      "uzSampleB1": "<p>Men \"The Great British Baking Show\" ko'rishni yoqtiraman. Bu odamlar tortlar va nonlar pishiradigan musobaqa. Menimcha, bu qiziqarli, chunki ularning nima yaratayotganini ko'rishni yaxshi ko'raman. Bundan tashqari, hakamlar yaxshi, lekin ular yaxshi tanqid berishadi. Ba'zida bu meni pishirishni xohlaydi, lekin men unchalik yaxshi emasman. Biroq, bu uzoq kundan keyin tomosha qilish uchun dam beruvchi ko'rsatuv.</p>",
+      "uzSampleB2": "<p>Men ayniqsa qiziqarli deb topadigan bir teleshou bu \"Qora Oyna\"dir. Bu texnologiyaning potentsial distopik oqibatlarini o'rganadigan antologiya serialidir. Menga eng yoqadigan narsa uning fikr-mulohazaga undovchi tabiatidir; har bir epizod texnologik taraqqiyotning axloqiy oqibatlarini ko'rib chiqishga majbur qiladigan noyob stsenariyni taqdim etadi. Shou oson javoblarni taklif qilmaydi va ko'pincha titrlar tugaganidan keyin ham murakkab savollar ustida o'ylashga majbur qiladi. Ba'zi epizodlar, albatta, bezovta qiluvchi bo'lsa-da, ular jamiyat qanday yo'nalishda ketishi mumkinligi haqida ogohlantiruvchi hikoya bo'lib xizmat qiladi. Bu siz bilan qoladigan, munozaralarga undaydigan va hayotimizda texnologiyaning roli haqidagi o'z nuqtai nazaringizni shubha ostiga qo'yadigan shou.</p>"
     },
     {
       "number": 4,
@@ -124,6 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first image, I observe a <span class=\"ml-token colloc\">solitary woman</span> engaged in hiking along a picturesque mountain trail. The natural beauty of the landscape is <span class=\"ml-token adv\">perfectly</span> encapsulated in the scene, with the rugged terrain and lush greenery offering a <span class=\"ml-token colloc\">sense of serenity</span> and freedom. This picture <span class=\"ml-token phrasal\">brings to mind</span> the idiom <span class=\"ml-token idiom\">\"a breath of fresh air\"</span>, as the woman appears to be <span class=\"ml-token phrasal\">soaking up</span> the tranquility and <span class=\"ml-token phrasal\">getting away</span> from the hustle and bustle of everyday life. Personally, I <span class=\"ml-token adv\">often</span> relish similar outdoor activities, as they provide a <span class=\"ml-token colloc\">great opportunity</span> to <span class=\"ml-token idiom\">let my hair down</span> and reconnect with nature.</p>\n\n<p>In contrast, the second image depicts a bustling urban scene, likely in a city such as Singapore, which is renowned for its <span class=\"ml-token colloc\">modern infrastructure</span> and dynamic environment. The vibrant cityscape, with its towering skyscrapers and <span class=\"ml-token colloc\">efficient public transport</span>, <span class=\"ml-token adv\">truly</span> exemplifies the phrase <span class=\"ml-token idiom\">\"the city that never sleeps\"</span>. This image highlights the <span class=\"ml-token colloc\">fast-paced lifestyle</span> that is <span class=\"ml-token adv\">characteristic</span> of urban areas, where people <span class=\"ml-token phrasal\">carry on</span> with their daily activities amidst a sea of diversity and opportunity. It's <span class=\"ml-token adv\">incredibly</span> fascinating how cities like this become melting pots of culture, innovation, and <span class=\"ml-token colloc\">economic growth</span>.</p>",
       "vocabulary": {
@@ -147,7 +166,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I see woman. She walks. Mountain. And city. Many buildings.</p>",
       "sampleA2": "<p>I see a woman in the mountains. She is walking. And I see a city. It is big and has many buildings. I like the mountains but the city is okay too.</p>",
       "sampleB1": "<p>In the first picture, I see a woman hiking in the mountains. It looks very peaceful and she seems to be enjoying the nature. In the second picture, I see a big city. There are lots of tall buildings and it looks very busy. I think both places are interesting, but I prefer the mountains because it's quieter.</p>",
-      "sampleB2": "<p>The first image shows a woman hiking in what looks like a beautiful mountain range. She seems to be enjoying some time outdoors, perhaps seeking some solitude and fresh air. The second image contrasts sharply with the first, depicting a bustling cityscape, possibly a major metropolitan area. The image is dominated by towering buildings and suggests a <span class=\"ml-token colloc\">fast-paced</span>, dynamic environment. While both scenes have their appeal, I find myself drawn more to the tranquility offered by the natural landscape in the first picture.</p>"
+      "sampleB2": "<p>The first image shows a woman hiking in what looks like a beautiful mountain range. She seems to be enjoying some time outdoors, perhaps seeking some solitude and fresh air. The second image contrasts sharply with the first, depicting a bustling cityscape, possibly a major metropolitan area. The image is dominated by towering buildings and suggests a <span class=\"ml-token colloc\">fast-paced</span>, dynamic environment. While both scenes have their appeal, I find myself drawn more to the tranquility offered by the natural landscape in the first picture.</p>",
+      "uzSampleAnswer": "<p>Birinchi suratda men tog' yo'lagi bo'ylab sayr qilayotgan yolg'iz ayolni ko'rmoqdaman. Manzaraning tabiiy go'zalligi sahnada mukammal aks etgan, qo'pol relyef va serhosil ko'katlar xotirjamlik va erkinlik hissini taqdim etadi. Bu surat \"toza havo\" iborasini eslatadi, chunki ayol xotirjamlikdan bahramand bo'lib, kundalik hayotning shovqinidan uzoqlashayotganga o'xshaydi. Shaxsan men o'xshash ochiq havoda mashg'ulotlardan ko'pincha zavqlanaman, chunki ular dam olish va tabiat bilan qayta bog'lanish uchun ajoyib imkoniyatni beradi.</p>\n\n<p>Farqli o'laroq, ikkinchi suratda gavjum shahar manzarasi tasvirlangan, ehtimol Singapur kabi shahar, u zamonaviy infratuzilmasi va dinamik muhiti bilan mashhur. Baland osmono'par binolar va samarali jamoat transporti bilan gavjum shahar manzarasi \"hech qachon uxlamaydigan shahar\" iborasining haqiqiy namunasidir. Bu surat shahar hududlariga xos bo'lgan tez sur'atli turmush tarzini ta'kidlaydi, bu yerda odamlar xilma-xillik va imkoniyatlar dengizi o'rtasida kundalik ishlarini davom ettiradilar. Bunday shaharlar madaniyat, innovatsiya va iqtisodiy o'sish qozoniga aylanishi juda hayratlanarli.</p>",
+      "uzSampleA1": "<p>Men ayolni ko'ryapman. U ketyapti. Tog'. Va shahar. Ko'p binolar.</p>",
+      "uzSampleA2": "<p>Men tog'larda bir ayolni ko'ryapman. U yuribdi. Va men bir shaharni ko'ryapman. U katta va ko'p binolari bor. Menga tog'lar yoqadi, lekin shahar ham yaxshi.</p>",
+      "uzSampleB1": "<p>Birinchi rasmda men tog'larda sayr qilayotgan ayolni ko'ryapman. U juda tinch ko'rinadi va u tabiatdan zavqlanayotganga o'xshaydi. <br>Ikkinchi rasmda men katta shaharni ko'ryapman. U yerda ko'plab baland binolar bor va u juda band ko'rinadi. Menimcha, ikkala joy ham qiziqarli, lekin men tog'larni afzal ko'raman, chunki u yerda tinchroq.</p>",
+      "uzSampleB2": "<p>Birinchi rasmda go'zal tog' tizmasiga o'xshagan joyda sayr qilayotgan ayolni ko'rish mumkin. U ochiq havoda vaqt o'tkazayotganga o'xshaydi, ehtimol, yolg'izlik va toza havo izlayotgandir. Ikkinchi rasm birinchisidan keskin farq qiladi, unda gavjum shahar manzarasi, ehtimol, yirik metropoliten hududi tasvirlangan. Rasmda baland binolar hukmronlik qiladi va tez sur'atli, dinamik muhitni ko'rsatadi. Ikkala manzara ham o'ziga xos jozibaga ega bo'lsa-da, men birinchi rasmdagi tabiiy landshaft taklif qilayotgan xotirjamlikka ko'proq intilaman.</p>"
     },
     {
       "number": 5,
@@ -156,6 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of spending time in nature?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Spending time in nature <span class=\"ml-token adv\">truly</span> offers a plethora of benefits, both <span class=\"ml-token adv\">physically</span> and <span class=\"ml-token adv\">mentally</span>. <span class=\"ml-token proverb\">\"Nature does not hurry, yet everything is accomplished.\"</span> This quote <span class=\"ml-token adv\">perfectly</span> encapsulates the healing pace of the natural world, which can <span class=\"ml-token phrasal\">bring about</span> a sense of calm and relaxation that is <span class=\"ml-token adv\">hard</span> to find in the hustle and bustle of modern life.</p>\n\n<p><span class=\"ml-token adv\">Physically</span>, engaging with nature often involves activities such as hiking or cycling, which are <span class=\"ml-token colloc\">excellent forms of exercise</span>. These activities not only enhance cardiovascular health but also allow individuals to <span class=\"ml-token phrasal\">soak up</span> vitamin D, which is <span class=\"ml-token adv\">crucial</span> for bone health. <span class=\"ml-token adv\">Furthermore</span>, being in green spaces has been shown to lower blood pressure and reduce stress levels.</p>\n\n<p>On a mental level, nature <span class=\"ml-token adv\">undoubtedly</span> provides a space for reflection and can <span class=\"ml-token phrasal\">help out</span> in <span class=\"ml-token idiom\">recharging one's batteries</span>. It's been <span class=\"ml-token adv\">scientifically</span> proven that spending time in natural settings can improve mood, increase feelings of happiness, and boost creativity. For me, personally, a walk in the forest <span class=\"ml-token adv\">often</span> helps to clear my mind and <span class=\"ml-token idiom\">see the silver lining</span> in challenging situations.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, in this digital age, where we're <span class=\"ml-token phrasal\">bombarded with</span> information, stepping into nature allows us to <span class=\"ml-token idiom\">unplug and unwind</span>. It <span class=\"ml-token adv\">genuinely</span> serves as a reminder that life is about more than screens and notifications. <span class=\"ml-token proverb\">\"Look deep into nature, and then you will understand everything better.\"</span> This insight by Albert Einstein <span class=\"ml-token adv\">notably</span> suggests that nature can offer profound understanding and clarity. So, whether it's a leisurely stroll in the park or a camping trip in the mountains, the benefits of spending time in nature are <span class=\"ml-token adv\">immensely</span> rewarding.</p>",
       "vocabulary": {
@@ -179,7 +204,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Nature is good. </p><p>I like trees. </p><p>Happy.</p>",
       "sampleA2": "<p>I like nature. </p><p>It is nice. </p><p>I can walk in the park and see birds. </p><p>It makes me happy because it is quiet.</p>",
       "sampleB1": "<p>I think nature is important. </p><p>It's good for you because you can relax. </p><p><span class=\"ml-token adv\">For example</span>, you can go for a walk in the forest. </p><p>Also, it's good exercise. </p><p><span class=\"ml-token adv\">In my opinion</span>, everyone should spend more time outside.</p>",
-      "sampleB2": "<p>Spending time in nature has many advantages. </p><p><span class=\"ml-token adv\">Firstly</span>, it's a great way to reduce stress and improve your mental well-being. </p><p>Being surrounded by trees and fresh air can be very calming. </p><p><span class=\"ml-token adv\">Secondly</span>, it encourages <span class=\"ml-token colloc\">physical activity</span>, like hiking or gardening, which is good for your health. </p><p><span class=\"ml-token adv\">Moreover</span>, it allows you to disconnect from technology and appreciate the environment around you. </p><p><span class=\"ml-token adv\">Overall</span>, I believe that regular exposure to nature is beneficial for both your body and mind.</p>"
+      "sampleB2": "<p>Spending time in nature has many advantages. </p><p><span class=\"ml-token adv\">Firstly</span>, it's a great way to reduce stress and improve your mental well-being. </p><p>Being surrounded by trees and fresh air can be very calming. </p><p><span class=\"ml-token adv\">Secondly</span>, it encourages <span class=\"ml-token colloc\">physical activity</span>, like hiking or gardening, which is good for your health. </p><p><span class=\"ml-token adv\">Moreover</span>, it allows you to disconnect from technology and appreciate the environment around you. </p><p><span class=\"ml-token adv\">Overall</span>, I believe that regular exposure to nature is beneficial for both your body and mind.</p>",
+      "uzSampleAnswer": "<p>Tabiatda vaqt o'tkazish, haqiqatan ham, jismoniy va ruhiy jihatdan ko'plab foydalarni taqdim etadi. \"Tabiat shoshilmaydi, lekin hamma narsaga erishiladi.\" Ushbu iqtibos tabiat olamining shifobaxsh sur'atini mukammal ifodalaydi, bu esa zamonaviy hayotning shovqin-suronida topish qiyin bo'lgan xotirjamlik va dam olish hissini keltirib chiqarishi mumkin.</p>\n\n<p>Jismoniy jihatdan, tabiat bilan aloqa qilish ko'pincha piyoda yurish yoki velosipedda sayr qilish kabi mashg'ulotlarni o'z ichiga oladi, ular ajoyib mashq turlari hisoblanadi. Ushbu mashg'ulotlar nafaqat yurak-qon tomir salomatligini yaxshilaydi, balki odamlarga suyak salomatligi uchun juda muhim bo'lgan D vitaminini olish imkoniyatini ham beradi. Bundan tashqari, yashil hududlarda bo'lish qon bosimini pasaytirishi va stress darajasini kamaytirishi isbotlangan.</p>\n\n<p>Ruhiy darajada, tabiat, shubhasiz, fikrlash uchun joy beradi va kuchni tiklashga yordam berishi mumkin. Tabiiy muhitda vaqt o'tkazish kayfiyatni yaxshilashi, baxt tuyg'ularini oshirishi va ijodkorlikni rag'batlantirishi ilmiy jihatdan isbotlangan. Men uchun, shaxsan, o'rmonda sayr qilish ko'pincha ongimni tozalashga va qiyin vaziyatlarda umid uchqunini ko'rishga yordam beradi.</p>\n\n<p>Bundan tashqari, biz axborot bilan to'lib toshgan ushbu raqamli asrda, tabiatga qadam qo'yish bizga dam olish va tarmoqdan uzilish imkoniyatini beradi. Bu, chinakamiga, hayot ekranlar va bildirishnomalardan ko'ra ko'proq narsadan iborat ekanligini eslatib turadi. \"Tabiatga chuqur nazar soling, shunda hamma narsani yaxshiroq tushunasiz.\" Albert Eynshteynning ushbu fikri tabiat chuqur tushuncha va aniqlikni taklif qilishi mumkinligini ta'kidlaydi. Shunday ekan, bu bog'da bemalol sayr qilishmi yoki tog'larda lagerda dam olishmi, tabiatda vaqt o'tkazishning foydalari juda katta.</p>",
+      "uzSampleA1": "<p>Tabiat yaxshi.</p><p>Men daraxtlarni yaxshi ko'raman.</p><p>Xursandman.</p>",
+      "uzSampleA2": "<p>Men tabiatni yaxshi ko'raman.</p><p>U juda yoqimli.</p><p>Men parkda sayr qilib, qushlarni ko'rishim mumkin.</p><p>U menga xursandchilik beradi, chunki u yerda tinch.</p>",
+      "uzSampleB1": "<p>Menimcha, tabiat muhim.</p><p>Bu siz uchun foydali, chunki siz dam olishingiz mumkin.</p><p>Masalan, siz o'rmonda sayr qilishingiz mumkin.</p><p>Shuningdek, bu yaxshi mashq.</p><p>Mening fikrimcha, har bir inson ko'proq vaqtni tashqarida o'tkazishi kerak.</p>",
+      "uzSampleB2": "<p>Tabiatda vaqt o'tkazishning ko'plab afzalliklari bor.</p><p>Birinchidan, bu stressni kamaytirish va ruhiy holatingizni yaxshilashning ajoyib usuli.</p><p>Daraxtlar va toza havo bilan o'ralgan bo'lish juda tinchlantiruvchi bo'lishi mumkin.</p><p>Ikkinchidan, u piyoda yurish yoki bog'dorchilik kabi jismoniy faollikni rag'batlantiradi, bu esa sizning salomatligingiz uchun foydali.</p><p>Bundan tashqari, u sizga texnologiyadan uzilish va atrofingizdagi muhitni qadrlash imkonini beradi.</p><p>Umuman olganda, menimcha, tabiatga muntazam ravishda chiqish tanangiz va ongingiz uchun foydali.</p>"
     },
     {
       "number": 6,
@@ -188,6 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer living in a big city instead of the countryside?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Living in a <span class=\"ml-token colloc\">big city</span> has its allure and appeal for many individuals, and there are several compelling reasons why some people <span class=\"ml-token adv\">genuinely</span> prefer it over residing in the countryside. Firstly, urban areas <span class=\"ml-token phrasal\">offer up</span> a plethora of opportunities in terms of <span class=\"ml-token colloc\">career advancement</span> and <span class=\"ml-token colloc\">professional growth</span>. <span class=\"ml-token idiom\">The world is your oyster</span> when it comes to the variety of job prospects available, as companies and industries are densely concentrated in metropolitan areas.</p>\n\n<p>Moreover, the <span class=\"ml-token colloc\">social experience</span> in a big city can be incredibly enriching. Cities are often melting pots of cultures, and this diversity <span class=\"ml-token phrasal\">gives rise</span> to a vibrant social life with numerous events, festivals, and opportunities to <span class=\"ml-token phrasal\">meet up with</span> people from various backgrounds. Personally, I find this aspect particularly enticing as it broadens one's horizon and <span class=\"ml-token phrasal\">opens up</span> new perspectives.</p>\n\n<p>Another significant draw is the convenience factor. Cities <span class=\"ml-token adv\">really</span> excel in terms of infrastructure, with high-street stores, restaurants, and recreational facilities at one's doorstep. Public transport systems are often <span class=\"ml-token adv\">extremely</span> efficient, making it easier to <span class=\"ml-token phrasal\">get around</span> without the necessity of owning a car. As the saying goes, <span class=\"ml-token proverb\">\"time is money\"</span>, and the ability to save time on commuting and access amenities with ease is a huge advantage.</p>\n\n<p>In contrast, while the countryside offers tranquility and natural beauty, some people may find the slower pace of life and limited amenities less appealing. As someone who thrives on activity and variety, I <span class=\"ml-token adv\">honestly</span> believe that the dynamic nature of city life provides a sense of excitement and fulfillment that the countryside <span class=\"ml-token phrasal\">might not</span> offer. <span class=\"ml-token idiom\">To each his own</span>, but for those who prioritize convenience, opportunity, and a bustling social scene, the city is <span class=\"ml-token adv\">undoubtedly</span> the preferred choice.</p>",
       "vocabulary": {
@@ -211,7 +242,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like city. It is fun. Country is boring.</p>",
       "sampleA2": "<p>I like the city. There are many shops and restaurants. And there are many people. The countryside is quiet, but I don't like quiet.</p>",
       "sampleB1": "<p>Well, I think some people prefer living in a big city because there are more things to do. <span class=\"ml-token adv\">For example</span>, there are more shops and cinemas. Also, it's easier to find a job in a city. <span class=\"ml-token adv\">However</span>, the countryside is more peaceful.</p>",
-      "sampleB2": "<p>There are several reasons why some individuals might choose a bustling city over the tranquility of the countryside. <span class=\"ml-token adv\">Primarily</span>, cities tend to offer a wider range of job opportunities and career prospects. <span class=\"ml-token adv\">Furthermore</span>, the diverse cultural landscape and abundant entertainment options, like concerts and exhibitions, are a significant draw for many. Although the countryside boasts natural beauty and a slower pace, the city provides a dynamic and stimulating environment that some people find more appealing.</p>"
+      "sampleB2": "<p>There are several reasons why some individuals might choose a bustling city over the tranquility of the countryside. <span class=\"ml-token adv\">Primarily</span>, cities tend to offer a wider range of job opportunities and career prospects. <span class=\"ml-token adv\">Furthermore</span>, the diverse cultural landscape and abundant entertainment options, like concerts and exhibitions, are a significant draw for many. Although the countryside boasts natural beauty and a slower pace, the city provides a dynamic and stimulating environment that some people find more appealing.</p>",
+      "uzSampleAnswer": "<p>Katta shaharda yashash ko'plab odamlar uchun o'ziga xos joziba va qiziqishga ega, va ba'zi odamlar qishloqda yashashdan ko'ra shuni afzal ko'rishining bir nechta asosli sabablari bor. Birinchidan, shahar hududlari martaba o'sishi va professional rivojlanish nuqtai nazaridan ko'plab imkoniyatlarni taqdim etadi. Ish istiqbollarining xilma-xilligi nuqtai nazaridan imkoniyatlar juda keng, chunki kompaniyalar va sanoatlar metropoliten hududlarida zich joylashgan.</p>\n\n<p>Bundan tashqari, katta shahardagi ijtimoiy tajriba nihoyatda boyituvchi bo'lishi mumkin. Shaharlar ko'pincha madaniyatlar qozonidir va bu xilma-xillik turli xil tadbirlar, festivallar va turli xil kelib chiqishi bo'lgan odamlar bilan uchrashish imkoniyatlari bilan jonli ijtimoiy hayotga olib keladi. Shaxsan men bu jihatni ayniqsa jozibali deb bilaman, chunki u insonning ufqini kengaytiradi va yangi istiqbollarni ochadi.</p>\n\n<p>Yana bir muhim omil - qulaylik omili. Shaharlar infratuzilma nuqtai nazaridan juda yaxshi, ko'cha do'konlari, restoranlar va dam olish maskanlari bir qadam narida joylashgan. Jamoat transporti tizimlari ko'pincha juda samarali bo'lib, mashinaga ega bo'lish zaruratisiz harakatlanishni osonlashtiradi. Aytganlaridek, \"vaqt - pul\", va qatnovga vaqtni tejash va qulayliklarga oson kirish imkoniyati katta afzallikdir.</p>\n\n<p>Aksincha, qishloq tinchlik va tabiiy go'zallikni taqdim etsa-da, ba'zi odamlar hayotning sekin sur'ati va cheklangan qulayliklarni kamroq jozibali deb topishlari mumkin. Faollik va xilma-xillikni qadrlaydigan odam sifatida, men shahar hayotining dinamik tabiati qishloq taklif qila olmaydigan hayajon va qoniqish hissini beradi deb ishonaman. Har kimning o'z didi bor, lekin qulaylik, imkoniyat va gavjum ijtimoiy hayotni ustuvor deb biladiganlar uchun shahar, shubhasiz, afzal ko'riladigan tanlovdir.</p>",
+      "uzSampleA1": "<p>Menga shahar yoqadi. U qiziqarli. Qishloq zerikarli.</p>",
+      "uzSampleA2": "<p>Menga shahar yoqadi. U yerda ko'p do'konlar va restoranlar bor. Va u yerda ko'p odamlar bor. Qishloq tinch, lekin menga tinchlik yoqmaydi.</p>",
+      "uzSampleB1": "<p>Xo'sh, menimcha, ba'zi odamlar katta shaharda yashashni afzal ko'rishadi, chunki u yerda qilinadigan ishlar ko'proq. <br>Masalan, do'konlar va kinoteatrlar ko'proq. Shuningdek, shaharda ish topish osonroq. <br>Biroq, qishloq tinchroq.</p>",
+      "uzSampleB2": "<p>Nima uchun ba'zi odamlar qishloqning osoyishtaligidan ko'ra gavjum shaharda yashashni afzal ko'rishlarining bir nechta sabablari bor. <br>Avvalo, shaharlar ko'proq ish imkoniyatlari va martaba istiqbollarini taklif qilishga moyil. <br>Bundan tashqari, xilma-xil madaniy muhit va konsertlar va ko'rgazmalar kabi ko'plab ko'ngilochar variantlar ko'pchilik uchun muhim omil hisoblanadi. Qishloq tabiiy go'zallik va sekinroq hayot tarziga ega bo'lsa-da, shahar ba'zi odamlarga ko'proq yoqadigan dinamik va rag'batlantiruvchi muhitni ta'minlaydi.</p>"
     },
     {
       "number": 7,
@@ -220,6 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when your curiosity led you to discover or learn something valuable. ",
@@ -253,7 +290,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like learning. <p>I ask questions. <p>It is good.</p>",
       "sampleA2": "<p>I like to learn new things and I am curious. <p>I ask many questions because I want to know more. <p>Sometimes it is difficult but it is also fun.</p>",
       "sampleB1": "<p>I think curiosity is important. <p><span class=\"ml-token adv\">For example</span>, when I don't understand something, I ask questions. <p>Also, I like to learn about new topics, like science or history. <p><span class=\"ml-token adv\">In my opinion</span>, being curious helps you learn more and become smarter. <p><span class=\"ml-token adv\">However</span>, sometimes it can be annoying to other people if you ask too many questions.</p>",
-      "sampleB2": "<p>Curiosity, <span class=\"ml-token adv\">in my opinion</span>, is a vital trait for personal and societal development. <p>When I encounter something unfamiliar, my initial reaction is to investigate further, which has often led to unexpected discoveries. <p><span class=\"ml-token adv\">For example</span>, my interest in astrophysics began with a simple question about black holes. <p>This led me to read several books and watch documentaries, expanding my knowledge <span class=\"ml-token adv\">significantly</span>. <p><span class=\"ml-token adv\">Furthermore</span>, a curious mindset encourages innovation and problem-solving because it pushes us to explore different perspectives and challenge existing assumptions. <p><span class=\"ml-token adv\">Therefore</span>, fostering curiosity is essential for progress in any field.</p>"
+      "sampleB2": "<p>Curiosity, <span class=\"ml-token adv\">in my opinion</span>, is a vital trait for personal and societal development. <p>When I encounter something unfamiliar, my initial reaction is to investigate further, which has often led to unexpected discoveries. <p><span class=\"ml-token adv\">For example</span>, my interest in astrophysics began with a simple question about black holes. <p>This led me to read several books and watch documentaries, expanding my knowledge <span class=\"ml-token adv\">significantly</span>. <p><span class=\"ml-token adv\">Furthermore</span>, a curious mindset encourages innovation and problem-solving because it pushes us to explore different perspectives and challenge existing assumptions. <p><span class=\"ml-token adv\">Therefore</span>, fostering curiosity is essential for progress in any field.</p>",
+      "uzSampleAnswer": "<p>Shaxsiy tajribamga nazar tashlasam, bir paytlar mening chinakam qiziquvchanligim meni haqiqatan ham qimmatli narsani kashf etishga olib kelgan edi. Men qayta tiklanadigan energiya haqidagi hujjatli filmga duch keldim, bu meni butunlay hayratga soldi. Bu qiziquvchanlik meni mavzuni chuqurroq o'rganishga undadi va oxir-oqibatda barqaror muhandislik kursiga yozildim. Bu tajribadan olgan bilimlarim nafaqat ko'zni ochuvchi bo'ldi, balki qayta tiklanadigan energiya sohasidagi hozirgi kareramga yo'l ochdi.</p>\n\n<p>Qiziquvchanlik mening professional yo'limda o'sish katalizatori bo'ldi. Doimiy ravishda savollar berish va yangi qiyinchiliklarni izlash orqali men o'zgaruvchan muhitlarga moslashishga imkon beradigan keng ko'nikmalarni rivojlantirdim. Bu fikrlash tarzining foydasi tegdi, chunki men tez rivojlanayotgan sohada oldinda qolishga muvaffaq bo'ldim. Bundan tashqari, qiziquvchanlikni qabul qilib, men \"standartdan tashqari fikrlashni\" o'rgandim, bu mening muammolarni hal qilish qobiliyatimni sezilarli darajada oshirdi.</p>\n\n<p>Jamiyat taraqqiyotiga kelsak, qiziquvchanlik innovatsiyaning asosi bo'lib xizmat qiladi. Aynan noma'lumni tushunishga bo'lgan kuchli istak orqali yutuqlarga erishiladi. Misol uchun, texnologiya gigantlarining yuksalishini olaylik; ularning yutuqlari takomillashtirishga bo'lgan tinimsiz intilish bilan ta'minlangan. Qiziquvchanlik bizni mavjud holatni shubha ostiga qo'yishga, chegaralarni kengaytirishga undaydi va shunday qilib, \"ehtiyoj ixtironing onasidir\". Aslida, bu insoniyat tsivilizatsiyasidagi har bir yirik sakrashning harakatlantiruvchi kuchidir.</p>",
+      "uzSampleA1": "<p>Men o'qishni yaxshi ko'raman.</p>\n<p>Men savollar beraman.</p>\n<p>Bu yaxshi.</p>",
+      "uzSampleA2": "<p>Men yangi narsalarni o'rganishni yaxshi ko'raman va qiziquvchanman.</p>\n<p>Men ko'proq bilishni xohlaganim uchun ko'p savollar beraman.</p>\n<p>Ba'zan qiyin bo'ladi, lekin bu ham qiziqarli.</p>",
+      "uzSampleB1": "<p>Menimcha, qiziquvchanlik muhim.</p><p>Masalan, biror narsani tushunmaganimda, savollar beraman.</p><p>Shuningdek, fan yoki tarix kabi yangi mavzular haqida bilishni yoqtiraman.</p><p>Menimcha, qiziquvchan bo'lish ko'proq o'rganishga va aqlliroq bo'lishga yordam beradi.</p><p>Biroq, ba'zida juda ko'p savol bersangiz, bu boshqa odamlarni bezovta qilishi mumkin.</p>",
+      "uzSampleB2": "<p>Mening fikrimcha, qiziquvchanlik shaxsiy va ijtimoiy rivojlanish uchun muhim xususiyatdir.</p>\n<p>Men notanish narsaga duch kelganimda, mening birinchi reaksiyam uni yanada o'rganish bo'ladi, bu ko'pincha kutilmagan kashfiyotlarga olib keldi.</p>\n<p>Masalan, astrofizikaga bo'lgan qiziqishim qora tuynuklar haqidagi oddiy savoldan boshlangan.</p>\n<p>Bu meni bir nechta kitoblarni o'qishga va hujjatli filmlarni tomosha qilishga undadi, bu esa bilimimni sezilarli darajada kengaytirdi.</p>\n<p>Bundan tashqari, qiziquvchan fikrlash innovatsiyalar va muammolarni hal qilishni rag'batlantiradi, chunki u bizni turli nuqtai nazarlarni o'rganishga va mavjud taxminlarga qarshi chiqishga undaydi.</p>\n<p>Shuning uchun, qiziquvchanlikni rivojlantirish har qanday sohada taraqqiyot uchun zarurdir.</p>"
     },
     {
       "number": 8,
@@ -262,6 +304,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "University Degrees Are No Longer Necessary for a Successful Career\n",
+      "audioFile": "questions S/audio/cefr-speaking-mock-10-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
@@ -301,7 +344,642 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I think no. I have no degree. I work.</p>",
       "sampleA2": "<p>I think university is good, but maybe not for everyone. My brother went to university and he has a good job. But my friend didn't go and he is also happy and has a job. So, it depends, I think.</p>",
       "sampleB1": "<p>Well, I think university degrees can be helpful for a career. <span class=\"ml-token adv\">However</span>, I don't think they are always necessary. <span class=\"ml-token adv\">For example</span>, some people learn skills online or through work experience. <span class=\"ml-token adv\">In my opinion</span>, it depends on the job. Some jobs need a degree, but others don't. It's also about what you want to do.</p>",
-      "sampleB2": "<p>It's an interesting question whether university degrees are still essential for career success. While a degree can <span class=\"ml-token adv\">undoubtedly</span> open doors and provide a solid foundation of knowledge, I believe it's no longer the only path to a fulfilling career. The rise of online learning platforms and alternative training programs has made it easier than ever to acquire the skills needed for certain professions without a traditional degree. <span class=\"ml-token adv\">Furthermore</span>, practical experience and a strong portfolio can often be just as valuable, if not more so, than academic qualifications. <span class=\"ml-token adv\">Ultimately</span>, I think it depends on the individual's goals and the specific industry they're interested in.</p>"
+      "sampleB2": "<p>It's an interesting question whether university degrees are still essential for career success. While a degree can <span class=\"ml-token adv\">undoubtedly</span> open doors and provide a solid foundation of knowledge, I believe it's no longer the only path to a fulfilling career. The rise of online learning platforms and alternative training programs has made it easier than ever to acquire the skills needed for certain professions without a traditional degree. <span class=\"ml-token adv\">Furthermore</span>, practical experience and a strong portfolio can often be just as valuable, if not more so, than academic qualifications. <span class=\"ml-token adv\">Ultimately</span>, I think it depends on the individual's goals and the specific industry they're interested in.</p>",
+      "uzSampleAnswer": "<p>\"Muvaffaqiyat baxtning kaliti emas. Baxt muvaffaqiyatning kalitidir.\" Bu ko'pincha muvaffaqiyatli karera uchun universitet diplomlarining zarurligini muhokama qilganda aks sado beradi. Bir tomondan, Stiv Jobs va Mark Tsukerberg kabi ko'plab muvaffaqiyatli tadbirkorlar akademik malakalar muvaffaqiyat zinapoyasidan ko'tarilish uchun zarur emasligini ko'rsatdilar. Coursera va Udemy kabi onlayn kurslar va platformalarning rivojlanishi o'z-o'zini boshqaruvchi ta'lim uchun ko'plab imkoniyatlarni ochdi. Ba'zi sohalarda, ayniqsa texnologiya sohasida, ko'nikmalar va innovatsiyalar rasmiy malakalardan ustun turadi, bu esa shaxslarga an'anaviy ravishda diplom egalari uchun ajratilgan rollarga kirishga imkon beradi.</p>\n\n<p>Boshqa tomondan, diplomga ega bo'lish mavjud ish imkoniyatlari doirasini sezilarli darajada kengaytirishi, ko'pincha yuqori maoshlarga olib kelishi inkor etib bo'lmaydigan haqiqatdir. Tibbiyot va huquq kabi kasblar mavjudki, ularda rasmiy ta'lim mutlaq zaruratdir, bu standartlarga javob berilishini va saqlanishini ta'minlaydi. Bundan tashqari, universitet tajribasi o'z karera yo'lida hal qiluvchi ahamiyatga ega bo'lishi mumkin bo'lgan bebaho aloqa imkoniyatlarini taqdim etadi. Universitet hayoti tomonidan ta'minlangan ijtimoiy tajriba va shaxsiy o'sishni unutmaylik, bu ko'pincha kelajakdagi muvaffaqiyat uchun zamin yaratadi.</p>\n\n<p>Mening fikrimcha, diplomlar mustahkam poydevor yaratgan holda, ular o'z karera maqsadlariga erishishning yagona yo'li emas. E'tibor ko'nikmalarni rivojlantirishga va umrbod ta'limni qabul qilishga qaratilishi kerak, muvaffaqiyatga olib boradigan turli yo'llarga ochiq fikrda bo'lish kerak.</p>",
+      "uzSampleA1": "<p>Menimcha yo'q. Menda diplom yo'q. Men ishlayman.</p>",
+      "uzSampleA2": "<p>Menimcha, universitet yaxshi, lekin balki hamma uchun emasdir. Akam universitetga bordi va uning yaxshi ishi bor. Lekin do'stim bormadi va u ham baxtli va ishi bor. Shunday qilib, bu bog'liq, deb o'ylayman.</p>",
+      "uzSampleB1": "<p>Xo'sh, menimcha universitet diplomlari karyera uchun foydali bo'lishi mumkin. <br>Lekin, men ularning har doim ham zarur ekanligiga ishonmayman. <br>Masalan, ba'zi odamlar onlayn yoki ish tajribasi orqali ko'nikmalarni o'rganadilar. <br>Mening fikrimcha, bu ishga bog'liq. Ba'zi ishlar diplomni talab qiladi, lekin boshqalari talab qilmaydi. Bu sizning nima qilmoqchiligingizga ham bog'liq.</p>",
+      "uzSampleB2": "<p>Universitet diplomlari karyera muvaffaqiyati uchun hali ham zarurmi degan savol juda qiziq. Diplom, shubhasiz, eshiklarni ochishi va bilimning mustahkam asosini ta'minlashi mumkin bo'lsa-da, menimcha, bu endi muvaffaqiyatli karyeraga olib boradigan yagona yo'l emas. Onlayn ta'lim platformalari va muqobil o'quv dasturlarining rivojlanishi an'anaviy diplomga ega bo'lmasdan turib, ma'lum kasblar uchun zarur bo'lgan ko'nikmalarni egallashni har qachongidan ham osonlashtirdi. Bundan tashqari, amaliy tajriba va kuchli portfel ko'pincha akademik malakalardan kam bo'lmagan, balki undan ham qimmatliroq bo'lishi mumkin. Oxir-oqibat, menimcha, bu shaxsning maqsadlariga va ularning qiziqish doirasidagi aniq sohaga bog'liq.</p>"
     }
-  ]
+  ],
+  "tokenTranslations": {
+    "genuinely": {
+      "uz": "chinakamiga",
+      "type": "adv"
+    },
+    "preference for": {
+      "uz": "ko'proq yoqtirish",
+      "type": "colloc"
+    },
+    "leans towards": {
+      "uz": "moyil bo'lmoq",
+      "type": "phrasal"
+    },
+    "casual wear": {
+      "uz": "kundalik kiyim",
+      "type": "colloc"
+    },
+    "at ease": {
+      "uz": "o'zini erkin his qilmoq",
+      "type": "idiom"
+    },
+    "make an effort": {
+      "uz": "harakat qilmoq",
+      "type": "phrasal"
+    },
+    "honestly": {
+      "uz": "rostini aytsam",
+      "type": "adv"
+    },
+    "form of expression": {
+      "uz": "o'zini ifoda etish usuli",
+      "type": "colloc"
+    },
+    "\"Clothes make the man.\"": {
+      "uz": "\"Kiyimga qarab kutib oladilar, aqliga qarab kuzatadilar.\"",
+      "type": "proverb"
+    },
+    "boost one's confidence": {
+      "uz": "o'ziga bo'lgan ishonchni oshirmoq",
+      "type": "phrasal"
+    },
+    "lasting impression": {
+      "uz": "unutilmas taassurot",
+      "type": "colloc"
+    },
+    "tailored suits": {
+      "uz": "buyurtma asosida tikilgan kostyumlar",
+      "type": "colloc"
+    },
+    "bring out": {
+      "uz": "ko'rsatib bermoq",
+      "type": "phrasal"
+    },
+    "hanging out": {
+      "uz": "vaqt o'tkazmoq",
+      "type": "phrasal"
+    },
+    "simple t-shirt": {
+      "uz": "oddiy futbolka",
+      "type": "colloc"
+    },
+    "truly": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "sustainable fashion": {
+      "uz": "barqaror moda",
+      "type": "colloc"
+    },
+    "make it a point": {
+      "uz": "o'ziga maqsad qilmoq",
+      "type": "phrasal"
+    },
+    "ethical brands": {
+      "uz": "axloqiy brendlar",
+      "type": "colloc"
+    },
+    "believe": {
+      "uz": "ishonaman",
+      "type": "adv"
+    },
+    "In my opinion": {
+      "uz": "mening fikrimcha",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "ammo",
+      "type": "adv"
+    },
+    "Generally": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "gravitate towards": {
+      "uz": "intilmoq",
+      "type": "phrasal"
+    },
+    "For example": {
+      "uz": "Masalan",
+      "type": "adv"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "talk about": {
+      "uz": "gapirmoq",
+      "type": "phrasal"
+    },
+    "a classic Italian dish": {
+      "uz": "italyan oshxonasining klassik taomi",
+      "type": "colloc"
+    },
+    "thoroughly": {
+      "uz": "puxta",
+      "type": "adv"
+    },
+    "rolling it out": {
+      "uz": "yoyib",
+      "type": "phrasal"
+    },
+    "takes a bit of elbow grease": {
+      "uz": "bir oz mehnat talab qiladi",
+      "type": "idiom"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "hearty mixture": {
+      "uz": "to'yimli aralashma",
+      "type": "colloc"
+    },
+    "richly": {
+      "uz": "boyitib",
+      "type": "adv"
+    },
+    "a labor of love": {
+      "uz": "mehr bilan qilingan ish",
+      "type": "colloc"
+    },
+    "fills up": {
+      "uz": "to'ydiradi",
+      "type": "phrasal"
+    },
+    "hard to resist": {
+      "uz": "o'zini tiyish qiyin",
+      "type": "idiom"
+    },
+    "not just": {
+      "uz": "nafaqat",
+      "type": "colloc"
+    },
+    "memorable experience": {
+      "uz": "unutilmas tajriba",
+      "type": "colloc"
+    },
+    "incredibly": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "tuck into": {
+      "uz": "ishtaha bilan yemoq",
+      "type": "phrasal"
+    },
+    "a great way to let your hair down": {
+      "uz": "dam olishning ajoyib usuli",
+      "type": "idiom"
+    },
+    "\"The way to a person's heart is through their stomach.\"": {
+      "uz": "\"Osh qozon osilsa, qo'shni qatnashar\"",
+      "type": "proverb"
+    },
+    "certainly": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "brings people together": {
+      "uz": "odamlarni birlashtiradi",
+      "type": "phrasal"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "revolves around": {
+      "uz": "atrofida aylanadi",
+      "type": "phrasal"
+    },
+    "intricate plot": {
+      "uz": "murakkab syujet",
+      "type": "colloc"
+    },
+    "engaging character development": {
+      "uz": "qiziqarli personaj rivoji",
+      "type": "colloc"
+    },
+    "brought to life": {
+      "uz": "jonlantirilgan",
+      "type": "phrasal"
+    },
+    "perfectly": {
+      "uz": "mukammal",
+      "type": "adv"
+    },
+    "\"The devil is in the details,\"": {
+      "uz": "\"Qozonning qulog'i bor\"",
+      "type": "proverb"
+    },
+    "masterfully": {
+      "uz": "mahorat bilan",
+      "type": "adv"
+    },
+    "exceptionally": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "keeps you on the edge of your seat": {
+      "uz": "nafasingni ichinga yutib ko'rishga majbur qiladi",
+      "type": "idiom"
+    },
+    "weekly ritual": {
+      "uz": "haftalik odat",
+      "type": "colloc"
+    },
+    "let my hair down": {
+      "uz": "dam olmoq",
+      "type": "idiom"
+    },
+    "\"Old is gold,\"": {
+      "uz": "\"Eski do'st yangisidan yaxshi\"",
+      "type": "proverb"
+    },
+    "brings back": {
+      "uz": "eslatadi",
+      "type": "phrasal"
+    },
+    "modern twist": {
+      "uz": "zamonaviy tus",
+      "type": "colloc"
+    },
+    "highly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "dash of nostalgia": {
+      "uz": "nostalji tuyg'usi",
+      "type": "colloc"
+    },
+    "thought-provoking": {
+      "uz": "fikrga undovchi",
+      "type": "colloc"
+    },
+    "solitary woman": {
+      "uz": "yakka ayol",
+      "type": "colloc"
+    },
+    "sense of serenity": {
+      "uz": "xotirjamlik hissi",
+      "type": "colloc"
+    },
+    "brings to mind": {
+      "uz": "yodga soladi",
+      "type": "phrasal"
+    },
+    "\"a breath of fresh air\"": {
+      "uz": "\"dildan gap\"",
+      "type": "idiom"
+    },
+    "soaking up": {
+      "uz": "shimib olmoq",
+      "type": "phrasal"
+    },
+    "getting away": {
+      "uz": "qochib qutulmoq",
+      "type": "phrasal"
+    },
+    "often": {
+      "uz": "ko'pincha",
+      "type": "adv"
+    },
+    "great opportunity": {
+      "uz": "katta imkoniyat",
+      "type": "colloc"
+    },
+    "modern infrastructure": {
+      "uz": "zamonaviy infratuzilma",
+      "type": "colloc"
+    },
+    "efficient public transport": {
+      "uz": "samarali jamoat transporti",
+      "type": "colloc"
+    },
+    "\"the city that never sleeps\"": {
+      "uz": "\"hech qachon uxlamaydigan shahar\"",
+      "type": "idiom"
+    },
+    "fast-paced lifestyle": {
+      "uz": "tez sur'atli turmush tarzi",
+      "type": "colloc"
+    },
+    "characteristic": {
+      "uz": "xos",
+      "type": "adv"
+    },
+    "carry on": {
+      "uz": "davom ettirmoq",
+      "type": "phrasal"
+    },
+    "economic growth": {
+      "uz": "iqtisodiy o'sish",
+      "type": "colloc"
+    },
+    "fast-paced": {
+      "uz": "tez sur'atli",
+      "type": "colloc"
+    },
+    "physically": {
+      "uz": "jismonan",
+      "type": "adv"
+    },
+    "mentally": {
+      "uz": "ruhiy jihatdan",
+      "type": "adv"
+    },
+    "\"Nature does not hurry, yet everything is accomplished.\"": {
+      "uz": "\"Tabiat shoshilmaydi, lekin hamma narsaga erishadi.\"",
+      "type": "proverb"
+    },
+    "bring about": {
+      "uz": "keltirib chiqarmoq",
+      "type": "phrasal"
+    },
+    "hard": {
+      "uz": "qattiq",
+      "type": "adv"
+    },
+    "excellent forms of exercise": {
+      "uz": "jismoniy mashq qilishning ajoyib usullari",
+      "type": "colloc"
+    },
+    "soak up": {
+      "uz": "shimib olmoq",
+      "type": "phrasal"
+    },
+    "crucial": {
+      "uz": "muhim",
+      "type": "adv"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "undoubtedly": {
+      "uz": "shubhasiz",
+      "type": "adv"
+    },
+    "help out": {
+      "uz": "yordam bermoq",
+      "type": "phrasal"
+    },
+    "recharging one's batteries": {
+      "uz": "kuch yig'moq",
+      "type": "idiom"
+    },
+    "scientifically": {
+      "uz": "ilmiy jihatdan",
+      "type": "adv"
+    },
+    "see the silver lining": {
+      "uz": "har narsada yaxshi tomonga intilmoq",
+      "type": "idiom"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "bombarded with": {
+      "uz": "to'lib-toshgan",
+      "type": "phrasal"
+    },
+    "unplug and unwind": {
+      "uz": "dam olmoq va hordiq chiqarmoq",
+      "type": "idiom"
+    },
+    "\"Look deep into nature, and then you will understand everything better.\"": {
+      "uz": "\"Tabiatga chuqur nazar soling, shunda hamma narsani yaxshiroq tushunasiz.\"",
+      "type": "proverb"
+    },
+    "notably": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "immensely": {
+      "uz": "juda katta",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "physical activity": {
+      "uz": "jismoniy faollik",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "big city": {
+      "uz": "katta shahar",
+      "type": "colloc"
+    },
+    "offer up": {
+      "uz": "taqdim etmoq",
+      "type": "phrasal"
+    },
+    "career advancement": {
+      "uz": "martaba o'sishi",
+      "type": "colloc"
+    },
+    "professional growth": {
+      "uz": "kasbiy rivojlanish",
+      "type": "colloc"
+    },
+    "The world is your oyster": {
+      "uz": "Oldingda keng dunyo",
+      "type": "idiom"
+    },
+    "social experience": {
+      "uz": "ijtimoiy tajriba",
+      "type": "colloc"
+    },
+    "gives rise": {
+      "uz": "sabab bo'ladi",
+      "type": "phrasal"
+    },
+    "meet up with": {
+      "uz": "uchrashmoq",
+      "type": "phrasal"
+    },
+    "opens up": {
+      "uz": "ochadi",
+      "type": "phrasal"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "get around": {
+      "uz": "borib kelmoq",
+      "type": "phrasal"
+    },
+    "\"time is money\"": {
+      "uz": "\"vaqt - oltin\"",
+      "type": "proverb"
+    },
+    "might not": {
+      "uz": "bo'lmasligi mumkin",
+      "type": "phrasal"
+    },
+    "To each his own": {
+      "uz": "Har kimning o'z didi bor",
+      "type": "idiom"
+    },
+    "Primarily": {
+      "uz": "Asosan",
+      "type": "adv"
+    },
+    "genuine": {
+      "uz": "haqiqiy",
+      "type": "adv"
+    },
+    "truly valuable": {
+      "uz": "haqiqatan qimmatli",
+      "type": "colloc"
+    },
+    "stumbled upon": {
+      "uz": "uchratib qolmoq",
+      "type": "phrasal"
+    },
+    "completely": {
+      "uz": "butunlay",
+      "type": "adv"
+    },
+    "dive deeper": {
+      "uz": "chuqurroq o'rganmoq",
+      "type": "phrasal"
+    },
+    "signed up": {
+      "uz": "ro'yxatdan o'tdi",
+      "type": "phrasal"
+    },
+    "eye-opening": {
+      "uz": "ko'zni ochuvchi",
+      "type": "colloc"
+    },
+    "paved the way": {
+      "uz": "yo'l ochdi",
+      "type": "colloc"
+    },
+    "catalyst for growth": {
+      "uz": "o'sish katalizatori",
+      "type": "colloc"
+    },
+    "broad skill set": {
+      "uz": "keng ko'lamli ko'nikmalar to'plami",
+      "type": "colloc"
+    },
+    "paid off": {
+      "uz": "o'zini oqladi",
+      "type": "phrasal"
+    },
+    "stay ahead": {
+      "uz": "oldingi safda bo'lish",
+      "type": "phrasal"
+    },
+    "\"think outside the box\"": {
+      "uz": "\"qolipdan tashqari fikrlash\"",
+      "type": "idiom"
+    },
+    "remarkably": {
+      "uz": "ajoyib tarzda",
+      "type": "adv"
+    },
+    "burning desire": {
+      "uz": "qalbida yonib turgan istak",
+      "type": "colloc"
+    },
+    "rise of": {
+      "uz": "yuksalishi",
+      "type": "phrasal"
+    },
+    "drives us": {
+      "uz": "bizni harakatga keltiradi",
+      "type": "phrasal"
+    },
+    "push boundaries": {
+      "uz": "chegaralarni kengaytirish",
+      "type": "phrasal"
+    },
+    "\"necessity is the mother of invention.\"": {
+      "uz": "\"Ehtiyoj ixtironing onasi\"",
+      "type": "proverb"
+    },
+    "driving force": {
+      "uz": "harakatlantiruvchi kuch",
+      "type": "colloc"
+    },
+    "major leap": {
+      "uz": "katta sakrash",
+      "type": "colloc"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "Therefore": {
+      "uz": "Shuning uchun",
+      "type": "adv"
+    },
+    "\"Success is not the key to happiness. Happiness is the key to success.\"": {
+      "uz": "\"Baxt omad kaliti emas. Baxt - omad kalitidir.\"",
+      "type": "proverb"
+    },
+    "many successful entrepreneurs": {
+      "uz": "ko'plab muvaffaqiyatli tadbirkorlar",
+      "type": "colloc"
+    },
+    "climbing the ladder": {
+      "uz": "\"mansab pillapoyalaridan ko'tarilish\"",
+      "type": "idiom"
+    },
+    "opened up": {
+      "uz": "ochdi",
+      "type": "phrasal"
+    },
+    "In some industries": {
+      "uz": "Ba'zi sohalarda",
+      "type": "colloc"
+    },
+    "take precedence over": {
+      "uz": "ustunlikka ega bo'lish",
+      "type": "colloc"
+    },
+    "step into": {
+      "uz": "kirish",
+      "type": "phrasal"
+    },
+    "undeniably": {
+      "uz": "shubhasiz",
+      "type": "adv"
+    },
+    "widen the scope": {
+      "uz": "doirani kengaytirish",
+      "type": "colloc"
+    },
+    "an absolute necessity": {
+      "uz": "mutlaq zarurat",
+      "type": "colloc"
+    },
+    "Let’s not forget": {
+      "uz": "Unutmaylik",
+      "type": "idiom"
+    },
+    "lays the groundwork": {
+      "uz": "asos soladi",
+      "type": "phrasal"
+    },
+    "solid foundation": {
+      "uz": "mustahkam poydevor",
+      "type": "colloc"
+    },
+    "keeping an open mind": {
+      "uz": "fikrini ochiq tutish",
+      "type": "idiom"
+    }
+  }
 };

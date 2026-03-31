@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],</p>\n<p>Café sad. No people. I like café. Coffee good. Maybe cake?</p>\n<p>Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],</p>\n<p>The café is not good. The owner is sad because no many people. I like the café and coffee. Maybe new cakes and cookies? And more chairs? What do you think?</p>\n<p>Bye!</p>",
       "sampleB1": "<p>Hi [Friend's Name],</p>\n<p>Did you see the message from the café? It's not doing very well because of the big coffee shops. I think it's a shame because I like it there. I was thinking maybe they could have some special offers during the week. Also, perhaps they could introduce some new sandwiches or salads. What are your ideas? We should try to help them!</p>\n<p>Talk soon,</p>\n<p>[Your Name]</p>",
-      "sampleB2": "<p>Hey [Friend's Name],</p>\n<p>Have you seen the notice from the café owner? It sounds like they're really struggling to stay afloat with all the competition. It's such a shame, I really value having that independent place nearby. I was pondering what they could do to draw in more customers. Perhaps hosting themed evenings, like a book club or a board game night, could create a sense of community. They could also revamp their loyalty scheme to offer more enticing rewards. What are your thoughts? Any brilliant ideas on your end?</p>\n<p>Best,</p>\n<p>[Your Name]</p>"
+      "sampleB2": "<p>Hey [Friend's Name],</p>\n<p>Have you seen the notice from the café owner? It sounds like they're really struggling to stay afloat with all the competition. It's such a shame, I really value having that independent place nearby. I was pondering what they could do to draw in more customers. Perhaps hosting themed evenings, like a book club or a board game night, could create a sense of community. They could also revamp their loyalty scheme to offer more enticing rewards. What are your thoughts? Any brilliant ideas on your end?</p>\n<p>Best,</p>\n<p>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bizning sevimli kafemizdan kelgan xabarni ko'rdingmi? Ularning yopilib ketishidan juda xavotirdaman! Menimcha, ular ko'proq vegan taomlarini qo'shishlari kerak – bu ko'proq mijozlarni jalb qiladi. Balki jonli musiqa kechalari ham yordam berishi mumkin? Senda qanday g'oyalar bor?</p>\n<p>Keling, ularni qo'llab-quvvatlaylik!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Kafeda xafa. Odamlar yo'q. Menga kafe yoqadi. Kofe yaxshi. Balki tort?</p>\n<p>Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Kafening ahvoli yaxshi emas. Egalari xafa, chunki odamlar kam. Menga kafe va qahva yoqadi. Balki yangi tortlar va pechenyelar kerakdir? Va ko'proq stullarmi? Siz nima deb o'ylaysiz?</p>\n<p>Xayr!</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Sen kafedan kelgan xabarni ko'rdingmi? U katta qahvaxonalari tufayli unchalik yaxshi ishlamayapti. Menimcha, bu juda achinarli, chunki menga u yer yoqadi. Men o'yladimki, ular hafta davomida ba'zi maxsus takliflarga ega bo'lishlari mumkin. Shuningdek, ehtimol ular yangi sendvichlar yoki salatlarni taqdim etishlari mumkin. Sening qanday fikrlaring bor? Biz ularga yordam berishga harakat qilishimiz kerak!</p>\n<p>Tez orada gaplashamiz,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom, [Do'stingizning ismi],</p>\n<p>Qahvaxonaning egasidan kelgan e'lonni ko'rdingmi? Raqobat tufayli ular omon qolish uchun juda qiynalayotganga o'xshaydi. Bu juda achinarli, men yaqin atrofda mustaqil joyning borligini juda qadrlayman. Men ularning ko'proq mijozlarni jalb qilish uchun nima qilishlari mumkinligi haqida o'ylayotgan edim. Ehtimol, kitob klubi yoki stol o'yinlari kechasi kabi tematik oqshomlarni o'tkazish hamjamiyat tuyg'usini yaratishi mumkin. Ular, shuningdek, yanada jozibali mukofotlarni taklif qilish uchun sodiqlik sxemasini yangilashlari mumkin. Sening fikring qanday? Senda ajoyib g'oyalar bormi?</p>\n<p>Eng yaxshi tilaklar bilan,</p>\n<p>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p>\r\n<p>I like cake. More cake good. Coffee good. More coffee?</p>\r\n<p>Bye!</p>",
       "sampleA2": "<p>Hi,</p>\r\n<p>I like your cafe. But it is small. I want more food and drinks. Maybe new cakes? And more juice because I like juice. Also, maybe music? Because music is fun. More people come if you have music and good cakes.</p>\r\n<p>Thank you,</p>\r\n<p>A Customer</p>",
       "sampleB1": "<p>Dear Café Owner,</p>\r\n<p>I am writing to you because I want to help your café. I like coming here, but I think some things could be better. I think you should add some new things to the menu. For example, maybe some sandwiches or salads, because not everyone wants cake all the time. Also, maybe you could have some special offers, like a coffee and cake deal. I think that would bring more people in. Also, maybe you could have some music sometimes. I think these things would help your business.</p>\r\n<p>Sincerely,</p>\r\n<p>A Customer</p>",
-      "sampleB2": "<p>Dear Café Owner,</p>\r\n<p>I am writing in response to your request for suggestions on how to improve your café. I appreciate your proactive approach to addressing the challenges posed by larger chains.</p>\r\n<p>I believe that introducing themed evenings could attract a wider customer base. For instance, a weekly board game night or a foreign film screening could create a unique and engaging atmosphere. Furthermore, partnering with local artists to display their work on the walls could enhance the café's ambiance and provide exposure for the artists, creating a mutually beneficial relationship. Another suggestion would be to focus on locally sourced ingredients and promote this aspect in your marketing efforts. Consumers are increasingly interested in supporting local businesses and sustainable practices.</p>\r\n<p>I hope these suggestions are helpful. I value your café and wish you success.</p>\r\n<p>Yours sincerely,</p>\r\n<p>A Loyal Customer</p>"
+      "sampleB2": "<p>Dear Café Owner,</p>\r\n<p>I am writing in response to your request for suggestions on how to improve your café. I appreciate your proactive approach to addressing the challenges posed by larger chains.</p>\r\n<p>I believe that introducing themed evenings could attract a wider customer base. For instance, a weekly board game night or a foreign film screening could create a unique and engaging atmosphere. Furthermore, partnering with local artists to display their work on the walls could enhance the café's ambiance and provide exposure for the artists, creating a mutually beneficial relationship. Another suggestion would be to focus on locally sourced ingredients and promote this aspect in your marketing efforts. Consumers are increasingly interested in supporting local businesses and sustainable practices.</p>\r\n<p>I hope these suggestions are helpful. I value your café and wish you success.</p>\r\n<p>Yours sincerely,</p>\r\n<p>A Loyal Customer</p>",
+      "uzSample": "<p>Hurmatli kafe egasi,</p>\n\n<p>Ushbu qiyin davrda sodiq mijozlarga murojaat qilganingiz uchun tashakkur. Men bir nechta takliflarni berishdan mamnunman.</p>\n\n<p>Birinchidan, menyuni vegan pirojniylari va o'simlik asosidagi sut alternativalari kabi sog'lomroq variantlarni qo'shish orqali sog'lig'iga e'tibor beradigan mijozlarni jalb qilish mumkin.</p>\n\n<p>Bundan tashqari, har haftalik ochiq mikrofon kechalari yoki kitob klublari kabi tadbirlarni o'tkazish jamoatchilik tuyg'usini yaratadi va odamlarga muntazam ravishda tashrif buyurish uchun sabab beradi.</p>\n\n<p>Bundan tashqari, mijozlar mukofotlarga ega bo'ladigan sodiqlik dasturini taklif qilishni taklif qilaman. Bu qayta tashriflarni rag'batlantirishi mumkin.</p>\n\n<p>Sizning kafengizda yirik tarmoqlar takrorlay olmaydigan o'ziga xos joziba bor. Bir nechta o'zgartirishlar bilan siz gullab-yashnashingiz mumkinligiga ishonaman.</p>\n\n<p>Eng yaxshi tilaklar bilan,<br>Sizning sodiq mijozingiz</p>",
+      "uzSampleA1": "<p>Salom!</p>\n<p>Menga tort yoqadi. Ko'proq tort yaxshi. Kofe yaxshi. Ko'proq kofe?</p>\n<p>Xayr!</p>",
+      "uzSampleA2": "<p>Salom,</p>\n<p>Sizning kafengiz menga yoqadi. Lekin u kichkina. Men ko'proq ovqat va ichimliklar xohlayman. Balki yangi tortlar? Va ko'proq sharbat, chunki men sharbatni yaxshi ko'raman. Yana, balki musiqa? Chunki musiqa qiziqarli. Agar sizda musiqa va yaxshi tortlar bo'lsa, ko'proq odamlar keladi.</p>\n<p>Rahmat,</p>\n<p>Mijoz</p>",
+      "uzSampleB1": "<p>Hurmatli kafe egasi,</p>\n<p>Men sizga kafengizga yordam berishni xohlaganim uchun yozyapman. Menga bu yerga kelish yoqadi, lekin menimcha, ba'zi narsalar yaxshiroq bo'lishi mumkin. Menimcha, menyuga yangi narsalar qo'shishingiz kerak. Masalan, ba'zi sendvichlar yoki salatlar, chunki hamma ham doim tort yeyishni xohlamaydi. Shuningdek, ehtimol, sizda ba'zi maxsus takliflar bo'lishi mumkin, masalan, kofe va tort kelishuvi. Menimcha, bu ko'proq odamlarni olib keladi. Shuningdek, ehtimol, ba'zan musiqa qo'yishingiz mumkin. Menimcha, bu narsalar biznesingizga yordam beradi.</p>\n<p>Hurmat bilan,</p>\n<p>Mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli kafe egasi,</p>\n<p>Men sizning kafeni yaxshilash bo'yicha takliflaringizni so'rab qilgan murojaatingizga javoban yozyapman. Katta tarmoqlar tomonidan yaratilgan qiyinchiliklarni hal qilishga bo'lgan faol yondashuvingizni qadrlayman.</p>\n<p>Menimcha, mavzuli kechalarni tashkil etish kengroq mijozlar bazasini jalb qilishi mumkin. Misol uchun, har haftalik stol o'yinlari kechasi yoki xorijiy filmlar namoyishi o'ziga xos va qiziqarli muhit yaratishi mumkin. Bundan tashqari, mahalliy rassomlar bilan hamkorlik qilib, ularning asarlarini devorlarga osib qo'yish kafening muhitini yaxshilashi va rassomlar uchun reklama imkoniyatini yaratishi, o'zaro manfaatli munosabatlarni yaratishi mumkin. Yana bir taklif - mahalliy manbalardan olingan ingredientlarga e'tibor qaratish va bu jihatni marketing harakatlaringizda targ'ib qilish. Iste'molchilar mahalliy biznesni va barqaror amaliyotlarni qo'llab-quvvatlashga tobora ko'proq qiziqishmoqda.</p>\n<p>Umid qilamanki, bu takliflar foydali bo'ladi. Men sizning kafengizni qadrlayman va sizga muvaffaqiyat tilayman.</p>\n<p>Hurmat bilan,</p>\n<p>Sadoqatli mijoz</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br> I like the cafe. It is good. The coffee is nice. I buy coffee there. Big shops are big. I like small shops. Small shops are good. Bye!</p>",
       "sampleA2": "<p>I like the small cafe near my house. The coffee is good and the people are nice. I think we should go to the small cafe and not the big shops. The big shops are cheaper, but the small cafe is friendly. Also, the small cafe is good for the town. We should help them because they are important. It is better to help the small cafe, but sometimes the big shops are easier.</p>",
       "sampleB1": "<p>I think it's important to support local businesses instead of big chain stores. Local businesses are important for the community. For example, the local café is a nice place to meet friends and it gives people jobs. Also, local shops often sell things that are different and more interesting than what you find in big stores. <br><br>However, I know that chain stores are often cheaper and more convenient. It's easier to find everything you need in one place. But I believe that supporting local businesses is worth the extra effort and cost. In my opinion, we should try to buy from local shops whenever we can because it helps the community.</p>",
-      "sampleB2": "<p>The debate about supporting local businesses versus large chain stores is a complex one, with valid arguments on both sides. While chain stores offer undeniable convenience and often lower prices, I believe there are compelling reasons to prioritize local businesses whenever possible.<br><br>Firstly, local businesses contribute significantly to the economic well-being of the community. Unlike chain stores, where profits are often funnelled out of the area, money spent at local businesses tends to circulate locally, supporting jobs and other local enterprises. Furthermore, local businesses often offer a more personalized and attentive service, creating a sense of community that is often lacking in larger establishments.<br><br>Of course, it's unrealistic to completely boycott chain stores. They often provide essential goods and services at affordable prices. However, by consciously choosing to support local businesses when feasible, we can help to preserve the unique character of our community and ensure its long-term economic vitality. It's about finding a balance and making informed choices that benefit both consumers and the local economy.</p>"
+      "sampleB2": "<p>The debate about supporting local businesses versus large chain stores is a complex one, with valid arguments on both sides. While chain stores offer undeniable convenience and often lower prices, I believe there are compelling reasons to prioritize local businesses whenever possible.<br><br>Firstly, local businesses contribute significantly to the economic well-being of the community. Unlike chain stores, where profits are often funnelled out of the area, money spent at local businesses tends to circulate locally, supporting jobs and other local enterprises. Furthermore, local businesses often offer a more personalized and attentive service, creating a sense of community that is often lacking in larger establishments.<br><br>Of course, it's unrealistic to completely boycott chain stores. They often provide essential goods and services at affordable prices. However, by consciously choosing to support local businesses when feasible, we can help to preserve the unique character of our community and ensure its long-term economic vitality. It's about finding a balance and making informed choices that benefit both consumers and the local economy.</p>",
+      "uzSample": "<h2>Kichik do'konlar, katta ta'sir: Mahalliyning ahamiyati</h2>\n\n<p>Yirik chakana savdo tarmoqlari ko'chalarimizda hukmronlik qilishda davom etar ekan, ko'plab kichik bizneslar omon qolish uchun kurashmoqda. Bu muhim savolni o'rtaga tashlaydi: Biz ongli ravishda mahalliy do'konlarni qo'llab-quvvatlashni tanlashimiz kerakmi?</p>\n\n<p>Shubhasiz, mahalliy do'konlardan xarid qilish uchun asosli sabablar bor. Birinchidan, mahalliy bizneslar to'g'ridan-to'g'ri mahalliy iqtisodiyotga hissa qo'shadi. Kichik do'konlarda sarflangan pul odatda jamiyat ichida qoladi, ish o'rinlarini va mahalliy yetkazib beruvchilarni qo'llab-quvvatlaydi.</p>\n\n<p>Bundan tashqari, mahalliy bizneslar ko'pincha chakana savdo tarmoqlari mos kelolmaydigan shaxsiy xizmat va noyob mahsulotlarni taqdim etadi. Mahalliy kafe yoki kitob do'koni hududga o'ziga xoslik qo'shadi, uni aholi va mehmonlar uchun yanada jozibali qiladi.</p>\n\n<p>Biroq, biz tan olishimiz kerakki, chakana savdo tarmoqlari raqobatbardosh narxlar va qulaylikni taklif qiladi. Ko'pgina oilalar uchun arzonlik asosiy tashvishdir.</p>\n\n<p>Oxir oqibat, muvozanatli yondashuv idealdir. Biz chakana savdo tarmoqlaridan butunlay qochib qutula olmasak-da, imkon qadar mahalliy biznesni qo'llab-quvvatlashga harakat qilish o'zgarish yaratishi mumkin. Har bir xarid biz yashashni istagan jamiyat uchun ovozdir.</p>",
+      "uzSampleA1": "<p>Salom!<br> Menga kafe yoqadi. U yaxshi. Kofe mazali. Men u yerda kofe sotib olaman. Katta do'konlar katta. Menga kichik do'konlar yoqadi. Kichik do'konlar yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Men uyimning yonidagi kichkina kafega borishni yaxshi ko'raman. Qahvasi mazali va odamlari yaxshi. Menimcha, biz katta do'konlarga emas, balki kichkina kafega borishimiz kerak. Katta do'konlar arzonroq, lekin kichkina kafe do'stona. Bundan tashqari, kichkina kafe shahar uchun yaxshi. Biz ularga yordam berishimiz kerak, chunki ular muhim. Kichkina kafega yordam berish yaxshiroq, lekin ba'zan katta do'konlar osonroq bo'ladi.</p>",
+      "uzSampleB1": "<p>Menimcha, katta do'konlar o'rniga mahalliy bizneslarni qo'llab-quvvatlash muhim. Mahalliy bizneslar jamiyat uchun muhimdir. Misol uchun, mahalliy kafe do'stlar bilan uchrashish uchun yaxshi joy va u odamlarga ish o'rinlarini beradi. Shuningdek, mahalliy do'konlar ko'pincha katta do'konlarda topadigan narsalardan farqli va qiziqarli narsalarni sotadi. <br><br>Biroq, men bilaman, tarmoqli do'konlar ko'pincha arzonroq va qulayroq. Sizga kerak bo'lgan hamma narsani bir joyda topish osonroq. Ammo menimcha, mahalliy bizneslarni qo'llab-quvvatlash qo'shimcha harakat va xarajatga arziydi. Mening fikrimcha, biz iloji boricha mahalliy do'konlardan xarid qilishga harakat qilishimiz kerak, chunki bu jamiyatga yordam beradi.</p>",
+      "uzSampleB2": "<p>Mahalliy biznesni qo'llab-quvvatlash yoki yirik tarmoq do'konlarini qo'llab-quvvatlash haqidagi bahs murakkab masala bo'lib, har ikki tomonning ham asosli dalillari mavjud. Tarmoq do'konlari inkor etib bo'lmaydigan qulaylik va ko'pincha arzonroq narxlarni taklif qilsa-da, menimcha, imkon qadar mahalliy biznesni ustuvor qo'yish uchun asosli sabablar bor.<br><br>Birinchidan, mahalliy biznes jamiyatning iqtisodiy farovonligiga katta hissa qo'shadi. Tarmoq do'konlaridan farqli o'laroq, foyda ko'pincha hududdan tashqariga yo'naltiriladi, mahalliy biznesda sarflangan pul mahalliy darajada aylanadi, ish o'rinlarini va boshqa mahalliy korxonalarni qo'llab-quvvatlaydi. Bundan tashqari, mahalliy biznes ko'pincha yanada shaxsiy va e'tiborli xizmatni taklif qiladi, bu esa yirik muassasalarda ko'pincha etishmaydigan jamoatchilik tuyg'usini yaratadi.<br><br>Albatta, tarmoq do'konlarini butunlay boykot qilish haqiqatga to'g'ri kelmaydi. Ular ko'pincha zarur tovarlar va xizmatlarni arzon narxlarda taqdim etadilar. Biroq, imkon qadar mahalliy biznesni qo'llab-quvvatlashni ongli ravishda tanlash orqali biz jamiyatimizning o'ziga xos xususiyatini saqlab qolishga va uning uzoq muddatli iqtisodiy hayotiyligini ta'minlashga yordam beramiz. Gap muvozanatni topish va iste'molchilar hamda mahalliy iqtisodiyotga foyda keltiradigan ongli tanlovlarni qilish haqida bormoqda.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,175 @@ window.WRITING_TEST_DATA = {
         "uz": "mahalliy do'kondan xarid qilmoq"
       }
     ]
+  },
+  "tokenTranslations": {
+    "favorite café": {
+      "uz": "sevimli qahvahona",
+      "type": "colloc"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "vegan options": {
+      "uz": "vegan taomlar",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "live music nights": {
+      "uz": "jonli musiqa kechalari",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "loyal customers": {
+      "uz": "sodiq mijozlar",
+      "type": "colloc"
+    },
+    "challenging time": {
+      "uz": "qiyin davr",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "healthier options": {
+      "uz": "sog'lomroq variantlar",
+      "type": "colloc"
+    },
+    "plant-based milk": {
+      "uz": "o'simlik sutidan",
+      "type": "colloc"
+    },
+    "health-conscious customers": {
+      "uz": "sog'lig'iga e'tiborli mijozlar",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "weekly events": {
+      "uz": "haftalik tadbirlar",
+      "type": "colloc"
+    },
+    "open mic nights": {
+      "uz": "ochiq mikrofon kechalari",
+      "type": "colloc"
+    },
+    "community": {
+      "uz": "jamiyat",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "loyalty program": {
+      "uz": "sodiqlik dasturi",
+      "type": "colloc"
+    },
+    "repeat visits": {
+      "uz": "qayta tashriflar",
+      "type": "colloc"
+    },
+    "unique charm": {
+      "uz": "o'ziga xos joziba",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "small businesses": {
+      "uz": "kichik bizneslar",
+      "type": "colloc"
+    },
+    "consciously": {
+      "uz": "ongli ravishda",
+      "type": "adv"
+    },
+    "local shops": {
+      "uz": "mahalliy do'konlar",
+      "type": "colloc"
+    },
+    "Undoubtedly": {
+      "uz": "Shubhasiz",
+      "type": "adv"
+    },
+    "compelling reasons": {
+      "uz": "asosli sabablar",
+      "type": "colloc"
+    },
+    "local businesses": {
+      "uz": "mahalliy korxonalar",
+      "type": "colloc"
+    },
+    "local economy": {
+      "uz": "mahalliy iqtisodiyot",
+      "type": "colloc"
+    },
+    "local suppliers": {
+      "uz": "mahalliy yetkazib beruvchilar",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "personalized service": {
+      "uz": "shaxsiy xizmat",
+      "type": "colloc"
+    },
+    "unique products": {
+      "uz": "noyob mahsulotlar",
+      "type": "colloc"
+    },
+    "neighborhood café": {
+      "uz": "mahalliy kafe",
+      "type": "colloc"
+    },
+    "character": {
+      "uz": "o'ziga xoslik",
+      "type": "colloc"
+    },
+    "must": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "competitive prices": {
+      "uz": "raqobatbardosh narxlar",
+      "type": "colloc"
+    },
+    "affordability": {
+      "uz": "arzonligi",
+      "type": "colloc"
+    },
+    "primary concern": {
+      "uz": "asosiy tashvish",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "cannot": {
+      "uz": "mumkin emas",
+      "type": "modal"
+    },
+    "make a difference": {
+      "uz": "o'zgarish yasamoq",
+      "type": "phrasal"
+    }
   }
 };

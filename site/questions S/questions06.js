@@ -28,6 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a large extended family?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Yes, I <span class=\"ml-token adv\">certainly</span> do. My family is <span class=\"ml-token adv\">incredibly</span> large, with relatives scattered all over the place. In my culture, family ties are <span class=\"ml-token colloc\">strongly cherished</span>, and as such, we make it a point to have <span class=\"ml-token colloc\">family reunions</span> <span class=\"ml-token adv\">regularly</span>. These gatherings provide a wonderful opportunity to <span class=\"ml-token phrasal\">catch up</span> with everyone, and they're always <span class=\"ml-token colloc\">full of laughter</span> and <span class=\"ml-token colloc\">shared stories</span>.</p>\n\n<p>Having a large extended family means that there is always someone to <span class=\"ml-token idiom\">lend a helping hand</span> or offer advice when needed. For instance, I <span class=\"ml-token phrasal\">grew up</span> with numerous cousins <span class=\"ml-token colloc\">around my age</span>, which was <span class=\"ml-token adv\">immensely</span> beneficial during my formative years. We would often <span class=\"ml-token phrasal\">hang out</span> together, and those experiences <span class=\"ml-token idiom\">shaped who I am today</span>.</p>\n\n<p>Moreover, <span class=\"ml-token proverb\">\"blood is thicker than water\"</span>, as they say, and this <span class=\"ml-token proverb\">rings true</span> for my family. The sense of belonging and unconditional support that comes with having a large extended family is something I <span class=\"ml-token idiom\">wouldn't trade for the world</span>. It's a <span class=\"ml-token colloc\">priceless treasure</span> that adds <span class=\"ml-token colloc\">depth and richness</span> to my life.</p>",
       "vocabulary": {
@@ -51,7 +52,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes. I have family. Big family. Many people.</p>",
       "sampleA2": "<p>Yes, I have a big family. Many uncles and aunts. And cousins. We see each other sometimes, but not often. It's nice.</p>",
       "sampleB1": "<p>Yes, I do have quite a large extended family. We all live in different cities, so it's difficult to see everyone regularly. <span class=\"ml-token adv\">However</span>, we try to get together for big holidays like Christmas or Thanksgiving. I think it's important to stay connected with family, even if it's just through phone calls or emails.</p>",
-      "sampleB2": "<p>Yes, I'd say I come from a fairly large extended family. While we're not all living in the same area anymore, we still maintain close ties. We make an effort to attend significant family events, and there's always a flurry of activity on <span class=\"ml-token colloc\">social media</span>. Having a large family has its <span class=\"ml-token colloc\">ups and downs</span>, of course, but on the whole, I appreciate the sense of connection and support it provides. It's comforting to know there are so many people who care about you.</p>"
+      "sampleB2": "<p>Yes, I'd say I come from a fairly large extended family. While we're not all living in the same area anymore, we still maintain close ties. We make an effort to attend significant family events, and there's always a flurry of activity on <span class=\"ml-token colloc\">social media</span>. Having a large family has its <span class=\"ml-token colloc\">ups and downs</span>, of course, but on the whole, I appreciate the sense of connection and support it provides. It's comforting to know there are so many people who care about you.</p>",
+      "uzSampleAnswer": "<p>Ha, albatta. Mening oilam juda katta, qarindoshlar hamma yoqda tarqalgan. Mening madaniyatimda oilaviy rishtalar juda qadrlanadi va shuning uchun biz muntazam ravishda oilaviy uchrashuvlar o'tkazishga harakat qilamiz. Bu yig'ilishlar hamma bilan ko'rishish uchun ajoyib imkoniyat yaratadi va ular doimo kulgi va umumiy hikoyalarga to'la bo'ladi.</p>\n\n<p>Katta oilaga ega bo'lish, kerak bo'lganda yordam beradigan yoki maslahat beradigan doim kimdir borligini anglatadi. Misol uchun, men tengdoshlarim bilan o'sdim, bu mening shakllanish yillarimda juda foydali bo'ldi. Biz ko'pincha birga vaqt o'tkazardik va bu tajribalar bugungi kimligimni shakllantirdi.</p>\n\n<p>Qolaversa, \"qon suvdan quyuqroq\", deyishadi, va bu mening oilam uchun ham to'g'ri. Katta oilaga ega bo'lish bilan birga keladigan mansublik hissi va shartsiz qo'llab-quvvatlash men hech narsaga alishmaydigan narsadir. Bu mening hayotimga chuqurlik va boylik qo'shadigan bebaho xazina.</p>",
+      "uzSampleA1": "<p>Ha. Mening oilam bor. Katta oila. Ko'p odamlar.</p>",
+      "uzSampleA2": "<p>Ha, mening katta oilam bor. Ko'p amakilar va xolalar. Va amakivachchalar. Biz ba'zida bir-birimizni ko'ramiz, lekin tez-tez emas. Yaxshi.</p>",
+      "uzSampleB1": "<p>Ha, menda ancha katta kengaytirilgan oila bor. Biz hammamiz turli shaharlarda yashaymiz, shuning uchun hamma bilan muntazam uchrashish qiyin. <br>Shunga qaramay, biz Rojdestvo yoki Minnatdorchilik kuni kabi katta bayramlarda birga yig'ilishga harakat qilamiz. Menimcha, oila bilan aloqada bo'lish muhim, hatto bu faqat telefon qo'ng'iroqlari yoki elektron pochta orqali bo'lsa ham.</p>",
+      "uzSampleB2": "<p>Ha, men ancha katta keng oiladan kelganman deb ayta olaman. Garchi biz hammamiz bir hududda yashamasak ham, biz hali ham yaqin aloqalarni saqlab qolamiz. Biz muhim oilaviy tadbirlarda qatnashishga harakat qilamiz va ijtimoiy tarmoqlarda doimo faollik kuzatiladi. Katta oilaga ega bo'lishning o'zining yaxshi va yomon tomonlari bor, albatta, lekin umuman olganda, men u ta'minlaydigan aloqa va qo'llab-quvvatlash tuyg'usini qadrlayman. Sizga g'amxo'rlik qiladigan ko'p odamlar borligini bilish taskin beradi.</p>"
     },
     {
       "number": 2,
@@ -60,6 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a lot of friends?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Honestly, I would say that I have a <span class=\"ml-token colloc\">close-knit group</span> of friends rather than a large number of acquaintances. I <span class=\"ml-token phrasal\">cherish the time</span> spent with <span class=\"ml-token colloc\">my inner circle</span>, as we have built strong bonds over the years. It's <span class=\"ml-token idiom\">not about the quantity but the quality</span> of friendships. My friends and I <span class=\"ml-token phrasal\">look out for</span> each other, and we always <span class=\"ml-token phrasal\">have each other's backs</span>, which I think is <span class=\"ml-token adv\">incredibly</span> important. In today's digital age, it's easy to amass a vast number of online connections; however, I <span class=\"ml-token adv\">genuinely</span> believe in the value of face-to-face interactions and <span class=\"ml-token colloc\">shared experiences</span>. As the saying goes, <span class=\"ml-token proverb\">\"A friend in need is a friend indeed.\"</span> So, while my circle may not be vast, it's certainly filled with people who matter the most to me.</p>",
       "vocabulary": {
@@ -83,7 +90,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes. I have friends. Two friends. They are good.</p>",
       "sampleA2": "<p>Yes, I have some friends. I like to play with them. We play football and we eat pizza. My friends are nice, but sometimes we argue.</p>",
       "sampleB1": "<p>Well, I think I have a few good friends. I don't have a lot, but the ones I have are important to me. We like to go to the cinema or just hang out. I think it's better to have a few close friends than many that you don't really know. <span class=\"ml-token adv\">For example</span>, I have known my best friend since I was a child.</p>",
-      "sampleB2": "<p>I wouldn't say I have a huge number of friends, but I do have a solid group of people I'm close to. I value quality over quantity <span class=\"ml-token adv\">when it comes to</span> friendships. It's more important to me to have genuine connections with people who understand and support me. While I enjoy meeting new people, I prioritize nurturing the relationships I already have. I believe that strong friendships are essential for a fulfilling life, and I'm fortunate to have some truly wonderful people in mine.</p>"
+      "sampleB2": "<p>I wouldn't say I have a huge number of friends, but I do have a solid group of people I'm close to. I value quality over quantity <span class=\"ml-token adv\">when it comes to</span> friendships. It's more important to me to have genuine connections with people who understand and support me. While I enjoy meeting new people, I prioritize nurturing the relationships I already have. I believe that strong friendships are essential for a fulfilling life, and I'm fortunate to have some truly wonderful people in mine.</p>",
+      "uzSampleAnswer": "<p>Rostini aytsam, men ko'p tanishlarim bo'lishidan ko'ra, juda yaqin do'stlar davrasiga egaman, deb aytgan bo'lardim. Yillar davomida mustahkam aloqalar o'rnatganligimiz sababli, men o'zimning yaqin do'stlarim bilan o'tkazgan vaqtimni qadrlayman. Gap do'stlar sonida emas, balki ularning sifatidadir. Do'stlarim bilan bir-birimizga g'amxo'rlik qilamiz va doimo bir-birimizni qo'llab-quvvatlaymiz, bu esa menimcha juda muhim. Bugungi raqamli davrda ko'plab onlayn aloqalarni to'plash oson; ammo, men yuzma-yuz muloqot va birgalikda o'tkazilgan tajribalarning qadriga chin dildan ishonaman. Maqolda aytilganidek, \"Do'st dardingga sherik bo'lganda bilinadi\". Shunday ekan, do'stlarim soni ko'p bo'lmasligi mumkin, lekin ular, albatta, men uchun eng muhim bo'lgan insonlarga to'la.</p>",
+      "uzSampleA1": "<p>Ha. Mening do'stlarim bor. Ikki do'stim. Ular yaxshi.</p>",
+      "uzSampleA2": "<p>Ha, mening bir nechta do'stlarim bor. Men ular bilan o'ynashni yaxshi ko'raman. Biz futbol o'ynaymiz va pizza yeymiz. Mening do'stlarim yaxshi, lekin ba'zida biz tortishamiz.</p>",
+      "uzSampleB1": "<p>Xo'sh, menimcha, menda bir nechta yaxshi do'stlar bor. Menda ko'p emas, lekin borlari men uchun muhim. Biz kinoga borishni yoki shunchaki birga vaqt o'tkazishni yoqtiramiz. Menimcha, yaxshi tanimaydigan ko'p do'stlarga qaraganda, bir nechta yaqin do'stlarning bo'lishi yaxshiroq. Misol uchun, men eng yaqin do'stimni bolaligimdan beri bilaman.</p>",
+      "uzSampleB2": "<p>Men juda ko'p do'stlarim bor deb ayta olmayman, lekin men yaqin bo'lgan mustahkam bir guruh odamlarim bor. Do'stlikka kelganda, men sifatni miqdordan ustun qo'yaman. Meni tushunadigan va qo'llab-quvvatlaydigan odamlar bilan chinakam aloqalarga ega bo'lish men uchun muhimroq. Yangi odamlar bilan tanishish menga yoqsa-da, men allaqachon mavjud bo'lgan munosabatlarni rivojlantirishga ustunlik beraman. Men kuchli do'stliklar to'laqonli hayot uchun zarur deb hisoblayman va mening hayotimda haqiqatan ham ajoyib odamlar borligidan baxtiyorman.</p>"
     },
     {
       "number": 3,
@@ -92,6 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What type of things can you cook?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>When it comes to cooking, I <span class=\"ml-token adv\">genuinely</span> enjoy experimenting with a wide array of dishes, but I have a particular fondness for Italian cuisine. I <span class=\"ml-token phrasal\">picked up</span> the art of making homemade pasta from my grandmother, and it has <span class=\"ml-token idiom\">become second nature to me</span>. There’s nothing quite like the texture and flavor of freshly rolled pasta. Additionally, I often <span class=\"ml-token phrasal\">whip up</span> a variety of sauces ranging from a simple tomato basil to a more sophisticated Alfredo. <span class=\"ml-token proverb\">\"Variety is the spice of life,\"</span> and I believe that trying different cuisines <span class=\"ml-token colloc\">enhances one's culinary skills</span>.</p>\n\n<p>Aside from Italian dishes, I <span class=\"ml-token colloc\">dabble in</span> Asian cuisine as well. I find stir-frying vegetables with a dash of soy sauce and a sprinkle of sesame seeds <span class=\"ml-token idiom\">a piece of cake</span>. It's <span class=\"ml-token adv\">absolutely</span> satisfying to create something healthy and delicious in such a short amount of time. Moreover, I often <span class=\"ml-token phrasal\">try out</span> new recipes from various cultures, as I believe cooking is not just about sustenance but also a <span class=\"ml-token colloc\">social experience</span> that brings people together.</p>\n\n<p>In conclusion, while I have my go-to dishes, I am <span class=\"ml-token adv\">constantly</span> eager to expand my repertoire and <span class=\"ml-token phrasal\">broaden my horizons</span> by <span class=\"ml-token phrasal\">trying out</span> new cuisines. Cooking for me is <span class=\"ml-token idiom\">not just a chore</span>, but an art form that allows me to <span class=\"ml-token idiom\">let my creativity flow</span>.</p>",
       "vocabulary": {
@@ -115,7 +128,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I cook eggs. </p><p>And rice.</p>",
       "sampleA2": "<p>I can cook pasta. </p><p>And I can cook chicken because my mom showed me. </p><p>I also make toast sometimes.</p>",
       "sampleB1": "<p>I can cook some simple things. </p><p><span class=\"ml-token adv\">For example</span>, I can make pasta with tomato sauce. </p><p>I also know how to cook chicken and rice. </p><p>I think I'm getting better at cooking.</p>",
-      "sampleB2": "<p>I can cook a few different things, mostly simple meals. </p><p>I'm quite good at making pasta dishes, like spaghetti bolognese. </p><p>I can also prepare chicken stir-fries with vegetables, which are quite healthy. </p><p>Although I'm not an expert, I enjoy trying new recipes and experimenting with different flavors when I have time.</p>"
+      "sampleB2": "<p>I can cook a few different things, mostly simple meals. </p><p>I'm quite good at making pasta dishes, like spaghetti bolognese. </p><p>I can also prepare chicken stir-fries with vegetables, which are quite healthy. </p><p>Although I'm not an expert, I enjoy trying new recipes and experimenting with different flavors when I have time.</p>",
+      "uzSampleAnswer": "<p>Ovqat tayyorlashga kelganda, men turli xil taomlar bilan tajriba o'tkazishni chin dildan yoqtiraman, lekin italyan oshxonasiga alohida mehrim bor. Uyda makaron tayyorlash san'atini buvimdan o'rganganman va bu men uchun odatiy holga aylanib qoldi. Yangi yoyilgan makaronning tuzilishi va ta'mi bilan hech narsa tenglasha olmaydi. Bundan tashqari, men ko'pincha oddiy pomidor rayhonidan tortib, yanada murakkab Alfredo sousigacha bo'lgan turli xil souslarni tezda tayyorlayman. \"Xilma-xillik hayotning ziravoridir\" va menimcha, turli xil oshxonalarni sinab ko'rish odamning pazandalik mahoratini oshiradi.</p>\n\n<p>Italyan taomlaridan tashqari, men Osiyo oshxonasida ham ozgina tajriba o'tkazaman. Sabzavotlarni soya sousi va kunjut urug'lari bilan qovurish men uchun juda oson. Bunday qisqa vaqt ichida sog'lom va mazali narsa yaratish juda yoqimli. Bundan tashqari, men ko'pincha turli madaniyatlardan yangi retseptlarni sinab ko'raman, chunki menimcha, ovqat tayyorlash nafaqat oziq-ovqat bilan ta'minlash, balki odamlarni birlashtiradigan ijtimoiy tajribadir.</p>\n\n<p>Xulosa qilib aytganda, mening doimiy tayyorlaydigan taomlarim bo'lsa-da, men doimo o'z mahoratimni oshirishga va yangi oshxonalarni sinab ko'rish orqali ufqlarimni kengaytirishga intilaman. Ovqat tayyorlash men uchun shunchaki majburiyat emas, balki ijod qilish imkonini beradigan san'at turidir.</p>",
+      "uzSampleA1": "<p>Men tuxum pishiraman.</p><p>Va guruch.</p>",
+      "uzSampleA2": "<p>Men makaron pishira olaman.</p><p>Va men tovuq ham pishira olaman, chunki onam menga o'rgatgan.</p><p>Men ba'zan tost ham tayyorlayman.</p>",
+      "uzSampleB1": "<p>Men oddiy narsalarni pishira olaman.</p><p>Masalan, men tomat sousi bilan makaron tayyorlay olaman.</p><p>Men, shuningdek, tovuq va guruchni qanday pishirishni ham bilaman.</p><p>O'ylashimcha, men pishirishda yaxshilanib boryapman.</p>",
+      "uzSampleB2": "<p>Men bir nechta turli xil narsalarni, asosan oddiy ovqatlarni pishira olaman.</p><p>Men makaronli taomlarni, masalan, spaghetti bolognese tayyorlashda ancha yaxshiman.</p><p>Men, shuningdek, sabzavotlar bilan tovuqli qovurdoq tayyorlay olaman, ular juda foydali.</p><p>Garchi men mutaxassis bo'lmasam ham, vaqtim bo'lganda yangi retseptlarni sinab ko'rishni va turli xil ta'mlar bilan tajriba o'tkazishni yoqtiraman.</p>"
     },
     {
       "number": 4,
@@ -124,6 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<img src=\"online_learning.jpg\" alt=\"Online Learning Session\" />\n<p>Starting with the first image, what <span class=\"ml-token really\">really</span> stands out is the <span class=\"ml-token colloc\">virtual classroom</span> setting, which highlights the <span class=\"ml-token idiom\">new wave of education</span>. The young girl, keenly focused, appears <span class=\"ml-token adv\">genuinely</span> absorbed in her online session. Her use of blue headphones likely helps <span class=\"ml-token phrasal\">tune out distractions</span>, enhancing her concentration. It's <span class=\"ml-token idiom\">clear as day</span> that she's an active participant, as evidenced by her note-taking. This setting <span class=\"ml-token colloc\">perfectly illustrates</span> the shift towards digital learning environments. The calm and neutral backdrop of her home, with its soft tones, creates a conducive atmosphere for study, making her approach to learning not only effective but also <span class=\"ml-token colloc\">quite appealing</span>.</p>\n\n<img src=\"classroom.jpg\" alt=\"Lively Classroom Environment\" />\n<p>In contrast, the second image presents a more traditional yet dynamic classroom atmosphere. The vibrancy here is <span class=\"ml-token adv\">truly</span> palpable. The children, seated at their desks, are <span class=\"ml-token idom\">all ears</span>, with their expressions and body language <span class=\"ml-token colloc\">speaking volumes</span> about their engagement. The girl in the bright pink sweater, in particular, exemplifies <span class=\"ml-token idiom\">learning with a smile</span>, suggesting an <span class=\"ml-token colloc\">enjoyable educational experience</span>. The light green walls and the warmth from natural sunlight not only add to the overall ambiance but also reflect an environment where students can <span class=\"ml-token phrasal\">soak up</span> knowledge <span class=\"ml-token adv\">effortlessly</span>. As the saying goes, <span class=\"ml-token proverb\">\"A picture is worth a thousand words,\"</span> and this image, <span class=\"ml-token colloc\">in all its detail</span>, effectively captures the essence of a positive and engaging learning space.</p>",
       "vocabulary": {
@@ -147,7 +166,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I see a girl. She is on the computer. And I see children in a classroom. They are happy.</p>",
       "sampleA2": "<p>In the first picture, I see a girl. She is using a computer. She is learning online. And in the second picture, I see many children. They are in a classroom and the teacher is there. It is a school.</p>",
       "sampleB1": "<p>The first picture shows a girl learning on a computer. I think she is studying at home. The second picture is different. It shows children in a classroom at school. They look like they are having a good time. <span class=\"ml-token adv\">In my opinion</span>, both pictures show students learning, but in different ways.</p>",
-      "sampleB2": "<p>The first picture depicts a young girl engaged in what appears to be online learning. She's using headphones, suggesting she's trying to concentrate. It seems like a modern approach to education. The second image, <span class=\"ml-token adv\">however</span>, presents a more traditional learning environment. We see a classroom full of children who seem attentive and involved. The atmosphere looks quite positive and engaging. It's interesting to compare these two different modes of learning; both have their own merits, I suppose.</p>"
+      "sampleB2": "<p>The first picture depicts a young girl engaged in what appears to be online learning. She's using headphones, suggesting she's trying to concentrate. It seems like a modern approach to education. The second image, <span class=\"ml-token adv\">however</span>, presents a more traditional learning environment. We see a classroom full of children who seem attentive and involved. The atmosphere looks quite positive and engaging. It's interesting to compare these two different modes of learning; both have their own merits, I suppose.</p>",
+      "uzSampleAnswer": "<img src=\"online_learning.jpg\" alt=\"Online Learning Session\" />\n<p>Birinchi rasmga nazar tashlasak, ko‘zga tashlanadigan eng asosiy narsa – bu virtual sinf muhiti bo‘lib, u ta’limdagi yangi to‘lqinni namoyon etadi. Yosh qizaloqning diqqati jamlangan holda onlayn darsiga berilib ketgani yaqqol ko‘rinib turibdi. Uning ko‘k rangli naushniklardan foydalanishi, ehtimol, chalg‘ituvchi omillarni bartaraf etishga yordam berib, diqqatini kuchaytiradi. Uning darsga faol ishtirok etayotgani kundalik tutayotganidan ham bilinib turibdi. Bu muhit raqamli ta’lim muhitiga o‘tishni mukammal tarzda aks ettiradi. Uning uyidagi xotirjam va neytral fon, yumshoq ranglari bilan birga, o‘qish uchun qulay muhit yaratadi, bu esa uning ta’limga yondashuvini nafaqat samarali, balki juda yoqimli qiladi.</p>\n\n<img src=\"classroom.jpg\" alt=\"Lively Classroom Environment\" />\n<p>Bunga zid ravishda, ikkinchi rasm an’anaviy, ammo dinamik sinf muhitini taqdim etadi. Bu yerdagi hayotiylik juda sezilarli. O‘quvchilar partalarida o‘tirgan holda, diqqat bilan tinglashmoqda, ularning ifodalari va tana tili ularning qanchalik jalb qilinganini yaqqol ko‘rsatib turibdi. Ayniqsa, yorqin pushti sviter kiygan qizaloq tabassum bilan o‘rganishga misol bo‘la oladi, bu esa zavqli ta’lim tajribasidan dalolat beradi. Och yashil devorlar va tabiiy quyosh nuridan kelayotgan iliqlik nafaqat umumiy muhitga qo‘shimcha joziba bag‘ishlaydi, balki o‘quvchilar bilim olishi mumkin bo‘lgan muhitni aks ettiradi. Aytishlaricha, \"Bir rasm ming so‘zga arziydi\", va bu rasm o‘zining barcha tafsilotlari bilan ijobiy va qiziqarli o‘quv makonining mohiyatini samarali tarzda aks ettiradi.</p>",
+      "uzSampleA1": "<p>Men bir qizni ko'ryapman. U kompyuterda. Va men sinfda bolalarni ko'ryapman. Ular xursand.</p>",
+      "uzSampleA2": "<p>Birinchi rasmda men bir qizni ko'ryapman. U kompyuterdan foydalanyapti. U onlayn o'qiyapti. Va ikkinchi rasmda men ko'p bolalarni ko'ryapman. Ular sinf xonasida va o'qituvchi ham bor. Bu maktab.</p>",
+      "uzSampleB1": "<p>Birinchi rasmda kompyuterda o'rganayotgan qizni ko'ryapman. Menimcha, u uyda o'qiyapti. Ikkinchi rasm boshqacha. Unda bolalar sinfda, maktabda ekanligini ko'rsatadi. Ularning kayfiyatlari yaxshidek ko'rinadi. Mening fikrimcha, ikkala rasmda ham o'quvchilar o'rganishyapti, lekin har xil usullarda.</p>",
+      "uzSampleB2": "<p>Birinchi rasmda yosh qiz onlayn ta'lim bilan shug'ullanayotgani tasvirlangan. U naushniklardan foydalanmoqda, bu uning diqqatini jamlashga harakat qilayotganini ko'rsatadi. Bu ta'limga zamonaviy yondashuvga o'xshaydi. Ikkinchi rasm esa, an'anaviyroq ta'lim muhitini taqdim etadi. Biz diqqatli va ishtiyoqli ko'rinadigan bolalar bilan to'la sinfni ko'ramiz. Atmosfera juda ijobiy va qiziqarli ko'rinadi. Bu ikki xil o'qitish usullarini solishtirish qiziq; menimcha, ularning har birining o'z afzalliklari bor.</p>"
     },
     {
       "number": 5,
@@ -156,6 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which do you think is more comfortable: studying online or in a traditional classroom?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Honestly, the <span class=\"ml-token phrasal\">question of</span> whether studying online or in a traditional classroom is more comfortable <span class=\"ml-token adv\">really</span> depends on individual preferences and circumstances. Personally, I <span class=\"ml-token phrasal\">feel that</span> studying online offers an unparalleled level of convenience and flexibility. You can <span class=\"ml-token phrasal\">log in</span> from anywhere, whether you’re at home or <span class=\"ml-token phrasal\">on the go</span>, which <span class=\"ml-token colloc\">makes it easier</span> to balance other commitments like work or family.</p>\n\n<p>However, I <span class=\"ml-token colloc\">must admit</span> that traditional classrooms provide a <span class=\"ml-token colloc\">social experience</span> that is <span class=\"ml-token adv\">incredibly</span> valuable. The interactions with classmates and teachers can <span class=\"ml-token colloc\">foster a</span> deeper understanding of the material and create a <span class=\"ml-token idiom\">sense of community</span>. \"Different strokes for different folks,\" as the saying goes. While some thrive in a face-to-face setting, others <span class=\"ml-token colloc\">excel in</span> the <span class=\"ml-token colloc\">online arena</span>.</p>\n\n<p><span class=\"ml-token adv\">Moreover</span>, in today’s digital age, online education has come a <span class=\"ml-token idiom\">long way</span> with interactive content and virtual classrooms that <span class=\"ml-token phrasal\">mimic the</span> traditional setting. Personally, I have <span class=\"ml-token phrasal\">taken advantage of</span> online courses to advance my skills and <span class=\"ml-token colloc\">make progress</span> without having to <span class=\"ml-token phrasal\">put my life on hold</span>. So, to <span class=\"ml-token phrasal\">sum up</span>, while traditional classrooms have their own undeniable benefits, the comfort and flexibility of online learning <span class=\"ml-token colloc\">make it</span> <span class=\"ml-token adv\">exceptionally</span> appealing for me.</p>",
       "vocabulary": {
@@ -179,7 +204,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Online good. Class okay. Online easy.</p>",
       "sampleA2": "<p>I like online study. It is good because I can stay home. And I can study when I want. But class is good too because I can see my friends.</p>",
       "sampleB1": "<p>I think online studying is more comfortable. <span class=\"ml-token adv\">For example</span>, you don't have to travel to school. Also, you can study in your pajamas! <span class=\"ml-token adv\">However</span>, in a classroom, you can ask the teacher questions more easily. <span class=\"ml-token adv\">In my opinion</span>, online is better for me.</p>",
-      "sampleB2": "<p>Well, for me, I find studying online <span class=\"ml-token adv\">generally</span> more comfortable. It's mostly about the flexibility, I think. You can learn at your own pace and in your own environment, which is a big advantage. <span class=\"ml-token adv\">However</span>, I can see why some people prefer a traditional classroom. The structure and face-to-face interaction can be really helpful for some learners. It really depends on your learning style, but <span class=\"ml-token adv\">personally</span>, I lean towards online learning.</p>"
+      "sampleB2": "<p>Well, for me, I find studying online <span class=\"ml-token adv\">generally</span> more comfortable. It's mostly about the flexibility, I think. You can learn at your own pace and in your own environment, which is a big advantage. <span class=\"ml-token adv\">However</span>, I can see why some people prefer a traditional classroom. The structure and face-to-face interaction can be really helpful for some learners. It really depends on your learning style, but <span class=\"ml-token adv\">personally</span>, I lean towards online learning.</p>",
+      "uzSampleAnswer": "<p>Rostini aytsam, onlayn o'qish qulayroqmi yoki an'anaviy sinf xonasidami degan savol, aslida, har bir insonning shaxsiy xohishlari va vaziyatlariga bog'liq. Shaxsan men, onlayn o'qish misli ko'rilmagan darajadagi qulaylik va moslashuvchanlikni taqdim etadi deb hisoblayman. Siz istalgan joydan tizimga kirishingiz mumkin, xoh u uyda bo'ling, xoh yo'lda, bu esa ish yoki oila kabi boshqa majburiyatlarni muvozanatlashni osonlashtiradi.</p>\n\n<p>Biroq, tan olishim kerakki, an'anaviy sinf xonalari nihoyatda qimmatli bo'lgan ijtimoiy tajribani taqdim etadi. Sinfdoshlar va o'qituvchilar bilan bo'ladigan muloqotlar materialni chuqurroq tushunishga yordam beradi va hamjamiyat tuyg'usini yaratadi. \"Har kimning o'z yo'li bor\", deganlaridek. Ba'zilar yuzma-yuz muhitda rivojlansa, boshqalar onlayn maydonda a'lo natijalarga erishadi.</p>\n\n<p>Bundan tashqari, bugungi raqamli asrda onlayn ta'lim interaktiv kontent va an'anaviy muhitni taqlid qiluvchi virtual sinf xonalari bilan uzoq yo'lni bosib o'tdi. Shaxsan men, o'z hayotimni to'xtatib qo'ymasdan, ko'nikmalarimni oshirish va taraqqiyotga erishish uchun onlayn kurslardan foydalandim. Xulosa qilib aytganda, an'anaviy sinf xonalari o'zining inkor etib bo'lmaydigan afzalliklariga ega bo'lsa-da, onlayn ta'limning qulayligi va moslashuvchanligi uni men uchun juda jozibali qiladi.</p>",
+      "uzSampleA1": "<p>Onlayn yaxshi. Sinf mayli. Onlayn oson.</p>",
+      "uzSampleA2": "<p>Menga onlayn o'qish yoqadi. Bu yaxshi, chunki men uyda qolishim mumkin. Va men xohlagan paytda o'qishim mumkin. Lekin sinf ham yaxshi, chunki men do'stlarimni ko'rishim mumkin.</p>",
+      "uzSampleB1": "<p>Menimcha, onlayn o'qish qulayroq. <br>Masalan, maktabga borishingizga hojat yo'q. Shuningdek, pijamada ham o'qishingiz mumkin! <br>Biroq, sinfda o'qituvchiga savollarni osonroq berishingiz mumkin. <br>Menimcha, onlayn men uchun yaxshiroq.</p>",
+      "uzSampleB2": "<p>Xo'sh, men uchun, men odatda onlayn o'qishni qulayroq deb bilaman. Bu asosan moslashuvchanlik haqida, deb o'ylayman. Siz o'z tezligingizda va o'z muhitingizda o'rganishingiz mumkin, bu katta afzallik. Biroq, men ba'zi odamlar nima uchun an'anaviy sinf xonasini afzal ko'rishini tushunaman. Tuzilma va yuzma-yuz muloqot ba'zi o'quvchilar uchun juda foydali bo'lishi mumkin. Bu haqiqatan ham sizning o'qish uslubingizga bog'liq, lekin shaxsan men onlayn o'qishga moyilman.</p>"
     },
     {
       "number": 6,
@@ -188,6 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you think are the biggest challenges of online learning?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In my opinion, the <span class=\"ml-token colloc\">biggest challenges</span> of online learning <span class=\"ml-token adv\">undoubtedly</span> revolve around the <span class=\"ml-token colloc\">lack of interaction</span> and engagement that students experience compared to traditional classroom settings. One of the most <span class=\"ml-token colloc\">significant hurdles</span> is the absence of a <span class=\"ml-token colloc\">social experience</span> which <span class=\"ml-token idiom\">adds spice to</span> the learning process. In a physical classroom, students have the opportunity to <span class=\"ml-token phrasal\">bounce ideas off</span> each other and engage in stimulating discussions, which <span class=\"ml-token adv\">immensely</span> enriches their understanding of the subject matter. Unfortunately, this is something technology, despite its advancements, hasn't <span class=\"ml-token idiom\">cracked the code</span> for yet.</p>\n\n<p>Additionally, managing time effectively is another <span class=\"ml-token colloc\">stumbling block</span> for many students. When studying online, it's <span class=\"ml-token adv\">incredibly</span> easy to <span class=\"ml-token phrasal\">get sidetracked</span> by distractions at home, be it social media or household chores. Without the structure of a traditional school day, some students find it hard to stay focused and motivated. A personal example is when I <span class=\"ml-token phrasal\">took up</span> an online course during summer; I often found myself procrastinating, which made it <span class=\"ml-token adv\">extremely</span> challenging to meet deadlines.</p>\n\n<p>Moreover, the digital divide is a <span class=\"ml-token colloc\">glaring issue</span>. Not all students have access to reliable internet or necessary devices, which <span class=\"ml-token idiom\">levels the playing field</span> for those in less fortunate circumstances. This disparity can deepen educational inequalities, thus making online learning <span class=\"ml-token adv\">problematic</span> for some.</p>\n\n<p>In essence, while online learning offers <span class=\"ml-token colloc\">unparalleled flexibility</span> and a wealth of resources, it comes with its own set of challenges that need to be addressed for it to be <span class=\"ml-token colloc\">truly effective</span>. As someone once wisely said, <span class=\"ml-token proverb\">\"Where there is a will, there is a way\"</span>, and with the right strategies and tools, these challenges can be surmounted.</p>",
       "vocabulary": {
@@ -211,7 +242,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Online is hard.</p><p>I don't like computer.</p><p>Too difficult.</p>",
       "sampleA2": "<p>I think online learning is difficult.</p><p>It's hard to focus at home.</p><p>And sometimes the internet is slow, but I like it sometimes.</p>",
       "sampleB1": "<p>I think the biggest problem with online learning is that it's easy to get distracted.</p><p><span class=\"ml-token adv\">For example</span>, you might watch TV or use your phone instead of studying.</p><p>Also, it can be hard to ask questions because you're not in a classroom.</p><p><span class=\"ml-token adv\">However</span>, it's also good because you can study at your own pace.</p>",
-      "sampleB2": "<p>Well, I think one of the main challenges of online learning is maintaining motivation and focus.</p><p>It's much easier to get distracted when you're at home compared to being in a classroom environment.</p><p>Also, the lack of face-to-face interaction can make it harder to build relationships with teachers and other students, which can impact the learning experience.</p><p>Another thing is that not everyone has equal access to technology and a reliable internet connection, which creates a disadvantage for some learners.</p>"
+      "sampleB2": "<p>Well, I think one of the main challenges of online learning is maintaining motivation and focus.</p><p>It's much easier to get distracted when you're at home compared to being in a classroom environment.</p><p>Also, the lack of face-to-face interaction can make it harder to build relationships with teachers and other students, which can impact the learning experience.</p><p>Another thing is that not everyone has equal access to technology and a reliable internet connection, which creates a disadvantage for some learners.</p>",
+      "uzSampleAnswer": "<p>Menimcha, onlayn ta’limning eng katta muammolari, shubhasiz, talabalarning an’anaviy sinf muhitiga nisbatan o‘zaro aloqa va ishtirok etish darajasining yetishmasligi bilan bog‘liq. Eng muhim to‘siqlardan biri bu o‘quv jarayoniga o‘zgachalik qo‘shadigan ijtimoiy tajribaning yo‘qligidir. An’anaviy sinfda talabalar bir-birlari bilan fikr almashish va mavzuni chuqurroq tushunishga yordam beradigan qiziqarli muhokamalarda ishtirok etish imkoniyatiga ega. Afsuski, texnologiya, qanchalik rivojlangan bo‘lmasin, hali bu muammoni hal qila olgani yo‘q.</p>\n\n<p>Bundan tashqari, vaqtni samarali boshqarish ko‘plab talabalar uchun yana bir to‘siqdir. Onlayn o‘qish jarayonida uyda ijtimoiy tarmoqlar yoki uy yumushlari kabi chalg‘ituvchi omillarga chalg‘ish juda oson. An’anaviy maktab kunining tuzilmasisiz, ba’zi talabalar diqqatini jamlash va motivatsiyani saqlab qolishda qiynaladi. Shaxsiy misol sifatida, yozda onlayn kursga yozilganimda, ko‘pincha vaqtni cho‘zib yurardim, bu esa topshiriqlarni o‘z vaqtida topshirishni juda qiyinlashtirardi.</p>\n\n<p>Qolaversa, raqamli tafovut yaqqol ko‘zga tashlanadigan muammodir. Hamma talabalarning ham ishonchli internetga yoki zarur qurilmalarga kirish imkoniyati yo‘q, bu esa imkoniyati cheklanganlar uchun tengsizlikni keltirib chiqaradi. Bu nomutanosiblik ta’limdagi tengsizlikni yanada kuchaytirishi mumkin, shuning uchun onlayn ta’lim ba’zilar uchun muammoli bo‘lib qolmoqda.</p>\n\n<p>Xulosa qilib aytganda, onlayn ta’lim misli ko‘rilmagan moslashuvchanlik va ko‘plab resurslarni taklif qilsa-da, u o‘ziga xos muammolar bilan birga keladi, ularni haqiqatan ham samarali bo‘lishi uchun hal qilish kerak. Bir donishmand aytganidek, \"Niyat bo‘lsa, yo‘l topiladi\", to‘g‘ri strategiyalar va vositalar bilan bu muammolarni yengish mumkin.</p>",
+      "uzSampleA1": "<p>Onlayn qiyin.</p><p>Menga kompyuter yoqmaydi.</p><p>Juda murakkab.</p>",
+      "uzSampleA2": "<p>Menimcha, onlayn ta'lim qiyin.</p><p>Uyda diqqatni jamlash qiyin.</p><p>Va ba'zida internet sekin ishlaydi, lekin menga ba'zan yoqadi.</p>",
+      "uzSampleB1": "<p>Menimcha, onlayn ta'limning eng katta muammosi - chalg'ish oson.</p><p>Masalan, o'qish o'rniga televizor ko'rishingiz yoki telefoningizdan foydalanishingiz mumkin.</p><p>Shuningdek, savol berish qiyin bo'lishi mumkin, chunki siz sinfda emassiz.</p><p>Biroq, bu yaxshi ham, chunki siz o'z tezligingizda o'qishingiz mumkin.</p>",
+      "uzSampleB2": "<p>Xo'sh, menimcha, onlayn ta'limning asosiy qiyinchiliklaridan biri bu motivatsiya va diqqatni saqlab qolishdir.</p><p>Uyda bo'lganingizda, sinf muhitida bo'lishga qaraganda chalg'ish ancha osonroq.</p><p>Shuningdek, yuzma-yuz muloqotning yo'qligi o'qituvchilar va boshqa talabalar bilan munosabatlarni o'rnatishni qiyinlashtirishi mumkin, bu esa o'quv jarayoniga ta'sir qilishi mumkin.</p><p>Yana bir narsa shundaki, hamma ham texnologiyaga va ishonchli internet aloqasiga teng imkoniyatga ega emas, bu esa ba'zi o'quvchilar uchun noqulaylik tug'diradi.</p>"
     },
     {
       "number": 7,
@@ -220,6 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a moment in your life when you felt genuinely happy.",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a moment in your life when you felt genuinely happy.",
@@ -252,7 +289,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I am happy when I eat ice cream.</p> <p>Ice cream is good.</p>",
       "sampleA2": "<p>I was happy when I went to the beach.</p> <p>The sun was shining and I swam in the sea.</p> <p>It was a very good day and I liked it a lot.</p>",
       "sampleB1": "<p>I remember a time when I felt really happy. It was when I finished my exams.</p> <p>I had studied so hard, and I was very stressed.</p> <p>When I saw my results, I was so relieved and happy because I passed everything.</p> <p>I think it's important to celebrate achievements like that.</p>",
-      "sampleB2": "<p>A moment that stands out when I felt genuinely happy was when I completed a challenging hiking trip.</p> <p>The trek was physically demanding, pushing me to my limits, and the scenery was absolutely breathtaking.</p> <p>Reaching the summit and looking out at the vast landscape filled me with a <span class=\"ml-token colloc\">sense of accomplishment</span> and profound joy.</p> <p>It was a combination of overcoming a personal challenge and appreciating the beauty of nature that made that moment so special.</p> <p>I think that pushing yourself and experiencing nature are key to happiness.</p>"
+      "sampleB2": "<p>A moment that stands out when I felt genuinely happy was when I completed a challenging hiking trip.</p> <p>The trek was physically demanding, pushing me to my limits, and the scenery was absolutely breathtaking.</p> <p>Reaching the summit and looking out at the vast landscape filled me with a <span class=\"ml-token colloc\">sense of accomplishment</span> and profound joy.</p> <p>It was a combination of overcoming a personal challenge and appreciating the beauty of nature that made that moment so special.</p> <p>I think that pushing yourself and experiencing nature are key to happiness.</p>",
+      "uzSampleAnswer": "<p>Hayotimdagi chinakam baxtni his qilgan lahzalardan biri, hayvonlar boshpanasidan birinchi kuchugimni olganimda bo'lgan edi. Boshpanaga qadam qo'yganim va menga begunoh ko'zlar bilan boqqanini ko'rganim zahoti, to'g'ri qaror qabul qilganimni angladim. His qilgan quvonchim juda chuqur edi; go'yo barcha tashvishlarim va stresslarim shundoq yo'q bo'lib ketgandek bo'ldi. Menimcha, bu baxt yangi hamrohga ega bo'lish va uysiz hayvonga mehribon uy berishning qoniqishidan kelib chiqqan.</p>\n\n<p>Mening baxtimga eng ko'p hissa qo'shadigan narsaga kelsak, bu meni qo'llab-quvvatlaydigan do'stlar va oila qurshovida bo'lishning ijtimoiy tajribasi deb aytgan bo'lardim. Bu yaqinlar tarmog'i menga mansublik hissini va farovonligim uchun mutlaqo muhim bo'lgan ishonch asosini ta'minlaydi. \"Hech kim orol emas\" va men rostini aytsam, biz vaqt o'tkazishni tanlagan odamlar umumiy baxtimizda muhim rol o'ynaydi deb hisoblayman.</p>\n\n<p>Mening fikrimcha, jamiyatda odamlarning baxtiga ta'sir qiluvchi asosiy omillar moliyaviy barqarorlik, mazmunli munosabatlar va maqsad hissi. Pul baxtni sotib ololmasa-da, moliyaviy barqarorlik asosiy ehtiyojlar bilan bog'liq ko'plab stressni olib tashlashi mumkin, bu esa odamlarga quvonch keltiradigan ishtiyoq va hobbilarni davom ettirishga imkon beradi. Bundan tashqari, kuchli, qo'llab-quvvatlovchi munosabatlar va hayotdagi maqsad - bu kasb, ko'ngillilik yoki shaxsiy loyihalar orqali bo'lsin - uzoq muddatli baxtni yaratishda ajralmasdir. \"Baxt tayyor narsa emas. U sizning o'z harakatlaringizdan kelib chiqadi\" va buni tushunish odamlarga hayotda nima muhimligini aniqlashga yordam beradi.</p>",
+      "uzSampleA1": "<p>Men muzqaymoq yeganimda xursand bo'laman.</p> <p>Muzqaymoq yaxshi.</p>",
+      "uzSampleA2": "<p>Men plyajga borganimda baxtiyor edim.</p> <p>Quyosh charaqlab turardi va men dengizda suzdim.</p> <p>Bu juda yaxshi kun edi va menga juda yoqdi.</p>",
+      "uzSampleB1": "<p>Men juda baxtli his qilgan bir vaqtni eslayman. Bu imtihonlarimni tugatganimda bo'lgan edi.</p> <p>Men juda qattiq o'qigan edim va juda stressda edim.</p> <p>Natijalarimni ko'rganimda, men juda xursand va baxtli bo'ldim, chunki hamma narsadan o'tdim.</p> <p>Menimcha, bunday yutuqlarni nishonlash muhim.</p>",
+      "uzSampleB2": "<p>Men chinakam baxtni his qilgan paytlarimdan biri, qiyin bo'lgan tog'ga sayohatni tugatganim edi.</p> <p>Bu sayohat jismoniy jihatdan juda og'ir bo'lib, meni imkoniyatlarim chegarasigacha surdi va manzaralar juda hayratlanarli edi.</p> <p>Cho'qqiga chiqib, keng landshaftga qarash menga yutuq hissini va chuqur quvonchni berdi.</p> <p>Bu shaxsiy qiyinchilikni yengish va tabiat go'zalligini qadrlashning kombinatsiyasi o'sha lahzani juda maxsus qildi.</p> <p>O'ylaymanki, o'zingizni zo'riqtirish va tabiatni his qilish baxtning kalitidir.</p>"
     },
     {
       "number": 8,
@@ -261,6 +303,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Students should be allowed to choose their own subjects in school.\n\n\n\n",
+      "audioFile": "questions S/audio/cefr-speaking-mock-06-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
@@ -296,7 +339,486 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes, I think good. I like art. I don't like math.</p>",
       "sampleA2": "<p>I think students can choose. Because it is good for them. They can study what they like. And if they like it, they will learn more.</p>",
       "sampleB1": "<p>I think it's a good idea for students to choose their subjects. If they choose, they will be more interested in learning. <span class=\"ml-token adv\">For example</span>, if a student likes music, they can choose music class. <span class=\"ml-token adv\">However</span>, maybe some subjects are important for everyone, like math or science.</p>",
-      "sampleB2": "<p>I believe allowing students some choice in their subjects could be beneficial. When students are able to study topics they are passionate about, they are likely to be more motivated and engaged in their education. This could lead to better academic performance and a greater love of learning. <span class=\"ml-token adv\">However</span>, it’s also important to ensure that students receive a <span class=\"ml-token colloc\">well-rounded</span> education. <span class=\"ml-token adv\">Therefore</span>, a system that combines core subjects with elective choices might be the best approach.</p>"
+      "sampleB2": "<p>I believe allowing students some choice in their subjects could be beneficial. When students are able to study topics they are passionate about, they are likely to be more motivated and engaged in their education. This could lead to better academic performance and a greater love of learning. <span class=\"ml-token adv\">However</span>, it’s also important to ensure that students receive a <span class=\"ml-token colloc\">well-rounded</span> education. <span class=\"ml-token adv\">Therefore</span>, a system that combines core subjects with elective choices might be the best approach.</p>",
+      "uzSampleAnswer": "<p>O'quvchilarga maktabda o'z fanlarini tanlashga ruxsat berish, ularning o'quv jarayonida yuqori darajadagi motivatsiya va ishtiyoqni chin dildan oshirishi mumkin. O'quvchilarga o'z qiziqishlari va kasbiy intilishlariga mos keladigan fanlarni tanlash erkinligi berilganda, ular o'qishga ko'proq ishtiyoq bilan yondashadilar. Bu tanlov ularning ta'lim yo'lidagi mas'uliyat hissini rivojlantiradi va ularga o'z o'quv jarayonlarini boshqarish imkoniyatini beradi. Bundan tashqari, fanlarni kelajakdagi kasbiy maqsadlar bilan moslashtirish, ularga aniq yo'nalish va maqsadni ta'minlashi, muvaffaqiyatli professional hayotga yo'l ochishi mumkin.</p>\n\n<p>Biroq, bunday yondashuvning potentsial kamchiliklarini ham hisobga olish kerak. Bu, rostini aytsam, o'quvchilarning oqilona tanlov qilishlari uchun ma'lum darajadagi yetuklik va bilimni talab qiladi. Yosh o'quvchilar har tomonlama ta'lim uchun juda muhim bo'lgan muvozanatli o'quv dasturini saqlash muhimligini tushunish uchun yetarli darajada uzoqni ko'ra olmasligi mumkin. Shuningdek, o'quvchilar muhim fanlarga e'tibor bermaslik xavfi ham mavjud, bu esa keyinchalik ularga pand berishi mumkin. Aytganlaridek, \"Barcha tuxumlarni bir savatga solma\", bu ta'limda diversifikatsiyaning muhimligini ta'kidlaydi.</p>\n\n<p>Mening fikrimcha, gibrid model eng samarali yondashuv bo'lishi mumkin. Maktablar muhim fanlar qamrab olinishini ta'minlaydigan asosiy o'quv dasturini taklif qilishi va shu bilan birga o'quvchilarga o'z qiziqishlariga mos keladigan fanlarni tanlashga ruxsat berishi mumkin. Bu muvozanat o'quvchilarga ham kuchli ta'lim asosini rivojlantirishga, ham o'z ishtiyoqlarini o'rganish erkinligini ta'minlashga yordam berishi mumkin, shu bilan birga bir o'q bilan ikki quyonni urish - har tomonlama ta'limni ta'minlash bilan birga shaxsiy o'sish va kelajakdagi kasbiy moslashuvni ta'minlash.</p>",
+      "uzSampleA1": "<p>Ha, men yaxshi deb o'ylayman. Men san'atni yaxshi ko'raman. Men matematikani yoqtirmayman.</p>",
+      "uzSampleA2": "<p>Menimcha, o'quvchilar tanlashlari mumkin. Chunki bu ular uchun yaxshi. Ular o'zlari yoqtirgan narsani o'rganishlari mumkin. Va agar ularga yoqsa, ular ko'proq o'rganadilar.</p>",
+      "uzSampleB1": "<p>Menimcha, o'quvchilar o'z fanlarini tanlashlari yaxshi fikr. Agar ular tanlasalar, o'rganishga ko'proq qiziqishadi. <br>Masalan, agar o'quvchi musiqa yoqtirsa, u musiqa darsini tanlashi mumkin. <br>Biroq, ehtimol, ba'zi fanlar hamma uchun muhimdir, masalan, matematika yoki fan.</p>",
+      "uzSampleB2": "<p>Menimcha, o'quvchilarga o'z fanlarini tanlashga ruxsat berish foydali bo'lishi mumkin. O'quvchilar o'zlari qiziqqan mavzularni o'rganish imkoniyatiga ega bo'lganda, ular ta'lim olishga ko'proq motivatsiyalangan va jalb qilingan bo'lishadi. Bu esa, o'z navbatida, yaxshiroq o'quv ko'rsatkichlariga va o'qishga bo'lgan katta muhabbatga olib kelishi mumkin. <br>Shunga qaramay, o'quvchilarning har tomonlama ta'lim olishini ta'minlash ham muhim. Shuning uchun, asosiy fanlarni tanlov fanlari bilan birlashtirgan tizim eng yaxshi yondashuv bo'lishi mumkin.</p>"
     }
-  ]
+  ],
+  "tokenTranslations": {
+    "certainly": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "strongly cherished": {
+      "uz": "qadrlanadigan",
+      "type": "colloc"
+    },
+    "family reunions": {
+      "uz": "oilaviy uchrashuvlar",
+      "type": "colloc"
+    },
+    "regularly": {
+      "uz": "muntazam ravishda",
+      "type": "adv"
+    },
+    "catch up": {
+      "uz": "gaplashib olish",
+      "type": "phrasal"
+    },
+    "full of laughter": {
+      "uz": "kulgi bilan to'la",
+      "type": "colloc"
+    },
+    "shared stories": {
+      "uz": "o'rtoqlashilgan hikoyalar",
+      "type": "colloc"
+    },
+    "lend a helping hand": {
+      "uz": "qo'lidan kelgancha yordam bermoq",
+      "type": "idiom"
+    },
+    "grew up": {
+      "uz": "ulg'aydim",
+      "type": "phrasal"
+    },
+    "around my age": {
+      "uz": "mening tengqurlarim",
+      "type": "colloc"
+    },
+    "immensely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "hang out": {
+      "uz": "vaqt o'tkazmoq",
+      "type": "phrasal"
+    },
+    "shaped who I am today": {
+      "uz": "bugungi kimligimni shakllantirdi",
+      "type": "idiom"
+    },
+    "\"blood is thicker than water\"": {
+      "uz": "\"Qon qondosh\"",
+      "type": "proverb"
+    },
+    "rings true": {
+      "uz": "rost bo'lib chiqadi",
+      "type": "proverb"
+    },
+    "wouldn't trade for the world": {
+      "uz": "hech narsaga alishmayman",
+      "type": "idiom"
+    },
+    "priceless treasure": {
+      "uz": "bebahо xazina",
+      "type": "colloc"
+    },
+    "depth and richness": {
+      "uz": "chuqurlik va boylik",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "social media": {
+      "uz": "ijtimoiy tarmoqlar",
+      "type": "colloc"
+    },
+    "ups and downs": {
+      "uz": "qiyinchiliklar va yutuqlar",
+      "type": "colloc"
+    },
+    "close-knit group": {
+      "uz": "ahil guruh",
+      "type": "colloc"
+    },
+    "cherish the time": {
+      "uz": "qadrlayman",
+      "type": "phrasal"
+    },
+    "my inner circle": {
+      "uz": "yaqin do'stlarim",
+      "type": "colloc"
+    },
+    "not about the quantity but the quality": {
+      "uz": "Soni emas, sifati muhim",
+      "type": "idiom"
+    },
+    "look out for": {
+      "uz": "g'amxo'rlik qilmoq",
+      "type": "phrasal"
+    },
+    "have each other's backs": {
+      "uz": "bir-biriga suyanch bo'lmoq",
+      "type": "phrasal"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "shared experiences": {
+      "uz": "birgalikdagi tajribalar",
+      "type": "colloc"
+    },
+    "\"A friend in need is a friend indeed.\"": {
+      "uz": "Do'st og'ir kunda bilinadi",
+      "type": "proverb"
+    },
+    "For example": {
+      "uz": "Masalan",
+      "type": "adv"
+    },
+    "when it comes to": {
+      "uz": "gap borganda",
+      "type": "adv"
+    },
+    "picked up": {
+      "uz": "o'rganib oldim",
+      "type": "phrasal"
+    },
+    "become second nature to me": {
+      "uz": "qo'lim kelishadi",
+      "type": "idiom"
+    },
+    "whip up": {
+      "uz": "tezda tayyorlamoq",
+      "type": "phrasal"
+    },
+    "\"Variety is the spice of life,\"": {
+      "uz": "Har xillik hayotga fayz beradi",
+      "type": "proverb"
+    },
+    "enhances one's culinary skills": {
+      "uz": "pazandalik mahoratini oshiradi",
+      "type": "colloc"
+    },
+    "dabble in": {
+      "uz": "qiziqib ko'rmoq",
+      "type": "colloc"
+    },
+    "a piece of cake": {
+      "uz": "suv tekin",
+      "type": "idiom"
+    },
+    "absolutely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "try out": {
+      "uz": "sinab ko'rmoq",
+      "type": "phrasal"
+    },
+    "social experience": {
+      "uz": "ijtimoiy tajriba",
+      "type": "colloc"
+    },
+    "constantly": {
+      "uz": "doimiy ravishda",
+      "type": "adv"
+    },
+    "broaden my horizons": {
+      "uz": "dunyoyimni kengaytirish",
+      "type": "phrasal"
+    },
+    "trying out": {
+      "uz": "sinab ko'rish",
+      "type": "phrasal"
+    },
+    "not just a chore": {
+      "uz": "shunchaki majburiyat emas",
+      "type": "idiom"
+    },
+    "let my creativity flow": {
+      "uz": "ijod qilishimga imkon beradi",
+      "type": "idiom"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "virtual classroom": {
+      "uz": "virtual sinf",
+      "type": "colloc"
+    },
+    "new wave of education": {
+      "uz": "ta'lim sohasidagi yangi o'zgarishlar",
+      "type": "idiom"
+    },
+    "tune out distractions": {
+      "uz": "chalg'ituvchi omillarga e'tibor bermaslik",
+      "type": "phrasal"
+    },
+    "clear as day": {
+      "uz": "kunduzdek ravshan",
+      "type": "idiom"
+    },
+    "perfectly illustrates": {
+      "uz": "mukammal tasvirlaydi",
+      "type": "colloc"
+    },
+    "quite appealing": {
+      "uz": "juda yoqimli",
+      "type": "colloc"
+    },
+    "truly": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "all ears": {
+      "uz": "qulog'im sizda",
+      "type": "idiom"
+    },
+    "speaking volumes": {
+      "uz": "ko'p narsani anglatadi",
+      "type": "colloc"
+    },
+    "learning with a smile": {
+      "uz": "quvonch bilan o'rganish",
+      "type": "idiom"
+    },
+    "enjoyable educational experience": {
+      "uz": "maroqli ta'lim tajribasi",
+      "type": "colloc"
+    },
+    "soak up": {
+      "uz": "o'zlashtirmoq",
+      "type": "phrasal"
+    },
+    "effortlessly": {
+      "uz": "osongina",
+      "type": "adv"
+    },
+    "\"A picture is worth a thousand words,\"": {
+      "uz": "\"Bir rasm ming so'zga tatirlik\"",
+      "type": "proverb"
+    },
+    "in all its detail": {
+      "uz": "barcha tafsilotlari bilan",
+      "type": "colloc"
+    },
+    "In my opinion": {
+      "uz": "Mening fikrimcha",
+      "type": "adv"
+    },
+    "question of": {
+      "uz": "masalasi",
+      "type": "phrasal"
+    },
+    "feel that": {
+      "uz": "his qilaman",
+      "type": "phrasal"
+    },
+    "log in": {
+      "uz": "tizimga kirish",
+      "type": "phrasal"
+    },
+    "on the go": {
+      "uz": "yo'lda",
+      "type": "phrasal"
+    },
+    "makes it easier": {
+      "uz": "osonlashtiradi",
+      "type": "colloc"
+    },
+    "must admit": {
+      "uz": "tan olish kerak",
+      "type": "colloc"
+    },
+    "foster a": {
+      "uz": "shakllantirish",
+      "type": "colloc"
+    },
+    "sense of community": {
+      "uz": "jamoatchilik hissi",
+      "type": "idiom"
+    },
+    "excel in": {
+      "uz": "muvaffaqiyatga erishmoq",
+      "type": "colloc"
+    },
+    "online arena": {
+      "uz": "onlayn maydon",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "long way": {
+      "uz": "ancha yo'l",
+      "type": "idiom"
+    },
+    "mimic the": {
+      "uz": "taqlid qilmoq",
+      "type": "phrasal"
+    },
+    "taken advantage of": {
+      "uz": "foydalanib qolmoq",
+      "type": "phrasal"
+    },
+    "make progress": {
+      "uz": "muvaffaqiyatga erishmoq",
+      "type": "colloc"
+    },
+    "put my life on hold": {
+      "uz": "hayotimni to'xtatib qo'ymoq",
+      "type": "phrasal"
+    },
+    "sum up": {
+      "uz": "xulosa qilmoq",
+      "type": "phrasal"
+    },
+    "make it": {
+      "uz": "uddalamoq",
+      "type": "colloc"
+    },
+    "exceptionally": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "generally": {
+      "uz": "odatda",
+      "type": "adv"
+    },
+    "personally": {
+      "uz": "shaxsan",
+      "type": "adv"
+    },
+    "biggest challenges": {
+      "uz": "eng katta qiyinchiliklar",
+      "type": "colloc"
+    },
+    "undoubtedly": {
+      "uz": "shubhasiz",
+      "type": "adv"
+    },
+    "lack of interaction": {
+      "uz": "muloqot yetishmasligi",
+      "type": "colloc"
+    },
+    "significant hurdles": {
+      "uz": "sezilarli to'siqlar",
+      "type": "colloc"
+    },
+    "adds spice to": {
+      "uz": "mazmun bag'ishlaydi",
+      "type": "idiom"
+    },
+    "bounce ideas off": {
+      "uz": "fikr almashmoq",
+      "type": "phrasal"
+    },
+    "cracked the code": {
+      "uz": "kalitini topmoq",
+      "type": "idiom"
+    },
+    "stumbling block": {
+      "uz": "g'ov",
+      "type": "colloc"
+    },
+    "get sidetracked": {
+      "uz": "chalg'imoq",
+      "type": "phrasal"
+    },
+    "took up": {
+      "uz": "boshlamoq",
+      "type": "phrasal"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "glaring issue": {
+      "uz": "ko'zga tashlanadigan muammo",
+      "type": "colloc"
+    },
+    "levels the playing field": {
+      "uz": "imkoniyatlarni tenglashtiradi",
+      "type": "idiom"
+    },
+    "problematic": {
+      "uz": "muammoli",
+      "type": "adv"
+    },
+    "unparalleled flexibility": {
+      "uz": "mislsiz moslashuvchanlik",
+      "type": "colloc"
+    },
+    "truly effective": {
+      "uz": "haqiqatan ham samarali",
+      "type": "colloc"
+    },
+    "\"Where there is a will, there is a way\"": {
+      "uz": "\"Niyat bo'lsa, imkon topiladi\"",
+      "type": "proverb"
+    },
+    "stepped into": {
+      "uz": "qadam qo'ydi",
+      "type": "phrasal"
+    },
+    "melted away": {
+      "uz": "yo'qoldi",
+      "type": "idiom"
+    },
+    "honestly": {
+      "uz": "rostini aytsam",
+      "type": "adv"
+    },
+    "take away": {
+      "uz": "olib tashlash",
+      "type": "phrasal"
+    },
+    "figure out": {
+      "uz": "aniqlamoq",
+      "type": "phrasal"
+    },
+    "sense of accomplishment": {
+      "uz": "muvaffaqiyat hissi",
+      "type": "colloc"
+    },
+    "more": {
+      "uz": "ko'proq",
+      "type": "adv"
+    },
+    "sense of responsibility": {
+      "uz": "mas'uliyat hissi",
+      "type": "colloc"
+    },
+    "paving the way": {
+      "uz": "yo'l ochmoq",
+      "type": "idiom"
+    },
+    "might end up": {
+      "uz": "oxiri...bo'lishi mumkin",
+      "type": "phrasal"
+    },
+    "come back to haunt them": {
+      "uz": "boshiga balo bo'lmoq",
+      "type": "idiom"
+    },
+    "\"Don't put all your eggs in one basket,\"": {
+      "uz": "\"Barcha tuxumlarni bir savatga solma\"",
+      "type": "proverb"
+    },
+    "killing two birds with one stone": {
+      "uz": "\"Bir o'q bilan ikki quyonni urmoq\"",
+      "type": "idiom"
+    },
+    "well-rounded": {
+      "uz": "har tomonlama rivojlangan",
+      "type": "colloc"
+    },
+    "Therefore": {
+      "uz": "Shuning uchun",
+      "type": "adv"
+    }
+  }
 };

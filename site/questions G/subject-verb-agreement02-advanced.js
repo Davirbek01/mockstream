@@ -1,0 +1,36 @@
+// Grammar Test: Agreement: Tricky Cases — Advanced (C1–C2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "The <b>data</b> <b>___</b> inconsistent with the initial hypothesis.", correct: "are", options: ["are", "is", "were", "being"], def: "\"Data\" is treated as plural in formal contexts.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "Neither the students nor the <b>instructor</b> <b>___</b> present.", correct: "was", options: ["was", "were", "have been", "are being"], def: "Verb agrees with the noun closest to it.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> has voted to approve the changes.", correct: "committee", options: ["committee", "committee's", "committees", "committees'"], def: "Collective nouns can be singular if acting as one.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "A <b>number</b> of students <b>___</b> absent today.", correct: "are", options: ["are", "is", "was", "has been"], def: "\"A number of\" is plural, needs plural verb.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "The <b>United</b> States <b>___</b> a strong influence globally.", correct: "has", options: ["has", "have", "are having", "is having"], def: "Country names are usually treated as singular.", level: "C1–C2"},
+  {type: "Find the error:", question: "Mathematics <b>are</b> an <b>important</b> <b>subject</b> <b>nowadays</b>.", correct: "are", options: ["are", "important", "subject", "nowadays"], def: "Subject names ending in -s are singular.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> is working late tonight.", correct: "staff", options: ["staff", "staff's", "staffs", "staffs'"], def: "Collective noun treated as a single unit.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "Neither of the <b>candidates</b> <b>___</b> qualified.", correct: "is", options: ["is", "are", "were", "have been"], def: "\"Neither of\" takes a singular verb.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "Politics <b>___</b> often a contentious topic.", correct: "is", options: ["is", "are", "have been", "being"], def: "Politics is singular when referring to the field.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "My <b>___</b> has decided to move abroad.", correct: "family", options: ["family", "family's", "families", "families'"], def: "Collective noun treated as a single unit.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>Measles</b> <b>___</b> a contagious disease.", correct: "is", options: ["is", "are", "were", "being"], def: "Diseases ending in -s are singular.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "The <b>public</b> <b>___</b> demanding better services.", correct: "is", options: ["is", "are", "were", "has been"], def: "Public treated as a single group.", level: "C1–C2"},
+  {type: "Find the error:", question: "Economics <b>influence</b> many <b>aspects</b> of <b>our</b> <b>lives</b>.", correct: "influence", options: ["influence", "aspects", "our", "lives"], def: "Economics is singular, needs singular verb.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> is practicing hard for the finals.", correct: "team", options: ["team", "team's", "teams", "teams'"], def: "Collective noun treated as a single unit.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "The <b>jury</b> <b>___</b> still deliberating the verdict.", correct: "is", options: ["is", "are", "were", "have been"], def: "Jury is single unit.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "Five <b>dollars</b> <b>___</b> not enough to buy that.", correct: "is", options: ["is", "are", "were", "being"], def: "Amounts of money are singular.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> was captivated by the performance.", correct: "audience", options: ["audience", "audience's", "audiences", "audiences'"], def: "Audience as single unit.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>None</b> of the food <b>___</b> been eaten.", correct: "has", options: ["has", "have", "were", "are"], def: "\"None of\" can be singular.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "The <b>police</b> <b>___</b> investigating the crime.", correct: "are", options: ["are", "is", "was", "has been"], def: "Police is plural.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> is known for their energetic performances.", correct: "band", options: ["band", "band's", "bands", "bands'"], def: "Band can be plural.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>All</b> that glitters <b>___</b> not gold.", correct: "is", options: ["is", "are", "were", "being"], def: "\"All that\" singular.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "<b>Each</b> book <b>___</b> its own unique story.", correct: "has", options: ["has", "have", "are having", "is having"], def: "Each is singular.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The <b>___</b> were grazing peacefully in the field.", correct: "cattle", options: ["cattle", "cattle's", "cattles", "cattles'"], def: "Cattle is plural.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>Few</b> people <b>___</b> as generous as him.", correct: "are", options: ["are", "is", "was", "has been"], def: "Few is plural.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "A <b>pair</b> of shoes <b>___</b> on the floor.", correct: "is", options: ["is", "are", "were", "have been"], def: "A pair = singular.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "The data <b>___</b> that further research is needed.", correct: "suggests", options: ["suggests", "suggest", "are suggesting", "suggesting"], def: "'Data' is often treated as singular in formal/academic contexts.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "Neither the students nor the professor <b>___</b> present.", correct: "was", options: ["was", "were", "have been", "are"], def: "With 'neither/nor,' the verb agrees with the closest noun.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "The board <b>___</b> themselves by a strict code.", correct: "governs", options: ["governs", "govern", "are governing", "governed"], def: "Collective nouns like 'board' can be singular.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "A number of students <b>___</b> absent today.", correct: "are", options: ["are", "is", "has been", "being"], def: "'A number of' is plural; 'the number of' is singular.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "Mathematics <b>___</b> always been a challenging subject.", correct: "has", options: ["has", "have", "are", "is"], def: "Subjects ending in -ics are usually singular.", level: "C1–C2"}
+];

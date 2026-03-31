@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Results — Mock Stream</title>
+  <script src="../site-config/site-config.js"></script>
+  <script>
+    if (window.SITE_CONFIG) {
+      document.title = 'My Results — ' + window.SITE_CONFIG.brandName;
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #ecfdf5;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --ink: #1e293b;
+      --ink-secondary: #64748b;
+      --brand: #f97316;
+      --accent: #10b981;
+      --accent-dark: #059669;
+      --accent-light: rgba(16, 185, 129, 0.1);
+      --purple: #8b5cf6;
+      --danger: #ef4444;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1211;
+      --surface: #1e293b;
+      --surface-alt: #334155;
+      --border: #475569;
+      --ink: #f1f5f9;
+      --ink-secondary: #94a3b8;
+      --brand: #5fd6c1;
+      --accent: #34d399;
+      --accent-dark: #10b981;
+      --accent-light: rgba(52, 211, 153, 0.15);
+      --purple: #a78bfa;
+      --danger: #f87171;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ===== NAME GATE ===== */
+    .name-gate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .name-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    .name-card .icon { font-size: 48px; margin-bottom: 16px; }
+
+    .name-card h2 {
+      color: var(--accent);
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .name-card p {
+      color: var(--ink-secondary);
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .name-inputs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .name-input {
+      flex: 1;
+      padding: 14px 16px;
+      background: var(--surface-alt);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      color: var(--ink);
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    .name-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .name-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .name-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .name-error {
+      color: var(--danger);
+      font-size: 13px;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+
+    .name-back {
+      background: var(--surface-alt);
+      color: var(--ink-secondary);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 12px;
+      font-family: inherit;
+    }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard { display: none; min-height: 100vh; }
+    .dashboard.show { display: block; }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+
+    .topbar-left .brand {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .topbar-left .brand span {
+      color: var(--ink-secondary);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 4px;
+    }
+
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+    .topbar-btn {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .topbar-btn:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Student header */
+    .student-header {
+      padding: 24px 24px 0;
+    }
+
+    .student-profile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .student-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .student-info h2 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .student-info p {
+      color: var(--ink-secondary);
+      font-size: 13px;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      padding: 20px 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+    }
+
+    .score-badges { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .score-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 700; }
+    .score-badge .badge-tag { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .badge-tag.ielts { background: #e8f5e9; color: #2e7d32; }
+    .badge-tag.cefr { background: #e8eaf6; color: #3949ab; }
+
+    /* Filter tabs */
+    .filter-tabs {
+      padding: 0 24px 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .filter-tab:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-tab.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* Score chart */
+    .chart-section {
+      padding: 0 24px 16px;
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .chart-card h3 {
+      font-size: 14px;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .chart-svg { width: 100%; height: 180px; }
+
+    .chart-empty {
+      text-align: center;
+      padding: 30px;
+      color: var(--ink-secondary);
+      font-size: 13px;
+    }
+
+    /* Results list */
+    .results-section { padding: 0 24px 24px; }
+
+    .results-section h3 {
+      font-size: 14px;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .result-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .result-score-box {
+      min-width: 60px;
+      text-align: center;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 8px;
+    }
+
+    .result-score-box .big {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .result-score-box .unit {
+      font-size: 10px;
+      color: var(--ink-secondary);
+      margin-top: 2px;
+    }
+
+    .result-score-box .level {
+      font-size: 10px;
+      color: var(--purple);
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .result-info { flex: 1; min-width: 0; }
+
+    .result-info .top-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .result-info .date-text {
+      font-size: 12px;
+      color: var(--ink-secondary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-cefr { background: rgba(14, 165, 233, 0.12); color: #0ea5e9; }
+    .badge-ielts { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+    .badge-speaking { background: rgba(168, 85, 247, 0.12); color: #a855f7; }
+    .badge-writing { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+    .badge-reading { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .badge-listening { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+    .badge-full-mock { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
+    .badge-practice { background: rgba(245, 158, 11, 0.15); color: #d97706; font-size: 10px; }
+    .badge-ai { background: rgba(16, 185, 129, 0.12); color: #10b981; font-size: 10px; }
+
+    .mock-label {
+      font-size: 11px;
+      color: var(--ink-secondary);
+      background: var(--surface-alt);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .result-details {
+      font-size: 12px;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+    }
+
+    .result-details .dl { color: var(--ink); font-weight: 600; }
+
+    .result-arrow {
+      color: var(--ink-secondary);
+      font-size: 18px;
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--ink-secondary);
+    }
+
+    .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+
+    .empty-state h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .empty-state p { font-size: 14px; }
+
+    /* Loading */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Viewer overlay */
+    .viewer-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .viewer-overlay.show { display: flex; }
+
+    .viewer-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 20px;
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    }
+
+    .viewer-header {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .viewer-header h3 {
+      color: white;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .viewer-close {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .viewer-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .viewer-iframe { flex: 1; border: none; width: 100%; }
+
+    /* Viewer loading bar */
+    .viewer-loader { display: none; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 16px; }
+    .viewer-loader.show { display: flex; }
+    .viewer-loader .loader-bar { width: 200px; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .viewer-loader .loader-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 4px; transition: width 0.3s; animation: loaderPulse 1.5s ease-in-out infinite; }
+    .viewer-loader .loader-text { font-size: 13px; color: var(--ink-secondary); }
+    @keyframes loaderPulse { 0%{width:10%} 50%{width:70%} 100%{width:90%} }
+
+    /* Content viewer (non-iframe) */
+    .viewer-content { flex: 1; overflow-y: auto; padding: 24px; display: none; background: var(--surface); }
+    .viewer-content.show { display: block; }
+
+    /* Clean result cards */
+    .vr-section { margin-bottom: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .vr-section-head { padding: 14px 18px; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+    .vr-section-body { padding: 18px; }
+    .vr-prompt { background: var(--surface-alt); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; font-size: 13px; line-height: 1.6; border-left: 4px solid var(--accent); }
+    .vr-answer { background: #fefce8; border: 1px solid #fde68a; border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.7; white-space: pre-wrap; font-family: 'Times New Roman', Georgia, serif; }
+    [data-theme="dark"] .vr-answer { background: #422006; border-color: #854d0e; }
+    .vr-word-count { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; background: var(--accent-light); color: var(--accent-dark); margin-top: 8px; }
+    .vr-ai { background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #6ee7b7; border-radius: 12px; padding: 16px; margin-top: 12px; }
+    [data-theme="dark"] .vr-ai { background: linear-gradient(135deg, #064e3b, #065f46); border-color: #059669; }
+    .vr-ai-label { font-size: 12px; font-weight: 700; color: var(--accent-dark); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .vr-ai-text { font-size: 13px; line-height: 1.6; color: var(--ink); }
+    .vr-sample { margin-top: 10px; }
+    .vr-sample summary { font-size: 12px; font-weight: 600; cursor: pointer; color: var(--accent-dark); }
+    .vr-sample .vr-sample-text { padding: 12px; margin-top: 8px; background: var(--surface-alt); border-radius: 8px; font-size: 13px; line-height: 1.6; }
+    .vr-audio-card { background: var(--surface-alt); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+    .vr-audio-card h4 { font-size: 13px; margin-bottom: 4px; color: var(--ink); }
+    .vr-audio-card .vr-q-text { font-size: 12px; color: var(--ink-secondary); margin-bottom: 8px; line-height: 1.5; }
+    .vr-audio-card audio { width: 100%; height: 40px; border-radius: 20px; background: #f0f9ff; display: block; margin-top: 8px; }
+    .vr-audio-card .vr-audio-wrap { background: #f0f9ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+    .vr-audio-card ul { padding-left: 18px; margin: 4px 0; }
+    .vr-audio-card li { margin: 2px 0; }
+    .vr-score-banner { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border-radius: 14px; margin-bottom: 16px; }
+    .vr-score-num { font-size: 32px; font-weight: 800; }
+    .vr-score-detail { font-size: 13px; opacity: 0.9; }
+    .vr-answers-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .vr-answers-table th { text-align: left; padding: 8px 12px; background: var(--surface-alt); font-weight: 600; font-size: 12px; }
+    .vr-answers-table td { padding: 8px 12px; border-top: 1px solid var(--border); }
+    .vr-correct { color: #059669; font-weight: 600; }
+    .vr-wrong { color: #dc2626; font-weight: 600; }
+
+    .viewer-tabs {
+      display: none;
+      background: #1e293b;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .viewer-tabs.visible { display: flex; }
+
+    .viewer-tabs button {
+      padding: 10px 18px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+    }
+
+    .viewer-tabs button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+
+    .viewer-tabs button.active {
+      color: #10b981;
+      border-bottom-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .student-profile { flex-direction: column; text-align: center; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .result-card { flex-direction: column; }
+      .result-score-box { min-width: auto; display: flex; align-items: center; gap: 8px; padding: 8px 12px; }
+      .topbar { padding: 12px 16px; }
+      .student-header, .stats-bar, .filter-tabs, .chart-section, .results-section { padding-left: 16px; padding-right: 16px; }
+      .viewer-container { margin: 10px; }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ===== NAME GATE ===== -->
+  <div class="name-gate" id="nameGate">
+    <div class="name-card">
+      <div class="icon">📊</div>
+      <h2>My Results</h2>
+      <p>Enter your full name to view your test results.<br>Use the same name you entered when taking tests.</p>
+      <div class="name-inputs">
+        <input type="text" class="name-input" id="gateSurname" placeholder="Surname" autocomplete="off">
+        <input type="text" class="name-input" id="gateFirstname" placeholder="First name" autocomplete="off">
+      </div>
+      <button class="name-btn" id="gateSubmit">View My Results</button>
+      <div class="name-error" id="gateError"></div>
+      <button class="name-back" onclick="window.location.href='../landing.html'">← Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div class="dashboard" id="dashboard">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="brand">📊 My Results <span id="brandLabel"></span></div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+        <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
+        <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
+      </div>
+    </div>
+
+    <!-- Student profile -->
+    <div class="student-header">
+      <div class="student-profile">
+        <div class="student-avatar" id="studentAvatar">?</div>
+        <div class="student-info">
+          <h2 id="studentNameDisplay">—</h2>
+          <p id="studentMeta">Loading results...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-card"><div class="stat-value" id="statTotal">—</div><div class="stat-label">Total Tests</div></div>
+      <div class="stat-card"><div class="stat-value" id="statBest">—</div><div class="stat-label">Best Score</div></div>
+      <div class="stat-card"><div class="stat-value" id="statLatest">—</div><div class="stat-label">Latest Score</div></div>
+      <div class="stat-card"><div class="stat-value" id="statSkills">—</div><div class="stat-label">Skills Tested</div></div>
+      <div class="stat-card"><div class="stat-value" id="statAI">—</div><div class="stat-label">AI Analysed</div></div>
+    </div>
+
+    <!-- Skill filter tabs -->
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="speaking">🎤 Speaking</button>
+      <button class="filter-tab" data-filter="writing">✍️ Writing</button>
+      <button class="filter-tab" data-filter="listening">🎧 Listening</button>
+      <button class="filter-tab" data-filter="reading">📖 Reading</button>
+      <button class="filter-tab" data-filter="full-mock">🎯 Full Mock</button>
+    </div>
+
+    <!-- Score chart -->
+    <div class="chart-section" id="chartSection">
+      <div class="chart-card">
+        <h3>📈 Score Progression</h3>
+        <div id="chartContent"><div class="chart-empty">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- Results list -->
+    <div class="results-section">
+      <h3 id="resultsCount">📋 All Results</h3>
+      <div id="resultsList">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== RESULT VIEWER OVERLAY ===== -->
+  <div class="viewer-overlay" id="viewerOverlay">
+    <div class="viewer-container">
+      <div class="viewer-header">
+        <h3>📋 <span id="viewerTitle">Result Report</span></h3>
+        <button class="viewer-close" onclick="closeViewer()">✕</button>
+      </div>
+      <div class="viewer-tabs" id="viewerTabs"></div>
+      <div class="viewer-loader" id="viewerLoader">
+        <div class="loader-bar"><div class="loader-fill"></div></div>
+        <div class="loader-text">Loading report…</div>
+      </div>
+      <div class="viewer-content" id="viewerContent"></div>
+      <iframe class="viewer-iframe" id="viewerIframe" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // ====================================================================
+    // CONFIG
+    // ====================================================================
+    var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    var studentName = '';
+    var allResults = [];
+    var filteredResults = [];
+    var activeFilter = 'all';
+
+    // ====================================================================
+    // THEME
+    // ====================================================================
+    (function initTheme() {
+      var saved = localStorage.getItem('dashboard-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('dashboard-theme', next);
+      document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var theme = document.documentElement.getAttribute('data-theme');
+      document.getElementById('themeBtn').textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+      var cfg = window.SITE_CONFIG || {};
+      document.getElementById('brandLabel').textContent = '— ' + (cfg.brandName || 'Mock Stream');
+
+      // Auto-fill from localStorage
+      var surname = localStorage.getItem('CANDIDATE_SURNAME') || '';
+      var firstname = localStorage.getItem('CANDIDATE_FIRSTNAME') || '';
+      document.getElementById('gateSurname').value = surname;
+      document.getElementById('gateFirstname').value = firstname;
+
+      // Auto-submit if we have saved name
+      if (surname && firstname) {
+        submitName();
+      }
+
+      // Event listeners
+      document.getElementById('gateSubmit').addEventListener('click', submitName);
+      document.getElementById('gateFirstname').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') submitName();
+      });
+      document.getElementById('gateSurname').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') document.getElementById('gateFirstname').focus();
+      });
+
+      // Filter tabs
+      document.getElementById('filterTabs').addEventListener('click', function (e) {
+        var btn = e.target.closest('.filter-tab');
+        if (!btn) return;
+        document.querySelectorAll('.filter-tab').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeFilter = btn.getAttribute('data-filter');
+        applyFilter();
+      });
+    });
+
+    // ====================================================================
+    // NAME GATE
+    // ====================================================================
+    function submitName() {
+      var surname = document.getElementById('gateSurname').value.trim();
+      var firstname = document.getElementById('gateFirstname').value.trim();
+      var errEl = document.getElementById('gateError');
+
+      if (!surname || !firstname) {
+        errEl.textContent = 'Please enter both your surname and first name.';
+        return;
+      }
+
+      if (surname.length < 2 || firstname.length < 2) {
+        errEl.textContent = 'Name is too short. Enter your real full name.';
+        return;
+      }
+
+      errEl.textContent = '';
+      studentName = surname + ' ' + firstname;
+      unlockDashboard();
+    }
+
+    function unlockDashboard() {
+      document.getElementById('nameGate').style.display = 'none';
+      document.getElementById('dashboard').classList.add('show');
+
+      // Set student display
+      document.getElementById('studentNameDisplay').textContent = studentName;
+      var initials = studentName.split(' ').map(function (w) { return w.charAt(0).toUpperCase(); }).join('');
+      document.getElementById('studentAvatar').textContent = initials.substring(0, 2);
+
+      fetchResults();
+    }
+
+    // ====================================================================
+    // FETCH RESULTS
+    // ====================================================================
+    function fetchResults() {
+      document.getElementById('resultsList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      document.getElementById('chartContent').innerHTML = '<div class="chart-empty">Loading...</div>';
+
+      var url = SUPABASE_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc';
+
+      fetch(url, {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+        }
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Failed to fetch');
+          return res.json();
+        })
+        .then(function (data) {
+          allResults = (data || []).map(function (r) {
+            if (typeof r.metadata === 'string') {
+              try { r.metadata = JSON.parse(r.metadata); } catch (e) { r.metadata = {}; }
+            }
+            return r;
+          });
+
+          // Filter by center if clone site
+          var lockedCenter = window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier && window.SITE_CONFIG.testIdentifier !== 'mock_stream'
+            ? window.SITE_CONFIG.testIdentifier : null;
+          if (lockedCenter) {
+            allResults = allResults.filter(function (r) { return r.center === lockedCenter; });
+          }
+
+          updateStats();
+          applyFilter();
+        })
+        .catch(function (err) {
+          console.error('Fetch error:', err);
+          document.getElementById('resultsList').innerHTML =
+            '<div class="empty-state"><div class="icon">⚠️</div><h3>Failed to load results</h3><p>Please check your internet connection and try again.</p></div>';
+        });
+    }
+
+    function refreshResults() {
+      fetchResults();
+    }
+
+    // ====================================================================
+    // STATS
+    // ====================================================================
+    function updateStats(subset) {
+      var data = subset || allResults;
+      var isFiltered = subset && activeFilter !== 'all';
+      var total = data.length;
+      document.getElementById('statTotal').textContent = total || '—';
+
+      var skills = {};
+      var examTypes = {};
+      var aiCount = 0;
+
+      // Group scores by exam type
+      var bestByExam = {};   // { ielts: num, cefr: num }
+      var latestByExam = {}; // { ielts: str, cefr: str }
+      var bestOverall = null;
+      var latestOverall = '—';
+
+      if (data.length > 0) {
+        latestOverall = data[0].score || '—';
+      }
+
+      data.forEach(function (r) {
+        skills[r.skill] = true;
+        var et = (r.exam_type || 'other').toLowerCase();
+        examTypes[et] = true;
+        if (r.metadata && (r.metadata.hasAi || r.metadata.fc || r.metadata.p11 || r.metadata.t1_band || r.metadata.raw_score)) aiCount++;
+        var num = parseScoreNum(r.score);
+        if (num !== null) {
+          if (bestOverall === null || num > bestOverall) bestOverall = num;
+          if (bestByExam[et] === undefined || num > bestByExam[et]) bestByExam[et] = num;
+        }
+        if (!latestByExam[et]) latestByExam[et] = r.score || '—';
+      });
+
+      var examKeys = Object.keys(examTypes).filter(function(k){ return k === 'ielts' || k === 'cefr'; });
+      var hasBoth = examKeys.length >= 2;
+
+      // Best Score
+      var bestEl = document.getElementById('statBest');
+      if (hasBoth) {
+        bestEl.innerHTML = buildBadgeHTML(bestByExam, 'best');
+      } else {
+        bestEl.textContent = bestOverall !== null ? bestOverall : '—';
+      }
+
+      // Latest Score
+      var latestEl = document.getElementById('statLatest');
+      if (hasBoth) {
+        latestEl.innerHTML = buildBadgeHTML(latestByExam, 'latest');
+      } else {
+        latestEl.textContent = latestOverall;
+      }
+
+      // Skills Tested / Exam Types
+      var skillsEl = document.getElementById('statSkills');
+      var skillsLabelEl = skillsEl.parentElement.querySelector('.stat-label');
+      if (isFiltered) {
+        skillsEl.textContent = examKeys.length || Object.keys(examTypes).length || '—';
+        skillsLabelEl.textContent = 'Exam Types';
+      } else {
+        skillsEl.textContent = Object.keys(skills).length || '—';
+        skillsLabelEl.textContent = 'Skills Tested';
+      }
+
+      document.getElementById('statAI').textContent = aiCount || '—';
+
+      // Student meta (always based on allResults)
+      var allTotal = allResults.length;
+      if (allTotal > 0) {
+        var first = new Date(allResults[allResults.length - 1].created_at);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        document.getElementById('studentMeta').textContent = allTotal + ' test' + (allTotal === 1 ? '' : 's') + ' since ' + first.getDate() + ' ' + months[first.getMonth()] + ' ' + first.getFullYear();
+      } else {
+        document.getElementById('studentMeta').textContent = 'No results found yet';
+      }
+    }
+
+    function buildBadgeHTML(scoreMap, mode) {
+      var html = '<div class="score-badges">';
+      if (scoreMap['ielts'] !== undefined) {
+        var v = mode === 'best' ? scoreMap['ielts'] : scoreMap['ielts'];
+        html += '<div class="score-badge"><span class="badge-tag ielts">IELTS</span> ' + escapeHtml(String(v)) + '</div>';
+      }
+      if (scoreMap['cefr'] !== undefined) {
+        var v2 = mode === 'best' ? scoreMap['cefr'] : scoreMap['cefr'];
+        html += '<div class="score-badge"><span class="badge-tag cefr">CEFR</span> ' + escapeHtml(String(v2)) + '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    // ====================================================================
+    // FILTER & RENDER
+    // ====================================================================
+    function applyFilter() {
+      if (activeFilter === 'all') {
+        filteredResults = allResults.slice();
+      } else {
+        filteredResults = allResults.filter(function (r) { return r.skill === activeFilter; });
+      }
+
+      document.getElementById('resultsCount').textContent = '📋 ' + (activeFilter === 'all' ? 'All' : capitalize(activeFilter)) + ' Results (' + filteredResults.length + ')';
+      updateStats(filteredResults);
+      renderChart(filteredResults);
+      renderResults(filteredResults);
+    }
+
+    function renderResults(results) {
+      var container = document.getElementById('resultsList');
+
+      if (results.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><h3>No results found</h3><p>' +
+          (allResults.length === 0 ? 'Take a test first, then come back to see your results here!' : 'No results match this filter.') +
+          '</p></div>';
+        return;
+      }
+
+      var html = '';
+      results.forEach(function (r) {
+        var d = new Date(r.created_at);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var dateStr = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+
+        var examLabel = (r.exam_type || '').toUpperCase();
+        var examClass = r.exam_type === 'ielts' ? 'badge-ielts' : 'badge-cefr';
+        var skillLabel = capitalize(r.skill || '');
+        var skillClass = 'badge-' + (r.skill || 'speaking');
+        var isPractice = (r.metadata && r.metadata.is_practice) || (r.mock_number && r.mock_number.indexOf('Practice') === 0);
+        var hasAI = r.metadata && (r.metadata.hasAi || r.metadata.fc || r.metadata.p11 || r.metadata.t1_band || r.metadata.raw_score);
+
+        var scoreDisplay = r.score || '—';
+        var bigNum = scoreDisplay;
+        var unitText = '';
+        if (scoreDisplay.indexOf('/') > -1) {
+          var parts = scoreDisplay.split('/');
+          bigNum = parts[0];
+          unitText = '/ ' + parts[1];
+        }
+
+        // Sub-scores
+        var details = '';
+        if (r.metadata) {
+          var m = r.metadata;
+          if (m.fc !== undefined) details += '<span class="dl">FC:</span> ' + m.fc + ' &nbsp;<span class="dl">LR:</span> ' + m.lr + ' &nbsp;<span class="dl">GRA:</span> ' + m.gra + ' &nbsp;<span class="dl">P:</span> ' + m.p + '<br>';
+          if (m.p11 !== undefined) details += '<span class="dl">P1.1:</span> ' + m.p11 + ' &nbsp;<span class="dl">P1.2:</span> ' + m.p12 + ' &nbsp;<span class="dl">P2:</span> ' + m.p2 + ' &nbsp;<span class="dl">P3:</span> ' + m.p3 + '<br>';
+          if (m.t1_band !== undefined) details += '<span class="dl">Task 1:</span> ' + m.t1_band + ' &nbsp;<span class="dl">Task 2:</span> ' + m.t2_band + '<br>';
+          if (m.t11 !== undefined) details += '<span class="dl">T1.1:</span> ' + m.t11 + ' &nbsp;<span class="dl">T1.2:</span> ' + m.t12 + ' &nbsp;<span class="dl">T2:</span> ' + m.t2 + '<br>';
+          if (m.l !== undefined && m.r !== undefined) details += '<span class="dl">L:</span> ' + m.l + ' &nbsp;<span class="dl">R:</span> ' + m.r + ' &nbsp;<span class="dl">W:</span> ' + (m.w || '—') + ' &nbsp;<span class="dl">S:</span> ' + (m.s || '—') + '<br>';
+          if (m.raw !== undefined && m.total !== undefined) details += '<span class="dl">Raw:</span> ' + m.raw + '/' + m.total + (m.percentage !== undefined ? ' (' + m.percentage + '%)' : '') + '<br>';
+          if (m.is_practice && m.part) details += '<span class="dl">Part:</span> ' + m.part.toUpperCase() + '<br>';
+          if (m.is_practice && m.task) details += '<span class="dl">Task:</span> ' + m.task.toUpperCase() + '<br>';
+        }
+
+        html += '<div class="result-card" onclick="viewResult(\'' + escapeAttr(r.id || '') + '\')">'
+          + '<div class="result-score-box">'
+          + '<div class="big">' + escapeHtml(bigNum) + '</div>'
+          + (unitText ? '<div class="unit">' + escapeHtml(unitText) + '</div>' : '')
+          + (r.level ? '<div class="level">' + escapeHtml(r.level) + '</div>' : '')
+          + '</div>'
+          + '<div class="result-info">'
+          + '<div class="top-row">'
+          + '<span class="date-text">' + dateStr + '</span>'
+          + '<span class="badge ' + examClass + '">' + examLabel + '</span>'
+          + '<span class="badge ' + skillClass + '">' + escapeHtml(skillLabel) + '</span>'
+          + (isPractice ? '<span class="badge badge-practice">Practice</span>' : '')
+          + (hasAI ? '<span class="badge badge-ai">AI ✓</span>' : '')
+          + (r.mock_number ? '<span class="mock-label">' + escapeHtml(r.mock_number) + '</span>' : '')
+          + '</div>'
+          + (details ? '<div class="result-details">' + details + '</div>' : '')
+          + '</div>'
+          + '<div class="result-arrow">›</div>'
+          + '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ====================================================================
+    // SCORE CHART
+    // ====================================================================
+    function renderChart(results) {
+      var container = document.getElementById('chartContent');
+
+      // Build chart from oldest to newest
+      var chronological = results.slice().reverse();
+      var points = [];
+      chronological.forEach(function (r) {
+        var num = parseScoreNum(r.score);
+        if (num === null) return;
+        var d = new Date(r.created_at);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
+        var label = d.getDate() + '/' + (d.getMonth() + 1);
+        var maxVal = r.exam_type === 'cefr' ? 75 : 9;
+        var pct = (num / maxVal) * 100;
+        var skillLabel = capitalize(r.skill || '');
+        points.push({ num: num, pct: pct, label: label, skill: skillLabel, exam: (r.exam_type || '').toUpperCase(), max: maxVal });
+      });
+
+      if (points.length < 2) {
+        container.innerHTML = '<div class="chart-empty">Need at least 2 scored tests to show progression chart. Keep taking tests!</div>';
+        return;
+      }
+
+      var W = 600, H = 170, padL = 40, padR = 20, padT = 20, padB = 35;
+      var chartW = W - padL - padR;
+      var chartH = H - padT - padB;
+
+      var minPct = Math.max(0, Math.min.apply(null, points.map(function (p) { return p.pct; })) - 10);
+      var maxPct = Math.min(100, Math.max.apply(null, points.map(function (p) { return p.pct; })) + 10);
+      var range = maxPct - minPct || 1;
+
+      var coords = points.map(function (p, i) {
+        var x = padL + (i / (points.length - 1)) * chartW;
+        var y = padT + chartH - ((p.pct - minPct) / range) * chartH;
+        return { x: x, y: y, p: p };
+      });
+
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="chart-svg" xmlns="http://www.w3.org/2000/svg" style="font-family:inherit;">';
+
+      // Grid
+      for (var g = 0; g <= 4; g++) {
+        var gy = padT + (g / 4) * chartH;
+        var val = Math.round(maxPct - (g / 4) * range);
+        svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="var(--border)" stroke-dasharray="4,4" />';
+        svg += '<text x="' + (padL - 6) + '" y="' + (gy + 4) + '" text-anchor="end" fill="var(--ink-secondary)" font-size="9">' + val + '%</text>';
+      }
+
+      // Area
+      var areaPath = 'M' + coords[0].x + ',' + coords[0].y;
+      for (var a = 1; a < coords.length; a++) areaPath += ' L' + coords[a].x + ',' + coords[a].y;
+      areaPath += ' L' + coords[coords.length - 1].x + ',' + (padT + chartH) + ' L' + coords[0].x + ',' + (padT + chartH) + ' Z';
+      svg += '<path d="' + areaPath + '" fill="var(--accent)" opacity="0.1" />';
+
+      // Line
+      var linePath = 'M' + coords[0].x + ',' + coords[0].y;
+      for (var l = 1; l < coords.length; l++) linePath += ' L' + coords[l].x + ',' + coords[l].y;
+      svg += '<path d="' + linePath + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />';
+
+      // Dots and labels
+      coords.forEach(function (c) {
+        svg += '<circle cx="' + c.x + '" cy="' + c.y + '" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2" />';
+        svg += '<text x="' + c.x + '" y="' + (H - 8) + '" text-anchor="middle" fill="var(--ink-secondary)" font-size="8">' + c.p.label + '</text>';
+        svg += '<text x="' + c.x + '" y="' + (c.y - 10) + '" text-anchor="middle" fill="var(--ink)" font-size="10" font-weight="600">' + c.p.num + '</text>';
+      });
+
+      svg += '</svg>';
+      container.innerHTML = svg;
+    }
+
+    // ====================================================================
+    // RESULT VIEWER
+    // ====================================================================
+    function showLoader() {
+      document.getElementById('viewerLoader').classList.add('show');
+      document.getElementById('viewerIframe').style.display = 'none';
+      document.getElementById('viewerContent').classList.remove('show');
+    }
+    function hideLoader() {
+      document.getElementById('viewerLoader').classList.remove('show');
+    }
+    function showIframe() { hideLoader(); document.getElementById('viewerIframe').style.display = ''; document.getElementById('viewerContent').classList.remove('show'); }
+    function showContent(html) { hideLoader(); document.getElementById('viewerIframe').style.display = 'none'; var el = document.getElementById('viewerContent'); el.innerHTML = html; el.classList.add('show'); }
+
+    function viewResult(resultId) {
+      if (!resultId) return;
+      var result = allResults.find(function (r) { return r.id === resultId; });
+      if (!result || !result.report_path) return;
+
+      var overlay = document.getElementById('viewerOverlay');
+      overlay.classList.add('show');
+
+      var examLabel = (result.exam_type || '').toUpperCase();
+      var skillLabel = capitalize(result.skill || '');
+      document.getElementById('viewerTitle').textContent = examLabel + ' ' + skillLabel + (result.score ? ' — ' + result.score : '');
+
+      var iframe = document.getElementById('viewerIframe');
+      var tabs = document.getElementById('viewerTabs');
+      tabs.innerHTML = '';
+      tabs.classList.remove('visible');
+      iframe.src = 'about:blank';
+      showLoader();
+
+      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + result.report_path;
+
+      if (result.report_path.endsWith('.zip')) {
+        loadZipReport(fileUrl, result);
+      } else {
+        // Single HTML file
+        fetch(fileUrl)
+          .then(function (r) { return r.blob(); })
+          .then(function (blob) {
+            var htmlBlob = new Blob([blob], { type: 'text/html' });
+            return htmlBlob.text().then(function (text) {
+              var skill = (result.skill || '').toLowerCase();
+              if (skill === 'speaking' || skill === 'writing') {
+                showContent(extractCleanView(text, skill, null));
+              } else {
+                showIframe();
+                iframe.src = URL.createObjectURL(htmlBlob);
+              }
+            });
+          })
+          .catch(function () {
+            hideLoader();
+            iframe.style.display = '';
+            iframe.srcdoc = '<p style="padding:40px;text-align:center;color:#888;">Failed to load report.</p>';
+          });
+      }
+    }
+
+    function loadZipReport(fileUrl, result) {
+      var iframe = document.getElementById('viewerIframe');
+      var tabs = document.getElementById('viewerTabs');
+
+      fetch(fileUrl)
+        .then(function (r) { return r.arrayBuffer(); })
+        .then(function (buf) { return JSZip.loadAsync(buf); })
+        .then(function (zip) {
+          var htmlFiles = [];
+          var pdfFiles = [];
+          var audioFiles = {};
+          var nestedZips = [];
+
+          zip.forEach(function (path, entry) {
+            var lower = path.toLowerCase();
+            if (lower.endsWith('.html')) htmlFiles.push({ path: path, entry: entry });
+            else if (lower.endsWith('.pdf')) pdfFiles.push({ path: path, entry: entry });
+            else if (lower.match(/\.(mp3|wav|ogg|m4a|webm)$/)) audioFiles[path] = entry;
+            else if (lower.endsWith('.zip')) nestedZips.push({ path: path, entry: entry });
+          });
+
+          // Simple case: single HTML
+          if (htmlFiles.length === 1 && pdfFiles.length === 0 && nestedZips.length === 0) {
+            return htmlFiles[0].entry.async('blob').then(function (blob) {
+              var skill = (result.skill || '').toLowerCase();
+              var audioPromise = (skill === 'writing')
+                ? Promise.resolve({})
+                : processAudioBlobs(zip, audioFiles);
+              var _audioBlobMap = {};
+              return audioPromise.then(function (audioBlobMap) {
+                _audioBlobMap = audioBlobMap;
+                return patchHtmlAudio(blob, audioBlobMap);
+              }).then(function (patchedBlob) {
+                return patchedBlob.text().then(function (text) {
+                  if (skill === 'speaking' || skill === 'writing') {
+                    showContent(extractCleanView(text, skill, _audioBlobMap));
+                  } else {
+                    showIframe();
+                    iframe.src = URL.createObjectURL(new Blob([text], { type: 'text/html' }));
+                  }
+                });
+              });
+            });
+          }
+
+          // Multi-file ZIP: build tabs
+          var tabItems = [];
+
+          pdfFiles.forEach(function (f) {
+            var label = f.path.replace(/\.pdf$/i, '').replace(/^.*\//, '');
+            tabItems.push({ label: '📄 ' + label, type: 'pdf', entry: f.entry });
+          });
+
+          htmlFiles.forEach(function (f) {
+            var label = f.path.replace(/\.html$/i, '').replace(/^.*\//, '');
+            var inferredSkill = inferSkillFromFilename(f.path);
+            tabItems.push({ label: '📝 ' + label, type: 'html', entry: f.entry, zip: zip, audioFiles: audioFiles, skill: inferredSkill });
+          });
+
+          nestedZips.forEach(function (f) {
+            if (!f) return;
+            var label = f.path.replace(/\.zip$/i, '').replace(/^.*\//, '');
+            tabItems.push({ label: '🎤 ' + label, type: 'nested-zip', entry: f.entry });
+          });
+
+          if (tabItems.length === 0) {
+            hideLoader();
+            iframe.style.display = '';
+            iframe.srcdoc = '<p style="padding:40px;text-align:center;color:#888;">No viewable content found.</p>';
+            return;
+          }
+
+          tabs.innerHTML = '';
+          tabs.classList.add('visible');
+
+          tabItems.forEach(function (item) {
+            var btn = document.createElement('button');
+            btn.textContent = item.label;
+            btn.addEventListener('click', function () {
+              tabs.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+              btn.classList.add('active');
+              activateTab(item);
+            });
+            tabs.appendChild(btn);
+          });
+
+          // Auto-click first tab
+          tabs.children[0].click();
+        })
+        .catch(function () {
+          hideLoader();
+          iframe.style.display = '';
+          iframe.srcdoc = '<p style="padding:40px;text-align:center;color:#888;">Failed to load ZIP report.</p>';
+        });
+    }
+
+    function inferSkillFromFilename(path) {
+      var lo = path.toLowerCase();
+      if (lo.includes('writing')) return 'writing';
+      if (lo.includes('speaking')) return 'speaking';
+      if (lo.includes('listening')) return 'listening';
+      if (lo.includes('reading')) return 'reading';
+      return '';
+    }
+
+    function activateTab(item) {
+      var iframe = document.getElementById('viewerIframe');
+      iframe.src = 'about:blank';
+      showLoader();
+
+      if (item.type === 'pdf') {
+        item.entry.async('blob').then(function (blob) {
+          var pdfBlob = new Blob([blob], { type: 'application/pdf' });
+          var pdfUrl = URL.createObjectURL(pdfBlob);
+          // Use embed in content div — sandboxed iframes can't render PDFs from blob URLs
+          hideLoader();
+          document.getElementById('viewerIframe').style.display = 'none';
+          var el = document.getElementById('viewerContent');
+          el.innerHTML = '<embed src="' + pdfUrl + '" type="application/pdf" style="width:100%;height:100%;min-height:70vh;border:none;">' +
+            '<p style="padding:40px;text-align:center;color:#888;">Unable to display PDF inline. <a href="' + pdfUrl + '" target="_blank" style="color:#2563eb;font-weight:600;">Click here to open it</a>.</p></embed>';
+          el.classList.add('show');
+        }).catch(function (e) {
+          console.error('[MyResults] PDF tab error:', e);
+          showContent('<p style="padding:40px;text-align:center;color:#888;">Failed to load PDF. Please try again.</p>');
+        });
+      } else if (item.type === 'html') {
+        item.entry.async('blob').then(function (blob) {
+          var skill = item.skill || '';
+          // Skip heavy audio processing for writing (no audio needed)
+          var audioPromise = (skill === 'writing')
+            ? Promise.resolve({})
+            : processAudioBlobs(item.zip, item.audioFiles);
+          var _audioBlobMap = {};
+          return audioPromise.then(function (audioBlobMap) {
+            _audioBlobMap = audioBlobMap;
+            return patchHtmlAudio(blob, audioBlobMap);
+          }).then(function (patchedBlob) {
+            return patchedBlob.text().then(function (text) {
+              if (skill === 'writing' || skill === 'speaking') {
+                showContent(extractCleanView(text, skill, _audioBlobMap));
+              } else {
+                showIframe();
+                iframe.src = URL.createObjectURL(new Blob([text], { type: 'text/html' }));
+              }
+            });
+          });
+        }).catch(function (e) {
+          console.error('[MyResults] HTML tab error:', e);
+          showContent('<p style="padding:40px;text-align:center;color:#888;">Failed to load report. Please try again.</p>');
+        });
+      } else if (item.type === 'nested-zip') {
+        item.entry.async('arraybuffer').then(function (buf) {
+          return JSZip.loadAsync(buf);
+        }).then(function (innerZip) {
+          var innerHtml = null;
+          var innerAudio = {};
+          innerZip.forEach(function (p, e) {
+            if (e.dir) return;
+            var lo = p.toLowerCase().replace(/^.*\//, ''); // handle paths with folders
+            if (lo.endsWith('.html') && !innerHtml) innerHtml = e;
+            else if (lo.match(/\.(mp3|wav|ogg|m4a|webm)$/)) innerAudio[p] = e;
+          });
+          if (!innerHtml) {
+            showContent('<p style="padding:40px;text-align:center;color:#888;">No content found in package.</p>');
+            return;
+          }
+          var _audioBlobMap = {};
+          return innerHtml.async('blob').then(function (blob) {
+            return processAudioBlobs(innerZip, innerAudio).then(function (audioBlobMap) {
+              _audioBlobMap = audioBlobMap;
+              return patchHtmlAudio(blob, audioBlobMap);
+            }).then(function (patchedBlob) {
+              return patchedBlob.text().then(function (text) {
+                showContent(extractCleanView(text, 'speaking', _audioBlobMap));
+              });
+            });
+          });
+        }).catch(function (e) {
+          console.error('[MyResults] Nested ZIP tab error:', e);
+          // Fallback: try loading the nested zip as raw HTML in iframe
+          item.entry.async('arraybuffer').then(function (buf) {
+            return JSZip.loadAsync(buf);
+          }).then(function (innerZip) {
+            var htmlEntry = null;
+            innerZip.forEach(function (p, e) { if (p.toLowerCase().endsWith('.html') && !htmlEntry) htmlEntry = e; });
+            if (htmlEntry) {
+              return htmlEntry.async('blob').then(function (b) {
+                var hBlob = new Blob([b], { type: 'text/html' });
+                showIframe();
+                iframe.src = URL.createObjectURL(hBlob);
+              });
+            } else {
+              showContent('<p style="padding:40px;text-align:center;color:#888;">Failed to load speaking package.</p>');
+            }
+          }).catch(function () {
+            showContent('<p style="padding:40px;text-align:center;color:#888;">Failed to load speaking package.</p>');
+          });
+        });
+      }
+    }
+
+    // ====================================================================
+    // CLEAN VIEW EXTRACTION
+    // ====================================================================
+    function extractCleanView(html, skill, audioBlobMap) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, 'text/html');
+      if (skill === 'writing') return extractWritingView(doc);
+      if (skill === 'speaking') return extractSpeakingView(doc, audioBlobMap);
+      return '<p style="padding:20px;">Report loaded.</p>';
+    }
+
+    function extractWritingView(doc) {
+      var out = '';
+
+      // ── Score banner ──
+      // Premium: .score-card has a .score div with font-size:48px
+      // Regular: .score-card has text "Candidate Work"
+      var scoreCard = doc.querySelector('.score-card');
+      if (scoreCard) {
+        var scoreDiv = scoreCard.querySelector('.score') || scoreCard.querySelector('[style*="font-size:48px"]') || scoreCard.querySelector('[style*="font-size: 48px"]');
+        if (scoreDiv) {
+          var scoreText = scoreDiv.textContent.trim();
+          out += '<div class="vr-score-banner"><div class="vr-score-num">' + escapeHtml(scoreText) + '</div>';
+          var subtitle = scoreCard.querySelector('p');
+          if (subtitle) out += '<div class="vr-score-detail">' + escapeHtml(subtitle.textContent.trim()) + '</div>';
+          var cefrBadge = scoreCard.querySelector('.cefr');
+          if (cefrBadge) out += '<div class="vr-score-detail" style="font-size:14px;font-weight:700;">' + escapeHtml(cefrBadge.textContent.trim()) + '</div>';
+          out += '</div>';
+        }
+      }
+
+      // ── Header title ──
+      var headerH1 = doc.querySelector('.header h1');
+      if (headerH1 && !out) {
+        out += '<div class="vr-score-banner"><div class="vr-score-detail" style="font-size:16px;font-weight:700;">' + escapeHtml(headerH1.textContent.trim()) + '</div></div>';
+      }
+
+      // ── CEFR context box (Part 1 scenario) ──
+      var contextBox = doc.querySelector('.context-box');
+      if (contextBox) {
+        var ctxLabel = contextBox.querySelector('.context-label');
+        var ctxContent = contextBox.textContent.trim();
+        if (ctxLabel) ctxContent = ctxContent.replace(ctxLabel.textContent.trim(), '').trim();
+        out += '<div class="vr-section"><div class="vr-section-head" style="background:#ede9fe;">📋 ' + escapeHtml(ctxLabel ? ctxLabel.textContent.trim() : 'Context') + '</div><div class="vr-section-body"><div class="vr-prompt">' + escapeHtml(ctxContent) + '</div></div></div>';
+      }
+
+      // ── Task sections ──
+      // IELTS: .task-section  |  CEFR: .task  — both contain prompt + response
+      var taskSections = doc.querySelectorAll('.task-section, .task');
+      if (taskSections.length > 0) {
+        taskSections.forEach(function (section, i) {
+          out += '<div class="vr-section">';
+          var h3 = section.querySelector('h3');
+          out += '<div class="vr-section-head" style="background:var(--accent-light);">✍️ ' + escapeHtml(h3 ? h3.textContent.trim() : 'Task ' + (i + 1)) + '</div>';
+          out += '<div class="vr-section-body">';
+
+          // Word count badge
+          var wcEl = section.querySelector('.word-count');
+          if (wcEl) out += '<div class="vr-word-count">' + escapeHtml(wcEl.textContent.trim()) + '</div>';
+
+          // Prompt box
+          var promptBox = section.querySelector('.prompt-box');
+          if (promptBox) {
+            // CEFR: .prompt-text child  |  IELTS: last bare <div> child
+            var promptText = promptBox.querySelector('.prompt-text');
+            if (!promptText) {
+              var divs = promptBox.querySelectorAll(':scope > div');
+              promptText = divs.length > 1 ? divs[divs.length - 1] : promptBox;
+            }
+            out += '<div class="vr-prompt">' + promptText.innerHTML + '</div>';
+          }
+
+          // Student response — check several class names:
+          // IELTS: .response-box  |  CEFR premium: .corrections-box  |  CEFR regular: .response-box  |  CEFR fallback: .response
+          var responseEl = section.querySelector('.response-box') || section.querySelector('.corrections-box') || section.querySelector('.response');
+          if (responseEl && responseEl.textContent.trim()) {
+            out += '<div class="vr-answer">' + responseEl.innerHTML + '</div>';
+          } else {
+            out += '<div class="vr-answer" style="color:var(--ink-secondary);font-style:italic;">No answer submitted</div>';
+          }
+
+          // CEFR examiner feedback (.examiner-feedback)
+          var examFb = section.querySelector('.examiner-feedback');
+          if (examFb) {
+            out += '<div class="vr-ai"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text">' + examFb.innerHTML + '</div></div>';
+          }
+
+          // Premium AI: per-task band and feedback (inline styled divs — IELTS)
+          var aiDivs = section.querySelectorAll('[style*="background:#dcfce7"], [style*="background: #dcfce7"], [style*="background:#eff6ff"], [style*="background: #eff6ff"]');
+          aiDivs.forEach(function (ai) {
+            out += '<div class="vr-ai"><div class="vr-ai-text">' + ai.innerHTML + '</div></div>';
+          });
+
+          // Sample answer <details> inside task
+          var taskDetails = section.querySelectorAll('details');
+          taskDetails.forEach(function (d) {
+            var summary = d.querySelector('summary');
+            if (summary && summary.textContent.includes('Sample Answer')) {
+              out += '<details class="vr-sample"><summary>📖 ' + escapeHtml(summary.textContent.replace(/📖\s*/, '')) + '</summary><div class="vr-sample-text">' + d.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+            }
+          });
+
+          out += '</div></div>';
+        });
+      } else {
+        // Fallback: look for .prompt-box directly (older format)
+        var promptBoxes = doc.querySelectorAll('.prompt-box');
+        if (promptBoxes.length > 0) {
+          promptBoxes.forEach(function (pBox, i) {
+            out += '<div class="vr-section">';
+            out += '<div class="vr-section-head" style="background:var(--accent-light);">✍️ Task ' + (i + 1) + '</div>';
+            out += '<div class="vr-section-body">';
+            var promptText = pBox.querySelector('.prompt-text');
+            if (!promptText) {
+              var divs = pBox.querySelectorAll(':scope > div');
+              promptText = divs.length > 1 ? divs[divs.length - 1] : pBox;
+            }
+            out += '<div class="vr-prompt">' + promptText.innerHTML + '</div>';
+            // Look for response sibling
+            var next = pBox.nextElementSibling;
+            while (next) {
+              if (next.classList && (next.classList.contains('response-box') || next.classList.contains('corrections-box') || next.classList.contains('response'))) {
+                out += '<div class="vr-answer">' + next.innerHTML + '</div>';
+                break;
+              }
+              var style = next.getAttribute('style') || '';
+              if (style.includes('pre-wrap')) {
+                out += '<div class="vr-answer">' + next.innerHTML + '</div>';
+                break;
+              }
+              next = next.nextElementSibling;
+            }
+            out += '</div></div>';
+          });
+        } else {
+          // Last resort: h3 headings
+          var headings = doc.querySelectorAll('h3');
+          headings.forEach(function (h3) {
+            var text = h3.textContent.toLowerCase();
+            if (!text.includes('task') && !text.includes('part')) return;
+            out += '<div class="vr-section">';
+            out += '<div class="vr-section-head" style="background:var(--accent-light);">✍️ ' + escapeHtml(h3.textContent.trim()) + '</div>';
+            out += '<div class="vr-section-body">';
+            var next = h3.nextElementSibling;
+            if (next) {
+              out += '<div class="vr-prompt">' + next.innerHTML + '</div>';
+              var ansNext = next.nextElementSibling;
+              while (ansNext) {
+                var style = ansNext.getAttribute('style') || '';
+                if (style.includes('pre-wrap') || style.includes('Times New Roman') || (ansNext.className && (ansNext.className.includes('response') || ansNext.className.includes('correction')))) {
+                  out += '<div class="vr-answer">' + ansNext.innerHTML + '</div>';
+                  break;
+                }
+                ansNext = ansNext.nextElementSibling;
+              }
+            }
+            out += '</div></div>';
+          });
+        }
+      }
+
+      // Extract AI feedback blocks
+      var feedbackBlocks = doc.querySelectorAll('[style*="background:#fef2f2"], [style*="background: #fef2f2"]');
+      feedbackBlocks.forEach(function (fb) {
+        if (fb.textContent.includes('EXAMINER NOTE') || fb.textContent.includes('Examiner Note')) {
+          out += '<div class="vr-ai"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text">' + fb.innerHTML + '</div></div>';
+        }
+      });
+
+      // Extract corrected text
+      var corrIds = ['t11CorrectedText', 't12CorrectedText', 't2CorrectedText'];
+      corrIds.forEach(function (id) {
+        var el = doc.getElementById(id);
+        if (el && el.textContent.trim()) {
+          out += '<div class="vr-ai"><div class="vr-ai-label">✏️ Corrected Version</div><div class="vr-ai-text" style="line-height:1.8;">' + el.innerHTML + '</div></div>';
+        }
+      });
+
+      // Extract overall assessment
+      var assessments = doc.querySelectorAll('[style*="background:linear-gradient(135deg,#f0fdf4"], [style*="background: linear-gradient(135deg, #f0fdf4"]');
+      assessments.forEach(function (a) {
+        out += '<div class="vr-ai"><div class="vr-ai-label">📊 Overall Assessment</div><div class="vr-ai-text">' + a.innerHTML + '</div></div>';
+      });
+
+      // Extract sample answers (only top-level, skip task-level already handled)
+      var details = doc.querySelectorAll('body > details, body > div > details');
+      details.forEach(function (d) {
+        // Skip if already inside a .task or .task-section (handled above)
+        if (d.closest('.task-section') || d.closest('.task')) return;
+        var summary = d.querySelector('summary');
+        if (summary && summary.textContent.includes('Sample Answer')) {
+          out += '<details class="vr-sample"><summary>📖 ' + escapeHtml(summary.textContent.replace(/📖\s*/, '')) + '</summary><div class="vr-sample-text">' + d.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+        }
+      });
+
+      // CEFR overall AI feedback (.feedback class)
+      var cefrFeedback = doc.querySelector('.feedback');
+      if (cefrFeedback) {
+        out += '<div class="vr-ai"><div class="vr-ai-label">📊 AI Feedback</div><div class="vr-ai-text">' + cefrFeedback.innerHTML + '</div></div>';
+      }
+
+      if (!out) out = '<p style="padding:20px;color:var(--ink-secondary);">No writing content found in this report.</p>';
+      return out;
+    }
+
+    function extractSpeakingView(doc, audioBlobMap) {
+      var out = '';
+      audioBlobMap = audioBlobMap || {};
+
+      // ── Helper: resolve audio src through blobMap ──
+      function resolveAudio(audioEl) {
+        if (!audioEl) return '';
+        var srcEl = audioEl.querySelector('source');
+        var aSrc = (srcEl ? srcEl.getAttribute('src') : audioEl.getAttribute('src')) || '';
+        var resolved = audioBlobMap[aSrc] || aSrc;
+        if (!resolved || resolved === aSrc) {
+          var fn = aSrc.replace(/^.*\//, '');
+          if (audioBlobMap[fn]) resolved = audioBlobMap[fn];
+        }
+        return resolved;
+      }
+
+      function audioHtml(src) {
+        if (src) return '<div class="vr-audio-wrap"><audio controls preload="none" style="width:100%;height:40px;border-radius:20px;"><source src="' + escapeHtml(src) + '" type="audio/webm"></audio></div>';
+        return '<div style="font-size:12px;color:var(--ink-secondary);font-style:italic;margin-top:6px;">🎤 Audio recording (open full report to play)</div>';
+      }
+
+      // ── Header / Score banner ──
+      var headerDiv = doc.querySelector('.header');
+      if (headerDiv) {
+        var h1 = headerDiv.querySelector('h1');
+        var pEl = headerDiv.querySelector('p');
+        if (h1) out += '<div class="vr-score-banner"><div class="vr-score-detail" style="font-size:16px;font-weight:700;">' + escapeHtml(h1.textContent.trim()) + '</div>';
+        if (pEl) out += '<div class="vr-score-detail" style="font-size:12px;opacity:0.8;">' + escapeHtml(pEl.textContent.trim()) + '</div>';
+        if (h1) out += '</div>';
+      }
+
+      // Score card
+      var scoreCard = doc.querySelector('.score-card');
+      if (scoreCard) {
+        var scoreBig = scoreCard.querySelector('[style*="font-size:48px"]') || scoreCard.querySelector('[style*="font-size: 48px"]') || scoreCard.querySelector('.score');
+        if (scoreBig) {
+          out += '<div class="vr-score-banner"><div class="vr-score-num" style="color:#dc2626;">' + escapeHtml(scoreBig.textContent.trim()) + '</div>';
+          var sub = scoreCard.querySelector('p');
+          if (sub) out += '<div class="vr-score-detail">' + escapeHtml(sub.textContent.trim()) + '</div>';
+          var spkCefrBadge = scoreCard.querySelector('.cefr');
+          if (spkCefrBadge) out += '<div class="vr-score-detail" style="font-size:14px;font-weight:700;">' + escapeHtml(spkCefrBadge.textContent.trim()) + '</div>';
+          out += '</div>';
+        }
+      }
+
+      // CEFR part-score breakdown
+      var breakdown = doc.querySelector('.breakdown');
+      if (breakdown) {
+        var partScores = breakdown.querySelectorAll('.part-score');
+        if (partScores.length > 0) {
+          out += '<div class="vr-section"><div class="vr-section-head" style="background:#fef3c7;">📊 Part Scores</div><div class="vr-section-body" style="display:flex;gap:12px;flex-wrap:wrap;">';
+          partScores.forEach(function (ps) { out += '<div style="text-align:center;flex:1;min-width:60px;">' + ps.innerHTML + '</div>'; });
+          out += '</div></div>';
+        }
+      }
+
+      // Color legend
+      var colorLegend = doc.querySelector('.color-legend');
+      if (!colorLegend) {
+        // Also check for inline color legend divs
+        var legendCand = doc.querySelector('[style*="Color Code Legend"]');
+        if (!legendCand) {
+          var allDivs = doc.querySelectorAll('div');
+          for (var li = 0; li < allDivs.length; li++) {
+            if (allDivs[li].textContent.indexOf('Color Code Legend') !== -1 && allDivs[li].querySelectorAll('span').length >= 3) {
+              colorLegend = allDivs[li]; break;
+            }
+          }
+        }
+      }
+      if (colorLegend) {
+        out += '<div class="vr-section"><div class="vr-section-head" style="background:#ede9fe;">🎨 Color Legend</div><div class="vr-section-body" style="font-size:13px;">' + colorLegend.innerHTML + '</div></div>';
+      }
+
+      // ── Collect teacher question cards (.question-card) ──
+      var teacherCards = doc.querySelectorAll('.question-card');
+
+      // ── Collect AI analysis cards (inline-styled per-question blocks) ──
+      // They have pattern: background:#fef3c7 / #dbeafe / #ede9fe / #fce7f3 with Q{N} header
+      var aiCards = {};  // keyed by question number (1-8)
+      var aiCandidates = doc.querySelectorAll('div[style*="border-radius:12px"][style*="border:2px solid"]');
+      aiCandidates.forEach(function (div) {
+        // Look for Q{N} text in header
+        var headerEl = div.querySelector('div[style*="font-weight:700"]');
+        if (!headerEl) return;
+        var hText = headerEl.textContent.trim();
+        var qMatch = hText.match(/^Q(\d+)/);
+        if (qMatch) {
+          aiCards[parseInt(qMatch[1])] = div;
+        }
+      });
+
+      // ── Collect sample answers (<details>) that are NOT inside a question card ──
+      var allDetails = doc.querySelectorAll('details');
+      var sampleDetails = {}; // keyed by index (0-based) within the standalone details list
+      var standaloneDetails = [];
+      allDetails.forEach(function (d) {
+        var summary = d.querySelector('summary');
+        if (summary && summary.textContent.indexOf('Sample Answer') !== -1) {
+          // Check if this is inside a question card already
+          if (!d.closest('.question-card')) {
+            standaloneDetails.push(d);
+          }
+        }
+      });
+
+      // ── Also check for .question class cards (older CEFR format) ──
+      var cefrCards = doc.querySelectorAll('.question');
+
+      // ── Build: teacher cards path ──
+      if (teacherCards.length > 0) {
+        teacherCards.forEach(function (card, i) {
+          var qNum = i + 1;
+          out += '<div class="vr-audio-card">';
+
+          // Question header (h3)
+          var h3 = card.querySelector('h3');
+          out += '<h4>' + (h3 ? escapeHtml(h3.textContent.trim()) : 'Question ' + qNum) + '</h4>';
+
+          // Question text
+          var qText = card.querySelector('.question-text');
+          if (qText) out += '<div class="vr-q-text">' + escapeHtml(qText.textContent.trim()) + '</div>';
+
+          // Q4: Side-by-side images (only Q4)
+          if (qNum === 4) {
+            var imgs = card.querySelectorAll('img');
+            if (imgs.length >= 2) {
+              out += '<div style="display:flex;gap:8px;margin:8px 0;">';
+              for (var im = 0; im < imgs.length; im++) {
+                var imgSrc = imgs[im].getAttribute('src') || '';
+                var imgAlt = imgs[im].getAttribute('alt') || 'Image';
+                out += '<img src="' + escapeHtml(imgSrc) + '" alt="' + escapeHtml(imgAlt) + '" style="width:calc(50% - 4px);border-radius:8px;border:1.5px solid #e2e8f0;">';
+              }
+              out += '</div>';
+            }
+          }
+
+          // Q7: Bullet points
+          var bullets = card.querySelector('ul');
+          if (bullets && !card.querySelector('div[style*="background:#dbeafe"]')) {
+            out += '<ul style="margin:6px 0 8px;padding-left:20px;font-size:12px;color:var(--ink-secondary);line-height:1.7;">' + bullets.innerHTML + '</ul>';
+          }
+
+          // Q8: FOR / AGAINST debate points (mini side-by-side)
+          var forDiv = card.querySelector('div[style*="background:#dbeafe"], div[style*="background: #dbeafe"]');
+          var againstDiv = card.querySelector('div[style*="background:#fee2e2"], div[style*="background: #fee2e2"]');
+          if (forDiv && againstDiv) {
+            out += '<div style="display:flex;gap:6px;margin:8px 0;font-size:11px;">';
+            out += '<div style="flex:1;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:8px 10px;"><div style="font-weight:700;color:#1e40af;margin-bottom:4px;">FOR</div>' + (forDiv.querySelector('ul') ? forDiv.querySelector('ul').outerHTML : '') + '</div>';
+            out += '<div style="flex:1;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px 10px;"><div style="font-weight:700;color:#dc2626;margin-bottom:4px;">AGAINST</div>' + (againstDiv.querySelector('ul') ? againstDiv.querySelector('ul').outerHTML : '') + '</div>';
+            out += '</div>';
+          }
+
+          // Audio
+          var cardAudio = card.querySelector('audio');
+          out += audioHtml(resolveAudio(cardAudio));
+
+          // AI analysis for this question (if exists)
+          var aiCard = aiCards[qNum];
+          if (aiCard) {
+            // Corrections / transcription
+            var corrDiv = aiCard.querySelector('div[style*="border-left:4px"]');
+            if (corrDiv) {
+              out += '<div class="vr-answer" style="font-size:13px;margin-top:10px;border-left:4px solid #6366f1;padding:10px 12px;background:#f8fafc;border-radius:0 8px 8px 0;">' + corrDiv.innerHTML + '</div>';
+            }
+
+            // Examiner feedback
+            var fbDiv = aiCard.querySelector('div[style*="background:#fef2f2"]');
+            if (fbDiv) {
+              out += '<div class="vr-ai" style="margin-top:8px;"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text" style="font-size:13px;">' + fbDiv.innerHTML + '</div></div>';
+            }
+
+            // Sample answer (inside AI card)
+            var aiSample = aiCard.querySelector('details');
+            if (aiSample) {
+              var summ = aiSample.querySelector('summary');
+              out += '<details class="vr-sample"><summary>📖 ' + (summ ? escapeHtml(summ.textContent.replace(/📖\s*/, '')) : 'See Sample Answer') + '</summary><div class="vr-sample-text">' + aiSample.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+            }
+
+            // Relevance badge
+            var relBadge = aiCard.querySelector('span[style*="border-radius:20px"]');
+            if (relBadge) {
+              out += '<div style="margin-top:6px;">' + relBadge.outerHTML + '</div>';
+            }
+          } else if (standaloneDetails[i]) {
+            // Fallback: use standalone sample answer by index
+            var sd = standaloneDetails[i];
+            var sdSumm = sd.querySelector('summary');
+            out += '<details class="vr-sample"><summary>📖 ' + (sdSumm ? escapeHtml(sdSumm.textContent.replace(/📖\s*/, '')) : 'See Sample Answer') + '</summary><div class="vr-sample-text">' + sd.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+          }
+
+          out += '</div>';
+        });
+
+      } else if (cefrCards.length > 0) {
+        // ── Older .question class format ──
+        cefrCards.forEach(function (card, i) {
+          var qNum = i + 1;
+          out += '<div class="vr-audio-card">';
+
+          var cardH4 = card.querySelector('h4');
+          var cardStrong = card.querySelector('strong');
+          if (cardH4) out += '<h4>' + escapeHtml(cardH4.textContent.trim()) + '</h4>';
+          else if (cardStrong) out += '<h4>' + escapeHtml(cardStrong.textContent.trim()) + '</h4>';
+          else out += '<h4>Question ' + qNum + '</h4>';
+
+          var cefrPrompt = card.querySelector('.prompt');
+          if (cefrPrompt) out += '<div class="vr-q-text">' + cefrPrompt.innerHTML + '</div>';
+
+          // Audio
+          var cardAudio = card.querySelector('audio');
+          out += audioHtml(resolveAudio(cardAudio));
+
+          // Corrections or transcription (premium)
+          var corrBox = card.querySelector('.corrections-box');
+          var transBox = card.querySelector('.transcription');
+          if (corrBox) out += '<div class="vr-answer" style="font-size:13px;">' + corrBox.innerHTML + '</div>';
+          else if (transBox) out += '<div class="vr-answer" style="font-size:13px;">' + transBox.innerHTML + '</div>';
+
+          // Examiner notes
+          var examNote = card.querySelector('.examiner-feedback, [style*="background:#fef2f2"]');
+          if (examNote) out += '<div class="vr-ai" style="margin-top:8px;"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text" style="font-size:12px;">' + examNote.innerHTML + '</div></div>';
+
+          // Sample answer
+          var cardDetail = card.querySelector('details');
+          if (cardDetail) {
+            var summ = cardDetail.querySelector('summary');
+            if (summ) out += '<details class="vr-sample"><summary>📖 ' + escapeHtml(summ.textContent.replace(/📖\s*/, '')) + '</summary><div class="vr-sample-text">' + cardDetail.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+          }
+
+          out += '</div>';
+        });
+
+      } else {
+        // ── Fallback: find all audio elements and match with AI cards ──
+        var audioEls = doc.querySelectorAll('audio');
+        if (audioEls.length > 0) {
+          audioEls.forEach(function (audioEl, i) {
+            var qNum = i + 1;
+            out += '<div class="vr-audio-card">';
+            out += '<h4>Question ' + qNum + '</h4>';
+
+            // Try to get question text from parent card
+            var card = audioEl.closest('div[style*="background:white"], div[style*="background: white"], div[style*="background:#fff"]');
+            if (card) {
+              var qP = card.querySelector('p[style*="font-weight:600"], p[style*="font-weight: 600"]') || card.querySelector('.question-text');
+              if (qP) out += '<div class="vr-q-text">' + escapeHtml(qP.textContent.trim()) + '</div>';
+            }
+
+            // Audio
+            out += audioHtml(resolveAudio(audioEl));
+
+            // AI analysis
+            var aiCard = aiCards[qNum];
+            if (aiCard) {
+              var corrDiv = aiCard.querySelector('div[style*="border-left:4px"]');
+              if (corrDiv) out += '<div class="vr-answer" style="font-size:13px;margin-top:10px;border-left:4px solid #6366f1;padding:10px 12px;background:#f8fafc;border-radius:0 8px 8px 0;">' + corrDiv.innerHTML + '</div>';
+              var fbDiv = aiCard.querySelector('div[style*="background:#fef2f2"]');
+              if (fbDiv) out += '<div class="vr-ai" style="margin-top:8px;"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text" style="font-size:13px;">' + fbDiv.innerHTML + '</div></div>';
+              var aiSample = aiCard.querySelector('details');
+              if (aiSample) {
+                var summ = aiSample.querySelector('summary');
+                out += '<details class="vr-sample"><summary>📖 ' + (summ ? escapeHtml(summ.textContent.replace(/📖\s*/, '')) : 'See Sample Answer') + '</summary><div class="vr-sample-text">' + aiSample.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+              }
+            } else if (standaloneDetails[i]) {
+              var sd = standaloneDetails[i];
+              var sdSumm = sd.querySelector('summary');
+              out += '<details class="vr-sample"><summary>📖 ' + (sdSumm ? escapeHtml(sdSumm.textContent.replace(/📖\s*/, '')) : 'See Sample Answer') + '</summary><div class="vr-sample-text">' + sd.innerHTML.replace(/<summary[^>]*>.*?<\/summary>/i, '') + '</div></details>';
+            }
+
+            out += '</div>';
+          });
+        }
+      }
+
+      // ── Overall AI feedback (only if not already shown per-question) ──
+      if (Object.keys(aiCards).length === 0) {
+        var feedbackBlocks = doc.querySelectorAll('.examiner-feedback, .feedback');
+        feedbackBlocks.forEach(function (note) {
+          // Skip if inside a question card already processed
+          if (note.closest('.question-card') || note.closest('.question')) return;
+          out += '<div class="vr-ai"><div class="vr-ai-label">📌 Examiner Feedback</div><div class="vr-ai-text">' + note.innerHTML + '</div></div>';
+        });
+      }
+
+      // ── Overall AI detailed feedback section ──
+      var detailedFb = doc.getElementById('aiDetailedFeedback');
+      if (detailedFb && detailedFb.textContent.trim()) {
+        out += '<div class="vr-ai"><div class="vr-ai-label">💬 AI Examiner Summary</div><div class="vr-ai-text">' + detailedFb.innerHTML + '</div></div>';
+      }
+
+      if (!out) out = '<p style="padding:20px;color:var(--ink-secondary);">No speaking content found in this report.</p>';
+      return out;
+    }
+
+    function processAudioBlobs(zip, audioMap) {
+      var keys = Object.keys(audioMap);
+      if (keys.length === 0) return Promise.resolve({});
+      var blobMap = {};
+      return Promise.all(keys.map(function (key) {
+        return audioMap[key].async('blob').then(function (blob) {
+          var ext = key.split('.').pop().toLowerCase();
+          var mime = { mp3: 'audio/mpeg', wav: 'audio/wav', ogg: 'audio/ogg', m4a: 'audio/mp4', webm: 'audio/webm' }[ext] || 'audio/mpeg';
+          blobMap[key] = URL.createObjectURL(new Blob([blob], { type: mime }));
+          // Also map just filename
+          var fname = key.replace(/^.*\//, '');
+          blobMap[fname] = blobMap[key];
+        });
+      })).then(function () { return blobMap; });
+    }
+
+    function patchHtmlAudio(htmlBlob, audioBlobMap) {
+      if (Object.keys(audioBlobMap).length === 0) {
+        // Still fix MIME type
+        return htmlBlob.text().then(function (text) {
+          return new Blob([text], { type: 'text/html' });
+        });
+      }
+      return htmlBlob.text().then(function (html) {
+        Object.keys(audioBlobMap).forEach(function (name) {
+          var escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          html = html.replace(new RegExp('(src=["\'])([^"\']*' + escaped + ')(["\'])', 'g'), '$1' + audioBlobMap[name] + '$3');
+          html = html.replace(new RegExp('(href=["\'])([^"\']*' + escaped + ')(["\'])', 'g'), '$1' + audioBlobMap[name] + '$3');
+        });
+        return new Blob([html], { type: 'text/html' });
+      });
+    }
+
+    function closeViewer() {
+      var overlay = document.getElementById('viewerOverlay');
+      overlay.classList.remove('show');
+      document.getElementById('viewerIframe').src = 'about:blank';
+      document.getElementById('viewerIframe').style.display = '';
+      document.getElementById('viewerTabs').innerHTML = '';
+      document.getElementById('viewerTabs').classList.remove('visible');
+      document.getElementById('viewerContent').classList.remove('show');
+      document.getElementById('viewerContent').innerHTML = '';
+      hideLoader();
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeViewer();
+    });
+
+    // ====================================================================
+    // UTILS
+    // ====================================================================
+    function parseScoreNum(score) {
+      if (!score) return null;
+      var s = String(score);
+      if (s.indexOf('/') > -1) {
+        var num = parseFloat(s.split('/')[0]);
+        return isNaN(num) ? null : num;
+      }
+      return null;
+    }
+
+    function capitalize(s) {
+      if (!s) return '';
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(String(str)));
+      return div.innerHTML;
+    }
+
+    function escapeAttr(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+
+</body>
+
+</html>

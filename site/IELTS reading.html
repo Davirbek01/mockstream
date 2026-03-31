@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="site-config/responsive-scaling.css">
     <!-- Site Config (swap this script to change brand/skin) -->
     <script src="site-config/site-config.js"></script>
+    <script src="supabase-send.js"></script>
+    <script src="session-recovery.js"></script>
     <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
     <!-- Load dynamic settings from Speaking Mock 01 -->
     <script src="questions S/questions.js"></script>
@@ -1012,15 +1014,83 @@
             margin-left: 8px;
         }
 
-        /* Small dropdown used for TRUE/FALSE/NOT GIVEN answers */
-        .tfng-select {
+        /* ===== Rich-select for TFNG / YNNG ===== */
+        .tfng-rich-select {
+            display: inline-block;
+            position: relative;
             margin-left: 8px;
-            padding: 3px 8px;
+            vertical-align: middle;
+        }
+        .tfng-rich-select .rich-select-trigger {
+            display: inline-block;
+            min-width: 140px;
+            padding: 3px 28px 3px 8px;
             border-radius: 4px;
             border: 2px solid #d4d4a8;
             background-color: #fff;
-            min-width: 140px;
             font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            font-size: inherit;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        .tfng-rich-select .rich-select-trigger::after {
+            content: '\25BC';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: #888;
+            pointer-events: none;
+        }
+        .tfng-rich-select .rich-select-trigger:hover {
+            border-color: #b8b87a;
+        }
+        .tfng-rich-select .rich-select-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 160px;
+            background: #fff;
+            border: 2px solid #d4d4a8;
+            border-radius: 6px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.15);
+            z-index: 5000;
+            margin-top: 2px;
+            max-height: min(280px, 45vh);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            animation: rsPopIn .15s ease-out;
+        }
+        .tfng-rich-select .rich-select-menu.open {
+            display: block;
+        }
+        .tfng-rich-select .rich-select-option {
+            display: block;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .tfng-rich-select .rich-select-option:hover {
+            background: #e8f5e9;
+        }
+        .tfng-rich-select .rich-select-option.selected {
+            background: #d0f0c0;
+        }
+        .tfng-rich-select .rich-select-trigger.locked {
+            pointer-events: none;
+            opacity: 0.85;
+        }
+        @keyframes rsPopIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         /* Modern select dropdown for summary completion */
@@ -1670,10 +1740,16 @@
         }
 
         .mobile-passage-nav {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             width: 100%;
             gap: 8px;
             margin-bottom: 5px;
+        }
+        .mobile-passage-nav .mobile-passage-tab:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            width: calc(50% - 4px);
+            justify-self: center;
         }
         .mobile-passage-tab {
             flex: 1;
@@ -1887,10 +1963,18 @@
         .ir-results-overlay.show { display: flex !important; }
                 .ir-results-overlay.minimized {
                     background: transparent !important;
-                    align-items: flex-end !important;
-                    justify-content: flex-end !important;
-                    padding: 12px !important;
+                    width: auto !important;
+                    height: auto !important;
+                    top: auto !important;
+                    left: 50% !important;
+                    bottom: 24px !important;
+                    transform: translateX(-50%);
+                    padding: 0 !important;
                     pointer-events: none;
+                    z-index: 1999;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
                 }
         .ir-results-card {
           background: #fff; border-radius: 20px; padding: 24px 28px;
@@ -1900,15 +1984,21 @@
           margin: auto;
         }
                 .ir-results-overlay.minimized .ir-results-card {
-                    width: 280px;
-                    max-width: 280px;
+                    width: auto;
+                    max-width: none;
                     max-height: none;
-                    border-radius: 12px;
-                    padding: 12px 14px;
+                    border-radius: 50px;
+                    padding: 7px 16px;
                     margin: 0;
-                    text-align: left;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                    text-align: center;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.22);
                     pointer-events: auto;
+                    background: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    animation: irPillPulse 2.5s ease-in-out infinite;
+                    cursor: pointer;
                 }
                 .ir-results-overlay.minimized .ir-score-circle,
                 .ir-results-overlay.minimized .ir-score-details,
@@ -1918,26 +2008,52 @@
                 .ir-results-overlay.minimized .ir-btn-back {
                     display: none !important;
                 }
+                .ir-results-overlay.minimized .ir-modal-buttons {
+                    margin: 0; padding: 0; gap: 0;
+                }
                 .ir-results-overlay.minimized h2 {
-                    font-size: 16px !important;
-                    margin: 0 0 6px !important;
+                    font-size: 13px !important;
+                    margin: 0 !important;
+                    color: #fff !important;
+                    white-space: nowrap;
                 }
                 .ir-results-overlay.minimized p {
                     display: none !important;
                 }
                 .ir-btn-restore {
                     display: none;
-                    width: 100%;
-                    padding: 8px 12px;
+                    padding: 3px 10px;
                     border: none;
-                    border-radius: 8px;
-                    background: #0d9488;
+                    border-radius: 20px;
+                    background: rgba(255,255,255,0.25);
                     color: #fff;
                     font-weight: 600;
+                    font-size: 11px;
                     cursor: pointer;
+                    white-space: nowrap;
                 }
                 .ir-results-overlay.minimized .ir-btn-restore {
-                    display: block;
+                    display: inline-block;
+                }
+                @keyframes irPillPulse {
+                    0%, 100% { transform: translateY(0); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+                    50% { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+                }
+                .ir-pill-score {
+                    display: none;
+                }
+                .ir-results-overlay.minimized .ir-pill-label {
+                    display: none;
+                }
+                .ir-results-overlay.minimized .ir-pill-score {
+                    display: inline;
+                    background: rgba(255,255,255,0.25);
+                    padding: 2px 8px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #fff;
+                    margin-left: 2px;
                 }
         @keyframes irModalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .ir-score-circle {
@@ -2095,6 +2211,25 @@
             border-color: #4f4f56;
         }
 
+        body.dark-mode .tfng-rich-select .rich-select-trigger {
+            background-color: #3a3a40;
+            color: #c9c9c9;
+            border-color: #4f4f56;
+        }
+        body.dark-mode .tfng-rich-select .rich-select-menu {
+            background-color: #3a3a40;
+            border-color: #4f4f56;
+        }
+        body.dark-mode .tfng-rich-select .rich-select-option {
+            color: #c9c9c9;
+        }
+        body.dark-mode .tfng-rich-select .rich-select-option:hover {
+            background: #4a4a52;
+        }
+        body.dark-mode .tfng-rich-select .rich-select-option.selected {
+            background: #2e5a3e;
+        }
+
         body.dark-mode input[type="text"].filled {
             background-color: #1e4d2b !important;
             border-color: #27ae60 !important;
@@ -2207,6 +2342,7 @@
           opacity: 1;
           visibility: visible;
         }
+
         .confirm-box {
           background: white;
           border-radius: 20px;
@@ -2663,12 +2799,16 @@
     <!-- Mobile Tools Menu (Moved to Global Scope for Centering) -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
     <div class="mobile-tools-menu" id="mobileToolsMenu">
+        <div style="display:flex;justify-content:flex-end;padding:4px 8px 0;"><button onclick="toggleMobileMenu()" style="width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;" title="Close">✕</button></div>
         <div class="mobile-passage-nav" id="mobilePassageNav">
-            <button class="mobile-passage-tab active" data-passage="1" onclick="toggleMobileMenu(); switchPassage(1)">Passage 1</button>
-            <button class="mobile-passage-tab" data-passage="2" onclick="toggleMobileMenu(); switchPassage(2)">Passage 2</button>
-            <button class="mobile-passage-tab" data-passage="3" onclick="toggleMobileMenu(); switchPassage(3)">Passage 3</button>
+            <button class="mobile-passage-tab active" data-passage="1" onclick="switchPassage(1);toggleMobileMenu()">Passage 1</button>
+            <button class="mobile-passage-tab" data-passage="2" onclick="switchPassage(2);toggleMobileMenu()">Passage 2</button>
+            <button class="mobile-passage-tab" data-passage="3" onclick="switchPassage(3);toggleMobileMenu()">Passage 3</button>
         </div>
         <div class="mobile-tools-row">
+            <a href="#" onclick="openHomeSidebar();return false;" class="btn-home-sidebar" title="Home" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:linear-gradient(135deg,#0d9488,#0f766e);border-radius:50%;text-decoration:none;color:#fff;font-size:20px;line-height:1;box-shadow:0 2px 8px rgba(13,148,136,0.4);flex-shrink:0;">
+                ☰
+            </a>
             <a href="landing.html" class="btn-back" title="Back">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
@@ -2912,7 +3052,7 @@
     <!-- Result Modal (CEFR-style overlay) -->
     <div class="ir-results-overlay" id="resultModal">
       <div class="ir-results-card">
-        <h2 style="font-size:22px;margin:0 0 4px;color:#1e293b;">🎉 Reading Test Complete!</h2>
+        <h2 style="font-size:22px;margin:0 0 4px;color:#1e293b;">🎉 <span class="ir-pill-label">Reading Test Complete!</span><span class="ir-pill-score" id="irPillScore"></span></h2>
         <p style="color:#64748b;margin:0 0 14px;font-size:13px;">Here's how you did</p>
         <div class="ir-score-circle">
           <span class="ir-score-num" id="irFinalScore">0</span>
@@ -3305,8 +3445,13 @@
               });
               document.getElementById('leaveConfirmBtn').addEventListener('click', function() {
                 window.__okToLeave = true;
-                sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
+                var pendingAction = window.__pendingLeaveAction;
                 hideLeaveWarningModal();
+                if (typeof pendingAction === 'function') {
+                  pendingAction();
+                  return;
+                }
+                sessionStorage.setItem('readingMockReturnCategory', 'ielts-reading');
                 try { window.top.location.href = 'landing.html'; } catch(e) { window.location.href = 'landing.html'; }
               });
             }
@@ -3320,7 +3465,14 @@
             function hideLeaveWarningModal() {
               var modal = document.getElementById('leaveWarningModal');
               if (modal) modal.style.display = 'none';
+              window.__pendingLeaveAction = null;
             }
+
+            function promptFriendlyLeave(leaveAction) {
+              window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+              showLeaveWarningModal();
+            }
+            window.promptFriendlyLeave = promptFriendlyLeave;
 
             // Fallback beforeunload for browser refresh/close
             window.addEventListener('beforeunload', function(e) {
@@ -3467,6 +3619,33 @@
                 q12: 'Pete Sampras had lead weights added to his rackets (so "weights" is the correct word).',
                 q13: 'Gonçalo Oliveira changed the grips on his racket handles (so "grips" is the correct word).'
             };
+
+            // British ↔ American spelling variant pairs
+            var SPELLING_PAIRS = [
+              ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+              ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+              ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+              ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+              ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+              ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+            ];
+            var _spellingMap = {};
+            SPELLING_PAIRS.forEach(function(pair) {
+              pair.forEach(function(w, i) {
+                var wl = w.toUpperCase();
+                if (!_spellingMap[wl]) _spellingMap[wl] = [];
+                pair.forEach(function(v, j) { if (i !== j && _spellingMap[wl].indexOf(v.toUpperCase()) === -1) _spellingMap[wl].push(v.toUpperCase()); });
+              });
+              pair.forEach(function(w, i) {
+                var ws = w.toUpperCase() + 'S';
+                if (!_spellingMap[ws]) _spellingMap[ws] = [];
+                pair.forEach(function(v, j) { if (i !== j && _spellingMap[ws].indexOf(v.toUpperCase() + 'S') === -1) _spellingMap[ws].push(v.toUpperCase() + 'S'); });
+              });
+            });
+            function getSpellingVariants(word) {
+              if (!word) return [];
+              return _spellingMap[word.toUpperCase()] || [];
+            }
 
             function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -4130,6 +4309,19 @@
                                     el.classList.remove('filled');
                                 }
                             }
+                            // Update rich-select trigger text if this is a hidden input for TFNG
+                            if (el.tagName === 'INPUT' && el.type === 'hidden' && val) {
+                                var tfngWrap = el.parentNode && el.parentNode.querySelector('.tfng-rich-select[data-qid="' + i + '"]');
+                                if (tfngWrap) {
+                                    var trig = tfngWrap.querySelector('.rich-select-trigger');
+                                    if (trig) trig.textContent = val;
+                                    var selOpt = tfngWrap.querySelector('.rich-select-option[data-value="' + val + '"]');
+                                    if (selOpt) {
+                                        tfngWrap.querySelectorAll('.rich-select-option').forEach(function(o) { o.classList.remove('selected'); });
+                                        selOpt.classList.add('selected');
+                                    }
+                                }
+                            }
                             continue;
                         }
                         // Radio buttons (MCQ)
@@ -4503,7 +4695,149 @@
                         '<span>💡 Explanations</span><span class="arrow">▼</span></div>' +
                         '<div class="collapsible-content"><div class="collapsible-inner">' + generateExplanations() + '</div></div></div>' +
                         '<div class="info"><strong>Test:</strong> IELTS Reading Mock ' + mockNum + '<br><strong>Band Score:</strong> ' + bandLabel + '<br><strong>Duration:</strong> ' + durationStr + '<br><strong>Date:</strong> ' + now.toLocaleDateString('ru-RU').replace(/\//g, '.') + '<br><strong>Time:</strong> ' + now.toLocaleTimeString('ru-RU') + '</div>' +
-                        '</div></body></html>';
+                        '<style>.pdf-btn{display:block;margin:20px auto;padding:15px 40px;background:linear-gradient(135deg,#C8102E,#9B0000);color:white;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(200,16,46,0.3);}.pdf-btn:hover{background:linear-gradient(135deg,#9B0000,#6B0000);transform:translateY(-2px);}</style>' +
+                        '<button class="pdf-btn" onclick="downloadPDF()">📄 Download PDF Certificate</button>' +
+                        '</div><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><' + '/script>' +
+                        '<script>var pdfData=' + JSON.stringify({
+                          name: candidateName.replace(/"/g, ''),
+                          brandName: (window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream').toUpperCase(),
+                          brandNameMixed: window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream',
+                          testType: 'IELTS Reading',
+                          mockNum: mockNum,
+                          testId: testIdentifier.replace(/"/g, ''),
+                          score: correct,
+                          total: total,
+                          band: bandLabel,
+                          percentage: percentage,
+                          correct: correct,
+                          incorrect: incorrect,
+                          unanswered: unanswered,
+                          date: now.toLocaleDateString('ru-RU').replace(/\//g, '.'),
+                          time: now.toLocaleTimeString('ru-RU'),
+                          logoUrl: ((window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png'),
+                          passageResults: passages.map(function (p, idx) {
+                            var pc = 0, pt = 0;
+                            if (p.correctAnswers) {
+                              for (var qId in p.correctAnswers) {
+                                pt++;
+                                var acceptable = p.correctAnswers[qId];
+                                var qNum = parseInt(qId.replace('q', ''));
+                                var userAns = getAnswer(qNum);
+                                if (userAns) {
+                                  var ok = false;
+                                  if (mergedPairMap[qNum]) {
+                                    var correctUpper = (Array.isArray(acceptable) ? acceptable : [acceptable]).map(function(a){return a.toUpperCase();});
+                                    ok = userAns.trim().toUpperCase() !== '' && correctUpper.indexOf(userAns.trim().toUpperCase()) !== -1;
+                                  } else {
+                                    var normUser = userAns.trim().toUpperCase();
+                                    ok = (Array.isArray(acceptable) ? acceptable : [acceptable]).some(function (a) { return a.toUpperCase() === normUser; });
+                                  }
+                                  if (ok) pc++;
+                                }
+                              }
+                            }
+                            return { title: 'Passage ' + (idx + 1), correct: pc, total: pt };
+                          })
+                        }) + ';function downloadPDF(){' +
+                        'var img=new Image();img.crossOrigin="anonymous";img.onload=function(){' +
+                        'var jsPDF=window.jspdf.jsPDF;var doc=new jsPDF();var w=210,h=297;' +
+                        'doc.setDrawColor(200,16,46);doc.setLineWidth(1.5);doc.rect(8,8,w-16,h-16);' +
+                        'doc.setFillColor(200,16,46);doc.rect(15,15,w-30,40,"F");' +
+                        'doc.setTextColor(255,255,255);doc.setFontSize(10);doc.setFont("helvetica","bold");' +
+                        'doc.text(pdfData.brandName,55,30,{align:"center"});' +
+                        'doc.text("IELTS PRACTICE ASSESSMENT",w-55,30,{align:"center"});' +
+                        'doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text("Language Proficiency",55,38,{align:"center"});' +
+                        'doc.text("Mock Examination",w-55,38,{align:"center"});' +
+                        'doc.setFillColor(255,255,255);doc.circle(w/2,35,14,"F");' +
+                        'try{var canvas=document.createElement("canvas");canvas.width=img.width;canvas.height=img.height;' +
+                        'var ctx=canvas.getContext("2d");ctx.drawImage(img,0,0);' +
+                        'var imgData=canvas.toDataURL("image/png");' +
+                        'doc.addImage(imgData,"PNG",w/2-12,23,24,24);}catch(e){' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(10);doc.setFont("helvetica","bold");' +
+                        'doc.text("IELTS",w/2,33,{align:"center"});doc.text("MOCK",w/2,39,{align:"center"});}' +
+                        'var y=65;' +
+                        'doc.setTextColor(120,120,120);doc.setFontSize(9);doc.setFont("helvetica","normal");' +
+                        'doc.text("CHET TILINI BILISH DARAJASI TO\\\'G\\\'RISIDA",w/2,y,{align:"center"});y+=9;' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(24);doc.setFont("helvetica","bold");' +
+                        'doc.text("SERTIFIKAT",w/2,y,{align:"center"});y+=9;' +
+                        'doc.setFontSize(20);doc.text("CERTIFICATE",w/2,y,{align:"center"});y+=7;' +
+                        'doc.setTextColor(120,120,120);doc.setFontSize(9);doc.setFont("helvetica","normal");' +
+                        'doc.text("OF FOREIGN LANGUAGE PROFICIENCY",w/2,y,{align:"center"});y+=7;' +
+                        'doc.setFillColor(200,16,46);doc.roundedRect(w/2-30,y-4,60,11,3,3,"F");' +
+                        'doc.setTextColor(255,255,255);doc.setFontSize(8);doc.setFont("helvetica","bold");' +
+                        'doc.text("READING MOCK TEST",w/2,y+3,{align:"center"});y+=10;' +
+                        'doc.setDrawColor(200,16,46);doc.setLineWidth(0.5);doc.line(40,y,w-40,y);y+=8;' +
+                        'doc.setFillColor(255,245,245);doc.roundedRect(125,y-5,65,12,2,2,"F");' +
+                        'doc.setDrawColor(200,16,46);doc.roundedRect(125,y-5,65,12,2,2,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(8);' +
+                        'doc.text("Sertifikat No | Reference Number",22,y+3);' +
+                        'doc.setTextColor(0,0,0);doc.setFont("helvetica","bold");doc.setFontSize(9);' +
+                        'var tid=pdfData.testId.length>18?pdfData.testId.substring(0,18)+"..":pdfData.testId;' +
+                        'doc.text(tid,157,y+3,{align:"center"});y+=15;' +
+                        'doc.setFillColor(255,245,245);doc.rect(20,y,w-40,38,"F");' +
+                        'doc.setDrawColor(200,16,46);doc.rect(20,y,w-40,38,"S");' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(9);doc.setFont("helvetica","bold");' +
+                        'doc.text("Talabgor to\\\'g\\\'risidagi ma\\\'lumot | Candidate Details",25,y+7);' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(8);doc.setFont("helvetica","normal");' +
+                        'doc.text("Ismi | Full Name:",25,y+16);' +
+                        'doc.setTextColor(0,0,0);doc.setFont("helvetica","bold");' +
+                        'var nm=pdfData.name.toUpperCase();nm=nm.length>35?nm.substring(0,35)+"..":nm;' +
+                        'doc.text(nm,70,y+16);' +
+                        'doc.setTextColor(100,100,100);doc.setFont("helvetica","normal");' +
+                        'doc.text("Test raqami | Mock No:",25,y+25);' +
+                        'doc.setTextColor(0,0,0);doc.setFont("helvetica","bold");doc.text("MOCK "+pdfData.mockNum,80,y+25);' +
+                        'doc.setTextColor(100,100,100);doc.setFont("helvetica","normal");' +
+                        'doc.text("Sana | Date:",120,y+25);' +
+                        'doc.setTextColor(0,0,0);doc.setFont("helvetica","bold");doc.text(pdfData.date,150,y+25);y+=45;' +
+                        'doc.setFillColor(255,245,245);doc.rect(20,y,80,20,"F");' +
+                        'doc.setDrawColor(200,16,46);doc.rect(20,y,80,20,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text("Chet tili | Foreign Language",25,y+7);' +
+                        'doc.setTextColor(0,0,0);doc.setFontSize(9);doc.setFont("helvetica","bold");' +
+                        'doc.text("INGLIZ TILI",25,y+15);' +
+                        'doc.setFillColor(200,16,46);doc.rect(105,y,40,20,"F");' +
+                        'doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text("Band | Level",125,y+7,{align:"center"});' +
+                        'doc.setFontSize(12);doc.setFont("helvetica","bold");doc.text("Band "+pdfData.band,125,y+16,{align:"center"});' +
+                        'doc.setFillColor(255,245,245);doc.rect(150,y,40,20,"F");' +
+                        'doc.setDrawColor(200,16,46);doc.rect(150,y,40,20,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(6);doc.setFont("helvetica","normal");' +
+                        'doc.text("Umumiy ball",170,y+6,{align:"center"});doc.text("Overall Score:",170,y+11,{align:"center"});' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(11);doc.setFont("helvetica","bold");' +
+                        'doc.text(pdfData.score+"/"+pdfData.total,170,y+17,{align:"center"});y+=28;' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(10);doc.setFont("helvetica","bold");' +
+                        'doc.text("Test natijalari | Test Results",22,y);y+=6;' +
+                        'doc.setFillColor(255,245,245);doc.rect(20,y,w-40,28,"F");' +
+                        'doc.setDrawColor(200,16,46);doc.rect(20,y,w-40,28,"S");' +
+                        'var bx=25,bw=50,bh=20,bg=5;' +
+                        'doc.setFillColor(255,255,255);doc.rect(bx,y+4,bw,bh,"F");doc.setDrawColor(200,200,200);doc.rect(bx,y+4,bw,bh,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(6);doc.setFont("helvetica","normal");' +
+                        'doc.text("O\\\'qib tushunish",bx+bw/2,y+9,{align:"center"});doc.text("Reading",bx+bw/2,y+13,{align:"center"});' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(12);doc.setFont("helvetica","bold");' +
+                        'doc.text("Band "+pdfData.band,bx+bw/2,y+20,{align:"center"});' +
+                        'doc.setFillColor(255,255,255);doc.rect(bx+bw+bg,y+4,bw,bh,"F");doc.setDrawColor(200,200,200);doc.rect(bx+bw+bg,y+4,bw,bh,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text("To\\\'g\\\'ri | Correct",bx+bw+bg+bw/2,y+10,{align:"center"});' +
+                        'doc.setTextColor(16,185,129);doc.setFontSize(12);doc.setFont("helvetica","bold");' +
+                        'doc.text(String(pdfData.correct),bx+bw+bg+bw/2,y+19,{align:"center"});' +
+                        'doc.setFillColor(255,255,255);doc.rect(bx+(bw+bg)*2,y+4,bw,bh,"F");doc.setDrawColor(200,200,200);doc.rect(bx+(bw+bg)*2,y+4,bw,bh,"S");' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text("Noto\\\'g\\\'ri | Wrong",bx+(bw+bg)*2+bw/2,y+10,{align:"center"});' +
+                        'doc.setTextColor(220,38,38);doc.setFontSize(12);doc.setFont("helvetica","bold");' +
+                        'doc.text(String(pdfData.incorrect),bx+(bw+bg)*2+bw/2,y+19,{align:"center"});y+=35;' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(8);doc.setFont("helvetica","normal");' +
+                        'doc.text("Berilgan sanasi | Date of Issue:",22,y);' +
+                        'doc.setTextColor(200,16,46);doc.setFont("helvetica","bold");doc.text(pdfData.date,70,y);' +
+                        'doc.setTextColor(100,100,100);doc.setFont("helvetica","normal");doc.text("Vaqti | Time:",120,y);' +
+                        'doc.setTextColor(200,16,46);doc.setFont("helvetica","bold");doc.text(pdfData.time,152,y);y+=12;' +
+                        'doc.setDrawColor(200,16,46);doc.line(22,y,75,y);doc.line(125,y,180,y);' +
+                        'doc.setTextColor(100,100,100);doc.setFontSize(7);doc.setFont("helvetica","normal");' +
+                        'doc.text(pdfData.brandNameMixed,48,y+5,{align:"center"});doc.text("Automated Result",152,y+5,{align:"center"});y+=15;' +
+                        'doc.setTextColor(200,16,46);doc.setFontSize(6);' +
+                        'doc.text("Bu sertifikat avtomatik tarzda yaratilgan | This is an auto-generated mock test certificate",w/2,y,{align:"center"});' +
+                        'doc.save(pdfData.name.replace(/[^a-zA-Z0-9]/g,"_")+"_Reading_Mock"+pdfData.mockNum+".pdf");};' +
+                        'img.onerror=function(){img.onload();};img.src=pdfData.logoUrl;}<' + '/script></body></html>';
 
                     // Create file blob
                     const htmlBlob = new Blob([reportHtml], { type: 'text/html' });
@@ -4570,10 +4904,30 @@
                         '📊 #all_' + yearTag + '\n' +
                         '#IELTS_Reading #Band_' + bandLabel.replace('.', '_');
 
+                    // Send to Supabase first (get result link for caption)
+                    var finalCaption = caption;
+                    if (window.sendToSupabase) {
+                      try {
+                        var sbResult = await window.sendToSupabase({
+                          studentName: candidateName,
+                          examType: 'ielts',
+                          skill: 'reading',
+                          score: bandLabel,
+                          level: 'Band ' + bandLabel,
+                          mockNumber: 'Mock ' + mockNum,
+                          file: htmlBlob,
+                          fileType: 'html',
+                          caption: caption,
+                          metadata: { raw: correct, total: total, percentage: percentage }
+                        });
+                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                      } catch (e) { console.warn('[Supabase] skipped:', e); }
+                    }
+
                     const formData = new FormData();
                     formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
                     formData.append('section', 'reading');
-                    formData.append('caption', caption);
+                    formData.append('caption', finalCaption);
 
                     const response = await fetch('https://davirbek.alwaysdata.net/send-result', {
                         method: 'POST',
@@ -4582,13 +4936,22 @@
 
                     if (response.ok) console.log('✅ IELTS Reading results sent to Telegram');
                     else console.warn('⚠️ Failed to send results:', response.status);
+
+                    // Send to routing backend
+                    if (window.sendToRoutingBackend) {
+                        await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+                    }
+                    if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
                 } catch (e) {
                     console.error('Error sending results:', e);
+                    if (window.msProgress) window.msProgress.hide();
                 }
             }
 
             function evaluate() {
                 stopTimer();
+                // Clear session recovery on submit
+                if (window.SessionRecovery) SessionRecovery.clear();
                 // Save current passage answers first, then load all from storage
                 saveAnswers();
                 var savedData = {};
@@ -4667,6 +5030,12 @@
                         if (ordinalWords[ow] === x && results.indexOf(ow) === -1) results.push(ow);
                     }
 
+                    // British/American spelling variants
+                    var sv = getSpellingVariants(x);
+                    for (var si = 0; si < sv.length; si++) {
+                        if (results.indexOf(sv[si]) === -1) results.push(sv[si]);
+                    }
+
                     return results;
                 }
 
@@ -4719,6 +5088,11 @@
                                 }
                             }
                         }
+                        // Handle user typing combined answers with "/" or "or" (e.g. "INTESTINES / GUT")
+                        if (!ok && normalizedUser && acceptable.length > 1) {
+                            var userParts = String(userAns).split(/\s*[\/]\s*|\s+or\s+/i).map(function(p){ return normalizeForCompare(p); }).filter(Boolean);
+                            if (userParts.length > 1 && userParts.some(function(p){ return acceptableNorm.indexOf(p) !== -1; })) ok = true;
+                        }
                     }
 
                     if (ok) score++;
@@ -4739,6 +5113,8 @@
                 document.getElementById('irCorrectCount').textContent = score;
                 document.getElementById('irIncorrectCount').textContent = incorrect;
                 document.getElementById('irUnansweredCount').textContent = unanswered;
+                var pillScore = document.getElementById('irPillScore');
+                if (pillScore) pillScore.textContent = score + '/' + total;
 
                 // Build passage-by-passage breakdown
                 var passageRanges = [
@@ -4813,11 +5189,23 @@
                     // Hide Review/TryAgain for regular (non-premium) codes
                     (function() {
                         var isPremium = sessionStorage.getItem('readingPremiumEntry') === 'true';
+                        if (!isPremium) {
+                            try { var _tf = (new URLSearchParams(window.location.search)).get('test') || ''; var _tk = JSON.parse(localStorage.getItem('takenReadingMocks') || '{}'); _tk[_tf.replace(/\.js$/,'')] = true; localStorage.setItem('takenReadingMocks', JSON.stringify(_tk)); } catch(e) {}
+                        }
                         var reviewBtn = document.getElementById('btnShowSolutions');
                         var tryAgainBtn = document.getElementById('btnTryAgain');
                         if (!isPremium) {
-                            if (reviewBtn) reviewBtn.style.display = 'none';
-                            if (tryAgainBtn) tryAgainBtn.style.display = 'none';
+                            var frozenStyle = 'background:#cbd5e1 !important;color:#94a3b8 !important;cursor:not-allowed !important;box-shadow:none !important;pointer-events:none;opacity:0.85;';
+                            [{ el: reviewBtn, label: '🔒 Review Answers (Premium)' },
+                             { el: tryAgainBtn, label: '🔒 Try Again (Premium)' }
+                            ].forEach(function(b) {
+                                if (b.el) {
+                                    b.el.style.cssText += frozenStyle;
+                                    b.el.innerHTML = b.label;
+                                    b.el.onclick = function(e) { e.preventDefault(); e.stopPropagation(); };
+                                    b.el.removeAttribute('onclick');
+                                }
+                            });
                         }
                     })();
                 }
@@ -4842,13 +5230,18 @@
                     var userNorm = normalizeForCompareLocal(normalizedUser);
                     var acceptable = (Array.isArray(correctAns) ? correctAns : [correctAns]).map(normalizeForCompareLocal);
                     var isCorrect = acceptable.indexOf(userNorm) !== -1;
+                    // Handle user typing combined answers with "/" or "or"
+                    if (!isCorrect && userNorm && acceptable.length > 1) {
+                        var userParts = String(normalizedUser).split(/\s*[\/]\s*|\s+or\s+/i).map(normalizeForCompareLocal).filter(Boolean);
+                        if (userParts.length > 1 && userParts.some(function(p){ return acceptable.indexOf(p) !== -1; })) isCorrect = true;
+                    }
                     // digit-word equivalence check (includes ordinals and dates)
                     if (!isCorrect) {
                         var numberWordsLocal = { '0': 'ZERO', '1': 'ONE', '2': 'TWO', '3': 'THREE', '4': 'FOUR', '5': 'FIVE', '6': 'SIX', '7': 'SEVEN', '8': 'EIGHT', '9': 'NINE', '10': 'TEN', '11': 'ELEVEN', '12': 'TWELVE', '13': 'THIRTEEN', '14': 'FOURTEEN', '15': 'FIFTEEN', '16': 'SIXTEEN', '17': 'SEVENTEEN', '18': 'EIGHTEEN', '19': 'NINETEEN', '20': 'TWENTY' };
                         var ordinalWordsLocal = { 'FIRST':'1','SECOND':'2','THIRD':'3','FOURTH':'4','FIFTH':'5','SIXTH':'6','SEVENTH':'7','EIGHTH':'8','NINTH':'9','TENTH':'10','ELEVENTH':'11','TWELFTH':'12','THIRTEENTH':'13','FOURTEENTH':'14','FIFTEENTH':'15','SIXTEENTH':'16','SEVENTEENTH':'17','EIGHTEENTH':'18','NINETEENTH':'19','TWENTIETH':'20' };
                         var monthNamesLocal = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
                         function canonicalDateLocal(norm) { var parts = norm.split(' '); if (parts.length === 2) { var hM = -1, hN = -1; for (var pi = 0; pi < 2; pi++) { if (monthNamesLocal.indexOf(parts[pi]) !== -1) hM = pi; if (/^\d+$/.test(parts[pi])) hN = pi; } if (hM !== -1 && hN !== -1) return parts[hN] + ' ' + parts[hM]; } return null; }
-                        function equivalentsLocal(a) { var x = normalizeForCompareLocal(a); var res = [x]; var cd = canonicalDateLocal(x); if (cd && res.indexOf(cd) === -1) res.push(cd); var digits = x.match(/^\d+$/); if (digits) { var w = numberWordsLocal[digits[0]]; if (w) res.push(w); } for (var k in numberWordsLocal) { if (numberWordsLocal[k] === x) res.push(k); } if (ordinalWordsLocal[x] && res.indexOf(ordinalWordsLocal[x]) === -1) res.push(ordinalWordsLocal[x]); for (var ow in ordinalWordsLocal) { if (ordinalWordsLocal[ow] === x && res.indexOf(ow) === -1) res.push(ow); } return res; }
+                        function equivalentsLocal(a) { var x = normalizeForCompareLocal(a); var res = [x]; var cd = canonicalDateLocal(x); if (cd && res.indexOf(cd) === -1) res.push(cd); var digits = x.match(/^\d+$/); if (digits) { var w = numberWordsLocal[digits[0]]; if (w) res.push(w); } for (var k in numberWordsLocal) { if (numberWordsLocal[k] === x) res.push(k); } if (ordinalWordsLocal[x] && res.indexOf(ordinalWordsLocal[x]) === -1) res.push(ordinalWordsLocal[x]); for (var ow in ordinalWordsLocal) { if (ordinalWordsLocal[ow] === x && res.indexOf(ow) === -1) res.push(ow); } var sv = getSpellingVariants(x); for (var si = 0; si < sv.length; si++) { if (res.indexOf(sv[si]) === -1) res.push(sv[si]); } return res; }
                         var uEq = equivalentsLocal(normalizedUser);
                         for (var ai = 0; ai < acceptable.length && !isCorrect; ai++) {
                             var accEq = equivalentsLocal(acceptable[ai]);
@@ -4861,7 +5254,8 @@
                     solutionsHtml += '<i class="fa fa-' + (isCorrect ? 'check-circle' : 'times-circle') + '"></i> Question ' + i + ' - ' + (isCorrect ? 'Correct' : 'Incorrect');
                     solutionsHtml += '</h4>';
                     solutionsHtml += '<p style="margin: 8px 0;"><strong>Your Answer:</strong> ' + userAns + '</p>';
-                    solutionsHtml += '<p style="margin: 8px 0;"><strong>Correct Answer:</strong> <span style="color: #28a745; font-weight: bold;">' + correctAns + '</span></p>';
+                    var correctDisplay = Array.isArray(correctAns) && correctAns.length > 1 ? correctAns.join(' or ') : (Array.isArray(correctAns) ? correctAns[0] : correctAns);
+                    solutionsHtml += '<p style="margin: 8px 0;"><strong>Correct Answer:</strong> <span style="color: #28a745; font-weight: bold;">' + correctDisplay + '</span></p>';
                     solutionsHtml += '<p style="margin: 8px 0;"><strong>Explanation:</strong></p>';
                     solutionsHtml += '<p style="margin: 8px 0; color: #555;">' + explanation + '</p>';
                     solutionsHtml += '</div>';
@@ -4926,6 +5320,8 @@
                     var digits = x.match(/^\d+$/);
                     if (digits) { var w = numberWords[digits[0]]; if (w) results.push(w); }
                     for (var k in numberWords) { if (numberWords[k] === x) results.push(k); }
+                    var sv = getSpellingVariants(x);
+                    for (var si = 0; si < sv.length; si++) { if (results.indexOf(sv[si]) === -1) results.push(sv[si]); }
                     return results;
                 }
 
@@ -4936,7 +5332,7 @@
                     var acceptable = correctAnswers[key] || [];
                     var acceptableNorm = acceptable.map(normalizeForCompare);
                     var normalizedUser = normalizeForCompare(userAns);
-                    var correctStr = Array.isArray(acceptable) ? acceptable.join(' / ') : acceptable;
+                    var correctStr = Array.isArray(acceptable) && acceptable.length > 1 ? acceptable.join(' or ') : (Array.isArray(acceptable) ? acceptable[0] : acceptable);
 
                     var isCorrect = false;
                     if (normalizedUser && acceptableNorm.indexOf(normalizedUser) !== -1) isCorrect = true;
@@ -4946,6 +5342,11 @@
                             var accEquiv = equivalents(acceptableNorm[ai]);
                             if (userEquiv.some(function(v){ return accEquiv.indexOf(v) !== -1; })) { isCorrect = true; break; }
                         }
+                    }
+                    // Handle user typing combined answers with "/" or "or"
+                    if (!isCorrect && normalizedUser && acceptable.length > 1) {
+                        var userParts = String(userAns).split(/\s*[\/]\s*|\s+or\s+/i).map(function(p){ return normalizeForCompare(p); }).filter(Boolean);
+                        if (userParts.length > 1 && userParts.some(function(p){ return acceptableNorm.indexOf(p) !== -1; })) isCorrect = true;
                     }
 
                     var isBlank = !userAns;
@@ -4960,9 +5361,33 @@
                     if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT')) {
                         el.disabled = true;
                         el.classList.remove('review-correct', 'review-incorrect', 'review-unanswered', 'filled');
+
+                        // Detect TFNG/YNNG rich-select (hidden input with .tfng-rich-select sibling)
+                        var tfngWrap = null;
+                        var tfngTrigger = null;
+                        if (el.type === 'hidden') {
+                            tfngWrap = el.parentNode && el.parentNode.querySelector('.tfng-rich-select[data-qid="' + i + '"]');
+                            if (tfngWrap) tfngTrigger = tfngWrap.querySelector('.rich-select-trigger');
+                        }
+
                         if (isBlank) {
                             el.classList.add('review-unanswered');
-                            if (el.tagName === 'SELECT') {
+                            if (tfngWrap && tfngTrigger) {
+                                // TFNG/YNNG: update hidden value + visual trigger
+                                el.value = acceptable[0];
+                                tfngTrigger.textContent = acceptable[0];
+                                tfngTrigger.classList.add('locked');
+                                tfngTrigger.style.borderColor = '#f59e0b';
+                                tfngTrigger.style.background = '#fef3c7';
+                                tfngTrigger.style.color = '#92400e';
+                                tfngTrigger.style.fontStyle = 'italic';
+                                // Mark the correct option as selected
+                                var selOpt = tfngWrap.querySelector('.rich-select-option[data-value="' + acceptable[0] + '"]');
+                                if (selOpt) {
+                                    tfngWrap.querySelectorAll('.rich-select-option').forEach(function(o) { o.classList.remove('selected'); });
+                                    selOpt.classList.add('selected');
+                                }
+                            } else if (el.tagName === 'SELECT') {
                                 // For selects, try each acceptable answer until one matches an option value
                                 var filled = false;
                                 for (var ai2 = 0; ai2 < acceptable.length; ai2++) {
@@ -4983,7 +5408,7 @@
                                 if (!filled) {
                                     var badge2 = document.createElement('span');
                                     badge2.className = 'review-correct-badge';
-                                    badge2.textContent = '✓ ' + correctStr;
+                                    badge2.textContent = '\u2713 ' + correctStr;
                                     el.parentNode.insertBefore(badge2, el.nextSibling);
                                 }
                             } else {
@@ -4991,13 +5416,29 @@
                             }
                         } else if (isCorrect) {
                             el.classList.add('review-correct');
+                            if (tfngWrap && tfngTrigger) {
+                                tfngTrigger.classList.add('locked');
+                                tfngTrigger.style.borderColor = '#22c55e';
+                                tfngTrigger.style.background = '#dcfce7';
+                            }
                         } else {
                             el.classList.add('review-incorrect');
-                            // Add badge with correct answer
-                            var badge = document.createElement('span');
-                            badge.className = 'review-correct-badge';
-                            badge.textContent = '✓ ' + correctStr;
-                            el.parentNode.insertBefore(badge, el.nextSibling);
+                            if (tfngWrap && tfngTrigger) {
+                                tfngTrigger.classList.add('locked');
+                                tfngTrigger.style.borderColor = '#ef4444';
+                                tfngTrigger.style.background = '#fee2e2';
+                                // Show correct answer badge after the rich-select
+                                var badge3 = document.createElement('span');
+                                badge3.className = 'review-correct-badge';
+                                badge3.textContent = '\u2713 ' + correctStr;
+                                tfngWrap.parentNode.insertBefore(badge3, tfngWrap.nextSibling);
+                            } else {
+                                // Add badge with correct answer
+                                var badge = document.createElement('span');
+                                badge.className = 'review-correct-badge';
+                                badge.textContent = '\u2713 ' + correctStr;
+                                el.parentNode.insertBefore(badge, el.nextSibling);
+                            }
                         }
                     }
 
@@ -5026,8 +5467,66 @@
                     }
 
                     // Mark checkboxes (merged MCQ)
-                    var checkboxes = document.querySelectorAll('input[name^="merged-"][type="checkbox"]');
-                    // handled by the radio/input logic above via the hidden input
+                    var mergedContainer = document.getElementById('q' + i + '-merged');
+                    if (mergedContainer) {
+                        var qIds = (mergedContainer.getAttribute('data-qids') || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+                        // Collect all correct letters for this merged group
+                        var allCorrectLetters = [];
+                        qIds.forEach(function(qid) {
+                            var ca = correctAnswers['q' + qid];
+                            if (ca) {
+                                var arr = Array.isArray(ca) ? ca : [ca];
+                                arr.forEach(function(l) { if (allCorrectLetters.indexOf(l) === -1) allCorrectLetters.push(l); });
+                            }
+                        });
+                        // Collect user-selected letters
+                        var userLetters = [];
+                        qIds.forEach(function(qid) {
+                            var ua = getAnswer(parseInt(qid)) || '';
+                            if (ua && userLetters.indexOf(ua) === -1) userLetters.push(ua);
+                        });
+                        var checkboxes = mergedContainer.querySelectorAll('input[type="checkbox"]');
+                        checkboxes.forEach(function(cb) {
+                            cb.disabled = true;
+                            var label = cb.closest('.mcq-option') || cb.parentElement;
+                            label.style.borderRadius = '4px';
+                            label.style.padding = '2px 6px';
+                            var isCorrectOpt = allCorrectLetters.indexOf(cb.value) !== -1;
+                            var isUserSelected = userLetters.indexOf(cb.value) !== -1;
+                            if (isCorrectOpt) {
+                                // Always show correct answers checked + green
+                                cb.checked = true;
+                                label.classList.add('review-correct-option');
+                                label.style.background = '#d1fae5';
+                            } else if (isUserSelected) {
+                                // Wrong selection: red + strikethrough
+                                label.classList.add('review-incorrect-option');
+                                label.style.background = '#fee2e2';
+                                label.style.textDecoration = 'line-through';
+                            }
+                        });
+                    }
+
+                    // Mark checkboxes (mcq-multi, non-merged)
+                    var multiCbs = document.querySelectorAll('input[name="q' + i + '"][type="checkbox"]');
+                    if (multiCbs.length > 0) {
+                        var correctLetter2 = (Array.isArray(acceptable) ? acceptable[0] : acceptable);
+                        multiCbs.forEach(function(cb) {
+                            cb.disabled = true;
+                            var label = cb.closest('.mcq-option') || cb.parentElement;
+                            label.style.borderRadius = '4px';
+                            label.style.padding = '2px 6px';
+                            if (cb.value === correctLetter2) {
+                                cb.checked = true;
+                                label.classList.add('review-correct-option');
+                                label.style.background = '#d1fae5';
+                            } else if (cb.checked && !isCorrect) {
+                                label.classList.add('review-incorrect-option');
+                                label.style.background = '#fee2e2';
+                                label.style.textDecoration = 'line-through';
+                            }
+                        });
+                    }
                 }
 
                 // Disable all remaining inputs
@@ -5036,18 +5535,47 @@
                 });
             }
 
+            // ===== Rich-select helpers for TFNG / YNNG =====
+            window.toggleTfngSelect = function(qId, event) {
+                if (event) event.stopPropagation();
+                var menu = document.getElementById('tfng-menu-' + qId);
+                if (!menu) return;
+                var wasOpen = menu.classList.contains('open');
+                // Close all open menus first
+                document.querySelectorAll('.tfng-rich-select .rich-select-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                if (!wasOpen) menu.classList.add('open');
+            };
+            window.selectTfngOption = function(qId, value, optEl, event) {
+                if (event) event.stopPropagation();
+                var wrap = optEl.closest('.tfng-rich-select');
+                var trigger = wrap.querySelector('.rich-select-trigger');
+                var hidden = document.getElementById('q' + qId);
+                trigger.textContent = value;
+                if (hidden) hidden.value = value;
+                // Mark selected option
+                wrap.querySelectorAll('.rich-select-option').forEach(function(o) { o.classList.remove('selected'); });
+                optEl.classList.add('selected');
+                // Close menu
+                var menu = document.getElementById('tfng-menu-' + qId);
+                if (menu) menu.classList.remove('open');
+                // Trigger answer saving
+                setAnswerNavState(parseInt(qId));
+                saveAnswers();
+            };
+            // Close TFNG menus on outside click
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.tfng-rich-select')) {
+                    document.querySelectorAll('.tfng-rich-select .rich-select-menu.open').forEach(function(m) { m.classList.remove('open'); });
+                }
+            });
+
             function attachEvents() {
                 // Attach events for all questions (Q1-40) dynamically
                 for (var i = 1; i <= 40; i++) {
                     (function (idx) {
                         var el = document.getElementById('q' + idx);
                         if (el) {
-                            if (el.tagName === 'SELECT') {
-                                el.addEventListener('change', function () {
-                                    setAnswerNavState(idx);
-                                    saveAnswers();
-                                });
-                            } else if (el.tagName === 'INPUT') {
+                            if (el.tagName === 'INPUT' && el.type !== 'hidden') {
                                 el.addEventListener('input', function () {
                                     try { gtb(this); } catch (e) { setAnswerNavState(idx); saveAnswers(); }
                                 });
@@ -5787,12 +6315,14 @@
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
                             html += '<p><b>' + q.id + ' </b> ' + q.text + ' ';
-                            html += '<select id="q' + q.id + '" name="q' + q.id + '" class="tfng-select" aria-label="Answer ' + q.id + '">';
-                            html += '<option value="">Select</option>';
+                            html += '<input type="hidden" id="q' + q.id + '" name="q' + q.id + '" value="">';
+                            html += '<span class="tfng-rich-select" data-qid="' + q.id + '">';
+                            html += '<span class="rich-select-trigger" data-q="' + q.id + '" onclick="toggleTfngSelect(\'' + q.id + '\', event)">Select</span>';
+                            html += '<span class="rich-select-menu" id="tfng-menu-' + q.id + '">';
                             options.forEach(function (opt) {
-                                html += '<option value="' + opt + '">' + opt + '</option>';
+                                html += '<span class="rich-select-option" data-value="' + opt + '" onclick="selectTfngOption(\'' + q.id + '\', \'' + opt + '\', this, event)">' + opt + '</span>';
                             });
-                            html += '</select></p></div>';
+                            html += '</span></span></p></div>';
                         });
                     } else if (type === 'mcq') {
                         // Detect merged groups (consecutive questions with identical options)
@@ -5874,7 +6404,7 @@
                             html += '<div style="text-align:center; font-weight:700; font-size:1.1em; margin-bottom:12px;">' + section.boxTitle + '</div>';
                             html += '<div style="display:flex; flex-wrap:wrap; gap:10px 25px;">';
                             section.featuresList.forEach(function (opt) {
-                                html += '<div style="min-width:120px;"><strong>' + opt.charAt(0) + '</strong> ' + opt.substring(2) + '</div>';
+                                html += '<div class="option-item" draggable="true" data-value="' + opt.charAt(0) + '" style="min-width:120px; cursor:pointer;"><strong>' + opt.charAt(0) + '</strong> ' + opt.substring(2) + '</div>';
                             });
                             html += '</div></div>';
                         } else {
@@ -6176,6 +6706,11 @@
 
                 // Update completion status
                 updatePassageCompletionStatus();
+
+                // Re-apply review markings if in review mode
+                if (isTestReviewMode) {
+                    markReviewAnswers();
+                }
             };
 
             document.addEventListener('DOMContentLoaded', function () {
@@ -6302,13 +6837,56 @@
                     });
                 }
 
-                // Check if data is already loaded
-                if (window.IELTS_READING_TEST) {
+                // Check if data is already loaded (with session recovery)
+                var _irTestFile = new URLSearchParams(window.location.search).get('test') || 'ielts-reading-01.js';
+                (async function() {
+                  if (window.SessionRecovery) {
+                    SessionRecovery.init({
+                      testType: 'ielts-reading',
+                      getUserId: function() { return sessionStorage.getItem('CANDIDATE_NAME') || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+                      getTestId: function() { return _irTestFile; },
+                      getState: function() {
+                        if (timerInterval === null || isTestReviewMode) return null;
+                        saveAnswers();
+                        var raw = localStorage.getItem('parrots_answers');
+                        var ans = raw ? JSON.parse(raw) : {};
+                        return { elapsedSeconds: elapsedSeconds, currentPassageNum: currentPassageNum, answers: ans };
+                      }
+                    });
+                    try {
+                      var session = await SessionRecovery.check();
+                      if (session && session.test_id === _irTestFile) {
+                        var choice = await SessionRecovery.prompt(session);
+                        if (choice === 'resume') {
+                          window._srResumeData = session.session_data;
+                        } else {
+                          await SessionRecovery.clear();
+                        }
+                      } else if (session) {
+                        await SessionRecovery.clear();
+                      }
+                    } catch(e) { console.warn('Session recovery check failed:', e); }
+                  }
+                  if (window.IELTS_READING_TEST) {
                     initPage();
-                } else {
-                    // Wait for test data to load
+                  } else {
                     document.addEventListener('testDataLoaded', initPage);
-                }
+                  }
+                  // Restore saved session after initPage
+                  if (window._srResumeData && window.SessionRecovery) {
+                    var rd = window._srResumeData;
+                    if (rd.elapsedSeconds != null) { elapsedSeconds = rd.elapsedSeconds; renderTime(); }
+                    if (rd.answers) {
+                      localStorage.setItem('parrots_answers', JSON.stringify(rd.answers));
+                      restoreAnswers();
+                    }
+                    if (rd.currentPassageNum && rd.currentPassageNum !== 1) {
+                      switchPassage(rd.currentPassageNum);
+                    }
+                    window._srResumeData = null;
+                  }
+                  if (window.SessionRecovery) SessionRecovery.start();
+                })();
 
                 // Universal Tap-to-Fill Selection Logic
                 var selectedValue = null;
@@ -6515,14 +7093,8 @@
             }
         }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            var menu = document.getElementById('mobileToolsMenu');
-            var fab = document.getElementById('mobileFab');
-            if (menu && menu && menu.classList.contains('active') && !menu.contains(e.target) && !fab.contains(e.target)) {
-                toggleMobileMenu();
-            }
-        });
+        // FAB closes only via overlay click (inline onclick) or FAB button
+        // No document-level outside-click handler — keeps menu open for tool buttons
 
         // Initialize mobile specific interactions
         document.addEventListener('DOMContentLoaded', function() {
@@ -6536,17 +7108,8 @@
                 var startX, startY, initialLeft, initialTop;
                 var hasMoved = false;
 
-                // Load saved position
-                var savedPos = localStorage.getItem('mobileFabPos');
-                if (savedPos) {
-                    try {
-                        var pos = JSON.parse(savedPos);
-                        el.style.top = pos.top !== undefined ? pos.top + 'px' : 'auto';
-                        el.style.left = pos.left !== undefined ? pos.left + 'px' : 'auto';
-                        el.style.bottom = pos.bottom !== undefined ? pos.bottom + 'px' : 'auto';
-                        el.style.right = pos.right !== undefined ? pos.right + 'px' : 'auto';
-                    } catch(e) {}
-                }
+                // Always start FAB at bottom-right (CSS default)
+                localStorage.removeItem('mobileFabPos');
 
                 function onStart(e) {
                     if (document.getElementById('mobileToolsMenu').classList.contains('active')) return;
@@ -6671,6 +7234,70 @@
 
 
     </script>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
+function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
+document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

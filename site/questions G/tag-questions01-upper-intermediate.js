@@ -1,0 +1,36 @@
+// Grammar Test: Tag Questions — Upper-Intermediate (B2–C1)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "He's coming to the party, <b>___</b>?", correct: "isn't he", options: ["isn't he", "is he", "is not he", "doesn't he"], def: "Use the opposite auxiliary verb and pronoun in the tag question.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "They wouldn't understand, <b>___</b>?", correct: "would they", options: ["would they", "wouldn't they", "do they", "didn't they"], def: "A negative statement requires a positive tag question.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "Let's go to the beach, <b>___</b>?", correct: "shall we", options: ["shall we", "will we", "do we", "won't we"], def: "'Let's' uses 'shall we' for tag questions.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "Nobody called, <b>___</b>?", correct: "did they", options: ["did they", "didn't they", "did he", "didn't he"], def: "Indefinite pronouns like 'nobody' take plural pronouns in tags.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I am right, <b>___</b>?", correct: "aren't I", options: ["aren't I", "amn't I", "am I not", "ain't I"], def: "'I am' becomes 'aren't I' in tag questions.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "You've never been to Spain, <b>___</b>?", correct: "have you", options: ["have you", "haven't you", "do you", "did you"], def: "Negative adverbs like 'never' make the main clause negative.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "She hardly studies, <b>___</b>?", correct: "does she", options: ["does she", "doesn't she", "did she", "is she"], def: "Words like 'hardly' imply a negative, so use a positive tag.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "There's a problem, <b>___</b>?", correct: "isn't there", options: ["isn't there", "is there", "aren't there", "is it"], def: "Use 'there' in the tag question when it is the subject.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He had to leave early, <b>___</b> he?", correct: "didn't", options: ["didn't", "hadn't", "hasn't", "doesn't"], def: "'Had to' implies past simple, so use 'didn't'.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "You used to live here, <b>___</b> you?", correct: "didn't", options: ["didn't", "haven't", "don't", "hadn't"], def: "'Used to' requires 'didn't' in the tag.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "They'd rather not go, <b>___</b> they?", correct: "would", options: ["would", "had", "did", "should"], def: "'They'd rather' is a contraction of 'they would rather'.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "Everyone is ready, <b>___</b> they?", correct: "aren't", options: ["aren't", "isn't", "is", "are"], def: "'Everyone' is singular but takes a plural pronoun in the tag.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "You <b>___</b> it's a good idea, don't you?", correct: "think", options: ["think", "are thinking", "do think", "thinking"], def: "Base form 'think' matches the 'don't you' tag.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> coming to the meeting, is she?", correct: "isn't", options: ["isn't", "not", "be", "is not"], def: "Negative contraction of 'be' matches the 'is she' tag.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> have finished the project yet, have they?", correct: "can't", options: ["can't", "can", "couldn't", "can to"], def: "'Can't' matches the 'have they' tag, showing disbelief.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> know the answer, does he?", correct: "doesn't", options: ["doesn't", "don't", "does", "do"], def: "'Doesn't' matches the 'does he' tag; 3rd person singular.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He's <b>never</b> late, <b>___</b>?", correct: "is he", options: ["is he", "isn't he", "does he", "doesn't he"], def: "The word 'never' makes the statement negative.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "That was a great movie, <b>___</b>?", correct: "wasn't it", options: ["wasn't it", "is it", "isn't it", "was it"], def: "Use the past tense auxiliary verb in the tag.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> to the concert last night, didn't they?", correct: "went", options: ["went", "go", "gone", "going"], def: "Past tense 'went' matches the 'didn't they' tag.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> been to Paris, has he?", correct: "hasn't", options: ["hasn't", "has", "haven't", "had"], def: "'Hasn't' matches the 'has he' tag, implying disbelief.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "I don't need to remind you, <b>___</b> I?", correct: "do", options: ["do", "need", "don't", "am"], def: "Auxiliary verb 'do' must be used here in the tag.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "There aren't any problems, <b>___</b> there?", correct: "are", options: ["are", "is", "aren't", "were"], def: "Plural 'are' must match the 'There aren't' in tag.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "He's arriving tomorrow, <b>___</b> he?", correct: "isn't", options: ["isn't", "is", "aren't", "does"], def: "Use the opposite auxiliary verb and subject pronoun from the main clause.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "Nobody called, <b>___</b>?", correct: "did they", options: ["did they", "didn't they", "did he", "didn't it"], def: "Use 'they' for indefinite pronouns like 'nobody' in tag questions.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "You <b>___</b> finished your report, have you?", correct: "haven't", options: ["haven't", "have", "didn't", "had"], def: "The tag question must agree in tense and polarity with the main clause.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "I am right, <b>___</b> I?", correct: "aren't", options: ["aren't", "amn't", "ain't", "am"], def: "'Aren't I' is the correct tag for 'I am'.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "She barely studies, <b>___</b> she?", correct: "does", options: ["does", "doesn't", "is", "isn't"], def: "Use 'does' because 'barely' implies a negative meaning.", level: "B2–C1"},
+  {type: "Complete with the correct form:", question: "There <b>___</b> enough chairs, are there?", correct: "aren't", options: ["aren't", "isn't", "weren't", "wasn't"], def: "Use 'aren't' to match the plural 'chairs' in the main clause.", level: "B2–C1"},
+  {type: "Fill in the blank:", question: "You've never been to Spain, <b>___</b> you?", correct: "have", options: ["have", "haven't", "did", "didn't"], def: "Use 'have' because 'never' makes the statement negative.", level: "B2–C1"},
+  {type: "Choose the correct option:", question: "He must go, <b>___</b> he?", correct: "mustn't", options: ["mustn't", "doesn't", "isn't", "hasn't"], def: "Use 'mustn't' as the tag question for 'must' showing obligation.", level: "B2–C1"}
+];

@@ -1,0 +1,36 @@
+// Grammar Test: Quantifiers — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I don't have <b>___</b> money to buy that car.", correct: "much", options: ["much", "many", "a lot", "few"], def: "Use 'much' with uncountable nouns like 'money' in negative sentences.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> people came to the party than we expected.", correct: "Fewer", options: ["Fewer", "Less", "Few", "Little"], def: "'Fewer' is used with countable nouns like 'people'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He didn't <b>___</b> much for breakfast.", correct: "eat", options: ["eat", "ate", "eats", "eating"], def: "'Eat' is the base form after 'did not'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She has <b>___</b> friends in her new city.", correct: "few", options: ["few", "a few", "little", "a little"], def: "'Few' means almost none, suitable for countable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Do you need <b>___</b> help with your homework?", correct: "any", options: ["any", "some", "many", "much"], def: "'Any' is typically used in questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't <b>___</b> much sugar in my coffee.", correct: "want", options: ["want", "wants", "wanted", "wanting"], def: "'Want' is the base form after 'don't'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "There isn't <b>___</b> milk in the fridge.", correct: "much", options: ["much", "many", "few", "a lot"], def: "'Much' is used with uncountable nouns like 'milk' in negatives.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I have <b>___</b> time to finish this project.", correct: "little", options: ["little", "few", "a lot", "many"], def: "'Little' is used with uncountable nouns like 'time'.", level: "B1–B2"},
+  {type: "Find the error:", question: "She has <b>many</b> water <b>in</b> her <b>bottle</b> <b>now</b>.", correct: "many", options: ["many", "in", "bottle", "now"], def: "'Much' not 'many' is used for uncountable nouns (water).", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> many people to the concert yesterday?", correct: "Did", options: ["Did", "Do", "Were", "Was"], def: "'Did' is needed to form a question with 'many' in the past simple.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> of the students passed the exam.", correct: "Most", options: ["Most", "Much", "Many", "Little"], def: "'Most' is used as a quantifier to indicate a majority.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She has <b>___</b> experience in this field.", correct: "a lot of", options: ["a lot of", "many", "much", "few"], def: "'A lot of' is used with both countable and uncountable nouns.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They don't <b>___</b> much free time.", correct: "have", options: ["have", "has", "having", "had"], def: "'Have' is the base form after 'don't'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We need <b>___</b> more chairs for the guests.", correct: "a few", options: ["a few", "a little", "much", "little"], def: "'A few' is used with countable nouns, meaning some but not many.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> of the cake was eaten.", correct: "Most", options: ["Most", "Many", "Few", "Less"], def: "'Most' refers to the largest part of something.", level: "B1–B2"},
+  {type: "Find the error:", question: "There is <b>many</b> <b>information</b> <b>available</b> online <b>today</b>.", correct: "many", options: ["many", "information", "available", "today"], def: "'Much' is correct with uncountable nouns like 'information'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "There <b>___</b> not many options left.", correct: "are", options: ["are", "is", "were", "was"], def: "'Are' is correct with plural nouns like 'options'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> of my friends live in this city.", correct: "Some", options: ["Some", "Much", "Little", "Any"], def: "'Some' indicates a portion of a group.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I have <b>___</b> apples than you do.", correct: "more", options: ["more", "much", "many", "few"], def: "'More' can be used for both countable and uncountable nouns.", level: "B1–B2"},
+  {type: "Find the error:", question: "She drank <b>few</b> water <b>after</b> running <b>the</b> <b>race</b>.", correct: "few", options: ["few", "after", "the", "race"], def: "'Little' is correct with uncountable nouns like 'water'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "How <b>___</b> students in the class?", correct: "many", options: ["many", "much", "few", "little"], def: "'Many' is correct because students are countable.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I don't have <b>___</b> siblings.", correct: "any", options: ["any", "some", "much", "little"], def: "'Any' is typically used in negative statements.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> of the food was delicious.", correct: "All", options: ["All", "Every", "Each", "Most"], def: "'All' means the entire quantity.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't <b>___</b> much help.", correct: "need", options: ["need", "needs", "needed", "needing"], def: "'Need' is the base form after 'don't'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She has <b>___</b> books than I do.", correct: "more", options: ["more", "much", "less", "little"], def: "'More' is used to compare quantities of countable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He ate <b>___</b> of the pizza.", correct: "half", options: ["half", "much", "many", "few"], def: "'Half' is a fraction that can quantify pizza.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I don't have <b>___</b> money to buy that car.", correct: "much", options: ["much", "many", "a lot", "few"], def: "Use 'much' with uncountable nouns like money in negative sentences.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "There are <b>___</b> people in the park today.", correct: "a lot of", options: ["a lot of", "much", "many of", "lot of"], def: "'A lot of' is used with countable nouns like people.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>Much</b> students <b>like</b> to <b>study</b> <b>online</b>.", correct: "Much", options: ["Much", "like", "study", "online"], def: "Use 'Many' before countable nouns like students.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "There is very <b>___</b> milk left in the fridge.", correct: "little", options: ["little", "few", "a little", "less"], def: "'Little' is used with uncountable nouns like milk.", level: "B1–B2"}
+];

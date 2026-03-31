@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Parking bad. I use app. Good. Easy. You try? <br>Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I know you have problems with parking. I use a new app. It is ParkEasy. It is easy to find parking and pay. You can try it because it is very good. <br>See you!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about something that might help with your parking problems. I've been using this app called ParkEasy, and it's actually pretty good. It shows you where there are free spaces and you can pay with your phone. I think you should try it, because it could save you a lot of time and stress. Let me know what you think!<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>I thought I'd share something that's been a lifesaver for me recently, given your perpetual parking woes downtown. I've started using an app called ParkEasy, and it's genuinely made finding a spot much less stressful. It offers real-time availability updates and handles payments directly, so no more driving around in circles. You should seriously consider downloading it; I suspect it would drastically improve your parking experiences.<br>Cheers,<br>[Your Name]</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>I thought I'd share something that's been a lifesaver for me recently, given your perpetual parking woes downtown. I've started using an app called ParkEasy, and it's genuinely made finding a spot much less stressful. It offers real-time availability updates and handles payments directly, so no more driving around in circles. You should seriously consider downloading it; I suspect it would drastically improve your parking experiences.<br>Cheers,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, shahar markazida mashina qo'yishga joy topish borasida doim stressdasiz. Men ParkEasy dasturidan foydalana boshladim va bu haqiqiy yechim bo'ldi! U real vaqt rejimida bo'sh joylarni ko'rsatadi va to'lovni to'g'ridan-to'g'ri ilova orqali amalga oshirishingiz mumkin. Endi uzoq vaqt aylanib yurishga hojat yo'q! Sizga albatta uni yuklab olishni maslahat beraman.</p>\n<p>O'zingizni asrang!</p>",
+      "uzSampleA1": "<p>Salom [Do'stingizning ismi],<br>Mashina qo'yish yomon. Men ilova ishlataman. Yaxshi. Oson. Sen ham urinib ko'r? <br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men bilaman, sizda mashina qo'yish joyi bilan muammolar bor. Men yangi ilovadan foydalanaman. U ParkEasy deb ataladi. U mashina qo'yish joyini topish va to'lash uchun oson. Siz uni sinab ko'rishingiz mumkin, chunki u juda yaxshi.<br>Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sizga mashina qo'yish muammolaringizga yordam berishi mumkin bo'lgan narsa haqida aytmoqchi edim. Men ParkEasy degan ilovadan foydalanib kelyapman va u aslida juda yaxshi. U sizga bo'sh joylar qayerda ekanligini ko'rsatadi va siz telefoningiz orqali to'lashingiz mumkin. O'ylaymanki, siz uni sinab ko'rishingiz kerak, chunki u sizga ko'p vaqt va stressni tejashi mumkin. Fikringizni bildiring!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Shaharda doimiy ravishda mashina qo'yish muammosiga duch kelishingni hisobga olib, yaqinda menga juda qo'l kelgan bir narsani baham ko'rmoqchiman. Men ParkEasy deb nomlangan ilovadan foydalana boshladim va u joy topishni ancha osonlashtirdi. U real vaqt rejimida bo'sh joylar haqida ma'lumot beradi va to'lovlarni to'g'ridan-to'g'ri amalga oshiradi, shuning uchun endi aylanib yurishga hojat yo'q. Uni yuklab olishni jiddiy o'ylab ko'rishing kerak; menimcha, bu sening mashina qo'yish tajribangni sezilarli darajada yaxshilaydi.<br>Xayr,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi ParkEasy,</p><br><p>I like app. Park easy. Payment good. <br>More park?</p><br><p>Bye,</p><br><p>[Your name]</p>",
       "sampleA2": "<p>Hi ParkEasy,</p><br><p>Thank you for the app. I like the app and it is easy to use. The parking is easy to find. The payment is good, but sometimes it is slow. I want more parking spaces in the app because sometimes I cannot find parking near my house. It is important. Thank you!</p><br><p>Bye,</p><br><p>[Your name]</p>",
       "sampleB1": "<p>Dear ParkEasy Support,</p><br><p>Thank you for asking about the app. I think it is very good. The real-time parking is helpful and the payment system is easy to use. The app is easy to understand.</p><br><p>However, I have a few ideas. Sometimes the app is slow to find my location. Also, it would be good to see the prices before I drive to the parking space. For example, if I know the price, I can choose a cheaper option.</p><br><p>I also think it would be useful if you could add a feature to save my favourite parking locations. Thank you for your time.</p><br><p>Sincerely,<br>[Your name]</p>",
-      "sampleB2": "<p>Dear ParkEasy Support,</p><br><p>Thank you for your email regarding my experience with the ParkEasy app. Overall, I've found it to be a considerable improvement over traditional parking methods. The real-time availability feature is particularly useful, and the integrated payment system is undeniably convenient. The user interface is generally intuitive and easy to navigate.</p><br><p>However, there are a couple of areas where I believe improvements could be made. Firstly, I've noticed that the app occasionally struggles to accurately pinpoint my location, especially in areas with dense buildings. This can lead to inaccurate parking suggestions. Secondly, it would be beneficial to have the option to filter parking locations based on specific criteria, such as electric vehicle charging availability or covered parking.</p><br><p>Finally, perhaps a loyalty scheme for regular users could be introduced to further incentivise app usage. Thank you for considering my feedback.</p><br><p>Yours sincerely,<br>[Your name]</p>"
+      "sampleB2": "<p>Dear ParkEasy Support,</p><br><p>Thank you for your email regarding my experience with the ParkEasy app. Overall, I've found it to be a considerable improvement over traditional parking methods. The real-time availability feature is particularly useful, and the integrated payment system is undeniably convenient. The user interface is generally intuitive and easy to navigate.</p><br><p>However, there are a couple of areas where I believe improvements could be made. Firstly, I've noticed that the app occasionally struggles to accurately pinpoint my location, especially in areas with dense buildings. This can lead to inaccurate parking suggestions. Secondly, it would be beneficial to have the option to filter parking locations based on specific criteria, such as electric vehicle charging availability or covered parking.</p><br><p>Finally, perhaps a loyalty scheme for regular users could be introduced to further incentivise app usage. Thank you for considering my feedback.</p><br><p>Yours sincerely,<br>[Your name]</p>",
+      "uzSample": "<p>Hurmatli ParkEasy qo'llab-quvvatlash xizmati,</p>\n<p>Sizning parkovka ilovangiz bilan bog'liq tajribam haqida so'raganingiz uchun tashakkur.</p>\n<p>ParkEasy mening parkovka tartibimni soddalashtirgani meni juda xursand qildi. Real vaqtda bo'sh joylar haqidagi ma'lumotlar funksiyasi nihoyatda aniq va kontaktsiz to'lov sezilarli vaqtni tejaydi. Interfeys toza va tushunarli.</p>\n<p>Biroq, menda bir nechta takliflar bor. Ilova ba'zan parkovka narxlarini siz yetib borguningizcha ko'rsatmaydi, bu esa byudjetni rejalashtirishni qiyinlashtiradi. Xaritada oldindan narxlarni ko'rsatishingizni xohlardim.</p>\n<p>Bundan tashqari, GPS signali kuchsiz bo'lganda, ilova vaqti-vaqti bilan ishdan chiqadi. Offlayn funksionallikni yaxshilash foydali bo'lardi. Shuningdek, tadbirlar uchun oldindan parkovka joyini bron qilish funksiyasini ham xohlardim.</p>\n<p>Doimiy foydalanuvchilar uchun sodiqlik mukofotlari tizimi yoqimli qo'shimcha bo'lardi.</p>\n<p>Umuman olganda, ParkEasy mening parkovka bilan bog'liq stressimni sezilarli darajada kamaytirdi.</p>\n<p>Hurmat bilan,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom ParkEasy,</p><br><p>Menga ilova yoqadi. Park qilish oson. To'lov yaxshi. <br>Ko'proq park joyi?</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleA2": "<p>Salom ParkEasy,</p><br><p>Ilova uchun rahmat. Menga ilova yoqadi va undan foydalanish oson. To'xtash joyini topish oson. To'lov yaxshi, lekin ba'zida sekin ishlaydi. Ilovada ko'proq to'xtash joylari bo'lishini xohlayman, chunki ba'zida uyimning yonida to'xtash joyini topa olmayman. Bu muhim. Rahmat!</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli ParkEasy qo'llab-quvvatlash xizmati,</p><br><p>Ilovani so'raganingiz uchun rahmat. Menimcha, u juda yaxshi. Real vaqtda avtoturargohni topish foydali va to'lov tizimi ishlatish uchun oson. Ilovani tushunish oson.</p><br><p>Biroq, menda bir nechta fikrlar bor. Ba'zan ilova mening joylashuvimni topishda sekin ishlaydi. Shuningdek, avtoturargohga borishdan oldin narxlarni ko'rish yaxshi bo'lardi. Misol uchun, agar narxni bilsam, arzonroq variantni tanlashim mumkin.</p><br><p>Shuningdek, sevimli avtoturargoh joylarimni saqlash uchun funksiya qo'shsangiz foydali bo'lardi deb o'ylayman. Vaqtingiz uchun rahmat.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli ParkEasy qo'llab-quvvatlash xizmati,</p><br><p>ParkEasy ilovasi bilan bog'liq tajribam haqidagi elektron pochtangiz uchun rahmat. Umuman olganda, men uni an'anaviy to'xtash usullariga nisbatan sezilarli yaxshilanish deb topdim. Real vaqtda mavjudlik funksiyasi ayniqsa foydali va integratsiyalashgan to'lov tizimi, shubhasiz, qulay. Foydalanuvchi interfeysi odatda intuitiv va navigatsiya qilish oson.</p><br><p>Biroq, menimcha, yaxshilanishlar kiritilishi mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, men ilova vaqti-vaqti bilan mening joylashuvimni aniq aniqlashda qiynalayotganini payqadim, ayniqsa zich binolar bo'lgan joylarda. Bu noto'g'ri to'xtash joylarini taklif qilishga olib kelishi mumkin. Ikkinchidan, to'xtash joylarini muayyan mezonlar asosida filtrlash imkoniyati bo'lishi foydali bo'lar edi, masalan, elektr transport vositalarini zaryadlash imkoniyati yoki yopiq to'xtash joyi.</p><br><p>Va nihoyat, ilovadan muntazam foydalanuvchilarni rag'batlantirish uchun sodiqlik sxemasini joriy qilish mumkin. Fikringizni inobatga olganingiz uchun tashakkur.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi! <br>ParkEasy is good. <br>I see parking. I pay. <br>More easy? I don't know. <br>Bye!</p>",
       "sampleA2": "<p>Hello, <br>I like ParkEasy. It is easy to find parking. I can pay with my phone, and it is fast. <br>But sometimes the map is not right, and I cannot find the parking place. Maybe you can make the map better? <br>I want to see more parking places on the app. Thank you!</p>",
       "sampleB1": "<p>Dear ParkEasy Support, <br><br>I'm writing to give you some feedback on the ParkEasy app. Overall, I think it's quite useful. The real-time availability feature is helpful because I can see which parking spots are free before I drive there. The payment system is also convenient. <br><br>However, the app interface could be improved. Sometimes it's a bit confusing to navigate. Also, it would be great if the app showed the prices of different parking garages more clearly. <br><br>One feature that would be very useful is the ability to reserve a parking spot in advance. This would be especially helpful during busy times. <br><br>Thank you for asking for my opinion. <br><br>Sincerely, <br>[Your Name]</p>",
-      "sampleB2": "<p>Dear ParkEasy Support Team,<br><br>I am writing to provide feedback on my experience using the ParkEasy app. I find the concept of real-time parking availability and integrated payment to be genuinely innovative and, for the most part, well-executed. It has certainly streamlined the often-frustrating process of finding parking in the city. <br><br>Regarding the app interface, while generally user-friendly, I believe there is room for improvement in terms of visual clarity. The map could benefit from higher resolution imagery, particularly in densely populated areas. Additionally, a filter option allowing users to specify maximum walking distance to their destination would be a valuable addition. <br><br>In terms of additional features, I would suggest integrating a function that allows users to compare parking rates across different locations in real-time. Furthermore, a loyalty program that rewards frequent users with discounted parking rates could significantly enhance customer retention. Finally, incorporating user reviews and ratings for individual parking locations could provide valuable insights for other drivers. <br><br>Thank you for your commitment to improving the ParkEasy experience. <br><br>Sincerely, <br>[Your Name]</p>"
+      "sampleB2": "<p>Dear ParkEasy Support Team,<br><br>I am writing to provide feedback on my experience using the ParkEasy app. I find the concept of real-time parking availability and integrated payment to be genuinely innovative and, for the most part, well-executed. It has certainly streamlined the often-frustrating process of finding parking in the city. <br><br>Regarding the app interface, while generally user-friendly, I believe there is room for improvement in terms of visual clarity. The map could benefit from higher resolution imagery, particularly in densely populated areas. Additionally, a filter option allowing users to specify maximum walking distance to their destination would be a valuable addition. <br><br>In terms of additional features, I would suggest integrating a function that allows users to compare parking rates across different locations in real-time. Furthermore, a loyalty program that rewards frequent users with discounted parking rates could significantly enhance customer retention. Finally, incorporating user reviews and ratings for individual parking locations could provide valuable insights for other drivers. <br><br>Thank you for your commitment to improving the ParkEasy experience. <br><br>Sincerely, <br>[Your Name]</p>",
+      "uzSample": "<p>Butun dunyo bo'ylab ko'plab shahar markazlarini tirbandlik va ifloslanish qamrab olgan. Menimcha, shahar markazlarida avtomobillarni cheklash foydali, ammo to'liq taqiqlash juda ekstremal bo'lishi mumkin.</p>\n\n<p>Birinchidan, piyodalar zonasi havo sifatini yaxshilaydi va shovqin ifloslanishini kamaytiradi. Kopengagen kabi shaharlar muvaffaqiyatli ravishda avtomobilsiz hududlarni yaratdi, ular hozirda aholi va sayyohlar uchun jonli, yoqimli joylardir.</p>\n\n<p>Ikkinchidan, avtomobillarni olib tashlash jamoat transportidan foydalanishni va velosipedda yurishni rag'batlantiradi, bu esa karbonat angidrid chiqindilarini kamaytiradi. Bu ekologik maqsadlarni qo'llab-quvvatlaydi va ko'proq piyoda yurish orqali sog'lom turmush tarzini targ'ib qiladi.</p>\n\n<p>Biroq, to'liq taqiqlar muammolarni keltirib chiqaradi. Korxonalar mijozlarni yo'qotishdan xavotirda va piyoda yoki velosipedda yura olmaydigan keksa yoki nogiron odamlar zarar ko'radi. Yetkazib berish transport vositalari ham do'konlar va restoranlar uchun zarur.</p>\n\n<p>Yaxshiroq yondashuv - bu tirbandlik uchun to'lov undirish va ko'proq piyodalar zonalarini yaratish, shu bilan birga zarur transport vositalari va harakatlanishga muhtoj bo'lganlar uchun cheklangan kirishni saqlab qolishdir.</p>\n\n<p>Xulosa qilib aytganda, avtomobillarni to'liq taqiqlash amaliy bo'lmasa-da, shahar markazlarida shaxsiy transport vositalarini kamaytirish hamma uchun foydalidir. Muvozanatli yondashuv shahar muhitini yaxshilash bilan birga qulaylikni saqlaydi.</p>",
+      "uzSampleA1": "<p>Salom! <br>ParkEasy yaxshi. <br>Men parkovkani ko'raman. Men to'layman. <br>Yana ham osonmi? Bilmayman. <br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom, <br>Menga ParkEasy yoqadi. U bilan mashina qo'yish joyini topish oson. Men telefonim orqali to'lay olaman va bu tez. <br>Lekin ba'zida xarita to'g'ri emas va men mashina qo'yish joyini topa olmayman. Balki siz xaritani yaxshiroq qilishingiz mumkin? <br>Men ilovada ko'proq mashina qo'yish joylarini ko'rishni xohlayman. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli ParkEasy qo'llab-quvvatlash xizmati,<br><br>Sizga ParkEasy ilovasi bo'yicha ba'zi fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, menimcha, u juda foydali. Real vaqt rejimida mavjudlik funksiyasi juda qo'l keladi, chunki men u yerga mashina haydashdan oldin qaysi to'xtash joylari bo'sh ekanligini ko'rishim mumkin. To'lov tizimi ham qulay.<br><br>Biroq, ilova interfeysini yaxshilash mumkin. Ba'zan navigatsiya qilish biroz chalkash. Bundan tashqari, agar ilova turli to'xtash joylarining narxlarini aniqroq ko'rsatsa, juda yaxshi bo'lardi.<br><br>Juda foydali bo'ladigan bir funksiya - bu oldindan to'xtash joyini bron qilish imkoniyati. Bu, ayniqsa, band paytlarda juda foydali bo'ladi.<br><br>Fikrimni so'raganingiz uchun rahmat.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli ParkEasy qo'llab-quvvatlash jamoasi,<br><br>Men ParkEasy ilovasidan foydalanish tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Men real vaqt rejimida avtoturargoh mavjudligi va integratsiyalashgan to'lov tushunchasini chinakam innovatsion va, asosan, yaxshi amalga oshirilgan deb bilaman. Bu, albatta, shaharda avtoturargoh topishning ko'pincha asabiylashtiradigan jarayonini soddalashtirdi.<br><br>Ilova interfeysiga kelsak, umuman olganda foydalanuvchilar uchun qulay bo'lsa-da, menimcha, vizual aniqlik nuqtai nazaridan takomillashtirish uchun imkoniyat bor. Xarita, ayniqsa, zich joylashgan hududlarda yuqori aniqlikdagi tasvirlardan foydalanishi mumkin. Bundan tashqari, foydalanuvchilarga o'z manziliga maksimal yurish masofasini belgilash imkonini beruvchi filtr opsiyasi qimmatli qo'shimcha bo'ladi.<br><br>Qo'shimcha funksiyalarga kelsak, men foydalanuvchilarga turli joylardagi avtoturargoh narxlarini real vaqt rejimida solishtirish imkonini beruvchi funksiyani integratsiya qilishni taklif qilaman. Bundan tashqari, tez-tez foydalanuvchilarni chegirmali avtoturargoh narxlari bilan taqdirlaydigan sodiqlik dasturi mijozlarni ushlab qolishni sezilarli darajada oshirishi mumkin. Nihoyat, individual avtoturargoh joylari uchun foydalanuvchilarning sharhlari va reytinglarini kiritish boshqa haydovchilar uchun qimmatli ma'lumot berishi mumkin.<br><br>ParkEasy tajribasini yaxshilashga sodiqligingiz uchun tashakkur.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,183 @@ window.WRITING_TEST_DATA = {
         "uz": "hammaga foyda"
       }
     ]
+  },
+  "tokenTranslations": {
+    "always": {
+      "uz": "doim",
+      "type": "adv"
+    },
+    "game-changer": {
+      "uz": "tub burilish",
+      "type": "colloc"
+    },
+    "available spots": {
+      "uz": "bo'sh joylar",
+      "type": "colloc"
+    },
+    "directly": {
+      "uz": "to'g'ridan-to'g'ri",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "O'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "parking app": {
+      "uz": "avtoturargoh ilovasi",
+      "type": "colloc"
+    },
+    "very": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "parking routine": {
+      "uz": "avtoturargoh odati",
+      "type": "colloc"
+    },
+    "real-time availability": {
+      "uz": "real vaqtda mavjudlik",
+      "type": "colloc"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "contactless payment": {
+      "uz": "kontaktisiz to'lov",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "parking prices": {
+      "uz": "avtoturargoh narxlari",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "upfront pricing": {
+      "uz": "oldindan narx",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "occasionally": {
+      "uz": "vaqti-vaqti bilan",
+      "type": "adv"
+    },
+    "GPS signal": {
+      "uz": "GPS signali",
+      "type": "colloc"
+    },
+    "offline functionality": {
+      "uz": "oflayn funksionallik",
+      "type": "colloc"
+    },
+    "reserve parking": {
+      "uz": "avtoturargohni band qilish",
+      "type": "colloc"
+    },
+    "loyalty rewards": {
+      "uz": "sodiqlik mukofotlari",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "city centers": {
+      "uz": "shahar markazlari",
+      "type": "colloc"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "pedestrianized zones": {
+      "uz": "piyodalar zonasi",
+      "type": "colloc"
+    },
+    "air quality": {
+      "uz": "havo sifati",
+      "type": "colloc"
+    },
+    "successfully": {
+      "uz": "muvaffaqiyatli",
+      "type": "adv"
+    },
+    "car-free areas": {
+      "uz": "avtomobilsiz hududlar",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "public transport": {
+      "uz": "jamoat transporti",
+      "type": "colloc"
+    },
+    "carbon emissions": {
+      "uz": "uglerod chiqindilari",
+      "type": "colloc"
+    },
+    "healthier lifestyles": {
+      "uz": "sog'lom turmush tarzi",
+      "type": "colloc"
+    },
+    "disabled people": {
+      "uz": "nogironlar",
+      "type": "colloc"
+    },
+    "congestion charging": {
+      "uz": "tirbandlik uchun to'lov",
+      "type": "colloc"
+    },
+    "pedestrian zones": {
+      "uz": "piyodalar zonalari",
+      "type": "colloc"
+    },
+    "limited access": {
+      "uz": "cheklangan kirish",
+      "type": "colloc"
+    },
+    "mobility needs": {
+      "uz": "harakatlanish ehtiyojlari",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "private vehicles": {
+      "uz": "shaxsiy transport vositalari",
+      "type": "colloc"
+    },
+    "urban environments": {
+      "uz": "shahar muhitlari",
+      "type": "colloc"
+    }
   }
 };

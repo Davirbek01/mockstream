@@ -1,0 +1,36 @@
+// Grammar Test: Hedging & Vague Language — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "It's <b>___</b> cold today, but not too bad.", correct: "sort of", options: ["sort of", "sort off", "sort from", "sort at"], def: "\"Sort of\" is used to express that something is somewhat true.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I think it's <b>___</b> going to rain later.", correct: "probably", options: ["probably", "sure", "exact", "absolute"], def: "\"Probably\" is used to express a degree of uncertainty.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> it will be okay.", correct: "believe", options: ["believe", "believes", "believing", "believed"], def: "\"Believe\" expresses a non-certain opinion.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She's <b>___</b> a good singer.", correct: "quite", options: ["quite", "very", "exactly", "sure"], def: "\"Quite\" softens the statement; not an absolute claim.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The movie was <b>___</b> interesting.", correct: "fairly", options: ["fairly", "exactly", "absolute", "sure"], def: "\"Fairly\" makes the statement less strong.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> he is around thirty.", correct: "guess", options: ["guess", "guesses", "guessed", "guessing"], def: "\"Guess\" shows uncertainty in an estimate.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> a nice person.", correct: "generally", options: ["generally", "exact", "sure", "absolute"], def: "\"Generally\" means it's usually true, not always.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They are <b>___</b> happy with the result.", correct: "somewhat", options: ["somewhat", "exactly", "absolute", "sure"], def: "\"Somewhat\" means they are a little happy.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> they will come.", correct: "assume", options: ["assume", "assumes", "assumed", "assuming"], def: "\"Assume\" expresses a belief without proof.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It <b>___</b> seems to be raining.", correct: "rather", options: ["rather", "very", "exact", "sure"], def: "\"Rather\" softens the statement, making it less definite.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I am <b>___</b> sure I locked the door.", correct: "not entirely", options: ["not entirely", "absolutely", "exactly", "sure"], def: "\"Not entirely\" expresses some doubt.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> it's a good idea.", correct: "think", options: ["think", "thinks", "thought", "thinking"], def: "\"Think\" expresses a personal opinion, not a fact.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He <b>___</b> knows the answer.", correct: "probably", options: ["probably", "exact", "sure", "absolute"], def: "\"Probably\" expresses uncertainty about his knowledge.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> busy at work.", correct: "quite", options: ["quite", "exactly", "absolute", "sure"], def: "\"Quite\" weakens the statement 'busy'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> it's difficult.", correct: "imagine", options: ["imagine", "imagines", "imagined", "imagining"], def: "\"Imagine\" expresses a supposition, not a certainty.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It's <b>___</b> a good book.", correct: "kind of", options: ["kind of", "exact", "sure", "absolute"], def: "\"Kind of\" softens the compliment of the book.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> believe him.", correct: "tend to", options: ["tend to", "exactly", "absolute", "sure"], def: "\"Tend to\" expresses a partial belief.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> it will be late.", correct: "expect", options: ["expect", "expects", "expected", "expecting"], def: "\"Expect\" expresses an anticipation, not a definite fact.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She's <b>___</b> right.", correct: "probably", options: ["probably", "exact", "sure", "absolute"], def: "\"Probably\" weakens the statement 'right'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "That is <b>___</b> the way to do it.", correct: "one", options: ["one", "exactly", "absolute", "sure"], def: "\"One way\" suggests there may be other ways.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> he took it.", correct: "suspect", options: ["suspect", "suspects", "suspected", "suspecting"], def: "\"Suspect\" expresses a belief with limited evidence.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They are <b>___</b> late.", correct: "usually", options: ["usually", "exact", "sure", "absolute"], def: "\"Usually\" means they are often late, not always.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It is <b>___</b> finished.", correct: "nearly", options: ["nearly", "exactly", "absolute", "sure"], def: "\"Nearly\" means it is close to finished, but not quite.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It <b>seems</b> that <b>___</b> people came to the party.", correct: "some", options: ["some", "any", "many", "a lot"], def: "'Some' is used to indicate an indefinite quantity, hedging on the exact number.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I think it's <b>___</b> to rain later.", correct: "likely", options: ["likely", "sure", "certain", "guarantee"], def: "'Likely' expresses a probability, hedging the certainty of rain.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> that he is telling the truth.", correct: "believe", options: ["believe", "believing", "am believe", "believes"], def: "Using 'believe' shows a personal opinion, a form of hedging.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> a good student.", correct: "kind of", options: ["kind of", "type of", "sort", "exactly"], def: "'Kind of' softens the statement, making it less direct.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He said he was <b>___</b> busy to help.", correct: "too", options: ["too", "very", "so", "enough"], def: "'Too' indicates a degree, hedging on the exact amount of busyness.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "As I <b>___</b> it, the meeting is tomorrow.", correct: "understand", options: ["understand", "am understanding", "understood", "understanding"], def: "'As I understand it' introduces a personal interpretation, a hedge.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It's <b>___</b> cold today.", correct: "quite", options: ["quite", "very", "exactly", "absolute"], def: "'Quite' reduces the intensity, hedging how cold it is.", level: "B1–B2"}
+];

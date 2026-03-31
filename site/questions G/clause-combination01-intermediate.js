@@ -1,0 +1,36 @@
+// Grammar Test: Clause Combination — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I want to <b>go</b> to the park <b>___</b> it is raining.", correct: "even though", options: ["even though", "because", "so", "and"], def: "'Even though' shows contrast, even with rain.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She will call you <b>___</b> she arrives.", correct: "as soon as", options: ["as soon as", "if", "when", "after"], def: "'As soon as' means immediately after arriving.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He left <b>___</b> goodbye.", correct: "without saying", options: ["without saying", "without say", "without said", "without to say"], def: "'Without' needs a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> he studies hard, he gets good grades.", correct: "Because", options: ["Because", "So", "Although", "However"], def: "'Because' introduces a reason or cause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will help you <b>___</b> I can.", correct: "if", options: ["if", "when", "that", "because"], def: "'If' introduces a condition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "After <b>___</b> dinner, we went out.", correct: "eating", options: ["eating", "eat", "ate", "eaten"], def: "'After' is followed by a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She didn't go to work <b>___</b> she was sick.", correct: "because", options: ["because", "but", "so", "although"], def: "'Because' gives the reason for not going to work.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> it was late, I decided to walk home.", correct: "Since", options: ["Since", "Because", "However", "But"], def: "'Since' can mean 'because' (reason).", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>Unless</b> it <b>will rain</b>, <b>we</b> <b>go</b> to the beach.", correct: "will rain", options: ["Unless", "will rain", "we", "go"], def: "'Will' is unneeded after 'unless' - use present simple: 'unless it rains'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> in London, I learned a lot.", correct: "Living", options: ["Living", "Live", "Lived", "To live"], def: "Beginning with gerund shows what happened first.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He will go <b>___</b> you go.", correct: "if", options: ["if", "that", "when", "but"], def: "'If' introduces a conditional clause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is tired <b>___</b> she worked all day.", correct: "because", options: ["because", "so", "but", "however"], def: "'Because' gives the reason for being tired.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "After <b>___</b> my work, I went home.", correct: "finishing", options: ["finishing", "finish", "finished", "to finish"], def: "'After' is followed by a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> she is rich, she is not happy.", correct: "Although", options: ["Although", "Because", "So", "If"], def: "'Although' introduces a contrast.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She will be happy <b>___</b> you visit her.", correct: "if", options: ["if", "when", "that", "because"], def: "'If' introduces a conditional clause.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Before <b>___</b> to school, I eat breakfast.", correct: "walking", options: ["walking", "walk", "walked", "to walk"], def: "'Before' needs a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She will travel <b>___</b> she has the money.", correct: "if", options: ["if", "when", "because", "so"], def: "'If' introduces a condition for travelling.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He can't go out <b>___</b> he finishes his work.", correct: "until", options: ["until", "if", "when", "because"], def: "'Until' means up to a certain time.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "After <b>___</b> the book, I watched a film.", correct: "reading", options: ["reading", "read", "to read", "reads"], def: "'After' needs a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will call you <b>___</b> I get home.", correct: "when", options: ["when", "if", "because", "so"], def: "'When' indicates the time of the phone call.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She went to bed <b>___</b> she was tired.", correct: "because", options: ["because", "but", "although", "so"], def: "'Because' gives the reason she went to bed.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Before <b>___</b>, I always make coffee.", correct: "studying", options: ["studying", "study", "to study", "studied"], def: "'Before' needs a gerund ('-ing' form).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I like the dress <b>___</b> it is expensive.", correct: "even though", options: ["even though", "because", "so", "if"], def: "'Even though' shows contrast (like vs dislike).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She will go <b>___</b> he goes.", correct: "if", options: ["if", "because", "when", "so"], def: "'If' introduces a condition for her going.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I want to <b>go</b> to the party <b>___</b> I finish my homework.", correct: "after", options: ["after", "before", "when", "so"], def: "Use 'after' to show something happens later.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She will call you <b>___</b> she arrives.", correct: "as soon as", options: ["as soon as", "when that", "if that", "while"], def: "'As soon as' indicates immediate action after arrival.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will tell you <b>___</b> I have <b>___</b> dinner.", correct: "after / eaten", options: ["after / eaten", "after / ate", "when / eat", "if / eating"], def: "'After' needs past participle with 'have'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He didn't study, <b>___</b> he failed the test.", correct: "so", options: ["so", "because", "but", "although"], def: "'So' shows the result of not studying.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will help you <b>___</b> you need it.", correct: "if", options: ["if", "when", "because", "since"], def: "'If' introduces a condition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he <b>___</b> hard, he passed the exam.", correct: "Because / worked", options: ["Because / worked", "When / works", "If / working", "So / working"], def: "'Because' needs past simple to show reason.", level: "B1–B2"}
+];

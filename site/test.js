@@ -930,6 +930,19 @@ const ieltsListeningTests = [
   { file: 'IELTS listening.html?test=ielts-listening-test-02', name: 'IELTS Listening Practice Test 02', icon: '🎧', actionText: 'Take Test' },
   { file: 'IELTS listening.html?test=ielts-listening-test-03', name: 'IELTS Listening Practice Test 03', icon: '🎧', actionText: 'Take Test' },
   { file: 'IELTS listening.html?test=ielts-listening-test-04', name: 'IELTS Listening Practice Test 04', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-05', name: 'IELTS Listening Practice Test 05', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-06', name: 'IELTS Listening Practice Test 06', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-07', name: 'IELTS Listening Practice Test 07', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-08', name: 'IELTS Listening Practice Test 08', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-09', name: 'IELTS Listening Practice Test 09', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-10', name: 'IELTS Listening Practice Test 10', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-11', name: 'IELTS Listening Practice Test 11', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-12', name: 'IELTS Listening Practice Test 12', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-13', name: 'IELTS Listening Practice Test 13', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-14', name: 'IELTS Listening Practice Test 14', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-15', name: 'IELTS Listening Practice Test 15', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-16', name: 'IELTS Listening Practice Test 16', icon: '🎧', actionText: 'Take Test' },
+  { file: 'IELTS listening.html?test=ielts-listening-test-17', name: 'IELTS Listening Practice Test 17', icon: '🎧', actionText: 'Take Test' },
 ];
 
 // ===== READING TESTS =====

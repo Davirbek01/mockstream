@@ -1,0 +1,36 @@
+// Grammar Test: Articles: Advanced Usage — Advanced (C1–C2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> more I study, <b>___</b> more I learn.", correct: "The, the", options: ["The, the", "A, a", "The, a", "A, the"], def: "Use 'the' before comparatives when they are parallel.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> accomplished musician.", correct: "an", options: ["an", "a", "the", "-"], def: "Use 'an' before a vowel sound, even in abbreviations.", level: "C1–C2"},
+  {type: "Find the error:", question: "<b>A</b> reason <b>for</b> <b>the</b> delay <b>is</b> unknown.", correct: "A", options: ["A", "for", "the", "is"], def: "Omit 'a' before 'reason' when it's general knowledge.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> of art.", correct: "a student of history", options: ["a student of history", "the student of history", "student of history", "student in history"], def: "Use 'a' before 'student' when referring to a specific field.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "He plays <b>___</b> guitar in <b>___</b> band.", correct: "the, a", options: ["the, a", "a, the", "the, the", "a, a"], def: "Use 'the' with instruments; 'a' with a band.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "This is <b>___</b> unique opportunity.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before 'unique' because of the consonant sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "She is <b>a</b> <b>best</b> player <b>on</b> <b>the</b> team.", correct: "a", options: ["a", "best", "on", "the"], def: "Use 'the' with superlatives like 'best' (the best).", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "This is <b>___</b> of classic art.", correct: "an example", options: ["an example", "a example", "the example", "example"], def: "Use 'an' before 'example' because of the vowel sound.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> Prime Minister will address the nation.", correct: "The", options: ["The", "A", "-", "An"], def: "Use 'the' before unique or specific positions.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> honourable man.", correct: "an", options: ["an", "a", "the", "-"], def: "Use 'an' before 'honourable' because of the vowel sound.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "He works for <b>___</b>.", correct: "the government", options: ["the government", "a government", "government", "an government"], def: "Use 'the' when referring to a specific government.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "She is <b>___</b> expert in <b>___</b> field.", correct: "an, the", options: ["an, the", "a, a", "an, a", "a, the"], def: "Use 'an' before 'expert'; 'the' for a specific field.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> European.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before 'European' because of the consonant sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "This is <b>a</b> <b>most</b> interesting <b>book</b> <b>I've</b> read.", correct: "a", options: ["a", "most", "book", "I've"], def: "Use 'the' with 'most' when it means 'very'.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> critic.", correct: "an art", options: ["an art", "a art", "the art", "art"], def: "Use 'an art' before 'critic' since it's a noun phrase.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> member of <b>___</b> committee.", correct: "a, the", options: ["a, the", "an, a", "a, a", "an, the"], def: "Use 'a' before 'member'; 'the' for a specific committee.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "She wants to study <b>___</b> history.", correct: "-", options: ["-", "a", "an", "the"], def: "Omit the article before general subjects like history.", level: "C1–C2"},
+  {type: "Find the error:", question: "He is <b>the</b> only <b>person</b> <b>I</b> <b>know</b>.", correct: "the", options: ["the", "person", "I", "know"], def: "The article should be omitted in this context.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "She is interested in <b>___</b>.", correct: "science", options: ["science", "the science", "a science", "an science"], def: "Omit the article before general subjects like science.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> rich should help <b>___</b> poor.", correct: "The, the", options: ["The, the", "A, a", "The, a", "A, the"], def: "Use 'the' to refer to a group of people.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> university professor.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before 'university' due to the consonant sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "She is <b>a</b> <b>only</b> <b>child</b> in <b>her</b> family.", correct: "a", options: ["a", "only", "child", "her"], def: "Use 'the' with 'only' to indicate uniqueness.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "He is studying <b>___</b>.", correct: "law", options: ["law", "the law", "a law", "an law"], def: "Omit the article before general subjects like law.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> tallest in <b>___</b> class.", correct: "the, the", options: ["the, the", "a, a", "the, a", "a, the"], def: "Use 'the' with superlatives and specific locations.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> honest person.", correct: "an", options: ["an", "a", "the", "-"], def: "Use 'an' before 'honest' because of the vowel sound.", level: "C1–C2"},
+  {type: "Find the error:", question: "He is <b>a</b> <b>head</b> of <b>the</b> <b>department</b>.", correct: "a", options: ["a", "head", "the", "department"], def: "Use 'the' before 'head' when referring to a specific role.", level: "C1–C2"},
+  {type: "Complete with the correct form:", question: "She is <b>___</b> teacher.", correct: "a music", options: ["a music", "the music", "music", "an music"], def: "Use 'a' + adjective (music) before a noun (teacher).", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> more you practice, <b>___</b> better you become.", correct: "The, the", options: ["The, the", "A, a", "The, a", "A, the"], def: "Use 'the' before comparatives in parallel constructions.", level: "C1–C2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> historian.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before 'historian'.", level: "C1–C2"},
+  {type: "Fill in the blank:", question: "<b>___</b> more research is needed to confirm these findings.", correct: "Further", options: ["Further", "Farther", "A further", "The further"], def: "\"Further\" means \"additional\"; \"farther\" relates to physical distance.", level: "C1–C2"}
+];

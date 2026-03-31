@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="site-config/responsive-scaling.css">
     <!-- Site Config (swap this script to change brand/skin) -->
     <script src="site-config/site-config.js"></script>
+    <script src="supabase-send.js"></script>
+    <script src="session-recovery.js"></script>
     <script>
         if (window.SITE_CONFIG) {
             document.title = 'IELTS Full Mock Exam - ' + window.SITE_CONFIG.brandName;
@@ -249,6 +251,45 @@
         .zoom-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .hdr-back-btn, .hdr-pause-btn, .hdr-finish-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .hdr-back-btn {
+            background: rgba(13, 148, 136, 0.25);
+            border-color: rgba(13, 148, 136, 0.4);
+        }
+        .hdr-back-btn:hover {
+            background: rgba(13, 148, 136, 0.45);
+        }
+        .hdr-pause-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .hdr-finish-btn {
+            background: rgba(220, 38, 38, 0.25);
+            border-color: rgba(220, 38, 38, 0.4);
+        }
+        .hdr-finish-btn:hover {
+            background: rgba(220, 38, 38, 0.45);
+        }
+        @media (max-width: 768px) {
+            .hdr-back-btn, .hdr-pause-btn, .hdr-finish-btn {
+                display: none;
+            }
         }
 
         .zoom-btn .zoom-level {
@@ -785,11 +826,15 @@
             display: block;
         }
 
-        /* Dropdown for matching/flowchart questions */
-        .match-dropdown {
+        /* ===== Rich-select for matching/flowchart dropdowns ===== */
+        .match-rich-select {
+            position: relative;
             width: 100%;
             max-width: 420px;
-            padding: 10px 14px;
+        }
+        .match-rich-select .rs-trigger {
+            width: 100%;
+            padding: 10px 36px 10px 14px;
             border: 2px solid var(--border);
             border-radius: 10px;
             font-size: 14px;
@@ -798,30 +843,92 @@
             color: var(--text);
             cursor: pointer;
             transition: all 0.2s ease;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 36px;
+            position: relative;
+            white-space: normal;
+            line-height: 1.4;
+            user-select: none;
         }
-
-        .match-dropdown:hover {
+        .match-rich-select .rs-trigger::after {
+            content: '\25BC';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: #888;
+            pointer-events: none;
+        }
+        .match-rich-select .rs-trigger:hover {
             border-color: var(--primary);
         }
-
-        .match-dropdown:focus {
-            outline: none;
+        .match-rich-select .rs-trigger.open {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
-
-        .match-dropdown option {
-            font-weight: 600;
-            padding: 8px;
+        .match-rich-select .rs-trigger.duplicate {
+            border-color: #f59e0b !important;
         }
-
-        .match-dropdown option.used-option {
+        .match-rich-select .rs-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,.15);
+            z-index: 5000;
+            margin-top: 4px;
+            max-height: min(280px, 45vh);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            animation: rsDropIn .15s ease-out;
+        }
+        .match-rich-select .rs-menu.open { display: block; }
+        .match-rich-select .rs-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: normal;
+            line-height: 1.4;
+            transition: background 0.15s;
+        }
+        .match-rich-select .rs-option:last-child { border-bottom: none; }
+        .match-rich-select .rs-option:hover { background: #fef2f2; }
+        .match-rich-select .rs-option.selected { background: #fecaca; }
+        .match-rich-select .rs-option.used {
             color: #16a34a;
+        }
+        .match-rich-select .rs-trigger.locked {
+            pointer-events: none;
+            opacity: 0.85;
+        }
+        /* Inline variant for list-selection */
+        .match-rich-select.inline-rs {
+            display: inline-block;
+            width: auto;
+            min-width: 160px;
+            max-width: none;
+            vertical-align: middle;
+        }
+        .match-rich-select.inline-rs .rs-trigger {
+            display: inline-block;
+            width: auto;
+            min-width: 140px;
+            padding: 4px 28px 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .match-rich-select.inline-rs .rs-menu {
+            min-width: 200px;
+        }
+        @keyframes rsDropIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .match-dropdown-wrap {
@@ -846,7 +953,7 @@
         }
 
         @media (max-width: 600px) {
-            .match-dropdown {
+            .match-rich-select {
                 max-width: 100%;
             }
         }
@@ -1091,6 +1198,7 @@
             transition: background 0.2s;
             position: relative;
             z-index: 10;
+            touch-action: none;
         }
 
         .split-dragger:hover,
@@ -1627,10 +1735,11 @@
 
             .split-dragger {
                 width: 100%;
-                height: 16px;
+                height: 24px;
                 cursor: row-resize;
                 flex-direction: row;
                 flex-shrink: 0;
+                touch-action: none;
             }
 
             .split-dragger::before {
@@ -2616,23 +2725,70 @@
             }
 
             .imt-header {
-                padding: 18px 20px;
+                padding: 12px 16px;
+            }
+
+            .imt-icon-box {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+                border-radius: 10px;
+            }
+
+            .imt-title {
+                font-size: 18px;
+            }
+
+            .imt-steps {
+                font-size: 12px;
+            }
+
+            .imt-body {
+                padding: 14px 16px;
+                min-height: auto;
             }
 
             .imt-footer {
-                padding: 14px 18px;
+                padding: 12px 16px;
+                gap: 10px;
+            }
+
+            .imt-page-icon {
+                font-size: 32px;
+                margin-bottom: 4px;
             }
 
             .imt-page-title {
-                font-size: 20px;
+                font-size: 18px;
+                margin-bottom: 6px;
             }
 
             .imt-page-desc {
-                font-size: 14px;
+                font-size: 13px;
+                line-height: 1.4;
             }
 
             .imt-page-desc .imt-grid {
                 grid-template-columns: 1fr;
+                gap: 2px;
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+
+            .imt-btn {
+                padding: 10px 28px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            .imt-card {
+                border-radius: 20px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            #ielts-mod-tut-overlay {
+                padding: 12px;
             }
         }
 
@@ -2643,9 +2799,9 @@
                 height: auto !important;
             }
 
-            /* Compact header on mobile */
+            /* Hide header on mobile — FAB provides all controls */
             .header {
-                padding: 6px 10px;
+                display: none !important;
             }
 
             .header-content {
@@ -2733,8 +2889,39 @@
             }
 
             .main-container {
-                padding: 0 8px 120px;
+                padding: 0 8px 8px;
                 max-width: 100%;
+                margin-top: 0;
+            }
+
+            /* Override split heights — no header on mobile */
+            .split-view {
+                height: calc(100vh - 60px);
+            }
+
+            .reading-mode .split-view {
+                height: calc(100vh - 60px);
+            }
+
+            .split-container {
+                height: calc(100vh - 56px) !important;
+            }
+
+            .map-split-container {
+                height: calc(100vh - 60px);
+            }
+
+            .writing-task-container {
+                height: calc(100vh - 60px);
+            }
+
+            /* Hide writing task tabs on mobile — FAB has task switcher */
+            .writing-mode .part-nav-bar {
+                display: none !important;
+            }
+
+            .writing-mode .split-container {
+                height: calc(100vh - 8px) !important;
             }
 
             .passage-card,
@@ -2920,6 +3107,72 @@
             .gap-input,
             .sentence-gap {
                 width: 100px;
+                font-size: 14px;
+            }
+
+            /* Bootstrap tables (e.g. Section 1 Beechen Festival) — horizontal scroll */
+            .form-html .table-responsive,
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                max-width: 100%;
+            }
+
+            .form-html .table-responsive table,
+            .table-responsive table {
+                font-size: 13px;
+                min-width: 500px;
+            }
+
+            .form-html .table-responsive td,
+            .form-html .table-responsive th,
+            .table-responsive td,
+            .table-responsive th {
+                padding: 6px 8px;
+                word-break: normal;
+            }
+
+            .form-html .table-responsive .gap-input,
+            .table-responsive .gap-input,
+            .form-html .table-responsive .form-gap,
+            .table-responsive .form-gap {
+                width: 70px !important;
+                min-width: 60px !important;
+                font-size: 13px;
+            }
+
+            /* Plain layout tables (e.g. Section 4 Bislama notes) — stack vertically */
+            .form-html {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            .form-html > div {
+                padding: 12px !important;
+            }
+
+            .form-html table:not(.table):not(.table-bordered) {
+                display: block !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            .form-html table:not(.table):not(.table-bordered) tbody,
+            .form-html table:not(.table):not(.table-bordered) tr {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            .form-html table:not(.table):not(.table-bordered) td {
+                display: block !important;
+                width: 100% !important;
+                padding: 4px 0 !important;
+            }
+
+            .form-html .gap-input,
+            .form-html .form-gap {
+                width: 100px !important;
+                min-width: 80px !important;
                 font-size: 14px;
             }
 
@@ -3297,10 +3550,426 @@
             background: #f1f5f9;
             color: #64748b;
         }
+        /* ===== MOBILE FAB & TOOLKIT (IELTS) ===== */
+        .mob-fab-container {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+        }
+
+        .mob-fab {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mob-fab:active {
+            transform: scale(0.9) rotate(45deg);
+        }
+
+        /* Toolkit Menu */
+        .mob-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 10000;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        .mob-menu-overlay.show { display: block; }
+
+        /* Toolkit Menu — centered dialog (matches individual mock FAB style) */
+        .mob-tools-menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 92vw;
+            max-width: 370px;
+            background: rgba(254, 242, 242, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--primary);
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+            padding: 14px 16px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            animation: mobMenuAppear 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10001;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .mob-tools-menu.show { display: flex; }
+
+        @keyframes mobMenuAppear {
+            from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .menu-close {
+            background: rgba(0,0,0,0.08);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Tools Grid */
+        .tools-section {
+            margin-bottom: 0;
+        }
+
+        .tools-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .tool-btn {
+            flex: 1;
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 8px 6px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:active {
+            transform: scale(0.96);
+        }
+
+        .tool-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tool-btn i {
+            font-size: 16px;
+        }
+
+        .tool-btn span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* Timer in Menu */
+        .menu-timer {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 6px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .menu-timer-val {
+            font-size: 20px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--primary);
+        }
+
+        /* Module Nav in Menu */
+        .menu-nav-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .menu-nav-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 8px 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            gap: 4px;
+        }
+
+        .menu-nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        .menu-nav-btn.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Finish Confirm Modal */
+        .finish-confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 20000;
+        }
+        .finish-confirm-overlay.show { display: flex; align-items: center; justify-content: center; }
+
+        .finish-confirm-dialog {
+            background: white;
+            border-radius: 20px;
+            padding: 28px 24px 20px;
+            width: 90vw;
+            max-width: 360px;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+            animation: finishConfirmIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        @keyframes finishConfirmIn {
+            from { opacity: 0; transform: scale(0.85) translateY(10px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .finish-confirm-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: #fef2f2;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
+
+        .finish-confirm-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .finish-confirm-msg {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .finish-confirm-warn {
+            display: inline-block;
+            background: #fff7ed;
+            color: #c2410c;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+
+        .finish-confirm-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .finish-confirm-btns button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .finish-btn-cancel {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .finish-btn-cancel:hover { background: #e2e8f0; }
+
+        .finish-btn-confirm {
+            background: #dc2626;
+            color: white;
+        }
+        .finish-btn-confirm:hover { background: #b91c1c; }
+
+        /* Pause Overlay */
+        .pause-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 20001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .pause-overlay.show {
+            display: flex;
+        }
+        .pause-overlay .pause-label {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: pausePulse 2s ease-in-out infinite;
+        }
+        .pause-overlay .btn-resume {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 16px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pause-overlay .btn-resume:active {
+            transform: scale(0.95);
+        }
+        @keyframes pausePulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .mob-fab-container {
+                display: block !important;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Mobile FAB & Toolkit (IELTS) -->
+    <div class="mob-fab-container" id="mobFabContainer" style="display:none !important;">
+        <button class="mob-fab" id="mobFab">
+            🛠️
+        </button>
+    </div>
+
+    <!-- Toolkit Menu Overlay -->
+    <div class="mob-menu-overlay" id="mobMenuOverlay"></div>
+
+    <!-- Toolkit Menu -->
+    <div class="mob-tools-menu" id="mobToolsMenu">
+        <div class="menu-header">
+            <span class="menu-title">🛠️ Toolkit</span>
+            <button class="menu-close" id="mobMenuClose">✕</button>
+        </div>
+
+        <div class="menu-timer">
+            <div class="menu-timer-val" id="menuTimerVal">00:00</div>
+        </div>
+
+        <div class="tools-section" id="mobNavSection">
+            <span class="tools-label">Sections</span>
+            <div class="menu-nav-list" id="mobNavList"></div>
+        </div>
+
+        <div class="tools-section">
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="openHomeSidebar()" style="background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border-color:#0d9488;">
+                    <i style="font-style:normal;font-size:20px;">☰</i>
+                    <span>Home</span>
+                </button>
+                <button class="tool-btn" onclick="promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav('landing.html?openModal=fullmock');})">
+                    <i>🔙</i>
+                    <span>Back</span>
+                </button>
+                <button class="tool-btn" id="mobZoomBtn">
+                    <i>🔍</i>
+                    <span>Zoom</span>
+                </button>
+                <button class="tool-btn" id="mobPauseBtn">
+                    <i>⏸️</i>
+                    <span>Pause</span>
+                </button>
+                <button class="tool-btn" style="border-color:#dc2626; color:#dc2626;" id="mobFinishBtn">
+                    <i>🏁</i>
+                    <span>Finish</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Overlay -->
+    <div class="pause-overlay" id="pauseOverlay">
+        <div class="pause-label">⏸ Test Paused</div>
+        <button class="btn-resume" id="pauseResumeBtn">
+            <i style="font-style:normal">▶</i> Resume
+        </button>
+    </div>
+
+    <!-- Finish Confirm Modal -->
+    <div class="finish-confirm-overlay" id="finishConfirmOverlay">
+        <div class="finish-confirm-dialog">
+            <div class="finish-confirm-icon">⚠️</div>
+            <div class="finish-confirm-title">End this module?</div>
+            <div class="finish-confirm-msg">You are about to finish the current module and move on to the next one.</div>
+            <div class="finish-confirm-warn">⛔ You won't be able to return to this module</div>
+            <div class="finish-confirm-btns">
+                <button class="finish-btn-cancel" id="finishCancelBtn">Go Back</button>
+                <button class="finish-btn-confirm" id="finishConfirmBtn">End Module</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Gate Entry -->
     <div id="gate">
         <div class="gate-card">
@@ -3522,6 +4191,15 @@
                 <div class="timer-box">
                     <div class="timer-value" id="display-timer">00:00</div>
                 </div>
+                <button class="hdr-back-btn" id="hdrBackBtn" title="Back to Home">
+                    🔙 Back
+                </button>
+                <button class="hdr-pause-btn" id="hdrPauseBtn" title="Pause Test">
+                    ⏸️ Pause
+                </button>
+                <button class="hdr-finish-btn" id="hdrFinishBtn" title="Finish Module">
+                    🏁 Finish
+                </button>
                 <button class="zoom-btn" id="btnZoom" title="Zoom In">
                     🔍
                 </button>
@@ -3846,6 +4524,263 @@
             isPremiumVip: false // true = premium VIP (AI scoring), false = regular or passcode entry
         };
 
+        // Session Recovery init for IELTS full mock
+        if (window.SessionRecovery) {
+          SessionRecovery.init({
+            testType: 'ielts-full-mock',
+            getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+            getTestId: function() { return state.referenceNumber || ''; },
+            getState: function() {
+              if (!state.examStarted || state.step >= 4) return null;
+              var sd = {
+                step: state.step, candidateName: state.candidateName,
+                testIds: state.testIds, referenceNumber: state.referenceNumber,
+                currentPart: state.currentPart, answers: state.answers,
+                timeRemaining: state.timeRemaining, scores: state.scores,
+                scaledScores: state.scaledScores, isPremiumVip: state.isPremiumVip
+              };
+              if (state.step === 3 && typeof speakingCurrentIdx !== 'undefined') {
+                sd.speakingCurrentQ = speakingCurrentIdx;
+              }
+              return sd;
+            }
+          });
+        }
+
+        // ===== MOBILE FAB LOGIC (IELTS) =====
+        function initMobileFAB() {
+            const mobFab = document.getElementById('mobFab');
+            const mobFabContainer = document.getElementById('mobFabContainer');
+            const mobToolsMenu = document.getElementById('mobToolsMenu');
+            const mobMenuOverlay = document.getElementById('mobMenuOverlay');
+            const mobMenuClose = document.getElementById('mobMenuClose');
+            const menuTimerVal = document.getElementById('menuTimerVal');
+            const fabPosKey = 'mobFabPos_FullMock_IELTS';
+
+            if (!mobFab) return;
+
+            let fabIdleTimer = null;
+            let isDraggingFab = false;
+            let hasMovedFab = false;
+            let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+            function setFabActive() {
+                mobFab.style.opacity = '1';
+                clearTimeout(fabIdleTimer);
+                if (!mobToolsMenu.classList.contains('show')) {
+                    fabIdleTimer = setTimeout(() => {
+                        mobFab.style.opacity = '0.16';
+                    }, 5000);
+                }
+            }
+
+            function applyFabPosition(left, top) {
+                if (!mobFabContainer) return;
+                const maxX = Math.max(0, window.innerWidth - mobFabContainer.offsetWidth);
+                const maxY = Math.max(0, window.innerHeight - mobFabContainer.offsetHeight);
+                const x = Math.min(Math.max(0, left), maxX);
+                const y = Math.min(Math.max(0, top), maxY);
+                mobFabContainer.style.position = 'fixed';
+                mobFabContainer.style.left = x + 'px';
+                mobFabContainer.style.top = y + 'px';
+                mobFabContainer.style.right = 'auto';
+                mobFabContainer.style.bottom = 'auto';
+            }
+
+            function beginFabDrag(clientX, clientY) {
+                if (mobToolsMenu.classList.contains('show') || !mobFabContainer) return;
+                isDraggingFab = true;
+                hasMovedFab = false;
+                setFabActive();
+                const rect = mobFabContainer.getBoundingClientRect();
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+            }
+
+            function moveFabDrag(clientX, clientY) {
+                if (!isDraggingFab) return;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+                applyFabPosition(initialLeft + dx, initialTop + dy);
+            }
+
+            function endFabDrag() {
+                if (!isDraggingFab || !mobFabContainer) return;
+                isDraggingFab = false;
+                localStorage.setItem(fabPosKey, JSON.stringify({ left: mobFabContainer.offsetLeft, top: mobFabContainer.offsetTop }));
+                setFabActive();
+            }
+
+            // Always start FAB at bottom-right (CSS default)
+            localStorage.removeItem(fabPosKey);
+
+            function toggleMenu(show) {
+                if (show) {
+                    mobToolsMenu.classList.add('show');
+                    mobMenuOverlay.classList.add('show');
+                    mobFab.style.opacity = '1';
+                    clearTimeout(fabIdleTimer);
+                    updateMenuTimer();
+                    updateMenuNav();
+                } else {
+                    mobToolsMenu.classList.remove('show');
+                    mobMenuOverlay.classList.remove('show');
+                    setFabActive();
+                }
+            }
+
+            mobFab.addEventListener('click', () => {
+                if (hasMovedFab) { hasMovedFab = false; return; }
+                toggleMenu(true);
+            });
+            if (mobMenuClose) mobMenuClose.addEventListener('click', () => toggleMenu(false));
+            if (mobMenuOverlay) mobMenuOverlay.addEventListener('click', () => toggleMenu(false));
+
+            const dragTarget = mobFabContainer || mobFab;
+            dragTarget.addEventListener('mousedown', (e) => beginFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mousemove', (e) => moveFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mouseup', endFabDrag);
+            dragTarget.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                beginFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                moveFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchend', endFabDrag, { passive: true });
+
+            // Sync Timer
+            function updateMenuTimer() {
+                const timerVal = document.getElementById('display-timer').textContent;
+                if (menuTimerVal) menuTimerVal.textContent = timerVal;
+            }
+
+            // Sync Navigation
+            function updateMenuNav() {
+                const navList = document.getElementById('mobNavList');
+                if (!navList) return;
+                navList.innerHTML = '';
+
+                const mod = state.modules[state.step];
+                let items = [];
+
+                if (mod === 'WRITING') {
+                    const data = state.currentTestData;
+                    if (data?.tasks) {
+                        const arr = Array.isArray(data.tasks) ? data.tasks : [data.tasks.task1, data.tasks.task2].filter(Boolean);
+                        items = arr.map((t, i) => ({ label: `Task ${i + 1}`, idx: i }));
+                    }
+                } else {
+                    const parts = state.currentTestData?.parts || state.currentTestData?.passages || [];
+                    items = parts.map((p, i) => ({ label: `Part ${i + 1}`, idx: i }));
+                }
+
+                items.forEach(({ label, idx }) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'menu-nav-btn' + (state.currentPart === idx ? ' active' : '');
+                    btn.innerHTML = `<span>${label}</span> <span>${state.currentPart === idx ? '✓' : ''}</span>`;
+                    btn.onclick = () => {
+                        state.currentPart = idx;
+                        if (typeof renderPart === 'function') renderPart();
+                        toggleMenu(false);
+                    };
+                    navList.appendChild(btn);
+                });
+            }
+
+            // Zoom Toggle (calls existing initZoom function's logic if possible)
+            document.getElementById('mobZoomBtn').onclick = () => {
+                const zoomBtn = document.getElementById('btnZoom');
+                if (zoomBtn) zoomBtn.click();
+            };
+
+            // Pause/Resume Toggle
+            window.examPaused = false;
+            const pauseOverlay = document.getElementById('pauseOverlay');
+            const pauseResumeBtn = document.getElementById('pauseResumeBtn');
+
+            function doPause() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = true;
+                if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+                if (mod === 'LISTENING' && audio && !audio.paused) audio.pause();
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingPaused !== 'undefined') speakingPaused = true;
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
+                    if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
+                    if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && !fmPartIntroAudio.paused) fmPartIntroAudio.pause();
+                }
+                toggleMenu(false);
+                pauseOverlay.classList.add('show');
+            }
+
+            function doResume() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = false;
+                startTimer();
+                if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingPaused !== 'undefined') speakingPaused = false;
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && currentSpeakingAudio.paused && currentSpeakingAudio.currentTime > 0) currentSpeakingAudio.play().catch(() => {});
+                    if (window.speechSynthesis && window.speechSynthesis.paused) window.speechSynthesis.resume();
+                    if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && fmPartIntroAudio.paused && fmPartIntroAudio.currentTime > 0) fmPartIntroAudio.play().catch(() => {});
+                }
+                pauseOverlay.classList.remove('show');
+            }
+
+            document.getElementById('mobPauseBtn').onclick = () => { doPause(); };
+            document.getElementById('hdrBackBtn').onclick = () => { promptFriendlyLeave(function(){ window.__okToLeave = true; _iframeNav('landing.html?openModal=fullmock'); }); };
+            document.getElementById('hdrPauseBtn').onclick = () => { doPause(); };
+            pauseResumeBtn.onclick = () => { doResume(); };
+
+            // Finish Button — custom confirm modal
+            const finishOverlay = document.getElementById('finishConfirmOverlay');
+            const finishCancelBtn = document.getElementById('finishCancelBtn');
+            const finishConfirmBtn = document.getElementById('finishConfirmBtn');
+
+            document.getElementById('mobFinishBtn').onclick = () => {
+                toggleMenu(false);
+                finishOverlay.classList.add('show');
+            };
+
+            document.getElementById('hdrFinishBtn').onclick = () => {
+                finishOverlay.classList.add('show');
+            };
+
+            finishCancelBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+            };
+
+            finishConfirmBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+                if (typeof finishMod === 'function') finishMod();
+            };
+
+            finishOverlay.addEventListener('click', (e) => {
+                if (e.target === finishOverlay) finishOverlay.classList.remove('show');
+            });
+
+            // Update timer display in menu every second if open
+            setInterval(() => {
+                if (mobToolsMenu.classList.contains('show')) {
+                    updateMenuTimer();
+                }
+            }, 1000);
+
+            setFabActive();
+        }
+
+        // Initialize FAB after state is ready
+        setTimeout(initMobileFAB, 1000);
+
         const moduleContainer = document.getElementById('module-container');
         const mainAudio = document.getElementById('main-audio');
         let partCountdownInterval = null;
@@ -3873,6 +4808,50 @@
                 el.classList.add('selected');
             }
         }
+
+        // ===== Rich-select helpers for matching dropdowns =====
+        function toggleMatchSelect(trigger, event) {
+            if (event) event.stopPropagation();
+            const qId = trigger.getAttribute('data-q');
+            const menu = document.getElementById('rs-menu-' + qId);
+            if (!menu) return;
+            const wasOpen = menu.classList.contains('open');
+            // Close all open menus first
+            document.querySelectorAll('.match-rich-select .rs-menu.open').forEach(m => m.classList.remove('open'));
+            document.querySelectorAll('.match-rich-select .rs-trigger.open').forEach(t => t.classList.remove('open'));
+            if (!wasOpen) {
+                menu.classList.add('open');
+                trigger.classList.add('open');
+            }
+        }
+
+        function selectMatchOption(optEl, mod, qId, value, displayText, groupId, event) {
+            if (event) event.stopPropagation();
+            const wrap = optEl.closest('.match-rich-select');
+            const trigger = wrap.querySelector('.rs-trigger');
+            // Update trigger
+            trigger.textContent = displayText;
+            trigger.setAttribute('data-value', value);
+            trigger.classList.toggle('placeholder', !value);
+            // Mark selected option
+            wrap.querySelectorAll('.rs-option').forEach(o => o.classList.remove('selected'));
+            if (value) optEl.classList.add('selected');
+            // Close menu
+            const menu = document.getElementById('rs-menu-' + qId);
+            if (menu) menu.classList.remove('open');
+            trigger.classList.remove('open');
+            // Save answer and update badges
+            saveAns(mod, qId, value);
+            updateMatchBadges(groupId);
+        }
+
+        // Close all match-rich-select menus on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.match-rich-select')) {
+                document.querySelectorAll('.match-rich-select .rs-menu.open').forEach(m => m.classList.remove('open'));
+                document.querySelectorAll('.match-rich-select .rs-trigger.open').forEach(t => t.classList.remove('open'));
+            }
+        });
 
         // Handle merged MCQ (Choose TWO / THREE) — stores answers in either order
         function handleMergedMcq(cb, mod, qIds) {
@@ -3946,10 +4925,11 @@
         function updateMatchBadges(groupId) {
             const letterCount = {};
 
-            // Count from dropdowns
-            const dropdowns = document.querySelectorAll(`select.match-dropdown[data-match-group="${groupId}"]`);
-            dropdowns.forEach(dd => {
-                if (dd.value) letterCount[dd.value] = (letterCount[dd.value] || 0) + 1;
+            // Count from rich-select triggers
+            const triggers = document.querySelectorAll(`.match-rich-select[data-match-group="${groupId}"] .rs-trigger`);
+            triggers.forEach(trig => {
+                const val = trig.getAttribute('data-value');
+                if (val) letterCount[val] = (letterCount[val] || 0) + 1;
             });
 
             // Count from letter buttons (map-labeling)
@@ -3964,22 +4944,30 @@
 
             const usedLetters = new Set(Object.keys(letterCount));
 
-            // Update dropdown options with checkmarks and dup warnings
-            dropdowns.forEach(dd => {
-                dd.querySelectorAll('option').forEach(opt => {
+            // Update rich-select options with checkmarks and dup warnings on triggers
+            const richSelects = document.querySelectorAll(`.match-rich-select[data-match-group="${groupId}"]`);
+            richSelects.forEach(rs => {
+                rs.querySelectorAll('.rs-option').forEach(opt => {
                     const baseText = opt.getAttribute('data-base-text');
                     if (!baseText) return;
-                    if (usedLetters.has(opt.value)) {
+                    if (usedLetters.has(opt.getAttribute('data-value'))) {
                         opt.textContent = `✓ ${baseText}`;
-                        opt.classList.add('used-option');
+                        opt.classList.add('used');
                     } else {
                         opt.textContent = baseText;
-                        opt.classList.remove('used-option');
+                        opt.classList.remove('used');
                     }
                 });
-                const warn = dd.closest('.match-dropdown-wrap')?.querySelector('.dup-warn');
+                const trig = rs.querySelector('.rs-trigger');
+                const val = trig ? trig.getAttribute('data-value') : '';
+                if (val && letterCount[val] > 1) {
+                    trig.classList.add('duplicate');
+                } else if (trig) {
+                    trig.classList.remove('duplicate');
+                }
+                const warn = rs.closest('.match-dropdown-wrap')?.querySelector('.dup-warn');
                 if (warn) {
-                    warn.style.display = (dd.value && letterCount[dd.value] > 1) ? 'inline-block' : 'none';
+                    warn.style.display = (val && letterCount[val] > 1) ? 'inline-block' : 'none';
                 }
             });
 
@@ -4230,7 +5218,16 @@
         })();
 
         // ===== START EXAM FLOW =====
+        // Re-enter fullscreen if the landing page was in fullscreen
+        function enterFullscreen() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
         document.getElementById('start-exam-btn').onclick = async () => {
+            enterFullscreen();
             const rawName = document.getElementById('candidate-name-input').value;
             const result = validateAndFormatName(rawName);
             const passcodeInput = document.getElementById('passcode-input');
@@ -4359,7 +5356,35 @@
             if (p.get('S')) state.testIds.speaking = p.get('S');
 
             console.log('IELTS Full Mock - Starting with Test IDs:', state.testIds);
+
+            // Session recovery check
+            if (window.SessionRecovery) {
+              try {
+                var session = await SessionRecovery.check();
+                if (session) {
+                  var choice = await SessionRecovery.prompt(session);
+                  if (choice === 'resume') {
+                    var sd = session.session_data;
+                    state.step = sd.step || 0;
+                    state.testIds = sd.testIds || state.testIds;
+                    state.referenceNumber = sd.referenceNumber || state.referenceNumber;
+                    state.answers = sd.answers || state.answers;
+                    state.scores = sd.scores || state.scores;
+                    state.scaledScores = sd.scaledScores || state.scaledScores;
+                    state.isPremiumVip = sd.isPremiumVip || false;
+                    window._srResumeData = sd;
+                    showIeltsModTutorial(state.step);
+                    SessionRecovery.start();
+                    return;
+                  } else {
+                    await SessionRecovery.clear();
+                  }
+                }
+              } catch(e) { console.warn('Session recovery check failed:', e); }
+            }
+
             showIeltsModTutorial(0);
+            if (window.SessionRecovery) SessionRecovery.start();
         }
 
         // ===== MODULE INTRO TUTORIALS =====
@@ -4813,6 +5838,7 @@
         }
 
         function ieltsConfirmPhotoAndStart() {
+            _iosUnlockAudio();
             if (!state.candidatePhoto) { alert('Please add a photo first.'); return; }
             document.getElementById('ielts-photo-capture-overlay').style.display = 'none';
             startModule();
@@ -4879,6 +5905,26 @@
 
                 startTimer();
                 renderPart();
+
+                // Session recovery: restore timer + part + answers for current module
+                if (window._srResumeData) {
+                  var rd = window._srResumeData;
+                  if (rd.timeRemaining != null) state.timeRemaining = rd.timeRemaining;
+                  if (state.step !== 3) {
+                    // Non-speaking modules: restore part and answers
+                    if (rd.currentPart != null) { state.currentPart = rd.currentPart; renderPart(); }
+                    var mod = state.modules[state.step].toLowerCase();
+                    if (state.answers[mod] && Object.keys(state.answers[mod]).length > 0) {
+                      SessionRecovery.restoreAnswers(state.answers[mod]);
+                    }
+                  }
+                  // Speaking module resumes from Q0 (audio blobs are in-memory only, lost on close)
+                  window._srResumeData = null;
+                }
+
+                // Show FAB now that test is actually running
+                var fabC = document.getElementById('mobFabContainer');
+                if (fabC) fabC.style.removeProperty('display');
             };
             s.onerror = () => alert('Failed to load: ' + fname);
             document.head.appendChild(s);
@@ -5164,18 +6210,26 @@
         }
 
         // ===== RENDER PART DISPATCHER =====
-        /* Move part-nav-bar into header on mobile */
+        /* Move part-nav-bar into header on mobile (skip for writing — header is hidden) */
         function syncMobilePartNav() {
             const hdr = document.querySelector('.header-content');
             const mc = document.getElementById('module-container');
             if (!hdr || !mc) return;
 
+            const isWriting = state.modules[state.step] === 'WRITING';
+
             if (window.innerWidth <= 768) {
-                // Move bar from module-container into header
-                const old = hdr.querySelector('.part-nav-bar');
-                if (old) old.remove();
-                const bar = mc.querySelector('.part-nav-bar');
-                if (bar) hdr.insertBefore(bar, hdr.firstChild);
+                if (isWriting) {
+                    // For writing, keep part-nav-bar in module-container (header is hidden)
+                    const bar = hdr.querySelector('.part-nav-bar');
+                    if (bar) mc.insertBefore(bar, mc.firstChild);
+                } else {
+                    // Move bar from module-container into header
+                    const old = hdr.querySelector('.part-nav-bar');
+                    if (old) old.remove();
+                    const bar = mc.querySelector('.part-nav-bar');
+                    if (bar) hdr.insertBefore(bar, hdr.firstChild);
+                }
             } else {
                 // On desktop, ensure bar is back in module-container
                 const bar = hdr.querySelector('.part-nav-bar');
@@ -5244,7 +6298,7 @@
                         html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
                             <span class="gap-number">${item.gapId}</span>
                             <span>${item.text}</span>
-                            <input type="text" class="gap-input" value="${ans}" 
+                            <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
                                 onchange="saveAns('listening','${qId}',this.value)" 
                                 placeholder="..." style="min-width:150px;">
                             ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
@@ -5280,7 +6334,7 @@
                                 html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
                                     <span class="gap-number">${item.gapId}</span>
                                     <span>${item.text}</span>
-                                    <input type="text" class="gap-input" value="${ans}" 
+                                    <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
                                         onchange="saveAns('listening','${qId}',this.value)" 
                                         placeholder="..." style="min-width:150px;">
                                     ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
@@ -5315,7 +6369,7 @@
                                     const qId = `L-${pIdx}-${cell.gapId}`;
                                     const ans = state.answers.listening[qId] || '';
                                     html += `<span>${cell.prefix || ''}</span>
-                                        <input type="text" class="gap-input" value="${ans}" 
+                                        <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
                                             onchange="saveAns('listening','${qId}',this.value)" 
                                             placeholder="..." style="min-width:100px;margin:0 4px;">
                                         <span>${cell.suffix || ''}</span>`;
@@ -5468,20 +6522,22 @@
                         sub.speakers?.forEach(sp => {
                             const qId = `L-${pIdx}-${sp.id}`;
                             const ans = state.answers.listening[qId] || '';
+                            const ansTxt = ans ? (() => { const m = sub.options?.find(o => o.letter === ans); return m ? `${m.letter} - ${m.text}` : ans; })() : '-- Select --';
                             html += `<div class="question-card" data-match-group="${matchGroupId}" data-qid="${qId}">
                                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
                                     <span class="gap-number">${sp.id}</span>
                                     <span style="font-weight:600;">${sp.label}</span>
                                 </div>
                                 <div class="match-dropdown-wrap">
-                                    <select class="match-dropdown" data-match-group="${matchGroupId}"
-                                        onchange="saveAns('listening','${qId}',this.value);updateMatchBadges('${matchGroupId}')">
-                                        <option value="">-- Select --</option>`;
+                                    <div class="match-rich-select" data-match-group="${matchGroupId}">
+                                        <div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${matchGroupId}" onclick="toggleMatchSelect(this, event)">${ansTxt}</div>
+                                        <div class="rs-menu" id="rs-menu-${qId}">
+                                            <div class="rs-option" data-value="" onclick="selectMatchOption(this,'listening','${qId}','','-- Select --','${matchGroupId}',event)">-- Select --</div>`;
                             sub.options?.forEach(opt => {
-                                const sel = ans === opt.letter ? 'selected' : '';
-                                html += `<option value="${opt.letter}" ${sel} data-base-text="${opt.letter} - ${opt.text.replace(/"/g, '&quot;')}">${opt.letter} - ${opt.text}</option>`;
+                                const baseText = `${opt.letter} - ${opt.text}`;
+                                html += `<div class="rs-option${ans === opt.letter ? ' selected' : ''}" data-value="${opt.letter}" data-base-text="${baseText.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'listening','${qId}','${opt.letter}',this.getAttribute('data-base-text'),'${matchGroupId}',event)">${baseText}</div>`;
                             });
-                            html += `</select>
+                            html += `</div></div>
                                     <span class="dup-warn" title="Duplicate selection">!</span>
                                 </div>
                             </div>`;
@@ -5506,18 +6562,20 @@
                             const qNum = qMatch ? parseInt(qMatch[1]) : (26 + si);
                             const qId = `L-${pIdx}-${qNum}`;
                             const ans = state.answers.listening[qId] || '';
+                            const ansTxt = ans ? (() => { const m = sub.options?.find(o => o.letter === ans); return m ? `${m.letter} - ${m.text}` : ans; })() : '-- Select --';
                             const displayText = step.text.replace(/(\d+)/, `<span class="gap-number" style="display:inline;padding:2px 8px;font-size:13px;">$1</span>`);
                             html += `<div class="question-card" data-match-group="${flowGroupId}" data-qid="${qId}" style="position:relative;">
                                 <p style="line-height:1.8;margin-bottom:8px;">${displayText}</p>
                                 <div class="match-dropdown-wrap">
-                                    <select class="match-dropdown" data-match-group="${flowGroupId}"
-                                        onchange="saveAns('listening','${qId}',this.value);updateMatchBadges('${flowGroupId}')">
-                                        <option value="">-- Select --</option>`;
+                                    <div class="match-rich-select" data-match-group="${flowGroupId}">
+                                        <div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${flowGroupId}" onclick="toggleMatchSelect(this, event)">${ansTxt}</div>
+                                        <div class="rs-menu" id="rs-menu-${qId}">
+                                            <div class="rs-option" data-value="" onclick="selectMatchOption(this,'listening','${qId}','','-- Select --','${flowGroupId}',event)">-- Select --</div>`;
                             sub.options?.forEach(opt => {
-                                const sel = ans === opt.letter ? 'selected' : '';
-                                html += `<option value="${opt.letter}" ${sel} data-base-text="${opt.letter} - ${opt.text.replace(/"/g, '&quot;')}">${opt.letter} - ${opt.text}</option>`;
+                                const baseText = `${opt.letter} - ${opt.text}`;
+                                html += `<div class="rs-option${ans === opt.letter ? ' selected' : ''}" data-value="${opt.letter}" data-base-text="${baseText.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'listening','${qId}','${opt.letter}',this.getAttribute('data-base-text'),'${flowGroupId}',event)">${baseText}</div>`;
                             });
-                            html += `</select>
+                            html += `</div></div>
                                     <span class="dup-warn" title="Duplicate selection">!</span>
                                 </div>`;
                             if (si < sub.steps.length - 1) {
@@ -5550,7 +6608,7 @@
                             </div>`;
                         });
                     } else {
-                        html += `<input type="text" class="fill-input" value="${ans}" 
+                        html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}" 
                             onchange="saveAns('listening','${qId}',this.value)" placeholder="Type your answer">`;
                     }
                     html += `</div>`;
@@ -5912,28 +6970,30 @@
                             const _isHeadings = type === 'matching-headings';
 
                             html += `<div class="match-dropdown-wrap" data-match-group="${readMatchGroup}" data-qid="${qId}">`;
-                            html += `<select class="match-dropdown" data-match-group="${readMatchGroup}"
-                                onchange="saveAns('reading','${qId}',this.value);updateMatchBadges('${readMatchGroup}')">`;
-                            html += `<option value="">Select...</option>`;
+                            html += `<div class="match-rich-select" data-match-group="${readMatchGroup}">`;
+                            let _trigText = 'Select...';
+                            let _optionsHtml = `<div class="rs-option" data-value="" onclick="selectMatchOption(this,'reading','${qId}','','Select...','${readMatchGroup}',event)">Select...</div>`;
 
                             if (_isHeadings && sec.headingsList && sec.headingsList.length > 0) {
                                 const _romNums = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'];
                                 sec.headingsList.forEach((h, hi) => {
                                     const val = _romNums[hi] || String(hi + 1);
-                                    const sel = ans === val ? 'selected' : '';
-                                    html += `<option value="${val}" ${sel} data-base-text="${val}">${val}. ${h}</option>`;
+                                    const baseText = `${val}. ${h}`;
+                                    if (ans === val) _trigText = baseText;
+                                    _optionsHtml += `<div class="rs-option${ans === val ? ' selected' : ''}" data-value="${val}" data-base-text="${val}" onclick="selectMatchOption(this,'reading','${qId}','${val}',this.textContent,'${readMatchGroup}',event)">${baseText}</div>`;
                                 });
                             } else {
                                 const options = sec.featuresList || ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
                                 options.forEach(opt => {
                                     const letter = opt.split(' ')[0];
                                     const dText = _isFeatMatch ? opt : letter;
-                                    const sel = ans === letter ? 'selected' : '';
-                                    html += `<option value="${letter}" ${sel} data-base-text="${dText}">${dText}</option>`;
+                                    if (ans === letter) _trigText = dText;
+                                    _optionsHtml += `<div class="rs-option${ans === letter ? ' selected' : ''}" data-value="${letter}" data-base-text="${dText}" onclick="selectMatchOption(this,'reading','${qId}','${letter}','${dText.replace(/'/g, "\\'").replace(/"/g, '&quot;')}','${readMatchGroup}',event)">${dText}</div>`;
                                 });
                             }
-                            html += `</select>`;
-                            html += `<span class="dup-warn" title="Duplicate selection">!</span>`;
+                            html += `<div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${readMatchGroup}" onclick="toggleMatchSelect(this, event)">${_trigText}</div>`;
+                            html += `<div class="rs-menu" id="rs-menu-${qId}">${_optionsHtml}</div>`;
+                            html += `</div>`;
                             html += `</div>`;
 
                         } else if (type === 'list-selection') {
@@ -5942,15 +7002,16 @@
                             const hasInput = qText.includes('{INPUT}');
                             const _lsGrp = `rmatch-${pIdx}-${secIdx}`;
 
-                            let _selH = `<select class="match-dropdown" style="display:inline-block;width:auto;min-width:140px;vertical-align:middle;" data-match-group="${_lsGrp}"
-                                onchange="saveAns('reading','${qId}',this.value);updateMatchBadges('${_lsGrp}')">`;
-                            _selH += `<option value="">...</option>`;
+                            const _ansTxt = ans ? (() => { const m = (sec.featuresList || []).find(o => o.charAt(0) === ans); return m || ans; })() : '...';
+                            let _selH = `<div class="match-rich-select inline-rs" data-match-group="${_lsGrp}">`;
+                            _selH += `<div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${_lsGrp}" onclick="toggleMatchSelect(this, event)">${_ansTxt}</div>`;
+                            _selH += `<div class="rs-menu" id="rs-menu-${qId}">`;
+                            _selH += `<div class="rs-option" data-value="" onclick="selectMatchOption(this,'reading','${qId}','','...','${_lsGrp}',event)">...</div>`;
                             (sec.featuresList || []).forEach(o => {
                                 const _lt = o.charAt(0);
-                                const _sl = ans === _lt ? 'selected' : '';
-                                _selH += `<option value="${_lt}" ${_sl} data-base-text="${o}">${o}</option>`;
+                                _selH += `<div class="rs-option${ans === _lt ? ' selected' : ''}" data-value="${_lt}" data-base-text="${o.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'reading','${qId}','${_lt}',this.getAttribute('data-base-text'),'${_lsGrp}',event)">${o}</div>`;
                             });
-                            _selH += `</select>`;
+                            _selH += `</div></div>`;
 
                             if (hasInput) {
                                 qText = qText.replace('{INPUT}', _selH);
@@ -5965,7 +7026,7 @@
                             // Strip embedded duplicate question number before {INPUT}
                             qText = qText.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
                             const hasInput = qText.includes('{INPUT}') || /[\._ …]{3,}/.test(qText);
-                            const inputHtml = `<input type="text" class="fill-input inline-input" value="${ans}"
+                            const inputHtml = `<input type="text" autocomplete="off" class="fill-input inline-input" value="${ans}"
                                 onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="...">`;
                             const inlineGapHtml = `<span class="inline-gap-with-number"><span class="gap-number-badge">${qNum}</span>${inputHtml}</span>`;
 
@@ -5974,7 +7035,7 @@
                                 html += `<p class="q-number">${qText}</p>`;
                             } else {
                                 html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText}</p>`;
-                                html += `<input type="text" class="fill-input" value="${ans}"
+                                html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}"
                                     onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="Type your answer">`;
                             }
 
@@ -5984,7 +7045,7 @@
                             const hasInput = qText.includes('{INPUT}');
 
                             if (hasInput) {
-                                const inputHtml = `<input type="text" class="fill-input inline-input" value="${ans}"
+                                const inputHtml = `<input type="text" autocomplete="off" class="fill-input inline-input" value="${ans}"
                                     onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="...">`;
                                 const inlineGapHtml = `<span class="inline-gap-with-number"><span class="gap-number-badge">${qNum}</span>${inputHtml}</span>`;
                                 qText = qText.replace('{INPUT}', inlineGapHtml);
@@ -6001,7 +7062,7 @@
                                 });
                             } else {
                                 html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText}</p>`;
-                                html += `<input type="text" class="fill-input" value="${ans}"
+                                html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}"
                                     onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="Type your answer">`;
                             }
                         }
@@ -6017,8 +7078,8 @@
             moduleContainer.innerHTML = html;
 
             // Trigger badge updates for reading matching dropdowns
-            document.querySelectorAll('.match-dropdown[data-match-group^="rmatch-"]').forEach(dd => {
-                const grp = dd.getAttribute('data-match-group');
+            document.querySelectorAll('.match-rich-select[data-match-group^="rmatch-"]').forEach(rs => {
+                const grp = rs.getAttribute('data-match-group');
                 if (grp) setTimeout(() => updateMatchBadges(grp), 0);
             });
 
@@ -6134,14 +7195,15 @@
             let isDragging = false;
             let startPos = 0;
             let startWidth = 0;
-            const isMobile = window.innerWidth <= 900;
+
+            function getIsMobile() { return window.innerWidth <= 900; }
 
             function startDrag(e) {
                 isDragging = true;
                 dragger.classList.add('dragging');
                 container.classList.add('resizing');
 
-                if (isMobile) {
+                if (getIsMobile()) {
                     startPos = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
                     startWidth = leftPane.offsetHeight;
                 } else {
@@ -6154,19 +7216,20 @@
 
             function doDrag(e) {
                 if (!isDragging) return;
+                e.preventDefault();
 
                 let currentPos, delta, newSize, containerSize, minSize, maxSize;
 
-                if (isMobile) {
+                if (getIsMobile()) {
                     currentPos = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
                     delta = currentPos - startPos;
                     containerSize = container.offsetHeight;
                     minSize = containerSize * 0.2;
                     maxSize = containerSize * 0.8;
                     newSize = Math.min(maxSize, Math.max(minSize, startWidth + delta));
-                    leftPane.style.height = newSize + 'px';
-                    leftPane.style.maxHeight = 'none';
-                    leftPane.style.minHeight = 'auto';
+                    leftPane.style.setProperty('height', newSize + 'px', 'important');
+                    leftPane.style.setProperty('max-height', 'none', 'important');
+                    leftPane.style.setProperty('min-height', '0', 'important');
                 } else {
                     currentPos = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
                     delta = currentPos - startPos;
@@ -6233,7 +7296,7 @@
                 const tag = e.target.tagName;
                 // Don't interfere with form controls
                 if (['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA'].includes(tag)) return;
-                if (e.target.closest('.match-dropdown-wrap')) return;
+                if (e.target.closest('.match-dropdown-wrap') || e.target.closest('.match-rich-select')) return;
                 if (e.target.closest('.letter-btn') || e.target.closest('.map-draw-btn')) return;
 
                 // Click on existing highlight to remove it
@@ -6293,7 +7356,7 @@
             let longPressTarget = null;
             document.addEventListener('touchstart', (e) => {
                 if (['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA'].includes(e.target.tagName)) return;
-                if (e.target.closest('.option-item') || e.target.closest('.match-dropdown-wrap')) return;
+                if (e.target.closest('.option-item') || e.target.closest('.match-dropdown-wrap') || e.target.closest('.match-rich-select')) return;
                 if (e.target.closest('.letter-btn') || e.target.closest('.map-draw-btn')) return;
                 longPressTarget = e.target;
                 longPressTimer = setTimeout(() => {
@@ -6454,6 +7517,17 @@
         let gttsPreloadComplete = false;
         let currentSpeakingAudio = null;
         let currentSpeakingResolve = null;
+
+        // iOS audio unlock: create a persistent audio element and prime it on user gesture
+        window._iosAudioEl = null;
+        function _iosUnlockAudio() {
+            if (window._iosAudioEl) return;
+            var a = new Audio();
+            a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+            a.volume = 0;
+            a.play().then(function() { a.pause(); }).catch(function() {});
+            window._iosAudioEl = a;
+        }
 
         // Audio context for beeps
         let fmAudioCtx = null;
@@ -6933,7 +8007,9 @@
         function playAudioFile(url) {
             return new Promise((resolve) => {
                 stopSpeakingAudio();
-                const audio = new Audio(url);
+                const audio = window._iosAudioEl || new Audio();
+                audio.src = url;
+                audio.volume = 1.0;
                 currentSpeakingAudio = audio;
                 currentSpeakingResolve = resolve;
                 audio.onended = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(); };
@@ -7157,6 +8233,34 @@
         };
 
         // ===== SCORING FUNCTIONS =====
+
+        // British ↔ American spelling variant pairs (shared by listening & reading scoring)
+        const SPELLING_PAIRS = [
+          ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+          ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+          ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+          ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+          ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+          ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+        ];
+        const _spellingMapUpper = {};
+        SPELLING_PAIRS.forEach(pair => {
+          pair.forEach((w, i) => {
+            const wu = w.toUpperCase();
+            if (!_spellingMapUpper[wu]) _spellingMapUpper[wu] = [];
+            pair.forEach((v, j) => { if (i !== j && _spellingMapUpper[wu].indexOf(v.toUpperCase()) === -1) _spellingMapUpper[wu].push(v.toUpperCase()); });
+          });
+          pair.forEach((w, i) => {
+            const ws = w.toUpperCase() + 'S';
+            if (!_spellingMapUpper[ws]) _spellingMapUpper[ws] = [];
+            pair.forEach((v, j) => { if (i !== j && _spellingMapUpper[ws].indexOf(v.toUpperCase() + 'S') === -1) _spellingMapUpper[ws].push(v.toUpperCase() + 'S'); });
+          });
+        });
+        function getSpellingVariantsUpper(word) {
+          if (!word) return [];
+          return _spellingMapUpper[word.toUpperCase()] || [];
+        }
+
         function scoreListening() {
             const data = state.moduleData.listening;
             if (!data?.parts) return;
@@ -7183,6 +8287,8 @@
                 for (const k in nwL) { if (nwL[k] === x && res.indexOf(k) === -1) res.push(k); }
                 if (owL[x] && res.indexOf(owL[x]) === -1) res.push(owL[x]);
                 for (const o in owL) { if (owL[o] === x && res.indexOf(o) === -1) res.push(o); }
+                const sv = getSpellingVariantsUpper(x);
+                for (let si = 0; si < sv.length; si++) { if (res.indexOf(sv[si]) === -1) res.push(sv[si]); }
                 return res;
             }
             function isEqL(u, c) { const ue = eqL(u), ce = eqL(c); return ue.some(v => ce.indexOf(v) !== -1); }
@@ -7336,6 +8442,8 @@
                 for (const k in numberWords) { if (numberWords[k] === x && res.indexOf(k) === -1) res.push(k); }
                 if (ordinalWords[x] && res.indexOf(ordinalWords[x]) === -1) res.push(ordinalWords[x]);
                 for (const ow in ordinalWords) { if (ordinalWords[ow] === x && res.indexOf(ow) === -1) res.push(ow); }
+                const sv = getSpellingVariantsUpper(x);
+                for (let si = 0; si < sv.length; si++) { if (res.indexOf(sv[si]) === -1) res.push(sv[si]); }
                 return res;
             }
             function isEquivalent(userStr, correctStr) {
@@ -7432,16 +8540,17 @@
                 return { band: 5, feedback: 'Unable to grade.' };
             }
 
-            let prompt = `You are a FAIR and BALANCED expert IELTS Writing examiner. Grade the following IELTS Writing responses using the official IELTS band descriptors (Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy).
+            let prompt = `You are a STRICT but FAIR expert IELTS Writing examiner. Grade the following IELTS Writing responses using the official IELTS band descriptors (Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy).
 
 🧑‍🏫 SCORING PHILOSOPHY:
-- These are ESL/EFL learners — score what they CAN do, not nitpick every slip.
+- Score HONESTLY based on what you see. Each criterion MUST be scored INDEPENDENTLY.
+- DIFFERENTIATE between criteria — it is extremely rare for all 4 scores to be identical. A student with good ideas but poor grammar should get higher TA/CC but lower GRA.
 - IGNORE minor slips: missing commas/full stops, accidental capitalization, spacing, obvious typos where meaning is clear.
-- Only PENALIZE: systematic grammar errors, limited vocabulary, poor task achievement, lack of coherence.
-- When in doubt between two bands, give the HIGHER band — underscoring demotivates learners.
-- CALIBRATION: Your scores tend to be 0.5-1.0 band LOWER than human examiners — you MUST adjust UP by 0.5 band on EVERY criterion.
-- A student who addresses the task with some errors = 6.0-6.5, NOT 5.0-5.5. Good content + minor errors = 6.5-7.0; Excellent = 7.5+
-- KEY: If errors don't seriously impair understanding, minimum band should be 5.5 for on-topic writing.
+- PENALIZE: systematic grammar errors (subject-verb agreement, tense errors, article misuse), limited vocabulary range, poor task achievement, lack of coherence.
+- GRA CALIBRATION: Count the grammar errors. 5+ systematic errors in a task = max GRA 5.5. 3-4 systematic errors = max GRA 6.0. Only give GRA 6.5+ if grammar is mostly accurate with occasional errors.
+- LR CALIBRATION: Repetitive vocabulary or lack of less common words = max LR 5.5-6.0. Some less common items with occasional errors = 6.0-6.5.
+- TA CALIBRATION: Addresses all parts of the task clearly = 6.0-7.0. Partially addresses = 5.0-5.5.
+- CC CALIBRATION: Clear overall progression with some lapses = 6.0-6.5. Mechanical linking = 5.5.
 
 🚫 ANTI-BOILERPLATE RULE:
 - Every feedback point MUST quote a SPECIFIC error from the student's text and show the CORRECTED version.
@@ -7465,11 +8574,11 @@ ${response}
             });
 
             prompt += `
-Provide your assessment in this exact JSON format:
+Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria — identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 — NOT half bands):
 {
-  "task1": { "band": 6.5, "ta": 6.5, "cc": 6.5, "lr": 6.5, "gra": 6.5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
-  "task2": { "band": 6.5, "ta": 6.5, "cc": 6.5, "lr": 6.5, "gra": 6.5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
-  "overall": { "band": 6.5, "summary": "Overall summary with specific strengths and 1-2 key areas to improve" }
+  "task1": { "band": 5.75, "ta": 6, "cc": 6, "lr": 5, "gra": 6, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
+  "task2": { "band": 5.75, "ta": 6, "cc": 6, "lr": 6, "gra": 5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' → 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
+  "overall": { "band": 6.0, "summary": "Overall summary with specific strengths and 1-2 key areas to improve" }
 }`;
 
 
@@ -7479,8 +8588,8 @@ Provide your assessment in this exact JSON format:
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.3, response_mime_type: 'application/json' },
-                        systemInstruction: { parts: [{ text: 'You are a senior IELTS Writing examiner. SCORING CALIBRATION: You MUST adjust UP by 0.5 band on every criterion — your default scores are too low. A coherent response that addresses the task with reasonable vocabulary and grammar should score 6.0-6.5, NOT 5.0-5.5. A good response with minor errors should score 6.5-7.0. Only deduct when you can point to a specific error in the text. ANTI-BOILERPLATE RULE: Every feedback point MUST quote the exact words from the student text. If you cannot quote it, do not mention it. FORBIDDEN generic phrases: "Consider improving", "Try to use more", "Work on your". Instead: quote the error → show the corrected version.' }] }
+                        generationConfig: { temperature: 0.5, response_mime_type: 'application/json' },
+                        systemInstruction: { parts: [{ text: 'You are a senior IELTS Writing examiner. CRITICAL: Score each criterion INDEPENDENTLY — it is extremely rare for all 4 sub-scores to be identical. Students typically have DIFFERENT strengths: good ideas but weak grammar, or accurate grammar but limited vocabulary. If you find 3+ grammar mistakes, GRA must be lower than TA. Count actual errors before scoring. ANTI-BOILERPLATE RULE: Every feedback point MUST quote the exact words from the student text. If you cannot quote it, do not mention it. FORBIDDEN generic phrases: "Consider improving", "Try to use more", "Work on your". Instead: quote the error → show the corrected version. CRITERION SCORES (TA, CC, LR, GRA) must be WHOLE NUMBERS (5, 6, 7, 8) — NO half bands for criteria. Task band = average of criteria (can be half band).' }] }
                     })
                 });
                 if (!res.ok) throw new Error(`API returned status ${res.status}`);
@@ -7495,7 +8604,9 @@ Provide your assessment in this exact JSON format:
                 const txt = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
                 if (!txt) throw new Error('Empty response from AI');
 
-                const match = txt.match(/\{[\s\S]*\}/);
+                // Sanitize control characters that break JSON.parse
+                const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
+                const match = cleanTxt.match(/\{[\s\S]*\}/);
                 if (match) {
                     const parsed = JSON.parse(match[0]);
 
@@ -7508,8 +8619,30 @@ Provide your assessment in this exact JSON format:
                     state.aiResults.writing = parsed;
                     state.aiFailed.writing = false;
                     state.aiError.writing = '';
+
+                    // FLAT-SCORE BREAKER for writing criteria
+                    function breakFlat(ta, cc, lr, gra) {
+                      ta = Math.round(ta || 5); cc = Math.round(cc || 5); lr = Math.round(lr || 5); gra = Math.round(gra || 5);
+                      if (ta === cc && cc === lr && lr === gra && ta > 1) {
+                        console.warn('[Flat-score breaker] All criteria identical (' + ta + '). Adjusting.');
+                        return { ta, cc, lr: Math.max(1, lr - 1), gra: Math.max(1, gra - 1) };
+                      }
+                      return { ta, cc, lr, gra };
+                    }
+                    if (parsed.task1) {
+                      const t1f = breakFlat(parsed.task1.ta, parsed.task1.cc, parsed.task1.lr, parsed.task1.gra);
+                      parsed.task1.ta = t1f.ta; parsed.task1.cc = t1f.cc; parsed.task1.lr = t1f.lr; parsed.task1.gra = t1f.gra;
+                      parsed.task1.band = Math.round(((t1f.ta + t1f.cc + t1f.lr + t1f.gra) / 4) * 2) / 2;
+                    }
+                    if (parsed.task2) {
+                      const t2f = breakFlat(parsed.task2.ta, parsed.task2.cc, parsed.task2.lr, parsed.task2.gra);
+                      parsed.task2.ta = t2f.ta; parsed.task2.cc = t2f.cc; parsed.task2.lr = t2f.lr; parsed.task2.gra = t2f.gra;
+                      parsed.task2.band = Math.round(((t2f.ta + t2f.cc + t2f.lr + t2f.gra) / 4) * 2) / 2;
+                    }
+
                     const rawBand = parsed.overall?.band || 5;
-                    state.scaledScores.w = rawBand >= 4 ? Math.min(9, rawBand + 0.5) : rawBand;
+                    const _wBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    state.scaledScores.w = Math.min(9, rawBand + _wBoost);
                     return parsed;
                 } else {
                     throw new Error('Could not parse AI response');
@@ -7547,6 +8680,8 @@ Provide your assessment in this exact JSON format:
 
             let prompt = `You are an IELTS Speaking examiner. Grade the following IELTS Speaking responses using the official IELTS band descriptors (Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation approximated from text).
 
+CRITICAL: Score each criterion INDEPENDENTLY — it is extremely rare for all 4 scores to be identical. A student may be fluent but have weak grammar, or have good vocabulary but poor coherence. DIFFERENTIATE the scores based on actual evidence.
+
 `;
             speakingResponses.forEach((item, i) => {
                 prompt += `--- Response ${i + 1} (${item.question}) ---
@@ -7556,13 +8691,13 @@ ${item.answer}
             });
 
             prompt += `
-Provide your assessment in this exact JSON format:
+Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria — identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 — NOT half bands):
 {
-  "fluency": 6.5,
-  "lexical": 6.5,
-  "grammar": 6.5,
-  "pronunciation": 6.5,
-  "overall": { "band": 6.5, "summary": "Brief overall summary of speaking performance" }
+  "fluency": 7,
+  "lexical": 6,
+  "grammar": 5,
+  "pronunciation": 6,
+  "overall": { "band": 6.0, "summary": "Brief overall summary of speaking performance" }
 }`;
 
             try {
@@ -7586,7 +8721,9 @@ Provide your assessment in this exact JSON format:
                 const txt = json.candidates?.[0]?.content?.parts?.[0]?.text || '';
                 if (!txt) throw new Error('Empty response from AI');
 
-                const match = txt.match(/\{[\s\S]*\}/);
+                // Sanitize control characters that break JSON.parse
+                const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
+                const match = cleanTxt.match(/\{[\s\S]*\}/);
                 if (match) {
                     const parsed = JSON.parse(match[0]);
 
@@ -7600,7 +8737,8 @@ Provide your assessment in this exact JSON format:
                     state.aiFailed.speaking = false;
                     state.aiError.speaking = '';
                     const rawBand = parsed.overall?.band || 6.5;
-                    state.scaledScores.s = rawBand >= 4 ? Math.min(9, rawBand + 0.5) : rawBand;
+                    const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    state.scaledScores.s = Math.min(9, rawBand + _sBoost);
                     return parsed;
                 } else {
                     throw new Error('Could not parse AI response');
@@ -7679,6 +8817,8 @@ Provide your assessment in this exact JSON format:
 
         // ===== RESULTS DISPLAY =====
         async function showResults() {
+            // Clear session recovery when exam is fully complete
+            if (window.SessionRecovery) SessionRecovery.clear();
             document.getElementById('break-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'none';
             const resultsDiv = document.getElementById('results-overlay');
@@ -7693,8 +8833,18 @@ Provide your assessment in this exact JSON format:
                     </div>
                 `;
                 // PREMIUM: Grade writing and speaking with AI
-                await gradeWritingWithAI();
-                await gradeSpeakingWithAI();
+                try {
+                    await gradeWritingWithAI();
+                } catch (aiErr) {
+                    console.error('[Results] gradeWritingWithAI failed:', aiErr);
+                    state.scaledScores.w = 0;
+                }
+                try {
+                    await gradeSpeakingWithAI();
+                } catch (aiErr) {
+                    console.error('[Results] gradeSpeakingWithAI failed:', aiErr);
+                    state.scaledScores.s = 0;
+                }
 
                 // Calculate overall from all 4 skills
                 const { l, r, w, s } = state.scaledScores;
@@ -8086,41 +9236,219 @@ Provide your assessment in this exact JSON format:
         // Listening Report HTML
         function ieltsGenerateListeningReportHTML(name, date, time) {
             const sl = state.scores.listening;
-            const answers = state.answers.listening || {};
-            let answersHTML = '';
-            Object.entries(answers).forEach(([q, ans]) => {
-                answersHTML += `<tr><td>Q${q}</td><td>${ans || '-'}</td></tr>`;
-            });
-            return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Listening Report - ${name}</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:40px auto;padding:20px;background:#f9fafb;}
-.header{background:linear-gradient(135deg,#dc2626,#991b1b);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}
-.header h1{margin:0 0 10px;font-size:28px;}.score-card{background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:24px;}
-.score{font-size:48px;font-weight:800;color:#dc2626;}table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;}th{background:#f1f5f9;font-weight:600;}</style></head><body>
-<div class="header"><h1>🎧 IELTS Listening Report</h1><p>${name} | ${date} ${time}</p></div>
-<div class="score-card"><div class="score">${sl.c} / ${sl.t}</div><p>Correct Answers</p>
-<p style="font-size:20px;font-weight:700;color:#dc2626;">Band: ${state.scaledScores.l.toFixed(1)}</p></div>
-<h3>Candidate Answers</h3><table><tr><th>Question</th><th>Answer</th></tr>${answersHTML}</table></body></html>`;
+            const data = state.moduleData.listening;
+            const pct = sl.t > 0 ? Math.round((sl.c / sl.t) * 100) : 0;
+            const wrong = sl.t - sl.c;
+            const band = state.scaledScores.l ? state.scaledScores.l.toFixed(1) : '—';
+
+            // Simplified matching for display (score already computed accurately)
+            function matchAns(userStr, correctVal) {
+                if (!userStr) return false;
+                var ua = String(userStr).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                var arr = Array.isArray(correctVal) ? correctVal : [correctVal];
+                return arr.some(function(c) {
+                    var cv = String(c).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                    if (ua === cv) return true;
+                    try { var sv = getSpellingVariantsUpper(ua); if (sv.indexOf(cv) !== -1) return true; } catch(e) {}
+                    try { var cv2 = getSpellingVariantsUpper(cv); if (cv2.indexOf(ua) !== -1) return true; } catch(e) {}
+                    return false;
+                });
+            }
+
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+
+            if (data && data.parts) {
+                data.parts.forEach((part, pIdx) => {
+                    const answers = part.answers || {};
+                    let questionIds = [];
+
+                    if (part.formContent) part.formContent.forEach(item => { if (item.gapId) questionIds.push(item.gapId); });
+                    if (part.subParts) part.subParts.forEach(sub => {
+                        if (sub.formContent) sub.formContent.forEach(item => { if (item.gapId) questionIds.push(item.gapId); });
+                        if (sub.rows) sub.rows.forEach(row => row.forEach(cell => { if (typeof cell === 'object' && cell.gapId) questionIds.push(cell.gapId); }));
+                        if (sub.extracts) sub.extracts.forEach(ext => { if (ext.questions) ext.questions.forEach(q => questionIds.push(q.id)); });
+                        if (sub.questions) sub.questions.forEach(q => questionIds.push(q.id));
+                        if (sub.speakers) sub.speakers.forEach(sp => questionIds.push(sp.id));
+                    });
+                    if (part.questions) part.questions.forEach(q => { if (q.id) questionIds.push(q.id); });
+
+                    let pc = 0, pt = 0;
+                    questionIds.forEach(qId => {
+                        pt++;
+                        const stateKey = 'L-' + pIdx + '-' + qId;
+                        const userAns = (state.answers.listening[stateKey] || '').toString().trim();
+                        const correctVal = answers[qId];
+                        const isCorrect = matchAns(userAns, correctVal);
+                        if (isCorrect) pc++;
+
+                        const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : (correctVal || '');
+                        const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                        const statusIcon = !userAns ? '—' : isCorrect ? '✓' : '✗';
+                        const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+
+                        answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qId + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">—</span>') + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td></tr>';
+
+                        detailsHTML += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                            '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qId + '</span>' +
+                            '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? '✓ Correct' : '✗ Wrong') + '</span></div>' +
+                            '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                            '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                            (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                            '</div></div>';
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + (part.title || 'Section ' + (pIdx + 1)) + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#dc2626;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+                });
+            }
+
+            return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Listening Report - ' + name + '</title>' +
+'<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;color:#1e293b;}' +
+'.header{background:linear-gradient(135deg,#dc2626,#991b1b);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}' +
+'.header h1{margin:0 0 10px;font-size:28px;}' +
+'details{margin-bottom:16px;}details>summary{cursor:pointer;user-select:none;font-weight:700;font-size:16px;padding:14px 18px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);list-style:none;}' +
+'details>summary::-webkit-details-marker{display:none;}details[open]>summary{border-radius:12px 12px 0 0;}' +
+'details>.content{background:white;padding:16px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}' +
+'@media print{.no-print{display:none !important;}}</style></head><body>' +
+'<div class="header"><h1>🎧 IELTS Listening Report</h1><p>' + name + ' | ' + date + ' ' + time + '</p></div>' +
+'<div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">' +
+'<div style="font-size:48px;font-weight:800;color:#dc2626;">' + sl.c + ' / ' + sl.t + '</div>' +
+'<div style="font-size:16px;color:#64748b;margin:4px 0 8px;">Score: ' + pct + '%</div>' +
+'<div style="font-size:28px;font-weight:800;color:#dc2626;">Band ' + band + '</div></div>' +
+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">' +
+'<div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;"><div style="font-size:24px;font-weight:800;color:#16a34a;">' + sl.c + '</div><div style="font-size:12px;color:#16a34a;font-weight:600;">✓ Correct</div></div>' +
+'<div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;"><div style="font-size:24px;font-weight:800;color:#dc2626;">' + wrong + '</div><div style="font-size:12px;color:#dc2626;font-weight:600;">✗ Incorrect</div></div>' +
+'<div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;"><div style="font-size:24px;font-weight:800;color:#0284c7;">' + sl.t + '</div><div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div></div></div>' +
+(partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : '') +
+'<details><summary>📋 Answer Summary</summary><div class="content">' +
+'<table style="width:100%;border-collapse:collapse;"><tr style="background:#f1f5f9;">' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>' +
+'<th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th></tr>' +
+answerRowsHTML + '</table></div></details>' +
+'<details><summary>📝 Detailed Questions & Answers</summary><div class="content">' + detailsHTML + '</div></details>' +
+'<div style="text-align:center;margin-top:24px;" class="no-print">' +
+'<button onclick="window.print()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">📄 Save as PDF</button></div></body></html>';
         }
 
         // Reading Report HTML
         function ieltsGenerateReadingReportHTML(name, date, time) {
             const sr = state.scores.reading;
-            const answers = state.answers.reading || {};
-            let answersHTML = '';
-            Object.entries(answers).forEach(([q, ans]) => {
-                answersHTML += `<tr><td>Q${q}</td><td>${ans || '-'}</td></tr>`;
-            });
-            return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Reading Report - ${name}</title>
-<style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:40px auto;padding:20px;background:#f9fafb;}
-.header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}
-.header h1{margin:0 0 10px;font-size:28px;}.score-card{background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:24px;}
-.score{font-size:48px;font-weight:800;color:#2563eb;}table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;}th{background:#f1f5f9;font-weight:600;}</style></head><body>
-<div class="header"><h1>📖 IELTS Reading Report</h1><p>${name} | ${date} ${time}</p></div>
-<div class="score-card"><div class="score">${sr.c} / ${sr.t}</div><p>Correct Answers</p>
-<p style="font-size:20px;font-weight:700;color:#2563eb;">Band: ${state.scaledScores.r.toFixed(1)}</p></div>
-<h3>Candidate Answers</h3><table><tr><th>Question</th><th>Answer</th></tr>${answersHTML}</table></body></html>`;
+            const data = state.moduleData.reading;
+            const pct = sr.t > 0 ? Math.round((sr.c / sr.t) * 100) : 0;
+            const wrong = sr.t - sr.c;
+            const band = state.scaledScores.r ? state.scaledScores.r.toFixed(1) : '—';
+
+            function matchAns(userStr, correctVal) {
+                if (!userStr) return false;
+                var ua = String(userStr).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                var arr = Array.isArray(correctVal) ? correctVal : [correctVal];
+                return arr.some(function(c) {
+                    var cv = String(c).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                    if (ua === cv) return true;
+                    try { var sv = getSpellingVariantsUpper(ua); if (sv.indexOf(cv) !== -1) return true; } catch(e) {}
+                    try { var cv2 = getSpellingVariantsUpper(cv); if (cv2.indexOf(ua) !== -1) return true; } catch(e) {}
+                    return false;
+                });
+            }
+
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+
+            if (data && data.passages) {
+                data.passages.forEach((passage, pIdx) => {
+                    const correctAnswers = passage.correctAnswers || {};
+                    let pc = 0, pt = 0;
+                    let passageDetails = '';
+
+                    (passage.questionSections || []).forEach((sec, secIdx) => {
+                        const rqs = sec.questions || [];
+                        rqs.forEach((q, i) => {
+                            pt++;
+                            const qNum = q.id || q.number || (i + 1);
+                            const qId = 'R-' + pIdx + '-' + secIdx + '-' + qNum;
+                            const userAns = (state.answers.reading[qId] || '').toString().trim();
+                            const correctVal = correctAnswers['q' + qNum] || correctAnswers[qNum] || '';
+                            const isCorrect = matchAns(userAns, correctVal);
+                            if (isCorrect) pc++;
+
+                            const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : (correctVal || '');
+                            const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                            const statusIcon = !userAns ? '—' : isCorrect ? '✓' : '✗';
+                            const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+
+                            answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qNum + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">—</span>') + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td></tr>';
+
+                            let questionText = q.text || q.statement || q.question || q.prompt || '';
+                            passageDetails += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                                '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                                '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qNum + '</span>' +
+                                '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? '✓ Correct' : '✗ Wrong') + '</span></div>' +
+                                (questionText ? '<div style="color:#374151;font-size:13px;line-height:1.5;margin-bottom:6px;padding:6px 8px;background:#f8fafc;border-radius:6px;border-left:3px solid #cbd5e1;">' + questionText + '</div>' : '') +
+                                '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                                '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                                (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                                '</div></div>';
+                        });
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    const passageTitle = passage.title || 'Passage ' + (pIdx + 1);
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + passageTitle + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#2563eb;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+
+                    detailsHTML += '<div style="margin-bottom:16px;"><div style="background:#2563eb15;padding:10px 14px;border-radius:8px 8px 0 0;border:1px solid #e2e8f0;border-bottom:none;">' +
+                        '<span style="font-weight:700;color:#2563eb;">' + passageTitle + '</span></div>' +
+                        '<div style="border:1px solid #e2e8f0;border-radius:0 0 8px 8px;padding:10px;">' + passageDetails + '</div></div>';
+                });
+            }
+
+            return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Reading Report - ' + name + '</title>' +
+'<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;color:#1e293b;}' +
+'.header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}' +
+'.header h1{margin:0 0 10px;font-size:28px;}' +
+'details{margin-bottom:16px;}details>summary{cursor:pointer;user-select:none;font-weight:700;font-size:16px;padding:14px 18px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);list-style:none;}' +
+'details>summary::-webkit-details-marker{display:none;}details[open]>summary{border-radius:12px 12px 0 0;}' +
+'details>.content{background:white;padding:16px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}' +
+'@media print{.no-print{display:none !important;}}</style></head><body>' +
+'<div class="header"><h1>📖 IELTS Reading Report</h1><p>' + name + ' | ' + date + ' ' + time + '</p></div>' +
+'<div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">' +
+'<div style="font-size:48px;font-weight:800;color:#2563eb;">' + sr.c + ' / ' + sr.t + '</div>' +
+'<div style="font-size:16px;color:#64748b;margin:4px 0 8px;">Score: ' + pct + '%</div>' +
+'<div style="font-size:28px;font-weight:800;color:#2563eb;">Band ' + band + '</div></div>' +
+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">' +
+'<div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;"><div style="font-size:24px;font-weight:800;color:#16a34a;">' + sr.c + '</div><div style="font-size:12px;color:#16a34a;font-weight:600;">✓ Correct</div></div>' +
+'<div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;"><div style="font-size:24px;font-weight:800;color:#dc2626;">' + wrong + '</div><div style="font-size:12px;color:#dc2626;font-weight:600;">✗ Incorrect</div></div>' +
+'<div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;"><div style="font-size:24px;font-weight:800;color:#0284c7;">' + sr.t + '</div><div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div></div></div>' +
+(partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : '') +
+'<details><summary>📋 Answer Summary</summary><div class="content">' +
+'<table style="width:100%;border-collapse:collapse;"><tr style="background:#f1f5f9;">' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>' +
+'<th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th></tr>' +
+answerRowsHTML + '</table></div></details>' +
+'<details><summary>📝 Detailed Questions & Answers</summary><div class="content">' + detailsHTML + '</div></details>' +
+'<div style="text-align:center;margin-top:24px;" class="no-print">' +
+'<button onclick="window.print()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">📄 Save as PDF</button></div></body></html>';
         }
 
         // Writing Report HTML (works for both premium and regular)
@@ -8231,7 +9559,7 @@ function removeHL(){var s=window.getSelection();if(!s.rangeCount||s.isCollapsed)
                         <span style="font-size:12px;color:#94a3b8;">Q${q.number || i + 1}</span>
                     </div>
                     <p style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 8px;line-height:1.5;">${q.prompt || q.question || ''}</p>
-                    <div style="background:#fef2f2;padding:8px 12px;border-radius:8px;font-size:12px;color:#991b1b;">🎤 Audio recording included in ZIP</div>
+                    <div style="margin-top:8px;"><audio controls style="width:100%;"><source src="S-${i}.webm" type="audio/webm"></audio></div>
                     ${aiSection}
                 </div>`;
             });
@@ -8261,7 +9589,7 @@ ${questionsHTML}
                 return;
             }
 
-            const MAX_RETRIES = 3;
+            const MAX_RETRIES = 2;
             const RETRY_DELAY = 5000; // 5 seconds between retries
 
             for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -8373,6 +9701,28 @@ ${questionsHTML}
                     const caption = `📋 IELTS FULL MOCK RESULTS\n👤 Candidate: #${safeName}\n${!hasAi ? '⭐ Entry: Regular VIP (no AI scoring)\n' : '🤖 Entry: Premium AI VIP\n'}\n📊 BAND SCORES:\n🎯 Overall: ${overall.toFixed(1)} (${bandDesc})\n🎧 Listening: ${lScore.toFixed(1)}\n📖 Reading: ${rScore.toFixed(1)}\n✍️ Writing: ${hasAi ? wScore.toFixed(1) : 'N/A (Premium)'}\n🎤 Speaking: ${hasAi ? sScore.toFixed(1) : 'N/A (Premium)'}\n\n📁 Mock Details:\n🎧 Listening: ${lMock}\n📖 Reading: ${rMock}\n✍️ Writing: ${wMock}\n🎤 Speaking: ${sMock}\n\n⏱️ Time:\n📅 ${dateStr}\n🟢 Start: ${startStr}\n🔴 Finish: ${finishStr}\n⏳ Used: ${usedTimeStr}\n\n🏛️ Center: #${CENTER_ID}\n📊 #${CENTER_ID}_${d}_${m}_${yy}\n📊 #${CENTER_ID}_${m}_${yy}\n📊 #${CENTER_ID}_${y}\nOverall:\n📊 #all_${d}_${m}_${yy}\n📊 #all_${m}_${yy}\n📊 #all_${y}\nIELTS Mock: #Band_${String(overall.toFixed(1)).replace('.', '_')}`;
                     fd.append('caption', caption);
 
+                    // Send to Supabase first (get result link for caption)
+                    var finalCaption = caption;
+                    if (window.sendToSupabase) {
+                      try {
+                        var sbResult = await window.sendToSupabase({
+                          studentName: candidateName,
+                          examType: 'ielts',
+                          skill: 'full-mock',
+                          score: overall.toFixed(1) + '/9.0',
+                          level: 'Band ' + overall.toFixed(1),
+                          mockNumber: 'Full Mock',
+                          file: mainZipBlob,
+                          fileType: 'zip',
+                          caption: caption,
+                          metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAi, bandDesc: bandDesc }
+                        });
+                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                      } catch (e) { console.warn('[Supabase] skipped:', e); }
+                    }
+
+                    fd.set('caption', finalCaption);
+
                     // Send to backend with extended timeout
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 seconds
@@ -8388,6 +9738,12 @@ ${questionsHTML}
                     if (resp.ok) {
                         console.log('[Telegram] ✅ IELTS full mock results sent successfully');
                         ieltsTelegramSent = true; // Mark as sent to prevent duplicates
+
+                        // Send to routing backend
+                        if (window.sendToRoutingBackend) {
+                            await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: fd.get('file') });
+                        }
+                        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
                         return; // Success - exit function
                     } else {
                         throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
@@ -8401,6 +9757,7 @@ ${questionsHTML}
                     } else {
                         console.error('[Telegram] ❌ All retry attempts exhausted. Results NOT sent.');
                         // Silent failure - candidates should not know about Telegram
+                        if (window.msProgress) window.msProgress.hide();
                     }
                 }
             }
@@ -8461,6 +9818,81 @@ ${questionsHTML}
         // ===== INIT =====
         document.getElementById('gate').style.display = 'flex';
     </script>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function _iframeNav(url){
+  if(window!==window.top){
+    try{var o=url.indexOf('landing.html')!==-1?{action:'closeLearningTool',openModal:(url.match(/openSelector=([^&]+)/)||url.match(/openModal=([^&]+)/)|| [])[1]||''}:{action:'closeLearningTool',openModal:''};window.parent.postMessage(o,'*');return;}catch(e){}
+  }
+  window.location.href=url;
+}
+function openHomeSidebar(){var m=document.getElementById('mobToolsMenu'),o=document.getElementById('mobMenuOverlay');if(m)m.classList.remove('show');if(o)o.classList.remove('show');document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
+function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
+function createLeaveWarningModal(){if(document.getElementById('leaveWarningModal'))return;var html='<div id="leaveWarningModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;justify-content:center;align-items:center;backdrop-filter:blur(5px);"><div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);animation:lwPop 0.3s ease-out;"><div style="width:80px;height:80px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 10px 30px rgba(245,158,11,0.3);"><span style="font-size:40px;">⚠️</span></div><h2 style="color:#f8fafc;font-size:24px;margin-bottom:15px;font-weight:700;">Leave Exam?</h2><p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:30px;">Are you sure you want to leave?<br><strong style="color:#f87171;">Your progress will be lost!</strong></p><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><button id="lwStayBtn" style="padding:14px 35px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:linear-gradient(135deg,#0d9488,#0f766e);color:white;box-shadow:0 4px 15px rgba(13,148,136,0.3);">✓ Continue Exam</button><button id="lwLeaveBtn" style="padding:14px 35px;border:2px solid #475569;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s ease;background:transparent;color:#94a3b8;">Leave Anyway</button></div></div></div><style>@keyframes lwPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}#lwStayBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(13,148,136,0.4)}#lwLeaveBtn:hover{background:#334155;border-color:#64748b;color:#e2e8f0}</style>';document.body.insertAdjacentHTML('beforeend',html);document.getElementById('lwStayBtn').addEventListener('click',function(){hideLeaveWarningModal();});document.getElementById('lwLeaveBtn').addEventListener('click',function(){window.__okToLeave=true;var a=window.__pendingLeaveAction;hideLeaveWarningModal();if(typeof a==='function'){a();}});}
+function showLeaveWarningModal(){createLeaveWarningModal();var m=document.getElementById('leaveWarningModal');if(m)m.style.display='flex';}
+function hideLeaveWarningModal(){var m=document.getElementById('leaveWarningModal');if(m)m.style.display='none';window.__pendingLeaveAction=null;}
+function promptFriendlyLeave(leaveAction){closeHomeSidebar();var tm=document.getElementById('mobToolsMenu'),to=document.getElementById('mobMenuOverlay');if(tm)tm.classList.remove('show');if(to)to.classList.remove('show');window.__pendingLeaveAction=(typeof leaveAction==='function')?leaveAction:null;showLeaveWarningModal();}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(m[url]||url);});}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
+document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
+document.querySelectorAll('.gate-back-btn').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;_iframeNav(a.getAttribute('href'));});});});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

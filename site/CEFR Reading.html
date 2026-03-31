@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script src="session-recovery.js"></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <!-- Load global settings -->
   <script src="questions S/questions.js"></script>
@@ -384,10 +386,9 @@
         line-height: 1.7;
       }
 
-      .part-container:not(.full-width-split) .text-card select,
-      .part-container:not(.full-width-split) .paragraph-card select {
+      .part-container:not(.full-width-split) .rich-select-trigger {
         font-size: 16px;
-        padding: 14px 44px 14px 18px;
+        padding: 14px 42px 14px 18px;
       }
 
       .part-container:not(.full-width-split) .statement-item {
@@ -715,115 +716,144 @@
       margin-bottom: 12px;
     }
 
-    /* Custom Select Dropdown */
-    .custom-select-wrapper {
+    /* Rich Custom Select */
+    .rich-select-container {
       position: relative;
       width: 100%;
+      margin-top: 10px;
     }
-
-    .text-card select,
-    .paragraph-card select {
+    .rich-select-trigger {
       width: 100%;
-      padding: 12px 40px 12px 16px;
+      padding: 12px 42px 12px 16px;
+      background: white;
       border: 2px solid var(--border);
       border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      background: linear-gradient(to bottom, #ffffff, #f8fafc);
-      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.5;
+      text-align: left;
       cursor: pointer;
-      transition: all 0.2s ease;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-    }
-
-    .text-card select:hover,
-    .paragraph-card select:hover {
-      border-color: var(--primary);
-      background: linear-gradient(to bottom, #ffffff, #f0fdfa);
-      box-shadow: 0 4px 8px rgba(13, 148, 136, 0.1);
-    }
-
-    .text-card select:focus,
-    .paragraph-card select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
-      background: white;
-    }
-
-    .text-card select option,
-    .paragraph-card select option {
-      padding: 12px 16px;
-      font-size: 14px;
-      background: white;
+      position: relative;
+      display: block;
+      word-wrap: break-word;
+      white-space: normal;
       color: var(--text);
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      -webkit-tap-highlight-color: transparent;
     }
-
-    .text-card select option:checked,
-    .paragraph-card select option:checked {
-      background: var(--primary-light);
-      color: var(--primary-dark);
+    .rich-select-trigger:hover {
+      border-color: var(--primary-light);
+      background: #fafafa;
     }
-
-    .text-card select.answered,
-    .paragraph-card select.answered {
+    .rich-select-trigger.open {
       border-color: var(--primary);
-      background: linear-gradient(to bottom, #f0fdfa, #ccfbf1);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
+      box-shadow: 0 0 0 4px var(--primary-light);
     }
-
-    .text-card select.correct,
-    .paragraph-card select.correct {
-      border-color: var(--success);
-      background: linear-gradient(to bottom, #dcfce7, #bbf7d0);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
+    .rich-select-trigger.duplicate {
+      border-color: #f59e0b !important;
+      background: #fffbeb !important;
     }
-
-    .text-card select.incorrect,
-    .paragraph-card select.incorrect {
-      border-color: var(--danger);
-      background: linear-gradient(to bottom, #fee2e2, #fecaca);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 18px;
+    .rich-select-trigger::after {
+      content: '\25BC';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--text-light);
+      transition: transform 0.2s;
     }
-
-    /* Option already used in another dropdown (hint only) */
-    .text-card select option.option-used,
-    .paragraph-card select option.option-used {
+    .rich-select-trigger.open::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
+    .rich-select-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      border-radius: 14px;
+      z-index: 3000;
+      display: none;
+      max-height: min(320px, 45vh);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      animation: rsPopIn 0.2s ease-out;
+    }
+    @keyframes rsPopIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .rich-select-option {
+      padding: 14px 18px;
+      font-size: 15px;
+      line-height: 1.5;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text);
+      transition: all 0.1s;
+    }
+    .rich-select-option:last-child { border-bottom: none; }
+    .rich-select-option:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding-left: 22px;
+    }
+    .rich-select-option.selected {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+    }
+    .rich-select-option.option-used {
       background: linear-gradient(to right, #dcfce7, #bbf7d0);
       color: #166534;
       font-style: italic;
     }
+    .text-card.elevated {
+      z-index: 4000 !important;
+      position: relative;
+    }
+    /* Review mode styles for rich-select */
+    .rich-select-trigger.correct {
+      border-color: var(--success);
+      background: linear-gradient(to bottom, #dcfce7, #bbf7d0);
+      pointer-events: none;
+    }
+    .rich-select-trigger.incorrect {
+      border-color: var(--danger);
+      background: linear-gradient(to bottom, #fee2e2, #fecaca);
+      pointer-events: none;
+    }
+    .rich-select-trigger.unanswered-filled {
+      border-color: var(--primary);
+      background: #e0f2f1;
+      color: var(--primary);
+      font-style: italic;
+      pointer-events: none;
+    }
+    .rich-select-trigger.locked {
+      pointer-events: none;
+      opacity: 0.85;
+    }
 
-    .text-card select option.option-used::before,
-    .paragraph-card select option.option-used::before {
-      content: "* ";
+    /* Elevated paragraph card for open dropdown */
+    .paragraph-card.elevated {
+      z-index: 4000 !important;
+      position: relative;
     }
 
     /* Mobile touch-friendly sizing */
     @media (max-width: 768px) {
-      .text-card select,
-      .paragraph-card select {
-        padding: 14px 44px 14px 14px;
-        font-size: 16px; /* Prevents iOS zoom on focus */
+      .rich-select-trigger {
+        font-size: 16px;
+        padding: 14px 42px 14px 14px;
         border-radius: 10px;
-        min-height: 50px; /* Easier to tap */
-        line-height: 1.4;
+        min-height: 50px;
+      }
+      .rich-select-option {
+        font-size: 16px;
+        padding: 16px 18px;
       }
 
       .text-card,
@@ -838,10 +868,9 @@
     }
 
     @media (max-width: 480px) {
-      .text-card select,
-      .paragraph-card select {
-        padding: 16px 44px 16px 12px;
+      .rich-select-trigger {
         font-size: 16px;
+        padding: 16px 42px 16px 12px;
         border-radius: 8px;
         min-height: 52px;
       }
@@ -1279,6 +1308,94 @@
 
     .modal-overlay.show {
       display: flex;
+    }
+
+    /* Minimized results pill */
+    .modal-overlay.minimized {
+      background: transparent !important;
+      width: auto !important;
+      height: auto !important;
+      top: auto !important;
+      left: 50% !important;
+      bottom: 24px !important;
+      transform: translateX(-50%);
+      padding: 0 !important;
+      pointer-events: none;
+      z-index: 1999;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .modal-overlay.minimized .modal-content {
+      width: auto;
+      max-width: none;
+      max-height: none;
+      border-radius: 50px;
+      padding: 7px 16px;
+      margin: 0;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+      pointer-events: auto;
+      background: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pillPulse 2.5s ease-in-out infinite;
+      cursor: pointer;
+      overflow: visible;
+    }
+    .modal-overlay.minimized .score-circle,
+    .modal-overlay.minimized .score-details,
+    .modal-overlay.minimized .parts-breakdown,
+    .modal-overlay.minimized .btn-review,
+    .modal-overlay.minimized .btn-tryagain,
+    .modal-overlay.minimized .btn-close {
+      display: none !important;
+    }
+    .modal-overlay.minimized .modal-buttons {
+      margin: 0; padding: 0; gap: 0;
+    }
+    .modal-overlay.minimized h2 {
+      font-size: 13px !important;
+      margin: 0 !important;
+      color: #fff !important;
+      white-space: nowrap;
+    }
+    .modal-overlay.minimized .subtitle {
+      display: none !important;
+    }
+    .modal-overlay.minimized .pill-label {
+      display: none;
+    }
+    .modal-overlay.minimized .pill-score {
+      display: inline;
+      background: rgba(255,255,255,0.25);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      margin-left: 2px;
+    }
+    .pill-score { display: none; }
+    .btn-restore {
+      display: none;
+      padding: 3px 10px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .modal-overlay.minimized .btn-restore {
+      display: inline-block;
+    }
+    @keyframes pillPulse {
+      0%, 100% { transform: translateY(0); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+      50% { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
     }
 
     .modal-content {
@@ -1739,43 +1856,119 @@
       -webkit-box-decoration-break: clone;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header {
-        padding: 8px 10px;
+    /* Mobile FAB: show by default, hide only on wide screens.
+       This avoids cases where viewport scaling/iframes make max-width media queries miss. */
+    .mobile-fab-container {
+      display: flex;
+      position: fixed;
+      right: 22px;
+      bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+      z-index: 10050;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      touch-action: none;
+    }
+
+    .mobile-tools-menu,
+    .mobile-menu-overlay,
+    .mobile-floating-submit {
+      display: none;
+    }
+
+    /* Ensure FAB menu tabs are styled even if breakpoints mis-detect */
+    .mobile-tools-menu .part-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 6px 0;
+      gap: 10px;
+      width: 100%;
+    }
+    .mobile-tools-menu .part-tabs .part-tab:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      width: calc(50% - 5px);
+      justify-self: center;
+    }
+
+    .mobile-tools-menu .part-tab {
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: rgba(13, 148, 136, 0.1);
+      border: 2px solid var(--primary);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      -webkit-user-select: none;
+      text-align: center;
+    }
+
+    .mobile-tools-menu .part-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* NOTE: We intentionally do NOT hide the FAB on wider screens.
+       Some environments (iframes / browser scaling) report a wide CSS viewport even on mobile,
+       which would incorrectly hide the FAB. */
+
+    /* Responsive Styling */
+    @media (max-width: 900px) {
+      .header { display: none !important; }
+      .main-container { padding-top: 10px !important; padding-bottom: 80px; }
+
+      .pc-part-nav,
+      .header .logo,
+      .header .header-title,
+      .header .mock-number,
+      .header .download-btn,
+      .header .timer-label {
+        display: none !important;
       }
 
-      .header-content {
-        padding: 0 8px;
-        gap: 8px;
+      .mobile-part-nav {
+        display: flex !important;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        justify-content: center;
       }
 
-      .header-left {
-        gap: 8px;
+      .mobile-part-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
       }
 
-      .logo {
-        width: 32px;
-        height: 32px;
+      .mobile-part-dot.active {
+        background: white;
+        color: var(--primary);
+        transform: scale(1.1);
       }
 
-      .header-title {
-        font-size: 14px;
+      .passage-card, .questions-card, .part-header {
+        padding: 16px;
       }
 
-      .mock-number {
-        padding: 0 10px;
-        font-size: 13px;
-        height: 32px;
+      .part-header {
+        max-height: 120px;
+        overflow-y: auto;
       }
 
-      .timer-box {
-        padding: 0 12px;
-        height: 32px;
-      }
-
-      .timer-value {
-        font-size: 16px;
+      .full-width-split .part-header {
+        display: block;
       }
 
       .mcq-options, .tfni-options {
@@ -1784,7 +1977,7 @@
 
       /* Mobile FAB Navigation */
       .mobile-fab-container {
-        display: none;
+        display: flex;
         position: fixed;
         bottom: 25px;
         right: 25px;
@@ -1823,8 +2016,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 90vw;
-        max-width: 380px;
+        width: 95vw;
+        max-width: 400px;
         background: rgba(240, 253, 250, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -1859,18 +2052,20 @@
       .mobile-tools-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
       
       .mobile-tools-menu .part-tabs {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         padding: 5px 0;
         gap: 10px;
         width: 100%;
-        -webkit-overflow-scrolling: touch;
+      }
+      .mobile-tools-menu .part-tabs .part-tab:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        width: calc(50% - 5px);
+        justify-self: center;
       }
       
       .mobile-tools-menu .part-tab {
-        flex-shrink: 0;
-        padding: 10px 15px;
+        padding: 12px 10px;
         border-radius: 12px;
         background: rgba(13, 148, 136, 0.1);
         border: 2px solid var(--primary);
@@ -1879,116 +2074,12 @@
         font-size: 14px;
         cursor: pointer;
         transition: all 0.2s;
+        text-align: center;
       }
       
       .mobile-tools-menu .part-tab.active {
         background: var(--primary);
         color: white;
-      }
-
-      .mobile-fab-container { display: flex; }
-
-      /* Hide PC elements on mobile */
-      .pc-part-nav,
-      .header .logo,
-      .header .header-title,
-      .header .mock-number,
-      .header .download-btn,
-      .header .timer-label {
-        display: none !important;
-      }
-
-
-      .header {
-        padding: 8px 12px;
-      }
-
-      .header-content {
-        padding: 0;
-        gap: 10px;
-        flex-wrap: nowrap;
-      }
-
-      .header-left {
-        gap: 10px;
-        flex: 1;
-      }
-
-      .back-btn {
-        width: 36px !important;
-        height: 36px !important;
-        background: rgba(255,255,255,0.2) !important;
-        border-radius: 50% !important;
-        border: none !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        box-shadow: none !important;
-        font-size: 18px !important;
-      }
-
-      .timer-box {
-        height: 36px !important;
-        padding: 0 10px !important;
-        border-radius: 8px !important;
-        flex-direction: row !important;
-      }
-
-      .timer-value {
-        font-size: 14px !important;
-      }
-
-      /* Mobile part dot indicators */
-      .mobile-part-nav {
-        display: flex !important;
-        align-items: center;
-        gap: 6px;
-        flex: 1;
-        justify-content: center;
-      }
-
-      .mobile-part-dot {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.3);
-        color: white;
-        font-size: 12px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-        flex-shrink: 0;
-      }
-
-      .mobile-part-dot.active {
-        background: white;
-        color: var(--primary);
-        transform: scale(1.1);
-      }
-
-      .main-container {
-        padding: 12px 8px;
-        padding-bottom: 16px;
-      }
-
-      .passage-card, .questions-card, .part-header {
-        padding: 16px;
-      }
-
-      .part-header {
-        max-height: 120px;
-        overflow-y: auto;
-      }
-
-      /* On mobile, keep part-header above the split (default position) */
-      .full-width-split .part-header {
-        display: block;
-      }
-
-      .mcq-options, .tfni-options {
-        gap: 8px;
       }
     }
 
@@ -2023,6 +2114,7 @@
       opacity: 1;
       visibility: visible;
     }
+
     .confirm-box {
       background: white;
       border-radius: 20px;
@@ -2125,7 +2217,7 @@
           PDF
         </button>
         <button class="zoom-btn" id="btnZoom" title="Zoom In">
-          🔍
+          🔍<span id="zoomLevel" class="zoom-level">0</span>
         </button>
       </div>
     </div>
@@ -2150,12 +2242,21 @@
   </div>
 
   <!-- Mobile Tool Menu & FAB -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
   <div class="mobile-tools-menu" id="mobileToolsMenu">
     <div class="mobile-tools-row">
-      <div style="font-weight: 700; color: var(--primary-dark); font-size: 18px;">Navigation</div>
-      <div class="timer-box" style="height: 36px !important; flex-direction: row !important; background: var(--primary) !important; color: white !important;">
-        <span class="timer-value" id="mobileTimerValue" style="font-size: 15px !important;">--:--</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="#" onclick="openHomeSidebar();return false;" style="display:flex;align-items:center;justify-content:center;width:40px;height:36px;border-radius:8px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;font-size:20px;line-height:1;flex-shrink:0;" title="Home">☰</a>
+        <div style="font-weight: 700; color: var(--primary-dark); font-size: 18px;">Navigation</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button id="mobileBtnZoom" class="mobile-zoom-btn" style="background: var(--primary-light); color: var(--primary-dark); border: none; width: 40px; height: 36px; border-radius: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;">
+          🔍 <span class="zoom-level-badge" style="position: absolute; bottom: -2px; right: -2px; background: #ef4444; color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; display: none; align-items: center; justify-content: center;">0</span>
+        </button>
+        <div class="timer-box" style="height: 36px !important; flex-direction: row !important; background: var(--primary) !important; color: white !important; margin: 0 !important;">
+          <span class="timer-value" id="mobileTimerValue" style="font-size: 15px !important;">--:--</span>
+        </div>
+        <button onclick="toggleMobileMenu()" style="width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;flex-shrink:0;" title="Close">✕</button>
       </div>
     </div>
     <div class="part-tabs" id="mobilePartTabs">
@@ -2193,7 +2294,7 @@
   <!-- Results Modal -->
   <div class="modal-overlay" id="resultsModal">
     <div class="modal-content">
-      <h2>🎉 Test Complete!</h2>
+      <h2>🎉 <span class="pill-label">Test Complete!</span><span class="pill-score" id="pillScore"></span></h2>
       <p class="subtitle">Here's how you did</p>
       <div class="score-circle">
         <span class="score" id="finalScore">0</span>
@@ -2220,6 +2321,7 @@
         <button class="btn-review" id="btnReview">Review Answers</button>
         <button class="btn-tryagain" id="btnTryAgain" onclick="location.reload()">🔄 Try Again</button>
         <button class="btn-close" onclick="sessionStorage.setItem('readingMockReturnCategory','cefr-reading');window.__okToLeave=true;_navToLanding()" style="background:#64748b;color:#fff">← Back to Mock Selection</button>
+        <button class="btn-restore" id="btnRestoreResults" onclick="restoreResultModal()">↗ Restore Results</button>
       </div>
     </div>
   </div>
@@ -2311,6 +2413,33 @@
     let timeRemaining = 60 * 60; // 60 minutes in seconds
     let isReviewMode = false;
 
+    // British ↔ American spelling variant pairs
+    const SPELLING_PAIRS = [
+      ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+      ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+      ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+      ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+      ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+      ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+    ];
+    const _spellingMap = {};
+    SPELLING_PAIRS.forEach(function(pair) {
+      pair.forEach(function(w, i) {
+        var wl = w.toLowerCase();
+        if (!_spellingMap[wl]) _spellingMap[wl] = [];
+        pair.forEach(function(v, j) { if (i !== j && _spellingMap[wl].indexOf(v.toLowerCase()) === -1) _spellingMap[wl].push(v.toLowerCase()); });
+      });
+      pair.forEach(function(w, i) {
+        var ws = w.toLowerCase() + 's';
+        if (!_spellingMap[ws]) _spellingMap[ws] = [];
+        pair.forEach(function(v, j) { if (i !== j && _spellingMap[ws].indexOf(v.toLowerCase() + 's') === -1) _spellingMap[ws].push(v.toLowerCase() + 's'); });
+      });
+    });
+    function getSpellingVariants(word) {
+      if (!word) return [];
+      return _spellingMap[word.toLowerCase()] || [];
+    }
+
     // Get global logo
     const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
     const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
@@ -2379,6 +2508,22 @@
             }
           }, 1500);
         }
+
+        // Session recovery: restore saved state or start fresh auto-save
+        if (window.SessionRecovery) {
+          if (window._srResumeData) {
+            var rd = window._srResumeData;
+            timeRemaining = rd.timeRemaining != null ? rd.timeRemaining : timeRemaining;
+            updateTimerDisplay();
+            if (rd.currentPart != null) { showPart(rd.currentPart); }
+            if (rd.userAnswers) {
+              userAnswers = rd.userAnswers;
+              SessionRecovery.restoreAnswers(rd.userAnswers);
+            }
+            window._srResumeData = null;
+          }
+          SessionRecovery.start();
+        }
       } catch (err) {
         console.error('Error initializing test:', err);
       } finally {
@@ -2392,7 +2537,7 @@
       // PC part buttons in header
       const nav = document.getElementById('partNav');
       nav.innerHTML = TEST_DATA.parts.map((part, index) => `
-        <button class="part-btn ${index === 0 ? 'active' : ''}" data-part="${index}">
+        <button class="part-btn ${index === currentPart ? 'active' : ''}" data-part="${index}">
           Part ${part.partNumber}
         </button>
       `).join('');
@@ -2404,7 +2549,7 @@
       const mobileDots = document.getElementById('mobilePartNav');
       if (mobileDots) {
         mobileDots.innerHTML = TEST_DATA.parts.map((part, index) => 
-          '<div class="mobile-part-dot' + (index === 0 ? ' active' : '') + '" data-part="' + index + '">' + part.partNumber + '</div>'
+          '<div class="mobile-part-dot' + (index === currentPart ? ' active' : '') + '" data-part="' + index + '">' + part.partNumber + '</div>'
         ).join('');
         mobileDots.querySelectorAll('.mobile-part-dot').forEach(dot => {
           dot.addEventListener('click', () => showPart(parseInt(dot.dataset.part)));
@@ -2415,14 +2560,14 @@
       const fabTabs = document.getElementById('mobilePartTabs');
       if (fabTabs) {
         fabTabs.innerHTML = TEST_DATA.parts.map((part, index) => `
-          <div class="part-tab ${index === 0 ? 'active' : ''}" data-part="${index}">
+          <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
             Part ${part.partNumber}
           </div>
         `).join('');
         fabTabs.querySelectorAll('.part-tab').forEach(tab => {
           tab.addEventListener('click', () => {
             showPart(parseInt(tab.dataset.part));
-            toggleMobileMenu(); // Close menu after selection
+            toggleMobileMenu();
           });
         });
       }
@@ -2479,7 +2624,7 @@
       let passageContent = part.passage.content;
       part.questions.forEach(q => {
         const gapPattern = new RegExp(`<span class="gap" data-gap="${q.id}">.*?</span>`, 'g');
-        const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
+        const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
         passageContent = passageContent.replace(gapPattern, inputHtml);
       });
 
@@ -2527,13 +2672,16 @@
               ${text.title ? `<span style="font-weight:600;color:var(--primary);">${text.title}</span>` : `<span style="font-weight:600;color:#64748b;">Question ${num}</span>`}
             </div>
             <div class="text-content">${text.content}</div>
-            <select id="answer-${num}" data-question="${num}" class="matching-select" onchange="updateMatchingOptions(this)">
-              <option value="">-- Select Statement --</option>
-              ${part.statements.map(s => {
-                const truncatedText = s.text.length > 60 ? s.text.substring(0, 60) + '...' : s.text;
-                return `<option value="${s.letter}" data-letter="${s.letter}">${s.letter}) ${truncatedText}</option>`;
-              }).join('')}
-            </select>
+            <div class="rich-select-container" id="rs-container-${num}">
+              <div class="rich-select-trigger matching-select" id="rs-trigger-${num}" data-question="${num}"
+                   onclick="toggleRichSelect('${num}', event)">-- Select Statement --</div>
+              <div class="rich-select-menu" id="rs-menu-${num}">
+                ${part.statements.map(s =>
+                  `<div class="rich-select-option" data-letter="${s.letter}"
+                       onclick="selectRichOption('${num}','${s.letter}',this,event)">${s.letter}) ${s.text}</div>`
+                ).join('')}
+              </div>
+            </div>
           </div>
         `;
       });
@@ -2548,39 +2696,79 @@
       container.classList.toggle('open');
     }
 
+    // Rich select toggle
+    function toggleRichSelect(qId, event) {
+      if (event) event.stopPropagation();
+      var menu = document.getElementById('rs-menu-' + qId);
+      var trigger = document.getElementById('rs-trigger-' + qId);
+      var isOpen = menu.style.display === 'block';
+      // Close all
+      document.querySelectorAll('.rich-select-menu').forEach(function(m){ m.style.display = 'none'; });
+      document.querySelectorAll('.rich-select-trigger').forEach(function(t){ t.classList.remove('open'); });
+      document.querySelectorAll('.text-card, .paragraph-card').forEach(function(c){ c.classList.remove('elevated'); });
+      if (!isOpen) {
+        menu.style.display = 'block';
+        trigger.classList.add('open');
+        var card = trigger.closest('.text-card') || trigger.closest('.paragraph-card');
+        if (card) card.classList.add('elevated');
+      }
+    }
+
+    // Rich select option chosen
+    function selectRichOption(qId, letter, optEl, event) {
+      if (event) event.stopPropagation();
+      var trigger = document.getElementById('rs-trigger-' + qId);
+      var menu = document.getElementById('rs-menu-' + qId);
+      // Update display
+      trigger.textContent = optEl.textContent;
+      trigger.setAttribute('data-value', letter);
+      trigger.classList.remove('open');
+      if (menu) menu.style.display = 'none';
+      var card = trigger.closest('.text-card') || trigger.closest('.paragraph-card');
+      if (card) card.classList.remove('elevated');
+      // Mark selected option
+      menu.querySelectorAll('.rich-select-option').forEach(function(o){ o.classList.remove('selected'); });
+      optEl.classList.add('selected');
+      // Record answer
+      userAnswers[qId] = letter;
+      // Update used hints
+      updateMatchingOptions();
+      updateHeadingOptions();
+    }
+
+    // Close all rich selects on outside click
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.rich-select-menu').forEach(function(m){ m.style.display = 'none'; });
+      document.querySelectorAll('.rich-select-trigger').forEach(function(t){ t.classList.remove('open'); });
+      document.querySelectorAll('.text-card, .paragraph-card').forEach(function(c){ c.classList.remove('elevated'); });
+    });
+
     // Update matching dropdown options to show which are already selected
-    function updateMatchingOptions(changedSelect) {
-      const container = changedSelect.closest('.matching-questions');
+    function updateMatchingOptions() {
+      var container = document.querySelector('.matching-questions');
       if (!container) return;
-      
-      const allSelects = container.querySelectorAll('.matching-select');
-      
-      // Get all currently selected values
-      const selectedValues = new Set();
-      allSelects.forEach(sel => {
-        if (sel.value) selectedValues.add(sel.value);
+      var allTriggers = container.querySelectorAll('.rich-select-trigger');
+      var selectedValues = new Set();
+      allTriggers.forEach(function(t) {
+        var v = t.getAttribute('data-value');
+        if (v) selectedValues.add(v);
       });
-      
-      // Update all options in all selects
-      allSelects.forEach(sel => {
-        const options = sel.querySelectorAll('option');
-        options.forEach(opt => {
-          const letter = opt.dataset.letter;
-          if (letter) {
-            // Mark as used if selected elsewhere (not in this dropdown)
-            const isUsedElsewhere = selectedValues.has(letter) && sel.value !== letter;
-            opt.classList.toggle('option-used', isUsedElsewhere);
-          }
+      // Mark used options + duplicate triggers
+      allTriggers.forEach(function(t) {
+        var myVal = t.getAttribute('data-value');
+        var menu = document.getElementById('rs-menu-' + t.getAttribute('data-question'));
+        if (!menu) return;
+        menu.querySelectorAll('.rich-select-option').forEach(function(opt) {
+          var letter = opt.getAttribute('data-letter');
+          var isUsedElsewhere = selectedValues.has(letter) && myVal !== letter;
+          opt.classList.toggle('option-used', isUsedElsewhere);
         });
       });
     }
 
     // Initialize matching options on part show
     function initMatchingOptions() {
-      document.querySelectorAll('.matching-questions').forEach(container => {
-        const firstSelect = container.querySelector('.matching-select');
-        if (firstSelect) updateMatchingOptions(firstSelect);
-      });
+      updateMatchingOptions();
     }
 
     function generateMatchingHeadings(part) {
@@ -2618,10 +2806,16 @@
           <div class="paragraph-card" data-part-type="matching-headings">
             <div class="para-header">
               <span class="para-number">Paragraph ${para.number} <span>Q${para.questionId}</span></span>
-              <select id="answer-${para.questionId}" data-question="${para.questionId}" class="heading-select" onchange="updateHeadingOptions(this)">
-                <option value="">-- Select Heading --</option>
-                ${part.headings.map(h => `<option value="${h.letter}" data-letter="${h.letter}">${h.letter}) ${h.text}</option>`).join('')}
-              </select>
+              <div class="rich-select-container" id="rs-container-${para.questionId}">
+                <div class="rich-select-trigger heading-select" id="rs-trigger-${para.questionId}" data-question="${para.questionId}"
+                     onclick="toggleRichSelect('${para.questionId}', event)">-- Select Heading --</div>
+                <div class="rich-select-menu" id="rs-menu-${para.questionId}">
+                  ${part.headings.map(h =>
+                    `<div class="rich-select-option" data-letter="${h.letter}"
+                         onclick="selectRichOption('${para.questionId}','${h.letter}',this,event)">${h.letter}) ${h.text}</div>`
+                  ).join('')}
+                </div>
+              </div>
             </div>
             <div class="para-content">${para.content}</div>
           </div>
@@ -2632,24 +2826,22 @@
     }
 
     // Update heading dropdown options to show which are already selected
-    function updateHeadingOptions(changedSelect) {
-      const allSelects = document.querySelectorAll('.heading-select');
-      
-      // Get all currently selected values
-      const selectedValues = new Set();
-      allSelects.forEach(sel => {
-        if (sel.value) selectedValues.add(sel.value);
+    function updateHeadingOptions() {
+      var allTriggers = document.querySelectorAll('.heading-select');
+      if (!allTriggers.length) return;
+      var selectedValues = new Set();
+      allTriggers.forEach(function(t) {
+        var v = t.getAttribute('data-value');
+        if (v) selectedValues.add(v);
       });
-      
-      // Update all options in all selects
-      allSelects.forEach(sel => {
-        const options = sel.querySelectorAll('option');
-        options.forEach(opt => {
-          const letter = opt.dataset.letter;
-          if (letter) {
-            const isUsedElsewhere = selectedValues.has(letter) && sel.value !== letter;
-            opt.classList.toggle('option-used', isUsedElsewhere);
-          }
+      allTriggers.forEach(function(t) {
+        var myVal = t.getAttribute('data-value');
+        var menu = document.getElementById('rs-menu-' + t.getAttribute('data-question'));
+        if (!menu) return;
+        menu.querySelectorAll('.rich-select-option').forEach(function(opt) {
+          var letter = opt.getAttribute('data-letter');
+          var isUsedElsewhere = selectedValues.has(letter) && myVal !== letter;
+          opt.classList.toggle('option-used', isUsedElsewhere);
         });
       });
     }
@@ -2712,7 +2904,7 @@
           let summaryContent = section.summaryText;
           section.questions.forEach(q => {
             const gapPattern = new RegExp(`<span class="gap-input" data-gap="${q.id}">.*?</span>`, 'g');
-            const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
+            const inputHtml = `<span class="inline-gap-input"><span class="gap-number">${q.id}</span><input type="text" autocomplete="off" id="answer-${q.id}" data-question="${q.id}" placeholder="Type answer..."></span>`;
             summaryContent = summaryContent.replace(gapPattern, inputHtml);
           });
           questionsHtml += `<div class="summary-text">${summaryContent}</div>`;
@@ -2745,12 +2937,7 @@
         });
       });
 
-      // Selects
-      document.querySelectorAll('select[data-question]').forEach(select => {
-        select.addEventListener('change', (e) => {
-          userAnswers[e.target.dataset.question] = e.target.value;
-        });
-      });
+      // Selects — all handled by rich-select selectRichOption()
 
       // Radio buttons (MCQ)
       document.querySelectorAll('.mcq-option').forEach(option => {
@@ -2968,12 +3155,32 @@
     // ===== SUBMIT TEST =====
     let hasSubmitted = false;
     
+    // Helper: check if user answer matches any acceptable answer, including "/" or "or" combined inputs
+    // Also accepts British/American spelling variants automatically
+    function matchesAnswer(userAns, correctArr) {
+      if (!userAns) return false;
+      var arr = Array.isArray(correctArr) ? correctArr : [correctArr];
+      var uLow = userAns.toString().toLowerCase().trim();
+      if (arr.some(function(c){ return c.toString().toLowerCase().trim() === uLow; })) return true;
+      var userVariants = getSpellingVariants(uLow);
+      if (userVariants.length > 0 && arr.some(function(c){ return userVariants.indexOf(c.toString().toLowerCase().trim()) !== -1; })) return true;
+      if (arr.some(function(c){ var v = getSpellingVariants(c.toString().toLowerCase().trim()); return v.indexOf(uLow) !== -1; })) return true;
+      if (arr.length > 1) {
+        var parts = userAns.toString().split(/\s*[\/]\s*|\s+or\s+/i).map(function(p){ return p.toLowerCase().trim(); }).filter(Boolean);
+        if (parts.length > 1 && parts.some(function(p){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === p; }) || getSpellingVariants(p).some(function(v){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === v; }); }); })) return true;
+      }
+      return false;
+    }
+
     function submitTest() {
       // Prevent multiple submissions
       if (hasSubmitted) {
         return;
       }
       hasSubmitted = true;
+
+      // Clear session recovery on submit
+      if (window.SessionRecovery) SessionRecovery.clear();
       
       // Disable the submit button
       const submitBtn = document.getElementById('btnSubmit');
@@ -3012,9 +3219,7 @@
             markAnswer(qId, false, correctAnswers[0], true);
           } else {
             // Check if answer is correct (case insensitive for text)
-            const isCorrect = correctAnswers.some(ans => 
-              ans.toString().toLowerCase() === userAnswer.toString().toLowerCase()
-            );
+            const isCorrect = matchesAnswer(userAnswer, correctAnswers);
             
             if (isCorrect) {
               correct++;
@@ -3034,6 +3239,10 @@
       document.getElementById('incorrectCount').textContent = incorrect;
       document.getElementById('unansweredCount').textContent = unanswered;
       
+      // Set pill score for minimized state
+      var pillScore = document.getElementById('pillScore');
+      if (pillScore) pillScore.textContent = correct + '/' + TEST_DATA.testInfo.totalQuestions;
+      
       // Generate part-by-part breakdown with expandable dropdowns
       let partsHtml = '';
       TEST_DATA.parts.forEach((part, partIndex) => {
@@ -3052,11 +3261,11 @@
             const correctAnswerRaw = part.answers[qId];
             const correctAnswers = Array.isArray(correctAnswerRaw) ? correctAnswerRaw : [correctAnswerRaw];
             const user = userAnswers[qId] || '';
-            const correctStr = correctAnswers.join(' / ');
+            const correctStr = correctAnswers.length > 1 ? correctAnswers.join(' or ') : correctAnswers[0];
             
             let isCorrect = false;
             if (user) {
-              isCorrect = correctAnswers.some(ans => ans.toString().toLowerCase() === user.toString().toLowerCase());
+              isCorrect = matchesAnswer(user, correctAnswers);
             }
             
             if (isCorrect) partCorrect++;
@@ -3100,18 +3309,29 @@
       });
       document.getElementById('partsBreakdown').innerHTML = partsHtml;
       
+      document.getElementById('resultsModal').classList.remove('minimized');
       document.getElementById('resultsModal').classList.add('show');
 
-      // Hide Review/TryAgain for regular (non-premium) codes
+      // Grey-out Review/TryAgain for regular (non-premium) codes
       (function() {
         var isPremium = sessionStorage.getItem('readingPremiumEntry') === 'true';
+        if (!isPremium) {
+          try { var _tk = JSON.parse(localStorage.getItem('takenReadingMocks') || '{}'); _tk[testFile.replace(/\.js$/,'')] = true; localStorage.setItem('takenReadingMocks', JSON.stringify(_tk)); } catch(e) {}
+        }
         var reviewBtn = document.getElementById('btnReview');
         var tryAgainBtn = document.getElementById('btnTryAgain');
         if (!isPremium) {
-          if (reviewBtn) reviewBtn.style.display = 'none';
-          if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-          var overlay = document.getElementById('resultsModal');
-          if (overlay) overlay.onclick = function(e) { e.stopPropagation(); };
+          var frozenStyle = 'background:#cbd5e1 !important;color:#94a3b8 !important;cursor:not-allowed !important;box-shadow:none !important;pointer-events:none;opacity:0.85;';
+          [{ el: reviewBtn, label: '🔒 Review Answers (Premium)' },
+           { el: tryAgainBtn, label: '🔒 Try Again (Premium)' }
+          ].forEach(function(b) {
+            if (b.el) {
+              b.el.style.cssText += frozenStyle;
+              b.el.innerHTML = b.label;
+              b.el.onclick = function(e) { e.preventDefault(); e.stopPropagation(); };
+              b.el.removeAttribute('onclick');
+            }
+          });
         }
       })();
 
@@ -3177,7 +3397,7 @@
                 partTotal++;
                 var correctAns = part.answers[qId];
                 var userAns = userAnswers[qId];
-                if (userAns && ((Array.isArray(correctAns) && correctAns.some(function(c) { return c.toLowerCase() === userAns.toLowerCase(); })) || (!Array.isArray(correctAns) && correctAns.toLowerCase() === userAns.toLowerCase()))) {
+                if (userAns && matchesAnswer(userAns, correctAns)) {
                   partCorrect++;
                 }
               }
@@ -3200,7 +3420,7 @@
               var rowClass = 'unanswered-row';
               var status = '-';
               if (userAnswer) {
-                isCorrect = correctAnswers.some(function(ans) { return ans.toString().toLowerCase() === userAnswer.toString().toLowerCase(); });
+                isCorrect = matchesAnswer(userAnswer, correctAnswers);
                 rowClass = isCorrect ? 'correct-row' : 'incorrect-row';
                 status = isCorrect ? 'O' : 'X';
               }
@@ -3229,7 +3449,7 @@
                   var correctAnsRaw = part.answers[qId];
                   var correctAnswers = Array.isArray(correctAnsRaw) ? correctAnsRaw : [correctAnsRaw];
                   var correctAns = correctAnswers[0] || '';
-                  var isCorrect = userAns && correctAnswers.some(function(a) { return a.toString().toLowerCase() === userAns.toString().toLowerCase(); });
+                  var isCorrect = userAns && matchesAnswer(userAns, correctAnswers);
                   html += '<div class="paragraph-box"><div class="paragraph-number">Paragraph ' + para.number + ' (Q' + qId + ')</div>';
                   html += '<div class="text-content">' + para.content + '</div>';
                   html += '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0"><span>Your answer: </span>';
@@ -3249,7 +3469,7 @@
                 var correctAnsRaw = part.answers[qId];
                 var correctAnswers = Array.isArray(correctAnsRaw) ? correctAnsRaw : [correctAnsRaw];
                 var correctAns = correctAnswers[0] || '';
-                var isCorrect = userAns && correctAnswers.some(function(a) { return a.toString().toLowerCase() === userAns.toString().toLowerCase(); });
+                var isCorrect = userAns && matchesAnswer(userAns, correctAnswers);
                 html += '<div class="text-item"><div class="text-number">Text ' + text.number + '</div>';
                 html += '<div class="text-content">' + text.content + '</div>';
                 html += '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #e2e8f0"><span>Your answer: </span>';
@@ -3279,7 +3499,7 @@
                 var correctAnsRaw = part.answers[qId];
                 var correctAnswers = Array.isArray(correctAnsRaw) ? correctAnsRaw : [correctAnsRaw];
                 var correctAns = correctAnswers[0] || '';
-                var isCorrect = userAns && correctAnswers.some(function(a) { return a.toString().toLowerCase() === userAns.toString().toLowerCase(); });
+                var isCorrect = userAns && matchesAnswer(userAns, correctAnswers);
                 html += '<div class="question-item"><div class="question-text">Question ' + qId + (q.text ? ': ' + q.text : '') + (q.hint ? ' (' + q.hint + ')' : '') + '</div>';
                 if (q.options) {
                   q.options.forEach(function(opt) {
@@ -3313,7 +3533,7 @@
                   var correctAnsRaw = part.answers[qId];
                   var correctAnswers = Array.isArray(correctAnsRaw) ? correctAnsRaw : [correctAnsRaw];
                   var correctAns = correctAnswers[0] || '';
-                  var isCorrect = userAns && correctAnswers.some(function(a) { return a.toString().toLowerCase() === userAns.toString().toLowerCase(); });
+                  var isCorrect = userAns && matchesAnswer(userAns, correctAnswers);
                   html += '<div class="question-item"><div class="question-text">Q' + qId + ': ' + (q.text || '') + '</div>';
                   if (q.options) {
                     q.options.forEach(function(opt) {
@@ -3453,7 +3673,7 @@
                   pt++;
                   var ca = part.answers[q];
                   var ua = userAnswers[q];
-                  if (ua && ((Array.isArray(ca) && ca.some(function(c) { return c.toLowerCase() === ua.toLowerCase(); })) || (!Array.isArray(ca) && ca.toLowerCase() === ua.toLowerCase()))) pc++;
+                  if (ua && matchesAnswer(ua, ca)) pc++;
                 }
               }
               return { title: part.title.replace(/"/g, ''), correct: pc, total: pt };
@@ -3579,7 +3799,7 @@
               pt++;
               var ca = part.answers[qId];
               var ua = userAnswers[qId];
-              if (ua && ((Array.isArray(ca) && ca.some(function(c) { return c.toLowerCase() === ua.toLowerCase(); })) || (!Array.isArray(ca) && ca.toLowerCase() === ua.toLowerCase()))) pc++;
+              if (matchesAnswer(ua, ca)) pc++;
             }
           }
           partLines += '\n📝 Part ' + (idx + 1) + ': ' + pc + '/' + pt;
@@ -3617,11 +3837,31 @@
           '📊 #all_' + yearTag + '\n' +
           '#CEFR_Reading #' + cefrResult.level.replace(/ /g, '_');
 
+        // Send to Supabase first (get result link for caption)
+        var finalCaption = caption;
+        if (window.sendToSupabase) {
+          try {
+            var sbResult = await window.sendToSupabase({
+              studentName: candidateName,
+              examType: 'cefr',
+              skill: 'reading',
+              score: certificateScore + '/75',
+              level: cefrResult.level,
+              mockNumber: 'Mock ' + mockNum,
+              file: htmlBlob,
+              fileType: 'html',
+              caption: caption,
+              metadata: { raw: correct, total: total, percentage: percentage }
+            });
+            if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+          } catch (e) { console.warn('[Supabase] skipped:', e); }
+        }
+
         // Send to backend
         const formData = new FormData();
         formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
         formData.append('section', 'reading');
-        formData.append('caption', caption);
+        formData.append('caption', finalCaption);
 
         const response = await fetch('https://davirbek.alwaysdata.net/send-result', {
           method: 'POST',
@@ -3633,8 +3873,15 @@
         } else {
           console.warn('⚠️ Failed to send results:', response.status);
         }
+
+        // Send to routing backend
+        if (window.sendToRoutingBackend) {
+          await window.sendToRoutingBackend({ skill: 'reading', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+        }
+        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       } catch (error) {
         console.warn('⚠️ Auto-submit error:', error);
+        if (window.msProgress) window.msProgress.hide();
       }
     }
 
@@ -3660,23 +3907,21 @@
         }
       }
 
-      // Mark selects
-      const select = document.querySelector(`select[data-question="${qId}"]`);
-      if (select) {
+      // Mark rich-select triggers
+      const trigger = document.querySelector(`.rich-select-trigger[data-question="${qId}"]`);
+      if (trigger) {
+        trigger.classList.add('locked');
         if (isUnanswered) {
-          // Select the correct answer for unanswered
-          select.value = correctAnswer;
-          select.classList.add('unanswered-filled');
-          select.style.cssText = 'border-color: var(--primary); background: #e0f2f1; color: var(--primary); font-style: italic;';
+          trigger.textContent = correctAnswer;
+          trigger.classList.add('unanswered-filled');
         } else {
-          select.classList.add(isCorrect ? 'correct' : 'incorrect');
+          trigger.classList.add(isCorrect ? 'correct' : 'incorrect');
           if (!isCorrect) {
-            select.title = `Correct: ${correctAnswer}`;
-            // Add visible correct answer badge
+            trigger.title = `Correct: ${correctAnswer}`;
             const badge = document.createElement('span');
             badge.className = 'correct-answer-badge';
             badge.textContent = correctAnswer;
-            select.parentNode.insertBefore(badge, select.nextSibling);
+            trigger.parentNode.insertBefore(badge, trigger.nextSibling);
           }
         }
       }
@@ -3711,12 +3956,22 @@
     }
 
     function reviewAnswers() {
-      // Close results modal and go back to test window
-      document.getElementById('resultsModal').classList.remove('show');
+      // Minimize results modal to pill instead of closing
+      minimizeResultModal();
       document.body.classList.add('review-mode');
       
       // Navigate to first part
       showPart(0);
+    }
+
+    function minimizeResultModal() {
+      var modal = document.getElementById('resultsModal');
+      if (modal) modal.classList.add('minimized');
+    }
+
+    function restoreResultModal() {
+      var modal = document.getElementById('resultsModal');
+      if (modal) modal.classList.remove('minimized');
     }
 
     function closeReviewModal() {
@@ -3860,8 +4115,34 @@
       }, { passive: true });
     })();
 
-    // ===== START =====
-    loadTest();
+    // ===== START (with session recovery check) =====
+    (async function() {
+      if (window.SessionRecovery) {
+        SessionRecovery.init({
+          testType: 'cefr-reading',
+          getUserId: function() { return sessionStorage.getItem('cefrReadingCandidateName') || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+          getTestId: function() { return testFile; },
+          getState: function() {
+            if (!testInProgress || isReviewMode || hasSubmitted) return null;
+            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile };
+          }
+        });
+        try {
+          var session = await SessionRecovery.check();
+          if (session && session.test_id === testFile) {
+            var choice = await SessionRecovery.prompt(session);
+            if (choice === 'resume') {
+              window._srResumeData = session.session_data;
+            } else {
+              await SessionRecovery.clear();
+            }
+          } else if (session) {
+            await SessionRecovery.clear();
+          }
+        } catch(e) { console.warn('Session recovery check failed:', e); }
+      }
+      loadTest();
+    })();
 
     // ===== ANTI-CHEAT: Disable dev tools and context menu =====
     (function initAntiCheat() {
@@ -4548,8 +4829,13 @@
       
       document.getElementById('leaveConfirmBtn').addEventListener('click', function() {
         window.__okToLeave = true;
-        sessionStorage.setItem('readingMockReturnCategory', 'cefr-reading');
+        var pendingAction = window.__pendingLeaveAction;
         hideLeaveWarningModal();
+        if (typeof pendingAction === 'function') {
+          pendingAction();
+          return;
+        }
+        sessionStorage.setItem('readingMockReturnCategory', 'cefr-reading');
         _navToLanding();
       });
     }
@@ -4563,6 +4849,12 @@
     function hideLeaveWarningModal() {
       const modal = document.getElementById('leaveWarningModal');
       if (modal) modal.style.display = 'none';
+      window.__pendingLeaveAction = null;
+    }
+
+    function promptFriendlyLeave(leaveAction) {
+      window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+      showLeaveWarningModal();
     }
 
     // Back button trap using History API
@@ -4662,17 +4954,18 @@
       `;
       document.head.appendChild(zoomStyle);
 
-      zoomBtn.addEventListener('click', function () {
+      const mobileZoomBtn = document.getElementById('mobileBtnZoom');
+      
+      const updateZoomUI = () => {
         const mc = document.getElementById('mainContainer');
         if (!mc) return;
 
         mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');
-        zoomIndex = (zoomIndex + 1) % zoomLevels.length;
-
         if (zoomIndex > 0) {
           mc.classList.add('zoom-' + zoomIndex);
         }
 
+        // Update Header Button
         let badge = zoomBtn.querySelector('.zoom-level');
         if (zoomIndex === 0) {
           if (badge) badge.remove();
@@ -4686,7 +4979,30 @@
           badge.textContent = zoomIndex;
           zoomBtn.title = Math.round(zoomLevels[zoomIndex] * 100) + '%';
         }
-      });
+
+        // Update Mobile Button
+        if (mobileZoomBtn) {
+          const mobileBadge = mobileZoomBtn.querySelector('.zoom-level-badge');
+          if (zoomIndex === 0) {
+            if (mobileBadge) mobileBadge.style.display = 'none';
+          } else {
+            if (mobileBadge) {
+              mobileBadge.style.display = 'flex';
+              mobileBadge.textContent = zoomIndex;
+            }
+          }
+        }
+      };
+
+      const handleZoom = () => {
+        zoomIndex = (zoomIndex + 1) % zoomLevels.length;
+        updateZoomUI();
+      };
+
+      zoomBtn.addEventListener('click', handleZoom);
+      if (mobileZoomBtn) {
+        mobileZoomBtn.addEventListener('click', handleZoom);
+      }
     })();
 
     // ===== MOBILE FAB LOGIC =====
@@ -4721,36 +5037,59 @@
             if (isActive) {
                 fab.classList.remove('idle');
                 clearTimeout(fabIdleTimer);
+
+                // Ensure tabs/tools are generated before showing menu
+                try {
+                    if (typeof TEST_DATA !== 'undefined' && TEST_DATA && typeof generatePartNav === 'function') {
+                        generatePartNav();
+                    }
+                } catch (e) {}
             } else {
                 resetFabIdle();
             }
         }
     }
 
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        var menu = document.getElementById('mobileToolsMenu');
-        var fab = document.getElementById('mobileFab');
-        if (menu && menu.classList.contains('active') && !menu.contains(e.target) && !fab.contains(e.target)) {
-            toggleMobileMenu();
-        }
-    });
+    // FAB closes only via overlay click (inline onclick) or FAB button
+    // No document-level outside-click handler — keeps menu open for tool buttons
 
     function initDraggable(el) {
         var isDragging = false;
         var startX, startY, initialLeft, initialTop;
         var hasMoved = false;
 
-        var savedPos = localStorage.getItem('mobileFabPos');
-        if (savedPos) {
+        // Use a CEFR-specific key so IELTS/other pages can't push FAB off-screen
+        var fabPosKey = 'mobileFabPos_CEFR_Reading';
+        function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+        function applySavedPosition(pos) {
+            // If saved position is invalid/out of bounds, ignore it
             try {
-                var pos = JSON.parse(savedPos);
-                el.style.top = pos.top !== undefined ? pos.top + 'px' : 'auto';
-                el.style.left = pos.left !== undefined ? pos.left + 'px' : 'auto';
-                el.style.bottom = pos.bottom !== undefined ? pos.bottom + 'px' : 'auto';
-                el.style.right = pos.right !== undefined ? pos.right + 'px' : 'auto';
-            } catch(e) {}
+                var margin = 10;
+                var maxLeft = Math.max(margin, window.innerWidth - el.offsetWidth - margin);
+                var maxTop = Math.max(margin, window.innerHeight - el.offsetHeight - margin);
+
+                // Convert bottom/right to top/left when needed
+                var left = (pos.left !== undefined) ? pos.left :
+                    (pos.right !== undefined ? (window.innerWidth - el.offsetWidth - pos.right) : undefined);
+                var top = (pos.top !== undefined) ? pos.top :
+                    (pos.bottom !== undefined ? (window.innerHeight - el.offsetHeight - pos.bottom) : undefined);
+
+                if (typeof left !== 'number' || typeof top !== 'number' || isNaN(left) || isNaN(top)) return false;
+                left = clamp(left, margin, maxLeft);
+                top = clamp(top, margin, maxTop);
+
+                el.style.left = left + 'px';
+                el.style.top = top + 'px';
+                el.style.right = 'auto';
+                el.style.bottom = 'auto';
+                return true;
+            } catch (e) {
+                return false;
+            }
         }
+
+        localStorage.removeItem(fabPosKey);
 
         function onStart(e) {
             if (document.getElementById('mobileToolsMenu').classList.contains('active')) return;
@@ -4811,7 +5150,7 @@
                 el.style.right = pos.right + 'px';
                 el.style.left = 'auto';
             }
-            localStorage.setItem('mobileFabPos', JSON.stringify(pos));
+            localStorage.setItem(fabPosKey, JSON.stringify(pos));
             document.removeEventListener('mousemove', onMove);
             document.removeEventListener('touchmove', onMove);
             resetFabIdle();
@@ -4832,9 +5171,89 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         var fabContainer = document.getElementById('mobileFabContainer');
-        if (fabContainer) initDraggable(fabContainer);
+        if (fabContainer) {
+            // Hard-force visibility + pin to viewport
+            try {
+                fabContainer.style.display = 'flex';
+                fabContainer.style.position = 'fixed';
+                fabContainer.style.right = '22px';
+                fabContainer.style.bottom = '22px';
+                fabContainer.style.left = 'auto';
+                fabContainer.style.top = 'auto';
+                fabContainer.style.zIndex = '10050';
+                // Ensure it's at the end of body so it's above other content
+                if (document.body && fabContainer.parentNode !== document.body) {
+                    document.body.appendChild(fabContainer);
+                }
+            } catch (e) {}
+            initDraggable(fabContainer);
+        }
         resetFabIdle();
     });
   </script>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
+function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
+document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 </html>

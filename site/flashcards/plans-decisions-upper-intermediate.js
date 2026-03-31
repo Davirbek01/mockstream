@@ -1,0 +1,47 @@
+// Flashcard Data: Plans & Decisions — Upper-Intermediate (B2–C1)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🎯 Plans & Decisions: Upper-Intermediate",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Plans & Decisions",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#7c3aed",
+    bg2: "#4c1d95",
+    accent: "#7c3aed",
+    progress: "#a78bfa"
+  },
+  cards: [
+    {term: "pencil in", en: "", uz: "rejalashtirmoq", uzDef: "Vaqtincha rejalashtirmoq, aniq sanasini keyinroq belgilash sharti bilan.", ex: "Let's pencil in a meeting for next Tuesday, but I'll confirm the time later.", exUz: "Keling, kelasi seshanbaga uchrashuv rejalashtiramiz, lekin vaqtini keyinroq tasdiqlayman."},
+    {term: "iron out", en: "", uz: "bartaraf etmoq", uzDef: "Rejalashtirish yoki amalga oshirishda muammolarni hal qilish.", ex: "We still need to iron out a few details before we finalize the contract.", exUz: "Shartnomani yakunlashdan oldin biz hali bir nechta tafsilotlarni bartaraf etishimiz kerak."},
+    {term: "fall through", en: "", uz: "amalga oshmaslik", uzDef: "Reja yoki ish oxirigacha yetmasdan barbod bo'lish.", ex: "Our vacation plans fell through because my passport expired.", exUz: "Mening pasportim muddati tugagani sababli ta'til rejalarimiz amalga oshmadi."},
+    {term: "rule out", en: "", uz: "chiqarib tashlamoq", uzDef: "Imkoniyat sifatida ko'rmaslik, e'tibordan soqit qilish.", ex: "We can't rule out the possibility of further delays.", exUz: "Biz keyingi kechikishlar ehtimolini chiqarib tashlay olmaymiz."},
+    {term: "explore options", en: "", uz: "variantlarni o'rganish", uzDef: "Turli xil imkoniyatlarni ko'rib chiqish, eng yaxshisini aniqlash maqsadida.", ex: "Before making a decision, we need to explore all our options.", exUz: "Qaror qabul qilishdan oldin biz barcha variantlarimizni o'rganishimiz kerak."},
+    {term: "the bottom line", en: "", uz: "yakuniy xulosa", uzDef: "Muhokamaning eng muhim qismi yoki asosiy fakt.", ex: "The bottom line is we need to cut costs.", exUz: "Yakuniy xulosa shuki, biz xarajatlarni qisqartirishimiz kerak."},
+    {term: "weigh the pros and cons", en: "", uz: "foyda va zararni o'lchash", uzDef: "Qaror qabul qilishdan oldin yaxshi va yomon tomonlarini baholash.", ex: "I'm still weighing the pros and cons of taking the new job.", exUz: "Men hali ham yangi ishga kirishning foyda va zararlarini o'lchayapman."},
+    {term: "at a crossroads", en: "", uz: "chorrahada", uzDef: "Muhim qaror qabul qilinishi kerak bo'lgan vaziyatda.", ex: "I'm at a crossroads in my career; I don't know what to do next.", exUz: "Men faoliyatim chorrahasidaman; keyin nima qilishni bilmayman."},
+    {term: "on the cards", en: "", uz: "rejalarda bor", uzDef: "Ehtimoliy bo'lgan yoki rejalashtirilgan narsa.", ex: "A promotion might be on the cards if I keep performing well.", exUz: "Agar yaxshi ishlashda davom etsam, lavozim ko'tarilishi rejalarda bo'lishi mumkin."},
+    {term: "a done deal", en: "", uz: "bitim tuzildi", uzDef: "Yakunlangan va kelishilgan narsa.", ex: "The merger is a done deal; the paperwork is all signed.", exUz: "Qo'shilish bitimi tuzildi; barcha hujjatlar imzolangan."},
+    {term: "a change of heart", en: "", uz: "fikr o'zgarishi", uzDef: "Avvalgi fikrni o'zgartirish, boshqa qarorga kelish.", ex: "I had a change of heart and decided not to move to another city.", exUz: "Men fikrimni o'zgartirdim va boshqa shaharga ko'chmaslikka qaror qildim."},
+    {term: "have second thoughts", en: "", uz: "shubhalanmoq", uzDef: "Qilingan qarorning to'g'riligiga shubha qilmoq.", ex: "I'm starting to have second thoughts about buying that car.", exUz: "Men ushbu mashinani sotib olish haqida shubhalana boshladim."},
+    {term: "jump to conclusions", en: "", uz: "xulosa qilishga shoshilish", uzDef: "Faktlarni to'liq bilmasdan turib shoshilinch xulosaga kelmoq.", ex: "Don't jump to conclusions; let's hear what she has to say first.", exUz: "Xulosa qilishga shoshilmang; avval uning nima deyishini eshitaylik."},
+    {term: "play your cards right", en: "", uz: "to'g'ri harakat qilmoq", uzDef: "Vaziyatdan yaxshi natija olish uchun to'g'ri yo'l tutmoq.", ex: "If you play your cards right, you could get a promotion.", exUz: "Agar to'g'ri harakat qilsangiz, lavozimga ko'tarilishingiz mumkin."},
+    {term: "call an audible", en: "", uz: "reja o'zgartirmoq", uzDef: "Kutilmagan vaziyat tufayli rejani tezda o'zgartirish.", ex: "We had to call an audible when the client changed their requirements.", exUz: "Mijoz talablarini o'zgartirganda biz rejani tezda o'zgartirishimiz kerak edi."},
+    {term: "take the plunge", en: "", uz: "tavakkal qilmoq", uzDef: "Qiyin yoki xavfli bo'lishi mumkin bo'lgan qarorni qabul qilish.", ex: "After years of thinking about it, I finally decided to take the plunge and start my own business.", exUz: "Bu haqda yillar davomida o'ylab yurganimdan so'ng, nihoyat tavakkal qilib, o'z biznesimni boshlashga qaror qildim."},
+    {term: "a leap of faith", en: "", uz: "ishonch bilan qadam", uzDef: "Xavfli yoki noaniq vaziyatda ishonch bilan harakat qilish.", ex: "Starting a new business is always a leap of faith.", exUz: "Yangi biznesni boshlash har doim ishonch bilan qo'yilgan qadamdir."},
+    {term: "up in the air", en: "", uz: "noma'lum", uzDef: "Hali hal qilinmagan yoki aniq bo'lmagan narsa.", ex: "Our travel plans are still up in the air because of the pandemic.", exUz: "Pandemiya tufayli sayohat rejalarimiz hali noma'lum."},
+    {term: "make a beeline for", en: "", uz: "to'g'ri bormoq", uzDef: "Biron narsaga to'g'ri, tez va aniq yo'nalishda harakatlanmoq.", ex: "As soon as I arrived at the party, I made a beeline for the food table.", exUz: "Bazmga yetib kelganim zahotiyoq, men to'g'ri ovqat stolidan joy oldim."},
+    {term: "in the long run", en: "", uz: "uzoq muddatda", uzDef: "Kelajakda, uzoq vaqt o'tgandan keyin.", ex: "Investing in education will pay off in the long run.", exUz: "Ta'limga sarmoya kiritish uzoq muddatda o'z samarasini beradi."},
+    {term: "call it quits", en: "", uz: "to'xtatishga qaror qilmoq", uzDef: "Biron bir ishni to'xtatishga qaror qilmoq, ayniqsa muvaffaqiyatsizlikka uchraganidan keyin.", ex: "After years of struggling, they decided to call it quits and close the business.", exUz: "Yillar davomida kurashganlaridan so'ng, ular to'xtatishga qaror qilishdi va biznesni yopishdi."},
+    {term: "play the waiting game", en: "", uz: "kutish taktikasi", uzDef: "Qaror qabul qilishdan oldin vaqtinchalik kutish.", ex: "We're playing the waiting game to see if prices will drop.", exUz: "Narxlar pasayishini ko'rish uchun biz kutish taktikasini qo'llayapmiz."},
+    {term: "bite off more than you can chew", en: "", uz: "imkoniyatdan ko'p olmoq", uzDef: "Bajarishga qodir bo'lganidan ko'proq ish yoki vazifani o'z zimmasiga olmoq.", ex: "I think I bit off more than I can chew when I volunteered to organize the entire event.", exUz: "Men butun tadbirni tashkil qilishga ko'ngilli bo'lganimda, o'ylashimcha imkoniyatimdan ko'p olganman."},
+    {term: "make a virtue of necessity", en: "", uz: "majburiyatni afzallikka aylantirmoq", uzDef: "Noqulay vaziyatda ijobiy tomonni topishga harakat qilish.", ex: "They had to make a virtue of necessity when their funding was cut and they had to downsize.", exUz: "Moliyalashtirish qisqarganda va xodimlarni kamaytirishga majbur bo'lishganda, ular majburiyatni afzallikka aylantirishga harakat qilishdi."},
+    {term: "burn your bridges", en: "", uz: "ko'priklarni yoqmoq", uzDef: "Kelajakda qaytib bo'lmaydigan tarzda munosabatlarni buzish.", ex: "He burned his bridges with his former employer when he publicly criticized them.", exUz: "U sobiq ish beruvchisini omma oldida tanqid qilib, ular bilan aloqalarini buzdi."},
+    {term: "take stock", en: "", uz: "holatni baholamoq", uzDef: "Vaziyatni baholab, kelajak uchun rejalar tuzish.", ex: "Before we move forward, let's take stock of where we are and what we need to do.", exUz: "Oldinga siljishdan oldin, keling, qayerdaligimizni va nima qilishimiz kerakligini baholaylik."},
+    {term: "keep your options open", en: "", uz: "variantlarni saqlamoq", uzDef: "O'zingizni cheklamang, turli xil imkoniyatlarni ko'rib chiqishni davom ettiring.", ex: "I'm applying to several universities to keep my options open.", exUz: "Men variantlarimni saqlab qolish uchun bir nechta universitetlarga ariza topshiryapman."},
+    {term: "at the eleventh hour", en: "", uz: "oxirgi daqiqada", uzDef: "Biror narsa sodir bo'lishi uchun eng oxirgi imkoniyat paytida.", ex: "They received the funding at the eleventh hour, just before the project was canceled.", exUz: "Loyiha bekor qilinishidan oldin ular oxirgi daqiqada moliyalashtirishni olishdi."},
+    {term: "back to square one", en: "", uz: "boshiga qaytish", uzDef: "Avvalgi urinish muvaffaqiyatsizlikka uchragandan so'ng, boshidan boshlash.", ex: "The deal fell through, so we're back to square one.", exUz: "Bitim amalga oshmadi, shuning uchun biz boshiga qaytdik."},
+    {term: "in the pipeline", en: "", uz: "jarayonda", uzDef: "Rivojlanayotgan yoki rejalashtirilgan narsa.", ex: "We have several new projects in the pipeline.", exUz: "Bizda bir nechta yangi loyihalar jarayonda."}
+  ]
+};

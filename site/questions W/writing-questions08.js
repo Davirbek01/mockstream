@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Library new! Good? I like books. Cafe? Yes! Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>The library will be new! They want to change it. I want a cafe because I like coffee. And maybe study room? What do you think? See you!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>Did you hear about the library renovation? I think it's great news! I'd really like them to add a digital media center, it would be so useful for research. Also, some study rooms would be good for when I need to concentrate. A café would be nice too, but maybe not as important. What do you think they should do?<br>See you soon!</p>",
-      "sampleB2": "<p>Hey [Friend's Name],<br>Have you heard about the proposed renovations to the library? I'm quite intrigued by the possibilities. Personally, I'm most enthusiastic about the prospect of a digital media center; it would be invaluable for conducting research and accessing online resources. I also believe that dedicated study rooms would be a significant asset, particularly during peak exam periods. While a café could certainly enhance the library's atmosphere, I consider the other options to be of greater practical importance. What are your thoughts on the matter? I'd be interested to hear your perspective.<br>Best,<br>[Your Name]</p>"
+      "sampleB2": "<p>Hey [Friend's Name],<br>Have you heard about the proposed renovations to the library? I'm quite intrigued by the possibilities. Personally, I'm most enthusiastic about the prospect of a digital media center; it would be invaluable for conducting research and accessing online resources. I also believe that dedicated study rooms would be a significant asset, particularly during peak exam periods. While a café could certainly enhance the library's atmosphere, I consider the other options to be of greater practical importance. What are your thoughts on the matter? I'd be interested to hear your perspective.<br>Best,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Nima deb o'ylaysan? Kutubxona katta ta'mirdan o'tyapti! Raqamli media markazi g'oyasi meni juda xursand qildi. Bu narsa internetda ma'lumot izlash uchun juda mos bo'lardi. Shuningdek, imtihon paytida tinch o'qish xonasi juda foydali bo'lishi mumkin deb o'ylayman. Kafe ham ajoyib tuyuladi – o'qiyotganda bir chashka qahva ichishni tasavvur qiling! Senga qanday yangi jihozlar kerak bo'lardi?</p>\n<p>Keyinroq gaplashamiz!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Kutubxona yangi! Yaxshi? Menga kitoblar yoqadi. Kafe? Ha! Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Kutubxona yangi bo'ladi! Ular uni o'zgartirmoqchi. Men kofe ichishni yaxshi ko'rganim uchun kafe xohlayman. Va balki o'qish xonasi ham kerakdir? Sen nima deb o'ylaysan? Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],<br>Kutubxonani ta'mirlash haqida eshitdingizmi? Menimcha, bu ajoyib yangilik! Men ularning raqamli media markazini qo'shishlarini juda xohlardim, bu tadqiqot uchun juda foydali bo'lardi. Shuningdek, konsentratsiya qilishim kerak bo'lganda, ba'zi o'quv xonalari yaxshi bo'lardi. Kafe ham yaxshi bo'lardi, lekin unchalik muhim emas. Sizningcha, ular nima qilishlari kerak?<br>Tez orada ko'rishguncha!</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Kutubxonani ta'mirlash bo'yicha takliflar haqida eshitdingizmi? Meni imkoniyatlar juda qiziqtirmoqda. Shaxsan men, raqamli media markazining istiqboliga eng ko'p qiziqaman; bu tadqiqot o'tkazish va onlayn resurslarga kirish uchun juda qimmatli bo'lardi. Shuningdek, men alohida o'quv xonalari, ayniqsa imtihonlarning eng qizg'in davrida, muhim afzallik bo'lishiga ishonaman. Qahvaxona kutubxonaning muhitini yaxshilashi mumkin bo'lsa-da, men boshqa variantlarni amaliy jihatdan muhimroq deb hisoblayman. Bu borada sizning fikringiz qanday? Sizning nuqtai nazaringizni eshitishga qiziqardim.<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Library,</p><br><p>I like books. More books for kids! And computers, please. Bye.</p>",
       "sampleA2": "<p>Dear Library Committee,</p><br><p>I like the library. I want a place for children with books. And computers are good, because I need them for my homework. A cafe is good too, because I am hungry when I read. Thank you.</p><br><p>Bye,</p><br><p>[Your Name]</p>",
       "sampleB1": "<p>Dear Library Committee,</p><br><p>I am writing to you about the library renovation. I think a children's reading corner would be a good idea because it would encourage children to read more. Also, study rooms would be useful for students who need a quiet place to study. I also think a cafe would be good because people could get a drink and a snack while they are at the library.</p><br><p>Thank you for considering my suggestions.</p><br><p>Sincerely,</p><br><p>[Your Name]</p>",
-      "sampleB2": "<p>Dear Library Committee,</p><br><p>I am writing in response to your announcement regarding the planned library renovation. I have a few suggestions that I believe would significantly benefit library users of all ages.</p><br><p>Firstly, the addition of dedicated study rooms is crucial. These rooms would provide a quiet and focused environment for students and researchers, which is often lacking in the main library space. Secondly, a well-equipped digital media center would be highly valuable, allowing users to access online resources, create multimedia projects, and develop essential digital literacy skills. Furthermore, enhancing the children's section with interactive elements could foster a greater interest in reading among young children.</p><br><p>Finally, I believe that including a small cafe area would greatly improve the library's atmosphere, making it a more welcoming and social space for the community.</p><br><p>Thank you for considering my suggestions. I am excited about the prospect of these improvements.</p><br><p>Yours sincerely,</p><br><p>[Your Name]</p>"
+      "sampleB2": "<p>Dear Library Committee,</p><br><p>I am writing in response to your announcement regarding the planned library renovation. I have a few suggestions that I believe would significantly benefit library users of all ages.</p><br><p>Firstly, the addition of dedicated study rooms is crucial. These rooms would provide a quiet and focused environment for students and researchers, which is often lacking in the main library space. Secondly, a well-equipped digital media center would be highly valuable, allowing users to access online resources, create multimedia projects, and develop essential digital literacy skills. Furthermore, enhancing the children's section with interactive elements could foster a greater interest in reading among young children.</p><br><p>Finally, I believe that including a small cafe area would greatly improve the library's atmosphere, making it a more welcoming and social space for the community.</p><br><p>Thank you for considering my suggestions. I am excited about the prospect of these improvements.</p><br><p>Yours sincerely,</p><br><p>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli Kutubxona Qoʻmitasi,</p>\n\n<p>Yaqinda boʻladigan taʼmirlash boʻyicha jamoatchilik fikrini soʻraganingiz uchun tashakkur. Kutubxonaning jozibasini oshirishi mumkin boʻlgan baʼzi takliflar bilan boʻlishishdan mamnunman.</p>\n\n<p>Birinchidan, yaxshi jihozlangan raqamli media markazi onlayn maʼlumotlar bazalari va raqamli resurslarga kirishni talab qiladigan talabalar va tadqiqotchilar uchun bebaho boʻladi. Bundan tashqari, ovoz oʻtkazmaydigan maxsus oʻquv xonalari yaratish diqqatni jamlagan holda ishlash uchun tinch joylar bilan taʼminlaydi.</p>\n\n<p>Shuningdek, bolalar boʻlimini interaktiv oʻquv stantsiyalari bilan kengaytirishni tavsiya qilaman. Bu yoshligidan kitob oʻqishga muhabbatni rivojlantirishga yordam berishi mumkin.</p>\n\n<p>Nihoyat, kichik kafe maydoni mehmondoʻst muhit yaratadi va uzoqroq tashriflarni ragʻbatlantiradi.</p>\n\n<p>Sevimli kutubxonamizning oʻzgarishini intiqlik bilan kutaman.</p>\n\n<p>Sizning sadoqatliingiz bilan,<br>Sara Mitchell</p>",
+      "uzSampleA1": "<p>Salom, Kutubxona,</p><br><p>Men kitoblarni yaxshi ko'raman. Bolalar uchun ko'proq kitoblar kerak! Va kompyuterlar ham bo'lsin, iltimos. Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli Kutubxona Qoʻmitasi,</p><br><p>Menga kutubxona yoqadi. Men bolalar uchun kitoblari bor joy boʻlishini xohlayman. Va kompyuterlar yaxshi, chunki ular menga uy vazifalarim uchun kerak. Qahvaxona ham yaxshi, chunki men oʻqiganimda qornim ochadi. Rahmat.</p><br><p>Xayr,</p><br><p>[Sizning Ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli Kutubxona Qoʻmitasi,</p><br><p>Men sizga kutubxonani taʼmirlash boʻyicha murojaat qilmoqdaman. Mening fikrimcha, bolalar uchun oʻqish burchagi yaxshi gʻoya boʻlardi, chunki bu bolalarni koʻproq oʻqishga undaydi. Shuningdek, oʻqish uchun tinch joyga muhtoj boʻlgan talabalar uchun oʻquv xonalari foydali boʻladi. Menimcha, kafe ham yaxshi boʻlardi, chunki odamlar kutubxonada boʻlgan vaqtlarida ichimlik va yegulik olishlari mumkin boʻlardi.</p><br><p>Takliflarimni koʻrib chiqqaningiz uchun rahmat.</p><br><p>Hurmat bilan,</p><br><p>[Sizning Ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli Kutubxona Qoʻmitasi,</p><br><p>Men sizning kutubxonani rejalashtirilgan taʼmirlash boʻyicha eʼloningizga javoban yozmoqdaman. Mening fikrimcha, barcha yoshdagi kutubxona foydalanuvchilariga sezilarli foyda keltiradigan bir nechta takliflarim bor.</p><br><p>Birinchidan, alohida oʻquv xonalarini qoʻshish juda muhim. Ushbu xonalar talabalar va tadqiqotchilar uchun tinch va diqqatni jamlashga qulay muhit yaratadi, bu esa koʻpincha asosiy kutubxona maydonida yetishmaydi. Ikkinchidan, yaxshi jihozlangan raqamli media markazi juda qimmatli boʻladi, bu foydalanuvchilarga onlayn resurslardan foydalanish, multimedia loyihalarini yaratish va muhim raqamli savodxonlik koʻnikmalarini rivojlantirish imkonini beradi. Bundan tashqari, bolalar boʻlimini interaktiv elementlar bilan yaxshilash yosh bolalarda oʻqishga boʻlgan qiziqishni oshirishi mumkin.</p><br><p>Va nihoyat, men kichik kafe zonasini qoʻshish kutubxonaning muhitini sezilarli darajada yaxshilaydi, uni jamiyat uchun yanada qulay va ijtimoiy makonga aylantiradi, deb hisoblayman.</p><br><p>Takliflarimni koʻrib chiqayotganingiz uchun tashakkur. Ushbu yaxshilanishlar istiqbolidan xursandman.</p><br><p>Hurmat bilan,</p><br><p>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br><br>Library is good. Books are good. I like books. My mom takes me.<br><br>Bye!</p>",
       "sampleA2": "<p>Hello,<br><br>I like the library. I go to the library with my family. I like to read books and my brother likes the computers. I think the library is important because not everyone has books at home. Also, the library has computers and the internet but my house does not. It is good for kids. <br><br>Thank you.</p>",
       "sampleB1": "<p>Are libraries still important today?<br><br>Some people think libraries are not important because we have the internet now. You can read books on your phone or computer. However, I think libraries are still very useful. <br><br>For example, libraries have free internet and computers for people who don't have them at home. Also, libraries are quiet places to study. It is hard to study at home with the TV and my family. I also like to read real books, not just on a screen. In my opinion, libraries are important for everyone in the community, especially students. They should stay open!<br><br>Thank you.</p>",
-      "sampleB2": "<p>Public Libraries: Still Relevant in the Digital Age<br><br>In today's world, it's easy to question the relevance of traditional institutions like public libraries. With so much information available online, are libraries becoming obsolete? I believe the answer is a resounding no. Libraries continue to provide essential services and adapt to meet the evolving needs of our communities. <br><br>One crucial role libraries play is bridging the digital divide. Not everyone has access to reliable internet or computers at home. Libraries offer free access to these resources, enabling individuals to learn new skills, search for jobs, and connect with others. Furthermore, libraries provide a quiet, supportive environment for studying and research, which can be especially valuable for students. They also offer programs and workshops that promote literacy and lifelong learning. Libraries are also a valuable place for social interaction and community engagement.<br><br>While the internet offers convenience, libraries provide a curated and trustworthy source of information, as well as a valuable community hub. Therefore, libraries remain a vital resource in the digital age.</p>"
+      "sampleB2": "<p>Public Libraries: Still Relevant in the Digital Age<br><br>In today's world, it's easy to question the relevance of traditional institutions like public libraries. With so much information available online, are libraries becoming obsolete? I believe the answer is a resounding no. Libraries continue to provide essential services and adapt to meet the evolving needs of our communities. <br><br>One crucial role libraries play is bridging the digital divide. Not everyone has access to reliable internet or computers at home. Libraries offer free access to these resources, enabling individuals to learn new skills, search for jobs, and connect with others. Furthermore, libraries provide a quiet, supportive environment for studying and research, which can be especially valuable for students. They also offer programs and workshops that promote literacy and lifelong learning. Libraries are also a valuable place for social interaction and community engagement.<br><br>While the internet offers convenience, libraries provide a curated and trustworthy source of information, as well as a valuable community hub. Therefore, libraries remain a vital resource in the digital age.</p>",
+      "uzSample": "<h2>Ommaviy kutubxonalar: Raqamli davrda zamondan tashqari resurs</h2>\n\n<p>Axborot bizning qo'limizda mavjud bo'lgan davrda, ba'zilar ommaviy kutubxonalar eskirgan deb bahslashadi. Biroq, yaqindan o'rganish shuni ko'rsatadiki, bu jamoat muassasalari har doimgidek dolzarbligicha qolmoqda.</p>\n\n<p>Birinchidan, kutubxonalar tenglashtiruvchi joylar bo'lib xizmat qiladi. Hamma ham uyda internetga yoki raqamli qurilmalarga ega emas. Kutubxonalar texnologiyaga bepul kirishni ta'minlaydi, bu esa jamiyatning barcha a'zolari raqamli dunyo bilan hamnafas bo'lishini ta'minlaydi.</p>\n\n<p>Bundan tashqari, kutubxonalar kitob berishdan tashqari rivojlandi. Ularning ko'pchiligi hozirda ijtimoiy aloqani rivojlantiradigan jamoat dasturlari, seminarlar va tadbirlarni taklif qilmoqda. Misol uchun, kitobxonlar guruhlari va mualliflar bilan suhbatlar odamlarni birga olib keladi, buni raqamli platformalar to'liq takrorlay olmaydi.</p>\n\n<p>Bundan tashqari, kutubxonalar talabalar va mutaxassislar uchun tinch o'qish joylarini qidiradigan xavfsiz boshpanadir. Strukturaviy muhit uy sharoitidagi chalg'ituvchi omillardan xoli, diqqatni jamlagan holda o'qishga yordam beradi.</p>\n\n<p>Raqamli inqilob axborotga kirish usulimizni o'zgartirgan bo'lsa-da, ommaviy kutubxonalarni ortiqcha emas, balki to'ldiruvchi sifatida ko'rish kerak. Zamonaviy ehtiyojlarga moslashib, ular bizning jamiyatlarimizda muhim rol o'ynashda davom etmoqda.</p>",
+      "uzSampleA1": "<p>Salom!<br><br>Kutubxona yaxshi. Kitoblar yaxshi. Menga kitoblar yoqadi. Onam meni olib boradi.<br><br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br><br>Menga kutubxona yoqadi. Men oilam bilan kutubxonaga boraman. Men kitob o'qishni yaxshi ko'raman, akam esa kompyuterlarni yaxshi ko'radi. Menimcha, kutubxona muhim, chunki hamma ham uyida kitoblarga ega emas. Shuningdek, kutubxonada kompyuterlar va internet bor, lekin uyimda yo'q. Bu bolalar uchun yaxshi.<br><br>Rahmat.</p>",
+      "uzSampleB1": "<p>Kutubxonalar bugungi kunda ham muhimmi?<br><br>Ba'zi odamlar kutubxonalar muhim emas deb o'ylashadi, chunki hozir bizda internet bor. Kitoblarni telefon yoki kompyuterda o'qishingiz mumkin. Biroq, menimcha, kutubxonalar hali ham juda foydali.<br><br>Misol uchun, kutubxonalarda uyi yo'q odamlar uchun bepul internet va kompyuterlar mavjud. Bundan tashqari, kutubxonalar o'qish uchun tinch joylar. Televizor va oilam bilan uyda o'qish qiyin. Menga shunchaki ekranda emas, balki haqiqiy kitoblarni o'qish ham yoqadi. Mening fikrimcha, kutubxonalar jamiyatdagi hamma uchun, ayniqsa talabalar uchun muhim. Ular ochiq qolishi kerak!<br><br>Rahmat.</p>",
+      "uzSampleB2": "<p>Ommaviy kutubxonalar: Raqamli davrda hamon dolzarb<br><br>Bugungi kunda ommaviy kutubxonalar kabi an'anaviy muassasalarning dolzarbligini shubha ostiga olish oson. Internetda juda ko'p ma'lumot mavjud bo'lsa, kutubxonalar eskirib qolayaptimi? Menimcha, javob qat'iy ravishda yo'q. Kutubxonalar muhim xizmatlarni ko'rsatishda davom etmoqda va jamiyatimizning o'zgaruvchan ehtiyojlariga moslashmoqda.<br><br>Kutubxonalarning muhim rollaridan biri raqamli tafovutni bartaraf etishdir. Hamma ham uyda ishonchli internet yoki kompyuterlarga ega emas. Kutubxonalar ushbu resurslarga bepul kirishni taklif etadi, bu esa odamlarga yangi ko'nikmalarni o'rganish, ish qidirish va boshqalar bilan bog'lanish imkonini beradi. Bundan tashqari, kutubxonalar o'qish va tadqiqot uchun tinch, qo'llab-quvvatlovchi muhitni ta'minlaydi, bu ayniqsa talabalar uchun qimmatli bo'lishi mumkin. Ular, shuningdek, savodxonlikni va umrbod ta'limni targ'ib qiluvchi dasturlar va seminarlar taklif etadi. Kutubxonalar, shuningdek, ijtimoiy muloqot va jamiyat ishtiroki uchun qimmatli joydir.<br><br>Internet qulaylikni taklif qilsa-da, kutubxonalar ishonchli ma'lumot manbai, shuningdek, qimmatli jamoat markazini taqdim etadi. Shuning uchun kutubxonalar raqamli davrda muhim resurs bo'lib qolmoqda.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,143 @@ window.WRITING_TEST_DATA = {
         "uz": "uy chalg'ituvchilari"
       }
     ]
+  },
+  "tokenTranslations": {
+    "major renovation": {
+      "uz": "katta ta'mirlash",
+      "type": "colloc"
+    },
+    "so excited": {
+      "uz": "juda xursand",
+      "type": "adv"
+    },
+    "digital media center": {
+      "uz": "raqamli media markazi",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "…ardi",
+      "type": "modal"
+    },
+    "quiet study room": {
+      "uz": "jim o'qish xonasi",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "…olardi",
+      "type": "modal"
+    },
+    "grabbing a coffee": {
+      "uz": "bir chashka qahva ichib olish",
+      "type": "idiom"
+    },
+    "community input": {
+      "uz": "jamiyat fikri",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Avvalo",
+      "type": "adv"
+    },
+    "online databases": {
+      "uz": "onlayn ma'lumotlar bazalari",
+      "type": "colloc"
+    },
+    "digital resources": {
+      "uz": "raqamli resurslar",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "study rooms": {
+      "uz": "o'qish xonalari",
+      "type": "colloc"
+    },
+    "children's section": {
+      "uz": "bolalar bo'limi",
+      "type": "colloc"
+    },
+    "love of reading": {
+      "uz": "kitobga muhabbat",
+      "type": "colloc"
+    },
+    "Finally": {
+      "uz": "Nihoyat",
+      "type": "adv"
+    },
+    "look forward to": {
+      "uz": "intizorlik bilan kutmoq",
+      "type": "phrasal"
+    },
+    "public libraries": {
+      "uz": "ommaviy kutubxonalar",
+      "type": "colloc"
+    },
+    "community institutions": {
+      "uz": "jamiyat muassasalari",
+      "type": "colloc"
+    },
+    "equalizing spaces": {
+      "uz": "tenglashtiruvchi makonlar",
+      "type": "colloc"
+    },
+    "free access": {
+      "uz": "bepul kirish",
+      "type": "colloc"
+    },
+    "keep up with": {
+      "uz": "bilan hamnafas bo'lmoq",
+      "type": "phrasal"
+    },
+    "digital world": {
+      "uz": "raqamli olam",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "community programs": {
+      "uz": "jamiyat dasturlari",
+      "type": "colloc"
+    },
+    "social connection": {
+      "uz": "ijtimoiy aloqa",
+      "type": "colloc"
+    },
+    "digital platforms": {
+      "uz": "raqamli platformalar",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "safe havens": {
+      "uz": "xavfsiz joylar",
+      "type": "colloc"
+    },
+    "quiet study spaces": {
+      "uz": "tinch o'qish joylari",
+      "type": "colloc"
+    },
+    "focused learning": {
+      "uz": "diqqat bilan o'qish",
+      "type": "colloc"
+    },
+    "digital revolution": {
+      "uz": "raqamli inqilob",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "vital role": {
+      "uz": "muhim rol",
+      "type": "colloc"
+    }
   }
 };

@@ -1,0 +1,36 @@
+// Grammar Test: Cohesion & Reference — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "John likes pizza, and Mary likes <b>___</b> too.", correct: "it", options: ["it", "them", "that", "this"], def: "Use 'it' to refer to a singular, non-specific noun (pizza).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I saw <b>___</b> yesterday. <b>___</b> was very interesting.", correct: "a movie, It", options: ["a movie, It", "movie, It", "a movie, This", "movie, This"], def: "'It' refers back to 'a movie'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> the apple because I was hungry.", correct: "ate", options: ["ate", "eated", "eaten", "eating"], def: "'Ate' is the past simple form of 'eat'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I need to buy some apples. <b>___</b> are for a pie.", correct: "They", options: ["They", "It", "This", "He"], def: "'They' refers to plural nouns (apples).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "My brother wants a bike. I want <b>___</b> too.", correct: "one", options: ["one", "it", "that", "this"], def: "'One' replaces the noun 'bike' to avoid repetition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "My parents <b>___</b> to Italy last year.", correct: "went", options: ["went", "goed", "gone", "going"], def: "'Went' is the past simple form of 'go'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He lost his keys, so he can't find <b>___</b>.", correct: "them", options: ["them", "it", "him", "her"], def: "'Them' refers to plural nouns (keys).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I like this shirt. I'll buy <b>___</b>.", correct: "it", options: ["it", "this", "that", "one"], def: "'It' refers to the singular shirt.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> a cake for her birthday.", correct: "made", options: ["made", "maked", "making", "make"], def: "'Made' is the past simple form of 'make'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "My house is big, but <b>___</b> is not as big as yours.", correct: "it", options: ["it", "they", "this", "that"], def: "'It' refers back to 'my house'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I don't like coffee, but my sister likes <b>___</b>.", correct: "it", options: ["it", "them", "this", "that"], def: "'It' refers back to singular noun 'coffee'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> in London for five years.", correct: "have lived", options: ["have lived", "lived", "are living", "live"], def: "'Have lived' (present perfect) shows an action over time.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The students did well on the test. <b>___</b> were happy.", correct: "They", options: ["They", "It", "He", "She"], def: "'They' refers to plural noun 'students'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He needs a pen. Can you give him <b>___</b>?", correct: "one", options: ["one", "it", "that", "this"], def: "'One' replaces the noun 'pen' to avoid repetition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> to go to the beach tomorrow.", correct: "want", options: ["want", "wants", "wanting", "wanted"], def: "'Want' is the correct present simple form with 'I'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I saw a movie last night. <b>___</b> was very long.", correct: "It", options: ["It", "They", "This", "That"], def: "'It' refers to singular noun 'movie'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "My phone is broken. I need to buy a new <b>___</b>.", correct: "one", options: ["one", "it", "that", "this"], def: "'One' replaces the noun 'phone' to avoid repetition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> at the bank now.", correct: "is working", options: ["is working", "works", "worked", "work"], def: "'Is working' (present continuous) describes current action.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The children are playing. <b>___</b> are having fun.", correct: "They", options: ["They", "It", "He", "She"], def: "'They' refers to plural noun 'children'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I have a car, and my brother has <b>___</b> too.", correct: "one", options: ["one", "it", "that", "this"], def: "'One' replaces the noun 'car' to avoid repetition.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> him yesterday at the store.", correct: "saw", options: ["saw", "seen", "seeing", "see"], def: "'Saw' is the past simple form of 'see'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She bought some flowers. <b>___</b> smell nice.", correct: "They", options: ["They", "It", "He", "She"], def: "'They' refers to plural noun 'flowers'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I lost my wallet. I can't find <b>___</b>.", correct: "it", options: ["it", "them", "this", "that"], def: "'It' refers to singular noun 'wallet'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "John likes pizza, and <b>___</b> does Mary.", correct: "so", options: ["so", "also", "too", "neither"], def: "\"So\" is used to show that someone else does something similar.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I saw a cat <b>___</b> was very cute.", correct: "that", options: ["that", "who", "what", "whose"], def: "\"That\" is used to refer to things like cats.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> he would come, but he didn't.", correct: "said", options: ["said", "sayed", "saying", "says"], def: "Use the past tense \"said\" to refer to something in the past.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I like apples, but my brother prefers <b>___</b>.", correct: "them", options: ["them", "it", "these", "those"], def: "\"Them\" refers to apples, which are plural.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Mary helped Tom, and <b>___</b> helped Sarah.", correct: "he", options: ["he", "him", "his", "himself"], def: "\"He\" is needed as the subject of the second clause.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> her homework every day.", correct: "does", options: ["does", "do", "doing", "did"], def: "\"Does\" is the correct third-person singular present tense form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I gave the book to John. <b>___</b> was happy.", correct: "He", options: ["He", "Him", "His", "It"], def: "\"He\" refers back to John and acts as the subject.", level: "B1–B2"}
+];

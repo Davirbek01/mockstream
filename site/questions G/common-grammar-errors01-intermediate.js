@@ -1,0 +1,36 @@
+// Grammar Test: Common Grammar Errors — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "They <b>___</b> to the cinema last night.", correct: "went", options: ["went", "gone", "go", "going"], def: "Use the past simple tense for completed actions in the past.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>___</b> a new car next month.", correct: "is going to buy", options: ["is going to buy", "will buys", "buys", "bought"], def: "Use 'be going to' for planned future actions.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>don't</b> <b>like</b> <b>to</b> <b>eat</b> vegetables.", correct: "don't", options: ["don't", "like", "to", "eat"], def: "'He' takes 'doesn't', not 'don't' in present simple negative.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> my best friends.", correct: "are", options: ["are", "is", "be", "am"], def: "'They' is plural, so use the plural form 'are'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I have <b>___</b> seen such a beautiful sunset.", correct: "never", options: ["never", "ever", "already", "yet"], def: "Use 'never' to express that something hasn't happened.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> than her brother.", correct: "taller", options: ["taller", "more tall", "tallest", "tall"], def: "Use '-er' for comparative adjectives with one syllable.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>is thinking</b> <b>to buy</b> <b>a new</b> <b>car</b> next month.", correct: "is thinking", options: ["is thinking", "to buy", "a new", "car"], def: "Use 'is thinking of buying' or 'plans to buy' instead of 'is thinking to buy'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "What <b>___</b> you <b>___</b> now?", correct: "are doing", options: ["are doing", "do", "does", "are do"], def: "Use the present continuous tense 'are doing' for now.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is <b>___</b> doctor.", correct: "a", options: ["a", "an", "the", "-"], def: "Use 'a' before consonant sounds.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> finished their homework yet.", correct: "haven't", options: ["haven't", "hasn't", "didn't", "ain't"], def: "Use 'haven't' with 'they' in present perfect negative.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> all the cake.", correct: "ate", options: ["ate", "eated", "eaten", "eating"], def: "'Ate' is the past simple form of 'eat'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "This is <b>___</b> most interesting book I've read.", correct: "the", options: ["the", "a", "an", "-"], def: "Use 'the' before superlative adjectives.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>___</b> to the party if he has time.", correct: "will go", options: ["will go", "goes", "going", "go"], def: "Use 'will + base form' for future conditional sentences.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> a cake yesterday.", correct: "made", options: ["made", "maked", "make", "making"], def: "'Made' is the past simple form of 'make'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>___</b> like coffee, but now I do.", correct: "didn't", options: ["didn't", "don't", "doesn't", "haven't"], def: "Use 'didn't' for past simple negative.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is good <b>___</b> playing the piano.", correct: "at", options: ["at", "in", "on", "to"], def: "Use 'at' after 'good' to describe skills.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> in a bank.", correct: "works", options: ["works", "work", "working", "worked"], def: "'Works' is the correct present simple form for 'he'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We need <b>___</b> sugar for the cake.", correct: "some", options: ["some", "any", "much", "many"], def: "Use 'some' for affirmative sentences with uncountable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> I was happy.", correct: "if", options: ["if", "that", "what", "who"], def: "Use 'if' to introduce a yes/no question in reported speech.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>is knowing</b> <b>the answer</b> <b>but</b> <b>won't</b> tell.", correct: "is knowing", options: ["is knowing", "the answer", "but", "won't"], def: "'Know' is a stative verb. Use 'knows' instead of the continuous form.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> in Paris for 5 years.", correct: "have lived", options: ["have lived", "lived", "are living", "lives"], def: "'Have lived' describes a past action continuing to the present.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "There isn't <b>___</b> milk in the fridge.", correct: "any", options: ["any", "some", "much", "many"], def: "Use 'any' for negative sentences with uncountable nouns.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is older <b>___</b> me.", correct: "than", options: ["than", "then", "that", "to"], def: "'Than' is used for comparisons.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>go</b> <b>to</b> <b>the</b> <b>school</b> every day.", correct: "go", options: ["go", "to", "the", "school"], def: "'She' takes 'goes', not 'go' in present simple.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Have you <b>___</b> that movie?", correct: "seen", options: ["seen", "saw", "see", "seeing"], def: "'Seen' is the past participle of 'see'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I'm going to <b>___</b> the dishes.", correct: "do", options: ["do", "make", "wash", "clean"], def: "We 'do' the dishes.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They are <b>___</b> friendly people.", correct: "very", options: ["very", "too", "so", "much"], def: "'Very' modifies adjectives.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They <b>___</b> TV every evening.", correct: "watch", options: ["watch", "watches", "is watch", "watching"], def: "Use the base form of the verb with 'they'.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> a new car last week.", correct: "bought", options: ["bought", "buy", "buying", "have bought"], def: "Use the past simple for completed actions in the past.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>don't</b> <b>like</b> to <b>eat</b> <b>vegetables</b>.", correct: "don't", options: ["don't", "like", "eat", "vegetables"], def: "'He' requires 'doesn't', not 'don't'.", level: "B1–B2"}
+];

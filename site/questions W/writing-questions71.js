@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Dentist good. No scary! Staff nice. You go. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I went to the dentist. It was okay. I was scared, but it was not bad. The dentist was nice and the place was clean. You should go because it is important for your teeth. See you soon!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I know you're worried about going to the dentist. I felt the same way before my appointment! But honestly, it wasn't as bad as I thought. I went to a new clinic, BrightSmile, and they were really good. I think you should try them. It's important to take care of your teeth, and it's better to go sooner rather than later. Hope this helps!</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>I heard you've been dreading your upcoming dentist appointment, and I completely empathize! I recently had to bite the bullet myself and visit a new clinic, BrightSmile. I was pleasantly surprised. The atmosphere was calming, and the staff were incredibly patient and explained everything clearly. I know you're anxious, but perhaps knowing that I had a positive experience might ease your worries. I'd really recommend giving them a try; preventative care is so important, and putting it off will only make things worse in the long run.<br>Best,<br>[Your Name]</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>I heard you've been dreading your upcoming dentist appointment, and I completely empathize! I recently had to bite the bullet myself and visit a new clinic, BrightSmile. I was pleasantly surprised. The atmosphere was calming, and the staff were incredibly patient and explained everything clearly. I know you're anxious, but perhaps knowing that I had a positive experience might ease your worries. I'd really recommend giving them a try; preventative care is so important, and putting it off will only make things worse in the long run.<br>Best,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, tish doktori qabuliga borishni kechiktiryapsan. Seni butunlay tushunaman – men ham asabiylashgandim! Ammo men yaqinda BrightSmilega bordim va ular juda muloyim va ishontiruvchi edilar. Xodimlar meni butunlay xotirjam his qildirishdi. Albatta, ularni sinab ko'rishing kerak!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Tish shifokori yaxshi. Qo'rqinchli emas! Xodimlar yaxshi. Sen bor. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men tish shifokoriga bordim. Yaxshi bo'ldi. Men qo'rqqan edim, lekin yomon emas edi. Tish shifokori yaxshi edi va joy toza edi. Siz borishingiz kerak, chunki bu sizning tishlaringiz uchun muhim. Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Bilaman, tish shifokoriga borishdan xavotirdasiz. Men ham uchrashuvimdan oldin xuddi shunday his qilgandim! Lekin rostini aytsam, men o'ylaganchalik yomon emas edi. Men yangi klinika, BrightSmilega bordim va ular juda yaxshi edi. O'ylaymanki, siz ularni sinab ko'rishingiz kerak. Tishlaringizga g'amxo'rlik qilish muhim va keyinroq borishdan ko'ra, erta borgan yaxshiroq. Umid qilaman, bu yordam beradi!</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Eshitishimcha, yaqinlashib kelayotgan stomatologga borishingdan qo'rqayotgan ekansan, men seni butunlay tushunaman! Yaqinda men ham o'zimni qo'lga olib, yangi klinika, BrightSmilega borishimga to'g'ri keldi. Men juda xursand bo'ldim. Atmosfera tinchlantiruvchi edi va xodimlar juda sabrli bo'lib, hamma narsani aniq tushuntirishdi. Bilaman, sen xavotirdasan, lekin mening ijobiy tajribam borligini bilish sening tashvishlaringni yengillashtirishi mumkin. Men ularga murojaat qilishni tavsiya qilaman; profilaktika juda muhim va uni kechiktirish uzoq muddatda vaziyatni yanada yomonlashtiradi.<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi BrightSmile!</p><br><p>I come to your clinic. It is good. The doctor is nice. I like the chair. Thank you. Bye!</p>",
       "sampleA2": "<p>Hello BrightSmile,</p><br><p>Thank you for the email. My visit was good. The clinic is clean and the people are nice. I liked the doctor. But the waiting was long. Maybe you can make it faster. And more chairs in the waiting room. Thank you!</p><br><p>Bye,</p><br><p>[Your name]</p>",
       "sampleB1": "<p>Dear BrightSmile Team,</p><br><p>Thank you for your email. I'm writing to tell you about my visit to your clinic. I think the clinic is very nice and clean. The staff were also very friendly and helpful. The dentist explained everything very well, which I appreciated.</p><br><p>However, I think there are some things you could improve. For example, it was difficult to find parking. Also, I think you should offer more magazines to read while waiting. In my opinion, this would make the experience better.</p><br><p>Overall, I had a good experience. Thank you for your service.</p><br><p>Sincerely,<br>[Your name]</p>",
-      "sampleB2": "<p>Dear BrightSmile Team,</p><br><p>Thank you for your follow-up email regarding my recent appointment. I am writing to provide some feedback on my experience at your clinic.</p><br><p>I was generally impressed with the facilities; the clinic appeared modern and well-maintained. The staff were courteous and professional, which contributed to a positive atmosphere. The dentist was thorough in their examination and clearly explained the proposed treatment plan.</p><br><p>However, there are a couple of areas that could be improved. Firstly, the online booking system, while functional, could be more user-friendly. I found it slightly confusing to navigate. Secondly, while I understand that delays can occur, my appointment started approximately 20 minutes late. Perhaps a more accurate estimation of appointment times would be beneficial.</p><br><p>Furthermore, it would be advantageous if you offered a wider range of oral hygiene products for sale in the clinic. A selection of interdental brushes and fluoride mouthwashes, for instance, would be a valuable addition.</p><br><p>In conclusion, I was satisfied with the service I received and would consider returning for future appointments. Thank you for your attention to these suggestions.</p><br><p>Yours sincerely,<br>[Your name]</p>"
+      "sampleB2": "<p>Dear BrightSmile Team,</p><br><p>Thank you for your follow-up email regarding my recent appointment. I am writing to provide some feedback on my experience at your clinic.</p><br><p>I was generally impressed with the facilities; the clinic appeared modern and well-maintained. The staff were courteous and professional, which contributed to a positive atmosphere. The dentist was thorough in their examination and clearly explained the proposed treatment plan.</p><br><p>However, there are a couple of areas that could be improved. Firstly, the online booking system, while functional, could be more user-friendly. I found it slightly confusing to navigate. Secondly, while I understand that delays can occur, my appointment started approximately 20 minutes late. Perhaps a more accurate estimation of appointment times would be beneficial.</p><br><p>Furthermore, it would be advantageous if you offered a wider range of oral hygiene products for sale in the clinic. A selection of interdental brushes and fluoride mouthwashes, for instance, would be a valuable addition.</p><br><p>In conclusion, I was satisfied with the service I received and would consider returning for future appointments. Thank you for your attention to these suggestions.</p><br><p>Yours sincerely,<br>[Your name]</p>",
+      "uzSample": "<p>Hurmatli BrightSmile jamoasi,</p>\n<p>Yaqinda bo'lib o'tgan tish davolashim haqida so'raganingiz uchun rahmat.</p>\n<p>Men tajribamdan juda mamnun bo'ldim. Klinika juda toza va zamonaviy edi. Qabulxonangizdagi xodim juda xushmuomala bo'lib, bu asablarimni tinchlantirishga yordam berdi. Tish shifokori har bir muolajani aniq tushuntirdi va davolanish davomida juda ehtiyotkor edi.</p>\n<p>Biroq, mening ba'zi takliflarim bor. Belgilangan vaqtimga qaramay, kutish vaqti kutilganidan uzoqroq bo'ldi. Shifokor tayyor bo'lganda bemorlarni ogohlantirish uchun SMS xabarnoma tizimini joriy etishni taklif qilaman.</p>\n<p>Bundan tashqari, agar siz tishni oqartirish paketlarini va qimmat davolash usullari uchun moslashuvchan to'lov rejalarini taklif qilsangiz, minnatdor bo'lardim. Kechki qabullar ishlaydigan bemorlar uchun ham foydali bo'lar edi.</p>\n<p>Umuman olganda, men juda mamnunman va keyingi tekshiruvim uchun albatta qaytib kelaman.</p>\n<p>Hurmat bilan,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom, BrightSmile!</p><br><p>Men sizning klinikangizga kelaman. Yaxshi. Doktor yaxshi. Menga stul yoqadi. Rahmat. Xayr!</p>",
+      "uzSampleA2": "<p>Salom BrightSmile,</p><br><p>Elektron pochta uchun rahmat. Mening tashrifim yaxshi bo'ldi. Klinika toza va odamlar yaxshi. Menga doktor yoqdi. Lekin kutish uzoq bo'ldi. Balki siz buni tezroq qilishingiz mumkin. Va kutish xonasida ko'proq stullar bo'lsin. Rahmat!</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli BrightSmile jamoasi,</p><br><p>Elektron pochtangiz uchun rahmat. Sizga klinikangizga tashrifim haqida aytib bermoqchiman. O'ylashimcha, klinika juda yaxshi va toza. Xodimlar ham juda do'stona va yordam berishga tayyor edilar. Stomatolog hamma narsani juda yaxshi tushuntirdi, bu menga juda yoqdi.</p><br><p>Biroq, o'ylaymanki, siz yaxshilashingiz mumkin bo'lgan ba'zi narsalar bor. Masalan, mashina qo'yish joyini topish qiyin edi. Shuningdek, kutish vaqtida o'qish uchun ko'proq jurnallar taklif qilishingiz kerak deb o'ylayman. Mening fikrimcha, bu tajribani yanada yaxshilaydi.</p><br><p>Umuman olganda, men yaxshi tajribaga ega bo'ldim. Xizmatlaringiz uchun rahmat.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli BrightSmile jamoasi,</p><br><p>Yaqinda bo'lib o'tgan uchrashuvim bo'yicha kuzatuv xatingiz uchun rahmat. Klinikangizdagi tajribam haqida fikr-mulohazalarimni bildirish uchun yozmoqdaman.</p><br><p>Umuman olganda, sharoitlar meni hayratga soldi; klinika zamonaviy va yaxshi saqlangan ko'rinardi. Xodimlar xushmuomala va professional edilar, bu esa ijobiy muhit yaratdi. Stomatolog tekshiruvni puxta o'tkazdi va taklif qilingan davolash rejasini aniq tushuntirdi.</p><br><p>Biroq, yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, onlayn bron qilish tizimi, ishlayotgan bo'lsa-da, yanada qulayroq bo'lishi mumkin. Men uni navigatsiya qilishda biroz chalkash deb topdim. Ikkinchidan, kechikishlar bo'lishi mumkinligini tushunsam ham, uchrashuvim taxminan 20 daqiqa kechikib boshlandi. Ehtimol, uchrashuv vaqtlarini aniqroq baholash foydali bo'lar edi.</p><br><p>Bundan tashqari, agar siz klinika ichida og'iz gigienasi mahsulotlarining kengroq assortimentini sotsangiz, foydali bo'lardi. Masalan, tishlararo cho'tkalar va ftorli og'iz chayish vositalarining tanlovi qimmatli qo'shimcha bo'lardi.</p><br><p>Xulosa qilib aytganda, men olgan xizmatimdan mamnun bo'ldim va kelajakdagi uchrashuvlar uchun qaytib kelishni o'ylab ko'raman. Ushbu takliflarga e'tiboringiz uchun rahmat.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Junk food? Bad. <br> Ads? Bad. <br> No ads! <br> I no like junk food.</p>",
       "sampleA2": "<p>I think junk food is not good. <br> The ads are on TV and they are bad for kids. <br> Kids like the ads and they want to eat junk food. <br> It is not healthy. <br> Maybe no more ads because it is bad for health.</p>",
       "sampleB1": "<p>I think advertising for junk food should be stopped. <br> It's not good for people, especially children, because they see the ads and they want to eat unhealthy things. <br> For example, there are many ads for sweets and crisps. <br> These foods are not good for your health. <br> Also, these companies spend a lot of money on advertising, so it's difficult for healthy food to compete. <br> However, some people say it's their choice what they eat. <br> In my opinion, it's important to protect people from unhealthy advertising.</p>",
-      "sampleB2": "<p>The prevalence of junk food advertising raises serious concerns. I believe there's a strong argument for banning or significantly restricting it. <br>These advertisements often target vulnerable groups, particularly children, using appealing visuals and misleading claims to promote unhealthy products. This contributes to poor dietary habits and rising rates of obesity and related diseases. <br>Furthermore, the sheer volume of junk food advertising drowns out messages promoting healthier alternatives. This creates an environment where unhealthy choices seem normal and desirable. <br>Of course, some argue that banning advertising infringes on freedom of choice. However, just as we regulate advertising for tobacco and alcohol, we should also regulate the promotion of products that demonstrably harm public health. A ban wouldn't eliminate choice entirely, but it would level the playing field and empower consumers to make more informed decisions. Ultimately, the benefits to public health outweigh the potential drawbacks.</p>"
+      "sampleB2": "<p>The prevalence of junk food advertising raises serious concerns. I believe there's a strong argument for banning or significantly restricting it. <br>These advertisements often target vulnerable groups, particularly children, using appealing visuals and misleading claims to promote unhealthy products. This contributes to poor dietary habits and rising rates of obesity and related diseases. <br>Furthermore, the sheer volume of junk food advertising drowns out messages promoting healthier alternatives. This creates an environment where unhealthy choices seem normal and desirable. <br>Of course, some argue that banning advertising infringes on freedom of choice. However, just as we regulate advertising for tobacco and alcohol, we should also regulate the promotion of products that demonstrably harm public health. A ban wouldn't eliminate choice entirely, but it would level the playing field and empower consumers to make more informed decisions. Ultimately, the benefits to public health outweigh the potential drawbacks.</p>",
+      "uzSample": "<p>Zararli ovqatlar reklamasi hamma joyda bo'lib, bizning ovqatlanish odatlarimizga ta'sir qilmoqda. Men bunday reklamalarni taqiqlash yoki qattiq cheklash kerak, deb hisoblayman.</p>\n\n<p>Birinchidan, tez tayyorlanadigan ovqatlar reklamasi semizlik epidemiyasiga hissa qo'shadi. Bu reklamalar sog'lom bo'lmagan ovqatlarni jozibali va istakli ko'rsatadi, ayniqsa reklamani ma'lumotdan ajrata olmaydigan bolalar uchun. Reklama cheklovlari bo'lgan mamlakatlarda aholi salomatligida yaxshilanishlar kuzatildi.</p>\n\n<p>Ikkinchidan, zararli ovqatlar kompaniyalari reklamaga milliardlab dollar sarflaydi, sog'lom oziq-ovqat ishlab chiqaruvchilari esa raqobatlasha olmaydi. Bu bizning oziq-ovqat muhitimizda qayta ishlangan ovqatlar hukmronlik qiladigan notekis vaziyatni yaratadi.</p>\n\n<p>Biroq, qarshilar buni tanlash erkinligini cheklaydi va biznesga zarar yetkazadi, deb ta'kidlaydi. Shunga qaramay, biz allaqachon aholi salomatligi sabablari tufayli sigaret va alkogol reklamalarini cheklaymiz. Zararli ovqatlar ham shunga o'xshash sog'liq muammolarini keltirib chiqaradi.</p>\n\n<p>Bundan tashqari, reklamani taqiqlash mahsulotlarni taqiqlamaydi - odamlar ularni sotib olishni tanlashi mumkin. Bu shunchaki psixologik zaifliklardan foydalanadigan manipulyativ marketingni olib tashlaydi.</p>\n\n<p>Xulosa qilib aytganda, zararli ovqatlar reklamasi taqiqlari shaxsiy tanlovni olib tashlamasdan, aholi salomatligini, ayniqsa bolalar salomatligini himoya qiladi.</p>",
+      "uzSampleA1": "<p>Tez tayyorlanadigan ovqatlar? Yomon. <br> Reklamalar? Yomon. <br> Reklama yo'q! <br> Menga tez tayyorlanadigan ovqatlar yoqmaydi.</p>",
+      "uzSampleA2": "<p>Menimcha, zararli ovqat yaxshi emas. <br> Reklamalar televizorda va ular bolalar uchun yomon. <br> Bolalarga reklamalar yoqadi va ular zararli ovqat yeyishni xohlashadi. <br> Bu sog'lom emas. <br> Ehtimol, endi reklamalar bo'lmasligi kerak, chunki bu sog'liq uchun yomon.</p>",
+      "uzSampleB1": "<p>Menimcha, zararli ovqatlar reklamasi to'xtatilishi kerak. <br> Bu odamlar uchun, ayniqsa bolalar uchun yaxshi emas, chunki ular reklamalarni ko'rishadi va zararli narsalarni yeyishni xohlashadi. <br> Misol uchun, shirinliklar va chips reklamalari juda ko'p. <br> Bu ovqatlar sizning sog'lig'ingiz uchun yaxshi emas. <br> Shuningdek, bu kompaniyalar reklamaga juda ko'p pul sarflashadi, shuning uchun sog'lom ovqatlar raqobat qilishlari qiyin. <br> Biroq, ba'zi odamlar nima yeyish ularning tanlovi deyishadi. <br> Mening fikrimcha, odamlarni zararli reklamadan himoya qilish muhim.</p>",
+      "uzSampleB2": "<p>Tez tayyorlanadigan ovqatlar reklamalarining keng tarqalishi jiddiy xavotirlarni uyg'otadi. Menimcha, ularni taqiqlash yoki sezilarli darajada cheklash uchun jiddiy asos bor. <br>Bu reklamalar ko'pincha zaif guruhlarni, ayniqsa bolalarni nishonga oladi, sog'lom bo'lmagan mahsulotlarni targ'ib qilish uchun jozibali vizual va chalg'ituvchi da'volardan foydalanadi. Bu noto'g'ri ovqatlanish odatlariga, semizlik va unga bog'liq kasalliklar darajasining oshishiga olib keladi. <br>Bundan tashqari, tez tayyorlanadigan ovqatlar reklamalarining haddan tashqari ko'pligi sog'lomroq alternativalarni targ'ib qiluvchi xabarlarni yo'qqa chiqaradi. Bu sog'lom bo'lmagan tanlovlar normal va istalgan bo'lib ko'rinadigan muhitni yaratadi. <br>Albatta, ba'zilar reklama taqiqlanishi tanlash erkinligini buzadi, deb ta'kidlaydi. Biroq, xuddi tamaki va alkogol reklamalarini tartibga solganimiz kabi, biz jamoat salomatligiga aniq zarar yetkazadigan mahsulotlarni targ'ib qilishni ham tartibga solishimiz kerak. Taqiqlash tanlovni butunlay yo'q qilmaydi, lekin u o'yin qoidalarini tenglashtiradi va iste'molchilarga yanada asosli qarorlar qabul qilish imkoniyatini beradi. Oxir oqibat, jamoat salomatligiga keltiriladigan foyda potentsial kamchiliklardan ustun turadi.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,171 @@ window.WRITING_TEST_DATA = {
         "uz": "qat'iy ishonamanki"
       }
     ]
+  },
+  "tokenTranslations": {
+    "putting off": {
+      "uz": "kechiktirmoq",
+      "type": "phrasal"
+    },
+    "totally": {
+      "uz": "butunlay",
+      "type": "adv"
+    },
+    "just": {
+      "uz": "faqat",
+      "type": "adv"
+    },
+    "so": {
+      "uz": "shunchalik",
+      "type": "adv"
+    },
+    "completely": {
+      "uz": "to'liq",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "O'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "dental appointment": {
+      "uz": "tish shifokoriga uchrashuv",
+      "type": "colloc"
+    },
+    "pleasantly": {
+      "uz": "yoqimli tarzda",
+      "type": "adv"
+    },
+    "spotlessly": {
+      "uz": "benuqson",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "ajoyib tarzda",
+      "type": "adv"
+    },
+    "clearly": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "very": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "waiting time": {
+      "uz": "kutish vaqti",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "text notification system": {
+      "uz": "sms xabarnoma tizimi",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "teeth whitening packages": {
+      "uz": "tish oqartirish paketlari",
+      "type": "colloc"
+    },
+    "flexible payment plans": {
+      "uz": "moslashuvchan to'lov rejalari",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "will": {
+      "uz": "bo'ladi",
+      "type": "modal"
+    },
+    "Junk food advertising": {
+      "uz": "Zararli ovqat reklamasini",
+      "type": "colloc"
+    },
+    "strongly": {
+      "uz": "qat'iy",
+      "type": "adv"
+    },
+    "heavily": {
+      "uz": "kuchli",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "fast food advertisements": {
+      "uz": "tez tayyorlanadigan ovqatlar reklamasi",
+      "type": "colloc"
+    },
+    "obesity epidemic": {
+      "uz": "semizlik epidemiyasi",
+      "type": "colloc"
+    },
+    "unhealthy foods": {
+      "uz": "zararli ovqatlar",
+      "type": "colloc"
+    },
+    "advertising restrictions": {
+      "uz": "reklama cheklovlari",
+      "type": "colloc"
+    },
+    "public health": {
+      "uz": "jamoat salomatligi",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "healthy food": {
+      "uz": "sog'lom ovqat",
+      "type": "colloc"
+    },
+    "food environment": {
+      "uz": "oziq-ovqat muhiti",
+      "type": "colloc"
+    },
+    "freedom of choice": {
+      "uz": "tanlash erkinligi",
+      "type": "colloc"
+    },
+    "Nevertheless": {
+      "uz": "Shunga qaramay",
+      "type": "adv"
+    },
+    "public health reasons": {
+      "uz": "jamoat salomatligi sabablari",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "manipulative marketing": {
+      "uz": "manipulyativ marketing",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    }
   }
 };

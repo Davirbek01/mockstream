@@ -1,0 +1,2663 @@
+[2026-03-27 10:27:23] ============================================================
+[2026-03-27 10:27:23] BATCH GRAMMAR TEST LEVELS GENERATOR
+[2026-03-27 10:27:23] Model: gemini-2.0-flash | Levels per topic: 3 | Questions per level: 30
+[2026-03-27 10:27:23] ============================================================
+[2026-03-27 10:27:23] Found 134 grammar topics in landing.html
+[2026-03-27 10:27:23] 134 topics to process (0 already done)
+[2026-03-27 10:27:23] Estimated API calls: 402
+[2026-03-27 10:27:23] Estimated time: ~80 minutes
+[2026-03-27 10:27:23] 
+[2026-03-27 10:27:23] ============================================================
+[2026-03-27 10:27:23] TOPIC 1/134: Subjunctive Mood (subjunctive-mood01)
+[2026-03-27 10:27:23] ============================================================
+[2026-03-27 10:27:23]     Intermediate (B1–B2)...
+[2026-03-27 10:27:41]       Got 30, 30 valid, total: 30
+[2026-03-27 10:27:46]     Upper-Intermediate (B2–C1)...
+[2026-03-27 10:28:03]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:08]     Advanced (C1–C2)...
+[2026-03-27 10:28:28]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:33]     Wrote questions G\subjunctive-mood01-intermediate.js (30 questions)
+[2026-03-27 10:28:33]     Wrote questions G\subjunctive-mood01-upper-intermediate.js (30 questions)
+[2026-03-27 10:28:33]     Wrote questions G\subjunctive-mood01-advanced.js (30 questions)
+[2026-03-27 10:28:33]     DONE: 90 new questions for Subjunctive Mood
+[2026-03-27 10:28:33] 
+[2026-03-27 10:28:33] ============================================================
+[2026-03-27 10:28:33] TOPIC 2/134: Question & Compare (question-compare01)
+[2026-03-27 10:28:33] ============================================================
+[2026-03-27 10:28:33]     Intermediate (B1–B2)...
+[2026-03-27 10:28:49]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 10:29:12]       Got 30, 30 valid, total: 30
+[2026-03-27 10:29:17]     Advanced (C1–C2)...
+[2026-03-27 10:29:38]       Got 30, 30 valid, total: 30
+[2026-03-27 10:29:43]     Wrote questions G\question-compare01-intermediate.js (30 questions)
+[2026-03-27 10:29:43]     Wrote questions G\question-compare01-upper-intermediate.js (30 questions)
+[2026-03-27 10:29:43]     Wrote questions G\question-compare01-advanced.js (30 questions)
+[2026-03-27 10:29:43]     DONE: 90 new questions for Question & Compare
+[2026-03-27 10:29:43] 
+[2026-03-27 10:29:43] ============================================================
+[2026-03-27 10:29:43] TOPIC 3/134: Present Tenses Day 4 (present-tenses-day04)
+[2026-03-27 10:29:43] ============================================================
+[2026-03-27 10:29:43]     Intermediate (B1–B2)...
+[2026-03-27 11:34:30] ============================================================
+[2026-03-27 11:34:30] BATCH GRAMMAR TEST LEVELS GENERATOR
+[2026-03-27 11:34:30] Model: gemini-2.0-flash | Levels per topic: 3 | Questions per level: 30
+[2026-03-27 11:34:30] ============================================================
+[2026-03-27 11:34:30] Found 134 grammar topics in landing.html
+[2026-03-27 11:34:30] 134 topics to process (0 already done)
+[2026-03-27 11:34:30] Estimated API calls: 402
+[2026-03-27 11:34:30] Estimated time: ~80 minutes
+[2026-03-27 11:34:30] 
+[2026-03-27 11:34:30] ============================================================
+[2026-03-27 11:34:30] TOPIC 1/134: Subjunctive Mood (subjunctive-mood01)
+[2026-03-27 11:34:30] ============================================================
+[2026-03-27 11:34:30]     Intermediate (B1–B2)...
+[2026-03-27 11:34:46]       Got 30, 24 valid, total: 24
+[2026-03-27 11:34:46]       Retry #2 — need 6 more questions...
+[2026-03-27 11:34:58]       Got 11, 6 valid, total: 30
+[2026-03-27 11:35:03]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:35:22]       Got 30, 25 valid, total: 25
+[2026-03-27 11:35:22]       Retry #2 — need 5 more questions...
+[2026-03-27 11:35:33]       Got 10, 5 valid, total: 30
+[2026-03-27 11:35:38]     Advanced (C1–C2)...
+[2026-03-27 11:35:54]       Got 30, 24 valid, total: 24
+[2026-03-27 11:35:54]       Retry #2 — need 6 more questions...
+[2026-03-27 11:36:06]       Got 11, 6 valid, total: 30
+[2026-03-27 11:36:11]     Wrote questions G\subjunctive-mood01-intermediate.js (30 questions)
+[2026-03-27 11:36:11]     Wrote questions G\subjunctive-mood01-upper-intermediate.js (30 questions)
+[2026-03-27 11:36:11]     Wrote questions G\subjunctive-mood01-advanced.js (30 questions)
+[2026-03-27 11:36:11]     DONE: 90 new questions for Subjunctive Mood
+[2026-03-27 11:36:11] 
+[2026-03-27 11:36:11] ============================================================
+[2026-03-27 11:36:11] TOPIC 2/134: Question & Compare (question-compare01)
+[2026-03-27 11:36:11] ============================================================
+[2026-03-27 11:36:11]     Intermediate (B1–B2)...
+[2026-03-27 11:36:26]       Got 30, 25 valid, total: 25
+[2026-03-27 11:36:26]       Retry #2 — need 5 more questions...
+[2026-03-27 11:36:37]       Got 10, 5 valid, total: 30
+[2026-03-27 11:36:42]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:36:59]       Got 30, 27 valid, total: 27
+[2026-03-27 11:36:59]       Retry #2 — need 3 more questions...
+[2026-03-27 11:37:09]       Got 8, 3 valid, total: 30
+[2026-03-27 11:37:14]     Advanced (C1–C2)...
+[2026-03-27 11:37:33]       Got 30, 23 valid, total: 23
+[2026-03-27 11:37:33]       Retry #2 — need 7 more questions...
+[2026-03-27 11:37:45]       Got 12, 7 valid, total: 30
+[2026-03-27 11:37:50]     Wrote questions G\question-compare01-intermediate.js (30 questions)
+[2026-03-27 11:37:50]     Wrote questions G\question-compare01-upper-intermediate.js (30 questions)
+[2026-03-27 11:37:50]     Wrote questions G\question-compare01-advanced.js (30 questions)
+[2026-03-27 11:37:50]     DONE: 90 new questions for Question & Compare
+[2026-03-27 11:37:50] 
+[2026-03-27 11:37:50] ============================================================
+[2026-03-27 11:37:50] TOPIC 3/134: Present Tenses Day 4 (present-tenses-day04)
+[2026-03-27 11:37:50] ============================================================
+[2026-03-27 11:37:50]     Intermediate (B1–B2)...
+[2026-03-27 11:38:05]       Got 30, 30 valid, total: 30
+[2026-03-27 11:38:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:38:27]       Got 30, 30 valid, total: 30
+[2026-03-27 11:38:32]     Advanced (C1–C2)...
+[2026-03-27 11:38:49]       Got 30, 30 valid, total: 30
+[2026-03-27 11:38:54]     Wrote questions G\present-tenses-day04-intermediate.js (30 questions)
+[2026-03-27 11:38:54]     Wrote questions G\present-tenses-day04-upper-intermediate.js (30 questions)
+[2026-03-27 11:38:54]     Wrote questions G\present-tenses-day04-advanced.js (30 questions)
+[2026-03-27 11:38:54]     DONE: 90 new questions for Present Tenses Day 4
+[2026-03-27 11:38:54] 
+[2026-03-27 11:38:54] ============================================================
+[2026-03-27 11:38:54] TOPIC 4/134: Gerunds vs Infinitives (gerunds-infinitives01)
+[2026-03-27 11:38:54] ============================================================
+[2026-03-27 11:38:54]     Intermediate (B1–B2)...
+[2026-03-27 11:39:10]       Got 30, 23 valid, total: 23
+[2026-03-27 11:39:10]       Retry #2 — need 7 more questions...
+[2026-03-27 11:39:21]       Got 12, 7 valid, total: 30
+[2026-03-27 11:39:26]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:39:42]       Got 30, 23 valid, total: 23
+[2026-03-27 11:39:42]       Retry #2 — need 7 more questions...
+[2026-03-27 11:39:54]       Got 12, 7 valid, total: 30
+[2026-03-27 11:39:59]     Advanced (C1–C2)...
+[2026-03-27 11:40:17]       Got 30, 23 valid, total: 23
+[2026-03-27 11:40:17]       Retry #2 — need 7 more questions...
+[2026-03-27 11:40:30]       Got 12, 7 valid, total: 30
+[2026-03-27 11:40:35]     Wrote questions G\gerunds-infinitives01-intermediate.js (30 questions)
+[2026-03-27 11:40:35]     Wrote questions G\gerunds-infinitives01-upper-intermediate.js (30 questions)
+[2026-03-27 11:40:35]     Wrote questions G\gerunds-infinitives01-advanced.js (30 questions)
+[2026-03-27 11:40:35]     DONE: 90 new questions for Gerunds vs Infinitives
+[2026-03-27 11:40:35] 
+[2026-03-27 11:40:35] ============================================================
+[2026-03-27 11:40:35] TOPIC 5/134: Articles (articles01)
+[2026-03-27 11:40:35] ============================================================
+[2026-03-27 11:40:35]     Intermediate (B1–B2)...
+[2026-03-27 11:40:51]       Got 30, 27 valid, total: 27
+[2026-03-27 11:40:51]       Retry #2 — need 3 more questions...
+[2026-03-27 11:41:02]       Got 8, 3 valid, total: 30
+[2026-03-27 11:41:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:41:25]       Got 30, 29 valid, total: 29
+[2026-03-27 11:41:25]       Retry #2 — need 1 more questions...
+[2026-03-27 11:41:35]       Got 6, 1 valid, total: 30
+[2026-03-27 11:41:40]     Advanced (C1–C2)...
+[2026-03-27 11:41:57]       Got 30, 27 valid, total: 27
+[2026-03-27 11:41:57]       Retry #2 — need 3 more questions...
+[2026-03-27 11:42:07]       Got 8, 3 valid, total: 30
+[2026-03-27 11:42:13]     Wrote questions G\articles01-intermediate.js (30 questions)
+[2026-03-27 11:42:13]     Wrote questions G\articles01-upper-intermediate.js (30 questions)
+[2026-03-27 11:42:13]     Wrote questions G\articles01-advanced.js (30 questions)
+[2026-03-27 11:42:13]     DONE: 90 new questions for Articles
+[2026-03-27 11:42:13] 
+[2026-03-27 11:42:13] ============================================================
+[2026-03-27 11:42:13] TOPIC 6/134: Conditionals (conditionals01)
+[2026-03-27 11:42:13] ============================================================
+[2026-03-27 11:42:13]     Intermediate (B1–B2)...
+[2026-03-27 11:42:29]       Got 30, 25 valid, total: 25
+[2026-03-27 11:42:29]       Retry #2 — need 5 more questions...
+[2026-03-27 11:42:41]       Got 10, 5 valid, total: 30
+[2026-03-27 11:42:46]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:43:05]       Got 30, 23 valid, total: 23
+[2026-03-27 11:43:05]       Retry #2 — need 7 more questions...
+[2026-03-27 11:43:18]       Got 12, 7 valid, total: 30
+[2026-03-27 11:43:23]     Advanced (C1–C2)...
+[2026-03-27 11:43:41]       Got 30, 25 valid, total: 25
+[2026-03-27 11:43:41]       Retry #2 — need 5 more questions...
+[2026-03-27 11:43:53]       Got 10, 5 valid, total: 30
+[2026-03-27 11:43:58]     Wrote questions G\conditionals01-intermediate.js (30 questions)
+[2026-03-27 11:43:58]     Wrote questions G\conditionals01-upper-intermediate.js (30 questions)
+[2026-03-27 11:43:58]     Wrote questions G\conditionals01-advanced.js (30 questions)
+[2026-03-27 11:43:58]     DONE: 90 new questions for Conditionals
+[2026-03-27 11:43:58] 
+[2026-03-27 11:43:58] ============================================================
+[2026-03-27 11:43:58] TOPIC 7/134: Modal Verbs (modal-verbs01)
+[2026-03-27 11:43:58] ============================================================
+[2026-03-27 11:43:58]     Intermediate (B1–B2)...
+[2026-03-27 11:44:15]       Got 30, 30 valid, total: 30
+[2026-03-27 11:44:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:44:38]       Got 30, 23 valid, total: 23
+[2026-03-27 11:44:38]       Retry #2 — need 7 more questions...
+[2026-03-27 11:44:50]       Got 12, 7 valid, total: 30
+[2026-03-27 11:44:55]     Advanced (C1–C2)...
+[2026-03-27 11:45:12]       Got 30, 23 valid, total: 23
+[2026-03-27 11:45:12]       Retry #2 — need 7 more questions...
+[2026-03-27 11:45:24]       Got 12, 7 valid, total: 30
+[2026-03-27 11:45:29]     Wrote questions G\modal-verbs01-intermediate.js (30 questions)
+[2026-03-27 11:45:29]     Wrote questions G\modal-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 11:45:29]     Wrote questions G\modal-verbs01-advanced.js (30 questions)
+[2026-03-27 11:45:29]     DONE: 90 new questions for Modal Verbs
+[2026-03-27 11:45:30] 
+[2026-03-27 11:45:30] ============================================================
+[2026-03-27 11:45:30] TOPIC 8/134: Passive Voice (passive-voice01)
+[2026-03-27 11:45:30] ============================================================
+[2026-03-27 11:45:30]     Intermediate (B1–B2)...
+[2026-03-27 11:45:45]       Got 30, 23 valid, total: 23
+[2026-03-27 11:45:45]       Retry #2 — need 7 more questions...
+[2026-03-27 11:45:56]       Got 12, 7 valid, total: 30
+[2026-03-27 11:46:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:46:17]       Got 30, 23 valid, total: 23
+[2026-03-27 11:46:17]       Retry #2 — need 7 more questions...
+[2026-03-27 11:46:30]       Got 12, 7 valid, total: 30
+[2026-03-27 11:46:35]     Advanced (C1–C2)...
+[2026-03-27 11:46:54]       Got 30, 23 valid, total: 23
+[2026-03-27 11:46:54]       Retry #2 — need 7 more questions...
+[2026-03-27 11:47:06]       Got 12, 7 valid, total: 30
+[2026-03-27 11:47:11]     Wrote questions G\passive-voice01-intermediate.js (30 questions)
+[2026-03-27 11:47:11]     Wrote questions G\passive-voice01-upper-intermediate.js (30 questions)
+[2026-03-27 11:47:11]     Wrote questions G\passive-voice01-advanced.js (30 questions)
+[2026-03-27 11:47:11]     DONE: 90 new questions for Passive Voice
+[2026-03-27 11:47:11] 
+[2026-03-27 11:47:11] ============================================================
+[2026-03-27 11:47:11] TOPIC 9/134: Relative Clauses (relative-clauses01)
+[2026-03-27 11:47:11] ============================================================
+[2026-03-27 11:47:11]     Intermediate (B1–B2)...
+[2026-03-27 11:47:29]       Got 30, 30 valid, total: 30
+[2026-03-27 11:47:34]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:47:50]       Got 30, 27 valid, total: 27
+[2026-03-27 11:47:50]       Retry #2 — need 3 more questions...
+[2026-03-27 11:48:01]       Got 8, 3 valid, total: 30
+[2026-03-27 11:48:06]     Advanced (C1–C2)...
+[2026-03-27 11:48:23]       Got 30, 23 valid, total: 23
+[2026-03-27 11:48:23]       Retry #2 — need 7 more questions...
+[2026-03-27 11:48:35]       Got 12, 7 valid, total: 30
+[2026-03-27 11:48:40]     Wrote questions G\relative-clauses01-intermediate.js (30 questions)
+[2026-03-27 11:48:40]     Wrote questions G\relative-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 11:48:40]     Wrote questions G\relative-clauses01-advanced.js (30 questions)
+[2026-03-27 11:48:40]     DONE: 90 new questions for Relative Clauses
+[2026-03-27 11:48:40] 
+[2026-03-27 11:48:40] ============================================================
+[2026-03-27 11:48:40] TOPIC 10/134: Reported Speech (reported-speech01)
+[2026-03-27 11:48:40] ============================================================
+[2026-03-27 11:48:40]     Intermediate (B1–B2)...
+[2026-03-27 11:48:57]       Got 30, 23 valid, total: 23
+[2026-03-27 11:48:57]       Retry #2 — need 7 more questions...
+[2026-03-27 11:49:09]       Got 12, 7 valid, total: 30
+[2026-03-27 11:49:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:49:30]       Got 30, 24 valid, total: 24
+[2026-03-27 11:49:30]       Retry #2 — need 6 more questions...
+[2026-03-27 11:49:43]       Got 11, 6 valid, total: 30
+[2026-03-27 11:49:48]     Advanced (C1–C2)...
+[2026-03-27 11:50:04]       Got 30, 26 valid, total: 26
+[2026-03-27 11:50:04]       Retry #2 — need 4 more questions...
+[2026-03-27 11:50:15]       Got 9, 4 valid, total: 30
+[2026-03-27 11:50:20]     Wrote questions G\reported-speech01-intermediate.js (30 questions)
+[2026-03-27 11:50:20]     Wrote questions G\reported-speech01-upper-intermediate.js (30 questions)
+[2026-03-27 11:50:20]     Wrote questions G\reported-speech01-advanced.js (30 questions)
+[2026-03-27 11:50:20]     DONE: 90 new questions for Reported Speech
+[2026-03-27 11:50:20] 
+[2026-03-27 11:50:20] ============================================================
+[2026-03-27 11:50:20] TOPIC 11/134: Past Tenses (tenses-past01)
+[2026-03-27 11:50:20] ============================================================
+[2026-03-27 11:50:20]     Intermediate (B1–B2)...
+[2026-03-27 11:50:37]       Got 30, 28 valid, total: 28
+[2026-03-27 11:50:37]       Retry #2 — need 2 more questions...
+[2026-03-27 11:50:46]       Got 7, 2 valid, total: 30
+[2026-03-27 11:50:51]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:51:07]       Got 30, 26 valid, total: 26
+[2026-03-27 11:51:07]       Retry #2 — need 4 more questions...
+[2026-03-27 11:51:19]       Got 9, 4 valid, total: 30
+[2026-03-27 11:51:24]     Advanced (C1–C2)...
+[2026-03-27 11:51:42]       Got 30, 24 valid, total: 24
+[2026-03-27 11:51:42]       Retry #2 — need 6 more questions...
+[2026-03-27 11:51:55]       Got 11, 6 valid, total: 30
+[2026-03-27 11:52:00]     Wrote questions G\tenses-past01-intermediate.js (30 questions)
+[2026-03-27 11:52:00]     Wrote questions G\tenses-past01-upper-intermediate.js (30 questions)
+[2026-03-27 11:52:00]     Wrote questions G\tenses-past01-advanced.js (30 questions)
+[2026-03-27 11:52:00]     DONE: 90 new questions for Past Tenses
+[2026-03-27 11:52:00] 
+[2026-03-27 11:52:00] ============================================================
+[2026-03-27 11:52:00] TOPIC 12/134: Future Tenses (tenses-future01)
+[2026-03-27 11:52:00] ============================================================
+[2026-03-27 11:52:00]     Intermediate (B1–B2)...
+[2026-03-27 11:52:15]       Got 30, 23 valid, total: 23
+[2026-03-27 11:52:15]       Retry #2 — need 7 more questions...
+[2026-03-27 11:52:27]       Got 12, 7 valid, total: 30
+[2026-03-27 11:52:32]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:52:50]       Got 30, 25 valid, total: 25
+[2026-03-27 11:52:50]       Retry #2 — need 5 more questions...
+[2026-03-27 11:53:01]       Got 10, 5 valid, total: 30
+[2026-03-27 11:53:06]     Advanced (C1–C2)...
+[2026-03-27 11:53:24]       Got 30, 24 valid, total: 24
+[2026-03-27 11:53:24]       Retry #2 — need 6 more questions...
+[2026-03-27 11:53:36]       Got 11, 6 valid, total: 30
+[2026-03-27 11:53:41]     Wrote questions G\tenses-future01-intermediate.js (30 questions)
+[2026-03-27 11:53:41]     Wrote questions G\tenses-future01-upper-intermediate.js (30 questions)
+[2026-03-27 11:53:41]     Wrote questions G\tenses-future01-advanced.js (30 questions)
+[2026-03-27 11:53:41]     DONE: 90 new questions for Future Tenses
+[2026-03-27 11:53:41] 
+[2026-03-27 11:53:41] ============================================================
+[2026-03-27 11:53:41] TOPIC 13/134: Conjunctions (conjunctions01)
+[2026-03-27 11:53:41] ============================================================
+[2026-03-27 11:53:41]     Intermediate (B1–B2)...
+[2026-03-27 11:53:57]       Got 30, 23 valid, total: 23
+[2026-03-27 11:53:57]       Retry #2 — need 7 more questions...
+[2026-03-27 11:54:09]       Got 12, 7 valid, total: 30
+[2026-03-27 11:54:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:54:31]       Got 30, 25 valid, total: 25
+[2026-03-27 11:54:31]       Retry #2 — need 5 more questions...
+[2026-03-27 11:54:42]       Got 10, 5 valid, total: 30
+[2026-03-27 11:54:47]     Advanced (C1–C2)...
+[2026-03-27 11:55:05]       Got 30, 25 valid, total: 25
+[2026-03-27 11:55:05]       Retry #2 — need 5 more questions...
+[2026-03-27 11:55:17]       Got 10, 5 valid, total: 30
+[2026-03-27 11:55:22]     Wrote questions G\conjunctions01-intermediate.js (30 questions)
+[2026-03-27 11:55:22]     Wrote questions G\conjunctions01-upper-intermediate.js (30 questions)
+[2026-03-27 11:55:22]     Wrote questions G\conjunctions01-advanced.js (30 questions)
+[2026-03-27 11:55:22]     DONE: 90 new questions for Conjunctions
+[2026-03-27 11:55:22] 
+[2026-03-27 11:55:22] ============================================================
+[2026-03-27 11:55:22] TOPIC 14/134: Quantifiers (quantifiers01)
+[2026-03-27 11:55:22] ============================================================
+[2026-03-27 11:55:22]     Intermediate (B1–B2)...
+[2026-03-27 11:55:37]       Got 30, 26 valid, total: 26
+[2026-03-27 11:55:37]       Retry #2 — need 4 more questions...
+[2026-03-27 11:55:48]       Got 9, 4 valid, total: 30
+[2026-03-27 11:55:53]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:56:10]       Got 30, 23 valid, total: 23
+[2026-03-27 11:56:10]       Retry #2 — need 7 more questions...
+[2026-03-27 11:56:23]       Got 12, 7 valid, total: 30
+[2026-03-27 11:56:28]     Advanced (C1–C2)...
+[2026-03-27 11:56:45]       Got 30, 27 valid, total: 27
+[2026-03-27 11:56:45]       Retry #2 — need 3 more questions...
+[2026-03-27 11:56:56]       Got 8, 3 valid, total: 30
+[2026-03-27 11:57:01]     Wrote questions G\quantifiers01-intermediate.js (30 questions)
+[2026-03-27 11:57:01]     Wrote questions G\quantifiers01-upper-intermediate.js (30 questions)
+[2026-03-27 11:57:01]     Wrote questions G\quantifiers01-advanced.js (30 questions)
+[2026-03-27 11:57:01]     DONE: 90 new questions for Quantifiers
+[2026-03-27 11:57:01] 
+[2026-03-27 11:57:01] ============================================================
+[2026-03-27 11:57:01] TOPIC 15/134: Adjectives & Adverbs (adjectives-adverbs01)
+[2026-03-27 11:57:01] ============================================================
+[2026-03-27 11:57:01]     Intermediate (B1–B2)...
+[2026-03-27 11:57:17]       Got 30, 24 valid, total: 24
+[2026-03-27 11:57:17]       Retry #2 — need 6 more questions...
+[2026-03-27 11:57:28]       Got 11, 6 valid, total: 30
+[2026-03-27 11:57:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:57:49]       Got 30, 27 valid, total: 27
+[2026-03-27 11:57:49]       Retry #2 — need 3 more questions...
+[2026-03-27 11:57:59]       Got 8, 3 valid, total: 30
+[2026-03-27 11:58:04]     Advanced (C1–C2)...
+[2026-03-27 11:58:21]       Got 30, 24 valid, total: 24
+[2026-03-27 11:58:21]       Retry #2 — need 6 more questions...
+[2026-03-27 11:58:34]       Got 11, 6 valid, total: 30
+[2026-03-27 11:58:39]     Wrote questions G\adjectives-adverbs01-intermediate.js (30 questions)
+[2026-03-27 11:58:39]     Wrote questions G\adjectives-adverbs01-upper-intermediate.js (30 questions)
+[2026-03-27 11:58:39]     Wrote questions G\adjectives-adverbs01-advanced.js (30 questions)
+[2026-03-27 11:58:39]     DONE: 90 new questions for Adjectives & Adverbs
+[2026-03-27 11:58:39] 
+[2026-03-27 11:58:39] ============================================================
+[2026-03-27 11:58:39] TOPIC 16/134: Adverbial Clauses (adverbial-clauses01)
+[2026-03-27 11:58:39] ============================================================
+[2026-03-27 11:58:39]     Intermediate (B1–B2)...
+[2026-03-27 11:58:53]       Got 30, 25 valid, total: 25
+[2026-03-27 11:58:53]       Retry #2 — need 5 more questions...
+[2026-03-27 11:59:05]       Got 10, 5 valid, total: 30
+[2026-03-27 11:59:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:59:29]       Got 30, 30 valid, total: 30
+[2026-03-27 11:59:34]     Advanced (C1–C2)...
+[2026-03-27 11:59:53]       Got 30, 24 valid, total: 24
+[2026-03-27 11:59:53]       Retry #2 — need 6 more questions...
+[2026-03-27 12:00:05]       Got 11, 6 valid, total: 30
+[2026-03-27 12:00:10]     Wrote questions G\adverbial-clauses01-intermediate.js (30 questions)
+[2026-03-27 12:00:10]     Wrote questions G\adverbial-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:00:10]     Wrote questions G\adverbial-clauses01-advanced.js (30 questions)
+[2026-03-27 12:00:10]     DONE: 90 new questions for Adverbial Clauses
+[2026-03-27 12:00:10] 
+[2026-03-27 12:00:10] ============================================================
+[2026-03-27 12:00:10] TOPIC 17/134: Causatives (causatives01)
+[2026-03-27 12:00:10] ============================================================
+[2026-03-27 12:00:10]     Intermediate (B1–B2)...
+[2026-03-27 12:00:26]       Got 30, 23 valid, total: 23
+[2026-03-27 12:00:26]       Retry #2 — need 7 more questions...
+[2026-03-27 12:00:39]       Got 12, 7 valid, total: 30
+[2026-03-27 12:00:44]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:01:00]       Got 30, 23 valid, total: 23
+[2026-03-27 12:01:00]       Retry #2 — need 7 more questions...
+[2026-03-27 12:01:13]       Got 12, 7 valid, total: 30
+[2026-03-27 12:01:18]     Advanced (C1–C2)...
+[2026-03-27 12:01:36]       Got 30, 23 valid, total: 23
+[2026-03-27 12:01:36]       Retry #2 — need 7 more questions...
+[2026-03-27 12:01:49]       Got 12, 7 valid, total: 30
+[2026-03-27 12:01:54]     Wrote questions G\causatives01-intermediate.js (30 questions)
+[2026-03-27 12:01:54]     Wrote questions G\causatives01-upper-intermediate.js (30 questions)
+[2026-03-27 12:01:54]     Wrote questions G\causatives01-advanced.js (30 questions)
+[2026-03-27 12:01:54]     DONE: 90 new questions for Causatives
+[2026-03-27 12:01:54] 
+[2026-03-27 12:01:54] ============================================================
+[2026-03-27 12:01:54] TOPIC 18/134: Inversions (inversions01)
+[2026-03-27 12:01:54] ============================================================
+[2026-03-27 12:01:54]     Intermediate (B1–B2)...
+[2026-03-27 12:02:11]       Got 30, 23 valid, total: 23
+[2026-03-27 12:02:11]       Retry #2 — need 7 more questions...
+[2026-03-27 12:02:24]       Got 12, 7 valid, total: 30
+[2026-03-27 12:02:29]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:02:47]       Got 30, 26 valid, total: 26
+[2026-03-27 12:02:47]       Retry #2 — need 4 more questions...
+[2026-03-27 12:02:58]       Got 9, 4 valid, total: 30
+[2026-03-27 12:03:03]     Advanced (C1–C2)...
+[2026-03-27 12:03:22]       Got 30, 24 valid, total: 24
+[2026-03-27 12:03:22]       Retry #2 — need 6 more questions...
+[2026-03-27 12:03:36]       Got 11, 6 valid, total: 30
+[2026-03-27 12:03:41]     Wrote questions G\inversions01-intermediate.js (30 questions)
+[2026-03-27 12:03:41]     Wrote questions G\inversions01-upper-intermediate.js (30 questions)
+[2026-03-27 12:03:41]     Wrote questions G\inversions01-advanced.js (30 questions)
+[2026-03-27 12:03:41]     DONE: 90 new questions for Inversions
+[2026-03-27 12:03:41] 
+[2026-03-27 12:03:41] ============================================================
+[2026-03-27 12:03:41] TOPIC 19/134: Noun Clauses (noun-clauses01)
+[2026-03-27 12:03:41] ============================================================
+[2026-03-27 12:03:41]     Intermediate (B1–B2)...
+[2026-03-27 12:03:57]       Got 30, 23 valid, total: 23
+[2026-03-27 12:03:57]       Retry #2 — need 7 more questions...
+[2026-03-27 12:04:11]       Got 12, 7 valid, total: 30
+[2026-03-27 12:04:16]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:04:33]       Got 30, 24 valid, total: 24
+[2026-03-27 12:04:33]       Retry #2 — need 6 more questions...
+[2026-03-27 12:04:46]       Got 11, 6 valid, total: 30
+[2026-03-27 12:04:51]     Advanced (C1–C2)...
+[2026-03-27 12:05:09]       Got 30, 24 valid, total: 24
+[2026-03-27 12:05:09]       Retry #2 — need 6 more questions...
+[2026-03-27 12:05:22]       Got 11, 6 valid, total: 30
+[2026-03-27 12:05:27]     Wrote questions G\noun-clauses01-intermediate.js (30 questions)
+[2026-03-27 12:05:27]     Wrote questions G\noun-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:05:27]     Wrote questions G\noun-clauses01-advanced.js (30 questions)
+[2026-03-27 12:05:27]     DONE: 90 new questions for Noun Clauses
+[2026-03-27 12:05:27] 
+[2026-03-27 12:05:27] ============================================================
+[2026-03-27 12:05:27] TOPIC 20/134: Wish Clauses (wish-clauses01)
+[2026-03-27 12:05:27] ============================================================
+[2026-03-27 12:05:27]     Intermediate (B1–B2)...
+[2026-03-27 12:05:44]       Got 30, 30 valid, total: 30
+[2026-03-27 12:05:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:06:07]       Got 30, 23 valid, total: 23
+[2026-03-27 12:06:07]       Retry #2 — need 7 more questions...
+[2026-03-27 12:06:19]       Got 12, 7 valid, total: 30
+[2026-03-27 12:06:24]     Advanced (C1–C2)...
+[2026-03-27 12:06:42]       Got 30, 23 valid, total: 23
+[2026-03-27 12:06:42]       Retry #2 — need 7 more questions...
+[2026-03-27 12:06:57]       Got 12, 7 valid, total: 30
+[2026-03-27 12:07:02]     Wrote questions G\wish-clauses01-intermediate.js (30 questions)
+[2026-03-27 12:07:02]     Wrote questions G\wish-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:07:02]     Wrote questions G\wish-clauses01-advanced.js (30 questions)
+[2026-03-27 12:07:02]     DONE: 90 new questions for Wish Clauses
+[2026-03-27 12:07:02] 
+[2026-03-27 12:07:02] ============================================================
+[2026-03-27 12:07:02] TOPIC 21/134: Prepositions (prepositions01)
+[2026-03-27 12:07:02] ============================================================
+[2026-03-27 12:07:02]     Intermediate (B1–B2)...
+[2026-03-27 12:07:19]       Got 30, 30 valid, total: 30
+[2026-03-27 12:07:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:07:40]       Got 30, 25 valid, total: 25
+[2026-03-27 12:07:40]       Retry #2 — need 5 more questions...
+[2026-03-27 12:07:52]       Got 10, 5 valid, total: 30
+[2026-03-27 12:07:57]     Advanced (C1–C2)...
+[2026-03-27 12:08:13]       Got 30, 30 valid, total: 30
+[2026-03-27 12:08:18]     Wrote questions G\prepositions01-intermediate.js (30 questions)
+[2026-03-27 12:08:18]     Wrote questions G\prepositions01-upper-intermediate.js (30 questions)
+[2026-03-27 12:08:18]     Wrote questions G\prepositions01-advanced.js (30 questions)
+[2026-03-27 12:08:18]     DONE: 90 new questions for Prepositions
+[2026-03-27 12:08:18] 
+[2026-03-27 12:08:18] ============================================================
+[2026-03-27 12:08:18] TOPIC 22/134: Subject-Verb Agreement (subject-verb-agreement01)
+[2026-03-27 12:08:18] ============================================================
+[2026-03-27 12:08:18]     Intermediate (B1–B2)...
+[2026-03-27 12:08:34]       Got 31, 30 valid, total: 30
+[2026-03-27 12:08:39]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:08:59]       Got 30, 23 valid, total: 23
+[2026-03-27 12:08:59]       Retry #2 — need 7 more questions...
+[2026-03-27 12:09:12]       Got 12, 7 valid, total: 30
+[2026-03-27 12:09:17]     Advanced (C1–C2)...
+[2026-03-27 12:09:33]       Got 30, 23 valid, total: 23
+[2026-03-27 12:09:33]       Retry #2 — need 7 more questions...
+[2026-03-27 12:09:46]       Got 12, 7 valid, total: 30
+[2026-03-27 12:09:51]     Wrote questions G\subject-verb-agreement01-intermediate.js (30 questions)
+[2026-03-27 12:09:51]     Wrote questions G\subject-verb-agreement01-upper-intermediate.js (30 questions)
+[2026-03-27 12:09:51]     Wrote questions G\subject-verb-agreement01-advanced.js (30 questions)
+[2026-03-27 12:09:51]     DONE: 90 new questions for Subject-Verb Agreement
+[2026-03-27 12:09:51] 
+[2026-03-27 12:09:51] ============================================================
+[2026-03-27 12:09:51] TOPIC 23/134: Word Formation (word-formation01)
+[2026-03-27 12:09:51] ============================================================
+[2026-03-27 12:09:51]     Intermediate (B1–B2)...
+[2026-03-27 12:10:08]       Got 30, 23 valid, total: 23
+[2026-03-27 12:10:08]       Retry #2 — need 7 more questions...
+[2026-03-27 12:10:20]       Got 12, 7 valid, total: 30
+[2026-03-27 12:10:25]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:10:45]       Got 30, 23 valid, total: 23
+[2026-03-27 12:10:45]       Retry #2 — need 7 more questions...
+[2026-03-27 12:10:57]       Got 12, 7 valid, total: 30
+[2026-03-27 12:11:02]     Advanced (C1–C2)...
+[2026-03-27 12:11:18]       Got 30, 30 valid, total: 30
+[2026-03-27 12:11:23]     Wrote questions G\word-formation01-intermediate.js (30 questions)
+[2026-03-27 12:11:23]     Wrote questions G\word-formation01-upper-intermediate.js (30 questions)
+[2026-03-27 12:11:23]     Wrote questions G\word-formation01-advanced.js (30 questions)
+[2026-03-27 12:11:23]     DONE: 90 new questions for Word Formation
+[2026-03-27 12:11:23] 
+[2026-03-27 12:11:23] ============================================================
+[2026-03-27 12:11:23] TOPIC 24/134: Present Tenses (present-tenses01)
+[2026-03-27 12:11:23] ============================================================
+[2026-03-27 12:11:23]     Intermediate (B1–B2)...
+[2026-03-27 12:11:39]       Got 30, 27 valid, total: 27
+[2026-03-27 12:11:39]       Retry #2 — need 3 more questions...
+[2026-03-27 12:11:49]       Got 8, 3 valid, total: 30
+[2026-03-27 12:11:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:12:10]       Got 30, 30 valid, total: 30
+[2026-03-27 12:12:15]     Advanced (C1–C2)...
+[2026-03-27 12:12:36]       Got 30, 30 valid, total: 30
+[2026-03-27 12:12:41]     Wrote questions G\present-tenses01-intermediate.js (30 questions)
+[2026-03-27 12:12:41]     Wrote questions G\present-tenses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:12:41]     Wrote questions G\present-tenses01-advanced.js (30 questions)
+[2026-03-27 12:12:41]     DONE: 90 new questions for Present Tenses
+[2026-03-27 12:12:41] 
+[2026-03-27 12:12:41] ============================================================
+[2026-03-27 12:12:41] TOPIC 25/134: Phrasal Verbs (phrasal-verbs01)
+[2026-03-27 12:12:41] ============================================================
+[2026-03-27 12:12:41]     Intermediate (B1–B2)...
+[2026-03-27 12:12:58]       Got 30, 23 valid, total: 23
+[2026-03-27 12:12:58]       Retry #2 — need 7 more questions...
+[2026-03-27 12:13:11]       Got 12, 7 valid, total: 30
+[2026-03-27 12:13:16]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:13:33]       Got 30, 23 valid, total: 23
+[2026-03-27 12:13:33]       Retry #2 — need 7 more questions...
+[2026-03-27 12:13:46]       Got 12, 7 valid, total: 30
+[2026-03-27 12:13:51]     Advanced (C1–C2)...
+[2026-03-27 12:14:07]       Got 30, 23 valid, total: 23
+[2026-03-27 12:14:07]       Retry #2 — need 7 more questions...
+[2026-03-27 12:14:21]       Got 12, 7 valid, total: 30
+[2026-03-27 12:14:26]     Wrote questions G\phrasal-verbs01-intermediate.js (30 questions)
+[2026-03-27 12:14:26]     Wrote questions G\phrasal-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 12:14:26]     Wrote questions G\phrasal-verbs01-advanced.js (30 questions)
+[2026-03-27 12:14:26]     DONE: 90 new questions for Phrasal Verbs
+[2026-03-27 12:14:26] 
+[2026-03-27 12:14:26] ============================================================
+[2026-03-27 12:14:26] TOPIC 26/134: Perfect Tenses (perfect-tenses01)
+[2026-03-27 12:14:26] ============================================================
+[2026-03-27 12:14:26]     Intermediate (B1–B2)...
+[2026-03-27 12:14:45]       Got 30, 28 valid, total: 28
+[2026-03-27 12:14:45]       Retry #2 — need 2 more questions...
+[2026-03-27 12:14:56]       Got 7, 2 valid, total: 30
+[2026-03-27 12:15:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:15:19]       Got 30, 26 valid, total: 26
+[2026-03-27 12:15:19]       Retry #2 — need 4 more questions...
+[2026-03-27 12:15:31]       Got 9, 4 valid, total: 30
+[2026-03-27 12:15:36]     Advanced (C1–C2)...
+[2026-03-27 12:15:56]       Got 30, 24 valid, total: 24
+[2026-03-27 12:15:56]       Retry #2 — need 6 more questions...
+[2026-03-27 12:16:09]       Got 11, 6 valid, total: 30
+[2026-03-27 12:16:14]     Wrote questions G\perfect-tenses01-intermediate.js (30 questions)
+[2026-03-27 12:16:14]     Wrote questions G\perfect-tenses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:16:14]     Wrote questions G\perfect-tenses01-advanced.js (30 questions)
+[2026-03-27 12:16:14]     DONE: 90 new questions for Perfect Tenses
+[2026-03-27 12:16:14] 
+[2026-03-27 12:16:14] ============================================================
+[2026-03-27 12:16:14] TOPIC 27/134: Participle Clauses (participles01)
+[2026-03-27 12:16:14] ============================================================
+[2026-03-27 12:16:14]     Intermediate (B1–B2)...
+[2026-03-27 12:16:30]       Got 30, 24 valid, total: 24
+[2026-03-27 12:16:30]       Retry #2 — need 6 more questions...
+[2026-03-27 12:16:44]       Got 11, 6 valid, total: 30
+[2026-03-27 12:16:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:17:05]       Got 30, 25 valid, total: 25
+[2026-03-27 12:17:05]       Retry #2 — need 5 more questions...
+[2026-03-27 12:17:17]       Got 10, 5 valid, total: 30
+[2026-03-27 12:17:22]     Advanced (C1–C2)...
+[2026-03-27 12:17:39]       Got 30, 30 valid, total: 30
+[2026-03-27 12:17:44]     Wrote questions G\participles01-intermediate.js (30 questions)
+[2026-03-27 12:17:44]     Wrote questions G\participles01-upper-intermediate.js (30 questions)
+[2026-03-27 12:17:44]     Wrote questions G\participles01-advanced.js (30 questions)
+[2026-03-27 12:17:44]     DONE: 90 new questions for Participle Clauses
+[2026-03-27 12:17:44] 
+[2026-03-27 12:17:44] ============================================================
+[2026-03-27 12:17:44] TOPIC 28/134: Cleft Sentences (cleft-sentences01)
+[2026-03-27 12:17:44] ============================================================
+[2026-03-27 12:17:44]     Intermediate (B1–B2)...
+[2026-03-27 12:18:02]       Got 30, 23 valid, total: 23
+[2026-03-27 12:18:02]       Retry #2 — need 7 more questions...
+[2026-03-27 12:18:15]       Got 12, 7 valid, total: 30
+[2026-03-27 12:18:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:18:39]       Got 30, 24 valid, total: 24
+[2026-03-27 12:18:39]       Retry #2 — need 6 more questions...
+[2026-03-27 12:18:51]       Got 11, 6 valid, total: 30
+[2026-03-27 12:18:56]     Advanced (C1–C2)...
+[2026-03-27 12:19:15]       Got 30, 24 valid, total: 24
+[2026-03-27 12:19:15]       Retry #2 — need 6 more questions...
+[2026-03-27 12:19:28]       Got 11, 6 valid, total: 30
+[2026-03-27 12:19:33]     Wrote questions G\cleft-sentences01-intermediate.js (30 questions)
+[2026-03-27 12:19:33]     Wrote questions G\cleft-sentences01-upper-intermediate.js (30 questions)
+[2026-03-27 12:19:33]     Wrote questions G\cleft-sentences01-advanced.js (30 questions)
+[2026-03-27 12:19:33]     DONE: 90 new questions for Cleft Sentences
+[2026-03-27 12:19:33] 
+[2026-03-27 12:19:33] ============================================================
+[2026-03-27 12:19:33] TOPIC 29/134: Tag Questions (tag-questions01)
+[2026-03-27 12:19:33] ============================================================
+[2026-03-27 12:19:33]     Intermediate (B1–B2)...
+[2026-03-27 12:19:50]       Got 30, 24 valid, total: 24
+[2026-03-27 12:19:50]       Retry #2 — need 6 more questions...
+[2026-03-27 12:20:02]       Got 11, 6 valid, total: 30
+[2026-03-27 12:20:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:20:27]       Got 30, 22 valid, total: 22
+[2026-03-27 12:20:27]       Retry #2 — need 8 more questions...
+[2026-03-27 12:20:41]       Got 13, 8 valid, total: 30
+[2026-03-27 12:20:46]     Advanced (C1–C2)...
+[2026-03-27 12:21:05]       Got 30, 24 valid, total: 24
+[2026-03-27 12:21:05]       Retry #2 — need 6 more questions...
+[2026-03-27 12:21:18]       Got 11, 6 valid, total: 30
+[2026-03-27 12:21:23]     Wrote questions G\tag-questions01-intermediate.js (30 questions)
+[2026-03-27 12:21:23]     Wrote questions G\tag-questions01-upper-intermediate.js (30 questions)
+[2026-03-27 12:21:23]     Wrote questions G\tag-questions01-advanced.js (30 questions)
+[2026-03-27 12:21:23]     DONE: 90 new questions for Tag Questions
+[2026-03-27 12:21:23] 
+[2026-03-27 12:21:23] ============================================================
+[2026-03-27 12:21:23] TOPIC 30/134: Determiners (determiners01)
+[2026-03-27 12:21:23] ============================================================
+[2026-03-27 12:21:23]     Intermediate (B1–B2)...
+[2026-03-27 12:21:40]       Got 30, 28 valid, total: 28
+[2026-03-27 12:21:40]       Retry #2 — need 2 more questions...
+[2026-03-27 12:21:50]       Got 7, 2 valid, total: 30
+[2026-03-27 12:21:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:22:13]       Got 30, 24 valid, total: 24
+[2026-03-27 12:22:13]       Retry #2 — need 6 more questions...
+[2026-03-27 12:22:26]       Got 11, 6 valid, total: 30
+[2026-03-27 12:22:31]     Advanced (C1–C2)...
+[2026-03-27 12:22:49]       Got 30, 25 valid, total: 25
+[2026-03-27 12:22:49]       Retry #2 — need 5 more questions...
+[2026-03-27 12:23:01]       Got 10, 5 valid, total: 30
+[2026-03-27 12:23:06]     Wrote questions G\determiners01-intermediate.js (30 questions)
+[2026-03-27 12:23:06]     Wrote questions G\determiners01-upper-intermediate.js (30 questions)
+[2026-03-27 12:23:06]     Wrote questions G\determiners01-advanced.js (30 questions)
+[2026-03-27 12:23:06]     DONE: 90 new questions for Determiners
+[2026-03-27 12:23:06] 
+[2026-03-27 12:23:06] ============================================================
+[2026-03-27 12:23:06] TOPIC 31/134: Verb Patterns (verb-patterns01)
+[2026-03-27 12:23:06] ============================================================
+[2026-03-27 12:23:06]     Intermediate (B1–B2)...
+[2026-03-27 12:23:23]       Got 30, 23 valid, total: 23
+[2026-03-27 12:23:23]       Retry #2 — need 7 more questions...
+[2026-03-27 12:23:36]       Got 12, 7 valid, total: 30
+[2026-03-27 12:23:41]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:23:59]       Got 30, 23 valid, total: 23
+[2026-03-27 12:23:59]       Retry #2 — need 7 more questions...
+[2026-03-27 12:24:11]       Got 12, 7 valid, total: 30
+[2026-03-27 12:24:16]     Advanced (C1–C2)...
+[2026-03-27 12:24:31]       Got 30, 23 valid, total: 23
+[2026-03-27 12:24:31]       Retry #2 — need 7 more questions...
+[2026-03-27 12:24:45]       Got 12, 7 valid, total: 30
+[2026-03-27 12:24:50]     Wrote questions G\verb-patterns01-intermediate.js (30 questions)
+[2026-03-27 12:24:50]     Wrote questions G\verb-patterns01-upper-intermediate.js (30 questions)
+[2026-03-27 12:24:50]     Wrote questions G\verb-patterns01-advanced.js (30 questions)
+[2026-03-27 12:24:50]     DONE: 90 new questions for Verb Patterns
+[2026-03-27 12:24:50] 
+[2026-03-27 12:24:50] ============================================================
+[2026-03-27 12:24:50] TOPIC 32/134: Mixed Tenses (mixed-tenses01)
+[2026-03-27 12:24:50] ============================================================
+[2026-03-27 12:24:50]     Intermediate (B1–B2)...
+[2026-03-27 12:25:09]       Got 30, 27 valid, total: 27
+[2026-03-27 12:25:09]       Retry #2 — need 3 more questions...
+[2026-03-27 12:25:20]       Got 8, 3 valid, total: 30
+[2026-03-27 12:25:25]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:25:42]       Got 30, 26 valid, total: 26
+[2026-03-27 12:25:42]       Retry #2 — need 4 more questions...
+[2026-03-27 12:25:53]       Got 9, 4 valid, total: 30
+[2026-03-27 12:25:58]     Advanced (C1–C2)...
+[2026-03-27 12:26:17]       Got 30, 28 valid, total: 28
+[2026-03-27 12:26:17]       Retry #2 — need 2 more questions...
+[2026-03-27 12:26:28]       Got 7, 2 valid, total: 30
+[2026-03-27 12:26:33]     Wrote questions G\mixed-tenses01-intermediate.js (30 questions)
+[2026-03-27 12:26:33]     Wrote questions G\mixed-tenses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:26:33]     Wrote questions G\mixed-tenses01-advanced.js (30 questions)
+[2026-03-27 12:26:33]     DONE: 90 new questions for Mixed Tenses
+[2026-03-27 12:26:33] 
+[2026-03-27 12:26:33] ============================================================
+[2026-03-27 12:26:33] TOPIC 33/134: Ellipsis & Substitution (ellipsis-substitution01)
+[2026-03-27 12:26:33] ============================================================
+[2026-03-27 12:26:33]     Intermediate (B1–B2)...
+[2026-03-27 12:26:49]       Got 30, 23 valid, total: 23
+[2026-03-27 12:26:49]       Retry #2 — need 7 more questions...
+[2026-03-27 12:27:02]       Got 12, 7 valid, total: 30
+[2026-03-27 12:27:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:27:26]       Got 30, 23 valid, total: 23
+[2026-03-27 12:27:26]       Retry #2 — need 7 more questions...
+[2026-03-27 12:27:39]       Got 12, 7 valid, total: 30
+[2026-03-27 12:27:44]     Advanced (C1–C2)...
+[2026-03-27 12:28:01]       Got 30, 24 valid, total: 24
+[2026-03-27 12:28:01]       Retry #2 — need 6 more questions...
+[2026-03-27 12:28:14]       Got 11, 6 valid, total: 30
+[2026-03-27 12:28:19]     Wrote questions G\ellipsis-substitution01-intermediate.js (30 questions)
+[2026-03-27 12:28:19]     Wrote questions G\ellipsis-substitution01-upper-intermediate.js (30 questions)
+[2026-03-27 12:28:19]     Wrote questions G\ellipsis-substitution01-advanced.js (30 questions)
+[2026-03-27 12:28:19]     DONE: 90 new questions for Ellipsis & Substitution
+[2026-03-27 12:28:19] 
+[2026-03-27 12:28:19] ============================================================
+[2026-03-27 12:28:19] TOPIC 34/134: Countable & Uncountable (countable-uncountable01)
+[2026-03-27 12:28:19] ============================================================
+[2026-03-27 12:28:19]     Intermediate (B1–B2)...
+[2026-03-27 12:28:34]       Got 30, 26 valid, total: 26
+[2026-03-27 12:28:34]       Retry #2 — need 4 more questions...
+[2026-03-27 12:28:44]       Got 9, 4 valid, total: 30
+[2026-03-27 12:28:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:29:05]       Got 30, 23 valid, total: 23
+[2026-03-27 12:29:05]       Retry #2 — need 7 more questions...
+[2026-03-27 12:29:17]       Got 12, 7 valid, total: 30
+[2026-03-27 12:29:22]     Advanced (C1–C2)...
+[2026-03-27 12:29:38]       Got 30, 24 valid, total: 24
+[2026-03-27 12:29:38]       Retry #2 — need 6 more questions...
+[2026-03-27 12:29:51]       Got 11, 6 valid, total: 30
+[2026-03-27 12:29:56]     Wrote questions G\countable-uncountable01-intermediate.js (30 questions)
+[2026-03-27 12:29:56]     Wrote questions G\countable-uncountable01-upper-intermediate.js (30 questions)
+[2026-03-27 12:29:56]     Wrote questions G\countable-uncountable01-advanced.js (30 questions)
+[2026-03-27 12:29:56]     DONE: 90 new questions for Countable & Uncountable
+[2026-03-27 12:29:56] 
+[2026-03-27 12:29:56] ============================================================
+[2026-03-27 12:29:56] TOPIC 35/134: Comparatives & Superlatives (comparatives-superlatives01)
+[2026-03-27 12:29:56] ============================================================
+[2026-03-27 12:29:56]     Intermediate (B1–B2)...
+[2026-03-27 12:30:11]       Got 30, 25 valid, total: 25
+[2026-03-27 12:30:11]       Retry #2 — need 5 more questions...
+[2026-03-27 12:30:22]       Got 10, 5 valid, total: 30
+[2026-03-27 12:30:27]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:30:45]       Got 30, 23 valid, total: 23
+[2026-03-27 12:30:45]       Retry #2 — need 7 more questions...
+[2026-03-27 12:30:58]       Got 12, 7 valid, total: 30
+[2026-03-27 12:31:03]     Advanced (C1–C2)...
+[2026-03-27 12:31:21]       Got 30, 23 valid, total: 23
+[2026-03-27 12:31:21]       Retry #2 — need 7 more questions...
+[2026-03-27 12:31:33]       Got 12, 7 valid, total: 30
+[2026-03-27 12:31:39]     Wrote questions G\comparatives-superlatives01-intermediate.js (30 questions)
+[2026-03-27 12:31:39]     Wrote questions G\comparatives-superlatives01-upper-intermediate.js (30 questions)
+[2026-03-27 12:31:39]     Wrote questions G\comparatives-superlatives01-advanced.js (30 questions)
+[2026-03-27 12:31:39]     DONE: 90 new questions for Comparatives & Superlatives
+[2026-03-27 12:31:39] 
+[2026-03-27 12:31:39] ============================================================
+[2026-03-27 12:31:39] TOPIC 36/134: Linking Words & Connectors (linking-words01)
+[2026-03-27 12:31:39] ============================================================
+[2026-03-27 12:31:39]     Intermediate (B1–B2)...
+[2026-03-27 12:31:53]       Got 30, 23 valid, total: 23
+[2026-03-27 12:31:53]       Retry #2 — need 7 more questions...
+[2026-03-27 12:32:06]       Got 12, 7 valid, total: 30
+[2026-03-27 12:32:11]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:32:27]       Got 30, 24 valid, total: 24
+[2026-03-27 12:32:27]       Retry #2 — need 6 more questions...
+[2026-03-27 12:32:39]       Got 11, 6 valid, total: 30
+[2026-03-27 12:32:44]     Advanced (C1–C2)...
+[2026-03-27 12:33:00]       Got 30, 26 valid, total: 26
+[2026-03-27 12:33:00]       Retry #2 — need 4 more questions...
+[2026-03-27 12:33:11]       Got 9, 4 valid, total: 30
+[2026-03-27 12:33:16]     Wrote questions G\linking-words01-intermediate.js (30 questions)
+[2026-03-27 12:33:16]     Wrote questions G\linking-words01-upper-intermediate.js (30 questions)
+[2026-03-27 12:33:16]     Wrote questions G\linking-words01-advanced.js (30 questions)
+[2026-03-27 12:33:16]     DONE: 90 new questions for Linking Words & Connectors
+[2026-03-27 12:33:16] 
+[2026-03-27 12:33:16] ============================================================
+[2026-03-27 12:33:16] TOPIC 37/134: Indirect Questions (indirect-questions01)
+[2026-03-27 12:33:16] ============================================================
+[2026-03-27 12:33:16]     Intermediate (B1–B2)...
+[2026-03-27 12:33:32]       Got 30, 23 valid, total: 23
+[2026-03-27 12:33:32]       Retry #2 — need 7 more questions...
+[2026-03-27 12:33:45]       Got 12, 7 valid, total: 30
+[2026-03-27 12:33:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:34:07]       Got 30, 25 valid, total: 25
+[2026-03-27 12:34:07]       Retry #2 — need 5 more questions...
+[2026-03-27 12:34:18]       Got 10, 5 valid, total: 30
+[2026-03-27 12:34:23]     Advanced (C1–C2)...
+[2026-03-27 12:34:41]       Got 30, 26 valid, total: 26
+[2026-03-27 12:34:41]       Retry #2 — need 4 more questions...
+[2026-03-27 12:34:52]       Got 9, 4 valid, total: 30
+[2026-03-27 12:34:57]     Wrote questions G\indirect-questions01-intermediate.js (30 questions)
+[2026-03-27 12:34:57]     Wrote questions G\indirect-questions01-upper-intermediate.js (30 questions)
+[2026-03-27 12:34:57]     Wrote questions G\indirect-questions01-advanced.js (30 questions)
+[2026-03-27 12:34:57]     DONE: 90 new questions for Indirect Questions
+[2026-03-27 12:34:57] 
+[2026-03-27 12:34:57] ============================================================
+[2026-03-27 12:34:57] TOPIC 38/134: Future Forms (future-forms01)
+[2026-03-27 12:34:57] ============================================================
+[2026-03-27 12:34:57]     Intermediate (B1–B2)...
+[2026-03-27 12:35:15]       Got 30, 24 valid, total: 24
+[2026-03-27 12:35:15]       Retry #2 — need 6 more questions...
+[2026-03-27 12:35:27]       Got 11, 6 valid, total: 30
+[2026-03-27 12:35:32]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:35:48]       Got 30, 24 valid, total: 24
+[2026-03-27 12:35:48]       Retry #2 — need 6 more questions...
+[2026-03-27 12:36:00]       Got 11, 6 valid, total: 30
+[2026-03-27 12:36:05]     Advanced (C1–C2)...
+[2026-03-27 12:36:20]       Got 30, 24 valid, total: 24
+[2026-03-27 12:36:20]       Retry #2 — need 6 more questions...
+[2026-03-27 12:36:33]       Got 11, 6 valid, total: 30
+[2026-03-27 12:36:38]     Wrote questions G\future-forms01-intermediate.js (30 questions)
+[2026-03-27 12:36:38]     Wrote questions G\future-forms01-upper-intermediate.js (30 questions)
+[2026-03-27 12:36:38]     Wrote questions G\future-forms01-advanced.js (30 questions)
+[2026-03-27 12:36:38]     DONE: 90 new questions for Future Forms
+[2026-03-27 12:36:38] 
+[2026-03-27 12:36:38] ============================================================
+[2026-03-27 12:36:38] TOPIC 39/134: Modifiers & Intensifiers (modifiers-intensifiers01)
+[2026-03-27 12:36:38] ============================================================
+[2026-03-27 12:36:38]     Intermediate (B1–B2)...
+[2026-03-27 12:36:53]       Got 30, 25 valid, total: 25
+[2026-03-27 12:36:53]       Retry #2 — need 5 more questions...
+[2026-03-27 12:37:04]       Got 10, 5 valid, total: 30
+[2026-03-27 12:37:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:37:26]       Got 30, 27 valid, total: 27
+[2026-03-27 12:37:26]       Retry #2 — need 3 more questions...
+[2026-03-27 12:37:38]       Got 8, 3 valid, total: 30
+[2026-03-27 12:37:43]     Advanced (C1–C2)...
+[2026-03-27 12:37:58]       Got 30, 28 valid, total: 28
+[2026-03-27 12:37:58]       Retry #2 — need 2 more questions...
+[2026-03-27 12:38:08]       Got 7, 2 valid, total: 30
+[2026-03-27 12:38:13]     Wrote questions G\modifiers-intensifiers01-intermediate.js (30 questions)
+[2026-03-27 12:38:13]     Wrote questions G\modifiers-intensifiers01-upper-intermediate.js (30 questions)
+[2026-03-27 12:38:13]     Wrote questions G\modifiers-intensifiers01-advanced.js (30 questions)
+[2026-03-27 12:38:13]     DONE: 90 new questions for Modifiers & Intensifiers
+[2026-03-27 12:38:13] 
+[2026-03-27 12:38:13] ============================================================
+[2026-03-27 12:38:13] TOPIC 40/134: Parallel Structure (parallel-structure01)
+[2026-03-27 12:38:13] ============================================================
+[2026-03-27 12:38:13]     Intermediate (B1–B2)...
+[2026-03-27 12:38:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:38:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:38:51]       Got 30, 23 valid, total: 23
+[2026-03-27 12:38:51]       Retry #2 — need 7 more questions...
+[2026-03-27 12:39:04]       Got 12, 7 valid, total: 30
+[2026-03-27 12:39:09]     Advanced (C1–C2)...
+[2026-03-27 12:39:31]       Got 30, 23 valid, total: 23
+[2026-03-27 12:39:31]       Retry #2 — need 7 more questions...
+[2026-03-27 12:39:43]       Got 12, 7 valid, total: 30
+[2026-03-27 12:39:48]     Wrote questions G\parallel-structure01-intermediate.js (30 questions)
+[2026-03-27 12:39:48]     Wrote questions G\parallel-structure01-upper-intermediate.js (30 questions)
+[2026-03-27 12:39:48]     Wrote questions G\parallel-structure01-advanced.js (30 questions)
+[2026-03-27 12:39:48]     DONE: 90 new questions for Parallel Structure
+[2026-03-27 12:39:48] 
+[2026-03-27 12:39:48] ============================================================
+[2026-03-27 12:39:48] TOPIC 41/134: Complex Noun Phrases (complex-noun-phrases01)
+[2026-03-27 12:39:48] ============================================================
+[2026-03-27 12:39:48]     Intermediate (B1–B2)...
+[2026-03-27 12:40:04]       Got 30, 23 valid, total: 23
+[2026-03-27 12:40:04]       Retry #2 — need 7 more questions...
+[2026-03-27 12:40:19]       Got 12, 7 valid, total: 30
+[2026-03-27 12:40:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:40:44]       Got 30, 23 valid, total: 23
+[2026-03-27 12:40:44]       Retry #2 — need 7 more questions...
+[2026-03-27 12:40:56]       Got 12, 7 valid, total: 30
+[2026-03-27 12:41:01]     Advanced (C1–C2)...
+[2026-03-27 12:41:21]       Got 30, 23 valid, total: 23
+[2026-03-27 12:41:21]       Retry #2 — need 7 more questions...
+[2026-03-27 12:41:34]       Got 12, 7 valid, total: 30
+[2026-03-27 12:41:39]     Wrote questions G\complex-noun-phrases01-intermediate.js (30 questions)
+[2026-03-27 12:41:39]     Wrote questions G\complex-noun-phrases01-upper-intermediate.js (30 questions)
+[2026-03-27 12:41:39]     Wrote questions G\complex-noun-phrases01-advanced.js (30 questions)
+[2026-03-27 12:41:39]     DONE: 90 new questions for Complex Noun Phrases
+[2026-03-27 12:41:39] 
+[2026-03-27 12:41:39] ============================================================
+[2026-03-27 12:41:39] TOPIC 42/134: Emphatic Structures (emphatic-structures01)
+[2026-03-27 12:41:39] ============================================================
+[2026-03-27 12:41:39]     Intermediate (B1–B2)...
+[2026-03-27 12:41:57]       Got 31, 27 valid, total: 27
+[2026-03-27 12:41:57]       Retry #2 — need 3 more questions...
+[2026-03-27 12:42:07]       Got 8, 3 valid, total: 30
+[2026-03-27 12:42:12]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:42:28]       Got 30, 26 valid, total: 26
+[2026-03-27 12:42:28]       Retry #2 — need 4 more questions...
+[2026-03-27 12:42:39]       Got 9, 4 valid, total: 30
+[2026-03-27 12:42:44]     Advanced (C1–C2)...
+[2026-03-27 12:43:00]       Got 30, 30 valid, total: 30
+[2026-03-27 12:43:05]     Wrote questions G\emphatic-structures01-intermediate.js (30 questions)
+[2026-03-27 12:43:05]     Wrote questions G\emphatic-structures01-upper-intermediate.js (30 questions)
+[2026-03-27 12:43:05]     Wrote questions G\emphatic-structures01-advanced.js (30 questions)
+[2026-03-27 12:43:05]     DONE: 90 new questions for Emphatic Structures
+[2026-03-27 12:43:05] 
+[2026-03-27 12:43:05] ============================================================
+[2026-03-27 12:43:05] TOPIC 43/134: So/Such/Too/Enough (so-such-too-enough01)
+[2026-03-27 12:43:05] ============================================================
+[2026-03-27 12:43:05]     Intermediate (B1–B2)...
+[2026-03-27 12:43:21]       Got 30, 23 valid, total: 23
+[2026-03-27 12:43:21]       Retry #2 — need 7 more questions...
+[2026-03-27 12:43:34]       Got 12, 7 valid, total: 30
+[2026-03-27 12:43:39]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:43:51]       Rate limited (429). Waiting 60s...
+[2026-03-27 12:45:09]       Got 30, 26 valid, total: 26
+[2026-03-27 12:45:09]       Retry #2 — need 4 more questions...
+[2026-03-27 12:45:20]       Got 9, 4 valid, total: 30
+[2026-03-27 12:45:25]     Advanced (C1–C2)...
+[2026-03-27 12:45:41]       JSON parse error: Expecting ',' delimiter: line 63 column 44 (char 2435)
+[2026-03-27 12:45:51]       Retry #2 — need 30 more questions...
+[2026-03-27 12:46:15]       Got 35, 29 valid, total: 29
+[2026-03-27 12:46:15]       Retry #3 — need 1 more questions...
+[2026-03-27 12:46:24]       Got 6, 1 valid, total: 30
+[2026-03-27 12:46:29]     Wrote questions G\so-such-too-enough01-intermediate.js (30 questions)
+[2026-03-27 12:46:29]     Wrote questions G\so-such-too-enough01-upper-intermediate.js (30 questions)
+[2026-03-27 12:46:29]     Wrote questions G\so-such-too-enough01-advanced.js (30 questions)
+[2026-03-27 12:46:29]     DONE: 90 new questions for So/Such/Too/Enough
+[2026-03-27 12:46:29] 
+[2026-03-27 12:46:29] ============================================================
+[2026-03-27 12:46:29] TOPIC 44/134: Concession & Contrast (concession-contrast01)
+[2026-03-27 12:46:29] ============================================================
+[2026-03-27 12:46:29]     Intermediate (B1–B2)...
+[2026-03-27 12:46:47]       Got 30, 26 valid, total: 26
+[2026-03-27 12:46:47]       Retry #2 — need 4 more questions...
+[2026-03-27 12:46:58]       Got 9, 4 valid, total: 30
+[2026-03-27 12:47:03]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:47:18]       Got 30, 23 valid, total: 23
+[2026-03-27 12:47:18]       Retry #2 — need 7 more questions...
+[2026-03-27 12:47:31]       Got 12, 7 valid, total: 30
+[2026-03-27 12:47:36]     Advanced (C1–C2)...
+[2026-03-27 12:47:52]       Got 30, 27 valid, total: 27
+[2026-03-27 12:47:52]       Retry #2 — need 3 more questions...
+[2026-03-27 12:48:03]       Got 8, 3 valid, total: 30
+[2026-03-27 12:48:08]     Wrote questions G\concession-contrast01-intermediate.js (30 questions)
+[2026-03-27 12:48:08]     Wrote questions G\concession-contrast01-upper-intermediate.js (30 questions)
+[2026-03-27 12:48:08]     Wrote questions G\concession-contrast01-advanced.js (30 questions)
+[2026-03-27 12:48:08]     DONE: 90 new questions for Concession & Contrast
+[2026-03-27 12:48:08] 
+[2026-03-27 12:48:08] ============================================================
+[2026-03-27 12:48:08] TOPIC 45/134: Collocations (collocations01)
+[2026-03-27 12:48:08] ============================================================
+[2026-03-27 12:48:08]     Intermediate (B1–B2)...
+[2026-03-27 12:48:23]       Got 30, 27 valid, total: 27
+[2026-03-27 12:48:23]       Retry #2 — need 3 more questions...
+[2026-03-27 12:48:33]       Got 8, 3 valid, total: 30
+[2026-03-27 12:48:38]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:48:54]       Got 30, 24 valid, total: 24
+[2026-03-27 12:48:54]       Retry #2 — need 6 more questions...
+[2026-03-27 12:49:07]       Got 11, 6 valid, total: 30
+[2026-03-27 12:49:12]     Advanced (C1–C2)...
+[2026-03-27 12:49:28]       Got 30, 23 valid, total: 23
+[2026-03-27 12:49:28]       Retry #2 — need 7 more questions...
+[2026-03-27 12:49:40]       Got 12, 7 valid, total: 30
+[2026-03-27 12:49:45]     Wrote questions G\collocations01-intermediate.js (30 questions)
+[2026-03-27 12:49:45]     Wrote questions G\collocations01-upper-intermediate.js (30 questions)
+[2026-03-27 12:49:45]     Wrote questions G\collocations01-advanced.js (30 questions)
+[2026-03-27 12:49:45]     DONE: 90 new questions for Collocations
+[2026-03-27 12:49:45] 
+[2026-03-27 12:49:45] ============================================================
+[2026-03-27 12:49:45] TOPIC 46/134: Discourse Markers (discourse-markers01)
+[2026-03-27 12:49:45] ============================================================
+[2026-03-27 12:49:45]     Intermediate (B1–B2)...
+[2026-03-27 12:49:59]       Got 30, 23 valid, total: 23
+[2026-03-27 12:49:59]       Retry #2 — need 7 more questions...
+[2026-03-27 12:50:12]       Got 12, 7 valid, total: 30
+[2026-03-27 12:50:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:50:33]       Got 30, 23 valid, total: 23
+[2026-03-27 12:50:33]       Retry #2 — need 7 more questions...
+[2026-03-27 12:50:46]       Got 12, 7 valid, total: 30
+[2026-03-27 12:50:51]     Advanced (C1–C2)...
+[2026-03-27 12:51:13]       Got 30, 24 valid, total: 24
+[2026-03-27 12:51:13]       Retry #2 — need 6 more questions...
+[2026-03-27 12:51:24]       Got 11, 6 valid, total: 30
+[2026-03-27 12:51:29]     Wrote questions G\discourse-markers01-intermediate.js (30 questions)
+[2026-03-27 12:51:29]     Wrote questions G\discourse-markers01-upper-intermediate.js (30 questions)
+[2026-03-27 12:51:29]     Wrote questions G\discourse-markers01-advanced.js (30 questions)
+[2026-03-27 12:51:29]     DONE: 90 new questions for Discourse Markers
+[2026-03-27 12:51:29] 
+[2026-03-27 12:51:29] ============================================================
+[2026-03-27 12:51:29] TOPIC 47/134: Narrative Tenses (narrative-tenses01)
+[2026-03-27 12:51:29] ============================================================
+[2026-03-27 12:51:29]     Intermediate (B1–B2)...
+[2026-03-27 12:51:48]       Got 30, 25 valid, total: 25
+[2026-03-27 12:51:48]       Retry #2 — need 5 more questions...
+[2026-03-27 12:52:01]       Got 10, 5 valid, total: 30
+[2026-03-27 12:52:06]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:52:22]       Got 30, 24 valid, total: 24
+[2026-03-27 12:52:22]       Retry #2 — need 6 more questions...
+[2026-03-27 12:52:35]       Got 11, 6 valid, total: 30
+[2026-03-27 12:52:40]     Advanced (C1–C2)...
+[2026-03-27 12:52:56]       Got 30, 24 valid, total: 24
+[2026-03-27 12:52:56]       Retry #2 — need 6 more questions...
+[2026-03-27 12:53:09]       Got 11, 6 valid, total: 30
+[2026-03-27 12:53:14]     Wrote questions G\narrative-tenses01-intermediate.js (30 questions)
+[2026-03-27 12:53:14]     Wrote questions G\narrative-tenses01-upper-intermediate.js (30 questions)
+[2026-03-27 12:53:14]     Wrote questions G\narrative-tenses01-advanced.js (30 questions)
+[2026-03-27 12:53:14]     DONE: 90 new questions for Narrative Tenses
+[2026-03-27 12:53:14] 
+[2026-03-27 12:53:14] ============================================================
+[2026-03-27 12:53:14] TOPIC 48/134: Mixed Conditionals (mixed-conditionals01)
+[2026-03-27 12:53:14] ============================================================
+[2026-03-27 12:53:14]     Intermediate (B1–B2)...
+[2026-03-27 12:53:31]       Got 30, 25 valid, total: 25
+[2026-03-27 12:53:31]       Retry #2 — need 5 more questions...
+[2026-03-27 12:53:44]       Got 10, 5 valid, total: 30
+[2026-03-27 12:53:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:54:08]       Got 30, 28 valid, total: 28
+[2026-03-27 12:54:08]       Retry #2 — need 2 more questions...
+[2026-03-27 12:54:18]       Got 7, 2 valid, total: 30
+[2026-03-27 12:54:23]     Advanced (C1–C2)...
+[2026-03-27 12:54:41]       Got 30, 27 valid, total: 27
+[2026-03-27 12:54:41]       Retry #2 — need 3 more questions...
+[2026-03-27 12:54:52]       Got 8, 3 valid, total: 30
+[2026-03-27 12:54:57]     Wrote questions G\mixed-conditionals01-intermediate.js (30 questions)
+[2026-03-27 12:54:57]     Wrote questions G\mixed-conditionals01-upper-intermediate.js (30 questions)
+[2026-03-27 12:54:57]     Wrote questions G\mixed-conditionals01-advanced.js (30 questions)
+[2026-03-27 12:54:57]     DONE: 90 new questions for Mixed Conditionals
+[2026-03-27 12:54:57] 
+[2026-03-27 12:54:57] ============================================================
+[2026-03-27 12:54:57] TOPIC 49/134: Participle Adjectives (participle-adjectives01)
+[2026-03-27 12:54:57] ============================================================
+[2026-03-27 12:54:57]     Intermediate (B1–B2)...
+[2026-03-27 12:55:14]       Got 30, 29 valid, total: 29
+[2026-03-27 12:55:14]       Retry #2 — need 1 more questions...
+[2026-03-27 12:55:23]       Got 6, 1 valid, total: 30
+[2026-03-27 12:55:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:55:47]       Got 30, 29 valid, total: 29
+[2026-03-27 12:55:47]       Retry #2 — need 1 more questions...
+[2026-03-27 12:55:56]       Got 6, 1 valid, total: 30
+[2026-03-27 12:56:01]     Advanced (C1–C2)...
+[2026-03-27 12:56:20]       Got 30, 30 valid, total: 30
+[2026-03-27 12:56:25]     Wrote questions G\participle-adjectives01-intermediate.js (30 questions)
+[2026-03-27 12:56:25]     Wrote questions G\participle-adjectives01-upper-intermediate.js (30 questions)
+[2026-03-27 12:56:25]     Wrote questions G\participle-adjectives01-advanced.js (30 questions)
+[2026-03-27 12:56:25]     DONE: 90 new questions for Participle Adjectives
+[2026-03-27 12:56:25] 
+[2026-03-27 12:56:25] ============================================================
+[2026-03-27 12:56:25] TOPIC 50/134: Formal vs Informal (formal-informal01)
+[2026-03-27 12:56:25] ============================================================
+[2026-03-27 12:56:25]     Intermediate (B1–B2)...
+[2026-03-27 12:56:42]       Got 30, 23 valid, total: 23
+[2026-03-27 12:56:42]       Retry #2 — need 7 more questions...
+[2026-03-27 12:56:54]       Got 12, 7 valid, total: 30
+[2026-03-27 12:56:59]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:57:16]       Got 30, 25 valid, total: 25
+[2026-03-27 12:57:16]       Retry #2 — need 5 more questions...
+[2026-03-27 12:57:28]       Got 10, 5 valid, total: 30
+[2026-03-27 12:57:33]     Advanced (C1–C2)...
+[2026-03-27 12:57:48]       Got 30, 27 valid, total: 27
+[2026-03-27 12:57:48]       Retry #2 — need 3 more questions...
+[2026-03-27 12:57:59]       Got 8, 3 valid, total: 30
+[2026-03-27 12:58:04]     Wrote questions G\formal-informal01-intermediate.js (30 questions)
+[2026-03-27 12:58:04]     Wrote questions G\formal-informal01-upper-intermediate.js (30 questions)
+[2026-03-27 12:58:04]     Wrote questions G\formal-informal01-advanced.js (30 questions)
+[2026-03-27 12:58:04]     DONE: 90 new questions for Formal vs Informal
+[2026-03-27 12:58:04] 
+[2026-03-27 12:58:04] ============================================================
+[2026-03-27 12:58:04] TOPIC 51/134: Used to / Would / Be Used to (used-to-would01)
+[2026-03-27 12:58:04] ============================================================
+[2026-03-27 12:58:04]     Intermediate (B1–B2)...
+[2026-03-27 12:58:20]       Got 30, 24 valid, total: 24
+[2026-03-27 12:58:20]       Retry #2 — need 6 more questions...
+[2026-03-27 12:58:32]       Got 11, 6 valid, total: 30
+[2026-03-27 12:58:37]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:58:55]       Got 30, 23 valid, total: 23
+[2026-03-27 12:58:55]       Retry #2 — need 7 more questions...
+[2026-03-27 12:59:07]       Got 12, 7 valid, total: 30
+[2026-03-27 12:59:12]     Advanced (C1–C2)...
+[2026-03-27 12:59:30]       Got 30, 25 valid, total: 25
+[2026-03-27 12:59:30]       Retry #2 — need 5 more questions...
+[2026-03-27 12:59:41]       Got 10, 5 valid, total: 30
+[2026-03-27 12:59:46]     Wrote questions G\used-to-would01-intermediate.js (30 questions)
+[2026-03-27 12:59:46]     Wrote questions G\used-to-would01-upper-intermediate.js (30 questions)
+[2026-03-27 12:59:46]     Wrote questions G\used-to-would01-advanced.js (30 questions)
+[2026-03-27 12:59:46]     DONE: 90 new questions for Used to / Would / Be Used to
+[2026-03-27 12:59:46] 
+[2026-03-27 12:59:46] ============================================================
+[2026-03-27 12:59:46] TOPIC 52/134: Have & Get Expressions (have-get-expressions01)
+[2026-03-27 12:59:46] ============================================================
+[2026-03-27 12:59:46]     Intermediate (B1–B2)...
+[2026-03-27 13:00:02]       Got 30, 26 valid, total: 26
+[2026-03-27 13:00:02]       Retry #2 — need 4 more questions...
+[2026-03-27 13:00:12]       Got 9, 4 valid, total: 30
+[2026-03-27 13:00:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:00:33]       Got 30, 23 valid, total: 23
+[2026-03-27 13:00:33]       Retry #2 — need 7 more questions...
+[2026-03-27 13:00:46]       Got 12, 7 valid, total: 30
+[2026-03-27 13:00:51]     Advanced (C1–C2)...
+[2026-03-27 13:01:09]       Got 30, 25 valid, total: 25
+[2026-03-27 13:01:09]       Retry #2 — need 5 more questions...
+[2026-03-27 13:01:21]       Got 10, 5 valid, total: 30
+[2026-03-27 13:01:26]     Wrote questions G\have-get-expressions01-intermediate.js (30 questions)
+[2026-03-27 13:01:26]     Wrote questions G\have-get-expressions01-upper-intermediate.js (30 questions)
+[2026-03-27 13:01:26]     Wrote questions G\have-get-expressions01-advanced.js (30 questions)
+[2026-03-27 13:01:26]     DONE: 90 new questions for Have & Get Expressions
+[2026-03-27 13:01:26] 
+[2026-03-27 13:01:26] ============================================================
+[2026-03-27 13:01:26] TOPIC 53/134: Advanced Relative Clauses (relative-clauses-advanced01)
+[2026-03-27 13:01:26] ============================================================
+[2026-03-27 13:01:26]     Intermediate (B1–B2)...
+[2026-03-27 13:01:41]       Got 30, 24 valid, total: 24
+[2026-03-27 13:01:41]       Retry #2 — need 6 more questions...
+[2026-03-27 13:01:53]       Got 11, 6 valid, total: 30
+[2026-03-27 13:01:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:02:16]       Got 30, 23 valid, total: 23
+[2026-03-27 13:02:16]       Retry #2 — need 7 more questions...
+[2026-03-27 13:02:29]       Got 12, 7 valid, total: 30
+[2026-03-27 13:02:34]     Advanced (C1–C2)...
+[2026-03-27 13:02:49]       Got 30, 23 valid, total: 23
+[2026-03-27 13:02:49]       Retry #2 — need 7 more questions...
+[2026-03-27 13:03:03]       Got 12, 7 valid, total: 30
+[2026-03-27 13:03:08]     Wrote questions G\relative-clauses-advanced01-intermediate.js (30 questions)
+[2026-03-27 13:03:08]     Wrote questions G\relative-clauses-advanced01-upper-intermediate.js (30 questions)
+[2026-03-27 13:03:08]     Wrote questions G\relative-clauses-advanced01-advanced.js (30 questions)
+[2026-03-27 13:03:08]     DONE: 90 new questions for Advanced Relative Clauses
+[2026-03-27 13:03:08] 
+[2026-03-27 13:03:08] ============================================================
+[2026-03-27 13:03:08] TOPIC 54/134: Advanced Articles (articles-advanced01)
+[2026-03-27 13:03:08] ============================================================
+[2026-03-27 13:03:08]     Intermediate (B1–B2)...
+[2026-03-27 13:03:24]       Got 30, 30 valid, total: 30
+[2026-03-27 13:03:29]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:03:46]       Got 30, 28 valid, total: 28
+[2026-03-27 13:03:46]       Retry #2 — need 2 more questions...
+[2026-03-27 13:03:57]       Got 7, 2 valid, total: 30
+[2026-03-27 13:04:02]     Advanced (C1–C2)...
+[2026-03-27 13:04:20]       Got 30, 25 valid, total: 25
+[2026-03-27 13:04:20]       Retry #2 — need 5 more questions...
+[2026-03-27 13:04:32]       Got 10, 5 valid, total: 30
+[2026-03-27 13:04:37]     Wrote questions G\articles-advanced01-intermediate.js (30 questions)
+[2026-03-27 13:04:37]     Wrote questions G\articles-advanced01-upper-intermediate.js (30 questions)
+[2026-03-27 13:04:37]     Wrote questions G\articles-advanced01-advanced.js (30 questions)
+[2026-03-27 13:04:37]     DONE: 90 new questions for Advanced Articles
+[2026-03-27 13:04:37] 
+[2026-03-27 13:04:37] ============================================================
+[2026-03-27 13:04:37] TOPIC 55/134: Commonly Confused Words (confusing-words01)
+[2026-03-27 13:04:37] ============================================================
+[2026-03-27 13:04:37]     Intermediate (B1–B2)...
+[2026-03-27 13:04:52]       Got 30, 26 valid, total: 26
+[2026-03-27 13:04:52]       Retry #2 — need 4 more questions...
+[2026-03-27 13:05:03]       Got 9, 4 valid, total: 30
+[2026-03-27 13:05:08]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:05:31]       Got 30, 27 valid, total: 27
+[2026-03-27 13:05:31]       Retry #2 — need 3 more questions...
+[2026-03-27 13:05:42]       Got 8, 3 valid, total: 30
+[2026-03-27 13:05:47]     Advanced (C1–C2)...
+[2026-03-27 13:06:04]       Got 30, 30 valid, total: 30
+[2026-03-27 13:06:09]     Wrote questions G\confusing-words01-intermediate.js (30 questions)
+[2026-03-27 13:06:09]     Wrote questions G\confusing-words01-upper-intermediate.js (30 questions)
+[2026-03-27 13:06:09]     Wrote questions G\confusing-words01-advanced.js (30 questions)
+[2026-03-27 13:06:09]     DONE: 90 new questions for Commonly Confused Words
+[2026-03-27 13:06:09] 
+[2026-03-27 13:06:09] ============================================================
+[2026-03-27 13:06:09] TOPIC 56/134: Time Clauses (time-clauses01)
+[2026-03-27 13:06:09] ============================================================
+[2026-03-27 13:06:09]     Intermediate (B1–B2)...
+[2026-03-27 13:06:27]       Got 30, 24 valid, total: 24
+[2026-03-27 13:06:27]       Retry #2 — need 6 more questions...
+[2026-03-27 13:06:40]       Got 11, 6 valid, total: 30
+[2026-03-27 13:06:45]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:07:02]       Got 30, 24 valid, total: 24
+[2026-03-27 13:07:02]       Retry #2 — need 6 more questions...
+[2026-03-27 13:07:15]       Got 11, 6 valid, total: 30
+[2026-03-27 13:07:20]     Advanced (C1–C2)...
+[2026-03-27 13:07:36]       Got 30, 23 valid, total: 23
+[2026-03-27 13:07:36]       Retry #2 — need 7 more questions...
+[2026-03-27 13:07:49]       Got 12, 7 valid, total: 30
+[2026-03-27 13:07:54]     Wrote questions G\time-clauses01-intermediate.js (30 questions)
+[2026-03-27 13:07:54]     Wrote questions G\time-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 13:07:54]     Wrote questions G\time-clauses01-advanced.js (30 questions)
+[2026-03-27 13:07:54]     DONE: 90 new questions for Time Clauses
+[2026-03-27 13:07:54] 
+[2026-03-27 13:07:54] ============================================================
+[2026-03-27 13:07:54] TOPIC 57/134: Question Formation (question-forms01)
+[2026-03-27 13:07:54] ============================================================
+[2026-03-27 13:07:54]     Intermediate (B1–B2)...
+[2026-03-27 13:08:11]       Got 31, 25 valid, total: 25
+[2026-03-27 13:08:11]       Retry #2 — need 5 more questions...
+[2026-03-27 13:08:22]       Got 10, 5 valid, total: 30
+[2026-03-27 13:08:27]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:08:43]       Got 30, 23 valid, total: 23
+[2026-03-27 13:08:43]       Retry #2 — need 7 more questions...
+[2026-03-27 13:08:56]       Got 12, 7 valid, total: 30
+[2026-03-27 13:09:01]     Advanced (C1–C2)...
+[2026-03-27 13:09:19]       Got 30, 24 valid, total: 24
+[2026-03-27 13:09:19]       Retry #2 — need 6 more questions...
+[2026-03-27 13:09:31]       Got 11, 6 valid, total: 30
+[2026-03-27 13:09:36]     Wrote questions G\question-forms01-intermediate.js (30 questions)
+[2026-03-27 13:09:36]     Wrote questions G\question-forms01-upper-intermediate.js (30 questions)
+[2026-03-27 13:09:36]     Wrote questions G\question-forms01-advanced.js (30 questions)
+[2026-03-27 13:09:36]     DONE: 90 new questions for Question Formation
+[2026-03-27 13:09:36] 
+[2026-03-27 13:09:36] ============================================================
+[2026-03-27 13:09:36] TOPIC 58/134: Negative Forms (negative-forms01)
+[2026-03-27 13:09:36] ============================================================
+[2026-03-27 13:09:36]     Intermediate (B1–B2)...
+[2026-03-27 13:09:56]       Got 30, 29 valid, total: 29
+[2026-03-27 13:09:56]       Retry #2 — need 1 more questions...
+[2026-03-27 13:10:06]       Got 6, 1 valid, total: 30
+[2026-03-27 13:10:11]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:10:27]       Got 30, 30 valid, total: 30
+[2026-03-27 13:10:32]     Advanced (C1–C2)...
+[2026-03-27 13:10:50]       Got 30, 30 valid, total: 30
+[2026-03-27 13:10:55]     Wrote questions G\negative-forms01-intermediate.js (30 questions)
+[2026-03-27 13:10:55]     Wrote questions G\negative-forms01-upper-intermediate.js (30 questions)
+[2026-03-27 13:10:55]     Wrote questions G\negative-forms01-advanced.js (30 questions)
+[2026-03-27 13:10:55]     DONE: 90 new questions for Negative Forms
+[2026-03-27 13:10:55] 
+[2026-03-27 13:10:55] ============================================================
+[2026-03-27 13:10:55] TOPIC 59/134: Word Order (word-order01)
+[2026-03-27 13:10:55] ============================================================
+[2026-03-27 13:10:55]     Intermediate (B1–B2)...
+[2026-03-27 13:11:10]       Got 30, 30 valid, total: 30
+[2026-03-27 13:11:15]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:11:34]       Got 30, 23 valid, total: 23
+[2026-03-27 13:11:34]       Retry #2 — need 7 more questions...
+[2026-03-27 13:11:47]       Got 12, 7 valid, total: 30
+[2026-03-27 13:11:52]     Advanced (C1–C2)...
+[2026-03-27 13:12:11]       Got 30, 24 valid, total: 24
+[2026-03-27 13:12:11]       Retry #2 — need 6 more questions...
+[2026-03-27 13:12:25]       Got 11, 6 valid, total: 30
+[2026-03-27 13:12:30]     Wrote questions G\word-order01-intermediate.js (30 questions)
+[2026-03-27 13:12:30]     Wrote questions G\word-order01-upper-intermediate.js (30 questions)
+[2026-03-27 13:12:30]     Wrote questions G\word-order01-advanced.js (30 questions)
+[2026-03-27 13:12:30]     DONE: 90 new questions for Word Order
+[2026-03-27 13:12:30] 
+[2026-03-27 13:12:30] ============================================================
+[2026-03-27 13:12:30] TOPIC 60/134: Academic Grammar (academic-grammar01)
+[2026-03-27 13:12:30] ============================================================
+[2026-03-27 13:12:30]     Intermediate (B1–B2)...
+[2026-03-27 13:12:45]       Got 30, 26 valid, total: 26
+[2026-03-27 13:12:45]       Retry #2 — need 4 more questions...
+[2026-03-27 13:12:56]       Got 9, 4 valid, total: 30
+[2026-03-27 13:13:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:13:18]       Got 30, 26 valid, total: 26
+[2026-03-27 13:13:18]       Retry #2 — need 4 more questions...
+[2026-03-27 13:13:29]       Got 9, 4 valid, total: 30
+[2026-03-27 13:13:34]     Advanced (C1–C2)...
+[2026-03-27 13:13:52]       Got 30, 23 valid, total: 23
+[2026-03-27 13:13:52]       Retry #2 — need 7 more questions...
+[2026-03-27 13:14:05]       Got 12, 7 valid, total: 30
+[2026-03-27 13:14:10]     Wrote questions G\academic-grammar01-intermediate.js (30 questions)
+[2026-03-27 13:14:10]     Wrote questions G\academic-grammar01-upper-intermediate.js (30 questions)
+[2026-03-27 13:14:10]     Wrote questions G\academic-grammar01-advanced.js (30 questions)
+[2026-03-27 13:14:10]     DONE: 90 new questions for Academic Grammar
+[2026-03-27 13:14:10] 
+[2026-03-27 13:14:10] ============================================================
+[2026-03-27 13:14:10] TOPIC 61/134: Possessives & Pronouns (possessives-pronouns01)
+[2026-03-27 13:14:10] ============================================================
+[2026-03-27 13:14:10]     Intermediate (B1–B2)...
+[2026-03-27 13:14:27]       Got 30, 25 valid, total: 25
+[2026-03-27 13:14:27]       Retry #2 — need 5 more questions...
+[2026-03-27 13:14:38]       Got 10, 5 valid, total: 30
+[2026-03-27 13:14:43]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:15:00]       Got 30, 28 valid, total: 28
+[2026-03-27 13:15:00]       Retry #2 — need 2 more questions...
+[2026-03-27 13:15:11]       Got 7, 2 valid, total: 30
+[2026-03-27 13:15:16]     Advanced (C1–C2)...
+[2026-03-27 13:15:34]       Got 30, 23 valid, total: 23
+[2026-03-27 13:15:34]       Retry #2 — need 7 more questions...
+[2026-03-27 13:15:48]       Got 12, 7 valid, total: 30
+[2026-03-27 13:15:53]     Wrote questions G\possessives-pronouns01-intermediate.js (30 questions)
+[2026-03-27 13:15:53]     Wrote questions G\possessives-pronouns01-upper-intermediate.js (30 questions)
+[2026-03-27 13:15:53]     Wrote questions G\possessives-pronouns01-advanced.js (30 questions)
+[2026-03-27 13:15:53]     DONE: 90 new questions for Possessives & Pronouns
+[2026-03-27 13:15:53] 
+[2026-03-27 13:15:53] ============================================================
+[2026-03-27 13:15:53] TOPIC 62/134: Sentence Transformation (sentence-transformation01)
+[2026-03-27 13:15:53] ============================================================
+[2026-03-27 13:15:53]     Intermediate (B1–B2)...
+[2026-03-27 13:16:09]       Got 30, 25 valid, total: 25
+[2026-03-27 13:16:09]       Retry #2 — need 5 more questions...
+[2026-03-27 13:16:22]       Got 10, 5 valid, total: 30
+[2026-03-27 13:16:27]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:16:47]       Got 30, 26 valid, total: 26
+[2026-03-27 13:16:47]       Retry #2 — need 4 more questions...
+[2026-03-27 13:16:58]       Got 9, 4 valid, total: 30
+[2026-03-27 13:17:03]     Advanced (C1–C2)...
+[2026-03-27 13:17:22]       Got 30, 23 valid, total: 23
+[2026-03-27 13:17:22]       Retry #2 — need 7 more questions...
+[2026-03-27 13:17:34]       Got 12, 7 valid, total: 30
+[2026-03-27 13:17:39]     Wrote questions G\sentence-transformation01-intermediate.js (30 questions)
+[2026-03-27 13:17:39]     Wrote questions G\sentence-transformation01-upper-intermediate.js (30 questions)
+[2026-03-27 13:17:39]     Wrote questions G\sentence-transformation01-advanced.js (30 questions)
+[2026-03-27 13:17:39]     DONE: 90 new questions for Sentence Transformation
+[2026-03-27 13:17:39] 
+[2026-03-27 13:17:39] ============================================================
+[2026-03-27 13:17:39] TOPIC 63/134: Grammar Traps (spelling-grammar-traps01)
+[2026-03-27 13:17:39] ============================================================
+[2026-03-27 13:17:39]     Intermediate (B1–B2)...
+[2026-03-27 13:17:56]       Got 30, 25 valid, total: 25
+[2026-03-27 13:17:56]       Retry #2 — need 5 more questions...
+[2026-03-27 13:18:08]       Got 10, 5 valid, total: 30
+[2026-03-27 13:18:13]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:18:32]       Got 30, 24 valid, total: 24
+[2026-03-27 13:18:32]       Retry #2 — need 6 more questions...
+[2026-03-27 13:18:44]       Got 11, 6 valid, total: 30
+[2026-03-27 13:18:49]     Advanced (C1–C2)...
+[2026-03-27 13:19:05]       Got 30, 24 valid, total: 24
+[2026-03-27 13:19:05]       Retry #2 — need 6 more questions...
+[2026-03-27 13:19:17]       Got 11, 6 valid, total: 30
+[2026-03-27 13:19:22]     Wrote questions G\spelling-grammar-traps01-intermediate.js (30 questions)
+[2026-03-27 13:19:22]     Wrote questions G\spelling-grammar-traps01-upper-intermediate.js (30 questions)
+[2026-03-27 13:19:22]     Wrote questions G\spelling-grammar-traps01-advanced.js (30 questions)
+[2026-03-27 13:19:22]     DONE: 90 new questions for Grammar Traps
+[2026-03-27 13:19:22] 
+[2026-03-27 13:19:22] ============================================================
+[2026-03-27 13:19:22] TOPIC 64/134: Purpose, Reason & Result (purpose-reason-result01)
+[2026-03-27 13:19:22] ============================================================
+[2026-03-27 13:19:22]     Intermediate (B1–B2)...
+[2026-03-27 13:19:38]       Got 30, 23 valid, total: 23
+[2026-03-27 13:19:38]       Retry #2 — need 7 more questions...
+[2026-03-27 13:19:50]       Got 12, 7 valid, total: 30
+[2026-03-27 13:19:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:20:12]       Got 30, 27 valid, total: 27
+[2026-03-27 13:20:12]       Retry #2 — need 3 more questions...
+[2026-03-27 13:20:22]       Got 8, 3 valid, total: 30
+[2026-03-27 13:20:27]     Advanced (C1–C2)...
+[2026-03-27 13:20:44]       Got 30, 28 valid, total: 28
+[2026-03-27 13:20:44]       Retry #2 — need 2 more questions...
+[2026-03-27 13:20:54]       Got 7, 2 valid, total: 30
+[2026-03-27 13:20:59]     Wrote questions G\purpose-reason-result01-intermediate.js (30 questions)
+[2026-03-27 13:20:59]     Wrote questions G\purpose-reason-result01-upper-intermediate.js (30 questions)
+[2026-03-27 13:20:59]     Wrote questions G\purpose-reason-result01-advanced.js (30 questions)
+[2026-03-27 13:20:59]     DONE: 90 new questions for Purpose, Reason & Result
+[2026-03-27 13:20:59] 
+[2026-03-27 13:20:59] ============================================================
+[2026-03-27 13:20:59] TOPIC 65/134: Punctuation Rules (punctuation-rules01)
+[2026-03-27 13:20:59] ============================================================
+[2026-03-27 13:20:59]     Intermediate (B1–B2)...
+[2026-03-27 13:21:14]       Got 30, 24 valid, total: 24
+[2026-03-27 13:21:14]       Retry #2 — need 6 more questions...
+[2026-03-27 13:21:26]       Got 11, 6 valid, total: 30
+[2026-03-27 13:21:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:21:48]       Got 30, 26 valid, total: 26
+[2026-03-27 13:21:48]       Retry #2 — need 4 more questions...
+[2026-03-27 13:22:00]       JSON parse error: Illegal trailing comma before end of array: line 10 column 17 (char 228)
+[2026-03-27 13:22:10]       Retry #3 — need 4 more questions...
+[2026-03-27 13:22:22]       Got 9, 4 valid, total: 30
+[2026-03-27 13:22:27]     Advanced (C1–C2)...
+[2026-03-27 13:22:47]       Got 30, 23 valid, total: 23
+[2026-03-27 13:22:47]       Retry #2 — need 7 more questions...
+[2026-03-27 13:23:00]       Got 12, 7 valid, total: 30
+[2026-03-27 13:23:05]     Wrote questions G\punctuation-rules01-intermediate.js (30 questions)
+[2026-03-27 13:23:05]     Wrote questions G\punctuation-rules01-upper-intermediate.js (30 questions)
+[2026-03-27 13:23:05]     Wrote questions G\punctuation-rules01-advanced.js (30 questions)
+[2026-03-27 13:23:05]     DONE: 90 new questions for Punctuation Rules
+[2026-03-27 13:23:05] 
+[2026-03-27 13:23:05] ============================================================
+[2026-03-27 13:23:05] TOPIC 66/134: British vs American English (british-american01)
+[2026-03-27 13:23:05] ============================================================
+[2026-03-27 13:23:05]     Intermediate (B1–B2)...
+[2026-03-27 13:23:23]       Got 30, 23 valid, total: 23
+[2026-03-27 13:23:23]       Retry #2 — need 7 more questions...
+[2026-03-27 13:23:36]       Got 12, 7 valid, total: 30
+[2026-03-27 13:23:41]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:23:59]       Got 30, 24 valid, total: 24
+[2026-03-27 13:23:59]       Retry #2 — need 6 more questions...
+[2026-03-27 13:24:11]       Got 11, 6 valid, total: 30
+[2026-03-27 13:24:16]     Advanced (C1–C2)...
+[2026-03-27 13:24:34]       Got 30, 26 valid, total: 26
+[2026-03-27 13:24:34]       Retry #2 — need 4 more questions...
+[2026-03-27 13:24:46]       Got 9, 4 valid, total: 30
+[2026-03-27 13:24:51]     Wrote questions G\british-american01-intermediate.js (30 questions)
+[2026-03-27 13:24:51]     Wrote questions G\british-american01-upper-intermediate.js (30 questions)
+[2026-03-27 13:24:51]     Wrote questions G\british-american01-advanced.js (30 questions)
+[2026-03-27 13:24:51]     DONE: 90 new questions for British vs American English
+[2026-03-27 13:24:51] 
+[2026-03-27 13:24:51] ============================================================
+[2026-03-27 13:24:51] TOPIC 67/134: Advanced Passive (passive-advanced01)
+[2026-03-27 13:24:51] ============================================================
+[2026-03-27 13:24:51]     Intermediate (B1–B2)...
+[2026-03-27 13:25:08]       Got 30, 23 valid, total: 23
+[2026-03-27 13:25:08]       Retry #2 — need 7 more questions...
+[2026-03-27 13:25:21]       Got 12, 7 valid, total: 30
+[2026-03-27 13:25:27]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:25:44]       Got 30, 24 valid, total: 24
+[2026-03-27 13:25:44]       Retry #2 — need 6 more questions...
+[2026-03-27 13:25:57]       Got 11, 6 valid, total: 30
+[2026-03-27 13:26:02]     Advanced (C1–C2)...
+[2026-03-27 13:26:20]       Got 30, 23 valid, total: 23
+[2026-03-27 13:26:20]       Retry #2 — need 7 more questions...
+[2026-03-27 13:26:33]       Got 12, 7 valid, total: 30
+[2026-03-27 13:26:38]     Wrote questions G\passive-advanced01-intermediate.js (30 questions)
+[2026-03-27 13:26:38]     Wrote questions G\passive-advanced01-upper-intermediate.js (30 questions)
+[2026-03-27 13:26:38]     Wrote questions G\passive-advanced01-advanced.js (30 questions)
+[2026-03-27 13:26:38]     DONE: 90 new questions for Advanced Passive
+[2026-03-27 13:26:38] 
+[2026-03-27 13:26:38] ============================================================
+[2026-03-27 13:26:38] TOPIC 68/134: Reported Commands & Requests (reported-commands01)
+[2026-03-27 13:26:38] ============================================================
+[2026-03-27 13:26:38]     Intermediate (B1–B2)...
+[2026-03-27 13:26:55]       Got 30, 24 valid, total: 24
+[2026-03-27 13:26:55]       Retry #2 — need 6 more questions...
+[2026-03-27 13:27:01]       Rate limited (429). Waiting 60s...
+[2026-03-27 13:28:07]       Got 11, 6 valid, total: 30
+[2026-03-27 13:28:12]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:28:31]       Got 30, 23 valid, total: 23
+[2026-03-27 13:28:31]       Retry #2 — need 7 more questions...
+[2026-03-27 13:28:44]       Got 12, 7 valid, total: 30
+[2026-03-27 13:28:49]     Advanced (C1–C2)...
+[2026-03-27 13:29:06]       Got 30, 23 valid, total: 23
+[2026-03-27 13:29:06]       Retry #2 — need 7 more questions...
+[2026-03-27 13:29:19]       Got 12, 7 valid, total: 30
+[2026-03-27 13:29:24]     Wrote questions G\reported-commands01-intermediate.js (30 questions)
+[2026-03-27 13:29:24]     Wrote questions G\reported-commands01-upper-intermediate.js (30 questions)
+[2026-03-27 13:29:24]     Wrote questions G\reported-commands01-advanced.js (30 questions)
+[2026-03-27 13:29:24]     DONE: 90 new questions for Reported Commands & Requests
+[2026-03-27 13:29:24] 
+[2026-03-27 13:29:24] ============================================================
+[2026-03-27 13:29:24] TOPIC 69/134: Obligation & Advice (obligation-advice01)
+[2026-03-27 13:29:24] ============================================================
+[2026-03-27 13:29:24]     Intermediate (B1–B2)...
+[2026-03-27 13:29:42]       Got 30, 25 valid, total: 25
+[2026-03-27 13:29:42]       Retry #2 — need 5 more questions...
+[2026-03-27 13:29:53]       Got 10, 5 valid, total: 30
+[2026-03-27 13:29:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:30:15]       Got 30, 23 valid, total: 23
+[2026-03-27 13:30:15]       Retry #2 — need 7 more questions...
+[2026-03-27 13:30:28]       Got 12, 7 valid, total: 30
+[2026-03-27 13:30:33]     Advanced (C1–C2)...
+[2026-03-27 13:30:49]       Got 30, 26 valid, total: 26
+[2026-03-27 13:30:49]       Retry #2 — need 4 more questions...
+[2026-03-27 13:31:00]       Got 9, 4 valid, total: 30
+[2026-03-27 13:31:05]     Wrote questions G\obligation-advice01-intermediate.js (30 questions)
+[2026-03-27 13:31:05]     Wrote questions G\obligation-advice01-upper-intermediate.js (30 questions)
+[2026-03-27 13:31:05]     Wrote questions G\obligation-advice01-advanced.js (30 questions)
+[2026-03-27 13:31:05]     DONE: 90 new questions for Obligation & Advice
+[2026-03-27 13:31:05] 
+[2026-03-27 13:31:05] ============================================================
+[2026-03-27 13:31:05] TOPIC 70/134: Speculation & Deduction (speculation-deduction01)
+[2026-03-27 13:31:05] ============================================================
+[2026-03-27 13:31:05]     Intermediate (B1–B2)...
+[2026-03-27 13:31:23]       Got 30, 30 valid, total: 30
+[2026-03-27 13:31:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:31:45]       Got 30, 23 valid, total: 23
+[2026-03-27 13:31:45]       Retry #2 — need 7 more questions...
+[2026-03-27 13:31:58]       Got 12, 7 valid, total: 30
+[2026-03-27 13:32:03]     Advanced (C1–C2)...
+[2026-03-27 13:32:21]       Got 30, 28 valid, total: 28
+[2026-03-27 13:32:21]       Retry #2 — need 2 more questions...
+[2026-03-27 13:32:32]       Got 7, 2 valid, total: 30
+[2026-03-27 13:32:37]     Wrote questions G\speculation-deduction01-intermediate.js (30 questions)
+[2026-03-27 13:32:37]     Wrote questions G\speculation-deduction01-upper-intermediate.js (30 questions)
+[2026-03-27 13:32:37]     Wrote questions G\speculation-deduction01-advanced.js (30 questions)
+[2026-03-27 13:32:37]     DONE: 90 new questions for Speculation & Deduction
+[2026-03-27 13:32:37] 
+[2026-03-27 13:32:37] ============================================================
+[2026-03-27 13:32:37] TOPIC 71/134: Expressing Ability (expressing-ability01)
+[2026-03-27 13:32:37] ============================================================
+[2026-03-27 13:32:37]     Intermediate (B1–B2)...
+[2026-03-27 13:32:54]       Got 30, 26 valid, total: 26
+[2026-03-27 13:32:54]       Retry #2 — need 4 more questions...
+[2026-03-27 13:33:05]       Got 9, 4 valid, total: 30
+[2026-03-27 13:33:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:33:28]       Got 30, 28 valid, total: 28
+[2026-03-27 13:33:28]       Retry #2 — need 2 more questions...
+[2026-03-27 13:33:38]       Got 7, 2 valid, total: 30
+[2026-03-27 13:33:43]     Advanced (C1–C2)...
+[2026-03-27 13:34:02]       Got 30, 24 valid, total: 24
+[2026-03-27 13:34:02]       Retry #2 — need 6 more questions...
+[2026-03-27 13:34:14]       Got 11, 6 valid, total: 30
+[2026-03-27 13:34:19]     Wrote questions G\expressing-ability01-intermediate.js (30 questions)
+[2026-03-27 13:34:19]     Wrote questions G\expressing-ability01-upper-intermediate.js (30 questions)
+[2026-03-27 13:34:19]     Wrote questions G\expressing-ability01-advanced.js (30 questions)
+[2026-03-27 13:34:19]     DONE: 90 new questions for Expressing Ability
+[2026-03-27 13:34:19] 
+[2026-03-27 13:34:19] ============================================================
+[2026-03-27 13:34:19] TOPIC 72/134: Dependent Prepositions (dependent-prepositions01)
+[2026-03-27 13:34:19] ============================================================
+[2026-03-27 13:34:19]     Intermediate (B1–B2)...
+[2026-03-27 13:34:20]       Rate limited (429). Waiting 60s...
+[2026-03-27 13:35:36]       Got 30, 23 valid, total: 23
+[2026-03-27 13:35:36]       Retry #2 — need 7 more questions...
+[2026-03-27 13:35:48]       Got 12, 7 valid, total: 30
+[2026-03-27 13:35:53]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:36:10]       Got 30, 30 valid, total: 30
+[2026-03-27 13:36:15]     Advanced (C1–C2)...
+[2026-03-27 13:36:33]       Got 30, 23 valid, total: 23
+[2026-03-27 13:36:33]       Retry #2 — need 7 more questions...
+[2026-03-27 13:36:47]       Got 12, 7 valid, total: 30
+[2026-03-27 13:36:52]     Wrote questions G\dependent-prepositions01-intermediate.js (30 questions)
+[2026-03-27 13:36:52]     Wrote questions G\dependent-prepositions01-upper-intermediate.js (30 questions)
+[2026-03-27 13:36:52]     Wrote questions G\dependent-prepositions01-advanced.js (30 questions)
+[2026-03-27 13:36:52]     DONE: 90 new questions for Dependent Prepositions
+[2026-03-27 13:36:52] 
+[2026-03-27 13:36:52] ============================================================
+[2026-03-27 13:36:52] TOPIC 73/134: Expressing Habits (habitual-actions01)
+[2026-03-27 13:36:52] ============================================================
+[2026-03-27 13:36:52]     Intermediate (B1–B2)...
+[2026-03-27 13:37:06]       Got 30, 24 valid, total: 24
+[2026-03-27 13:37:06]       Retry #2 — need 6 more questions...
+[2026-03-27 13:37:18]       Got 11, 6 valid, total: 30
+[2026-03-27 13:37:23]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:37:40]       Got 30, 23 valid, total: 23
+[2026-03-27 13:37:40]       Retry #2 — need 7 more questions...
+[2026-03-27 13:37:53]       Got 12, 7 valid, total: 30
+[2026-03-27 13:37:58]     Advanced (C1–C2)...
+[2026-03-27 13:38:18]       Got 30, 23 valid, total: 23
+[2026-03-27 13:38:18]       Retry #2 — need 7 more questions...
+[2026-03-27 13:38:32]       Got 12, 7 valid, total: 30
+[2026-03-27 13:38:37]     Wrote questions G\habitual-actions01-intermediate.js (30 questions)
+[2026-03-27 13:38:37]     Wrote questions G\habitual-actions01-upper-intermediate.js (30 questions)
+[2026-03-27 13:38:37]     Wrote questions G\habitual-actions01-advanced.js (30 questions)
+[2026-03-27 13:38:37]     DONE: 90 new questions for Expressing Habits
+[2026-03-27 13:38:37] 
+[2026-03-27 13:38:37] ============================================================
+[2026-03-27 13:38:37] TOPIC 74/134: Idiomatic Grammar (idiomatic-grammar01)
+[2026-03-27 13:38:37] ============================================================
+[2026-03-27 13:38:37]     Intermediate (B1–B2)...
+[2026-03-27 13:38:51]       Got 30, 24 valid, total: 24
+[2026-03-27 13:38:51]       Retry #2 — need 6 more questions...
+[2026-03-27 13:39:02]       Got 11, 6 valid, total: 30
+[2026-03-27 13:39:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:39:23]       JSON parse error: Invalid \escape: line 119 column 21 (char 4047)
+[2026-03-27 13:39:33]       Retry #2 — need 30 more questions...
+[2026-03-27 13:39:56]       Got 35, 26 valid, total: 26
+[2026-03-27 13:39:56]       Retry #3 — need 4 more questions...
+[2026-03-27 13:40:06]       Got 9, 4 valid, total: 30
+[2026-03-27 13:40:11]     Advanced (C1–C2)...
+[2026-03-27 13:40:28]       Got 30, 24 valid, total: 24
+[2026-03-27 13:40:28]       Retry #2 — need 6 more questions...
+[2026-03-27 13:40:40]       Got 11, 6 valid, total: 30
+[2026-03-27 13:40:45]     Wrote questions G\idiomatic-grammar01-intermediate.js (30 questions)
+[2026-03-27 13:40:45]     Wrote questions G\idiomatic-grammar01-upper-intermediate.js (30 questions)
+[2026-03-27 13:40:45]     Wrote questions G\idiomatic-grammar01-advanced.js (30 questions)
+[2026-03-27 13:40:45]     DONE: 90 new questions for Idiomatic Grammar
+[2026-03-27 13:40:45] 
+[2026-03-27 13:40:45] ============================================================
+[2026-03-27 13:40:45] TOPIC 75/134: Stative vs Dynamic Verbs (stative-dynamic-verbs01)
+[2026-03-27 13:40:45] ============================================================
+[2026-03-27 13:40:45]     Intermediate (B1–B2)...
+[2026-03-27 13:41:00]       Got 30, 23 valid, total: 23
+[2026-03-27 13:41:00]       Retry #2 — need 7 more questions...
+[2026-03-27 13:41:12]       Got 12, 7 valid, total: 30
+[2026-03-27 13:41:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:41:35]       Got 30, 30 valid, total: 30
+[2026-03-27 13:41:40]     Advanced (C1–C2)...
+[2026-03-27 13:41:57]       Got 30, 30 valid, total: 30
+[2026-03-27 13:42:02]     Wrote questions G\stative-dynamic-verbs01-intermediate.js (30 questions)
+[2026-03-27 13:42:02]     Wrote questions G\stative-dynamic-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 13:42:02]     Wrote questions G\stative-dynamic-verbs01-advanced.js (30 questions)
+[2026-03-27 13:42:02]     DONE: 90 new questions for Stative vs Dynamic Verbs
+[2026-03-27 13:42:02] 
+[2026-03-27 13:42:02] ============================================================
+[2026-03-27 13:42:02] TOPIC 76/134: Hedging & Vague Language (hedging-vague-language01)
+[2026-03-27 13:42:02] ============================================================
+[2026-03-27 13:42:02]     Intermediate (B1–B2)...
+[2026-03-27 13:42:18]       Got 30, 23 valid, total: 23
+[2026-03-27 13:42:18]       Retry #2 — need 7 more questions...
+[2026-03-27 13:42:31]       Got 12, 7 valid, total: 30
+[2026-03-27 13:42:36]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:42:53]       Got 30, 30 valid, total: 30
+[2026-03-27 13:42:58]     Advanced (C1–C2)...
+[2026-03-27 13:43:17]       Got 30, 23 valid, total: 23
+[2026-03-27 13:43:17]       Retry #2 — need 7 more questions...
+[2026-03-27 13:43:31]       Got 12, 7 valid, total: 30
+[2026-03-27 13:43:36]     Wrote questions G\hedging-vague-language01-intermediate.js (30 questions)
+[2026-03-27 13:43:36]     Wrote questions G\hedging-vague-language01-upper-intermediate.js (30 questions)
+[2026-03-27 13:43:36]     Wrote questions G\hedging-vague-language01-advanced.js (30 questions)
+[2026-03-27 13:43:36]     DONE: 90 new questions for Hedging & Vague Language
+[2026-03-27 13:43:36] 
+[2026-03-27 13:43:36] ============================================================
+[2026-03-27 13:43:36] TOPIC 77/134: Reduced Clauses (reduced-clauses01)
+[2026-03-27 13:43:36] ============================================================
+[2026-03-27 13:43:36]     Intermediate (B1–B2)...
+[2026-03-27 13:43:52]       Got 30, 26 valid, total: 26
+[2026-03-27 13:43:52]       Retry #2 — need 4 more questions...
+[2026-03-27 13:44:03]       Got 9, 4 valid, total: 30
+[2026-03-27 13:44:08]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:44:27]       Got 30, 26 valid, total: 26
+[2026-03-27 13:44:27]       Retry #2 — need 4 more questions...
+[2026-03-27 13:44:38]       Got 9, 4 valid, total: 30
+[2026-03-27 13:44:43]     Advanced (C1–C2)...
+[2026-03-27 13:45:01]       Got 30, 24 valid, total: 24
+[2026-03-27 13:45:01]       Retry #2 — need 6 more questions...
+[2026-03-27 13:45:14]       Got 11, 6 valid, total: 30
+[2026-03-27 13:45:19]     Wrote questions G\reduced-clauses01-intermediate.js (30 questions)
+[2026-03-27 13:45:19]     Wrote questions G\reduced-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 13:45:19]     Wrote questions G\reduced-clauses01-advanced.js (30 questions)
+[2026-03-27 13:45:19]     DONE: 90 new questions for Reduced Clauses
+[2026-03-27 13:45:19] 
+[2026-03-27 13:45:19] ============================================================
+[2026-03-27 13:45:19] TOPIC 78/134: Dummy Subjects (It/There) (dummy-subjects01)
+[2026-03-27 13:45:19] ============================================================
+[2026-03-27 13:45:19]     Intermediate (B1–B2)...
+[2026-03-27 13:45:34]       Got 30, 26 valid, total: 26
+[2026-03-27 13:45:34]       Retry #2 — need 4 more questions...
+[2026-03-27 13:45:45]       Got 9, 4 valid, total: 30
+[2026-03-27 13:45:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:46:06]       Got 30, 25 valid, total: 25
+[2026-03-27 13:46:06]       Retry #2 — need 5 more questions...
+[2026-03-27 13:46:17]       Got 10, 5 valid, total: 30
+[2026-03-27 13:46:22]     Advanced (C1–C2)...
+[2026-03-27 13:46:38]       Got 30, 23 valid, total: 23
+[2026-03-27 13:46:38]       Retry #2 — need 7 more questions...
+[2026-03-27 13:46:51]       Got 12, 7 valid, total: 30
+[2026-03-27 13:46:56]     Wrote questions G\dummy-subjects01-intermediate.js (30 questions)
+[2026-03-27 13:46:56]     Wrote questions G\dummy-subjects01-upper-intermediate.js (30 questions)
+[2026-03-27 13:46:56]     Wrote questions G\dummy-subjects01-advanced.js (30 questions)
+[2026-03-27 13:46:56]     DONE: 90 new questions for Dummy Subjects (It/There)
+[2026-03-27 13:46:56] 
+[2026-03-27 13:46:56] ============================================================
+[2026-03-27 13:46:56] TOPIC 79/134: Alternatives to If (conditionals-alternatives01)
+[2026-03-27 13:46:56] ============================================================
+[2026-03-27 13:46:56]     Intermediate (B1–B2)...
+[2026-03-27 13:47:15]       Got 30, 23 valid, total: 23
+[2026-03-27 13:47:15]       Retry #2 — need 7 more questions...
+[2026-03-27 13:47:28]       Got 12, 7 valid, total: 30
+[2026-03-27 13:47:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:47:50]       Got 30, 24 valid, total: 24
+[2026-03-27 13:47:50]       Retry #2 — need 6 more questions...
+[2026-03-27 13:48:04]       Got 11, 6 valid, total: 30
+[2026-03-27 13:48:09]     Advanced (C1–C2)...
+[2026-03-27 13:48:27]       Got 30, 23 valid, total: 23
+[2026-03-27 13:48:27]       Retry #2 — need 7 more questions...
+[2026-03-27 13:48:41]       Got 12, 7 valid, total: 30
+[2026-03-27 13:48:46]     Wrote questions G\conditionals-alternatives01-intermediate.js (30 questions)
+[2026-03-27 13:48:46]     Wrote questions G\conditionals-alternatives01-upper-intermediate.js (30 questions)
+[2026-03-27 13:48:46]     Wrote questions G\conditionals-alternatives01-advanced.js (30 questions)
+[2026-03-27 13:48:46]     DONE: 90 new questions for Alternatives to If
+[2026-03-27 13:48:46] 
+[2026-03-27 13:48:46] ============================================================
+[2026-03-27 13:48:46] TOPIC 80/134: Noun Modification (noun-modification01)
+[2026-03-27 13:48:46] ============================================================
+[2026-03-27 13:48:46]     Intermediate (B1–B2)...
+[2026-03-27 13:49:00]       Got 30, 23 valid, total: 23
+[2026-03-27 13:49:00]       Retry #2 — need 7 more questions...
+[2026-03-27 13:49:12]       Got 12, 7 valid, total: 30
+[2026-03-27 13:49:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:49:36]       Got 30, 24 valid, total: 24
+[2026-03-27 13:49:36]       Retry #2 — need 6 more questions...
+[2026-03-27 13:49:48]       Got 11, 6 valid, total: 30
+[2026-03-27 13:49:53]     Advanced (C1–C2)...
+[2026-03-27 13:50:10]       Got 30, 30 valid, total: 30
+[2026-03-27 13:50:15]     Wrote questions G\noun-modification01-intermediate.js (30 questions)
+[2026-03-27 13:50:15]     Wrote questions G\noun-modification01-upper-intermediate.js (30 questions)
+[2026-03-27 13:50:15]     Wrote questions G\noun-modification01-advanced.js (30 questions)
+[2026-03-27 13:50:15]     DONE: 90 new questions for Noun Modification
+[2026-03-27 13:50:15] 
+[2026-03-27 13:50:15] ============================================================
+[2026-03-27 13:50:15] TOPIC 81/134: Apposition (apposition01)
+[2026-03-27 13:50:15] ============================================================
+[2026-03-27 13:50:15]     Intermediate (B1–B2)...
+[2026-03-27 13:50:32]       Got 30, 23 valid, total: 23
+[2026-03-27 13:50:32]       Retry #2 — need 7 more questions...
+[2026-03-27 13:50:45]       Got 12, 7 valid, total: 30
+[2026-03-27 13:50:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:51:07]       Got 30, 24 valid, total: 24
+[2026-03-27 13:51:07]       Retry #2 — need 6 more questions...
+[2026-03-27 13:51:20]       Got 11, 6 valid, total: 30
+[2026-03-27 13:51:25]     Advanced (C1–C2)...
+[2026-03-27 13:51:42]       Got 30, 30 valid, total: 30
+[2026-03-27 13:51:47]     Wrote questions G\apposition01-intermediate.js (30 questions)
+[2026-03-27 13:51:47]     Wrote questions G\apposition01-upper-intermediate.js (30 questions)
+[2026-03-27 13:51:47]     Wrote questions G\apposition01-advanced.js (30 questions)
+[2026-03-27 13:51:47]     DONE: 90 new questions for Apposition
+[2026-03-27 13:51:47] 
+[2026-03-27 13:51:47] ============================================================
+[2026-03-27 13:51:47] TOPIC 82/134: Reflexive & Reciprocal (reflexive-reciprocal01)
+[2026-03-27 13:51:47] ============================================================
+[2026-03-27 13:51:47]     Intermediate (B1–B2)...
+[2026-03-27 13:52:04]       Got 30, 23 valid, total: 23
+[2026-03-27 13:52:04]       Retry #2 — need 7 more questions...
+[2026-03-27 13:52:16]       Got 12, 7 valid, total: 30
+[2026-03-27 13:52:21]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:52:39]       Got 30, 23 valid, total: 23
+[2026-03-27 13:52:39]       Retry #2 — need 7 more questions...
+[2026-03-27 13:52:51]       Got 12, 7 valid, total: 30
+[2026-03-27 13:52:56]     Advanced (C1–C2)...
+[2026-03-27 13:53:14]       Got 30, 23 valid, total: 23
+[2026-03-27 13:53:14]       Retry #2 — need 7 more questions...
+[2026-03-27 13:53:28]       Got 12, 7 valid, total: 30
+[2026-03-27 13:53:33]     Wrote questions G\reflexive-reciprocal01-intermediate.js (30 questions)
+[2026-03-27 13:53:33]     Wrote questions G\reflexive-reciprocal01-upper-intermediate.js (30 questions)
+[2026-03-27 13:53:33]     Wrote questions G\reflexive-reciprocal01-advanced.js (30 questions)
+[2026-03-27 13:53:33]     DONE: 90 new questions for Reflexive & Reciprocal
+[2026-03-27 13:53:33] 
+[2026-03-27 13:53:33] ============================================================
+[2026-03-27 13:53:33] TOPIC 83/134: Infinitive Patterns (infinitive-patterns01)
+[2026-03-27 13:53:33] ============================================================
+[2026-03-27 13:53:33]     Intermediate (B1–B2)...
+[2026-03-27 13:53:48]       Got 30, 24 valid, total: 24
+[2026-03-27 13:53:48]       Retry #2 — need 6 more questions...
+[2026-03-27 13:54:00]       Got 11, 6 valid, total: 30
+[2026-03-27 13:54:05]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:54:21]       Got 30, 23 valid, total: 23
+[2026-03-27 13:54:21]       Retry #2 — need 7 more questions...
+[2026-03-27 13:54:34]       Got 12, 7 valid, total: 30
+[2026-03-27 13:54:39]     Advanced (C1–C2)...
+[2026-03-27 13:54:58]       Got 30, 23 valid, total: 23
+[2026-03-27 13:54:58]       Retry #2 — need 7 more questions...
+[2026-03-27 13:55:11]       Got 12, 7 valid, total: 30
+[2026-03-27 13:55:16]     Wrote questions G\infinitive-patterns01-intermediate.js (30 questions)
+[2026-03-27 13:55:16]     Wrote questions G\infinitive-patterns01-upper-intermediate.js (30 questions)
+[2026-03-27 13:55:16]     Wrote questions G\infinitive-patterns01-advanced.js (30 questions)
+[2026-03-27 13:55:16]     DONE: 90 new questions for Infinitive Patterns
+[2026-03-27 13:55:16] 
+[2026-03-27 13:55:16] ============================================================
+[2026-03-27 13:55:16] TOPIC 84/134: Adverb Placement (adverb-placement01)
+[2026-03-27 13:55:16] ============================================================
+[2026-03-27 13:55:16]     Intermediate (B1–B2)...
+[2026-03-27 13:55:32]       Got 30, 23 valid, total: 23
+[2026-03-27 13:55:32]       Retry #2 — need 7 more questions...
+[2026-03-27 13:55:45]       Got 12, 7 valid, total: 30
+[2026-03-27 13:55:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:56:07]       Got 30, 23 valid, total: 23
+[2026-03-27 13:56:07]       Retry #2 — need 7 more questions...
+[2026-03-27 13:56:21]       Got 12, 7 valid, total: 30
+[2026-03-27 13:56:26]     Advanced (C1–C2)...
+[2026-03-27 13:56:43]       Got 30, 30 valid, total: 30
+[2026-03-27 13:56:48]     Wrote questions G\adverb-placement01-intermediate.js (30 questions)
+[2026-03-27 13:56:48]     Wrote questions G\adverb-placement01-upper-intermediate.js (30 questions)
+[2026-03-27 13:56:48]     Wrote questions G\adverb-placement01-advanced.js (30 questions)
+[2026-03-27 13:56:48]     DONE: 90 new questions for Adverb Placement
+[2026-03-27 13:56:48] 
+[2026-03-27 13:56:48] ============================================================
+[2026-03-27 13:56:48] TOPIC 85/134: Fronting & Topicalisation (fronting-topicalisation01)
+[2026-03-27 13:56:48] ============================================================
+[2026-03-27 13:56:48]     Intermediate (B1–B2)...
+[2026-03-27 13:57:05]       Got 30, 23 valid, total: 23
+[2026-03-27 13:57:05]       Retry #2 — need 7 more questions...
+[2026-03-27 13:57:17]       Got 12, 7 valid, total: 30
+[2026-03-27 13:57:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:57:40]       Got 30, 23 valid, total: 23
+[2026-03-27 13:57:40]       Retry #2 — need 7 more questions...
+[2026-03-27 13:57:53]       Got 12, 7 valid, total: 30
+[2026-03-27 13:57:58]     Advanced (C1–C2)...
+[2026-03-27 13:58:16]       Got 30, 23 valid, total: 23
+[2026-03-27 13:58:16]       Retry #2 — need 7 more questions...
+[2026-03-27 13:58:28]       Got 12, 7 valid, total: 30
+[2026-03-27 13:58:33]     Wrote questions G\fronting-topicalisation01-intermediate.js (30 questions)
+[2026-03-27 13:58:33]     Wrote questions G\fronting-topicalisation01-upper-intermediate.js (30 questions)
+[2026-03-27 13:58:33]     Wrote questions G\fronting-topicalisation01-advanced.js (30 questions)
+[2026-03-27 13:58:33]     DONE: 90 new questions for Fronting & Topicalisation
+[2026-03-27 13:58:33] 
+[2026-03-27 13:58:33] ============================================================
+[2026-03-27 13:58:33] TOPIC 86/134: Cohesion & Reference (cohesion-reference01)
+[2026-03-27 13:58:33] ============================================================
+[2026-03-27 13:58:33]     Intermediate (B1–B2)...
+[2026-03-27 13:58:49]       Got 30, 23 valid, total: 23
+[2026-03-27 13:58:49]       Retry #2 — need 7 more questions...
+[2026-03-27 13:59:02]       Got 12, 7 valid, total: 30
+[2026-03-27 13:59:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:59:25]       Got 30, 28 valid, total: 28
+[2026-03-27 13:59:25]       Retry #2 — need 2 more questions...
+[2026-03-27 13:59:36]       Got 7, 2 valid, total: 30
+[2026-03-27 13:59:41]     Advanced (C1–C2)...
+[2026-03-27 13:59:58]       Got 30, 23 valid, total: 23
+[2026-03-27 13:59:58]       Retry #2 — need 7 more questions...
+[2026-03-27 14:00:11]       JSON parse error: Expecting ',' delimiter: line 71 column 75 (char 2982)
+[2026-03-27 14:00:21]       Retry #3 — need 7 more questions...
+[2026-03-27 14:00:35]       Got 12, 7 valid, total: 30
+[2026-03-27 14:00:40]     Wrote questions G\cohesion-reference01-intermediate.js (30 questions)
+[2026-03-27 14:00:40]     Wrote questions G\cohesion-reference01-upper-intermediate.js (30 questions)
+[2026-03-27 14:00:40]     Wrote questions G\cohesion-reference01-advanced.js (30 questions)
+[2026-03-27 14:00:40]     DONE: 90 new questions for Cohesion & Reference
+[2026-03-27 14:00:40] 
+[2026-03-27 14:00:40] ============================================================
+[2026-03-27 14:00:40] TOPIC 87/134: Future in the Past (future-in-past01)
+[2026-03-27 14:00:40] ============================================================
+[2026-03-27 14:00:40]     Intermediate (B1–B2)...
+[2026-03-27 14:00:57]       Got 30, 23 valid, total: 23
+[2026-03-27 14:00:57]       Retry #2 — need 7 more questions...
+[2026-03-27 14:01:10]       Got 12, 7 valid, total: 30
+[2026-03-27 14:01:15]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:01:33]       Got 30, 23 valid, total: 23
+[2026-03-27 14:01:33]       Retry #2 — need 7 more questions...
+[2026-03-27 14:01:47]       Got 12, 7 valid, total: 30
+[2026-03-27 14:01:52]     Advanced (C1–C2)...
+[2026-03-27 14:02:10]       Got 30, 30 valid, total: 30
+[2026-03-27 14:02:15]     Wrote questions G\future-in-past01-intermediate.js (30 questions)
+[2026-03-27 14:02:15]     Wrote questions G\future-in-past01-upper-intermediate.js (30 questions)
+[2026-03-27 14:02:15]     Wrote questions G\future-in-past01-advanced.js (30 questions)
+[2026-03-27 14:02:15]     DONE: 90 new questions for Future in the Past
+[2026-03-27 14:02:15] 
+[2026-03-27 14:02:15] ============================================================
+[2026-03-27 14:02:15] TOPIC 88/134: Comment & Viewpoint Adverbs (comment-viewpoint-adverbs01)
+[2026-03-27 14:02:15] ============================================================
+[2026-03-27 14:02:15]     Intermediate (B1–B2)...
+[2026-03-27 14:02:32]       Got 30, 25 valid, total: 25
+[2026-03-27 14:02:32]       Retry #2 — need 5 more questions...
+[2026-03-27 14:02:44]       Got 10, 5 valid, total: 30
+[2026-03-27 14:02:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:03:07]       Got 30, 26 valid, total: 26
+[2026-03-27 14:03:07]       Retry #2 — need 4 more questions...
+[2026-03-27 14:03:18]       Got 9, 4 valid, total: 30
+[2026-03-27 14:03:23]     Advanced (C1–C2)...
+[2026-03-27 14:03:42]       JSON parse error: Expecting ':' delimiter: line 68 column 7 (char 2637)
+[2026-03-27 14:03:52]       Retry #2 — need 30 more questions...
+[2026-03-27 14:04:16]       Got 35, 26 valid, total: 26
+[2026-03-27 14:04:16]       Retry #3 — need 4 more questions...
+[2026-03-27 14:04:29]       Got 9, 4 valid, total: 30
+[2026-03-27 14:04:34]     Wrote questions G\comment-viewpoint-adverbs01-intermediate.js (30 questions)
+[2026-03-27 14:04:34]     Wrote questions G\comment-viewpoint-adverbs01-upper-intermediate.js (30 questions)
+[2026-03-27 14:04:34]     Wrote questions G\comment-viewpoint-adverbs01-advanced.js (30 questions)
+[2026-03-27 14:04:34]     DONE: 90 new questions for Comment & Viewpoint Adverbs
+[2026-03-27 14:04:34] 
+[2026-03-27 14:04:34] ============================================================
+[2026-03-27 14:04:34] TOPIC 89/134: Existential Constructions (existential-there01)
+[2026-03-27 14:04:34] ============================================================
+[2026-03-27 14:04:34]     Intermediate (B1–B2)...
+[2026-03-27 14:04:50]       Got 30, 23 valid, total: 23
+[2026-03-27 14:04:50]       Retry #2 — need 7 more questions...
+[2026-03-27 14:05:03]       Got 12, 7 valid, total: 30
+[2026-03-27 14:05:08]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:05:24]       Got 30, 23 valid, total: 23
+[2026-03-27 14:05:24]       Retry #2 — need 7 more questions...
+[2026-03-27 14:05:37]       Got 12, 7 valid, total: 30
+[2026-03-27 14:05:42]     Advanced (C1–C2)...
+[2026-03-27 14:06:02]       Got 30, 23 valid, total: 23
+[2026-03-27 14:06:02]       Retry #2 — need 7 more questions...
+[2026-03-27 14:06:16]       Got 12, 7 valid, total: 30
+[2026-03-27 14:06:21]     Wrote questions G\existential-there01-intermediate.js (30 questions)
+[2026-03-27 14:06:21]     Wrote questions G\existential-there01-upper-intermediate.js (30 questions)
+[2026-03-27 14:06:21]     Wrote questions G\existential-there01-advanced.js (30 questions)
+[2026-03-27 14:06:21]     DONE: 90 new questions for Existential Constructions
+[2026-03-27 14:06:21] 
+[2026-03-27 14:06:21] ============================================================
+[2026-03-27 14:06:21] TOPIC 90/134: Focus Structures (focus-structures01)
+[2026-03-27 14:06:21] ============================================================
+[2026-03-27 14:06:21]     Intermediate (B1–B2)...
+[2026-03-27 14:06:40]       Got 30, 23 valid, total: 23
+[2026-03-27 14:06:40]       Retry #2 — need 7 more questions...
+[2026-03-27 14:06:53]       Got 12, 7 valid, total: 30
+[2026-03-27 14:06:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:07:18]       Got 30, 23 valid, total: 23
+[2026-03-27 14:07:18]       Retry #2 — need 7 more questions...
+[2026-03-27 14:07:32]       Got 12, 7 valid, total: 30
+[2026-03-27 14:07:37]     Advanced (C1–C2)...
+[2026-03-27 14:07:56]       Got 30, 23 valid, total: 23
+[2026-03-27 14:07:56]       Retry #2 — need 7 more questions...
+[2026-03-27 14:08:08]       Got 12, 7 valid, total: 30
+[2026-03-27 14:08:13]     Wrote questions G\focus-structures01-intermediate.js (30 questions)
+[2026-03-27 14:08:13]     Wrote questions G\focus-structures01-upper-intermediate.js (30 questions)
+[2026-03-27 14:08:13]     Wrote questions G\focus-structures01-advanced.js (30 questions)
+[2026-03-27 14:08:13]     DONE: 90 new questions for Focus Structures
+[2026-03-27 14:08:13] 
+[2026-03-27 14:08:13] ============================================================
+[2026-03-27 14:08:13] TOPIC 91/134: Expressing Stance & Attitude (stance-attitude01)
+[2026-03-27 14:08:13] ============================================================
+[2026-03-27 14:08:13]     Intermediate (B1–B2)...
+[2026-03-27 14:08:29]       Got 30, 26 valid, total: 26
+[2026-03-27 14:08:29]       Retry #2 — need 4 more questions...
+[2026-03-27 14:08:41]       Got 9, 4 valid, total: 30
+[2026-03-27 14:08:46]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:09:06]       Got 30, 24 valid, total: 24
+[2026-03-27 14:09:06]       Retry #2 — need 6 more questions...
+[2026-03-27 14:09:20]       Got 11, 6 valid, total: 30
+[2026-03-27 14:09:25]     Advanced (C1–C2)...
+[2026-03-27 14:09:48]       Got 30, 25 valid, total: 25
+[2026-03-27 14:09:48]       Retry #2 — need 5 more questions...
+[2026-03-27 14:09:59]       Got 10, 5 valid, total: 30
+[2026-03-27 14:10:04]     Wrote questions G\stance-attitude01-intermediate.js (30 questions)
+[2026-03-27 14:10:04]     Wrote questions G\stance-attitude01-upper-intermediate.js (30 questions)
+[2026-03-27 14:10:04]     Wrote questions G\stance-attitude01-advanced.js (30 questions)
+[2026-03-27 14:10:04]     DONE: 90 new questions for Expressing Stance & Attitude
+[2026-03-27 14:10:04] 
+[2026-03-27 14:10:04] ============================================================
+[2026-03-27 14:10:04] TOPIC 92/134: Generic Reference (generic-reference01)
+[2026-03-27 14:10:04] ============================================================
+[2026-03-27 14:10:04]     Intermediate (B1–B2)...
+[2026-03-27 14:10:20]       Got 30, 30 valid, total: 30
+[2026-03-27 14:10:25]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:10:43]       Got 30, 30 valid, total: 30
+[2026-03-27 14:10:48]     Advanced (C1–C2)...
+[2026-03-27 14:11:06]       Got 30, 28 valid, total: 28
+[2026-03-27 14:11:06]       Retry #2 — need 2 more questions...
+[2026-03-27 14:11:16]       Got 7, 2 valid, total: 30
+[2026-03-27 14:11:21]     Wrote questions G\generic-reference01-intermediate.js (30 questions)
+[2026-03-27 14:11:21]     Wrote questions G\generic-reference01-upper-intermediate.js (30 questions)
+[2026-03-27 14:11:21]     Wrote questions G\generic-reference01-advanced.js (30 questions)
+[2026-03-27 14:11:21]     DONE: 90 new questions for Generic Reference
+[2026-03-27 14:11:21] 
+[2026-03-27 14:11:21] ============================================================
+[2026-03-27 14:11:21] TOPIC 93/134: Binomials & Fixed Pairs (binomials-trinomials01)
+[2026-03-27 14:11:21] ============================================================
+[2026-03-27 14:11:21]     Intermediate (B1–B2)...
+[2026-03-27 14:11:39]       Got 30, 23 valid, total: 23
+[2026-03-27 14:11:39]       Retry #2 — need 7 more questions...
+[2026-03-27 14:11:53]       Got 12, 7 valid, total: 30
+[2026-03-27 14:11:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:12:19]       Got 30, 24 valid, total: 24
+[2026-03-27 14:12:19]       Retry #2 — need 6 more questions...
+[2026-03-27 14:12:33]       Got 11, 6 valid, total: 30
+[2026-03-27 14:12:38]     Advanced (C1–C2)...
+[2026-03-27 14:12:58]       Got 30, 24 valid, total: 24
+[2026-03-27 14:12:58]       Retry #2 — need 6 more questions...
+[2026-03-27 14:13:10]       Got 11, 6 valid, total: 30
+[2026-03-27 14:13:15]     Wrote questions G\binomials-trinomials01-intermediate.js (30 questions)
+[2026-03-27 14:13:15]     Wrote questions G\binomials-trinomials01-upper-intermediate.js (30 questions)
+[2026-03-27 14:13:15]     Wrote questions G\binomials-trinomials01-advanced.js (30 questions)
+[2026-03-27 14:13:15]     DONE: 90 new questions for Binomials & Fixed Pairs
+[2026-03-27 14:13:15] 
+[2026-03-27 14:13:15] ============================================================
+[2026-03-27 14:13:15] TOPIC 94/134: Complex Sentence Building (complex-sentences01)
+[2026-03-27 14:13:15] ============================================================
+[2026-03-27 14:13:15]     Intermediate (B1–B2)...
+[2026-03-27 14:13:36]       Got 30, 23 valid, total: 23
+[2026-03-27 14:13:36]       Retry #2 — need 7 more questions...
+[2026-03-27 14:13:49]       Got 12, 7 valid, total: 30
+[2026-03-27 14:13:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:14:14]       Got 30, 30 valid, total: 30
+[2026-03-27 14:14:19]     Advanced (C1–C2)...
+[2026-03-27 14:14:39]       Got 30, 24 valid, total: 24
+[2026-03-27 14:14:39]       Retry #2 — need 6 more questions...
+[2026-03-27 14:14:52]       Got 11, 6 valid, total: 30
+[2026-03-27 14:14:57]     Wrote questions G\complex-sentences01-intermediate.js (30 questions)
+[2026-03-27 14:14:57]     Wrote questions G\complex-sentences01-upper-intermediate.js (30 questions)
+[2026-03-27 14:14:57]     Wrote questions G\complex-sentences01-advanced.js (30 questions)
+[2026-03-27 14:14:57]     DONE: 90 new questions for Complex Sentence Building
+[2026-03-27 14:14:57] 
+[2026-03-27 14:14:57] ============================================================
+[2026-03-27 14:14:57] TOPIC 95/134: Nominal Relative Clauses (nominal-relative-clauses01)
+[2026-03-27 14:14:57] ============================================================
+[2026-03-27 14:14:57]     Intermediate (B1–B2)...
+[2026-03-27 14:15:14]       Got 30, 29 valid, total: 29
+[2026-03-27 14:15:14]       Retry #2 — need 1 more questions...
+[2026-03-27 14:15:24]       Got 6, 1 valid, total: 30
+[2026-03-27 14:15:29]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:15:47]       Got 30, 28 valid, total: 28
+[2026-03-27 14:15:47]       Retry #2 — need 2 more questions...
+[2026-03-27 14:15:57]       Got 7, 2 valid, total: 30
+[2026-03-27 14:16:02]     Advanced (C1–C2)...
+[2026-03-27 14:16:19]       Got 30, 30 valid, total: 30
+[2026-03-27 14:16:24]     Wrote questions G\nominal-relative-clauses01-intermediate.js (30 questions)
+[2026-03-27 14:16:24]     Wrote questions G\nominal-relative-clauses01-upper-intermediate.js (30 questions)
+[2026-03-27 14:16:24]     Wrote questions G\nominal-relative-clauses01-advanced.js (30 questions)
+[2026-03-27 14:16:24]     DONE: 90 new questions for Nominal Relative Clauses
+[2026-03-27 14:16:24] 
+[2026-03-27 14:16:24] ============================================================
+[2026-03-27 14:16:24] TOPIC 96/134: Transitive vs Intransitive (transitive-intransitive01)
+[2026-03-27 14:16:24] ============================================================
+[2026-03-27 14:16:24]     Intermediate (B1–B2)...
+[2026-03-27 14:16:42]       Got 30, 24 valid, total: 24
+[2026-03-27 14:16:42]       Retry #2 — need 6 more questions...
+[2026-03-27 14:16:55]       Got 11, 6 valid, total: 30
+[2026-03-27 14:17:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:17:18]       Got 30, 27 valid, total: 27
+[2026-03-27 14:17:18]       Retry #2 — need 3 more questions...
+[2026-03-27 14:17:29]       Got 8, 3 valid, total: 30
+[2026-03-27 14:17:34]     Advanced (C1–C2)...
+[2026-03-27 14:17:52]       Got 30, 25 valid, total: 25
+[2026-03-27 14:17:52]       Retry #2 — need 5 more questions...
+[2026-03-27 14:18:04]       Got 10, 5 valid, total: 30
+[2026-03-27 14:18:09]     Wrote questions G\transitive-intransitive01-intermediate.js (30 questions)
+[2026-03-27 14:18:09]     Wrote questions G\transitive-intransitive01-upper-intermediate.js (30 questions)
+[2026-03-27 14:18:10]     Wrote questions G\transitive-intransitive01-advanced.js (30 questions)
+[2026-03-27 14:18:10]     DONE: 90 new questions for Transitive vs Intransitive
+[2026-03-27 14:18:10] 
+[2026-03-27 14:18:10] ============================================================
+[2026-03-27 14:18:10] TOPIC 97/134: Double Object Verbs (ditransitive-verbs01)
+[2026-03-27 14:18:10] ============================================================
+[2026-03-27 14:18:10]     Intermediate (B1–B2)...
+[2026-03-27 14:18:27]       Got 30, 30 valid, total: 30
+[2026-03-27 14:18:32]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:18:48]       Got 30, 30 valid, total: 30
+[2026-03-27 14:18:53]     Advanced (C1–C2)...
+[2026-03-27 14:19:11]       Got 30, 23 valid, total: 23
+[2026-03-27 14:19:11]       Retry #2 — need 7 more questions...
+[2026-03-27 14:19:24]       Got 12, 7 valid, total: 30
+[2026-03-27 14:19:29]     Wrote questions G\ditransitive-verbs01-intermediate.js (30 questions)
+[2026-03-27 14:19:29]     Wrote questions G\ditransitive-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 14:19:29]     Wrote questions G\ditransitive-verbs01-advanced.js (30 questions)
+[2026-03-27 14:19:29]     DONE: 90 new questions for Double Object Verbs
+[2026-03-27 14:19:29] 
+[2026-03-27 14:19:29] ============================================================
+[2026-03-27 14:19:29] TOPIC 98/134: Extraposition (extraposition01)
+[2026-03-27 14:19:29] ============================================================
+[2026-03-27 14:19:29]     Intermediate (B1–B2)...
+[2026-03-27 14:19:45]       Got 30, 23 valid, total: 23
+[2026-03-27 14:19:45]       Retry #2 — need 7 more questions...
+[2026-03-27 14:19:58]       Got 12, 7 valid, total: 30
+[2026-03-27 14:20:03]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:20:20]       Got 30, 23 valid, total: 23
+[2026-03-27 14:20:20]       Retry #2 — need 7 more questions...
+[2026-03-27 14:20:34]       Got 12, 7 valid, total: 30
+[2026-03-27 14:20:39]     Advanced (C1–C2)...
+[2026-03-27 14:20:56]       Got 30, 23 valid, total: 23
+[2026-03-27 14:20:56]       Retry #2 — need 7 more questions...
+[2026-03-27 14:21:10]       Got 12, 7 valid, total: 30
+[2026-03-27 14:21:15]     Wrote questions G\extraposition01-intermediate.js (30 questions)
+[2026-03-27 14:21:15]     Wrote questions G\extraposition01-upper-intermediate.js (30 questions)
+[2026-03-27 14:21:15]     Wrote questions G\extraposition01-advanced.js (30 questions)
+[2026-03-27 14:21:15]     DONE: 90 new questions for Extraposition
+[2026-03-27 14:21:15] 
+[2026-03-27 14:21:15] ============================================================
+[2026-03-27 14:21:15] TOPIC 99/134: Gradable vs Ungradable (gradable-ungradable01)
+[2026-03-27 14:21:15] ============================================================
+[2026-03-27 14:21:15]     Intermediate (B1–B2)...
+[2026-03-27 14:21:32]       Got 30, 24 valid, total: 24
+[2026-03-27 14:21:32]       Retry #2 — need 6 more questions...
+[2026-03-27 14:21:45]       Got 11, 6 valid, total: 30
+[2026-03-27 14:21:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:22:07]       Got 30, 24 valid, total: 24
+[2026-03-27 14:22:07]       Retry #2 — need 6 more questions...
+[2026-03-27 14:22:20]       Got 11, 6 valid, total: 30
+[2026-03-27 14:22:25]     Advanced (C1–C2)...
+[2026-03-27 14:22:42]       Got 30, 26 valid, total: 26
+[2026-03-27 14:22:42]       Retry #2 — need 4 more questions...
+[2026-03-27 14:22:53]       Got 9, 4 valid, total: 30
+[2026-03-27 14:22:58]     Wrote questions G\gradable-ungradable01-intermediate.js (30 questions)
+[2026-03-27 14:22:58]     Wrote questions G\gradable-ungradable01-upper-intermediate.js (30 questions)
+[2026-03-27 14:22:58]     Wrote questions G\gradable-ungradable01-advanced.js (30 questions)
+[2026-03-27 14:22:58]     DONE: 90 new questions for Gradable vs Ungradable
+[2026-03-27 14:22:58] 
+[2026-03-27 14:22:58] ============================================================
+[2026-03-27 14:22:58] TOPIC 100/134: Nominalisation (nominalisation01)
+[2026-03-27 14:22:58] ============================================================
+[2026-03-27 14:22:58]     Intermediate (B1–B2)...
+[2026-03-27 14:23:14]       Got 30, 25 valid, total: 25
+[2026-03-27 14:23:14]       Retry #2 — need 5 more questions...
+[2026-03-27 14:23:26]       Got 10, 5 valid, total: 30
+[2026-03-27 14:23:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:23:46]       Got 30, 28 valid, total: 28
+[2026-03-27 14:23:46]       Retry #2 — need 2 more questions...
+[2026-03-27 14:23:57]       Got 7, 2 valid, total: 30
+[2026-03-27 14:24:02]     Advanced (C1–C2)...
+[2026-03-27 14:24:18]       Got 30, 23 valid, total: 23
+[2026-03-27 14:24:18]       Retry #2 — need 7 more questions...
+[2026-03-27 14:24:30]       Got 12, 7 valid, total: 30
+[2026-03-27 14:24:35]     Wrote questions G\nominalisation01-intermediate.js (30 questions)
+[2026-03-27 14:24:35]     Wrote questions G\nominalisation01-upper-intermediate.js (30 questions)
+[2026-03-27 14:24:35]     Wrote questions G\nominalisation01-advanced.js (30 questions)
+[2026-03-27 14:24:35]     DONE: 90 new questions for Nominalisation
+[2026-03-27 14:24:35] 
+[2026-03-27 14:24:35] ============================================================
+[2026-03-27 14:24:35] TOPIC 101/134: Auxiliary Verbs (auxiliary-verbs01)
+[2026-03-27 14:24:35] ============================================================
+[2026-03-27 14:24:35]     Intermediate (B1–B2)...
+[2026-03-27 14:24:52]       Got 30, 24 valid, total: 24
+[2026-03-27 14:24:52]       Retry #2 — need 6 more questions...
+[2026-03-27 14:25:04]       Got 11, 6 valid, total: 30
+[2026-03-27 14:25:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:25:27]       Got 30, 23 valid, total: 23
+[2026-03-27 14:25:27]       Retry #2 — need 7 more questions...
+[2026-03-27 14:25:40]       Got 12, 7 valid, total: 30
+[2026-03-27 14:25:45]     Advanced (C1–C2)...
+[2026-03-27 14:26:01]       Got 30, 23 valid, total: 23
+[2026-03-27 14:26:01]       Retry #2 — need 7 more questions...
+[2026-03-27 14:26:15]       Got 12, 7 valid, total: 30
+[2026-03-27 14:26:20]     Wrote questions G\auxiliary-verbs01-intermediate.js (30 questions)
+[2026-03-27 14:26:20]     Wrote questions G\auxiliary-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 14:26:20]     Wrote questions G\auxiliary-verbs01-advanced.js (30 questions)
+[2026-03-27 14:26:20]     DONE: 90 new questions for Auxiliary Verbs
+[2026-03-27 14:26:20] 
+[2026-03-27 14:26:20] ============================================================
+[2026-03-27 14:26:20] TOPIC 102/134: Common Grammar Errors (common-grammar-errors01)
+[2026-03-27 14:26:20] ============================================================
+[2026-03-27 14:26:20]     Intermediate (B1–B2)...
+[2026-03-27 14:26:37]       Got 30, 27 valid, total: 27
+[2026-03-27 14:26:37]       Retry #2 — need 3 more questions...
+[2026-03-27 14:26:47]       Got 8, 3 valid, total: 30
+[2026-03-27 14:26:52]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:27:08]       Got 30, 24 valid, total: 24
+[2026-03-27 14:27:08]       Retry #2 — need 6 more questions...
+[2026-03-27 14:27:20]       Got 11, 6 valid, total: 30
+[2026-03-27 14:27:25]     Advanced (C1–C2)...
+[2026-03-27 14:27:43]       Got 30, 25 valid, total: 25
+[2026-03-27 14:27:43]       Retry #2 — need 5 more questions...
+[2026-03-27 14:27:55]       Got 10, 5 valid, total: 30
+[2026-03-27 14:28:00]     Wrote questions G\common-grammar-errors01-intermediate.js (30 questions)
+[2026-03-27 14:28:00]     Wrote questions G\common-grammar-errors01-upper-intermediate.js (30 questions)
+[2026-03-27 14:28:00]     Wrote questions G\common-grammar-errors01-advanced.js (30 questions)
+[2026-03-27 14:28:00]     DONE: 90 new questions for Common Grammar Errors
+[2026-03-27 14:28:00] 
+[2026-03-27 14:28:00] ============================================================
+[2026-03-27 14:28:00] TOPIC 103/134: Conditional Inversion (conditional-inversion01)
+[2026-03-27 14:28:00] ============================================================
+[2026-03-27 14:28:00]     Intermediate (B1–B2)...
+[2026-03-27 14:28:18]       Got 30, 28 valid, total: 28
+[2026-03-27 14:28:18]       Retry #2 — need 2 more questions...
+[2026-03-27 14:28:28]       Got 7, 2 valid, total: 30
+[2026-03-27 14:28:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:28:51]       Got 30, 23 valid, total: 23
+[2026-03-27 14:28:51]       Retry #2 — need 7 more questions...
+[2026-03-27 14:29:04]       Got 12, 7 valid, total: 30
+[2026-03-27 14:29:09]     Advanced (C1–C2)...
+[2026-03-27 14:29:27]       Got 30, 25 valid, total: 25
+[2026-03-27 14:29:27]       Retry #2 — need 5 more questions...
+[2026-03-27 14:29:39]       Got 10, 5 valid, total: 30
+[2026-03-27 14:29:44]     Wrote questions G\conditional-inversion01-intermediate.js (30 questions)
+[2026-03-27 14:29:44]     Wrote questions G\conditional-inversion01-upper-intermediate.js (30 questions)
+[2026-03-27 14:29:44]     Wrote questions G\conditional-inversion01-advanced.js (30 questions)
+[2026-03-27 14:29:44]     DONE: 90 new questions for Conditional Inversion
+[2026-03-27 14:29:44] 
+[2026-03-27 14:29:44] ============================================================
+[2026-03-27 14:29:44] TOPIC 104/134: Tense & Aspect Review (tense-aspect-review01)
+[2026-03-27 14:29:44] ============================================================
+[2026-03-27 14:29:44]     Intermediate (B1–B2)...
+[2026-03-27 14:30:03]       Got 30, 24 valid, total: 24
+[2026-03-27 14:30:03]       Retry #2 — need 6 more questions...
+[2026-03-27 14:30:15]       Got 11, 6 valid, total: 30
+[2026-03-27 14:30:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:30:40]       Got 30, 30 valid, total: 30
+[2026-03-27 14:30:45]     Advanced (C1–C2)...
+[2026-03-27 14:31:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:31:09]     Wrote questions G\tense-aspect-review01-intermediate.js (30 questions)
+[2026-03-27 14:31:09]     Wrote questions G\tense-aspect-review01-upper-intermediate.js (30 questions)
+[2026-03-27 14:31:09]     Wrote questions G\tense-aspect-review01-advanced.js (30 questions)
+[2026-03-27 14:31:09]     DONE: 90 new questions for Tense & Aspect Review
+[2026-03-27 14:31:09] 
+[2026-03-27 14:31:09] ============================================================
+[2026-03-27 14:31:09] TOPIC 105/134: Articles: Advanced Usage (articles02)
+[2026-03-27 14:31:09] ============================================================
+[2026-03-27 14:31:09]     Intermediate (B1–B2)...
+[2026-03-27 14:31:26]       Got 30, 28 valid, total: 28
+[2026-03-27 14:31:26]       Retry #2 — need 2 more questions...
+[2026-03-27 14:31:37]       Got 7, 2 valid, total: 30
+[2026-03-27 14:31:42]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:32:01]       Got 30, 28 valid, total: 28
+[2026-03-27 14:32:01]       Retry #2 — need 2 more questions...
+[2026-03-27 14:32:12]       Got 7, 2 valid, total: 30
+[2026-03-27 14:32:17]     Advanced (C1–C2)...
+[2026-03-27 14:32:33]       Got 30, 29 valid, total: 29
+[2026-03-27 14:32:33]       Retry #2 — need 1 more questions...
+[2026-03-27 14:32:42]       Got 6, 1 valid, total: 30
+[2026-03-27 14:32:47]     Wrote questions G\articles02-intermediate.js (30 questions)
+[2026-03-27 14:32:47]     Wrote questions G\articles02-upper-intermediate.js (30 questions)
+[2026-03-27 14:32:47]     Wrote questions G\articles02-advanced.js (30 questions)
+[2026-03-27 14:32:47]     DONE: 90 new questions for Articles: Advanced Usage
+[2026-03-27 14:32:48] 
+[2026-03-27 14:32:48] ============================================================
+[2026-03-27 14:32:48] TOPIC 106/134: Conditionals: Advanced Patterns (conditionals02)
+[2026-03-27 14:32:48] ============================================================
+[2026-03-27 14:32:48]     Intermediate (B1–B2)...
+[2026-03-27 14:33:05]       Got 30, 29 valid, total: 29
+[2026-03-27 14:33:05]       Retry #2 — need 1 more questions...
+[2026-03-27 14:33:15]       Got 6, 1 valid, total: 30
+[2026-03-27 14:33:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:33:39]       Got 30, 27 valid, total: 27
+[2026-03-27 14:33:39]       Retry #2 — need 3 more questions...
+[2026-03-27 14:33:51]       Got 8, 3 valid, total: 30
+[2026-03-27 14:33:56]     Advanced (C1–C2)...
+[2026-03-27 14:34:14]       Got 30, 23 valid, total: 23
+[2026-03-27 14:34:14]       Retry #2 — need 7 more questions...
+[2026-03-27 14:34:28]       Got 12, 7 valid, total: 30
+[2026-03-27 14:34:33]     Wrote questions G\conditionals02-intermediate.js (30 questions)
+[2026-03-27 14:34:33]     Wrote questions G\conditionals02-upper-intermediate.js (30 questions)
+[2026-03-27 14:34:33]     Wrote questions G\conditionals02-advanced.js (30 questions)
+[2026-03-27 14:34:33]     DONE: 90 new questions for Conditionals: Advanced Patterns
+[2026-03-27 14:34:33] 
+[2026-03-27 14:34:33] ============================================================
+[2026-03-27 14:34:33] TOPIC 107/134: Modals: Nuance & Precision (modal-verbs02)
+[2026-03-27 14:34:33] ============================================================
+[2026-03-27 14:34:33]     Intermediate (B1–B2)...
+[2026-03-27 14:34:50]       Got 30, 30 valid, total: 30
+[2026-03-27 14:34:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:38:48]       Got 30, 25 valid, total: 25
+[2026-03-27 16:38:48]       Retry #2 — need 5 more questions...
+[2026-03-27 16:38:59]       Got 10, 5 valid, total: 30
+[2026-03-27 16:39:04]     Advanced (C1–C2)...
+[2026-03-27 16:39:21]       Got 30, 23 valid, total: 23
+[2026-03-27 16:39:21]       Retry #2 — need 7 more questions...
+[2026-03-27 16:39:34]       Got 12, 7 valid, total: 30
+[2026-03-27 16:39:39]     Wrote questions G\modal-verbs02-intermediate.js (30 questions)
+[2026-03-27 16:39:39]     Wrote questions G\modal-verbs02-upper-intermediate.js (30 questions)
+[2026-03-27 16:39:39]     Wrote questions G\modal-verbs02-advanced.js (30 questions)
+[2026-03-27 16:39:39]     DONE: 90 new questions for Modals: Nuance & Precision
+[2026-03-27 16:39:39] 
+[2026-03-27 16:39:39] ============================================================
+[2026-03-27 16:39:39] TOPIC 108/134: Passive Voice: Complex Forms (passive-voice02)
+[2026-03-27 16:39:39] ============================================================
+[2026-03-27 16:39:39]     Intermediate (B1–B2)...
+[2026-03-27 16:39:54]       Got 30, 24 valid, total: 24
+[2026-03-27 16:39:54]       Retry #2 — need 6 more questions...
+[2026-03-27 16:40:06]       Got 11, 6 valid, total: 30
+[2026-03-27 16:40:11]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:40:11]       Rate limited (429). Waiting 60s...
+[2026-03-27 16:41:30]       Got 30, 30 valid, total: 30
+[2026-03-27 16:41:35]     Advanced (C1–C2)...
+[2026-03-27 16:41:55]       Got 30, 23 valid, total: 23
+[2026-03-27 16:41:55]       Retry #2 — need 7 more questions...
+[2026-03-27 16:42:08]       Got 12, 7 valid, total: 30
+[2026-03-27 16:42:13]     Wrote questions G\passive-voice02-intermediate.js (30 questions)
+[2026-03-27 16:42:13]     Wrote questions G\passive-voice02-upper-intermediate.js (30 questions)
+[2026-03-27 16:42:13]     Wrote questions G\passive-voice02-advanced.js (30 questions)
+[2026-03-27 16:42:13]     DONE: 90 new questions for Passive Voice: Complex Forms
+[2026-03-27 16:42:13] 
+[2026-03-27 16:42:13] ============================================================
+[2026-03-27 16:42:13] TOPIC 109/134: Relative Clauses: Mastery (relative-clauses02)
+[2026-03-27 16:42:13] ============================================================
+[2026-03-27 16:42:13]     Intermediate (B1–B2)...
+[2026-03-27 16:42:32]       Got 30, 25 valid, total: 25
+[2026-03-27 16:42:32]       Retry #2 — need 5 more questions...
+[2026-03-27 16:42:45]       Got 10, 5 valid, total: 30
+[2026-03-27 16:42:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:43:08]       Got 30, 26 valid, total: 26
+[2026-03-27 16:43:08]       Retry #2 — need 4 more questions...
+[2026-03-27 16:43:19]       Got 9, 4 valid, total: 30
+[2026-03-27 16:43:24]     Advanced (C1–C2)...
+[2026-03-27 16:43:43]       Got 30, 30 valid, total: 30
+[2026-03-27 16:43:48]     Wrote questions G\relative-clauses02-intermediate.js (30 questions)
+[2026-03-27 16:43:48]     Wrote questions G\relative-clauses02-upper-intermediate.js (30 questions)
+[2026-03-27 16:43:48]     Wrote questions G\relative-clauses02-advanced.js (30 questions)
+[2026-03-27 16:43:48]     DONE: 90 new questions for Relative Clauses: Mastery
+[2026-03-27 16:43:48] 
+[2026-03-27 16:43:48] ============================================================
+[2026-03-27 16:43:48] TOPIC 110/134: Reported Speech: Advanced (reported-speech02)
+[2026-03-27 16:43:48] ============================================================
+[2026-03-27 16:43:48]     Intermediate (B1–B2)...
+[2026-03-27 16:44:03]       Got 30, 23 valid, total: 23
+[2026-03-27 16:44:03]       Retry #2 — need 7 more questions...
+[2026-03-27 16:44:15]       Got 12, 7 valid, total: 30
+[2026-03-27 16:44:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:44:37]       JSON parse error: Expecting ':' delimiter: line 68 column 42 (char 2439)
+[2026-03-27 16:44:47]       Retry #2 — need 30 more questions...
+[2026-03-27 16:45:11]       Got 35, 30 valid, total: 30
+[2026-03-27 16:45:16]     Advanced (C1–C2)...
+[2026-03-27 16:45:35]       Got 30, 23 valid, total: 23
+[2026-03-27 16:45:35]       Retry #2 — need 7 more questions...
+[2026-03-27 16:45:48]       Got 12, 7 valid, total: 30
+[2026-03-27 16:45:53]     Wrote questions G\reported-speech02-intermediate.js (30 questions)
+[2026-03-27 16:45:53]     Wrote questions G\reported-speech02-upper-intermediate.js (30 questions)
+[2026-03-27 16:45:53]     Wrote questions G\reported-speech02-advanced.js (30 questions)
+[2026-03-27 16:45:53]     DONE: 90 new questions for Reported Speech: Advanced
+[2026-03-27 16:45:53] 
+[2026-03-27 16:45:53] ============================================================
+[2026-03-27 16:45:53] TOPIC 111/134: Prepositions: Tricky Contexts (prepositions02)
+[2026-03-27 16:45:53] ============================================================
+[2026-03-27 16:45:53]     Intermediate (B1–B2)...
+[2026-03-27 16:46:10]       Got 30, 23 valid, total: 23
+[2026-03-27 16:46:10]       Retry #2 — need 7 more questions...
+[2026-03-27 16:46:23]       Got 12, 7 valid, total: 30
+[2026-03-27 16:46:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:46:46]       Got 30, 27 valid, total: 27
+[2026-03-27 16:46:46]       Retry #2 — need 3 more questions...
+[2026-03-27 16:46:58]       Got 8, 3 valid, total: 30
+[2026-03-27 16:47:03]     Advanced (C1–C2)...
+[2026-03-27 16:47:20]       Got 30, 23 valid, total: 23
+[2026-03-27 16:47:20]       Retry #2 — need 7 more questions...
+[2026-03-27 16:47:33]       Got 12, 7 valid, total: 30
+[2026-03-27 16:47:38]     Wrote questions G\prepositions02-intermediate.js (30 questions)
+[2026-03-27 16:47:38]     Wrote questions G\prepositions02-upper-intermediate.js (30 questions)
+[2026-03-27 16:47:38]     Wrote questions G\prepositions02-advanced.js (30 questions)
+[2026-03-27 16:47:38]     DONE: 90 new questions for Prepositions: Tricky Contexts
+[2026-03-27 16:47:38] 
+[2026-03-27 16:47:38] ============================================================
+[2026-03-27 16:47:38] TOPIC 112/134: Present Tenses: Deep Dive (tenses-present02)
+[2026-03-27 16:47:38] ============================================================
+[2026-03-27 16:47:38]     Intermediate (B1–B2)...
+[2026-03-27 16:47:56]       Got 30, 29 valid, total: 29
+[2026-03-27 16:47:56]       Retry #2 — need 1 more questions...
+[2026-03-27 16:48:05]       Got 6, 1 valid, total: 30
+[2026-03-27 16:48:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:48:11]       Rate limited (429). Waiting 60s...
+[2026-03-27 16:49:27]       Got 30, 30 valid, total: 30
+[2026-03-27 16:49:32]     Advanced (C1–C2)...
+[2026-03-27 16:49:50]       Got 30, 30 valid, total: 30
+[2026-03-27 16:49:55]     Wrote questions G\tenses-present02-intermediate.js (30 questions)
+[2026-03-27 16:49:55]     Wrote questions G\tenses-present02-upper-intermediate.js (30 questions)
+[2026-03-27 16:49:55]     Wrote questions G\tenses-present02-advanced.js (30 questions)
+[2026-03-27 16:49:55]     DONE: 90 new questions for Present Tenses: Deep Dive
+[2026-03-27 16:49:55] 
+[2026-03-27 16:49:55] ============================================================
+[2026-03-27 16:49:55] TOPIC 113/134: Past Tenses: Deep Dive (tenses-past02)
+[2026-03-27 16:49:55] ============================================================
+[2026-03-27 16:49:55]     Intermediate (B1–B2)...
+[2026-03-27 16:50:14]       Got 30, 30 valid, total: 30
+[2026-03-27 16:50:19]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:50:37]       Got 30, 25 valid, total: 25
+[2026-03-27 16:50:37]       Retry #2 — need 5 more questions...
+[2026-03-27 16:50:49]       Got 10, 5 valid, total: 30
+[2026-03-27 16:50:54]     Advanced (C1–C2)...
+[2026-03-27 16:51:12]       Got 30, 25 valid, total: 25
+[2026-03-27 16:51:12]       Retry #2 — need 5 more questions...
+[2026-03-27 16:51:25]       Got 10, 5 valid, total: 30
+[2026-03-27 16:51:30]     Wrote questions G\tenses-past02-intermediate.js (30 questions)
+[2026-03-27 16:51:30]     Wrote questions G\tenses-past02-upper-intermediate.js (30 questions)
+[2026-03-27 16:51:30]     Wrote questions G\tenses-past02-advanced.js (30 questions)
+[2026-03-27 16:51:30]     DONE: 90 new questions for Past Tenses: Deep Dive
+[2026-03-27 16:51:30] 
+[2026-03-27 16:51:30] ============================================================
+[2026-03-27 16:51:30] TOPIC 114/134: Gerunds & Infinitives: Mastery (gerunds-infinitives02)
+[2026-03-27 16:51:30] ============================================================
+[2026-03-27 16:51:30]     Intermediate (B1–B2)...
+[2026-03-27 16:51:46]       Got 30, 23 valid, total: 23
+[2026-03-27 16:51:46]       Retry #2 — need 7 more questions...
+[2026-03-27 16:51:58]       Got 12, 7 valid, total: 30
+[2026-03-27 16:52:03]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:52:20]       Got 30, 30 valid, total: 30
+[2026-03-27 16:52:25]     Advanced (C1–C2)...
+[2026-03-27 16:52:42]       Got 30, 25 valid, total: 25
+[2026-03-27 16:52:42]       Retry #2 — need 5 more questions...
+[2026-03-27 16:52:55]       Got 10, 5 valid, total: 30
+[2026-03-27 16:53:00]     Wrote questions G\gerunds-infinitives02-intermediate.js (30 questions)
+[2026-03-27 16:53:00]     Wrote questions G\gerunds-infinitives02-upper-intermediate.js (30 questions)
+[2026-03-27 16:53:00]     Wrote questions G\gerunds-infinitives02-advanced.js (30 questions)
+[2026-03-27 16:53:00]     DONE: 90 new questions for Gerunds & Infinitives: Mastery
+[2026-03-27 16:53:00] 
+[2026-03-27 16:53:00] ============================================================
+[2026-03-27 16:53:00] TOPIC 115/134: Phrasal Verbs: Advanced (phrasal-verbs02)
+[2026-03-27 16:53:00] ============================================================
+[2026-03-27 16:53:00]     Intermediate (B1–B2)...
+[2026-03-27 16:53:18]       Got 30, 24 valid, total: 24
+[2026-03-27 16:53:18]       Retry #2 — need 6 more questions...
+[2026-03-27 16:53:32]       Got 11, 6 valid, total: 30
+[2026-03-27 16:53:37]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:53:52]       Got 30, 24 valid, total: 24
+[2026-03-27 16:53:52]       Retry #2 — need 6 more questions...
+[2026-03-27 16:54:05]       Got 11, 6 valid, total: 30
+[2026-03-27 16:54:10]     Advanced (C1–C2)...
+[2026-03-27 16:54:29]       Got 30, 23 valid, total: 23
+[2026-03-27 16:54:29]       Retry #2 — need 7 more questions...
+[2026-03-27 16:54:42]       Got 12, 7 valid, total: 30
+[2026-03-27 16:54:47]     Wrote questions G\phrasal-verbs02-intermediate.js (30 questions)
+[2026-03-27 16:54:47]     Wrote questions G\phrasal-verbs02-upper-intermediate.js (30 questions)
+[2026-03-27 16:54:47]     Wrote questions G\phrasal-verbs02-advanced.js (30 questions)
+[2026-03-27 16:54:47]     DONE: 90 new questions for Phrasal Verbs: Advanced
+[2026-03-27 16:54:47] 
+[2026-03-27 16:54:47] ============================================================
+[2026-03-27 16:54:47] TOPIC 116/134: Word Formation: Advanced (word-formation02)
+[2026-03-27 16:54:47] ============================================================
+[2026-03-27 16:54:47]     Intermediate (B1–B2)...
+[2026-03-27 16:55:02]       Got 30, 27 valid, total: 27
+[2026-03-27 16:55:02]       Retry #2 — need 3 more questions...
+[2026-03-27 16:55:13]       Got 8, 3 valid, total: 30
+[2026-03-27 16:55:18]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:55:36]       Got 30, 26 valid, total: 26
+[2026-03-27 16:55:36]       Retry #2 — need 4 more questions...
+[2026-03-27 16:55:47]       Got 9, 4 valid, total: 30
+[2026-03-27 16:55:52]     Advanced (C1–C2)...
+[2026-03-27 16:56:09]       Got 30, 24 valid, total: 24
+[2026-03-27 16:56:09]       Retry #2 — need 6 more questions...
+[2026-03-27 16:56:22]       Got 11, 6 valid, total: 30
+[2026-03-27 16:56:27]     Wrote questions G\word-formation02-intermediate.js (30 questions)
+[2026-03-27 16:56:27]     Wrote questions G\word-formation02-upper-intermediate.js (30 questions)
+[2026-03-27 16:56:27]     Wrote questions G\word-formation02-advanced.js (30 questions)
+[2026-03-27 16:56:27]     DONE: 90 new questions for Word Formation: Advanced
+[2026-03-27 16:56:27] 
+[2026-03-27 16:56:27] ============================================================
+[2026-03-27 16:56:27] TOPIC 117/134: Conjunctions: Complex Linking (conjunctions02)
+[2026-03-27 16:56:27] ============================================================
+[2026-03-27 16:56:27]     Intermediate (B1–B2)...
+[2026-03-27 16:56:44]       Got 30, 23 valid, total: 23
+[2026-03-27 16:56:44]       Retry #2 — need 7 more questions...
+[2026-03-27 16:56:57]       Got 12, 7 valid, total: 30
+[2026-03-27 16:57:02]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:57:21]       Got 30, 30 valid, total: 30
+[2026-03-27 16:57:26]     Advanced (C1–C2)...
+[2026-03-27 16:57:44]       Got 30, 23 valid, total: 23
+[2026-03-27 16:57:44]       Retry #2 — need 7 more questions...
+[2026-03-27 16:57:57]       Got 12, 7 valid, total: 30
+[2026-03-27 16:58:02]     Wrote questions G\conjunctions02-intermediate.js (30 questions)
+[2026-03-27 16:58:02]     Wrote questions G\conjunctions02-upper-intermediate.js (30 questions)
+[2026-03-27 16:58:02]     Wrote questions G\conjunctions02-advanced.js (30 questions)
+[2026-03-27 16:58:02]     DONE: 90 new questions for Conjunctions: Complex Linking
+[2026-03-27 16:58:02] 
+[2026-03-27 16:58:02] ============================================================
+[2026-03-27 16:58:02] TOPIC 118/134: Agreement: Tricky Cases (subject-verb-agreement02)
+[2026-03-27 16:58:02] ============================================================
+[2026-03-27 16:58:02]     Intermediate (B1–B2)...
+[2026-03-27 16:58:22]       Got 30, 25 valid, total: 25
+[2026-03-27 16:58:22]       Retry #2 — need 5 more questions...
+[2026-03-27 16:58:33]       Got 10, 5 valid, total: 30
+[2026-03-27 16:58:38]     Upper-Intermediate (B2–C1)...
+[2026-03-27 16:58:56]       Got 30, 23 valid, total: 23
+[2026-03-27 16:58:56]       Retry #2 — need 7 more questions...
+[2026-03-27 16:59:08]       Got 12, 7 valid, total: 30
+[2026-03-27 16:59:13]     Advanced (C1–C2)...
+[2026-03-27 16:59:31]       Got 30, 25 valid, total: 25
+[2026-03-27 16:59:31]       Retry #2 — need 5 more questions...
+[2026-03-27 16:59:45]       Got 10, 5 valid, total: 30
+[2026-03-27 16:59:50]     Wrote questions G\subject-verb-agreement02-intermediate.js (30 questions)
+[2026-03-27 16:59:50]     Wrote questions G\subject-verb-agreement02-upper-intermediate.js (30 questions)
+[2026-03-27 16:59:50]     Wrote questions G\subject-verb-agreement02-advanced.js (30 questions)
+[2026-03-27 16:59:50]     DONE: 90 new questions for Agreement: Tricky Cases
+[2026-03-27 16:59:50] 
+[2026-03-27 16:59:50] ============================================================
+[2026-03-27 16:59:50] TOPIC 119/134: Conditionals: Formal & Rare (conditionals03)
+[2026-03-27 16:59:50] ============================================================
+[2026-03-27 16:59:50]     Intermediate (B1–B2)...
+[2026-03-27 16:59:58]       Rate limited (429). Waiting 60s...
+[2026-03-27 17:01:17]       Got 30, 30 valid, total: 30
+[2026-03-27 17:01:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:01:39]       Got 30, 23 valid, total: 23
+[2026-03-27 17:01:39]       Retry #2 — need 7 more questions...
+[2026-03-27 17:01:53]       Got 12, 7 valid, total: 30
+[2026-03-27 17:01:58]     Advanced (C1–C2)...
+[2026-03-27 17:02:15]       Got 30, 23 valid, total: 23
+[2026-03-27 17:02:15]       Retry #2 — need 7 more questions...
+[2026-03-27 17:02:28]       Got 12, 7 valid, total: 30
+[2026-03-27 17:02:33]     Wrote questions G\conditionals03-intermediate.js (30 questions)
+[2026-03-27 17:02:33]     Wrote questions G\conditionals03-upper-intermediate.js (30 questions)
+[2026-03-27 17:02:33]     Wrote questions G\conditionals03-advanced.js (30 questions)
+[2026-03-27 17:02:33]     DONE: 90 new questions for Conditionals: Formal & Rare
+[2026-03-27 17:02:33] 
+[2026-03-27 17:02:33] ============================================================
+[2026-03-27 17:02:33] TOPIC 120/134: Emphasis & Focus Structures (emphasis-focus01)
+[2026-03-27 17:02:33] ============================================================
+[2026-03-27 17:02:33]     Intermediate (B1–B2)...
+[2026-03-27 17:02:49]       Got 30, 28 valid, total: 28
+[2026-03-27 17:02:49]       Retry #2 — need 2 more questions...
+[2026-03-27 17:02:59]       Got 7, 2 valid, total: 30
+[2026-03-27 17:03:04]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:03:23]       Got 30, 26 valid, total: 26
+[2026-03-27 17:03:23]       Retry #2 — need 4 more questions...
+[2026-03-27 17:03:35]       Got 9, 4 valid, total: 30
+[2026-03-27 17:03:40]     Advanced (C1–C2)...
+[2026-03-27 17:03:59]       Got 30, 23 valid, total: 23
+[2026-03-27 17:03:59]       Retry #2 — need 7 more questions...
+[2026-03-27 17:04:13]       Got 12, 7 valid, total: 30
+[2026-03-27 17:04:18]     Wrote questions G\emphasis-focus01-intermediate.js (30 questions)
+[2026-03-27 17:04:18]     Wrote questions G\emphasis-focus01-upper-intermediate.js (30 questions)
+[2026-03-27 17:04:18]     Wrote questions G\emphasis-focus01-advanced.js (30 questions)
+[2026-03-27 17:04:18]     DONE: 90 new questions for Emphasis & Focus Structures
+[2026-03-27 17:04:18] 
+[2026-03-27 17:04:18] ============================================================
+[2026-03-27 17:04:18] TOPIC 121/134: Academic Writing Grammar (academic-writing-grammar01)
+[2026-03-27 17:04:18] ============================================================
+[2026-03-27 17:04:18]     Intermediate (B1–B2)...
+[2026-03-27 17:04:36]       Got 30, 24 valid, total: 24
+[2026-03-27 17:04:36]       Retry #2 — need 6 more questions...
+[2026-03-27 17:04:48]       JSON parse error: Expecting ',' delimiter: line 23 column 33 (char 842)
+[2026-03-27 17:04:58]       Retry #3 — need 6 more questions...
+[2026-03-27 17:05:10]       Got 11, 6 valid, total: 30
+[2026-03-27 17:05:15]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:05:42]       Got 30, 25 valid, total: 25
+[2026-03-27 17:05:42]       Retry #2 — need 5 more questions...
+[2026-03-27 17:05:53]       Got 10, 5 valid, total: 30
+[2026-03-27 17:05:58]     Advanced (C1–C2)...
+[2026-03-27 17:06:17]       Got 30, 23 valid, total: 23
+[2026-03-27 17:06:17]       Retry #2 — need 7 more questions...
+[2026-03-27 17:06:29]       Got 12, 7 valid, total: 30
+[2026-03-27 17:06:34]     Wrote questions G\academic-writing-grammar01-intermediate.js (30 questions)
+[2026-03-27 17:06:34]     Wrote questions G\academic-writing-grammar01-upper-intermediate.js (30 questions)
+[2026-03-27 17:06:34]     Wrote questions G\academic-writing-grammar01-advanced.js (30 questions)
+[2026-03-27 17:06:34]     DONE: 90 new questions for Academic Writing Grammar
+[2026-03-27 17:06:34] 
+[2026-03-27 17:06:34] ============================================================
+[2026-03-27 17:06:34] TOPIC 122/134: Connectors & Transitions (connectors-transitions01)
+[2026-03-27 17:06:34] ============================================================
+[2026-03-27 17:06:34]     Intermediate (B1–B2)...
+[2026-03-27 17:06:50]       Got 30, 24 valid, total: 24
+[2026-03-27 17:06:50]       Retry #2 — need 6 more questions...
+[2026-03-27 17:07:02]       Got 11, 6 valid, total: 30
+[2026-03-27 17:07:07]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:07:25]       Got 30, 23 valid, total: 23
+[2026-03-27 17:07:25]       Retry #2 — need 7 more questions...
+[2026-03-27 17:07:38]       Got 12, 7 valid, total: 30
+[2026-03-27 17:07:43]     Advanced (C1–C2)...
+[2026-03-27 17:08:01]       Got 30, 23 valid, total: 23
+[2026-03-27 17:08:01]       Retry #2 — need 7 more questions...
+[2026-03-27 17:08:14]       Got 12, 7 valid, total: 30
+[2026-03-27 17:08:19]     Wrote questions G\connectors-transitions01-intermediate.js (30 questions)
+[2026-03-27 17:08:19]     Wrote questions G\connectors-transitions01-upper-intermediate.js (30 questions)
+[2026-03-27 17:08:19]     Wrote questions G\connectors-transitions01-advanced.js (30 questions)
+[2026-03-27 17:08:19]     DONE: 90 new questions for Connectors & Transitions
+[2026-03-27 17:08:19] 
+[2026-03-27 17:08:19] ============================================================
+[2026-03-27 17:08:19] TOPIC 123/134: Error Correction (error-correction01)
+[2026-03-27 17:08:19] ============================================================
+[2026-03-27 17:08:19]     Intermediate (B1–B2)...
+[2026-03-27 17:08:37]       Got 30, 24 valid, total: 24
+[2026-03-27 17:08:37]       Retry #2 — need 6 more questions...
+[2026-03-27 17:08:49]       Got 11, 6 valid, total: 30
+[2026-03-27 17:08:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:09:14]       Got 30, 24 valid, total: 24
+[2026-03-27 17:09:14]       Retry #2 — need 6 more questions...
+[2026-03-27 17:09:26]       Got 11, 6 valid, total: 30
+[2026-03-27 17:09:31]     Advanced (C1–C2)...
+[2026-03-27 17:09:48]       Got 30, 30 valid, total: 30
+[2026-03-27 17:09:53]     Wrote questions G\error-correction01-intermediate.js (30 questions)
+[2026-03-27 17:09:53]     Wrote questions G\error-correction01-upper-intermediate.js (30 questions)
+[2026-03-27 17:09:53]     Wrote questions G\error-correction01-advanced.js (30 questions)
+[2026-03-27 17:09:53]     DONE: 90 new questions for Error Correction
+[2026-03-27 17:09:53] 
+[2026-03-27 17:09:53] ============================================================
+[2026-03-27 17:09:53] TOPIC 124/134: Determiners: Advanced (determiners02)
+[2026-03-27 17:09:53] ============================================================
+[2026-03-27 17:09:53]     Intermediate (B1–B2)...
+[2026-03-27 17:10:09]       Got 30, 26 valid, total: 26
+[2026-03-27 17:10:09]       Retry #2 — need 4 more questions...
+[2026-03-27 17:10:20]       Got 9, 4 valid, total: 30
+[2026-03-27 17:10:25]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:10:42]       JSON parse error: Expecting ',' delimiter: line 151 column 63 (char 5718)
+[2026-03-27 17:10:52]       Retry #2 — need 30 more questions...
+[2026-03-27 17:11:16]       Got 35, 28 valid, total: 28
+[2026-03-27 17:11:16]       Retry #3 — need 2 more questions...
+[2026-03-27 17:11:28]       Got 7, 2 valid, total: 30
+[2026-03-27 17:11:33]     Advanced (C1–C2)...
+[2026-03-27 17:11:52]       Got 30, 23 valid, total: 23
+[2026-03-27 17:11:52]       Retry #2 — need 7 more questions...
+[2026-03-27 17:12:04]       Got 12, 7 valid, total: 30
+[2026-03-27 17:12:09]     Wrote questions G\determiners02-intermediate.js (30 questions)
+[2026-03-27 17:12:09]     Wrote questions G\determiners02-upper-intermediate.js (30 questions)
+[2026-03-27 17:12:09]     Wrote questions G\determiners02-advanced.js (30 questions)
+[2026-03-27 17:12:09]     DONE: 90 new questions for Determiners: Advanced
+[2026-03-27 17:12:09] 
+[2026-03-27 17:12:09] ============================================================
+[2026-03-27 17:12:09] TOPIC 125/134: Tense Contrast Pairs (verb-tense-contrast01)
+[2026-03-27 17:12:09] ============================================================
+[2026-03-27 17:12:09]     Intermediate (B1–B2)...
+[2026-03-27 17:12:26]       Got 30, 30 valid, total: 30
+[2026-03-27 17:12:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:12:51]       Got 30, 24 valid, total: 24
+[2026-03-27 17:12:51]       Retry #2 — need 6 more questions...
+[2026-03-27 17:13:04]       Got 11, 6 valid, total: 30
+[2026-03-27 17:13:09]     Advanced (C1–C2)...
+[2026-03-27 17:13:30]       Got 30, 26 valid, total: 26
+[2026-03-27 17:13:30]       Retry #2 — need 4 more questions...
+[2026-03-27 17:13:41]       Got 9, 4 valid, total: 30
+[2026-03-27 17:13:46]     Wrote questions G\verb-tense-contrast01-intermediate.js (30 questions)
+[2026-03-27 17:13:46]     Wrote questions G\verb-tense-contrast01-upper-intermediate.js (30 questions)
+[2026-03-27 17:13:46]     Wrote questions G\verb-tense-contrast01-advanced.js (30 questions)
+[2026-03-27 17:13:46]     DONE: 90 new questions for Tense Contrast Pairs
+[2026-03-27 17:13:46] 
+[2026-03-27 17:13:46] ============================================================
+[2026-03-27 17:13:46] TOPIC 126/134: Advanced Noun Phrases (noun-phrases-advanced01)
+[2026-03-27 17:13:46] ============================================================
+[2026-03-27 17:13:46]     Intermediate (B1–B2)...
+[2026-03-27 17:14:03]       Got 30, 23 valid, total: 23
+[2026-03-27 17:14:03]       Retry #2 — need 7 more questions...
+[2026-03-27 17:14:09]       Rate limited (429). Waiting 60s...
+[2026-03-27 17:15:17]       Got 12, 7 valid, total: 30
+[2026-03-27 17:15:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:15:39]       Got 30, 23 valid, total: 23
+[2026-03-27 17:15:39]       Retry #2 — need 7 more questions...
+[2026-03-27 17:15:52]       Got 12, 7 valid, total: 30
+[2026-03-27 17:15:57]     Advanced (C1–C2)...
+[2026-03-27 17:16:16]       Got 30, 23 valid, total: 23
+[2026-03-27 17:16:16]       Retry #2 — need 7 more questions...
+[2026-03-27 17:16:29]       Got 12, 7 valid, total: 30
+[2026-03-27 17:16:34]     Wrote questions G\noun-phrases-advanced01-intermediate.js (30 questions)
+[2026-03-27 17:16:34]     Wrote questions G\noun-phrases-advanced01-upper-intermediate.js (30 questions)
+[2026-03-27 17:16:34]     Wrote questions G\noun-phrases-advanced01-advanced.js (30 questions)
+[2026-03-27 17:16:34]     DONE: 90 new questions for Advanced Noun Phrases
+[2026-03-27 17:16:34] 
+[2026-03-27 17:16:34] ============================================================
+[2026-03-27 17:16:34] TOPIC 127/134: Expressing Opinions & Certainty (expressing-opinions01)
+[2026-03-27 17:16:34] ============================================================
+[2026-03-27 17:16:34]     Intermediate (B1–B2)...
+[2026-03-27 17:16:52]       Got 30, 25 valid, total: 25
+[2026-03-27 17:16:52]       Retry #2 — need 5 more questions...
+[2026-03-27 17:17:04]       Got 10, 5 valid, total: 30
+[2026-03-27 17:17:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:17:26]       Got 30, 30 valid, total: 30
+[2026-03-27 17:17:31]     Advanced (C1–C2)...
+[2026-03-27 17:17:51]       Got 30, 23 valid, total: 23
+[2026-03-27 17:17:51]       Retry #2 — need 7 more questions...
+[2026-03-27 17:18:04]       JSON parse error: Expecting ',' delimiter: line 55 column 32 (char 2176)
+[2026-03-27 17:18:14]       Retry #3 — need 7 more questions...
+[2026-03-27 17:18:20]       Rate limited (429). Waiting 60s...
+[2026-03-27 17:19:21]       ERROR 429: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2026-03-27 17:19:44]       Got 12, 7 valid, total: 30
+[2026-03-27 17:19:49]     Wrote questions G\expressing-opinions01-intermediate.js (30 questions)
+[2026-03-27 17:19:49]     Wrote questions G\expressing-opinions01-upper-intermediate.js (30 questions)
+[2026-03-27 17:19:49]     Wrote questions G\expressing-opinions01-advanced.js (30 questions)
+[2026-03-27 17:19:49]     DONE: 90 new questions for Expressing Opinions & Certainty
+[2026-03-27 17:19:49] 
+[2026-03-27 17:19:49] ============================================================
+[2026-03-27 17:19:49] TOPIC 128/134: Comparison Structures (comparison-structures01)
+[2026-03-27 17:19:49] ============================================================
+[2026-03-27 17:19:49]     Intermediate (B1–B2)...
+[2026-03-27 17:20:06]       Got 30, 23 valid, total: 23
+[2026-03-27 17:20:06]       Retry #2 — need 7 more questions...
+[2026-03-27 17:20:19]       Got 12, 7 valid, total: 30
+[2026-03-27 17:20:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:20:38]       Got 30, 25 valid, total: 25
+[2026-03-27 17:20:38]       Retry #2 — need 5 more questions...
+[2026-03-27 17:20:51]       Got 10, 5 valid, total: 30
+[2026-03-27 17:20:56]     Advanced (C1–C2)...
+[2026-03-27 17:21:13]       Got 30, 24 valid, total: 24
+[2026-03-27 17:21:13]       Retry #2 — need 6 more questions...
+[2026-03-27 17:21:26]       Got 11, 6 valid, total: 30
+[2026-03-27 17:21:31]     Wrote questions G\comparison-structures01-intermediate.js (30 questions)
+[2026-03-27 17:21:31]     Wrote questions G\comparison-structures01-upper-intermediate.js (30 questions)
+[2026-03-27 17:21:31]     Wrote questions G\comparison-structures01-advanced.js (30 questions)
+[2026-03-27 17:21:31]     DONE: 90 new questions for Comparison Structures
+[2026-03-27 17:21:31] 
+[2026-03-27 17:21:31] ============================================================
+[2026-03-27 17:21:31] TOPIC 129/134: Sentence Types & Structure (sentence-types01)
+[2026-03-27 17:21:31] ============================================================
+[2026-03-27 17:21:31]     Intermediate (B1–B2)...
+[2026-03-27 17:21:46]       Got 30, 25 valid, total: 25
+[2026-03-27 17:21:46]       Retry #2 — need 5 more questions...
+[2026-03-27 17:21:52]       Rate limited (429). Waiting 60s...
+[2026-03-27 17:22:58]       Got 10, 5 valid, total: 30
+[2026-03-27 17:23:03]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:23:24]       Got 30, 26 valid, total: 26
+[2026-03-27 17:23:24]       Retry #2 — need 4 more questions...
+[2026-03-27 17:23:29]       Rate limited (429). Waiting 60s...
+[2026-03-27 17:24:36]       Got 9, 4 valid, total: 30
+[2026-03-27 17:24:41]     Advanced (C1–C2)...
+[2026-03-27 17:25:01]       Got 30, 24 valid, total: 24
+[2026-03-27 17:25:01]       Retry #2 — need 6 more questions...
+[2026-03-27 17:25:14]       Got 11, 6 valid, total: 30
+[2026-03-27 17:25:19]     Wrote questions G\sentence-types01-intermediate.js (30 questions)
+[2026-03-27 17:25:19]     Wrote questions G\sentence-types01-upper-intermediate.js (30 questions)
+[2026-03-27 17:25:19]     Wrote questions G\sentence-types01-advanced.js (30 questions)
+[2026-03-27 17:25:19]     DONE: 90 new questions for Sentence Types & Structure
+[2026-03-27 17:25:19] 
+[2026-03-27 17:25:19] ============================================================
+[2026-03-27 17:25:19] TOPIC 130/134: Formal Register Grammar (formal-register01)
+[2026-03-27 17:25:19] ============================================================
+[2026-03-27 17:25:19]     Intermediate (B1–B2)...
+[2026-03-27 17:25:37]       Got 30, 23 valid, total: 23
+[2026-03-27 17:25:37]       Retry #2 — need 7 more questions...
+[2026-03-27 17:25:50]       Got 12, 7 valid, total: 30
+[2026-03-27 17:25:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:26:12]       Got 30, 30 valid, total: 30
+[2026-03-27 17:26:17]     Advanced (C1–C2)...
+[2026-03-27 17:26:36]       Got 30, 24 valid, total: 24
+[2026-03-27 17:26:36]       Retry #2 — need 6 more questions...
+[2026-03-27 17:26:49]       Got 11, 6 valid, total: 30
+[2026-03-27 17:26:54]     Wrote questions G\formal-register01-intermediate.js (30 questions)
+[2026-03-27 17:26:54]     Wrote questions G\formal-register01-upper-intermediate.js (30 questions)
+[2026-03-27 17:26:54]     Wrote questions G\formal-register01-advanced.js (30 questions)
+[2026-03-27 17:26:54]     DONE: 90 new questions for Formal Register Grammar
+[2026-03-27 17:26:54] 
+[2026-03-27 17:26:54] ============================================================
+[2026-03-27 17:26:54] TOPIC 131/134: Clause Combination (clause-combination01)
+[2026-03-27 17:26:54] ============================================================
+[2026-03-27 17:26:54]     Intermediate (B1–B2)...
+[2026-03-27 17:27:11]       Got 30, 24 valid, total: 24
+[2026-03-27 17:27:11]       Retry #2 — need 6 more questions...
+[2026-03-27 17:27:24]       Got 11, 6 valid, total: 30
+[2026-03-27 17:27:29]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:27:49]       Got 30, 24 valid, total: 24
+[2026-03-27 17:27:49]       Retry #2 — need 6 more questions...
+[2026-03-27 17:28:03]       Got 11, 6 valid, total: 30
+[2026-03-27 17:28:08]     Advanced (C1–C2)...
+[2026-03-27 17:28:29]       Got 30, 26 valid, total: 26
+[2026-03-27 17:28:29]       Retry #2 — need 4 more questions...
+[2026-03-27 17:28:41]       Got 9, 4 valid, total: 30
+[2026-03-27 17:28:46]     Wrote questions G\clause-combination01-intermediate.js (30 questions)
+[2026-03-27 17:28:46]     Wrote questions G\clause-combination01-upper-intermediate.js (30 questions)
+[2026-03-27 17:28:46]     Wrote questions G\clause-combination01-advanced.js (30 questions)
+[2026-03-27 17:28:46]     DONE: 90 new questions for Clause Combination
+[2026-03-27 17:28:46] 
+[2026-03-27 17:28:46] ============================================================
+[2026-03-27 17:28:46] TOPIC 132/134: Negation: Advanced Patterns (negation-advanced01)
+[2026-03-27 17:28:46] ============================================================
+[2026-03-27 17:28:46]     Intermediate (B1–B2)...
+[2026-03-27 17:29:07]       Got 30, 26 valid, total: 26
+[2026-03-27 17:29:07]       Retry #2 — need 4 more questions...
+[2026-03-27 17:29:19]       Got 9, 4 valid, total: 30
+[2026-03-27 17:29:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:29:43]       Got 30, 24 valid, total: 24
+[2026-03-27 17:29:43]       Retry #2 — need 6 more questions...
+[2026-03-27 17:29:57]       Got 11, 6 valid, total: 30
+[2026-03-27 17:30:02]     Advanced (C1–C2)...
+[2026-03-27 17:30:19]       Got 30, 23 valid, total: 23
+[2026-03-27 17:30:19]       Retry #2 — need 7 more questions...
+[2026-03-27 17:30:34]       Got 12, 7 valid, total: 30
+[2026-03-27 17:30:39]     Wrote questions G\negation-advanced01-intermediate.js (30 questions)
+[2026-03-27 17:30:39]     Wrote questions G\negation-advanced01-upper-intermediate.js (30 questions)
+[2026-03-27 17:30:39]     Wrote questions G\negation-advanced01-advanced.js (30 questions)
+[2026-03-27 17:30:39]     DONE: 90 new questions for Negation: Advanced Patterns
+[2026-03-27 17:30:39] 
+[2026-03-27 17:30:39] ============================================================
+[2026-03-27 17:30:39] TOPIC 133/134: It & There Constructions (it-there-constructions01)
+[2026-03-27 17:30:39] ============================================================
+[2026-03-27 17:30:39]     Intermediate (B1–B2)...
+[2026-03-27 17:30:57]       Got 30, 25 valid, total: 25
+[2026-03-27 17:30:57]       Retry #2 — need 5 more questions...
+[2026-03-27 17:31:09]       Got 10, 5 valid, total: 30
+[2026-03-27 17:31:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:31:32]       Got 30, 25 valid, total: 25
+[2026-03-27 17:31:32]       Retry #2 — need 5 more questions...
+[2026-03-27 17:31:44]       Got 10, 5 valid, total: 30
+[2026-03-27 17:31:49]     Advanced (C1–C2)...
+[2026-03-27 17:32:09]       Got 30, 23 valid, total: 23
+[2026-03-27 17:32:09]       Retry #2 — need 7 more questions...
+[2026-03-27 17:32:22]       Got 12, 7 valid, total: 30
+[2026-03-27 17:32:27]     Wrote questions G\it-there-constructions01-intermediate.js (30 questions)
+[2026-03-27 17:32:27]     Wrote questions G\it-there-constructions01-upper-intermediate.js (30 questions)
+[2026-03-27 17:32:27]     Wrote questions G\it-there-constructions01-advanced.js (30 questions)
+[2026-03-27 17:32:27]     DONE: 90 new questions for It & There Constructions
+[2026-03-27 17:32:27] 
+[2026-03-27 17:32:27] ============================================================
+[2026-03-27 17:32:27] TOPIC 134/134: Quantifiers: Precision (quantifiers02)
+[2026-03-27 17:32:27] ============================================================
+[2026-03-27 17:32:27]     Intermediate (B1–B2)...
+[2026-03-27 17:32:46]       Got 30, 30 valid, total: 30
+[2026-03-27 17:32:51]     Upper-Intermediate (B2–C1)...
+[2026-03-27 17:33:07]       Got 30, 27 valid, total: 27
+[2026-03-27 17:33:07]       Retry #2 — need 3 more questions...
+[2026-03-27 17:33:19]       Got 8, 3 valid, total: 30
+[2026-03-27 17:33:24]     Advanced (C1–C2)...
+[2026-03-27 17:33:43]       Got 30, 24 valid, total: 24
+[2026-03-27 17:33:43]       Retry #2 — need 6 more questions...
+[2026-03-27 17:33:56]       Got 11, 6 valid, total: 30
+[2026-03-27 17:34:01]     Wrote questions G\quantifiers02-intermediate.js (30 questions)
+[2026-03-27 17:34:01]     Wrote questions G\quantifiers02-upper-intermediate.js (30 questions)
+[2026-03-27 17:34:01]     Wrote questions G\quantifiers02-advanced.js (30 questions)
+[2026-03-27 17:34:01]     DONE: 90 new questions for Quantifiers: Precision
+[2026-03-27 17:34:01] 
+[2026-03-27 17:34:01] ============================================================
+[2026-03-27 17:34:01] BATCH COMPLETE!
+[2026-03-27 17:34:01]   Completed: 134 topics
+[2026-03-27 17:34:01]   Failed: 0 topics
+[2026-03-27 17:34:01] ============================================================

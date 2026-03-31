@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I go yoga. Yoga good. You come. Relax. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I am doing yoga now. It is good for me. I feel happy and not stressed. You are stressed, so you should try yoga. It is fun and easy. See you soon!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about something that's really helping me relax. I started going to a yoga studio, ZenFlow, and it's great! The classes are really good and I feel much less stressed afterwards. I know you've been feeling stressed lately, so I think you should try it. Maybe we could even go together sometime? Let me know what you think.</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>I hope you're doing okay, despite everything. I wanted to share something that's been a real game-changer for me lately. I've started attending classes at a yoga studio called ZenFlow, and honestly, it's been incredible for managing my stress levels. The instructors are fantastic, and the atmosphere is so calming. Given how stressed you've been, I genuinely think you should consider giving it a try. It might be exactly what you need to unwind and find some inner peace. Perhaps we could even attend a class together? Let me know your thoughts.</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>I hope you're doing okay, despite everything. I wanted to share something that's been a real game-changer for me lately. I've started attending classes at a yoga studio called ZenFlow, and honestly, it's been incredible for managing my stress levels. The instructors are fantastic, and the atmosphere is so calming. Given how stressed you've been, I genuinely think you should consider giving it a try. It might be exactly what you need to unwind and find some inner peace. Perhaps we could even attend a class together? Let me know your thoughts.</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, oxirgi paytlarda juda stressda yuribsan. Yaqinda ZenFlow yoga studiyasiga a'zo bo'ldim va bu hayotimni butunlay o'zgartirib yubordi! Mashg'ulotlar juda tinchlantiruvchi va hozir o'zimni ancha xotirjam his qilyapman. Albatta, sinab ko'rishing kerak – ularda yangi boshlanuvchilar uchun ham mashg'ulotlar bor!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Men yoga qilaman. Yoga yaxshi. Sen kel. Dam ol. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men hozir yoga bilan shug'ullanayapman. Bu men uchun yaxshi. Men o'zimni baxtli va stresssiz his qilyapman. Sen stressdasiz, shuning uchun yoga bilan shug'ullanib ko'rishing kerak. Bu qiziqarli va oson. Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sizga dam olishimga juda yordam berayotgan narsa haqida aytmoqchi edim. Men ZenFlow yoga studiyasiga bora boshladim va bu ajoyib! Mashg'ulotlar juda yaxshi va undan keyin o'zimni ancha kam stressda his qilyapman. Bilaman, oxirgi paytlarda stressda yuribsiz, shuning uchun o'ylaymanki, siz ham buni sinab ko'rishingiz kerak. Balki qachondir birga borarmiz? Fikringizni bildiring.</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Umid qilamanki, hamma narsaga qaramay, yaxshi yuribsiz. Siz bilan yaqinda men uchun haqiqiy o'zgarish yasagan narsani baham ko'rmoqchiman. Men ZenFlow nomli yoga studiyasida darslarga qatnashni boshladim va rostini aytsam, bu mening stress darajalarimni boshqarish uchun ajoyib bo'ldi. O'qituvchilar ajoyib va atmosfera juda tinchlantiruvchi. Sizning qanchalik stressda ekanligingizni hisobga olsak, men chin dildan buni sinab ko'rishingizni maslahat beraman. Ehtimol, bu sizga dam olish va ichki xotirjamlikni topish uchun aynan kerak bo'lgan narsadir. Balki biz hatto birga darsga ham qatnashishimiz mumkin? Fikrlaringizni menga bildiring.</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi ZenFlow!</p>\r\n<p>Yoga good. I like yoga. Teachers good. Studio good. I want more yoga!</p>\r\n<p>Bye.</p>",
       "sampleA2": "<p>Dear ZenFlow Team,</p>\r\n<p>Thank you for the email. I like the yoga. The teachers are nice and the studio is good. I like the classes, but I want more classes in the evening because I work in the day. And maybe you can have a cafe. I like tea.</p>\r\n<p>Thank you,<br>[Your Name]</p>",
       "sampleB1": "<p>Dear ZenFlow Team,</p>\r\n<p>Thank you for your email. I am writing to tell you what I think about the yoga studio. I like the instructors very much, they are very helpful. The studio is also a nice place to relax.</p>\r\n<p>However, I think you could improve some things. For example, it would be good to have more classes on weekends. Also, I think the prices are a little high. Maybe you could offer discounts for students?</p>\r\n<p>I would also like to see some different kinds of classes, like maybe a class for beginners. Overall, I am happy with the studio. </p>\r\n<p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear ZenFlow Team,</p>\r\n<p>Thank you for reaching out. I'm writing to provide some feedback regarding my experience at ZenFlow Yoga Studio so far.</p>\r\n<p>Overall, I've been quite satisfied. The instructors are generally knowledgeable and enthusiastic, and the studio itself provides a calming atmosphere conducive to practice. The variety of classes is also a definite plus, allowing me to explore different styles and find what suits me best.</p>\r\n<p>However, there are a couple of areas where I believe improvements could be made. Firstly, the studio could benefit from more workshops focusing on specific poses or techniques. Secondly, the online booking system could be more user-friendly, as I've encountered some minor glitches. Finally, offering package deals for multiple classes might encourage more frequent attendance.</p>\r\n<p>Despite these minor points, I am enjoying my membership and look forward to continuing my yoga journey with ZenFlow.</p>\r\n<p>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear ZenFlow Team,</p>\r\n<p>Thank you for reaching out. I'm writing to provide some feedback regarding my experience at ZenFlow Yoga Studio so far.</p>\r\n<p>Overall, I've been quite satisfied. The instructors are generally knowledgeable and enthusiastic, and the studio itself provides a calming atmosphere conducive to practice. The variety of classes is also a definite plus, allowing me to explore different styles and find what suits me best.</p>\r\n<p>However, there are a couple of areas where I believe improvements could be made. Firstly, the studio could benefit from more workshops focusing on specific poses or techniques. Secondly, the online booking system could be more user-friendly, as I've encountered some minor glitches. Finally, offering package deals for multiple classes might encourage more frequent attendance.</p>\r\n<p>Despite these minor points, I am enjoying my membership and look forward to continuing my yoga journey with ZenFlow.</p>\r\n<p>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli ZenFlow jamoasi,</p>\n<p>Sizning yoga studiyangizdagi tajribam haqida so'raganingiz uchun rahmat.</p>\n<p>Men a'zoligimdan juda mamnunman. Sizning instruktorlaringiz nihoyatda mahoratli va barcha darajadagilar uchun qulay muhit yaratadi. Studiya maydoni tinch va juda chiroyli tarzda loyihalashtirilgan. Mening moslashuvchanligim va stress darajam sezilarli darajada yaxshilandi.</p>\n<p>Biroq, mening ba'zi takliflarim bor. Dars jadvalida ishlaydigan mutaxassislar uchun soat 20:00 dan keyin kechki variantlar yetishmaydi. Bundan tashqari, kiyinish xonalari eng gavjum soatlarda ancha kichik.</p>\n<p>Meditatsiya bo'yicha seminarlar va onglilik mashg'ulotlari bo'lishini istardim. Yoga oromgohi dasturi sodiq amaliyotchilarni jalb qiladi. Shuningdek, onlayn darslarni taklif qilish a'zolarga uyda mashq qilishga yordam beradi.</p>\n<p>Umuman olganda, ZenFlow mening farovonligimni o'zgartirdi.</p>\n<p>Hurmat bilan,\n[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom ZenFlow!</p>\n<p>Yoga yaxshi. Menga yoga yoqadi. O'qituvchilar yaxshi. Studiya yaxshi. Men ko'proq yoga xohlayman!</p>\n<p>Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli ZenFlow jamoasi,</p>\n<p>Xat uchun rahmat. Menga yoga yoqadi. O'qituvchilar yaxshi va studiya ham yaxshi. Menga mashg'ulotlar yoqadi, lekin men kechqurun ko'proq mashg'ulotlar bo'lishini xohlayman, chunki men kunduzi ishlayman. Va balki sizda kafe bo'lishi mumkin. Men choyni yaxshi ko'raman.</p>\n<p>Rahmat,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli ZenFlow jamoasi,</p>\n<p>Xatingiz uchun rahmat. Men sizga yoga studiyasi haqida nima o'ylayotganimni aytish uchun yozyapman. Menga instruktorlar juda yoqadi, ular juda foydali. Studiya ham dam olish uchun yaxshi joy.</p>\n<p>Biroq, menimcha, siz ba'zi narsalarni yaxshilashingiz mumkin. Misol uchun, dam olish kunlari ko'proq mashg'ulotlar bo'lishi yaxshi bo'lardi. Shuningdek, menimcha, narxlar biroz qimmat. Balki talabalar uchun chegirmalar taklif qilishingiz mumkin?</p>\n<p>Men, shuningdek, turli xil mashg'ulotlarni ko'rishni xohlayman, masalan, yangi boshlanuvchilar uchun mashg'ulot. Umuman olganda, men studiyadan mamnunman.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli ZenFlow jamoasi,</p>\n<p>Murojaatingiz uchun rahmat. Men ZenFlow Yoga Studiyasidagi tajribam yuzasidan fikr-mulohazalarimni bildirish uchun yozyapman.</p>\n<p>Umuman olganda, men juda mamnunman. Instruktorlar odatda bilimli va ishtiyoqli, studiyaning o'zi esa mashq qilish uchun qulay, tinchlantiruvchi muhitni ta'minlaydi. Darslarning xilma-xilligi ham, albatta, katta plyus, bu menga turli uslublarni o'rganish va o'zimga mosini topish imkonini beradi.</p>\n<p>Biroq, menimcha, yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, studiya muayyan pozalar yoki texnikalarga qaratilgan ko'proq seminarlardan foyda ko'rishi mumkin. Ikkinchidan, onlayn bron qilish tizimi yanada qulayroq bo'lishi mumkin, chunki men ba'zi kichik nosozliklarga duch keldim. Nihoyat, bir nechta darslar uchun paketli takliflar ko'proq qatnashishni rag'batlantirishi mumkin.</p>\n<p>Ushbu kichik nuqtalarga qaramay, men a'zoligimdan zavqlanyapman va ZenFlow bilan yoga sayohatimni davom ettirishni intiqlik bilan kutaman.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like yoga. Yoga is good. The teachers are nice. I want more yoga.<br>Bye</p>",
       "sampleA2": "<p>Hello,<br>I go to yoga. It is good for me. The teachers are nice, and the classes are good too. I like the studio because it is quiet. I want more classes in the evening because I work in the day. I like yoga!<br>Thank you!</p>",
       "sampleB1": "<p>I think companies should have wellness programs for their employees. It's a good idea because it can help people be healthier. For example, if a company offers gym memberships, more people might exercise. Also, it can make people feel happier at work. If they have less stress, they will probably work better. However, some people might not want to do the wellness programs, and that's okay. But I think it's a good thing for companies to offer them. It could make a big difference to the health and happiness of the workers. In my opinion, it's a worthwhile investment.</p>",
-      "sampleB2": "<p>There's been a lot of discussion lately about whether companies should provide wellness programs for their employees, and I believe it's a worthwhile consideration. Investing in employee wellbeing can lead to significant benefits for both the individual and the organization. <br><br>Firstly, wellness programs can improve employee health and reduce absenteeism. By offering resources such as gym memberships, healthy food options, and stress management workshops, companies can encourage healthier lifestyles. This, in turn, can lead to fewer sick days and increased productivity. <br><br>Secondly, these programs can boost employee morale and engagement. When employees feel that their employer cares about their wellbeing, they are more likely to be motivated and committed to their work. This can result in a more positive and productive work environment. While there might be concerns about the cost of implementing such programs, the long-term benefits, such as reduced healthcare costs and improved employee retention, often outweigh the initial investment. Therefore, I think it's a sensible step.</p>"
+      "sampleB2": "<p>There's been a lot of discussion lately about whether companies should provide wellness programs for their employees, and I believe it's a worthwhile consideration. Investing in employee wellbeing can lead to significant benefits for both the individual and the organization. <br><br>Firstly, wellness programs can improve employee health and reduce absenteeism. By offering resources such as gym memberships, healthy food options, and stress management workshops, companies can encourage healthier lifestyles. This, in turn, can lead to fewer sick days and increased productivity. <br><br>Secondly, these programs can boost employee morale and engagement. When employees feel that their employer cares about their wellbeing, they are more likely to be motivated and committed to their work. This can result in a more positive and productive work environment. While there might be concerns about the cost of implementing such programs, the long-term benefits, such as reduced healthcare costs and improved employee retention, often outweigh the initial investment. Therefore, I think it's a sensible step.</p>",
+      "uzSample": "<p>Xodimlarning sog'lig'ini yaxshilash dasturlari zamonaviy ish joylarida keng tarqalmoqda. Men kompaniyalar bunday tashabbuslarga sarmoya kiritishi kerak, deb qat'iy ishonaman.</p>\n\n<p>Birinchidan, sog'lomlashtirish dasturlari xodimlarning salomatligini yaxshilaydi. Sport zallariga a'zolik, sog'lom ovqatlanish joylari va ruhiy salomatlikni qo'llab-quvvatlash kasallik va davomatning kamayishiga olib keladi. Sog'lom xodimlar kamroq kasal bo'lishadi, bu ham shaxslar, ham tashkilotlar uchun foydali.</p>\n\n<p>Ikkinchidan, bu dasturlar unumdorlik va kayfiyatni oshiradi. O'ziga g'amxo'rlik qilinganini his qilgan xodimlar ko'proq jalb qilinadi va sodiq bo'ladi. Stressni boshqarish bo'yicha seminarlar xodimlarga bosimga bardosh berishga yordam beradi va ish faoliyatini yaxshilaydi.</p>\n\n<p>Biroq, tanqidchilar sog'lomlashtirish dasturlari qimmatga tushadi va darhol foyda keltirmasligi mumkin, deb ta'kidlaydilar. Bundan tashqari, ba'zi xodimlar ishtirok etishga majbur bo'lishi mumkin.</p>\n\n<p>Shunga qaramay, tadqiqotlar shuni ko'rsatadiki, investitsiyalarning qaytarilishi uzoq muddatda ijobiydir. Sog'liqni saqlash xarajatlarining kamayishi va xodimlarning almashinuvi past bo'lishi pulni tejaydi. Bosimni oldini olish uchun dasturlar ixtiyoriy bo'lishi kerak.</p>\n\n<p>Bundan tashqari, sog'lomlashtirish dasturlari eng yaxshi iste'dodlarni jalb qilishga yordam beradi. Yosh mutaxassislar ish beruvchilarni tanlashda ish va hayot muvozanatini tobora ko'proq qadrlashadi.</p>\n\n<p>Xulosa qilib aytganda, korporativ sog'lomlashtirish dasturlari hamma uchun foydali. Kompaniyalar ularni eng qimmatli aktivlariga - o'z xodimlariga sarmoya sifatida ko'rishlari kerak.</p>",
+      "uzSampleA1": "<p>Salom!<br>Menga yoga yoqadi. Yoga yaxshi. O'qituvchilar yaxshi. Men ko'proq yoga xohlayman.<br>Xayr</p>",
+      "uzSampleA2": "<p>Salom,<br>Men yoga bilan shug'ullanaman. Bu men uchun yaxshi. O'qituvchilar yaxshi, darslar ham yaxshi. Menga studiya yoqadi, chunki u yerda tinch. Kechqurun ko'proq darslar bo'lishini xohlayman, chunki kunduzi ishlayman. Yoga menga yoqadi!<br>Rahmat!</p>",
+      "uzSampleB1": "<p>Menimcha, kompaniyalar o'z xodimlari uchun sog'lomlashtirish dasturlariga ega bo'lishi kerak. Bu yaxshi fikr, chunki u odamlarga sog'lomroq bo'lishga yordam berishi mumkin. Misol uchun, agar kompaniya sport zaliga a'zolikni taklif qilsa, ko'proq odamlar mashq qilishi mumkin. Bundan tashqari, bu odamlarni ishda baxtliroq his qilishiga olib kelishi mumkin. Agar ularda stress kamroq bo'lsa, ular ehtimol yaxshiroq ishlashadi. Biroq, ba'zi odamlar sog'lomlashtirish dasturlarini xohlashmasligi mumkin va bu yaxshi. Lekin menimcha, kompaniyalar ularni taklif qilishi yaxshi narsa. Bu ishchilarning salomatligi va baxtiga katta ta'sir ko'rsatishi mumkin. Mening fikrimcha, bu arzirli sarmoya.</p>",
+      "uzSampleB2": "<p>So‘nggi paytlarda kompaniyalar o‘z xodimlari uchun sog‘lomlashtirish dasturlarini taqdim etishi kerakmi yoki yo‘qmi degan savol ko‘p muhokama qilinmoqda va menimcha, bu muhim masala. Xodimlarning farovonligiga sarmoya kiritish ham shaxs, ham tashkilot uchun sezilarli foyda keltirishi mumkin.<br><br>Birinchidan, sog‘lomlashtirish dasturlari xodimlarning salomatligini yaxshilashi va ishga kelmaslikni kamaytirishi mumkin. Sport zaliga a'zolik, sog'lom ovqatlanish imkoniyatlari va stressni boshqarish bo'yicha seminarlar kabi resurslarni taklif qilish orqali kompaniyalar sog'lom turmush tarzini rag'batlantirishi mumkin. Bu, o'z navbatida, kasallik tufayli o‘tkazib yuborilgan kunlar sonining kamayishiga va unumdorlikning oshishiga olib kelishi mumkin.<br><br>Ikkinchidan, ushbu dasturlar xodimlarning ruhiyatini va ishtiyoqini oshirishi mumkin. Xodimlar ish beruvchisi ularning farovonligi haqida qayg'urayotganini his qilsalar, ular o'z ishlariga ko'proq motivatsiya va sodiqlik bilan yondashadilar. Bu esa yanada ijobiy va samarali ish muhitiga olib kelishi mumkin. Bunday dasturlarni amalga oshirish narxi bilan bog'liq xavotirlar bo'lishi mumkin bo'lsa-da, uzoq muddatli foyda, masalan, sog'liqni saqlash xarajatlarining kamayishi va xodimlarning ishda qolish darajasining yaxshilanishi ko'pincha dastlabki sarmoyadan ustun turadi. Shuning uchun, menimcha, bu oqilona qadamdir.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,183 @@ window.WRITING_TEST_DATA = {
         "uz": "qimmatli aktiv"
       }
     ]
+  },
+  "tokenTranslations": {
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "recently": {
+      "uz": "yaqinda",
+      "type": "adv"
+    },
+    "yoga studio": {
+      "uz": "yoga studiyasi",
+      "type": "colloc"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "so": {
+      "uz": "shunday",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "welcoming atmosphere": {
+      "uz": "mehmondo'st muhit",
+      "type": "colloc"
+    },
+    "studio space": {
+      "uz": "studiya maydoni",
+      "type": "colloc"
+    },
+    "beautifully": {
+      "uz": "chiroyli tarzda",
+      "type": "adv"
+    },
+    "stress levels": {
+      "uz": "stress darajasi",
+      "type": "colloc"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "class schedule": {
+      "uz": "dars jadvali",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "changing rooms": {
+      "uz": "kiyim almashtirish xonalari",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "meditation workshops": {
+      "uz": "meditatsiya bo'yicha seminarlar",
+      "type": "colloc"
+    },
+    "yoga retreat": {
+      "uz": "yoga rireati",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "online classes": {
+      "uz": "onlayn darslar",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "Employee wellness programs": {
+      "uz": "Xodimlarning salomatligini yaxshilash dasturlari",
+      "type": "colloc"
+    },
+    "strongly": {
+      "uz": "qat'iy",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "employee health": {
+      "uz": "xodimlar salomatligi",
+      "type": "colloc"
+    },
+    "mental health support": {
+      "uz": "ruhiy salomatlikni qo'llab-quvvatlash",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "productivity and morale": {
+      "uz": "ish unumdorligi va kayfiyati",
+      "type": "colloc"
+    },
+    "Stress management": {
+      "uz": "Stressni boshqarish",
+      "type": "colloc"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Nevertheless": {
+      "uz": "Shunga qaramay",
+      "type": "adv"
+    },
+    "return on investment": {
+      "uz": "investitsiya daromadi",
+      "type": "colloc"
+    },
+    "staff turnover": {
+      "uz": "kadrlar almashinuvi",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "top talent": {
+      "uz": "eng yaxshi iste'dodlar",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "work-life balance": {
+      "uz": "ish va hayot muvozanati",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "corporate wellness programs": {
+      "uz": "korporativ salomatlik dasturlari",
+      "type": "colloc"
+    }
   }
 };

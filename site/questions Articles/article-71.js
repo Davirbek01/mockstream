@@ -214,4 +214,397 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Elektr transport vositalariga bo'lgan talab to'satdan keskin o'sdi."
         }
     }
+,
+    passageB1: `<p>The AI chatbot Claude had a problem and stopped working. This is just one example of <strong>internet outages</strong> that are happening more often. One of the main reasons for these problems is a weakness in how the internet works today.</p>
+<p>This week, people could not use the AI chatbot Claude on the Anthropic website. But almost every week, a big technology company, a government website, or a hospital has a similar problem. What is causing these problems to happen more often?</p>
+<p>One of the main <strong>weaknesses</strong> of the internet today is that many websites and services use <strong>cloud computing</strong>. This means they depend on a small number of big companies, like Amazon and Microsoft. In the past, in the 1990s, companies used to have their own computers and software. It was like having individual shops on a street. If one shop had a problem, it would close, but the other shops would still be open.</p>
+<p>Now, companies are more likely to keep all their information and programs on the <strong>cloud</strong>. This is like the street's road, water system, and electricity all in one. If the cloud has a problem, all the “shops” on it are closed, and everyone knows about it.</p>
+<p>Sometimes, these problems are caused by simple mistakes that people make. A good example is when the cybersecurity company CrowdStrike made a mistake in 2024. They released a software file that <strong>caused</strong> millions of Windows computers to stop working around the world. This <strong>affected</strong> airlines, banks, TV companies, and emergency call centers.</p>
+<p>Joseph Jarnecki, from the Royal United Services Institute, says that if a problem is big and <strong>affects</strong> many people, it is probably not done on purpose. <strong>Criminals</strong> who use <strong>ransomware</strong> break into computer systems and lock up data. Then, they ask for money to unlock the data. Jarnecki says these criminals know not to fight with big technology companies that have many experts. They usually go after smaller, easier targets.</p>
+<p>Tim Stevens from King's College London says that <strong>ransomware attacks</strong> are happening more often to small local governments and important services. The criminals break in, lock up something that people need, and ask for money. So, they might attack a town's water supply, electricity, or local government.</p>
+<p>In the UK, this has happened with attacks on Hackney Council, Gloucester City Council, Leicester City Council, the NHS (the healthcare system), and water companies. Stevens says that hackers and security experts have been playing a game of <strong>cat and mouse</strong> since computers were invented. Now, it seems the hackers are winning. Stevens says that he has heard many people in the security business say that they are losing the fight against hackers.</p>
+<p>Hackers who work for countries like Russia and China are also not likely to shut down an entire cloud provider. Jarnecki says that these hackers do <strong>target</strong> cloud providers, but they do not want to destroy them. They are very careful about what they attack.</p>
+<p>For example, in 2023, hackers attacked US government email accounts that Microsoft managed. Microsoft said that the hackers were linked to China. The rest of the Microsoft service was mostly not <strong>affected</strong>, but the hackers got access to important US secrets.</p>
+<p>Sarah Kreps from Cornell University says that countries also use cyberattacks in what is called the <strong>grey zone</strong>. This is a situation that is not quite peace and not quite war. It is a careful fight that stops before it causes a full war.</p>
+<p>Kreps says that this is like an economic <strong>punishment</strong>. Because so much of our money and <strong>economic growth</strong> depends on the internet, if you can shut it down, you can <strong>weaken</strong> your enemy's ability to make money. And the ability to make money is how you get the resources to pay for a war or support allies in a war.</p>
+<p>Kreps says that Russia and China are not the only countries that do this. We sometimes hear about cyber warfare from Western countries. For example, GCHQ and MI6 (British intelligence agencies) hacked into computers belonging to al-Qaeda and changed a recipe for bombs into one for cupcakes. These things happen regularly, but they are secret and done behind closed doors.</p>
+<p>Kreps says that she understands from talking to people in the US intelligence community that these attacks are happening. She says that countries have a reason to <strong>weaken</strong> their enemies. For example, there is a good reason to attack Russia because of its involvement in Ukraine. And there is a good reason to try to <strong>weaken</strong> China's abilities as it becomes a strong competitor.</p>
+<p>Stevens says that Western countries cannot attack as much or as easily as some other countries because they have strong laws. Stevens says that he is sure that British intelligence agencies are attacking Russian computer systems. But it is difficult, and there are always lawyers involved. He thinks that many people are <strong>frustrated</strong> by this.</p>
+<p>The Claude chatbot is working again now. Anthropic told New Scientist that they have seen a lot of people wanting to use Claude in the last week. Their team is working hard to make their <strong>infrastructure</strong> bigger as quickly as possible to keep up with the demand.</p>`,
+    translationB1: `<p>Claude sun'iy intellekt chatbotida muammo yuzaga kelib, ishlamay qoldi. Bu tez-tez sodir bo'layotgan <strong>internetdagi uzilishlar</strong>ning birgina misoli xolos. Ushbu muammolarning asosiy sabablaridan biri internetning bugungi kundagi ishlashidagi zaiflikdir.</p>
+<p>Bu hafta odamlar Anthropic veb-saytida Claude sun'iy intellekt chatbotidan foydalana olmadilar. Ammo deyarli har hafta yirik texnologiya kompaniyasi, hukumat veb-sayti yoki kasalxonada shunga o'xshash muammo yuzaga keladi. Bu muammolarning tez-tez sodir bo'lishiga nima sabab bo'lmoqda?</p>
+<p>Internetning bugungi kundagi asosiy <strong>zaifliklari</strong>dan biri shundaki, ko'plab veb-saytlar va xizmatlar <strong>bulutli hisoblash</strong>dan foydalanadi. Bu ularning Amazon va Microsoft kabi bir nechta yirik kompaniyalarga bog'liqligini anglatadi. Ilgari, 1990-yillarda kompaniyalar o'zlarining kompyuterlari va dasturiy ta'minotiga ega bo'lishardi. Bu ko'chada alohida do'konlarga ega bo'lishga o'xshardi. Agar bitta do'konda muammo bo'lsa, u yopilardi, lekin boshqa do'konlar ochiq qolardi.</p>
+<p>Endi kompaniyalar o'zlarining barcha ma'lumotlari va dasturlarini <strong>bulut</strong>da saqlashga ko'proq moyil. Bu ko'chaning yo'li, suv tizimi va elektr ta'minoti barchasi bir joyda bo'lishiga o'xshaydi. Agar bulutda muammo bo'lsa, undagi barcha "do'konlar" yopiladi va bu haqda hamma biladi.</p>
+<p>Ba'zan, bu muammolar odamlarning oddiy xatolaridan kelib chiqadi. Bunga yaxshi misol, 2024-yilda kiberxavfsizlik kompaniyasi CrowdStrike xato qilganida. Ular millionlab Windows kompyuterlarining butun dunyo bo'ylab ishlashini <strong>sabab bo'lgan</strong> dasturiy ta'minot faylini chiqardilar. Bu aviakompaniyalar, banklar, telekompaniyalar va favqulodda chaqiruv markazlariga <strong>ta'sir qildi</strong>.</p>
+<p>Qirollik Birlashgan Xizmatlar Instituti xodimi Jozef Jarnecki, agar muammo katta bo'lsa va ko'p odamlarga <strong>ta'sir qilsa</strong>, u qasddan qilinmagan bo'lishi mumkinligini aytadi. <strong>Jinoyatchilar</strong>, <strong>to'lov dasturi</strong>dan foydalanib, kompyuter tizimlariga kirib, ma'lumotlarni qulflab qo'yishadi. Keyin ular ma'lumotlarni ochish uchun pul so'rashadi. Jarnecki bu jinoyatchilar ko'p mutaxassislarga ega bo'lgan yirik texnologiya kompaniyalari bilan kurashmaslikni bilishlarini aytadi. Ular odatda kichikroq, osonroq nishonlarni ko'zlashadi.</p>
+<p>King's College London xodimi Tim Stivensning aytishicha, kichik mahalliy hukumatlar va muhim xizmatlarga <strong>to'lov dasturi hujumlari</strong> tez-tez sodir bo'lmoqda. Jinoyatchilar kirib, odamlarga kerak bo'lgan narsani qulflab qo'yishadi va pul so'rashadi. Shunday qilib, ular shaharning suv ta'minoti, elektr ta'minoti yoki mahalliy hukumatiga hujum qilishlari mumkin.</p>
+<p>Buyuk Britaniyada bu Hackney Kengashi, Gloster shahar kengashi, Lester shahar kengashi, NHS (sog'liqni saqlash tizimi) va suv kompaniyalariga hujumlar bilan sodir bo'ldi. Stivensning aytishicha, xakerlar va xavfsizlik bo'yicha mutaxassislar kompyuterlar ixtiro qilinganidan beri <strong>mushuk va sichqon</strong> o'yinini o'ynashmoqda. Endi esa, xakerlar g'alaba qozonayotganga o'xshaydi. Stivens xavfsizlik biznesidagi ko'p odamlarning xakerlarga qarshi kurashda mag'lub bo'layotganliklarini aytganini eshitganini aytadi.</p>
+<p>Rossiya va Xitoy kabi mamlakatlar uchun ishlaydigan xakerlar ham butun bulut provayderini o'chirib qo'yish ehtimoli kam. Jarneckining aytishicha, bu xakerlar bulut provayderlarini <strong>nishonga olishadi</strong>, lekin ularni yo'q qilishni xohlashmaydi. Ular nimaga hujum qilishayotganiga juda ehtiyot bo'lishadi.</p>
+<p>Masalan, 2023-yilda xakerlar Microsoft boshqargan AQSh hukumatining elektron pochta hisoblariga hujum qilishdi. Microsoftning aytishicha, xakerlar Xitoy bilan aloqador bo'lgan. Microsoft xizmatining qolgan qismi asosan <strong>ta'sir qilmadi</strong>, lekin xakerlar AQShning muhim sirlariga kirishga muvaffaq bo'lishdi.</p>
+<p>Kornell universitetidan Sara Krepsning aytishicha, davlatlar kiberhujumlardan <strong>kulrang zona</strong> deb ataladigan narsada ham foydalanadilar. Bu tinchlik ham emas, urush ham emas vaziyat. Bu to'liq urushga olib kelmasdan to'xtaydigan ehtiyotkorona kurash.</p>
+<p>Krepsning aytishicha, bu iqtisodiy <strong>jazo</strong>ga o'xshaydi. Chunki bizning pulimiz va <strong>iqtisodiy o'sishimiz</strong>ning katta qismi internetga bog'liq, agar siz uni o'chirib qo'ysangiz, dushmaningizning pul ishlash qobiliyatini <strong>zaiflashtirishingiz</strong> mumkin. Pul ishlash qobiliyati esa urush uchun pul to'lash yoki urushda ittifoqchilarni qo'llab-quvvatlash uchun resurslarni olish usulidir.</p>
+<p>Krepsning aytishicha, Rossiya va Xitoy buni qilayotgan yagona davlatlar emas. Biz ba'zan G'arb davlatlarining kiber urushi haqida ham eshitamiz. Masalan, GCHQ va MI6 (Britaniya razvedka agentliklari) al-Qoidaga tegishli kompyuterlarni buzib kirib, bomba uchun retseptni keks uchun retseptga o'zgartirdilar. Bu narsalar muntazam ravishda sodir bo'ladi, lekin ular sirli va yopiq eshiklar ortida amalga oshiriladi.</p>
+<p>Krepsning aytishicha, u AQSh razvedka hamjamiyatidagi odamlar bilan gaplashib, bu hujumlar sodir bo'layotganini tushunadi. Uning aytishicha, davlatlarning dushmanlarini <strong>zaiflashtirish</strong> uchun sababi bor. Masalan, Rossiyaga Ukrainadagi ishtiroki tufayli hujum qilish uchun yaxshi sabab bor. Xitoyning kuchli raqobatchiga aylanayotganligi sababli uning qobiliyatlarini <strong>zaiflashtirishga</strong> urinish uchun ham yaxshi sabab bor.</p>
+<p>Stivensning aytishicha, G'arb davlatlari ba'zi boshqa davlatlar kabi ko'p yoki oson hujum qila olmaydi, chunki ularda kuchli qonunlar bor. Stivensning aytishicha, u Britaniya razvedka agentliklari Rossiya kompyuter tizimlariga hujum qilayotganiga amin. Ammo bu qiyin va har doim advokatlar aralashadi. Uning fikricha, ko'p odamlar bundan <strong>hafsalasi pir</strong> bo'ladi.</p>
+<p>Claude chatboti hozirda yana ishlamoqda. Anthropic New Scientistga o'tgan hafta Claude-dan foydalanishni xohlayotgan odamlarni ko'p ko'rganliklarini aytdi. Ularning jamoasi talabni qondirish uchun o'z <strong>infratuzilma</strong>sini imkon qadar tezroq kattalashtirish ustida qattiq ishlamoqda.</p>`,
+    vocabularyB1: {
+        "internet outages": {
+                "definition": "When the internet stops working or is not available.",
+                "uzbek": "Internet uzilishlari",
+                "example": "The internet outage lasted for several hours.",
+                "exampleUzbek": "Internet uzilishi bir necha soat davom etdi."
+        },
+        "weaknesses": {
+                "definition": "Things that make something not strong or easily damaged.",
+                "uzbek": "Zaifliklar",
+                "example": "The old bridge has many weaknesses.",
+                "exampleUzbek": "Eski ko'prikning ko'plab zaifliklari bor."
+        },
+        "cloud computing": {
+                "definition": "Using computer services (like storage or software) over the internet.",
+                "uzbek": "Bulutli hisoblash",
+                "example": "Many companies use cloud computing to store their data.",
+                "exampleUzbek": "Ko'pgina kompaniyalar o'z ma'lumotlarini saqlash uchun bulutli hisoblashdan foydalanadilar."
+        },
+        "cloud": {
+                "definition": "A network of servers that allows you to store and access data and programs over the internet instead of on your computer.",
+                "uzbek": "Bulut",
+                "example": "My photos are stored in the cloud.",
+                "exampleUzbek": "Mening suratlarm bulutda saqlanadi."
+        },
+        "caused": {
+                "definition": "Made something happen.",
+                "uzbek": "Sabab bo'ldi",
+                "example": "The storm caused a lot of damage.",
+                "exampleUzbek": "Bo'ron ko'p zarar keltirdi."
+        },
+        "affected": {
+                "definition": "Had an effect on something or someone.",
+                "uzbek": "Ta'sir qildi",
+                "example": "The price increase affected many families.",
+                "exampleUzbek": "Narxlarning oshishi ko'p oilalarga ta'sir qildi."
+        },
+        "criminals": {
+                "definition": "People who do things that are against the law.",
+                "uzbek": "Jinoyatchilar",
+                "example": "The police arrested the criminals.",
+                "exampleUzbek": "Politsiya jinoyatchilarni hibsga oldi."
+        },
+        "ransomware": {
+                "definition": "A type of computer virus that blocks access to a computer system until a sum of money is paid.",
+                "uzbek": "Tovon virusi",
+                "example": "The company was attacked by ransomware.",
+                "exampleUzbek": "Kompaniyaga tovon virusi hujum qildi."
+        },
+        "ransomware attacks": {
+                "definition": "Attacks on computer systems where hackers demand money to give the system back to its owners.",
+                "uzbek": "Tovon virusi hujumlari",
+                "example": "Ransomware attacks are becoming more common.",
+                "exampleUzbek": "Tovon virusi hujumlari tobora ko'payib bormoqda."
+        },
+        "cat and mouse": {
+                "definition": "A situation in which someone is always trying to catch someone else.",
+                "uzbek": "Mushuk va sichqon",
+                "example": "The game of cat and mouse between the police and the thief went on for years.",
+                "exampleUzbek": "Politsiya va o'g'ri o'rtasidagi mushuk va sichqon o'yini yillar davom etdi."
+        },
+        "target": {
+                "definition": "To choose someone or something to attack or criticize.",
+                "uzbek": "Nishonga olmoq",
+                "example": "The company was targeted by hackers.",
+                "exampleUzbek": "Kompaniya xakerlar tomonidan nishonga olindi."
+        },
+        "grey zone": {
+                "definition": "A situation between peace and war.",
+                "uzbek": "Kulrang hudud",
+                "example": "The country is in a grey zone, not at war but not at peace.",
+                "exampleUzbek": "Mamlakat kulrang hududda, urushda emas, lekin tinchlikda ham emas."
+        },
+        "punishment": {
+                "definition": "Something that is done to someone because they have broken a rule or law.",
+                "uzbek": "Jazo",
+                "example": "The punishment for stealing is a fine.",
+                "exampleUzbek": "O'g'irlik uchun jazo jarima hisoblanadi."
+        },
+        "economic growth": {
+                "definition": "An increase in the amount of goods and services produced by a country.",
+                "uzbek": "Iqtisodiy o'sish",
+                "example": "The country is experiencing rapid economic growth.",
+                "exampleUzbek": "Mamlakat tez iqtisodiy o'sishni boshdan kechirmoqda."
+        },
+        "weaken": {
+                "definition": "To make someone or something less strong.",
+                "uzbek": "Zaiflashtirmoq",
+                "example": "The illness weakened her body.",
+                "exampleUzbek": "Kasalik uning tanasini zaiflashtirdi."
+        },
+        "frustrated": {
+                "definition": "Feeling annoyed and impatient because you cannot do or achieve what you want.",
+                "uzbek": "Umidsizlangan",
+                "example": "I felt frustrated when I couldn't solve the problem.",
+                "exampleUzbek": "Muammoni yecholmaganimda umidsizlik his qildim."
+        },
+        "infrastructure": {
+                "definition": "The basic systems and services that a country or organization needs in order to work properly, for example roads, railways, banks, etc.",
+                "uzbek": "Infratuzilma",
+                "example": "The city needs to improve its infrastructure.",
+                "exampleUzbek": "Shahar o'z infratuzilmasini yaxshilashi kerak."
+        }
+},
+    passageB2: `<p>The recent <strong>downtime</strong> of the AI chatbot Claude is just one example of a growing problem: internet outages. A key weakness in today's internet is largely to blame for the rising number of these incidents.</p>
+<p>This week, users were unable to access Claude through Anthropic's website. Similar problems seem to happen regularly with major technology companies, government websites, and even hospitals. What's causing this increase in these disruptions?</p>
+<p>One of the main reasons for these issues is the move to cloud computing. This means that many websites and services now <strong>depend heavily on</strong> a small number of large companies, such as Amazon and Microsoft. Back in the 1990s, when the internet was newer, companies usually managed their own hardware and software. It was like each business was an individual shop on a street. If one shop had a problem and closed, the others were not affected.</p>
+<p>Now, companies are much more likely to host everything on the cloud. This is like the street's road, sewage system, and electricity supply all combined into one. If that system <strong>fails</strong>, all the shops are affected, and everyone notices.</p>
+<p>Sometimes, these problems are caused by simple human mistakes. A good example of this is the 2024 outage when the cybersecurity firm CrowdStrike released a software file that caused millions of Windows computers worldwide to stop working. This <strong>knocked offline</strong> airlines, banks, television companies, and emergency call centers.</p>
+<p>Joseph Jarnecki, from the Royal United Services Institute, a UK defense think tank, says that if an outage is big and has a wide impact, it's probably not on purpose. Criminals who use ransomware – software that locks up data and demands payment for its release – are unlikely to target huge technology companies full of experts. They usually go after smaller, easier targets.</p>
+<p>Tim Stevens at King's College London says that ransomware attacks are increasingly aimed at small local governments and important infrastructure. The criminals' <strong>modus operandi</strong> is to break into systems, lock up something people rely on, and demand money. What could be a better target than a town's water supply, electricity grid, or local government services?</p>
+<p>In the UK, we've seen this happen with ransomware attacks on Hackney Council, Gloucester City Council, and Leicester City Council, as well as the NHS and water companies. Stevens says that the battle between hackers and security experts has been going on as long as computers have existed. Unfortunately, right now, the hackers are winning. "I've heard more people in the field saying in the last year or so that we're losing. Not just that we're behind, but we're actually losing."</p>
+<p>Hackers <strong>sponsored by</strong> countries like Russia and China are also unlikely to shut down an entire cloud provider. "They definitely target them, but not to destroy and disrupt," says Jarnecki. "Their attacks are very precisely targeted."</p>
+<p>One example of this is the 2023 attack on US government email accounts run by Microsoft. Microsoft said that a group <strong>linked to</strong> China hacked these accounts. The wider service was mostly unaffected, but the spies gained access to a lot of important US secrets.</p>
+<p>Sarah Kreps at Cornell University in New York says that countries also use targeted cyberattacks in what's now called the grey zone. This is a state of tension that isn't quite peace and isn't quite war, but is a carefully planned and controlled conflict that stops just before causing full-scale war.</p>
+<p>"This is a form of economic <strong>sanction</strong> in a way, because so much of our GDP, our economic well-being, depends on the internet. If you can shut that down, you're weakening your opponent's ability to create wealth. And the ability to create wealth is how you get the resources to fund a war, to fund allies in a war," she says.</p>
+<p>Kreps points out that Russia and China aren't the only ones doing this. We sometimes hear about Western cyber warfare – GCHQ and MI6 famously hacked into al-Qaeda's computers and changed a bomb recipe into a cupcake recipe – but it happens regularly, though it's highly secret and done behind closed doors.</p>
+<p>"Based on my conversations with the US intelligence community, I understand that it is going on," says Kreps. "There is a reason to weaken an opponent. There's a good reason to attack Russia because of their involvement in Ukraine, and there's a good reason to try to weaken China's capabilities as they become a major competitor."</p>
+<p>Stevens says that Western countries have <strong>limitations</strong> on the size and target of their cyberattacks because they are bound by the rule of law. "I have no doubt that our intelligence agencies and our security services are conducting cyber operations against Russian assets," says Stevens. "But it's difficult work, and lawyers are always involved, which puts restrictions on us. I think there's a lot of <strong>frustration</strong> about that."</p>
+<p>Regarding Claude, the chatbot is working again, and Anthropic told New Scientist: "We've seen huge demand for Claude in the last week, and our team is doing everything we can to quickly expand our infrastructure to keep up with the recent <strong>surge</strong> in use."`,
+    translationB2: `<p>Yaqinda sun'iy intellekt chatboti Claude'ning <strong>ishlamay qolishi</strong> tobora kuchayib borayotgan muammoning birgina misolidir: internetdagi uzilishlar. Bugungi internetning asosiy zaif tomoni ushbu hodisalarning ko'payishiga sabab bo'lmoqda.</p>
+<p>Bu hafta foydalanuvchilar Anthropic veb-sayti orqali Claude'ga kira olishmadi. Shunga o'xshash muammolar yirik texnologiya kompaniyalari, hukumat veb-saytlari va hatto kasalxonalar bilan muntazam ravishda sodir bo'ladi. Ushbu uzilishlarning ko'payishiga nima sabab bo'lmoqda?</p>
+<p>Ushbu muammolarning asosiy sabablaridan biri bulutli hisoblashga o'tishdir. Bu shuni anglatadiki, ko'plab veb-saytlar va xizmatlar endi Amazon va Microsoft kabi bir nechta yirik kompaniyalarga <strong>juda bog'liq</strong>. 1990-yillarda, internet yangi paydo bo'lganida, kompaniyalar odatda o'zlarining apparat va dasturiy ta'minotini boshqarishardi. Bu har bir biznes ko'chadagi alohida do'kon kabi edi. Agar bir do'konda muammo bo'lib, u yopilsa, boshqalarga ta'sir qilmasdi.</p>
+<p>Endi kompaniyalar hamma narsani bulutda joylashtirishga ko'proq moyil. Bu ko'chaning yo'li, kanalizatsiya tizimi va elektr ta'minoti hammasi bitta tizimga birlashtirilganga o'xshaydi. Agar bu tizim <strong>ishdan chiqsa</strong>, barcha do'konlarga ta'sir qiladi va hamma buni sezadi.</p>
+<p>Ba'zan, bu muammolar oddiy insoniy xatolar tufayli kelib chiqadi. Bunga yaxshi misol sifatida 2024-yilda CrowdStrike kiberxavfsizlik firmasi millionlab Windows kompyuterlarining butun dunyo bo'ylab ishlashini to'xtatib qo'ygan dasturiy ta'minot faylini chiqarishi oqibatida yuzaga kelgan uzilishni keltirish mumkin. Bu <strong>ishdan chiqardi</strong> aviakompaniyalar, banklar, televideniye kompaniyalari va favqulodda qo'ng'iroq markazlarini.</p>
+<p>Qirollik Birlashgan Xizmatlar Instituti, Buyuk Britaniya mudofaa tahlil markazidan Jozef Jarnecki, agar uzilish katta bo'lsa va keng ta'sirga ega bo'lsa, bu ehtimol qasddan emasligini aytadi. Ma'lumotlarni qulflab, uni ochish uchun to'lov talab qiladigan dasturiy ta'minot – ransomware'dan foydalanadigan jinoyatchilar, odatda, mutaxassislarga to'la bo'lgan yirik texnologiya kompaniyalarini nishonga olish ehtimoli kam. Ular odatda kichikroq, oson nishonlarni izlashadi.</p>
+<p>King's College London'dan Tim Stivensning aytishicha, ransomware hujumlari tobora kichik mahalliy hukumatlar va muhim infratuzilmalarga qaratilmoqda. Jinoyatchilarning <strong>ish uslubi</strong> tizimlarga kirib, odamlar ishonadigan narsani qulflash va pul talab qilishdir. Shaharning suv ta'minoti, elektr tarmog'i yoki mahalliy hukumat xizmatlaridan ko'ra yaxshiroq nishon nima bo'lishi mumkin?</p>
+<p>Buyuk Britaniyada biz buni Hackney Kengashi, Gloucester shahar Kengashi va Leicester shahar Kengashiga, shuningdek, NHS va suv kompaniyalariga ransomware hujumlari bilan sodir bo'lganini ko'rdik. Stivensning aytishicha, xakerlar va xavfsizlik bo'yicha mutaxassislar o'rtasidagi jang kompyuterlar mavjud bo'lganidan beri davom etmoqda. Afsuski, hozirda xakerlar g'alaba qozonmoqda. "So'nggi bir yil ichida bu sohada ko'proq odamlarning mag'lub bo'layotganimizni aytganini eshitdim. Shunchaki orqada qolayotganimiz emas, balki aslida mag'lub bo'layotganimizni."</p>
+<p>Rossiya va Xitoy kabi davlatlar <strong>homiyligidagi</strong> xakerlar ham butun bulut provayderini o'chirish ehtimoli kam. "Ular, albatta, ularni nishonga olishadi, lekin yo'q qilish va buzish uchun emas", deydi Jarnecki. "Ularning hujumlari juda aniq yo'naltirilgan."</p>
+<p>Bunga misol sifatida 2023-yilda Microsoft tomonidan boshqariladigan AQSh hukumatining elektron pochta hisoblariga qilingan hujumni keltirish mumkin. Microsoftning aytishicha, Xitoy bilan <strong>aloqador</strong> bo'lgan guruh ushbu hisoblarni buzib kirgan. Kengroq xizmat asosan ta'sirlanmagan, ammo josuslar AQShning ko'plab muhim sirlariga kirish imkoniyatiga ega bo'lishdi.</p>
+<p>Nyu-Yorkdagi Kornell universitetidan Sara Krepsning aytishicha, davlatlar hozirda kulrang zona deb ataladigan narsada maqsadli kiberhujumlardan ham foydalanadilar. Bu tinchlik ham emas, urush ham emas, balki to'liq miqyosli urushga olib kelishdan to'xtaydigan, ehtiyotkorlik bilan rejalashtirilgan va nazorat qilinadigan mojaro holatidir.</p>
+<p>"Bu bir jihatdan iqtisodiy <strong>sanksiya</strong>, chunki bizning YaIMning, iqtisodiy farovonligimizning katta qismi internetga bog'liq. Agar siz buni o'chirsangiz, raqibingizning boylik yaratish qobiliyatini susaytirasiz. Boylik yaratish qobiliyati esa urushni moliyalashtirish, urushda ittifoqchilarni moliyalashtirish uchun resurslarni qanday olishingizdir", deydi u.</p>
+<p>Krepsning ta'kidlashicha, Rossiya va Xitoy buni qilayotgan yagona davlatlar emas. Biz ba'zan G'arb kiberurushi haqida eshitamiz – GCHQ va MI6 mashhur tarzda al-Qoidaning kompyuterlarini buzib kirishdi va bomba retseptini kek retseptiga o'zgartirishdi – lekin bu muntazam ravishda sodir bo'ladi, garchi u juda maxfiy va yopiq eshiklar ortida amalga oshirilsa ham.</p>
+<p>"AQSh razvedka hamjamiyati bilan bo'lgan suhbatlarimga asoslanib, men buni davom etayotganini tushunaman", deydi Kreps. "Raqibni zaiflashtirish uchun sabab bor. Rossiyaning Ukrainadagi ishtiroki tufayli unga hujum qilish uchun yaxshi sabab bor va Xitoyning imkoniyatlarini asosiy raqobatchiga aylanayotgani sababli zaiflashtirishga harakat qilish uchun yaxshi sabab bor."</p>
+<p>Stivensning aytishicha, G'arb davlatlarining kiberhujumlarining hajmi va nishoniga cheklovlar mavjud, chunki ular qonun ustuvorligi bilan bog'langan. "Bizning razvedka agentliklarimiz va xavfsizlik xizmatlarimiz Rossiya aktivlariga qarshi kiberoperatsiyalar o'tkazayotganiga shubham yo'q", deydi Stivens. "Ammo bu qiyin ish va advokatlar har doim ishtirok etadi, bu bizga cheklovlar qo'yadi. Menimcha, bu haqda juda ko'p <strong>norozilik</strong> bor."</p>
+<p>Claude haqida aytadigan bo'lsak, chatbot yana ishlamoqda va Anthropic New Scientistga shunday dedi: "So'nggi hafta ichida Claude'ga bo'lgan talab juda katta bo'ldi va bizning jamoamiz yaqinda foydalanish <strong>o'sishiga</strong> moslashish uchun infratuzilmamizni tezda kengaytirish uchun qo'limizdan kelganini qilmoqda."</p>`,
+    vocabularyB2: {
+        "downtime": {
+                "definition": "A period when a system is unavailable.",
+                "uzbek": "Tizim ishlamay qolgan davr.",
+                "example": "The website experienced some downtime due to a server error.",
+                "exampleUzbek": "Veb-sayt server xatosi tufayli biroz vaqt ishlamay qoldi."
+        },
+        "depend heavily on": {
+                "definition": "To rely on something or someone to a great extent.",
+                "uzbek": "Nimadir yoki kimgadir katta darajada tayanish.",
+                "example": "The success of the project depends heavily on the team's cooperation.",
+                "exampleUzbek": "Loyihaning muvaffaqiyati jamoaning hamkorligiga katta bog'liq."
+        },
+        "fails": {
+                "definition": "Stops working correctly; breaks down.",
+                "uzbek": "To'g'ri ishlashni to'xtatadi; buziladi.",
+                "example": "If the power fails, the backup generator will automatically start.",
+                "exampleUzbek": "Agar elektr ta'minoti uzilib qolsa, zaxira generator avtomatik ravishda ishga tushadi."
+        },
+        "knocked offline": {
+                "definition": "To cause a device or system to become disconnected from the internet or a network.",
+                "uzbek": "Qurilma yoki tizimning internet yoki tarmoqdan uzilishiga sabab bo'lish.",
+                "example": "The cyberattack knocked several government websites offline.",
+                "exampleUzbek": "Kiberhujum bir nechta hukumat veb-saytlarini oflayn holatga keltirdi."
+        },
+        "modus operandi": {
+                "definition": "A particular way or method of doing something, especially one that is characteristic or habitual.",
+                "uzbek": "Biror narsani qilishning o'ziga xos usuli yoki metodi, ayniqsa xarakterli yoki odatiy bo'lgan.",
+                "example": "The thief's modus operandi involved breaking in through unlocked windows.",
+                "exampleUzbek": "O'g'rining harakat uslubi qulflanmagan derazalardan kirishni o'z ichiga olgan."
+        },
+        "sponsored by": {
+                "definition": "Supported or financed by.",
+                "uzbek": "Qo'llab-quvvatlangan yoki moliyalashtirilgan.",
+                "example": "The event was sponsored by several local businesses.",
+                "exampleUzbek": "Tadbirni bir nechta mahalliy korxonalar homiylik qildi."
+        },
+        "linked to": {
+                "definition": "Connected to or associated with something.",
+                "uzbek": "Nimadir bilan bog'langan yoki aloqador.",
+                "example": "The suspect is linked to several robberies in the area.",
+                "exampleUzbek": "Gumonlanuvchi hududdagi bir nechta o'g'irlik bilan bog'liq."
+        },
+        "sanction": {
+                "definition": "A penalty or coercive measure used to achieve compliance or enforce a law or rule.",
+                "uzbek": "Muvofiqlikka erishish yoki qonun yoki qoidani majburan bajarish uchun qo'llaniladigan jarima yoki majburiy chora.",
+                "example": "The country imposed economic sanctions on its neighbor.",
+                "exampleUzbek": "Mamlakat qo'shnisiga nisbatan iqtisodiy sanktsiyalar joriy qildi."
+        },
+        "limitations": {
+                "definition": "Restrictions or constraints.",
+                "uzbek": "Cheklovlar yoki to'siqlar.",
+                "example": "The software has some limitations in terms of data storage capacity.",
+                "exampleUzbek": "Dasturiy ta'minotda ma'lumotlarni saqlash hajmi bo'yicha ba'zi cheklovlar mavjud."
+        },
+        "frustration": {
+                "definition": "The feeling of being annoyed or upset because you cannot achieve something.",
+                "uzbek": "Biror narsaga erisha olmaslikdan kelib chiqadigan g'azablanish yoki xafa bo'lish hissi.",
+                "example": "He felt a lot of frustration when his computer crashed.",
+                "exampleUzbek": "Kompyuteri buzilganda u juda ko'p g'azablandi."
+        },
+        "surge": {
+                "definition": "A sudden large increase.",
+                "uzbek": "To'satdan katta o'sish.",
+                "example": "There has been a surge in demand for electric cars.",
+                "exampleUzbek": "Elektr avtomobillariga talab keskin oshdi."
+        },
+        "vulnerability": {
+                "definition": "A weakness or flaw that can be exploited.",
+                "uzbek": "Zaiflik yoki kamchilik, undan foydalanish mumkin.",
+                "example": "The software had a security vulnerability that hackers could exploit.",
+                "exampleUzbek": "Dasturiy ta'minotda xakerlar foydalanishi mumkin bo'lgan xavfsizlik zaifligi bor edi."
+        },
+        "disruptions": {
+                "definition": "Interruptions or disturbances that prevent something from continuing smoothly.",
+                "uzbek": "Biror narsaning ravon davom etishiga to'sqinlik qiladigan uzilishlar yoki buzilishlar.",
+                "example": "The strike caused major disruptions to public transport.",
+                "exampleUzbek": "Ish tashlash jamoat transportida katta uzilishlarga olib keldi."
+        },
+        "infrastructure": {
+                "definition": "The basic physical and organizational structures and facilities (e.g. buildings, roads, power supplies) needed for the operation of a society or enterprise.",
+                "uzbek": "Jamiyat yoki korxonaning ishlashi uchun zarur bo'lgan asosiy jismoniy va tashkiliy tuzilmalar va inshootlar (masalan, binolar, yo'llar, elektr ta'minoti).",
+                "example": "Investment in infrastructure is essential for economic growth.",
+                "exampleUzbek": "Iqtisodiy o'sish uchun infratuzilmaga investitsiya kiritish muhim."
+        },
+        "assets": {
+                "definition": "A useful or valuable thing or quality.",
+                "uzbek": "Foydali yoki qimmatli narsa yoki sifat.",
+                "example": "The company's most valuable assets are its employees.",
+                "exampleUzbek": "Kompaniyaning eng qimmatli aktivlari uning xodimlari."
+        }
+},
+    passageC1: `<p>The recent disruption to the AI chatbot Claude, rendering it inaccessible to users via Anthropic's platform, serves as a stark reminder of the escalating frequency of IT outages. Indeed, hardly a week seems to pass without a similar incident <strong>befalling</strong> a major technology corporation, governmental agency, or healthcare institution. The question then arises: what accounts for this apparent surge in such disruptions?</p>
+
+<p>A primary vulnerability within the modern internet infrastructure, and one that arguably <strong>underpins</strong> the growing incidence of these outages, lies in the widespread adoption of cloud computing. This paradigm shift means that a vast array of websites and online services are now critically dependent on a limited number of providers, such as Amazon and Microsoft. To illustrate, in the nascent stages of the commercial internet during the 1990s, businesses typically managed their own hardware and software, operating independently, much like individual shops on a high street. Consequently, if one entity experienced a problem, its operations would be suspended, but the remaining entities would remain unaffected. </p>
+
+<p>Conversely, contemporary businesses are increasingly inclined to host their entire operational infrastructure on the cloud, which can be likened to a consolidated road, sewage, and electrical system for the entire high street. Thus, a failure in this centralized system will <strong>inevitably</strong> lead to a widespread shutdown, impacting all reliant businesses and attracting significant public attention.</p>
+
+<p>In some instances, these disruptions can be attributed to simple human error. A particularly telling example is the 2024 outage triggered by cybersecurity firm CrowdStrike's release of a faulty software configuration file. This single error cascaded into a global crisis, <strong>crippling</strong> millions of Windows computers and disrupting critical services such as airlines, banks, television networks, and emergency call centres.</p>
+
+<p>Joseph Jarnecki, at the Royal United Services Institute, cautions against attributing large-scale, wide-ranging outages to malicious intent. He argues that ransomware perpetrators, who infiltrate systems, encrypt data, and demand payment for its release, are unlikely to <strong>embroil themselves</strong> in direct conflict with large, well-defended technology companies. Their preferred targets are typically smaller, more vulnerable entities.</p>
+
+<p>Tim Stevens at King's College London corroborates this, noting a growing trend of ransomware attacks targeting smaller local governments and infrastructure. The fundamental principle of their business model is to infiltrate and lock up essential services to extort a ransom. What could be more effective than targeting a town's water supply, electricity grid, or local government administration?</p>
+
+<p>The UK has witnessed several such incidents, including ransomware attacks against Hackney Council, Gloucester City Council, Leicester City Council, the NHS, and various water suppliers. Stevens highlights the ongoing 'cat-and-mouse' game between hackers and security experts that has persisted since the advent of computers. Regrettably, he suggests that the hackers currently hold the upper hand. "I've heard, in the last year or so, more people than normal from the profession saying that we're losing. Not just that we're behind, but we're actually losing." This represents a <strong>grim assessment</strong> of the current cybersecurity landscape.</p>
+
+<p>State-sponsored actors from nations like Russia and China are also unlikely to target a complete cloud provider for disruption. "They definitely target them, but not to destroy and disrupt," says Jarnecki. "They're incredibly highly targeted." Their objectives are typically more nuanced and strategic.</p>
+
+<p>The 2023 attack on Microsoft-run US government email accounts, attributed by Microsoft to a China-linked group, exemplifies this approach. While the broader service remained largely unaffected, the attackers gained access to a wealth of sensitive US intelligence, highlighting the potential for espionage rather than outright disruption.</p>
+
+<p>Sarah Kreps at Cornell University suggests that targeted cyberattacks are frequently employed by nations in the so-called 'grey zone' – a state of tension falling short of outright war, but involving carefully calibrated actions just <strong>shy of</strong> all-out conflict.</p>
+
+<p>"This is a form of economic sanction in a way, because so much of our GDP, our economic welfare, relies on the internet. If you can take that down, you're handicapping the adversaries' ability to generate wealth. And the ability to generate wealth is how you develop the resources to fund a war, to fund allies in a war," she says. This highlights the <strong>far-reaching</strong> implications of cyber warfare.</p>
+
+<p>Kreps also notes that Russia and China are not the only actors engaging in such activities. Although Western cyber warfare efforts, such as the reported GCHQ and MI6 hacking of al-Qaeda computers to alter bomb recipes, are less frequently publicized, they occur regularly, albeit under strict classification and <strong>clandestinely</strong>.</p>
+
+<p>"My understanding, based on interactions with the US intelligence community, is that that is going on," says Kreps. "You do have an incentive to erode the strength of an adversary. There's a good motive behind [attacks on] Russia for their involvement in Ukraine and there's a good motive for trying to erode China's capabilities as they become a peer competitor." This underscores the strategic dimension of cyber operations.</p>
+
+<p>Stevens suggests that Western nations are constrained in the scope and targets of their cyberattacks by a strong commitment to the rule of law, unlike some other countries. "I have no doubt whatsoever that our intelligence agencies and our security services in general are conducting operations in cyber against Russian assets," says Stevens. "But it's hard work and there are lawyers always in the room and we are somewhat constrained. I think there's a lot of frustration about that." This highlights the <strong>ethical considerations</strong> that shape Western cyber warfare strategies.</p>
+
+<p>Regarding Claude, the chatbot has since been restored, and Anthropic stated to New Scientist: "We've seen incredible demand for Claude over the last week and our team is doing everything we can to scale our infrastructure as quickly as possible to keep pace with the recent surge." This suggests that the outage may have <strong>stemmed from</strong> an inability to meet unexpectedly high user demand, rather than a malicious attack. The <strong>underlying issue</strong> seems to be scalability.</p>`,
+    translationC1: `<p>Yaqinda Anthropic platformasi orqali foydalanuvchilar uchun mavjud boʻlmay qolgan Claude AI chatbotidagi uzilish, ITdagi nosozliklar tobora tez-tez uchrayotganining yaqqol eslatmasidir. Haqiqatan ham, yirik texnologiya korporatsiyasi, hukumat agentligi yoki sogʻliqni saqlash muassasasi bilan shunga oʻxshash hodisa <strong>sodir boʻlmaydigan</strong> bir hafta ham oʻtmayotgandek. Shundan soʻng savol tugʻiladi: bunday uzilishlarning koʻpayishiga nima sabab boʻlmoqda?</p>
+
+<p>Zamonaviy internet infratuzilmasidagi asosiy zaiflik va, ehtimol, ushbu nosozliklarning koʻpayishiga <strong>asos soluvchi</strong> omil bulutli hisoblashning keng tarqalganligidir. Ushbu paradigma oʻzgarishi shuni anglatadiki, veb-saytlar va onlayn xizmatlarning katta qismi hozirda Amazon va Microsoft kabi cheklangan miqdordagi provayderlarga juda bogʻliq. Misol uchun, 1990-yillarda tijorat internetining dastlabki bosqichlarida biznes odatda oʻz apparat va dasturiy taʼminotini mustaqil ravishda boshqargan, xuddi koʻchadagi alohida doʻkonlar kabi. Natijada, agar bir tashkilotda muammo yuzaga kelsa, uning faoliyati toʻxtatilib, qolgan tashkilotlar taʼsirlanmas edi.</p>
+
+<p>Aksincha, zamonaviy biznes tobora oʻzining butun operatsion infratuzilmasini bulutda joylashtirishga moyil boʻlib, bu butun koʻcha uchun birlashtirilgan yoʻl, kanalizatsiya va elektr tizimiga oʻxshatilishi mumkin. Shunday qilib, ushbu markazlashtirilgan tizimdagi nosozlik <strong>muqarrar ravishda</strong> keng koʻlamli toʻxtashga olib keladi, bu esa unga bogʻliq boʻlgan barcha bizneslarga taʼsir qiladi va jamoatchilikning katta eʼtiborini tortadi.</p>
+
+<p>Baʼzi hollarda, bu uzilishlar oddiy inson omili bilan bogʻliq boʻlishi mumkin. Ayniqsa, 2024-yilda kiberxavfsizlik firmasi CrowdStrike tomonidan notoʻgʻri dasturiy taʼminot konfiguratsiya faylining chiqarilishi natijasida kelib chiqqan uzilish bunga yaqqol misoldir. Ushbu yagona xato global inqirozga aylanib, millionlab Windows kompyuterlarini <strong>ishdan chiqarib</strong>, aviakompaniyalar, banklar, televideniye tarmoqlari va favqulodda chaqiruv markazlari kabi muhim xizmatlarni buzdi.</p>
+
+<p>Royal United Services Institutidan Jozef Jarnecki keng koʻlamli, keng doiradagi uzilishlarni yovuz niyatga bogʻlashdan ogohlantiradi. Uning taʼkidlashicha, tizimlarga kirib, maʼlumotlarni shifrlaydigan va uni ozod qilish uchun toʻlov talab qiladigan toʻlov dasturi jinoyatchilarining yirik, yaxshi himoyalangan texnologiya kompaniyalari bilan toʻgʻridan-toʻgʻri mojaro <strong>ichiga kirib qolishi</strong> dargumon. Ularning afzal koʻrgan nishonlari odatda kichikroq, zaifroq tashkilotlardir.</p>
+
+<p>King's College London'dan Tim Stevens buni tasdiqlab, kichikroq mahalliy hukumatlar va infratuzilmalarga qaratilgan toʻlov dasturi hujumlarining ortib borayotgan tendentsiyasini qayd etadi. Ularning biznes modelining asosiy printsipi - toʻlov undirish uchun muhim xizmatlarga kirib, ularni qulflash. Shahar suv taʼminoti, elektr tarmogʻi yoki mahalliy hukumat maʼmuriyatini nishonga olishdan koʻra samaraliroq nima boʻlishi mumkin?</p>
+
+<p>Buyuk Britaniya bir nechta shunday hodisalarga guvoh boʻldi, jumladan, Hackney Kengashi, Gloucester shahar Kengashi, Leicester shahar Kengashi, NHS va turli xil suv taʼminotchilariga qarshi toʻlov dasturi hujumlari. Stevens kompyuterlar paydo boʻlganidan beri davom etib kelayotgan xakerlar va xavfsizlik ekspertlari oʻrtasidagi doimiy "mushuk-sichqon" oʻyinini taʼkidlaydi. Afsuski, u xakerlar hozirda ustunlikka ega ekanligini taʼkidlaydi. "Soʻnggi bir yil ichida men professionallar orasida biz yutqazayotganimizni aytayotgan odamlarni odatdagidan koʻproq eshitdim. Shunchaki orqada qolayotganimiz emas, balki biz haqiqatan ham yutqazayapmiz." Bu hozirgi kiberxavfsizlik landshaftiga <strong>qorongʻu baho</strong> beradi.</p>
+
+<p>Rossiya va Xitoy kabi davlat tomonidan homiylik qilinadigan aktyorlar ham toʻliq bulut provayderini buzish uchun nishonga olishi dargumon. "Ular, albatta, ularni nishonga olishadi, lekin yoʻq qilish va buzish uchun emas", deydi Jarnecki. "Ular juda maqsadli." Ularning maqsadlari odatda yanada nozik va strategikdir.</p>
+
+<p>Microsoft tomonidan Xitoy bilan aloqador guruhga tegishli deb topilgan Microsoft tomonidan boshqariladigan AQSh hukumatining elektron pochta hisoblariga 2023-yilda qilingan hujum bunga misol boʻla oladi. Kengroq xizmat asosan taʼsirlanmagan boʻlsa-da, hujum qiluvchilar AQSh razvedkasining katta miqdordagi sezgir maʼlumotlariga kirish imkoniyatiga ega boʻlishdi, bu esa toʻgʻridan-toʻgʻri buzishdan koʻra josuslik ehtimolini taʼkidlaydi.</p>
+
+<p>Cornell Universitetidan Sara Krepsning taʼkidlashicha, maqsadli kiberhujumlar koʻpincha davlatlar tomonidan "kulrang hudud" deb ataladigan hududda qoʻllaniladi - bu toʻliq urushdan qisqa boʻlgan, ammo ehtiyotkorlik bilan kalibrlangan harakatlarni oʻz ichiga oladi, faqatgina <strong>toʻliq</strong> mojaro emas.</p>
+
+<p>"Bu qandaydir maʼnoda iqtisodiy sanktsiya, chunki bizning YaIMimizning, iqtisodiy farovonligimizning katta qismi internetga bogʻliq. Agar siz uni olib tashlasangiz, siz raqiblarning boylik yaratish qobiliyatini cheklaysiz. Boylik yaratish qobiliyati esa urushni moliyalashtirish, urushda ittifoqchilarni moliyalashtirish uchun resurslarni rivojlantirish usulidir", deydi u. Bu kiber urushning <strong>keng qamrovli</strong> oqibatlarini taʼkidlaydi.</p>
+
+<p>Kreps, shuningdek, Rossiya va Xitoy bunday faoliyat bilan shugʻullanadigan yagona aktyorlar emasligini taʼkidlaydi. Garchi Gʻarbning kiber urush harakatlari, masalan, GCHQ va MI6 al-Qoida kompyuterlarini buzib, bomba retseptlarini oʻzgartirgani haqida xabar berilgan boʻlsa-da, ular kamroq eʼlon qilinadi, ammo ular muntazam ravishda, qatʼiy tasniflash va <strong>maxfiy</strong> tarzda sodir boʻladi.</p>
+
+<p>"AQSh razvedka hamjamiyati bilan boʻlgan muloqotlarga asoslanib, mening tushunishimcha, bu davom etmoqda", deydi Kreps. "Sizda raqibning kuchini yoʻqotish uchun ragʻbat bor. Rossiyaning Ukrainadagi ishtiroki uchun [hujumlarda] yaxshi sabab bor va Xitoyning tengdosh raqobatchiga aylanayotgani sababli uning imkoniyatlarini yoʻqotishga urinish uchun yaxshi sabab bor." Bu kiber operatsiyalarning strategik oʻlchovini taʼkidlaydi.</p>
+
+<p>Stevensning taʼkidlashicha, Gʻarb davlatlari kiberhujumlarining koʻlami va nishonlarida qonun ustuvorligiga kuchli sodiqlik bilan cheklangan, boshqa baʼzi davlatlardan farqli oʻlaroq. "Mening razvedka agentliklarimiz va xavfsizlik xizmatlarimiz umuman Rossiya aktivlariga qarshi kiber sohasida operatsiyalar olib borayotganiga hech qanday shubham yoʻq", deydi Stevens. "Ammo bu qiyin ish va xonada har doim advokatlar bor va biz biroz cheklanganmiz. Menimcha, bu haqda koʻplab noroziliklar bor." Bu Gʻarbning kiber urush strategiyalarini shakllantiradigan <strong>axloqiy mulohazalarni</strong> taʼkidlaydi.</p>
+
+<p>Claudega kelsak, chatbot tiklandi va Anthropic New Scientistga shunday dedi: "Soʻnggi hafta ichida Claudega boʻlgan talab juda katta boʻldi va bizning jamoamiz soʻnggi oʻsishga javob berish uchun infratuzilmamizni imkon qadar tezroq kengaytirish uchun qoʻlidan kelganini qilmoqda." Bu uzilish yovuz hujumdan koʻra, kutilmagan yuqori foydalanuvchi talabini qondira olmaslikdan <strong>kelib chiqqan</strong> boʻlishi mumkinligini koʻrsatadi. <strong>Asosiy muammo</strong> kengaytirilishga bogʻliq koʻrinadi.</p>`,
+    vocabularyC1: {
+        "befalling": {
+                "definition": "happening to (someone or something)",
+                "uzbek": "sodir bo'lish",
+                "example": "A tragedy befell the family when their house burned down.",
+                "exampleUzbek": "Oilaning uyi yonib ketganda fojia yuz berdi."
+        },
+        "underpins": {
+                "definition": "supports or forms the basis of (an argument, claim, etc.)",
+                "uzbek": "asos bo'lmoq",
+                "example": "This research underpins his theory.",
+                "exampleUzbek": "Ushbu tadqiqot uning nazariyasiga asos bo'ladi."
+        },
+        "inevitably": {
+                "definition": "as is certain to happen; unavoidably.",
+                "uzbek": "muqarrar ravishda",
+                "example": "Delays inevitably lead to frustration.",
+                "exampleUzbek": "Kechikishlar muqarrar ravishda umidsizlikka olib keladi."
+        },
+        "crippling": {
+                "definition": "causing serious damage or harm.",
+                "uzbek": "shol qiluvchi",
+                "example": "The strike had a crippling effect on the economy.",
+                "exampleUzbek": "Ish tashlash iqtisodiyotga shol qiluvchi ta'sir ko'rsatdi."
+        },
+        "embroil themselves": {
+                "definition": "involve (someone) deeply in an argument, conflict, or difficult situation.",
+                "uzbek": "o'ralashib qolmoq",
+                "example": "They didn't want to embroil themselves in the dispute.",
+                "exampleUzbek": "Ular bahsga o'ralashib qolishni xohlamadilar."
+        },
+        "grim assessment": {
+                "definition": "a serious and pessimistic evaluation or judgment.",
+                "uzbek": "qattiq baho",
+                "example": "The report offered a grim assessment of the country's economic future.",
+                "exampleUzbek": "Hisobot mamlakatning iqtisodiy kelajagiga qattiq baho berdi."
+        },
+        "shy of": {
+                "definition": "just short of a particular level or amount.",
+                "uzbek": "ozgina yetmay",
+                "example": "The project was shy of its funding goal.",
+                "exampleUzbek": "Loyiha moliyalashtirish maqsadiga ozgina yetmadi."
+        },
+        "far-reaching": {
+                "definition": "having a wide range of effects or influence.",
+                "uzbek": "keng qamrovli",
+                "example": "The new law will have far-reaching consequences.",
+                "exampleUzbek": "Yangi qonun keng qamrovli oqibatlarga olib keladi."
+        },
+        "clandestinely": {
+                "definition": "in a secretive or surreptitious manner.",
+                "uzbek": "yashirincha",
+                "example": "They met clandestinely to discuss their plans.",
+                "exampleUzbek": "Ular rejalarni muhokama qilish uchun yashirincha uchrashdilar."
+        },
+        "ethical considerations": {
+                "definition": "moral principles that govern a person's behavior or the conducting of an activity.",
+                "uzbek": "axloqiy mulohazalar",
+                "example": "The research raised several ethical considerations.",
+                "exampleUzbek": "Tadqiqot bir qancha axloqiy mulohazalarni keltirib chiqardi."
+        },
+        "stemmed from": {
+                "definition": "originated in or was caused by.",
+                "uzbek": "kelib chiqqan",
+                "example": "The problem stemmed from a lack of communication.",
+                "exampleUzbek": "Muammo aloqa yetishmasligidan kelib chiqqan."
+        },
+        "underlying issue": {
+                "definition": "the fundamental problem or cause.",
+                "uzbek": "asosiy muammo",
+                "example": "The discussion failed to address the underlying issue.",
+                "exampleUzbek": "Muhokama asosiy muammoni hal qila olmadi."
+        }
+}
 };

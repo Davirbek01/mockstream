@@ -1,0 +1,47 @@
+// Flashcard Data: Technology & Devices — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "📱 Technology & Devices: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Technology & Devices",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "to future-proof", en: "", uz: "kelajak kafolati", uzDef: "Texnologiyaning kelajakda ham ishlay olishini ta'minlash, eskirishdan saqlash.", ex: "We need to future-proof our systems against emerging threats.", exUz: "Biz yangi tahdidlardan himoya qilish uchun tizimlarimizni kelajakka moslashtirishimiz kerak."},
+    {term: "digital transformation", en: "", uz: "raqamli o'zgarish", uzDef: "Texnologiyalarni qo'llash orqali biznes yoki tashkilotni tubdan o'zgartirish.", ex: "The company is undergoing a massive digital transformation.", exUz: "Kompaniya katta raqamli o'zgarishlarni boshidan kechirmoqda."},
+    {term: "to brick a device", en: "", uz: "devaysni buzish", uzDef: "Texnik nosozlik tufayli qurilmani ishlamaydigan holatga keltirib qo'yish.", ex: "I accidentally bricked my phone while trying to install a custom ROM.", exUz: "Men tasodifan telefonimni maxsus ROM o'rnatmoqchi bo'lganimda buzib qo'ydim."},
+    {term: "to stay connected", en: "", uz: "aloqada bo'lish", uzDef: "Internet, telefon yoki boshqa texnologiyalar orqali doimiy aloqada bo'lish.", ex: "It's easier than ever to stay connected with family overseas.", exUz: "Chet eldagi oila a'zolari bilan aloqada bo'lish har qachongidan ham osonroq."},
+    {term: "bandwidth constraints", en: "", uz: "tarmoq cheklovlari", uzDef: "Internet tezligining yetishmasligi, tarmoq o'tkazuvchanligining kamligi.", ex: "Video conferencing can be difficult due to bandwidth constraints.", exUz: "Video konferensiya tarmoq cheklovlari tufayli qiyin bo'lishi mumkin."},
+    {term: "to get hacked", en: "", uz: "buzib kirish", uzDef: "Kompyuter tizimi yoki akkauntga ruxsatsiz kirish.", ex: "My email account got hacked last week.", exUz: "O'tgan hafta elektron pochtam buzib kirildi."},
+    {term: "the Internet of Things", en: "", uz: "narsalar interneti", uzDef: "Bir-biri bilan bog'langan va ma'lumot almashadigan qurilmalar tarmog'i.", ex: "The Internet of Things is transforming our homes and cities.", exUz: "Narsalar interneti uylarimizni va shaharlarimizni o'zgartirmoqda."},
+    {term: "remote access", en: "", uz: "masofadan ulanish", uzDef: "Boshqa joydan turib kompyuter yoki tarmoqqa ulanish.", ex: "I use remote access to work from home.", exUz: "Men uydan ishlash uchun masofadan ulanishdan foydalanaman."},
+    {term: "a technological leap", en: "", uz: "texnologik sakrash", uzDef: "Texnologiyadagi katta, sezilarli rivojlanish.", ex: "The invention of the microchip was a technological leap forward.", exUz: "Mikrochipning ixtirosi texnologik sakrash edi."},
+    {term: "user interface", en: "", uz: "foydalanuvchi interfeysi", uzDef: "Dastur yoki qurilma bilan foydalanuvchi o'rtasidagi aloqa usuli.", ex: "The new software has a very intuitive user interface.", exUz: "Yangi dastur juda tushunarli foydalanuvchi interfeysiga ega."},
+    {term: "data mining", en: "", uz: "ma'lumot qazish", uzDef: "Katta hajmdagi ma'lumotlardan foydali ma'lumotlarni topish jarayoni.", ex: "Data mining can reveal valuable insights about customer behavior.", exUz: "Ma'lumot qazish mijozlar xulq-atvori haqida qimmatli ma'lumotlarni ochib berishi mumkin."},
+    {term: "digital divide widens", en: "", uz: "raqamli tafovut kengayadi", uzDef: "Texnologiyalarga ega bo'lganlar va bo'lmaganlar o'rtasidagi farqning ortishi.", ex: "The pandemic has shown how the digital divide widens inequality.", exUz: "Pandemiya raqamli tafovut tengsizlikni qanday kengaytirishini ko'rsatdi."},
+    {term: "to troubleshoot", en: "", uz: "nosozlikni bartaraf etish", uzDef: "Muammoning sababini aniqlash va uni hal qilishga harakat qilish.", ex: "I spent hours trying to troubleshoot the network connection.", exUz: "Men soatlab tarmoq ulanishidagi nosozlikni bartaraf etishga harakat qildim."},
+    {term: "cloud computing", en: "", uz: "bulutli hisoblash", uzDef: "Internet orqali serverlar, xotira, dasturlar kabi resurslarga kirish.", ex: "Cloud computing has made it easier to collaborate on projects.", exUz: "Bulutli hisoblash loyihalarda hamkorlik qilishni osonlashtirdi."},
+    {term: "a disruptive technology", en: "", uz: "buzg'unchi texnologiya", uzDef: "Mavjud bozorlarni o'zgartiradigan yangi texnologiya.", ex: "The smartphone was a disruptive technology that changed the world.", exUz: "Smartfon dunyoni o'zgartirgan buzg'unchi texnologiya edi."},
+    {term: "digital literacy skills", en: "", uz: "raqamli savodxonlik ko'nikmalari", uzDef: "Texnologiyalardan samarali va xavfsiz foydalanish qobiliyati.", ex: "We need to improve digital literacy skills among older adults.", exUz: "Biz keksa avlod orasida raqamli savodxonlik ko'nikmalarini oshirishimiz kerak."},
+    {term: "to be glued to", en: "", uz: "yopishib qolmoq", uzDef: "Diqqatni jalb qiluvchi narsaga to'liq berilib ketmoq (masalan, ekranga).", ex: "The kids are glued to their tablets all day.", exUz: "Bolalar kun bo'yi planshetlariga yopishib qolishgan."},
+    {term: "out of range", en: "", uz: "qamrovdan tashqari", uzDef: "Simsiz aloqa (telefon, Wi-Fi) signali yetarli bo'lmagan joyda bo'lish.", ex: "I'm out of range here, so I can't make a call.", exUz: "Men bu yerda qamrovdan tashqaridaman, shuning uchun qo'ng'iroq qila olmayman."},
+    {term: "to take offline", en: "", uz: "oflaynga olib chiqish", uzDef: "Internet yoki tarmoqdan uzib qo'yish, onlayn muhitdan olib tashlash.", ex: "Let's take this discussion offline; it's getting too detailed.", exUz: "Keling, bu muhokamani oflaynga olib chiqaylik; u juda batafsil bo'lib ketyapti."},
+    {term: "a privacy breach", en: "", uz: "maxfiylik buzilishi", uzDef: "Shaxsiy ma'lumotlarning ruxsatsiz tarqalishi yoki o'g'irlanishi.", ex: "The company suffered a major privacy breach last year.", exUz: "Kompaniya o'tgan yili katta maxfiylik buzilishiga duch keldi."},
+    {term: "virtual reality (VR)", en: "", uz: "virtual reallik", uzDef: "Kompyuter tomonidan yaratilgan sun'iy muhit.", ex: "Virtual reality is becoming more immersive and affordable.", exUz: "Virtual reallik tobora immersiv va arzonlashib bormoqda."},
+    {term: "augmented reality (AR)", en: "", uz: "kengaytirilgan reallik", uzDef: "Haqiqiy dunyoga kompyuter tomonidan yaratilgan elementlarni qo'shish.", ex: "Augmented reality apps can overlay digital information onto the real world.", exUz: "Kengaytirilgan reallik ilovalari raqamli ma'lumotlarni haqiqiy dunyoga joylashtirishi mumkin."},
+    {term: "the bleeding edge", en: "", uz: "eng so'nggi chegara", uzDef: "Texnologiyaning eng yangi, hali sinovdan o'tmagan bosqichi.", ex: "Investing in the bleeding edge can be risky but also rewarding.", exUz: "Eng so'nggi chegaraga sarmoya kiritish xavfli bo'lishi mumkin, lekin ayni paytda foydali hamdir."},
+    {term: "a zero-day exploit", en: "", uz: "nol kunlik zaiflik", uzDef: "Dasturdagi xavfsizlik zaifligi, tuzatuvchi patch chiqishidan oldin.", ex: "The company was hit by a zero-day exploit that compromised its data.", exUz: "Kompaniyaga nol kunlik zaiflik hujum qildi, bu uning ma'lumotlariga zarar yetkazdi."},
+    {term: "device agnostic", en: "", uz: "qurilmaga bog'liq emas", uzDef: "Har xil turdagi qurilmalarda ishlashi mumkin bo'lgan dastur yoki texnologiya.", ex: "Our platform is device agnostic, so it works on any smartphone.", exUz: "Bizning platformamiz qurilmaga bog'liq emas, shuning uchun u har qanday smartfonda ishlaydi."},
+    {term: "geofencing technology", en: "", uz: "geofensing texnologiyasi", uzDef: "Virtual chegara yaratish orqali qurilmalarning joylashuvini aniqlash texnologiyasi.", ex: "Geofencing technology can be used for location-based marketing.", exUz: "Geofensing texnologiyasi joylashuvga asoslangan marketing uchun ishlatilishi mumkin."},
+    {term: "tech adoption rate", en: "", uz: "texnologiya qabul qilish darajasi", uzDef: "Yangi texnologiyaning aholi yoki bozor tomonidan qabul qilinish tezligi.", ex: "The tech adoption rate for electric vehicles is increasing rapidly.", exUz: "Elektromobillarni texnologiya sifatida qabul qilish darajasi tez sur'atlar bilan o'sib bormoqda."},
+    {term: "data-driven decisions", en: "", uz: "ma'lumotga asoslangan qarorlar", uzDef: "Ma'lumotlar tahlili asosida qabul qilingan qarorlar.", ex: "The company makes data-driven decisions to improve its performance.", exUz: "Kompaniya faoliyatini yaxshilash uchun ma'lumotlarga asoslangan qarorlar qabul qiladi."},
+    {term: "to automate tasks", en: "", uz: "vazifalarni avtomatlashtirish", uzDef: "Vazifalarni avtomatik tarzda bajarish uchun texnologiyalardan foydalanish.", ex: "We use software to automate many of our repetitive tasks.", exUz: "Biz takrorlanuvchi vazifalarimizning ko'pini avtomatlashtirish uchun dasturiy ta'minotdan foydalanamiz."},
+    {term: "the digital age", en: "", uz: "raqamli davr", uzDef: "Axborot va aloqa texnologiyalarining keng tarqalgan davri.", ex: "We are living in the digital age, where technology is constantly evolving.", exUz: "Biz raqamli davrda yashayapmiz, bunda texnologiya doimo rivojlanib bormoqda."}
+  ]
+};

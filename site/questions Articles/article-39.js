@@ -309,4 +309,299 @@ window.ARTICLE_DATA = {
             answer: "Answers may vary. Some would write to ensure action is taken and problems are addressed at the highest level; others prefer less formal approaches or feel it's too much effort. Depends on severity of the issue."
         }
     ]
+,
+    passageB1: `<p>Furniture By Design<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p>
+<p>15 April 2002</p>
+<p>Mrs Marjorie Wood<br>12 Castle Road<br>Blandwell, BL3 6NB</p>
+<p>Dear Mrs Wood,</p>
+<p>I was very <strong>sorry</strong> to get your letter from 12 April. I want to say I am very <strong>sorry</strong> for the problems you had with the late delivery of your furniture. I know that the sofa beds arrived yesterday and were in good condition.</p>
+<p>I have <strong>looked into</strong> this. It seems our advertising was more successful than we thought. We sold a lot of furniture, especially sofa beds. We sold so much that we didn't have enough in our <strong>warehouse</strong>. We were <strong>successful</strong>, but we didn't have enough products to sell.</p>
+<p>We wanted to get all the orders delivered before Christmas, but we didn't have enough furniture. This is not usually a problem because our suppliers are usually very <strong>reliable</strong> and fast. But they had a small <strong>problem</strong> with their new computer system. They could not send us as much furniture as we needed. They had to <strong>fix</strong> the system to get it working again for Christmas.</p>
+<p>We tried to find another supplier to help us, but we couldn't find one. We didn't want to sell furniture that was not as good <strong>quality</strong>. So, we had to wait for our usual supplier to fix their machines. We think quality is very important to our customers.</p>
+<p>I am <strong>sorry to hear</strong> you had problems with our complaints process. I found out that we had fewer people working on the helpline because many people were <strong>sick</strong> with the flu.</p>
+<p>I am sorry that so many things went wrong. Most of the problems were things we couldn't <strong>control</strong>. Again, I <strong>apologize</strong> for the problems this caused you. We <strong>value</strong> your business and hope you will continue to be our customer.</p>
+<p>Yours sincerely,<br>Ernest Blake<br>Chief Executive</p>`,
+    translationB1: `<p>“Furniture By Design”<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p>
+<p>2002 yil, 15 aprel</p>
+<p>Marjorie Vud xonimga<br>12 Castle Road<br>Blandwell, BL3 6NB</p>
+<p>Hurmatli Vud xonim,</p>
+<p>12 apreldagi xatingizni olganimdan juda <strong>afsusdaman</strong>. Sizning mebellaringizning kech yetkazib berilishi bilan bog‘liq muammolar uchun juda <strong>kechirim</strong> so‘ramoqchiman. Bilaman, divan-krovatlar kecha yetib kelgan va yaxshi holatda edi.</p>
+<p>Men buni <strong>o‘rganib chiqdim</strong>. Ko‘rinishidan, reklamamiz biz o‘ylagandan ham muvaffaqiyatli bo‘ldi. Biz juda ko‘p mebel, ayniqsa, divan-krovatlar sotdik. Shunchalik ko‘p sotdikki, <strong>omborimizda</strong> yetarli emas edi. Biz <strong>muvaffaqiyatli</strong> bo‘ldik, lekin sotish uchun yetarli mahsulotimiz yo‘q edi.</p>
+<p>Biz Rojdestvodan oldin barcha buyurtmalarni yetkazib bermoqchi edik, lekin yetarli mebelimiz yo‘q edi. Odatda bu muammo emas, chunki yetkazib beruvchilarimiz odatda juda <strong>ishonchli</strong> va tezkor. Ammo ularning yangi kompyuter tizimida kichik <strong>muammo</strong> bor edi. Ular bizga kerak bo‘lgancha mebel yubora olmadilar. Ular Rojdestvo uchun qayta ishlashi uchun tizimni <strong>tuzatishlari</strong> kerak edi.</p>
+<p>Biz yordam berish uchun boshqa yetkazib beruvchini topishga harakat qildik, lekin topa olmadik. Biz sifati yaxshi bo‘lmagan mebellarni sotishni xohlamadik. Shunday qilib, biz odatdagi yetkazib beruvchimizning mashinalarini tuzatishini kutishimiz kerak edi. Biz sifat mijozlarimiz uchun juda muhim deb o'ylaymiz.</p>
+<p>Sizning shikoyatlar jarayoni bilan bog'liq muammolaringizni <strong>eshitib afsusdaman</strong>. Men bilib oldimki, yordam liniyasida kamroq odam ishlagan, chunki ko'pchilik gripp bilan <strong>kasal</strong> edi.</p>
+<p>Shuncha narsa noto'g'ri ketganidan afsusdaman. Muammolarning aksariyati biz <strong>nazorat</strong> qila olmaydigan narsalar edi. Yana bir bor, sizga yetkazilgan muammolar uchun <strong>kechirim so‘rayman</strong>. Biz sizning biznesingizni <strong>qadrlaymiz</strong> va umid qilamizki, siz bizning mijozimiz bo'lib qolasiz.</p>
+<p>Hurmat bilan,<br>Ernest Bleyk<br>Bosh direktor</p>`,
+    vocabularyB1: {
+        "sorry": {
+                "definition": "Feeling sadness or regret.",
+                "uzbek": "Afsusda bo'lish",
+                "example": "I am sorry that I made you cry.",
+                "exampleUzbek": "Sizni yig'latganimdan afsusdaman."
+        },
+        "looked into": {
+                "definition": "Investigated or examined a situation.",
+                "uzbek": "Tekshirib ko'rdim",
+                "example": "The police looked into the crime.",
+                "exampleUzbek": "Politsiya jinoyatni tekshirdi."
+        },
+        "warehouse": {
+                "definition": "A large building used for storing goods.",
+                "uzbek": "Ombor",
+                "example": "The furniture is stored in a warehouse.",
+                "exampleUzbek": "Mebel omborda saqlanadi."
+        },
+        "successful": {
+                "definition": "Achieving the desired aim or result.",
+                "uzbek": "Muvaffaqiyatli",
+                "example": "The business was very successful.",
+                "exampleUzbek": "Biznes juda muvaffaqiyatli edi."
+        },
+        "reliable": {
+                "definition": "Can be trusted or depended on.",
+                "uzbek": "Ishonchli",
+                "example": "He is a reliable friend.",
+                "exampleUzbek": "U ishonchli do'st."
+        },
+        "problem": {
+                "definition": "A difficult situation.",
+                "uzbek": "Muammo",
+                "example": "We have a problem with the car.",
+                "exampleUzbek": "Mashina bilan muammomiz bor."
+        },
+        "fix": {
+                "definition": "To repair something that is broken.",
+                "uzbek": "Tuzatmoq",
+                "example": "I need to fix my bicycle.",
+                "exampleUzbek": "Velosipedimni tuzatishim kerak."
+        },
+        "quality": {
+                "definition": "How good or bad something is.",
+                "uzbek": "Sifat",
+                "example": "The quality of the food is excellent.",
+                "exampleUzbek": "Ovqatning sifati juda yaxshi."
+        },
+        "sorry to hear": {
+                "definition": "Expressing sadness or regret about something.",
+                "uzbek": "Eshitganimdan afsusdaman",
+                "example": "I'm sorry to hear about your accident.",
+                "exampleUzbek": "Baxtsiz hodisa haqida eshitganimdan afsusdaman."
+        },
+        "sick": {
+                "definition": "Not in good health; ill.",
+                "uzbek": "Kasal",
+                "example": "She is sick with the flu.",
+                "exampleUzbek": "U gripp bilan kasal."
+        },
+        "control": {
+                "definition": "The power to influence or direct people's behavior or the course of events.",
+                "uzbek": "Nazorat",
+                "example": "I can't control my anger.",
+                "exampleUzbek": "Men g'azabimni nazorat qila olmayman."
+        },
+        "apologize": {
+                "definition": "To say that you are sorry for doing something wrong.",
+                "uzbek": "Kechirim so'ramoq",
+                "example": "I want to apologize for my mistake.",
+                "exampleUzbek": "Xatoyim uchun kechirim so'ramoqchiman."
+        },
+        "value": {
+                "definition": "To consider something important.",
+                "uzbek": "Qadrlamoq",
+                "example": "I value our friendship.",
+                "exampleUzbek": "Men do'stligimizni qadrlayman."
+        }
+},
+    passageB2: `<p>Furniture By Design<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p>
+
+<p>15 April 2002</p>
+
+<p>Mrs Marjorie Wood<br>12 Castle Road<br>Blandwell, BL3 6NB</p>
+
+<p>Dear Mrs Wood,</p>
+
+<p>I was extremely concerned to receive your letter of 12 April. Please accept my sincere apologies for the <strong>difficulties</strong> you experienced due to the delayed delivery of your furniture order. I understand that the sofa beds were delivered to you yesterday and arrived in good condition.</p>
+
+<p>I have <strong>thoroughly investigated</strong> the situation, and it seems our recent advertising campaign was far more successful than we had anticipated. Our entire furniture range, particularly the sofa beds, proved to be <strong>extremely popular</strong>. In a way, we became victims of our own success. We simply didn't have enough stock in our warehouses to meet the <strong>unexpectedly high demand</strong>. We were prepared to work quickly to fulfil all orders before Christmas, but we were not prepared for a shortage of products.</p>
+
+<p>This usually isn't a problem, as we work with suppliers who are typically very efficient and quick. They are usually <strong>unrivalled</strong> in their reliability. However, it seems they experienced a minor <strong>technical problem</strong> with their new computerised production system, which meant they couldn't supply us with the amount of furniture we needed. Their maintenance team were <strong>working hard</strong> to get the production line back up and running in time for the Christmas rush, and this resulted in lost time.</p>
+
+<p>We looked for alternative suppliers to help us, but <strong>without success</strong>. As we were unwilling to accept goods of a lower quality, we had no option but to wait for our usual supplier to fix their machinery. Ultimately, quality is what <strong>matters most</strong> to our customers.</p>
+
+<p>I was very sorry to hear about the problems you encountered with our complaints procedure. I have discovered that these issues were due to a significant reduction in the number of helpline staff available at the time, due to a local flu outbreak. We were <strong>short-staffed</strong> and this <strong>impacted our service</strong>.</p>
+
+<p>I am sorry that this situation has involved so many unfortunate events. As I've explained, most of it was due to circumstances <strong>beyond our control</strong>. Once again, please accept my apologies for the inconvenience caused. We <strong>highly value</strong> your custom and hope you will continue to be a customer of our company. We are <strong>committed to improving</strong> our service and preventing similar issues in the future.</p>
+
+<p>Yours sincerely,<br>Ernest Blake<br>Chief Executive</p>`,
+    translationB2: `<p>Furniture By Design<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p>
+
+<p>2002 yil, 15 aprel</p>
+
+<p>Marjorie Vud xonimga<br>12 Castle Road<br>Blandwell, BL3 6NB</p>
+
+<p>Hurmatli Vud xonim,</p>
+
+<p>Sizning 12 apreldagi xatingizni olganimdan juda xavotirlandim. Mebel buyurtmangizning kechikishi natijasida yuzaga kelgan <strong>qiyinchiliklar</strong> uchun mening samimiy uzrimni qabul qiling. Divan-krovatlaringiz kecha sizga yetkazilgani va yaxshi holatda yetib borganini tushunaman.</p>
+
+<p>Men vaziyatni <strong>diqqat bilan tekshirdim</strong> va ma'lum bo'lishicha, bizning so'nggi reklama kampaniyamiz biz kutganimizdan ancha muvaffaqiyatli bo'lgan ekan. Bizning butun mebel assortimentimiz, ayniqsa divan-krovatlar, <strong>juda mashhur</strong> bo'lib chiqdi. Ma'lum ma'noda, biz o'z muvaffaqiyatimizning qurboniga aylandik. Omborlarimizda <strong>kutilmagan yuqori talabni</strong> qondirish uchun yetarli zaxira yo'q edi. Rojdestvogacha barcha buyurtmalarni tezda bajarishga tayyor edik, ammo mahsulot yetishmasligiga tayyor emas edik.</p>
+
+<p>Odatda bu muammo emas, chunki biz odatda juda samarali va tezkor bo'lgan yetkazib beruvchilar bilan ishlaymiz. Ular o'z ishonchliligi bilan <strong>tengsiz</strong> hisoblanadi. Biroq, ularning yangi kompyuterlashtirilgan ishlab chiqarish tizimida kichik <strong>texnik nosozlik</strong> yuz bergan ko'rinadi, bu esa bizga kerakli miqdordagi mebelni yetkazib bera olmadi. Ularning texnik xizmat ko'rsatish guruhi Rojdestvo shovqini oldidan ishlab chiqarish liniyasini qayta ishga tushirish uchun <strong>qattiq mehnat qildi</strong> va bu vaqt yo'qotilishiga olib keldi.</p>
+
+<p>Bizga yordam berish uchun muqobil yetkazib beruvchilarni qidirdik, ammo <strong>befoyda</strong>. Sifati pastroq mahsulotlarni qabul qilishni istamaganligimiz sababli, odatdagi yetkazib beruvchimizning uskunalarini tuzatishini kutishdan boshqa ilojimiz yo'q edi. Oxir oqibat, sifat bizning mijozlarimiz uchun <strong>eng muhim</strong> narsa.</p>
+
+<p>Bizning shikoyatlar jarayoni bilan bog'liq muammolar haqida eshitganimdan juda afsusdaman. Ma'lum bo'lishicha, bu muammolar o'sha paytda mahalliy gripp epidemiyasi tufayli yordam liniyasi xodimlarining soni sezilarli darajada kamayganligi sababli yuzaga kelgan. Bizda <strong>xodimlar yetishmas edi</strong> va bu <strong>xizmatimizga ta'sir qildi</strong>.</p>
+
+<p>Bu vaziyat shunchalik ko'p afsuslanarli voqealarni o'z ichiga olganidan afsusdaman. Tushuntirganimdek, buning ko'p qismi bizning <strong>nazoratimizdan tashqari</strong> holatlar tufayli yuzaga keldi. Yana bir bor, noqulayliklar uchun uzr so'rayman. Biz sizning xaridoringizni <strong>juda qadrlaymiz</strong> va kompaniyamizning mijoz bo'lib qolishingizga umid qilamiz. Biz xizmatimizni <strong>yaxshilashga va</strong> kelajakda shunga o'xshash muammolarni oldini olishga sodiqmiz.</p>
+
+<p>Hurmat bilan,<br>Ernest Bleyk<br>Bosh direktor</p>`,
+    vocabularyB2: {
+        "difficulties": {
+                "definition": "Problems or challenges faced.",
+                "uzbek": "Qiyinchiliklar yoki duch kelingan muammolar.",
+                "example": "We encountered some difficulties during the project.",
+                "exampleUzbek": "Biz loyiha davomida ba'zi qiyinchiliklarga duch keldik."
+        },
+        "thoroughly investigated": {
+                "definition": "Examined something in detail and carefully.",
+                "uzbek": "Biron narsani batafsil va ehtiyotkorlik bilan o'rganib chiqdi.",
+                "example": "The police thoroughly investigated the crime scene.",
+                "exampleUzbek": "Politsiya jinoyat joyini batafsil o'rganib chiqdi."
+        },
+        "extremely popular": {
+                "definition": "Liked by many people.",
+                "uzbek": "Ko'p odamlarga yoqadigan.",
+                "example": "The new restaurant is extremely popular.",
+                "exampleUzbek": "Yangi restoran juda mashhur."
+        },
+        "unexpectedly high demand": {
+                "definition": "A greater need for something than anticipated.",
+                "uzbek": "Kutilganidan ko'ra katta ehtiyoj.",
+                "example": "There was unexpectedly high demand for the tickets.",
+                "exampleUzbek": "Chiptalarga kutilmagan darajada yuqori talab bor edi."
+        },
+        "unrivalled": {
+                "definition": "Better than anyone or anything else of the same type.",
+                "uzbek": "Xuddi shu turdagi boshqa hech kimdan yoki hech narsadan yaxshiroq.",
+                "example": "The view from the top of the mountain is unrivalled.",
+                "exampleUzbek": "Tog' tepasidan ko'rinish tengsizdir."
+        },
+        "technical problem": {
+                "definition": "An issue with equipment or a system.",
+                "uzbek": "Uskunalar yoki tizimdagi muammo.",
+                "example": "We had a technical problem with the website.",
+                "exampleUzbek": "Veb-sayt bilan texnik muammo yuzaga keldi."
+        },
+        "working hard": {
+                "definition": "Putting a lot of effort into something.",
+                "uzbek": "Biron narsaga ko'p kuch sarflash.",
+                "example": "The students are working hard to prepare for the exam.",
+                "exampleUzbek": "Talabalar imtihonga tayyorgarlik ko'rish uchun qattiq mehnat qilmoqdalar."
+        },
+        "without success": {
+                "definition": "Not achieving the desired result.",
+                "uzbek": "Kerakli natijaga erishmaslik.",
+                "example": "We tried to fix the car, but without success.",
+                "exampleUzbek": "Biz mashinani tuzatishga harakat qildik, ammo muvaffaqiyatga erisha olmadik."
+        },
+        "matters most": {
+                "definition": "Is the most important thing.",
+                "uzbek": "Eng muhim narsa.",
+                "example": "To me, honesty matters most in a relationship.",
+                "exampleUzbek": "Men uchun munosabatlarda halollik eng muhim."
+        },
+        "short-staffed": {
+                "definition": "Not having enough employees.",
+                "uzbek": "Etarli xodimga ega emaslik.",
+                "example": "The restaurant was short-staffed on Friday night.",
+                "exampleUzbek": "Juma kuni kechqurun restoranda xodimlar etishmadi."
+        },
+        "impacted our service": {
+                "definition": "Had a negative effect on the quality of service.",
+                "uzbek": "Xizmat sifatiga salbiy ta'sir ko'rsatdi.",
+                "example": "The strike impacted our service delivery.",
+                "exampleUzbek": "Ish tashlash bizning xizmat ko'rsatishimizga ta'sir qildi."
+        },
+        "beyond our control": {
+                "definition": "Impossible to influence or manage.",
+                "uzbek": "Ta'sir qilish yoki boshqarishning iloji yo'q.",
+                "example": "The weather is beyond our control.",
+                "exampleUzbek": "Ob-havo bizning nazoratimizdan tashqarida."
+        },
+        "highly value": {
+                "definition": "Consider something to be very important or useful.",
+                "uzbek": "Nimadirni juda muhim yoki foydali deb hisoblash.",
+                "example": "We highly value your feedback.",
+                "exampleUzbek": "Biz sizning fikr-mulohazalaringizni juda qadrlaymiz."
+        },
+        "committed to improving": {
+                "definition": "Dedicated to making something better.",
+                "uzbek": "Nimadirni yaxshilashga bag'ishlangan.",
+                "example": "The company is committed to improving its environmental impact.",
+                "exampleUzbek": "Kompaniya atrof-muhitga ta'sirini yaxshilashga intiladi."
+        }
+},
+    passageC1: `<p>Furniture By Design<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p><p>15 April 2002</p><p>Mrs Marjorie Wood<br>12 Castle Road<br>Blandwell, BL3 6NB</p><p>Dear Mrs Wood,</p><p>I am writing with regard to your letter of 12th April and must express my sincere regret concerning the difficulties you encountered due to the delayed delivery of your furniture order. I understand that the sofa beds were, in fact, delivered yesterday and arrived in good condition.</p><p>Following a thorough investigation, it has become clear that the unforeseen success of our recent advertising campaign led to a surge in demand that <strong>outstripped</strong> our available stock, particularly with respect to our sofa bed range. To a certain extent, therefore, we became victims of our own success. While we had anticipated the usual pre-Christmas rush and geared up accordingly, we were simply not prepared for such a <strong>precipitous</strong> shortfall in product availability.</p><p>Ordinarily, this would not have presented an insurmountable challenge, as we typically rely on suppliers renowned for their efficiency and reliability. However, it appears they experienced an unexpected <strong>setback</strong> in the form of a technical malfunction in their newly implemented computerized production process, which <strong>hampered</strong> their ability to fulfil our orders in a timely manner. Their maintenance teams worked tirelessly to restore the production line to full functionality in time for the Christmas peak, but valuable time was, regrettably, lost.</p><p>Despite our best efforts to source alternative suppliers who could assist in meeting the <strong>escalating</strong> demand, we were ultimately unsuccessful. Unwilling to compromise on our commitment to quality by accepting substandard goods, we felt we had no option but to <strong>weather the storm</strong> and await the resolution of the technical issues at our primary supplier. Ultimately, we believe that maintaining the high standards our customers expect is <strong>paramount</strong>.</p><p>I was most concerned to learn of the issues you experienced with our complaints procedure. My investigation revealed that these problems <strong>stemmed from</strong> a significant reduction in the number of available helpline staff at that time, a situation <strong>exacerbated by</strong> a local influenza epidemic.</p><p>I appreciate that this series of unfortunate events has been highly frustrating, and I can only reiterate that many of the factors contributing to the delay were, as I have outlined, largely beyond our direct control. Once again, please accept my sincerest apologies for the inconvenience caused. We <strong>place immense value on</strong> your custom and sincerely hope that you will remain a valued client of Furniture By Design.</p><p>Yours sincerely,</p><p>Ernest Blake<br>Chief Executive</p>`,
+    translationC1: `<p>Furniture By Design<br>10 Greenwood, London WC2H 8TJ<br>Tel: 020-6788 0001</p><p>15 Aprel 2002</p><p>Marjorie Vud xonim<br>12 Qasr Yo'li<br>Blandvell, BL3 6NB</p><p>Hurmatli Vud xonim,</p><p>12 apreldagi xatingiz yuzasidan yozmoqdaman va mebel buyurtmangizning kechikishi tufayli duch kelgan qiyinchiliklar uchun chin dildan afsusda ekanligimni bildirishim kerak. Tushunishimcha, divan-krovatlar kecha yetkazib berilgan va yaxshi holatda yetib kelgan.</p><p>Chuqur tekshiruvdan so'ng, so'nggi reklama kampaniyamizning kutilmagan muvaffaqiyati mavjud zaxiralarimizdan <strong>oshib ketgan</strong> talabning keskin o'sishiga olib kelgani aniq bo'ldi, ayniqsa divan-krovatlar assortimentiga nisbatan. Shu sababli, ma'lum darajada, biz o'z muvaffaqiyatimizning qurboniga aylandik. Biz Rojdestvo oldidan bo'ladigan odatiy shoshilinchlikni kutgan edik va shunga mos ravishda tayyorgarlik ko'rgan bo'lsak-da, mahsulot yetishmovchiligining bunday <strong>keskin</strong> kamayishiga tayyor emas edik.</p><p>Odatda, bu hal qilib bo'lmaydigan muammo bo'lmas edi, chunki biz odatda o'zining samaradorligi va ishonchliligi bilan tanilgan yetkazib beruvchilarga tayanardik. Biroq, ularning yangi joriy etilgan kompyuterlashtirilgan ishlab chiqarish jarayonida kutilmagan <strong>to'siq</strong> yuzaga kelgani ko'rinadi, bu ularning buyurtmalarimizni o'z vaqtida bajarish qobiliyatiga <strong>to'sqinlik qildi</strong>. Ularning texnik xizmat ko'rsatish guruhlari Rojdestvo avjiga qadar ishlab chiqarish liniyasini to'liq ish holatiga qaytarish uchun tinimsiz ishladilar, ammo afsuski, qimmatli vaqt boy berildi.</p><p><strong>O'sib borayotgan</strong> talabni qondirishda yordam beradigan muqobil yetkazib beruvchilarni topish uchun qilgan barcha sa'y-harakatlarimizga qaramay, biz oxir-oqibat muvaffaqiyatga erisha olmadik. Sifatsiz tovarlarni qabul qilish orqali sifatga bo'lgan sadoqatimizga putur yetkazishni istamasdan, biz <strong>bo'ronni kutib o'tirishga</strong> va asosiy yetkazib beruvchimizdagi texnik muammolarning hal etilishini kutishdan boshqa ilojimiz yo'q deb hisobladik. Oxir-oqibat, mijozlarimiz kutgan yuqori standartlarni saqlab qolish <strong>birinchi o'rinda</strong> deb hisoblaymiz.</p><p>Sizning shikoyatlar tartibi bilan bog'liq muammolaringiz haqida eshitganimdan juda xavotirlandim. Mening tekshiruvim shuni ko'rsatdiki, bu muammolar o'sha paytda mavjud bo'lgan telefon yordam xodimlari sonining sezilarli darajada kamayishi <strong>natijasida kelib chiqqan</strong>, bu holat mahalliy gripp epidemiyasi <strong>tufayli yanada og'irlashdi</strong>.</p><p>Ushbu bir qator noxush voqealar juda asabiylashtirganini tushunaman va kechikishga sabab bo'lgan ko'plab omillar, men ta'kidlaganimdek, asosan bizning bevosita nazoratimizdan tashqarida ekanligini takrorlay olaman. Yana bir bor, keltirilgan noqulayliklar uchun samimiy uzrlarimni qabul qiling. Biz sizning buyurtmangizni <strong>juda qadrlaymiz</strong> va Furniture By Design kompaniyasining qadrli mijozi bo'lib qolasiz degan umiddamiz.</p><p>Hurmat bilan,</p><p>Ernest Bleyk<br>Bosh direktor</p>`,
+    vocabularyC1: {
+        "outstripped": {
+                "definition": "Exceeded; surpassed",
+                "uzbek": "oshdi; o'tib ketdi",
+                "example": "Demand quickly outstripped supply.",
+                "exampleUzbek": "Talab tezda taklifdan oshib ketdi."
+        },
+        "precipitous": {
+                "definition": "Sudden and dramatic",
+                "uzbek": "kutilmagan va dramatik",
+                "example": "The company faced a precipitous decline in sales.",
+                "exampleUzbek": "Kompaniya savdoda kutilmagan pasayishga duch keldi."
+        },
+        "setback": {
+                "definition": "A difficulty or problem that delays or prevents something, or makes a situation worse",
+                "uzbek": "qiyinchilik yoki muammo, bu narsani kechiktiradi yoki oldini oladi yoki vaziyatni yomonlashtiradi",
+                "example": "The project suffered a major setback when funding was withdrawn.",
+                "exampleUzbek": "Loyiha moliyalashtirish to'xtatilganda katta muammoga duch keldi."
+        },
+        "hampered": {
+                "definition": "Hindered or impeded the progress of",
+                "uzbek": "to'sqinlik qildi yoki taraqqiyotga to'sqinlik qildi",
+                "example": "Heavy rain hampered the rescue efforts.",
+                "exampleUzbek": "Kuchli yomg'ir qutqaruv ishlariga to'sqinlik qildi."
+        },
+        "escalating": {
+                "definition": "Increasing rapidly",
+                "uzbek": "tez sur'atlar bilan o'sib borayotgan",
+                "example": "Escalating costs made the project unfeasible.",
+                "exampleUzbek": "O'sib borayotgan xarajatlar loyihani amalga oshirib bo'lmaydigan qilib qo'ydi."
+        },
+        "weather the storm": {
+                "definition": "To survive a difficult period",
+                "uzbek": "qiyin davrda omon qolish",
+                "example": "The company managed to weather the storm of the recession.",
+                "exampleUzbek": "Kompaniya tanazzul bo'ronini o'tkazishga muvaffaq bo'ldi."
+        },
+        "paramount": {
+                "definition": "More important than anything else; supreme",
+                "uzbek": "hamma narsadan muhimroq; oliy",
+                "example": "Safety is paramount in this industry.",
+                "exampleUzbek": "Xavfsizlik bu sohada eng muhim ahamiyatga ega."
+        },
+        "stemmed from": {
+                "definition": "Originated from or were caused by",
+                "uzbek": "kelib chiqqan yoki sabab bo'lgan",
+                "example": "The problems stemmed from a lack of communication.",
+                "exampleUzbek": "Muammolar aloqa yo'qligidan kelib chiqqan."
+        },
+        "exacerbated by": {
+                "definition": "Made worse by",
+                "uzbek": "yomonlashtirilgan",
+                "example": "The problem was exacerbated by a lack of funding.",
+                "exampleUzbek": "Muammo mablag' etishmasligi tufayli yomonlashdi."
+        },
+        "place immense value on": {
+                "definition": "To consider something extremely important",
+                "uzbek": "biror narsani juda muhim deb hisoblash",
+                "example": "We place immense value on customer satisfaction.",
+                "exampleUzbek": "Biz mijozlar ehtiyojini qondirishga katta ahamiyat beramiz."
+        }
+}
 };

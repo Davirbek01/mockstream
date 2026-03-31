@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi! <br> I use app. Food come. Good! <br> You try. <br> Bye</p>",
       "sampleA2": "<p>Hi! <br> I used a food app. It is good. The food came fast and it was hot. <br> The app is easy to use. You should try it because it is easy and good food. <br> Bye!</p>",
       "sampleB1": "<p>Hey! <br> I tried a new food delivery app called QuickBite. It was pretty good! The food arrived quickly, and it was still warm. <br> I think you should try it. It's much easier than cooking when you don't have time. The app is also easy to use. <br> Let me know what you think if you try it! </p>",
-      "sampleB2": "<p>Hi [Friend's Name], <br> You won't believe what I did – I finally caved and tried a food delivery app! It was QuickBite, and honestly, I was pleasantly surprised. The speed was impressive; the food arrived piping hot within half an hour. <br> I know you're always busy, so I genuinely think you should give it a shot. The convenience factor alone is a game-changer, especially on those nights when cooking feels like a Herculean task. The app itself is pretty intuitive, too. <br> Let me know if you decide to try it; I'd be curious to hear your thoughts. <br> Best, <br> [Your Name]</p>"
+      "sampleB2": "<p>Hi [Friend's Name], <br> You won't believe what I did – I finally caved and tried a food delivery app! It was QuickBite, and honestly, I was pleasantly surprised. The speed was impressive; the food arrived piping hot within half an hour. <br> I know you're always busy, so I genuinely think you should give it a shot. The convenience factor alone is a game-changer, especially on those nights when cooking feels like a Herculean task. The app itself is pretty intuitive, too. <br> Let me know if you decide to try it; I'd be curious to hear your thoughts. <br> Best, <br> [Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Sen albatta QuickBite'ni sinab ko'rishing kerak! Men hozirgina kechki ovqatga buyurtma berdim va u 20 daqiqada yetib keldi! Ilova juda oson ishlatiladi va tanlash uchun juda ko'p restoranlar bor.</p>\n<p>Ovqat tayyorlashga juda eringaningda juda qulay!</p>",
+      "uzSampleA1": "<p>Salom! <br> Men ilova ishlataman. Ovqat keladi. Yaxshi! <br> Sen ham urinib ko'r. <br> Xayr</p>",
+      "uzSampleA2": "<p>Salom! <br> Men ovqat yetkazib berish ilovasidan foydalandim. U yaxshi. Ovqat tez keldi va issiq edi. <br> Ilovani ishlatish oson. Siz ham urinib ko'rishingiz kerak, chunki u oson va ovqati yaxshi. <br> Xayr!</p>",
+      "uzSampleB1": "<p>Salom! <br> Men QuickBite deb nomlangan yangi oziq-ovqat yetkazib berish ilovasini sinab ko'rdim. Juda yaxshi bo'ldi! Ovqat tezda yetib keldi va hali ham issiq edi. <br> O'ylaymanki, sen ham sinab ko'rishing kerak. Vaqting bo'lmaganda ovqat pishirishdan ko'ra ancha oson. Ilovadan foydalanish ham oson. <br> Agar sinab ko'rsang, fikringni menga bildir! </p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi], <br> Nima qilganimga ishonmaysan – nihoyat taslim bo'ldim va ovqat yetkazib berish ilovasidan foydalanib ko'rdim! Bu QuickBite edi va rostini aytsam, men juda xursand bo'ldim. Tezligi hayratlanarli edi; ovqat yarim soat ichida issiqqina bo'lib keldi. <br> Bilaman, sen doim band bo'lasan, shuning uchun men chin dildan senga buni sinab ko'rishingni maslahat beraman. Faqatgina qulaylik omili o'ziyoq katta o'zgarish, ayniqsa ovqat pishirish juda qiyin vazifadek tuyulgan oqshomlarda. Ilovaning o'zi ham juda tushunarli. <br> Agar sinab ko'rishga qaror qilsang, menga xabar ber; fikrlaringni eshitishga qiziqaman. <br> Eng yaxshi tilaklar bilan, <br> [Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi QuickBite!</p><br><p>Food good. Fast. App okay.</p><br><p>More food?</p><br><p>Bye!</p>",
       "sampleA2": "<p>Hello QuickBite,</p><br><p>I used your app. The food was good and it came fast. But the app is a little hard to use. I want more food choices. And maybe cheaper prices because it is expensive. Thank you.</p><br><p>Bye,</p><br><p>A Customer</p>",
       "sampleB1": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for asking about my first order. The delivery was quite fast, which I appreciated. The food tasted good too.</p><br><p>However, I think the app could be better. It was a little confusing to find what I wanted. Also, the delivery cost was a bit high. Maybe you could lower the price?</p><br><p>I would order again if the app was easier to use and if the delivery wasn't so expensive. Thank you for listening.</p><br><p>Sincerely,<br>A New Customer</p>",
-      "sampleB2": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for your follow-up regarding my initial order with your service. Overall, I had a positive experience, but I also have some suggestions for improvement.</p><br><p>The delivery speed was commendable, and the food arrived within the estimated timeframe. However, I believe the app interface could be more intuitive. Navigating through the various restaurant options and filtering by cuisine felt somewhat cumbersome.</p><br><p>Furthermore, the delivery charges seem slightly disproportionate, especially for nearby establishments. Perhaps implementing a dynamic pricing model that considers distance could enhance customer satisfaction. Offering promotional discounts or a rewards program for frequent users would also incentivize repeat orders.</p><br><p>Thank you for considering my feedback. I look forward to seeing how QuickBite evolves.</p><br><p>Yours sincerely,<br>A Satisfied Customer</p>"
+      "sampleB2": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for your follow-up regarding my initial order with your service. Overall, I had a positive experience, but I also have some suggestions for improvement.</p><br><p>The delivery speed was commendable, and the food arrived within the estimated timeframe. However, I believe the app interface could be more intuitive. Navigating through the various restaurant options and filtering by cuisine felt somewhat cumbersome.</p><br><p>Furthermore, the delivery charges seem slightly disproportionate, especially for nearby establishments. Perhaps implementing a dynamic pricing model that considers distance could enhance customer satisfaction. Offering promotional discounts or a rewards program for frequent users would also incentivize repeat orders.</p><br><p>Thank you for considering my feedback. I look forward to seeing how QuickBite evolves.</p><br><p>Yours sincerely,<br>A Satisfied Customer</p>",
+      "uzSample": "<p>Hurmatli QuickBite qo'llab-quvvatlash jamoasi,</p>\n\n<p>Murojaatingiz uchun rahmat. Birinchi buyurtmam bo'yicha fikr-mulohazalarimni baham ko'rishdan mamnunman.</p>\n\n<p>Avvalo, yetkazib berish tezligi hayratlanarli edi. Ovqatim belgilangan vaqt ichida yaxshi yetib keldi va hali ham issiq edi.</p>\n\n<p>Biroq, men qadoqlash biroz nozik ekanligini payqadim, bu esa ozgina to'kilishga sabab bo'ldi. Mustahkamroq konteynerlardan foydalanish bu muammoning oldini oladi.</p>\n\n<p>Bundan tashqari, yetkazib berish narxi qisqa masofalar uchun yuqori ko'rindi. Masofaga asoslangan narxlash tizimini joriy etish adolatliroq bo'ladi.</p>\n\n<p>Bundan tashqari, tez-tez buyurtma berish uchun mukofotlar bilan sodiqlik dasturini taklif qilish, albatta, qayta buyurtma berishni rag'batlantiradi.</p>\n\n<p>Real vaqtda kuzatish funksiyasi juda yaxshi edi va juda qadrlanadi.</p>\n\n<p>Hurmat bilan,<br>Yangi mijoz</p>",
+      "uzSampleA1": "<p>Salom QuickBite!</p><br><p>Ovqat yaxshi. Tez. Ilova yaxshi.</p><br><p>Ko'proq ovqat?</p><br><p>Xayr!</p>",
+      "uzSampleA2": "<p>Salom QuickBite,</p><br><p>Men sizning ilovangizdan foydalandim. Ovqat mazali edi va tez keldi. Lekin ilovani ishlatish biroz qiyin. Men ko'proq ovqat tanlovlarini xohlayman. Va balki narxlar arzonroq bo'lishi kerak, chunki qimmat.</p><br><p>Xayr,</p><br><p>Mijoz</p>",
+      "uzSampleB1": "<p>Hurmatli QuickBite qo'llab-quvvatlash jamoasi,</p><br><p>Birinchi buyurtmam haqida so'raganingiz uchun rahmat. Yetkazib berish juda tez bo'ldi, bu menga yoqdi. Ovqat ham mazali edi.</p><br><p>Biroq, menimcha, ilova yaxshiroq bo'lishi mumkin. Menga kerakli narsani topish biroz chalkash edi. Shuningdek, yetkazib berish narxi biroz qimmat edi. Balki narxni pasaytirsangiz bo'lar?</p><br><p>Agar ilova ishlatish uchun osonroq bo'lsa va yetkazib berish bunchalik qimmat bo'lmasa, men yana buyurtma berardim. E'tiboringiz uchun rahmat.</p><br><p>Hurmat bilan,<br>Yangi mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli QuickBite qo'llab-quvvatlash jamoasi,</p><br><p>Sizning xizmatingiz orqali bergan birinchi buyurtmam bo'yicha javobingiz uchun rahmat. Umuman olganda, men ijobiy tajribaga ega bo'ldim, lekin takomillashtirish bo'yicha ba'zi takliflarim ham bor.</p><br><p>Yetkazib berish tezligi maqtovga loyiq edi va ovqat belgilangan vaqt ichida yetib keldi. Biroq, menimcha, ilova interfeysi yanada intuitiv bo'lishi mumkin. Turli restoran variantlari bo'ylab harakatlanish va oshxona bo'yicha filtrlash biroz noqulay tuyuldi.</p><br><p>Bundan tashqari, yetkazib berish narxlari biroz nomutanosibdek tuyuladi, ayniqsa yaqin joylashgan muassasalar uchun. Ehtimol, masofani hisobga oladigan dinamik narxlash modelini joriy etish mijozlar ehtiyojini qondirishni yaxshilashi mumkin. Tez-tez foydalanuvchilar uchun reklama chegirmalari yoki mukofotlash dasturini taklif qilish ham takroriy buyurtmalarni rag'batlantiradi.</p><br><p>Fikrlarimni ko'rib chiqayotganingiz uchun tashakkur. QuickBite qanday rivojlanishini ko'rishni intiqlik bilan kutaman.</p><br><p>Hurmat bilan,<br>Qoniqish hosil qilgan mijoz</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi QuickBite!</p><br><p>Food good. Fast. App okay. I like pizza. I want pizza again. Bye.</p>",
       "sampleA2": "<p>Hello QuickBite,</p><br><p>The food was good and it was fast. The app was easy to use but I think it needs more pictures. I want to use the app again because it is easy and the food is good. Thank you.</p>",
       "sampleB1": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for asking about my first experience. The delivery was quite fast, and the food arrived still warm, which was good. The app was generally easy to navigate, although I did have a little trouble finding the filter options at first. I think making those more obvious would be helpful.</p><br><p>To become a regular customer, I'd suggest offering more deals or discounts for frequent users. Also, a wider selection of restaurants in my area would be great. If you had those things, I would definitely use QuickBite more often.</p><br><p>Overall, it was a positive experience.</p>",
-      "sampleB2": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for your follow-up regarding my initial experience with QuickBite. I found the delivery speed commendable; the food arrived within the estimated timeframe and maintained an acceptable temperature. The quality of the food itself was satisfactory, aligning with the restaurant's usual standards.</p><br><p>The app's user interface was relatively intuitive, although I believe there's room for improvement regarding the search functionality. Implementing more granular filtering options – perhaps by dietary restriction or cuisine type – would significantly enhance the user experience. Furthermore, incorporating a real-time tracking feature beyond the basic order status updates would provide added reassurance.</p><br><p>To cultivate my loyalty, I would recommend exploring a tiered rewards system or offering personalized recommendations based on past orders. Competitive pricing and exclusive promotions would also be influential factors in my decision to become a regular customer. Addressing these points would undoubtedly solidify QuickBite's position as a preferred delivery service.</p><br><p>Sincerely,</p>"
+      "sampleB2": "<p>Dear QuickBite Support Team,</p><br><p>Thank you for your follow-up regarding my initial experience with QuickBite. I found the delivery speed commendable; the food arrived within the estimated timeframe and maintained an acceptable temperature. The quality of the food itself was satisfactory, aligning with the restaurant's usual standards.</p><br><p>The app's user interface was relatively intuitive, although I believe there's room for improvement regarding the search functionality. Implementing more granular filtering options – perhaps by dietary restriction or cuisine type – would significantly enhance the user experience. Furthermore, incorporating a real-time tracking feature beyond the basic order status updates would provide added reassurance.</p><br><p>To cultivate my loyalty, I would recommend exploring a tiered rewards system or offering personalized recommendations based on past orders. Competitive pricing and exclusive promotions would also be influential factors in my decision to become a regular customer. Addressing these points would undoubtedly solidify QuickBite's position as a preferred delivery service.</p><br><p>Sincerely,</p>",
+      "uzSample": "<h2>Oziq-ovqat yetkazib berish: Qulaylikmi yoki dangasalik?</h2>\n\n<p>Oziq-ovqat yetkazib berish ilovalari ovqatlanish usulimizda inqilob qildi. Ammo tanqidchilarning ta'kidlashicha, ular bizni dangasa qilib qo'ymoqda. Keling, o'z nuqtai nazarimni baham ko'rsam.</p>\n\n<p>Rostini aytsam, menimcha, bu ulardan qanday foydalanishingizga bog'liq. Uzoq soatlar davomida ishlaydigan band professional mutaxassislar uchun yetkazib berish ilovalari qimmatli vaqtni tejaydi. Bu samaradorlik, dangasalik emas.</p>\n\n<p>Bundan tashqari, ushbu ilovalar mahalliy restoranlarni qo'llab-quvvatlaydi va yetkazib berish haydovchilari uchun ish o'rinlarini yaratadi. Ular haqiqiy ehtiyojlarni qondiradigan qonuniy xizmatdir.</p>\n\n<p>Biroq, asosli xavotirlar ham mavjud. Faqat yetkazib berishga tayanish qimmatga tushishi, unchalik sog'lom bo'lmasligi va ovqat tayyorlash mahoratimizni kamaytirishi mumkin.</p>\n\n<p>Bundan tashqari, son-sanoqsiz yetkazib berish transport vositalarining va bir martalik qadoqlashning atrof-muhitga ta'siri tashvishlidir.</p>\n\n<p>Oxir oqibat, me'yor muhim. Haqiqatan ham zarur bo'lganda, vaqti-vaqti bilan yetkazib berish ilovalaridan foydalanish mantiqan to'g'ri keladi. Ammo barcha uyda ovqat tayyorlashni almashtirishmi? Qulaylik muammoli bo'lib qoladigan joy shu.</p>\n\n<p>Sizning oziq-ovqat yetkazib berish ilovalari bilan munosabatingiz qanday?</p>",
+      "uzSampleA1": "<p>Salom, QuickBite!</p><br><p>Ovqat yaxshi. Tez. Ilova yaxshi. Menga pizza yoqadi. Men yana pizza xohlayman. Xayr.</p>",
+      "uzSampleA2": "<p>Salom QuickBite,</p><br><p>Ovqat yaxshi va tez edi. Ilovadan foydalanish oson edi, lekin menimcha, unga ko'proq rasmlar kerak. Men ilovadan yana foydalanmoqchiman, chunki u oson va ovqat yaxshi. Rahmat.</p>",
+      "uzSampleB1": "<p>Hurmatli QuickBite qo'llab-quvvatlash jamoasi,</p><br><p>Mening birinchi tajribam haqida so'raganingiz uchun rahmat. Yetkazib berish juda tez bo'ldi va ovqat hali ham iliq holda yetib keldi, bu yaxshi. Ilova odatda navigatsiya qilish uchun oson edi, garchi men birinchi marta filtr variantlarini topishda biroz qiyinchilikka duch keldim. O'ylaymanki, ularni yanada aniqroq qilish foydali bo'ladi.</p><br><p>Doimiy mijoz bo'lish uchun men tez-tez foydalanuvchilar uchun ko'proq takliflar yoki chegirmalar berishni taklif qilaman. Shuningdek, mening hududimda restoranlarning kengroq tanlovi ajoyib bo'lardi. Agar sizda shu narsalar bo'lsa, men QuickBite-dan tez-tez foydalangan bo'lardim.</p><br><p>Umuman olganda, bu ijobiy tajriba edi.</p>",
+      "uzSampleB2": "<p>Hurmatli QuickBite qo'llab-quvvatlash jamoasi,</p><br><p>QuickBite bilan dastlabki tajribam yuzasidan kuzatuvlaringiz uchun tashakkur. Yetkazib berish tezligi maqtovga loyiq ekanligini aniqladim; ovqat taxminiy vaqt oralig'ida yetib keldi va maqbul haroratni saqlab qoldi. Ovqatning sifati qoniqarli bo'lib, restoranning odatdagi standartlariga mos keldi.</p><br><p>Ilovaning foydalanuvchi interfeysi nisbatan intuitiv edi, garchi qidiruv funksionalligi bo'yicha takomillashtirishga ehtiyoj bor deb hisoblayman. Batafsil filtrlash imkoniyatlarini joriy etish – ehtimol, parhez cheklovlari yoki oshxona turi bo'yicha – foydalanuvchi tajribasini sezilarli darajada yaxshilaydi. Bundan tashqari, asosiy buyurtma holati yangilanishlaridan tashqari real vaqt rejimida kuzatish funksiyasini kiritish qo'shimcha ishonch beradi.</p><br><p>Mening sodiqligimni rivojlantirish uchun men pog'onali mukofotlash tizimini o'rganishni yoki o'tmishdagi buyurtmalar asosida shaxsiy tavsiyalarni taklif qilishni tavsiya qilaman. Raqobatbardosh narxlar va eksklyuziv aksiyalar ham doimiy mijozga aylanishimda ta'sirchan omillar bo'ladi. Ushbu masalalarni hal qilish, shubhasiz, QuickBite'ning afzal ko'rilgan yetkazib berish xizmati sifatidagi o'rnini mustahkamlaydi.</p><br><p>Hurmat bilan,</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,171 @@ window.WRITING_TEST_DATA = {
         "uz": "dangasalik"
       }
     ]
+  },
+  "tokenTranslations": {
+    "have to": {
+      "uz": "majbur bo'lmoq",
+      "type": "modal"
+    },
+    "just": {
+      "uz": "faqat",
+      "type": "adv"
+    },
+    "app": {
+      "uz": "dastur",
+      "type": "colloc"
+    },
+    "super": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "tons": {
+      "uz": "ko'p",
+      "type": "adv"
+    },
+    "restaurants": {
+      "uz": "restoranlar",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "delivery speed": {
+      "uz": "yetkazib berish tezligi",
+      "type": "colloc"
+    },
+    "impressive": {
+      "uz": "ta'sirli",
+      "type": "colloc"
+    },
+    "estimated time": {
+      "uz": "taxminiy vaqt",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "packaging": {
+      "uz": "qadoqlash",
+      "type": "colloc"
+    },
+    "somewhat": {
+      "uz": "bir oz",
+      "type": "adv"
+    },
+    "sturdier containers": {
+      "uz": "mustahkamroq idishlar",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "bo'lardi",
+      "type": "modal"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "delivery fee": {
+      "uz": "yetkazib berish to'lovi",
+      "type": "colloc"
+    },
+    "tiered pricing": {
+      "uz": "bosqichli narxlar",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "loyalty program": {
+      "uz": "sodiqlik dasturi",
+      "type": "colloc"
+    },
+    "certainly": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "repeat business": {
+      "uz": "qayta murojaat",
+      "type": "colloc"
+    },
+    "real-time tracking": {
+      "uz": "real vaqt rejimida kuzatish",
+      "type": "colloc"
+    },
+    "greatly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "Food delivery apps": {
+      "uz": "Oziq-ovqat yetkazib berish ilovalari",
+      "type": "colloc"
+    },
+    "revolutionized": {
+      "uz": "tubdan o'zgartirdi",
+      "type": "adv"
+    },
+    "Honestly": {
+      "uz": "Rostini aytsam",
+      "type": "adv"
+    },
+    "valuable time savings": {
+      "uz": "vaqtni sezilarli darajada tejash",
+      "type": "colloc"
+    },
+    "efficiency": {
+      "uz": "samaradorlik",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "employment opportunities": {
+      "uz": "ish bilan ta'minlash imkoniyatlari",
+      "type": "colloc"
+    },
+    "legitimate service": {
+      "uz": "qonuniy xizmat",
+      "type": "colloc"
+    },
+    "exclusively": {
+      "uz": "faqatgina",
+      "type": "adv"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "cooking skills": {
+      "uz": "pazandalik mahorati",
+      "type": "colloc"
+    },
+    "environmental impact": {
+      "uz": "atrof-muhitga ta'siri",
+      "type": "colloc"
+    },
+    "single-use packaging": {
+      "uz": "bir martalik qadoqlash",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "occasionally": {
+      "uz": "vaqti-vaqti bilan",
+      "type": "adv"
+    },
+    "problematic": {
+      "uz": "muammoli",
+      "type": "colloc"
+    }
   }
 };

@@ -1,0 +1,36 @@
+// Grammar Test: Expressing Opinions & Certainty — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I <b>think</b> that film <b>___</b> very boring.", correct: "is", options: ["is", "are", "be", "will"], def: "We use 'is' to express an opinion about something.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>believe</b> she <b>___</b> the best singer.", correct: "is", options: ["is", "are", "am", "be"], def: "'Is' agrees with 'she' and expresses a strong belief.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> that's a good idea.", correct: "think", options: ["think", "am thinking", "thinking", "thinks"], def: "'Think' expresses an opinion in the present simple.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He <b>seems</b> to <b>___</b> happy.", correct: "be", options: ["be", "is", "been", "being"], def: "'Seem' is followed by 'to be' + adjective.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It <b>appears</b> <b>___</b> be raining.", correct: "to", options: ["to", "that", "like", "as"], def: "'Appears' is usually followed by 'to' + infinitive.", level: "B1–B2"},
+  {type: "Find the error:", question: "I <b>am</b> believing <b>that</b> it's <b>going</b> to <b>rain</b>.", correct: "am", options: ["am", "that", "going", "rain"], def: "We don't usually use 'believe' in the continuous form.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I am <b>___</b> that he will come.", correct: "certain", options: ["certain", "certainly", "certitude", "certaining"], def: "'Certain' is the correct adjective form to express certainty.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>doubt</b> if he <b>___</b> come.", correct: "will", options: ["will", "is", "does", "do"], def: "'Doubt' is often followed by 'if' and 'will' for future uncertainty.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "It's <b>likely</b> <b>___</b> rain tomorrow.", correct: "to", options: ["to", "that", "for", "if"], def: "'Likely' is often followed by 'to' + infinitive.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It is <b>___</b> that she will win.", correct: "probable", options: ["probable", "probably", "probability", "probbing"], def: "'Probable' is the correct adjective to describe a likely event.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I'm <b>not</b> sure <b>___</b> to go.", correct: "whether", options: ["whether", "if", "what", "that"], def: "'Whether' introduces a choice or doubt.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>have</b> no <b>idea</b> <b>___</b> he is.", correct: "where", options: ["where", "who", "what", "which"], def: "'Where' indicates a location, reflecting uncertainty.", level: "B1–B2"},
+  {type: "Find the error:", question: "I'm <b>thinking</b> she <b>is</b> right <b>about</b> <b>that</b>.", correct: "thinking", options: ["thinking", "is", "about", "that"], def: "Use 'think' (present simple) for general opinions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> believe that is true.", correct: "certainly", options: ["certainly", "certain", "certaining", "certitude"], def: "'Certainly' is the correct adverb to modify 'believe'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> as I know, he is at home.", correct: "As far", options: ["As far", "So far", "As like", "So like"], def: "'As far as I know' shows limited certainty.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> my opinion, it's a good plan.", correct: "In", options: ["In", "At", "To", "On"], def: "'In my opinion' is the correct phrase.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Are you <b>___</b> about that?", correct: "sure", options: ["sure", "surely", "sureness", "shored"], def: "'Sure' is the adjective that describes feeling certain.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>suppose</b> he will <b>___</b> late.", correct: "be", options: ["be", "is", "being", "been"], def: "'Suppose' is followed by 'be' + adjective (late).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>guess</b> <b>___</b> will rain.", correct: "it", options: ["it", "that", "this", "what"], def: "'It' is the correct subject pronoun.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It is <b>___</b> that he'll arrive on time.", correct: "doubtful", options: ["doubtful", "doubtfully", "doubt", "doubting"], def: "'Doubtful' is the correct adjective to express uncertainty.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I see it, it's a good solution.", correct: "The way", options: ["The way", "A way", "The by", "By"], def: "'The way I see it' expresses a personal opinion.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I'm <b>convinced</b> <b>___</b> he's telling the truth.", correct: "that", options: ["that", "if", "what", "which"], def: "'Convinced that' introduces the reason for certainty.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "In my <b>___</b>, it's worth trying.", correct: "opinion", options: ["opinion", "opining", "opinionate", "opinioned"], def: "'Opinion' is the correct noun form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It <b>strikes</b> me <b>___</b> odd.", correct: "as", options: ["as", "like", "that", "to"], def: "'Strikes me as' expresses an impression.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I'm <b>positive</b> <b>___</b> that.", correct: "about", options: ["about", "for", "with", "at"], def: "'Positive about' expresses certainty.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>think</b> this is a good idea. <b>___</b>, anyway.", correct: "At least", options: ["At least", "In least", "For least", "To least"], def: "\"At least\" expresses a degree of certainty or a minimum condition.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I am <b>sure</b> I <b>saw</b> him. I <b>___</b> him.", correct: "definitely saw", options: ["definitely saw", "saw definitely", "definite saw", "definitely see"], def: "\"Definitely\" goes before the main verb to express certainty.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> it will rain tomorrow.", correct: "think", options: ["think", "am thinking", "thinking", "thinked"], def: "Use the present simple to express opinions about the future.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b>, this is the best restaurant in town.", correct: "In my opinion", options: ["In my opinion", "To my opinion", "For my opinion", "On my opinion"], def: "\"In my opinion\" is a common phrase to introduce a personal belief.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>don't</b> <b>think</b> he will come, but I <b>___</b> be wrong.", correct: "could", options: ["could", "can", "must", "should"], def: "\"Could\" expresses a possibility of being wrong.", level: "B1–B2"}
+];

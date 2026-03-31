@@ -1,0 +1,47 @@
+// Flashcard Data: Negotiation & Diplomacy — Intermediate (B1–B2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🕊️ Negotiation & Diplomacy: Intermediate",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Negotiation & Diplomacy",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#0f766e",
+    bg2: "#134e4a",
+    accent: "#0f766e",
+    progress: "#22c55e"
+  },
+  cards: [
+    {term: "meet halfway", en: "", uz: "kelishuvga erishish", uzDef: "Ikki tomonning o'rtasida murosaga kelishish, bir-biriga yon berish.", ex: "They wouldn't budge on the price, so we had to meet them halfway to close the deal.", exUz: "Ular narxda yon bermadilar, shuning uchun bitimni yakunlash uchun biz ularga yarim yo'lda uchrashishimiz kerak edi."},
+    {term: "sweeten the deal", en: "", uz: "bitimni yaxshilash", uzDef: "Bitimni yanada jozibali qilish uchun qo'shimcha narsalar taklif qilish.", ex: "To sweeten the deal, they threw in free shipping and a two-year warranty.", exUz: "Bitimni yaxshilash uchun ular bepul yetkazib berish va ikki yillik kafolatni qo'shdilar."},
+    {term: "draw a line", en: "", uz: "chiziq tortish", uzDef: "Qabul qilib bo'lmaydigan chegarani belgilash, ruxsat etilmaydigan narsani aniqlash.", ex: "I draw a line at lying; I won't tolerate dishonesty.", exUz: "Men yolg'on gapirishda chiziq tortaman; men halolliksizlikka toqat qilmayman."},
+    {term: "play hardball", en: "", uz: "qattiq kurashish", uzDef: "Maqsadga erishish uchun qattiq va murosasiz usullardan foydalanish.", ex: "They're playing hardball in these negotiations, so we need to be prepared.", exUz: "Ular bu muzokaralarda qattiq kurashmoqdalar, shuning uchun biz tayyor bo'lishimiz kerak."},
+    {term: "cave in", en: "", uz: "taslim bo'lish", uzDef: "Bosim ostida o'z pozitsiyasidan voz kechish, taslim bo'lish.", ex: "Don't cave in to their demands; stand your ground.", exUz: "Ularning talablariga taslim bo'lmang; o'z pozitsiyangizda turing."},
+    {term: "a bargaining chip", en: "", uz: "savdolashuv vositasi", uzDef: "Muzokaralarda foydalanish mumkin bo'lgan narsa, ta'sir o'tkazish vositasi.", ex: "His expertise is a valuable bargaining chip in the negotiations.", exUz: "Uning tajribasi muzokaralarda qimmatli savdolashuv vositasidir."},
+    {term: "table something", en: "", uz: "muhokamani qoldirish", uzDef: "Muhokamani keyinroqqa qoldirish, vaqtincha to'xtatib turish.", ex: "Let's table this discussion until we have more information.", exUz: "Keling, bu muhokamani ko'proq ma'lumotga ega bo'lgunimizcha qoldiramiz."},
+    {term: "hammer out", en: "", uz: "kelishib olish", uzDef: "Uzoq va qiyin muhokamadan so'ng kelishuvga erishish.", ex: "We spent all day hammering out the details of the contract.", exUz: "Biz butun kunni shartnomaning tafsilotlarini kelishishga sarfladik."},
+    {term: "win-win situation", en: "", uz: "yutuqli vaziyat", uzDef: "Ikki tomon ham foyda ko'radigan vaziyat.", ex: "The deal created a win-win situation for both companies involved.", exUz: "Bitim ishtirok etgan ikkala kompaniya uchun ham yutuqli vaziyatni yaratdi."},
+    {term: "play it cool", en: "", uz: "xotirjam bo'lish", uzDef: "Vaziyatda xotirjam va befarq bo'lib ko'rinishga harakat qilish.", ex: "Even though I was nervous, I tried to play it cool during the presentation.", exUz: "Men hayajonda bo'lsam ham, taqdimot paytida xotirjam bo'lishga harakat qildim."},
+    {term: "leave room", en: "", uz: "imkoniyat qoldirish", uzDef: "Muzokaralarda kelishuvga erishish uchun biroz bo'sh joy qoldirish.", ex: "Always leave room for negotiation; don't give away everything at once.", exUz: "Har doim muzokaralar uchun imkoniyat qoldiring; birdaniga hammasini bermang."},
+    {term: "a tough nut", en: "", uz: "qiyin odam", uzDef: "Kelishish qiyin bo'lgan odam, o'z pozitsiyasida qattiq turadigan inson.", ex: "He's a tough nut to crack, but I'm confident we can reach an agreement.", exUz: "U bilan kelishish qiyin, lekin men kelishuvga erisha olishimizga ishonaman."},
+    {term: "back down", en: "", uz: "chekinmoq", uzDef: "O'z pozitsiyasidan voz kechish, chekinish.", ex: "Neither side was willing to back down, so the negotiations stalled.", exUz: "Hech bir tomon chekinishni xohlamadi, shuning uchun muzokaralar to'xtab qoldi."},
+    {term: "hold all the cards", en: "", uz: "ustunlikka ega", uzDef: "Vaziyatda ustunlikka ega bo'lish, ko'proq ta'sir o'tkaza olish.", ex: "They hold all the cards in this situation, so we have little leverage.", exUz: "Ular bu vaziyatda ustunlikka ega, shuning uchun bizda kam ta'sir o'tkazish imkoniyati bor."},
+    {term: "call someone's bluff", en: "", uz: "aldamini ochish", uzDef: "Birovning yolg'onini fosh qilish, haqiqatni aniqlashga harakat qilish.", ex: "I think he's bluffing; let's call his bluff and see what happens.", exUz: "Menimcha, u aldamoqda; keling, uning aldami ochamiz va nima bo'lishini ko'ramiz."},
+    {term: "on the table", en: "", uz: "muhokamada", uzDef: "Muhokama qilinayotgan yoki ko'rib chiqilayotgan narsa.", ex: "All options are on the table, and we're considering everything.", exUz: "Barcha variantlar muhokamada va biz hamma narsani ko'rib chiqmoqdamiz."},
+    {term: "broker a deal", en: "", uz: "bitim tuzish", uzDef: "Ikki tomon o'rtasida kelishuvga erishishga yordam berish, vositachilik qilish.", ex: "He was able to broker a deal between the two warring factions.", exUz: "U ikki urushayotgan guruh o'rtasida bitim tuzishga muvaffaq bo'ldi."},
+    {term: "make concessions", en: "", uz: "yon berish", uzDef: "Muzokaralarda o'z talablaridan voz kechish yoki kamaytirish.", ex: "Both sides had to make concessions to reach a final agreement.", exUz: "Yakuniy kelishuvga erishish uchun ikkala tomon ham yon berishga majbur bo'ldi."},
+    {term: "get down to brass tacks", en: "", uz: "asosiy masalaga o'tish", uzDef: "Asosiy va muhim masalalarni muhokama qilishga o'tish.", ex: "Let's get down to brass tacks and talk about the budget.", exUz: "Keling, asosiy masalaga o'taylik va byudjet haqida gaplashaylik."},
+    {term: "give and take", en: "", uz: "berish va olish", uzDef: "Muzokaralarda o'zaro yon berish va talablarni qondirish.", ex: "Negotiation is all about give and take; you can't expect to get everything you want.", exUz: "Muzokaralar - bu berish va olish; siz xohlagan hamma narsani olishni kutolmaysiz."},
+    {term: "stand your ground", en: "", uz: "o'z so'zida turmoq", uzDef: "O'z pozitsiyasini himoya qilish, o'z fikridan qaytmaslik.", ex: "She stood her ground and refused to compromise on her principles.", exUz: "U o'z so'zida turdi va o'z tamoyillaridan voz kechishdan bosh tortdi."},
+    {term: "in good faith", en: "", uz: "halol niyat bilan", uzDef: "Halol va samimiy niyat bilan harakat qilish.", ex: "We are negotiating in good faith and hope the other side is too.", exUz: "Biz halol niyat bilan muzokara olib bormoqdamiz va umid qilamizki, narigi tomon ham shunday."},
+    {term: "deadlock", en: "", uz: "tiqilib qolish", uzDef: "Muzokaralarda kelishuvga erisha olmaslik, to'xtab qolish.", ex: "The negotiations reached a deadlock and both sides refused to budge.", exUz: "Muzokaralar tiqilib qoldi va ikkala tomon ham yon berishdan bosh tortdi."},
+    {term: "walk away", en: "", uz: "voz kechish", uzDef: "Muzokaralarni davom ettirmaslik, bitimdan voz kechish.", ex: "If they don't agree to our terms, we're prepared to walk away.", exUz: "Agar ular bizning shartlarimizga rozi bo'lmasa, biz voz kechishga tayyormiz."},
+    {term: "sweet talk", en: "", uz: "shirin so'zlash", uzDef: "Birovni ishontirish uchun shirin so'zlar ishlatish, maqtovlar bilan aldash.", ex: "Don't let them sweet talk you into signing the contract; read it carefully.", exUz: "Ularning shirin so'zlariga aldanib, shartnomani imzolamang; uni diqqat bilan o'qing."},
+    {term: "reach out", en: "", uz: "aloqaga chiqish", uzDef: "Bilan aloqaga kirishish, bog'lanish.", ex: "We need to reach out to the other party and try to restart negotiations.", exUz: "Biz boshqa tomon bilan aloqaga chiqishimiz va muzokaralarni qayta boshlashga harakat qilishimiz kerak."},
+    {term: "a middle ground", en: "", uz: "o'rta yo'l", uzDef: "Ikki pozitsiya o'rtasidagi kelishuv, murosaga kelishish nuqtasi.", ex: "We need to find a middle ground that satisfies both parties.", exUz: "Biz ikkala tomonni ham qoniqtiradigan o'rta yo'lni topishimiz kerak."},
+    {term: "push back", en: "", uz: "qarshilik ko'rsatish", uzDef: "Taklifga yoki g'oyaga qarshilik ko'rsatish, norozilik bildirish.", ex: "They pushed back against our proposal, saying it was too expensive.", exUz: "Ular bizning taklifimizga qarshilik ko'rsatib, u juda qimmat ekanligini aytishdi."},
+    {term: "get something across", en: "", uz: "tushuntirishga erishish", uzDef: "G'oyani yoki nuqtai nazarni tushuntirishga erishish, boshqalarni ishontirish.", ex: "I tried to get my point across, but they didn't seem to understand.", exUz: "Men o'z nuqtai nazarimni tushuntirishga harakat qildim, lekin ular tushunmaganga o'xshaydi."},
+    {term: "iron out", en: "", uz: "hal qilish", uzDef: "Muammolarni hal qilish, tafsilotlarni tartibga solish.", ex: "We need to iron out the remaining details before we sign the agreement.", exUz: "Biz shartnomani imzolashdan oldin qolgan tafsilotlarni hal qilishimiz kerak."}
+  ]
+};

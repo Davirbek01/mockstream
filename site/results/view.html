@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Result — Mock Stream</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0fdf4;
+      min-height: 100vh;
+    }
+
+    .loading-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+    }
+
+    .loading-screen .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #10b981;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-screen p {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .error-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 12px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .error-screen .icon {
+      font-size: 48px;
+    }
+
+    .error-screen h2 {
+      color: #1e293b;
+      font-size: 20px;
+    }
+
+    .error-screen p {
+      color: #64748b;
+      font-size: 14px;
+      max-width: 400px;
+    }
+
+    #reportContainer {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      width: 100%;
+    }
+
+    #reportContainer iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
+    .tab-bar {
+      display: none;
+      background: #1e293b;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .tab-bar.visible {
+      display: flex;
+    }
+
+    .tab-bar button {
+      padding: 12px 20px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+    }
+
+    .tab-bar button:hover {
+      background: rgba(255,255,255,0.05);
+      color: #e2e8f0;
+    }
+
+    .tab-bar button.active {
+      color: #10b981;
+      border-bottom-color: #10b981;
+      background: rgba(16,185,129,0.1);
+    }
+
+    .zip-notice {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .zip-notice .icon {
+      font-size: 48px;
+    }
+
+    .zip-notice h2 {
+      color: #1e293b;
+      font-size: 20px;
+    }
+
+    .zip-notice p {
+      color: #64748b;
+      font-size: 14px;
+      max-width: 400px;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .progress-bar {
+      width: 260px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 3px;
+      transition: width 0.2s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="loading-screen" id="loadingScreen">
+    <div class="spinner"></div>
+    <p id="loadingText">Loading result report...</p>
+    <div class="progress-bar" id="progressBar" style="display:none;">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p id="progressText" style="display:none; color:#94a3b8; font-size:12px; margin-top:-8px;">0%</p>
+  </div>
+
+  <div class="error-screen" id="errorScreen">
+    <div class="icon">😕</div>
+    <h2 id="errorTitle">Result Not Found</h2>
+    <p id="errorMsg">This result link may have expired or the ID is invalid.</p>
+  </div>
+
+  <div class="zip-notice" id="zipNotice">
+    <div class="icon">📦</div>
+    <h2>ZIP Report Available</h2>
+    <p>This result contains audio files and cannot be displayed inline. Click below to download the full report package.</p>
+    <a class="download-btn" id="downloadBtn" href="#" download>
+      📥 Download Report
+    </a>
+  </div>
+
+  <div id="reportContainer">
+    <div class="tab-bar" id="tabBar"></div>
+    <iframe id="reportFrame" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups"></iframe>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script>
+    // ===== CONFIG =====
+    var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    (async function () {
+      var params = new URLSearchParams(window.location.search);
+      var resultId = params.get('id');
+
+      if (!resultId || !/^[0-9a-f-]{36}$/i.test(resultId)) {
+        showError('Invalid Link', 'The result ID in this URL is missing or malformed.');
+        return;
+      }
+
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        showError('Not Configured', 'Supabase connection has not been set up yet.');
+        return;
+      }
+
+      try {
+        // 1. Look up the result record to get report_path
+        var url = SUPABASE_URL + '/rest/v1/results?id=eq.' + resultId + '&select=report_path,student_name,skill,exam_type';
+        var res = await fetch(url, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+          }
+        });
+
+        if (!res.ok) throw new Error('DB lookup failed');
+
+        var rows = await res.json();
+        if (!rows || rows.length === 0) {
+          showError('Result Not Found', 'No result was found with this ID. The link may have expired.');
+          return;
+        }
+
+        var result = rows[0];
+        var reportPath = result.report_path;
+
+        // Update page title
+        var titleParts = [result.student_name, (result.exam_type || '').toUpperCase(), result.skill].filter(Boolean);
+        if (titleParts.length) document.title = titleParts.join(' — ') + ' | Mock Stream';
+
+        // 2. Build the public storage URL
+        var fileUrl = SUPABASE_URL + '/storage/v1/object/public/reports/' + reportPath;
+
+        // 3. If ZIP, extract and render the HTML report inline; if HTML, display in iframe
+        if (reportPath.endsWith('.zip')) {
+          await handleZipReport(fileUrl, result);
+        } else {
+          // HTML report — fetch and load as blob to ensure correct Content-Type rendering
+          var iframe = document.getElementById('reportFrame');
+          fetch(fileUrl)
+            .then(function (resp) { return resp.blob(); })
+            .then(function (blob) {
+              var htmlBlob = new Blob([blob], { type: 'text/html; charset=utf-8' });
+              var blobUrl = URL.createObjectURL(htmlBlob);
+              iframe.src = blobUrl;
+              iframe.onload = function () {
+                showReportContainer();
+              };
+              // Fallback timeout
+              setTimeout(function () {
+                if (document.getElementById('reportContainer').style.display !== 'flex') {
+                  showReportContainer();
+                }
+              }, 8000);
+            })
+            .catch(function (err) {
+              console.error('[Viewer] Blob fetch failed:', err);
+              // Fallback: direct URL
+              iframe.src = fileUrl;
+              iframe.onload = function () {
+                showReportContainer();
+              };
+            });
+        }
+
+      } catch (err) {
+        console.error('[Viewer]', err);
+        showError('Connection Error', 'Could not load the result. Please try again later.');
+      }
+    })();
+
+    // ===== HELPERS =====
+    function showReportContainer() {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('reportContainer').style.display = 'flex';
+    }
+
+    function showZipDownload(fileUrl, result) {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('downloadBtn').href = fileUrl;
+      document.getElementById('downloadBtn').download = (result.student_name || 'report') + '.zip';
+      document.getElementById('zipNotice').style.display = 'flex';
+    }
+
+    function showError(title, msg) {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('errorTitle').textContent = title;
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('errorScreen').style.display = 'flex';
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function getAudioMime(ext) {
+      return ext === 'webm' ? 'audio/webm'
+        : ext === 'ogg' ? 'audio/ogg'
+        : ext === 'mp3' ? 'audio/mpeg'
+        : ext === 'wav' ? 'audio/wav'
+        : ext === 'm4a' ? 'audio/mp4'
+        : 'audio/webm';
+    }
+
+    // ===== ZIP DOWNLOAD WITH PROGRESS =====
+    async function downloadZipWithProgress(fileUrl) {
+      var loadingText = document.getElementById('loadingText');
+      var progressBar = document.getElementById('progressBar');
+      var progressFill = document.getElementById('progressFill');
+      var progressText = document.getElementById('progressText');
+
+      loadingText.textContent = 'Downloading report...';
+      progressBar.style.display = 'block';
+      progressText.style.display = 'block';
+
+      var resp = await fetch(fileUrl);
+      if (!resp.ok) throw new Error('Failed to download ZIP: ' + resp.status);
+
+      var contentLength = resp.headers.get('Content-Length');
+      var total = contentLength ? parseInt(contentLength, 10) : 0;
+      var reader = resp.body.getReader();
+      var chunks = [];
+      var received = 0;
+
+      while (true) {
+        var readResult = await reader.read();
+        if (readResult.done) break;
+        chunks.push(readResult.value);
+        received += readResult.value.length;
+        if (total) {
+          var pct = Math.min(Math.round((received / total) * 100), 100);
+          progressFill.style.width = pct + '%';
+          progressText.textContent = pct + '% (' + formatBytes(received) + ' / ' + formatBytes(total) + ')';
+        } else {
+          progressText.textContent = formatBytes(received) + ' downloaded';
+        }
+      }
+
+      var zipData = new Uint8Array(received);
+      var pos = 0;
+      for (var i = 0; i < chunks.length; i++) {
+        zipData.set(chunks[i], pos);
+        pos += chunks[i].length;
+      }
+
+      progressFill.style.width = '100%';
+      loadingText.textContent = 'Extracting report...';
+      progressText.textContent = '';
+
+      return await JSZip.loadAsync(zipData.buffer);
+    }
+
+    // ===== EXTRACT AUDIO FROM ZIP & REPLACE SRC =====
+    async function extractAudioAndPatch(zip, htmlContent) {
+      var audioFiles = [];
+      for (var fname in zip.files) {
+        if (!zip.files[fname].dir && /\.(webm|ogg|mp3|wav|m4a)$/i.test(fname)) {
+          audioFiles.push(fname);
+        }
+      }
+      if (audioFiles.length === 0) return htmlContent;
+
+      document.getElementById('loadingText').textContent = 'Loading ' + audioFiles.length + ' audio files...';
+
+      var audioPromises = audioFiles.map(function (fname) {
+        return zip.files[fname].async('blob').then(function (blob) {
+          var ext = fname.split('.').pop().toLowerCase();
+          return { name: fname, url: URL.createObjectURL(new Blob([blob], { type: getAudioMime(ext) })) };
+        });
+      });
+
+      var audioResults = await Promise.all(audioPromises);
+      for (var i = 0; i < audioResults.length; i++) {
+        var escaped = audioResults[i].name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        var srcRegex = new RegExp('(src\\s*=\\s*["\']?)' + escaped + '(["\']?)', 'gi');
+        htmlContent = htmlContent.replace(srcRegex, '$1' + audioResults[i].url + '$2');
+      }
+      return htmlContent;
+    }
+
+    // ===== ZIP EXTRACTION & INLINE RENDERING =====
+    async function handleZipReport(fileUrl, result) {
+      try {
+        var zip = await downloadZipWithProgress(fileUrl);
+
+        // Categorize files in the ZIP
+        var htmlFiles = [];
+        var pdfFiles = [];
+        var nestedZips = [];
+        var audioFiles = [];
+
+        for (var name in zip.files) {
+          if (zip.files[name].dir) continue;
+          if (name.endsWith('.html')) htmlFiles.push(name);
+          else if (name.endsWith('.pdf')) pdfFiles.push(name);
+          else if (name.endsWith('.zip')) nestedZips.push(name);
+          else if (/\.(webm|ogg|mp3|wav|m4a)$/i.test(name)) audioFiles.push(name);
+        }
+
+        // Full mock detection: multiple HTML reports + nested speaking ZIP
+        if (htmlFiles.length >= 2 && nestedZips.length > 0) {
+          await renderFullMockZip(zip, htmlFiles, pdfFiles, nestedZips, fileUrl, result);
+        } else {
+          // Speaking-only or single-report ZIP
+          await renderSingleReportZip(zip, htmlFiles, audioFiles, fileUrl, result);
+        }
+
+      } catch (err) {
+        console.error('[Viewer] ZIP extraction failed:', err);
+        showZipDownload(fileUrl, result);
+      }
+    }
+
+    // ===== FULL MOCK: TABBED VIEWER =====
+    async function renderFullMockZip(zip, htmlFiles, pdfFiles, nestedZips, fileUrl, result) {
+      var loadingText = document.getElementById('loadingText');
+      loadingText.textContent = 'Preparing full mock report...';
+
+      htmlFiles.sort();
+      var tabs = [];
+
+      // PDF certificate tabs
+      for (var p = 0; p < pdfFiles.length; p++) {
+        var pdfBlob = await zip.files[pdfFiles[p]].async('blob');
+        var pdfUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+        tabs.push({ label: '📜 Certificate', url: pdfUrl, isPdf: true });
+      }
+
+      // HTML report tabs
+      for (var h = 0; h < htmlFiles.length; h++) {
+        var htmlContent = await zip.files[htmlFiles[h]].async('text');
+        var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
+        var htmlUrl = URL.createObjectURL(htmlBlob);
+        var label = htmlFiles[h].replace(/^\d+_/, '').replace(/\.html$/i, '').replace(/_/g, ' ');
+        var emoji = label.toLowerCase().includes('listening') ? '🎧'
+          : label.toLowerCase().includes('reading') ? '📖'
+          : label.toLowerCase().includes('writing') ? '✍️' : '📄';
+        tabs.push({ label: emoji + ' ' + label, url: htmlUrl });
+      }
+
+      // Nested speaking ZIP (extract audio + HTML)
+      for (var z = 0; z < nestedZips.length; z++) {
+        loadingText.textContent = 'Extracting speaking audio...';
+        var nestedZipData = await zip.files[nestedZips[z]].async('arraybuffer');
+        var speakingZip = await JSZip.loadAsync(nestedZipData);
+
+        var speakingHtml = null;
+        for (var sname in speakingZip.files) {
+          if (!speakingZip.files[sname].dir && sname.endsWith('.html')) {
+            speakingHtml = sname;
+            break;
+          }
+        }
+
+        if (speakingHtml) {
+          var speakingContent = await speakingZip.files[speakingHtml].async('text');
+          speakingContent = await extractAudioAndPatch(speakingZip, speakingContent);
+          var speakingBlob = new Blob([speakingContent], { type: 'text/html; charset=utf-8' });
+          tabs.push({ label: '🗣️ Speaking', url: URL.createObjectURL(speakingBlob) });
+        }
+      }
+
+      // Download button
+      tabs.push({ label: '📥 Download ZIP', url: fileUrl, isDownload: true, downloadName: (result.student_name || 'report') + '.zip' });
+
+      // Build tab bar
+      var tabBar = document.getElementById('tabBar');
+      var iframe = document.getElementById('reportFrame');
+
+      for (var t = 0; t < tabs.length; t++) {
+        (function (tab, index) {
+          var btn = document.createElement('button');
+          btn.textContent = tab.label;
+          if (tab.isDownload) {
+            btn.onclick = function () {
+              var a = document.createElement('a');
+              a.href = tab.url;
+              a.download = tab.downloadName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            };
+          } else {
+            btn.onclick = function () {
+              var btns = tabBar.querySelectorAll('button');
+              for (var b = 0; b < btns.length; b++) btns[b].classList.remove('active');
+              btn.classList.add('active');
+              if (tab.isPdf) {
+                iframe.removeAttribute('sandbox');
+              } else {
+                iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-downloads allow-popups');
+              }
+              iframe.src = tab.url;
+            };
+          }
+          if (index === 0) btn.classList.add('active');
+          tabBar.appendChild(btn);
+        })(tabs[t], t);
+      }
+
+      tabBar.classList.add('visible');
+
+      // Load first non-download tab
+      if (tabs.length > 0 && !tabs[0].isDownload) {
+        if (tabs[0].isPdf) {
+          iframe.removeAttribute('sandbox');
+        }
+        iframe.src = tabs[0].url;
+      }
+
+      iframe.onload = function () { showReportContainer(); };
+      setTimeout(function () {
+        if (document.getElementById('reportContainer').style.display !== 'flex') {
+          showReportContainer();
+        }
+      }, 8000);
+    }
+
+    // ===== SPEAKING / SINGLE REPORT ZIP =====
+    async function renderSingleReportZip(zip, htmlFiles, audioFiles, fileUrl, result) {
+      var htmlFileName = null;
+      var priorityNames = ['Speaking_Mock_Report.html', 'questions.html'];
+
+      for (var i = 0; i < priorityNames.length; i++) {
+        if (zip.files[priorityNames[i]]) {
+          htmlFileName = priorityNames[i];
+          break;
+        }
+      }
+
+      if (!htmlFileName && htmlFiles.length > 0) {
+        htmlFileName = htmlFiles[0];
+      }
+
+      if (!htmlFileName) {
+        console.warn('[Viewer] No HTML file found in ZIP, showing download button');
+        showZipDownload(fileUrl, result);
+        return;
+      }
+
+      var htmlContent = await zip.files[htmlFileName].async('text');
+      htmlContent = await extractAudioAndPatch(zip, htmlContent);
+
+      var iframe = document.getElementById('reportFrame');
+      var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
+      iframe.src = URL.createObjectURL(htmlBlob);
+      iframe.onload = function () { showReportContainer(); };
+      setTimeout(function () {
+        if (document.getElementById('reportContainer').style.display !== 'flex') {
+          showReportContainer();
+        }
+      }, 8000);
+    }
+  </script>
+
+</body>
+
+</html>

@@ -25,36 +25,35 @@
     html,body{height:100%; overflow:hidden;}
     
     .back-btn{
-      position:fixed;
-      top:20px;
-      left:20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      margin:1.5rem auto 2rem;
       background:rgba(255,255,255,0.15);
       backdrop-filter:blur(10px);
       color:#fff;
       text-decoration:none;
-      padding:10px 18px;
+      padding:12px 28px;
       border-radius:50px;
       font-weight:600;
-      font-size:14px;
+      font-size:15px;
       transition:all 0.3s ease;
-      z-index:100;
       border:1px solid rgba(255,255,255,0.2);
+    }
+    .back-btn-wrap{
+      text-align:center;
     }
     .back-btn:hover{
       background:rgba(255,255,255,0.25);
-      transform:translateX(-3px);
+      transform:translateY(-2px);
     }
 
     /* Mobile - minimize back button, hide download PDF */
     @media (max-width: 768px) {
       .back-btn {
-        padding: 8px 12px;
-        font-size: 16px;
-        top: 12px;
-        left: 12px;
-      }
-      .back-btn span {
-        display: none;
+        padding: 10px 24px;
+        font-size: 14px;
       }
       .download-pdf-btn {
         display: none !important;
@@ -62,25 +61,7 @@
     }
 
     .download-pdf-btn{
-      position:fixed;
-      top:20px;
-      right:20px;
-      background:linear-gradient(135deg, #10b981, #059669);
-      backdrop-filter:blur(10px);
-      color:#fff;
-      text-decoration:none;
-      padding:10px 18px;
-      border-radius:50px;
-      font-weight:600;
-      font-size:14px;
-      transition:all 0.3s ease;
-      z-index:100;
-      border:none;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      box-shadow:0 4px 12px rgba(16,185,129,.3);
+      display:none !important;
     }
     .download-pdf-btn:hover{
       background:linear-gradient(135deg, #059669, #047857);
@@ -126,12 +107,12 @@
     }
     
     .header h1{
-      font-size:clamp(28px, 5vw, 42px);
-      font-weight:800;
+      font-size:clamp(18px, 3vw, 24px);
+      font-weight:700;
       color:#ffffff;
-      text-shadow:0 4px 12px rgba(0,0,0,.2);
+      text-shadow:0 2px 8px rgba(0,0,0,.2);
       letter-spacing:-0.02em;
-      margin-bottom:0.5rem;
+      margin-bottom:0.3rem;
     }
     
     .progress-bar{
@@ -201,8 +182,8 @@
       box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.9);
       backface-visibility:hidden;
       -webkit-backface-visibility:hidden;
-      padding:clamp(24px, 5vh, 48px) clamp(28px, 5vw, 56px);
-      padding-bottom:clamp(32px, 6vh, 64px);
+      padding:clamp(20px, 3.5vh, 36px) clamp(24px, 4vw, 44px);
+      padding-bottom:clamp(24px, 4vh, 40px);
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -223,13 +204,13 @@
     }
     
     .question-number{
-      font-size:14px;
+      font-size:13px;
       font-weight:700;
       color:var(--text-accent);
       text-transform:uppercase;
       letter-spacing:0.1em;
-      margin-bottom:1.5rem;
-      padding:8px 20px;
+      margin-bottom:0.75rem;
+      padding:6px 16px;
       background:linear-gradient(135deg, rgba(102,126,234,.1), rgba(139,92,246,.1));
       border-radius:50px;
     }
@@ -243,14 +224,16 @@
     }
     
     .question-text{
-      font-size:clamp(24px, 4vw, 36px);
+      font-size:clamp(20px, 3.5vw, 30px);
       font-weight:800;
       color:var(--text);
       text-align:center;
-      margin-bottom:2rem;
-      line-height:1.3;
+      margin-bottom:1.25rem;
+      line-height:1.2;
       letter-spacing:-0.02em;
     }
+    .question-text b{color:var(--text-accent);font-weight:800;}
+    .option-btn b{color:var(--text-accent);font-weight:700;}
     
     .options{
       display:grid;
@@ -268,8 +251,8 @@
     }
     
     .option-btn{
-      padding:1.25rem 1.5rem;
-      font-size:18px;
+      padding:0.9rem 1.2rem;
+      font-size:16px;
       font-weight:600;
       border:3px solid #e2e8f0;
       border-radius:16px;
@@ -491,6 +474,25 @@
     .speaker-btn.speaking{
       animation:speakingPulse 0.6s ease-in-out infinite;
     }
+    .speaker-btn.loading{
+      pointer-events:none;
+      opacity:0.7;
+    }
+    .speaker-btn.loading::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      border:3px solid transparent;
+      border-top-color:#fff;
+      animation:spin 0.8s linear infinite;
+    }
+    .speaker-btn.playing{
+      background:linear-gradient(135deg, #10b981, #059669);
+    }
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
+    }
 
     @keyframes speakingPulse{
       0%, 100%{ transform:scale(1); }
@@ -564,6 +566,151 @@
       transform:translateY(-3px);
       box-shadow:0 12px 32px rgba(102,126,234,.5);
     }
+
+    /* Retry round transition */
+    /* Navigation buttons (shown after answering) */
+    .nav-buttons{
+      display:flex;
+      gap:12px;
+      margin-top:1.25rem;
+    }
+    .nav-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:10px 24px;
+      font-size:15px;
+      font-weight:600;
+      border:none;
+      border-radius:50px;
+      cursor:pointer;
+      transition:all 0.25s ease;
+      color:#fff;
+    }
+    .nav-btn.prev{
+      background:rgba(100,116,139,.75);
+    }
+    .nav-btn.prev:hover{
+      background:rgba(100,116,139,1);
+      transform:translateY(-2px);
+    }
+    .nav-btn.next{
+      background:linear-gradient(135deg, var(--text-accent), #8b5cf6);
+      box-shadow:0 4px 14px rgba(102,126,234,.35);
+    }
+    .nav-btn.next:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(102,126,234,.45);
+    }
+    .nav-btn.home{
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.2);
+      color:var(--text-light);
+      font-size:14px;
+      padding:10px 20px;
+    }
+    .nav-btn.home:hover{
+      background:rgba(255,255,255,0.3);
+      transform:translateY(-2px);
+    }
+    .nav-btn:disabled{
+      opacity:0.4;
+      cursor:not-allowed;
+      transform:none !important;
+    }
+
+    .retry-card{
+      position:relative;
+      width:100%;
+      border-radius:32px;
+      background:linear-gradient(135deg, var(--card) 0%, #fefefe 100%);
+      border:2px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:48px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      opacity:0;
+      transform:scale(0.9);
+      transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .retry-card.show{
+      opacity:1;
+      transform:scale(1);
+    }
+    .retry-icon{
+      font-size:64px;
+      margin-bottom:1rem;
+    }
+    .retry-title{
+      font-size:30px;
+      font-weight:800;
+      color:var(--text);
+      margin-bottom:0.5rem;
+    }
+    .retry-stats{
+      font-size:20px;
+      font-weight:600;
+      color:var(--text-accent);
+      margin-bottom:0.5rem;
+    }
+    .retry-message{
+      font-size:16px;
+      color:var(--text-light);
+      text-align:center;
+      max-width:420px;
+      margin-bottom:2rem;
+      line-height:1.6;
+    }
+    .retry-buttons{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .btn-retry{
+      padding:16px 36px;
+      font-size:17px;
+      font-weight:700;
+      border:none;
+      border-radius:50px;
+      background:linear-gradient(135deg, #f59e0b, #d97706);
+      color:white;
+      cursor:pointer;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:0 8px 24px rgba(245,158,11,.4);
+    }
+    .btn-retry:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(245,158,11,.5);
+    }
+    .btn-finish{
+      padding:16px 36px;
+      font-size:17px;
+      font-weight:700;
+      border:none;
+      border-radius:50px;
+      background:linear-gradient(135deg, var(--text-accent), #8b5cf6);
+      color:white;
+      cursor:pointer;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:0 8px 24px rgba(102,126,234,.4);
+    }
+    .btn-finish:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(102,126,234,.5);
+    }
+    .retry-round-badge{
+      display:inline-block;
+      background:linear-gradient(135deg, #f59e0b, #d97706);
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+      padding:4px 14px;
+      border-radius:20px;
+      margin-bottom:0.5rem;
+    }
     
     @keyframes fadeIn{
       from{ opacity:0; }
@@ -633,11 +780,7 @@
 
     /* Brand styling */
     .brand{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin-bottom:0.75rem;
+      display:none !important;
     }
     .logo{
       width:36px; height:36px;
@@ -719,24 +862,21 @@
         font-size:9px;
       }
       .option-btn{
-        padding:1rem 1.2rem;
-        font-size:16px;
+        padding:0.65rem 0.9rem;
+        font-size:15px;
       }
       .wrap{
-        margin:10px 0;
+        margin:6px 0;
       }
       .question-card{
-        padding:20px 24px;
-        padding-bottom:24px;
-        border-radius:24px;
+        padding:14px 16px;
+        padding-bottom:16px;
+        border-radius:20px;
       }
     }
   </style>
 </head>
 <body>
-  <a href="landing.html" class="back-btn" title="Back to Home" onclick="goBack(); return false;">
-    ← <span>Home</span>
-  </a>
   <button class="download-pdf-btn" id="downloadPdfBtn" title="Download as PDF">
     <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
     Download PDF
@@ -775,6 +915,8 @@
     </div>
   </div>
 
+
+
   <!-- Load global settings from speaking mock -->
   <script src="questions S/questions.js"></script>
   <script>
@@ -794,6 +936,117 @@
     let wrongAnswers = 0;
     let answered = false;
     const wrap = document.getElementById('wrap');
+
+    // ===== gTTS SERVER =====
+    const GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
+    const gttsCache = {};
+    let currentGttsAudio = null;
+
+    function cleanTextForTTS(text) {
+      return text
+        .replace(/_+/g, ', ,')              // gaps → pause
+        .replace(/["\u201C\u201D\u201E]/g, '')  // remove double quotes
+        .replace(/[\u2018\u2019]/g, "'")    // normalize smart single quotes
+        .replace(/[*#~`|]/g, '')            // strip symbols
+        .replace(/\s{2,}/g, ' ')            // collapse spaces
+        .trim();
+    }
+
+    function stopGttsAudio() {
+      if (currentGttsAudio) {
+        currentGttsAudio.pause();
+        currentGttsAudio.currentTime = 0;
+        currentGttsAudio = null;
+      }
+    }
+
+    async function playGtts(text, btn) {
+      // If already playing, toggle off
+      if (btn.classList.contains('playing')) {
+        stopGttsAudio();
+        btn.classList.remove('playing', 'speaking');
+        return;
+      }
+
+      stopGttsAudio();
+      const cleaned = cleanTextForTTS(text);
+      if (!cleaned) return;
+
+      btn.classList.add('loading');
+      btn.classList.remove('playing', 'speaking');
+
+      try {
+        let blob;
+        if (gttsCache[cleaned]) {
+          blob = gttsCache[cleaned];
+        } else {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 30000);
+          const res = await fetch(GTTS_SERVER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phrase: cleaned }),
+            signal: controller.signal
+          });
+          clearTimeout(timeout);
+          if (!res.ok) throw new Error('gTTS server error ' + res.status);
+
+          const ct = res.headers.get('content-type') || '';
+          if (ct.includes('zip') || ct.includes('octet-stream')) {
+            // ZIP response — extract mp3
+            if (!window.JSZip) {
+              const s = document.createElement('script');
+              s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+              await new Promise((r, e) => { s.onload = r; s.onerror = e; document.head.appendChild(s); });
+            }
+            const zip = await JSZip.loadAsync(await res.arrayBuffer());
+            const mp3 = Object.keys(zip.files).find(f => f.endsWith('.mp3'));
+            if (mp3) blob = await zip.files[mp3].async('blob');
+            else throw new Error('No mp3 in zip');
+          } else {
+            blob = await res.blob();
+          }
+          gttsCache[cleaned] = blob;
+        }
+
+        btn.classList.remove('loading');
+        btn.classList.add('playing');
+
+        const audio = new Audio(URL.createObjectURL(blob));
+        currentGttsAudio = audio;
+        audio.onended = () => { btn.classList.remove('playing'); currentGttsAudio = null; };
+        audio.onerror = () => { btn.classList.remove('playing'); currentGttsAudio = null; };
+        audio.play();
+
+      } catch (err) {
+        console.warn('gTTS failed, falling back to browser TTS:', err);
+        btn.classList.remove('loading', 'playing');
+        // Fallback to browser speechSynthesis
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(cleaned);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.9;
+          btn.classList.add('speaking');
+          utterance.onend = () => btn.classList.remove('speaking');
+          utterance.onerror = () => btn.classList.remove('speaking');
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+    }
+
+    // ===== SMART RETRY TRACKER =====
+    let wrongQuestions = [];        // questions answered wrong in current round
+    let retryRound = 0;            // 0 = first pass, 1+ = retry rounds
+    let totalQuestions = 0;         // total questions in first round
+    let totalCorrectFirstRound = 0; // correct in first round (for final stats)
+    let totalRetried = 0;           // total questions retried across all rounds
+    let totalCorrectedInRetry = 0;  // questions fixed during retry rounds
+    let autoAdvanceTimer = null;    // setTimeout id for auto-advance
+    let countdownInterval = null;   // setInterval id for countdown circle
+
+    // Track per-question answers so user can navigate back
+    let answeredQuestions = {};     // index -> { selected, isCorrect }
 
     function showError(message) {
       wrap.innerHTML = `
@@ -837,6 +1090,8 @@
     function initTest() {
       // Shuffle and pick questions
       QUESTIONS = shuffleArray([...ALL_QUESTIONS]);
+      totalQuestions = QUESTIONS.length;
+      answeredQuestions = {};
       
       // Check for custom metadata
       const meta = window.TEST_META || {};
@@ -894,7 +1149,8 @@
     function updateProgress() {
       const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100;
       document.getElementById('progressFill').style.width = progress + '%';
-      document.getElementById('progressText').textContent = `Question ${currentQuestion + 1} of ${QUESTIONS.length}`;
+      const roundPrefix = retryRound > 0 ? `Review Round ${retryRound} · ` : '';
+      document.getElementById('progressText').textContent = `${roundPrefix}Question ${currentQuestion + 1} of ${QUESTIONS.length}`;
       document.getElementById('correctCount').textContent = correctAnswers;
       document.getElementById('wrongCount').textContent = wrongAnswers;
     }
@@ -932,30 +1188,44 @@
           `).join('')}
         </div>
         <div class="feedback"></div>
+        <div class="nav-buttons">
+          <button class="nav-btn prev" ${index === 0 ? 'disabled' : ''}>← Back</button>
+          <button class="nav-btn home" onclick="goBack(); return false;">🏠 Home</button>
+          <button class="nav-btn next">${index < QUESTIONS.length - 1 ? 'Next →' : 'Finish →'}</button>
+        </div>
       `;
 
       const speakerBtn = card.querySelector('.speaker-btn');
       const optionBtns = card.querySelectorAll('.option-btn');
       const feedback = card.querySelector('.feedback');
+      const prevBtn = card.querySelector('.nav-btn.prev');
+      const nextBtn = card.querySelector('.nav-btn.next');
 
-      // Text-to-speech for question
+      // Text-to-speech for question (gTTS with browser fallback)
       speakerBtn.addEventListener('click', () => {
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          
-          let textToSpeak = q.question.replace(/_+/g, 'blank');
-          
-          const utterance = new SpeechSynthesisUtterance(textToSpeak);
-          utterance.lang = 'en-US';
-          utterance.rate = 0.9;
-          
-          speakerBtn.classList.add('speaking');
-          utterance.onend = () => speakerBtn.classList.remove('speaking');
-          utterance.onerror = () => speakerBtn.classList.remove('speaking');
-          
-          window.speechSynthesis.speak(utterance);
-        }
+        playGtts(q.question, speakerBtn);
       });
+
+      // If this question was already answered (navigating back), restore its state
+      if (answeredQuestions[index]) {
+        answered = true;
+        const prev = answeredQuestions[index];
+        optionBtns.forEach(b => {
+          b.classList.add('disabled');
+          if (b.dataset.answer === q.correct) b.classList.add('correct');
+          if (b.dataset.answer === prev.selected && !prev.isCorrect) b.classList.add('wrong');
+          // Restore wrong meaning tooltip
+          if (!prev.isCorrect && b.dataset.answer === prev.selected && q.meanings && q.meanings[prev.selected]) {
+            const wrongMeaning = document.createElement('div');
+            wrongMeaning.className = 'wrong-meaning';
+            wrongMeaning.textContent = q.meanings[prev.selected];
+            b.style.position = 'relative';
+            b.appendChild(wrongMeaning);
+          }
+        });
+        feedback.textContent = q.def || (prev.isCorrect ? 'Correct!' : 'Incorrect');
+        feedback.className = `feedback ${prev.isCorrect ? 'correct-msg' : 'wrong-msg'} show`;
+      }
 
       optionBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -964,6 +1234,9 @@
           answered = true;
           const selectedAnswer = btn.dataset.answer;
           const isCorrect = selectedAnswer === q.correct;
+
+          // Store answer for this question
+          answeredQuestions[index] = { selected: selectedAnswer, isCorrect };
 
           optionBtns.forEach(b => {
             b.classList.add('disabled');
@@ -977,9 +1250,11 @@
             correctAnswers++;
             feedback.textContent = q.def || 'Correct!';
             feedback.className = 'feedback correct-msg show';
+            if (retryRound > 0) totalCorrectedInRetry++;
           } else {
             btn.classList.add('wrong');
             wrongAnswers++;
+            wrongQuestions.push(q); // track for retry
             
             // Add wrong meaning tooltip
             if (q.meanings && q.meanings[selectedAnswer]) {
@@ -1011,10 +1286,15 @@
           let timeLeft = delayTime / 1000;
           timerText.textContent = Math.ceil(timeLeft);
           
-          const timerInterval = setInterval(() => {
+          // Clear any previous timers
+          if (countdownInterval) clearInterval(countdownInterval);
+          if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
+
+          countdownInterval = setInterval(() => {
             timeLeft -= 0.1;
             if (timeLeft <= 0) {
-              clearInterval(timerInterval);
+              clearInterval(countdownInterval);
+              countdownInterval = null;
               timerElement.style.opacity = '0';
             } else {
               const progress = timeLeft / (delayTime / 1000);
@@ -1026,22 +1306,48 @@
           }, 100);
           
           // Auto advance
-          setTimeout(() => {
-            clearInterval(timerInterval);
-            if (currentQuestion < QUESTIONS.length - 1) {
-              currentQuestion++;
-              showQuestion(currentQuestion);
-            } else {
-              showResults();
-            }
+          autoAdvanceTimer = setTimeout(() => {
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = null;
+            autoAdvanceTimer = null;
+            navigateForward();
           }, delayTime);
         });
+      });
+
+      // Nav button handlers
+      prevBtn.addEventListener('click', () => {
+        cancelAutoAdvance();
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          showQuestion(currentQuestion);
+        }
+      });
+
+      nextBtn.addEventListener('click', () => {
+        cancelAutoAdvance();
+        navigateForward();
       });
 
       return card;
     }
 
+    function cancelAutoAdvance() {
+      if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    }
+
+    function navigateForward() {
+      if (currentQuestion < QUESTIONS.length - 1) {
+        currentQuestion++;
+        showQuestion(currentQuestion);
+      } else {
+        showResults();
+      }
+    }
+
     function showQuestion(index) {
+      cancelAutoAdvance();
       answered = false;
 
       const existingCards = wrap.querySelectorAll('.question-card');
@@ -1063,23 +1369,97 @@
     }
 
     function showResults() {
-      const percentage = Math.round((correctAnswers / QUESTIONS.length) * 100);
+      // If there are wrong questions, offer a retry round
+      if (wrongQuestions.length > 0) {
+        if (retryRound === 0) totalCorrectFirstRound = correctAnswers;
+        showRetryTransition();
+        return;
+      }
+
+      // Final results — all correct (or user chose to finish)
+      showFinalResults();
+    }
+
+    function showRetryTransition() {
+      const wrongCount = wrongQuestions.length;
+      const roundLabel = retryRound === 0 ? 'Round Complete' : `Review Round ${retryRound} Complete`;
+
+      const retryCard = document.createElement('div');
+      retryCard.className = 'retry-card';
+      retryCard.innerHTML = `
+        <div class="retry-icon">🔄</div>
+        <div class="retry-title">${roundLabel}</div>
+        <div class="retry-stats">${correctAnswers}/${QUESTIONS.length} correct · ${wrongCount} to review</div>
+        <div class="retry-message">
+          You got <strong>${wrongCount} question${wrongCount > 1 ? 's' : ''}</strong> wrong.
+          Let's go over ${wrongCount > 1 ? 'them' : 'it'} again to strengthen your knowledge!
+        </div>
+        <div class="retry-buttons">
+          <button class="btn-retry" onclick="startRetryRound()">🔁 Review Mistakes</button>
+          <button class="btn-finish" onclick="showFinalResults()">📊 See Final Results</button>
+        </div>
+      `;
+
+      wrap.innerHTML = '';
+      wrap.appendChild(retryCard);
+      setTimeout(() => retryCard.classList.add('show'), 100);
+    }
+
+    function startRetryRound() {
+      retryRound++;
+      totalRetried += wrongQuestions.length;
+
+      // Load only the wrong questions, reshuffled
+      QUESTIONS = shuffleArray([...wrongQuestions]);
+      wrongQuestions = [];
+      answeredQuestions = {};
+      currentQuestion = 0;
+      correctAnswers = 0;
+      wrongAnswers = 0;
+
+      // Update progress bar for the retry round
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('progressText').textContent = `Review Round ${retryRound} · Question 1 of ${QUESTIONS.length}`;
+      document.getElementById('correctCount').textContent = '0';
+      document.getElementById('wrongCount').textContent = '0';
+
+      wrap.innerHTML = '';
+      showQuestion(0);
+    }
+
+    function showFinalResults() {
+      // Calculate overall stats
+      const firstRoundCorrect = totalCorrectFirstRound || correctAnswers;
+      const firstRoundPercentage = Math.round((firstRoundCorrect / totalQuestions) * 100);
+
       let icon = '🎉';
       let title = 'Excellent!';
       let message = 'Outstanding performance! You have mastered this topic.';
 
-      if (percentage < 50) {
+      if (firstRoundPercentage < 50) {
         icon = '📖';
         title = 'Keep Studying!';
         message = 'Practice makes perfect. Review and try again!';
-      } else if (percentage < 70) {
+      } else if (firstRoundPercentage < 70) {
         icon = '👍';
         title = 'Good Job!';
         message = 'You\'re making progress! A bit more practice will help.';
-      } else if (percentage < 90) {
+      } else if (firstRoundPercentage < 90) {
         icon = '⭐';
         title = 'Great Work!';
         message = 'Very impressive! You have a solid understanding.';
+      }
+
+      // Build retry summary line
+      let retrySummary = '';
+      if (retryRound > 0) {
+        retrySummary = `
+          <div style="margin-top:12px; padding:12px 20px; background:linear-gradient(135deg,#fef3c7,#fde68a); border-radius:16px; font-size:15px; color:#92400e; max-width:340px; text-align:center;">
+            🔁 Reviewed <strong>${totalRetried}</strong> mistake${totalRetried > 1 ? 's' : ''} across <strong>${retryRound}</strong> round${retryRound > 1 ? 's' : ''}
+            ${totalCorrectedInRetry > 0 ? `<br>✅ Corrected <strong>${totalCorrectedInRetry}</strong> on review` : ''}
+            ${wrongQuestions.length > 0 ? `<br>⚠️ Still tricky: <strong>${wrongQuestions.length}</strong>` : '<br>🎯 All mistakes corrected!'}
+          </div>
+        `;
       }
 
       const resultsCard = document.createElement('div');
@@ -1087,9 +1467,10 @@
       resultsCard.innerHTML = `
         <div class="results-icon">${icon}</div>
         <div class="results-title">${title}</div>
-        <div class="results-score">Score: ${correctAnswers}/${QUESTIONS.length} (${percentage}%)</div>
+        <div class="results-score">Score: ${firstRoundCorrect}/${totalQuestions} (${firstRoundPercentage}%)</div>
         <div class="results-message">${message}</div>
-        <button class="btn-restart" onclick="location.reload()">
+        ${retrySummary}
+        <button class="btn-restart" onclick="location.reload()" style="margin-top:1.5rem;">
           🔄 Take Test Again
         </button>
       `;
@@ -1380,6 +1761,23 @@
   let testFinished = false;
   window.__okToLeave = false;
 
+  // ===== LEVEL DETECTION =====
+  const _urlP = new URLSearchParams(window.location.search);
+  const _testSlug = _urlP.get('test') || '';
+  const _testType = _urlP.get('type') || 'vocabulary';
+  const _levelKeys = ['intermediate', 'upper-intermediate', 'advanced'];
+  let _currentLevel = null;
+  let _baseSlug = _testSlug;
+  // Extract current level from slug (e.g. "conditionals01-upper-intermediate" -> level="upper-intermediate", base="conditionals01")
+  for (let i = _levelKeys.length - 1; i >= 0; i--) {
+    if (_testSlug.endsWith('-' + _levelKeys[i])) {
+      _currentLevel = _levelKeys[i];
+      _baseSlug = _testSlug.slice(0, -(_levelKeys[i].length + 1));
+      break;
+    }
+  }
+  const _hasLevels = !!_currentLevel;
+
   // Mark test as in progress when first question is shown
   const originalShowQuestion = window.showQuestion;
   if (typeof originalShowQuestion === 'function') {
@@ -1471,6 +1869,18 @@
               color: white;
               box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             ">✓ Continue Test</button>
+            ${_hasLevels ? `<button id="leaveSwitchLevelBtn" style="
+              padding: 14px 35px;
+              border: 2px solid #0f766e;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #0f766e, #134e4a);
+              color: #5eead4;
+              box-shadow: 0 4px 15px rgba(15, 118, 110, 0.3);
+            ">🔄 Switch Level</button>` : ''}
             <button id="leaveConfirmBtn" style="
               padding: 14px 35px;
               border: 2px solid #475569;
@@ -1499,6 +1909,11 @@
           border-color: #64748b;
           color: #e2e8f0;
         }
+        #leaveSwitchLevelBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4);
+          background: linear-gradient(135deg, #14b8a6, #0f766e);
+        }
       </style>
     `;
     
@@ -1507,6 +1922,14 @@
     document.getElementById('leaveStayBtn').addEventListener('click', function() {
       hideLeaveWarningModal();
     });
+
+    const switchBtn = document.getElementById('leaveSwitchLevelBtn');
+    if (switchBtn) {
+      switchBtn.addEventListener('click', function() {
+        hideLeaveWarningModal();
+        showLevelSwitcher();
+      });
+    }
     
     document.getElementById('leaveConfirmBtn').addEventListener('click', function() {
       window.__okToLeave = true;
@@ -1549,6 +1972,124 @@
   function hideLeaveWarningModal() {
     const modal = document.getElementById('leaveWarningModal');
     if (modal) modal.style.display = 'none';
+  }
+
+  // Level switcher overlay
+  function showLevelSwitcher() {
+    if (!_hasLevels) return;
+    let existing = document.getElementById('levelSwitcherOverlay');
+    if (existing) existing.remove();
+
+    const levelMeta = {
+      'intermediate': { label: 'Intermediate', tag: 'B1–B2', color: '#0f766e', gradient: 'linear-gradient(135deg, #0f766e, #134e4a)' },
+      'upper-intermediate': { label: 'Upper-Intermediate', tag: 'B2–C1', color: '#7c3aed', gradient: 'linear-gradient(135deg, #7c3aed, #4c1d95)' },
+      'advanced': { label: 'Advanced', tag: 'C1–C2', color: '#dc2626', gradient: 'linear-gradient(135deg, #dc2626, #7f1d1d)' }
+    };
+
+    let btnsHTML = '';
+    for (const key of _levelKeys) {
+      const meta = levelMeta[key];
+      const isCurrent = key === _currentLevel;
+      const targetSlug = _baseSlug + '-' + key;
+      btnsHTML += `<button class="lvl-switch-btn${isCurrent ? ' current' : ''}" data-slug="${targetSlug}" style="
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid ${isCurrent ? meta.color : 'rgba(255,255,255,0.1)'};
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: ${isCurrent ? 'default' : 'pointer'};
+        transition: all 0.3s ease;
+        background: ${isCurrent ? meta.gradient : 'rgba(255,255,255,0.05)'};
+        color: ${isCurrent ? '#fff' : '#cbd5e1'};
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        opacity: ${isCurrent ? '1' : '0.85'};
+      ">
+        <span>${meta.label}</span>
+        <span style="
+          font-size: 12px;
+          padding: 3px 10px;
+          border-radius: 20px;
+          background: ${isCurrent ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)'};
+          color: ${isCurrent ? '#fff' : '#94a3b8'};
+        ">${isCurrent ? '✓ Current' : meta.tag}</span>
+      </button>`;
+    }
+
+    const html = `
+    <div id="levelSwitcherOverlay" style="
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      z-index: 9999999;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    ">
+      <div style="
+        background: linear-gradient(145deg, #1e293b, #0f172a);
+        border-radius: 24px;
+        padding: 35px 30px;
+        max-width: 380px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: leaveModalPop 0.3s ease-out;
+      ">
+        <div style="font-size: 40px; margin-bottom: 15px;">🔄</div>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-bottom: 8px; font-weight: 700;">Switch Level</h2>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">Your current progress will be reset</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+          ${btnsHTML}
+        </div>
+        <button id="lvlSwitchCancelBtn" style="
+          padding: 12px 30px;
+          border: 2px solid #475569;
+          border-radius: 12px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          background: transparent;
+          color: #94a3b8;
+          transition: all 0.3s ease;
+        ">Cancel</button>
+      </div>
+    </div>
+    <style>
+      .lvl-switch-btn:not(.current):hover {
+        opacity: 1 !important;
+        background: rgba(255,255,255,0.1) !important;
+        border-color: rgba(255,255,255,0.3) !important;
+        transform: translateY(-1px);
+      }
+      #lvlSwitchCancelBtn:hover {
+        background: #334155;
+        border-color: #64748b;
+        color: #e2e8f0;
+      }
+    </style>`;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    document.getElementById('lvlSwitchCancelBtn').addEventListener('click', function() {
+      document.getElementById('levelSwitcherOverlay').remove();
+    });
+
+    document.querySelectorAll('.lvl-switch-btn:not(.current)').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const slug = this.dataset.slug;
+        window.__okToLeave = true;
+        if (window.parent !== window) {
+          window.parent.postMessage({ action: 'loadTestLevel', test: slug, type: _testType }, '*');
+        } else {
+          window.location.href = `test.html?test=${slug}&type=${_testType}`;
+        }
+      });
+    });
   }
 
   // Back button trap using History API

@@ -1,0 +1,36 @@
+// Grammar Test: Phrasal Verbs: Advanced — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I <b>ran</b> <b>___</b> my old friend at the store.", correct: "into", options: ["into", "to", "in", "at"], def: "'Run into' means to meet someone unexpectedly.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>put</b> <b>___</b> her coat because it was cold.", correct: "on", options: ["on", "in", "off", "up"], def: "'Put on' means to wear something.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>takes</b> <b>after</b> his <b>mother</b> <b>in</b> many ways.", correct: "takes", options: ["takes", "after", "mother", "in"], def: "The correct form is 'take after' (no -s for he/she/it).", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> the phone number in the directory.", correct: "looked up", options: ["looked up", "looked to", "looked at", "look up"], def: "'Look up' means to find information.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The meeting was <b>called</b> <b>___</b> due to the storm.", correct: "off", options: ["off", "on", "at", "in"], def: "'Called off' means cancelled.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I need to <b>throw</b> <b>___</b> these old clothes.", correct: "away", options: ["away", "out", "up", "on"], def: "'Throw away' means to get rid of.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The teacher <b>___</b> the homework to the students.", correct: "gave out", options: ["gave out", "gave in", "gave up", "gave"], def: "'Give out' means to distribute.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He needs to <b>work</b> <b>___</b> a solution to this problem.", correct: "out", options: ["out", "in", "on", "at"], def: "'Work out' means to find a solution.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They are <b>looking</b> <b>___</b> a new apartment.", correct: "for", options: ["for", "at", "to", "in"], def: "'Look for' means to search for.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Please <b>___</b> the lights when you leave.", correct: "turn off", options: ["turn off", "turn on", "turning off", "turn"], def: "'Turn off' means to switch off.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>takes</b> <b>___</b> her mother, they are very similar.", correct: "after", options: ["after", "up", "in", "on"], def: "'Take after' means to resemble.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>turned</b> <b>___</b> the job offer because it wasn't good enough.", correct: "down", options: ["down", "up", "on", "in"], def: "'Turn down' means to reject.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Can you <b>___</b> the music, please? It's too loud.", correct: "put down", options: ["put down", "put off", "put on", "put"], def: "'Put down' (volume) means to reduce the level.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The company <b>carried</b> <b>___</b> the research project.", correct: "out", options: ["out", "in", "on", "up"], def: "'Carry out' means to perform or conduct.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>bringing</b> <b>___</b> her children well.", correct: "up", options: ["up", "on", "in", "out"], def: "'Bring up' means to raise a child.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I need to <b>___</b> more about this topic.", correct: "find out", options: ["find out", "finding out", "find", "found out"], def: "'Find out' means to discover information.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He <b>ended</b> <b>___</b> living in another country.", correct: "up", options: ["up", "on", "in", "at"], def: "'End up' means to reach a final state.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Please <b>fill</b> <b>___</b> this form before you leave.", correct: "in", options: ["in", "up", "on", "out"], def: "'Fill in' means to complete a form.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I need to <b>___</b> early tomorrow morning.", correct: "get up", options: ["get up", "get on", "get in", "get"], def: "'Get up' means to wake up.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>am</b> <b>looking</b> <b>___</b> to the weekend.", correct: "forward", options: ["forward", "up", "on", "in"], def: "'Look forward to' means to anticipate with pleasure.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The plane <b>took</b> <b>___</b> on time.", correct: "off", options: ["off", "in", "on", "up"], def: "'Take off' means to depart (airplane).", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "We had to <b>___</b> the meeting because of the rain.", correct: "call off", options: ["call off", "call on", "call in", "call"], def: "'Call off' means to cancel.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>came</b> <b>___</b> a lot of money when her grandfather died.", correct: "into", options: ["into", "on", "up", "over"], def: "'Come into' means to inherit.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>get</b> <b>___</b> well with my neighbours.", correct: "on", options: ["on", "up", "off", "at"], def: "'Get on' means to have a good relationship.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>ran</b> <b>___</b> my old friend at the store.", correct: "into", options: ["into", "in", "to", "on"], def: "'Run into' means to meet someone unexpectedly.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Please <b>throw</b> <b>___</b> that old newspaper.", correct: "away", options: ["away", "out", "off", "over"], def: "'Throw away' means to get rid of something you don't need.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They had to <b>___</b> the meeting because of the rain.", correct: "put off", options: ["put off", "put on", "put over", "put down"], def: "'Put off' means to postpone or delay something.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He <b>gave</b> <b>___</b> smoking last year.", correct: "up", options: ["up", "in", "off", "down"], def: "'Give up' means to stop doing something.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The music was so loud I couldn't <b>make</b> <b>___</b> what he was saying.", correct: "out", options: ["out", "up", "over", "in"], def: "'Make out' means to understand or hear something with difficulty.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It's time to <b>___</b> with your homework.", correct: "get on", options: ["get on", "get in", "get at", "get of"], def: "'Get on with' means to start or continue doing something.", level: "B1–B2"}
+];

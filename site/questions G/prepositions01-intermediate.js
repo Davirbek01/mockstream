@@ -1,0 +1,36 @@
+// Grammar Test: Prepositions — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "She goes to work <b>___</b> bus.", correct: "by", options: ["by", "with", "on", "in"], def: "\"By\" is used for modes of transport without specifying the vehicle.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The book is <b>___</b> the table.", correct: "on", options: ["on", "in", "at", "under"], def: "\"On\" is used when something is physically atop a surface.", level: "B1–B2"},
+  {type: "Find the error:", question: "He is <b>waiting</b> <b>at</b> the bus <b>stop</b> <b>since</b> 8 AM.", correct: "since", options: ["since", "waiting", "at", "stop"], def: "Use \"for\" with a period of time; \"since\" with a point in time.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> in London <b>at</b> 6 pm.", correct: "arrived", options: ["arrived", "arrive", "are arriving", "will arriving"], def: "Use the past simple to describe a completed action in the past.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I am interested <b>___</b> learning French.", correct: "in", options: ["in", "at", "on", "to"], def: "\"Interested in\" is a fixed expression followed by a gerund.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is good <b>___</b> playing the piano.", correct: "at", options: ["at", "in", "on", "to"], def: "\"Good at\" is a fixed expression indicating skill in an activity.", level: "B1–B2"},
+  {type: "Find the error:", question: "He lives <b>in</b> a small village <b>near</b> <b>of</b> the <b>mountains</b>.", correct: "of", options: ["of", "in", "near", "mountains"], def: "\"Near\" does not require \"of\" after it.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It <b>___</b> <b>on</b> the weather if we go.", correct: "depends", options: ["depends", "depend", "depending", "will depend"], def: "Use the present simple for general truths or habits. Subject verb agreement.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "What are you thinking <b>___</b>?", correct: "about", options: ["about", "at", "of", "in"], def: "\"Thinking about\" refers to considering or reflecting on something.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The cat jumped <b>___</b> the chair.", correct: "off", options: ["off", "of", "down", "out"], def: "\"Off\" indicates movement away from a surface.", level: "B1–B2"},
+  {type: "Find the error:", question: "She arrived <b>to</b> the <b>party</b> <b>late</b> <b>yesterday</b>.", correct: "to", options: ["to", "party", "late", "yesterday"], def: "Use \"at\" or no preposition when arriving at a place.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I am <b>___</b> <b>for</b> my keys.", correct: "looking", options: ["looking", "look", "looked", "lookings"], def: "\"Looking for\" indicates searching for something.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The meeting is <b>___</b> Monday morning.", correct: "on", options: ["on", "in", "at", "to"], def: "\"On\" is used with specific days of the week.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is afraid <b>___</b> spiders.", correct: "of", options: ["of", "at", "in", "with"], def: "\"Afraid of\" is a fixed expression indicating fear.", level: "B1–B2"},
+  {type: "Find the error:", question: "She is waiting <b>to</b> her <b>friend</b> <b>at</b> the <b>cafe</b>.", correct: "to", options: ["to", "friend", "at", "cafe"], def: "Use \"for\" when waiting for someone.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I <b>___</b> <b>with</b> you on that point.", correct: "agree", options: ["agree", "am agree", "agrees", "agreed"], def: "Use the present simple to express a general agreement.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He lives <b>___</b> the city center.", correct: "in", options: ["in", "at", "on", "to"], def: "\"In\" is used for enclosed areas like cities.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The picture is <b>___</b> the wall.", correct: "on", options: ["on", "in", "at", "under"], def: "\"On\" is used when something is attached to a surface.", level: "B1–B2"},
+  {type: "Find the error:", question: "She is going <b>to</b> <b>home</b> <b>now</b> <b>after</b> work.", correct: "to", options: ["to", "now", "after", "home"], def: "Do not use \"to\" before \"home\".", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "You should <b>___</b> <b>to</b> your teacher.", correct: "listen", options: ["listen", "listens", "listening", "listened"], def: "Use the base form after \"should\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is standing <b>___</b> the door.", correct: "at", options: ["at", "in", "on", "to"], def: "\"At\" is used for specific locations.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is traveling <b>___</b> Japan next week.", correct: "to", options: ["to", "at", "in", "on"], def: "\"To\" is used to indicate destination.", level: "B1–B2"},
+  {type: "Find the error:", question: "He is good <b>in</b> <b>English</b> but bad <b>at</b> <b>math</b>.", correct: "in", options: ["in", "English", "at", "math"], def: "\"Good at\" is the correct expression.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will <b>___</b> <b>for</b> dinner tonight.", correct: "pay", options: ["pay", "paying", "paid", "will paid"], def: "Use the base form after \"will\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The store is open <b>___</b> 9 am <b>to</b> 5 pm.", correct: "from", options: ["from", "since", "at", "on"], def: "\"From...to\" indicates a period of time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is coming <b>___</b> the airport now.", correct: "to", options: ["to", "at", "in", "on"], def: "\"To\" indicates movement to a place.", level: "B1–B2"},
+  {type: "Find the error:", question: "She is interested <b>on</b> <b>art</b> and <b>music</b> <b>classes</b>.", correct: "on", options: ["on", "art", "music", "classes"], def: "\"Interested in\" is the correct expression.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He should <b>___</b> <b>to</b> her.", correct: "apologize", options: ["apologize", "apologizes", "apologizing", "apologized"], def: "Use the base form after \"should\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is talking <b>___</b> her friend.", correct: "to", options: ["to", "with", "at", "in"], def: "\"Talking to\" means speaking directly to someone.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is sitting <b>___</b> a chair.", correct: "in", options: ["in", "on", "at", "under"], def: "\"In\" is used when someone is enclosed by something.", level: "B1–B2"}
+];

@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Box good. I like it. Fun!<br>You try?<br>Bye!</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I got a box! It's a SurpriseBox. It has nice things. I like the box because it is a surprise.<br>You like surprises, and you like new things. So, you should get a box too!<br>Bye!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>Guess what? I signed up for SurpriseBox! It's a monthly box with different products. I think it's pretty good. It's fun to open it and see what's inside.<br>Since you enjoy getting gifts and trying new stuff, I think you would really like it. Maybe you should subscribe too!<br>See you soon,</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>You know how much we both love getting gifts and discovering new things? Well, I recently subscribed to SurpriseBox, and I thought of you immediately. It's a monthly subscription box filled with a variety of products – everything from beauty items to snacks.<br>I genuinely think you'd enjoy the unboxing experience and the chance to try out new things you might not otherwise come across. Given your penchant for novelty, I strongly recommend checking it out!<br>Best,</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>You know how much we both love getting gifts and discovering new things? Well, I recently subscribed to SurpriseBox, and I thought of you immediately. It's a monthly subscription box filled with a variety of products – everything from beauty items to snacks.<br>I genuinely think you'd enjoy the unboxing experience and the chance to try out new things you might not otherwise come across. Given your penchant for novelty, I strongly recommend checking it out!<br>Best,</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, sen sovg'alar olishni va yangi mahsulotlarni sinab ko'rishni yaxshi ko'rasan! Men SurpriseBox ga obuna bo'ldim va bu juda qiziqarli! Har oyda men ajoyib narsalarga to'la quti olaman – terini parvarishlash vositalari, gazaklar, aksessuarlar. Bu har oyda tug'ilgan kun sovg'asidek! Sen albatta buni sinab ko'rishing kerak!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Quti yaxshi. Menga yoqdi. Qiziqarli!<br>Sen urinib ko'rasanmi?<br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Menda bir quti bor! Bu SurpriseBox. Unda yaxshi narsalar bor. Menga quti yoqadi, chunki u kutilmagan sovg'a.<br>Sizga kutilmagan sovg'alar yoqadi va sizga yangi narsalar yoqadi. Shunday ekan, siz ham quti olishingiz kerak!<br>Xayr!</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],<br>Nima bo'lganini bilasanmi? Men SurpriseBox-ga yozildim! Bu har oyda turli xil mahsulotlar bo'lgan quti. Menimcha, u juda yaxshi. Uni ochish va ichida nima borligini ko'rish qiziqarli.<br>Sen sovg'alar olishni va yangi narsalarni sinab ko'rishni yoqtirganing uchun, menimcha, senga bu juda yoqadi. Balki sen ham obuna bo'lishing kerak!<br>Tez orada ko'rishguncha,</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Ikkalamiz ham sovg'alar olishni va yangi narsalarni kashf etishni qanchalik yaxshi ko'rishimizni bilasanmi? Yaqinda SurpriseBox-ga obuna bo'ldim va darhol seni o'yladim. Bu har oyda turli xil mahsulotlar bilan to'ldirilgan obuna qutisi – go'zallik vositalaridan tortib gazaklargacha hamma narsa bor.<br>Menimcha, qutini ochish jarayonidan va boshqa paytlarda duch kelmasliging mumkin bo'lgan yangi narsalarni sinab ko'rish imkoniyatidan rohatlanasan. Yangilikka bo'lgan qiziqishingni hisobga olsak, buni tekshirib ko'rishni qat'iy tavsiya qilaman!<br>Eng yaxshi tilaklar bilan,</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi SurpriseBox,</p><br><p>I like box. It is good. I like the toys. The toys are fun. More toys please. Thank you.</p><br><p>Bye,</p><br><p>[Your Name]</p>",
       "sampleA2": "<p>Hello SurpriseBox Team,</p><br><p>Thank you for the box every month. I like some things, but not all things. The box is good, and the things are a surprise. But sometimes I don't like the things in the box. I like the toys and the food. I don't like the clothes because they are too big.</p><br><p>I think you should put more toys in the box. And maybe some candy. Thank you for the box.</p><br><p>Bye,</p><br><p>[Your Name]</p>",
       "sampleB1": "<p>Dear SurpriseBox Team,</p><br><p>Thank you for your email. I am writing to you about the SurpriseBox I get every month. I think the idea is very good, and it is always exciting to see what is inside. The value for money is usually good, but sometimes I don't like the products very much.</p><br><p>For example, last month's box had a book, and I don't like reading very much. Also, the box had a lot of plastic packaging, which I think is bad for the environment. I think you could use less plastic.</p><br><p>I would like to see more boxes with themes, like a 'cooking' box or a 'travel' box. In my opinion, this would make the boxes more interesting. Thank you for listening to my feedback.</p><br><p>Sincerely,</p><br><p>[Your Name]</p>",
-      "sampleB2": "<p>Dear SurpriseBox Team,</p><br><p>Thank you for reaching out to gather feedback regarding your monthly subscription service. I've been a subscriber for several months now and wanted to share my thoughts on the overall experience.</p><br><p>Generally, I appreciate the element of surprise and have discovered some interesting products I wouldn't have otherwise encountered. The value for money is often quite good, especially considering the variety of items included. However, there are a few areas where I believe improvements could be made.</p><br><p>Firstly, while the surprise is part of the appeal, some boxes have contained items that are completely irrelevant to my interests. Perhaps a more detailed initial questionnaire could help tailor the contents more effectively. Secondly, I'm increasingly concerned about the amount of single-use plastic used in the packaging. A shift towards more sustainable and eco-friendly alternatives would be greatly appreciated.</p><br><p>In terms of future themes, I think a focus on artisanal or locally sourced products would be a unique selling point. Also, a collaboration with smaller, independent businesses could be mutually beneficial. Thank you for considering my suggestions.</p><br><p>Yours sincerely,</p><br><p>[Your Name]</p>"
+      "sampleB2": "<p>Dear SurpriseBox Team,</p><br><p>Thank you for reaching out to gather feedback regarding your monthly subscription service. I've been a subscriber for several months now and wanted to share my thoughts on the overall experience.</p><br><p>Generally, I appreciate the element of surprise and have discovered some interesting products I wouldn't have otherwise encountered. The value for money is often quite good, especially considering the variety of items included. However, there are a few areas where I believe improvements could be made.</p><br><p>Firstly, while the surprise is part of the appeal, some boxes have contained items that are completely irrelevant to my interests. Perhaps a more detailed initial questionnaire could help tailor the contents more effectively. Secondly, I'm increasingly concerned about the amount of single-use plastic used in the packaging. A shift towards more sustainable and eco-friendly alternatives would be greatly appreciated.</p><br><p>In terms of future themes, I think a focus on artisanal or locally sourced products would be a unique selling point. Also, a collaboration with smaller, independent businesses could be mutually beneficial. Thank you for considering my suggestions.</p><br><p>Yours sincerely,</p><br><p>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli SurpriseBox jamoasi,</p>\n<p>Obuna xizmatingiz haqidagi tajribam haqida so‘raganingiz uchun rahmat.</p>\n<p>Men har oylik qutilarimdan juda ham mamnunman. Mahsulotlarni tanlash juda yaxshi, meni hech qachon o‘zim kashf qilmagan brendlar bilan tanishtiryapti. Qutini ochish jarayoni chinakam hayajonli va qiymati obuna narxidan yuqori.</p>\n<p>Biroq, menda ba'zi takliflar bor. Ba'zi narsalar mening shaxsiy xohishlarimga mos kelmaydi, bu esa isrof bo'lgandek tuyuladi. Bundan tashqari, qadoqlashda juda ko'p plastik ishlatiladi.</p>\n<p>Qutilarni yaxshiroq sozlash uchun afzalliklar viktorinasini o'tkazsangiz, juda minnatdor bo'lardim. Bayramlar uchun tematik qutilar juda qiziqarli bo'lardi. Shuningdek, ekologik toza qadoqlashdan foydalanish atrof-muhit qadriyatlariga mos keladi.</p>\n<p>Umuman olganda, SurpriseBox mening oylik tartibimga quvonch olib keladi.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom SurpriseBox,</p><br><p>Menga quti yoqadi. U yaxshi. Menga o'yinchoqlar yoqadi. O'yinchoqlar qiziqarli. Iltimos, ko'proq o'yinchoqlar bo'lsin. Rahmat.</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleA2": "<p>Salom SurpriseBox jamoasi,</p><br><p>Har oy uchun qutiga rahmat. Ba'zi narsalar menga yoqadi, lekin hamma narsa emas. Quti yaxshi va narsalar kutilmagan sovg'a. Lekin ba'zida qutidagi narsalar menga yoqmaydi. Menga o'yinchoqlar va ovqat yoqadi. Kiyimlar menga yoqmaydi, chunki ular juda katta.</p><br><p>Menimcha, siz qutiga ko'proq o'yinchoqlar qo'yishingiz kerak. Va balki bir oz konfet ham. Quti uchun rahmat.</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli SurpriseBox jamoasi,</p><br><p>Elektron pochtangiz uchun rahmat. Men har oy oladigan SurpriseBox haqida sizga yozmoqdaman. Menimcha, bu g'oya juda yaxshi va ichida nima borligini ko'rish har doim qiziqarli. Pulga nisbatan qiymati odatda yaxshi, lekin ba'zida mahsulotlar menga unchalik yoqmaydi.</p><br><p>Misol uchun, o'tgan oyning qutisida kitob bor edi, lekin men o'qishni unchalik yoqtirmayman. Shuningdek, qutida juda ko'p plastik qadoqlash materiallari bor edi, bu menimcha atrof-muhit uchun yomon. Menimcha, siz plastikdan kamroq foydalanishingiz mumkin.</p><br><p>Men ko'proq mavzuli qutilarni ko'rishni xohlardim, masalan, \"pazandachilik\" qutisi yoki \"sayohat\" qutisi. Mening fikrimcha, bu qutilarni yanada qiziqarli qiladi. Fikrlarimni tinglaganingiz uchun rahmat.</p><br><p>Hurmat bilan,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli SurpriseBox jamoasi,</p><br><p>Oylik obuna xizmatingiz bo'yicha fikr-mulohazalarni to'plash uchun murojaat qilganingiz uchun tashakkur. Men bir necha oydan beri obunachiman va umumiy tajriba haqida o'z fikrlarimni baham ko'rmoqchiman.</p><br><p>Umuman olganda, men kutilmaganlik elementini qadrlayman va boshqa holda duch kelmagan bo'lardim ba'zi qiziqarli mahsulotlarni topdim. Pulga nisbatan qiymat ko'pincha juda yaxshi, ayniqsa kiritilgan narsalarning xilma-xilligini hisobga olsak. Biroq, menimcha, yaxshilanish mumkin bo'lgan bir nechta sohalar mavjud.</p><br><p>Birinchidan, kutilmaganlik jozibadorlikning bir qismi bo'lsa-da, ba'zi qutilarda mening manfaatlarimga mutlaqo aloqasi bo'lmagan narsalar bor edi. Ehtimol, dastlabki batafsil so'rovnoma tarkibni yanada samaraliroq moslashtirishga yordam berishi mumkin. Ikkinchidan, men qadoqlashda ishlatiladigan bir martalik plastmassa miqdori haqida tobora ko'proq tashvishlanyapman. Yanada barqaror va ekologik toza alternativlarga o'tish juda minnatdorchilik bilan qabul qilinadi.</p><br><p>Kelajakdagi mavzular nuqtai nazaridan, menimcha, hunarmandchilik yoki mahalliy manbalardan olingan mahsulotlarga e'tibor qaratish noyob savdo nuqtasi bo'ladi. Shuningdek, kichik, mustaqil bizneslar bilan hamkorlik o'zaro manfaatli bo'lishi mumkin. Takliflarimni ko'rib chiqqaningiz uchun tashakkur.</p><br><p>Hurmat bilan,</p><br><p>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like box. Good things! But money... too much. I want toys. And candy! Bye.</p>",
       "sampleA2": "<p>Hello SurpriseBox Team,<br>I like the box, it is fun! The things are good, and I like opening it. But sometimes the things are not very good for the money. I want more toys in the box, and maybe some food. I like the surprise!<br>Thank you,<br>[Your Name]</p>",
       "sampleB1": "<p>Dear SurpriseBox Team,<br>Thank you for the monthly box. I think it's a good idea, but I have some suggestions. The products are usually okay, but sometimes they aren't very useful. I think the value for money could be better. Sometimes I don't think the items are worth the price.<br>The unboxing is exciting, but it could be improved. Maybe you could include a small card explaining why you chose the products.<br>For future boxes, I would like to see more products related to hobbies, like art supplies or books. Also, maybe a theme each month would be interesting, for example, a 'travel' theme or a 'cooking' theme.<br>Overall, I like the service, but I think there's room for improvement.<br>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear SurpriseBox Team,<br>I am writing to provide feedback on my recent experience with SurpriseBox Monthly. While I appreciate the concept of discovering new products, I have some suggestions regarding product selection, value for money, and the overall unboxing experience.<br>In terms of product selection, I have found the items to be somewhat inconsistent in quality and relevance to my interests. While I understand the element of surprise is key, perhaps a brief survey upon subscription could help tailor the box to individual preferences. I also question the value for money; on several occasions, the combined retail value of the items has seemed disproportionately low compared to the subscription cost.<br>The unboxing experience is generally enjoyable, but I believe it could be enhanced with more detailed product information. A small booklet or online resource providing background on the manufacturers and the intended use of each item would be a valuable addition. Regarding future themes, I would be particularly interested in boxes focused on sustainable living, artisanal crafts, or international cuisine. These themes offer opportunities to introduce subscribers to unique and ethically sourced products.<br>Thank you for considering my feedback. I hope these suggestions will contribute to improving the overall quality and appeal of SurpriseBox Monthly.<br>Sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear SurpriseBox Team,<br>I am writing to provide feedback on my recent experience with SurpriseBox Monthly. While I appreciate the concept of discovering new products, I have some suggestions regarding product selection, value for money, and the overall unboxing experience.<br>In terms of product selection, I have found the items to be somewhat inconsistent in quality and relevance to my interests. While I understand the element of surprise is key, perhaps a brief survey upon subscription could help tailor the box to individual preferences. I also question the value for money; on several occasions, the combined retail value of the items has seemed disproportionately low compared to the subscription cost.<br>The unboxing experience is generally enjoyable, but I believe it could be enhanced with more detailed product information. A small booklet or online resource providing background on the manufacturers and the intended use of each item would be a valuable addition. Regarding future themes, I would be particularly interested in boxes focused on sustainable living, artisanal crafts, or international cuisine. These themes offer opportunities to introduce subscribers to unique and ethically sourced products.<br>Thank you for considering my feedback. I hope these suggestions will contribute to improving the overall quality and appeal of SurpriseBox Monthly.<br>Sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Iste'molchilik zamonaviy iqtisodiyotlarni harakatga keltiradi, lekin jiddiy xavotirlarni uyg'otadi. Menimcha, haddan tashqari iste'mol jamiyatga va sayyoraga zarar yetkazmoqda.</p>\n\n<p>Birinchidan, iste'molchilik atrof-muhitga zarar yetkazadi. Mahsulotlarni ishlab chiqarish resurslarni talab qiladi va ifloslanishni keltirib chiqaradi. Tez moda va rejalashtirilgan eskirish poligonlarni to'ldiradigan va okeanlarni ifloslantiradigan tonnalab chiqindilarni hosil qiladi.</p>\n\n<p>Ikkinchidan, doimiy xarid qilish uzoq muddatli baxt keltirmaydi. Tadqiqotlar shuni ko'rsatadiki, moddiy boyliklar vaqtinchalik qoniqishni ta'minlaydi. \"Ko'proq\"ga intilish, ayniqsa reklama ta'sirida bo'lgan yoshlar orasida tashvish va moliyaviy stressni yaratadi.</p>\n\n<p>Biroq, iste'mol xarajatlari ish o'rinlarini va innovatsiyalarni qo'llab-quvvatlaydi. Talabsiz iqtisodiyot turg'unlashishi mumkin edi. Bundan tashqari, uzoq muddat xizmat qiladigan sifatli mahsulotlarni sotib olish barqaror bo'lishi mumkin.</p>\n\n<p>Shunga qaramay, muvozanat juda uzoqqa siljidi. Ehtiyotkorlik bilan iste'mol qilish – kamroq, lekin yaxshiroq sotib olish – yechim taklif etadi. Etik brendlarni va ikkinchi qo'l bozorlarini qo'llab-quvvatlash zararni kamaytiradi.</p>\n\n<p>Bundan tashqari, mulkka nisbatan tajribaga ustunlik berish atrof-muhitga zarar yetkazmasdan farovonlikni oshiradi.</p>\n\n<p>Xulosa qilib aytganda, ba'zi iste'mol zarur bo'lsa-da, jamiyat sifat, zarurat va atrof-muhit uchun mas'uliyatni ustuvor qo'yadigan barqaror iste'mol usullariga o'tishi kerak.</p>",
+      "uzSampleA1": "<p>Salom!<br>Menga quti yoqadi. Yaxshi narsalar! Lekin pul... juda ko'p. Men o'yinchoqlar xohlayman. Va konfet! Xayr.</p>",
+      "uzSampleA2": "<p>Salom, SurpriseBox jamoasi,<br>Menga quti yoqadi, u qiziqarli! Undagi narsalar yaxshi va uni ochish menga yoqadi. Lekin ba'zida narsalar pulga arzimaydi. Men qutida ko'proq o'yinchoqlar bo'lishini xohlayman, va balki ozgina ovqat ham. Menga syurpriz yoqadi!<br>Rahmat,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli SurpriseBox jamoasi,<br>Oylik qutingiz uchun rahmat. Menimcha, bu yaxshi g'oya, lekin menda ba'zi takliflar bor. Mahsulotlar odatda yaxshi, lekin ba'zida ular unchalik foydali emas. Menimcha, pulga nisbatan qiymat yaxshiroq bo'lishi mumkin. Ba'zan narsalar narxga arziydi deb o'ylamayman.<br>Qutini ochish qiziqarli, lekin uni yaxshilash mumkin. Ehtimol, siz mahsulotlarni nima uchun tanlaganingizni tushuntiruvchi kichik kartochka qo'shishingiz mumkin.<br>Kelgusi qutilar uchun men ko'proq xobbi bilan bog'liq mahsulotlarni, masalan, rasm chizish materiallari yoki kitoblarni ko'rishni xohlardim. Shuningdek, har oyda mavzu bo'lishi qiziqarli bo'lishi mumkin, masalan, \"sayohat\" mavzusi yoki \"pazandachilik\" mavzusi.<br>Umuman olganda, menga xizmat yoqadi, lekin menimcha, yaxshilanish uchun joy bor.<br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli SurpriseBox jamoasi,<br>Men yaqinda SurpriseBox Monthly bilan bog‘liq tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Yangi mahsulotlarni kashf qilish g‘oyasini qadrlasam-da, mahsulot tanlovi, pulga arziydiganligi va umumiy qutini ochish tajribasi bo‘yicha ba’zi takliflarim bor.<br>Mahsulot tanlovi nuqtai nazaridan, buyumlar sifati va mening manfaatlarimga mosligi jihatidan biroz nomuvofiq ekanligini aniqladim. Ajablanish elementi muhimligini tushunsam-da, obuna bo‘lish paytida qisqa so‘rov o‘tkazish qutini individual xohishlarga moslashtirishga yordam berishi mumkin. Men, shuningdek, pulga arziydiganligiga shubha qilaman; bir necha holatlarda buyumlarning umumiy chakana narxi obuna narxiga nisbatan nomutanosib darajada past bo‘lib tuyuldi.<br>Qutini ochish tajribasi odatda yoqimli, ammo menimcha, uni yanada batafsil mahsulot ma’lumotlari bilan yaxshilash mumkin. Ishlab chiqaruvchilar va har bir buyumning mo‘ljallangan maqsadlari haqida ma’lumot beruvchi kichik buklet yoki onlayn resurs qimmatli qo‘shimcha bo‘ladi. Kelajakdagi mavzularga kelsak, men, ayniqsa, barqaror hayot, hunarmandchilik yoki xalqaro oshxonaga qaratilgan qutilarga qiziqaman. Ushbu mavzular obunachilarni noyob va axloqiy manbalardan olingan mahsulotlar bilan tanishtirish imkoniyatini beradi.<br>Fikr-mulohazalarimni ko‘rib chiqayotganingiz uchun tashakkur. Umid qilamanki, bu takliflar SurpriseBox Monthly-ning umumiy sifati va jozibasini oshirishga yordam beradi.<br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,155 @@ window.WRITING_TEST_DATA = {
         "uz": "zarur iste'mol"
       }
     ]
+  },
+  "tokenTranslations": {
+    "so": {
+      "uz": "shunday qilib",
+      "type": "adv"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "birthday present": {
+      "uz": "tug'ilgan kun sovg'asi",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "subscription service": {
+      "uz": "obuna xizmati",
+      "type": "colloc"
+    },
+    "thoroughly": {
+      "uz": "mukammal",
+      "type": "adv"
+    },
+    "product curation": {
+      "uz": "mahsulotlarni saralash",
+      "type": "colloc"
+    },
+    "unboxing experience": {
+      "uz": "qutini ochish jarayoni",
+      "type": "colloc"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "personal preferences": {
+      "uz": "shaxsiy xohishlar",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "packaging": {
+      "uz": "qadoqlash",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "preference quiz": {
+      "uz": "xohishlar so'rovnomasi",
+      "type": "colloc"
+    },
+    "Themed boxes": {
+      "uz": "Mavzuli qutilar",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "eco-friendly packaging": {
+      "uz": "ekologik toza qadoqlash",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "Consumerism": {
+      "uz": "Iste'molchilik",
+      "type": "colloc"
+    },
+    "excessive consumption": {
+      "uz": "haddan tashqari iste'mol",
+      "type": "colloc"
+    },
+    "indeed": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "environment": {
+      "uz": "atrof-muhit",
+      "type": "colloc"
+    },
+    "Fast fashion": {
+      "uz": "tezkor moda",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "ikkinchidan",
+      "type": "adv"
+    },
+    "material possessions": {
+      "uz": "moddiy boyliklar",
+      "type": "colloc"
+    },
+    "financial stress": {
+      "uz": "moliyaviy zo'riqish",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Nevertheless": {
+      "uz": "shunga qaramay",
+      "type": "adv"
+    },
+    "Mindful consumption": {
+      "uz": "ongli iste'mol",
+      "type": "colloc"
+    },
+    "ethical brands": {
+      "uz": "axloqiy brendlar",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "sustainable consumption": {
+      "uz": "barqaror iste'mol",
+      "type": "colloc"
+    }
   }
 };

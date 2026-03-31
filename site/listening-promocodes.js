@@ -25,6 +25,7 @@ window.LISTENING_MOCK_PROMOCODES = {
   "17": { fillers: [0, 1, 1, 7] },
   "18": { fillers: [1, 1, 0, 0] },
   "19": { fillers: [4, 3, 7, 4] },
+  "20": { fillers: [3, 6, 5, 2] },
   "20": { fillers: [7, 4, 4, 4] },
   "21": { fillers: [7, 1, 1, 6] },
   "22": { fillers: [5, 4, 4, 9] },

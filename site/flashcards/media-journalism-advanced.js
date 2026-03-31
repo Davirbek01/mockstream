@@ -1,0 +1,47 @@
+// Flashcard Data: Media & Journalism — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "📰 Media & Journalism: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Media & Journalism",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "breaking news", en: "", uz: "tezkor yangiliklar", uzDef: "Yangi va muhim voqea haqidagi eng so'nggi xabar, ayniqsa televizorda.", ex: "We interrupt this program for breaking news: a major earthquake has struck.", exUz: "Dasturimizni to'xtatamiz, tezkor yangiliklar: kuchli zilzila sodir bo'ldi."},
+    {term: "a news bulletin", en: "", uz: "yangiliklar xabari", uzDef: "Radio yoki televideniye orqali efirga uzatiladigan qisqa yangiliklar to'plami.", ex: "I caught the news bulletin on the radio during my drive to work.", exUz: "Ishga ketayotib, radioda yangiliklar xabarini eshitib qoldim."},
+    {term: "newsfeed", en: "", uz: "yangiliklar lenti", uzDef: "Ijtimoiy tarmoqlarda yoki veb-saytlarda chop etilgan eng so'nggi yangiliklar ro'yxati.", ex: "I spend too much time scrolling through my newsfeed every morning.", exUz: "Har kuni ertalab yangiliklar lentamni ko'rishga juda ko'p vaqt sarflayman."},
+    {term: "the press", en: "", uz: "matbuot", uzDef: "Gazetalar, jurnallar va yangiliklar tashkilotlari.", ex: "The press has been very critical of the government's new policy.", exUz: "Matbuot hukumatning yangi siyosatini juda tanqid qildi."},
+    {term: "run a story", en: "", uz: "maqola chop etmoq", uzDef: "Gazetada, veb-saytda yoki boshqa nashrda maqola nashr etish.", ex: "Are they really going to run that story without confirming the facts?", exUz: "Ular faktlarni tasdiqlamasdan, shu maqolani chop etishadimi?"},
+    {term: "a media circus", en: "", uz: "media shov-shuvi", uzDef: "Jamoatchilik e'tiborini tortgan va juda ko'p matbuot e'tiborini qaratgan voqea.", ex: "The trial became a media circus, with reporters camped outside the courthouse.", exUz: "Sud jarayoni media shov-shuviga aylandi, muxbirlar sud binosi tashqarisida joylashishdi."},
+    {term: "go to press", en: "", uz: "bosmaga topshirmoq", uzDef: "Gazeta, jurnal yoki kitob nashr etilishga tayyor bo'lish.", ex: "The magazine goes to press next week, so the deadline is tight.", exUz: "Jurnal kelasi hafta bosmaga topshiriladi, shuning uchun muddat qisqa."},
+    {term: "get a byline", en: "", uz: "mualliflik olmoq", uzDef: "Gazeta maqolasida yoki boshqa nashrda muallif sifatida nomingizni ko'rsatish.", ex: "I finally got a byline on a front-page story!", exUz: "Nihoyat, birinchi sahifadagi maqolada muallifligimni oldim!"},
+    {term: "source their information", en: "", uz: "ma'lumot manbai", uzDef: "Maqola uchun ma'lumot beradigan odam yoki joyni aniqlash.", ex: "Good journalists always source their information carefully.", exUz: "Yaxshi jurnalistlar har doim ma'lumot manbalarini diqqat bilan aniqlaydilar."},
+    {term: "fact-checking process", en: "", uz: "faktlarni tekshirish", uzDef: "Nashr qilishdan oldin ma'lumotlarning to'g'riligini tekshirish jarayoni.", ex: "The fact-checking process is crucial for maintaining journalistic integrity.", exUz: "Faktlarni tekshirish jarayoni jurnalistik halollikni saqlash uchun juda muhim."},
+    {term: "a puff piece", en: "", uz: "maqtov maqolasi", uzDef: "Shaxs, tashkilot yoki mahsulotni tanqidiy tahlilsiz maqsadli ravishda maqtaydigan maqola.", ex: "That article about the CEO sounded more like a puff piece than a serious profile.", exUz: "Bosh direktor haqidagi maqola jiddiy profilga emas, ko'proq maqtov maqolasiga o'xshardi."},
+    {term: "bury the lede", en: "", uz: "asosiy faktni yashirmoq", uzDef: "Maqolaning eng muhim ma'lumotini boshida emas, balki keyinroq taqdim etish.", ex: "The article buried the lede, so it took me a while to realize what it was really about.", exUz: "Maqola asosiy faktni yashirdi, shuning uchun u nima haqida ekanligini tushunish uchun biroz vaqt kerak bo'ldi."},
+    {term: "a media conglomerate", en: "", uz: "media konglomerati", uzDef: "Bir nechta turli media kompaniyalariga egalik qiladigan yirik korporatsiya.", ex: "The news landscape is dominated by a few massive media conglomerates.", exUz: "Yangiliklar landshaftida bir nechta yirik media konglomeratlari hukmronlik qiladi."},
+    {term: "a citizen journalist", en: "", uz: "fuqaro jurnalisti", uzDef: "Jurnalist bo'lmagan, lekin o'zi ko'rgan voqealar haqida xabar beradigan odam.", ex: "Citizen journalists played a key role in documenting the protests.", exUz: "Fuqaro jurnalistlari noroziliklarni hujjatlashtirishda muhim rol o'ynadi."},
+    {term: "a newsroom", en: "", uz: "yangiliklar xonasi", uzDef: "Gazeta, televideniye stantsiyasi yoki yangiliklar veb-saytida jurnalistlar ishlaydigan xona.", ex: "The atmosphere in the newsroom was tense as they waited for the election results.", exUz: "Saylov natijalarini kutishda yangiliklar xonasidagi atmosfera keskin edi."},
+    {term: "cover a story", en: "", uz: "voqeani yoritmoq", uzDef: "Voqea haqida xabar berish, jurnalistik nuqtai nazardan yoritish.", ex: "The reporter was assigned to cover the upcoming political summit.", exUz: "Muxbirga bo'lajak siyosiy sammitni yoritish vazifasi yuklatildi."},
+    {term: "go on air", en: "", uz: "efirga uzatilmoq", uzDef: "Radio yoki televideniye dasturini translyatsiya qilishni boshlash.", ex: "The show will go on air in five minutes, so everyone needs to be ready.", exUz: "Ko'rsatuv besh daqiqadan keyin efirga uzatiladi, shuning uchun hamma tayyor bo'lishi kerak."},
+    {term: "airwaves", en: "", uz: "efir to'lqinlari", uzDef: "Radio va televideniye signallari orqali uzatiladigan elektromagnit to'lqinlar.", ex: "The government regulates the use of the airwaves to prevent interference.", exUz: "Hukumat xalaqit bermaslik uchun efir to'lqinlaridan foydalanishni tartibga soladi."},
+    {term: "a sound bite", en: "", uz: "qisqa lavha", uzDef: "Intervyudan olingan qisqa, diqqatga sazovor ibora.", ex: "The politician's sound bite was repeated endlessly on the news.", exUz: "Siyosatchining qisqa lavhasi yangiliklarda tinimsiz takrorlandi."},
+    {term: "a hatchet job", en: "", uz: "qoralash maqolasi", uzDef: "Shaxsga yoki tashkilotga zarar yetkazish uchun mo'ljallangan tanqidiy maqola.", ex: "That article was a real hatchet job; it completely destroyed his reputation.", exUz: "Bu maqola haqiqiy qoralash maqolasi edi; u uning obro'sini butunlay yo'q qildi."},
+    {term: "a smear campaign", en: "", uz: "qora piar kampaniyasi", uzDef: "Shaxsning obro'siga zarar yetkazish uchun yolg'on yoki bo'rttirilgan ma'lumotni tarqatishga qaratilgan harakat.", ex: "The politician accused his opponent of running a smear campaign against him.", exUz: "Siyosatchi raqibini unga qarshi qora piar kampaniyasini olib borishda aybladi."},
+    {term: "stake out", en: "", uz: "kuzatuv olib bormoq", uzDef: "Biror joyni kuzatish, ayniqsa yangilik olish uchun.", ex: "Reporters staked out the celebrity's house, hoping to get a photo.", exUz: "Muxbirlar mashhurning uyini suratga olish umidida kuzatuv olib borishdi."},
+    {term: "go off on a tangent", en: "", uz: "mavzudan chetlashmoq", uzDef: "Muhokama qilinayotgan mavzudan uzoqlashib, boshqa narsa haqida gapirish.", ex: "The interviewer went off on a tangent about his personal life.", exUz: "Intervyu beruvchi o'zining shaxsiy hayoti haqida mavzudan chetlashdi."},
+    {term: "get your facts straight", en: "", uz: "faktlarni to'g'ri bilmoq", uzDef: "Noto'g'ri ma'lumot tarqatmaslik uchun faktlarni tekshirish va to'g'ri ekanligiga ishonch hosil qilish.", ex: "Before you publish that article, make sure you get your facts straight.", exUz: "Bu maqolani nashr qilishdan oldin, faktlarni to'g'ri ekanligiga ishonch hosil qiling."},
+    {term: "a feeding frenzy", en: "", uz: "ommaviy axborot hujumi", uzDef: "Bir mavzuni haddan tashqari yoritish, ko'pincha tanqidiy yoki salbiy yo'nalishda.", ex: "The scandal sparked a feeding frenzy among the media.", exUz: "Janjal ommaviy axborot vositalari o'rtasida ommaviy axborot hujumini keltirib chiqardi."},
+    {term: "a scoop", en: "", uz: "sensatsiya", uzDef: "Boshqa ommaviy axborot vositalari nashr qilishdan oldin e'lon qilingan eksklyuziv yangilik.", ex: "The journalist got the scoop on the celebrity's divorce.", exUz: "Jurnalist mashhurning ajrashishi haqida sensatsiya oldi."},
+    {term: "cross-check", en: "", uz: "tekshirib ko'rmoq", uzDef: "Ma'lumotni boshqa manbalar bilan tekshirish.", ex: "Always cross-check your sources before publishing a story.", exUz: "Har doim hikoyani nashr qilishdan oldin manbalaringizni tekshirib ko'ring."},
+    {term: "hold water", en: "", uz: "asosli bo'lmoq", uzDef: "Mantiqiy va ishonchli bo'lmoq.", ex: "His explanation doesn't hold water; I don't believe him.", exUz: "Uning izohi asosli emas; men unga ishonmayman."},
+    {term: "source something to", en: "", uz: "manbadan olmoq", uzDef: "Ma'lumotni ma'lum bir manbadan olish.", ex: "The newspaper sourced the information to an anonymous government official.", exUz: "Gazeta ma'lumotni hukumatning anonim amaldoridan oldi."},
+    {term: "a reliable informant", en: "", uz: "ishonchli xabar beruvchi", uzDef: "To'g'ri ma'lumot beradigan ishonchli manba.", ex: "The reporter relied on a reliable informant to uncover the scandal.", exUz: "Muxbir janjalni ochish uchun ishonchli xabar beruvchiga tayanadi."}
+  ]
+};

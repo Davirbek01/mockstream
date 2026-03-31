@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I go photo studio. Good!<br>You need photo? Go!<br>Bye!</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I went to a photo studio. It was good and the photos are nice. You need photos for your job, right? I think you should go there because it is easy. The people are nice too. See you!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br><br>I heard you need photos for your job application. I recently went to a new studio called SnapShine, and I think it was pretty good. The photographer was friendly, and the studio had good equipment. I think you should consider going there.<br><br>In my opinion, the photos were edited well, and the price was reasonable. I hope this helps you! Let me know what you think.<br><br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br><br>I was so excited to hear about your job application! I also understand the need for professional photos. I actually just had a session at a new studio called SnapShine, and I thought of you immediately.<br><br>Honestly, I was impressed. The photographer really knew how to pose me, and the studio had a great atmosphere. I think it would be worth your while to check them out. Their prices are quite competitive, and the final product was excellent. I believe having a great headshot would significantly increase your chances of getting an interview.<br><br>Good luck with your application!<br><br>Best regards,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br><br>I was so excited to hear about your job application! I also understand the need for professional photos. I actually just had a session at a new studio called SnapShine, and I thought of you immediately.<br><br>Honestly, I was impressed. The photographer really knew how to pose me, and the studio had a great atmosphere. I think it would be worth your while to check them out. Their prices are quite competitive, and the final product was excellent. I believe having a great headshot would significantly increase your chances of getting an interview.<br><br>Good luck with your application!<br><br>Best regards,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Eshitishimcha, ishga kirish uchun senga professional suratlar kerak ekan. Men yaqinda SnapShinega borgan edim va ular ajoyib edilar! Fotosuratchi meni juda xotirjam his qildirdi va suratlar juda ajoyib chiqdi. Albatta, seansga yozilishing kerak – ular juda arzon ham!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Men fotosur'at studiyasiga boraman. Yaxshi!<br>Sizga surat kerakmi? Boring!<br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men fotosuratlar studiyasiga bordim. U yaxshi edi va fotosuratlar chiroyli. Sizga ish uchun fotosuratlar kerak, to'g'rimi? Menimcha, siz u yerga borishingiz kerak, chunki u oson. Odamlar ham yaxshi. Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br><br>Eshitishimcha, sizga ishga kirish uchun fotosuratlar kerak ekan. Yaqinda SnapShine degan yangi studioga bordim va menimcha, u juda yaxshi edi. Fotografi do'stona edi va studiyada yaxshi uskunalar bor edi. O'ylaymanki, siz u yerga borishni o'ylab ko'rishingiz kerak.<br><br>Mening fikrimcha, fotosuratlar yaxshi tahrirlangan va narxi maqbul edi. Umid qilamanki, bu sizga yordam beradi! Fikringizni menga bildiring.<br><br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br><br>Sening ishga ariza topshirayotganingni eshitib juda xursand bo'ldim! Professional fotosuratlarga bo'lgan ehtiyojni ham tushunaman. Men yaqinda SnapShine deb nomlangan yangi studiyada suratga tushdim va darhol seni o'yladim.<br><br>Rostini aytsam, men juda ta'sirlandim. Fotosuratchi meni qanday pozaga solishni juda yaxshi bilardi va studiyaning muhiti ajoyib edi. O'ylaymanki, ularni tekshirib ko'rishga arziydi. Ularning narxlari juda raqobatbardosh va yakuniy mahsulot juda yaxshi edi. Ishonchim komilki, ajoyib fotosurating intervyuga kirish imkoniyatingni sezilarli darajada oshiradi.<br><br>Arizang bilan omad!<br><br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi SnapShine,</p><br><p>Photos good. Studio ok. I like photos. Thank you.</p><br><p>Bye</p>",
       "sampleA2": "<p>Dear SnapShine Team,</p><br><p>Thank you for the photos. I like the photos and the photographer was nice. The studio was good too, but it was a little cold. I think you should make it warmer. And the photos took a long time. Maybe you can be faster next time. I liked it but it could be better.</p><br><p>Thank you,<br>[Your Name]</p>",
       "sampleB1": "<p>Dear SnapShine Team,</p><br><p>Thank you for the email. I wanted to tell you about my experience at your studio.</p><br><p>I thought the photographer was very good and the studio was nice. I was happy with the photos, but I think the editing took too long. I waited a long time to get them.</p><br><p>In my opinion, you should offer faster editing for people who need the photos quickly. Also, maybe you could have more options for different photo sizes. I would also like to see more background choices in the studio. Overall, I had a good experience.</p><br><p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear SnapShine Team,</p><br><p>Thank you for your follow-up regarding my recent photo session. I'm writing to provide some feedback on my experience.</p><br><p>Generally, I was quite pleased with the quality of the photographs themselves and the photographer's professionalism. The studio facilities were adequate, although the waiting area could benefit from some improvements, perhaps with more comfortable seating.</p><br><p>However, I do have a few suggestions. Firstly, the turnaround time for receiving the edited photos was longer than anticipated. Streamlining this process would be beneficial. Secondly, it would be advantageous to offer a wider range of print sizes and finishes. Finally, consider introducing themed photoshoot packages to cater to different client preferences; for example, vintage or cinematic themes could attract a broader clientele.</p><br><p>Overall, I had a positive experience and would consider using your services again.</p><br><p>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear SnapShine Team,</p><br><p>Thank you for your follow-up regarding my recent photo session. I'm writing to provide some feedback on my experience.</p><br><p>Generally, I was quite pleased with the quality of the photographs themselves and the photographer's professionalism. The studio facilities were adequate, although the waiting area could benefit from some improvements, perhaps with more comfortable seating.</p><br><p>However, I do have a few suggestions. Firstly, the turnaround time for receiving the edited photos was longer than anticipated. Streamlining this process would be beneficial. Secondly, it would be advantageous to offer a wider range of print sizes and finishes. Finally, consider introducing themed photoshoot packages to cater to different client preferences; for example, vintage or cinematic themes could attract a broader clientele.</p><br><p>Overall, I had a positive experience and would consider using your services again.</p><br><p>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli SnapShine jamoasi,</p>\n<p>Sizning fotosur'at studiyangizdagi tajribam haqida so'raganingiz uchun tashakkur.</p>\n<p>Sessiyadan juda mamnun bo'ldim. Sizning fotograflaringiz nihoyatda professional edi va mening eng yaxshi rakurslarimni qanday suratga olishni juda yaxshi bilardi. Studiya jihozlari hayratlanarli edi va fotosuratlarni tahrirlash rasmlarni juda chiroyli qilib yaxshiladi.</p>\n<p>Biroq, mening ba'zi takliflarim bor. Tahrirlangan fotosuratlarni yetkazib berish vaqti ancha sekin edi – ikki hafta juda uzoq. Bundan tashqari, onlayn galereya interfeysi biroz chalkash edi.</p>\n<p>Agar zarur bo'lsa, tezkor tahrirlash imkoniyatlarini taqdim etishingizni xohlardim. Guruhlar uchun chegirmalar bilan oilaviy paketlar ko'proq mijozlarni jalb qiladi. Shuningdek, video kontent yaratishni taklif qilish zamonaviy ijtimoiy media ehtiyojlarini qondiradi.</p>\n<p>Umuman olganda, men o'z fotosuratlarimdan juda xursandman.</p>\n<p>Hurmat bilan,\n[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom SnapShine,</p><br><p>Suratlar yaxshi. Studiya yaxshi. Menga suratlar yoqadi. Rahmat.</p><br><p>Xayr</p>",
+      "uzSampleA2": "<p>Hurmatli SnapShine jamoasi,</p><br><p>Suratlar uchun rahmat. Menga suratlar yoqdi va fotograf yaxshi edi. Studiya ham yaxshi edi, lekin biroz sovuq edi. O'ylaymanki, siz uni iliqroq qilishingiz kerak. Va suratlar juda ko'p vaqt oldi. Ehtimol, keyingi safar tezroq bo'lishingiz mumkin. Menga yoqdi, lekin yaxshiroq bo'lishi mumkin edi.</p><br><p>Rahmat,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli SnapShine jamoasi,</p><br><p>Elektron pochta xabaringiz uchun rahmat. Sizga studiyangizdagi tajribam haqida aytib bermoqchiman.</p><br><p>Menimcha, fotograf juda yaxshi edi va studiya ham yoqimli. Fotosuratlardan xursand bo'ldim, lekin tahrirlash juda uzoq davom etdi deb o'ylayman. Ularni olish uchun uzoq vaqt kutdim.</p><br><p>Mening fikrimcha, siz fotosuratlarni tezda olishi kerak bo'lgan odamlar uchun tezroq tahrirlashni taklif qilishingiz kerak. Shuningdek, turli xil fotosurat o'lchamlari uchun ko'proq variantlarga ega bo'lishingiz mumkin. Studiyada ko'proq fon tanlovlarini ko'rishni ham xohlardim. Umuman olganda, yaxshi tajribaga ega bo'ldim.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli SnapShine jamoasi,</p><br><p>Yaqinda bo'lib o'tgan fotosessiyam yuzasidan bildirilgan e'tiboringiz uchun rahmat. Tajribam haqida fikr-mulohazalarimni bildirish uchun yozmoqdaman.</p><br><p>Umuman olganda, fotosuratlarning sifati va fotograflarning professionalligi meni juda mamnun qildi. Studiya sharoitlari yetarli edi, ammo kutish xonasi biroz yaxshilanishi mumkin, masalan, qulayroq o'rindiqlar qo'yish mumkin.</p><br><p>Biroq, bir nechta takliflarim bor. Birinchidan, tahrirlangan fotosuratlarni olish muddati kutilganidan uzoqroq bo'ldi. Ushbu jarayonni soddalashtirish foydali bo'ladi. Ikkinchidan, turli o'lcham va pardozdagi nashrlarni taklif qilish afzalroq bo'lar edi. Nihoyat, turli xil mijozlarning xohishlariga mos keladigan tematik fotosessiya paketlarini joriy etishni ko'rib chiqing; masalan, vintage yoki kinematografik mavzular ko'proq mijozlarni jalb qilishi mumkin.</p><br><p>Umuman olganda, ijobiy tajribaga ega bo'ldim va yana sizning xizmatlaringizdan foydalanishni o'ylab ko'raman.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>Social media is... um... good? I like Facebook. I see my friends. It is fun. But... sometimes it is bad. I don't know. Bye!</p>",
       "sampleA2": "<p>Hello. I think social media is good and bad. It is good because I can talk to my friends. I can see their photos. But it is bad because sometimes people are mean. And I spend too much time on my phone. It is okay, but not always good. Thank you.</p>",
       "sampleB1": "<p>In my opinion, social media has both good and bad effects on society. On the one hand, it's great because you can easily connect with people all over the world. For example, I can talk to my cousins in Canada every day. Also, it’s a good way to find information and news. <br><br>However, there are also some negative aspects. I think people spend too much time online and not enough time in the real world. Also, there can be a lot of fake news and cyberbullying. So, it's important to be careful and not believe everything you see online. Overall, I think it's a mixed bag.</p>",
-      "sampleB2": "<p>Social media's impact on society is a complex issue with both undeniable benefits and significant drawbacks. While it has revolutionized communication and information sharing, its negative consequences are increasingly apparent.<br><br>One positive aspect is the enhanced connectivity it provides. People can maintain relationships across geographical boundaries, and marginalized communities can find support and build networks. Furthermore, social media platforms have become powerful tools for social activism and raising awareness about important issues.<br><br>However, the downsides are considerable. The constant exposure to curated content can lead to feelings of inadequacy and anxiety. Cyberbullying and online harassment are pervasive problems, particularly among young people. Moreover, the rapid spread of misinformation and propaganda poses a serious threat to democratic processes and public health. Social media companies have a responsibility to address these issues through more effective content moderation and user education. Ultimately, a balanced approach is needed to harness the benefits of social media while mitigating its harmful effects.</p>"
+      "sampleB2": "<p>Social media's impact on society is a complex issue with both undeniable benefits and significant drawbacks. While it has revolutionized communication and information sharing, its negative consequences are increasingly apparent.<br><br>One positive aspect is the enhanced connectivity it provides. People can maintain relationships across geographical boundaries, and marginalized communities can find support and build networks. Furthermore, social media platforms have become powerful tools for social activism and raising awareness about important issues.<br><br>However, the downsides are considerable. The constant exposure to curated content can lead to feelings of inadequacy and anxiety. Cyberbullying and online harassment are pervasive problems, particularly among young people. Moreover, the rapid spread of misinformation and propaganda poses a serious threat to democratic processes and public health. Social media companies have a responsibility to address these issues through more effective content moderation and user education. Ultimately, a balanced approach is needed to harness the benefits of social media while mitigating its harmful effects.</p>",
+      "uzSample": "<p>Ijtimoiy media bizning muloqot qilish usulimizni o'zgartirdi. Menimcha, uning ijobiy va salbiy ta'sirlari bor, garchi salbiy tomonlari tobora tashvishli bo'lsa ham.</p>\n\n<p>Birinchidan, ijtimoiy media masofalar bo'ylab tezkor aloqani ta'minlaydi. Oilalar aloqada bo'lib turadi va odamlar do'stlikni bemalol saqlab qolishadi. Shuningdek, u ijtimoiy harakatlarga ovoz beradi va muhim masalalar haqida xabardorlikni oshiradi.</p>\n\n<p>Ikkinchidan, platformalar biznes imkoniyatlarini taqdim etadi. Kichik bizneslar butun dunyo bo'ylab mijozlarga yetib boradi va shaxslar kontent yaratuvchilari sifatida martaba qurishadi. Iqtisodiy ta'siri sezilarli bo'ldi.</p>\n\n<p>Biroq, ijtimoiy media ruhiy salomatlikka zarar yetkazadi. Tadqiqotlar shuni ko'rsatadiki, undan haddan tashqari foydalanish xavotir, depressiya va yolg'izlik bilan bog'liq. Kiberbulling jiddiy muammoga aylandi, ayniqsa yoshlar orasida.</p>\n\n<p>Bundan tashqari, noto'g'ri ma'lumotlar ushbu platformalarda tez tarqaladi. Soxta yangiliklar saylovlar va jamoat salomatligi qarorlariga ta'sir o'tkazib, xavfli ijtimoiy bo'linishlarni yaratadi.</p>\n\n<p>Xulosa qilib aytganda, ijtimoiy media - bu mas'uliyatli foydalanishni talab qiladigan kuchli vosita. Foydalanuvchilar ekran vaqtini cheklashi va ma'lumotlarni tekshirishi kerak, platformalar esa kontentni moderatsiyalashni yaxshilashi zarur.</p>",
+      "uzSampleA1": "<p>Salom!<br>Ijtimoiy tarmoqlar... hmm... yaxshi? Menga Facebook yoqadi. Men do'stlarimni ko'raman. Bu qiziqarli. Lekin... ba'zida yomon. Bilmayman. Xayr!</p>",
+      "uzSampleA2": "<p>Salom. Menimcha, ijtimoiy media yaxshi ham, yomon ham. U yaxshi, chunki men do'stlarim bilan gaplasha olaman. Men ularning rasmlarini ko'ra olaman. Lekin u yomon, chunki ba'zida odamlar yomon bo'lishadi. Va men telefonimda juda ko'p vaqt o'tkazaman. Bu yaxshi, lekin har doim ham yaxshi emas. Rahmat.</p>",
+      "uzSampleB1": "<p>Mening fikrimcha, ijtimoiy tarmoqlarning jamiyatga ham yaxshi, ham yomon ta'siri bor. Bir tomondan, bu juda yaxshi, chunki siz butun dunyo bo'ylab odamlar bilan osongina bog'lanishingiz mumkin. Misol uchun, men har kuni Kanadadagi amakivachchalarim bilan gaplasha olaman. Bundan tashqari, bu ma'lumot va yangiliklarni topishning yaxshi usuli. <br><br>Biroq, ba'zi salbiy jihatlari ham bor. O'ylaymanki, odamlar internetda juda ko'p vaqt o'tkazadilar va real hayotda yetarli vaqt o'tkazmaydilar. Bundan tashqari, ko'plab soxta yangiliklar va kiberbulling bo'lishi mumkin. Shunday qilib, ehtiyot bo'lish va internetda ko'rgan hamma narsaga ishonmaslik muhim. Umuman olganda, menimcha, bu aralash holat.</p>",
+      "uzSampleB2": "<p>Ijtimoiy tarmoqlarning jamiyatga ta'siri murakkab masala bo'lib, uning inkor etib bo'lmaydigan foydalari ham, sezilarli kamchiliklari ham bor. U aloqa va axborot almashinuvida inqilob qilsa-da, uning salbiy oqibatlari tobora yaqqol namoyon bo'lmoqda.<br><br>Ijobiy jihatlardan biri - bu ta'minlaydigan aloqa imkoniyatlarining kengayganidir. Odamlar geografik chegaralar bo'ylab munosabatlarni saqlab qolishlari mumkin, chekka hududlardagi jamoalar esa qo'llab-quvvatlash va tarmoqlar qurish imkoniyatiga ega. Bundan tashqari, ijtimoiy media platformalari ijtimoiy faollik va muhim masalalarni yoritish uchun kuchli vositaga aylandi.<br><br>Biroq, kamchiliklari ham anchagina. Doimiy ravishda saralangan kontentga duchor bo'lish yetishmovchilik va xavotir hislariga olib kelishi mumkin. Kiberbulling va onlayn ta'qiblar, ayniqsa, yoshlar orasida keng tarqalgan muammolardir. Bundan tashqari, noto'g'ri ma'lumot va tashviqotning tez tarqalishi demokratik jarayonlar va jamoat salomatligiga jiddiy tahdid soladi. Ijtimoiy media kompaniyalari kontentni yanada samarali moderatsiya qilish va foydalanuvchilarni o'qitish orqali ushbu muammolarni hal qilishlari kerak. Yakuniy xulosa shuki, ijtimoiy medianing foydali tomonlaridan foydalanish va uning zararli ta'sirini kamaytirish uchun muvozanatli yondashuv zarur.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,207 @@ window.WRITING_TEST_DATA = {
         "uz": "ekran vaqti"
       }
     ]
+  },
+  "tokenTranslations": {
+    "professional photos": {
+      "uz": "professional suratlar",
+      "type": "colloc"
+    },
+    "recently": {
+      "uz": "yaqinda",
+      "type": "adv"
+    },
+    "brilliant": {
+      "uz": "a'lo",
+      "type": "adv"
+    },
+    "so": {
+      "uz": "shunchalik",
+      "type": "adv"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "photography studio": {
+      "uz": "fotosur'at studiyasi",
+      "type": "colloc"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "studio setup": {
+      "uz": "studiyaning jihozlanishi",
+      "type": "colloc"
+    },
+    "photo editing": {
+      "uz": "suratlarni tahrirlash",
+      "type": "colloc"
+    },
+    "beautifully": {
+      "uz": "chiroyli qilib",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "delivery time": {
+      "uz": "yetkazib berish vaqti",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "online gallery": {
+      "uz": "onlayn galereya",
+      "type": "colloc"
+    },
+    "slightly": {
+      "uz": "biroz",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "editing options": {
+      "uz": "tahrirlash imkoniyatlari",
+      "type": "colloc"
+    },
+    "Family packages": {
+      "uz": "Oila uchun paketlar",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "video content": {
+      "uz": "video kontent",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "Social media": {
+      "uz": "Ijtimoiy tarmoqlar",
+      "type": "colloc"
+    },
+    "positive and negative impacts": {
+      "uz": "ijobiy va salbiy ta'sirlar",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "instant communication": {
+      "uz": "tezkor aloqa",
+      "type": "colloc"
+    },
+    "effortlessly": {
+      "uz": "osongina",
+      "type": "adv"
+    },
+    "social movements": {
+      "uz": "ijtimoiy harakatlar",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "business opportunities": {
+      "uz": "biznes imkoniyatlari",
+      "type": "colloc"
+    },
+    "content creators": {
+      "uz": "kontent yaratuvchilari",
+      "type": "colloc"
+    },
+    "economic impact": {
+      "uz": "iqtisodiy ta'sir",
+      "type": "colloc"
+    },
+    "mental health": {
+      "uz": "ruhiy salomatlik",
+      "type": "colloc"
+    },
+    "anxiety, depression, and loneliness": {
+      "uz": "xavotirlik, tushkunlik va yolg'izlik",
+      "type": "colloc"
+    },
+    "Cyberbullying": {
+      "uz": "Kiberbulling",
+      "type": "colloc"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "misinformation": {
+      "uz": "noto'g'ri ma'lumot",
+      "type": "colloc"
+    },
+    "Fake news": {
+      "uz": "Soxta yangiliklar",
+      "type": "colloc"
+    },
+    "societal divisions": {
+      "uz": "ijtimoiy bo'linishlar",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "responsible use": {
+      "uz": "mas'uliyatli foydalanish",
+      "type": "colloc"
+    },
+    "must": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "content moderation": {
+      "uz": "kontentni moderatsiya qilish",
+      "type": "colloc"
+    }
   }
 };

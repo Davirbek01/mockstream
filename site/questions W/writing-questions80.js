@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I like podcast. It is good. You listen? Long car? Podcast good! Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I have a new app. It is for podcasts. It is called PodCast Plus. I like it because it is fun. You have long drive, so you can listen. It is good for you. Bye!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about this new podcast app I've been using called PodCast Plus. Since you have such a long commute, I think it would be perfect for you. They have lots of different podcasts, so you're sure to find something you like. I find it really helps pass the time. You should check it out!<br>See you soon,</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br>I heard about your awful commute and immediately thought of you when I started using this new podcast platform, PodCast Plus. It’s genuinely a lifesaver! They boast a seriously impressive selection, spanning everything from in-depth historical analyses to light-hearted comedy shows. Given the sheer length of your journey, I wholeheartedly recommend giving it a try. It might just transform your daily grind into something almost enjoyable! Let me know what you think if you do.<br>Best,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br>I heard about your awful commute and immediately thought of you when I started using this new podcast platform, PodCast Plus. It’s genuinely a lifesaver! They boast a seriously impressive selection, spanning everything from in-depth historical analyses to light-hearted comedy shows. Given the sheer length of your journey, I wholeheartedly recommend giving it a try. It might just transform your daily grind into something almost enjoyable! Let me know what you think if you do.<br>Best,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Eshitishimcha, har kuni uzoq yo'l bosar ekansan. Men PodCast Plus'dan foydalanib kelyapman va bu vaqt o'tkazish uchun juda ajoyib narsa!</p>\n<p>Ularda juda ko'p mavzular bor – haqiqiy jinoyatlardan tortib, til o'rganishgacha. Senga albatta yuklab olishni maslahat beraman – sening yo'ling tez o'tib ketadi!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom [Do'stingizning ismi],<br>Menga podkast yoqadi. Bu yaxshi. Siz eshitasizmi? Uzoq mashina? Podkast yaxshi! Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Menda yangi ilova bor. U podkastlar uchun. U PodCast Plus deb nomlanadi. Menga u yoqadi, chunki u qiziqarli. Sening uzoq yo'ling bor, shuning uchun sen tinglashing mumkin. Bu sen uchun yaxshi. Xayr!</p>",
+      "uzSampleB1": "<p>Salom, [Do'stingizning ismi],<br>Sizga PodCast Plus deb nomlangan yangi podkast ilovasi haqida aytmoqchi edim. Sizning yo'lingiz juda uzoq bo'lgani uchun, bu siz uchun juda mos keladi deb o'ylayman. Ularda juda ko'p turli xil podkastlar bor, shuning uchun sizga yoqadigan narsani topishingizga ishonaman. Menga vaqtni o'tkazishga juda yordam beradi. Siz uni tekshirib ko'rishingiz kerak!<br>Tez orada ko'rishguncha,</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Sizning dahshatli qatnovingiz haqida eshitdim va men bu yangi PodCast Plus platformasidan foydalana boshlaganimda darhol sizni o'yladim. Bu haqiqatan ham hayotni saqlab qoluvchi narsa! Ularda jiddiy ta'sirchan tanlov bor, chuqur tarixiy tahlillardan tortib engil hazil namoyishlarigacha. Sayohatingizning uzunligini hisobga olsak, men uni sinab ko'rishni chin dildan tavsiya qilaman. Bu sizning kundalik mashaqqatingizni deyarli yoqimli narsaga aylantirishi mumkin! Agar qilsangiz, menga nima deb o'ylashingizni bildiring.<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Podcast Plus,<br>I like podcasts. Good.<br>App is ok.<br>More podcasts please.<br>Bye</p>",
       "sampleA2": "<p>Hi Podcast Plus Team,<br>I like your podcasts. They are good and I listen every day.<br>The app is easy to use, but sometimes it is slow.<br>I want more music podcasts because I like music a lot. And I want podcasts about animals because they are cool.<br>Thank you.<br>Bye,<br>[Your name]</p>",
       "sampleB1": "<p>Dear PodCast Plus Team,<br><br>Thank you for asking about my experience. I think your podcast platform is quite good. There are many interesting podcasts, and the sound is usually clear. The app is also easy to navigate, which is important.<br><br>However, there are some things I would like to suggest. For example, sometimes it is difficult to find the podcast I want. A better search function would be helpful. Also, I think you should add more podcasts about history because I am very interested in that topic.<br><br>In my opinion, PodCast Plus is a good platform, but it could be even better with these improvements.<br><br>Sincerely,<br>[Your name]</p>",
-      "sampleB2": "<p>Dear PodCast Plus Team,<br><br>Thank you for reaching out to gather feedback on my experience with your platform. I must say, I've generally been quite satisfied with PodCast Plus.<br><br>The variety of content is commendable, and I appreciate the consistent audio quality. The user interface is also relatively intuitive, although there's always room for improvement. One aspect I find slightly lacking is the recommendation algorithm; it doesn't always accurately reflect my listening preferences.<br><br>Furthermore, I would suggest incorporating a feature that allows users to create custom categories or folders to better organize their saved podcasts. It would also be beneficial to expand the range of documentary and investigative journalism podcasts available. Perhaps collaborations with independent journalists could provide a fresh perspective.<br><br>Overall, PodCast Plus provides a solid listening experience, but these enhancements could elevate it to the next level.<br><br>Best regards,<br>[Your name]</p>"
+      "sampleB2": "<p>Dear PodCast Plus Team,<br><br>Thank you for reaching out to gather feedback on my experience with your platform. I must say, I've generally been quite satisfied with PodCast Plus.<br><br>The variety of content is commendable, and I appreciate the consistent audio quality. The user interface is also relatively intuitive, although there's always room for improvement. One aspect I find slightly lacking is the recommendation algorithm; it doesn't always accurately reflect my listening preferences.<br><br>Furthermore, I would suggest incorporating a feature that allows users to create custom categories or folders to better organize their saved podcasts. It would also be beneficial to expand the range of documentary and investigative journalism podcasts available. Perhaps collaborations with independent journalists could provide a fresh perspective.<br><br>Overall, PodCast Plus provides a solid listening experience, but these enhancements could elevate it to the next level.<br><br>Best regards,<br>[Your name]</p>",
+      "uzSample": "<p>Hurmatli PodCast Plus jamoasi,</p>\n<p>Sizning podkast platformangiz bilan bog‘liq tajribam haqida so‘raganingiz uchun rahmat.</p>\n<p>Men xizmatingizdan juda ta’sirlanaman. Kontentning xilma-xilligi ajoyib, yangiliklardan tortib ko‘ngilochargacha hamma narsani qamrab oladi. Audio sifati doimiy ravishda mukammal va ilova juda intuitiv.</p>\n<p>Biroq, mening ba'zi takliflarim bor. Qidiruv funksiyasi ba'zan muayyan epizodlarni topishda qiynaladi. Yanada rivojlangan filtr tizimi yordam berishi mumkin edi. Bundan tashqari, oflayn yuklab olish chegarasi premium a'zolar uchun ancha cheklangan.</p>\n<p>Men ko'proq ta'limiy kontent va til o'rganish podkastlarini ko'rishni xohlardim. Tovushni asta-sekin pasaytiradigan uyqu taymeri foydali bo'lar edi. Shuningdek, tinglash tarixiga asoslangan shaxsiy pleylistlar tajribani yaxshilaydi.</p>\n<p>Umuman olganda, PodCast Plus mening kundalik eng sevimli ilovamga aylandi.</p>\n<p>Hurmat bilan,\n[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom Podcast Plus,<br>Podcastlar menga yoqadi. Yaxshi.<br>Ilova yaxshi.<br>Iltimos, ko'proq podcastlar bo'lsin.<br>Xayr</p>",
+      "uzSampleA2": "<p>Salom Podcast Plus jamoasi,<br>Sizning podkastlaringiz menga yoqadi. Ular yaxshi va men har kuni tinglayman.<br>Ilovadan foydalanish oson, lekin ba'zida u sekin ishlaydi.<br>Men ko'proq musiqa podkastlarini xohlayman, chunki musiqa menga juda yoqadi. Va men hayvonlar haqida podkastlarni xohlayman, chunki ular ajoyib.<br>Rahmat.<br>Xayr,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli PodCast Plus jamoasi,<br><br>Tajribam haqida so'raganingiz uchun rahmat. Menimcha, sizning podkast platformangiz juda yaxshi. Ko'plab qiziqarli podkastlar bor va ovoz odatda tiniq. Ilova ham navigatsiya qilish uchun oson, bu muhim.<br><br>Biroq, men taklif qilmoqchi bo'lgan ba'zi narsalar bor. Misol uchun, ba'zida men xohlagan podkastni topish qiyin. Yaxshiroq qidiruv funksiyasi foydali bo'lardi. Shuningdek, menimcha, siz tarix haqida ko'proq podkastlar qo'shishingiz kerak, chunki men bu mavzuga juda qiziqaman.<br><br>Mening fikrimcha, PodCast Plus yaxshi platforma, lekin bu yaxshilanishlar bilan yanada yaxshiroq bo'lishi mumkin.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli PodCast Plus jamoasi,<br><br>Platformangiz haqidagi tajribam bo'yicha fikr-mulohazalar yig'ish uchun murojaat qilganingizdan minnatdorman. Aytishim kerakki, men PodCast Plus'dan umuman olganda juda mamnunman.<br><br>Kontentning xilma-xilligi maqtovga loyiq va men doimiy audio sifatini qadrlayman. Foydalanuvchi interfeysi ham nisbatan intuitiv, garchi doim takomillashtirish uchun joy bo'lsa ham. Mening fikrimcha, biroz yetishmayotgan jihatlardan biri bu tavsiya algoritmi; u har doim ham mening tinglash afzalliklarimni to'g'ri aks ettirmaydi.<br><br>Bundan tashqari, foydalanuvchilarga saqlangan podkastlarini yaxshiroq tashkil etish uchun maxsus toifalar yoki papkalar yaratishga imkon beradigan funksiyani kiritishni taklif qilaman. Shuningdek, mavjud bo'lgan hujjatli va tergov jurnalistikasi podkastlari doirasini kengaytirish foydali bo'ladi. Ehtimol, mustaqil jurnalistlar bilan hamkorlik yangi nuqtai nazarni taqdim etishi mumkin.<br><br>Umuman olganda, PodCast Plus mustahkam tinglash tajribasini taqdim etadi, ammo bu yaxshilanishlar uni keyingi bosqichga olib chiqishi mumkin.<br><br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like podcast app. It is good. Music is good. I want more music. Bye.</p>",
       "sampleA2": "<p>Hello,<br>I use your podcast app. It is okay. I like the music, and the podcasts are interesting. But the app is hard to use. I can't find the things I want. I want more music for running, because I run a lot. Thank you.<br>Bye.</p>",
       "sampleB1": "<p>Dear PodCast Plus Team,<br><br>I'm writing to give you some feedback on your podcast platform. I think the content variety is good. There are many different podcasts I can listen to. However, I think the audio quality could be better. Some podcasts sound a bit muffled.<br><br>The app is mostly easy to use, but sometimes it's difficult to find new podcasts that I like. It would be helpful if you added more categories. For example, I'm interested in history, so a specific history category would be great.<br><br>Also, a feature to create playlists would be very useful. Overall, I'm enjoying the platform, but these improvements would make it even better.<br><br>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear PodCast Plus Team,<br><br>I am writing to provide feedback on my experience with your podcast streaming platform. Overall, I find the content variety to be commendable, offering a diverse range of genres and topics. However, I believe there is room for improvement regarding the audio quality, as inconsistencies exist across different podcasts, which occasionally detracts from the listening experience.<br><br>While the app interface is generally intuitive, I suggest incorporating a more robust search functionality and personalized recommendation system. Currently, discovering niche content can be challenging. A feature that allows users to create and share playlists would also enhance user engagement and content discoverability.<br><br>Furthermore, the inclusion of more interactive elements, such as live Q&A sessions with podcast creators or dedicated forums for discussion, could foster a stronger sense of community among listeners. I hope these suggestions are helpful as you continue to develop and refine your platform.<br><br>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear PodCast Plus Team,<br><br>I am writing to provide feedback on my experience with your podcast streaming platform. Overall, I find the content variety to be commendable, offering a diverse range of genres and topics. However, I believe there is room for improvement regarding the audio quality, as inconsistencies exist across different podcasts, which occasionally detracts from the listening experience.<br><br>While the app interface is generally intuitive, I suggest incorporating a more robust search functionality and personalized recommendation system. Currently, discovering niche content can be challenging. A feature that allows users to create and share playlists would also enhance user engagement and content discoverability.<br><br>Furthermore, the inclusion of more interactive elements, such as live Q&A sessions with podcast creators or dedicated forums for discussion, could foster a stronger sense of community among listeners. I hope these suggestions are helpful as you continue to develop and refine your platform.<br><br>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>An’anaviy va zamonaviy tibbiyot o‘rtasidagi bahs butun dunyoda davom etmoqda. Menimcha, ularning ikkalasi ham qimmatli, lekin zamonaviy tibbiyot sezilarli afzalliklarni taqdim etadi.</p>\n\n<p>Birinchidan, zamonaviy tibbiyot ilmiy jihatdan isbotlangan. Klinik sinovlar va qat'iy tekshiruvlar davolash usullarining xavfsiz va samarali bo'lishini ta'minlaydi. Vaktsinalar chechak kabi kasalliklarni yo'q qildi va antibiotiklar millionlab odamlarning hayotini saqlab qoldi.</p>\n\n<p>Ikkinchidan, ilg'or texnologiya aniq tashxis qo'yish imkonini beradi. MRI skanerlari, qon testlari va genetik skrining davolash eng samarali bo'lgan paytda kasalliklarni erta aniqlashi mumkin. An'anaviy tibbiyotda bu diagnostika vositalari yo'q.</p>\n\n<p>Biroq, an'anaviy tibbiyot afzalliklarni taqdim etadi. O'simliklardan tayyorlangan dorilar ko'pincha kamroq nojo'ya ta'sirlarga ega va akupunktur kabi amaliyotlar surunkali og'riqni boshqarishga yordam beradi. Ko'pgina zamonaviy dorilar aslida tabiiy o'simliklardan olinadi.</p>\n\n<p>Bundan tashqari, an'anaviy yondashuvlar yaxlit sog'lomlashtirishga - faqat alomatlarni emas, balki butun odamni davolashga urg'u beradi. Ushbu profilaktika yondashuvi sog'lom turmush tarzini targ'ib qiladi.</p>\n\n<p>Xulosa qilib aytganda, zamonaviy tibbiyot jiddiy kasalliklar uchun asosiy tanlov bo'lishi kerak, an'anaviy usullar esa davolanishni to'ldirishi mumkin. Ikkalalasini birlashtirgan integratsiyalashgan yondashuv ikkala dunyoning eng yaxshisini taklif qiladi.</p>",
+      "uzSampleA1": "<p>Salom!<br>Podcast ilovasi menga yoqadi. U yaxshi. Musiqa yaxshi. Men ko'proq musiqa xohlayman. Xayr.</p>",
+      "uzSampleA2": "<p>Salom,<br>Men sizning podkast ilovangizdan foydalanaman. U yaxshi. Menga musiqa yoqadi, va podkastlar qiziqarli. Lekin ilovani ishlatish qiyin. Men xohlagan narsalarni topa olmayapman. Yugurish uchun ko'proq musiqa xohlayman, chunki men ko'p yuguraman. Rahmat.<br>Xayr.</p>",
+      "uzSampleB1": "<p>Hurmatli PodCast Plus jamoasi,<br><br>Sizning podcast platformangiz haqida fikr-mulohazalarimni bildirish uchun yozyapman. Kontent xilma-xilligi yaxshi deb o'ylayman. Tinglashim mumkin bo'lgan ko'plab turli podcastlar mavjud. Biroq, audio sifati yaxshiroq bo'lishi mumkin deb o'ylayman. Ba'zi podcastlar biroz bo'g'iq eshitiladi.<br><br>Ilova asosan ishlatish uchun qulay, ammo ba'zida menga yoqadigan yangi podcastlarni topish qiyin. Agar siz ko'proq toifalarni qo'shsangiz, foydali bo'lardi. Misol uchun, men tarixga qiziqaman, shuning uchun aniq tarix toifasi ajoyib bo'lardi.<br><br>Shuningdek, pleylistlar yaratish funksiyasi juda foydali bo'lardi. Umuman olganda, platformadan zavqlanyapman, ammo bu yaxshilanishlar uni yanada yaxshiroq qiladi.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli PodCast Plus jamoasi,<br><br>Men sizning podkast translyatsiya platformangiz bilan bog'liq tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, kontent xilma-xilligi maqtashga arziydi, turli janrlar va mavzularni taklif etadi. Biroq, audio sifatini yaxshilash kerak deb hisoblayman, chunki turli podkastlarda nomuvofiqliklar mavjud, bu esa vaqti-vaqti bilan tinglash tajribasini buzadi.<br><br>Ilova interfeysi odatda intuitiv bo'lsa-da, men yanada mustahkam qidiruv funksiyasi va shaxsiy tavsiyalar tizimini kiritishni taklif qilaman. Hozirgi vaqtda tor kontentni topish qiyin bo'lishi mumkin. Foydalanuvchilarga pleylistlar yaratish va ulashish imkonini beradigan funksiya ham foydalanuvchilarning jalb qilinishini va kontentning topilishini oshiradi.<br><br>Bundan tashqari, podkast yaratuvchilari bilan jonli savol-javob sessiyalari yoki muhokama uchun maxsus forumlar kabi ko'proq interaktiv elementlarni kiritish tinglovchilar o'rtasida kuchliroq hamjamiyat tuyg'usini shakllantirishi mumkin. Umid qilamanki, ushbu takliflar sizning platformangizni rivojlantirish va takomillashtirishda foydali bo'ladi.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,191 @@ window.WRITING_TEST_DATA = {
         "uz": "ikkala dunyoning eng yaxshisi"
       }
     ]
+  },
+  "tokenTranslations": {
+    "commute": {
+      "uz": "ishga qatnash",
+      "type": "colloc"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "so": {
+      "uz": "shunday",
+      "type": "adv"
+    },
+    "true crime": {
+      "uz": "haqiqiy jinoyatlar",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "will": {
+      "uz": "bo'ladi",
+      "type": "modal"
+    },
+    "fly by": {
+      "uz": "tez o'tib ketmoq",
+      "type": "phrasal"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "podcast platform": {
+      "uz": "podkast platformasi",
+      "type": "colloc"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "content variety": {
+      "uz": "kontent xilma-xilligi",
+      "type": "colloc"
+    },
+    "audio quality": {
+      "uz": "audio sifati",
+      "type": "colloc"
+    },
+    "consistently": {
+      "uz": "doimiy ravishda",
+      "type": "adv"
+    },
+    "remarkably": {
+      "uz": "ajoyib tarzda",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "search function": {
+      "uz": "qidiruv funksiyasi",
+      "type": "colloc"
+    },
+    "occasionally": {
+      "uz": "vaqti-vaqti bilan",
+      "type": "adv"
+    },
+    "advanced filter": {
+      "uz": "kengaytirilgan filtr",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "offline download": {
+      "uz": "oflayn yuklab olish",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ko'proq",
+      "type": "adv"
+    },
+    "educational content": {
+      "uz": "ta'limiy kontent",
+      "type": "colloc"
+    },
+    "sleep timer": {
+      "uz": "uyqu taymeri",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "personalized playlists": {
+      "uz": "shaxsiy pleylistlar",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "go-to app": {
+      "uz": "eng ko'p ishlatiladigan ilova",
+      "type": "colloc"
+    },
+    "traditional and modern medicine": {
+      "uz": "an'anaviy va zamonaviy tibbiyot",
+      "type": "colloc"
+    },
+    "modern medicine": {
+      "uz": "zamonaviy tibbiyot",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "scientifically proven": {
+      "uz": "ilmiy isbotlangan",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "advanced technology": {
+      "uz": "ilg'or texnologiya",
+      "type": "colloc"
+    },
+    "Traditional medicine": {
+      "uz": "An'anaviy tibbiyot",
+      "type": "colloc"
+    },
+    "diagnostic tools": {
+      "uz": "diagnostika vositalari",
+      "type": "colloc"
+    },
+    "Herbal remedies": {
+      "uz": "O'simliklardan tayyorlangan dorilar",
+      "type": "colloc"
+    },
+    "side effects": {
+      "uz": "nojo'ya ta'sirlar",
+      "type": "colloc"
+    },
+    "chronic pain": {
+      "uz": "surunkali og'riq",
+      "type": "colloc"
+    },
+    "actually": {
+      "uz": "aslida",
+      "type": "adv"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "holistic wellness": {
+      "uz": "to'liq sog'lomlik",
+      "type": "colloc"
+    },
+    "preventive approach": {
+      "uz": "profilaktika yondashuvi",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "integrative approach": {
+      "uz": "integratsiyalashgan yondashuv",
+      "type": "colloc"
+    }
   }
 };

@@ -1,0 +1,36 @@
+// Grammar Test: Binomials & Fixed Pairs — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "He wants to buy a new car, <b>___</b> or later.", correct: "sooner", options: ["sooner", "soon", "early", "before"], def: "\"Sooner or later\" is a common binomial expression.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She tried <b>___</b> and soul to finish the project.", correct: "heart", options: ["heart", "body", "mind", "spirit"], def: "\"Heart and soul\" is a fixed pair expressing dedication.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It's better to be <b>___</b> than sorry.", correct: "safe", options: ["safe", "safely", "safer", "safety"], def: "\"Safe than sorry\" is the correct form for the binomial.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The new law is a matter of <b>___</b> and death.", correct: "life", options: ["life", "living", "die", "dead"], def: "\"Life and death\" is a fixed pair about vital matters.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He runs the company <b>___</b> and nail.", correct: "tooth", options: ["tooth", "teeth", "hand", "leg"], def: "\"Tooth and nail\" means with great effort and determination.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They lived in wealth and <b>___</b>.", correct: "prosperity", options: ["prosperity", "prosper", "prosperous", "prospering"], def: "\"Wealth and prosperity\" is the correct binomial for good fortune.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> or shine, I will go for a walk.", correct: "Rain", options: ["Rain", "Raining", "Sunny", "Sun"], def: "\"Rain or shine\" means regardless of the weather.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They are <b>___</b> and butter friends.", correct: "bread", options: ["bread", "cake", "milk", "rice"], def: "\"Bread and butter\" describes a basic or essential friendship.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He felt tired and <b>___</b> after the long trip.", correct: "weary", options: ["weary", "wearing", "wore", "wear"], def: "\"Tired and weary\" is the correct binomial for feeling exhausted.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She has to take the bad <b>___</b> with the good.", correct: "with", options: ["with", "to", "and", "or"], def: "\"Take the bad with the good\" is a fixed expression.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The story is full of <b>___</b> and downs.", correct: "ups", options: ["ups", "down", "up", "downs"], def: "\"Ups and downs\" is a binomial for good and bad times.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They live in <b>___</b> and order.", correct: "law", options: ["law", "lawful", "lawfully", "laws"], def: "\"Law and order\" is a fixed pair about social control.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They live <b>___</b> and soul for their family.", correct: "body", options: ["body", "heart", "mind", "spirit"], def: "\"Body and soul\" means completely.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is always playing fast and <b>___</b> with the rules.", correct: "loose", options: ["loose", "lose", "lost", "losing"], def: "\"Fast and loose\" means behaving recklessly.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The fabric is <b>___</b> and tear.", correct: "wear", options: ["wear", "wearing", "wore", "worn"], def: "\"Wear and tear\" is a fixed pair for damage.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is a friend, <b>___</b> and simple.", correct: "pure", options: ["pure", "clear", "easy", "true"], def: "\"Pure and simple\" means without complication.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She did it <b>___</b> and square.", correct: "fair", options: ["fair", "just", "right", "equal"], def: "\"Fair and square\" means honestly and justly.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They went through <b>___</b> and thin together.", correct: "thick", options: ["thick", "thin", "thickly", "thickness"], def: "\"Thick and thin\" is a fixed pair for good and bad times.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They are <b>___</b> and parcel of the team.", correct: "part", options: ["part", "piece", "bit", "share"], def: "\"Part and parcel\" means an essential element.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She needs some rest and <b>___</b>.", correct: "relaxation", options: ["relaxation", "relax", "relaxing", "relaxed"], def: "\"Rest and relaxation\" is a fixed pair for leisure.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He was tall and <b>___</b>.", correct: "short", options: ["short", "shortly", "shortness", "shorten"], def: "\"Tall and short\" describes people of different heights.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He is down <b>___</b> out.", correct: "and", options: ["and", "but", "or", "so"], def: "\"Down and out\" means lacking money and hope.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Let's wait and <b>___</b>.", correct: "see", options: ["see", "watch", "look", "view"], def: "\"Wait and see\" means to postpone action.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We need paper, pens, <b>___</b> so on for the meeting.", correct: "and", options: ["and", "with", "or", "but"], def: "\"And so on\" is a common fixed pair used to indicate continuation.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I tried to explain, but it was <b>___</b> waste of time.", correct: "a", options: ["a", "the", "-", "an"], def: "\"A waste of time\" is a fixed expression requiring the indefinite article.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "It's <b>___</b> cats and dogs outside!", correct: "raining", options: ["raining", "rain", "rained", "rains"], def: "\"Raining cats and dogs\" is a fixed expression meaning raining heavily.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He searched high <b>___</b> low, but couldn't find his keys.", correct: "and", options: ["and", "or", "but", "with"], def: "\"High and low\" is a binomial expression meaning everywhere.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The project is done, <b>___</b> and dry.", correct: "safe", options: ["safe", "save", "safety", "safely"], def: "\"Safe and sound\" is a binomial expressing well-being after danger.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "We need some <b>___</b> and quiet.", correct: "peace", options: ["peace", "pieces", "peaceful", "peacefully"], def: "\"Peace and quiet\" is a binomial expression for calm.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She was giving me an <b>___</b> or take offer.", correct: "take", options: ["take", "give", "with", "on"], def: "\"Take it or leave it\" is a fixed expression, meaning accept or reject.", level: "B1–B2"}
+];

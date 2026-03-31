@@ -1,0 +1,786 @@
+[2026-03-26 19:32:03] 🚀 Starting batch: 65 mocks to process
+[2026-03-26 19:32:03]    Range: Mock 2 - Mock 66
+[2026-03-26 19:32:03]    API delay: 6s between calls, 12s between mocks
+[2026-03-26 19:32:03] ============================================================
+[2026-03-26 19:32:03] 🎤 Processing Speaking Mock 2: ielts-speaking-mock-2.js
+[2026-03-26 19:32:03] ============================================================
+[2026-03-26 19:32:03]   📋 17 questions to process
+[2026-03-26 19:32:03] 
+  Q1 (Part 1): Do you work or are you a student?...
+[2026-03-26 19:32:03]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:32:09]     ✅ Band 5: 32w, 3 tokens
+[2026-03-26 19:32:09]     ✅ Band 6: 39w, 4 tokens
+[2026-03-26 19:32:09]     ✅ Band 7: 44w, 4 tokens
+[2026-03-26 19:32:09]     ✅ Band 8: 60w, 5 tokens
+[2026-03-26 19:32:09]     ✅ Band 9: 76w, 7 tokens
+[2026-03-26 19:32:15]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:32:24]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:32:30] 
+  Q2 (Part 1): Do you like your job?...
+[2026-03-26 19:32:30]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:32:35]     ✅ Band 5: 27w, 3 tokens
+[2026-03-26 19:32:35]     ✅ Band 6: 48w, 3 tokens
+[2026-03-26 19:32:35]     ✅ Band 7: 54w, 3 tokens
+[2026-03-26 19:32:35]     ✅ Band 8: 75w, 3 tokens
+[2026-03-26 19:32:35]     ✅ Band 9: 97w, 5 tokens
+[2026-03-26 19:32:41]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:32:50]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:32:56] 
+  Q3 (Part 1): Is there anything you dislike about your job?...
+[2026-03-26 19:32:56]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:33:03]     ✅ Band 5: 41w, 0 tokens
+[2026-03-26 19:33:03]     ✅ Band 6: 51w, 0 tokens
+[2026-03-26 19:33:03]     ✅ Band 7: 71w, 0 tokens
+[2026-03-26 19:33:03]     ✅ Band 8: 75w, 0 tokens
+[2026-03-26 19:33:03]     ✅ Band 9: 98w, 0 tokens
+[2026-03-26 19:33:09]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:33:19]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:33:25] 
+  Q4 (Part 1): What do you like about your studies?...
+[2026-03-26 19:33:25]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:33:31]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:33:31]     ✅ Band 6: 46w, 3 tokens
+[2026-03-26 19:33:31]     ✅ Band 7: 55w, 4 tokens
+[2026-03-26 19:33:31]     ✅ Band 8: 67w, 5 tokens
+[2026-03-26 19:33:31]     ✅ Band 9: 103w, 6 tokens
+[2026-03-26 19:33:37]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:33:45]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:33:51] 
+  Q5 (Part 1): What do you dislike about your studies?...
+[2026-03-26 19:33:51]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:33:57]     ✅ Band 5: 33w, 3 tokens
+[2026-03-26 19:33:57]     ✅ Band 6: 48w, 3 tokens
+[2026-03-26 19:33:57]     ✅ Band 7: 59w, 4 tokens
+[2026-03-26 19:33:57]     ✅ Band 8: 59w, 6 tokens
+[2026-03-26 19:33:57]     ✅ Band 9: 86w, 6 tokens
+[2026-03-26 19:34:03]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:34:12]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:34:18] 
+  Q6 (Part 1): What was your dream job when you were young?...
+[2026-03-26 19:34:18]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:34:24]     ✅ Band 5: 38w, 3 tokens
+[2026-03-26 19:34:24]     ✅ Band 6: 55w, 3 tokens
+[2026-03-26 19:34:24]     ✅ Band 7: 58w, 4 tokens
+[2026-03-26 19:34:24]     ✅ Band 8: 77w, 5 tokens
+[2026-03-26 19:34:24]     ✅ Band 9: 97w, 6 tokens
+[2026-03-26 19:34:30]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:34:41]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:34:47] 
+  Q7 (Part 1): Have you changed your mind on your dream job?...
+[2026-03-26 19:34:47]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:34:53]     ✅ Band 5: 35w, 0 tokens
+[2026-03-26 19:34:53]     ✅ Band 6: 49w, 0 tokens
+[2026-03-26 19:34:53]     ✅ Band 7: 58w, 0 tokens
+[2026-03-26 19:34:53]     ✅ Band 8: 71w, 0 tokens
+[2026-03-26 19:34:53]     ✅ Band 9: 95w, 0 tokens
+[2026-03-26 19:34:59]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:35:09]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:35:15] 
+  Q8 (Part 2): Describe a place with a lot of trees that you would like to ...
+[2026-03-26 19:35:15]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:35:23]     ✅ Band 5: 41w, 2 tokens
+[2026-03-26 19:35:23]     ✅ Band 6: 55w, 3 tokens
+[2026-03-26 19:35:23]     ✅ Band 7: 71w, 4 tokens
+[2026-03-26 19:35:23]     ✅ Band 8: 103w, 5 tokens
+[2026-03-26 19:35:23]     ✅ Band 9: 140w, 5 tokens
+[2026-03-26 19:35:29]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:35:44]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:35:50] 
+  Q9 (Part 2 Follow-up): Have you ever visited a similar place before?...
+[2026-03-26 19:35:50]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:35:56]     ✅ Band 5: 25w, 3 tokens
+[2026-03-26 19:35:56]     ✅ Band 6: 47w, 4 tokens
+[2026-03-26 19:35:56]     ✅ Band 7: 57w, 4 tokens
+[2026-03-26 19:35:56]     ✅ Band 8: 85w, 5 tokens
+[2026-03-26 19:35:56]     ✅ Band 9: 86w, 5 tokens
+[2026-03-26 19:36:02]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:36:11]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:36:17] 
+  Q10 (Part 2 Follow-up): Do you think you will visit this place in the near future?...
+[2026-03-26 19:36:17]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:36:23]     ✅ Band 5: 27w, 3 tokens
+[2026-03-26 19:36:23]     ✅ Band 6: 42w, 3 tokens
+[2026-03-26 19:36:23]     ✅ Band 7: 49w, 4 tokens
+[2026-03-26 19:36:23]     ✅ Band 8: 60w, 3 tokens
+[2026-03-26 19:36:23]     ✅ Band 9: 70w, 7 tokens
+[2026-03-26 19:36:29]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:36:37]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:36:43] 
+  Q11 (Part 3): Why do people like visiting places with trees or forests?...
+[2026-03-26 19:36:43]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:36:50]     ✅ Band 5: 28w, 2 tokens
+[2026-03-26 19:36:50]     ✅ Band 6: 42w, 3 tokens
+[2026-03-26 19:36:50]     ✅ Band 7: 47w, 4 tokens
+[2026-03-26 19:36:50]     ✅ Band 8: 62w, 6 tokens
+[2026-03-26 19:36:50]     ✅ Band 9: 93w, 7 tokens
+[2026-03-26 19:36:56]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:37:05]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:37:11] 
+  Q12 (Part 3): Why is it important to have parks in the city?...
+[2026-03-26 19:37:11]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:37:17]     ✅ Band 5: 36w, 2 tokens
+[2026-03-26 19:37:17]     ✅ Band 6: 58w, 3 tokens
+[2026-03-26 19:37:17]     ✅ Band 7: 64w, 4 tokens
+[2026-03-26 19:37:17]     ✅ Band 8: 72w, 4 tokens
+[2026-03-26 19:37:17]     ✅ Band 9: 101w, 5 tokens
+[2026-03-26 19:37:23]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:37:32]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:37:38] 
+  Q13 (Part 3): What benefits can a park bring to a city?...
+[2026-03-26 19:37:38]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:37:44]     ✅ Band 5: 40w, 3 tokens
+[2026-03-26 19:37:44]     ✅ Band 6: 50w, 3 tokens
+[2026-03-26 19:37:44]     ✅ Band 7: 53w, 4 tokens
+[2026-03-26 19:37:44]     ✅ Band 8: 80w, 5 tokens
+[2026-03-26 19:37:44]     ✅ Band 9: 94w, 6 tokens
+[2026-03-26 19:37:50]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:38:00]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:38:06] 
+  Q14 (Part 3): Are natural views better than city views?...
+[2026-03-26 19:38:06]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:38:11]     ✅ Band 5: 23w, 2 tokens
+[2026-03-26 19:38:11]     ✅ Band 6: 41w, 3 tokens
+[2026-03-26 19:38:11]     ✅ Band 7: 48w, 3 tokens
+[2026-03-26 19:38:11]     ✅ Band 8: 65w, 4 tokens
+[2026-03-26 19:38:11]     ✅ Band 9: 87w, 5 tokens
+[2026-03-26 19:38:17]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:38:27]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:38:33] 
+  Q15 (Part 3): Do all people need some nature?...
+[2026-03-26 19:38:33]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:38:38]     ✅ Band 5: 31w, 2 tokens
+[2026-03-26 19:38:38]     ✅ Band 6: 36w, 3 tokens
+[2026-03-26 19:38:38]     ✅ Band 7: 47w, 4 tokens
+[2026-03-26 19:38:38]     ✅ Band 8: 60w, 5 tokens
+[2026-03-26 19:38:38]     ✅ Band 9: 92w, 8 tokens
+[2026-03-26 19:38:44]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:38:53]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:38:59] 
+  Q16 (Part 3): Are people hard-wired to protect the environment?...
+[2026-03-26 19:38:59]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:39:06]     ✅ Band 5: 33w, 3 tokens
+[2026-03-26 19:39:06]     ✅ Band 6: 47w, 3 tokens
+[2026-03-26 19:39:06]     ✅ Band 7: 62w, 4 tokens
+[2026-03-26 19:39:06]     ✅ Band 8: 85w, 4 tokens
+[2026-03-26 19:39:06]     ✅ Band 9: 111w, 5 tokens
+[2026-03-26 19:39:12]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:39:22]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:39:28] 
+  Q17 (Part 3): Do you think governments are doing enough to preserve natura...
+[2026-03-26 19:39:28]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:39:33]     ✅ Band 5: 29w, 2 tokens
+[2026-03-26 19:39:33]     ✅ Band 6: 40w, 3 tokens
+[2026-03-26 19:39:33]     ✅ Band 7: 46w, 4 tokens
+[2026-03-26 19:39:33]     ✅ Band 8: 61w, 4 tokens
+[2026-03-26 19:39:33]     ✅ Band 9: 92w, 6 tokens
+[2026-03-26 19:39:39]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:39:48]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:39:54] 
+  🔤 Generating token translations for 85 samples...
+[2026-03-26 19:40:30]   ✅ 226 token translations generated (total: 226)
+[2026-03-26 19:40:30] 
+  💾 Saved Mock 2
+[2026-03-26 19:40:30]   📊 EN samples: 85/85, UZ samples: 85/85, UZ originals: 17/17
+[2026-03-26 19:40:30]   📊 Success: 34, Failed: 0
+[2026-03-26 19:40:30] 
+  ⏳ Waiting 12s before next mock...
+[2026-03-26 19:40:42] 
+📊 Progress: 1/65 (1 OK, 0 partial)
+[2026-03-26 19:40:42] ============================================================
+[2026-03-26 19:40:42] 🎤 Processing Speaking Mock 3: ielts-speaking-mock-3.js
+[2026-03-26 19:40:42] ============================================================
+[2026-03-26 19:40:42]   📋 17 questions to process
+[2026-03-26 19:40:42] 
+  Q1 (Part 1): How has your town changed over the last 20 years?...
+[2026-03-26 19:40:42]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:40:48]     ✅ Band 5: 32w, 3 tokens
+[2026-03-26 19:40:48]     ✅ Band 6: 45w, 2 tokens
+[2026-03-26 19:40:48]     ✅ Band 7: 52w, 4 tokens
+[2026-03-26 19:40:48]     ✅ Band 8: 78w, 4 tokens
+[2026-03-26 19:40:48]     ✅ Band 9: 117w, 5 tokens
+[2026-03-26 19:40:54]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:41:06]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:41:12] 
+  Q2 (Part 1): What is the difference between living in the countryside and...
+[2026-03-26 19:41:12]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:41:19]     ✅ Band 5: 35w, 2 tokens
+[2026-03-26 19:41:19]     ✅ Band 6: 50w, 3 tokens
+[2026-03-26 19:41:19]     ✅ Band 7: 65w, 4 tokens
+[2026-03-26 19:41:19]     ✅ Band 8: 84w, 6 tokens
+[2026-03-26 19:41:19]     ✅ Band 9: 119w, 7 tokens
+[2026-03-26 19:41:25]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:41:37]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:41:43] 
+  Q3 (Part 1): Do you think you will continue living there for a long time?...
+[2026-03-26 19:41:43]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:41:50]     ✅ Band 5: 35w, 3 tokens
+[2026-03-26 19:41:50]     ✅ Band 6: 56w, 3 tokens
+[2026-03-26 19:41:50]     ✅ Band 7: 59w, 3 tokens
+[2026-03-26 19:41:50]     ✅ Band 8: 83w, 5 tokens
+[2026-03-26 19:41:50]     ✅ Band 9: 112w, 8 tokens
+[2026-03-26 19:41:56]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:42:06]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:42:12] 
+  Q4 (Part 1): Would you like to live in the countryside in the future?...
+[2026-03-26 19:42:12]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:42:17]     ✅ Band 5: 31w, 2 tokens
+[2026-03-26 19:42:17]     ✅ Band 6: 39w, 3 tokens
+[2026-03-26 19:42:17]     ✅ Band 7: 56w, 3 tokens
+[2026-03-26 19:42:17]     ✅ Band 8: 66w, 4 tokens
+[2026-03-26 19:42:17]     ✅ Band 9: 93w, 7 tokens
+[2026-03-26 19:42:23]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:42:33]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:42:39] 
+  Q5 (Part 1): What do people living in the countryside like to do?...
+[2026-03-26 19:42:39]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:42:45]     ✅ Band 5: 36w, 2 tokens
+[2026-03-26 19:42:45]     ✅ Band 6: 45w, 2 tokens
+[2026-03-26 19:42:45]     ✅ Band 7: 50w, 3 tokens
+[2026-03-26 19:42:45]     ✅ Band 8: 68w, 3 tokens
+[2026-03-26 19:42:45]     ✅ Band 9: 81w, 5 tokens
+[2026-03-26 19:42:51]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:43:01]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:43:07] 
+  Q6 (Part 1): What do you like to do in the countryside?...
+[2026-03-26 19:43:07]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:43:13]     ✅ Band 5: 40w, 3 tokens
+[2026-03-26 19:43:13]     ✅ Band 6: 53w, 4 tokens
+[2026-03-26 19:43:13]     ✅ Band 7: 56w, 5 tokens
+[2026-03-26 19:43:13]     ✅ Band 8: 75w, 5 tokens
+[2026-03-26 19:43:13]     ✅ Band 9: 98w, 8 tokens
+[2026-03-26 19:43:19]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:43:28]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:43:34] 
+  Q7 (Part 1): Do you ever spend time in the countryside?...
+[2026-03-26 19:43:34]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:43:39]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:43:39]     ✅ Band 6: 41w, 3 tokens
+[2026-03-26 19:43:39]     ✅ Band 7: 50w, 4 tokens
+[2026-03-26 19:43:39]     ✅ Band 8: 69w, 5 tokens
+[2026-03-26 19:43:39]     ✅ Band 9: 79w, 5 tokens
+[2026-03-26 19:43:45]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:43:53]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:43:59] 
+  Q8 (Part 2): Describe a friend of yours who is good at singing or music....
+[2026-03-26 19:43:59]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:44:07]     ✅ Band 5: 46w, 3 tokens
+[2026-03-26 19:44:07]     ✅ Band 6: 62w, 3 tokens
+[2026-03-26 19:44:07]     ✅ Band 7: 81w, 4 tokens
+[2026-03-26 19:44:07]     ✅ Band 8: 97w, 6 tokens
+[2026-03-26 19:44:07]     ✅ Band 9: 130w, 5 tokens
+[2026-03-26 19:44:13]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:44:27]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:44:33] 
+  Q9 (Part 2 Follow-up): Has this friend ever performed professionally?...
+[2026-03-26 19:44:33]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:44:39]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:44:39]     ✅ Band 6: 42w, 2 tokens
+[2026-03-26 19:44:39]     ✅ Band 7: 54w, 4 tokens
+[2026-03-26 19:44:39]     ✅ Band 8: 81w, 4 tokens
+[2026-03-26 19:44:39]     ✅ Band 9: 97w, 5 tokens
+[2026-03-26 19:44:45]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:44:54]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:45:00] 
+  Q10 (Part 2 Follow-up): Do you think you could ever be as good as your friend at mus...
+[2026-03-26 19:45:00]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:45:05]     ✅ Band 5: 27w, 3 tokens
+[2026-03-26 19:45:05]     ✅ Band 6: 48w, 2 tokens
+[2026-03-26 19:45:05]     ✅ Band 7: 44w, 4 tokens
+[2026-03-26 19:45:05]     ✅ Band 8: 65w, 4 tokens
+[2026-03-26 19:45:05]     ✅ Band 9: 82w, 6 tokens
+[2026-03-26 19:45:11]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:45:20]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:45:26] 
+  Q11 (Part 3): Do you think the government should invest more money in conc...
+[2026-03-26 19:45:26]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:45:32]     ✅ Band 5: 29w, 3 tokens
+[2026-03-26 19:45:32]     ✅ Band 6: 44w, 3 tokens
+[2026-03-26 19:45:32]     ✅ Band 7: 59w, 3 tokens
+[2026-03-26 19:45:32]     ✅ Band 8: 72w, 5 tokens
+[2026-03-26 19:45:32]     ✅ Band 9: 104w, 6 tokens
+[2026-03-26 19:45:38]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:45:48]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:45:54] 
+  Q12 (Part 3): Is it necessary for the government to require all children t...
+[2026-03-26 19:45:54]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:46:00]     ✅ Band 5: 38w, 3 tokens
+[2026-03-26 19:46:00]     ✅ Band 6: 56w, 3 tokens
+[2026-03-26 19:46:00]     ✅ Band 7: 67w, 4 tokens
+[2026-03-26 19:46:00]     ✅ Band 8: 85w, 4 tokens
+[2026-03-26 19:46:00]     ✅ Band 9: 116w, 7 tokens
+[2026-03-26 19:46:06]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:46:16]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:46:22] 
+  Q13 (Part 3): What are the benefits of children learning a musical instrum...
+[2026-03-26 19:46:22]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:46:27]     ✅ Band 5: 30w, 2 tokens
+[2026-03-26 19:46:27]     ✅ Band 6: 46w, 3 tokens
+[2026-03-26 19:46:27]     ✅ Band 7: 49w, 4 tokens
+[2026-03-26 19:46:27]     ✅ Band 8: 62w, 4 tokens
+[2026-03-26 19:46:27]     ✅ Band 9: 90w, 6 tokens
+[2026-03-26 19:46:33]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:46:43]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:46:49] 
+  Q14 (Part 3): Do you think music lessons are important?...
+[2026-03-26 19:46:49]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:46:54]     ✅ Band 5: 36w, 2 tokens
+[2026-03-26 19:46:54]     ✅ Band 6: 41w, 4 tokens
+[2026-03-26 19:46:54]     ✅ Band 7: 49w, 4 tokens
+[2026-03-26 19:46:54]     ✅ Band 8: 61w, 4 tokens
+[2026-03-26 19:46:54]     ✅ Band 9: 86w, 7 tokens
+[2026-03-26 19:47:00]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:47:09]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:47:15] 
+  Q15 (Part 3): Do you think music is beneficial for children at school?...
+[2026-03-26 19:47:15]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:47:21]     ✅ Band 5: 31w, 3 tokens
+[2026-03-26 19:47:21]     ✅ Band 6: 42w, 3 tokens
+[2026-03-26 19:47:21]     ✅ Band 7: 51w, 3 tokens
+[2026-03-26 19:47:21]     ✅ Band 8: 80w, 4 tokens
+[2026-03-26 19:47:21]     ✅ Band 9: 103w, 7 tokens
+[2026-03-26 19:47:27]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:47:38]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:47:44] 
+  Q16 (Part 3): What kind of music do people like at different ages?...
+[2026-03-26 19:47:44]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:47:50]     ✅ Band 5: 24w, 3 tokens
+[2026-03-26 19:47:50]     ✅ Band 6: 40w, 3 tokens
+[2026-03-26 19:47:50]     ✅ Band 7: 48w, 5 tokens
+[2026-03-26 19:47:50]     ✅ Band 8: 64w, 5 tokens
+[2026-03-26 19:47:50]     ✅ Band 9: 99w, 7 tokens
+[2026-03-26 19:47:56]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:48:06]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:48:12] 
+  Q17 (Part 3): Should every child learn to play a musical instrument?...
+[2026-03-26 19:48:12]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:48:19]     ✅ Band 5: 38w, 2 tokens
+[2026-03-26 19:48:19]     ✅ Band 6: 49w, 3 tokens
+[2026-03-26 19:48:19]     ✅ Band 7: 62w, 3 tokens
+[2026-03-26 19:48:19]     ✅ Band 8: 78w, 4 tokens
+[2026-03-26 19:48:19]     ✅ Band 9: 96w, 6 tokens
+[2026-03-26 19:48:25]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:48:34]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:48:40] 
+  🔤 Generating token translations for 85 samples...
+[2026-03-26 19:49:21]   ✅ 266 token translations generated (total: 266)
+[2026-03-26 19:49:21] 
+  💾 Saved Mock 3
+[2026-03-26 19:49:21]   📊 EN samples: 85/85, UZ samples: 85/85, UZ originals: 17/17
+[2026-03-26 19:49:21]   📊 Success: 34, Failed: 0
+[2026-03-26 19:49:21] 
+  ⏳ Waiting 12s before next mock...
+[2026-03-26 19:49:33] 
+📊 Progress: 2/65 (2 OK, 0 partial)
+[2026-03-26 19:49:33] ============================================================
+[2026-03-26 19:49:33] 🎤 Processing Speaking Mock 4: ielts-speaking-mock-4.js
+[2026-03-26 19:49:33] ============================================================
+[2026-03-26 19:49:33]   📋 17 questions to process
+[2026-03-26 19:49:33] 
+  Q1 (Part 1): Do you prefer living in a house or a flat?...
+[2026-03-26 19:49:33]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:49:39]     ✅ Band 5: 35w, 2 tokens
+[2026-03-26 19:49:39]     ✅ Band 6: 42w, 3 tokens
+[2026-03-26 19:49:39]     ✅ Band 7: 54w, 3 tokens
+[2026-03-26 19:49:39]     ✅ Band 8: 70w, 4 tokens
+[2026-03-26 19:49:39]     ✅ Band 9: 95w, 6 tokens
+[2026-03-26 19:49:45]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:49:54]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:50:00] 
+  Q2 (Part 1): What would you like to change in your flat?...
+[2026-03-26 19:50:00]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:50:06]     ✅ Band 5: 36w, 2 tokens
+[2026-03-26 19:50:06]     ✅ Band 6: 38w, 2 tokens
+[2026-03-26 19:50:06]     ✅ Band 7: 54w, 4 tokens
+[2026-03-26 19:50:06]     ✅ Band 8: 65w, 5 tokens
+[2026-03-26 19:50:06]     ✅ Band 9: 77w, 7 tokens
+[2026-03-26 19:50:12]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:50:21]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:50:27] 
+  Q3 (Part 1): What do you dislike about your flat?...
+[2026-03-26 19:50:27]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:50:33]     ✅ Band 5: 29w, 0 tokens
+[2026-03-26 19:50:33]     ✅ Band 6: 46w, 0 tokens
+[2026-03-26 19:50:33]     ✅ Band 7: 57w, 0 tokens
+[2026-03-26 19:50:33]     ✅ Band 8: 76w, 0 tokens
+[2026-03-26 19:50:33]     ✅ Band 9: 97w, 0 tokens
+[2026-03-26 19:50:39]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:50:47]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:50:53] 
+  Q4 (Part 1): Which room does your family spend most of the time in?...
+[2026-03-26 19:50:53]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:50:59]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:50:59]     ✅ Band 6: 44w, 3 tokens
+[2026-03-26 19:50:59]     ✅ Band 7: 56w, 3 tokens
+[2026-03-26 19:50:59]     ✅ Band 8: 68w, 5 tokens
+[2026-03-26 19:50:59]     ✅ Band 9: 76w, 9 tokens
+[2026-03-26 19:51:05]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:51:13]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:51:19] 
+  Q5 (Part 1): What can you see from the windows where you live?...
+[2026-03-26 19:51:19]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:51:24]     ✅ Band 5: 34w, 3 tokens
+[2026-03-26 19:51:24]     ✅ Band 6: 51w, 4 tokens
+[2026-03-26 19:51:24]     ✅ Band 7: 66w, 4 tokens
+[2026-03-26 19:51:24]     ✅ Band 8: 74w, 4 tokens
+[2026-03-26 19:51:24]     ✅ Band 9: 98w, 6 tokens
+[2026-03-26 19:51:30]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:51:38]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:51:44] 
+  Q6 (Part 1): Can you describe the place where you live?...
+[2026-03-26 19:51:44]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:51:49]     ✅ Band 5: 28w, 3 tokens
+[2026-03-26 19:51:49]     ✅ Band 6: 49w, 3 tokens
+[2026-03-26 19:51:49]     ✅ Band 7: 53w, 4 tokens
+[2026-03-26 19:51:49]     ✅ Band 8: 55w, 5 tokens
+[2026-03-26 19:51:49]     ✅ Band 9: 69w, 7 tokens
+[2026-03-26 19:51:55]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:52:03]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:52:09] 
+  Q7 (Part 1): What kind of housing accommodation do you live in?...
+[2026-03-26 19:52:09]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:52:15]     ✅ Band 5: 33w, 0 tokens
+[2026-03-26 19:52:15]     ✅ Band 6: 48w, 0 tokens
+[2026-03-26 19:52:15]     ✅ Band 7: 52w, 0 tokens
+[2026-03-26 19:52:15]     ✅ Band 8: 66w, 0 tokens
+[2026-03-26 19:52:15]     ✅ Band 9: 87w, 0 tokens
+[2026-03-26 19:52:21]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:52:30]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:52:36] 
+  Q8 (Part 2): Describe a wild animal that you want to know more about....
+[2026-03-26 19:52:36]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:52:42]     ✅ Band 5: 39w, 3 tokens
+[2026-03-26 19:52:42]     ✅ Band 6: 59w, 2 tokens
+[2026-03-26 19:52:42]     ✅ Band 7: 69w, 3 tokens
+[2026-03-26 19:52:42]     ✅ Band 8: 94w, 4 tokens
+[2026-03-26 19:52:42]     ✅ Band 9: 131w, 5 tokens
+[2026-03-26 19:52:48]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:53:02]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:53:08] 
+  Q9 (Part 2 Follow-up): Have you done any research about this animal since seeing it...
+[2026-03-26 19:53:08]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:53:13]     ✅ Band 5: 35w, 3 tokens
+[2026-03-26 19:53:13]     ✅ Band 6: 47w, 4 tokens
+[2026-03-26 19:53:13]     ✅ Band 7: 55w, 4 tokens
+[2026-03-26 19:53:13]     ✅ Band 8: 70w, 7 tokens
+[2026-03-26 19:53:13]     ✅ Band 9: 83w, 9 tokens
+[2026-03-26 19:53:19]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:53:30]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:53:36] 
+  Q10 (Part 2 Follow-up): Would you like to see this animal in its natural habitat?...
+[2026-03-26 19:53:36]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:53:41]     ✅ Band 5: 38w, 0 tokens
+[2026-03-26 19:53:41]     ✅ Band 6: 48w, 0 tokens
+[2026-03-26 19:53:41]     ✅ Band 7: 60w, 0 tokens
+[2026-03-26 19:53:41]     ✅ Band 8: 61w, 0 tokens
+[2026-03-26 19:53:41]     ✅ Band 9: 77w, 0 tokens
+[2026-03-26 19:53:47]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:53:56]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:54:02] 
+  Q11 (Part 3): Why are some people more willing to protect wild animals tha...
+[2026-03-26 19:54:02]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:54:07]     ✅ Band 5: 34w, 3 tokens
+[2026-03-26 19:54:07]     ✅ Band 6: 50w, 3 tokens
+[2026-03-26 19:54:07]     ✅ Band 7: 60w, 4 tokens
+[2026-03-26 19:54:07]     ✅ Band 8: 80w, 5 tokens
+[2026-03-26 19:54:07]     ✅ Band 9: 103w, 5 tokens
+[2026-03-26 19:54:13]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:54:24]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:54:30] 
+  Q12 (Part 3): Why do some people attach more importance to protecting rare...
+[2026-03-26 19:54:30]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:54:36]     ✅ Band 5: 35w, 3 tokens
+[2026-03-26 19:54:36]     ✅ Band 6: 46w, 3 tokens
+[2026-03-26 19:54:36]     ✅ Band 7: 65w, 6 tokens
+[2026-03-26 19:54:36]     ✅ Band 8: 81w, 8 tokens
+[2026-03-26 19:54:36]     ✅ Band 9: 93w, 10 tokens
+[2026-03-26 19:54:42]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:54:53]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:54:59] 
+  Q13 (Part 3): Is it more important to protect wild animals or the environm...
+[2026-03-26 19:54:59]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:55:04]     ✅ Band 5: 26w, 3 tokens
+[2026-03-26 19:55:04]     ✅ Band 6: 49w, 3 tokens
+[2026-03-26 19:55:04]     ✅ Band 7: 59w, 4 tokens
+[2026-03-26 19:55:04]     ✅ Band 8: 80w, 5 tokens
+[2026-03-26 19:55:04]     ✅ Band 9: 110w, 7 tokens
+[2026-03-26 19:55:10]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:55:20]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:55:26] 
+  Q14 (Part 3): Should people educate children to protect wild animals?...
+[2026-03-26 19:55:26]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:55:32]     ✅ Band 5: 26w, 3 tokens
+[2026-03-26 19:55:32]     ✅ Band 6: 43w, 3 tokens
+[2026-03-26 19:55:32]     ✅ Band 7: 54w, 5 tokens
+[2026-03-26 19:55:32]     ✅ Band 8: 68w, 5 tokens
+[2026-03-26 19:55:32]     ✅ Band 9: 89w, 7 tokens
+[2026-03-26 19:55:38]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:55:47]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:55:53] 
+  Q15 (Part 3): Do you think it's a good idea to let animals stay in local p...
+[2026-03-26 19:55:53]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:55:58]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:55:58]     ✅ Band 6: 49w, 2 tokens
+[2026-03-26 19:55:58]     ✅ Band 7: 50w, 3 tokens
+[2026-03-26 19:55:58]     ✅ Band 8: 70w, 3 tokens
+[2026-03-26 19:55:58]     ✅ Band 9: 103w, 5 tokens
+[2026-03-26 19:56:04]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:56:13]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:56:19] 
+  Q16 (Part 3): Why do you think wild animals should be protected?...
+[2026-03-26 19:56:19]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:56:24]     ✅ Band 5: 31w, 2 tokens
+[2026-03-26 19:56:24]     ✅ Band 6: 50w, 2 tokens
+[2026-03-26 19:56:24]     ✅ Band 7: 57w, 4 tokens
+[2026-03-26 19:56:24]     ✅ Band 8: 69w, 6 tokens
+[2026-03-26 19:56:24]     ✅ Band 9: 85w, 7 tokens
+[2026-03-26 19:56:30]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:56:40]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:56:46] 
+  Q17 (Part 3): Should parents take their children to the zoo to see wild an...
+[2026-03-26 19:56:46]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:56:52]     ✅ Band 5: 34w, 3 tokens
+[2026-03-26 19:56:52]     ✅ Band 6: 59w, 2 tokens
+[2026-03-26 19:56:52]     ✅ Band 7: 70w, 3 tokens
+[2026-03-26 19:56:52]     ✅ Band 8: 79w, 4 tokens
+[2026-03-26 19:56:52]     ✅ Band 9: 115w, 6 tokens
+[2026-03-26 19:56:58]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:57:11]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:57:17] 
+  🔤 Generating token translations for 85 samples...
+[2026-03-26 19:57:49]   ✅ 223 token translations generated (total: 223)
+[2026-03-26 19:57:49] 
+  💾 Saved Mock 4
+[2026-03-26 19:57:49]   📊 EN samples: 85/85, UZ samples: 85/85, UZ originals: 17/17
+[2026-03-26 19:57:49]   📊 Success: 34, Failed: 0
+[2026-03-26 19:57:49] 
+  ⏳ Waiting 12s before next mock...
+[2026-03-26 19:58:01] 
+📊 Progress: 3/65 (3 OK, 0 partial)
+[2026-03-26 19:58:01] ============================================================
+[2026-03-26 19:58:01] 🎤 Processing Speaking Mock 5: ielts-speaking-mock-5.js
+[2026-03-26 19:58:01] ============================================================
+[2026-03-26 19:58:01]   📋 17 questions to process
+[2026-03-26 19:58:01] 
+  Q1 (Part 1): Do you like modern art or traditional art?...
+[2026-03-26 19:58:01]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:58:06]     ✅ Band 5: 32w, 2 tokens
+[2026-03-26 19:58:06]     ✅ Band 6: 46w, 3 tokens
+[2026-03-26 19:58:06]     ✅ Band 7: 54w, 3 tokens
+[2026-03-26 19:58:06]     ✅ Band 8: 84w, 3 tokens
+[2026-03-26 19:58:06]     ✅ Band 9: 115w, 7 tokens
+[2026-03-26 19:58:12]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:58:22]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:58:28] 
+  Q2 (Part 1): Do you think it would be interesting for you to be an artist...
+[2026-03-26 19:58:28]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:58:34]     ✅ Band 5: 36w, 3 tokens
+[2026-03-26 19:58:34]     ✅ Band 6: 52w, 3 tokens
+[2026-03-26 19:58:34]     ✅ Band 7: 56w, 5 tokens
+[2026-03-26 19:58:34]     ✅ Band 8: 78w, 4 tokens
+[2026-03-26 19:58:34]     ✅ Band 9: 111w, 7 tokens
+[2026-03-26 19:58:40]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:58:49]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:58:55] 
+  Q3 (Part 1): Have you ever visited an art gallery?...
+[2026-03-26 19:58:55]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:59:00]     ✅ Band 5: 36w, 2 tokens
+[2026-03-26 19:59:00]     ✅ Band 6: 46w, 4 tokens
+[2026-03-26 19:59:00]     ✅ Band 7: 55w, 4 tokens
+[2026-03-26 19:59:00]     ✅ Band 8: 56w, 5 tokens
+[2026-03-26 19:59:00]     ✅ Band 9: 91w, 8 tokens
+[2026-03-26 19:59:06]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:59:15]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:59:21] 
+  Q4 (Part 1): What do you do if your item is heavy?...
+[2026-03-26 19:59:21]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:59:26]     ✅ Band 5: 27w, 2 tokens
+[2026-03-26 19:59:26]     ✅ Band 6: 44w, 2 tokens
+[2026-03-26 19:59:26]     ✅ Band 7: 45w, 4 tokens
+[2026-03-26 19:59:26]     ✅ Band 8: 68w, 5 tokens
+[2026-03-26 19:59:26]     ✅ Band 9: 93w, 7 tokens
+[2026-03-26 19:59:32]     🇺🇿 Translating to Uzbek...
+[2026-03-26 19:59:40]     ✅ UZ: 5/5 bands + original
+[2026-03-26 19:59:46] 
+  Q5 (Part 1): When you go to different places, do you carry different kind...
+[2026-03-26 19:59:46]     📝 Generating Band 5-9 samples...
+[2026-03-26 19:59:51]     ✅ Band 5: 24w, 0 tokens
+[2026-03-26 19:59:51]     ✅ Band 6: 45w, 0 tokens
+[2026-03-26 19:59:51]     ✅ Band 7: 60w, 0 tokens
+[2026-03-26 19:59:51]     ✅ Band 8: 61w, 0 tokens
+[2026-03-26 19:59:51]     ✅ Band 9: 84w, 0 tokens
+[2026-03-26 19:59:57]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:00:05]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:00:11] 
+  Q6 (Part 1): What is the difference between the things you carry in the e...
+[2026-03-26 20:00:11]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:00:17]     ✅ Band 5: 44w, 2 tokens
+[2026-03-26 20:00:17]     ✅ Band 6: 49w, 3 tokens
+[2026-03-26 20:00:17]     ✅ Band 7: 71w, 3 tokens
+[2026-03-26 20:00:17]     ✅ Band 8: 77w, 4 tokens
+[2026-03-26 20:00:17]     ✅ Band 9: 105w, 6 tokens
+[2026-03-26 20:00:23]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:00:33]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:00:39] 
+  Q7 (Part 1): When you go out, what do you carry with you?...
+[2026-03-26 20:00:39]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:00:44]     ✅ Band 5: 22w, 3 tokens
+[2026-03-26 20:00:44]     ✅ Band 6: 46w, 2 tokens
+[2026-03-26 20:00:44]     ✅ Band 7: 59w, 4 tokens
+[2026-03-26 20:00:44]     ✅ Band 8: 82w, 4 tokens
+[2026-03-26 20:00:44]     ✅ Band 9: 102w, 7 tokens
+[2026-03-26 20:00:50]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:00:59]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:01:05] 
+  Q8 (Part 2): Describe a good friend who is important to you....
+[2026-03-26 20:01:05]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:01:10]     ✅ Band 5: 40w, 3 tokens
+[2026-03-26 20:01:11]     ✅ Band 6: 65w, 3 tokens
+[2026-03-26 20:01:11]     ✅ Band 7: 66w, 4 tokens
+[2026-03-26 20:01:11]     ✅ Band 8: 93w, 4 tokens
+[2026-03-26 20:01:11]     ✅ Band 9: 106w, 6 tokens
+[2026-03-26 20:01:17]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:01:31]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:01:37] 
+  Q9 (Part 2 Follow-up): Do you think you'll remain friends with this person in the f...
+[2026-03-26 20:01:37]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:01:42]     ✅ Band 5: 22w, 3 tokens
+[2026-03-26 20:01:42]     ✅ Band 6: 34w, 3 tokens
+[2026-03-26 20:01:42]     ✅ Band 7: 47w, 5 tokens
+[2026-03-26 20:01:42]     ✅ Band 8: 60w, 5 tokens
+[2026-03-26 20:01:42]     ✅ Band 9: 97w, 5 tokens
+[2026-03-26 20:01:48]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:01:56]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:02:02] 
+  Q10 (Part 2 Follow-up): What qualities do you think make someone a good friend?...
+[2026-03-26 20:02:02]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:02:08]     ✅ Band 5: 41w, 3 tokens
+[2026-03-26 20:02:08]     ✅ Band 6: 58w, 4 tokens
+[2026-03-26 20:02:08]     ✅ Band 7: 64w, 5 tokens
+[2026-03-26 20:02:08]     ✅ Band 8: 87w, 6 tokens
+[2026-03-26 20:02:08]     ✅ Band 9: 111w, 6 tokens
+[2026-03-26 20:02:14]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:02:24]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:02:30] 
+  Q11 (Part 3): Do you think it is better for children to have a few close f...
+[2026-03-26 20:02:30]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:02:36]     ✅ Band 5: 36w, 0 tokens
+[2026-03-26 20:02:36]     ✅ Band 6: 52w, 0 tokens
+[2026-03-26 20:02:36]     ✅ Band 7: 65w, 0 tokens
+[2026-03-26 20:02:36]     ✅ Band 8: 76w, 0 tokens
+[2026-03-26 20:02:36]     ✅ Band 9: 102w, 0 tokens
+[2026-03-26 20:02:42]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:02:52]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:02:58] 
+  Q12 (Part 3): Do you think a child's relationship with friends can be repl...
+[2026-03-26 20:02:58]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:03:03]     ✅ Band 5: 29w, 3 tokens
+[2026-03-26 20:03:03]     ✅ Band 6: 44w, 3 tokens
+[2026-03-26 20:03:03]     ✅ Band 7: 54w, 3 tokens
+[2026-03-26 20:03:03]     ✅ Band 8: 69w, 3 tokens
+[2026-03-26 20:03:03]     ✅ Band 9: 127w, 6 tokens
+[2026-03-26 20:03:09]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:03:20]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:03:26] 
+  Q13 (Part 3): Is it possible for managers to be friends with their workers...
+[2026-03-26 20:03:26]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:03:32]     ✅ Band 5: 30w, 3 tokens
+[2026-03-26 20:03:32]     ✅ Band 6: 51w, 3 tokens
+[2026-03-26 20:03:32]     ✅ Band 7: 57w, 5 tokens
+[2026-03-26 20:03:32]     ✅ Band 8: 86w, 6 tokens
+[2026-03-26 20:03:32]     ✅ Band 9: 111w, 8 tokens
+[2026-03-26 20:03:38]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:03:48]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:03:54] 
+  Q14 (Part 3): How do children make friends at school?...
+[2026-03-26 20:03:54]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:04:00]     ✅ Band 5: 28w, 3 tokens
+[2026-03-26 20:04:00]     ✅ Band 6: 44w, 3 tokens
+[2026-03-26 20:04:00]     ✅ Band 7: 50w, 5 tokens
+[2026-03-26 20:04:00]     ✅ Band 8: 67w, 5 tokens
+[2026-03-26 20:04:00]     ✅ Band 9: 94w, 7 tokens
+[2026-03-26 20:04:06]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:04:17]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:04:23] 
+  Q15 (Part 3): What are the differences between friends made inside and out...
+[2026-03-26 20:04:23]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:04:29]     ✅ Band 5: 30w, 3 tokens
+[2026-03-26 20:04:29]     ✅ Band 6: 41w, 3 tokens
+[2026-03-26 20:04:29]     ✅ Band 7: 53w, 4 tokens
+[2026-03-26 20:04:29]     ✅ Band 8: 63w, 4 tokens
+[2026-03-26 20:04:29]     ✅ Band 9: 99w, 6 tokens
+[2026-03-26 20:04:35]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:04:46]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:04:52] 
+  Q16 (Part 3): How do children make friends when they are not at school?...
+[2026-03-26 20:04:52]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:04:57]     ✅ Band 5: 26w, 3 tokens
+[2026-03-26 20:04:57]     ✅ Band 6: 41w, 3 tokens
+[2026-03-26 20:04:57]     ✅ Band 7: 49w, 4 tokens
+[2026-03-26 20:04:57]     ✅ Band 8: 63w, 5 tokens
+[2026-03-26 20:04:57]     ✅ Band 9: 92w, 8 tokens
+[2026-03-26 20:05:03]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:05:14]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:05:20] 
+  Q17 (Part 3): Do you think online friendships are as valuable as face-to-f...
+[2026-03-26 20:05:20]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:05:26]     ✅ Band 5: 26w, 3 tokens
+[2026-03-26 20:05:26]     ✅ Band 6: 42w, 4 tokens
+[2026-03-26 20:05:26]     ✅ Band 7: 49w, 4 tokens
+[2026-03-26 20:05:26]     ✅ Band 8: 61w, 5 tokens
+[2026-03-26 20:05:26]     ✅ Band 9: 106w, 6 tokens
+[2026-03-26 20:05:32]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:05:44]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:05:50] 
+  🔤 Generating token translations for 85 samples...
+[2026-03-26 20:06:21]   ✅ 237 token translations generated (total: 237)
+[2026-03-26 20:06:21] 
+  💾 Saved Mock 5
+[2026-03-26 20:06:21]   📊 EN samples: 85/85, UZ samples: 85/85, UZ originals: 17/17
+[2026-03-26 20:06:21]   📊 Success: 34, Failed: 0
+[2026-03-26 20:06:21] 
+  ⏳ Waiting 12s before next mock...
+[2026-03-26 20:06:33] 
+📊 Progress: 4/65 (4 OK, 0 partial)
+[2026-03-26 20:06:33] ============================================================
+[2026-03-26 20:06:33] 🎤 Processing Speaking Mock 6: ielts-speaking-mock-6.js
+[2026-03-26 20:06:33] ============================================================
+[2026-03-26 20:06:33]   📋 17 questions to process
+[2026-03-26 20:06:33] 
+  Q1 (Part 1): Do you like to wear shoes that are comfortable or good-looki...
+[2026-03-26 20:06:33]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:06:39]     ✅ Band 5: 31w, 0 tokens
+[2026-03-26 20:06:39]     ✅ Band 6: 48w, 0 tokens
+[2026-03-26 20:06:39]     ✅ Band 7: 57w, 0 tokens
+[2026-03-26 20:06:39]     ✅ Band 8: 62w, 0 tokens
+[2026-03-26 20:06:39]     ✅ Band 9: 89w, 0 tokens
+[2026-03-26 20:06:45]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:06:55]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:07:01] 
+  Q2 (Part 1): Do people like to wear shoes that are comfortable or good-lo...
+[2026-03-26 20:07:01]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:07:07]     ✅ Band 5: 27w, 0 tokens
+[2026-03-26 20:07:07]     ✅ Band 6: 41w, 0 tokens
+[2026-03-26 20:07:07]     ✅ Band 7: 60w, 0 tokens
+[2026-03-26 20:07:07]     ✅ Band 8: 78w, 0 tokens
+[2026-03-26 20:07:07]     ✅ Band 9: 95w, 0 tokens
+[2026-03-26 20:07:13]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:07:24]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:07:30] 
+  Q3 (Part 1): How much money do you usually spend on shoes?...
+[2026-03-26 20:07:30]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:07:36]     ✅ Band 5: 26w, 3 tokens
+[2026-03-26 20:07:36]     ✅ Band 6: 46w, 3 tokens
+[2026-03-26 20:07:36]     ✅ Band 7: 48w, 5 tokens
+[2026-03-26 20:07:36]     ✅ Band 8: 72w, 4 tokens
+[2026-03-26 20:07:36]     ✅ Band 9: 91w, 4 tokens
+[2026-03-26 20:07:42]     🇺🇿 Translating to Uzbek...
+[2026-03-26 20:07:51]     ✅ UZ: 5/5 bands + original
+[2026-03-26 20:07:57] 
+  Q4 (Part 1): Have you ever bought shoes online?...
+[2026-03-26 20:07:57]     📝 Generating Band 5-9 samples...
+[2026-03-26 20:08:03]     ✅ Band 5: 28w, 3 tokens
+[2026-03-26 20:08:03]     ✅ Band 6: 49w, 3 tokens
+[2026-03-26 20:08:03]     ✅ Band 7: 57w, 4 tokens
+[2026-03-26 20:08:03]     ✅ Band 8: 79w, 4 tokens
+[2026-03-26 20:08:03]     ✅ Band 9: 100w, 5 tokens
+[2026-03-26 20:08:09]     🇺🇿 Translating to Uzbek...

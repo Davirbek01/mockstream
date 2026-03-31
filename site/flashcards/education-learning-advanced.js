@@ -1,0 +1,47 @@
+// Flashcard Data: Education & Learning — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "📚 Education & Learning: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Education & Learning",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "absorb information", en: "", uz: "ma'lumotni o'zlashtirmoq", uzDef: "Ma'lumotni tushunib, eslab qolish jarayoni.", ex: "It's easier to absorb information when you're genuinely interested in the subject.", exUz: "Mavzuga chin dildan qiziqsangiz, ma'lumotni o'zlashtirish osonroq."},
+    {term: "excelling academically", en: "", uz: "o'qishda a'lo bo'lish", uzDef: "O'qishda yuqori natijalarga erishish.", ex: "She's been excelling academically ever since she changed her study habits.", exUz: "U o'qish odatlarini o'zgartirgandan beri o'qishda a'lo bo'lib kelmoqda."},
+    {term: "educational journey", en: "", uz: "ta'lim safari", uzDef: "Ta'lim olish jarayoni davomida boshdan kechirilgan tajribalar.", ex: "His educational journey took him from a small village school to a prestigious university.", exUz: "Uning ta'lim safari uni kichik qishloq maktabidan nufuzli universitetga olib bordi."},
+    {term: "struggle with concepts", en: "", uz: "tushunishda qiynalmoq", uzDef: "Ma'lum tushunchalarni tushunishda qiyinchiliklarga duch kelish.", ex: "Many students struggle with complex mathematical concepts.", exUz: "Ko'p talabalar murakkab matematik tushunchalarni tushunishda qiynaladilar."},
+    {term: "a well-respected authority", en: "", uz: "hurmatli mutaxassis", uzDef: "So'ziga ishonch va hurmat bilan qaraladigan bilimdon shaxs.", ex: "Professor Lee is a well-respected authority in the field of linguistics.", exUz: "Professor Li tilshunoslik sohasida hurmatli mutaxassis."},
+    {term: "intellectual curiosity", en: "", uz: "aqliy qiziqish", uzDef: "Bilim olishga kuchli istak va qiziqish.", ex: "Her intellectual curiosity led her to explore many different subjects.", exUz: "Uning aqliy qiziqishi uni turli xil mavzularni o'rganishga undadi."},
+    {term: "apply knowledge", en: "", uz: "bilimni qo'llamoq", uzDef: "O'rgangan bilimni amalda ishlatish.", ex: "It's important to apply knowledge learned in the classroom to real-world situations.", exUz: "Sinfda o'rgangan bilimlarni real hayotiy vaziyatlarga qo'llash muhim."},
+    {term: "cement understanding", en: "", uz: "tushunishni mustahkamlamoq", uzDef: "Tushunchani yanada chuqurlashtirish va mustahkamlash.", ex: "Practice problems help to cement understanding of the material.", exUz: "Amaliy mashqlar materialni tushunishni mustahkamlashga yordam beradi."},
+    {term: "academic rigor", en: "", uz: "akademik qat'iylik", uzDef: "Ta'limning yuqori talablari va qiyinligi.", ex: "The academic rigor of the program prepared her well for her future career.", exUz: "Dasturning akademik qat'iyligi uni kelajakdagi faoliyatiga yaxshi tayyorladi."},
+    {term: "in-depth analysis", en: "", uz: "chuqur tahlil", uzDef: "Mavzuni har tomonlama va batafsil o'rganish.", ex: "The report provides an in-depth analysis of the economic impact of the new policy.", exUz: "Hisobotda yangi siyosatning iqtisodiy ta'siri chuqur tahlil qilingan."},
+    {term: "pursue studies", en: "", uz: "o'qishni davom ettirmoq", uzDef: "Ta'lim olishni davom ettirish, odatda universitetda.", ex: "She plans to pursue studies in medicine after graduating from high school.", exUz: "U o'rta maktabni tugatgandan so'ng tibbiyot sohasida o'qishni davom ettirmoqchi."},
+    {term: "critical thinking skills", en: "", uz: "tanqidiy fikrlash qobiliyati", uzDef: "Ma'lumotni tahlil qilish va baholash qobiliyati.", ex: "Developing critical thinking skills is essential for success in today's world.", exUz: "Tanqidiy fikrlash qobiliyatini rivojlantirish bugungi kunda muvaffaqiyatga erishish uchun zarurdir."},
+    {term: "build upon", en: "", uz: "asoslanib rivojlantirmoq", uzDef: "Mavjud bilim yoki ko'nikmalarga qo'shimcha bilim kiritish.", ex: "The course will build upon the knowledge you already have.", exUz: "Kurs sizda allaqachon mavjud bo'lgan bilimga asoslanib rivojlanadi."},
+    {term: "test the waters", en: "", uz: "sinab ko'rmoq", uzDef: "Biror narsani boshlashdan oldin uning qandayligini bilishga harakat qilish.", ex: "Before committing to a full degree, he decided to test the waters with a few online courses.", exUz: "To'liq darajaga majburiyat olmasdan oldin, u bir nechta onlayn kurslar bilan sinab ko'rishga qaror qildi."},
+    {term: "get a handle on", en: "", uz: "o'zlashtirmoq", uzDef: "Biror narsani tushunish yoki nazorat qilishni boshlash.", ex: "It took me a while to get a handle on the new software, but now I'm comfortable using it.", exUz: "Yangi dasturni o'zlashtirishga biroz vaqt ketdi, lekin hozir undan foydalanish qulay."},
+    {term: "intellectual property", en: "", uz: "intellektual mulk", uzDef: "Aqliy mehnat natijasida yaratilgan mulk.", ex: "The university has a strong policy on protecting intellectual property.", exUz: "Universitetda intellektual mulkni himoya qilish bo'yicha kuchli siyosat mavjud."},
+    {term: "cultivate skills", en: "", uz: "ko'nikmalarni rivojlantirmoq", uzDef: "Ko'nikmalarni asta-sekin o'stirish va yaxshilash.", ex: "Studying abroad can help you cultivate skills like adaptability and intercultural communication.", exUz: "Chet elda o'qish sizga moslashuvchanlik va madaniyatlararo aloqa kabi ko'nikmalarni rivojlantirishga yordam beradi."},
+    {term: "educational institution", en: "", uz: "ta'lim muassasasi", uzDef: "Ta'lim berish bilan shug'ullanuvchi tashkilot.", ex: "The city has many excellent educational institutions, from primary schools to universities.", exUz: "Shaharda boshlang'ich maktablardan tortib universitetlargacha ko'plab ajoyib ta'lim muassasalari mavjud."},
+    {term: "master a subject", en: "", uz: "mavzuni mukammal o'zlashtirmoq", uzDef: "Mavzuni juda yaxshi bilish va tushunish.", ex: "It takes dedication and hard work to master a subject like quantum physics.", exUz: "Kvant fizikasi kabi mavzuni mukammal o'zlashtirish uchun fidoyilik va qattiq mehnat talab etiladi."},
+    {term: "benefit from", en: "", uz: "foyda olmoq", uzDef: "Biror narsadan yaxshi natijalar yoki afzalliklarga ega bo'lish.", ex: "Students can benefit from participating in extracurricular activities.", exUz: "Talabalar o'quvdan tashqari tadbirlarda ishtirok etishdan foyda olishlari mumkin."},
+    {term: "knowledge gap", en: "", uz: "bilim bo'shlig'i", uzDef: "Biror mavzu bo'yicha yetarli bilimga ega bo'lmaslik.", ex: "The research aims to address the knowledge gap in this area.", exUz: "Tadqiqot ushbu sohadagi bilim bo'shlig'ini bartaraf etishga qaratilgan."},
+    {term: "academic discourse", en: "", uz: "akademik nutq", uzDef: "Ilmiy maqolalar, ma'ruzalar va muhokamalarda ishlatiladigan til.", ex: "His writing style is appropriate for academic discourse.", exUz: "Uning yozish uslubi akademik nutq uchun mos keladi."},
+    {term: "impart knowledge", en: "", uz: "bilim ulashmoq", uzDef: "Bilimni boshqalarga yetkazish.", ex: "A good teacher can impart knowledge effectively and inspire students.", exUz: "Yaxshi o'qituvchi bilimni samarali ulasha oladi va talabalarni ilhomlantira oladi."},
+    {term: "think on your feet", en: "", uz: "tez fikrlamoq", uzDef: "Kutilmagan vaziyatda tez va samarali fikrlash.", ex: "The debate required her to think on her feet and respond to unexpected arguments.", exUz: "Debat undan tez fikrlashni va kutilmagan dalillarga javob berishni talab qildi."},
+    {term: "lay the groundwork", en: "", uz: "zamin yaratmoq", uzDef: "Kelajakdagi ishlar uchun asos yaratmoq.", ex: "His research laid the groundwork for future studies in the field.", exUz: "Uning tadqiqoti sohadagi kelajakdagi tadqiqotlar uchun zamin yaratdi."},
+    {term: "drill into", en: "", uz: "chuqur o'rganmoq", uzDef: "Biror mavzuni chuqur o'rganish va tushunishga harakat qilish.", ex: "The teacher drilled into the students the importance of grammar.", exUz: "O'qituvchi talabalarga grammatikaning muhimligini chuqur o'rgatdi."},
+    {term: "educational resources", en: "", uz: "ta'lim resurslari", uzDef: "Ta'lim olish uchun foydalaniladigan materiallar.", ex: "The library provides a wealth of educational resources for students.", exUz: "Kutubxona talabalar uchun ko'plab ta'lim resurslarini taqdim etadi."},
+    {term: "absorb like a sponge", en: "", uz: "g'ubka kabi shimmoq", uzDef: "Ma'lumotni juda tez va oson o'zlashtirmoq.", ex: "Kids at that age absorb language like a sponge.", exUz: "U yoshdagi bolalar tilni g'ubka kabi shimiladi."},
+    {term: "critical analysis", en: "", uz: "tanqidiy tahlil", uzDef: "Ma'lumotni baholash va tanqid qilish jarayoni.", ex: "The essay requires a critical analysis of the poem's themes.", exUz: "Insho she'r mavzularini tanqidiy tahlil qilishni talab qiladi."},
+    {term: "academic pursuit", en: "", uz: "akademik izlanish", uzDef: "Ta'lim olishga qaratilgan faoliyat.", ex: "She dedicated her life to academic pursuits.", exUz: "U hayotini akademik izlanishlarga bag'ishladi."}
+  ]
+};

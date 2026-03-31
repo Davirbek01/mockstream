@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>New phone! Good. I like ConnectPlus. Good price. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I have a new phone company. It is ConnectPlus. It is good and the price is good too. The signal is good at my house and in the city. I think you should change your phone company because ConnectPlus is better. What do you think? Bye.</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about ConnectPlus. I switched to them last month, and I'm really happy so far. The network coverage is much better than my old provider, and the prices are good too. I think you should check them out since you're thinking of switching.<br>In my opinion, it's worth considering. Let me know what you think!<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>Just wanted to give you an update on my switch to ConnectPlus. So far, I'm pretty impressed. The coverage is significantly better, especially in areas where I used to have trouble, and their app is surprisingly user-friendly. The data plans are also more competitive than what I was paying before. <br>Given that you've been complaining about your current provider's spotty service and high prices, I'd strongly recommend looking into ConnectPlus. It might be exactly what you're looking for. Let me know if you want to chat more about it.<br>Cheers,<br>[Your Name]</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>Just wanted to give you an update on my switch to ConnectPlus. So far, I'm pretty impressed. The coverage is significantly better, especially in areas where I used to have trouble, and their app is surprisingly user-friendly. The data plans are also more competitive than what I was paying before. <br>Given that you've been complaining about your current provider's spotty service and high prices, I'd strongly recommend looking into ConnectPlus. It might be exactly what you're looking for. Let me know if you want to chat more about it.<br>Cheers,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Men yaqinda ConnectPlusga o'tdim. Ularning signali eski provayderimnikidan ancha yaxshi! Ularning ma'lumot rejalari ham arzon. Albatta, buni o'rganib ko'rishing kerak!</p>\n<p>Agar batafsil ma'lumot kerak bo'lsa, menga xabar ber!</p>",
+      "uzSampleA1": "<p>Salom [Do'stingizning ismi],<br>Yangi telefon! Yaxshi. Menga ConnectPlus yoqadi. Narxi yaxshi. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Mening yangi telefon kompaniyam bor. U ConnectPlus. U yaxshi va narxi ham yaxshi. Signali uyimda ham, shaharda ham yaxshi. Menimcha, siz telefon kompaniyangizni o'zgartirishingiz kerak, chunki ConnectPlus yaxshiroq. Siz nima deb o'ylaysiz? Xayr.</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sizga ConnectPlus haqida aytmoqchi edim. Men o'tgan oy ularga o'tdim va hozircha juda xursandman. Tarmoq qamrovi eski provayderimdan ancha yaxshi va narxlari ham yaxshi. Siz provayderni almashtirish haqida o'ylayotganingiz sababli, ularni tekshirib ko'rishingiz kerak deb o'ylayman.<br>Mening fikrimcha, bu haqda o'ylab ko'rishga arziydi. Fikringizni menga bildiring!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom, [Do'stingizning ismi],<br>Sizga ConnectPlusga o'tganim haqida ma'lumot bermoqchiman. Hozircha meni juda hayratga soldi. Qamrov ancha yaxshiroq, ayniqsa, ilgari muammolar bo'lgan hududlarda va ularning ilovasi juda qulay. Ma'lumotlar rejalari ham avval to'laganimdan ko'ra raqobatbardoshroq.<br>Hozirgi provayderingizning notekis xizmati va yuqori narxlari haqida shikoyat qilganingizni hisobga olsak, ConnectPlusni ko'rib chiqishingizni qat'iy tavsiya qilaman. Bu siz qidirayotgan narsa bo'lishi mumkin. Bu haqda ko'proq gaplashmoqchi bo'lsangiz, menga xabar bering.<br>Xayr,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi ConnectPlus,<br>I like the phone. <br>Network good. <br>App OK. <br>More games? <br>Bye.</p>",
       "sampleA2": "<p>Hello ConnectPlus,<br>Thank you for the message. The network is good in my house and at work. But the app is not very good because it is slow. I want the app to be faster. And I want cheaper calls because they are expensive. Thank you.<br>Bye,</p>",
       "sampleB1": "<p>Dear ConnectPlus Customer Care,<br><br>Thank you for your email. I am writing to you about my experience with your service so far. The network coverage is mostly good in my town, but sometimes it's bad when I travel to the countryside. The app is okay, but I think it could be better. It's not very easy to use.<br><br>I think you should add some new features. For example, it would be good to have more data for the same price. Also, maybe you could offer discounts for students. I hope you can improve your service.<br><br>Sincerely,<br>A Customer</p>",
-      "sampleB2": "<p>Dear ConnectPlus Customer Care,<br><br>Thank you for your email and your interest in my experience with your service. Overall, I'm reasonably satisfied, but there are a few points I'd like to raise.<br><br>Firstly, the network coverage has generally been reliable within the city. However, I've noticed inconsistent signal strength in some suburban areas, which is a bit disappointing. Secondly, while the app is functional, its user interface feels somewhat dated and could benefit from a more intuitive design. I find myself having to navigate through several menus to find basic information.<br><br>Regarding additional features, I believe a more robust spam call filtering system would be highly valuable. Also, the option to customize data usage alerts would be beneficial for managing my monthly allowance more effectively. Finally, perhaps consider offering loyalty rewards for long-term customers. I appreciate your attention to customer feedback.<br><br>Yours sincerely,<br>A ConnectPlus Customer</p>"
+      "sampleB2": "<p>Dear ConnectPlus Customer Care,<br><br>Thank you for your email and your interest in my experience with your service. Overall, I'm reasonably satisfied, but there are a few points I'd like to raise.<br><br>Firstly, the network coverage has generally been reliable within the city. However, I've noticed inconsistent signal strength in some suburban areas, which is a bit disappointing. Secondly, while the app is functional, its user interface feels somewhat dated and could benefit from a more intuitive design. I find myself having to navigate through several menus to find basic information.<br><br>Regarding additional features, I believe a more robust spam call filtering system would be highly valuable. Also, the option to customize data usage alerts would be beneficial for managing my monthly allowance more effectively. Finally, perhaps consider offering loyalty rewards for long-term customers. I appreciate your attention to customer feedback.<br><br>Yours sincerely,<br>A ConnectPlus Customer</p>",
+      "uzSample": "<p>Hurmatli ConnectPlus mijozlarga xizmat ko'rsatish bo'limi,</p>\n\n<p>Murojaatingiz uchun rahmat. Men yangi xizmatimdan umuman olganda qoniqdim.</p>\n\n<p>Avvalo, mening hududimdagi tarmoq qamrovi juda yaxshi. Menda qo'ng'iroqlar uzilishi yoki ma'lumotlar uzatish tezligining pastligi kamdan-kam hollarda kuzatiladi.</p>\n\n<p>Biroq, men ba'zi muammolarga duch keldim. Mobil ilova men foydalanish hajmini tekshirishga urinayotganimda ba'zan ishdan chiqadi. Bu kelajakdagi yangilanishlarda hal qilinishi kerak.</p>\n\n<p>Bundan tashqari, men to'lovning yanada moslashuvchan usullarini qadrlagan bo'lardim. Oylik avtomatik to'lov qulay, ammo haftalik to'lov usullari ba'zi mijozlarga ko'proq mos keladi.</p>\n\n<p>Bundan tashqari, umumiy ma'lumotlarga ega oilaviy tariflarni taklif qilish juda foydali bo'lardi.</p>\n\n<p>Mijozlar ehtiyojini qondirishga bo'lgan sadoqatingiz uchun tashakkur.</p>\n\n<p>Hurmat bilan,<br>Yangi mijoz</p>",
+      "uzSampleA1": "<p>Salom ConnectPlus,<br>Telefon menga yoqadi. <br>Tarmoq yaxshi. <br>Ilova yaxshi. <br>Ko'proq o'yinlar kerakmi? <br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom ConnectPlus,<br>Xabar uchun rahmat. Tarmoq uyimda va ish joyimda yaxshi. Lekin ilova juda yaxshi emas, chunki u sekin ishlaydi. Ilovani tezroq bo'lishini xohlayman. Va qo'ng'iroqlar arzonroq bo'lishini xohlayman, chunki ular qimmat. Rahmat.<br>Xayr,</p>",
+      "uzSampleB1": "<p>Hurmatli ConnectPlus mijozlarga xizmat ko'rsatish bo'limi,<br><br>Xatingiz uchun rahmat. Men sizga shu paytgacha sizning xizmatingizdan olgan tajribam haqida yozmoqdaman. Tarmoq qamrovi mening shahrimda asosan yaxshi, lekin ba'zida qishloqqa sayohat qilganimda yomon bo'ladi. Ilova yaxshi, lekin menimcha, u yaxshiroq bo'lishi mumkin. Undan foydalanish unchalik oson emas.<br><br>Menimcha, siz ba'zi yangi funksiyalarni qo'shishingiz kerak. Masalan, bir xil narxga ko'proq ma'lumotga ega bo'lish yaxshi bo'lardi. Shuningdek, talabalar uchun chegirmalar taklif qilishingiz mumkin. Umid qilamanki, siz o'z xizmatingizni yaxshilaysiz.<br><br>Hurmat bilan,<br>Bir mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli ConnectPlus mijozlarga xizmat ko'rsatish bo'limi,<br><br>Sizning elektron pochtangiz va xizmatingizdan foydalanish tajribamga qiziqishingiz uchun tashakkur. Umuman olganda, men xizmatdan qoniqdim, lekin men ko'tarmoqchi bo'lgan bir nechta nuqtalar bor.<br><br>Birinchidan, tarmoq qamrovi odatda shahar ichida ishonchli bo'ldi. Biroq, men ba'zi shahar atrofi hududlarida signal kuchining nomuvofiqligini sezdim, bu biroz umidsizlikka sabab bo'ladi. Ikkinchidan, ilova funksional bo'lsa-da, uning foydalanuvchi interfeysi biroz eskirgan va yanada intuitiv dizayndan foyda ko'rishi mumkin. Men asosiy ma'lumotlarni topish uchun bir nechta menyu orqali o'tishimga to'g'ri keladi.<br><br>Qo'shimcha funksiyalarga kelsak, menimcha, yanada kuchli spam qo'ng'iroqlarini filtrlash tizimi juda qimmatli bo'ladi. Shuningdek, ma'lumotlardan foydalanish bo'yicha ogohlantirishlarni sozlash imkoniyati oylik limitimni yanada samarali boshqarish uchun foydali bo'ladi. Nihoyat, uzoq muddatli mijozlar uchun sodiqlik mukofotlarini taklif qilishni o'ylab ko'ring. Mijozlarning fikr-mulohazalariga e'tiboringiz uchun rahmat.<br><br>Hurmat bilan,<br>ConnectPlus mijozi</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi ConnectPlus,</p><br><p>Phone good. Signal good. App ok. More games?</p><br><p>Bye</p>",
       "sampleA2": "<p>Hello ConnectPlus,</p><p>I like the phone. The signal is good in my house and in the city. The app is easy to use but it is slow sometimes. I want more data because I watch videos. Thank you.</p><p>Best,</p><p>[Your Name]</p>",
       "sampleB1": "<p>Dear ConnectPlus,</p><p>I'm writing to give you some feedback on my new service. Overall, I'm quite happy with the switch. The network coverage has been pretty good in my area, both in the city and in the countryside. The app is mostly easy to use, although I had some trouble at first finding the settings menu.</p><p>One thing that would make my experience better is if you offered a loyalty program for long-term customers. Also, it would be helpful if the app showed more detailed information about my data usage. I think the prices are competitive, but it's important to keep offering good deals.</p><p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear ConnectPlus Customer Care,</p><p>I am writing to provide feedback following my recent switch to ConnectPlus Mobile. On the whole, I am satisfied with the transition, although there are a few areas I believe could be improved.</p><p>The network coverage has been consistently reliable in both urban and suburban areas, which is a significant improvement over my previous provider. The mobile application is generally intuitive; however, the navigation could be streamlined for quicker access to frequently used features such as data monitoring and billing information.</p><p>In terms of enhancements, I would appreciate the option to customize data alerts more granularly. For instance, receiving notifications at 50%, 75%, and 90% of my data allowance would be beneficial. Furthermore, integrating a speed test directly into the app would be a valuable addition. Finally, consider offering incentives for referring new customers. I believe these changes would further enhance the user experience and foster greater customer loyalty.</p><p>Regards,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear ConnectPlus Customer Care,</p><p>I am writing to provide feedback following my recent switch to ConnectPlus Mobile. On the whole, I am satisfied with the transition, although there are a few areas I believe could be improved.</p><p>The network coverage has been consistently reliable in both urban and suburban areas, which is a significant improvement over my previous provider. The mobile application is generally intuitive; however, the navigation could be streamlined for quicker access to frequently used features such as data monitoring and billing information.</p><p>In terms of enhancements, I would appreciate the option to customize data alerts more granularly. For instance, receiving notifications at 50%, 75%, and 90% of my data allowance would be beneficial. Furthermore, integrating a speed test directly into the app would be a valuable addition. Finally, consider offering incentives for referring new customers. I believe these changes would further enhance the user experience and foster greater customer loyalty.</p><p>Regards,<br>[Your Name]</p>",
+      "uzSample": "<h2>Sizga Haqiqatan Ham Cheksiz Internet Kerakmi?</h2>\n\n<p>Mobil aloqa provayderlari doimiy ravishda cheksiz internet rejalarni muhim deb targ'ib qilishadi. Lekin ular haqiqatan ham hamma uchun zarurmi? Keling, o'z fikrlarim bilan bo'lishay.</p>\n\n<p>Birinchidan, video oqimini uzatuvchi, masofadan turib ishlaydigan yoki ko'p internet talab qiladigan ilovalardan foydalanadigan faol foydalanuvchilar uchun cheksiz rejalar, shubhasiz, qimmatlidir. Qo'shimcha to'lovlar haqida hech qachon tashvishlanmaslik xotirjamligi qo'shimcha xarajatga arziydi.</p>\n\n<p>Biroq, ko'p odamlar doimiy ravishda internetga bo'lgan ehtiyojlarini haddan tashqari baholaydilar. Agar siz asosan uyda va ishda WiFi-ga ulangan bo'lsangiz, unda kichikroq reja tejamkorroq bo'lishi mumkin.</p>\n\n<p>Bundan tashqari, cheksiz rejalar ko'pincha yashirin cheklovlar bilan birga keladi – ma'lum limitlardan keyin tezlikni cheklash yoki eng yuqori vaqtda ustuvorlikni pasaytirish.</p>\n\n<p>Shaxsan men, biror rejaga qo'shilishdan oldin bir necha oy davomida internet sarfini kuzatib borishni tavsiya qilaman. Siz aslida qanchalik kam ishlatishingizdan hayron bo'lishingiz mumkin!</p>\n\n<p>Sizchi? Siz cheksiz internetni muhim deb bilasizmi yoki ortiqcha baholangan deb?</p>",
+      "uzSampleA1": "<p>Salom ConnectPlus,</p><br><p>Telefon yaxshi. Signali yaxshi. Ilova yaxshi. Ko'proq o'yinlar kerakmi?</p><br><p>Xayr</p>",
+      "uzSampleA2": "<p>Salom ConnectPlus,</p>\n<p>Menga telefon yoqdi. Signali uyimda ham, shaharda ham yaxshi. Ilova ishlatishga oson, lekin ba'zida sekin ishlaydi. Videolarni ko'rganim uchun menga ko'proq ma'lumot kerak. Rahmat.</p>\n<p>Eng yaxshi tilaklar bilan,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli ConnectPlus,</p><p>Men sizga yangi xizmatim haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, men o'zgarishdan juda mamnunman. Tarmoq qamrovi mening hududimda, ham shaharda, ham qishloqda juda yaxshi bo'ldi. Ilova asosan ishlatish uchun qulay, garchi dastlab sozlamalar menyusini topishda biroz muammoga duch kelgan bo'lsam ham.</p><p>Mening tajribamni yanada yaxshilaydigan bir narsa, agar siz uzoq muddatli mijozlar uchun sodiqlik dasturini taklif qilsangiz bo'lardi. Shuningdek, agar ilova mening ma'lumotlarimdan foydalanishim haqida batafsilroq ma'lumot ko'rsatsa, foydali bo'lardi. Menimcha, narxlar raqobatbardosh, ammo yaxshi takliflarni taqdim etishni davom ettirish muhim.</p><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli ConnectPlus mijozlarga xizmat ko'rsatish bo'limi,</p><p>Men yaqinda ConnectPlus Mobile-ga o'tganimdan so'ng fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, o'tishdan mamnunman, garchi menimcha yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud.</p><p>Tarmoq qamrovi shaharlarda ham, shahar atroflarida ham doimiy ravishda ishonchli bo'lib kelgan, bu mening oldingi provayderimga nisbatan sezilarli yaxshilanishdir. Mobil ilova odatda intuitiv; ammo, ma'lumotlarni monitoring qilish va billing ma'lumotlari kabi tez-tez ishlatiladigan funktsiyalarga tezroq kirish uchun navigatsiyani soddalashtirish mumkin.</p><p>Yaxshilash nuqtai nazaridan, men ma'lumotlar ogohlantirishlarini yanada batafsil sozlash imkoniyatini qadrlagan bo'lardim. Misol uchun, ma'lumotlar limitimning 50%, 75% va 90% da bildirishnomalar olish foydali bo'ladi. Bundan tashqari, ilovaga to'g'ridan-to'g'ri tezlikni tekshirishni integratsiya qilish qimmatli qo'shimcha bo'ladi. Nihoyat, yangi mijozlarni tavsiya qilganlik uchun rag'batlantirish taklif qilishni ko'rib chiqing. Menimcha, bu o'zgarishlar foydalanuvchi tajribasini yanada yaxshilaydi va mijozlarning sodiqligini oshiradi.</p><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,187 @@ window.WRITING_TEST_DATA = {
         "uz": "foydalanishni kuzatish"
       }
     ]
+  },
+  "tokenTranslations": {
+    "just": {
+      "uz": "faqat",
+      "type": "adv"
+    },
+    "signal": {
+      "uz": "aloqa sifati",
+      "type": "colloc"
+    },
+    "way": {
+      "uz": "yo'l",
+      "type": "adv"
+    },
+    "provider": {
+      "uz": "provayder",
+      "type": "colloc"
+    },
+    "data plans": {
+      "uz": "internet tariflari",
+      "type": "colloc"
+    },
+    "affordable": {
+      "uz": "arzon",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "look into": {
+      "uz": "o'rganib chiqmoq",
+      "type": "phrasal"
+    },
+    "generally": {
+      "uz": "odatda",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "network coverage": {
+      "uz": "tarmoq qamrovi",
+      "type": "colloc"
+    },
+    "excellent": {
+      "uz": "a'lo",
+      "type": "colloc"
+    },
+    "rarely": {
+      "uz": "kamdan-kam",
+      "type": "adv"
+    },
+    "dropped calls": {
+      "uz": "uzilgan qo'ng'iroqlar",
+      "type": "colloc"
+    },
+    "slow data speeds": {
+      "uz": "internet tezligining pastligi",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "occasionally": {
+      "uz": "vaqti-vaqti bilan",
+      "type": "adv"
+    },
+    "check my usage": {
+      "uz": "foydalanish hajmini tekshirmoq",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "flexible payment options": {
+      "uz": "to'lovning moslashuvchan usullari",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "family plans": {
+      "uz": "oila uchun tariflar",
+      "type": "colloc"
+    },
+    "shared data": {
+      "uz": "umumiy internet",
+      "type": "colloc"
+    },
+    "highly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "commitment to": {
+      "uz": "sodiqlik",
+      "type": "colloc"
+    },
+    "constantly": {
+      "uz": "doimiy ravishda",
+      "type": "adv"
+    },
+    "unlimited data plans": {
+      "uz": "cheksiz internet tariflari",
+      "type": "colloc"
+    },
+    "actually": {
+      "uz": "aslida",
+      "type": "adv"
+    },
+    "heavy users": {
+      "uz": "ko'p foydalanuvchilar",
+      "type": "colloc"
+    },
+    "data-intensive apps": {
+      "uz": "ko'p internet talab qiladigan ilovalar",
+      "type": "colloc"
+    },
+    "undoubtedly": {
+      "uz": "shubhasiz",
+      "type": "adv"
+    },
+    "peace of mind": {
+      "uz": "xotirjamlik",
+      "type": "colloc"
+    },
+    "overage charges": {
+      "uz": "limitdan oshgan to'lovlar",
+      "type": "colloc"
+    },
+    "consistently": {
+      "uz": "muntazam ravishda",
+      "type": "adv"
+    },
+    "primarily": {
+      "uz": "asosan",
+      "type": "adv"
+    },
+    "might": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "cost-effective": {
+      "uz": "tejamkor",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "hidden restrictions": {
+      "uz": "yashirin cheklovlar",
+      "type": "colloc"
+    },
+    "deprioritization": {
+      "uz": "ustuvorlikni pasaytirish",
+      "type": "colloc"
+    },
+    "Personally": {
+      "uz": "Shaxsan",
+      "type": "adv"
+    },
+    "data consumption": {
+      "uz": "internet sarfi",
+      "type": "colloc"
+    },
+    "unlimited data": {
+      "uz": "cheksiz internet",
+      "type": "colloc"
+    }
   }
 };

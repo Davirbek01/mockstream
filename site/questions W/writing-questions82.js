@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>New house! Good!<br>I like my house. New sofa. Blue.<br>Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I hear you move house. That is good! I am happy for you. <br>I buy sofa for my house. It is from HomeStyle. It is nice and cheap. You can look there. <br>Bye!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I was so happy to hear about your new apartment! That's great news. <br>I just bought some furniture from a shop called HomeStyle. I think you should check them out when you need furniture. The quality is good, and the prices are reasonable. <br>Good luck with the move!<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br>I was thrilled to hear about your move! A new apartment sounds like a fantastic opportunity. <br>Since you'll be furnishing a new place, I wanted to recommend a store I recently used called HomeStyle Furniture. I found their selection quite comprehensive, and the quality seems excellent so far. It might be worth browsing their website or visiting their showroom before committing to anything else. <br>Anyway, I'm excited for you and the new space! Let me know if you need any help with the move.<br>All the best,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br>I was thrilled to hear about your move! A new apartment sounds like a fantastic opportunity. <br>Since you'll be furnishing a new place, I wanted to recommend a store I recently used called HomeStyle Furniture. I found their selection quite comprehensive, and the quality seems excellent so far. It might be worth browsing their website or visiting their showroom before committing to anything else. <br>Anyway, I'm excited for you and the new space! Let me know if you need any help with the move.<br>All the best,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Eshitishimcha, ko'chib o'tyapsan – qanday ajoyib! Men yaqinda HomeStyle yordamida uyimni jihozladim va ular juda a'lo darajada edi! Sifatlari ajoyib va narxlari juda maqbul. Ular hatto bepul yig'ish xizmatini ham taklif qilishadi. Boshqa joydan sotib olishdan oldin, albatta, ularni ko'rib chiqishing kerak!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Yangi uy! Yaxshi!<br>Menga uyim yoqadi. Yangi divan. Ko'k.<br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Eshitishimcha, uyga ko'chib o'tyapsan. Bu yaxshi! Men sen uchun xursandman.<br>Men uyim uchun divan sotib oldim. U HomeStyle'dan. U yaxshi va arzon. Sen u yerga qarashing mumkin.<br>Xayr!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sening yangi kvartirang haqida eshitib juda xursand bo'ldim! Bu ajoyib yangilik.<br>Men yaqinda HomeStyle degan do'kondan mebel sotib oldim. O'ylashimcha, mebelga ehtiyojing bo'lganda ularni tekshirib ko'rishing kerak. Sifati yaxshi va narxlari ham maqbul.<br>Ko'chishingda omad tilayman!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Aziz [Do'stingizning ismi],<br>Sizning ko'chishingiz haqida eshitib juda xursand bo'ldim! Yangi kvartira ajoyib imkoniyatdek tuyuladi.<br>Yangi joyni jihozlayotganingiz sababli, yaqinda o'zim foydalangan HomeStyle Furniture do'konini tavsiya qilmoqchiman. Ularning tanlovi juda keng ekanligini va sifati hozircha a'lo darajada ekanligini aniqladim. Boshqa narsaga qaror qilishdan oldin ularning veb-saytini ko'rib chiqish yoki ko'rgazma zaliga tashrif buyurishga arziydi.<br>Xullas, siz va yangi joy uchun xursandman! Agar ko'chishda yordam kerak bo'lsa, menga xabar bering.<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi HomeStyle!</p>\r\n<p>I buy chair. Chair good. <br> Delivery man nice. <br> I like shop. Bye!</p>",
       "sampleA2": "<p>Hello HomeStyle,</p>\r\n<p>Thank you for the letter. I bought a table and chairs. The table is good, and the chairs are nice too. <br> The delivery was okay, but it was late. I was waiting. <br> Maybe you can sell more lamps? And maybe the delivery can be faster. Thank you!</p>\r\n<p>Bye,</p>\r\n<p>[Your Name]</p>",
       "sampleB1": "<p>Dear HomeStyle Furniture,</p>\r\n<p>Thank you for your email. I wanted to tell you about my experience with your store. I bought a sofa and I like it very much. The quality seems good, and it's comfortable.</p>\r\n<p>The delivery was mostly good, however, the men who delivered the sofa were a little late. Also, I think you should have more options for smaller apartments. It was difficult to find something that fit my living room.</p>\r\n<p>In my opinion, you could also offer some discounts for students or senior citizens. That would be a good idea. Overall, I am happy with my purchase. </p>\r\n<p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear HomeStyle Furniture Team,</p>\r\n<p>Thank you for your follow-up regarding my recent purchase. I am writing to provide feedback on my experience with your store.</p>\r\n<p>Generally, I am pleased with the furniture I bought. The quality appears to be quite good, and the design is exactly what I was looking for. The product selection was also reasonably diverse, although I think there could be more variety in the range of coffee tables.</p>\r\n<p>However, I did have a couple of minor issues. Firstly, the assembly instructions for the bookshelf were somewhat unclear, which made the process more difficult than necessary. Secondly, while the delivery service was prompt, the delivery driver was not particularly communicative.</p>\r\n<p>Regarding improvements, I would suggest providing clearer assembly instructions and perhaps offering a wider selection of sustainable or eco-friendly furniture options. I also think a customer loyalty program could be beneficial.</p>\r\n<p>Overall, I am satisfied with my purchase and would consider shopping at HomeStyle Furniture again in the future.</p>\r\n<p>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear HomeStyle Furniture Team,</p>\r\n<p>Thank you for your follow-up regarding my recent purchase. I am writing to provide feedback on my experience with your store.</p>\r\n<p>Generally, I am pleased with the furniture I bought. The quality appears to be quite good, and the design is exactly what I was looking for. The product selection was also reasonably diverse, although I think there could be more variety in the range of coffee tables.</p>\r\n<p>However, I did have a couple of minor issues. Firstly, the assembly instructions for the bookshelf were somewhat unclear, which made the process more difficult than necessary. Secondly, while the delivery service was prompt, the delivery driver was not particularly communicative.</p>\r\n<p>Regarding improvements, I would suggest providing clearer assembly instructions and perhaps offering a wider selection of sustainable or eco-friendly furniture options. I also think a customer loyalty program could be beneficial.</p>\r\n<p>Overall, I am satisfied with my purchase and would consider shopping at HomeStyle Furniture again in the future.</p>\r\n<p>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli HomeStyle jamoasi,</p>\n<p>Sizning mebel do'koningizda bo'lgan tajribam haqida so'raganingiz uchun rahmat.</p>\n<p>Men xaridimdan juda mamnunman. Mahsulotlar assortimenti ta'sirli edi va sifati mening kutganimdan ham oshib ketdi. Sizning savdo xodimlaringiz juda foydali bo'lishdi, lekin hech qanday majburlash yo'q edi. Yetkazib berish guruhi o'z vaqtida keldi va hamma narsani professional tarzda o'rnatdi.</p>\n<p>Biroq, menda ba'zi takliflar bor. Ko'rgazma zalining joylashuvi biroz chalkash edi, bu esa muayyan narsalarni topishni qiyinlashtirdi. Bundan tashqari, 4 soatlik yetkazib berish vaqti ishlaydigan odamlar uchun ancha noqulay edi.</p>\n<p>Men ichki dizayn bo'yicha maslahat xizmatini qadrlagan bo'lardim. Veb-saytingizdagi virtual xona rejalashtiruvchi vositasi xaridorlarga mebellarni tasavvur qilishga yordam beradi. Shuningdek, ekologik toza mebel variantlarini taklif qilish atrof-muhitga befarq bo'lmagan xaridorlarni jalb qiladi.</p>\n<p>Umuman olganda, men xaridimdan juda xursandman.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom, HomeStyle!</p>\n<p>Men stul sotib oldim. Stul yaxshi. <br> Yetkazib beruvchi odam yaxshi. <br> Menga do'kon yoqadi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom HomeStyle,</p>\n<p>Xat uchun rahmat. Men stol va stullar sotib oldim. Stol yaxshi, stullar ham chiroyli. <br> Yetkazib berish yaxshi bo'ldi, lekin kech qoldi. Men kutdim. <br> Balki siz ko'proq lampalar sotsangiz bo'lar? Va balki yetkazib berish tezroq bo'lishi mumkin. Rahmat!</p>\n<p>Xayr,</p>\n<p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli HomeStyle Mebel do'koni,</p>\n<p>Elektron pochtangiz uchun rahmat. Sizga do'koningizdagi tajribam haqida aytmoqchi edim. Men divan sotib oldim va u menga juda yoqdi. Sifati yaxshi ko'rinadi va u qulay.</p>\n<p>Yetkazib berish asosan yaxshi bo'ldi, ammo divanni yetkazib bergan odamlar biroz kechikishdi. Shuningdek, sizda kichikroq kvartiralar uchun ko'proq variantlar bo'lishi kerak deb o'ylayman. Mening mehmonxonamga mos keladigan narsani topish qiyin edi.</p>\n<p>Mening fikrimcha, siz talabalar yoki keksa fuqarolar uchun ham chegirmalar taklif qilishingiz mumkin. Bu yaxshi fikr bo'lardi. Umuman olganda, men xaridimdan mamnunman.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli HomeStyle Mebel Jamoasi,</p>\n<p>Yaqinda qilgan xaridim bo'yicha kuzatuv xatingiz uchun rahmat. Sizning do'koningizdagi tajribam haqida fikr-mulohazalarimni bildirish uchun yozmoqdaman.</p>\n<p>Umuman olganda, men sotib olgan mebelimdan mamnunman. Sifati juda yaxshi ko'rinadi va dizayni men qidirgan narsaga aynan mos keladi. Mahsulotlar tanlovi ham yetarlicha xilma-xil edi, garchi menimcha, kofe stollari assortimentida ko'proq xilma-xillik bo'lishi mumkin.</p>\n<p>Biroq, menda bir nechta kichik muammolar bo'ldi. Birinchidan, kitob javoni uchun yig'ish bo'yicha ko'rsatmalar biroz tushunarsiz edi, bu jarayonni keragidan ortiq qiyinlashtirdi. Ikkinchidan, yetkazib berish xizmati tezkor bo'lsa-da, yetkazib berish haydovchisi unchalik muloqot qiluvchan emas edi.</p>\n<p>Yaxshilash bo'yicha takliflarimga kelsak, men aniqroq yig'ish ko'rsatmalarini berishni va, ehtimol, barqaror yoki ekologik toza mebel variantlarini kengroq tanlashni taklif qilaman. Shuningdek, mijozlar sodiqlik dasturi foydali bo'lishi mumkin deb o'ylayman.</p>\n<p>Umuman olganda, men xaridimdan qoniqdim va kelajakda HomeStyle Mebel do'konida yana xarid qilishni o'ylab ko'raman.</p>\n<p>Hurmat bilan,<br>[Sizning Ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I buy chair. Good chair. I like it. Shop good. Bye!</p>",
       "sampleA2": "<p>Hello,<br>I buy a table from your shop. The table is nice and I like it. The delivery was okay, but it was late. I think you need more chairs. Thank you.</p>",
       "sampleB1": "<p>Dear HomeStyle Team,<br>I am writing to you about my recent purchase. I bought a sofa and a lamp. The product selection was good, you had many options. The quality seems okay so far, but I haven't had them for long. The delivery was on time, however, the assembly was a bit difficult. I think you should offer more help with assembly.<br>In my opinion, you could also sell more decorations, like pictures and plants. That would be helpful. Thank you for your service.<br>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear HomeStyle Team,<br>I am writing to provide feedback on my recent experience purchasing furniture from your store. Overall, I was satisfied, but I have a few suggestions for improvement.<br>The product selection was impressive, offering a diverse range of styles and price points. The quality of the furniture appears to be high, although I will need more time to fully assess its durability. The delivery service was satisfactory, arriving within the scheduled timeframe. However, the assembly instructions could be clearer; I struggled with a particular step and had to consult online resources.<br>Regarding additional products or services, I believe offering interior design consultations would be a valuable addition. Many customers, including myself, appreciate expert advice on coordinating furniture and creating a cohesive living space. Furthermore, providing fabric protection services could appeal to customers concerned about stains and wear.<br>Thank you for your attention to my feedback. I hope it proves helpful in enhancing your customer service.<br>Sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear HomeStyle Team,<br>I am writing to provide feedback on my recent experience purchasing furniture from your store. Overall, I was satisfied, but I have a few suggestions for improvement.<br>The product selection was impressive, offering a diverse range of styles and price points. The quality of the furniture appears to be high, although I will need more time to fully assess its durability. The delivery service was satisfactory, arriving within the scheduled timeframe. However, the assembly instructions could be clearer; I struggled with a particular step and had to consult online resources.<br>Regarding additional products or services, I believe offering interior design consultations would be a valuable addition. Many customers, including myself, appreciate expert advice on coordinating furniture and creating a cohesive living space. Furthermore, providing fabric protection services could appeal to customers concerned about stains and wear.<br>Thank you for your attention to my feedback. I hope it proves helpful in enhancing your customer service.<br>Sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Ijara yoki sotib olish bahsi hamma joydagi yoshlar uchun dolzarb. Menimcha, eng yaxshi tanlov individual sharoitlarga bog'liq.</p>\n\n<p>Birinchidan, uy sotib olish uzoq muddatli boylikni yaratadi. Ko'chmas mulk qiymati odatda vaqt o'tishi bilan oshadi va ipoteka to'lovlari ijara sifatida yo'q bo'lib ketish o'rniga egalikka hissa qo'shadi. Oxir-oqibat, uy egalari qimmatli aktivga ega bo'ladilar.</p>\n\n<p>Ikkinchidan, egalik barqarorlik va erkinlikni ta'minlaydi. Uy egalari ta'mirlash, bezash va uy egasining qarorlari yoki ijara narxining oshishidan qo'rqmasdan cheksiz qolishlari mumkin.</p>\n\n<p>Biroq, ijaraga olish sezilarli afzalliklarni taklif etadi. Moslashuvchanlik, martaba imkoniyatlari uchun ko'chib o'tishi mumkin bo'lgan yosh mutaxassislar uchun juda muhimdir. Ijarachilar ta'mirlash xarajatlari, mol-mulk solig'i va mulk qiymatining pasayishi xavfidan qochadilar.</p>\n\n<p>Bundan tashqari, uy-joyning arzonligi joylashuvga qarab keskin farq qiladi. Qimmat shaharlarda, depozit uchun pul yig'ish davrida ijaraga olish yagona maqbul variant bo'lishi mumkin.</p>\n\n<p>Xulosa qilib aytganda, yoshlar martaba va jamg'arma yaratish davrida ijaraga olishlari, keyin esa joylashishga tayyor bo'lganda sotib olishni o'ylab ko'rishlari kerak. Hech qanday variant universal tarzda yaxshiroq emas – shaxsiy sharoitlar to'g'ri tanlovni belgilaydi.</p>",
+      "uzSampleA1": "<p>Salom!<br>Men stul sotib oldim. Yaxshi stul. Menga yoqadi. Do'kon yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br>Men sizning do'koningizdan stol sotib oldim. Stol chiroyli va menga yoqdi. Yetkazib berish yaxshi bo'ldi, lekin kechikdi. Menimcha, sizga ko'proq stullar kerak. Rahmat.</p>",
+      "uzSampleB1": "<p>Hurmatli HomeStyle jamoasi,<br>Men sizga yaqinda qilgan xaridim haqida yozmoqdaman. Men divan va lampa sotib oldim. Mahsulotlar tanlovi yaxshi edi, sizda ko'plab variantlar bor edi. Sifat hozircha yaxshi ko'rinadi, lekin ularni yaqinda sotib oldim. Yetkazib berish o'z vaqtida bo'ldi, ammo yig'ish biroz qiyin bo'ldi. Menimcha, siz yig'ishda ko'proq yordam taklif qilishingiz kerak.<br>Mening fikrimcha, siz ko'proq bezaklarni, masalan, rasmlar va o'simliklarni ham sotishingiz mumkin. Bu foydali bo'lardi. Xizmatingiz uchun rahmat.<br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli HomeStyle jamoasi,<br>Men sizning do'koningizdan yaqinda mebel sotib olish bo'yicha tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, men qoniqdim, lekin takomillashtirish uchun bir nechta takliflarim bor.<br>Mahsulot tanlovi ta'sirli bo'lib, turli xil uslublar va narxlar diapazonini taklif etadi. Mebelning sifati yuqori ko'rinadi, garchi uning chidamliligini to'liq baholash uchun menga ko'proq vaqt kerak bo'ladi. Yetkazib berish xizmati qoniqarli bo'lib, belgilangan muddat ichida yetib keldi. Biroq, yig'ish bo'yicha ko'rsatmalar aniqroq bo'lishi mumkin edi; men muayyan qadamda qiynaldim va onlayn manbalarga murojaat qilishimga to'g'ri keldi.<br>Qo'shimcha mahsulotlar yoki xizmatlarga kelsak, menimcha, interyer dizayni bo'yicha maslahatlar berish qimmatli qo'shimcha bo'ladi. Ko'pgina mijozlar, shu jumladan men ham, mebellarni muvofiqlashtirish va uyg'un yashash joyini yaratish bo'yicha ekspert maslahatini qadrlashadi. Bundan tashqari, matolarni himoya qilish xizmatlarini taqdim etish dog'lar va eskirishdan xavotirda bo'lgan mijozlarga yoqishi mumkin.<br>E'tiboringiz uchun rahmat. Umid qilamanki, bu sizning mijozlarga xizmat ko'rsatishingizni yaxshilashga yordam beradi.<br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,203 @@ window.WRITING_TEST_DATA = {
         "uz": "to'g'ri tanlov"
       }
     ]
+  },
+  "tokenTranslations": {
+    "recently": {
+      "uz": "yaqinda",
+      "type": "adv"
+    },
+    "brilliant": {
+      "uz": "a'lo",
+      "type": "adv"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "assembly service": {
+      "uz": "yig'ish xizmati",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "check them out": {
+      "uz": "ko'rib chiq",
+      "type": "phrasal"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "furniture store": {
+      "uz": "mebel do'koni",
+      "type": "colloc"
+    },
+    "very": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "product range": {
+      "uz": "mahsulot assortimenti",
+      "type": "colloc"
+    },
+    "sales staff": {
+      "uz": "sotuv xodimlari",
+      "type": "colloc"
+    },
+    "extremely": {
+      "uz": "o'ta",
+      "type": "adv"
+    },
+    "delivery team": {
+      "uz": "yetkazib berish jamoasi",
+      "type": "colloc"
+    },
+    "professionally": {
+      "uz": "professional tarzda",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "showroom layout": {
+      "uz": "ko'rgazma zali tartibi",
+      "type": "colloc"
+    },
+    "slightly": {
+      "uz": "biroz",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "delivery window": {
+      "uz": "yetkazib berish vaqti",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "iltimos qilmoq",
+      "type": "modal"
+    },
+    "interior design": {
+      "uz": "ichki dizayn",
+      "type": "colloc"
+    },
+    "virtual room planner": {
+      "uz": "virtual xona rejalashtiruvchisi",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "eco-friendly furniture": {
+      "uz": "ekologik toza mebel",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "rent versus buy": {
+      "uz": "ijaraga olish yoki sotib olish",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "long-term wealth": {
+      "uz": "uzoq muddatli boylik",
+      "type": "colloc"
+    },
+    "Property values": {
+      "uz": "Ko'chmas mulk qiymati",
+      "type": "colloc"
+    },
+    "typically": {
+      "uz": "odatda",
+      "type": "adv"
+    },
+    "Eventually": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "indefinitely": {
+      "uz": "cheksiz",
+      "type": "adv"
+    },
+    "landlord decisions": {
+      "uz": "uy egasining qarorlari",
+      "type": "colloc"
+    },
+    "rent increases": {
+      "uz": "ijara narxlarining oshishi",
+      "type": "colloc"
+    },
+    "Flexibility": {
+      "uz": "Moslashuvchanlik",
+      "type": "colloc"
+    },
+    "maintenance costs": {
+      "uz": "ta'mirlash xarajatlari",
+      "type": "colloc"
+    },
+    "property taxes": {
+      "uz": "mol-mulk solig'i",
+      "type": "colloc"
+    },
+    "financial risk": {
+      "uz": "moliyaviy xavf",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "housing affordability": {
+      "uz": "uy-joyning arzonligi",
+      "type": "colloc"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "viable option": {
+      "uz": "maqbul variant",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "universally": {
+      "uz": "universal tarzda",
+      "type": "adv"
+    },
+    "personal circumstances": {
+      "uz": "shaxsiy sharoitlar",
+      "type": "colloc"
+    }
   }
 };

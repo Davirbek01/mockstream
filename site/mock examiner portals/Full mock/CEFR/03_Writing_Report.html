@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Writing Report - Xasanov Davirbek</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f9fafb; }
+        .header { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 24px; }
+        .header h1 { margin: 0 0 10px 0; font-size: 28px; }
+        .score-card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; margin-bottom: 24px; }
+        .score { font-size: 48px; font-weight: 800; color: #8b5cf6; }
+        .cefr { display: inline-block; background: #8b5cf6; color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700; margin-top: 8px; }
+        .task { background: white; padding: 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .task h3 { margin: 0 0 12px 0; color: #6d28d9; }
+        .prompt-box { background: #ede9fe; padding: 14px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #8b5cf6; }
+        .prompt-label { font-weight: 600; color: #6d28d9; font-size: 13px; margin-bottom: 6px; }
+        .prompt-text { color: #374151; line-height: 1.6; white-space: pre-wrap; }
+        .response { background: #f8fafc; padding: 16px; border-radius: 8px; white-space: pre-wrap; line-height: 1.7; }
+        .feedback { background: #f3e8ff; padding: 16px; border-radius: 12px; margin-top: 16px; }
+        .context-box { background: #faf5ff; padding: 14px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e9d5ff; }
+        .context-label { font-weight: 600; color: #7c3aed; font-size: 13px; margin-bottom: 6px; }
+        .word-count { font-size: 13px; padding: 4px 10px; border-radius: 6px; }
+        .word-count.ok { background: #dcfce7; color: #16a34a; }
+        .word-count.warn { background: #fef3c7; color: #d97706; }
+        .word-count.under { background: #fee2e2; color: #dc2626; }
+        .corrections-box { background: #f8fafc; padding: 16px; border-radius: 8px; border-left: 4px solid #8b5cf6; margin-bottom: 12px; }
+        .corrections-label { font-weight: 700; color: #6d28d9; margin-bottom: 8px; }
+        .corrections-text { line-height: 1.8; }
+        .examiner-feedback { background: #faf5ff; padding: 14px; border-radius: 8px; border-left: 4px solid #8b5cf6; margin-top: 12px; }
+        .examiner-label { font-weight: 700; color: #8b5cf6; margin-bottom: 6px; }
+        .examiner-text { color: #6b21a8; line-height: 1.6; }
+        .print-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; border: none; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin: 24px auto; }
+        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,92,246,0.4); }
+        @media print { .print-btn { display: none !important; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✍️ Writing Module Report</h1>
+        <p>Xasanov Davirbek | 3/26/2026 3:48:55 PM</p>
+    </div>
+    <div class="score-card">
+        <div class="score">0 / 75</div>
+        <p>Certificate Score (Raw: 0/16)</p>
+        <div class="cefr">Below B1</div>
+    </div>
+    
+    <div class="context-box">
+        <div class="context-label">📋 Part 1 Context</div>
+        <div class="prompt-text">You recently visited a new dental clinic.
+
+Dear Patient,
+
+Thank you for choosing SmileCare Dental Clinic for your recent appointment. We hope you had a comfortable experience.
+How did you find our facilities and the treatment quality? Was our staff friendly and professional?
+What improvements would encourage you to become a regular patient?
+
+SmileCare Team</div>
+    </div>
+    
+    <div class="task">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0;">Task 1.1 (0/5)</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="word-count under">2 words (min: 50)</span>
+                <span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:13px; font-weight:600;">✗ OFF-TOPIC</span>
+            </div>
+        </div>
+        <div class="prompt-box"><div class="prompt-label">📋 Task Prompt</div><div class="prompt-text">Write a letter to your friend, who is looking for a good dentist. Write about your feelings and what you think they should do.</div></div>
+        
+        <div class="corrections-box">
+            <div class="corrections-label">📝 Your Answer (with corrections):</div>
+            <div class="corrections-text">[No response]</div>
+        </div>
+        
+        
+        <div class="examiner-feedback">
+            <div class="examiner-label">🎓 Examiner Feedback:</div>
+            <div class="examiner-text"></div>
+        </div>
+        
+        
+        <details open style="margin-top:12px; border:2px solid #10b981; border-radius:8px; overflow:hidden;">
+            <summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); padding:10px 14px; cursor:pointer; font-weight:700; color:#065f46; font-size:13px; user-select:none;">📖 See Sample Answer</summary>
+            <div style="padding:12px 14px; background:#f0fdf4; font-size:14px; color:#064e3b; line-height:1.7; border-top:1px solid #a7f3d0; white-space:pre-wrap;">Hey [Friend's Name],
+
+I wanted to tell you about my recent visit to SmileCare Dental Clinic. I was really impressed! The facilities were modern and clean, and the dentist was so gentle. I usually dread going to the dentist, but this was a surprisingly pleasant experience. 
+
+Honestly, I think you should definitely check them out. You know how anxious you get about dental appointments, and I truly believe this place would put you at ease. Let me know if you want more details!
+
+Best,
+[Your Name]</div>
+        </details>
+        
+    </div>
+    
+    <div class="task">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0;">Task 1.2 (0/5)</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="word-count under">2 words (min: 120)</span>
+                <span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:13px; font-weight:600;">✗ OFF-TOPIC</span>
+            </div>
+        </div>
+        <div class="prompt-box"><div class="prompt-label">📋 Task Prompt</div><div class="prompt-text">Write a letter to the dental clinic. Write about your feelings and what you think they should do.</div></div>
+        
+        <div class="corrections-box">
+            <div class="corrections-label">📝 Your Answer (with corrections):</div>
+            <div class="corrections-text">[No response]</div>
+        </div>
+        
+        
+        <div class="examiner-feedback">
+            <div class="examiner-label">🎓 Examiner Feedback:</div>
+            <div class="examiner-text"></div>
+        </div>
+        
+        
+        <details open style="margin-top:12px; border:2px solid #10b981; border-radius:8px; overflow:hidden;">
+            <summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); padding:10px 14px; cursor:pointer; font-weight:700; color:#065f46; font-size:13px; user-select:none;">📖 See Sample Answer</summary>
+            <div style="padding:12px 14px; background:#f0fdf4; font-size:14px; color:#064e3b; line-height:1.7; border-top:1px solid #a7f3d0; white-space:pre-wrap;">Dear SmileCare Team,
+
+I am writing to provide feedback on my recent visit to your clinic. Overall, I was quite satisfied with the experience. The facilities were modern and well-maintained, creating a comfortable environment. The treatment quality was excellent, and I felt that the dentist took the time to explain the procedure thoroughly.
+
+However, I do have a suggestion for improvement. While the staff was generally friendly, the waiting time was a bit longer than expected. Perhaps streamlining the check-in process could enhance the patient experience. Despite this minor issue, I would consider becoming a regular patient.
+
+Sincerely,
+[Your Name]</div>
+        </details>
+        
+    </div>
+    
+    <div class="task">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0;">Part 2 (0/6)</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="word-count under">2 words (min: 180)</span>
+                <span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:13px; font-weight:600;">✗ OFF-TOPIC</span>
+            </div>
+        </div>
+        <div class="prompt-box"><div class="prompt-label">📋 Task Prompt</div><div class="prompt-text">You are participating in an online discussion forum. The topic is: "Should parents limit their children's screen time?" Write your response, giving reasons and examples. Write 180–200 words.</div></div>
+        
+        <div class="corrections-box">
+            <div class="corrections-label">📝 Your Answer (with corrections):</div>
+            <div class="corrections-text">[No response]</div>
+        </div>
+        
+        
+        <div class="examiner-feedback">
+            <div class="examiner-label">🎓 Examiner Feedback:</div>
+            <div class="examiner-text"></div>
+        </div>
+        
+        
+        <details open style="margin-top:12px; border:2px solid #10b981; border-radius:8px; overflow:hidden;">
+            <summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); padding:10px 14px; cursor:pointer; font-weight:700; color:#065f46; font-size:13px; user-select:none;">📖 See Sample Answer</summary>
+            <div style="padding:12px 14px; background:#f0fdf4; font-size:14px; color:#064e3b; line-height:1.7; border-top:1px solid #a7f3d0; white-space:pre-wrap;">In contemporary society, the debate surrounding children's screen time has intensified. While technology offers numerous educational opportunities, parents should indeed limit their children's exposure to screens.
+
+Firstly, excessive screen time can negatively impact children's cognitive development. Studies have shown that prolonged exposure to screens can lead to attention deficits and reduced problem-solving skills. For instance, a child engrossed in video games for hours may struggle to focus on academic tasks.
+
+Secondly, limiting screen time encourages children to engage in more active and creative pursuits. Instead of passively consuming content, children can explore outdoor activities, read books, or participate in hobbies. This fosters imagination, physical health, and social skills. 
+
+In conclusion, while technology has its merits, parents must exercise caution and set reasonable limits on their children's screen time. By doing so, they can promote healthy development and well-being.</div>
+        </details>
+        
+    </div>
+    <div class="feedback">
+        <h3>📝 Overall AI Feedback</h3>
+        <p>The candidate did not provide any responses for the tasks. Therefore, the score is zero.</p>
+    </div>
+    <div style="text-align:center;">
+        <button class="print-btn" onclick="window.print()">📄 Save as PDF</button>
+    </div>
+</body>
+</html>

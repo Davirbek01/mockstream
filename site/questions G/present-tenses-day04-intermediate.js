@@ -1,0 +1,36 @@
+// Grammar Test: Present Tenses Day 4 — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "She <b>___</b> a book right now.", correct: "is reading", options: ["is reading", "reads", "read", "reading"], def: "Use present continuous for actions happening now.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> to the cinema every Friday.", correct: "go", options: ["go", "are going", "goes", "went"], def: "Use present simple for regular habits.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>is understanding</b> the <b>lesson</b> <b>more</b> <b>easily</b> now.", correct: "is understanding", options: ["is understanding", "lesson", "more", "easily"], def: "Use 'understands' (simple present) for states/understandings, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> in London for five years.", correct: "has lived", options: ["has lived", "lived", "is living", "lives"], def: "Use present perfect for actions starting in the past and continuing.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>___</b> my homework every evening.", correct: "do", options: ["do", "am doing", "does", "did"], def: "Use present simple for habits.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>___</b> a new car.", correct: "wants", options: ["wants", "want", "is wanting", "wanting"], def: "Use present simple for states and facts.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>He</b> <b>is playing</b> football <b>since</b> <b>this</b> morning.", correct: "is playing", options: ["is playing", "since", "this", "He"], def: "Use present perfect continuous with 'since'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> in a bank.", correct: "work", options: ["work", "are working", "works", "worked"], def: "Use present simple for general truths.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "We <b>___</b> to the beach this weekend.", correct: "are going", options: ["are going", "go", "going", "goes"], def: "Use present continuous for planned future arrangements.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>___</b> coffee every morning.", correct: "drinks", options: ["drinks", "drink", "is drinking", "drunk"], def: "Use present simple for habits.", level: "B1–B2"},
+  {type: "Find the error:", question: "I <b>am thinking</b> this <b>is</b> a <b>good</b> <b>idea</b>.", correct: "am thinking", options: ["am thinking", "is", "good", "idea"], def: "Use 'think' (simple present) for opinions, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She <b>___</b> dinner now.", correct: "is making", options: ["is making", "makes", "make", "made"], def: "Use present continuous for actions happening now.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He <b>___</b> been to Italy before.", correct: "has", options: ["has", "have", "is", "are"], def: "Use 'has' with singular pronouns in present perfect.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> TV at the moment.", correct: "are watching", options: ["are watching", "watch", "watches", "watched"], def: "Use present continuous for actions happening at the moment.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>is having</b> a <b>problem</b> <b>with</b> her <b>computer</b>.", correct: "is having", options: ["is having", "problem", "with", "computer"], def: "Use 'has' (simple present) for possession/problems, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> breakfast every day.", correct: "eats", options: ["eats", "eat", "is eating", "ate"], def: "Use present simple for habits.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I <b>___</b> a new phone.", correct: "want", options: ["want", "wants", "am wanting", "wanting"], def: "'Want' is typically in simple form, not continuous.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He <b>___</b> his car now.", correct: "is washing", options: ["is washing", "washes", "wash", "washed"], def: "Use present continuous for action happening now.", level: "B1–B2"},
+  {type: "Find the error:", question: "They <b>are wanting</b> to <b>go</b> to <b>the</b> <b>party</b> tonight.", correct: "are wanting", options: ["are wanting", "go", "the", "party"], def: "Use 'want' (simple present) for desires, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> to the park every Sunday.", correct: "go", options: ["go", "goes", "are going", "went"], def: "Use present simple for regular activities.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "It <b>___</b> raining.", correct: "is", options: ["is", "are", "am", "be"], def: "Use 'is' with 'it' in present continuous.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I <b>___</b> tired.", correct: "am", options: ["am", "is", "are", "be"], def: "Use 'am' with 'I' in present simple.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>is seeming</b> very <b>happy</b> <b>since</b> he <b>arrived</b>.", correct: "is seeming", options: ["is seeming", "happy", "since", "arrived"], def: "Use 'seems' (simple present) for appearances, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> the newspaper every morning.", correct: "reads", options: ["reads", "read", "is reading", "reading"], def: "Use present simple for routine actions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She <b>___</b> a student.", correct: "is", options: ["is", "are", "am", "be"], def: "Use 'is' with 'she' in present simple.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They <b>___</b> happy.", correct: "are", options: ["are", "is", "am", "be"], def: "Use 'are' with 'they' in present simple.", level: "B1–B2"},
+  {type: "Find the error:", question: "She <b>is believing</b> in <b>ghosts</b> <b>since</b> she <b>was</b> little.", correct: "is believing", options: ["is believing", "ghosts", "since", "was"], def: "Use 'believes' (simple present) for beliefs, not continuous.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He <b>___</b> the piano very well.", correct: "plays", options: ["plays", "play", "is playing", "played"], def: "Use present simple for abilities.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The sun <b>___</b> in the east.", correct: "rises", options: ["rises", "rise", "is rising", "rose"], def: "Use present simple for facts.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She <b>___</b> her keys.", correct: "is looking for", options: ["is looking for", "looks for", "look for", "looked for"], def: "Present continuous for action happening now.", level: "B1–B2"}
+];

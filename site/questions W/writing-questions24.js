@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p><p>Building... garden good. Parking bad. Bye!</p>",
       "sampleA2": "<p>Hi!</p><p>I see the email about the building. I like the garden, and it is very nice. But the parking is a problem because it is always full. What do you think?</p><p>Bye!</p>",
       "sampleB1": "<p>Hi!</p><p>Did you read the email about the building improvements? I think the rooftop garden is a great idea; it would really improve the building. However, I also think the parking area needs to be improved because it's often difficult to find a space. What do you think is most important?</p><p>Let me know!</p>",
-      "sampleB2": "<p>Hi,</p><p>Have you had a chance to consider the proposed building improvements? I'm particularly drawn to the idea of a rooftop garden; it would be a fantastic amenity and add considerable value. That said, I feel the parking situation is also quite pressing. The limited spaces are a constant source of frustration. I'm curious to know your perspective on the priorities.</p><p>Best,</p>"
+      "sampleB2": "<p>Hi,</p><p>Have you had a chance to consider the proposed building improvements? I'm particularly drawn to the idea of a rooftop garden; it would be a fantastic amenity and add considerable value. That said, I feel the parking situation is also quite pressing. The limited spaces are a constant source of frustration. I'm curious to know your perspective on the priorities.</p><p>Best,</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Binoni yaxshilash haqidagi elektron xatni ko'rdingizmi? Men tom ustidagi bog' g'oyasidan juda xursandman! Bir oz yashil maydonga ega bo'lish juda yaxshi bo'lardi. Menimcha, avtoturargoh masalasiga ham e'tibor qaratish kerak. Sizning ustuvorligingiz nima?</p>\n<p>Tez orada gaplashamiz!</p>",
+      "uzSampleA1": "<p>Salom!</p><p>Bino... bog' yaxshi. Mashinalar to'xtash joyi yomon. Xayr!</p>",
+      "uzSampleA2": "<p>Salom!</p><p>Men binoga oid elektron xatni ko'rdim. Menga bog' yoqadi, va u juda yaxshi. Lekin mashinalar turar joyi muammo, chunki u har doim to'la. Siz nima deb o'ylaysiz?</p><p>Xayr!</p>",
+      "uzSampleB1": "<p>Salom!</p><p>Binoni yaxshilash haqidagi elektron xatni o'qidingizmi? Menimcha, tom ustidagi bog' ajoyib g'oya; u binoni haqiqatan ham yaxshilaydi. Biroq, menimcha, avtoturargohni ham yaxshilash kerak, chunki ko'pincha joy topish qiyin. Sizningcha, eng muhimi nima?</p><p>Mengа xabar bering!</p>",
+      "uzSampleB2": "<p>Salom,</p><p>Siz binoni yaxshilash bo'yicha takliflarni ko'rib chiqishga ulgurdingizmi? Meni ayniqsa tomda bog' yaratish g'oyasi juda qiziqtiradi; bu ajoyib qulaylik bo'lardi va ancha qiymat qo'shardi. Shunga qaramay, menimcha, avtoturargoh vaziyati ham juda dolzarb. Cheklangan joylar doimiy norozilik manbai bo'lib kelmoqda. Sizning ustuvorliklar haqidagi fikringizni bilishga qiziqaman.</p><p>Eng yaxshi tilaklar bilan,</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p><br><p>I like garden. And parking. Bye!</p>",
       "sampleA2": "<p>Hello.</p><br><p>I want a garden. Because I like flowers. And the parking is bad. I want better parking. But the cameras are good, I think. Thank you.</p><br><p>Bye.</p>",
       "sampleB1": "<p>Dear Building Management Committee,</p><br><p>I am writing to you about the improvements. I think the garden is a good idea. It would be nice to have a place to relax. Also, the parking area needs to be better. It is often difficult to find a space. Security cameras are also important, I think, for safety. However, the lobby is okay, so I don't think that is the most important thing. Thank you for listening to my ideas.</p><br><p>Sincerely,<br>A Resident</p>",
-      "sampleB2": "<p>Dear Building Management Committee,</p><br><p>Thank you for the opportunity to provide feedback on the proposed building improvements. I believe that prioritizing certain projects over others would be most beneficial to the residents.</p><br><p>I strongly suggest giving precedence to the installation of security cameras. Enhancing the safety and security of our building should be the primary concern. Following this, improvements to the parking area would be greatly appreciated, particularly regarding lighting and space allocation. A well-lit and organized parking area would undoubtedly improve the overall living experience.</p><br><p>While the rooftop garden is an appealing concept, I believe it should be considered after addressing the more pressing issues of security and parking. Furthermore, I propose exploring the possibility of installing electric vehicle charging stations in the parking area to accommodate the growing number of electric cars.</p><br><p>Thank you for your time and consideration.</p><br><p>Sincerely,<br>A Resident</p>"
+      "sampleB2": "<p>Dear Building Management Committee,</p><br><p>Thank you for the opportunity to provide feedback on the proposed building improvements. I believe that prioritizing certain projects over others would be most beneficial to the residents.</p><br><p>I strongly suggest giving precedence to the installation of security cameras. Enhancing the safety and security of our building should be the primary concern. Following this, improvements to the parking area would be greatly appreciated, particularly regarding lighting and space allocation. A well-lit and organized parking area would undoubtedly improve the overall living experience.</p><br><p>While the rooftop garden is an appealing concept, I believe it should be considered after addressing the more pressing issues of security and parking. Furthermore, I propose exploring the possibility of installing electric vehicle charging stations in the parking area to accommodate the growing number of electric cars.</p><br><p>Thank you for your time and consideration.</p><br><p>Sincerely,<br>A Resident</p>",
+      "uzSample": "<p>Hurmatli Qo'mita A'zolari,</p>\n\n<p>Yashovchilarni taklif etilgan binoni yaxshilash bo'yicha o'z fikrlarini bildirishga taklif qilganingiz uchun tashakkur. Bunday hamkorlik yondashuvini qadrlayman.</p>\n\n<p>Avvalo, men tom ustidagi bog' loyihasini qat'iy qo'llab-quvvatlayman. Bu yashovchilarga dam olish va muloqot qilish uchun umumiy joy yaratib, jamiyat tuyg'usini kuchaytiradi.</p>\n\n<p>Bundan tashqari, xavfsizlikni yaxshilashga ustuvor ahamiyat berilishi kerak. Kirish joylariga kameralar o'rnatish yashovchilar xavfsizligini sezilarli darajada oshiradi.</p>\n\n<p>Shuningdek, avtoturargoh maydoni yaxshiroq yoritish va aniqroq belgilardan foyda ko'rishi mumkin. Bu avtoturargohni xavfsizroq va tartibliroq qiladi.</p>\n\n<p>Nihoyat, men ekologiyaga e'tiborli yashovchilar uchun velosiped saqlash joylarini qo'shishni taklif qilaman.</p>\n\n<p>Binomizni yaxshilashga qaratilgan sa'y-harakatlaringiz uchun tashakkur.</p>\n\n<p>Hurmat bilan,<br>Xavotirda bo'lgan yashovchi</p>",
+      "uzSampleA1": "<p>Salom!</p><br><p>Menga bog' yoqadi. Va mashinalar turargohi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom.</p><br><p>Men bog' bo'lishini xohlayman. Chunki men gullarni yaxshi ko'raman. Va mashinalar to'xtash joyi yomon. Men yaxshiroq to'xtash joyini xohlayman. Lekin kameralar yaxshi, menimcha. Rahmat.</p><br><p>Xayr.</p>",
+      "uzSampleB1": "<p>Hurmatli Bino Boshqaruv Qo'mitasi,</p><br><p>Men sizga yaxshilanishlar haqida yozmoqdaman. Menimcha, bog' yaxshi g'oya. Dam olish uchun joy bo'lishi yaxshi bo'lardi. Shuningdek, avtoturargoh hududi yaxshiroq bo'lishi kerak. Ko'pincha joy topish qiyin. Xavfsizlik kameralari ham muhim, menimcha, xavfsizlik uchun. Biroq, vestibyul yaxshi, shuning uchun men bu eng muhim narsa deb o'ylamayman. Fikrlarimni tinglaganingiz uchun rahmat.</p><br><p>Hurmat bilan,<br>Bir Rezident</p>",
+      "uzSampleB2": "<p>Hurmatli Bino Boshqaruv Qo'mitasi,</p><br><p>Taklif etilayotgan bino yaxshilanishlari bo'yicha fikr bildirish imkoniyati uchun rahmat. Menimcha, ayrim loyihalarni boshqalardan ustun qo'yish aholi uchun eng foydali bo'ladi.</p><br><p>Men xavfsizlik kameralarini o'rnatishga ustunlik berishni qat'iy tavsiya qilaman. Binomizning xavfsizligi va himoyasini kuchaytirish asosiy vazifa bo'lishi kerak. Shundan so'ng, avtoturargoh hududini yaxshilash, ayniqsa yoritish va joy ajratish bo'yicha, juda minnatdor bo'lardik. Yaxshi yoritilgan va tashkil etilgan avtoturargoh, shubhasiz, umumiy yashash tajribasini yaxshilaydi.</p><br><p>Tomdagi bog' jozibali g'oya bo'lsa-da, menimcha, uni xavfsizlik va to'xtash joyi kabi dolzarb masalalarni hal qilgandan keyin ko'rib chiqish kerak. Bundan tashqari, elektr avtomobillarining soni ortib borayotganini hisobga olib, avtoturargohda elektr transport vositalarini zaryadlash stantsiyalarini o'rnatish imkoniyatini o'rganishni taklif qilaman.</p><br><p>Vaqtingiz va e'tiboringiz uchun rahmat.</p><br><p>Hurmat bilan,<br>Bir Aholi</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p><p>I like garden. Garden good. Parking good too. Bye!</p>",
       "sampleA2": "<p>Hello,</p><p>I think the garden is good because it is nice. The parking is also important because I have a car. But security cameras are good too because I want to be safe. Thank you.</p><p>Bye.</p>",
       "sampleB1": "<p>Dear Building Management,</p><p>I am writing to give my opinion on the building improvements. I think the rooftop garden would be a good idea because it would make the building look nicer and give us a place to relax. Also, improving the parking area is important because sometimes it's hard to find a space. However, I think the security cameras are the most important because safety is a priority. Maybe we could also think about adding a small gym?</p><p>Thank you for considering my suggestions.</p><p>Sincerely,<br>A Resident</p>",
-      "sampleB2": "<p>Dear Building Management Committee,</p><p>I am writing to express my views regarding the proposed building improvements. While all the suggestions have merit, I believe prioritizing the installation of security cameras is paramount. Ensuring the safety and security of residents should be the primary concern, and enhanced surveillance would undoubtedly contribute to peace of mind. </p><p>Furthermore, I support the idea of upgrading the lobby. A modern and welcoming entrance can significantly improve the building's overall image and create a positive first impression for visitors. The rooftop garden is an appealing concept, but its long-term maintenance and potential disruption during construction should be carefully considered. Perhaps a more cost-effective alternative would be to invest in landscaping around the building's perimeter.</p><p>Thank you for your consideration. I look forward to seeing these improvements implemented.</p><p>Sincerely,<br>A Resident</p>"
+      "sampleB2": "<p>Dear Building Management Committee,</p><p>I am writing to express my views regarding the proposed building improvements. While all the suggestions have merit, I believe prioritizing the installation of security cameras is paramount. Ensuring the safety and security of residents should be the primary concern, and enhanced surveillance would undoubtedly contribute to peace of mind. </p><p>Furthermore, I support the idea of upgrading the lobby. A modern and welcoming entrance can significantly improve the building's overall image and create a positive first impression for visitors. The rooftop garden is an appealing concept, but its long-term maintenance and potential disruption during construction should be carefully considered. Perhaps a more cost-effective alternative would be to invest in landscaping around the building's perimeter.</p><p>Thank you for your consideration. I look forward to seeing these improvements implemented.</p><p>Sincerely,<br>A Resident</p>",
+      "uzSample": "<h2>Shaharda Jamiyat Qurish: Kvartirada Yashashning Afzalliklari Nimada</h2>\n\n<p>Kvartirada yashash yoki ajratilgan tajriba yoki ajoyib jamiyat bo'lishi mumkin. Farq nimada?</p>\n\n<p>Birinchidan, umumiy joylar muhim rol o'ynaydi. Umumiy bog'lar, tomlar yoki dam olish xonalari bo'lgan binolar aholiga uchrashish va muloqot qilish imkoniyatini beradi. Mening binoyim yaqinda jamiyat xonasini qo'shdi va bu qo'shnichilik munosabatlarini sezilarli darajada yaxshiladi.</p>\n\n<p>Bundan tashqari, boshqaruvning samarali aloqasi juda muhimdir. Muntazam axborot byulletenlari, e'lonlar taxtalari va aholi yig'ilishlari hamma narsadan xabardor bo'lishga va ishtirok etishga yordam beradi.</p>\n\n<p>Bundan tashqari, qo'shnilar o'rtasida o'zaro hurmat juda muhimdir. Bu shovqinga e'tibor berish, umumiy joylarni toza saqlash va binoning qoidalariga rioya qilishni anglatadi.</p>\n\n<p>Nihoyat, barbekyu yoki bayram kechalari kabi ijtimoiy tadbirlarni tashkil qilish notanish odamlarni do'stga aylantirishi mumkin.</p>\n\n<p>Oxir oqibat, ajoyib kvartira jamiyati yaxshi jismoniy infratuzilmani ham, e'tibor madaniyatini ham talab qiladi. Ushbu elementlar birlashganda, shahar hayoti nafaqat qulay, balki haqiqatan ham qoniqarli bo'ladi.</p>",
+      "uzSampleA1": "<p>Salom!</p><p>Menga bog' yoqadi. Bog' yaxshi. Mashinalar turargohi ham yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,</p><p>Menimcha, bog' yaxshi, chunki u chiroyli. Mashinalar turargohi ham muhim, chunki menda mashina bor. Lekin xavfsizlik kameralari ham yaxshi, chunki men o'zimni xavfsiz his qilishni xohlayman. Rahmat.</p><p>Xayr.</p>",
+      "uzSampleB1": "<p>Hurmatli Bino Ma'muriyati,</p><p>Men binoni yaxshilash bo'yicha o'z fikrimni bildirish uchun yozyapman. Menimcha, tom ustidagi bog' yaxshi fikr bo'lardi, chunki u binoni chiroyli qiladi va bizga dam olish uchun joy beradi. Shuningdek, avtoturargohni yaxshilash muhim, chunki ba'zan joy topish qiyin. Biroq, menimcha, xavfsizlik kameralari eng muhimi, chunki xavfsizlik birinchi o'rinda turadi. Balki biz kichik sport zalini qo'shish haqida ham o'ylasak bo'lar?</p><p>Takliflarimni ko'rib chiqqaningiz uchun rahmat.</p><p>Hurmat bilan,<br>Bir Rezident</p>",
+      "uzSampleB2": "<p>Hurmatli Bino Boshqaruv Qo'mitasi,</p><p>Men taklif etilayotgan bino yaxshilanishlari bo'yicha o'z fikrlarimni bildirish uchun yozyapman. Barcha takliflar o'rinli bo'lsa-da, men xavfsizlik kameralarini o'rnatishni birinchi o'ringa qo'yish kerak deb hisoblayman. Rezidentlarning xavfsizligi va himoyasini ta'minlash asosiy vazifa bo'lishi kerak va kuchaytirilgan kuzatuv, shubhasiz, xotirjamlikka hissa qo'shadi.</p><p>Bundan tashqari, men lobini yangilash g'oyasini qo'llab-quvvatlayman. Zamonaviy va mehmondo'st kirish joyi binoning umumiy imidjini sezilarli darajada yaxshilashi va tashrif buyuruvchilar uchun ijobiy birinchi taassurot yaratishi mumkin. Tomdagi bog' jozibali kontseptsiya, ammo uning uzoq muddatli parvarishi va qurilish paytida yuzaga kelishi mumkin bo'lgan buzilishlar diqqat bilan ko'rib chiqilishi kerak. Ehtimol, binoning atrofini obodonlashtirishga sarmoya kiritish yanada tejamkorroq alternativa bo'lishi mumkin.</p><p>E'tiboringiz uchun rahmat. Ushbu yaxshilanishlarning amalga oshirilishini ko'rishni intiqlik bilan kutaman.</p><p>Hurmat bilan,<br>Rezident</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,171 @@ window.WRITING_TEST_DATA = {
         "uz": "begonalarni o'zgartirmoq"
       }
     ]
+  },
+  "tokenTranslations": {
+    "building upgrades": {
+      "uz": "binoni yaxshilash",
+      "type": "colloc"
+    },
+    "really": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "rooftop garden": {
+      "uz": "tom bog'i",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "green space": {
+      "uz": "yashil hudud",
+      "type": "colloc"
+    },
+    "parking situation": {
+      "uz": "mashinalar turar joyi holati",
+      "type": "colloc"
+    },
+    "building improvements": {
+      "uz": "binoni takomillashtirish",
+      "type": "colloc"
+    },
+    "collaborative approach": {
+      "uz": "hamkorlik yondashuvi",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "communal space": {
+      "uz": "umumiy foydalanish joyi",
+      "type": "colloc"
+    },
+    "sense of community": {
+      "uz": "hamjamiyat tuyg'usi",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "security improvements": {
+      "uz": "xavfsizlikni yaxshilash",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "resident safety": {
+      "uz": "aholining xavfsizligi",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "parking area": {
+      "uz": "mashinalar turar joyi",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "organized": {
+      "uz": "tashkillashtirilgan",
+      "type": "colloc"
+    },
+    "Finally": {
+      "uz": "Nihoyat",
+      "type": "adv"
+    },
+    "bicycle storage": {
+      "uz": "velosiped saqlash joyi",
+      "type": "colloc"
+    },
+    "eco-conscious": {
+      "uz": "ekologik ong",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "isolating experience": {
+      "uz": "ajratilgan tajriba",
+      "type": "colloc"
+    },
+    "community": {
+      "uz": "jamoatchilik",
+      "type": "colloc"
+    },
+    "shared spaces": {
+      "uz": "umumiy joylar",
+      "type": "colloc"
+    },
+    "recreation rooms": {
+      "uz": "dam olish xonalari",
+      "type": "colloc"
+    },
+    "community room": {
+      "uz": "jamoat xonasi",
+      "type": "colloc"
+    },
+    "dramatically": {
+      "uz": "keskin",
+      "type": "adv"
+    },
+    "neighborly relations": {
+      "uz": "qo'shnichilik munosabatlari",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "effective communication": {
+      "uz": "samarali aloqa",
+      "type": "colloc"
+    },
+    "resident meetings": {
+      "uz": "aholi yig'ilishlari",
+      "type": "colloc"
+    },
+    "mutual respect": {
+      "uz": "o'zaro hurmat",
+      "type": "colloc"
+    },
+    "common areas": {
+      "uz": "umumiy hududlar",
+      "type": "colloc"
+    },
+    "social events": {
+      "uz": "ijtimoiy tadbirlar",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "physical infrastructure": {
+      "uz": "jismoniy infratuzilma",
+      "type": "colloc"
+    },
+    "consideration": {
+      "uz": "e'tibor",
+      "type": "colloc"
+    },
+    "fulfilling": {
+      "uz": "qoniqarli",
+      "type": "colloc"
+    }
   }
 };

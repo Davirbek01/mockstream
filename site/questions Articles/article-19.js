@@ -138,4 +138,349 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Hayotiy vasiyat hayotni qo'llab-quvvatlashni istash-istamasligingizni ko'rsatishi mumkin."
         }
     }
+,
+    passageB1: `<p>Laws about <strong>human rights</strong> in Europe are making more people talk about these rights. In Britain, one of the newest rights people are talking about is the <strong>right to die</strong>.</p>
+
+<p>Now, a woman is trying to show that the British government is not respecting her <strong>human rights</strong>. She says they are making her live in a way that is <strong>inhuman</strong> and makes her feel bad. She has a disease called motor neurone disease. This disease cannot be cured and will cause her body to <strong>waste away</strong>.</p>
+
+<p>The woman wants the right to die with <strong>dignity</strong> when she chooses. She can't use most of her body anymore, but her mind is still clear. She wants to be allowed to <strong>end her life</strong> because she doesn't enjoy life anymore. But she is too weak to do it alone. She wants the court to promise that her husband won't be <strong>punished</strong> if he helps her to die.</p>
+
+<p>A group called the Voluntary Euthanasia Society is helping her with her <strong>court appeal</strong>. They think that <strong>euthanasia</strong> should be an option for people who are very sick and near the end of their lives. If they are in a lot of pain or can't do anything for themselves, and they don't want to live, they should be allowed to have help to die. This could be <strong>assisted suicide</strong>, where a doctor helps them.</p>
+
+<p>Over the years, people have given many reasons for making euthanasia legal. But some people are <strong>afraid</strong> that it could lead to murder if there aren't strong <strong>rules</strong>. <strong>Mercy killing</strong> is against the law in most countries, but it is legal in the Netherlands.</p>
+
+<p>Some countries are thinking about <strong>living wills</strong>. These are documents that people write when they are healthy. In them, they say that if they ever get a very bad, incurable disease, they want the right to die or to get help to die. They want death to be a <strong>release</strong> from their suffering. We don't know what the court will decide in this case yet. But one thing is sure: people will keep talking about this <strong>difficult</strong> subject.</p>`,
+    translationB1: `<p>Yevropada <strong>inson huquqlari</strong> haqidagi qonunlar odamlarni bu huquqlar haqida ko'proq gapirishga undamoqda. Britaniyada odamlar gapirayotgan eng yangi huquqlardan biri bu <strong>o'lish huquqi</strong>.</p>
+
+<p>Hozirda bir ayol Britaniya hukumati uning <strong>inson huquqlarini</strong> hurmat qilmayotganini ko'rsatishga harakat qilmoqda. Uning aytishicha, ular uni <strong>insonparvarlikka zid</strong> bo'lgan tarzda yashashga majbur qilishmoqda va bu unga yomon ta'sir qilmoqda. Uning motor neyron kasalligi bor. Bu kasallikni davolab bo'lmaydi va uning tanasi <strong>so'lib borishiga</strong> sabab bo'ladi.</p>
+
+<p>Ayol o'zi tanlagan vaqtda <strong>qadr-qimmat</strong> bilan o'lish huquqiga ega bo'lishni xohlaydi. U endi tanasining ko'p qismini ishlata olmaydi, lekin ongi hali ham tiniq. U hayotdan zavqlanmagani uchun <strong>hayotini tugatishga</strong> ruxsat berilishini xohlaydi. Ammo u buni yolg'iz o'zi qila olmaydi. U sud uning eriga, agar u unga o'lishga yordam bersa, <strong>jazolanmasligiga</strong> va'da berishini xohlaydi.</p>
+
+<p>Ko'ngilli Evtanaziya Jamiyati deb nomlangan guruh unga <strong>sud shikoyati</strong> bilan yordam bermoqda. Ularning fikricha, <strong>evtanaziya</strong> juda kasal va hayotining oxiriga yaqin bo'lgan odamlar uchun variant bo'lishi kerak. Agar ular juda ko'p og'riq his qilsalar yoki o'zlari uchun hech narsa qila olmasalar va yashashni xohlamasalar, ularga o'lishga yordam berishga ruxsat berilishi kerak. Bu shifokor ularga yordam beradigan <strong>yordamli o'z joniga qasd qilish</strong> bo'lishi mumkin.</p>
+
+<p>Yillar davomida odamlar evtanaziyani qonuniylashtirish uchun ko'plab sabablar keltirishgan. Ammo ba'zi odamlar, agar kuchli <strong>qoidalar</strong> bo'lmasa, bu qotillikka olib kelishi mumkinligidan <strong>qo'rqishadi</strong>. Ko'pgina mamlakatlarda <strong>rahmdillik bilan o'ldirish</strong> qonunga zid, ammo Gollandiyada qonuniy.</p>
+
+<p>Ba'zi mamlakatlar <strong>hayotiy vasiyatnomalar</strong> haqida o'ylashmoqda. Bular odamlar sog'lom bo'lganida yozadigan hujjatlardir. Ularda, agar ularga juda yomon, davolab bo'lmaydigan kasallik yuqsa, o'lish yoki o'lishga yordam olish huquqiga ega bo'lishni xohlashlarini aytishadi. Ular o'limni azoblaridan <strong>xalos bo'lish</strong> deb bilishadi. Biz sud bu ishda nima qaror chiqarishini hali bilmaymiz. Ammo bir narsa aniq: odamlar bu <strong>qiyin</strong> mavzu haqida gapirishda davom etishadi.</p>`,
+    vocabularyB1: {
+        "human rights": {
+                "definition": "Basic rights that everyone should have, such as the right to freedom and to be treated fairly.",
+                "uzbek": "Inson huquqlari",
+                "example": "Everyone should have their human rights respected.",
+                "exampleUzbek": "Har bir insonning inson huquqlari hurmat qilinishi kerak."
+        },
+        "right to die": {
+                "definition": "The idea that a person should be allowed to choose to end their own life, especially if they have a terminal illness.",
+                "uzbek": "O'lish huquqi",
+                "example": "The right to die is a controversial topic.",
+                "exampleUzbek": "O'lish huquqi bahsli mavzu."
+        },
+        "inhuman": {
+                "definition": "Very cruel and causing suffering.",
+                "uzbek": "Insoniylikdan tashqari",
+                "example": "The prisoners were kept in inhuman conditions.",
+                "exampleUzbek": "Mahbuslar insoniylikdan tashqari sharoitlarda saqlangan."
+        },
+        "waste away": {
+                "definition": "To gradually become weaker and thinner because of illness.",
+                "uzbek": "Ozib ketmoq",
+                "example": "The illness caused her to waste away.",
+                "exampleUzbek": "Kasallik uning ozib ketishiga sabab bo'ldi."
+        },
+        "dignity": {
+                "definition": "A sense of pride and respect for yourself.",
+                "uzbek": "Qadr-qimmat",
+                "example": "She wants to die with dignity.",
+                "exampleUzbek": "U qadr-qimmat bilan o'lishni xohlaydi."
+        },
+        "end her life": {
+                "definition": "To kill oneself.",
+                "uzbek": "Hayotiga nuqta qo'ymoq",
+                "example": "She decided to end her life because she was in so much pain.",
+                "exampleUzbek": "U juda ko'p og'riq azobida bo'lgani uchun hayotiga nuqta qo'yishga qaror qildi."
+        },
+        "punished": {
+                "definition": "To make someone suffer because they have done something wrong.",
+                "uzbek": "Jazolanmoq",
+                "example": "He was punished for his crimes.",
+                "exampleUzbek": "U jinoyatlari uchun jazolandi."
+        },
+        "court appeal": {
+                "definition": "A request to a higher court to change a decision made by a lower court.",
+                "uzbek": "Sudga shikoyat",
+                "example": "She is making a court appeal to try and change the decision.",
+                "exampleUzbek": "U qarorni o'zgartirish uchun sudga shikoyat qilmoqda."
+        },
+        "euthanasia": {
+                "definition": "The act of killing someone painlessly, especially someone who is very ill and wants to die.",
+                "uzbek": "Evtanaziya",
+                "example": "Euthanasia is a controversial topic.",
+                "exampleUzbek": "Evtanaziya bahsli mavzu."
+        },
+        "assisted suicide": {
+                "definition": "Helping someone to kill themselves.",
+                "uzbek": "Yordam bilan o'z joniga qasd qilish",
+                "example": "Assisted suicide is illegal in many countries.",
+                "exampleUzbek": "Ko'pgina davlatlarda yordam bilan o'z joniga qasd qilish noqonuniy."
+        },
+        "afraid": {
+                "definition": "Feeling fear or worry.",
+                "uzbek": "Qo'rqmoq",
+                "example": "I am afraid of spiders.",
+                "exampleUzbek": "Men o'rgimchaklardan qo'rqaman."
+        },
+        "rules": {
+                "definition": "Instructions that say what you are allowed to do and what you are not allowed to do.",
+                "uzbek": "Qoidalar",
+                "example": "You must follow the rules.",
+                "exampleUzbek": "Siz qoidalarga rioya qilishingiz kerak."
+        },
+        "mercy killing": {
+                "definition": "Killing someone who is very ill in order to stop them from suffering.",
+                "uzbek": "Rahmdillik bilan o'ldirish",
+                "example": "Mercy killing is illegal in most countries.",
+                "exampleUzbek": "Rahmdillik bilan o'ldirish ko'pgina davlatlarda noqonuniy."
+        },
+        "living wills": {
+                "definition": "A legal document that says what medical treatment you would want if you were unable to make decisions for yourself.",
+                "uzbek": "Tiriklar vasiyatnomasi",
+                "example": "She prepared a living will to state her wishes.",
+                "exampleUzbek": "U o'z xohishlarini bildirish uchun tiriklar vasiyatnomasini tayyorladi."
+        },
+        "release": {
+                "definition": "The act of freeing someone or something.",
+                "uzbek": "Ozod qilish",
+                "example": "Death would be a release from her suffering.",
+                "exampleUzbek": "O'lim uning azobidan ozod bo'lish bo'lardi."
+        },
+        "difficult": {
+                "definition": "Not easy to do or understand.",
+                "uzbek": "Qiyin",
+                "example": "This is a difficult question.",
+                "exampleUzbek": "Bu qiyin savol."
+        }
+},
+    passageB2: `<p>Recent changes in European Union human rights laws have led to more people <strong>asserting</strong> their rights. In Britain, the most recent example of this is the <strong>invocation</strong> of the right to die.</p>
+<p>Currently, a woman is trying to prove that the British government is violating the European Convention on Human Rights by forcing her to live in what she considers <strong>inhumane</strong> and <strong>degrading</strong> conditions. She suffers from motor neurone disease, a disease that <strong>inevitably</strong> leads to death and the <strong>gradual loss</strong> of muscle function.</p>
+<p>The woman is <strong>demanding</strong> the right to die with dignity, at a time of her choosing. Having lost the ability to control most of her body, although her mind is still clear, she wants to be allowed to end her own life, arguing that her quality of life is now <strong>unacceptable</strong>. However, her physical condition prevents her from committing suicide without assistance. She hopes the courts will agree not to prosecute her husband if he helps her to die. This is also called <strong>assisted dying</strong>.</p>
+<p>Her court case is supported by the Voluntary Euthanasia Society. Its members believe that euthanasia should be a <strong>genuine option</strong> for people in the final stages of terminal illnesses, who are experiencing such severe pain or such a complete loss of ability that they no longer wish to live. They argue that such people should be legally allowed <strong>access to</strong> assisted suicide, possibly with the help of a doctor.</p>
+<p>Over the years, many arguments have been made in favour of legalising euthanasia, but some people fear that it could <strong>pave the way for</strong> murder, unless strict <strong>safeguards</strong> were in place. <strong>Mercy killing</strong>, also known as euthanasia, is illegal in most countries, although it has recently been legalised in the Netherlands.</p>
+<p>Several countries are currently considering the issue of <strong>advance directives</strong>, sometimes called 'living wills'. These documents are created by people while they are healthy, stating that they wish to <strong>exercise</strong> their right to die, or to be helped to die, if they ever reach a point where death would be a welcome <strong>relief</strong> from a terrible and incurable condition. The court's decision in this case is still <strong>pending</strong>. One thing is certain: the debate on this difficult and emotional subject will continue to <strong>rage</strong>.</p>`,
+    translationB2: `<p>Yevropa Ittifoqining inson huquqlari to'g'risidagi qonunlariga kiritilgan so'nggi o'zgartirishlar ko'proq odamlarning o'z huquqlarini <strong>talab qilishiga</strong> olib keldi. Britaniyada buning eng so'nggi namunasi - o'lish huquqini <strong>qo'llash</strong>.</p>
+<p>Ayni paytda bir ayol Britaniya hukumatini Yevropa Inson Huquqlari Konvensiyasini buzganlikda ayblashga harakat qilmoqda, chunki hukumat uni o'zi <strong>insoniyatga zid</strong> va <strong>kamsituvchi</strong> deb hisoblagan sharoitlarda yashashga majbur qilmoqda. U motor neyron kasalligidan aziyat chekmoqda, bu kasallik <strong>muqarrar ravishda</strong> o'limga va mushak funksiyalarining <strong>asta-sekin yo'qolishiga</strong> olib keladi.</p>
+<p>Ayol o'z xohishiga ko'ra, munosib tarzda o'lish huquqini <strong>talab qilmoqda</strong>. Aqli hali tiniq bo'lsa-da, tanasining ko'p qismini boshqarish qobiliyatini yo'qotgan holda, u o'z hayotiga chek qo'yishga ruxsat berilishini istaydi va hayot sifatini hozirda <strong>qabul qilib bo'lmas</strong> deb ta'kidlamoqda. Biroq, uning jismoniy holati yordamisiz o'z joniga qasd qilishga yo'l qo'ymaydi. U sudlar, agar eri unga o'lishga yordam bersa, uni jazolamaslikka rozi bo'lishiga umid qilmoqda. Bu, shuningdek, <strong>yordam bilan o'lish</strong> deb ham ataladi.</p>
+<p>Uning sud ishini Ko'ngilli Evtanaziya Jamiyati qo'llab-quvvatlaydi. Uning a'zolari evtanaziya o'limga olib keluvchi kasalliklarning so'nggi bosqichlarida bo'lgan, shunday kuchli og'riqni yoki qobiliyatini shunchalik to'liq yo'qotgan odamlar uchun <strong>haqiqiy imkoniyat</strong> bo'lishi kerak deb hisoblashadi, ular endi yashashni istamaydilar. Ularning ta'kidlashicha, bunday odamlarga <strong>yordam berilgan</strong> o'z joniga qasd qilishga qonuniy ravishda ruxsat berilishi kerak, ehtimol shifokor yordamida.</p>
+<p>Yillar davomida evtanaziyani qonuniylashtirish foydasiga ko'plab dalillar keltirildi, ammo ba'zi odamlar, agar qat'iy <strong>himoya choralari</strong> ko'rilmasa, bu qotillikka <strong>yo'l ochishi</strong> mumkinligidan xavotirda. <strong>Rahmdillik bilan o'ldirish</strong>, ya'ni evtanaziya ko'pgina mamlakatlarda noqonuniy hisoblanadi, garchi yaqinda Gollandiyada qonuniylashtirilgan bo'lsa ham.</p>
+<p>Hozirda bir nechta mamlakatlar <strong>oldindan ko'rsatmalar</strong>, ba'zan "tirik vasiyatnomalar" masalasini ko'rib chiqmoqda. Bu hujjatlar odamlar sog'lom bo'lganida yaratiladi va agar ular o'lim dahshatli va davolab bo'lmaydigan holatdan <strong>xalos etuvchi</strong> bo'ladigan nuqtaga etib borsalar, o'zlarining o'lish huquqlarini <strong>amalga oshirishni</strong> yoki o'lishga yordam berilishini xohlashlarini bildiradi. Ushbu ish bo'yicha sud qarori hali <strong>kutilmoqda</strong>. Bir narsa aniq: bu qiyin va hissiy mavzu bo'yicha bahs <strong>avjiga chiqishda</strong> davom etadi.</p>`,
+    vocabularyB2: {
+        "asserting": {
+                "definition": "Stating a right or fact confidently and forcefully",
+                "uzbek": "Qat'iy va kuch bilan huquq yoki faktni ta'kidlash",
+                "example": "She was asserting her independence from her parents.",
+                "exampleUzbek": "U ota-onasidan mustaqilligini ta'kidlayotgan edi."
+        },
+        "invocation": {
+                "definition": "The act of referring to something, especially a law or principle, in order to support your case.",
+                "uzbek": "O'z ishingizni qo'llab-quvvatlash uchun biror narsaga, ayniqsa qonun yoki printsipga murojaat qilish harakati.",
+                "example": "The invocation of human rights is becoming more common.",
+                "exampleUzbek": "Inson huquqlariga murojaat qilish tobora keng tarqalmoqda."
+        },
+        "inhumane": {
+                "definition": "Cruel and brutal; without compassion for suffering.",
+                "uzbek": "Shafqatsiz va vahshiy; azob-uqubatlarga rahm-shafqat ko'rsatmaslik.",
+                "example": "The prisoners were kept in inhumane conditions.",
+                "exampleUzbek": "Mahbuslar insoniylikka zid sharoitlarda saqlangan."
+        },
+        "degrading": {
+                "definition": "Causing someone to feel ashamed and humiliated.",
+                "uzbek": "Kimnidir uyaltiradigan va tahqirlaydigan.",
+                "example": "It's degrading to have to ask for money.",
+                "exampleUzbek": "Pul so'rashga majbur bo'lish tahqirlaydi."
+        },
+        "inevitably": {
+                "definition": "As is certain to happen; unavoidably.",
+                "uzbek": "Sodir bo'lishi aniq bo'lganidek; muqarrar ravishda.",
+                "example": "Stress inevitably leads to health problems.",
+                "exampleUzbek": "Stress muqarrar ravishda sog'liq muammolariga olib keladi."
+        },
+        "gradual loss": {
+                "definition": "A slow and progressive decline or disappearance.",
+                "uzbek": "Sekin va progressiv pasayish yoki yo'qolish.",
+                "example": "The patient experienced a gradual loss of memory.",
+                "exampleUzbek": "Bemor xotirani asta-sekin yo'qotdi."
+        },
+        "demanding": {
+                "definition": "Requesting something forcefully, as if it were one's due.",
+                "uzbek": "Biror narsani kuch bilan so'rash, go'yo u o'ziga tegishlidek.",
+                "example": "The workers are demanding better pay.",
+                "exampleUzbek": "Ishchilar yaxshiroq maosh talab qilmoqdalar."
+        },
+        "unacceptable": {
+                "definition": "Not satisfactory or allowable.",
+                "uzbek": "Qoniqarli yoki ruxsat etilgan emas.",
+                "example": "His behavior was completely unacceptable.",
+                "exampleUzbek": "Uning xulq-atvori butunlay qabul qilinishi mumkin emas edi."
+        },
+        "assisted dying": {
+                "definition": "Providing assistance to someone who wishes to end their life.",
+                "uzbek": "O'z hayotiga chek qo'ymoqchi bo'lgan odamga yordam ko'rsatish.",
+                "example": "Assisted dying is a controversial issue.",
+                "exampleUzbek": "Yordam bilan o'lish bahsli masala."
+        },
+        "genuine option": {
+                "definition": "A real and valid choice.",
+                "uzbek": "Haqiqiy va asosli tanlov.",
+                "example": "Euthanasia should be a genuine option for terminally ill patients.",
+                "exampleUzbek": "Evtanazi terminal kasalliklar bilan og'rigan bemorlar uchun haqiqiy tanlov bo'lishi kerak."
+        },
+        "access to": {
+                "definition": "The opportunity or right to use something or enter a place.",
+                "uzbek": "Biror narsadan foydalanish yoki biror joyga kirish imkoniyati yoki huquqi.",
+                "example": "Everyone should have access to clean water.",
+                "exampleUzbek": "Har kim toza suvdan foydalanish imkoniyatiga ega bo'lishi kerak."
+        },
+        "pave the way for": {
+                "definition": "Create the conditions or opportunities for something to happen.",
+                "uzbek": "Biror narsaning sodir bo'lishi uchun shart-sharoitlar yoki imkoniyatlar yaratish.",
+                "example": "These reforms will pave the way for economic growth.",
+                "exampleUzbek": "Ushbu islohotlar iqtisodiy o'sishga yo'l ochadi."
+        },
+        "safeguards": {
+                "definition": "Measures taken to protect someone or something or to prevent something undesirable.",
+                "uzbek": "Kimnidir yoki biror narsani himoya qilish yoki istalmagan narsaning oldini olish uchun ko'rilgan choralar.",
+                "example": "We need to put safeguards in place to prevent fraud.",
+                "exampleUzbek": "Biz firibgarlikning oldini olish uchun himoya choralari ko'rishimiz kerak."
+        },
+        "mercy killing": {
+                "definition": "The act of deliberately ending a person's life to relieve suffering.",
+                "uzbek": "Azobni engillashtirish uchun odamning hayotiga qasddan chek qo'yish harakati.",
+                "example": "Mercy killing is illegal in many countries.",
+                "exampleUzbek": "Rahmdillik o'ldirishi ko'plab mamlakatlarda noqonuniy hisoblanadi."
+        },
+        "advance directives": {
+                "definition": "A written statement of a person's wishes regarding medical treatment, often including a living will, made to ensure those wishes are carried out should the person be unable to communicate them to a doctor.",
+                "uzbek": "Odatda tiriklayin vasiyatnomani o'z ichiga olgan tibbiy muolajalar bo'yicha shaxsning istaklari to'g'risidagi yozma bayonot, agar shaxs ularni shifokorga etkazish imkoniga ega bo'lmasa, ushbu istaklar bajarilishini ta'minlash uchun tuziladi.",
+                "example": "It is important to prepare advance directives while you are still healthy.",
+                "exampleUzbek": "Sog'lom bo'lganingizda oldindan ko'rsatmalarni tayyorlash muhimdir."
+        },
+        "exercise": {
+                "definition": "Use or apply (a right, power, or quality).",
+                "uzbek": "(Huquq, kuch yoki sifatni) ishlatish yoki qo'llash.",
+                "example": "Patients should exercise their right to choose their treatment.",
+                "exampleUzbek": "Bemorlar davolanishni tanlash huquqidan foydalanishlari kerak."
+        },
+        "relief": {
+                "definition": "A feeling of reassurance and relaxation following release from anxiety or distress.",
+                "uzbek": "Xavotir yoki qayg'udan ozod bo'lgandan keyin paydo bo'ladigan ishonch va xotirjamlik hissi.",
+                "example": "The news brought a great sense of relief.",
+                "exampleUzbek": "Bu xabar katta yengillik hissini keltirdi."
+        },
+        "pending": {
+                "definition": "Awaiting decision or settlement.",
+                "uzbek": "Qaror yoki kelishuvni kutish.",
+                "example": "The court's decision is still pending.",
+                "exampleUzbek": "Sudning qarori hali ham kutilmoqda."
+        },
+        "rage": {
+                "definition": "Continue with great intensity.",
+                "uzbek": "Katta shiddat bilan davom etish.",
+                "example": "The debate about euthanasia will continue to rage.",
+                "exampleUzbek": "Evtanazi haqidagi bahs davom etadi."
+        }
+},
+    passageC1: `<p>The escalating influence of European Union human rights legislation has, in recent years, seen a corresponding increase in the invocation of these rights by individuals across member states. In Britain, the most recent and arguably most contentious application of these principles concerns the so-called <strong>right to die</strong>, a concept fraught with ethical and legal complexities.</p>
+
+<p>Currently, a woman afflicted with motor neurone disease, a <strong>debilitating</strong> and invariably fatal condition, is challenging the British government's stance. Her argument hinges on the assertion that the state, by compelling her continued existence under what she considers inhuman and degrading circumstances, is in <strong>contravention</strong> of the European Convention on Human Rights. The crux of her appeal lies in the desire to exercise autonomy over her own demise.</p>
+
+<p>The claimant seeks the right to <strong>terminate her life with dignity</strong>, at a time of her choosing. Despite retaining full cognitive function, the progressive loss of bodily control has, in her view, rendered her life devoid of quality. Crucially, her physical limitations preclude her from independently ending her life, thereby necessitating assistance. Her plea to the courts is for a guarantee of non-prosecution for her husband, should he provide such aid. This <strong>raises profound ethical questions</strong> regarding the boundaries of personal autonomy and the role of the state in protecting vulnerable individuals.</p>
+
+<p>Lending their support to this legal challenge is the Voluntary Euthanasia Society, an organization advocating for the legalization of euthanasia for individuals in the terminal stages of illness. Members contend that those enduring <strong>intractable pain</strong> or profound incapacity should have the legal option of assisted suicide, potentially including physician-assisted suicide. However, the prospect of <strong>opening Pandora's Box</strong> with such legislation remains a significant concern for many.</p>
+
+<p>Over the years, the debate surrounding the legalization of euthanasia has been punctuated by numerous arguments, both for and against. A primary concern is the potential for abuse, with critics suggesting that legalization could <strong>pave the way for</strong> non-voluntary euthanasia, effectively amounting to murder. To mitigate this risk, proponents typically advocate for stringent safeguards, although the precise nature and effectiveness of such measures remain a subject of considerable debate. While mercy killing remains illegal in most countries, the Netherlands recently <strong>broke new ground</strong> by legalizing it, a move that has been met with both praise and condemnation.</p>
+
+<p>The concept of living wills, also known as advance directives, is gaining traction in several countries. These documents, drafted by individuals while of sound mind, articulate their wishes regarding end-of-life care, specifically their desire to invoke the right to die or to receive assistance in doing so, should they reach a point where death offers a welcome <strong>reprieve</strong> from an unbearable, incurable condition. As the courts deliberate on this particular case, one thing remains unequivocally clear: the complex and emotionally charged debate surrounding the right to die is set to <strong>persist indefinitely</strong>, forcing society to grapple with fundamental questions about life, death, and individual liberty. The case <strong>underscores the need for</strong> a nuanced and compassionate approach to end-of-life care.</p>`,
+    translationC1: `<p>Yevropa Ittifoqi inson huquqlari qonunchiligining ta'siri kuchayishi so'nggi yillarda a'zo davlatlardagi shaxslar tomonidan bu huquqlarning qo'llanilishi ortishiga olib keldi. Britaniyada bu tamoyillarning eng so'nggi va bahsli qo'llanilishi "<strong>o'lish huquqi</strong>" deb ataladigan tushunchaga tegishli bo'lib, u axloqiy va huquqiy murakkabliklarga to'la.</p>
+
+<p>Hozirda motor neyron kasalligiga chalingan ayol, <strong>zaiflashtiruvchi</strong> va doimiy ravishda o'limga olib keladigan kasallik bilan Britaniya hukumatining pozitsiyasiga qarshi chiqmoqda. Uning argumenti shundan iboratki, davlat uni insoniylikka zid va kamsituvchi sharoitlarda yashashga majburlash orqali Inson huquqlari bo'yicha Yevropa konventsiyasini <strong>buzmoqda</strong>. Uning murojaatining mohiyati o'z o'limi ustidan avtonomiyani amalga oshirish istagida.</p>
+
+<p>Da'vogar o'z hayotini o'zi tanlagan vaqtda <strong>munosib tarzda tugatish</strong> huquqini talab qilmoqda. To'liq kognitiv funktsiyani saqlab qolganiga qaramay, tanani nazorat qilishning progressiv yo'qolishi, uning fikricha, uning hayotini sifatdan mahrum qilgan. Muhimi shundaki, uning jismoniy cheklovlari unga mustaqil ravishda hayotini tugatishga to'sqinlik qiladi, shuning uchun yordam zarur. Uning sudlarga murojaati - agar u shunday yordam ko'rsatsa, eri uchun jinoiy javobgarlikka tortilmaslik kafolati. Bu shaxsiy avtonomiya chegaralari va zaif shaxslarni himoya qilishda davlatning roli haqida <strong>chuqur axloqiy savollarni tug'diradi</strong>.</p>
+
+<p>Evtanaziyani qonuniylashtirish tarafdori bo'lgan tashkilot - "Ko'ngilli evtanaziya jamiyati" ushbu huquqiy muammoga o'z yordamini bermoqda. A'zolar <strong>davolab bo'lmaydigan og'riq</strong> yoki chuqur nogironlikka duchor bo'lganlar o'z joniga qasd qilishning qonuniy variantiga ega bo'lishi kerak, bu potentsial ravishda shifokor yordamida o'z joniga qasd qilishni ham o'z ichiga olishi mumkin. Biroq, bunday qonunchilik bilan <strong>Pandora qutisining ochilishi</strong> ko'pchilik uchun jiddiy tashvish bo'lib qolmoqda.</p>
+
+<p>Yillar davomida evtanaziyani qonuniylashtirish bo'yicha munozaralar ko'plab argumentlar bilan ajralib turdi, ham tarafdor, ham qarshi. Asosiy tashvish suiiste'mol qilish potentsiali bo'lib, tanqidchilarning ta'kidlashicha, qonuniylashtirish <strong>yo'l ochishi mumkin</strong> majburiy bo'lmagan evtanaziya uchun, aslida qotillikka teng. Ushbu xavfni kamaytirish uchun tarafdorlar odatda qat'iy himoya choralarini qo'llashni yoqlashadi, garchi bunday chora-tadbirlarning aniq tabiati va samaradorligi muhim munozara mavzusi bo'lib qolmoqda. Ko'pgina mamlakatlarda rahm-shafqat o'ldirish noqonuniy bo'lib qolayotgan bo'lsa-da, yaqinda Niderlandiya uni qonuniylashtirish orqali <strong>yangi zamin yaratdi</strong>, bu qadam ham maqtovga, ham qoralashga sabab bo'ldi.</p>
+
+<p>Tirik vasiyatlar, shuningdek, oldindan ko'rsatmalar deb ham ataladi, bir nechta mamlakatlarda ommalashib bormoqda. Ushbu hujjatlar aqli raso bo'lgan shaxslar tomonidan tuziladi, hayotning oxiridagi g'amxo'rlik bo'yicha o'z istaklarini, xususan, o'lish huquqini talab qilish yoki bunga yordam olish istagini, agar ular o'lim qabul qilinadigan darajaga etsa, <strong>qutulish</strong> chidab bo'lmas, davosi yo'q holatdan. Sudlar bu ishni muhokama qilayotgan ekan, bir narsa shubhasiz aniq: o'lish huquqi atrofidagi murakkab va hissiy munozaralar <strong>cheksiz davom etishi</strong> kutilmoqda va jamiyatni hayot, o'lim va shaxsiy erkinlik haqidagi asosiy savollar bilan kurashishga majbur qiladi. Ish hayot oxiridagi g'amxo'rlikka nisbatan nozik va rahmdil yondashuv <strong>zarurligini ta'kidlaydi</strong>.</p>`,
+    vocabularyC1: {
+        "right to die": {
+                "definition": "The asserted right of a person to choose to end their own life, typically in cases of terminal illness or unbearable suffering.",
+                "uzbek": "O'z joniga qasd qilish huquqi, odatda o'limga olib keluvchi kasalliklar yoki chidab bo'lmas azoblar holatlarida.",
+                "example": "The debate over the right to die involves complex ethical and legal considerations.",
+                "exampleUzbek": "O'z joniga qasd qilish huquqi to'g'risidagi bahslar murakkab axloqiy va huquqiy mulohazalarni o'z ichiga oladi."
+        },
+        "debilitating": {
+                "definition": "Causing someone to become weak and infirm.",
+                "uzbek": "Kimdirni zaif va xasta qilib qo'yadigan.",
+                "example": "The disease had a debilitating effect on her physical strength.",
+                "exampleUzbek": "Kasallik uning jismoniy kuchiga zaiflashtiruvchi ta'sir ko'rsatdi."
+        },
+        "contravention": {
+                "definition": "An action that violates a law, treaty, or other ruling.",
+                "uzbek": "Qonunni, shartnomani yoki boshqa qoidani buzadigan harakat.",
+                "example": "Their actions were in direct contravention of the company's policies.",
+                "exampleUzbek": "Ularning harakatlari kompaniya siyosatiga to'g'ridan-to'g'ri zid edi."
+        },
+        "terminate her life with dignity": {
+                "definition": "To end one's life in a way that preserves one's self-respect and sense of control.",
+                "uzbek": "O'z hayotini o'zini hurmat qilish va nazorat hissini saqlab qoladigan tarzda tugatish.",
+                "example": "She wanted to terminate her life with dignity, surrounded by her loved ones.",
+                "exampleUzbek": "U yaqinlari qurshovida o'z hayotini hurmat bilan tugatmoqchi edi."
+        },
+        "raises profound ethical questions": {
+                "definition": "Brings up deep and important moral issues that require careful consideration.",
+                "uzbek": "Chuqur va muhim axloqiy masalalarni ko'taradi, ular ehtiyotkorlik bilan ko'rib chiqishni talab qiladi.",
+                "example": "The use of artificial intelligence raises profound ethical questions about privacy and autonomy.",
+                "exampleUzbek": "Sun'iy intellektning qo'llanilishi shaxsiy hayot va avtonomiya haqida chuqur axloqiy savollarni tug'diradi."
+        },
+        "intractable pain": {
+                "definition": "Pain that is very difficult or impossible to relieve.",
+                "uzbek": "Osonlikcha yoki umuman bartaraf etib bo'lmaydigan og'riq.",
+                "example": "The patient suffered from intractable pain despite receiving strong medication.",
+                "exampleUzbek": "Bemorda kuchli dorilar qabul qilganiga qaramay, chidab bo'lmas og'riq bor edi."
+        },
+        "opening Pandora's Box": {
+                "definition": "To do something that creates a lot of new problems that you did not expect.",
+                "uzbek": "Kutilmagan ko'plab yangi muammolarni yaratadigan biror narsa qilish.",
+                "example": "Legalizing euthanasia could open Pandora's Box, leading to unforeseen consequences.",
+                "exampleUzbek": "Evtanaziyani qonuniylashtirish Pandora qutisini ochishi mumkin, bu esa oldindan ko'zda tutilmagan oqibatlarga olib kelishi mumkin."
+        },
+        "pave the way for": {
+                "definition": "To create the conditions or opportunities for something to happen.",
+                "uzbek": "Biror narsaning sodir bo'lishi uchun shart-sharoitlar yoki imkoniyatlar yaratish.",
+                "example": "This new technology could pave the way for significant advancements in medicine.",
+                "exampleUzbek": "Ushbu yangi texnologiya tibbiyotda sezilarli yutuqlarga yo'l ochishi mumkin."
+        },
+        "broke new ground": {
+                "definition": "To do something that has never been done before.",
+                "uzbek": "Ilgari hech qachon qilinmagan ishni qilish.",
+                "example": "Her research broke new ground in the field of genetics.",
+                "exampleUzbek": "Uning tadqiqoti genetika sohasida yangi yo'nalish ochdi."
+        },
+        "reprieve": {
+                "definition": "A temporary relief from harm or discomfort.",
+                "uzbek": "Zarardan yoki noqulaylikdan vaqtinchalik xalos bo'lish.",
+                "example": "The rain provided a brief reprieve from the scorching heat.",
+                "exampleUzbek": "Yomg'ir jazirama issiqdan qisqa muddatli xalos bo'lishni ta'minladi."
+        },
+        "persist indefinitely": {
+                "definition": "To continue without a definite end point.",
+                "uzbek": "Aniq tugash nuqtasisiz davom etish.",
+                "example": "The economic crisis is expected to persist indefinitely.",
+                "exampleUzbek": "Iqtisodiy inqiroz cheksiz davom etishi kutilmoqda."
+        },
+        "underscores the need for": {
+                "definition": "Emphasizes the importance or necessity of something.",
+                "uzbek": "Biror narsaning muhimligini yoki zarurligini ta'kidlaydi.",
+                "example": "This incident underscores the need for better safety regulations.",
+                "exampleUzbek": "Ushbu voqea xavfsizlik qoidalarini yaxshilash zarurligini ta'kidlaydi."
+        }
+}
 };

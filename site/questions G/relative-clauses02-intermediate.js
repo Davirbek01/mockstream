@@ -1,0 +1,36 @@
+// Grammar Test: Relative Clauses: Mastery — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "The book <b>___</b> I borrowed from you was great.", correct: "that", options: ["that", "who", "which", "what"], def: "'That' introduces a defining relative clause.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The woman <b>___</b> car was stolen is very upset.", correct: "whose", options: ["whose", "who's", "who", "which"], def: "'Whose' shows possession in a relative clause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This is the restaurant <b>___</b> we ate last night.", correct: "where", options: ["where", "which", "that", "when"], def: "'Where' refers to a place (the restaurant).", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The reason <b>___</b> I am late is the traffic.", correct: "why", options: ["why", "which", "that", "because"], def: "'Why' is used to explain the reason.", level: "B1–B2"},
+  {type: "Find the error:", question: "The man <b>which</b> <b>lives</b> next <b>door</b> is <b>very</b> nice.", correct: "which", options: ["which", "lives", "door", "very"], def: "Use 'who' for people, not 'which'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The friends <b>___</b> at the cafe were happy.", correct: "who met", options: ["who met", "which met", "who meet", "that meet"], def: "'Who met' correctly introduces the relative clause.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The car <b>___</b> last year is still working well.", correct: "that I bought", options: ["that I bought", "which I buy", "who I bought", "I bought"], def: "Use a relative pronoun + past tense.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The movie, <b>___</b> was very long, was also boring.", correct: "which", options: ["which", "that", "who", "what"], def: "Non-defining clauses use 'which', not 'that'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I spoke to the woman <b>___</b> son is a doctor.", correct: "whose", options: ["whose", "who", "which", "that"], def: "'Whose' indicates possession.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This is the dog <b>___</b> barks all the time.", correct: "that", options: ["that", "who", "which", "what"], def: "'That' is correct, but 'which' would also be acceptable.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The city <b>___</b> I grew up is very small.", correct: "where", options: ["where", "which", "that", "what"], def: "'Where' refers to a place.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The house <b>___</b> in is very old.", correct: "that I live", options: ["that I live", "which I live", "where I live", "I live"], def: "Need relative pronoun to introduce the clause.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The letter <b>___</b> by her was very moving.", correct: "which was written", options: ["which was written", "that written", "who was written", "written"], def: "Correct passive relative clause formation.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "My friend, <b>___</b> is a teacher, loves her job.", correct: "who", options: ["who", "which", "that", "what"], def: "Non-defining clauses use 'who' for people, not 'that'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The time <b>___</b> we met was unforgettable.", correct: "when", options: ["when", "that", "which", "where"], def: "'When' refers to a time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "That's the man <b>___</b> helped me yesterday.", correct: "who", options: ["who", "which", "that", "what"], def: "'Who' refers to a person.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The bike <b>___</b> I want is too expensive.", correct: "that", options: ["that", "who", "which", "what"], def: "'That' can refer to things.", level: "B1–B2"},
+  {type: "Find the error:", question: "The girl <b>who's</b> <b>name</b> is <b>Sarah</b> is <b>my</b> friend.", correct: "who's", options: ["who's", "name", "Sarah", "my"], def: "Should be 'whose' to show possession.", level: "B1–B2"},
+  {type: "Find the error:", question: "The movie, <b>that</b> I <b>saw</b> yesterday, <b>was</b> <b>good</b>.", correct: "that", options: ["that", "saw", "was", "good"], def: "Non-defining relative clauses use 'which', not 'that'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The professor <b>___</b> us is very knowledgeable.", correct: "who teaches", options: ["who teaches", "which teaches", "that teach", "teaching"], def: "Correct verb agreement with 'who' and 'professor'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The cake <b>___</b> by my mom was delicious.", correct: "that was made", options: ["that was made", "which make", "who made", "made"], def: "Correct passive relative clause formation.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The hotel <b>___</b> we stayed was near the beach.", correct: "where", options: ["where", "which", "that", "what"], def: "'Where' refers to a place.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The person <b>___</b> called me was very polite.", correct: "who", options: ["who", "that", "which", "what"], def: "'Who' refers to a person.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is the woman <b>___</b> I told you about.", correct: "that", options: ["that", "who", "which", "what"], def: "'That' can refer to people.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "The game <b>___</b> we played was fun.", correct: "which", options: ["which", "who", "that", "what"], def: "'Which' refers to things in non-defining clauses.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The man <b>___</b> car was stolen is very upset.", correct: "whose", options: ["whose", "who", "which", "who's"], def: "'Whose' shows possession. It connects the man to his car.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This is the restaurant <b>___</b> I told you about.", correct: "that", options: ["that", "who", "which's", "what"], def: "'That' introduces a defining relative clause.", level: "B1–B2"},
+  {type: "Find the error:", question: "The book <b>which</b> I <b>borrowed</b> from <b>you</b> is <b>interesting</b>.", correct: "which", options: ["which", "borrowed", "you", "interesting"], def: "Use 'that' or omit the relative pronoun for defining clauses.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "The people <b>___</b> next door are very friendly.", correct: "who live", options: ["who live", "which lives", "living", "who lives"], def: "'Who live' correctly introduces the relative clause.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "The movie <b>___</b> we saw last night was great.", correct: "that", options: ["that", "who", "which", "what"], def: "'That' introduces a defining relative clause and can be omitted.", level: "B1–B2"}
+];

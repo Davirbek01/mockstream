@@ -422,6 +422,54 @@
 <script src="../telegram-compat.js"></script>
 </head>
 <body>
+
+  <!-- ===== AUTH GATE ===== -->
+  <div id="builderAuthGate" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#f0f4ff 0%,#e8ecf4 100%);display:flex;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:white;border:1px solid #e2e8f0;border-radius:20px;padding:40px 32px;max-width:400px;width:100%;text-align:center;box-shadow:0 25px 50px -12px rgba(0,0,0,0.15);">
+      <div style="font-size:48px;margin-bottom:16px;">🎤</div>
+      <h2 style="color:#6366f1;font-size:22px;margin-bottom:8px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Speaking Test Builder</h2>
+      <p style="color:#64748b;font-size:14px;margin-bottom:24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Enter admin passcode to access this builder</p>
+      <input type="password" id="builderAuthInput" placeholder="••••••••" maxlength="20" autocomplete="off"
+        style="width:100%;padding:14px 18px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;color:#1e293b;font-size:18px;text-align:center;letter-spacing:4px;font-family:'Consolas',monospace;margin-bottom:16px;box-sizing:border-box;">
+      <div id="builderAuthError" style="color:#ef4444;font-size:13px;margin-bottom:12px;min-height:20px;"></div>
+      <button id="builderAuthSubmit" onclick="verifyBuilderPasscode()" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#4f46e5);border:none;border-radius:12px;color:white;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Unlock Builder</button>
+      <button onclick="window.location.href='../landing.html'" style="width:100%;padding:10px;background:none;border:1px solid #e2e8f0;border-radius:10px;color:#64748b;font-size:13px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">← Back to Home</button>
+    </div>
+  </div>
+  <script>
+  (function(){
+    if(sessionStorage.getItem('vipSessionAccess')==='true'){
+      document.getElementById('builderAuthGate').style.display='none';
+    }
+    var inp=document.getElementById('builderAuthInput');
+    inp.addEventListener('keypress',function(e){if(e.key==='Enter')verifyBuilderPasscode();});
+    inp.addEventListener('focus',function(){inp.style.borderColor='#6366f1';inp.style.boxShadow='0 0 0 3px rgba(99,102,241,0.2)';});
+    inp.addEventListener('blur',function(){inp.style.borderColor='#e2e8f0';inp.style.boxShadow='none';});
+  })();
+  async function verifyBuilderPasscode(){
+    var input=document.getElementById('builderAuthInput');
+    var error=document.getElementById('builderAuthError');
+    var btn=document.getElementById('builderAuthSubmit');
+    var code=input.value.trim();
+    if(!code){error.textContent='❌ Please enter a passcode';return;}
+    btn.disabled=true;btn.textContent='⏳ Verifying...';error.textContent='';
+    try{
+      var resp=await fetch('https://admin0709.alwaysdata.net/verify',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({passcode:parseInt(code,10)||code,type:'bsb',validate:true,timestamp:Date.now(),source:'builder-auth'})
+      });
+      if(!resp.ok)throw new Error('Server error');
+      var data=await resp.json();
+      if(data.access){
+        sessionStorage.setItem('vipSessionAccess','true');
+        document.getElementById('builderAuthGate').style.display='none';
+      }else{throw new Error('Invalid');}
+    }catch(e){
+      error.textContent='❌ Incorrect passcode';input.value='';input.focus();
+    }finally{btn.disabled=false;btn.textContent='Unlock Builder';}
+  }
+  </script>
+
   <!-- Text Formatting Toolbar -->
   <div id="formatToolbar" class="format-toolbar">
     <button class="format-btn" onclick="formatText('bold')" title="Bold"><b>B</b></button>

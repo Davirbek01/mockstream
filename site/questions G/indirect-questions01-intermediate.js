@@ -1,0 +1,36 @@
+// Grammar Test: Indirect Questions — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "I asked him <b>___</b> he wanted to eat.", correct: "what", options: ["what", "that", "which", "who"], def: "We use 'what' to ask about a thing in an indirect question.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I wonder <b>___</b> she is going.", correct: "where", options: ["where", "what", "when", "who"], def: "'Where' is used to ask about a place in an indirect question.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't <b>___</b> if he likes it.", correct: "know", options: ["know", "knowing", "knew", "known"], def: "We use 'if' to introduce an indirect question about possibility.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Can you tell me <b>___</b> time it is?", correct: "what", options: ["what", "which", "when", "that"], def: "'What' is used to ask about the time in an indirect question.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I'm not sure <b>___</b> he will come.", correct: "if", options: ["if", "what", "when", "who"], def: "'If' introduces an indirect question that expresses doubt.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I asked her <b>___</b> she was happy.", correct: "if", options: ["if", "that", "what", "when"], def: "'If' is used to ask about a state of being (happiness).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I need to know <b>___</b> much it costs.", correct: "how", options: ["how", "what", "which", "that"], def: "'How' is used to ask about the amount or price.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I asked him <b>___</b> he was going to do.", correct: "what", options: ["what", "that", "if", "which"], def: "'What' is used to ask about actions in an indirect question.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I wonder <b>___</b> she went.", correct: "where", options: ["where", "what", "when", "which"], def: "'Where' is used to ask about location in indirect questions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Tell me <b>___</b> you like this movie.", correct: "if", options: ["if", "what", "which", "that"], def: "'If' is used to ask whether someone likes something.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I don't know <b>___</b> he will arrive.", correct: "when", options: ["when", "what", "where", "who"], def: "'When' is used to ask about the time of arrival.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I wonder <b>___</b> he does it.", correct: "how", options: ["how", "what", "which", "when"], def: "'How' is used to ask about the method of doing something.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She wants to know <b>___</b> old I am.", correct: "how", options: ["how", "what", "which", "that"], def: "'How' is used to ask about age.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Do you know <b>___</b> car this is?", correct: "whose", options: ["whose", "who", "what", "which"], def: "'Whose' is used to ask about possession.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I'm not sure <b>___</b> it is true.", correct: "if", options: ["if", "what", "when", "where"], def: "'If' introduces an indirect question about the truth of something.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I'd like to know <b>___</b> you live.", correct: "where", options: ["where", "what", "when", "who"], def: "'Where' is used to ask about someone's place of residence.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I need to ask <b>___</b> he is.", correct: "who", options: ["who", "what", "which", "that"], def: "'Who' is used to ask about a person's identity.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I wonder <b>___</b> she likes cats.", correct: "if", options: ["if", "what", "when", "where"], def: "'If' is used to ask about preferences in an indirect way.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Tell me <b>___</b> you made this cake.", correct: "how", options: ["how", "what", "who", "when"], def: "'How' is used to ask about the method of making something.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I don't know <b>___</b> way to go.", correct: "which", options: ["which", "what", "who", "that"], def: "'Which' is used to offer a choice between two options.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I asked him <b>___</b> he wanted anything.", correct: "if", options: ["if", "what", "when", "where"], def: "'If' is used to introduce an indirect question to know his wishes.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I'm not sure <b>___</b> they will come.", correct: "whether", options: ["whether", "what", "when", "who"], def: "'Whether' can be used instead of 'if' in indirect questions.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> I was tired.", correct: "if", options: ["if", "what", "when", "which"], def: "'If' introduce indirect question to know about state of being.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "Can you tell me <b>where</b> <b>___</b> the bathroom?", correct: "the bathroom is", options: ["the bathroom is", "is the bathroom", "it is the bathroom", "where is bathroom"], def: "Indirect questions follow statement word order, not question word order.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I wonder <b>___</b> she will come to the party.", correct: "if", options: ["if", "that", "what", "when"], def: "'If' introduces a yes/no indirect question.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Do you <b>___</b> where the post office is?", correct: "know", options: ["know", "knew", "knowing", "to know"], def: "We use the base form of the verb 'know' after 'do'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I'm not sure <b>___</b> I locked the door.", correct: "whether", options: ["whether", "what", "when", "how"], def: "'Whether' introduces a yes/no indirect question.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "Can you ask him <b>___</b> he needs help?", correct: "if", options: ["if", "what", "when", "that"], def: "'If' introduces a yes/no indirect question.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "Could you <b>___</b> me what your name is?", correct: "tell", options: ["tell", "say", "said", "telling"], def: "We use 'tell' with an object (me) when asking someone's name.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I don't remember <b>___</b> he lives.", correct: "where", options: ["where", "if", "what", "when"], def: "'Where' asks about a place in an indirect question.", level: "B1–B2"}
+];

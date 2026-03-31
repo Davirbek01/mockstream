@@ -168,4 +168,341 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Zo'ravon yo'lovchi xavfsizlik xizmati tomonidan to'xtatilishi kerak bo'ldi."
         }
     }
+,
+    passageB1: `<p>Many people seem to be getting more <strong>angry</strong>, or at least showing their anger more often. It seems like people are becoming very angry in many situations. This kind of anger is now so common that we have new words to describe different types of it.</p>
+
+<p>The first type of anger to get a name was <strong>road rage</strong>. This happens when drivers get very angry with other drivers or people walking. They lose control of their anger. They might get out of their cars and <strong>shout</strong> at the other people or make <strong>threatening</strong> movements. Sometimes, they get so angry that they <strong>attack</strong> people. There have even been times when drivers have become <strong>violent</strong> and hurt or killed people. It doesn't take much to make some drivers angry. Even if you pass them on the road in a normal way, it can make them angry.</p>
+
+<p>The police are sometimes called to homes when anger becomes too much. In the worst cases, people who can't control their anger <strong>become guilty of</strong> hurting their partners. This is called <strong>domestic abuse</strong>. They might hit or hurt their partners. This can often cause the family to break up. Sometimes, the person who is violent goes to prison.</p>
+
+<p>Supermarkets are another place where people get angry. People often get <strong>frustrated</strong> if they have to wait in line at the checkout. They might become so angry that they get <strong>trolley rage</strong>. This means they hit other people with their shopping trolleys on purpose. This can sometimes cause injuries.</p>
+
+<p>People on planes also sometimes lose their temper. This is called <strong>air rage</strong>. This type of anger is usually directed at the people who work on the plane, the <strong>cabin crew</strong>. Often, passengers who get angry on a plane have drunk too much alcohol at the airport <strong>bars</strong>. They are looking for a fight when they get on the plane. Their violence is dangerous in the air, so they have to be <strong>restrained</strong>.</p>
+
+<p>Try not to let any of this happen to you. <strong>Take a deep breath</strong> and control your anger!</p>`,
+    translationB1: `<p>Ko'pchilik odamlar tobora <strong>jahldor</strong> bo'lib qolayotgandek yoki hech bo'lmaganda o'z g'azablarini tez-tez namoyon qilayotgandek tuyuladi. Odamlar ko'p vaziyatlarda juda jahli chiqayotgandek. G'azabning bu turi hozir juda keng tarqalganki, bizda uning turli xil turlarini tasvirlash uchun yangi so'zlar bor.</p>
+
+<p>Nom olgan g'azabning birinchi turi <strong>yo'l g'azabi</strong> edi. Bu haydovchilar boshqa haydovchilarga yoki piyodalarga juda g'azablanganida sodir bo'ladi. Ular o'z g'azabini nazorat qila olmaydilar. Ular mashinalaridan chiqib, boshqa odamlarga <strong>baqirishlari</strong> yoki <strong>tahdidli</strong> harakatlar qilishlari mumkin. Ba'zan ular shunchalik g'azablanadilarki, odamlarga <strong>hujum qilishadi</strong>. Hatto haydovchilar <strong>zo'ravonlik</strong> qilib, odamlarga zarar yetkazgan yoki o'ldirgan holatlar ham bo'lgan. Ba'zi haydovchilarni g'azablantirish uchun ko'p narsa kerak emas. Hatto ularning yonidan oddiygina tarzda o'tib ketsangiz ham, bu ularni g'azablantirishi mumkin.</p>
+
+<p>G'azab haddan tashqari kuchayganda, politsiya ba'zan uylarga chaqiriladi. Eng yomon holatlarda, o'z g'azabini nazorat qila olmaydigan odamlar o'z sheriklariga zarar yetkazishda <strong>aybdor bo'lib qolishadi</strong>. Bu <strong>oilaviy zo'ravonlik</strong> deb ataladi. Ular sheriklarini urishi yoki jarohatlashi mumkin. Bu ko'pincha oilaning buzilishiga olib kelishi mumkin. Ba'zan, zo'ravon odam qamoqqa tushadi.</p>
+
+<p>Supermarketlar ham odamlar g'azablanadigan yana bir joy. Odamlar ko'pincha kassada navbatda turishga to'g'ri kelganda <strong>tushkunlikka tushishadi</strong>. Ular shunchalik g'azablanishlari mumkinki, <strong>arava g'azabi</strong> paydo bo'lishi mumkin. Bu ularning boshqa odamlarni xarid qilish aravachalari bilan ataylab urishini anglatadi. Bu ba'zan jarohatlarga olib kelishi mumkin.</p>
+
+<p>Samolyotlardagi odamlar ham ba'zan o'zlarini tuta olmay qolishadi. Bu <strong>havo g'azabi</strong> deb ataladi. G'azabning bu turi odatda samolyotda ishlaydigan odamlarga, <strong>ekipaj a'zolariga</strong> qaratilgan. Ko'pincha, samolyotda g'azablangan yo'lovchilar aeroport <strong>barlarida</strong> juda ko'p spirtli ichimlik ichishgan bo'ladi. Ular samolyotga chiqqanlarida urush qidirishadi. Ularning zo'ravonligi havoda xavfli, shuning uchun ularni <strong>cheklashga</strong> to'g'ri keladi.</p>
+
+<p>Buning hech biri siz bilan sodir bo'lishiga yo'l qo'ymang. <strong>Chuqur nafas oling</strong> va g'azabingizni nazorat qiling!</p>`,
+    vocabularyB1: {
+        "angry": {
+                "definition": "Feeling or showing strong annoyance, displeasure, or hostility.",
+                "uzbek": "G'azablangan, jahli chiqqan",
+                "example": "She was very angry when she found out.",
+                "exampleUzbek": "U bilib olgach, juda g'azablandi."
+        },
+        "road rage": {
+                "definition": "Anger or violence caused by the stress and frustration of driving in heavy traffic.",
+                "uzbek": "Yo'lda g'azablanish",
+                "example": "Road rage is a serious problem in many cities.",
+                "exampleUzbek": "Yo'lda g'azablanish ko'p shaharlarda jiddiy muammo."
+        },
+        "shout": {
+                "definition": "To speak with a very loud voice.",
+                "uzbek": "Baqirmoq",
+                "example": "He had to shout to be heard over the noise.",
+                "exampleUzbek": "U shovqinni ustidan eshitilish uchun baqirishga majbur bo'ldi."
+        },
+        "threatening": {
+                "definition": "Expressing or suggesting a threat of harm or violence.",
+                "uzbek": "Tahdidli",
+                "example": "He received a threatening letter.",
+                "exampleUzbek": "U tahdidli xat oldi."
+        },
+        "attack": {
+                "definition": "To try to hurt or defeat someone or something using violence.",
+                "uzbek": "Hujum qilmoq",
+                "example": "The dog attacked the postman.",
+                "exampleUzbek": "It pochta xodimiga hujum qildi."
+        },
+        "violent": {
+                "definition": "Using or involving physical force intended to hurt, damage, or kill someone or something.",
+                "uzbek": "Zo'ravon",
+                "example": "The film contains violent scenes.",
+                "exampleUzbek": "Filmda zo'ravonlik sahnalari mavjud."
+        },
+        "become guilty of": {
+                "definition": "To do something wrong or illegal.",
+                "uzbek": "Aybdor bo'lib qolmoq",
+                "example": "He became guilty of stealing.",
+                "exampleUzbek": "U o'g'irlikda aybdor bo'lib qoldi."
+        },
+        "domestic abuse": {
+                "definition": "Violent or aggressive behavior within the home, typically involving the violent abuse of a spouse or partner.",
+                "uzbek": "Oiladagi zo'ravonlik",
+                "example": "Domestic abuse is a serious crime.",
+                "exampleUzbek": "Oiladagi zo'ravonlik jiddiy jinoyatdir."
+        },
+        "frustrated": {
+                "definition": "Feeling annoyed and upset because you cannot do something you are trying to do.",
+                "uzbek": "Umidsizlangan",
+                "example": "She felt frustrated by her lack of progress.",
+                "exampleUzbek": "U o'zining yutuqlari yo'qligidan umidsizlandi."
+        },
+        "trolley rage": {
+                "definition": "Aggressive behaviour by shoppers involving the use of shopping trolleys.",
+                "uzbek": "Aravacha g'azabi",
+                "example": "Trolley rage is becoming more common in supermarkets.",
+                "exampleUzbek": "Aravacha g'azabi supermarketlarda tobora keng tarqalmoqda."
+        },
+        "air rage": {
+                "definition": "Disruptive or violent behavior by a passenger on an aircraft.",
+                "uzbek": "Havodagi g'azab",
+                "example": "Air rage can lead to serious consequences.",
+                "exampleUzbek": "Havodagi g'azab jiddiy oqibatlarga olib kelishi mumkin."
+        },
+        "cabin crew": {
+                "definition": "The staff on an aircraft who are responsible for the safety and comfort of passengers.",
+                "uzbek": "Salon ekipaji",
+                "example": "The cabin crew were very helpful.",
+                "exampleUzbek": "Salon ekipaji juda yordam berishdi."
+        },
+        "bars": {
+                "definition": "A place where alcoholic drinks are sold and drunk.",
+                "uzbek": "Barlar",
+                "example": "They went to the bar for a drink.",
+                "exampleUzbek": "Ular ichimlik uchun barga borishdi."
+        },
+        "restrained": {
+                "definition": "Kept under control; prevented from freedom of movement or action.",
+                "uzbek": "Tiyib turilgan",
+                "example": "He had to be physically restrained.",
+                "exampleUzbek": "Uni jismonan tiyib turishga to'g'ri keldi."
+        },
+        "take a deep breath": {
+                "definition": "To breathe in a large amount of air, usually to calm oneself.",
+                "uzbek": "Chuqur nafas olmoq",
+                "example": "Take a deep breath and try to relax.",
+                "exampleUzbek": "Chuqur nafas ol va dam olishga harakat qil."
+        }
+},
+    passageB2: `<p>It appears that more and more people are experiencing anger, or at least, are <strong>expressing their frustration</strong> more openly. We seem to be losing our temper in various situations, and anger has become so prevalent that new terms have emerged to describe specific types of angry outbursts.</p>
+
+<p>The first widely recognised form of this is <strong>road rage</strong>. This term refers to drivers who become so infuriated by the actions of other drivers or pedestrians that they completely lose control of their emotions. They might exit their vehicles to shout and make <strong>threatening gestures</strong> at those who have annoyed them. In extreme cases, they become so <strong>overwhelmed by rage</strong> that they physically attack others, and there have even been instances of drivers losing control and causing fatal accidents. It often doesn't take much to <strong>trigger</strong> drivers who are <strong>prone to anger</strong>; even a legal overtaking manoeuvre can provoke them.</p>
+
+<p>Police intervention is sometimes required in domestic situations where anger <strong>escalates out of control</strong>. In the most serious cases, individuals who struggle to manage their temper may <strong>resort to</strong> domestic abuse, physically assaulting their partners. This can frequently lead to the breakdown of the family unit and, in some instances, the imprisonment of the <strong>abusive partner</strong>.</p>
+
+<p>Supermarkets are another common setting for anger to surface. Customers often experience frustration when they have to queue at the checkouts, sometimes becoming so enraged that they are driven to <strong>trolley rage</strong>. This involves deliberately colliding with other shoppers using their shopping trolleys, potentially causing injuries.</p>
+
+<p>Passengers on aeroplanes can also <strong>lose their cool</strong>. Known as <strong>air rage</strong>, this type of anger is typically directed at the cabin crew. It's common for passengers who become angry on board to have consumed excessive amounts of alcohol in airport bars and to be <strong>in an aggressive mood</strong> when they board the aircraft. Their violent behaviour is dangerous in flight, and they often need to be restrained.</p>
+
+<p>Try to avoid allowing yourself to fall into these patterns. Take a moment to <strong>compose yourself</strong> and manage your anger effectively!</p>`,
+    translationB2: `<p>Ko‘rinib turibdiki, tobora ko‘proq odamlar g‘azabni his qilmoqda, yoki hech bo‘lmaganda, o‘zlarining <strong>noroziliklarini</strong> ochiqroq ifoda etmoqda. Biz turli vaziyatlarda jahlimiz chiqadiganga o'xshaydi va g'azab shunchalik keng tarqalganki, g'azabning o'ziga xos turlarini tasvirlash uchun yangi atamalar paydo bo'ldi.</p>
+
+<p>Buning birinchi keng tarqalgan shakli - <strong>yo'l g'azabi</strong>. Bu atama boshqa haydovchilar yoki piyodalarning harakatlaridan shunchalik g'azablangan haydovchilarga ishora qiladi, ular o'z hissiyotlarini butunlay yo'qotadilar. Ular o'z mashinalaridan chiqib, baqirishlari va ularni g'azablantirganlarga <strong>tahdidli imo-ishoralar</strong> qilishlari mumkin. Favqulodda hollarda ular shunchalik <strong>g'azabga to'lib ketadilar</strong>ki, ular jismonan boshqalarga hujum qiladilar va hatto haydovchilar nazoratni yo'qotib, halokatli baxtsiz hodisalarga sabab bo'lgan holatlar ham bo'lgan. <strong>G'azabga moyil</strong> bo'lgan haydovchilarni <strong>qo'zg'atish</strong> uchun ko'p narsa kerak emas; hatto qonuniy o'zib ketish manevrasi ham ularni g'azablantirishi mumkin.</p>
+
+<p>Ba'zan g'azab <strong>nazoratdan chiqib ketadigan</strong> uy vaziyatlarida politsiya aralashuvi talab qilinadi. Jahllarini boshqarishda qiynaladigan shaxslar eng jiddiy holatlarda oiladagi zo'ravonlikka <strong>murojaat qilishlari</strong>, sheriklariga jismonan hujum qilishlari mumkin. Bu ko'pincha oila birligining buzilishiga va ba'zi hollarda <strong>zo'ravon sherikning</strong> qamoqqa tushishiga olib kelishi mumkin.</p>
+
+<p>Supermarketlar g'azab paydo bo'lishi uchun yana bir keng tarqalgan joydir. Xaridorlar ko'pincha kassalarda navbatda turishga to'g'ri kelganda, ba'zan shunchalik g'azablanadiki, bu ularni <strong>arava g'azabiga</strong> olib keladi. Bu o'z xarid aravachalari bilan boshqa xaridorlar bilan ataylab to'qnashishni o'z ichiga oladi, bu esa jarohatlarga olib kelishi mumkin.</p>
+
+<p>Samolyotdagi yo'lovchilar ham <strong>jahldan tushishi</strong> mumkin. <strong>Havo g'azabi</strong> deb nomlanuvchi bu turdagi g'azab odatda bort xodimlariga qaratilgan. Bortda g'azablangan yo'lovchilar aeroport barlarida ko'p miqdorda alkogol iste'mol qilgan va samolyotga chiqqanlarida <strong>tajovuzkor kayfiyatda</strong> bo'lishlari odatiy holdir. Ularning zo'ravonlik harakatlari parvoz paytida xavflidir va ularni ko'pincha ushlab turish kerak.</p>
+
+<p>O'zingizga ushbu naqshlarga tushib qolishga yo'l qo'ymaslikka harakat qiling. Bir oz vaqt ajratib, <strong>o'zingizni to'plang</strong> va g'azabingizni samarali boshqaring!</p>`,
+    vocabularyB2: {
+        "expressing their frustration": {
+                "definition": "Showing that you are annoyed or upset because you cannot achieve something",
+                "uzbek": "O'z achchig'ini ifodalash",
+                "example": "People are expressing their frustration with the slow internet speeds.",
+                "exampleUzbek": "Odamlar internet tezligining sekinligidan o'z achchig'ini ifodalashmoqda."
+        },
+        "road rage": {
+                "definition": "Anger or violence between drivers because of difficult or annoying traffic conditions",
+                "uzbek": "Yo'ldagi g'azab",
+                "example": "Road rage is a serious problem in many cities.",
+                "exampleUzbek": "Yo'ldagi g'azab ko'plab shaharlarda jiddiy muammo."
+        },
+        "threatening gestures": {
+                "definition": "Actions or movements that suggest someone intends to cause harm",
+                "uzbek": "Tahdidli imo-ishoralar",
+                "example": "The man made threatening gestures towards the crowd.",
+                "exampleUzbek": "Erkak olomonga tahdidli imo-ishoralar qildi."
+        },
+        "overwhelmed by rage": {
+                "definition": "Feeling a very strong feeling of anger that is difficult to control",
+                "uzbek": "G'azabdan g'arq bo'lmoq",
+                "example": "He was overwhelmed by rage when he saw the damage.",
+                "exampleUzbek": "U zararni ko'rganda g'azabdan g'arq bo'ldi."
+        },
+        "trigger": {
+                "definition": "To cause something to start",
+                "uzbek": "Qo'zg'atmoq",
+                "example": "Certain foods can trigger an allergic reaction.",
+                "exampleUzbek": "Ba'zi ovqatlar allergik reaktsiyani qo'zg'atishi mumkin."
+        },
+        "prone to anger": {
+                "definition": "Likely to become angry easily",
+                "uzbek": "G'azabga moyil",
+                "example": "He is prone to anger when he is tired.",
+                "exampleUzbek": "U charchaganda g'azabga moyil bo'ladi."
+        },
+        "escalates out of control": {
+                "definition": "Increases rapidly and becomes impossible to manage",
+                "uzbek": "Nazoratdan chiqib ketmoq",
+                "example": "The argument escalated out of control and the police were called.",
+                "exampleUzbek": "Bahs nazoratdan chiqib ketdi va politsiya chaqirildi."
+        },
+        "resort to": {
+                "definition": "To do something that you do not want to do because there is no other choice",
+                "uzbek": "Murojaat qilmoq",
+                "example": "They had to resort to drastic measures.",
+                "exampleUzbek": "Ular keskin choralarga murojaat qilishga majbur bo'lishdi."
+        },
+        "abusive partner": {
+                "definition": "A partner who treats someone badly physically or emotionally",
+                "uzbek": "Zo'ravon sherik",
+                "example": "The abusive partner was finally arrested.",
+                "exampleUzbek": "Zo'ravon sherik nihoyat hibsga olindi."
+        },
+        "trolley rage": {
+                "definition": "Anger and aggression in a supermarket, often involving collisions with shopping trolleys",
+                "uzbek": "Aravacha g'azabi",
+                "example": "Trolley rage is a growing problem in supermarkets.",
+                "exampleUzbek": "Aravacha g'azabi supermarketlarda o'sib borayotgan muammo."
+        },
+        "lose their cool": {
+                "definition": "To become angry",
+                "uzbek": "O'zini yo'qotmoq",
+                "example": "He lost his cool and started shouting.",
+                "exampleUzbek": "U o'zini yo'qotib, baqira boshladi."
+        },
+        "air rage": {
+                "definition": "Anger or violence shown by a passenger on an aircraft",
+                "uzbek": "Havodagi g'azab",
+                "example": "Air rage incidents are becoming more common.",
+                "exampleUzbek": "Havodagi g'azab hodisalari tobora ko'payib bormoqda."
+        },
+        "in an aggressive mood": {
+                "definition": "Ready or likely to attack or confront",
+                "uzbek": "Tajovuzkor kayfiyatda",
+                "example": "He was in an aggressive mood after drinking.",
+                "exampleUzbek": "U ichgandan keyin tajovuzkor kayfiyatda edi."
+        },
+        "compose yourself": {
+                "definition": "To calm yourself down",
+                "uzbek": "O'zingizni bosib olmoq",
+                "example": "Take a deep breath and compose yourself.",
+                "exampleUzbek": "Chuqur nafas oling va o'zingizni bosib oling."
+        }
+},
+    passageC1: `<p>A perceptible upswing in the frequency, or at least the outward manifestation, of anger seems to be <strong>pervading</strong> contemporary society. It would appear that incidents of <strong>uncontrolled fury</strong> are becoming increasingly commonplace, so much so that the English lexicon has expanded to encompass a range of expressions delineating specific iterations of this potent emotion.</p>
+
+<p>Perhaps the first of these newly christened rages was 'road rage,' a term denoting the <strong>unbridled</strong> anger exhibited by drivers who, incensed by the actions of other motorists or pedestrians, allow their emotions to spiral entirely out of control. This often manifests in the form of vociferous outbursts and menacing gestures directed at the perceived offenders. In extreme cases, such individuals are so <strong>consumed by wrath</strong> that they resort to physical violence, with tragic instances of drivers <strong>succumbing to a berserk state</strong> and causing fatal harm. It frequently takes surprisingly little to <strong>ignite the fuse</strong> of these easily provoked individuals; even a perfectly legal overtaking manoeuvre can trigger their ire.</p>
+
+<p>Law enforcement agencies are, regrettably, sometimes summoned to private residences to address instances where rage has escalated beyond manageable levels. In the most egregious of scenarios, individuals with <strong>poor impulse control</strong> may perpetrate acts of domestic abuse against their partners. This often precipitates the dissolution of the family unit and, in some instances, the incarceration of the offending party.</p>
+
+<p>The seemingly innocuous environment of the supermarket can also prove to be a <strong>breeding ground</strong> for anger. The frustration engendered by protracted queues at checkout counters frequently <strong>boils over</strong>, leading to what has been termed 'trolley rage.' This involves the deliberate collision of shopping trolleys with other shoppers, sometimes resulting in physical injury. <strong>Such behaviour is indicative of</strong> a broader societal trend toward impatience and a lack of consideration for others.</p>
+
+<p>Furthermore, passengers on aeroplanes are not immune to such outbursts. 'Air rage,' as it is known, is typically directed at members of the cabin crew. It is not uncommon for passengers who <strong>lose their composure</strong> mid-flight to have consumed excessive amounts of alcohol in airport bars, thereby <strong>predisposing themselves to belligerence</strong> upon boarding the aircraft. Such acts of aggression pose a significant safety risk in the confined environment of an aeroplane, necessitating the use of restraints.</p>
+
+<p>Ultimately, the onus is on each individual to cultivate strategies for managing their anger. To that end, one might consider employing simple techniques such as taking a deep breath and <strong>exercising restraint</strong> in the face of provocation. <strong>Self-regulation</strong> is key to maintaining a harmonious and civil society.</p>`,
+    translationC1: `<p>Hozirgi jamiyatda gʻazabning chastotasi yoki hech boʻlmaganda tashqi koʻrinishi sezilarli darajada <strong>keng tarqalayotgandek</strong> tuyuladi. <strong>Nazoratsiz gʻazab</strong> holatlari tobora koʻp uchrayotgandek, hatto ingliz tilidagi leksikon ham bu kuchli hissiyotning oʻziga xos koʻrinishlarini belgilovchi bir qator iboralarni oʻz ichiga oldi.</p>
+
+<p>Ehtimol, bu yangi nomlangan gʻazablarning birinchisi "yoʻl gʻazabi" boʻlgan, bu atama boshqa haydovchilar yoki piyodalarning harakatlaridan <strong>jahlga kelgan</strong> va hissiyotlarining nazoratdan butunlay chiqib ketishiga yoʻl qoʻygan haydovchilarning <strong>jilovsiz</strong> gʻazabini anglatadi. Bu koʻpincha gumondorlarga qaratilgan baland ovozli portlashlar va tahdidli imo-ishoralar shaklida namoyon boʻladi. Ayrim hollarda bunday shaxslar shunchalik <strong>gʻazabga toʻlib ketadiki</strong>, ular jismoniy zoʻravonlikka murojaat qilishadi, haydovchilarning <strong>gʻazab holatiga tushib qolishi</strong> va oʻlimga olib kelishi bilan bogʻliq fojiali holatlar mavjud. Bu osonlikcha gʻazablanadigan odamlarning <strong>oʻchini yoqish</strong> uchun hatto qonuniy boʻlgan oʻzib ketish manevri ham yetarli boʻlishi mumkin.</p>
+
+<p>Afsuski, huquqni muhofaza qilish organlari ba'zan g'azab boshqariladigan darajadan oshib ketgan holatlarni hal qilish uchun shaxsiy uylarga chaqiriladi. Eng og'ir holatlarda, <strong>impulsni nazorat qila olmaydigan</strong> shaxslar sheriklariga nisbatan oilaviy zo'ravonlik harakatlarini sodir etishlari mumkin. Bu ko'pincha oilaning buzilishiga va ba'zi hollarda aybdor shaxsning qamoqqa olinishiga olib keladi.</p>
+
+<p>Supermarketning go'yoki zararsiz muhiti ham g'azab uchun <strong>unumdor zamin</strong> bo'lishi mumkin. Kassalarda uzoq navbatlar tufayli yuzaga keladigan umidsizlik ko'pincha <strong>to'lib toshadi</strong> va "arava g'azabi" deb ataladigan narsaga olib keladi. Bu xarid aravachalarining boshqa xaridorlar bilan ataylab to'qnashuvini o'z ichiga oladi, ba'zan esa jismoniy shikastlanishga olib keladi. <strong>Bunday xatti-harakatlar</strong> sabrsizlik va boshqalarga nisbatan e'tiborsizlikning keng tarqalgan ijtimoiy tendentsiyasidan dalolat beradi.</p>
+
+<p>Bundan tashqari, samolyotdagi yo'lovchilar ham bunday g'azabdan himoyalanmagan. "Havo g'azabi" deb nomlanuvchi bu odatda kabina ekipaji a'zolariga qaratilgan. Parvoz davomida <strong>xotirjamligini yo'qotgan</strong> yo'lovchilarning aeroport barlarida haddan tashqari ko'p miqdorda spirtli ichimliklar iste'mol qilganligi, shu bilan samolyotga chiqishda <strong>janjalkashlikka moyil bo'lishi</strong> odatiy hol emas. Bunday tajovuzkor harakatlar samolyotning tor muhitida xavfsizlik uchun jiddiy xavf tug'diradi va cheklovlardan foydalanishni talab qiladi.</p>
+
+<p>Oxir oqibat, har bir shaxsning zimmasida o'z g'azabini boshqarish strategiyalarini ishlab chiqish mas'uliyati turadi. Shu maqsadda, g'azablanishga duch kelganda chuqur nafas olish va <strong>o'zini tutish</strong> kabi oddiy usullardan foydalanish mumkin. <strong>O'z-o'zini tartibga solish</strong> uyg'un va fuqarolik jamiyatini saqlashning kalitidir.</p>`,
+    vocabularyC1: {
+        "pervading": {
+                "definition": "Spreading through or present in every part of something.",
+                "uzbek": "Tarqalgan, hamma joyda mavjud bo'lgan",
+                "example": "A sense of unease was pervading the atmosphere.",
+                "exampleUzbek": "Bezovtalik hissi muhitga tarqalgan edi."
+        },
+        "uncontrolled fury": {
+                "definition": "Extreme anger that is not restrained or managed.",
+                "uzbek": "Nazorat qilib bo'lmaydigan g'azab",
+                "example": "His uncontrolled fury led him to make rash decisions.",
+                "exampleUzbek": "Uning nazorat qilib bo'lmaydigan g'azabi uni shoshqaloqlik bilan qaror qabul qilishga olib keldi."
+        },
+        "unbridled": {
+                "definition": "Uncontrolled; lacking in restraint.",
+                "uzbek": "Jilovlanmagan, nazorat qilinmagan",
+                "example": "Her unbridled enthusiasm was infectious.",
+                "exampleUzbek": "Uning jilovlanmagan ishtiyoqi yuqumli edi."
+        },
+        "consumed by wrath": {
+                "definition": "Completely filled with anger.",
+                "uzbek": "G'azab bilan to'lgan",
+                "example": "He was consumed by wrath after being betrayed.",
+                "exampleUzbek": "U xiyonatdan keyin g'azab bilan to'lgan edi."
+        },
+        "succumbing to a berserk state": {
+                "definition": "Losing control and becoming violently destructive.",
+                "uzbek": "Berserk holatga tushib qolish",
+                "example": "The warrior succumbed to a berserk state in the heat of battle.",
+                "exampleUzbek": "Jangchi jang qizig'ida berserk holatga tushib qoldi."
+        },
+        "ignite the fuse": {
+                "definition": "To trigger or provoke a strong reaction, especially anger.",
+                "uzbek": "Pillikni yoqish",
+                "example": "His careless remark ignited the fuse and started an argument.",
+                "exampleUzbek": "Uning beparvo izohi pillikni yoqib yubordi va bahsni boshlab yubordi."
+        },
+        "poor impulse control": {
+                "definition": "Difficulty in controlling one's immediate reactions or desires.",
+                "uzbek": "Impulslarni nazorat qila olmaslik",
+                "example": "His poor impulse control often got him into trouble.",
+                "exampleUzbek": "Uning impulslarni nazorat qila olmasligi uni ko'pincha muammoga olib kelardi."
+        },
+        "breeding ground": {
+                "definition": "A place or situation where something develops easily.",
+                "uzbek": "O'sish joyi, urchish joyi",
+                "example": "Poverty is a breeding ground for crime.",
+                "exampleUzbek": "Qashshoqlik jinoyatchilikning o'sish joyidir."
+        },
+        "boils over": {
+                "definition": "When a negative emotion becomes too strong to contain and is expressed openly.",
+                "uzbek": "Toshadi, sabr kosasi to'ladi",
+                "example": "Her frustration finally boiled over and she started to cry.",
+                "exampleUzbek": "Uning umidsizlik hissi nihoyat toshdi va u yig'lay boshladi."
+        },
+        "such behaviour is indicative of": {
+                "definition": "This kind of action or conduct shows or suggests something.",
+                "uzbek": "Bunday xatti-harakatlar nimani ko'rsatadi",
+                "example": "Such behaviour is indicative of a deeper problem.",
+                "exampleUzbek": "Bunday xatti-harakatlar chuqurroq muammoni ko'rsatadi."
+        },
+        "lose their composure": {
+                "definition": "To become unable to think clearly or control your feelings.",
+                "uzbek": "O'zini tuta olmaslik",
+                "example": "He lost his composure under the pressure of the interview.",
+                "exampleUzbek": "U intervyu bosimi ostida o'zini tuta olmadi."
+        },
+        "predisposing themselves to belligerence": {
+                "definition": "Making someone likely to be aggressive or hostile.",
+                "uzbek": "O'zlarini janjalkashlikka moyil qilish",
+                "example": "The alcohol was predisposing him to belligerence.",
+                "exampleUzbek": "Alkogol uni janjalkashlikka moyil qilib qo'ygan edi."
+        },
+        "exercising restraint": {
+                "definition": "Showing control over your emotions or behavior.",
+                "uzbek": "O'zini tutish",
+                "example": "He showed great restraint in the face of provocation.",
+                "exampleUzbek": "U g'azablantiruvchi holatda o'zini juda yaxshi tutdi."
+        },
+        "self-regulation": {
+                "definition": "The ability to control one's own behavior and emotions.",
+                "uzbek": "O'z-o'zini tartibga solish",
+                "example": "Self-regulation is important for success in life.",
+                "exampleUzbek": "O'z-o'zini tartibga solish hayotda muvaffaqiyatga erishish uchun muhimdir."
+        },
+        "perceptible": {
+                "definition": "Able to be noticed or felt.",
+                "uzbek": "Sezilarli",
+                "example": "There was a perceptible change in his attitude.",
+                "exampleUzbek": "Uning munosabatida sezilarli o'zgarish bor edi."
+        }
+}
 };

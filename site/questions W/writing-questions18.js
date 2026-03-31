@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Cinema good. Film good. Tickets... okay. Staff nice. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>The movie was good! I liked it. The tickets were okay, but a little slow. The people who work there were nice and helped me. I think the cinema is good, but maybe cheaper tickets? See you later!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>What did you think of the movie yesterday? I thought it was great! The cinema sent me an email asking for feedback. I think the ticket prices are a bit expensive. Also, the queue was quite long. However, the staff were very friendly and helpful. I think they should make the ticket buying process faster. Let me know what you thought!<br>See you soon,</p>",
-      "sampleB2": "<p>Hi [Friend's Name],<br>Hope you're doing well! I was just thinking about the cinema trip yesterday – that film was brilliant! The cinema sent me a feedback request, and it got me thinking about the whole experience. While the staff were incredibly helpful and polite, I felt the ticket prices were a little steep, especially considering the online booking system was a bit clunky. Perhaps they could invest in a more streamlined interface. Also, maybe some more comfortable seating? Anyway, what were your impressions? Let me know when you're free to catch another film!<br>Best,</p>"
+      "sampleB2": "<p>Hi [Friend's Name],<br>Hope you're doing well! I was just thinking about the cinema trip yesterday – that film was brilliant! The cinema sent me a feedback request, and it got me thinking about the whole experience. While the staff were incredibly helpful and polite, I felt the ticket prices were a little steep, especially considering the online booking system was a bit clunky. Perhaps they could invest in a more streamlined interface. Also, maybe some more comfortable seating? Anyway, what were your impressions? Let me know when you're free to catch another film!<br>Best,</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Kecha ajoyib kino edi! Kinoteatrdan menga fikr-mulohaza so'rab elektron xat keldi. Menimcha, chipta narxlari biroz qimmat va onlayn bron qilish osonroq bo'lishi mumkin. Ammo xodimlar juda mehribon edilar! Senga bu tajriba qanday ta'sir qildi?</p>\n<p>Tez orada yana boramiz!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Kino yaxshi. Film yaxshi. Biletlar... yaxshi. Xodimlar yaxshi. Xayr.</p>",
+      "uzSampleA2": "<p>Salom [Do'stingizning ismi],<br>Kino yaxshi edi! Menga yoqdi. Chiptalar yaxshi edi, lekin biroz sekin. U yerda ishlaydigan odamlar yaxshi edi va menga yordam berishdi. Menimcha, kino yaxshi, lekin ehtimol chiptalar arzonroq bo'lsa yaxshi bo'lardi? Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Kecha ko'rgan kinomiz haqida nima deb o'ylaysan? Menimcha, juda zo'r edi! Kinoteatr menga fikr-mulohazalarimni so'rab elektron pochta orqali xabar yubordi. Menimcha, chipta narxlari biroz qimmat. Shuningdek, navbat juda uzun edi. Biroq, xodimlar juda do'stona va yordam berishga tayyor edilar. Menimcha, ular chipta sotib olish jarayonini tezlashtirishlari kerak. Sen nima deb o'ylaganingni menga ayt!<br>Tez orada ko'rishguncha,</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Yaxshi yuribsan degan umiddaman! Kecha kinoga borganimiz haqida o'ylab qoldim – film juda zo'r edi! Kinoteatrdan fikr-mulohazalar so'rashdi va bu menga butun tajriba haqida o'ylashga undadi. Xodimlar juda yordamchi va xushmuomala bo'lishiga qaramay, chipta narxlari biroz qimmatdek tuyuldi, ayniqsa onlayn bron qilish tizimi biroz noqulay edi. Ehtimol, ular yanada soddalashtirilgan interfeysga sarmoya kiritishlari mumkin. Yana, balki biroz qulayroq o'rindiqlar ham bo'lishi kerakdir? Umuman olganda, sening taassurotlaring qanday bo'ldi? Yana bir filmga tushishga vaqting bo'lsa, xabar ber!<br>Eng yaxshi tilaklar bilan,</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Cinema,<br>Tickets ok. Staff good. More popcorn please.<br>Bye</p>",
       "sampleA2": "<p>Hello Cinema,<br>I went to the cinema. The tickets were easy to buy and the staff were nice. But the popcorn is expensive and I want more films for children because I have children. Thank you.</p>",
       "sampleB1": "<p>Dear Cinema Management,<br><br>Thank you for your email. I want to tell you about my visit. The tickets were easy to buy, so that was good. The staff were also very helpful and friendly, which I liked. <br><br>However, I think the cinema could be better. For example, the seats are not very comfortable. Also, the prices of drinks are too high. In my opinion, if you made these changes, more people would come to the cinema. Thank you for listening.<br><br>Sincerely,<br>A Customer</p>",
-      "sampleB2": "<p>Dear Cinema Management,<br><br>Thank you for the opportunity to provide feedback on my recent visit to your cinema. Overall, I had a positive experience, but there are a few areas I believe could be improved.<br><br>The ticket-buying process was generally efficient, although the queue at the counter was quite long. Perhaps more self-service kiosks would alleviate this issue. The staff were indeed courteous and helpful, readily assisting with directions and inquiries.<br><br>In terms of improvements, I would suggest considering upgrading the sound system. During my film, the audio quality was somewhat inconsistent. Furthermore, offering a wider variety of films, particularly independent or foreign films, could attract a more diverse audience. Finally, providing more accessible parking options would certainly be appreciated by many patrons.<br><br>Thank you for your attention to these matters. I look forward to seeing the cinema continue to improve.<br><br>Yours sincerely,<br>A Regular Cinema-Goer</p>"
+      "sampleB2": "<p>Dear Cinema Management,<br><br>Thank you for the opportunity to provide feedback on my recent visit to your cinema. Overall, I had a positive experience, but there are a few areas I believe could be improved.<br><br>The ticket-buying process was generally efficient, although the queue at the counter was quite long. Perhaps more self-service kiosks would alleviate this issue. The staff were indeed courteous and helpful, readily assisting with directions and inquiries.<br><br>In terms of improvements, I would suggest considering upgrading the sound system. During my film, the audio quality was somewhat inconsistent. Furthermore, offering a wider variety of films, particularly independent or foreign films, could attract a more diverse audience. Finally, providing more accessible parking options would certainly be appreciated by many patrons.<br><br>Thank you for your attention to these matters. I look forward to seeing the cinema continue to improve.<br><br>Yours sincerely,<br>A Regular Cinema-Goer</p>",
+      "uzSample": "<p>Hurmatli Kino Ma'muriyati,</p>\n\n<p>Fikrimni so'raganingiz uchun rahmat. Kecha sizning kinoteatringizga tashrif buyurdim va umuman olganda yaxshi taassurot oldim.</p>\n\n<p>Avvalo, chipta sotib olish jarayoni nisbatan muammosiz kechdi, lekin men onlayn bron qilish tizimini yaxshilashni taklif qilaman. U yanada qulay va o'rindiqlarni tanlash imkoniyatlari aniqroq bo'lishi mumkin edi.</p>\n\n<p>Bundan tashqari, xodimlaringiz juda xushmuomala va yordam berishga tayyor edilar. Ular bizni o'z o'rindiqlarimizga samarali yo'naltirishdi va savollarimizga tabassum bilan javob berishdi.</p>\n\n<p>Biroq, men arzonroq gazaklar variantlarini ko'rib chiqishni tavsiya qilaman. Bufetdagi narxlar juda yuqori, bu oilalarni ichimliklar va yeguliklar sotib olishdan qaytarishi mumkin.</p>\n\n<p>Bundan tashqari, qo'shimcha oyoq uchun joyi bo'lgan qulayroq o'rindiqlarni qo'shish tomosha qilish tajribasini sezilarli darajada yaxshilaydi.</p>\n\n<p>Mijozlar ehtiyojini qondirishga bo'lgan sadoqatingiz uchun tashakkur.</p>\n\n<p>Eng yaxshi tilaklar bilan,<br>Kino Ishqibozi</p>",
+      "uzSampleA1": "<p>Salom Kino,<br>Biletlar yaxshi. Xodimlar yaxshi. Iltimos, ko'proq popkorn bo'lsin.<br>Xayr</p>",
+      "uzSampleA2": "<p>Salom, Kino!<br>Men kinoga bordim. Chiptalarni sotib olish oson edi va xodimlar yaxshi edi. Lekin popkorn qimmat va men bolalar uchun ko'proq filmlar bo'lishini xohlayman, chunki mening bolalarim bor. Rahmat.</p>",
+      "uzSampleB1": "<p>Hurmatli Kino Ma'muriyati,<br><br>Elektron pochtangiz uchun rahmat. Men sizga tashrifim haqida aytmoqchiman. Chiptalarni sotib olish oson edi, bu yaxshi. Xodimlar ham juda yordamchi va do'stona edilar, bu menga yoqdi.<br><br>Biroq, menimcha, kino yaxshiroq bo'lishi mumkin. Misol uchun, o'rindiqlar juda qulay emas. Shuningdek, ichimliklar narxi juda yuqori. Mening fikrimcha, agar siz ushbu o'zgarishlarni qilsangiz, kinoga ko'proq odam keladi. E'tiboringiz uchun rahmat.<br><br>Hurmat bilan,<br>Mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli Kino Ma'muriyati,<br><br>Sizning kinoteatringizga yaqinda tashrif buyurganim haqida fikr bildirish imkoniyatini berganingiz uchun rahmat. Umuman olganda, men ijobiy tajribaga ega bo'ldim, lekin menimcha yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud.<br><br>Chipta sotib olish jarayoni odatda samarali edi, garchi kassadagi navbat juda uzun edi. Ehtimol, ko'proq o'z-o'ziga xizmat ko'rsatish kioskalar bu muammoni hal qilishi mumkin. Xodimlar haqiqatan ham xushmuomala va yordam berishga tayyor edilar, yo'nalishlar va so'rovlar bo'yicha yordam berishga tayyor edilar.<br><br>Yaxshilash nuqtai nazaridan, men ovoz tizimini yangilashni ko'rib chiqishni taklif qilaman. Mening filmim davomida audio sifati biroz nomuvofiq edi. Bundan tashqari, filmlarning kengroq assortimentini, xususan, mustaqil yoki xorijiy filmlarni taklif qilish yanada xilma-xil tomoshabinlarni jalb qilishi mumkin. Nihoyat, ko'proq qulay avtoturargoh variantlarini taqdim etish ko'plab homiylar tomonidan albatta qadrlanadi.<br><br>Ushbu masalalarga e'tiboringiz uchun tashakkur. Kinoteatrning yanada yaxshilanishini ko'rishni intiqlik bilan kutaman.<br><br>Hurmat bilan,<br>Doimiy Kino Ishqibozi</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Cinema,</p>\n<p>Tickets good. Staff OK. More popcorn, please. Bye.</p>",
       "sampleA2": "<p>Hello,</p>\n<p>I went to the cinema today. The tickets were easy to buy and it was quick. The staff were nice and they helped me. But the cinema is cold. I think you need to make it warmer. Also, more sweets! Thank you.</p>\n<p>Bye.</p>",
       "sampleB1": "<p>Dear Cinema Management,</p>\n<p>Thank you for your email. I wanted to give you some feedback about my visit today. Buying tickets was quite easy, so that's good. However, I think there could be more staff available at the ticket counter, especially when it's busy.</p>\n<p>The staff were generally polite and helpful, but one person seemed a little bit bored. Maybe they need more training or something.</p>\n<p>To improve the cinema, I suggest you could offer a wider selection of snacks. Also, the seats in the screen I was in were a bit uncomfortable. Maybe new seats would be a good idea. Thanks again.</p>\n<p>Sincerely,<br>A Satisfied Customer</p>",
-      "sampleB2": "<p>Dear Cinema Management,</p>\n<p>Thank you for your follow-up email regarding my recent visit. Overall, I had a positive experience, but I do have a few suggestions that might enhance the customer journey.</p>\n<p>The ticket purchasing process was relatively seamless, although the self-service kiosks could benefit from a more intuitive user interface. Perhaps a redesign focusing on clarity and ease of navigation would be beneficial. Furthermore, offering more detailed information regarding film classifications at the point of purchase would be appreciated.</p>\n<p>The staff were, without exception, courteous and readily available to assist with queries. Their proactive approach to customer service is commendable and contributes significantly to the overall atmosphere.</p>\n<p>In terms of improvements, I believe the cinema could benefit from a more diverse range of film screenings, catering to a broader spectrum of cinematic tastes. Additionally, implementing a loyalty scheme or offering discounted tickets during off-peak hours could incentivize repeat visits. Finally, investing in upgraded sound systems in some of the older screens would undoubtedly elevate the viewing experience.</p>\n<p>Thank you for considering my feedback. I look forward to my next visit.</p>\n<p>Yours sincerely,<br>A Valued Customer</p>"
+      "sampleB2": "<p>Dear Cinema Management,</p>\n<p>Thank you for your follow-up email regarding my recent visit. Overall, I had a positive experience, but I do have a few suggestions that might enhance the customer journey.</p>\n<p>The ticket purchasing process was relatively seamless, although the self-service kiosks could benefit from a more intuitive user interface. Perhaps a redesign focusing on clarity and ease of navigation would be beneficial. Furthermore, offering more detailed information regarding film classifications at the point of purchase would be appreciated.</p>\n<p>The staff were, without exception, courteous and readily available to assist with queries. Their proactive approach to customer service is commendable and contributes significantly to the overall atmosphere.</p>\n<p>In terms of improvements, I believe the cinema could benefit from a more diverse range of film screenings, catering to a broader spectrum of cinematic tastes. Additionally, implementing a loyalty scheme or offering discounted tickets during off-peak hours could incentivize repeat visits. Finally, investing in upgraded sound systems in some of the older screens would undoubtedly elevate the viewing experience.</p>\n<p>Thank you for considering my feedback. I look forward to my next visit.</p>\n<p>Yours sincerely,<br>A Valued Customer</p>",
+      "uzSample": "<h2>Uy vazifasi bahsi: Yordammi yoki to'siq?</h2>\n\n<p>Uy vazifasi avlodlar davomida ta'limning <br>asosiy qismi bo'lib kelgan. <br>Biroq, uning samaradorligi o'qituvchilar va ota-onalar o'rtasida <br>munozara mavzusi bo'lib qolmoqda.</p>\n\n<p><br>Tarafdorlar uy vazifasi <br>sinfda o'rganilgan bilimlarni mustahkamlaydi va o'quvchilarga <br>mustaqil o'qish ko'nikmalarini rivojlantirishga yordam beradi, deb ta'kidlaydilar. <br>Uyda muntazam mashq qilish matematika va tillar kabi fanlarni tushunish va eslab qolishni <br>sezilarli darajada yaxshilashi mumkin.</p>\n\n<p><br>Bundan tashqari, uy vazifasi <br>vaqtni boshqarish va mas'uliyatni o'rgatadi. <br>O'quvchilar vazifalarni ustuvorlashtirishni va belgilangan muddatlarga rioya qilishni o'rganadilar – bu ko'nikmalar <br>katta hayotda beqiyosdir.</p>\n\n<p><br>Biroq, tanqidchilar <br>haddan tashqari ko'p uy vazifasi <br>stress va charchashga olib kelishi mumkinligini ta'kidlaydilar. <br>Bolalarga <br>jismoniy faoliyat, sevimli mashg'ulotlar va oilaviy muloqot uchun vaqt kerak. <br>Haddan tashqari ko'p uy vazifasi <br>o'rganishga bo'lgan ishtiyoqni <br>haqiqatan ham kamaytirishi mumkin.</p>\n\n<p><br>Bundan tashqari, barcha o'quvchilarning ham <br>uy sharoitlari o'qish uchun bir xilda qulay emas, bu esa <br>adolatsiz kamchiliklarni yaratishi mumkin.</p>\n\n<p><br>Oxir oqibat, miqdordan ko'ra <br>sifat muhimroq. <br>Yaxshi ishlab chiqilgan, <br>maqsadli topshiriqlar <br>o'rganishni yaxshilashi mumkin, aqlsiz takrorlash esa unchalik ahamiyatga ega emas. <br>Muvozanatli yondashuv muhim.</p>",
+      "uzSampleA1": "<p>Salom, Kino!</p>\n<p>Chiptalar yaxshi. Xodimlar yaxshi. Ko'proq popkorn, iltimos. Xayr.</p>",
+      "uzSampleA2": "<p>Salom,</p>\n<p>Men bugun kinoga bordim. Chiptalarni sotib olish oson va tez edi. Xodimlar yaxshi edi va ular menga yordam berishdi. Lekin kinoteatr sovuq. O'ylashimcha, uni issiqroq qilishingiz kerak. Yana, ko'proq shirinliklar! Rahmat.</p>\n<p>Xayr.</p>",
+      "uzSampleB1": "<p>Hurmatli Kino Ma'muriyati,</p>\n<p>Elektron pochtangiz uchun rahmat. Bugungi tashrifim haqida ba'zi fikr-mulohazalarimni bildirmoqchiman. Chipta sotib olish juda oson bo'ldi, bu yaxshi. Biroq, menimcha, chipta kassasida ko'proq xodimlar bo'lishi kerak, ayniqsa gavjum paytlarda.</p>\n<p>Xodimlar odatda xushmuomala va yordam beruvchi edilar, lekin bir kishi biroz zerikkan ko'rinardi. Ehtimol, ularga ko'proq trening kerakdir yoki shunga o'xshash narsa.</p>\n<p>Kinoteatrni yaxshilash uchun siz ko'proq turdagi gazaklar taklif qilishingiz mumkinligini taklif qilaman. Shuningdek, men bo'lgan ekrandagi o'rindiqlar biroz noqulay edi. Ehtimol, yangi o'rindiqlar yaxshi fikr bo'lar edi. Yana bir bor rahmat.</p>\n<p>Hurmat bilan,<br>Mamnun Mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli Kino Ma'muriyati,</p>\n<p>Yaqinda tashrifim bo'yicha kuzatuv xatingiz uchun rahmat. Umuman olganda, ijobiy tajribaga ega bo'ldim, lekin mijozlar tajribasini yaxshilashi mumkin bo'lgan bir nechta takliflarim bor.</p>\n<p>Chipta sotib olish jarayoni nisbatan muammosiz kechdi, garchi o'z-o'ziga xizmat ko'rsatish kiosklari yanada intuitiv foydalanuvchi interfeysidan foyda ko'rishi mumkin. Ehtimol, aniqlik va navigatsiya qulayligiga qaratilgan qayta dizayn foydali bo'lar edi. Bundan tashqari, xarid qilish vaqtida film tasniflari haqida batafsilroq ma'lumot berish qadrlanadi.</p>\n<p>Xodimlar, istisnosiz, xushmuomala va so'rovlar bo'yicha yordam berishga tayyor edilar. Ularning mijozlarga xizmat ko'rsatishga faol yondashuvi maqtovga sazovor va umumiy muhitga sezilarli hissa qo'shadi.</p>\n<p>Yaxshilash nuqtai nazaridan, menimcha, kino turli xil kinotomoshabinlarning didiga mos keladigan filmlar namoyishini ko'paytirishdan foyda ko'rishi mumkin. Bundan tashqari, sodiqlik sxemasini joriy etish yoki eng kam soatlarda chegirmali chiptalar taklif qilish qayta tashriflarni rag'batlantirishi mumkin. Nihoyat, eski ekranlarning ba'zilarida yangilangan ovoz tizimlariga sarmoya kiritish, shubhasiz, tomosha qilish tajribasini oshiradi.</p>\n<p>Fikrimni ko'rib chiqqaningiz uchun tashakkur. Keyingi tashrifimni intiqlik bilan kutaman.</p>\n<p>Hurmat bilan,<br>Qadrdon Mijoz</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,191 @@ window.WRITING_TEST_DATA = {
         "uz": "ma'nosiz takrorlash"
       }
     ]
+  },
+  "tokenTranslations": {
+    "great movie": {
+      "uz": "zo'r kino",
+      "type": "colloc"
+    },
+    "feedback email": {
+      "uz": "fikr-mulohaza xati",
+      "type": "colloc"
+    },
+    "ticket prices": {
+      "uz": "chipta narxlari",
+      "type": "colloc"
+    },
+    "online booking": {
+      "uz": "onlayn bron qilish",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "overall": {
+      "uz": "umuman",
+      "type": "adv"
+    },
+    "enjoyable experience": {
+      "uz": "yoqimli tajriba",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "ticket-buying process": {
+      "uz": "chita sotib olish jarayoni",
+      "type": "colloc"
+    },
+    "relatively": {
+      "uz": "nisbatan",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "online booking system": {
+      "uz": "onlayn bron qilish tizimi",
+      "type": "colloc"
+    },
+    "user-friendly": {
+      "uz": "foydalanuvchilar uchun qulay",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "exceptionally": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "efficiently": {
+      "uz": "samarali",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "affordable snack options": {
+      "uz": "arzon yengil tamaddilar",
+      "type": "colloc"
+    },
+    "concession prices": {
+      "uz": "bufet narxlari",
+      "type": "colloc"
+    },
+    "quite": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "comfortable seating": {
+      "uz": "qulay o'rindiqlar",
+      "type": "colloc"
+    },
+    "greatly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "dedication": {
+      "uz": "sadoqat",
+      "type": "colloc"
+    },
+    "fundamental part": {
+      "uz": "asosiy qism",
+      "type": "colloc"
+    },
+    "topic of debate": {
+      "uz": "munozara mavzusi",
+      "type": "colloc"
+    },
+    "Supporters": {
+      "uz": "Tarafdorlar",
+      "type": "colloc"
+    },
+    "classroom learning": {
+      "uz": "sinfda ta'lim olish",
+      "type": "colloc"
+    },
+    "independent study skills": {
+      "uz": "mustaqil o'qish ko'nikmalari",
+      "type": "colloc"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "Moreover": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "time management": {
+      "uz": "vaqtni boshqarish",
+      "type": "colloc"
+    },
+    "invaluable": {
+      "uz": "beqiyos",
+      "type": "adv"
+    },
+    "excessive homework": {
+      "uz": "haddan tashqari uy vazifasi",
+      "type": "colloc"
+    },
+    "stress and burnout": {
+      "uz": "stress va charchash",
+      "type": "colloc"
+    },
+    "physical activities": {
+      "uz": "jismoniy faoliyat",
+      "type": "colloc"
+    },
+    "actually": {
+      "uz": "aslida",
+      "type": "adv"
+    },
+    "enthusiasm for learning": {
+      "uz": "o'rganishga ishtiyoq",
+      "type": "colloc"
+    },
+    "home environments": {
+      "uz": "uy muhiti",
+      "type": "colloc"
+    },
+    "unfair disadvantages": {
+      "uz": "adolatsiz kamchiliklar",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "quality matters": {
+      "uz": "sifat muhim",
+      "type": "colloc"
+    },
+    "purposeful assignments": {
+      "uz": "maqsadli topshiriqlar",
+      "type": "colloc"
+    }
   }
 };

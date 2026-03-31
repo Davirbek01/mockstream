@@ -38,37 +38,35 @@
     }
 
     .back-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 1.5rem auto 2rem;
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       color: #fff;
       text-decoration: none;
-      padding: 10px 18px;
+      padding: 12px 28px;
       border-radius: 50px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
       transition: all 0.3s ease;
-      z-index: 100;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-
+    .back-btn-wrap {
+      text-align: center;
+    }
     .back-btn:hover {
       background: rgba(255, 255, 255, 0.25);
-      transform: translateX(-3px);
+      transform: translateY(-2px);
     }
 
     /* Mobile - minimize back button, hide download PDF */
     @media (max-width: 768px) {
       .back-btn {
-        padding: 8px 12px;
-        font-size: 16px;
-        top: 12px;
-        left: 12px;
-      }
-      .back-btn span {
-        display: none;
+        padding: 10px 24px;
+        font-size: 14px;
       }
       .download-pdf-btn {
         display: none !important;
@@ -76,25 +74,7 @@
     }
 
     .download-pdf-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #10b981, #059669);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.3s ease;
-      z-index: 100;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, .3);
+      display: none !important;
     }
 
     .download-pdf-btn:hover {
@@ -143,12 +123,12 @@
     }
 
     .header h1 {
-      font-size: clamp(28px, 5vw, 42px);
-      font-weight: 800;
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 700;
       color: #ffffff;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .2);
       letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
 
     .progress-bar {
@@ -262,6 +242,58 @@
       opacity: 0.8;
     }
 
+    .gtts-speak-btn {
+      margin-top: 18px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      position: relative;
+    }
+
+    .gtts-speak-btn:hover {
+      transform: scale(1.12);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .gtts-speak-btn:active {
+      transform: scale(0.95);
+    }
+
+    .gtts-speak-btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .gtts-speak-btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: gtts-spin 0.8s linear infinite;
+    }
+
+    .gtts-speak-btn.playing {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    @keyframes gtts-spin {
+      to { transform: rotate(360deg); }
+    }
+
     .def {
       max-width: 58ch;
       animation: fadeIn 0.6s ease 0.1s both;
@@ -283,7 +315,17 @@
       color: var(--text-accent);
       font-size: clamp(17px, 3.8vw, 24px);
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .def .uz-def {
+      display: block;
+      font-style: italic;
+      color: #94a3b8;
+      font-size: clamp(12px, 2.8vw, 15px);
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+      line-height: 1.4;
     }
 
     .ex {
@@ -399,11 +441,7 @@
 
     /* Brand styling */
     .brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 0.75rem;
+      display: none !important;
     }
 
     .logo {
@@ -507,10 +545,6 @@
 </head>
 
 <body>
-  <a href="landing.html?openModal=flashcards" class="back-btn" title="Back to Flashcard Selection"
-    onclick="goBack(); return false;">
-    ← <span>Home</span>
-  </a>
   <button class="download-pdf-btn" id="downloadPdfBtn" title="Download as PDF">
     <svg viewBox="0 0 24 24">
       <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" />
@@ -539,6 +573,7 @@
       <div class="card front" role="button" aria-label="Front of flashcard">
         <div class="face">
           <div class="idiom" id="frontText">Loading…</div>
+          <button class="gtts-speak-btn" id="gttsBtn" onclick="event.stopPropagation(); speakCurrentCard();" title="Listen (GTTS)">🔊</button>
         </div>
       </div>
       <div class="card back" role="button" aria-label="Back of flashcard">
@@ -546,6 +581,7 @@
           <div class="def" id="backText">
             <b></b>
             <em></em>
+            <small class="uz-def"></small>
             <div class="ex" id="example"><strong></strong></div>
           </div>
         </div>
@@ -564,6 +600,14 @@
       Next <span>→</span>
     </button>
   </div>
+
+  <div class="back-btn-wrap">
+    <a href="landing.html?openModal=flashcards" class="back-btn" title="Back to Flashcard Selection"
+      onclick="goBack(); return false;">
+      ← Home
+    </a>
+  </div>
+
   <!-- Load global settings from speaking mock -->
   <script src="questions S/questions.js"></script>
   <script>
@@ -574,6 +618,13 @@
     // Get topic from URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const topic = urlParams.get('topic') || 'idioms01';
+
+    // Parse available levels for level switching
+    let availableLevels = null;
+    try {
+      const levelsParam = urlParams.get('levels');
+      if (levelsParam) availableLevels = JSON.parse(levelsParam);
+    } catch(e) {}
 
     // Dynamically load the flashcard JS file
     const script = document.createElement('script');
@@ -589,6 +640,117 @@
     let CARDS = [];
     let index = 0;
     let flipped = false;
+
+    // GTTS Audio
+    const GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
+    let gttsCache = {};
+    let gttsCurrentAudio = null;
+
+    async function speakCurrentCard() {
+      const c = CARDS[index % CARDS.length];
+      const text = c.i || c.word || c.verb || c.term || '';
+      if (!text) return;
+
+      const btn = document.getElementById('gttsBtn');
+
+      // If already playing, stop
+      if (gttsCurrentAudio && !gttsCurrentAudio.paused) {
+        gttsCurrentAudio.pause();
+        gttsCurrentAudio.currentTime = 0;
+        gttsCurrentAudio = null;
+        btn.classList.remove('playing', 'loading');
+        btn.innerHTML = '🔊';
+        return;
+      }
+
+      // Check cache
+      if (gttsCache[text]) {
+        playGttsBlob(gttsCache[text], btn);
+        return;
+      }
+
+      // Fetch from GTTS server
+      btn.classList.add('loading');
+      btn.innerHTML = '';
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+        const response = await fetch(GTTS_SERVER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phrase: text }),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) throw new Error('Server error: ' + response.status);
+
+        const blob = await response.blob();
+
+        // Check if it's a ZIP (contains multiple mp3) or direct audio
+        if (blob.type === 'application/zip' || blob.type === 'application/octet-stream') {
+          // Load JSZip if needed
+          if (typeof JSZip === 'undefined') {
+            await new Promise((resolve, reject) => {
+              const s = document.createElement('script');
+              s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+              s.onload = resolve;
+              s.onerror = reject;
+              document.head.appendChild(s);
+            });
+          }
+          const zip = await JSZip.loadAsync(blob);
+          const mp3File = Object.keys(zip.files).find(f => f.endsWith('.mp3'));
+          if (mp3File) {
+            const audioBlob = await zip.files[mp3File].async('blob');
+            gttsCache[text] = audioBlob;
+            playGttsBlob(audioBlob, btn);
+          } else {
+            throw new Error('No audio in response');
+          }
+        } else {
+          // Direct audio blob
+          gttsCache[text] = blob;
+          playGttsBlob(blob, btn);
+        }
+      } catch (err) {
+        console.warn('GTTS failed, no fallback:', err);
+        btn.classList.remove('loading');
+        btn.innerHTML = '🔊';
+      }
+    }
+
+    function playGttsBlob(blob, btn) {
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.volume = 1.0;
+      gttsCurrentAudio = audio;
+
+      btn.classList.remove('loading');
+      btn.classList.add('playing');
+      btn.innerHTML = '⏹️';
+
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        gttsCurrentAudio = null;
+        btn.classList.remove('playing');
+        btn.innerHTML = '🔊';
+      };
+
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        gttsCurrentAudio = null;
+        btn.classList.remove('playing');
+        btn.innerHTML = '🔊';
+      };
+
+      audio.play().catch(() => {
+        btn.classList.remove('playing');
+        btn.innerHTML = '🔊';
+      });
+    }
 
     const cardContainer = document.getElementById('cardContainer');
     const frontText = document.getElementById('frontText');
@@ -671,7 +833,16 @@
         frontText.textContent = frontContent;
       }
       backText.querySelector('b').textContent = c.en || '';
-      backText.querySelector('em').textContent = c.uz ? '(' + c.uz + ')' : '';
+      if (c.en) {
+        backText.querySelector('em').textContent = c.uz ? '(' + c.uz + ')' : '';
+      } else {
+        backText.querySelector('em').textContent = c.uz || '';
+      }
+      // Show uzDef (brief Uzbek definition) below uz equivalent
+      const uzDefEl = backText.querySelector('.uz-def');
+      if (uzDefEl) {
+        uzDefEl.textContent = c.uzDef ? '(' + c.uzDef + ')' : '';
+      }
 
       // Parse example: check for separate exUz field first, then inline (Uzbek) format
       const exampleText = c.ex || '';
@@ -700,6 +871,7 @@
     }
 
     function nextCard() {
+      stopGttsIfPlaying();
       index = (index + 1) % CARDS.length;
       flipped = false;
       cardContainer.classList.remove('flipped');
@@ -707,10 +879,24 @@
     }
 
     function prevCard() {
+      stopGttsIfPlaying();
       index = (index - 1 + CARDS.length) % CARDS.length;
       flipped = false;
       cardContainer.classList.remove('flipped');
       render();
+    }
+
+    function stopGttsIfPlaying() {
+      if (gttsCurrentAudio && !gttsCurrentAudio.paused) {
+        gttsCurrentAudio.pause();
+        gttsCurrentAudio.currentTime = 0;
+        gttsCurrentAudio = null;
+      }
+      const btn = document.getElementById('gttsBtn');
+      if (btn) {
+        btn.classList.remove('playing', 'loading');
+        btn.innerHTML = '🔊';
+      }
     }
 
     function flipCard() {
@@ -950,8 +1136,18 @@
           doc.setTextColor(...lightTextColor);
           doc.setFont('helvetica', 'italic');
           doc.setFontSize(8);
-          const uzLines = doc.splitTextToSize(`(${card.uz})`, cardWidth - 8);
+          const uzDisplay = card.en ? `(${card.uz})` : card.uz;
+          const uzLines = doc.splitTextToSize(uzDisplay, cardWidth - 8);
           doc.text(uzLines[0] || '', x + 4, y + 34);
+        }
+
+        // Uzbek definition
+        if (card.uzDef) {
+          doc.setTextColor(140, 160, 180);
+          doc.setFont('helvetica', 'italic');
+          doc.setFontSize(7);
+          const uzDefLines = doc.splitTextToSize(`(${card.uzDef})`, cardWidth - 8);
+          doc.text(uzDefLines.slice(0, 2).join('\n'), x + 4, y + 39);
         }
 
         // Example (truncated)
@@ -1147,6 +1343,18 @@
               color: white;
               box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             ">✓ Continue Learning</button>
+            ${availableLevels ? `<button id="leaveSwitchLevelBtn" style="
+              padding: 14px 35px;
+              border: 2px solid #0f766e;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #0f766e, #134e4a);
+              color: #5eead4;
+              box-shadow: 0 4px 15px rgba(15, 118, 110, 0.3);
+            ">🔄 Switch Level</button>` : ''}
             <button id="leaveConfirmBtn" style="
               padding: 14px 35px;
               border: 2px solid #475569;
@@ -1175,6 +1383,11 @@
           border-color: #64748b;
           color: #e2e8f0;
         }
+        #leaveSwitchLevelBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4);
+          background: linear-gradient(135deg, #14b8a6, #0f766e);
+        }
       </style>
     `;
 
@@ -1183,6 +1396,14 @@
         document.getElementById('leaveStayBtn').addEventListener('click', function () {
           hideLeaveWarningModal();
         });
+
+        const switchBtn = document.getElementById('leaveSwitchLevelBtn');
+        if (switchBtn) {
+          switchBtn.addEventListener('click', function () {
+            hideLeaveWarningModal();
+            showLevelSwitcher();
+          });
+        }
 
         document.getElementById('leaveConfirmBtn').addEventListener('click', function () {
           window.__okToLeave = true;
@@ -1221,6 +1442,124 @@
       function hideLeaveWarningModal() {
         const modal = document.getElementById('leaveWarningModal');
         if (modal) modal.style.display = 'none';
+      }
+
+      // Level switcher overlay
+      function showLevelSwitcher() {
+        if (!availableLevels) return;
+        let existing = document.getElementById('levelSwitcherOverlay');
+        if (existing) existing.remove();
+
+        const levelMeta = {
+          'intermediate': { label: 'Intermediate', tag: 'B1–B2', color: '#0f766e', gradient: 'linear-gradient(135deg, #0f766e, #134e4a)' },
+          'upper-intermediate': { label: 'Upper-Intermediate', tag: 'B2–C1', color: '#7c3aed', gradient: 'linear-gradient(135deg, #7c3aed, #4c1d95)' },
+          'advanced': { label: 'Advanced', tag: 'C1–C2', color: '#dc2626', gradient: 'linear-gradient(135deg, #dc2626, #7f1d1d)' }
+        };
+
+        let btnsHTML = '';
+        for (const [key, file] of Object.entries(availableLevels)) {
+          const meta = levelMeta[key] || { label: key, tag: '', color: '#667eea', gradient: 'linear-gradient(135deg, #667eea, #764ba2)' };
+          const isCurrent = file === topic;
+          btnsHTML += `<button class="lvl-switch-btn${isCurrent ? ' current' : ''}" data-file="${file}" style="
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid ${isCurrent ? meta.color : 'rgba(255,255,255,0.1)'};
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: ${isCurrent ? 'default' : 'pointer'};
+            transition: all 0.3s ease;
+            background: ${isCurrent ? meta.gradient : 'rgba(255,255,255,0.05)'};
+            color: ${isCurrent ? '#fff' : '#cbd5e1'};
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: ${isCurrent ? '1' : '0.85'};
+          ">
+            <span>${meta.label}</span>
+            <span style="
+              font-size: 12px;
+              padding: 3px 10px;
+              border-radius: 20px;
+              background: ${isCurrent ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)'};
+              color: ${isCurrent ? '#fff' : '#94a3b8'};
+            ">${isCurrent ? '✓ Current' : meta.tag}</span>
+          </button>`;
+        }
+
+        const html = `
+        <div id="levelSwitcherOverlay" style="
+          display: flex;
+          position: fixed;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(0,0,0,0.75);
+          z-index: 9999999;
+          justify-content: center;
+          align-items: center;
+          backdrop-filter: blur(5px);
+        ">
+          <div style="
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 24px;
+            padding: 35px 30px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: leaveModalPop 0.3s ease-out;
+          ">
+            <div style="font-size: 40px; margin-bottom: 15px;">🔄</div>
+            <h2 style="color: #f8fafc; font-size: 22px; margin-bottom: 8px; font-weight: 700;">Switch Level</h2>
+            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">Your current progress will be reset</p>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+              ${btnsHTML}
+            </div>
+            <button id="lvlSwitchCancelBtn" style="
+              padding: 12px 30px;
+              border: 2px solid #475569;
+              border-radius: 12px;
+              font-size: 15px;
+              font-weight: 600;
+              cursor: pointer;
+              background: transparent;
+              color: #94a3b8;
+              transition: all 0.3s ease;
+            ">Cancel</button>
+          </div>
+        </div>
+        <style>
+          .lvl-switch-btn:not(.current):hover {
+            opacity: 1 !important;
+            background: rgba(255,255,255,0.1) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+            transform: translateY(-1px);
+          }
+          #lvlSwitchCancelBtn:hover {
+            background: #334155;
+            border-color: #64748b;
+            color: #e2e8f0;
+          }
+        </style>`;
+
+        document.body.insertAdjacentHTML('beforeend', html);
+
+        document.getElementById('lvlSwitchCancelBtn').addEventListener('click', function() {
+          document.getElementById('levelSwitcherOverlay').remove();
+        });
+
+        document.querySelectorAll('.lvl-switch-btn:not(.current)').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            const file = this.dataset.file;
+            const levelsParam = encodeURIComponent(JSON.stringify(availableLevels));
+            window.__okToLeave = true;
+            if (window.parent !== window) {
+              window.parent.postMessage({ action: 'loadFlashcardLevel', topic: file, levels: JSON.stringify(availableLevels) }, '*');
+            } else {
+              window.location.href = `flashcards.html?topic=${file}&levels=${levelsParam}`;
+            }
+          });
+        });
       }
 
       // Back button trap using History API
@@ -1266,6 +1605,7 @@
       setupBackButtonTrap();
     })();
   </script>
+  <script src="chat-bubble.js"></script>
 </body>
 
 </html>

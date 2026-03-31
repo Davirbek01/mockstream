@@ -1,0 +1,47 @@
+// Flashcard Data: Ethics & Morality — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "⚡ Ethics & Morality: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Ethics & Morality",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "moral decay", en: "", uz: "axloqiy tanazzul", uzDef: "Jamiyatda axloqiy me'yorlar va qadriyatlarning asta-sekin yo'qolishi, buzilishi.", ex: "The older generation often laments the moral decay they see in today's youth.", exUz: "Katta avlod ko'pincha bugungi yoshlarda ko'rayotgan axloqiy tanazzuldan shikoyat qiladi."},
+    {term: "code of ethics", en: "", uz: "axloq kodeksi", uzDef: "Muayyan guruh yoki tashkilot uchun qabul qilingan axloqiy qoidalar va tamoyillar to'plami.", ex: "Our company's code of ethics strictly prohibits accepting gifts from clients.", exUz: "Kompaniyamizning axloq kodeksi mijozlardan sovg'alar qabul qilishni qat'iyan taqiqlaydi."},
+    {term: "ethical lapse", en: "", uz: "axloqiy xato", uzDef: "Axloqiy me'yorlarni buzish, odob doirasidan chiqish.", ex: "His ethical lapse cost him his job and reputation.", exUz: "Uning axloqiy xatosi unga ishi va obro'sidan ayrilishiga sabab bo'ldi."},
+    {term: "moral scruples", en: "", uz: "axloqiy shubha", uzDef: "Axloqiy sabablarga ko'ra biror narsadan shubhalanish, ikkilanish.", ex: "He had no moral scruples about exploiting his workers.", exUz: "Uning o'z ishchilarini ekspluatatsiya qilishda hech qanday axloqiy shubhasi yo'q edi."},
+    {term: "uphold integrity", en: "", uz: "halollikni saqlash", uzDef: "O'zining halolligini va to'g'riligini himoya qilish va qo'llab-quvvatlash.", ex: "It's important to uphold integrity, even when no one is watching.", exUz: "Hech kim kuzatmayotgan bo'lsa ham, halollikni saqlash muhimdir."},
+    {term: "on the wrong side", en: "", uz: "noto'g'ri tomonda", uzDef: "Axloqiy jihatdan noto'g'ri bo'lgan tomonda turish.", ex: "History will judge those who stood on the wrong side of the civil rights movement.", exUz: "Tarix fuqarolik huquqlari harakatining noto'g'ri tomonida turganlarni hukm qiladi."},
+    {term: "moral relativism", en: "", uz: "axloqiy nisbiylik", uzDef: "Axloqiy qadriyatlar har xil jamiyatlarda har xil bo'lishi mumkin degan qarash.", ex: "Moral relativism argues that there are no universal moral truths.", exUz: "Axloqiy nisbiylik universal axloqiy haqiqatlar yo'q deb ta'kidlaydi."},
+    {term: "unethical behavior", en: "", uz: "axloqsiz xulq", uzDef: "Axloqiy me'yorlarga zid bo'lgan xatti-harakatlar.", ex: "The investigation uncovered widespread unethical behavior within the company.", exUz: "Tekshiruv kompaniya ichida keng tarqalgan axloqsiz xatti-harakatlarni aniqladi."},
+    {term: "moral code", en: "", uz: "axloq qoidalari", uzDef: "Insonning xatti-harakatlarini boshqaradigan axloqiy tamoyillar to'plami.", ex: "His personal moral code forbade him from lying, even to protect himself.", exUz: "Uning shaxsiy axloq qoidalari hatto o'zini himoya qilish uchun ham yolg'on gapirishni taqiqlagan."},
+    {term: "a crisis of conscience", en: "", uz: "vijdon azobi", uzDef: "Axloqiy jihatdan noto'g'ri bo'lgan harakatdan keyin kuchli afsuslanish hissi.", ex: "After betraying his friend, he had a crisis of conscience.", exUz: "Do'stiga xiyonat qilgandan so'ng, u vijdon azobini his qildi."},
+    {term: "ethical standards", en: "", uz: "axloqiy me'yorlar", uzDef: "Xatti-harakatlar uchun qabul qilingan axloqiy qoidalar va tamoyillar.", ex: "The company is committed to maintaining the highest ethical standards.", exUz: "Kompaniya eng yuqori axloqiy me'yorlarni saqlashga sodiqdir."},
+    {term: "a moral failing", en: "", uz: "axloqiy kamchilik", uzDef: "Axloqiy me'yorlarga javob bermaslik, xato qilish.", ex: "His affair was a moral failing that cost him his marriage.", exUz: "Uning ishqiy munosabatlari unga nikohidan ayrilishiga sabab bo'lgan axloqiy kamchilik edi."},
+    {term: "moral principles", en: "", uz: "axloqiy tamoyillar", uzDef: "Insonning xatti-harakatlarini boshqaradigan asosiy axloqiy e'tiqodlar.", ex: "She refused to lie, adhering to her strong moral principles.", exUz: "U kuchli axloqiy tamoyillariga amal qilib, yolg'on gapirishdan bosh tortdi."},
+    {term: "ethical violations", en: "", uz: "axloqiy buzilishlar", uzDef: "Axloqiy qoidalarni yoki me'yorlarni buzish.", ex: "The investigation revealed several serious ethical violations.", exUz: "Tekshiruv bir nechta jiddiy axloqiy buzilishlarni aniqladi."},
+    {term: "ethical obligation", en: "", uz: "axloqiy majburiyat", uzDef: "Axloqiy jihatdan to'g'ri bo'lgan narsani qilishga bo'lgan burch.", ex: "Doctors have an ethical obligation to protect patient confidentiality.", exUz: "Shifokorlar bemorning maxfiyligini himoya qilishga axloqiy majburiyatga ega."},
+    {term: "moral stance", en: "", uz: "axloqiy pozitsiya", uzDef: "Muayyan masala bo'yicha axloqiy nuqtai nazar, qarash.", ex: "He took a strong moral stance against the war.", exUz: "U urushga qarshi kuchli axloqiy pozitsiyani egalladi."},
+    {term: "get off scot-free", en: "", uz: "jazolanmasdan qutulish", uzDef: "Xato yoki jinoyat uchun jazolanmasdan qutulib qolish.", ex: "It's infuriating that he got off scot-free after lying under oath.", exUz: "U qasamyod ostida yolg'on gapirgandan keyin jazolanmasdan qutulib qolgani g'azabni keltiradi."},
+    {term: "beyond reproach", en: "", uz: "aybsiz", uzDef: "Tanqid qilinmaydigan, hech qanday aybi yo'q.", ex: "Her honesty was beyond reproach; everyone trusted her completely.", exUz: "Uning halolligi tanqidga tobe emas edi; hamma unga to'liq ishongan."},
+    {term: "stick to principles", en: "", uz: "tamoyillarga sodiq qolish", uzDef: "O'z axloqiy tamoyillariga qat'iy rioya qilish.", ex: "Even when it was difficult, she always stuck to her principles.", exUz: "Qiyin bo'lgan taqdirda ham, u har doim o'z tamoyillariga sodiq qoldi."},
+    {term: "a Faustian bargain", en: "", uz: "Foustian kelishuvi", uzDef: "Katta muvaffaqiyat yoki qudratga erishish uchun axloqiy jihatdan qimmat to'lov to'lash.", ex: "He made a Faustian bargain to get to the top, sacrificing his friends along the way.", exUz: "U tepaga chiqish uchun Foustian kelishuviga erishdi va shu yo'lda do'stlarini qurbon qildi."},
+    {term: "do a hatchet job", en: "", uz: "qattiq tanqid qilish", uzDef: "Birovni qattiq va shafqatsizlarcha tanqid qilish.", ex: "The critic did a hatchet job on the new movie, calling it a complete disaster.", exUz: "Tanqidchi yangi filmni qattiq tanqid qildi va uni butunlay falokat deb atadi."},
+    {term: "lack of accountability", en: "", uz: "javobgarlik yo'qligi", uzDef: "O'z harakatlari uchun javobgarlikni his qilmaslik.", ex: "The lack of accountability allowed the corruption to spread.", exUz: "Javobgarlikning yo'qligi korrupsiyaning tarqalishiga imkon berdi."},
+    {term: "moral depravity", en: "", uz: "axloqiy buzuqlik", uzDef: "Jiddiy axloqiy buzilish, tubanlik.", ex: "The novel explores the depths of moral depravity in wartime.", exUz: "Roman urush davridagi axloqiy buzuqlikning tubini o'rganadi."},
+    {term: "ethical responsibility", en: "", uz: "axloqiy mas'uliyat", uzDef: "Axloqiy jihatdan to'g'ri bo'lgan narsani qilishga bo'lgan majburiyat.", ex: "Companies have an ethical responsibility to protect the environment.", exUz: "Kompaniyalar atrof-muhitni himoya qilishga axloqiy mas'uliyatga ega."},
+    {term: "moral outrage", en: "", uz: "axloqiy g'azab", uzDef: "Axloqsiz xatti-harakatga nisbatan kuchli g'azab va norozilik hissi.", ex: "The public expressed moral outrage at the politician's corruption.", exUz: "Jamoatchilik siyosatchining korrupsiyasidan axloqiy g'azabini bildirdi."},
+    {term: "moral fabric", en: "", uz: "axloqiy to'qima", uzDef: "Jamiyatning axloqiy qadriyatlari va tamoyillari majmui; jamiyatning axloqi.", ex: "The scandal has weakened the moral fabric of the community.", exUz: "Bu janjal jamiyatning axloqiy to'qimasini zaiflashtirdi."},
+    {term: "ethical compass", en: "", uz: "axloqiy kompas", uzDef: "Shaxsning to'g'ri va noto'g'ri xatti-harakatni aniqlashga yordam beradigan ichki yo'l-yo'rig'i.", ex: "He seems to have lost his ethical compass somewhere along the way.", exUz: "U yo'l davomida o'zining axloqiy kompasini yo'qotganga o'xshaydi."},
+    {term: "ethical quandary", en: "", uz: "axloqiy chalkashlik", uzDef: "Qiyin va noaniq axloqiy vaziyat; dilemma.", ex: "The journalist found himself in an ethical quandary when he discovered the source of the leak.", exUz: "Jurnalist o'zini axloqiy chalkashlikda topdi, qachonki u sizdirish manbasini topdi."},
+    {term: "moral implications", en: "", uz: "axloqiy oqibatlar", uzDef: "Xatti-harakat yoki qarorning axloqiy ta'siri yoki natijalari.", ex: "We need to consider the moral implications of this technology before it's widely adopted.", exUz: "Ushbu texnologiya keng qo'llanilishidan oldin uning axloqiy oqibatlarini ko'rib chiqishimiz kerak."},
+    {term: "look the other way", en: "", uz: "ko'z yummoq", uzDef: "Birovning noto'g'ri ishini bilib turib, unga e'tibor bermaslik.", ex: "The manager knew about the theft but chose to look the other way.", exUz: "Menejer o'g'irlik haqida bilar edi, lekin ko'z yumishni tanladi."}
+  ]
+};

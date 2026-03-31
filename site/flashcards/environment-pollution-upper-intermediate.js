@@ -1,0 +1,47 @@
+// Flashcard Data: Environment & Pollution — Upper-Intermediate (B2–C1)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🌿 Environment & Pollution: Upper-Intermediate",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Environment & Pollution",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#7c3aed",
+    bg2: "#4c1d95",
+    accent: "#7c3aed",
+    progress: "#a78bfa"
+  },
+  cards: [
+    {term: "environmental stewardship", en: "", uz: "ekologik boshqaruv", uzDef: "Atrof-muhitni mas'uliyat bilan boshqarish va himoya qilish.", ex: "Effective environmental stewardship is key to securing a healthy future for our planet.", exUz: "Samarali ekologik boshqaruv sayyoramiz uchun sog'lom kelajakni ta'minlashning asosiy omili hisoblanadi."},
+    {term: "offset emissions", en: "", uz: "chiqindini qoplash", uzDef: "Uglerod chiqindilarini kamaytirish uchun kompensatsiya qilish.", ex: "Many companies now offer schemes to offset emissions from air travel.", exUz: "Ko'pgina kompaniyalar hozirda avia qatnovlardan chiqadigan chiqindilarni qoplash sxemalarini taklif qilishadi."},
+    {term: "green initiatives", en: "", uz: "yashil tashabbuslar", uzDef: "Atrof-muhitni muhofaza qilishga qaratilgan loyihalar.", ex: "The city council is promoting green initiatives to reduce its carbon footprint.", exUz: "Shahar kengashi uglerod izini kamaytirish uchun yashil tashabbuslarni ilgari surmoqda."},
+    {term: "deplete resources", en: "", uz: "resurslarni kamaytirish", uzDef: "Tabiiy resurslarni ishlatib tugatmoq.", ex: "Overfishing can deplete resources and disrupt marine ecosystems.", exUz: "Haddan tashqari baliq ovlash resurslarni kamaytirishi va dengiz ekotizimlarini buzishi mumkin."},
+    {term: "carbon-neutral", en: "", uz: "uglerod neytral", uzDef: "Uglerod chiqindilarini muvozanatlash, nolga teng qilish.", ex: "The company aims to become carbon-neutral by 2030.", exUz: "Kompaniya 2030-yilga kelib uglerod neytral bo'lishni maqsad qilgan."},
+    {term: "environmental degradation", en: "", uz: "ekologik buzilish", uzDef: "Atrof-muhitning sifatini yomonlashuvi.", ex: "Industrial pollution has led to significant environmental degradation in the region.", exUz: "Sanoat ifloslanishi mintaqada sezilarli ekologik buzilishga olib keldi."},
+    {term: "a blight on", en: "", uz: "qoralovchi", uzDef: "Nimaningdir yomon tomoni, muammosi.", ex: "Plastic waste is a blight on our oceans.", exUz: "Plastik chiqindilar okeanlarimiz uchun qoralovchi."},
+    {term: "weather the storm", en: "", uz: "bo'ronni yengish", uzDef: "Qiyin vaziyatdan omon qolish.", ex: "With new policies, the company is hoping to weather the storm of environmental regulations.", exUz: "Yangi siyosatlar bilan kompaniya atrof-muhit qoidalarining bo'ronini yengib o'tishga umid qilmoqda."},
+    {term: "pay the price", en: "", uz: "narxini to'lash", uzDef: "Noto'g'ri harakatlar oqibatlarini boshdan kechirish.", ex: "If we don't act now, future generations will pay the price for our inaction on climate change.", exUz: "Agar hozir harakat qilmasak, kelajak avlodlar iqlim o'zgarishi bo'yicha harakatsizligimiz uchun narxini to'laydilar."},
+    {term: "at a tipping point", en: "", uz: "hal qiluvchi nuqtada", uzDef: "Muhim, qaytarilmas o'zgarishlar bo'lishi mumkin bo'lgan vaziyat.", ex: "Scientists believe that many ecosystems are at a tipping point due to climate change.", exUz: "Olimlar iqlim o'zgarishi tufayli ko'plab ekotizimlar hal qiluvchi nuqtada ekanligiga ishonishadi."},
+    {term: "environmental impact assessment", en: "", uz: "ekologik ta'sir baholash", uzDef: "Loyiha atrof-muhitga ta'sirini aniqlash.", ex: "An environmental impact assessment is required before any large construction project can begin.", exUz: "Har qanday yirik qurilish loyihasi boshlanishidan oldin ekologik ta'sir baholash talab etiladi."},
+    {term: "cut emissions", en: "", uz: "chiqindilarni kamaytirish", uzDef: "Gazlar va boshqa ifloslantiruvchi moddalarni kamaytirish.", ex: "The government is committed to cutting emissions by 50% by 2030.", exUz: "Hukumat 2030 yilga kelib chiqindilarni 50% ga kamaytirishga sodiq."},
+    {term: "sustainable practices", en: "", uz: "barqaror amaliyotlar", uzDef: "Resurslardan oqilona foydalanish va kelajak avlodlar uchun saqlash.", ex: "Adopting sustainable practices is crucial for the long-term health of our planet.", exUz: "Barqaror amaliyotlarni qabul qilish sayyoramizning uzoq muddatli salomatligi uchun juda muhimdir."},
+    {term: "biodiversity loss", en: "", uz: "biologik xilma-xillik yo'qolishi", uzDef: "O'simliklar va hayvonlarning turlarining kamayishi.", ex: "Habitat destruction is a major cause of biodiversity loss.", exUz: "Yashash muhitining yo'q qilinishi biologik xilma-xillik yo'qolishining asosiy sababidir."},
+    {term: "a drop in the bucket", en: "", uz: "dengizdan tomchi", uzDef: "Kichik, ahamiyatsiz miqdor.", ex: "The amount of money donated was a drop in the bucket compared to what's needed.", exUz: "Ehson qilingan pul miqdori kerak bo'lgan narsaga nisbatan dengizdan tomchi edi."},
+    {term: "throw a wrench into", en: "", uz: "g'ildirakka tayoq tiqish", uzDef: "Rejani buzmoq, to'sqinlik qilmoq.", ex: "The new regulations could throw a wrench into the company's expansion plans.", exUz: "Yangi qoidalar kompaniyaning kengayish rejasiga g'ildirakka tayoq tiqishi mumkin."},
+    {term: "on the brink of", en: "", uz: "yoqasida", uzDef: "Nimadir yomon bo'lish arafasida.", ex: "Many species are on the brink of extinction due to habitat loss.", exUz: "Ko'pgina turlar yashash joyining yo'qolishi tufayli yo'q bo'lib ketish yoqasida turibdi."},
+    {term: "sound the alarm", en: "", uz: "ogohlantirish berish", uzDef: "Xavf haqida ogohlantirmoq.", ex: "Scientists are sounding the alarm about the rapid melting of glaciers.", exUz: "Olimlar muzliklarning tez erishi haqida ogohlantirish bermoqda."},
+    {term: "stem the tide", en: "", uz: "oqimni to'xtatish", uzDef: "Yomon vaziyatni to'xtatishga urinish.", ex: "The new laws are designed to stem the tide of plastic pollution.", exUz: "Yangi qonunlar plastik ifloslanish oqimini to'xtatish uchun mo'ljallangan."},
+    {term: "ecological footprint", en: "", uz: "ekologik iz", uzDef: "Bir kishi yoki jamiyatning atrof-muhitga ta'siri.", ex: "We should all try to reduce our ecological footprint.", exUz: "Biz hammamiz ekologik izimizni kamaytirishga harakat qilishimiz kerak."},
+    {term: "a wake-up call", en: "", uz: "uyg'onish qo'ng'irog'i", uzDef: "Xavfli vaziyat haqida ogohlantiruvchi voqea.", ex: "The recent floods were a wake-up call about the dangers of climate change.", exUz: "Yaqinda bo'lgan suv toshqinlari iqlim o'zgarishining xavflari haqida uyg'onish qo'ng'irog'i bo'ldi."},
+    {term: "brownfield site", en: "", uz: "qarovsiz maydon", uzDef: "Oldin sanoatda foydalanilgan, ifloslangan yer.", ex: "The city is planning to redevelop the brownfield site into a park.", exUz: "Shahar qarovsiz maydonni parkga aylantirishni rejalashtirmoqda."},
+    {term: "environmental regulations", en: "", uz: "ekologik qoidalar", uzDef: "Atrof-muhitni himoya qilish qoidalari.", ex: "Companies must comply with strict environmental regulations.", exUz: "Kompaniyalar qat'iy ekologik qoidalarga rioya qilishlari kerak."},
+    {term: "deforestation rates", en: "", uz: "o'rmon kesish sur'ati", uzDef: "O'rmonlarning yo'qolish tezligi.", ex: "Deforestation rates are alarmingly high in some parts of the world.", exUz: "Dunyodagi ba'zi hududlarda o'rmonlarning kesilish sur'ati juda yuqori."},
+    {term: "tackle pollution", en: "", uz: "ifloslanishga qarshi kurashish", uzDef: "Ifloslanishni hal qilishga harakat qilish.", ex: "The city is implementing new measures to tackle pollution.", exUz: "Shahar ifloslanishga qarshi kurashish uchun yangi choralarni amalga oshirmoqda."},
+    {term: "environmental protection", en: "", uz: "atrof-muhit muhofazasi", uzDef: "Atrof-muhitni himoya qilish.", ex: "Environmental protection should be a priority for all governments.", exUz: "Atrof-muhit muhofazasi barcha hukumatlar uchun ustuvor vazifa bo'lishi kerak."},
+    {term: "sustainable agriculture", en: "", uz: "barqaror qishloq xo'jaligi", uzDef: "Atrof-muhitga zarar yetkazmaydigan qishloq xo'jaligi.", ex: "Sustainable agriculture is essential for food security.", exUz: "Barqaror qishloq xo'jaligi oziq-ovqat xavfsizligi uchun zarur."},
+    {term: "a breath of fresh air", en: "", uz: "toza havo", uzDef: "Yangi, ijobiy narsa.", ex: "After years of neglect, the new environmental policy is a breath of fresh air.", exUz: "Ko'p yillik e'tiborsizlikdan so'ng, yangi ekologik siyosat - bu toza havo."},
+    {term: "toxic fumes", en: "", uz: "zaharli tutunlar", uzDef: "Zaharli, zararli tutunlar.", ex: "Residents were warned to stay indoors due to the toxic fumes from the factory fire.", exUz: "Aholi zavoddagi yong'indan chiqqan zaharli tutunlar tufayli uyda qolish haqida ogohlantirildi."},
+    {term: "conservation efforts", en: "", uz: "muhofaza qilish harakatlari", uzDef: "Tabiatni saqlashga qaratilgan harakatlar.", ex: "Increased conservation efforts are needed to protect endangered species.", exUz: "Yo'qolib ketish xavfi ostida turgan turlarni himoya qilish uchun qo'shimcha muhofaza qilish harakatlari zarur."}
+  ]
+};

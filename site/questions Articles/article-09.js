@@ -94,4 +94,311 @@ window.ARTICLE_DATA = {
             example: "The principal felt that the suspension of the student was fully justified."
         }
     }
+,
+    passageB1: `<p>A professor in Japan has found <strong>evidence</strong> that computer games can be bad for children. Many parents and grandparents have said this for a long time. But people often didn't listen to them because they thought they didn't understand technology.</p><p>Parents often <strong>worry</strong> about how computer games affect their children's health and <strong>social skills</strong>. They think children should play outside, get exercise, and have fun with friends. But many children play games alone. This means they don't <strong>interact</strong> with other people very much. As a result, they might not be good at talking to others and <strong>communicating</strong> their needs. </p><p>Parents are also <strong>concerned</strong> that the violent games might make their children more aggressive. They also worry about violence on TV. Some parents think that computer games are making young people less <strong>intelligent</strong>. They believe that children play games instead of reading or doing homework. So, the games can have a bad <strong>effect on</strong> their learning and education.</p><p>Parents are also worried that computer games stop children from using their <strong>imagination</strong>. They spend too much time looking at a screen instead of drawing or writing stories. Professor Ryuta Kawashima from Tohoku University also thinks computer games are bad, but for scientific reasons.</p><p>He used new technology to do <strong>research</strong>. He thinks his research shows that computer games can stop children's brains from growing properly. He used brain scans to show that playing computer games only makes some parts of the brain <strong>active</strong>. These parts control seeing and moving. The parts of the brain that help with learning, memory, <strong>emotions</strong>, and <strong>self-control</strong> don't grow as much.</p><p>If children can't control their <strong>behaviour</strong> very well, they might become violent. It seems that Professor Kawashima's research shows that parents are right to be worried about computer games. Parents should <strong>pay attention</strong> to the time their children spend playing video games and <strong>encourage</strong> other activities.</p>`,
+    translationB1: `<p>Yaponiyalik professor kompyuter o'yinlari bolalar uchun yomon bo'lishi mumkinligi haqida <strong>dalillar</strong> topdi. Ko'plab ota-onalar va buvi-buvalar buni uzoq vaqtdan beri aytib kelishgan. Ammo odamlar ko'pincha ularga quloq solishmadi, chunki ular texnologiyani tushunmaydi deb o'ylashdi.</p><p>Ota-onalar ko'pincha kompyuter o'yinlari bolalar salomatligiga va <strong>ijtimoiy ko'nikmalariga</strong> qanday ta'sir qilishi haqida <strong>xavotirlanishadi</strong>. Ular bolalar tashqarida o'ynashi, jismoniy mashqlar qilishi va do'stlari bilan vaqt o'tkazishi kerak deb o'ylashadi. Ammo ko'plab bolalar yolg'iz o'yin o'ynashadi. Bu ularning boshqa odamlar bilan unchalik <strong>muloqot</strong> qilmasligini anglatadi. Natijada, ular boshqalar bilan gaplasha olmasligi va o'z ehtiyojlarini <strong>ifoda eta olmasligi</strong> mumkin.</p><p>Ota-onalar, shuningdek, zo'ravonlik o'yinlari bolalarini yanada tajovuzkor qilib qo'yishidan <strong>xavotirda</strong>. Ular televizordagi zo'ravonlik haqida ham xavotirlanishadi. Ba'zi ota-onalar kompyuter o'yinlari yoshlarni kamroq <strong>aqlli</strong> qilib qo'yapti deb o'ylashadi. Ular bolalar kitob o'qish yoki uy vazifasini bajarish o'rniga o'yin o'ynaydi deb hisoblashadi. Shunday qilib, o'yinlar ularning o'qishi va ta'limiga yomon <strong>ta'sir qilishi</strong> mumkin.</p><p>Ota-onalar, shuningdek, kompyuter o'yinlari bolalarning <strong>tasavvurini</strong> ishlatishiga to'sqinlik qiladi deb xavotirlanishadi. Ular rasm chizish yoki hikoyalar yozish o'rniga ko'p vaqtni ekranga qarab o'tkazishadi. Tohoku universitetining professori Ryuta Kawashima ham kompyuter o'yinlari yomon deb o'ylaydi, ammo ilmiy sabablarga ko'ra.</p><p>U <strong>tadqiqot</strong> o'tkazish uchun yangi texnologiyadan foydalangan. Uning fikricha, uning tadqiqoti kompyuter o'yinlari bolalar miyasining to'g'ri rivojlanishiga to'sqinlik qilishi mumkinligini ko'rsatadi. U kompyuter o'yinlari faqat miyaning ba'zi qismlarini <strong>faol</strong> qiladi, deb ko'rsatish uchun miya skanerlaridan foydalangan. Ushbu qismlar ko'rish va harakatlanishni nazorat qiladi. O'rganish, xotira, <strong>hissiyotlar</strong> va <strong>o'zini tutish</strong>ga yordam beradigan miya qismlari unchalik o'smaydi.</p><p>Agar bolalar o'z <strong>xulq-atvorini</strong> yaxshi nazorat qila olmasa, ular zo'ravon bo'lib qolishi mumkin. Ko'rinishidan, professor Kawashimaning tadqiqoti ota-onalarning kompyuter o'yinlari haqida xavotirlanishga haqli ekanligini ko'rsatadi. Ota-onalar bolalarining video o'yinlar o'ynashga sarflagan vaqtiga <strong>e'tibor berishi</strong> va boshqa faoliyatlarni <strong>rag'batlantirishi</strong> kerak.</p>`,
+    vocabularyB1: {
+        "evidence": {
+                "definition": "Facts or signs that show something is true.",
+                "uzbek": "Dalil",
+                "example": "The police found evidence that proved he was guilty.",
+                "exampleUzbek": "Politsiya uning aybdorligini isbotlovchi dalillarni topdi."
+        },
+        "worry": {
+                "definition": "To feel anxious or troubled about actual or potential problems.",
+                "uzbek": "Xavotirlanmoq",
+                "example": "Don't worry about the test; you'll do fine.",
+                "exampleUzbek": "Imtihon haqida xavotirlanmang, siz yaxshi o'tasiz."
+        },
+        "social skills": {
+                "definition": "Skills needed to communicate and interact effectively with other people.",
+                "uzbek": "Ijtimoiy ko'nikmalar",
+                "example": "Good social skills are important for getting a job.",
+                "exampleUzbek": "Yaxshi ijtimoiy ko'nikmalar ishga kirish uchun muhimdir."
+        },
+        "interact": {
+                "definition": "To communicate or work together.",
+                "uzbek": "Munosabatda bo'lmoq",
+                "example": "The students interact with each other during group projects.",
+                "exampleUzbek": "Talabalar guruh loyihalari davomida bir-birlari bilan munosabatda bo'lishadi."
+        },
+        "communicating": {
+                "definition": "Sharing or exchanging information, news, or ideas.",
+                "uzbek": "Muloqot qilish",
+                "example": "It's important to be good at communicating your ideas.",
+                "exampleUzbek": "O'z g'oyalaringizni yaxshi muloqot qila bilish muhim."
+        },
+        "concerned": {
+                "definition": "Worried and anxious.",
+                "uzbek": "Xavotirda",
+                "example": "I'm concerned about my friend's health.",
+                "exampleUzbek": "Men do'stimning sog'lig'i haqida xavotirdaman."
+        },
+        "intelligent": {
+                "definition": "Having or showing intelligence, especially of a high level.",
+                "uzbek": "Aqlli",
+                "example": "She is a very intelligent student.",
+                "exampleUzbek": "U juda aqlli talaba."
+        },
+        "effect on": {
+                "definition": "A change which is a result or consequence of an action or other cause.",
+                "uzbek": "Ta'sir",
+                "example": "The medicine had a positive effect on his health.",
+                "exampleUzbek": "Dori uning sog'lig'iga ijobiy ta'sir ko'rsatdi."
+        },
+        "imagination": {
+                "definition": "The ability to form new ideas or images in your mind.",
+                "uzbek": "Tasavvur",
+                "example": "Children often have a very vivid imagination.",
+                "exampleUzbek": "Bolalarda ko'pincha juda yorqin tasavvur bo'ladi."
+        },
+        "research": {
+                "definition": "Careful study of a subject to discover new information.",
+                "uzbek": "Tadqiqot",
+                "example": "The scientist is doing research on cancer.",
+                "exampleUzbek": "Olim saraton kasalligi bo'yicha tadqiqot olib bormoqda."
+        },
+        "active": {
+                "definition": "Doing things that require physical movement and energy.",
+                "uzbek": "Faol",
+                "example": "It's important to stay active and exercise regularly.",
+                "exampleUzbek": "Faol bo'lish va muntazam ravishda mashq qilish muhim."
+        },
+        "emotions": {
+                "definition": "A strong feeling such as love, hate, or anger.",
+                "uzbek": "His-tuyg'ular",
+                "example": "Music can express a wide range of emotions.",
+                "exampleUzbek": "Musiqa keng doiradagi his-tuyg'ularni ifodalashi mumkin."
+        },
+        "self-control": {
+                "definition": "The ability to control your own behavior, especially your emotions and desires.",
+                "uzbek": "O'zini tuta bilish",
+                "example": "It takes self-control to resist eating junk food.",
+                "exampleUzbek": "Keraksiz ovqatlarni iste'mol qilmaslik uchun o'zini tuta bilish kerak."
+        },
+        "behaviour": {
+                "definition": "The way that someone acts.",
+                "uzbek": "Xulq-atvor",
+                "example": "His behaviour was very strange.",
+                "exampleUzbek": "Uning xulq-atvori juda g'alati edi."
+        },
+        "pay attention": {
+                "definition": "To watch, listen to, or think about something carefully.",
+                "uzbek": "E'tibor bermoq",
+                "example": "Please pay attention to the teacher.",
+                "exampleUzbek": "Iltimos, o'qituvchiga e'tibor bering."
+        },
+        "encourage": {
+                "definition": "To give someone confidence or support.",
+                "uzbek": "Rag'batlantirmoq",
+                "example": "My parents always encourage me to do my best.",
+                "exampleUzbek": "Ota-onam meni har doim eng yaxshisini qilishga rag'batlantiradi."
+        }
+},
+    passageB2: `<p>A recent study by a Japanese professor has <strong>unearthed evidence</strong> suggesting that computer games might negatively impact children. While many parents and grandparents have voiced similar concerns for years, they've often been <strong>dismissed as</strong> technologically resistant. These worries often <strong>revolve around</strong> the potential effects on children's physical health and social development.</p><p>Parents often feel that children should be outdoors, exercising and socialising with friends. Instead, many children play alone, leading to <strong>social isolation</strong> and limited opportunities for interaction, which can <strong>hinder their communication skills</strong>. There's also the concern that the violent content in many games could <strong>desensitise children</strong> to violence and potentially lead to more aggressive behaviour, a fear also associated with exposure to violent content on television.</p><p>Moreover, some worry that the <strong>pervasiveness</strong> of computer games contributes to a <strong>general decline in</strong> the complexity and depth of information that young people engage with. Because children may choose gaming over reading or homework, these games are thought to <strong>impede their academic progress</strong>. Parents are also concerned that excessive screen time might <strong>stifle creativity</strong>, preventing children from engaging in activities like drawing or writing.</p><p>Professor Ryuta Kawashima from Tohoku University shares these concerns about the <strong>potential adverse effects</strong> of computer games, but his research offers a more scientific perspective. Using advanced technology, his research <strong>aims to demonstrate</strong> that computer games may <strong>impair brain development</strong> in children. </p><p>His brain scans indicate that gaming primarily stimulates areas of the brain related to vision and movement. Crucially, the frontal lobes, which are <strong>instrumental in</strong> learning, memory, emotional regulation, and self-control, show <strong>signs of underdevelopment</strong>. If children's ability to control their behaviour is indeed being compromised, they might be more <strong>prone to</strong> aggressive outbursts. Professor Kawashima’s research seems to <strong>substantiate</strong> parental fears about the potential downsides of computer games.</p>`,
+    translationB2: `<p>Yaponiyalik professorning yaqinda o'tkazgan tadqiqoti shuni ko'rsatadiki, kompyuter o'yinlari bolalarga salbiy ta'sir ko'rsatishi mumkin. Ko'plab ota-onalar va buvi-buvalar yillar davomida shunga o'xshash xavotirlarini bildirgan bo'lsalar ham, ular ko'pincha texnologiyaga qarshi deb hisoblanib, e'tiborga olinmagan. Bu xavotirlar ko'pincha bolalarning jismoniy salomatligi va ijtimoiy rivojlanishiga ta'siri bilan bog'liq.</p><p>Ota-onalar ko'pincha bolalar tashqarida, mashq qilib, do'stlari bilan muloqotda bo'lishi kerak deb hisoblashadi. Aksincha, ko'plab bolalar yolg'iz o'ynashadi, bu esa ijtimoiy izolyatsiyaga va muloqot qilish imkoniyatlarining cheklanishiga olib keladi, bu esa ularning muloqot qobiliyatiga to'sqinlik qilishi mumkin. Shuningdek, ko'plab o'yinlardagi zo'ravonlik mazmuni bolalarni zo'ravonlikka nisbatan sezgirligini yo'qotishi va ehtimol, yanada tajovuzkor xatti-harakatga olib kelishi mumkin degan xavotir ham bor, bu xavotir televizordagi zo'ravonlik mazmuniga ta'sir qilish bilan ham bog'liq.</p><p>Bundan tashqari, ba'zilar kompyuter o'yinlarining keng tarqalishi yoshlarning qabul qiladigan ma'lumotlarining murakkabligi va chuqurligining umumiy pasayishiga hissa qo'shadi deb xavotirlanishadi. Bolalar o'qish yoki uy vazifalarini bajarish o'rniga o'yin o'ynashni tanlashi mumkinligi sababli, bu o'yinlar ularning akademik muvaffaqiyatiga to'sqinlik qiladi deb hisoblanadi. Ota-onalar, shuningdek, haddan tashqari ekran vaqti ijodkorlikni bo'g'ishi, bolalarni rasm chizish yoki yozish kabi faoliyat bilan shug'ullanishiga to'sqinlik qilishi mumkin deb xavotirlanishadi.</p><p>Tohoku universitetidan professor Ryuta Kavashima kompyuter o'yinlarining potentsial salbiy ta'siri haqida ham xavotirlanadi, ammo uning tadqiqotlari yanada ilmiy nuqtai nazarni taklif qiladi. Ilg'or texnologiyalardan foydalangan holda, uning tadqiqoti kompyuter o'yinlari bolalarda miya rivojlanishiga zarar etkazishi mumkinligini ko'rsatishga qaratilgan.</p><p>Uning miya skanerlari shuni ko'rsatadiki, o'yin asosan miyaning ko'rish va harakat bilan bog'liq sohalarini rag'batlantiradi. Eng muhimi, o'rganish, xotira, hissiy tartibga solish va o'zini tuta bilishda muhim rol o'ynaydigan frontal bo'laklar rivojlanmaganlik belgilarini ko'rsatadi. Agar bolalarning o'z xatti-harakatlarini nazorat qilish qobiliyati haqiqatan ham buzilayotgan bo'lsa, ular tajovuzkor xurujlarga ko'proq moyil bo'lishi mumkin. Professor Kavashimaning tadqiqoti kompyuter o'yinlarining potentsial kamchiliklari haqida ota-onalarning xavotirlarini tasdiqlaydi.</p>`,
+    vocabularyB2: {
+        "unearthed evidence": {
+                "definition": "Discovered proof or information that was previously hidden or unknown",
+                "uzbek": "oldinga yashirin yoki noma'lum bo'lgan dalil yoki ma'lumotni topish",
+                "example": "The investigation unearthed evidence of widespread corruption.",
+                "exampleUzbek": "Tergov keng tarqalgan korruptsiya dalillarini aniqladi."
+        },
+        "dismissed as": {
+                "definition": "Rejected or regarded as not worthy of consideration",
+                "uzbek": "rad etilgan yoki e'tiborga loyiq emas deb hisoblangan",
+                "example": "His concerns were dismissed as paranoia.",
+                "exampleUzbek": "Uning tashvishlari paranoyya deb rad etildi."
+        },
+        "revolve around": {
+                "definition": "To be mainly concerned with or centered on something",
+                "uzbek": "asosan biror narsa bilan bog'liq yoki unga qaratilgan bo'lish",
+                "example": "The discussion revolved around the company's future plans.",
+                "exampleUzbek": "Muhokama kompaniyaning kelajakdagi rejalariga qaratilgan edi."
+        },
+        "social isolation": {
+                "definition": "A state of complete or near-complete lack of contact between a person and society.",
+                "uzbek": "odam va jamiyat o'rtasida aloqa yo'qligi yoki deyarli yo'qligi holati.",
+                "example": "Elderly people are at risk of social isolation.",
+                "exampleUzbek": "Keksa odamlar ijtimoiy izolyatsiya xavfi ostida."
+        },
+        "hinder their communication skills": {
+                "definition": "To make it difficult for someone to develop or improve their ability to communicate effectively",
+                "uzbek": "kimningdir samarali muloqot qilish qobiliyatini rivojlantirish yoki yaxshilashni qiyinlashtirish",
+                "example": "Lack of practice can hinder their communication skills.",
+                "exampleUzbek": "Amaliyot etishmasligi ularning aloqa qobiliyatiga to'sqinlik qilishi mumkin."
+        },
+        "desensitise children": {
+                "definition": "To make someone less likely to feel shocked or upset by something, especially violence",
+                "uzbek": "kimdir biror narsadan, ayniqsa zo'ravonlikdan hayratga tushishi yoki xafa bo'lishi ehtimolini kamaytirish",
+                "example": "Exposure to violence can desensitise children.",
+                "exampleUzbek": "Zo'ravonlikka duchor bo'lish bolalarni desensibilizatsiya qilishi mumkin."
+        },
+        "pervasiveness": {
+                "definition": "The quality of spreading widely throughout an area or group of people.",
+                "uzbek": "hududda yoki odamlar guruhida keng tarqalish sifati.",
+                "example": "The pervasiveness of technology is undeniable.",
+                "exampleUzbek": "Texnologiyaning tarqalishi inkor etib bo'lmaydi."
+        },
+        "general decline in": {
+                "definition": "A decrease or deterioration in something overall.",
+                "uzbek": "biror narsaning umumiy pasayishi yoki yomonlashishi.",
+                "example": "There has been a general decline in academic standards.",
+                "exampleUzbek": "Akademik standartlarda umumiy pasayish kuzatildi."
+        },
+        "impede their academic progress": {
+                "definition": "To delay or prevent someone's advancement in education.",
+                "uzbek": "kimningdir ta'limdagi rivojlanishini kechiktirish yoki oldini olish.",
+                "example": "Financial difficulties can impede their academic progress.",
+                "exampleUzbek": "Moliyaviy qiyinchiliklar ularning akademik taraqqiyotiga to'sqinlik qilishi mumkin."
+        },
+        "stifle creativity": {
+                "definition": "To suppress or prevent the development of creativity.",
+                "uzbek": "ijodkorlik rivojlanishini bostirish yoki oldini olish.",
+                "example": "A rigid curriculum can stifle creativity.",
+                "exampleUzbek": "Qattiq o'quv dasturi ijodkorlikni bo'g'ishi mumkin."
+        },
+        "potential adverse effects": {
+                "definition": "Possible negative or harmful consequences.",
+                "uzbek": "Mumkin bo'lgan salbiy yoki zararli oqibatlar.",
+                "example": "The drug has potential adverse effects.",
+                "exampleUzbek": "Dori vositasining potentsial salbiy ta'siri bor."
+        },
+        "aims to demonstrate": {
+                "definition": "Intends to show or prove something clearly.",
+                "uzbek": "biror narsani aniq ko'rsatish yoki isbotlash niyatida.",
+                "example": "The study aims to demonstrate the effectiveness of the new treatment.",
+                "exampleUzbek": "Tadqiqot yangi davolashning samaradorligini ko'rsatishga qaratilgan."
+        },
+        "impair brain development": {
+                "definition": "To damage or weaken the growth and maturation of the brain.",
+                "uzbek": "miyaning o'sishi va etukligiga zarar etkazish yoki zaiflashtirish.",
+                "example": "Malnutrition can impair brain development.",
+                "exampleUzbek": "Noto'g'ri ovqatlanish miyaning rivojlanishiga zarar etkazishi mumkin."
+        },
+        "instrumental in": {
+                "definition": "Important in causing something to happen.",
+                "uzbek": "biror narsaning sodir bo'lishiga sabab bo'lishda muhim.",
+                "example": "He was instrumental in the project's success.",
+                "exampleUzbek": "U loyihaning muvaffaqiyatida muhim rol o'ynadi."
+        },
+        "signs of underdevelopment": {
+                "definition": "Indications that something is not growing or developing properly.",
+                "uzbek": "biror narsa to'g'ri o'smayotganligi yoki rivojlanmayotganligini ko'rsatadigan belgilar.",
+                "example": "The region shows signs of underdevelopment.",
+                "exampleUzbek": "Mintaqa rivojlanmaganlik belgilarini ko'rsatmoqda."
+        },
+        "prone to": {
+                "definition": "Likely to experience or suffer from something.",
+                "uzbek": "biror narsani boshdan kechirish yoki azob chekish ehtimoli yuqori.",
+                "example": "He is prone to headaches.",
+                "exampleUzbek": "U bosh og'rig'iga moyil."
+        },
+        "substantiate": {
+                "definition": "To provide evidence to support or prove the truth of.",
+                "uzbek": "haqiqatni qo'llab-quvvatlash yoki isbotlash uchun dalillar keltirish.",
+                "example": "The witnesses substantiated his story.",
+                "exampleUzbek": "Guvohlar uning hikoyasini tasdiqlashdi."
+        }
+},
+    passageC1: `<p>For years, anxieties surrounding the potential deleterious effects of computer games on children have been largely dismissed as the <strong>knee-jerk reactions</strong> of a generation unfamiliar with technology. However, a recent study conducted by a Japanese professor lends credence to these long-held concerns. The unease expressed by parents and grandparents often <strong>revolves around</strong> two key areas: the potential detriment to children's physical and social well-being. There's a prevailing sentiment that children should be outdoors, <strong>engaging in</strong> physical activity and cultivating interpersonal relationships, rather than leading increasingly isolated lives glued to screens. This sedentary lifestyle, coupled with limited face-to-face interaction, may <strong>impede</strong> the development of crucial communication skills.</p>
+<p>Moreover, apprehensions persist regarding the <strong>desensitizing effect</strong> of violent video games, with parents fearing that exposure to such content may <strong>incline</strong> children towards aggressive behaviour. This concern mirrors anxieties surrounding the depiction of brutality on television. Furthermore, some commentators argue that the pervasive popularity of computer games has contributed to a <strong>dumbing down</strong> of educational content. The perceived trade-off between screen time and academic pursuits, such as reading and homework, has fueled anxieties about the negative impact on children's intellectual development. The concern also <strong>extends to</strong> the potential stifling of creativity, with parents fearing that excessive screen time may preclude children from engaging in activities that foster imagination, such as drawing or creative writing.</p>
+<p>Professor Ryuta Kawashima of Tohoku University, however, approaches these concerns from a distinctly scientific perspective. His research, utilizing cutting-edge neuroimaging technology, suggests that computer games may indeed <strong>impair</strong> the holistic development of children's brains. Specifically, brain scans have revealed that gaming primarily stimulates the areas associated with visual processing and motor control, while the frontal lobes – responsible for higher-order cognitive functions such as learning, memory, emotional regulation, and self-control – remain relatively <strong>dormant</strong>. This selective stimulation raises concerns about potential imbalances in brain development.</p>
+<p>The implications of underdeveloped frontal lobes are far-reaching, particularly in relation to behavioural control. If the capacity for self-regulation is compromised, children may be more susceptible to impulsive and potentially aggressive behaviour. Professor Kawashima's findings, therefore, appear to <strong>corroborate</strong> parental anxieties, suggesting that the potential negative consequences of excessive computer game usage may be more profound than previously acknowledged. Further research is undoubtedly needed to fully <strong>elucidate</strong> the complex interplay between gaming and child development and to <strong>devise</strong> strategies for mitigating potential harm, but this study serves as a <strong>wake-up call</strong> for parents and educators alike.</p>`,
+    translationC1: `<p>Kompyuter o'yinlarining bolalarga salbiy ta'siri haqidagi xavotirlar ko'p yillar davomida texnologiyani yaxshi bilmaydigan avlodning <strong>shoshilinch reaksiyalari</strong> sifatida rad etib kelingan edi. Biroq, yaqinda yapon professori tomonidan o'tkazilgan tadqiqot bu uzoq yillik xavotirlarga ishonch bag'ishlaydi. Ota-onalar va buvilarning tashvishlari ko'pincha ikki asosiy sohaga <strong>qaratilgan</strong>: bolalarning jismoniy va ijtimoiy farovonligiga potentsial zarar. Bolalar ko'chada bo'lishi, jismoniy faollik bilan <strong>shug'ullanishi</strong> va shaxslararo munosabatlarni rivojlantirishi, ekranlarga mixlanib, tobora yakkalanib qolishmasligi kerak degan fikr ustunlik qiladi. Bunday harakatsiz turmush tarzi, yuzma-yuz muloqotning cheklanganligi bilan birgalikda muhim kommunikatsiya ko'nikmalarining rivojlanishiga <strong>to'sqinlik qilishi</strong> mumkin.</p>
+<p>Bundan tashqari, zo'ravonlik kompyuter o'yinlarining <strong>sezgirlikni yo'qotuvchi ta'siri</strong> bilan bog'liq xavotirlar saqlanib qolmoqda, ota-onalar bunday kontentga ta'sir qilish bolalarni tajovuzkor xatti-harakatga <strong>undashi</strong> mumkinligidan xavotirda. Bu xavotir televideniedagi shafqatsizlik tasvirlari bilan bog'liq tashvishlarni aks ettiradi. Bundan tashqari, ba'zi sharhlovchilarning ta'kidlashicha, kompyuter o'yinlarining keng tarqalgan mashhurligi ta'lim mazmunining <strong>sodda bo'lib ketishiga</strong> hissa qo'shgan. Ekran vaqti va o'qish va uy vazifasi kabi akademik mashg'ulotlar o'rtasidagi taxminiy almashinuv bolalarning intellektual rivojlanishiga salbiy ta'siri haqidagi xavotirlarni kuchaytirdi. Xavotir, shuningdek, ijodkorlikning potentsial bo'g'ilishiga <strong>ham taalluqli</strong>, ota-onalar haddan tashqari ekran vaqti bolalarni rasm chizish yoki ijodiy yozish kabi tasavvurni rivojlantiradigan faoliyat bilan shug'ullanishiga to'sqinlik qilishi mumkinligidan xavotirda.</p>
+<p>Tohoku universitetining professori Ryuta Kawashima, bu xavotirlarga aniq ilmiy nuqtai nazardan yondashadi. Uning zamonaviy neyro-tasvir texnologiyasidan foydalangan holdagi tadqiqotlari shuni ko'rsatadiki, kompyuter o'yinlari bolalar miyasining yaxlit rivojlanishiga haqiqatan ham <strong>zarar yetkazishi</strong> mumkin. Xususan, miya skanerlari o'yin asosan vizual qayta ishlash va motor nazorati bilan bog'liq bo'lgan sohalarni rag'batlantirishini, frontal loblar esa - o'rganish, xotira, hissiy tartibga solish va o'zini tuta bilish kabi yuqori darajadagi kognitiv funktsiyalar uchun mas'ul bo'lgan - nisbatan <strong>uyquda</strong> qolishini aniqladi. Bunday tanlab rag'batlantirish miyaning rivojlanishidagi potentsial nomutanosibliklar haqida xavotirlarni uyg'otadi.</p>
+<p>Rivojlanmagan frontal loblarning oqibatlari, ayniqsa xatti-harakatlarni nazorat qilish bilan bog'liq holda, juda kengdir. Agar o'zini o'zi tartibga solish qobiliyati buzilgan bo'lsa, bolalar impulsiv va potentsial tajovuzkor xatti-harakatlarga ko'proq moyil bo'lishi mumkin. Shuning uchun professor Kawashimaning topilmalari ota-onalarning xavotirlarini <strong>tasdiqlaydi</strong>, bu esa kompyuter o'yinlaridan haddan tashqari foydalanishning potentsial salbiy oqibatlari avvalgi e'tirof etilganidan ko'ra chuqurroq bo'lishi mumkinligini ko'rsatadi. O'yin va bola rivojlanishi o'rtasidagi murakkab o'zaro ta'sirni to'liq <strong>aniqlash</strong> va potentsial zararni kamaytirish strategiyalarini <strong>ishlab chiqish</strong> uchun qo'shimcha tadqiqotlar, shubhasiz, zarur, ammo bu tadqiqot ota-onalar va o'qituvchilar uchun <strong>ogohlantiruvchi qo'ng'iroq</strong> vazifasini o'taydi.</p>`,
+    vocabularyC1: {
+        "knee-jerk reactions": {
+                "definition": "An immediate, often unthinking, emotional response to an event or statement.",
+                "uzbek": "Voqeaga yoki bayonotga nisbatan darhol, ko'pincha o'ylamasdan beriladigan hissiy javob.",
+                "example": "The proposal was met with knee-jerk reactions from both sides of the political spectrum.",
+                "exampleUzbek": "Taklif siyosiy spektrning har ikki tomonida ham darhol e'tirozlarga duch keldi."
+        },
+        "revolves around": {
+                "definition": "To have as a central theme or focus.",
+                "uzbek": "Markaziy mavzu yoki yo'nalishga ega bo'lish.",
+                "example": "The entire discussion revolves around the issue of funding.",
+                "exampleUzbek": "Butun muhokama moliyalashtirish masalasi atrofida aylanadi."
+        },
+        "engaging in": {
+                "definition": "Participating in; being involved in.",
+                "uzbek": "Qatnashmoq; ishtirok etmoq.",
+                "example": "The students are actively engaging in the debate.",
+                "exampleUzbek": "Talabalar bahsda faol ishtirok etmoqdalar."
+        },
+        "impede": {
+                "definition": "To delay or prevent (someone or something) by obstructing them; hinder.",
+                "uzbek": "To'sqinlik qilib (kimnidir yoki nimanidir) kechiktirish yoki oldini olish; xalaqit berish.",
+                "example": "The heavy rain impeded our progress.",
+                "exampleUzbek": "Kuchli yomg'ir bizning taraqqiyotimizga to'sqinlik qildi."
+        },
+        "desensitizing effect": {
+                "definition": "The process of becoming less sensitive to something, especially something that is typically shocking or disturbing.",
+                "uzbek": "Nimagadir, ayniqsa odatda hayratlanarli yoki bezovta qiluvchi narsaga nisbatan kamroq sezgir bo'lish jarayoni.",
+                "example": "Exposure to violence can have a desensitizing effect on young people.",
+                "exampleUzbek": "Zo'ravonlikka duchor bo'lish yoshlarga sezgirlikni kamaytirishi mumkin."
+        },
+        "incline": {
+                "definition": "To have a tendency to do something.",
+                "uzbek": "Nimadir qilishga moyilligi bor.",
+                "example": "His upbringing inclined him to be conservative.",
+                "exampleUzbek": "Uning tarbiyasi uni konservativ bo'lishga undadi."
+        },
+        "dumbing down": {
+                "definition": "The simplification of something, especially for popular consumption, often to the detriment of quality or accuracy.",
+                "uzbek": "Nimadirni soddalashtirish, ayniqsa ommaviy iste'mol uchun, ko'pincha sifat yoki aniqlik zarariga.",
+                "example": "Critics accused the newspaper of dumbing down its content to attract more readers.",
+                "exampleUzbek": "Tanqidchilar gazetani ko'proq o'quvchilarni jalb qilish uchun o'z mazmunini soddalashtirishda ayblashdi."
+        },
+        "extends to": {
+                "definition": "To include or apply to.",
+                "uzbek": "Qamrab olmoq yoki tatbiq etmoq.",
+                "example": "The offer extends to all employees.",
+                "exampleUzbek": "Taklif barcha xodimlarga tegishli."
+        },
+        "impair": {
+                "definition": "To weaken or damage something, especially a human faculty or function.",
+                "uzbek": "Nimadirni zaiflashtirish yoki shikastlash, ayniqsa insonning qobiliyati yoki funktsiyasi.",
+                "example": "Alcohol can impair your judgment.",
+                "exampleUzbek": "Alkogol sizning hukmingizga zarar etkazishi mumkin."
+        },
+        "dormant": {
+                "definition": "Inactive; sleeping; suspended in activity.",
+                "uzbek": "No faol; uxlab yotgan; faoliyatda to'xtatilgan.",
+                "example": "The volcano has been dormant for centuries.",
+                "exampleUzbek": "Vulqon asrlar davomida uxlab yotgan."
+        },
+        "corroborate": {
+                "definition": "To confirm or support (a statement, theory, or finding).",
+                "uzbek": "Tasdiqlash yoki qo'llab-quvvatlash (bayonot, nazariya yoki xulosa).",
+                "example": "The witness's testimony corroborated the victim's account.",
+                "exampleUzbek": "Guvohning ko'rsatuvlari jabrlanuvchining hisobini tasdiqladi."
+        },
+        "elucidate": {
+                "definition": "To make (something) clear; explain.",
+                "uzbek": "(Nimadirni) aniqlashtirish; tushuntirish.",
+                "example": "The professor elucidated the complex theory.",
+                "exampleUzbek": "Professor murakkab nazariyani tushuntirib berdi."
+        },
+        "devise": {
+                "definition": "To plan or invent (a complex procedure, system, or mechanism) by careful thought.",
+                "uzbek": "Ehtiyotkorlik bilan o'ylab (murakkab protsedura, tizim yoki mexanizmni) rejalashtirish yoki ixtiro qilish.",
+                "example": "They devised a plan to escape.",
+                "exampleUzbek": "Ular qochish rejasini tuzdilar."
+        },
+        "wake-up call": {
+                "definition": "An event that serves as a warning or alert.",
+                "uzbek": "Ogohlantirish yoki signal vazifasini bajaradigan voqea.",
+                "example": "The economic crisis was a wake-up call for the government.",
+                "exampleUzbek": "Iqtisodiy inqiroz hukumat uchun ogohlantirish bo'ldi."
+        },
+        "holistic development": {
+                "definition": "Development that encompasses all aspects of a person's being, including physical, emotional, intellectual, social, and spiritual dimensions.",
+                "uzbek": "Shaxsning barcha jihatlarini, shu jumladan jismoniy, hissiy, intellektual, ijtimoiy va ma'naviy o'lchamlarni qamrab oladigan rivojlanish.",
+                "example": "The school emphasizes holistic development, focusing on the well-being of the whole child.",
+                "exampleUzbek": "Maktab butun bolaning farovonligiga e'tibor qaratgan holda, yaxlit rivojlanishni ta'kidlaydi."
+        }
+}
 };

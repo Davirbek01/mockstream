@@ -1,0 +1,36 @@
+// Grammar Test: Question & Compare — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> you like to go to the park?", correct: "Would", options: ["Would", "Do", "Are", "Is"], def: "\"Would\" is used for polite requests and offers.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This car is <b>___</b> than my old one.", correct: "faster", options: ["faster", "fast", "more fast", "fastly"], def: "Use \"-er\" for short adjectives in comparative form.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "This is the <b>___</b> book I have ever read.", correct: "best", options: ["best", "goodest", "better", "gooder"], def: "\"Best\" is the superlative form of \"good\".", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is the tallest building in the city?", correct: "Which", options: ["Which", "What", "Who", "Where"], def: "\"Which\" is used when choosing from a set of options.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is <b>___</b> as his brother.", correct: "as tall", options: ["as tall", "tall", "so tall", "as taller"], def: "\"As...as\" is used for equal comparisons.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>What</b> you <b>are</b> <b>doing</b> <b>now</b>?", correct: "What", options: ["What", "are", "doing", "now"], def: "Question word order: What ARE you doing?", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "This car is <b>___</b> than the other one.", correct: "more expensive", options: ["more expensive", "expensiver", "expensive", "most expensive"], def: "Use \"more\" with longer adjectives in comparative form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> many people came to the party?", correct: "How", options: ["How", "What", "Which", "Who"], def: "\"How many\" is used to ask about quantity.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> intelligent than her sister.", correct: "less", options: ["less", "fewer", "least", "much"], def: "\"Less\" is used for uncountable nouns and adjectives.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "This city is <b>___</b> from here than I thought.", correct: "farther", options: ["farther", "further", "more far", "farest"], def: "\"Farther\" refers to physical distance.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> do you usually eat for breakfast?", correct: "What", options: ["What", "Which", "Who", "When"], def: "\"What\" is used to ask about things.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This is the <b>___</b> movie I've seen this year.", correct: "worst", options: ["worst", "badder", "badest", "more bad"], def: "\"Worst\" is the superlative of bad.", level: "B1–B2"},
+  {type: "Find the error:", question: "He <b>ask</b> me <b>if</b> I <b>want</b> to <b>go</b>.", correct: "ask", options: ["ask", "if", "want", "go"], def: "Third-person singular present tense: asks.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I don't have as <b>___</b> money as you.", correct: "much", options: ["much", "many", "more", "most"], def: "\"Much\" is used with uncountable nouns (money).", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> old are you?", correct: "How", options: ["How", "What", "Which", "Who"], def: "\"How\" is used to ask about age.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She runs <b>___</b> than her brother.", correct: "faster", options: ["faster", "fast", "more fast", "fastly"], def: "Use \"-er\" for short adverbs in comparative form.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I have <b>___</b> time than you.", correct: "less", options: ["less", "fewer", "littler", "least"], def: "\"Less\" is the comparative of \"little\" for uncountable nouns.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is your favorite color?", correct: "What", options: ["What", "Which", "Who", "Where"], def: "\"What\" is used to ask about things in general.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He is the <b>___</b> student in the class.", correct: "smartest", options: ["smartest", "smarter", "more smart", "smart"], def: "\"Smartest\" is the superlative of smart.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "This test is <b>___</b> than the last one.", correct: "easier", options: ["easier", "more easy", "easyer", "easiest"], def: "\"Easier\" is the comparative form of easy.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> do you live?", correct: "Where", options: ["Where", "What", "Which", "Who"], def: "\"Where\" is used to ask about location.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> than I am.", correct: "older", options: ["older", "old", "more old", "oldest"], def: "\"Older\" is the comparative form of old.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He drives <b>___</b> than his brother.", correct: "more slowly", options: ["more slowly", "slower", "slowlier", "slow"], def: "Use \"more\" with adverbs ending in -ly in comparative form.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is your name?", correct: "What", options: ["What", "Which", "Who", "Where"], def: "\"What\" is used to ask for someone's name.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This cake is <b>___</b> than that one.", correct: "sweeter", options: ["sweeter", "sweet", "more sweet", "sweetly"], def: "\"Sweeter\" is the comparative form of sweet.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you <b>go</b> to the park yesterday?", correct: "Did", options: ["Did", "Do", "Are", "Have"], def: "Use 'Did' for past simple questions.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "This book is <b>___</b> than that one.", correct: "more interesting", options: ["more interesting", "interesting", "interestinger", "most interesting"], def: "Use 'more' for longer adjectives when comparing.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He is <b>___</b> than his brother.", correct: "taller", options: ["taller", "tall", "more tall", "tallest"], def: "Add '-er' to short adjectives to form comparatives.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is your favorite color?", correct: "What", options: ["What", "Who", "Which", "Where"], def: "'What' asks about a thing or choice.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She is <b>___</b> student in the class.", correct: "the best", options: ["the best", "best", "better", "the better"], def: "'Best' is the superlative of 'good', using 'the'.", level: "B1–B2"}
+];

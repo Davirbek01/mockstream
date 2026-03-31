@@ -156,4 +156,335 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Anoreksiya va bulimiya jiddiy ovqatlanish buzilishlaridir."
         }
     }
+,
+    passageB1: `<p>People often say that TV and newspapers are the reason for problems in today's world. So, it's not surprising that they also get the blame for our <strong>obsession</strong> with famous people, or <strong>celebrities</strong>.</p>
+
+<p>It's <strong>strange</strong> that many people who are famous today don't seem to have a good reason to be famous. Some are actors in films, football players, or singers. But others become famous because they are friends with someone famous. Or maybe they wear very unusual clothes. Or they <strong>behave</strong> very badly in public. Sometimes, they are known for bad things they do, not for being good at something. This is called <strong>notoriety</strong>.</p>
+
+<p>In the past, people had <strong>icons</strong> too. But it seems that they were famous because they were good at something. Also, their fame lasted longer. Today's celebrities are often famous for a very short time. They are in the news for a few weeks, and then people forget about them. Think about famous actors from Hollywood like James Dean. People still remember them many years after they died. They are <strong>legends</strong>.</p>
+
+<p>Today's celebrities will do anything to be in the newspapers. How they look, their <strong>image</strong>, is very important to them. They love it when people write about them. Sometimes they say they don't like it when <strong>paparazzi</strong> take their photos. But they need the <strong>attention</strong> of the media.</p>
+
+<p>Once they are famous, they want to stay famous. The worst thing for them is when people start paying attention to someone else. Everything they do is made to seem more important than it is. People who work for them, <strong>image-makers</strong>, make sure that everyone knows about their lives. They want to be in the <strong>public eye</strong>.</p>
+
+<p>They want to be rich and famous. They spend a lot of money on their lives. If they are losing fame, they might give interviews about problems they have had, like drinking too much alcohol, taking drugs, or having problems with food. It's sad, but many of today's <strong>heroes</strong> aren't very good people. They are not <strong>heroic</strong>.</p>`,
+    translationB1: `<p>Odamlar ko'pincha televizor va gazetalarni bugungi dunyodagi muammolar sababchisi deb aytishadi. Shunday ekan, ularning mashhur insonlarga, yoki <strong>celebritylar</strong>ga bo'lgan <strong>ishtiyoqimiz</strong> uchun ham aybdor ekanligi ajablanarli emas.</p>
+
+<p>Bugungi kunda mashhur bo'lgan ko'plab odamlarning mashhur bo'lish uchun yaxshi sababi yo'qligi <strong>g'alati</strong>. Ba'zilari filmlarda aktyorlar, futbolchilar yoki qo'shiqchilar. Ammo boshqalari mashhur odam bilan do'st bo'lganligi uchun mashhur bo'lib qolishadi. Yoki juda g'ayrioddiy kiyim kiyishadi. Yoki omma oldida juda yomon <strong>o'zini tutishadi</strong>. Ba'zan ular yaxshi biror narsaga qobiliyatli bo'lgani uchun emas, balki qilgan yomon ishlari bilan tanilgan. Bu <strong>shuhratsizlik</strong> deb ataladi.</p>
+
+<p>Ilgari odamlarda ham <strong>kumirlar</strong> bo'lgan. Ammo, aftidan, ular biror narsaga yaxshi bo'lgani uchun mashhur bo'lishgan. Bundan tashqari, ularning shuhrati uzoqroq davom etgan. Bugungi kundagi celebritylar ko'pincha juda qisqa vaqt ichida mashhur bo'lishadi. Ular bir necha hafta davomida yangiliklarda bo'lishadi, keyin odamlar ularni unutishadi. Gollivudning Jeyms Din kabi mashhur aktyorlari haqida o'ylab ko'ring. Odamlar ularning vafotidan ko'p yillar o'tgach ham ularni eslashadi. Ular <strong>afsonalar</strong>.</p>
+
+<p>Bugungi kundagi celebritylar gazetada bo'lish uchun hamma narsani qilishga tayyor. Ularning tashqi ko'rinishi, <strong>imidji</strong>, ular uchun juda muhim. Odamlar ular haqida yozganida, ular bundan juda xursand bo'lishadi. Ba'zan <strong>paparatsilar</strong> ularning suratlarini olganida yoqtirmasliklarini aytishadi. Ammo ularga ommaviy axborot vositalarining <strong>e'tibori</strong> kerak.</p>
+
+<p>Ular mashhur bo'lgandan so'ng, mashhur bo'lib qolishni xohlashadi. Ular uchun eng yomon narsa - odamlar boshqa birovga e'tibor bera boshlaganida. Ularning har bir qilgan ishi boridan ham muhimroq qilib ko'rsatiladi. Ular uchun ishlaydigan odamlar, <strong>imidj-meykerlar</strong>, hamma ularning hayoti haqida bilishiga ishonch hosil qilishadi. Ular <strong>jamoatchilik nazarida</strong> bo'lishni xohlashadi.</p>
+
+<p>Ular boy va mashhur bo'lishni xohlashadi. Ular o'z hayotlariga ko'p pul sarflashadi. Agar ular shuhratini yo'qotayotgan bo'lsa, ular juda ko'p spirtli ichimlik ichish, giyohvand moddalar qabul qilish yoki ovqat bilan bog'liq muammolar kabi boshidan kechirgan muammolar haqida intervyu berishlari mumkin. Afsuski, bugungi kundagi ko'plab <strong>qahramonlar</strong> juda yaxshi odamlar emas. Ular <strong>qahramonona</strong> emas.</p>`,
+    vocabularyB1: {
+        "obsession": {
+                "definition": "When you think about something all the time",
+                "uzbek": "Bir narsa haqida doimo o'ylash",
+                "example": "She has an obsession with chocolate.",
+                "exampleUzbek": "U shokoladga ruju qo'ygan."
+        },
+        "celebrities": {
+                "definition": "Famous people, especially in entertainment or sports",
+                "uzbek": "Mashhur odamlar, ayniqsa ko'ngilochar yoki sport sohasida",
+                "example": "The magazine is full of stories about celebrities.",
+                "exampleUzbek": "Jurnal mashhurlar haqidagi hikoyalarga to'la."
+        },
+        "strange": {
+                "definition": "Unusual or surprising",
+                "uzbek": "G'ayrioddiy yoki ajablanarli",
+                "example": "That's a strange thing to say.",
+                "exampleUzbek": "Bu g'alati gap."
+        },
+        "behave": {
+                "definition": "To act in a certain way",
+                "uzbek": "O'zini muayyan tarzda tutish",
+                "example": "The children behaved very well.",
+                "exampleUzbek": "Bolalar o'zlarini juda yaxshi tutishdi."
+        },
+        "notoriety": {
+                "definition": "Being famous for something bad",
+                "uzbek": "Yomon narsa uchun mashhur bo'lish",
+                "example": "He gained notoriety for his crimes.",
+                "exampleUzbek": "U jinoyatlari uchun shuhrat qozondi."
+        },
+        "icons": {
+                "definition": "People who are admired and seen as symbols of something",
+                "uzbek": "Qoyil qoladigan va biror narsaning ramzi sifatida ko'riladigan odamlar",
+                "example": "She is a fashion icon.",
+                "exampleUzbek": "U moda ikoni."
+        },
+        "legends": {
+                "definition": "Very famous people who are remembered for a long time",
+                "uzbek": "Uzoq vaqt xotirada saqlanadigan juda mashhur odamlar",
+                "example": "He is a legend in the music world.",
+                "exampleUzbek": "U musiqa olamida afsona."
+        },
+        "image": {
+                "definition": "The way someone or something appears to other people",
+                "uzbek": "Kimdir yoki biror narsaning boshqa odamlarga ko'rinishi",
+                "example": "The company wants to improve its image.",
+                "exampleUzbek": "Kompaniya o'z qiyofasini yaxshilashni xohlaydi."
+        },
+        "paparazzi": {
+                "definition": "Photographers who follow famous people to take their pictures",
+                "uzbek": "Mashhur odamlarni suratga olish uchun ularni kuzatib boradigan fotosuratchilar",
+                "example": "The actress was surrounded by paparazzi.",
+                "exampleUzbek": "Aktyor atrofida paparazzi qurshab oldi."
+        },
+        "attention": {
+                "definition": "The act of noticing or paying attention to something",
+                "uzbek": "Biror narsaga e'tibor qaratish yoki e'tibor berish",
+                "example": "The baby needs attention.",
+                "exampleUzbek": "Chaqaloqqa e'tibor kerak."
+        },
+        "image-makers": {
+                "definition": "People whose job is to create a positive image for someone",
+                "uzbek": "Kimdir uchun ijobiy qiyofa yaratish vazifasi bo'lgan odamlar",
+                "example": "The politician hired an image-maker.",
+                "exampleUzbek": "Siyosatchi imidjmeysterni yolladi."
+        },
+        "public eye": {
+                "definition": "Being famous and well-known to many people",
+                "uzbek": "Mashhur va ko'pchilikka tanish bo'lish",
+                "example": "She has lived her life in the public eye.",
+                "exampleUzbek": "U o'z hayotini omma oldida yashadi."
+        },
+        "heroes": {
+                "definition": "People who are admired for being brave or good",
+                "uzbek": "Jasur yoki yaxshi bo'lganligi uchun hayratga soladigan odamlar",
+                "example": "Firefighters are heroes.",
+                "exampleUzbek": "O't o'chiruvchilar qahramonlardir."
+        },
+        "heroic": {
+                "definition": "Very brave or showing great courage",
+                "uzbek": "Juda jasur yoki katta jasorat ko'rsatish",
+                "example": "That was a heroic act.",
+                "exampleUzbek": "Bu qahramonona harakat edi."
+        }
+},
+    passageB2: `<p>The media, especially television, often gets the blame for many of society's problems. Therefore, it's not surprising that they are also accused of fueling our current <strong>obsession</strong> with celebrities.</p>
+
+<p>What's quite odd is that many individuals considered famous today seem to lack a real reason for their <strong>celebrity status</strong>. Some might be actors, athletes, or singers, but others appear to gain fame simply by being associated with someone already famous, wearing outrageous outfits, or behaving badly in public. In fact, for some, it's <strong>infamy</strong> rather than true fame that they achieve.</p>
+
+<p>While past generations certainly had their icons, fame back then seemed to be based more on genuine talent and tended to last longer. Today’s celebrities often experience <strong>fleeting fame</strong>; they might be in the spotlight for a short time and then quickly disappear. This is a stark contrast to the lasting <strong>legacy</strong> of Hollywood legends like James Dean, who remain famous long after they've died. Their talent <strong>transcended</strong> time.</p>
+
+<p>Modern celebrities often go to great lengths to stay in the tabloids. Their image is <strong>paramount</strong>, and they crave publicity. Although they sometimes complain about the paparazzi, they seem unable to live without media attention. They appear desperate to remain in the public eye once they've achieved it. The worst thing for them is to be <strong>eclipsed</strong> by someone else.</p>
+
+<p>Everything they do is <strong>exaggerated</strong>, with image consultants working hard to ensure their lives are constantly publicised. They are driven by the pursuit of wealth and fame, although much of their earnings are spent on their <strong>lavish lifestyles</strong>. It is as if they are trying to <strong>outdo</strong> each other in displays of wealth.</p>
+
+<p>And if their careers begin to <strong>wane</strong>, some resort to giving sensational interviews, perhaps claiming they've overcome addictions to alcohol, drugs, or eating disorders. It's rather sad that many of today's so-called heroes are not particularly <strong>admirable</strong>; they lack the qualities we traditionally associate with heroism. They are more concerned with <strong>self-promotion</strong> than anything else.</p>`,
+    translationB2: `<p>Ommaviy axborot vositalari, ayniqsa televideniye, jamiyatdagi ko'plab muammolarda aybdor deb topiladi. Shuning uchun ularning mashhurlikka bo'lgan hozirgi <strong>qiziqishimizni</strong> kuchaytirayotganlikda ham ayblanishi ajablanarli emas.</p>
+
+<p>G'alati tomoni shundaki, bugungi kunda mashhur deb hisoblangan ko'plab shaxslar o'zlarining <strong>mashhurlik maqomiga</strong> ega bo'lishlari uchun haqiqiy sababga ega emasdek tuyuladi. Ularning ba'zilari aktyorlar, sportchilar yoki qo'shiqchilar bo'lishi mumkin, ammo boshqalari allaqachon mashhur bo'lgan odam bilan aloqador bo'lish, g'alati kiyimlar kiyish yoki omma oldida yomon xulq-atvor ko'rsatish orqali shuhrat qozongandek ko'rinadi. Aslida, ba'zilar uchun haqiqiy shuhratdan ko'ra <strong>sharmandalik</strong> muhimroq.</p>
+
+<p>O'tmish avlodlarning o'z kumirlari bo'lgan bo'lsa-da, o'sha paytdagi shuhrat ko'proq haqiqiy iste'dodga asoslangan va uzoqroq davom etgandek tuyulardi. Bugungi mashhurlar ko'pincha <strong>o'tkinchi shuhratni</strong> boshdan kechirishadi; ular qisqa vaqt ichida e'tiborda bo'lishi va keyin tezda yo'q bo'lishi mumkin. Bu Jeyms Din kabi Gollivud afsonalarining uzoq davom etadigan <strong>merosiga</strong> keskin zid keladi, ular vafotidan keyin ham mashhur bo'lib qolmoqda. Ularning iste'dodi vaqtlardan <strong>ustun keldi</strong>.</p>
+
+<p>Zamonaviy mashhurlar ko'pincha tabloidlarda qolish uchun katta kuch sarflashadi. Ularning imiji <strong>eng muhim</strong> va ular ommaviy axborot vositalarining e'tiborini qaratishni xohlashadi. Garchi ular ba'zan paparatsilardan shikoyat qilishsa-da, ular ommaviy axborot vositalarining e'tiborisiz yashay olmaydigandek tuyuladi. Ular shuhratga erishgandan so'ng, doimo jamoatchilik e'tiborida qolishga intilishadi. Ular uchun eng yomon narsa - boshqa birov tomonidan <strong>soyasida qoldirilish</strong>.</p>
+
+<p>Ularning har bir qilayotgan ishi <strong>bo'rttirilgan</strong> bo'lib, imidj bo'yicha maslahatchilar ularning hayoti doimo e'lon qilinishini ta'minlash uchun tinimsiz ishlaydi. Ular boylik va shuhratga intilish bilan harakatlanadi, garchi ularning daromadlarining katta qismi o'zlarining <strong>dabdabali turmush tarziga</strong> sarflanadi. Go'yo ular boylik namoyishida bir-biridan <strong>o'zib ketmoqchidek</strong>.</p>
+
+<p>Agar ularning faoliyati <strong>pasaya boshlasa</strong>, ba'zilari shov-shuvli intervyular berishga o'tishadi, ehtimol ular alkogolga, giyohvand moddalarga yoki ovqatlanish buzilishlariga qaramlikni yengib o'tganliklarini da'vo qilishadi. Afsuski, bugungi kunda qahramon deb ataladigan ko'plab odamlar unchalik <strong>maqtovga sazovor</strong> emas; ularda biz an'anaviy ravishda qahramonlik bilan bog'laydigan fazilatlar yo'q. Ular boshqa narsadan ko'ra ko'proq <strong>o'z-o'zini reklama qilish</strong> bilan band.</p>`,
+    vocabularyB2: {
+        "obsession": {
+                "definition": "A state in which someone thinks about someone or something constantly or frequently.",
+                "uzbek": "Kimdir yoki biror narsa haqida doimiy yoki tez-tez o'ylaydigan holat.",
+                "example": "He has an obsession with collecting old books.",
+                "exampleUzbek": "U eski kitoblarni yig'ishga haddan tashqari berilib ketgan."
+        },
+        "celebrity status": {
+                "definition": "The condition of being famous or well-known.",
+                "uzbek": "Mashhur yoki taniqli bo'lish holati.",
+                "example": "She enjoys her celebrity status, but it also has its downsides.",
+                "exampleUzbek": "U o'zining mashhurligidan zavqlanadi, lekin uning kamchiliklari ham bor."
+        },
+        "infamy": {
+                "definition": "The state of being well known for some bad quality or deed.",
+                "uzbek": "Yomon sifat yoki ish bilan mashhur bo'lish holati.",
+                "example": "The dictator is remembered for his infamy.",
+                "exampleUzbek": "Diktator o'zining yomon ishlari bilan esda qoladi."
+        },
+        "fleeting fame": {
+                "definition": "Fame that lasts only for a short time.",
+                "uzbek": "Qisqa vaqt davom etadigan shuhrat.",
+                "example": "Many reality TV stars experience fleeting fame.",
+                "exampleUzbek": "Ko'pgina realiti-shou yulduzlari qisqa muddatli shuhratga erishadilar."
+        },
+        "legacy": {
+                "definition": "Something transmitted by or received from an ancestor or predecessor or from the past.",
+                "uzbek": "Ota-bobolar yoki o'tmishdan qolgan narsa.",
+                "example": "The scientist left a legacy of important discoveries.",
+                "exampleUzbek": "Olim muhim kashfiyotlar merosini qoldirdi."
+        },
+        "transcended": {
+                "definition": "To rise above or go beyond the limits of.",
+                "uzbek": "Chegaralaridan yuqoriga ko'tarilish yoki o'tib ketish.",
+                "example": "His art transcended cultural boundaries.",
+                "exampleUzbek": "Uning san'ati madaniy chegaralardan oshib ketdi."
+        },
+        "paramount": {
+                "definition": "More important than anything else; supreme.",
+                "uzbek": "Boshqa hamma narsadan muhimroq; oliy.",
+                "example": "Safety is paramount in this factory.",
+                "exampleUzbek": "Bu fabrikada xavfsizlik eng muhimi."
+        },
+        "eclipsed": {
+                "definition": "To surpass in importance or reputation; outshine.",
+                "uzbek": "Muhimligi yoki obro'si jihatidan ustun kelish; yorqinroq bo'lish.",
+                "example": "Her achievements eclipsed those of her rivals.",
+                "exampleUzbek": "Uning yutuqlari raqiblarining yutuqlaridan ustun keldi."
+        },
+        "exaggerated": {
+                "definition": "Represented as greater than is actually the case; overstated.",
+                "uzbek": "Haqiqatda bo'lganidan kattaroq qilib ko'rsatilgan; oshirib yuborilgan.",
+                "example": "The news report exaggerated the extent of the damage.",
+                "exampleUzbek": "Yangiliklar xabarida zarar miqdori oshirib yuborilgan."
+        },
+        "lavish lifestyles": {
+                "definition": "Extravagant and luxurious ways of living.",
+                "uzbek": "Hashamatli va dabdabali hayot tarzi.",
+                "example": "Many celebrities lead lavish lifestyles.",
+                "exampleUzbek": "Ko'pgina mashhurlar hashamatli hayot tarzini kechiradilar."
+        },
+        "outdo": {
+                "definition": "To be more successful than someone else.",
+                "uzbek": "Boshqa birovdan ko'ra muvaffaqiyatliroq bo'lish.",
+                "example": "They are always trying to outdo each other.",
+                "exampleUzbek": "Ular doimo bir-birlaridan o'zib ketishga harakat qiladilar."
+        },
+        "wane": {
+                "definition": "To decrease in vigor, power, or extent; become weaker.",
+                "uzbek": "Kuch, quvvat yoki hajm jihatidan kamayish; zaiflashish.",
+                "example": "His popularity began to wane after the scandal.",
+                "exampleUzbek": "Janjaldan keyin uning mashhurligi pasaya boshladi."
+        },
+        "admirable": {
+                "definition": "Deserving respect and approval.",
+                "uzbek": "Hurmat va ma'qullashga loyiq.",
+                "example": "He showed admirable courage during the crisis.",
+                "exampleUzbek": "U inqiroz davrida maqtovga sazovor jasorat ko'rsatdi."
+        },
+        "self-promotion": {
+                "definition": "The publicizing of oneself or one's accomplishments.",
+                "uzbek": "O'zini yoki yutuqlarini ommaga e'lon qilish.",
+                "example": "The politician's speech was mostly self-promotion.",
+                "exampleUzbek": "Siyosatchining nutqi asosan o'zini reklama qilish edi."
+        }
+},
+    passageC1: `<p>Given the propensity to indict television and the media for society's perceived ills, it hardly comes as a surprise that they are routinely held accountable for the contemporary <strong>celebrity obsession</strong>. The relentless spotlight on individuals, often devoid of discernible talent or merit, has become a defining characteristic of our age.</p>
+
+<p>What is particularly perplexing is the tenuous basis upon which many achieve this elevated status. While some may indeed be accomplished film stars, athletes, or musicians, others seem to <strong>garner notoriety</strong> simply by virtue of associating with famous individuals, adopting outlandish sartorial choices, or engaging in conspicuously inappropriate public behavior. It is, arguably, infamy rather than genuine acclaim that propels these so-called celebrities into the public consciousness. This <strong>cult of celebrity</strong> seems to value attention above all else.</p>
+
+<p>Of course, previous generations have also venerated icons; however, their fame typically <strong>hinged on</strong> demonstrable talent and proved more enduring. By contrast, the fame enjoyed by today's celebrities is frequently <strong>transient</strong>, a fleeting moment in the limelight before fading into obscurity. One need only consider the enduring legacy of Hollywood luminaries such as James Dean to appreciate the disparity. Their influence continues to resonate decades after their demise, a testament to the power of genuine artistry. The <strong>ephemeral nature</strong> of modern fame stands in stark contrast.</p>
+
+<p>Modern celebrities, it appears, will resort to almost any measure to ensure their continued presence in the tabloid press. For them, image is paramount, and they demonstrably <strong>relish the attention</strong>, however intrusive, that the media bestows. While they may feign objection to the paparazzi's relentless pursuit, they are, in truth, <strong>addicted to the glare</strong> of publicity. This <strong>symbiotic relationship</strong> between celebrity and media fuels the cycle of sensationalism.</p>
+
+<p>Once ensconced in the public eye, they seem desperate to remain there. The ultimate fear is that the spotlight will shift elsewhere. Consequently, their every action is subject to <strong>exaggerated hype</strong>, with image-makers meticulously crafting their public persona to ensure maximum exposure. Their lives become a carefully orchestrated performance, designed to maintain their position in the <strong>celebrity ecosystem</strong>.</p>
+
+<p>Beyond the pursuit of fame, there is also the relentless quest for wealth, much of which is then squandered on extravagant lifestyles. When all else fails, they may resort to sensationalized accounts of overcoming addiction or battling eating disorders, further perpetuating the cycle of <strong>self-aggrandizement</strong>. It is a lamentable truth that many of today's so-called heroes are anything but <strong>paragons of virtue</strong>, their lives often a stark contrast to the ideals they are perceived to represent. The <strong>commodification of fame</strong> has led to a devaluation of true achievement.</p>`,
+    translationC1: `<p>Televideniye va ommaviy axborot vositalari jamiyatdagi muammolarda ayblanar ekan, ularning zamonaviy <strong>mashhurlik ishtiyoqi</strong> uchun javobgar ekanligi ajablanarli emas. Ko'pincha sezilarli iste'dod yoki xizmatga ega bo'lmagan shaxslarga tinimsiz e'tibor qaratilishi bizning davrimizning o'ziga xos xususiyatiga aylandi.</p>
+
+<p>Ayniqsa, ko'pchilikning bu yuqori maqomga erishishining noaniq asoslari hayratlanarli. Ba'zilar haqiqatan ham taniqli kino yulduzlari, sportchilar yoki musiqachilar bo'lishi mumkin bo'lsa-da, boshqalar shunchaki mashhur shaxslar bilan aloqa qilish, g'alati kiyim tanlash yoki ommaviy joylarda nomaqbul xatti-harakatlar qilish orqali <strong>mashhurlikka erishadi</strong>. Ehtimol, bu haqiqiy e'tirof emas, balki sharmandalik bu so'zda aytilgan mashhurlarni ommaviy ongga olib keladi. Bu <strong>mashhurlik kulti</strong> hamma narsadan ko'ra e'tiborni qadrlaydi.</p>
+
+<p>Albatta, avvalgi avlodlar ham ramzlarni ulug'lagan; ammo, ularning shuhrati odatda isbotlangan iste'dodga <strong>asoslangan</strong> va uzoq davom etgan. Aksincha, bugungi mashhurlarning shuhrati ko'pincha <strong>o'tkinchi</strong>, xiralashib ketishdan oldin diqqat markazida qisqa lahza. James Dean kabi Gollivud yulduzlarining uzoq davom etgan merosini ko'rib, farqni baholash kifoya. Ularning ta'siri vafotidan o'nlab yillar o'tgach ham davom etmoqda, bu haqiqiy san'atning kuchidan dalolat beradi. Zamonaviy shuhratning <strong>o'tkinchi tabiati</strong> keskin farq qiladi.</p>
+
+<p>Ko'rinishidan, zamonaviy mashhurlar tabloid matbuotida doimiy ishtirokini ta'minlash uchun deyarli har qanday choraga murojaat qilishadi. Ular uchun imij birinchi o'rinda turadi va ular ommaviy axborot vositalari taqdim etadigan e'tibordan, qanchalik xalaqit beradigan bo'lsa ham, <strong>rohatlanadilar</strong>. Ular paparatsilarning tinimsiz ta'qibiga qarshi ekanliklarini ko'rsatishlari mumkin bo'lsa-da, aslida ular ommaviylik <strong>nuriga o'rganib qolishgan</strong>. Mashhurlik va ommaviy axborot vositalari o'rtasidagi bu <strong>simbiotik munosabat</strong> sensatsionalizm tsiklini kuchaytiradi.</p>
+
+<p>Bir marta omma nazariga tushganlaridan so'ng, ular u erda qolishga intiladilar. Eng katta qo'rquv - diqqat markazi boshqa joyga siljiydi. Natijada, ularning har bir harakati <strong>bo'rttirilgan shov-shuvga</strong> sabab bo'ladi, imij-meykerlar esa maksimal darajada e'tiborni jalb qilish uchun ularning ommaviy shaxsini sinchkovlik bilan yaratadilar. Ularning hayoti <strong>mashhurlik ekotizimida</strong> o'z o'rnini saqlab qolish uchun mo'ljallangan, puxta tashkil etilgan tomoshaga aylanadi.</p>
+
+<p>Shuhratparastlikdan tashqari, boylikka tinimsiz intilish ham bor, ularning ko'pchiligi keyin hashamatli turmush tarziga sarflanadi. Boshqa hech narsa yordam bermasa, ular giyohvandlikni engib o'tish yoki ovqatlanish buzilishiga qarshi kurashish haqida sensatsiyali hikoyalarga murojaat qilishlari mumkin, bu esa <strong>o'zini ulug'lash</strong> tsiklini yanada kuchaytiradi. Bugungi kunda ko'plab qahramonlar deb ataladiganlarning ko'pchiligi <strong>fazilat timsoli</strong> emasligi, ularning hayoti ko'pincha ular ifodalaydi deb hisoblangan ideallarga keskin zid ekanligi achinarli haqiqatdir. <strong>Shuhratning tovarlashuvi</strong> haqiqiy yutuqlarning qadrsizlanishiga olib keldi.</p>`,
+    vocabularyC1: {
+        "celebrity obsession": {
+                "definition": "An excessive focus and interest in celebrities and their lives.",
+                "uzbek": "Mashhurlarga haddan tashqari qiziqish",
+                "example": "The celebrity obsession in modern society often overshadows important issues.",
+                "exampleUzbek": "Zamonaviy jamiyatda mashhurlarga haddan tashqari qiziqish muhim masalalarni ko'pincha soyada qoldiradi."
+        },
+        "garner notoriety": {
+                "definition": "To gain fame or attention, often for negative reasons or actions.",
+                "uzbek": "Salbiy sabablar yoki harakatlar tufayli shuhrat qozonish",
+                "example": "The politician garnered notoriety for his controversial remarks.",
+                "exampleUzbek": "Siyosatchi bahsli bayonotlari tufayli shuhrat qozondi."
+        },
+        "cult of celebrity": {
+                "definition": "A situation where celebrities are excessively admired and worshipped.",
+                "uzbek": "Mashhurlarning haddan tashqari hurmat qilinishi va ularga sig'inish holati",
+                "example": "The cult of celebrity can have a negative impact on young people's values.",
+                "exampleUzbek": "Mashhurlarga sig'inish yoshlarning qadriyatlariga salbiy ta'sir ko'rsatishi mumkin."
+        },
+        "hinged on": {
+                "definition": "Depended entirely on; relied upon.",
+                "uzbek": "To'liq bog'liq edi; ishonch bildirdi.",
+                "example": "His success hinged on his ability to network effectively.",
+                "exampleUzbek": "Uning muvaffaqiyati samarali aloqa o'rnata olish qobiliyatiga bog'liq edi."
+        },
+        "transient": {
+                "definition": "Lasting only for a short time; impermanent.",
+                "uzbek": "Qisqa vaqt davom etadigan; doimiy emas.",
+                "example": "The feeling of joy was transient, quickly replaced by sadness.",
+                "exampleUzbek": "Xursandchilik hissi qisqa muddatli bo'lib, tezda qayg'u bilan almashdi."
+        },
+        "ephemeral nature": {
+                "definition": "The quality of lasting for a very short time.",
+                "uzbek": "Juda qisqa vaqt davom etish sifati",
+                "example": "The ephemeral nature of youth makes it all the more precious.",
+                "exampleUzbek": "Yoshlikning qisqa umri uni yanada qimmatli qiladi."
+        },
+        "relish the attention": {
+                "definition": "To enjoy and appreciate the attention one receives.",
+                "uzbek": "Olingan e'tibordan zavqlanish va uni qadrlash",
+                "example": "She seemed to relish the attention she received from her fans.",
+                "exampleUzbek": "U muxlislari tomonidan olingan e'tibordan zavqlanganga o'xshardi."
+        },
+        "addicted to the glare": {
+                "definition": "Unable to resist the intense public attention.",
+                "uzbek": "Ommaviy e'tiborga qarshi tura olmaslik",
+                "example": "Some celebrities seem addicted to the glare of the spotlight.",
+                "exampleUzbek": "Ba'zi mashhurlar ommaviy e'tiborga o'rganib qolgandek tuyuladi."
+        },
+        "symbiotic relationship": {
+                "definition": "A relationship where both parties benefit from each other.",
+                "uzbek": "Ikkala tomon ham bir-biridan foyda ko'radigan munosabatlar",
+                "example": "The symbiotic relationship between the artist and their patron allowed both to thrive.",
+                "exampleUzbek": "Rassom va homiy o'rtasidagi simbiotik munosabatlar ikkalasining ham rivojlanishiga imkon berdi."
+        },
+        "exaggerated hype": {
+                "definition": "Excessive and often misleading publicity or promotion.",
+                "uzbek": "Haddan tashqari va ko'pincha noto'g'ri reklama yoki targ'ibot",
+                "example": "The film received exaggerated hype, but it didn't live up to expectations.",
+                "exampleUzbek": "Film haddan tashqari reklama qilindi, ammo u kutilgan natijalarga erisha olmadi."
+        },
+        "celebrity ecosystem": {
+                "definition": "The complex network of relationships and interactions within the world of celebrities.",
+                "uzbek": "Mashhurlar olamida munosabatlar va o'zaro ta'sirlarning murakkab tarmog'i",
+                "example": "Navigating the celebrity ecosystem requires a savvy understanding of its rules.",
+                "exampleUzbek": "Mashhurlar olamida harakat qilish uning qoidalarini yaxshi tushunishni talab qiladi."
+        },
+        "self-aggrandizement": {
+                "definition": "The act of exaggerating one's own importance or achievements.",
+                "uzbek": "O'z ahamiyatini yoki yutuqlarini bo'rttirib ko'rsatish",
+                "example": "His speech was full of self-aggrandizement and empty promises.",
+                "exampleUzbek": "Uning nutqi o'zini ko'klarga ko'tarish va bo'sh va'dalarga to'la edi."
+        },
+        "paragons of virtue": {
+                "definition": "Perfect examples of moral excellence.",
+                "uzbek": "Axloqiy mukammallikning mukammal namunalari",
+                "example": "We should not expect celebrities to be paragons of virtue.",
+                "exampleUzbek": "Biz mashhurlardan axloqiy mukammallikni kutmasligimiz kerak."
+        },
+        "commodification of fame": {
+                "definition": "The process of treating fame as a product that can be bought and sold.",
+                "uzbek": "Shuhratni sotib olish va sotish mumkin bo'lgan mahsulot sifatida ko'rib chiqish jarayoni",
+                "example": "The commodification of fame has led to a focus on image over substance.",
+                "exampleUzbek": "Shuhratni tovar sifatida ko'rish mohiyatdan ko'ra imijga e'tibor qaratishga olib keldi."
+        },
+        "relish": {
+                "definition": "To enjoy greatly.",
+                "uzbek": "Katta zavq bilan bahramand bo'lmoq.",
+                "example": "I relish the opportunity to travel to new places.",
+                "exampleUzbek": "Men yangi joylarga sayohat qilish imkoniyatidan katta zavq olaman."
+        }
+}
 };

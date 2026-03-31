@@ -138,10 +138,10 @@ function generateQuestions() {
 }
 
 // Initialize questions
-let QUESTIONS = generateQuestions();
+window.ALL_QUESTIONS = generateQuestions();
 
 // Function to regenerate questions (can be called to refresh)
-function regenerateQuestions() {
-    QUESTIONS = generateQuestions();
-    return QUESTIONS;
+window.regenerateQuestions = function() {
+  window.ALL_QUESTIONS = generateQuestions();
+  return window.ALL_QUESTIONS;
 }

@@ -1,0 +1,47 @@
+// Flashcard Data: Technology & Social Media — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "📱 Technology & Social Media: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Technology & Social Media",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "to game the system", en: "", uz: "tizimni aldamoq", uzDef: "Tizimni o'z foydasiga ishlatish uchun manipulyatsiya qilish, noqonuniy usullar bilan foyda ko'rmoq.", ex: "Some influencers are trying to game the system by buying fake followers.", exUz: "Ba'zi ta'sir o'tkazuvchilar soxta obunachilar sotib olib, tizimni aldamoqchi."},
+    {term: "feed into", en: "", uz: "olib kelmoq", uzDef: "Biror narsaning kuchayishiga yoki rivojlanishiga sabab bo'lmoq, qo'shimcha ta'sir ko'rsatmoq.", ex: "Sensationalist headlines feed into public anxiety about technology.", exUz: "Sensatsion sarlavhalar texnologiya haqidagi jamoatchilik xavotirlarini kuchaytiradi."},
+    {term: "attention economy", en: "", uz: "diqqat iqtisodiyoti", uzDef: "Insonlarning diqqatini jalb qilish orqali pul ishlashga qaratilgan biznes modeli.", ex: "We're living in the attention economy, where everyone is vying for our clicks.", exUz: "Biz diqqat iqtisodiyotida yashayapmiz, unda hamma bizning bosishlarimiz uchun kurashadi."},
+    {term: "virtually overnight", en: "", uz: "deyarli birdan", uzDef: "Juda tez va qisqa vaqt ichida, bir kechada deyarli.", ex: "That app became popular virtually overnight.", exUz: "Bu ilova deyarli bir kechada mashhur bo'lib ketdi."},
+    {term: "digital nomad", en: "", uz: "raqamli ko'chmanchi", uzDef: "Texnologiyalardan foydalanib, uzoqdan ishlaydigan va turli joylarda yashovchi odam.", ex: "Being a digital nomad allows you to travel the world while working.", exUz: "Raqamli ko'chmanchi bo'lish sizga ishlash bilan birga dunyo bo'ylab sayohat qilish imkonini beradi."},
+    {term: "echo chamber effect", en: "", uz: "aks-sado xonasi", uzDef: "O'xshash fikrlarga ega odamlar bilan o'z fikrlarini takrorlash orqali mustahkamlash.", ex: "Social media can amplify the echo chamber effect.", exUz: "Ijtimoiy media aks-sado xonasi effektini kuchaytirishi mumkin."},
+    {term: "online persona", en: "", uz: "onlayn shaxs", uzDef: "Internetdagi ijtimoiy media va boshqa platformalarda yaratilgan shaxsning obrazi.", ex: "Her online persona is very different from who she is in real life.", exUz: "Uning onlayn shaxsi haqiqiy hayotda qandayligidan juda farq qiladi."},
+    {term: "to go down the rabbit hole", en: "", uz: "chuqur kirib ketmoq", uzDef: "Bir mavzuga qiziqib, unga chuqur kirib ketib, vaqtni sezmay qolmoq.", ex: "I went down the rabbit hole researching conspiracy theories last night.", exUz: "Men kecha kechqurun fitna nazariyalarini tadqiq qilib, chuqur kirib ketdim."},
+    {term: "information ecosystem", en: "", uz: "axborot ekotizimi", uzDef: "Turli manbalardan keladigan axborot oqimi va ularning o'zaro ta'siri.", ex: "The modern information ecosystem is complex and often overwhelming.", exUz: "Zamonaviy axborot ekotizimi murakkab va ko'pincha haddan tashqari yuklaydi."},
+    {term: "user-generated content", en: "", uz: "foydalanuvchi tarkibi", uzDef: "Foydalanuvchilar tomonidan yaratilgan va internetda tarqatilgan kontent (matn, video, rasm).", ex: "YouTube thrives on user-generated content.", exUz: "YouTube foydalanuvchilar tomonidan yaratilgan kontent orqali rivojlanadi."},
+    {term: "confirmation bias", en: "", uz: "tasdiqlash xatosi", uzDef: "O'z fikrlarini tasdiqlovchi ma'lumotlarni qidirish va ularga e'tibor berish tendensiyasi.", ex: "Social media can reinforce confirmation bias.", exUz: "Ijtimoiy media tasdiqlash xatosini kuchaytirishi mumkin."},
+    {term: "attention span", en: "", uz: "diqqat davomiyligi", uzDef: "Diqqatni bir narsaga yo'naltirish va ushlab turish qobiliyati.", ex: "The internet is shortening our attention spans.", exUz: "Internet bizning diqqat davomiyligimizni qisqartirmoqda."},
+    {term: "the next big thing", en: "", uz: "keyingi katta narsa", uzDef: "Tez orada juda mashhur va muvaffaqiyatli bo'lishi kutilayotgan narsa.", ex: "Everyone is wondering what the next big thing in tech will be.", exUz: "Hamma texnologiyadagi keyingi katta narsa nima bo'lishini o'ylayapti."},
+    {term: "on the same wavelength", en: "", uz: "bir xil to'lqinda", uzDef: "Bir xil fikrlash, tushunish va his qilish.", ex: "We're on the same wavelength when it comes to online privacy.", exUz: "Onlayn maxfiylik haqida gap ketganda, biz bir xil to'lqindamiz."},
+    {term: "voice cloning", en: "", uz: "ovoz klonlash", uzDef: "Sun'iy intellekt yordamida biror kishining ovozini nusxalash.", ex: "Voice cloning technology is raising ethical concerns.", exUz: "Ovoz klonlash texnologiyasi axloqiy muammolarni keltirib chiqarmoqda."},
+    {term: "oversharing", en: "", uz: "haddan ziyod oshkor qilish", uzDef: "Shaxsiy ma'lumotlarni haddan tashqari ko'p ulashish.", ex: "Be careful about oversharing on social media.", exUz: "Ijtimoiy tarmoqlarda haddan tashqari ko'p oshkor qilishdan ehtiyot bo'ling."},
+    {term: "internet of things", en: "", uz: "narsalar interneti", uzDef: "Internetga ulangan qurilmalar tarmog'i.", ex: "The Internet of Things is changing the way we live.", exUz: "Narsalar interneti bizning hayot tarzimizni o'zgartirmoqda."},
+    {term: "algorithmic transparency", en: "", uz: "algoritm oshkoraligi", uzDef: "Algoritmlarning qanday ishlashini tushuntirish va ularning ta'sirini oshkor qilish.", ex: "There's a growing demand for algorithmic transparency.", exUz: "Algoritm oshkoraligiga talab ortib bormoqda."},
+    {term: "to flag something", en: "", uz: "belgilamoq", uzDef: "Kontentni nomaqbul deb belgilash va uni ko'rib chiqish uchun yuborish.", ex: "Users can flag inappropriate content on the platform.", exUz: "Foydalanuvchilar platformada nomaqbul kontentni belgilashlari mumkin."},
+    {term: "reach out", en: "", uz: "bog'lanmoq", uzDef: "Bilan aloqa o'rnatmoq, yordam yoki ma'lumot so'ramoq.", ex: "If you have any questions, please reach out to our support team.", exUz: "Agar sizda savollar bo'lsa, iltimos, bizning qo'llab-quvvatlash guruhimiz bilan bog'laning."},
+    {term: "plug and play", en: "", uz: "uladi va ishlat", uzDef: "Oson o'rnatiladigan va ishlatish uchun murakkab sozlash talab qilmaydigan.", ex: "This device is plug and play, so it's very easy to set up.", exUz: "Bu qurilma 'uladi va ishlat', shuning uchun uni o'rnatish juda oson."},
+    {term: "break the internet", en: "", uz: "internetni portlatmoq", uzDef: "Juda mashhur bo'lib, hamma tomonidan muhokama qilinadigan narsa.", ex: "That celebrity's post almost broke the internet.", exUz: "U mashhurning posti deyarli internetni portlatdi."},
+    {term: "social listening", en: "", uz: "ijtimoiy tinglash", uzDef: "Ijtimoiy mediada brend, mahsulot yoki mavzu haqida gapirilganlarni kuzatish.", ex: "Social listening helps companies understand their customers better.", exUz: "Ijtimoiy tinglash kompaniyalarga o'z mijozlarini yaxshiroq tushunishga yordam beradi."},
+    {term: "digital divide widens", en: "", uz: "raqamli tafovut kengaymoqda", uzDef: "Texnologiyalardan foydalanish imkoniyati bo'lganlar va bo'lmaganlar o'rtasidagi farqning ortishi.", ex: "The digital divide widens with every new technological advancement.", exUz: "Har bir yangi texnologik taraqqiyot bilan raqamli tafovut kengaymoqda."},
+    {term: "push notifications", en: "", uz: "bildirishnomalar", uzDef: "Mobil ilovalar tomonidan yuboriladigan xabarlar.", ex: "I turned off push notifications to reduce distractions.", exUz: "Diqqatni chalg'itmaslik uchun bildirishnomalarni o'chirib qo'ydim."},
+    {term: "bandwidth constraints", en: "", uz: "tarmoq cheklovlari", uzDef: "Internet tezligi yoki ma'lumotlar uzatish hajmidagi cheklovlar.", ex: "We're experiencing bandwidth constraints due to high traffic.", exUz: "Yuqori trafik tufayli tarmoq cheklovlarini boshdan kechirmoqdamiz."},
+    {term: "to go viral", en: "", uz: "ommaga tarqalmoq", uzDef: "Internetda juda tez va keng tarqalmoq, ommaga mashhur bo'lmoq.", ex: "That video went viral within hours of being posted.", exUz: "Bu video joylashtirilgandan so'ng bir necha soat ichida ommaga tarqaldi."},
+    {term: "digital literacy skills", en: "", uz: "raqamli savodxonlik", uzDef: "Texnologiyalardan samarali va xavfsiz foydalanish qobiliyati.", ex: "Digital literacy skills are essential in today's world.", exUz: "Raqamli savodxonlik ko'nikmalari bugungi kunda juda muhim."},
+    {term: "privacy settings", en: "", uz: "maxfiylik sozlamalari", uzDef: "Onlayn ma'lumotlaringizni kim ko'rishini boshqarish uchun sozlamalar.", ex: "Review your privacy settings to protect your personal information.", exUz: "Shaxsiy ma'lumotlaringizni himoya qilish uchun maxfiylik sozlamalaringizni ko'rib chiqing."},
+    {term: "future-proof", en: "", uz: "kelajakka mos", uzDef: "Kelajakdagi o'zgarishlarga bardosh bera oladigan va eskirib qolmaydigan.", ex: "We need to future-proof our technology investments.", exUz: "Biz texnologiya investitsiyalarimizni kelajakka moslashtirishimiz kerak."}
+  ]
+};

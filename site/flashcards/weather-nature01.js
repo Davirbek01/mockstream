@@ -1,0 +1,38 @@
+// Flashcard Data: Weather & Nature (C1–C2)
+// Generated from advanced-level collocations, phrases & phrasal verbs
+
+window.FLASHCARD_DATA = {
+    title: "🌦️ Weather & Nature",
+    cards: [
+        { term: "a spell of fine weather", en: "a period of good weather", uz: "ob-havoning yaxshi davri", ex: "After a long winter, we're finally enjoying a spell of fine weather.", exUz: "Uzoq qishdan so'ng, nihoyat ob-havoning yaxshi davrini boshdan kechirmoqdamiz." },
+        { term: "torrential downpour", en: "very heavy rain", uz: "jala quyishi", ex: "The concert was cancelled due to a torrential downpour.", exUz: "Konsert jala quyishi tufayli bekor qilindi." },
+        { term: "bitterly cold", en: "extremely cold", uz: "juda sovuq", ex: "It was bitterly cold, and we could see our breath in the air.", exUz: "Havo juda sovuq edi va biz nafasimizni havoda ko'rishimiz mumkin edi." },
+        { term: "a blanket of snow", en: "a thick covering of snow", uz: "qor qoplami", ex: "The village was picturesque under a blanket of snow.", exUz: "Qishloq qor qoplami ostida juda go'zal edi." },
+        { term: "bask in the sunshine", en: "to enjoy sitting or lying in the sun", uz: "quyoshda toblanmoq", ex: "We spent the afternoon basking in the sunshine on the beach.", exUz: "Biz tushdan keyin plyajda quyoshda toblanib o'tkazdik." },
+        { term: "weather the storm", en: "to survive a difficult period", uz: "qiyinchilikni yengib o'tmoq", ex: "The company managed to weather the storm of the economic recession.", exUz: "Kompaniya iqtisodiy tanazzul bo'ronini yengib o'tishga muvaffaq bo'ldi." },
+        { term: "a gentle breeze", en: "a light and pleasant wind", uz: "engil shabada", ex: "A gentle breeze rustled the leaves in the trees.", exUz: "Engil shabada daraxtlardagi barglarni shivirlatdi." },
+        { term: "scorching heat", en: "very hot weather", uz: "juda issiq havo", ex: "The athletes struggled in the scorching heat of the marathon.", exUz: "Sportchilar marafonning juda issiq ob-havosida qiynalishdi." },
+        { term: "freak weather conditions", en: "unusual and unexpected weather", uz: "g'ayrioddiy ob-havo sharoitlari", ex: "Freak weather conditions caused widespread flooding.", exUz: "G'ayrioddiy ob-havo sharoitlari keng tarqalgan suv toshqiniga sabab bo'ldi." },
+        { term: "set in", en: "when something, especially something unpleasant, starts and seems likely to continue", uz: "boshlanmoq, o'rnashib qolmoq", ex: "Winter has set in early this year.", exUz: "Bu yil qish erta boshlandi." },
+        { term: "patchy fog", en: "fog that only occurs in some areas", uz: "doimiy bo'lmagan tuman", ex: "Drivers are warned to take care as there is patchy fog on the motorway.", exUz: "Haydovchilarga avtomagistralda doimiy bo'lmagan tuman borligi sababli ehtiyot bo'lish tavsiya etiladi." },
+        { term: "a heavy frost", en: "a thick layer of ice crystals on a surface", uz: "qalin qirov", ex: "A heavy frost covered the fields, making them sparkle in the morning sun.", exUz: "Qalin qirov dalalarni qoplab, ertalab quyoshda porladi." },
+        { term: "crisp air", en: "air that is cold and fresh", uz: "musaffo havo", ex: "We enjoyed a walk in the woods in the crisp air of autumn.", exUz: "Biz kuzning musaffo havosida o'rmonda sayr qilishdan zavqlandik." },
+        { term: "a burst of sunshine", en: "a sudden appearance of sunshine", uz: "quyoshning birdan paydo bo'lishi", ex: "After the rain, there was a welcome burst of sunshine.", exUz: "Yomg'irdan so'ng, quyoshning paydo bo'lishi juda quvonchli bo'ldi." },
+        { term: "face the elements", en: "to go outside in bad weather", uz: "yomon ob-havoga qarshi chiqmoq", ex: "Despite the warnings, hikers decided to face the elements and climb the mountain.", exUz: "Ogohlantirishlarga qaramay, sayyohlar yomon ob-havoga qarshi chiqib, tog'ga chiqishga qaror qilishdi." },
+        { term: "a break in the clouds", en: "a time when the clouds separate, allowing sunlight to appear", uz: "bulutlarning tarqalishi", ex: "We waited for a break in the clouds to take some photos of the landscape.", exUz: "Biz landshaftning suratlarini olish uchun bulutlarning tarqalishini kutdik." },
+        { term: "howling wind", en: "very strong and noisy wind", uz: "uvillagan shamol", ex: "The howling wind kept us awake all night.", exUz: "Uvillagan shamol bizni tun bo'yi uxlatmadi." },
+        { term: "the mercury rises", en: "the temperature increases", uz: "harorat ko'tariladi", ex: "As the mercury rises, people flock to the beaches.", exUz: "Harorat ko'tarilishi bilan odamlar plyajlarga oqib kela boshlaydi." },
+        { term: "a deluge of rain", en: "a very heavy rainfall", uz: "juda kuchli yomg'ir", ex: "The city was hit by a deluge of rain, causing severe flooding.", exUz: "Shaharga juda kuchli yomg'ir yog'ib, jiddiy suv toshqiniga sabab bo'ldi." },
+        { term: "the wind picks up", en: "the wind gets stronger", uz: "shamol kuchayadi", ex: "The sailing race was abandoned when the wind picked up unexpectedly.", exUz: "Shamol kutilmaganda kuchayib ketgach, yelkanli qayiqda poyga bekor qilindi." },
+        { term: "a heatwave strikes", en: "a period of unusually hot weather affects an area", uz: "issiq to'lqin uradi", ex: "Authorities issued warnings as a heatwave struck the region.", exUz: "Rasmiylar mintaqaga issiq to'lqin urishi bilan ogohlantirishlar berishdi." },
+        { term: "blazing sunshine", en: "very strong and bright sunshine", uz: "olovdek quyosh", ex: "We sheltered under the trees to escape the blazing sunshine.", exUz: "Biz olovdek quyoshdan qochish uchun daraxtlar ostiga yashirindik." },
+        { term: "the sky clears", en: "the clouds disappear from the sky", uz: "osmon ochiqlashadi", ex: "After the storm passed, the sky cleared, revealing a beautiful rainbow.", exUz: "Bo'ron o'tib ketgach, osmon ochiqlashdi va go'zal kamalak paydo bo'ldi." },
+        { term: "unseasonably warm", en: "warmer than usual for the time of year", uz: "mavsumga xos bo'lmagan iliq", ex: "We're experiencing unseasonably warm weather for October.", exUz: "Biz oktyabr uchun mavsumga xos bo'lmagan iliq ob-havoni boshdan kechirmoqdamiz." },
+        { term: "a sudden downpour", en: "a sudden and heavy fall of rain", uz: "to'satdan yog'in", ex: "We were caught in a sudden downpour and got completely soaked.", exUz: "Bizni to'satdan yog'in tutib qoldi va butunlay ho'l bo'ldik." },
+        { term: "threatening skies", en: "skies that look as if it is going to rain", uz: "xavfli osmon", ex: "The threatening skies warned us of an approaching storm.", exUz: "Xavfli osmon bizga yaqinlashayotgan bo'ron haqida ogohlantirdi." },
+        { term: "feel the heat", en: "to experience the unpleasant effects of very hot weather", uz: "issiqni his qilmoq", ex: "During the heatwave, even the locals were feeling the heat.", exUz: "Issiq to'lqin davrida hatto mahalliy aholi ham issiqni his qilishdi." },
+        { term: "nipping at your heels", en: "describes very cold weather", uz: "juda sovuq ob-havoni tasvirlash", ex: "Winter’s already nipping at your heels; it’s time to get the heating checked.", exUz: "Qish allaqachon yaqinlashib qoldi; isitish tizimini tekshirtirish vaqti keldi." },
+        { term: "in the teeth of", en: "directly against", uz: "to'g'ridan-to'g'ri qarshi", ex: "The ship sailed in the teeth of a gale.", exUz: "Kema bo'ronning to'g'risida suzib ketdi." },
+        { term: "a light dusting of snow", en: "a thin layer of snow", uz: "yupqa qor qatlami", ex: "There was just a light dusting of snow on the ground this morning.", exUz: "Bugun ertalab yerda yupqa qor qatlami bor edi." }
+    ]
+};

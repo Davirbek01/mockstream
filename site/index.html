@@ -4,7 +4,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#0d9488" />
+  <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="manifest" href="site-config/manifest.json" />
+  <link rel="apple-touch-icon" href="site-config/icons/icon-192.png" />
   <title>Mock Stream</title>
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
@@ -14,6 +21,8 @@
       document.title = window.SITE_CONFIG.brandName;
       var fav = document.getElementById('site-favicon');
       if (fav) fav.href = window.SITE_CONFIG.logoUrl;
+      var mt = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+      if (mt) mt.content = window.SITE_CONFIG.brandName;
     }
   </script>
   <style>
@@ -2071,14 +2080,14 @@
 
         <div class="name-field-group">
           <label for="nameInputSurname">Familiya (Surname)</label>
-          <input type="text" id="nameInputSurname" placeholder="Aliyev" autocomplete="off" autocorrect="off"
+          <input type="text" id="nameInputSurname" placeholder="Familiyangiz" autocomplete="off" autocorrect="off"
             spellcheck="false">
           <div class="name-field-error" id="surnameError"></div>
         </div>
 
         <div class="name-field-group">
           <label for="nameInputFirstname">Ism (Name)</label>
-          <input type="text" id="nameInputFirstname" placeholder="Sardor" autocomplete="off" autocorrect="off"
+          <input type="text" id="nameInputFirstname" placeholder="Ismingiz" autocomplete="off" autocorrect="off"
             spellcheck="false">
           <div class="name-field-error" id="firstnameError"></div>
         </div>
@@ -3362,7 +3371,7 @@
     // Animate progress bar
     function animateProgress(onComplete) {
       let currentStep = 0;
-      const totalDuration = 25000; // 25 seconds total for all 99 mocks to preload
+      const totalDuration = 1500; // 1.5 seconds cosmetic progress (real loading checked separately)
       const stepDuration = totalDuration / loadingSteps.length;
 
       function updateProgress() {
@@ -3379,11 +3388,11 @@
 
         currentStep++;
 
-        // Add some randomness to feel more natural (±200ms)
-        const variance = Math.random() * 400 - 200;
+        // Add some randomness to feel more natural (±30ms)
+        const variance = Math.random() * 60 - 30;
         const delay = stepDuration + variance;
 
-        setTimeout(updateProgress, Math.max(300, delay));
+        setTimeout(updateProgress, Math.max(80, delay));
       }
 
       updateProgress();
@@ -3413,6 +3422,23 @@
       if (surnameInput) setupNameInput(surnameInput);
       if (firstnameInput) setupNameInput(firstnameInput);
 
+      // Auto-fill from cached values (only if they pass current validation)
+      const cachedSurname = localStorage.getItem('CANDIDATE_SURNAME');
+      const cachedFirstname = localStorage.getItem('CANDIDATE_FIRSTNAME');
+      if (cachedSurname && cachedFirstname) {
+        const sErr = validateNameField(cachedSurname);
+        const fErr = validateNameField(cachedFirstname);
+        const fullErr = (!sErr && !fErr) ? validateFullName(cachedSurname, cachedFirstname) : null;
+        if (sErr || fErr || fullErr) {
+          // Cached name fails new validation — clear it
+          localStorage.removeItem('CANDIDATE_SURNAME');
+          localStorage.removeItem('CANDIDATE_FIRSTNAME');
+        } else {
+          if (surnameInput) surnameInput.value = cachedSurname;
+          if (firstnameInput) firstnameInput.value = cachedFirstname;
+        }
+      }
+
       // Allow Enter key to submit name
       [surnameInput, firstnameInput].forEach(inp => {
         if (inp) inp.addEventListener('keydown', function (e) {
@@ -3439,9 +3465,136 @@
       const trimmed = value.trim();
       if (trimmed.length < 2) return 'Kamida 2 ta harf kiriting';
       if (/[0-9]/.test(trimmed)) return 'Raqamlar kiritish mumkin emas';
-      if (/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/.test(trimmed)) return 'Faqat harflar kiritish mumkin';
-      // Check that it's not just random single characters (must have at least 2 consecutive letters)
-      if (!/[a-zA-Z\u00C0-\u024F\u0400-\u04FF]{2,}/.test(trimmed)) return 'Iltimos, to\'g\'ri ism kiriting';
+      if (/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF' -]/.test(trimmed)) return 'Faqat harflar kiritish mumkin';
+      // Must have at least 2 consecutive letters
+      if (!/[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF]{2,}/.test(trimmed)) return 'Iltimos, to\'g\'ri ism kiriting';
+      // Block repeated characters (e.g. "aaaa", "sssss")
+      if (/(.)\1{2,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
+      // Block too many consonants or vowels in a row (gibberish like "dfghj", "aeioua")
+      if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
+      if (/[aeiou]{4,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
+      // Block placeholder/generic words
+      var lower = trimmed.toLowerCase();
+      var placeholders = ['name','surname','ism','familiya','ismingiz','familiyangiz','test','admin','user','student',
+        'firstname','lastname','first','last','hello','hi','none','null','undefined','asdf','qwerty','asd','qwer',
+        'zxcv','abcd','abc','xyz','sdfdsf','dsfdsaf','fdsaf','fdsa','dsf','sdf','dfs','fds','jkl','ghjk'];
+      if (placeholders.indexOf(lower) !== -1) return 'Iltimos, haqiqiy ismingizni kiriting';
+      // Block keyboard-mash patterns: unique chars tightly clustered on one keyboard row
+      if (trimmed.length >= 4) {
+        var uniq = [];
+        for (var ci = 0; ci < lower.length; ci++) {
+          if (/[a-z]/.test(lower[ci]) && uniq.indexOf(lower[ci]) === -1) uniq.push(lower[ci]);
+        }
+        // Too few unique chars for name length (e.g. "ababab", "rerere")
+        if (trimmed.length >= 5 && uniq.length <= 2) return 'Iltimos, haqiqiy ismingizni kiriting';
+        if (trimmed.length >= 7 && uniq.length <= 3) return 'Iltimos, haqiqiy ismingizni kiriting';
+        // Check if all unique chars sit on same keyboard row within a tight span
+        var kbRows = ['qwertyuiop','asdfghjkl','zxcvbnm'];
+        for (var ri = 0; ri < kbRows.length; ri++) {
+          var row = kbRows[ri];
+          var positions = [];
+          var allOnRow = true;
+          for (var ui = 0; ui < uniq.length; ui++) {
+            var pos = row.indexOf(uniq[ui]);
+            if (pos === -1) { allOnRow = false; break; }
+            positions.push(pos);
+          }
+          if (allOnRow && positions.length >= 2) {
+            var minP = positions[0], maxP = positions[0];
+            for (var pi = 1; pi < positions.length; pi++) {
+              if (positions[pi] < minP) minP = positions[pi];
+              if (positions[pi] > maxP) maxP = positions[pi];
+            }
+            var span = maxP - minP;
+            // If chars span at most unique_count+1 positions, they're tightly clustered = keyboard mash
+            // e.g. {q,w,e,r} span=3 unique=4 → 3 <= 5 → flagged
+            // e.g. {p,e,t,r} span=7 unique=4 → 7 <= 5 → safe ("Peter")
+            if (span <= uniq.length + 1) return 'Iltimos, haqiqiy ismingizni kiriting';
+          }
+        }
+      }
+      return null;
+    }
+
+    // Validate full name (surname + firstname together) for celebrity/fake names
+    function validateFullName(surname, firstname) {
+      var full = (surname + ' ' + firstname).toLowerCase().trim();
+      var fullRev = (firstname + ' ' + surname).toLowerCase().trim();
+
+      // Celebrity surname blocklist — block if either field matches a known celebrity surname
+      var celebSurnames = [
+        'musk','escobar','jackson','trump','biden','obama','putin','elizabeth','diana',
+        'gates','jobs','zuckerberg','bezos','ronaldo','messi','jordan','ali','lee',
+        'chan','schwarzenegger','stallone','cruise','pitt','jolie','depp','johnson',
+        'swift','knowles','gaga','bieber','eminem','kardashian','winfrey','buffett',
+        'einstein','newton','tesla','bonaparte','hitler','stalin','hussein','laden',
+        'potter','vader','norris','claus'
+      ];
+      // Celebrity first names — block if paired with a matching surname
+      var celebPairs = [
+        ['elon','musk'],['pablo','escobar'],['michael','jackson'],['donald','trump'],
+        ['joe','biden'],['barack','obama'],['vladimir','putin'],['kim','jong'],
+        ['queen','elizabeth'],['princess','diana'],['bill','gates'],['steve','jobs'],
+        ['mark','zuckerberg'],['jeff','bezos'],['cristiano','ronaldo'],['lionel','messi'],
+        ['michael','jordan'],['muhammad','ali'],['bruce','lee'],['jackie','chan'],
+        ['arnold','schwarzenegger'],['sylvester','stallone'],['tom','cruise'],['brad','pitt'],
+        ['angelina','jolie'],['johnny','depp'],['will','smith'],['dwayne','johnson'],
+        ['taylor','swift'],['beyonce','knowles'],['lady','gaga'],['justin','bieber'],
+        ['kanye','west'],['kim','kardashian'],['oprah','winfrey'],['warren','buffett'],
+        ['albert','einstein'],['isaac','newton'],['nikola','tesla'],['napoleon','bonaparte'],
+        ['adolf','hitler'],['joseph','stalin'],['saddam','hussein'],['osama','laden'],
+        ['harry','potter'],['darth','vader'],['james','bond'],['john','doe'],['jane','doe'],
+        ['chuck','norris'],['santa','claus'],['mickey','mouse'],['donald','duck'],
+        ['spongebob','squarepants'],['batman','wayne'],['superman','clark'],['spider','man'],
+        ['ben','laden'],['bin','laden']
+      ];
+
+      // Levenshtein distance for fuzzy matching
+      function levenshtein(a, b) {
+        if (a.length === 0) return b.length;
+        if (b.length === 0) return a.length;
+        var matrix = [];
+        for (var i = 0; i <= b.length; i++) matrix[i] = [i];
+        for (var j = 0; j <= a.length; j++) matrix[0][j] = j;
+        for (var i = 1; i <= b.length; i++) {
+          for (var j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+              matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+              matrix[i][j] = Math.min(
+                matrix[i - 1][j - 1] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j] + 1
+              );
+            }
+          }
+        }
+        return matrix[b.length][a.length];
+      }
+
+      function isSimilar(input, target) {
+        if (input === target) return true;
+        if (input.length < 3 || target.length < 3) return input === target;
+        var maxDist = target.length <= 4 ? 1 : 2;
+        return levenshtein(input, target) <= maxDist;
+      }
+
+      var sLow = surname.toLowerCase().trim();
+      var fLow = firstname.toLowerCase().trim();
+
+      // Check each celebrity pair with fuzzy matching (both name orders)
+      var msg = 'Bu ism haqiqiy emasga o\'xshaydi. Iltimos, o\'z ismingizni kiriting';
+      for (var i = 0; i < celebPairs.length; i++) {
+        var cf = celebPairs[i][0], cl = celebPairs[i][1];
+        // surname=lastname, firstname=firstname  OR  reversed
+        if ((isSimilar(sLow, cl) && isSimilar(fLow, cf)) ||
+            (isSimilar(sLow, cf) && isSimilar(fLow, cl))) {
+          return msg;
+        }
+      }
+
+      // Block if surname and firstname are the same
+      if (sLow === fLow) return 'Familiya va ism bir xil bo\'lishi mumkin emas';
       return null;
     }
 
@@ -3470,8 +3623,24 @@
         return;
       }
 
-      const fullName = surnameInput.value.trim() + ' ' + firstnameInput.value.trim();
+      // Cross-field validation (celebrity names, same name)
+      const fullNameErr = validateFullName(surnameInput.value.trim(), firstnameInput.value.trim());
+      if (fullNameErr) {
+        surnameError.textContent = fullNameErr;
+        surnameInput.classList.add('invalid');
+        firstnameInput.classList.add('invalid');
+        surnameInput.focus();
+        return;
+      }
+
+      const surname = surnameInput.value.trim();
+      const firstname = firstnameInput.value.trim();
+      const fullName = surname + ' ' + firstname;
       sessionStorage.setItem('CANDIDATE_FULL_NAME', fullName);
+
+      // Cache for future visits
+      localStorage.setItem('CANDIDATE_SURNAME', surname);
+      localStorage.setItem('CANDIDATE_FIRSTNAME', firstname);
 
       // Request microphone permission once (applies to all same-origin iframes)
       if (!sessionStorage.getItem('microphonePermissionRequested')) {
@@ -3524,11 +3693,6 @@
         progressContainer.classList.add('visible');
         // Show the name input overlay
         document.getElementById('nameOverlay').classList.add('show');
-        // Auto-focus surname field
-        setTimeout(() => {
-          const sInput = document.getElementById('nameInputSurname');
-          if (sInput) sInput.focus();
-        }, 400);
       }, 300);
 
       // Request fullscreen on the whole document
@@ -3982,6 +4146,19 @@
   </script>
   <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
   <script src="holiday-snowflakes.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').then(function (reg) {
+          console.log('SW registered, scope:', reg.scope);
+        }).catch(function (err) {
+          console.log('SW registration failed:', err);
+        });
+      });
+    }
+  </script>
 </body>
 
 </html>

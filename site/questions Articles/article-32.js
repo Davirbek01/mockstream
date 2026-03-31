@@ -169,4 +169,365 @@ window.ARTICLE_DATA = {
             answer: "Answers may vary. Possible reasons: economic recession, poor management, lack of customers, high debts, strong competition, rising costs, loss of investors, etc."
         }
     ]
+,
+    passageB1: `<p>Hello everyone. Thank you for coming to the office on a Saturday morning. My partner, Robert Brown, and I have asked you here because we have some <strong>bad news</strong>. We wanted you to hear it from us first, before you hear it from someone else. Soon, everyone will know.</p>
+
+<p>I will be direct. Our company, Blair and Brown Ltd, has <strong>gone into receivership</strong>. I am sure you know that small companies like ours have had a hard time because of the <strong>recession</strong>. We tried to keep going as long as we could. But we had to accept that we could not continue. We tried many things to save money, including <strong>cutting costs</strong> and letting some good workers go. But we still do not have enough money to pay our <strong>debts</strong> and keep the business running.</p>
+
+<p>You may be asking why another company did not <strong>buy us</strong>. At first, we hoped this would solve our problems. But it did not happen. We tried everything we could. In the past, our company would have been interesting to buyers, but not now. Because of the recession, many small and medium companies are in trouble and need help. It is a good time for buyers, but there are not many buyers around. Big companies are keeping their money and do not want to <strong>take over</strong> other companies or <strong>merge</strong> with them.</p>
+
+<p>Of course, we are very sad about this decision. We are sorry to leave you in this <strong>uncertain situation</strong>. But we have to accept what is happening. An official <strong>receiver</strong> will now be in charge. They will look closely at our finances and try to find a buyer. We hope they are successful, and that you will keep your jobs.</p>
+
+<p>Thank you for your <strong>loyalty</strong> and hard work over the years. We wish you all the best for the <strong>future</strong>. We hope everything works out for you.</p>`,
+    translationB1: `<p>Assalomu alaykum, hurmatli hamkasblar. Shanba kuni ertalab ofisga kelganingiz uchun rahmat. Mening sherigim Robert Braun va men sizlarni bu yerga <strong>yomon xabar</strong>ni yetkazish uchun chaqirdik. Buni boshqalardan eshitishingizdan oldin, o'zimizdan eshitishingizni istadik. Tez orada hamma bilib oladi.</p>
+
+<p>To'g'ridan-to'g'ri aytaman. Bizning kompaniyamiz, "Blair and Brown Ltd", <strong>bankrotlikka uchradi</strong>. Ishonchim komilki, biz kabi kichik kompaniyalar <strong>iqtisodiy inqiroz</strong> tufayli qiyin ahvolda ekanligini bilasiz. Iloji boricha davom etishga harakat qildik. Ammo davom eta olmasligimizni tan olishga majbur bo'ldik. Pulni tejash uchun ko'p narsalarni qildik, jumladan <strong>xarajatlarni qisqartirdik</strong> va ba'zi yaxshi ishchilarni ishdan bo'shatdik. Ammo bizda hali ham <strong>qarzlarni</strong> to'lash va biznesni yuritish uchun yetarli pul yo'q.</p>
+
+<p>Nega boshqa kompaniya bizni <strong>sotib olmadi</strong>, deb so'rashingiz mumkin. Dastlab, bu muammolarimizni hal qiladi deb umid qilgan edik. Ammo bu sodir bo'lmadi. Qo'limizdan kelganicha harakat qildik. Ilgari kompaniyamiz xaridorlar uchun qiziqarli bo'lar edi, ammo hozir emas. Iqtisodiy inqiroz tufayli ko'plab kichik va o'rta kompaniyalar muammoga duch kelishdi va yordamga muhtoj. Bu xaridorlar uchun yaxshi vaqt, lekin xaridorlar unchalik ko'p emas. Katta kompaniyalar pullarini saqlab qolishmoqda va boshqa kompaniyalarni <strong>egallab olishni</strong> yoki ular bilan <strong>qo'shilishni</strong> xohlashmaydi.</p>
+
+<p>Albatta, biz bu qarordan juda xafamiz. Sizni bunday <strong>noaniq vaziyatda</strong> qoldirayotganimiz uchun afsusdamiz. Ammo sodir bo'layotgan voqeani qabul qilishimiz kerak. Hozir rasmiy <strong>ishonchli vakil</strong> mas'ul bo'ladi. Ular bizning moliyamizni diqqat bilan ko'rib chiqadilar va xaridor topishga harakat qiladilar. Umid qilamizki, ular muvaffaqiyatli bo'lishadi va siz o'z ishingizni saqlab qolasiz.</p>
+
+<p>Yillar davomidagi <strong>sadoqatingiz</strong> va mehnatingiz uchun rahmat. Sizga <strong>kelajakda</strong> eng yaxshi tilaklarimizni bildiramiz. Umid qilamizki, hammasi siz uchun yaxshi bo'ladi.</p>`,
+    vocabularyB1: {
+        "bad news": {
+                "definition": "Information that is not good or positive.",
+                "uzbek": "Yomon xabar",
+                "example": "I have some bad news for you: the project has been cancelled.",
+                "exampleUzbek": "Siz uchun yomon xabarim bor: loyiha bekor qilindi."
+        },
+        "gone into receivership": {
+                "definition": "A company is being controlled by an official receiver because it cannot pay its debts.",
+                "uzbek": "Bankrotlikka uchradi",
+                "example": "The company has gone into receivership and may close down.",
+                "exampleUzbek": "Kompaniya bankrotlikka uchradi va yopilishi mumkin."
+        },
+        "recession": {
+                "definition": "A period when the economy of a country is not successful.",
+                "uzbek": "Iqtisodiy tanazzul",
+                "example": "Many businesses suffer during a recession.",
+                "exampleUzbek": "Ko'pgina korxonalar iqtisodiy tanazzul davrida zarar ko'radi."
+        },
+        "cutting costs": {
+                "definition": "Reducing the amount of money spent.",
+                "uzbek": "Xarajatlarni qisqartirish",
+                "example": "The company is cutting costs to survive the recession.",
+                "exampleUzbek": "Kompaniya iqtisodiy tanazzuldan omon qolish uchun xarajatlarni qisqartirmoqda."
+        },
+        "debts": {
+                "definition": "Money that is owed to someone else.",
+                "uzbek": "Qarzlar",
+                "example": "The company has large debts.",
+                "exampleUzbek": "Kompaniyaning katta qarzlari bor."
+        },
+        "buy us": {
+                "definition": "To purchase the company.",
+                "uzbek": "Bizni sotib olish",
+                "example": "We hope another company will buy us and save our jobs.",
+                "exampleUzbek": "Umid qilamizki, boshqa kompaniya bizni sotib oladi va ish joylarimizni saqlab qoladi."
+        },
+        "take over": {
+                "definition": "To get control of a company by buying most of its shares.",
+                "uzbek": "Egallaб олиш",
+                "example": "A large company is planning to take over the smaller business.",
+                "exampleUzbek": "Katta kompaniya kichikroq biznesni egallab olishni rejalashtirmoqda."
+        },
+        "merge": {
+                "definition": "To combine two companies into one.",
+                "uzbek": "Qo'shilish",
+                "example": "The two companies decided to merge.",
+                "exampleUzbek": "Ikki kompaniya qo'shilishga qaror qilishdi."
+        },
+        "uncertain situation": {
+                "definition": "A situation where it is not clear what will happen.",
+                "uzbek": "Noaniq vaziyat",
+                "example": "The employees are in an uncertain situation because the company might close.",
+                "exampleUzbek": "Xodimlar noaniq vaziyatda, chunki kompaniya yopilishi mumkin."
+        },
+        "receiver": {
+                "definition": "A person appointed to manage the finances of a company that is in financial difficulty.",
+                "uzbek": "Bankrotlik boshqaruvchisi",
+                "example": "The receiver will try to sell the company's assets.",
+                "exampleUzbek": "Bankrotlik boshqaruvchisi kompaniyaning aktivlarini sotishga harakat qiladi."
+        },
+        "loyalty": {
+                "definition": "The quality of being faithful to someone or something.",
+                "uzbek": "Sodiqlik",
+                "example": "The company appreciates the employees' loyalty.",
+                "exampleUzbek": "Kompaniya xodimlarning sodiqligini qadrlaydi."
+        },
+        "future": {
+                "definition": "The time that is to come.",
+                "uzbek": "Kelajak",
+                "example": "We wish you all the best for the future.",
+                "exampleUzbek": "Sizga kelajakda eng yaxshi tilaklarni tilaymiz."
+        },
+        "direct": {
+                "definition": "Speaking openly and honestly.",
+                "uzbek": "To'g'ridan-to'g'ri",
+                "example": "I will be direct with you, we are losing money.",
+                "exampleUzbek": "Siz bilan to'g'ridan-to'g'ri gaplashaman, biz pul yo'qotyapmiz."
+        },
+        "running": {
+                "definition": "Operating or managing something.",
+                "uzbek": "Boshqarish",
+                "example": "We don't have enough money to keep the business running.",
+                "exampleUzbek": "Bizda biznesni boshqarishga yetarli pul yo'q."
+        }
+},
+    passageB2: `<p>Good morning, everyone, and thank you for coming in on a Saturday. My partner, Robert Brown, and I have called this meeting because we have some rather <strong>unpleasant news</strong> to share with you. We wanted to make sure you heard it directly from us first, rather than through <strong>rumours</strong>. It's inevitable that the word will get out around town very soon.</p>
+
+<p>To be blunt, Blair and Brown Ltd is now in <strong>receivership</strong>. I'm sure many of you are aware of the difficulties smaller businesses like ours have faced during this recession. We've <strong>persevered</strong> for as long as possible, but we've had to accept that the situation was <strong>unsustainable</strong>. Despite implementing various <strong>cost-cutting measures</strong>, including reducing our operating expenses to the bare minimum and, regrettably, letting go of some valued staff members, we simply don't have enough funds to pay our debts and continue trading.</p>
+
+<p>Some of you may be wondering why another company didn't <strong>acquire</strong> us. Initially, we hoped this would be the solution, but it wasn't to be. We <strong>explored all possibilities</strong>, but <strong>to no avail</strong>. In better times, our firm might have been an <strong>attractive proposition</strong> for potential buyers, but not in the current climate. Due to the recession, many small and medium-sized businesses are <strong>struggling to survive</strong> and are looking for investors. It's very much a buyer's market, but there are very few buyers <strong>willing to take the risk</strong>. Larger companies seem to be <strong>conserving their resources</strong> and are reluctant to engage in takeovers or mergers.</p>
+
+<p><strong>It goes without saying</strong> that we are deeply saddened to have reached this point and to be leaving you all in such an <strong>uncertain situation</strong>. However, we are simply accepting what we cannot change. The official receiver will now be responsible for what happens next. Someone will be appointed to <strong>scrutinize</strong> the financial situation closely, and further attempts will be made to find a buyer. We sincerely hope these efforts succeed and that your jobs will be <strong>secure</strong>.</p>
+
+<p>Thank you all for your <strong>dedication</strong> and service over the years. We wish you all the very best in the future.</p>`,
+    translationB2: `<p>Assalomu alaykum, hammaga xayrli kun va shanba kuni kelganingiz uchun rahmat. Hamkasbim Robert Braun va men sizlarni bu uchrashuvga chaqirdik, chunki sizlar bilan biroz <strong>yoqimsiz xabar</strong>ni bo'lishmoqchimiz. Biz bu haqda avvalo sizlardan eshitishingizni istadik, <strong>mish-mishlar</strong> orqali emas. Tez orada bu gap butun shaharga tarqalishi muqarrar.</p>
+
+<p>Ochiqchasiga aytsak, "Blair va Braun Ltd" hozirda <strong>vaqtincha boshqaruvga</strong> o'tdi. Ishonchim komilki, ko'pchiligingiz biz kabi kichik bizneslar ushbu inqiroz davrida qanday qiyinchiliklarga duch kelayotganidan xabardorsiz. Biz imkon qadar <strong>sabr-toqat qildik</strong>, lekin vaziyat <strong>bardosh berib bo'lmaydigan</strong> darajaga yetganini tan olishga majbur bo'ldik. Ish xarajatlarimizni minimal darajaga tushirish va, afsuski, qadrli xodimlarimizning bir qismini ishdan bo'shatish kabi turli <strong>xarajatlarni qisqartirish choralari</strong>ni ko'rganimizga qaramay, bizda qarzlarimizni to'lash va savdoni davom ettirish uchun yetarli mablag' yo'q.</p>
+
+<p>Ba'zilaringiz nima uchun boshqa kompaniya bizni <strong>sotib olmadi</strong> deb o'ylashingiz mumkin. Dastlab, biz bu yechim bo'ladi deb umid qilgan edik, lekin unday bo'lmadi. Biz <strong>barcha imkoniyatlarni o'rganib chiqdik</strong>, ammo <strong>foydasi bo'lmadi</strong>. Yaxshiroq zamonlarda bizning firmamiz potentsial xaridorlar uchun <strong>juda jozibali taklif</strong> bo'lishi mumkin edi, lekin hozirgi sharoitda emas. Inqiroz tufayli ko'plab kichik va o'rta bizneslar <strong>o'z jonini saqlab qolishga</strong> harakat qilmoqda va investorlar qidirmoqda. Bu juda xaridorlar bozori, lekin <strong>tavakkal qilishga tayyor</strong> xaridorlar juda kam. Katta kompaniyalar o'z <strong>resurslarini tejashga</strong> harakat qilmoqda va qo'shib olish yoki birlashishda ishtirok etishni istamaydi.</p>
+
+<p><strong>Aytishga hojat yo'q</strong>, biz bu nuqtaga yetganimizdan va sizlarni bunday <strong>noaniq vaziyatda</strong> qoldirayotganimizdan juda xafamiz. Biroq, biz o'zgartira olmaydigan narsani shunchaki qabul qilyapmiz. Keyingi nima bo'lishiga endi rasmiy boshqaruvchi javobgar bo'ladi. Moliyaviy vaziyatni diqqat bilan <strong>o'rganish</strong> uchun kimdir tayinlanadi va xaridor topish uchun keyingi urinishlar qilinadi. Biz bu harakatlar muvaffaqiyatli bo'lishiga va sizning ishlaringiz <strong>xavfsiz</strong> bo'lishiga chin dildan umid qilamiz.</p>
+
+<p>Ko'p yillar davomida ko'rsatgan <strong>sadoqatingiz</strong> va xizmatlaringiz uchun barchangizga rahmat. Kelajakda barchangizga eng yaxshi tilaklarimizni bildiramiz.</p>`,
+    vocabularyB2: {
+        "unpleasant news": {
+                "definition": "Information that is not good or welcome",
+                "uzbek": "Yoqimsiz yangilik",
+                "example": "The doctor had some unpleasant news about my test results.",
+                "exampleUzbek": "Doktor mening test natijalarim haqida yoqimsiz yangiliklarga ega edi."
+        },
+        "rumours": {
+                "definition": "Information or a story that is passed from person to person but may not be true",
+                "uzbek": "Mish-mishlar",
+                "example": "I heard a rumour that the company is planning to move its headquarters.",
+                "exampleUzbek": "Kompaniya o'zining bosh ofisini ko'chirishni rejalashtirayotgani haqida mish-mish eshitdim."
+        },
+        "receivership": {
+                "definition": "A situation in which an official receiver is appointed to manage the affairs of a business that is unable to pay its debts.",
+                "uzbek": "Vaqtincha boshqaruv",
+                "example": "The company went into receivership after failing to secure new funding.",
+                "exampleUzbek": "Kompaniya yangi moliyalashtirishni ta'minlay olmaganidan keyin vaqtincha boshqaruvga o'tdi."
+        },
+        "persevered": {
+                "definition": "Continued in a course of action even in the face of difficulty or with little or no prospect of success.",
+                "uzbek": "Qat'iyat bilan davom etdi",
+                "example": "Despite the challenges, they persevered and eventually achieved their goal.",
+                "exampleUzbek": "Qiyinchiliklarga qaramay, ular qat'iyat bilan davom etdilar va oxir-oqibat maqsadlariga erishdilar."
+        },
+        "unsustainable": {
+                "definition": "Not able to be maintained at the current rate or level.",
+                "uzbek": "Bunday davom ettirib bo'lmaydigan",
+                "example": "The current level of debt is unsustainable for the company.",
+                "exampleUzbek": "Hozirgi qarz darajasi kompaniya uchun davom ettirib bo'lmaydigan holatdir."
+        },
+        "cost-cutting measures": {
+                "definition": "Actions taken to reduce expenses.",
+                "uzbek": "Xarajatlarni qisqartirish choralari",
+                "example": "The company implemented several cost-cutting measures to improve profitability.",
+                "exampleUzbek": "Kompaniya rentabellikni oshirish uchun bir nechta xarajatlarni qisqartirish choralarini amalga oshirdi."
+        },
+        "acquire": {
+                "definition": "To buy or take over a company.",
+                "uzbek": "Sotib olmoq",
+                "example": "The larger company decided to acquire its smaller competitor.",
+                "exampleUzbek": "Katta kompaniya o'zining kichikroq raqobatchisini sotib olishga qaror qildi."
+        },
+        "explored all possibilities": {
+                "definition": "Investigated every possible option or solution.",
+                "uzbek": "Barcha imkoniyatlarni o'rganib chiqdi",
+                "example": "We explored all possibilities before making a final decision.",
+                "exampleUzbek": "Yakuniy qaror qabul qilishdan oldin barcha imkoniyatlarni o'rganib chiqdik."
+        },
+        "to no avail": {
+                "definition": "Without success.",
+                "uzbek": "Natijasiz",
+                "example": "I tried to convince him, but to no avail.",
+                "exampleUzbek": "Men uni ishontirishga harakat qildim, lekin natijasiz."
+        },
+        "attractive proposition": {
+                "definition": "Something that is appealing and likely to be successful.",
+                "uzbek": "Jozibali taklif",
+                "example": "The deal seemed like an attractive proposition for both parties.",
+                "exampleUzbek": "Kelishuv har ikki tomon uchun jozibali taklif bo'lib tuyuldi."
+        },
+        "struggling to survive": {
+                "definition": "Having a difficult time staying in business or continuing to exist.",
+                "uzbek": "Omon qolish uchun kurashmoq",
+                "example": "Many small businesses are struggling to survive during the recession.",
+                "exampleUzbek": "Ko'plab kichik bizneslar retsessiya davrida omon qolish uchun kurashmoqda."
+        },
+        "willing to take the risk": {
+                "definition": "Prepared to do something that involves a possible danger or failure.",
+                "uzbek": "Tavakkal qilishga tayyor",
+                "example": "Few investors are willing to take the risk in the current market.",
+                "exampleUzbek": "Hozirgi bozorda kamdan-kam investorlar tavakkal qilishga tayyor."
+        },
+        "conserving their resources": {
+                "definition": "Saving and protecting their money and other valuable assets.",
+                "uzbek": "Resurslarini tejash",
+                "example": "The company is conserving its resources to weather the economic downturn.",
+                "exampleUzbek": "Kompaniya iqtisodiy tanazzuldan omon qolish uchun o'z resurslarini tejayapti."
+        },
+        "It goes without saying": {
+                "definition": "It is obvious or understood.",
+                "uzbek": "Aytmasa ham bo'ladiki",
+                "example": "It goes without saying that safety is our top priority.",
+                "exampleUzbek": "Xavfsizlik bizning eng ustuvor vazifamiz ekanligi aytmasa ham bo'ladiki."
+        },
+        "uncertain situation": {
+                "definition": "A situation where the future is not clear or predictable.",
+                "uzbek": "Noaniq vaziyat",
+                "example": "The layoffs have created an uncertain situation for many employees.",
+                "exampleUzbek": "Ishdan bo'shatishlar ko'plab xodimlar uchun noaniq vaziyatni yaratdi."
+        },
+        "scrutinize": {
+                "definition": "To examine something very carefully in order to discover information.",
+                "uzbek": "Sinovdan o'tkazmoq",
+                "example": "The accountant will scrutinize the company's financial records.",
+                "exampleUzbek": "Buxgalter kompaniyaning moliyaviy hisobotlarini sinovdan o'tkazadi."
+        },
+        "secure": {
+                "definition": "Safe and protected.",
+                "uzbek": "Xavfsiz",
+                "example": "We need to make sure the building is secure before we leave.",
+                "exampleUzbek": "Ketishdan oldin binoning xavfsizligiga ishonch hosil qilishimiz kerak."
+        },
+        "dedication": {
+                "definition": "The quality of being dedicated or committed to a task or purpose.",
+                "uzbek": "Sadoqat",
+                "example": "Her dedication to the project was evident in the results.",
+                "exampleUzbek": "Uning loyihaga sadoqati natijalarda yaqqol ko'rinib turardi."
+        }
+},
+    passageC1: `<p>Good morning, everyone, and thank you for <strong>sacrificing</strong> your Saturday to be here. My partner, Robert Brown, and I have convened this meeting to deliver some rather unwelcome news, I'm afraid. We felt it <strong>imperative</strong> that you hear this directly from us, rather than through the inevitable rumour mill. It is, alas, only a matter of time before this information becomes public knowledge.</p>
+
+<p>To <strong>cut to the chase</strong>, Blair and Brown Ltd has been placed into receivership. I'm sure many of you are acutely aware of the <strong>deleterious impact</strong> the ongoing recession has had on small businesses such as ours. We <strong>persevered</strong> for as long as conceivably possible, but ultimately, we were compelled to acknowledge that <strong>the writing was on the wall</strong>. Despite implementing various austerity measures, including minimising operational expenditure and, regrettably, having to <strong>part ways with</strong> several valued members of staff, we simply lack the requisite capital to meet our obligations to creditors and continue trading.</p>
+
+<p>Some of you may understandably be questioning why a potential acquisition by another firm did not <strong>materialise</strong>. Initially, we were sanguine that this would offer a viable solution to our financial woes, but this proved to be <strong>a false dawn</strong>. We <strong>exhausted every avenue</strong> in pursuit of a takeover, but to no avail. Under more favourable economic conditions, the firm would undoubtedly have presented an attractive proposition to prospective purchasers, but <strong>circumstances dictate otherwise</strong>. The prevailing recession has placed numerous small to medium-sized enterprises in a precarious position, desperately seeking external investment. It is unequivocally a buyer's market, yet there is a <strong>paucity</strong> of willing buyers. Larger corporations appear to be <strong>hoarding capital</strong> and exhibiting a marked reluctance to engage in acquisitions or mergers.</p>
+
+<p>It <strong>goes without saying</strong> that we are profoundly saddened to have been compelled to reach this juncture and to be leaving you all in such a state of uncertainty. However, we are merely <strong>yielding to the inevitable</strong>. The responsibility for the company's future now rests with the official receiver. An appointee will be tasked with conducting a thorough examination of the financial standing and pursuing further efforts to identify a purchaser. We sincerely hope that these endeavours prove fruitful and that your positions will be safeguarded. We are <strong>cautiously optimistic</strong> that this can be achieved.</p>
+
+<p>Finally, thank you all for the unwavering loyalty and dedication you have demonstrated over the years. We extend our sincere best wishes for your future endeavours and hope you will <strong>land on your feet</strong>. We are grateful for your <strong>unwavering commitment</strong>.</p>`,
+    translationC1: `<p>Assalomu alaykum, hurmatli hamkasblar! Shanba kuningizni <strong>qurbon qilib</strong> shu yerga kelganingiz uchun tashakkur. Sherigim Robert Braun va men, afsuski, sizga bir yoqimsiz xabarni yetkazish uchun ushbu yig'ilishni chaqirdik. Bu xabarni mish-mishlardan emas, balki bevosita bizdan eshitishingiz <strong>muhim</strong> deb hisobladik. Afsuski, bu ma'lumotning hammaga ma'lum bo'lishi faqat vaqt masalasi.</p>
+
+<p>Gapni <strong>qisqa qilib aytganda</strong>, "Blair va Braun Ltd" kompaniyasi tashqi boshqaruvga topshirildi. Ishonchim komilki, ko'pchiligingiz davom etayotgan inqiroz biznikiga o'xshash kichik bizneslarga qanday <strong>salbiy ta'sir</strong> ko'rsatayotganini yaxshi bilasiz. Biz iloji boricha <strong>bardosh berdik</strong>, ammo oxir-oqibatda <strong>vaziyat chatoqligini</strong> tan olishga majbur bo'ldik. Operatsion xarajatlarni minimallashtirish va, afsuski, bir nechta qimmatli xodimlar bilan <strong>hayrlashishga</strong> to'g'ri kelgan turli tejamkorlik choralarini ko'rganimizga qaramay, kreditorlar oldidagi majburiyatlarimizni bajarish va savdoni davom ettirish uchun yetarli kapitalimiz yo'q.</p>
+
+<p>Ba'zilaringiz nega boshqa firma tomonidan potentsial sotib olish <strong>amalga oshmaganini</strong> so'rashingiz mumkin. Dastlab, bu moliyaviy muammolarimizga yechim bo'ladi deb o'ylagan edik, ammo bu <strong>umidbaxsh bo'lib chiqdi, xolos</strong>. Biz sotib olish bo'yicha <strong>barcha imkoniyatlarni ishga soldik</strong>, ammo foydasi bo'lmadi. Iqtisodiy sharoit yaxshiroq bo'lganida, firma shubhasiz potentsial xaridorlar uchun jozibali taklif bo'lar edi, ammo <strong>vaziyat boshqacha bo'lishini talab qilmoqda</strong>. Hozirgi inqiroz ko'plab kichik va o'rta korxonalarni tashqi investitsiyalarni izlashga majbur qilib, nozik ahvolga solib qo'ydi. Bu, shubhasiz, xaridor bozori, ammo xaridorlar <strong>yetishmaydi</strong>. Yirik korporatsiyalar <strong>kapitallarini yashirib</strong>, sotib olish yoki qo'shilishdan qat'iy bosh tortayotganga o'xshaydi.</p>
+
+<p>Shuni <strong>ta'kidlash joizki</strong>, biz ushbu nuqtaga yetib kelganimizdan va sizlarning barchangizni bunday noaniq ahvolda qoldirayotganimizdan juda afsusdamiz. Biroq, biz shunchaki <strong>muqarrarlikka taslim bo'lyapmiz</strong>. Kompaniyaning kelajagi uchun javobgarlik endi rasmiy boshqaruvchiga yuklatiladi. Tayinlangan shaxsga moliyaviy ahvolni batafsil o'rganish va xaridorni aniqlash bo'yicha keyingi harakatlarni davom ettirish vazifasi yuklatiladi. Ushbu harakatlar muvaffaqiyatli bo'lishiga va lavozimlaringiz himoyalanishiga chin dildan umid qilamiz. Biz bunga erishish mumkinligiga <strong>ehtiyotkorlik bilan umid qilamiz</strong>.</p>
+
+<p>Va nihoyat, yillar davomida namoyish etgan sadoqatingiz va fidoyiligingiz uchun barchangizga rahmat. Kelgusi faoliyatingizda sizlarga chin dildan omad tilaymiz va <strong>o'zingizga mos ish topasiz</strong> degan umiddamiz. Sizning <strong>qat'iy sadoqatingiz</strong> uchun minnatdormiz.</p>`,
+    vocabularyC1: {
+        "sacrificing": {
+                "definition": "Giving up something valued for the sake of other considerations.",
+                "uzbek": "Qimmatli narsadan boshqa mulohazalar uchun voz kechish.",
+                "example": "She was sacrificing her free time to help her family.",
+                "exampleUzbek": "U oilasiga yordam berish uchun bo'sh vaqtidan voz kechardi."
+        },
+        "imperative": {
+                "definition": "Of vital importance; crucial.",
+                "uzbek": "Hayotiy muhim; hal qiluvchi.",
+                "example": "It is imperative that we act now.",
+                "exampleUzbek": "Hozir harakat qilishimiz shart."
+        },
+        "cut to the chase": {
+                "definition": "To get to the point without wasting time.",
+                "uzbek": "Vaqtni behuda sarflamasdan, nuqtaga yetish.",
+                "example": "Let's cut to the chase, how much will it cost?",
+                "exampleUzbek": "Keling, gapni qisqa qilaylik, bu qancha turadi?"
+        },
+        "deleterious impact": {
+                "definition": "Having a harmful effect; damaging.",
+                "uzbek": "Zararli ta'sir ko'rsatish; zararli.",
+                "example": "The chemical spill had a deleterious impact on the environment.",
+                "exampleUzbek": "Kimyoviy to'kilish atrof-muhitga zararli ta'sir ko'rsatdi."
+        },
+        "persevered": {
+                "definition": "Continued steadfastly despite obstacles.",
+                "uzbek": "To'siqlarga qaramay, qat'iyat bilan davom etdi.",
+                "example": "Despite the difficulties, they persevered and completed the project.",
+                "exampleUzbek": "Qiyinchiliklarga qaramay, ular qat'iyat bilan davom etib, loyihani yakunladilar."
+        },
+        "the writing was on the wall": {
+                "definition": "A sign that something bad is going to happen; an impending doom.",
+                "uzbek": "Yomon narsa sodir bo'lishi haqida belgi; yaqinlashib kelayotgan halokat.",
+                "example": "When sales started to decline rapidly, the writing was on the wall for the company.",
+                "exampleUzbek": "Sotuvlar tez sur'atlar bilan pasayishni boshlaganda, kompaniya uchun yomon alomatlar bor edi."
+        },
+        "part ways with": {
+                "definition": "To end a relationship or association with someone.",
+                "uzbek": "Kimdir bilan munosabatlarni yoki aloqani tugatish.",
+                "example": "The company had to part ways with several employees due to budget cuts.",
+                "exampleUzbek": "Kompaniya byudjet qisqarishi tufayli bir nechta xodim bilan xayrlashishga majbur bo'ldi."
+        },
+        "materialise": {
+                "definition": "To become fact; to happen.",
+                "uzbek": "Haqiqatga aylanish; sodir bo'lish.",
+                "example": "Their plans never materialised due to lack of funding.",
+                "exampleUzbek": "Ularning rejalari mablag' etishmasligi sababli amalga oshmadi."
+        },
+        "a false dawn": {
+                "definition": "A situation in which something seems to be improving but then fails.",
+                "uzbek": "Nimadir yaxshilanayotganga o'xshab ko'ringan, lekin keyin muvaffaqiyatsizlikka uchragan vaziyat.",
+                "example": "The brief increase in sales proved to be a false dawn.",
+                "exampleUzbek": "Sotuvlarning qisqa muddatli o'sishi soxta umid bo'lib chiqdi."
+        },
+        "exhausted every avenue": {
+                "definition": "Tried every possible course of action to achieve something.",
+                "uzbek": "Nimaga erishish uchun har qanday mumkin bo'lgan harakat yo'nalishini sinab ko'rish.",
+                "example": "They exhausted every avenue to find a solution to the problem.",
+                "exampleUzbek": "Ular muammoni hal qilish uchun har qanday yo'lni sinab ko'rishdi."
+        },
+        "circumstances dictate otherwise": {
+                "definition": "The situation demands a different course of action.",
+                "uzbek": "Vaziyat boshqa harakat yo'nalishini talab qiladi.",
+                "example": "We would have liked to invest more, but circumstances dictate otherwise.",
+                "exampleUzbek": "Biz ko'proq sarmoya kiritishni xohlardik, lekin vaziyat boshqacha talab qiladi."
+        },
+        "paucity": {
+                "definition": "A scarcity or lack of something.",
+                "uzbek": "Nimaningdir kamligi yoki yo'qligi.",
+                "example": "There is a paucity of evidence to support their claims.",
+                "exampleUzbek": "Ularning da'volarini tasdiqlash uchun dalillar kam."
+        },
+        "hoarding capital": {
+                "definition": "Accumulating and saving money or resources.",
+                "uzbek": "Pul yoki resurslarni to'plash va saqlash.",
+                "example": "Companies are hoarding capital due to economic uncertainty.",
+                "exampleUzbek": "Kompaniyalar iqtisodiy noaniqlik tufayli kapital to'plashmoqda."
+        },
+        "goes without saying": {
+                "definition": "It is obvious; it is clear without needing to be stated.",
+                "uzbek": "Bu aniq; aytishga hojat qolmaydi, ravshan.",
+                "example": "It goes without saying that safety is our top priority.",
+                "exampleUzbek": "Xavfsizlik bizning eng muhim vazifamiz ekanligi ravshan."
+        },
+        "yielding to the inevitable": {
+                "definition": "Accepting something that cannot be avoided.",
+                "uzbek": "Qochib bo'lmaydigan narsani qabul qilish.",
+                "example": "They were yielding to the inevitable and closing the factory.",
+                "exampleUzbek": "Ular qochib bo'lmaydigan narsaga taslim bo'lishdi va zavodni yopishdi."
+        },
+        "cautiously optimistic": {
+                "definition": "Hopeful, but aware of potential problems.",
+                "uzbek": "Umidvor, lekin potentsial muammolardan xabardor.",
+                "example": "We are cautiously optimistic about the future of the company.",
+                "exampleUzbek": "Biz kompaniyaning kelajagi haqida ehtiyotkorlik bilan umidvormiz."
+        },
+        "land on your feet": {
+                "definition": "To recover quickly from a difficult situation.",
+                "uzbek": "Qiyin vaziyatdan tezda tiklanish.",
+                "example": "I'm sure you'll land on your feet after losing your job.",
+                "exampleUzbek": "Ishdan ayrilganingizdan so'ng, albatta, oyoqqa turib olasiz."
+        },
+        "unwavering commitment": {
+                "definition": "A firm decision to do something, that you are unlikely to change.",
+                "uzbek": "Biror narsa qilish uchun qat'iy qaror, uni o'zgartirmasligingiz mumkin.",
+                "example": "We thank you for your unwavering commitment to your work.",
+                "exampleUzbek": "Ishga sodiqligingiz uchun tashakkur bildiramiz."
+        }
+}
 };

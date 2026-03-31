@@ -1,0 +1,36 @@
+// Grammar Test: It & There Constructions — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> is important to eat healthy food.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" introduces a general statement about eating healthy food.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> are many students in the class today.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There are\" indicates the existence of something (students).", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> that he likes the movie.", correct: "It seems", options: ["It seems", "There seems", "It seeming", "There seeming"], def: "\"It seems\" is the correct impersonal construction.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> was raining yesterday.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" is used for talking about the weather.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> is a big problem with traffic.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There is\" introduces a problem (traffic).", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> difficult to find a job.", correct: "It is", options: ["It is", "There is", "It was", "There was"], def: "\"It is\" introduces a general difficulty.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is my birthday next week.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" is used to talk about time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> used to be a cinema here.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There used to be\" indicates something existed in the past.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> that she is tired.", correct: "It seems", options: ["It seems", "There seems", "It seeming", "There seeming"], def: "\"It seems\" is the correct impersonal construction.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> takes a long time to learn English.", correct: "It", options: ["It", "There", "They", "This"], def: "\"It\" introduces a general statement about learning English.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>There</b> is <b>difficult</b> to <b>understand</b> <b>him</b>.", correct: "There", options: ["There", "difficult", "understand", "him"], def: "\"It\" should be used to introduce a general difficulty.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> a good idea to call him.", correct: "It is", options: ["It is", "There is", "It was", "There was"], def: "\"It is\" introduces a general statement about a good idea.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is cold today.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" is used to talk about the weather.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> are some problems we need to solve.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There are\" introduces problems that exist.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>It</b> is <b>a</b> cat <b>sitting</b> on <b>the</b> chair.", correct: "It", options: ["It", "a", "sitting", "the"], def: "\"There\" should be used to indicate the presence of the cat.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> important to be on time.", correct: "It is", options: ["It is", "There is", "It was", "There was"], def: "\"It is\" introduces a general statement about being on time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> is easy to learn a language with practice.", correct: "It", options: ["It", "There", "They", "This"], def: "\"It\" introduces a general statement about learning a language.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>There</b> is <b>raining</b> all <b>day</b> <b>today</b>.", correct: "There", options: ["There", "raining", "day", "today"], def: "\"It\" is used to describe the weather.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> a lot of noise outside.", correct: "There is", options: ["There is", "It is", "There was", "It was"], def: "\"There is\" introduces the existence of noise.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> takes two hours to get there.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" is used to talk about time or distance.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> are many reasons to be happy.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There are\" introduces reasons that exist.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>It</b> is <b>some</b> milk <b>in</b> the <b>fridge</b>.", correct: "It", options: ["It", "some", "in", "fridge"], def: "\"There\" should be used to indicate the presence of milk.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> a good idea to go out.", correct: "It seems", options: ["It seems", "There seems", "It seeming", "There seeming"], def: "\"It seems\" is the correct impersonal construction.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is important to recycle.", correct: "It", options: ["It", "There", "This", "That"], def: "\"It\" introduces a general statement about recycling.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> is a bus stop near my house.", correct: "There", options: ["There", "It", "They", "This"], def: "\"There is\" introduces the existence of a bus stop.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is raining outside. Take your umbrella.", correct: "It", options: ["It", "There", "This", "That"], def: "We use 'it' to talk about the weather.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> are many students in the classroom today.", correct: "There", options: ["There", "It", "They", "This"], def: "'There are' indicates the existence of something.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> is a good film on TV tonight.", correct: "There", options: ["There", "It", "They", "This"], def: "'There' introduces the existence of something.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> is my birthday next week.", correct: "It", options: ["It", "There", "This", "What"], def: "'It' refers to a specific time or event.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> seems difficult to learn a new language.", correct: "It", options: ["It", "There", "This", "They"], def: "'It' introduces a general statement.", level: "B1–B2"}
+];

@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <script src="questions S/questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -512,15 +514,242 @@
 
     /* ===== MOBILE RESPONSIVE - Edge to Edge ===== */
     @media (max-width: 768px) {
+      .header, .part-nav, .pc-integrated-player, .pc-audio-wrapper, .audio-player-bar.desktop-only, .audio-player-bar.mobile-only {
+        display: none !important;
+      }
+
       .main-container {
         padding: 12px 8px;
         max-width: 100%;
+        margin-top: 0px !important;
+        padding-bottom: 0px !important;
+      }
+
+      /* Mobile Floating Navigation (FAB) */
+      .mobile-fab-container {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .mobile-fab {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        border: 4px solid white;
+        box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 2;
+        padding: 0;
+      }
+
+      .mobile-fab.open {
+        transform: rotate(135deg);
+        background: #ef4444;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+      }
+
+      .mobile-fab.idle {
+        opacity: 0.5;
+        transform: scale(0.9);
+      }
+
+      .mobile-fab.idle:hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Mobile Menu Styles */
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(2px);
+        z-index: 10000;
+        display: none;
+      }
+
+      .mobile-menu-overlay.active {
+        display: block;
+      }
+
+      .mobile-tools-menu {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 92vw;
+        max-width: 370px;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 2px solid var(--primary);
+        border-radius: 18px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+        padding: 14px 16px;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        animation: menuAppearCentered 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 10001;
+      }
+
+      .mobile-tools-menu.active { display: flex; }
+
+      @keyframes menuAppearCentered {
+        from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
+        to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      }
+
+      .mobile-tools-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
+
+      .mobile-playback-row {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .mob-menu-play-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .mob-menu-progress-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .mob-menu-progress-bar {
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .mob-menu-progress-fill {
+        height: 100%;
+        background: var(--primary);
+        border-radius: 3px;
+        width: 0%;
+      }
+
+      .mob-menu-time-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: var(--text-light);
+        font-family: monospace;
+      }
+
+      .mob-menu-speed-btn {
+        padding: 5px 10px;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 15px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .mobile-tools-menu .part-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      
+      .mobile-tools-menu .part-tab {
+        padding: 9px 0;
+        border-radius: 10px;
+        background: var(--bg);
+        border: 2px solid var(--border);
+        color: var(--text-light);
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+      
+      .mobile-tools-menu .part-tab:active {
+        transform: scale(0.96);
+      }
+      
+      .mobile-tools-menu .part-tab.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+      }
+
+      .mobile-zoom-btn {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        border: none;
+        width: 40px;
+        height: 36px;
+        border-radius: 8px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .zoom-level-badge {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        display: none;
+        align-items: center;
+        justify-content: center;
       }
 
       .part-header {
-        border-radius: 10px;
-        padding: 16px 12px;
-        margin-bottom: 16px;
+        border-radius: 12px;
+        padding: 20px 16px;
+        margin-bottom: 24px;
       }
 
       .part-title {
@@ -529,14 +758,14 @@
       }
 
       .part-instruction {
-        font-size: 12px;
-        line-height: 1.4;
+        font-size: 13.5px;
+        line-height: 1.5;
       }
 
       .question-card {
-        border-radius: 10px;
-        padding: 14px 12px;
-        margin-bottom: 12px;
+        border-radius: 12px;
+        padding: 18px 16px;
+        margin-bottom: 18px;
         border-left-width: 4px;
       }
 
@@ -559,14 +788,14 @@
       }
 
       .option-text {
-        font-size: 14px;
-        line-height: 1.4;
+        font-size: 14.5px;
+        line-height: 1.6;
         word-break: break-word;
       }
 
       .passage-container {
-        padding: 16px 12px;
-        border-radius: 10px;
+        padding: 20px 16px;
+        border-radius: 12px;
       }
 
       .passage-title {
@@ -589,47 +818,7 @@
       }
 
       .nav-buttons {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        flex-direction: row;
-        gap: 10px;
-        padding: 10px 12px;
-        margin: 0;
-        background: white;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 50;
-      }
-
-      .nav-btn {
-        flex: 1;
-        justify-content: center;
-        padding: 12px 16px;
-        font-size: 14px;
-      }
-
-      /* Add padding to main content to account for fixed nav */
-      .main-container {
-        padding-bottom: 80px;
-      }
-
-      /* Part navigation - ensure full visibility */
-      .part-nav {
-        top: 48px;
-        padding: 8px 0;
-      }
-
-      .part-nav-inner {
-        padding: 4px 8px;
-        gap: 8px;
-        justify-content: flex-start;
-      }
-
-      .part-btn {
-        padding: 8px 16px;
-        font-size: 14px;
-        border-radius: 20px;
+        display: none !important;
       }
 
       /* Extract boxes */
@@ -645,42 +834,6 @@
 
       .extract-questions {
         padding: 14px 12px;
-      }
-
-      /* Header adjustments */
-      .header {
-        padding: 8px 10px;
-      }
-
-      .header-content {
-        padding: 0 8px;
-        gap: 8px;
-      }
-
-      .header-left {
-        gap: 8px;
-      }
-
-      .logo {
-        width: 32px;
-        height: 32px;
-      }
-
-      .header-title {
-        font-size: 14px;
-      }
-
-      .mock-number {
-        padding: 4px 10px;
-        font-size: 13px;
-      }
-
-      .timer-box {
-        padding: 6px 12px;
-      }
-
-      .timer-value {
-        font-size: 18px;
       }
     }
 
@@ -934,6 +1087,7 @@
       align-items: center;
       gap: 16px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      position: relative;
     }
 
     .speaker-label {
@@ -943,18 +1097,105 @@
       min-width: 100px;
     }
 
-    .speaker-select {
+    /* Rich Custom Select for speaker matching */
+    .rich-select-container {
+      position: relative;
       flex: 1;
-      padding: 10px 16px;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
     }
-
-    .speaker-select:focus {
+    .rich-select-trigger {
+      width: 100%;
+      padding: 12px 42px 12px 16px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.5;
+      text-align: left;
+      cursor: pointer;
+      position: relative;
+      display: block;
+      word-wrap: break-word;
+      white-space: normal;
+      color: var(--text);
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rich-select-trigger:hover {
+      border-color: var(--primary-light);
+      background: #fafafa;
+    }
+    .rich-select-trigger.open {
       border-color: var(--primary);
-      outline: none;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+    .rich-select-trigger.duplicate {
+      border-color: #f97316 !important;
+      background: #fff7ed !important;
+    }
+    .rich-select-trigger::after {
+      content: '\25BC';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--text-light);
+      transition: transform 0.2s;
+    }
+    .rich-select-trigger.open::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
+    .rich-select-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--border);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      border-radius: 14px;
+      z-index: 3000;
+      display: none;
+      max-height: min(320px, 45vh);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      animation: rsPopIn 0.2s ease-out;
+    }
+    @keyframes rsPopIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .rich-select-option {
+      padding: 14px 18px;
+      font-size: 15px;
+      line-height: 1.5;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text);
+      transition: all 0.1s;
+    }
+    .rich-select-option:last-child { border-bottom: none; }
+    .rich-select-option:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding-left: 22px;
+    }
+    .rich-select-option.selected {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+    }
+    .rich-select-option.option-used {
+      background: linear-gradient(to right, #fef3c7, #fde68a);
+      color: #92400e;
+      font-style: italic;
+    }
+    .speaker-item.elevated {
+      z-index: 4000 !important;
+    }
+    .rich-select-trigger.locked {
+      pointer-events: none;
+      opacity: 0.85;
     }
 
     /* Duplicate selection warning */
@@ -964,7 +1205,7 @@
       background: #fff7ed;
     }
 
-    .speaker-item.duplicate-warning .speaker-select {
+    .speaker-item.duplicate-warning .rich-select-trigger {
       border-color: #f97316;
     }
 
@@ -987,15 +1228,6 @@
 
     .speaker-item.duplicate-warning .duplicate-icon {
       display: block;
-    }
-
-    .speaker-select option.chosen {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .speaker-select option.chosen::after {
-      content: ' ✓';
     }
 
     .option-box-item {
@@ -1352,7 +1584,8 @@
       .part-section.active:has(.map-split-wrapper) {
         display: flex;
         flex-direction: column;
-        height: calc(100vh - 130px);
+        height: calc(100vh - 56px); /* Fill entire viewport below the 56px header */
+        margin: -12px -8px -12px -8px !important; /* Full edge-to-edge including bottom */
         overflow: hidden;
       }
 
@@ -1413,16 +1646,17 @@
         flex-direction: column;
         height: 100%;
         flex: 1;
-        border-radius: 12px;
+        border-radius: 0; /* Edge-to-edge look on mobile */
+        border: none;
         overflow: hidden;
       }
 
       .map-container {
-        flex: 1;
+        flex: 1.5;
         min-height: 0;
-        max-height: 50%;
+        max-height: 65%;
         overflow-y: auto;
-        padding: 12px;
+        padding: 10px;
         border-bottom: none;
       }
 
@@ -1440,7 +1674,7 @@
         max-height: none;
         overflow-y: auto;
         padding: 12px;
-        padding-bottom: 80px;
+        padding-bottom: 0px; 
       }
 
       .map-questions-header {
@@ -1731,40 +1965,62 @@
       }
     }
 
+    /* Mobile: center the minimized results pill */
+    @media (max-width: 768px) {
+      .results-minimized-pill {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .results-minimized-pill.visible {
+        animation: pillPulseMobile 2.5s ease-in-out infinite;
+      }
+      @keyframes pillPulseMobile {
+        0%, 100% {
+          transform: translateX(-50%) translateY(0);
+          box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-3px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+
     .modal-header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
-      padding: 28px;
+      padding: 18px 24px;
       text-align: center;
     }
 
     .modal-title {
-      font-size: 24px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin-bottom: 6px;
     }
 
     .modal-score {
-      font-size: 56px;
+      font-size: 44px;
       font-weight: 700;
     }
 
     .modal-body {
-      padding: 28px;
+      padding: 16px 24px;
     }
 
     .result-row {
       display: flex;
       justify-content: space-between;
-      padding: 14px 0;
+      padding: 10px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .modal-footer {
-      padding: 20px 28px;
+      padding: 14px 24px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     /* Expandable Part Results */
@@ -1776,16 +2032,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 0;
-      font-size: 16px;
+      padding: 10px 0;
+      font-size: 15px;
       cursor: pointer;
       transition: all 0.2s;
     }
 
     .part-result-header:hover {
       background: #f8fafc;
-      margin: 0 -28px;
-      padding: 14px 28px;
+      margin: 0 -24px;
+      padding: 10px 24px;
     }
 
     .part-result-left {
@@ -1933,23 +2189,24 @@
     }
 
     .transcripts-popup-close {
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.2);
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
       border: none;
       border-radius: 50%;
       color: white;
-      font-size: 22px;
+      font-size: 18px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      margin-left: auto;
     }
 
     .transcripts-popup-close:hover {
-      background: rgba(255, 255, 255, 0.35);
-      transform: scale(1.1);
+      opacity: 0.9;
+      transform: scale(1.08);
     }
 
     .transcripts-popup-tabs {
@@ -2408,12 +2665,12 @@
       background: #fee2e2;
     }
 
-    .review-mode select.correct {
+    .review-mode .rich-select-trigger.correct {
       border-color: #10b981;
       background: #dcfce7;
     }
 
-    .review-mode select.incorrect {
+    .review-mode .rich-select-trigger.incorrect {
       border-color: #ef4444;
       background: #fee2e2;
     }
@@ -3166,6 +3423,12 @@
         display: flex !important;
       }
 
+      /* Keep mobile audio bar hidden — it's handled separately */
+      .audio-player-bar.mobile-only,
+      .part-nav.mobile-only {
+        display: none !important;
+      }
+
       /* Hide desktop header elements */
       .header .logo,
       .header .header-title,
@@ -3381,7 +3644,7 @@
 
       /* Adjust main content for mobile header + player bar */
       .main-container {
-        margin-top: 115px !important;
+        margin-top: 0px !important;
       }
 
       /* Compact instruction section on mobile */
@@ -3405,8 +3668,8 @@
       }
 
       .part-instruction {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
+        font-size: 13.5px !important;
+        line-height: 1.5 !important;
         color: #94a3b8 !important;
         margin: 0 !important;
       }
@@ -3417,7 +3680,7 @@
       }
 
       /* Hide bottom nav buttons on mobile — part switcher is in top bar */
-      .nav-buttons {
+      .nav-buttons, .main-container:has(.nav-buttons) {
         display: none !important;
       }
 
@@ -3540,7 +3803,7 @@
         gap: 10px;
         padding: 14px;
         max-width: 100%;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .speaker-label {
@@ -3548,21 +3811,13 @@
         font-size: 14px;
       }
 
-      .speaker-select {
-        width: 100% !important;
-        max-width: 100% !important;
+      .rich-select-trigger {
         font-size: 14px;
-        padding: 10px 12px;
-        box-sizing: border-box;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        padding: 12px 38px 12px 12px;
       }
-
-      .speaker-select option {
-        white-space: normal;
-        word-wrap: break-word;
-        overflow: hidden;
-        max-width: 100%;
+      .rich-select-option {
+        font-size: 14px;
+        padding: 12px 14px;
       }
 
       .options-box {
@@ -3688,7 +3943,10 @@
     @media (min-width: 769px) {
 
       .nav-buttons,
-      .mobile-only {
+      .mobile-only,
+      .mobile-fab-container,
+      .mobile-tools-menu,
+      .mobile-menu-overlay {
         display: none !important;
       }
 
@@ -3911,12 +4169,12 @@
     <div class="transcripts-popup">
       <div class="transcripts-popup-header">
         <div class="transcripts-popup-title">📜 Transcripts & Answer Highlights</div>
-        <button class="transcripts-popup-close" onclick="closeTranscriptsPopup()" title="Close">&times;</button>
       </div>
       <div class="transcripts-popup-tabs" id="transcriptTabs"></div>
       <div class="transcripts-popup-body" id="transcriptBody"></div>
       <div class="transcripts-popup-footer">
         <span>💡 Highlighted lines show where each answer is found in the script</span>
+        <button class="transcripts-popup-close" onclick="closeTranscriptsPopup()" title="Close">&times;</button>
       </div>
     </div>
   </div>
@@ -3972,6 +4230,33 @@
     let timerInterval = null;
     let timeRemaining = 40 * 60;
     let isReviewMode = false;
+
+    // British ↔ American spelling variant pairs
+    const SPELLING_PAIRS = [
+      ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+      ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+      ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+      ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+      ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+      ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+    ];
+    const _spellingMap = {};
+    SPELLING_PAIRS.forEach(function(pair) {
+      pair.forEach(function(w, i) {
+        var wl = w.toLowerCase();
+        if (!_spellingMap[wl]) _spellingMap[wl] = [];
+        pair.forEach(function(v, j) { if (i !== j && _spellingMap[wl].indexOf(v.toLowerCase()) === -1) _spellingMap[wl].push(v.toLowerCase()); });
+      });
+      pair.forEach(function(w, i) {
+        var ws = w.toLowerCase() + 's';
+        if (!_spellingMap[ws]) _spellingMap[ws] = [];
+        pair.forEach(function(v, j) { if (i !== j && _spellingMap[ws].indexOf(v.toLowerCase() + 's') === -1) _spellingMap[ws].push(v.toLowerCase() + 's'); });
+      });
+    });
+    function getSpellingVariants(word) {
+      if (!word) return [];
+      return _spellingMap[word.toLowerCase()] || [];
+    }
 
     const GLOBAL_LOGO_URL = (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
     const GLOBAL_LOGO_WORDING = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || (window.SPEAKING_TEST_DATA && window.SPEAKING_TEST_DATA.settings && window.SPEAKING_TEST_DATA.settings.logoWording) || 'Mock Stream';
@@ -4036,32 +4321,42 @@
           const audio = new Audio();
           audio.preload = 'auto';
           audio.muted = true; // Mute during preload to prevent any sound
+          let settled = false;
+
+          function done() {
+            if (settled) return;
+            settled = true;
+            loadedCount++;
+            const progress = (loadedCount / totalParts) * 100;
+            audioPreloadProgress.style.width = progress + '%';
+            audioPreloadDetail.textContent = loadedCount + ' / ' + totalParts + ' parts loaded';
+            // Store preloaded audio URL (not the audio element to avoid auto-play issues)
+            window.preloadedAudios[part.partNumber || (index + 1)] = part.audioFile;
+            resolve();
+          }
 
           audio.addEventListener('canplaythrough', function onCanPlay() {
             audio.removeEventListener('canplaythrough', onCanPlay);
             audio.pause(); // Ensure it's paused
             audio.currentTime = 0; // Reset to start
             audio.muted = false; // Unmute for later use
-
-            loadedCount++;
-            const progress = (loadedCount / totalParts) * 100;
-            audioPreloadProgress.style.width = progress + '%';
-            audioPreloadDetail.textContent = loadedCount + ' / ' + totalParts + ' parts loaded';
             audioPreloadText.textContent = 'Loading Part ' + (index + 1) + ' audio... ✓';
-
-            // Store preloaded audio URL (not the audio element to avoid auto-play issues)
-            window.preloadedAudios[part.partNumber || (index + 1)] = part.audioFile;
-            resolve();
+            done();
           });
 
           audio.addEventListener('error', function () {
-            loadedCount++;
-            const progress = (loadedCount / totalParts) * 100;
-            audioPreloadProgress.style.width = progress + '%';
-            audioPreloadDetail.textContent = loadedCount + ' / ' + totalParts + ' parts loaded';
             console.log('Failed to preload Part ' + (index + 1) + ' audio');
-            resolve(); // Continue even if one fails
+            done(); // Continue even if one fails
           });
+
+          // Timeout: if canplaythrough doesn't fire within 15s, continue anyway
+          setTimeout(function () {
+            if (!settled) {
+              console.log('Timeout preloading Part ' + (index + 1) + ' audio — continuing');
+              audioPreloadText.textContent = 'Part ' + (index + 1) + ' audio timeout — continuing...';
+              done();
+            }
+          }, 15000);
 
           audio.src = part.audioFile;
           audio.load();
@@ -4070,39 +4365,15 @@
 
       Promise.all(preloadPromises).then(() => {
         audioPreloadText.textContent = 'All audio files ready! ✓';
-        audioPreloadDetail.textContent = 'Loading voice announcements...';
+        audioPreloadDetail.textContent = 'Loading map images...';
 
-        // Also preload GTTS part announcements
-        if (window.preloadPartAnnouncements) {
-          window.preloadPartAnnouncements().then(() => {
-            // Preload map images for PDF
-            audioPreloadDetail.textContent = 'Loading map images...';
-            preloadMapImages().then(() => {
-              audioPreloadDetail.textContent = 'Starting test...';
-              window.audioPreloadComplete = true;
-              setTimeout(() => {
-                initTest();
-              }, 500);
-            });
-          }).catch(() => {
-            // Continue even if GTTS preload fails (will use browser TTS fallback)
-            preloadMapImages().then(() => {
-              audioPreloadDetail.textContent = 'Starting test...';
-              window.audioPreloadComplete = true;
-              setTimeout(() => {
-                initTest();
-              }, 500);
-            });
-          });
-        } else {
-          preloadMapImages().then(() => {
-            audioPreloadDetail.textContent = 'Starting test...';
-            window.audioPreloadComplete = true;
-            setTimeout(() => {
-              initTest();
-            }, 500);
-          });
-        }
+        preloadMapImages().then(() => {
+          audioPreloadDetail.textContent = 'Starting test...';
+          window.audioPreloadComplete = true;
+          setTimeout(() => {
+            initTest();
+          }, 500);
+        });
       });
     }
 
@@ -4146,6 +4417,9 @@
       showPart(0);
       startTimer();
       document.getElementById('loadingScreen').style.display = 'none';
+      // Show FAB now that test is ready
+      var fabContainer = document.getElementById('mobileFabContainer');
+      if (fabContainer) fabContainer.style.removeProperty('display');
 
       // Auto-download PDF if triggered from mock selector page
       if (urlParams.get('download') === 'pdf') {
@@ -4154,6 +4428,22 @@
             generatePDF();
           }
         }, 1500);
+      }
+
+      // Session recovery: restore saved state or start fresh auto-save
+      if (window.SessionRecovery) {
+        if (window._srResumeData) {
+          var rd = window._srResumeData;
+          timeRemaining = rd.timeRemaining != null ? rd.timeRemaining : timeRemaining;
+          updateTimerDisplay();
+          if (rd.currentPart != null) { showPart(rd.currentPart); }
+          if (rd.userAnswers) {
+            userAnswers = rd.userAnswers;
+            SessionRecovery.restoreAnswers(rd.userAnswers);
+          }
+          window._srResumeData = null;
+        }
+        SessionRecovery.start();
       }
     }
 
@@ -4261,7 +4551,7 @@
         } else if (item.type === 'item') {
           html += '<div class="form-item">' + item.text + '</div>';
         } else if (item.type === 'item-gap') {
-          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
+          html += '<div class="form-item">' + item.text + ' <span class="gap-label">(' + item.gapId + ')</span> <input type="text" autocomplete="off" class="gap-input" data-q="' + item.gapId + '">' + (item.gapSuffix || '') + '</div>';
         } else if (item.type === 'text') {
           html += '<div class="form-text">' + item.text + '</div>';
         } else if (item.type === 'html') {
@@ -4290,8 +4580,12 @@
       html += '</div></div>';
       html += '<div class="speakers-list">';
       part.speakers.forEach(s => {
-        html += '<div class="speaker-item"><span class="duplicate-icon">!</span><span class="speaker-label">' + s.id + '. ' + s.label + '</span><select class="speaker-select" data-q="' + s.id + '" onchange="updateChosenOptions(this)"><option value="">Select...</option>' +
-          part.options.map(o => '<option value="' + o.letter + '" data-letter="' + o.letter + '">' + o.letter + ' – ' + o.text + '</option>').join('') + '</select></div>';
+        html += '<div class="speaker-item"><span class="duplicate-icon">!</span><span class="speaker-label">' + s.id + '. ' + s.label + '</span>'
+          + '<div class="rich-select-container" id="rs-container-' + s.id + '">'
+          + '<div class="rich-select-trigger speaker-select" id="rs-trigger-' + s.id + '" data-q="' + s.id + '" onclick="toggleRichSelect(\'' + s.id + '\', event)">Select...</div>'
+          + '<div class="rich-select-menu" id="rs-menu-' + s.id + '">'
+          + part.options.map(o => '<div class="rich-select-option" data-letter="' + o.letter + '" onclick="selectSpeakerOption(\'' + s.id + '\',\'' + o.letter + '\',this,event)">' + o.letter + ' \u2013 ' + o.text + '</div>').join('')
+          + '</div></div></div>';
       });
       html += '</div><div class="options-box"><div style="font-weight:700;color:var(--primary);margin-bottom:10px;">Options:</div>';
       part.options.forEach(o => {
@@ -4438,7 +4732,7 @@
     function renderSentenceCompletion(part) {
       // Replace span placeholders with actual input fields
       let content = part.passageContent.replace(/<span class="gap-input" data-gap="(\d+)">[^<]*<\/span>/g,
-        '<input type="text" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
+        '<input type="text" autocomplete="off" class="gap-input sentence-gap" data-q="$1" placeholder="($1)">');
       return '<div class="passage-container"><div class="passage-title">' + part.passageTitle + '</div><div class="passage-text">' + content + '</div></div>';
     }
 
@@ -4544,9 +4838,11 @@
       document.querySelectorAll('.gap-input').forEach(inp => {
         if (inp.dataset.q && inp.value.trim()) userAnswers[inp.dataset.q] = inp.value.trim();
       });
-      // Selects (speaker matching)
-      document.querySelectorAll('.speaker-select').forEach(sel => {
-        if (sel.dataset.q && sel.value) userAnswers[sel.dataset.q] = sel.value;
+      // Rich selects (speaker matching)
+      document.querySelectorAll('.rich-select-trigger.speaker-select').forEach(function(t) {
+        var q = t.getAttribute('data-q');
+        var v = t.getAttribute('data-value');
+        if (q && v) userAnswers[q] = v;
       });
       // Map letter buttons
       document.querySelectorAll('.map-selected-letter').forEach(el => {
@@ -4621,77 +4917,117 @@
       }
     });
 
+    // Rich select toggle
+    function toggleRichSelect(qId, event) {
+      if (event) event.stopPropagation();
+      var menu = document.getElementById('rs-menu-' + qId);
+      var trigger = document.getElementById('rs-trigger-' + qId);
+      var isOpen = menu.style.display === 'block';
+      document.querySelectorAll('.rich-select-menu').forEach(function(m){ m.style.display = 'none'; });
+      document.querySelectorAll('.rich-select-trigger').forEach(function(t){ t.classList.remove('open'); });
+      document.querySelectorAll('.speaker-item').forEach(function(c){ c.classList.remove('elevated'); });
+      if (!isOpen) {
+        menu.style.display = 'block';
+        trigger.classList.add('open');
+        var card = trigger.closest('.speaker-item');
+        if (card) card.classList.add('elevated');
+      }
+    }
+
+    // Rich select option chosen (speaker matching)
+    function selectSpeakerOption(qId, letter, optEl, event) {
+      if (event) event.stopPropagation();
+      var trigger = document.getElementById('rs-trigger-' + qId);
+      var menu = document.getElementById('rs-menu-' + qId);
+      trigger.textContent = optEl.textContent;
+      trigger.setAttribute('data-value', letter);
+      trigger.classList.remove('open');
+      if (menu) menu.style.display = 'none';
+      var card = trigger.closest('.speaker-item');
+      if (card) card.classList.remove('elevated');
+      menu.querySelectorAll('.rich-select-option').forEach(function(o){ o.classList.remove('selected'); });
+      optEl.classList.add('selected');
+      updateChosenOptions();
+    }
+
+    // Close all rich selects on outside click
+    document.addEventListener('click', function(ev) {
+      if (ev.target.closest && ev.target.closest('.rich-select-container')) return;
+      document.querySelectorAll('.rich-select-menu').forEach(function(m){ m.style.display = 'none'; });
+      document.querySelectorAll('.rich-select-trigger').forEach(function(t){ t.classList.remove('open'); });
+      document.querySelectorAll('.speaker-item').forEach(function(c){ c.classList.remove('elevated'); });
+    });
+
     // Track chosen options in matching questions
-    function updateChosenOptions(changedSelect) {
-      const container = changedSelect.closest('.matching-container');
+    function updateChosenOptions() {
+      var container = document.querySelector('.matching-container');
       if (!container) return;
 
-      // Get all selected values in this matching group
-      const selects = container.querySelectorAll('.speaker-select');
-      const letterCounts = {};
-      const chosenLetters = new Set();
+      var triggers = container.querySelectorAll('.rich-select-trigger.speaker-select');
+      var letterCounts = {};
+      var chosenLetters = new Set();
 
-      // Count how many times each letter is selected
-      selects.forEach(sel => {
-        if (sel.value) {
-          chosenLetters.add(sel.value);
-          letterCounts[sel.value] = (letterCounts[sel.value] || 0) + 1;
+      triggers.forEach(function(t) {
+        var v = t.getAttribute('data-value');
+        if (v) {
+          chosenLetters.add(v);
+          letterCounts[v] = (letterCounts[v] || 0) + 1;
         }
       });
 
-      // Update option styling in all selects and mark duplicates
-      selects.forEach(sel => {
-        const speakerItem = sel.closest('.speaker-item');
-        const currentValue = sel.value;
-
-        // Check if this select has a duplicate value
-        if (currentValue && letterCounts[currentValue] > 1) {
+      // Duplicate warnings + option-used hints
+      triggers.forEach(function(t) {
+        var speakerItem = t.closest('.speaker-item');
+        var myVal = t.getAttribute('data-value');
+        if (myVal && letterCounts[myVal] > 1) {
           speakerItem.classList.add('duplicate-warning');
+          t.classList.add('duplicate');
         } else {
           speakerItem.classList.remove('duplicate-warning');
+          t.classList.remove('duplicate');
         }
-
-        sel.querySelectorAll('option[data-letter]').forEach(opt => {
-          const letter = opt.dataset.letter;
-          const isChosen = chosenLetters.has(letter);
-          const isCurrentValue = sel.value === letter;
-
-          // Mark as chosen if selected elsewhere (not in this dropdown)
-          if (isChosen && !isCurrentValue) {
-            opt.textContent = letter + ' – ' + opt.textContent.split(' – ')[1].replace(' ✓', '') + ' ✓';
-            opt.classList.add('chosen');
-          } else {
-            opt.textContent = letter + ' – ' + opt.textContent.split(' – ')[1].replace(' ✓', '');
-            opt.classList.remove('chosen');
-          }
+        var menu = document.getElementById('rs-menu-' + t.getAttribute('data-q'));
+        if (!menu) return;
+        menu.querySelectorAll('.rich-select-option').forEach(function(opt) {
+          var letter = opt.getAttribute('data-letter');
+          var isUsedElsewhere = chosenLetters.has(letter) && myVal !== letter;
+          opt.classList.toggle('option-used', isUsedElsewhere);
         });
       });
 
       // Update options box visual
-      const optionsBox = container.querySelector('.options-box');
+      var optionsBox = container.querySelector('.options-box');
       if (optionsBox) {
-        optionsBox.querySelectorAll('.option-box-item').forEach(item => {
-          const letter = item.dataset.optionLetter;
-          if (chosenLetters.has(letter)) {
-            item.classList.add('chosen');
-          } else {
-            item.classList.remove('chosen');
-          }
+        optionsBox.querySelectorAll('.option-box-item').forEach(function(item) {
+          var letter = item.dataset.optionLetter;
+          item.classList.toggle('chosen', chosenLetters.has(letter));
         });
       }
 
       // Update mobile options preview chips
-      const mobilePreview = container.querySelector('.mobile-options-preview');
+      var mobilePreview = container.querySelector('.mobile-options-preview');
       if (mobilePreview) {
-        mobilePreview.querySelectorAll('.mobile-option-chip').forEach(chip => {
-          const letter = chip.dataset.optionLetter;
-          if (chosenLetters.has(letter)) {
-            chip.classList.add('chosen');
-          } else {
-            chip.classList.remove('chosen');
-          }
+        mobilePreview.querySelectorAll('.mobile-option-chip').forEach(function(chip) {
+          var letter = chip.dataset.optionLetter;
+          chip.classList.toggle('chosen', chosenLetters.has(letter));
         });
       }
+    }
+
+    function matchesAnswer(userAns, correctArr) {
+      if (!userAns) return false;
+      var arr = Array.isArray(correctArr) ? correctArr : [correctArr];
+      var uLow = userAns.toString().toLowerCase().trim();
+      if (arr.some(function(c){ return c.toString().toLowerCase().trim() === uLow; })) return true;
+      // Spelling variant match
+      var userVariants = getSpellingVariants(uLow);
+      if (userVariants.length > 0 && arr.some(function(c){ return userVariants.indexOf(c.toString().toLowerCase().trim()) !== -1; })) return true;
+      if (arr.some(function(c){ var v = getSpellingVariants(c.toString().toLowerCase().trim()); return v.indexOf(uLow) !== -1; })) return true;
+      if (arr.length > 1) {
+        var parts = userAns.toString().split(/\s*[\/]\s*|\s+or\s+/i).map(function(p){ return p.toLowerCase().trim(); }).filter(Boolean);
+        if (parts.length > 1 && parts.some(function(p){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === p; }) || getSpellingVariants(p).some(function(v){ return arr.some(function(c){ return c.toString().toLowerCase().trim() === v; }); }); })) return true;
+      }
+      return false;
     }
 
     function calculateScore() {
@@ -4701,13 +5037,7 @@
           Object.keys(part.answers).forEach(qId => {
             const correct = part.answers[qId];
             const user = userAnswers[qId];
-            if (user) {
-              if (Array.isArray(correct)) {
-                if (correct.some(c => c.toLowerCase() === user.toLowerCase())) score++;
-              } else if (correct.toLowerCase() === user.toLowerCase()) {
-                score++;
-              }
-            }
+            if (matchesAnswer(user, correct)) score++;
           });
         }
       });
@@ -4722,6 +5052,9 @@
         return;
       }
       hasSubmitted = true;
+
+      // Clear session recovery on submit
+      if (window.SessionRecovery) SessionRecovery.clear();
 
       // Hide the submit buttons completely
       const submitBtn = document.getElementById('btnSubmit');
@@ -4752,12 +5085,21 @@
         audio.pause();
         audio.currentTime = 0;
       }
+      const hiddenAudio = document.getElementById('hiddenAudio');
+      if (hiddenAudio) {
+        hiddenAudio.pause();
+        hiddenAudio.currentTime = 0;
+      }
 
       collectAnswers();
       const score = calculateScore();
       document.getElementById('finalScore').textContent = score;
       document.getElementById('finalTotal').textContent = '/' + TEST_DATA.testInfo.totalQuestions;
 
+      var _isPremiumListen = sessionStorage.getItem('listeningPremiumEntry') === 'true';
+      if (!_isPremiumListen) {
+        try { var _tk = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); _tk[testFile] = true; localStorage.setItem('takenListeningMocks', JSON.stringify(_tk)); } catch(e) {}
+      }
       let resultsHtml = '';
       TEST_DATA.parts.forEach((part, partIndex) => {
         let partCorrect = 0, partTotal = 0;
@@ -4774,17 +5116,10 @@
             partTotal++;
             const correct = part.answers[qId];
             const user = userAnswers[qId];
-            const correctStr = Array.isArray(correct) ? correct.join(' / ') : correct;
+            const correctStr = Array.isArray(correct) ? correct.join(' or ') : correct;
             const userStr = user || '';
 
-            let isCorrect = false;
-            if (user) {
-              if (Array.isArray(correct)) {
-                isCorrect = correct.some(c => c.toLowerCase() === user.toLowerCase());
-              } else {
-                isCorrect = correct.toLowerCase() === user.toLowerCase();
-              }
-            }
+            let isCorrect = matchesAnswer(user, correct);
 
             if (isCorrect) partCorrect++;
 
@@ -4810,8 +5145,12 @@
         var transcriptBtn = '';
         var transcriptDiv = '';
         if (part.transcript) {
-          transcriptBtn = '<button class="part-transcript-toggle" onclick="event.stopPropagation();toggleTranscript(' + partIndex + ')">📜 Show Transcript</button>';
-          transcriptDiv = '<div class="part-transcript-content" id="transcript-' + partIndex + '">' + part.transcript.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') + '</div>';
+          if (_isPremiumListen) {
+            transcriptBtn = '<button class="part-transcript-toggle" onclick="event.stopPropagation();toggleTranscript(' + partIndex + ')">📜 Show Transcript</button>';
+            transcriptDiv = '<div class="part-transcript-content" id="transcript-' + partIndex + '">' + part.transcript.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>') + '</div>';
+          } else {
+            transcriptBtn = '<button class="part-transcript-toggle" style="background:#cbd5e1!important;color:#94a3b8!important;cursor:not-allowed!important;box-shadow:none!important;pointer-events:none;opacity:0.85;" onclick="event.stopPropagation()">🔒 Transcript (Premium)</button>';
+          }
         }
 
         resultsHtml += '<div class="part-result-container" data-part="' + partIndex + '">' +
@@ -4837,16 +5176,24 @@
       document.getElementById('resultsBody').innerHTML = resultsHtml;
       document.getElementById('resultsModal').classList.add('active');
 
-      // Hide Review/TryAgain/Transcripts for regular (non-premium) codes
+      // Grey-out Review/TryAgain/Transcripts for regular (non-premium) codes
       (function () {
         var isPremium = sessionStorage.getItem('listeningPremiumEntry') === 'true';
-        var reviewBtn = document.getElementById('btnReview');
-        var tryAgainBtn = document.getElementById('btnTryAgain');
-        var transcriptsBtn = document.getElementById('btnTranscripts');
         if (!isPremium) {
-          if (reviewBtn) reviewBtn.style.display = 'none';
-          if (tryAgainBtn) tryAgainBtn.style.display = 'none';
-          if (transcriptsBtn) transcriptsBtn.style.display = 'none';
+          var frozenStyle = 'background:#cbd5e1 !important;color:#94a3b8 !important;cursor:not-allowed !important;box-shadow:none !important;pointer-events:none;opacity:0.85;';
+          var btns = [
+            { el: document.getElementById('btnReview'),      label: '🔒 Review Answers (Premium)' },
+            { el: document.getElementById('btnTranscripts'), label: '🔒 Transcripts (Premium)' },
+            { el: document.getElementById('btnTryAgain'),    label: '🔒 Try Again (Premium)' }
+          ];
+          btns.forEach(function (b) {
+            if (b.el) {
+              b.el.style.cssText += frozenStyle;
+              b.el.innerHTML = b.label;
+              b.el.onclick = function (e) { e.preventDefault(); e.stopPropagation(); };
+              b.el.removeAttribute('onclick');
+            }
+          });
           var closeBtn = document.getElementById('resultsCloseBtn');
           if (closeBtn) closeBtn.style.display = 'none';
         }
@@ -5026,7 +5373,7 @@
               var userAns = userAnswers[qId];
               if (!userAns) {
                 unanswered++;
-              } else if ((Array.isArray(correctAns) && correctAns.some(function (c) { return c.toLowerCase() === userAns.toLowerCase(); })) || (!Array.isArray(correctAns) && correctAns.toLowerCase() === userAns.toLowerCase())) {
+              } else if (matchesAnswer(userAns, correctAns)) {
                 correct++;
               } else {
                 incorrect++;
@@ -5070,7 +5417,7 @@
                 partTotal++;
                 var correctAns = part.answers[qId];
                 var userAns = userAnswers[qId];
-                if (userAns && ((Array.isArray(correctAns) && correctAns.some(function (c) { return c.toLowerCase() === userAns.toLowerCase(); })) || (!Array.isArray(correctAns) && correctAns.toLowerCase() === userAns.toLowerCase()))) {
+                if (matchesAnswer(userAns, correctAns)) {
                   partCorrect++;
                 }
               });
@@ -5094,7 +5441,7 @@
                 var rowClass = 'unanswered-row';
                 var status = '—';
                 if (userAnswer) {
-                  isCorrect = correctAnswers.some(function (ans) { return ans.toString().toLowerCase() === userAnswer.toString().toLowerCase(); });
+                  isCorrect = matchesAnswer(userAnswer, correctAnswers);
                   rowClass = isCorrect ? 'correct-row' : 'incorrect-row';
                   status = isCorrect ? '✓' : '✗';
                 }
@@ -5120,7 +5467,7 @@
                 var correctAnsRaw = part.answers[qId];
                 var correctAnswers = Array.isArray(correctAnsRaw) ? correctAnsRaw : [correctAnsRaw];
                 var correctAns = correctAnswers[0] || '';
-                var isCorrect = userAns && correctAnswers.some(function (a) { return a.toString().toLowerCase() === userAns.toString().toLowerCase(); });
+                var isCorrect = userAns && matchesAnswer(userAns, correctAnswers);
                 html += '<div class="question-item"><div class="question-text">Question ' + qId + (q.text ? ': ' + q.text : '') + (q.hint ? ' (' + q.hint + ')' : '') + '</div>';
                 if (q.options) {
                   q.options.forEach(function (opt) {
@@ -5148,7 +5495,7 @@
                 var qId = speaker.id;
                 var userAns = userAnswers[qId] || '';
                 var correctAns = part.answers[qId] || '';
-                var isCorrect = userAns && userAns.toString().toLowerCase() === correctAns.toString().toLowerCase();
+                var isCorrect = matchesAnswer(userAns, correctAns);
                 html += '<div class="question-item"><div class="question-text">' + speaker.label + ' (Q' + qId + ')</div>';
                 html += '<div style="margin-top:8px"><span>Your answer: </span><span class="gap-answer ' + (isCorrect ? 'correct-ans' : (userAns ? 'user-wrong' : '')) + '">' + (userAns || '(empty)') + '</span>';
                 if (!isCorrect) html += '<span> → Correct: </span><span class="gap-answer correct-ans">' + correctAns + '</span>';
@@ -5269,7 +5616,7 @@
                   pt++;
                   var ca = part.answers[q];
                   var ua = userAnswers[q];
-                  if (ua && ((Array.isArray(ca) && ca.some(function (c) { return c.toLowerCase() === ua.toLowerCase(); })) || (!Array.isArray(ca) && ca.toLowerCase() === ua.toLowerCase()))) pc++;
+                  if (matchesAnswer(ua, ca)) pc++;
                 }
               }
               return { title: part.title.replace(/"/g, ''), correct: pc, total: pt };
@@ -5394,7 +5741,7 @@
               pt++;
               var ca = part.answers[qId];
               var ua = userAnswers[qId];
-              if (ua && ((Array.isArray(ca) && ca.some(function (c) { return c.toLowerCase() === ua.toLowerCase(); })) || (!Array.isArray(ca) && ca.toLowerCase() === ua.toLowerCase()))) pc++;
+              if (matchesAnswer(ua, ca)) pc++;
             });
           }
           partScoreLines += '\n📝 Part ' + (idx + 1) + ': ' + pc + '/' + pt;
@@ -5433,11 +5780,31 @@
           '\n📊 #all_' + yearTag +
           '\n#CEFR_Listening #' + cefrResult.level.replace(/ /g, '_');
 
+        // Send to Supabase first (get result link for caption)
+        var finalCaption = caption;
+        if (window.sendToSupabase) {
+          try {
+            var sbResult = await window.sendToSupabase({
+              studentName: candidateName,
+              examType: 'cefr',
+              skill: 'listening',
+              score: certificateScore + '/75',
+              level: cefrResult.level,
+              mockNumber: 'Mock ' + mockNum,
+              file: htmlBlob,
+              fileType: 'html',
+              caption: caption,
+              metadata: { raw: actualScore, total: total }
+            });
+            if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+          } catch (e) { console.warn('[Supabase] skipped:', e); }
+        }
+
         // Send to backend
         const formData = new FormData();
         formData.append('file', new File([htmlBlob], filename, { type: 'text/html' }));
         formData.append('section', 'listening');
-        formData.append('caption', caption);
+        formData.append('caption', finalCaption);
 
         const response = await fetch('https://davirbek.alwaysdata.net/send-result', {
           method: 'POST',
@@ -5449,8 +5816,15 @@
         } else {
           console.warn('⚠️ Failed to send results:', response.status);
         }
+
+        // Send to routing backend
+        if (window.sendToRoutingBackend) {
+          await window.sendToRoutingBackend({ skill: 'listening', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
+        }
+        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
       } catch (error) {
         console.warn('⚠️ Auto-submit error:', error);
+        if (window.msProgress) window.msProgress.hide();
       }
     }
 
@@ -5471,9 +5845,7 @@
           const userAnswer = userAnswers[qId] || '';
 
           // Check if correct
-          const isCorrect = userAnswer && correctAnswers.some(ans =>
-            ans.toString().toLowerCase() === userAnswer.toString().toLowerCase()
-          );
+          const isCorrect = matchesAnswer(userAnswer, correctAnswers);
 
           // Handle text inputs (gap-fill questions)
           const input = document.querySelector(`.gap-input[data-q="${qId}"]`);
@@ -5497,10 +5869,45 @@
             }
           }
 
-          // Handle select dropdowns (matching/map questions) - use multiple selectors
-          const select = document.querySelector(`.speaker-select[data-q="${qId}"], .map-select[data-q="${qId}"], select[data-q="${qId}"]`);
+          // Handle rich-select triggers (speaker matching)
+          const trigger = document.querySelector(`.rich-select-trigger.speaker-select[data-q="${qId}"]`);
+          if (trigger) {
+            trigger.classList.add('locked');
+            // Find the correct option display text from the menu
+            let correctDisplayText = correctAnswer;
+            const menu = document.getElementById('rs-menu-' + qId);
+            if (menu) {
+              const correctOpt = menu.querySelector(`.rich-select-option[data-letter="${correctAnswer}"]`);
+              if (correctOpt) correctDisplayText = correctOpt.textContent;
+            }
+
+            if (!userAnswer) {
+              trigger.textContent = correctDisplayText;
+              trigger.style.cssText = 'border: 2px solid #f59e0b; background: #fef3c7; color: #92400e; font-style: italic; pointer-events: none;';
+              if (!trigger.parentNode.querySelector('.unanswered-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'unanswered-badge';
+                badge.textContent = '(not answered)';
+                badge.style.cssText = 'display: inline-block; background: #f59e0b; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-top: 6px;';
+                trigger.parentNode.appendChild(badge);
+              }
+            } else if (isCorrect) {
+              trigger.style.cssText = 'border: 2px solid #10b981; background: #dcfce7; pointer-events: none;';
+            } else {
+              trigger.style.cssText = 'border: 2px solid #ef4444; background: #fee2e2; pointer-events: none;';
+              if (!trigger.parentNode.querySelector('.correct-answer-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'correct-answer-badge';
+                badge.textContent = '✓ ' + correctAnswer;
+                badge.style.cssText = 'display: inline-block; background: #10b981; color: white; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-top: 6px;';
+                trigger.parentNode.appendChild(badge);
+              }
+            }
+          }
+
+          // Handle native select dropdowns (map questions only now)
+          const select = document.querySelector(`.map-select[data-q="${qId}"], select[data-q="${qId}"]`);
           if (select) {
-            // Get the display text for the correct answer from the options
             let correctDisplayText = correctAnswer;
             const correctOption = select.querySelector(`option[value="${correctAnswer}"]`);
             if (correctOption) {
@@ -5508,10 +5915,8 @@
             }
 
             if (!userAnswer) {
-              // Auto-fill unanswered - use distinct orange/amber style
               select.value = correctAnswer;
               select.style.cssText = 'border: 2px solid #f59e0b !important; background: #fef3c7 !important; color: #92400e; font-style: italic;';
-              // Add "not answered" indicator
               if (!select.nextElementSibling || !select.nextElementSibling.classList.contains('unanswered-badge')) {
                 const badge = document.createElement('span');
                 badge.className = 'unanswered-badge';
@@ -5523,7 +5928,6 @@
               select.style.cssText = 'border: 2px solid #10b981 !important; background: #dcfce7 !important;';
             } else {
               select.style.cssText = 'border: 2px solid #ef4444 !important; background: #fee2e2 !important;';
-              // Add correct answer badge right after the select
               if (!select.nextElementSibling || !select.nextElementSibling.classList.contains('correct-answer-badge')) {
                 const badge = document.createElement('span');
                 badge.className = 'correct-answer-badge';
@@ -5637,8 +6041,44 @@
       }
     });
 
-    // Load test on page load
-    loadTest();
+    // Load test on page load (with session recovery check)
+    (async function() {
+      if (window.SessionRecovery) {
+        SessionRecovery.init({
+          testType: 'cefr-listening',
+          getUserId: function() { return sessionStorage.getItem('cefrListeningCandidateName') || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+          getTestId: function() { return testFile; },
+          getState: function() {
+            if (!testInProgress || isReviewMode || hasSubmitted) return null;
+            collectAnswers();
+            return { currentPart: currentPart, userAnswers: userAnswers, timeRemaining: timeRemaining, testFile: testFile };
+          }
+        });
+        try {
+          var session = await SessionRecovery.check();
+          if (session && session.test_id === testFile) {
+            var choice = await SessionRecovery.prompt(session);
+            if (choice === 'resume') {
+              window._srResumeData = session.session_data;
+            } else {
+              await SessionRecovery.clear();
+            }
+          } else if (session) {
+            await SessionRecovery.clear();
+          }
+        } catch(e) { console.warn('Session recovery check failed:', e); }
+      }
+      loadTest();
+    })();
+
+    // Global safety timeout: force start after 30s if preloading stalls
+    setTimeout(function() {
+      if (!window.audioPreloadComplete) {
+        console.warn('Global timeout reached — forcing test start');
+        window.audioPreloadComplete = true;
+        try { initTest(); } catch(e) { console.error('initTest error:', e); }
+      }
+    }, 30000);
 
     // Map Preview Functions
     window.openMapPreview = function () {
@@ -6370,217 +6810,7 @@
       }, { passive: true });
     })();
 
-    // ===== GTTS PART ANNOUNCER =====
-    (function initGTTSAnnouncer() {
-      // Cache for preloaded GTTS announcements
-      window.gttsPartAudioCache = {};
-      window.gttsAnnouncerReady = false;
 
-      // Warmup the Render.com server (it sleeps after 15 min inactivity on free tier)
-      // This sends a lightweight ping to wake the server early
-      (function warmupGTTSServer() {
-        console.log('🔄 Warming up GTTS server...');
-        fetch('https://english-server-p7y6.onrender.com/tts/audio', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ warmup: 'ping' })
-        }).then(response => {
-          if (response.ok) {
-            console.log('✅ GTTS server is awake and ready!');
-          } else {
-            console.log('⚠️ GTTS server responded but may need more time');
-          }
-        }).catch(err => {
-          console.log('⏳ GTTS server is waking up... (this may take up to 60 seconds)');
-          // Retry after 10 seconds
-          setTimeout(() => {
-            fetch('https://english-server-p7y6.onrender.com/tts/audio', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ warmup: 'retry' })
-            }).then(() => console.log('✅ GTTS server warmup retry successful'))
-              .catch(() => console.log('⚠️ GTTS server may still be waking up'));
-          }, 10000);
-        });
-      })();
-
-      // Preload all part announcements during test loading
-      window.preloadPartAnnouncements = async function () {
-        if (!window.TEST_DATA || !window.TEST_DATA.parts) {
-          console.log('⚠️ No TEST_DATA available for GTTS preload');
-          return false;
-        }
-
-        const totalParts = window.TEST_DATA.parts.length;
-        const requestBody = {};
-
-        // Build request body for all parts
-        for (let i = 1; i <= totalParts; i++) {
-          requestBody[`part${i}`] = `Part ${i}`;
-        }
-
-        console.log('🔊 Preloading GTTS part announcements...', requestBody);
-
-        try {
-          // Use AbortController for timeout (Render servers can take up to 60s to wake)
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
-
-          console.log('⏳ Connecting to GTTS server (may take up to 60s to wake)...');
-
-          const response = await fetch('https://english-server-p7y6.onrender.com/tts/audio', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody),
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          console.log('📡 GTTS server response status:', response.status);
-
-          if (!response.ok) {
-            console.warn('⚠️ GTTS server unavailable, will use browser TTS fallback');
-            return false;
-          }
-
-          // Get the ZIP file as blob
-          const zipBlob = await response.blob();
-          console.log('📦 Received ZIP blob, size:', zipBlob.size, 'bytes');
-
-          // Load JSZip if not already loaded
-          if (typeof JSZip === 'undefined') {
-            console.log('📥 Loading JSZip library...');
-            // Simple inline JSZip loading
-            await new Promise((resolve, reject) => {
-              const script = document.createElement('script');
-              script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-              script.onload = () => {
-                console.log('✅ JSZip loaded successfully');
-                resolve();
-              };
-              script.onerror = () => {
-                console.error('❌ Failed to load JSZip');
-                reject();
-              };
-              document.head.appendChild(script);
-            });
-          } else {
-            console.log('✅ JSZip already available');
-          }
-
-          // Use JSZip to extract the files
-          console.log('📂 Extracting MP3 files from ZIP...');
-          const zip = await JSZip.loadAsync(zipBlob);
-
-          // Extract each mp3 file from the ZIP
-          const fileNames = Object.keys(zip.files);
-          for (const fileName of fileNames) {
-            if (fileName.endsWith('.mp3')) {
-              const audioBlob = await zip.files[fileName].async('blob');
-              const key = fileName.replace('.mp3', ''); // e.g., "part1", "part2", etc.
-              window.gttsPartAudioCache[key] = audioBlob;
-              console.log(`✅ GTTS announcement cached: ${key}`);
-            }
-          }
-
-          window.gttsAnnouncerReady = true;
-          console.log('✅ All GTTS part announcements ready!');
-          return true;
-
-        } catch (error) {
-          console.warn('GTTS preloading failed, will use browser TTS fallback:', error);
-          return false;
-        }
-      };
-
-      // Speak part announcement before playing audio
-      window.announcePartWithGTTS = function (partNumber, callback) {
-        const cacheKey = `part${partNumber}`;
-
-        console.log(`🎯 announcePartWithGTTS called for Part ${partNumber}`);
-        console.log(`📦 Cache key: ${cacheKey}`);
-        console.log(`📋 Available cache keys:`, Object.keys(window.gttsPartAudioCache));
-        console.log(`✅ Cache ready:`, window.gttsAnnouncerReady);
-
-        // Check if we have cached GTTS audio
-        if (window.gttsPartAudioCache[cacheKey]) {
-          console.log(`🔊 Playing GTTS announcement for Part ${partNumber} from cache`);
-
-          const audioUrl = URL.createObjectURL(window.gttsPartAudioCache[cacheKey]);
-          const announcementAudio = new Audio(audioUrl);
-          announcementAudio.volume = 1.0;
-
-          announcementAudio.onended = () => {
-            console.log(`✅ GTTS announcement for Part ${partNumber} completed`);
-            URL.revokeObjectURL(audioUrl);
-            // Small delay before starting main audio
-            setTimeout(() => {
-              callback && callback();
-            }, 300);
-          };
-
-          announcementAudio.onerror = (error) => {
-            console.warn('GTTS announcement playback error, using browser TTS:', error);
-            URL.revokeObjectURL(audioUrl);
-            window.announcePartWithBrowserTTS(partNumber, callback);
-          };
-
-          announcementAudio.play().catch(err => {
-            console.warn('GTTS play failed, using browser TTS:', err);
-            URL.revokeObjectURL(audioUrl);
-            window.announcePartWithBrowserTTS(partNumber, callback);
-          });
-
-        } else {
-          // Fallback to browser TTS
-          console.log(`⚠️ No GTTS cache for Part ${partNumber}, falling back to browser TTS`);
-          window.announcePartWithBrowserTTS(partNumber, callback);
-        }
-      };
-
-      // Browser TTS fallback
-      window.announcePartWithBrowserTTS = function (partNumber, callback) {
-        console.log(`🎤 announcePartWithBrowserTTS called for Part ${partNumber}`);
-        if ('speechSynthesis' in window) {
-          console.log(`🔊 Using browser TTS for Part ${partNumber}`);
-          const utterance = new SpeechSynthesisUtterance(`Part ${partNumber}`);
-          utterance.rate = 0.9;
-          utterance.pitch = 1.0;
-          utterance.volume = 1.0;
-
-          // Try to use an English voice
-          const voices = window.speechSynthesis.getVoices();
-          const englishVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
-          if (englishVoice) utterance.voice = englishVoice;
-
-          utterance.onend = () => {
-            setTimeout(() => {
-              callback && callback();
-            }, 300);
-          };
-
-          utterance.onerror = () => {
-            callback && callback();
-          };
-
-          window.speechSynthesis.speak(utterance);
-        } else {
-          // No TTS available, just proceed
-          callback && callback();
-        }
-      };
-
-      // Load voices for browser TTS fallback
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.getVoices();
-        window.speechSynthesis.onvoiceschanged = () => {
-          window.speechSynthesis.getVoices();
-        };
-      }
-    })();
 
     // ===== CUSTOM AUDIO PLAYER =====
     (function initAudioPlayer() {
@@ -6591,8 +6821,8 @@
       const playPauseBtns = document.querySelectorAll('.play-pause-btn');
       const progressBars = document.querySelectorAll('.audio-progress');
       const progressFills = document.querySelectorAll('.audio-progress-fill');
-      const currentTimeEls = document.querySelectorAll('.audio-time:not(#duration):not(.mob-duration)');
-      const durationEls = document.querySelectorAll('.audio-time:is(#duration, .mob-duration)');
+      const currentTimeEls = document.querySelectorAll('#currentTime, .mob-current-time');
+      const durationEls = document.querySelectorAll('#duration, .mob-duration');
       const volumeBtns = document.querySelectorAll('.volume-btn');
       const volumeSliders = document.querySelectorAll('.volume-slider');
       const speedBtns = document.querySelectorAll('.speed-btn');
@@ -6660,11 +6890,7 @@
         isAudioReady = true;
 
         if (autoPlay) {
-          if (window.announcePartWithGTTS) {
-            window.announcePartWithGTTS(partNum, () => audio.play().catch(waitForClick));
-          } else {
-            audio.play().catch(waitForClick);
-          }
+          audio.play().catch(waitForClick);
         }
 
         function waitForClick() {
@@ -6815,8 +7041,7 @@
           if (countdown <= 0) {
             clearInterval(countdownInterval);
             popup.style.display = 'none';
-            if (window.announcePartWithGTTS) window.announcePartWithGTTS(1, () => audio.play());
-            else audio.play();
+            audio.play();
           }
         }, 1000);
         [startBtn, waitBtn].forEach(btn => {
@@ -6824,8 +7049,7 @@
             clearInterval(countdownInterval);
             popup.style.display = 'none';
             if (btn === startBtn) {
-              if (window.announcePartWithGTTS) window.announcePartWithGTTS(1, () => audio.play());
-              else audio.play();
+              audio.play();
             }
           });
         });
@@ -7152,8 +7376,13 @@
 
       document.getElementById('leaveConfirmBtn').addEventListener('click', function () {
         window.__okToLeave = true;
-        sessionStorage.setItem('listeningMockReturnCategory', 'cefr-listening');
+        var pendingAction = window.__pendingLeaveAction;
         hideLeaveWarningModal();
+        if (typeof pendingAction === 'function') {
+          pendingAction();
+          return;
+        }
+        sessionStorage.setItem('listeningMockReturnCategory', 'cefr-listening');
         _navToLanding();
       });
     }
@@ -7167,6 +7396,12 @@
     function hideLeaveWarningModal() {
       const modal = document.getElementById('leaveWarningModal');
       if (modal) modal.style.display = 'none';
+      window.__pendingLeaveAction = null;
+    }
+
+    function promptFriendlyLeave(leaveAction) {
+      window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+      showLeaveWarningModal();
     }
 
     // Back button trap using History API
@@ -7210,7 +7445,373 @@
 
     // Initialize back button trap on load
     setupBackButtonTrap();
+
+    // ===== MOBILE FAB & TOOLS MENU LOGIC =====
+    var fabIdleTimer;
+    function resetFabIdle() {
+      var fab = document.getElementById('mobileFab');
+      if (fab) {
+        fab.classList.remove('idle');
+        clearTimeout(fabIdleTimer);
+        if (!document.getElementById('mobileToolsMenu').classList.contains('active')) {
+          fabIdleTimer = setTimeout(function () {
+            fab.classList.add('idle');
+          }, 5000);
+        }
+      }
+    }
+
+    function handleFabFinish() {
+      // Close the FAB menu first
+      var menu = document.getElementById('mobileToolsMenu');
+      var fab = document.getElementById('mobileFab');
+      var overlay = document.getElementById('mobileMenuOverlay');
+      if (menu && menu.classList.contains('active')) {
+        menu.classList.remove('active');
+        if (fab) fab.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+        resetFabIdle();
+      }
+      // If already submitted, restore the results overlay; otherwise show confirm dialog
+      if (hasSubmitted) {
+        restoreResults();
+      } else {
+        document.getElementById('confirmModal').classList.add('active');
+      }
+    }
+
+    function toggleMobileMenu() {
+      var menu = document.getElementById('mobileToolsMenu');
+      var fab = document.getElementById('mobileFab');
+      var overlay = document.getElementById('mobileMenuOverlay');
+      if (menu && fab) {
+        var isActive = menu.classList.toggle('active');
+        fab.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('active');
+
+        if (isActive) {
+          fab.classList.remove('idle');
+          clearTimeout(fabIdleTimer);
+          updateMobileMenuStatus();
+        } else {
+          resetFabIdle();
+        }
+      }
+    }
+
+    function updateMobileMenuStatus() {
+      // Sync Timer
+      const timerDisplay = document.getElementById('timerDisplay');
+      const mobileTimer = document.getElementById('mobileTimer');
+      if (timerDisplay && mobileTimer) mobileTimer.textContent = timerDisplay.textContent;
+
+      // Sync Part Tabs
+      const mobilePartTabs = document.getElementById('mobilePartTabs');
+      if (mobilePartTabs && window.TEST_DATA) {
+        mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
+          const isActive = i === currentPart;
+          return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
+        }).join('');
+      }
+
+      // Sync Zoom Badge
+      const mobZoomBadge = document.getElementById('mobZoomBadge');
+      if (mobZoomBadge) {
+        const pcBadge = document.querySelector('#btnZoom .zoom-level');
+        if (pcBadge) {
+          mobZoomBadge.textContent = pcBadge.textContent;
+          mobZoomBadge.style.display = 'flex';
+        } else {
+          mobZoomBadge.style.display = 'none';
+        }
+      }
+    }
+
+    // Close menu only when tapping the overlay
+    (function() {
+      var overlay = document.getElementById('mobileMenuOverlay');
+      if (overlay) overlay.addEventListener('click', function() { toggleMobileMenu(); });
+    })();
+
+    function initDraggable(el) {
+      var isDragging = false;
+      var startX, startY, initialLeft, initialTop;
+      var hasMoved = false;
+
+      // Always start FAB at bottom-right (CSS default)
+      localStorage.removeItem('mobileFabPos_CEFR_Listening');
+
+      function onStart(e) {
+        if (document.getElementById('mobileToolsMenu').classList.contains('active')) return;
+        isDragging = true;
+        hasMoved = false;
+        var clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        var clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        var rect = el.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        el.style.transition = 'none';
+        if (e.type === 'mousedown') document.addEventListener('mousemove', onMove);
+        if (e.type === 'touchstart') document.addEventListener('touchmove', onMove, { passive: false });
+      }
+
+      function onMove(e) {
+        if (!isDragging) return;
+        if (e.type === 'touchmove') e.preventDefault();
+        var clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        var clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        var dx = clientX - startX;
+        var dy = clientY - startY;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) hasMoved = true;
+        var newLeft = initialLeft + dx;
+        var newTop = initialTop + dy;
+        var margin = 10;
+        newLeft = Math.max(margin, Math.min(newLeft, window.innerWidth - el.offsetWidth - margin));
+        newTop = Math.max(margin, Math.min(newTop, window.innerHeight - el.offsetHeight - margin));
+        el.style.left = newLeft + 'px';
+        el.style.top = newTop + 'px';
+        el.style.bottom = 'auto';
+        el.style.right = 'auto';
+      }
+
+      function onEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        el.style.transition = '';
+        var rect = el.getBoundingClientRect();
+        var pos = {};
+        if (rect.top < window.innerHeight / 2) {
+          pos.top = rect.top;
+          el.style.top = pos.top + 'px';
+          el.style.bottom = 'auto';
+        } else {
+          pos.bottom = window.innerHeight - rect.bottom;
+          el.style.bottom = pos.bottom + 'px';
+          el.style.top = 'auto';
+        }
+        if (rect.left < window.innerWidth / 2) {
+          pos.left = rect.left;
+          el.style.left = pos.left + 'px';
+          el.style.right = 'auto';
+        } else {
+          pos.right = window.innerWidth - rect.right;
+          el.style.right = pos.right + 'px';
+          el.style.left = 'auto';
+        }
+        localStorage.setItem('mobileFabPos_CEFR_Listening', JSON.stringify(pos));
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('touchmove', onMove);
+        resetFabIdle();
+      }
+
+      el.addEventListener('mousedown', onStart);
+      el.addEventListener('touchstart', onStart, { passive: true });
+      window.addEventListener('mouseup', onEnd);
+      window.addEventListener('touchend', onEnd);
+
+      // Simple Click vs Drag logic
+      el.querySelector('#mobileFab').addEventListener('click', function (e) {
+        resetFabIdle();
+        if (hasMoved) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        } else {
+          toggleMobileMenu();
+        }
+      });
+    }
+
+    // Initialize FAB
+    document.addEventListener('DOMContentLoaded', function () {
+      var fabContainer = document.getElementById('mobileFabContainer');
+      if (fabContainer) initDraggable(fabContainer);
+      resetFabIdle();
+
+      // Hook into existing Zoom logic
+      var mobZoomBtn = document.getElementById('mobileZoomBtn');
+      var pcZoomBtn = document.getElementById('btnZoom');
+      if (mobZoomBtn && pcZoomBtn) {
+        mobZoomBtn.addEventListener('click', function () {
+          pcZoomBtn.click();
+          updateMobileMenuStatus();
+        });
+      }
+      
+      // Sync Playback Controls
+      initMobilePlaybackSync();
+    });
+
+    function initMobilePlaybackSync() {
+      const audio = document.getElementById('listeningAudio');
+      const pcPlayBtn = document.getElementById('playPauseBtn');
+      const mobMenuPlayBtn = document.getElementById('mobMenuPlayBtn');
+      const mobMenuProgressFill = document.getElementById('mobMenuProgressFill');
+      const mobMenuProgressBar = document.getElementById('mobMenuProgressBar');
+      const mobMenuCurrentTime = document.getElementById('mobMenuCurrentTime');
+      const mobMenuDuration = document.getElementById('mobMenuDuration');
+      const mobMenuSpeedBtn = document.getElementById('mobMenuSpeedBtn');
+      const pcSpeedBtn = document.getElementById('speedBtn');
+
+      if (!audio || !mobMenuPlayBtn) return;
+
+      // Play/Pause Sync
+      mobMenuPlayBtn.addEventListener('click', () => { if (pcPlayBtn) pcPlayBtn.click(); });
+      
+      const updateIcons = () => {
+        mobMenuPlayBtn.textContent = audio.paused ? '▶' : '⏸';
+      };
+      audio.addEventListener('play', updateIcons);
+      audio.addEventListener('pause', updateIcons);
+      
+      // Progress Sync
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        const percent = (audio.currentTime / audio.duration) * 100;
+        if (mobMenuProgressFill) mobMenuProgressFill.style.width = percent + '%';
+        if (mobMenuCurrentTime) mobMenuCurrentTime.textContent = formatTime(audio.currentTime);
+        if (mobMenuDuration) mobMenuDuration.textContent = formatTime(audio.duration);
+      });
+
+      function formatTime(secs) {
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      // Seek Sync
+      if (mobMenuProgressBar) {
+        mobMenuProgressBar.addEventListener('click', (e) => {
+          const rect = mobMenuProgressBar.getBoundingClientRect();
+          const pos = (e.clientX - rect.left) / rect.width;
+          audio.currentTime = pos * audio.duration;
+        });
+      }
+
+      // Speed Sync
+      if (mobMenuSpeedBtn && pcSpeedBtn) {
+        mobMenuSpeedBtn.addEventListener('click', () => {
+          pcSpeedBtn.click();
+          mobMenuSpeedBtn.textContent = pcSpeedBtn.textContent;
+        });
+        mobMenuSpeedBtn.textContent = pcSpeedBtn.textContent;
+      }
+    }
   </script>
+  <!-- Mobile Floating Navigation (FAB) -->
+  <div class="mobile-fab-container" id="mobileFabContainer" style="display:none !important;">
+    <button class="mobile-fab" id="mobileFab" title="Tools Menu">🛠️</button>
+  </div>
+
+  <!-- Mobile Tools Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+  <!-- Mobile Tools Menu -->
+  <div class="mobile-tools-menu" id="mobileToolsMenu">
+    <div class="mobile-tools-row">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="#" onclick="openHomeSidebar();return false;" style="display:flex;align-items:center;justify-content:center;width:34px;height:32px;border-radius:7px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;font-size:17px;line-height:1;flex-shrink:0;" title="Home">☰</a>
+        <span style="font-weight: 800; color: var(--primary); font-size: 15px;">🛠️ Toolkit</span>
+        <button class="mobile-zoom-btn" id="mobileZoomBtn" title="Zoom In" style="width:34px;height:32px;">🔍<span class="zoom-level-badge" id="mobZoomBadge">0</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="timer-box" style="margin:0; padding: 4px 10px; background: var(--primary-light); color: var(--primary-dark); border-radius: 8px;">
+          <span id="mobileTimer" style="font-family: monospace; font-weight: 700; font-size: 13px;">40:00</span>
+        </div>
+        <button onclick="toggleMobileMenu()" style="width:28px;height:28px;border:none;background:#f1f5f9;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;flex-shrink:0;" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- Integrated Playback Controls (Mobile FAB) -->
+    <div class="mobile-playback-row">
+      <button class="mob-menu-play-btn" id="mobMenuPlayBtn">▶</button>
+      <div class="mob-menu-progress-container">
+        <div class="mob-menu-progress-bar" id="mobMenuProgressBar">
+          <div class="mob-menu-progress-fill" id="mobMenuProgressFill"></div>
+        </div>
+        <div class="mob-menu-time-row">
+          <span id="mobMenuCurrentTime">00:00</span>
+          <span id="mobMenuDuration">00:00</span>
+        </div>
+      </div>
+      <button class="mob-menu-speed-btn" id="mobMenuSpeedBtn">1x</button>
+    </div>
+
+    <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Jump to Part</div>
+    <div class="part-tabs" id="mobilePartTabs">
+      <!-- Populated by JS -->
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <button class="modal-btn secondary" onclick="window.goBack()" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 10px 0; font-size: 13px; border-radius: 10px;">🚪 Leave</button>
+      <button class="modal-btn primary" onclick="handleFabFinish()" style="background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 13px; border-radius: 10px;">✓ Finish</button>
+    </div>
+  </div>
+
+<!-- Home Sidebar -->
+<style>
+.hs-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9998;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
+.hs-overlay.active{opacity:1;visibility:visible;}
+.hs-panel{position:fixed;top:0;right:0;width:280px;height:100%;background:#fff;z-index:9999;box-shadow:-4px 0 30px rgba(0,0,0,0.15);padding:20px;overflow-y:auto;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+.hs-panel.active{transform:translateX(0);}
+.hs-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;}
+.hs-title{font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}
+.hs-section{margin-bottom:4px;}
+.hs-section-hdr{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-radius:8px 8px 0 0;}
+.hs-section-hdr.cefr{color:#7c3aed;background:rgba(124,58,237,0.08);}
+.hs-section-hdr.ielts{color:#0369a1;background:rgba(3,105,161,0.08);}
+.hs-section-hdr.tools{color:#d97706;background:rgba(217,119,6,0.08);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;margin-bottom:8px;}
+.hs-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;background:#fff;border:2px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-size:11px;font-weight:600;transition:all .2s;}
+.hs-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateY(-1px);}
+.hs-btn .hs-icon{font-size:20px;margin-bottom:4px;}
+.hs-actions{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.hs-action{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500;transition:background .2s;}
+.hs-action:hover{background:#f1f5f9;}
+.hs-action .hs-ai{font-size:16px;width:22px;text-align:center;}
+</style>
+<div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+<div class="hs-panel" id="hsPanel">
+  <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+  <div class="hs-title">Menu</div>
+  <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+  <div class="hs-section">
+    <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+    <div class="hs-grid">
+      <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+    <div class="hs-grid">
+      <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+      <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+      <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+      <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+    </div>
+  </div>
+  <div class="hs-section">
+    <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+    <div class="hs-grid">
+      <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+      <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+      <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+      <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+    </div>
+  </div>
+</div>
+<script>
+function openHomeSidebar(){var m=document.getElementById('mobileToolsMenu'),f=document.getElementById('mobileFab'),o=document.getElementById('mobileMenuOverlay'),ic=document.getElementById('fabIcon');if(m)m.classList.remove('active');if(f){f.classList.remove('open');f.classList.add('idle');}if(o)o.classList.remove('active');if(ic)ic.className='fa fa-plus';document.getElementById('hsOverlay').classList.add('active');document.getElementById('hsPanel').classList.add('active');}
+function closeHomeSidebar(){document.getElementById('hsOverlay').classList.remove('active');document.getElementById('hsPanel').classList.remove('active');}
+function goToMockSelector(url){var m={"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"};promptFriendlyLeave(function(){window.__okToLeave=true;window.location.replace(m[url]||url);});}
+document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function(a){var h=a.getAttribute('href');if(a.getAttribute('target')){{a.addEventListener('click',function(){window.__okToLeave=true;});return;}}a.addEventListener('click',function(e){e.preventDefault();goToMockSelector(h);});});
+document.querySelectorAll('#hsPanel .hs-action[href], #hsPanel a[href][style]').forEach(function(a){if(!a.getAttribute('target')){a.addEventListener('click',function(e){e.preventDefault();promptFriendlyLeave(function(){window.__okToLeave=true;window.location.href=a.getAttribute('href');});});}else{a.addEventListener('click',function(){window.__okToLeave=true;});}});
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

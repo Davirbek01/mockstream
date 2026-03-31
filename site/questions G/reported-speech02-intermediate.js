@@ -1,0 +1,36 @@
+// Grammar Test: Reported Speech: Advanced — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "He said he <b>___</b> going to the party.", correct: "was", options: ["was", "is", "were", "be"], def: "Use 'was' to report past actions/statements in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She told me she <b>___</b> a new car.", correct: "had bought", options: ["had bought", "has bought", "bought", "buys"], def: "Use 'had bought' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She said she <b>___</b> all the cake.", correct: "had eaten", options: ["had eaten", "has eaten", "eated", "ate"], def: "Use past perfect 'had eaten' to report a completed past action.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> tired yesterday.", correct: "were", options: ["were", "was", "are", "is"], def: "Use 'were' for plural subjects in past simple reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He asked me <b>___</b> I liked pizza.", correct: "if", options: ["if", "that", "what", "when"], def: "Use 'if' for yes/no questions in reported speech.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He told me he <b>___</b> to the store.", correct: "had gone", options: ["had gone", "has gone", "went", "goes"], def: "Use 'had gone' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> be late.", correct: "would", options: ["would", "will", "is", "was"], def: "'Will' changes to 'would' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They told us they <b>___</b> here for years.", correct: "had lived", options: ["had lived", "have lived", "lived", "live"], def: "Use 'had lived' to reflect past perfect in reported speech.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She said she <b>___</b> dinner.", correct: "had made", options: ["had made", "has made", "made", "makes"], def: "Use 'had made' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He told me he <b>___</b> to call me later.", correct: "was going", options: ["was going", "is going", "will go", "goes"], def: "'Is going to' changes to 'was going to' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> time it was.", correct: "what", options: ["what", "if", "that", "when"], def: "Use 'what' to report 'what' questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> in London.", correct: "had lived", options: ["had lived", "has lived", "lived", "lives"], def: "Use 'had lived' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> happy to see me.", correct: "was", options: ["was", "is", "were", "are"], def: "'Is' changes to 'was' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He asked me <b>___</b> I had finished my work.", correct: "whether", options: ["whether", "that", "what", "when"], def: "Use 'whether' for yes/no questions in reported speech.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He told me he <b>___</b> there for 5 years.", correct: "had worked", options: ["had worked", "has worked", "worked", "works"], def: "Use 'had worked' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> coming to the party.", correct: "were", options: ["were", "was", "are", "is"], def: "'Are' changes to 'were' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She asked me <b>___</b> I was doing.", correct: "what", options: ["what", "if", "that", "when"], def: "Use 'what' to report 'what' questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She said she <b>___</b> the movie.", correct: "had seen", options: ["had seen", "has seen", "saw", "sees"], def: "Use 'had seen' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He told me he <b>___</b> help me.", correct: "would", options: ["would", "will", "is", "was"], def: "'Will' changes to 'would' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "They asked me <b>___</b> I wanted to eat.", correct: "what", options: ["what", "if", "that", "when"], def: "Use 'what' to report 'what' questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> a new phone.", correct: "had bought", options: ["had bought", "has bought", "bought", "buys"], def: "Use 'had bought' for past perfect in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> tired.", correct: "was", options: ["was", "is", "were", "are"], def: "'Is' changes to 'was' in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He asked me <b>___</b> I could help him.", correct: "if", options: ["if", "that", "what", "when"], def: "Use 'if' for yes/no questions in reported speech.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> me the book tomorrow.", correct: "would give", options: ["would give", "will give", "is giving", "gives"], def: "In reported speech, 'will' changes to 'would' for future actions.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He told me he <b>___</b> to the party if he had time.", correct: "would come", options: ["would come", "will come", "comes", "is coming"], def: "'Will' changes to 'would' in reported speech, conditional sentences.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He said he <b>___</b> it was a good idea.", correct: "thought", options: ["thought", "thinks", "is thinking", "thinked"], def: "Reported speech changes the tense: present simple becomes past simple.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She said she <b>___</b> already finished the project.", correct: "had", options: ["had", "has", "is", "have"], def: "Present perfect becomes past perfect in reported speech.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He asked me <b>___</b> I liked pizza.", correct: "if", options: ["if", "that", "what", "when"], def: "Use 'if' or 'whether' to report yes/no questions.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He told me he <b>___</b> to the store yesterday.", correct: "had gone", options: ["had gone", "went", "goes", "is going"], def: "Past simple becomes past perfect when reporting past events.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "They said they <b>___</b> been working all day.", correct: "had", options: ["had", "have", "are", "has"], def: "Present perfect continuous becomes past perfect continuous.", level: "B1–B2"}
+];

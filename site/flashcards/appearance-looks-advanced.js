@@ -1,0 +1,47 @@
+// Flashcard Data: Appearance & Looks — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "👤 Appearance & Looks: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Appearance & Looks",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "immaculate appearance", en: "", uz: "bepul ko'rinish", uzDef: "Juda toza, xatosiz va mukammal ko'rinishga ega bo'lish; hech qanday nuqsoni yo'q.", ex: "The job interview required an immaculate appearance, so I spent hours getting ready.", exUz: "Ish intervyusi uchun bepul ko'rinish talab qilindi, shuning uchun men soatlab tayyorlandim."},
+    {term: "youthful glow", en: "", uz: "yoshlik nashrasi", uzDef: "Sog'lom va yosh ko'rinish, odatda yoshlik bilan bog'liq bo'lgan yorqinlik.", ex: "She maintained a youthful glow well into her fifties through a healthy diet and exercise.", exUz: "U sog'lom ovqatlanish va mashqlar orqali ellik yoshlarida ham yoshlik nashrasini saqlab qoldi."},
+    {term: "a radiant smile", en: "", uz: "nurli tabassum", uzDef: "Juda chiroyli va baxtli ko'rinadigan tabassum, yuzni yorituvchi tabassum.", ex: "Her radiant smile lit up the entire room when she received the award.", exUz: "U mukofotni olganda, uning nurli tabassumi butun xonani yoritib yubordi."},
+    {term: "understated elegance", en: "", uz: "soddalashtirilgan nafislik", uzDef: "Oddiy, ammo juda chiroyli va zamonaviy ko'rinish, ortiqcha bezaksiz uslub.", ex: "Her dress was the epitome of understated elegance; simple, yet stunning.", exUz: "Uning libosi soddalashtirilgan nafislikning timsoli edi; oddiy, lekin ajoyib."},
+    {term: "dress for success", en: "", uz: "muvaffaqiyat uchun kiyin", uzDef: "Muvaffaqiyatga erishish uchun mos va ishonchli ko'rinishga ega bo'lish uchun kiyinish.", ex: "They always told us to dress for success when attending networking events.", exUz: "Ular bizga doimo tarmoq tadbirlarida muvaffaqiyatga erishish uchun kiyinishni aytishardi."},
+    {term: "keep in trim", en: "", uz: "qomatni saqlash", uzDef: "Jismoniy shaklni yaxshi holatda saqlash, sog'lom va ozg'in bo'lish.", ex: "He goes to the gym regularly to keep in trim and maintain his health.", exUz: "U sog'lig'ini saqlash va qomatini saqlash uchun doimiy ravishda sport zaliga boradi."},
+    {term: "show your age", en: "", uz: "yoshni ko'rsatmoq", uzDef: "Tashqi ko'rinishidan yoshi kattaligini ko'rsatish, qarilik alomatlarini namoyon qilish.", ex: "The stress of the job really made him show his age.", exUz: "Ishning bosimi uni haqiqatan ham yoshini ko'rsatishiga olib keldi."},
+    {term: "have a presence", en: "", uz: "ta'sirga ega", uzDef: "Diqqatni tortadigan va esda qoladigan kuchli va sezilarli ta'sirga ega bo'lish.", ex: "She has such a presence; everyone notices when she walks into a room.", exUz: "U shunday ta'sirga ega; u xonaga kirganda hamma sezadi."},
+    {term: "dapper appearance", en: "", uz: "jiddiy ko'rinish", uzDef: "Chiroyli, toza va zamonaviy kiyingan ko'rinish, ayniqsa erkaklar uchun.", ex: "He always has a dapper appearance, even when he's just running errands.", exUz: "U doimo jiddiy ko'rinishga ega, hatto faqatgina ishlarni bajarayotganda ham."},
+    {term: "a fresh face", en: "", uz: "tetik yuz", uzDef: "Charchoq va stresssiz ko'rinadigan, sog'lom va tetik yuz.", ex: "After a good night's sleep, she always wakes up with a fresh face.", exUz: "Yaxshi uxlagandan so'ng, u har doim tetik yuz bilan uyg'onadi."},
+    {term: "age before beauty", en: "", uz: "yoshga hurmat", uzDef: "Kattalarga hurmat ko'rsatish, ularga ustunlik berish (ko'pincha hazilomuz tarzda).", ex: "\"Age before beauty,\" he joked, gesturing for his grandmother to go first.", exUz: "\"Yoshga hurmat,\" deb hazillashdi u, buvisi birinchi borishi uchun imo qilib."},
+    {term: "a classic look", en: "", uz: "klassik ko'rinish", uzDef: "Modadan qolmaydigan, doimo zamonaviy va nafis ko'rinish.", ex: "She prefers a classic look with simple dresses and elegant jewelry.", exUz: "U oddiy ko'ylaklar va nafis taqinchoqlar bilan klassik ko'rinishni afzal ko'radi."},
+    {term: "dress code", en: "", uz: "kiyinish qoidasi", uzDef: "Muayyan joy yoki vaziyat uchun qabul qilingan kiyim qoidalari.", ex: "The office dress code is business casual, so no jeans or t-shirts.", exUz: "Ofis kiyinish qoidasi biznes-kundalik, shuning uchun jinsi shimlar yoki futbolkalar yo'q."},
+    {term: "stand out", en: "", uz: "ajralib turmoq", uzDef: "O'ziga xosligi yoki go'zalligi bilan boshqalardan ajralib turmoq.", ex: "Her bright red dress made her stand out in the crowd.", exUz: "Uning yorqin qizil libosi uni olomondan ajralib turishiga sabab bo'ldi."},
+    {term: "effortless style", en: "", uz: "oson uslub", uzDef: "Urinmasdan ham ajoyib ko'rinish, tabiiy nafislik.", ex: "She has an effortless style; she always looks great without trying too hard.", exUz: "U oson uslubga ega; u doimo juda ko'p harakat qilmasdan ham ajoyib ko'rinadi."},
+    {term: "turn up", en: "", uz: "paydo bo'lmoq", uzDef: "Ko'rinish berish; odatda kutilmagan yoki ma'lum bir tarzda paydo bo'lish.", ex: "He turned up looking like he hadn't slept in days.", exUz: "U bir necha kun uxlamaganga o'xshab ko'rinib qoldi."},
+    {term: "a well-defined jawline", en: "", uz: "aniq jag' chizig'i", uzDef: "Aniqlik bilan ko'rinib turadigan, yaxshi shakllangan jag' chizig'i.", ex: "Many people consider a well-defined jawline to be an attractive feature.", exUz: "Ko'pchilik yaxshi aniqlangan jag' chizig'ini jozibador xususiyat deb hisoblaydi."},
+    {term: "outer appearance", en: "", uz: "tashqi ko'rinish", uzDef: "Odamning tashqi tomondan ko'rinishi, uning jismoniy ko'rinishi.", ex: "People often judge others based on their outer appearance, which is unfair.", exUz: "Odamlar ko'pincha boshqalarni tashqi ko'rinishiga qarab baholaydilar, bu adolatsizlik."},
+    {term: "to be made up", en: "", uz: "bezangan bo'lmoq", uzDef: "Kosmetik vositalar yordamida go'zallikni ta'kidlash yoki o'zgartirish.", ex: "She loves to be made up for special occasions.", exUz: "U maxsus tadbirlar uchun bezanishni yaxshi ko'radi."},
+    {term: "a sight to behold", en: "", uz: "tomosha qilishga arziydi", uzDef: "Juda go'zal yoki ta'sirli ko'rinishga ega bo'lish, tomosha qilishga arziydigan narsa.", ex: "The bride was a sight to behold in her stunning white gown.", exUz: "Kelin o'zining ajoyib oq libosida tomosha qilishga arziydi."},
+    {term: "dress to impress", en: "", uz: "hayratlantirish uchun kiyinmoq", uzDef: "Odamlarni taassurot qoldirish maqsadida chiroyli va zamonaviy kiyinish.", ex: "He always dresses to impress when he goes on a date.", exUz: "U doimo sanaga chiqqanida hayratlantirish uchun kiyinadi."},
+    {term: "look presentable", en: "", uz: "taqdimotga loyiq ko'rinish", uzDef: "Yaxshi va toza ko'rinishga ega bo'lish, boshqalar oldida uyalmaslik uchun.", ex: "You need to look presentable for the meeting with the clients.", exUz: "Mijozlar bilan uchrashuv uchun taqdimotga loyiq ko'rinishingiz kerak."},
+    {term: "a commanding presence", en: "", uz: "hukmron ta'sir", uzDef: "O'zining ishonchi va kuchi bilan odamlarni boshqaradigan ta'sir.", ex: "The CEO has a commanding presence that demands respect.", exUz: "Bosh direktorning hukmron ta'siri bor, u hurmatni talab qiladi."},
+    {term: "go grey", en: "", uz: "oqarmoq", uzDef: "Soch rangi oq yoki kul rangga o'zgarishi.", ex: "He started to go grey in his early thirties due to stress.", exUz: "U stress tufayli o'ttiz yoshlarida oqarishni boshladi."},
+    {term: "a winning smile", en: "", uz: "g'alaba tabassumi", uzDef: "Odamlarni o'ziga jalb qiladigan va yoqimli taassurot qoldiradigan tabassum.", ex: "She has a winning smile that can charm anyone.", exUz: "U har kimni o'ziga jalb qila oladigan g'alaba tabassumiga ega."},
+    {term: "a touch of class", en: "", uz: "nafosat belgisi", uzDef: "Uslub va nafislik qo'shadigan kichik, ammo ahamiyatli element.", ex: "Her pearl necklace added a touch of class to her simple dress.", exUz: "Uning marvarid marjoni oddiy libosiga nafosat belgisini qo'shdi."},
+    {term: "scrub up", en: "", uz: "tozalanmoq", uzDef: "Toza va chiroyli ko'rinishga kelish, odatda shoshilinch tarzda.", ex: "He had to scrub up quickly before the important meeting.", exUz: "U muhim uchrashuv oldidan tezda tozalanishi kerak edi."},
+    {term: "a glow-up", en: "", uz: "tubdan o'zgarish", uzDef: "Tashqi ko'rinishda sezilarli darajada yaxshilanish, odatda o'z-o'ziga g'amxo'rlik natijasida.", ex: "After focusing on her health and fitness, she had a real glow-up.", exUz: "U sog'lig'i va fitnesiga e'tibor qaratganidan so'ng, u haqiqiy tubdan o'zgarishga erishdi."},
+    {term: "down-to-earth", en: "", uz: "oddiy", uzDef: "Oddiy, tabiiy va sun'iylikdan holi bo'lgan ko'rinish yoki uslub.", ex: "Despite her fame, she always maintained a down-to-earth appearance.", exUz: "Mashhurligiga qaramay, u doimo oddiy ko'rinishni saqlab qoldi."},
+    {term: "in the public eye", en: "", uz: "jamoatchilik nazarida", uzDef: "Jamoatchilikning doimiy e'tiborida bo'lish, mashhurlik tufayli.", ex: "Being in the public eye, she always has to be careful about her appearance.", exUz: "Jamoatchilik nazarida bo'lgani uchun, u doimo o'zining ko'rinishi haqida ehtiyot bo'lishi kerak."}
+  ]
+};

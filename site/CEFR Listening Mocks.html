@@ -1175,14 +1175,32 @@
         return { valid: false, error: 'Invalid code. Please check and try again.' };
       } catch (err) { return { valid: false, error: 'Connection error. Please check your internet.' }; }
     };
+    function _isMockTaken(mockNum) {
+      try { var t = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); return !!t['cefr-listening-test-' + String(mockNum).padStart(2,'0')]; } catch(e) { return false; }
+    }
+    function _showTakenAlert() {
+      var ov = document.createElement('div');
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#fff;border-radius:20px;padding:32px 26px;max-width:380px;width:90%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,.3);animation:popIn .3s ease">' +
+        '<div style="width:64px;height:64px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:30px">\u2705</div>' +
+        '<h3 style="color:#1e293b;font-size:18px;margin:0 0 8px">\uD83C\uDFAF Mock Completed!</h3>' +
+        '<p style="color:#64748b;font-size:13.5px;line-height:1.6;margin:0 0 14px">You\u2019ve already used your free attempt on this mock.</p>' +
+        '<div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;padding:12px 16px;margin:0 0 18px">' +
+        '<p style="color:#6d28d9;font-size:13px;font-weight:600;margin:0">\uD83D\uDC8E Upgrade to Premium for unlimited retakes, answer review & transcripts</p></div>' +
+        '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="padding:11px 28px;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer">Got it</button></div>';
+      document.body.appendChild(ov);
+      ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+    }
     function showListeningAccessModal(mockNum) {
       if (window.isSuperAccessUnlocked()) {
         var isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
         sessionStorage.setItem('listeningPremiumEntry', isVipAi ? 'true' : 'false');
+        if (!isVipAi && _isMockTaken(mockNum)) { _showTakenAlert(); return; }
         window.location.href = window._pendingListeningTest.url; return;
       }
       if (!window.listeningMockRequiresCode(mockNum)) {
         sessionStorage.setItem('listeningPremiumEntry', 'false');
+        if (_isMockTaken(mockNum)) { _showTakenAlert(); return; }
         window.location.href = window._pendingListeningTest.url; return;
       }
       var modal = document.getElementById('listeningAccessModal');
@@ -1207,6 +1225,9 @@
       btn.disabled = true; btn.textContent = 'Validating...';
       var result = await window.validateFullListeningAccess(code, window._pendingListeningTest.mockNumber);
       if (result.valid) {
+        if (!result.premiumEntry && _isMockTaken(window._pendingListeningTest.mockNumber)) {
+          closeListeningAccessModal(); _showTakenAlert(); btn.disabled = false; btn.textContent = 'Verify'; return;
+        }
         status.style.color = '#059669';
         status.textContent = result.premiumEntry ? '✅ Premium access verified!' : '✅ Access verified!';
         setTimeout(function() { window.location.href = window._pendingListeningTest.url; }, 600);
@@ -1218,6 +1239,7 @@
     document.getElementById('listeningAccessCodeInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') verifyListeningAccessCode(); });
     document.getElementById('listeningAccessModal').addEventListener('click', function(e) { if (e.target === this) closeListeningAccessModal(); });
   </script>
+  <script src="chat-bubble.js"></script>
 </body>
 
 </html>

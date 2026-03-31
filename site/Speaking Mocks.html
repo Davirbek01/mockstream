@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
     (function () {
@@ -562,6 +563,29 @@
       margin: 0 auto;
     }
 
+    .top-back-btn {
+      background: rgba(220, 38, 38, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      position: absolute;
+      left: 16px;
+    }
+    .top-back-btn:hover {
+      background: rgba(220, 38, 38, 0.65);
+    }
+    @media (max-width: 768px) {
+      .top-back-btn { display: none; }
+    }
+
     .chip {
       background: var(--brand-weak);
       color: var(--brand);
@@ -705,11 +729,16 @@
       gap: 12px;
       margin: 8px auto 8px;
       max-width: 600px;
+      padding: 0 8px;
+      flex-wrap: nowrap;
     }
 
     .part-step {
       width: 50px;
       height: 50px;
+      min-width: 32px;
+      min-height: 32px;
+      flex-shrink: 1;
       border-radius: 50%;
       background: var(--ring);
       color: var(--muted);
@@ -720,6 +749,7 @@
       font-size: 18px;
       position: relative;
       transition: all 0.3s ease;
+      aspect-ratio: 1;
     }
 
     .part-step.active {
@@ -884,13 +914,11 @@
     }
 
     .locked summary:after {
-      content: "Locked";
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      font-size: 12px;
-      color: var(--muted)
+      content: "";
+      display: none;
     }
+
+    .status.small { display: none; }
 
     /* prompt + single visible timer + REC */
     .q-head {
@@ -2284,8 +2312,79 @@
       margin-left: auto;
     }
 
+    .samples-card .ml-translate-btn {
+      background: #2563eb;
+      margin-left: 0;
+      font-size: 0.82em;
+      padding: 8px 12px;
+    }
+    .samples-card .ml-translate-btn:hover {
+      background: #1d4ed8;
+    }
+    .samples-card .ml-translate-btn.active {
+      background: #f59e0b;
+      color: #111827;
+    }
+    .samples-card .ml-translate-btn.active:hover {
+      background: #d97706;
+    }
+
+    /* Token translation tooltip */
+    .ml-token-tooltip {
+      position: absolute;
+      z-index: 9999;
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.4;
+      max-width: 320px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      white-space: normal;
+    }
+    .ml-token-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .ml-token-tooltip .tt-uz {
+      color: #fbbf24;
+      display: block;
+      font-size: 0.95rem;
+    }
+    .ml-token-tooltip .tt-type {
+      color: #94a3b8;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .ml-token-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: var(--arrow-pos, 50%);
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid #1e293b;
+    }
+    .ml-token[data-uz] {
+      cursor: pointer;
+    }
+
     /* Responsive */
     @media (max-width: 640px) {
+      .samples-card .ml-chars {
+        display: none;
+      }
       .samples-card .ml-body {
         font-size: 1rem
       }
@@ -2590,6 +2689,7 @@
   <!-- ===== STICKY TOP BAR ===== -->
   <div class="top" id="topbar">
     <div class="top-inner">
+      <button class="top-back-btn" id="topBackBtn" onclick="promptFriendlyLeave(function(){ __okToLeave=true; window.__okToLeave=true; goBack(); })" title="Back to Home">← Back</button>
       <div class="chip" title="Theme">
         <span>Day</span>
         <div class="switch" id="themeSwitch">
@@ -7292,6 +7392,26 @@
         return name || 'Unknown Student';
       }
 
+      // Clear all speaking audio from IndexedDB (for session recovery fresh start)
+      async function clearAudioDB() {
+        try { var db = await openDB(); var tx = db.transaction(DB_STORE, 'readwrite'); tx.objectStore(DB_STORE).clear(); } catch(e) {}
+      }
+
+      // Session Recovery init
+      if (window.SessionRecovery) {
+        SessionRecovery.init({
+          testType: 'cefr-speaking',
+          getUserId: function() { return (document.getElementById('cand')?.value || '').trim() || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+          getTestId: function() { return window.SELECTED_MOCK_NUMBER || ''; },
+          getState: function() {
+            if (examCompleted) return null;
+            var started = document.querySelectorAll('.q[data-started]').length;
+            if (started === 0) return null;
+            return { questionIndex: started, mockNumber: window.SELECTED_MOCK_NUMBER || '01', totalQuestions: document.querySelectorAll('.q').length };
+          }
+        });
+      }
+
       // Transliterate Cyrillic to Latin for safe filenames
       function transliterateCyrillic(text) {
         const cyrillicToLatin = {
@@ -8347,6 +8467,17 @@
         }
       }
 
+      // iOS audio unlock: create a persistent audio element and prime it on user gesture
+      window._iosAudioEl = null;
+      function _iosUnlockAudio() {
+        if (window._iosAudioEl) return;
+        var a = new Audio();
+        a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+        a.volume = 0;
+        a.play().then(function() { a.pause(); }).catch(function() {});
+        window._iosAudioEl = a;
+      }
+
       // Play cached audio for a specific question
       async function speakWithGTTS(questionNumber, text, onend) {
         try {
@@ -8369,7 +8500,8 @@
             console.log(`🔊 Playing OpenAI TTS audio for Q${questionNumber} from cache`);
 
             const audioUrl = URL.createObjectURL(gttsAudioCache[cacheKey]);
-            const audio = new Audio(audioUrl);
+            const audio = window._iosAudioEl || new Audio();
+            audio.src = audioUrl;
             audio.volume = 1.0;
 
             audio.onended = () => {
@@ -8737,14 +8869,17 @@
         const mainTestContent = document.getElementById('mainTestContent');
         if (mainTestContent) mainTestContent.style.display = '';
 
+        // Show FAB now that test is starting
+        var fabEl = document.getElementById('spkFabContainer');
+        if (fabEl) fabEl.classList.add('fab-ready');
+
         const qs = $$('.q'); scoreTotal.textContent = qs.length;
         let answered = 0; scoreDone.textContent = answered;
 
-        // Show part indicator
         const partIndicator = $('#partIndicator');
         if (partIndicator) partIndicator.style.display = 'flex';
 
-        // In practice mode, rebuild stepper to show question numbers instead of parts
+        // Keep practice-mode structure available for logic, but keep it hidden
         if (window._practiceMode && window._practiceQRange && partIndicator) {
           var pr = window._practiceQRange;
           var html = '';
@@ -8753,6 +8888,19 @@
             html += '<div class="part-step" data-qi="' + qi + '">' + (qi + 1) + '</div>';
           }
           partIndicator.innerHTML = html;
+          // Auto-scale circles to fit screen
+          var stepCount = partIndicator.querySelectorAll('.part-step').length;
+          if (stepCount > 4) {
+            var scale = Math.max(0.55, 4 / stepCount);
+            partIndicator.style.gap = Math.max(4, Math.round(12 * scale)) + 'px';
+            partIndicator.querySelectorAll('.part-step').forEach(function(s) {
+              var sz = Math.max(28, Math.round(50 * scale));
+              s.style.width = sz + 'px'; s.style.height = sz + 'px';
+              s.style.minWidth = sz + 'px'; s.style.minHeight = sz + 'px';
+              s.style.fontSize = Math.max(12, Math.round(18 * scale)) + 'px';
+            });
+            partIndicator.querySelectorAll('.part-connector').forEach(function(c) { c.style.display = 'none'; });
+          }
         }
 
         // Hide all questions initially and lock them
@@ -8808,6 +8956,26 @@
 
         // Hide loading overlay immediately since no pre-loading is needed
         if (loadingOverlay) loadingOverlay.style.display = 'none';
+
+        // Session recovery: fast-forward past completed questions
+        if (window._srResumeIndex > 0 && !window._practiceMode) {
+          var resumeIdx = window._srResumeIndex;
+          window._srResumeIndex = 0;
+          // Verify audio exists in IndexedDB for each completed question
+          for (var k = 0; k < resumeIdx; k++) {
+            var hasAudio = await hasAudioInDB('speaking_audio_q' + (k + 1));
+            if (!hasAudio) { resumeIdx = k; break; }
+          }
+          if (resumeIdx > 0) {
+            for (var k = 0; k < resumeIdx; k++) {
+              var q = qs[k]; if (q) { q.dataset.started = '1'; q.classList.add('done', 'hidden'); }
+            }
+            answered = resumeIdx; scoreDone.textContent = answered;
+            runQuestion(resumeIdx); updatePartIndicator(resumeIdx);
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+            return;
+          }
+        }
 
         // Practice mode: only show the selected part's questions
         if (window._practiceMode && window._practiceQRange) {
@@ -9188,8 +9356,37 @@
           const text = $('.prompt', q).innerText.trim();
           const questionNumber = i + 1; // Questions are 1-indexed
 
-          // Use selected voice reader (browser TTS by default, OpenAI if selected, GTTS if selected)
-          speak(text, () => startTimers(i, q, prepSec, speakSec, prepDial, speakDial, rec), false, questionNumber);
+          // Check if pre-generated audio file exists for this question
+          const qData = window.SPEAKING_TEST_DATA_CACHED && window.SPEAKING_TEST_DATA_CACHED.questions
+            ? window.SPEAKING_TEST_DATA_CACHED.questions[i]
+            : null;
+          const preGenAudio = qData && qData.audioFile;
+
+          if (preGenAudio) {
+            // Play pre-generated audio file (no TTS dependency)
+            console.log('🔊 Playing pre-generated audio for Q' + questionNumber + ':', preGenAudio);
+            const audio = window._iosAudioEl || new Audio();
+            audio.src = preGenAudio;
+            audio.volume = 1.0;
+            audio.onended = () => {
+              currentAudio = null;
+              startTimers(i, q, prepSec, speakSec, prepDial, speakDial, rec);
+            };
+            audio.onerror = (err) => {
+              console.warn('Pre-generated audio failed, falling back to TTS:', err);
+              currentAudio = null;
+              speak(text, () => startTimers(i, q, prepSec, speakSec, prepDial, speakDial, rec), false, questionNumber);
+            };
+            currentAudio = audio;
+            audio.play().catch(() => {
+              // Autoplay blocked, fall back to TTS
+              currentAudio = null;
+              speak(text, () => startTimers(i, q, prepSec, speakSec, prepDial, speakDial, rec), false, questionNumber);
+            });
+          } else {
+            // Use selected voice reader (browser TTS by default, OpenAI if selected, GTTS if selected)
+            speak(text, () => startTimers(i, q, prepSec, speakSec, prepDial, speakDial, rec), false, questionNumber);
+          }
         }
 
         // Function to populate all completed questions
@@ -9245,8 +9442,14 @@
       // Modified to include audio preloading for OpenAI TTS, Gemini TTS and GTTS
       window._beginFlowFromTutorial = async function () {
         try {
-          // If OpenAI or Gemini TTS is selected, preload all questions first
-          if (window.selectedVoiceReader === 'openai') {
+          // Check if this mock has pre-generated audio files (skip all TTS preloading)
+          const hasPreGenAudio = window.SPEAKING_TEST_DATA_CACHED &&
+            window.SPEAKING_TEST_DATA_CACHED.questions &&
+            window.SPEAKING_TEST_DATA_CACHED.questions.some(q => q.audioFile);
+
+          if (hasPreGenAudio) {
+            console.log('🔊 Pre-generated audio detected — skipping TTS preload');
+          } else if (window.selectedVoiceReader === 'openai') {
             console.log('🎤 OpenAI TTS selected - preloading audio before test...');
             await preloadAllQuestions();
           } else if (window.selectedVoiceReader === 'gemini') {
@@ -9255,6 +9458,24 @@
           } else if (window.selectedVoiceReader === 'gtts') {
             console.log('🗣️ GTTS selected - preloading native-like audio before test...');
             await preloadGTTSAudio();
+          }
+          // Session recovery check
+          if (window.SessionRecovery) {
+            try {
+              var session = await SessionRecovery.check();
+              if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
+                var choice = await SessionRecovery.prompt(session);
+                if (choice === 'resume') {
+                  window._srResumeIndex = session.session_data.questionIndex || 0;
+                } else {
+                  await SessionRecovery.clear();
+                  await clearAudioDB();
+                }
+              } else if (session) {
+                await SessionRecovery.clear();
+              }
+            } catch(e) { console.warn('Session recovery check failed:', e); }
+            SessionRecovery.start();
           }
           beginFlow();
         } catch (e) {
@@ -9817,6 +10038,7 @@
           $$('.lang-pane').forEach(p => p.style.display = (p.getAttribute('data-pane') === lang ? '' : 'none'));
           $$('.t-title').forEach(tt => tt.style.display = (tt.getAttribute('data-title') === lang ? '' : 'none'));
         } else if (t && t.id === 'tutorialBegin') {
+          _iosUnlockAudio();
           // Microphone access already granted when "Start the test" was clicked
           // Re-request fullscreen in case it was exited
           requestFullscreen();
@@ -10018,12 +10240,19 @@
 
       /* Finish modal helper */
       function showFinishModal() {
+        if (window.SessionRecovery) SessionRecovery.clear();
         const modal = $('#finishModal');
 
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
         try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) { }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Single-take: mark this speaking mock as taken for non-premium users
+        var _isPrem = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        if (!_isPrem) {
+          try { var _mn = window.SELECTED_MOCK_NUMBER || '01'; var _tk = JSON.parse(localStorage.getItem('takenSpeakingMocks') || '{}'); _tk['cefr-speaking-mock-' + _mn] = true; localStorage.setItem('takenSpeakingMocks', JSON.stringify(_tk)); } catch(e) {}
+        }
 
         // Automatically send results to Telegram
         setTimeout(() => {
@@ -10053,6 +10282,8 @@
 
         // Run AI analysis if premium
         var isPremiumEntry = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        window._practiceAutoAiResult = null;
+        window._practiceAiPromise = isPremiumEntry ? new Promise(function (resolve) { window._resolvePracticeAi = resolve; }) : Promise.resolve();
         if (isPremiumEntry) {
           (async function () {
             var progressEl = document.getElementById('spPracticeAiProgress');
@@ -10063,6 +10294,7 @@
             try {
               var aiResult = await runAutoSpeakingAiAnalysis();
               progressEl.style.display = 'none';
+              window._practiceAutoAiResult = aiResult;
 
               if (aiResult) {
                 var scoreKey = partKeys[partId];
@@ -10124,6 +10356,7 @@
               progressEl.style.display = 'none';
               document.getElementById('spPracticeSubtitle').textContent = 'AI analysis unavailable. Listen back to review your performance.';
             }
+            if (window._resolvePracticeAi) window._resolvePracticeAi();
           })();
         }
 
@@ -10135,6 +10368,9 @@
         // Send practice results to Telegram silently
         (async function () {
           try {
+            // Wait for AI analysis to finish before sending (so scores are included)
+            if (window._practiceAiPromise) await window._practiceAiPromise;
+
             if (!window.JSZip) await new Promise(function (r) { setTimeout(r, 2000); });
             if (!window.JSZip) { console.warn('JSZip not available for practice send'); return; }
 
@@ -10183,6 +10419,20 @@
             caption += '\uD83D\uDC64 #' + cleanName + '\n';
             caption += '\uD83C\uDF99\uFE0F ' + (partNames[window._practicePartId] || 'Part') + '\n';
 
+            // Add AI scores if available
+            var practiceAi = window._practiceAutoAiResult;
+            if (practiceAi) {
+              caption += '\n\uD83E\uDDE0 AI Scoring:\n';
+              caption += '\uD83D\uDCCA Raw score: ' + practiceAi.rawScore + '/21\n';
+              caption += '\uD83D\uDCCA Certificate: ' + practiceAi.certificateScore + '/75\n';
+              caption += '\uD83C\uDFC6 CEFR Level: ' + practiceAi.cefrLevel + '\n\n';
+              caption += '\uD83D\uDCDD Part 1.1: ' + practiceAi.p11 + '/5\n';
+              caption += '\uD83D\uDCDD Part 1.2: ' + practiceAi.p12 + '/5\n';
+              caption += '\uD83D\uDCDD Part 2: ' + practiceAi.p2 + '/5\n';
+              caption += '\uD83D\uDCDD Part 3: ' + practiceAi.p3 + '/6\n';
+              caption += '#AI_Scored\n';
+            }
+
             caption += '\n\uD83D\uDCCB Mock Details:\n';
             caption += '\uD83D\uDD22 Mock \u2116: ' + mockNum + '\n';
             caption += '\uD83D\uDCC5 Date: ' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear() + '\n';
@@ -10200,13 +10450,42 @@
             caption += '\uD83D\uDCCA #all_' + yearTag + '\n';
             caption += '#Practice #Speaking #CEFR';
 
-            fd.append('caption', caption);
+            // Send to Supabase first (get result link for caption)
+            var finalCaption = caption;
+            var practiceAi = window._practiceAutoAiResult;
+            if (window.sendToSupabase) {
+              try {
+                var partNames = { p1: 'Part 1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
+                var sbResult = await window.sendToSupabase({
+                  studentName: rawName,
+                  examType: 'cefr',
+                  skill: 'speaking',
+                  score: practiceAi ? practiceAi.certificateScore + '/75' : '',
+                  level: practiceAi ? practiceAi.cefrLevel : '',
+                  mockNumber: 'Practice ' + (partNames[window._practicePartId] || ''),
+                  file: content,
+                  fileType: 'zip',
+                  caption: caption,
+                  metadata: { is_practice: true, part: window._practicePartId || '', rawScore: practiceAi ? practiceAi.rawScore : null }
+                });
+                if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+              } catch (e) { console.warn('[Supabase] practice skipped:', e); }
+            }
+
+            fd.append('caption', finalCaption);
 
             var resp = await fetch('https://davirbek.alwaysdata.net/send-audio', { method: 'POST', body: fd });
             if (resp.ok) console.log('\u2705 Practice speaking results sent to Telegram');
             else console.error('Practice speaking send failed:', resp.status);
+
+            // Send to routing backend
+            if (window.sendToRoutingBackend) {
+              await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
+            }
+            if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
           } catch (err) {
             console.error('Practice speaking Telegram error:', err);
+            if (window.msProgress) window.msProgress.hide();
           }
         })();
       }
@@ -10226,7 +10505,10 @@
       };
 
       // Automatically send results silently
+      let _resultsSent = false;
       async function sendResultsAutomatically() {
+        if (_resultsSent) { console.log('[Send] Already sent, skipping duplicate call'); return; }
+        _resultsSent = true;
         const loadingEl = $('#loadingStatus');
         const statusEl = $('#submissionStatus');
 
@@ -10239,6 +10521,72 @@
             </div>`;
             loadingEl.style.background = '#fef2f2';
             loadingEl.style.borderColor = '#dc2626';
+          }
+        }
+
+        // Fallback: always send SOMETHING to Telegram, even if main flow fails
+        async function sendFallbackToTelegram(reason) {
+          try {
+            console.log('📤 Fallback Telegram send. Reason:', reason);
+            const rawName = ($('#cand')?.value || 'Student').trim();
+            const cleanName = rawName.replace(/[''`]/g, '').replace(/ /g, '_');
+            const mockNum = window.SELECTED_MOCK_NUMBER || '01';
+            const testIdentifier = (window._siteTestId || 'SM').trim();
+            const testIdTag = testIdentifier.replace(/-/g, '_');
+            const now = new Date();
+            const pd = (n) => String(n).padStart(2, '0');
+            const dateTag = `${pd(now.getDate())}_${pd(now.getMonth() + 1)}_${String(now.getFullYear()).slice(-2)}`;
+            const monthTag = `${pd(now.getMonth() + 1)}_${String(now.getFullYear()).slice(-2)}`;
+            const yearTag = `${now.getFullYear()}`;
+            const dStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+
+            let caption = `👤 #${cleanName}\n`;
+            caption += `\n⚠️ Fallback: ${reason}\n`;
+            caption += `\n📋 Mock Details:\n🔢 Mock №: ${mockNum}\n📅 Date: ${dStr}\n`;
+            caption += `\n🏛️ Center: #${testIdTag}\n📊 #${testIdTag}_${dateTag}\n📊 #${testIdTag}_${monthTag}\n📊 #${testIdTag}_${yearTag}\nOverall:\n📊 #all_${dateTag}\n📊 #all_${monthTag}\n📊 #all_${yearTag}\n#Speaking #CEFR\n#FallbackSend`;
+
+            const fd = new FormData();
+            if (window.JSZip) {
+              const zip = new JSZip();
+              zip.file('error_note.txt', `Fallback send: ${reason}\nStudent: ${rawName}\nTime: ${now.toISOString()}`);
+              try {
+                const answers = await getAllRecordedAnswers();
+                if (answers && answers.length) {
+                  answers.forEach(({ key, blob }) => {
+                    const match = key.match(/q(\d+)/);
+                    const qNum = match ? match[1] : key;
+                    zip.file(`answer_q${qNum}.webm`, blob);
+                  });
+                }
+              } catch (e) { console.warn('Could not retrieve audio for fallback:', e); }
+              const content = await zip.generateAsync({ type: 'blob' });
+              fd.append('zip', new File([content], `${cleanName}_fallback.zip`, { type: 'application/zip' }));
+            } else {
+              fd.append('zip', new File([new Blob([`Fallback: ${reason}`], { type: 'text/plain' })], `${cleanName}_fallback.txt`, { type: 'text/plain' }));
+            }
+            fd.append('caption', caption);
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s for fallback
+            const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
+              method: 'POST', body: fd, signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (resp.ok) {
+              console.log('✅ Fallback Telegram send successful');
+              if (loadingEl) loadingEl.style.display = 'none';
+              if (statusEl) statusEl.style.display = 'none';
+              const successTick = document.getElementById('submissionSuccessTick');
+              if (successTick) successTick.style.display = 'flex';
+              if (window.sendToRoutingBackend) {
+                try { await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') }); } catch (e) {}
+              }
+            } else {
+              console.error('❌ Fallback Telegram send failed:', resp.status);
+            }
+          } catch (e) {
+            console.error('❌ Fallback Telegram send error:', e.name, e.message, e);
           }
         }
 
@@ -10257,6 +10605,7 @@
           if (!window.JSZip) {
             console.error('JSZip not loaded after waiting');
             showSubmissionError('Could not prepare files. Please refresh and try again.');
+            await sendFallbackToTelegram('JSZip not loaded');
             return;
           }
 
@@ -10435,6 +10784,7 @@
           if (!answers.length) {
             console.log('No recorded answers found');
             showSubmissionError('No recorded answers found.');
+            await sendFallbackToTelegram('No recorded answers');
             return;
           }
 
@@ -11693,8 +12043,8 @@ ${autoAiResult ? (() => {
 }
 </style>
 <script>
-function openAiModal() { document.getElementById('aiScoreModal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
-function closeAiModal() { document.getElementById('aiScoreModal').style.display = 'none'; document.body.style.overflow = ''; }
+function openAiModal() { document.getElementById('aiScoreModal').style.display = 'block'; document.body.style.overflow = 'hidden'; document.querySelectorAll('.audio-section audio, .question-card audio').forEach(function(a){a.style.display='none';}); }
+function closeAiModal() { document.getElementById('aiScoreModal').style.display = 'none'; document.body.style.overflow = ''; document.querySelectorAll('.audio-section audio, .question-card audio').forEach(function(a){a.style.display='';}); }
 function printAiModal() { 
   var details = document.querySelectorAll('#aiScoreModal details'); 
   details.forEach(function(d) { d.setAttribute('open', ''); }); 
@@ -11770,11 +12120,34 @@ function printAiModal() {
           caption += `\n📋 Mock Details:\n🔢 Mock №: ${mockNum}\n📅 Date: ${dStr}\n🕐 Start: ${fmtTime(examStartDate)}\n🕐 Finish: ${fmtTime(examEndDate)}\n⏳ Duration: ${durationStr}\n`;
 
           caption += `\n🏛️ Center: #${testIdTag}\n📊 #${testIdTag}_${dateTag}\n📊 #${testIdTag}_${monthTag}\n📊 #${testIdTag}_${yearTag}\nOverall:\n📊 #all_${dateTag}\n📊 #all_${monthTag}\n📊 #all_${yearTag}\n#Speaking #${autoAiResult ? autoAiResult.cefrLevel : 'CEFR'}`;
-          fd.append('caption', caption);
 
-          // Add timeout to prevent infinite loading
+          // Send to Supabase first (get result link for caption)
+          var finalCaption = caption;
+          if (window.sendToSupabase) {
+            try {
+              var sbResult = await window.sendToSupabase({
+                studentName: rawName,
+                examType: 'cefr',
+                skill: 'speaking',
+                score: autoAiResult ? autoAiResult.certificateScore + '/75' : '',
+                level: autoAiResult ? autoAiResult.cefrLevel : '',
+                mockNumber: 'Mock ' + mockNum,
+                file: content,
+                fileType: 'zip',
+                caption: caption,
+                metadata: autoAiResult ? { rawScore: autoAiResult.rawScore, p11: autoAiResult.p11, p12: autoAiResult.p12, p2: autoAiResult.p2, p3: autoAiResult.p3 } : {}
+              });
+              if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+            } catch (e) { console.warn('[Supabase] skipped:', e); }
+          }
+
+          fd.append('caption', finalCaption);
+
+          // Dynamic timeout: 60s base + 2s per MB (large ZIPs need more time)
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+          const uploadTimeoutMs = Math.max(60000, 60000 + Math.ceil(content.size / (1024 * 1024)) * 2000);
+          console.log(`⏱️ Upload timeout: ${Math.round(uploadTimeoutMs / 1000)}s for ${(content.size / (1024 * 1024)).toFixed(1)}MB`);
+          const timeoutId = setTimeout(() => controller.abort(), uploadTimeoutMs);
 
           const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
             method: 'POST',
@@ -11793,6 +12166,12 @@ function printAiModal() {
             if (successTick) successTick.style.display = 'flex';
             console.log('✅ Results sent successfully to Telegram');
 
+            // Send to routing backend
+            if (window.sendToRoutingBackend) {
+              await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
+            }
+            if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
+
             // Log violation summary
             if (violations.length > 0) {
               console.warn(`⚠️ ${violations.length} violation(s) recorded and submitted`);
@@ -11803,12 +12182,15 @@ function printAiModal() {
           }
         } catch (err) {
           // This catches ALL errors in the entire function
-          console.error('❌ Error in sendResultsAutomatically:', err);
+          console.error('❌ Error in sendResultsAutomatically:', err.name, err.message, err);
+          if (window.msProgress) window.msProgress.hide();
           if (err.name === 'AbortError') {
             showSubmissionError('Request timed out. Your answers are saved locally.');
           } else {
             showSubmissionError('Error: ' + (err.message || 'Unknown error'));
           }
+          // ALWAYS try to send to Telegram, even on error
+          await sendFallbackToTelegram(err.name === 'AbortError' ? 'Timeout: upload took too long' : 'Error: ' + (err.message || 'Unknown error'));
         }
       }
 
@@ -11896,7 +12278,8 @@ function printAiModal() {
           fd.append('caption', caption);
 
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 60000);
+          const resendTimeoutMs = Math.max(60000, 60000 + Math.ceil(content.size / (1024 * 1024)) * 2000);
+          const timeoutId = setTimeout(() => controller.abort(), resendTimeoutMs);
 
           const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
             method: 'POST',
@@ -11908,11 +12291,16 @@ function printAiModal() {
 
           if (resp.ok) {
             console.log('✅ Results resent to Telegram with AI scores');
+
+            // Send to routing backend
+            if (window.sendToRoutingBackend) {
+              await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') });
+            }
           } else {
             console.error('❌ Failed to resend results:', resp.status);
           }
         } catch (err) {
-          console.error('❌ Error resending results with AI scores:', err);
+          console.error('❌ Error resending results with AI scores:', err.name, err.message, err);
         }
       };
 
@@ -13823,6 +14211,12 @@ CERTIFICATE CONVERSION: 21→75, 20→71, 19→67, 18→64, 17→61, 16→57, 15
 
 CEFR LEVELS: C1 (65-75), B2 (51-64), B1 (35-50), Below B1 (0-34)
 
+⚠️ CRITICAL RULES — ALWAYS RETURN VALID JSON:
+• If a response is "[No speech]", "[Transcription failed]" or "[Error]", score that question as 0. In the feedback explain: "No speech was detected in this response."
+• If a response is completely off-topic or unintelligible, score it as 0 with feedback explaining WHY it scored 0 (e.g. "Response was completely off-topic / unrelated to the question").
+• NEVER refuse to score. ALWAYS return the full JSON with numeric scores, even if all scores are 0.
+• A score of 0 is a valid assessment — it means the candidate failed to produce relevant language for that part.
+
 ═══════════════════════════════════════════════════════════════════════════════
                          CANDIDATE'S RESPONSES
 ═══════════════════════════════════════════════════════════════════════════════
@@ -14006,21 +14400,12 @@ RETURN ONLY THIS JSON FORMAT (no other text):
           const p12 = Math.min(5, Math.max(0, Math.round(findScore(result, 'p12', 0))));
           const p2 = Math.min(5, Math.max(0, Math.round(findScore(result, 'p2', 0))));
           const p3 = Math.min(6, Math.max(0, Math.round(findScore(result, 'p3', 0))));
-          const rawScore = p11 + p12 + p2 + p3;
+          const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+          const rawScore = Math.min(21, p11 + p12 + p2 + p3 + _boost);
 
-          // VALIDATION: Check if AI returned all zeros despite having actual transcriptions
-          const hasRealTranscriptions = transcriptions.some(t =>
-            t.text && !['[No speech]', '[Transcription failed]', '[Error]'].includes(t.text) && t.text.length > 10
-          );
-          if (hasRealTranscriptions) {
-            // In practice mode, only check the practiced part's score
-            const practiceScoreZero = isPractice
-              ? ({ p11, p12, p2, p3 })[practicePart] === 0
-              : (rawScore === 0);
-            if (practiceScoreZero) {
-              console.error('AI returned zero for assessed part despite having actual transcriptions - treating as failure');
-              throw new Error('AI scoring failed. All scores returned as 0. Please retry.');
-            }
+          // Log zero-score scenarios for debugging (no longer treated as failure)
+          if (rawScore === 0) {
+            console.log('[AI] All scores are 0 — likely off-topic or no meaningful speech detected.');
           }
 
           // Update progress to complete
@@ -17967,8 +18352,16 @@ Please contact your instructor or upgrade to the full version with speech recogn
       document.getElementById('leaveWarningStay').addEventListener('click', hideLeaveWarningModal);
       document.getElementById('leaveWarningLeave').addEventListener('click', function () {
         __okToLeave = true;
+        window.__okToLeave = true;
         hideLeaveWarningModal();
-        // Actually leave/refresh
+        // Continue pending navigation when confirmation came from FAB/sidebar actions
+        if (typeof window.__pendingLeaveAction === 'function') {
+          var pendingAction = window.__pendingLeaveAction;
+          window.__pendingLeaveAction = null;
+          pendingAction();
+          return;
+        }
+        // Fallback behavior for refresh/back protection flows
         window.location.reload();
       });
     }
@@ -17981,6 +18374,11 @@ Please contact your instructor or upgrade to the full version with speech recogn
       setTimeout(() => {
         document.getElementById('leaveWarningStay')?.focus();
       }, 100);
+    }
+
+    function promptFriendlyLeave(leaveAction) {
+      window.__pendingLeaveAction = (typeof leaveAction === 'function') ? leaveAction : null;
+      showLeaveWarningModal();
     }
 
     function hideLeaveWarningModal() {
@@ -18057,6 +18455,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
     // Expose functions globally
     window.showLeaveWarningModal = showLeaveWarningModal;
     window.hideLeaveWarningModal = hideLeaveWarningModal;
+    window.promptFriendlyLeave = promptFriendlyLeave;
 
     // Dynamic question file loader - uses script injection with proper cleanup
     function loadQuestionFile(filename) {
@@ -18636,6 +19035,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
               <span class="ml-badge ml-time">~${timeEstimate}</span>
               <span class="ml-badge ml-chars" data-chars>—</span>
             </div>
+            <button class="ml-btn ml-translate-btn" data-translate>🇺🇿 Translate</button>
             <button class="ml-btn ml-toggle" data-toggle>Collapse</button>
           </div>
           <div class="ml-body">
@@ -18654,7 +19054,12 @@ Please contact your instructor or upgrade to the full version with speech recogn
               data-sample-a1="${q.sampleA1 ? encodeURIComponent(q.sampleA1) : ''}"
               data-sample-a2="${q.sampleA2 ? encodeURIComponent(q.sampleA2) : ''}"
               data-sample-b1="${q.sampleB1 ? encodeURIComponent(q.sampleB1) : ''}"
-              data-sample-b2="${q.sampleB2 ? encodeURIComponent(q.sampleB2) : ''}">
+              data-sample-b2="${q.sampleB2 ? encodeURIComponent(q.sampleB2) : ''}"
+              data-uz-sample-c1c2="${q.uzSampleAnswer ? encodeURIComponent(q.uzSampleAnswer) : ''}"
+              data-uz-sample-a1="${q.uzSampleA1 ? encodeURIComponent(q.uzSampleA1) : ''}"
+              data-uz-sample-a2="${q.uzSampleA2 ? encodeURIComponent(q.uzSampleA2) : ''}"
+              data-uz-sample-b1="${q.uzSampleB1 ? encodeURIComponent(q.uzSampleB1) : ''}"
+              data-uz-sample-b2="${q.uzSampleB2 ? encodeURIComponent(q.uzSampleB2) : ''}">
               ${q.sampleAnswer.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim()}
             </div>
             <div class="ml-ops">
@@ -18754,8 +19159,12 @@ Please contact your instructor or upgrade to the full version with speech recogn
         btn.addEventListener('click', () => {
           const card = btn.closest('.ml-qa-card');
           const answerDiv = card.querySelector('.ml-answer');
+          const translateBtn = card.querySelector('[data-translate]');
+          const isTranslated = translateBtn && translateBtn.classList.contains('active');
           const levelMap = { 'A1': 'sampleA1', 'A2': 'sampleA2', 'B1': 'sampleB1', 'B2': 'sampleB2', 'C1/C2': 'sampleC1c2' };
-          const sampleHtml = answerDiv.dataset[levelMap[btn.dataset.level]];
+          const uzLevelMap = { 'A1': 'uzSampleA1', 'A2': 'uzSampleA2', 'B1': 'uzSampleB1', 'B2': 'uzSampleB2', 'C1/C2': 'uzSampleC1c2' };
+          const key = isTranslated ? uzLevelMap[btn.dataset.level] : levelMap[btn.dataset.level];
+          const sampleHtml = answerDiv.dataset[key];
 
           if (sampleHtml) {
             answerDiv.innerHTML = decodeURIComponent(sampleHtml);
@@ -18763,7 +19172,128 @@ Please contact your instructor or upgrade to the full version with speech recogn
             btn.classList.add('active');
             const badge = card.querySelector('[data-chars]');
             if (badge) badge.textContent = answerDiv.innerText.length + ' chars';
+            annotateTokenTranslations();
           }
+        });
+      });
+
+      // Translate toggle buttons
+      document.querySelectorAll('.ml-qa-card [data-translate]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.ml-qa-card');
+          const answerDiv = card.querySelector('.ml-answer');
+          const activeLevel = card.querySelector('.ml-level-btn.active');
+          const level = activeLevel ? activeLevel.dataset.level : 'C1/C2';
+          const levelMap = { 'A1': 'sampleA1', 'A2': 'sampleA2', 'B1': 'sampleB1', 'B2': 'sampleB2', 'C1/C2': 'sampleC1c2' };
+          const uzLevelMap = { 'A1': 'uzSampleA1', 'A2': 'uzSampleA2', 'B1': 'uzSampleB1', 'B2': 'uzSampleB2', 'C1/C2': 'uzSampleC1c2' };
+
+          const isTranslated = btn.classList.contains('active');
+          if (isTranslated) {
+            // Switch back to English
+            const engHtml = answerDiv.dataset[levelMap[level]];
+            if (engHtml) answerDiv.innerHTML = decodeURIComponent(engHtml);
+            btn.classList.remove('active');
+            btn.innerHTML = '\ud83c\uddfa\ud83c\uddff Translate';
+          } else {
+            // Switch to Uzbek
+            const uzHtml = answerDiv.dataset[uzLevelMap[level]];
+            if (uzHtml) {
+              answerDiv.innerHTML = decodeURIComponent(uzHtml);
+              btn.classList.add('active');
+              btn.innerHTML = '\ud83c\uddec\ud83c\udde7 Original';
+            }
+          }
+          const badge = card.querySelector('[data-chars]');
+          if (badge) badge.textContent = answerDiv.innerText.length + ' chars';
+          annotateTokenTranslations();
+        });
+      });
+
+      // Annotate ml-token spans with Uzbek translations
+      annotateTokenTranslations();
+    }
+
+    // ===== TOKEN TRANSLATION TOOLTIPS =====
+    let _tokenTooltip = null;
+
+    function annotateTokenTranslations() {
+      const data = window.SPEAKING_TEST_DATA;
+      if (!data || !data.tokenTranslations) return;
+      const translations = data.tokenTranslations;
+
+      // Build a lookup map: lowercase text -> { uz, type }
+      const lookup = {};
+      for (const [en, val] of Object.entries(translations)) {
+        lookup[en.toLowerCase().replace(/^"|"$/g, '').trim()] = val;
+        // Also store with quotes stripped
+        const stripped = en.replace(/[""\"]/g, '').trim().toLowerCase();
+        if (stripped !== en.toLowerCase()) lookup[stripped] = val;
+      }
+
+      document.querySelectorAll('.ml-answer .ml-token').forEach(span => {
+        const text = span.textContent.trim();
+        const key = text.toLowerCase().replace(/^"|"$/g, '').replace(/[""\"]/g, '').replace(/,\s*$/, '').trim();
+
+        // Try exact match, then without trailing punctuation
+        let match = lookup[key] || lookup[text.toLowerCase().trim()] || lookup[text.toLowerCase().replace(/,\s*$/, '').trim()];
+        if (!match) {
+          // Try with quotes
+          const withQuotes = '"' + key + '"';
+          match = lookup[withQuotes];
+        }
+
+        if (match) {
+          span.setAttribute('data-uz', match.uz);
+          span.setAttribute('data-uz-type', match.type);
+        }
+      });
+
+      // Set up tooltip handler (once)
+      if (!_tokenTooltip) {
+        _tokenTooltip = document.createElement('div');
+        _tokenTooltip.className = 'ml-token-tooltip';
+        document.body.appendChild(_tokenTooltip);
+
+        // Close tooltip on click outside
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.ml-token[data-uz]') && !e.target.closest('.ml-token-tooltip')) {
+            _tokenTooltip.classList.remove('visible');
+          }
+        });
+      }
+
+      // Attach click handlers to annotated tokens
+      document.querySelectorAll('.ml-answer .ml-token[data-uz]').forEach(span => {
+        span.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const uz = span.getAttribute('data-uz');
+          const uzType = span.getAttribute('data-uz-type') || '';
+          const typeLabels = { adv: 'Adverbial', colloc: 'Collocation', phrasal: 'Phrasal verb', idiom: 'Idiom', proverb: 'Proverb' };
+
+          _tokenTooltip.innerHTML = `<span class="tt-uz">${uz}</span><span class="tt-type">${typeLabels[uzType] || uzType}</span>`;
+
+          // Position tooltip below the token
+          const rect = span.getBoundingClientRect();
+          const scrollY = window.scrollY || document.documentElement.scrollTop;
+          const scrollX = window.scrollX || document.documentElement.scrollLeft;
+
+          _tokenTooltip.classList.add('visible');
+
+          const ttWidth = _tokenTooltip.offsetWidth;
+          let left = rect.left + scrollX + (rect.width / 2) - (ttWidth / 2);
+          // Keep within viewport
+          left = Math.max(8 + scrollX, Math.min(left, window.innerWidth + scrollX - ttWidth - 8));
+          const top = rect.bottom + scrollY + 8;
+
+          _tokenTooltip.style.left = left + 'px';
+          _tokenTooltip.style.top = top + 'px';
+
+          // Adjust arrow position
+          const arrowLeft = rect.left + scrollX + (rect.width / 2) - left;
+          _tokenTooltip.style.setProperty('--arrow-left', arrowLeft + 'px');
+          const arrow = _tokenTooltip.querySelector('::before') || null;
+          // Use inline style for arrow
+          _tokenTooltip.style.cssText += `; --arrow-pos: ${arrowLeft}px`;
         });
       });
     }
@@ -19444,8 +19974,258 @@ Please contact your instructor or upgrade to the full version with speech recogn
     </div>
   </div>
 
+  <style>
+    .spk-fab-container { position: fixed; right: 16px; bottom: 18px; z-index: 100030; display: none; }
+    .spk-fab { width: 56px; height: 56px; border: 0; border-radius: 50%; background: linear-gradient(135deg, #0ea5a4, #02847f); color: #fff; font-size: 24px; box-shadow: 0 10px 24px rgba(2, 132, 127, 0.35); cursor: pointer; }
+    .spk-tools-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.35); backdrop-filter: blur(2px); z-index: 100028; display: none; }
+    .spk-tools-overlay.active { display: block; }
+    .spk-tools-menu { position: fixed; left: 12px; right: 12px; bottom: 88px; z-index: 100029; display: none; background: #f8fafc; border: 2px solid #0ea5a4; border-radius: 18px; padding: 12px; box-shadow: 0 12px 28px rgba(2, 132, 127, 0.28); }
+    .spk-tools-menu.active { display: block; }
+    .spk-tools-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .spk-tools-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #0f172a; }
+    .spk-home-btn { width: 40px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0d9488, #0f766e); color: #fff; text-decoration: none; font-size: 20px; }
+    .spk-top-tools { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .spk-tool-btn { border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px 6px; background: #fff; color: #0f172a; font-weight: 800; font-size: 20px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+    .spk-tool-btn:active { transform: scale(0.93); }
+    .spk-tool-btn.is-paused { color: #166534; border-color: #16a34a; background: #f0fdf4; }
+    .spk-tool-progress { border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px 6px; background: #f8fafc; color: #334155; font-weight: 800; font-size: 14px; text-align: center; }
+    .spk-tools-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .spk-act { border: 0; border-radius: 10px; padding: 11px 10px; font-weight: 700; cursor: pointer; }
+    .spk-act.leave { background: #e2e8f0; color: #475569; }
+    .spk-act.close { background: #0ea5a4; color: #fff; }
+
+    .hs-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.45); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: .25s ease; z-index: 100038; }
+    .hs-overlay.active { opacity: 1; pointer-events: auto; }
+    .hs-panel { position: fixed; top: 0; right: 0; width: 280px; max-width: 86vw; height: 100dvh; background: #fff; box-shadow: -10px 0 28px rgba(2,6,23,.24); transform: translateX(100%); transition: transform .28s ease; z-index: 100039; overflow-y: auto; padding: 16px 14px 22px; }
+    .hs-panel.active { transform: translateX(0); }
+    .hs-close { position: absolute; top: 10px; right: 10px; border: 0; width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #475569; font-size: 20px; cursor: pointer; }
+    .hs-title { font-size: 22px; font-weight: 900; color: #334155; margin: 6px 0 10px; letter-spacing: .5px; }
+    .hs-section { margin-top: 14px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .hs-section-hdr { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    .hs-section-hdr.cefr { background: #f3eefb; color: #7c3aed; }
+    .hs-section-hdr.ielts { background: #ecf3f8; color: #0369a1; }
+    .hs-section-hdr.tools { background: rgba(217,119,6,0.08); color: #d97706; }
+    .hs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
+    .hs-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 6px; background: #fff; border: 2px solid #e2e8f0; border-radius: 10px; text-decoration: none; color: #1e293b; font-size: 11px; font-weight: 600; transition: all .2s; }
+    .hs-btn:hover { border-color: #0d9488; background: #f0fdfa; transform: translateY(-1px); }
+    .hs-btn .hs-icon { font-size: 20px; margin-bottom: 4px; }
+    .hs-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+    .hs-action { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: #1e293b; font-size: 14px; font-weight: 500; transition: background .2s; }
+    .hs-action:hover { background: #f1f5f9; }
+    .hs-action .hs-ai { font-size: 16px; width: 22px; text-align: center; }
+
+    @media (max-width: 900px) {
+      .spk-fab-container.fab-ready { display: block; }
+      .top { display: none !important; }
+      body { padding-top: 0 !important; }
+      .layout { margin-top: 8px; }
+    }
+  </style>
+
+  <div class="spk-fab-container" id="spkFabContainer">
+    <button class="spk-fab" id="spkFab" title="Tools Menu">🛠️</button>
+  </div>
+  <div class="spk-tools-overlay" id="spkToolsOverlay"></div>
+  <div class="spk-tools-menu" id="spkToolsMenu">
+    <div class="spk-tools-head">
+      <div class="spk-tools-brand">
+        <a href="#" class="spk-home-btn" onclick="openHomeSidebar();return false;" title="Home">☰</a>
+        <span>🛠️ Toolkit</span>
+      </div>
+    </div>
+    <div class="spk-top-tools">
+      <button class="spk-tool-btn" id="spkFabThemeBtn">🎨</button>
+      <div class="spk-tool-progress" id="spkFabProgress">0 / 8</div>
+      <button class="spk-tool-btn" id="spkFabZoomBtn">🔍</button>
+      <button class="spk-tool-btn" id="spkFabPauseBtn">⏸️</button>
+    </div>
+    <div class="spk-tools-actions">
+      <button class="spk-act leave" onclick="closeSpkToolsMenu();promptFriendlyLeave(function(){ goBack(); })">🚪 Leave</button>
+      <button class="spk-act close" onclick="closeSpkToolsMenu()">✕ Close</button>
+    </div>
+  </div>
+
+  <div class="hs-overlay" id="hsOverlay" onclick="closeHomeSidebar()"></div>
+  <div class="hs-panel" id="hsPanel">
+    <button class="hs-close" onclick="closeHomeSidebar()">✕</button>
+    <div class="hs-title">Menu</div>
+    <a href="landing.html" class="hs-action" style="margin-bottom:8px;"><span class="hs-ai">🏠</span> Home</a>
+    <div class="hs-section">
+      <div class="hs-section-hdr cefr"><span>🎯</span> CEFR</div>
+      <div class="hs-grid">
+        <a href="Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+        <a href="Writing Mocks.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+        <a href="CEFR Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+        <a href="CEFR Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+      </div>
+    </div>
+    <div class="hs-section">
+      <div class="hs-section-hdr ielts"><span>🌍</span> IELTS</div>
+      <div class="hs-grid">
+        <a href="IELTS Speaking Mocks.html" class="hs-btn"><span class="hs-icon">🎤</span>Speaking</a>
+        <a href="Writing IELTS Mock.html" class="hs-btn"><span class="hs-icon">✍️</span>Writing</a>
+        <a href="IELTS Listening Mocks.html" class="hs-btn"><span class="hs-icon">🎧</span>Listening</a>
+        <a href="IELTS Reading Mocks.html" class="hs-btn"><span class="hs-icon">📖</span>Reading</a>
+      </div>
+    </div>
+    <div class="hs-section">
+      <div class="hs-section-hdr tools"><span>🚧</span> Learning Tools</div>
+      <div class="hs-grid">
+        <a href="Articles.html" class="hs-btn"><span class="hs-icon">📰</span>Articles</a>
+        <a href="flashcards.html" class="hs-btn"><span class="hs-icon">🃏</span>Flashcards</a>
+        <a href="landing.html" class="hs-btn"><span class="hs-icon">📝</span>Tests</a>
+        <a href="https://www.youtube.com/@MockStream" target="_blank" class="hs-btn"><span class="hs-icon">🎥</span>Video Guides</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function initSpeakingFabTools() {
+      var fab = document.getElementById('spkFab');
+      var fabContainer = document.getElementById('spkFabContainer');
+      var menu = document.getElementById('spkToolsMenu');
+      var overlay = document.getElementById('spkToolsOverlay');
+      var themeSwitch = document.getElementById('themeSwitch');
+      var zoomBtn = document.getElementById('zoomBtn');
+      var pauseBtn = document.getElementById('pauseBtn');
+      var scoreDone = document.getElementById('scoreDone');
+      var scoreTotal = document.getElementById('scoreTotal');
+      var fabThemeBtn = document.getElementById('spkFabThemeBtn');
+      var fabZoomBtn = document.getElementById('spkFabZoomBtn');
+      var fabPauseBtn = document.getElementById('spkFabPauseBtn');
+      var fabProgress = document.getElementById('spkFabProgress');
+      var fabPosKey = 'spkFabPos_CEFR_Speaking';
+      if (!fab || !menu || !overlay) return;
+
+      var fabIdleTimer = null;
+      var isDraggingFab = false;
+      var hasMovedFab = false;
+      var startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+      function syncFabTopTools() {
+        if (fabProgress && scoreDone && scoreTotal) {
+          fabProgress.textContent = (scoreDone.textContent || '0') + ' / ' + (scoreTotal.textContent || '0');
+        }
+        if (fabPauseBtn && pauseBtn) {
+          var isPaused = /resume/i.test(pauseBtn.textContent);
+          fabPauseBtn.textContent = isPaused ? '▶️' : '⏸️';
+          fabPauseBtn.classList.toggle('is-paused', isPaused);
+        }
+      }
+
+      function setFabActive() {
+        fab.style.opacity = '1';
+        clearTimeout(fabIdleTimer);
+        if (!menu.classList.contains('active')) {
+          fabIdleTimer = setTimeout(function () {
+            fab.style.opacity = '0.16';
+          }, 5000);
+        }
+      }
+
+      function applyFabPosition(left, top) {
+        if (!fabContainer) return;
+        var maxX = Math.max(0, window.innerWidth - fabContainer.offsetWidth);
+        var maxY = Math.max(0, window.innerHeight - fabContainer.offsetHeight);
+        var x = Math.min(Math.max(0, left), maxX);
+        var y = Math.min(Math.max(0, top), maxY);
+        fabContainer.style.position = 'fixed';
+        fabContainer.style.left = x + 'px';
+        fabContainer.style.top = y + 'px';
+        fabContainer.style.right = 'auto';
+        fabContainer.style.bottom = 'auto';
+      }
+
+      function beginFabDrag(clientX, clientY) {
+        if (!fabContainer || menu.classList.contains('active')) return;
+        isDraggingFab = true;
+        hasMovedFab = false;
+        setFabActive();
+        var rect = fabContainer.getBoundingClientRect();
+        startX = clientX;
+        startY = clientY;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+      }
+
+      function moveFabDrag(clientX, clientY) {
+        if (!isDraggingFab) return;
+        var dx = clientX - startX;
+        var dy = clientY - startY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+        applyFabPosition(initialLeft + dx, initialTop + dy);
+      }
+
+      function endFabDrag() {
+        if (!isDraggingFab || !fabContainer) return;
+        isDraggingFab = false;
+        localStorage.setItem(fabPosKey, JSON.stringify({ left: fabContainer.offsetLeft, top: fabContainer.offsetTop }));
+        setFabActive();
+      }
+
+      // Always start FAB at bottom-right (CSS default)
+      localStorage.removeItem(fabPosKey);
+      if (fabContainer) {
+        fabContainer.style.right = '16px';
+        fabContainer.style.bottom = '18px';
+        fabContainer.style.left = 'auto';
+        fabContainer.style.top = 'auto';
+      }
+
+      function openMenu() { menu.classList.add('active'); overlay.classList.add('active'); syncFabTopTools(); }
+      function closeMenu() { menu.classList.remove('active'); overlay.classList.remove('active'); setFabActive(); }
+      fab.addEventListener('click', function () {
+        if (hasMovedFab) { hasMovedFab = false; return; }
+        if (menu.classList.contains('active')) closeMenu();
+        else { openMenu(); fab.style.opacity = '1'; clearTimeout(fabIdleTimer); }
+      });
+      overlay.addEventListener('click', closeMenu);
+      window.closeSpkToolsMenu = closeMenu;
+
+      var dragTarget = fabContainer || fab;
+      dragTarget.addEventListener('mousedown', function (e) { beginFabDrag(e.clientX, e.clientY); });
+      document.addEventListener('mousemove', function (e) { moveFabDrag(e.clientX, e.clientY); });
+      document.addEventListener('mouseup', endFabDrag);
+      dragTarget.addEventListener('touchstart', function (e) {
+        var t = e.touches[0];
+        if (!t) return;
+        beginFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchmove', function (e) {
+        var t = e.touches[0];
+        if (!t) return;
+        moveFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchend', endFabDrag, { passive: true });
+
+      if (fabThemeBtn && themeSwitch) fabThemeBtn.addEventListener('click', function () { themeSwitch.click(); });
+      if (fabZoomBtn && zoomBtn) fabZoomBtn.addEventListener('click', function () { zoomBtn.click(); syncFabTopTools(); });
+      if (fabPauseBtn && pauseBtn) fabPauseBtn.addEventListener('click', function () { closeMenu(); pauseBtn.click(); setTimeout(syncFabTopTools, 50); });
+      setInterval(syncFabTopTools, 500);
+      setFabActive();
+    })();
+
+    function openHomeSidebar() { closeSpkToolsMenu(); document.getElementById('hsOverlay').classList.add('active'); document.getElementById('hsPanel').classList.add('active'); }
+    function closeHomeSidebar() { document.getElementById('hsOverlay').classList.remove('active'); document.getElementById('hsPanel').classList.remove('active'); }
+    function goToMockSelector(url) { var m = {"Speaking Mocks.html":"landing.html?openSelector=cefr-speaking","IELTS Speaking Mocks.html":"landing.html?openSelector=ielts-speaking","Writing Mocks.html":"landing.html?openSelector=cefr-writing","Writing IELTS Mock.html":"landing.html?openSelector=ielts-writing"}; var targetUrl = m[url] || url; promptFriendlyLeave(function () { __okToLeave = true; window.__okToLeave = true; window.location.replace(targetUrl); }); }
+    document.querySelectorAll('#hsPanel .hs-btn[href]').forEach(function (a) { var h=a.getAttribute('href'); if(a.getAttribute('target')){a.addEventListener('click',function(){window.__okToLeave=true;});return;} a.addEventListener('click', function (e) { e.preventDefault(); goToMockSelector(h); }); });
+    document.querySelectorAll('#hsPanel .hs-action[href]:not([target="_blank"])').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var href = a.getAttribute('href');
+        if (!href) return;
+        promptFriendlyLeave(function () {
+          __okToLeave = true;
+          window.__okToLeave = true;
+          window.location.href = href;
+        });
+      });
+    });
+  </script>
+
   <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
   <script src="holiday-snowflakes.js"></script>
+  <script src="chat-bubble.js"></script>
 </body>
 
 </html>

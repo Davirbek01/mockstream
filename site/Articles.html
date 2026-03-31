@@ -92,32 +92,43 @@
             flex-shrink: 0;
         }
 
-        /* Main Layout with Sidebar */
+        /* Main Layout */
         .main-layout {
-            display: flex;
-            min-height: calc(100vh - 60px);
+            display: block;
+            padding-bottom: 100px;
         }
 
-        /* Left Action Sidebar */
+        /* Floating Bottom Glass Toolbar */
         .action-sidebar {
-            width: 60px;
-            background: var(--card);
-            border-right: 1px solid var(--ring);
+            position: fixed;
+            bottom: 24px;
+            left: calc(50% + 150px);
+            transform: translateX(-50%);
+            z-index: 200;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            padding: 12px 8px;
-            gap: 8px;
-            position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
+            padding: 10px 18px;
+            gap: 10px;
+            border-radius: 50px;
+            background: rgba(30, 90, 160, 0.45);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+            animation: toolbarFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes toolbarFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-4px); }
         }
 
         .action-btn {
             width: 44px;
             height: 44px;
             border: none;
-            border-radius: 12px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -179,7 +190,9 @@
 
         .action-tooltip {
             position: absolute;
-            left: 54px;
+            bottom: 54px;
+            left: 50%;
+            transform: translateX(-50%);
             background: var(--ink);
             color: white;
             padding: 6px 10px;
@@ -197,10 +210,231 @@
             opacity: 1;
         }
 
+        /* Mobile FAB */
+        .mobile-fab-toggle {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 20px;
+            z-index: 210;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: toolbarFloat 3s ease-in-out infinite;
+        }
+
+        .mobile-fab-toggle.open {
+            transform: rotate(45deg);
+            background: rgba(255, 255, 255, 0.85);
+            animation: none;
+        }
+
+        .mobile-fab-menu {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            z-index: 205;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .mobile-fab-menu.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .mobile-fab-menu .action-btn {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .mobile-fab-menu .action-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Article Sidebar (desktop only) */
+        .article-sidebar {
+            display: none;
+            position: fixed;
+            top: 40px;
+            left: 0;
+            bottom: 0;
+            width: 300px;
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            overflow-y: auto;
+            z-index: 90;
+            padding: 12px 0;
+            box-shadow: 2px 0 16px rgba(0,0,0,0.15);
+        }
+
+        .article-sidebar.open {
+            display: block;
+        }
+
+        /* Custom scrollbar for sidebar */
+        .article-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .article-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .article-sidebar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+        .article-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .sidebar-header {
+            padding: 8px 16px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #94a3b8;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-close-btn:hover {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .sidebar-search {
+            padding: 8px 12px;
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            background: #0f172a;
+            color: #e2e8f0;
+            transition: border-color 0.2s;
+        }
+
+        .sidebar-search input::placeholder {
+            color: #64748b;
+        }
+
+        .sidebar-search input:focus {
+            border-color: #f97316;
+        }
+
+        .sidebar-list {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #cbd5e1;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item:hover {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        .sidebar-item.active {
+            background: rgba(249, 115, 22, 0.12);
+            border-left-color: #f97316;
+            font-weight: 600;
+            color: #fb923c;
+        }
+
+        .sidebar-item-num {
+            min-width: 28px;
+            height: 28px;
+            background: #334155;
+            color: #94a3b8;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-item.active .sidebar-item-num {
+            background: #f97316;
+            color: white;
+        }
+
+        .sidebar-item-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Sidebar toggle button in toolbar */
+        .action-btn.sidebar-toggle {
+            background: #fff3e0;
+            color: var(--orange);
+        }
+
+        .action-btn.sidebar-toggle:hover,
+        .action-btn.sidebar-toggle.active {
+            background: var(--orange);
+            color: white;
+        }
+
         /* Content Area */
         .content-area {
-            flex: 1;
-            overflow-y: auto;
+            width: 100%;
+            transition: margin-left 0.25s ease;
+        }
+
+        .content-area.sidebar-shifted {
+            margin-left: 300px;
+            width: calc(100% - 300px);
         }
 
         /* Article List View */
@@ -293,13 +527,24 @@
 
         .article-header {
             margin-bottom: 16px;
+            text-align: center;
         }
 
         .article-title {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 700;
             color: var(--ink);
+            margin-top: 0;
             margin-bottom: 4px;
+        }
+
+        .article-header-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 12px;
+            display: none;
         }
 
         .article-meta {
@@ -347,6 +592,65 @@
 
         .vocab-word:hover {
             background: var(--orange-light);
+        }
+
+        /* Quick Vocab Tooltip (like CEFR speaking/writing) */
+        .vocab-tooltip {
+            position: absolute;
+            z-index: 9999;
+            background: #1e293b;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 320px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+        .vocab-tooltip.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .vocab-tooltip .vt-uz {
+            display: block;
+            color: #fbbf24;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .vocab-tooltip .vt-def {
+            display: block;
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 400;
+            margin-top: 3px;
+            line-height: 1.35;
+        }
+        .vocab-tooltip .vt-more {
+            display: inline-block;
+            color: #60a5fa;
+            font-size: 0.72rem;
+            font-weight: 500;
+            margin-top: 5px;
+            cursor: pointer;
+            text-decoration: underline;
+            pointer-events: auto;
+        }
+        .vocab-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: var(--arrow-pos, 50%);
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid #1e293b;
         }
 
         /* Split View for Practice Mode */
@@ -896,9 +1200,9 @@
 
         /* New Action Button Styles */
         .action-button {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1186,16 +1490,37 @@
         }
 
         /* Mobile Responsive */
+
         @media (max-width: 768px) {
+            .article-sidebar {
+                width: 100%;
+                z-index: 300;
+                background: #1e293b;
+            }
+
+            .content-area.sidebar-shifted {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
             .action-sidebar {
-                width: 50px;
-                padding: 8px 4px;
+                display: none !important;
+            }
+
+            .mobile-fab-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-fab-menu {
+                display: flex;
             }
 
             .action-btn {
-                width: 38px;
-                height: 38px;
-                font-size: 18px;
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
             }
 
             .action-tooltip {
@@ -1507,6 +1832,137 @@
             border-radius: 8px;
             resize: vertical;
         }
+
+        /* ── Level Picker Modal ── */
+        .level-picker-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(6px);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+        .level-picker-overlay.active { display: flex; }
+
+        .level-picker-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 28px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: levelPickerIn 0.25s ease;
+        }
+        @keyframes levelPickerIn {
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .level-picker-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--ink);
+        }
+        .level-picker-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .level-picker-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .level-pick-btn {
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s;
+        }
+        .level-pick-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+
+        .level-pick-btn.b1 { background: #ecfdf5; color: #059669; border-color: #a7f3d0; }
+        .level-pick-btn.b1:hover { background: #059669; color: white; }
+
+        .level-pick-btn.b2 { background: #eff6ff; color: #2563eb; border-color: #93c5fd; }
+        .level-pick-btn.b2:hover { background: #2563eb; color: white; }
+
+        .level-pick-btn.c1 { background: #f5f3ff; color: #7c3aed; border-color: #c4b5fd; }
+        .level-pick-btn.c1:hover { background: #7c3aed; color: white; }
+
+        .level-pick-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .level-pick-btn.b1 .level-pick-badge { background: #a7f3d0; color: #065f46; }
+        .level-pick-btn.b2 .level-pick-badge { background: #93c5fd; color: #1e3a8a; }
+        .level-pick-btn.c1 .level-pick-badge { background: #c4b5fd; color: #4c1d95; }
+        .level-pick-btn:hover .level-pick-badge { background: rgba(255,255,255,0.25); color: white; }
+
+        .level-pick-info { text-align: left; }
+        .level-pick-info .label { font-size: 16px; font-weight: 700; }
+        .level-pick-info .desc { font-size: 12px; font-weight: 400; opacity: 0.8; margin-top: 2px; }
+
+        .level-pick-cancel {
+            margin-top: 16px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .level-pick-cancel:hover { color: var(--ink); }
+
+        /* ── Toolbar Level Switch ── */
+        .action-btn.level-switch {
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .action-btn.level-switch:hover {
+            transform: scale(1.1);
+        }
+        .action-btn.level-switch[data-level="B1"] { background: #ecfdf5; color: #059669; }
+        .action-btn.level-switch[data-level="B2"] { background: #eff6ff; color: #2563eb; }
+        .action-btn.level-switch[data-level="C1"] { background: #f5f3ff; color: #7c3aed; }
+        .action-btn.level-switch[data-level="B1"]:hover { background: #059669; color: white; }
+        .action-btn.level-switch[data-level="B2"]:hover { background: #2563eb; color: white; }
+        .action-btn.level-switch[data-level="C1"]:hover { background: #7c3aed; color: white; }
+
+        /* ── Level indicator badge on article header ── */
+        .article-level-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .article-level-badge[data-level="B1"] { background: #ecfdf5; color: #059669; }
+        .article-level-badge[data-level="B2"] { background: #eff6ff; color: #2563eb; }
+        .article-level-badge[data-level="C1"] { background: #f5f3ff; color: #7c3aed; }
     </style>
 </head>
 
@@ -1514,7 +1970,6 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <button class="back-btn" onclick="goBack()">←</button>
             <h1 class="header-title">📰 Articles</h1>
             <!-- Audio Player Bar in Header -->
             <div class="audio-player-bar" id="audioPlayerBar">
@@ -1552,9 +2007,61 @@
         </div>
     </header>
 
+    <!-- Article Sidebar (Desktop) -->
+    <aside class="article-sidebar" id="articleSidebar">
+        <div class="sidebar-header">
+            <span>📰 Articles</span>
+            <button class="sidebar-close-btn" onclick="toggleArticleSidebar()" title="Close sidebar">✕</button>
+        </div>
+        <div class="sidebar-search">
+            <input type="text" id="sidebarSearch" placeholder="Search articles..." oninput="filterSidebarArticles()">
+        </div>
+        <ul class="sidebar-list" id="sidebarList"></ul>
+    </aside>
+
+    <!-- Level Picker Modal -->
+    <div class="level-picker-overlay" id="levelPickerOverlay" onclick="if(event.target===this)closeLevelPicker()">
+        <div class="level-picker-card">
+            <div class="level-picker-title" id="levelPickerTitle">Choose Your Level</div>
+            <div class="level-picker-subtitle">Select the version that matches your English level</div>
+            <div class="level-picker-options">
+                <button class="level-pick-btn b1" onclick="pickLevel('B1')">
+                    <span class="level-pick-badge">B1</span>
+                    <span class="level-pick-info">
+                        <div class="label">Intermediate</div>
+                        <div class="desc">Simple, clear language with basic vocabulary</div>
+                    </span>
+                </button>
+                <button class="level-pick-btn b2" onclick="pickLevel('B2')">
+                    <span class="level-pick-badge">B2</span>
+                    <span class="level-pick-info">
+                        <div class="label">Upper-Intermediate</div>
+                        <div class="desc">Common idioms, collocations & phrasal verbs</div>
+                    </span>
+                </button>
+                <button class="level-pick-btn c1" onclick="pickLevel('C1')">
+                    <span class="level-pick-badge">C1</span>
+                    <span class="level-pick-info">
+                        <div class="label">Advanced</div>
+                        <div class="desc">Sophisticated expressions & academic register</div>
+                    </span>
+                </button>
+            </div>
+            <button class="level-pick-cancel" onclick="closeLevelPicker()">Cancel</button>
+        </div>
+    </div>
+
     <div class="main-layout">
-        <!-- Left Action Sidebar -->
+        <!-- Floating Bottom Toolbar -->
         <div class="action-sidebar" id="actionSidebar" style="display: none;">
+            <button class="action-btn sidebar-toggle" onclick="toggleArticleSidebar()" id="sidebarToggleBtn" title="Article list">
+                ☰
+                <span class="action-tooltip">Articles</span>
+            </button>
+            <button class="action-btn" onclick="goBack()" title="Go back" style="background: #fff3e0; color: #f97316;">
+                ←
+                <span class="action-tooltip">Back</span>
+            </button>
             <button class="action-btn practice" onclick="togglePractice()" id="practiceBtn">
                 ✏️
                 <span class="action-tooltip">Practice</span>
@@ -1579,17 +2086,36 @@
             <button class="action-button font-size-btn" id="fontSizeBtn" onclick="cycleFontSize()"
                 title="Change text size">
                 Aa
-                <span class="action-tooltip">Font (S)</span>
+                <span class="action-tooltip">Font</span>
             </button>
-            <!-- Hidden Sync Tool Button (Enable via Console or specialized UI) -->
-            <button class="action-button" onclick="openSyncTool()" style="margin-top: auto; opacity: 0.3;"
-                title="Sync Tool">
-                🛠️
+            <button class="action-btn level-switch" id="levelSwitchBtn" onclick="cycleLevelSwitch()" style="display:none;" title="Switch level">
+                B1
+                <span class="action-tooltip">Level</span>
             </button>
         </div>
 
+        <!-- Mobile FAB -->
+        <button class="mobile-fab-toggle" id="mobileFabToggle" onclick="toggleMobileFab()" style="display: none;">
+            🛠️
+        </button>
+        <div class="mobile-fab-menu" id="mobileFabMenu">
+            <button class="action-btn sidebar-toggle" onclick="toggleArticleSidebar(); toggleMobileFab();" title="Articles">☰</button>
+            <button class="action-btn" onclick="goBack(); toggleMobileFab();" title="Go back" style="background: #fff3e0; color: #f97316;">←</button>
+            <button class="action-btn practice" onclick="togglePractice(); toggleMobileFab();" id="practiceBtnMob">✏️</button>
+            <button class="action-btn translate" onclick="toggleTranslation(); toggleMobileFab();" id="translateBtnMob">🌐</button>
+            <button class="action-btn lexical" onclick="toggleLexical(); toggleMobileFab();" id="lexicalBtnMob">📚</button>
+            <button class="action-btn dictation" onclick="toggleDictation(); toggleMobileFab();" id="dictationBtnMob">🎧</button>
+            <button class="action-button speaker-btn" id="speakerBtnMob" onclick="togglePassageAudio(); toggleMobileFab();">
+                <i>🔊</i>
+                <span class="pause-badge">⏸</span>
+            </button>
+            <button class="action-button font-size-btn" onclick="cycleFontSize();">Aa</button>
+            <button class="action-btn level-switch" id="levelSwitchBtnMob" onclick="cycleLevelSwitch(); toggleMobileFab();" style="display:none;">B1</button>
+        </div>
+        </div>
+
         <!-- Content Area -->
-        <div class="content-area">
+        <div class="content-area sidebar-shifted">
             <!-- Article List -->
             <div class="articles-container article-list" id="articleList">
                 <h2 class="page-title">📰 Reading Articles</h2>
@@ -1599,13 +2125,15 @@
 
             <!-- Article View (Normal) -->
             <div class="article-view" id="articleView">
-                <div class="main-content">
+                <div class="main-content" style="padding: 4px 20px 16px;">
                     <div class="tts-progress-container" id="ttsProgressContainer">
                         <div class="tts-progress-bar" id="ttsProgressBar"></div>
                     </div>
                     <div class="article-header">
                         <h1 class="article-title" id="articleTitle"></h1>
                         <div class="article-meta" id="articleWordCount"></div>
+                        <span class="article-level-badge" id="articleLevelBadge" style="display:none;"></span>
+                        <img class="article-header-image" id="articleHeaderImage" alt="">
                         <div class="passage-loading-container" id="passageLoadingContainer">
                             <div class="passage-loading-label">
                                 <div class="spinner"></div>
@@ -1690,8 +2218,14 @@
         </div>
     </div>
 
+    <!-- Quick vocab tooltip (hover/tap) -->
+    <div class="vocab-tooltip" id="vocabTooltip"></div>
+
     <script>
-        const AVAILABLE_ARTICLES = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74'];
+        const AVAILABLE_ARTICLES = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '105', '106', '107', '108', '109', '110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '126', '127', '128', '129', '130', '131', '132', '133', '134', '135', '136', '137', '138', '139', '140', '141', '142', '143', '144', '145', '146', '147', '148', '149', '150', '151', '152', '153', '154', '155', '156', '157', '158', '159', '160', '161', '162', '163', '164', '165', '166', '167', '168', '169', '170', '171', '172', '173', '174', '175', '176', '177', '178', '179', '180', '181', '182', '183', '184', '185', '186', '187', '188', '189', '190', '191', '192', '193', '194', '195', '196', '197', '198', '199', '200', '201', '202', '203', '204', '205', '206', '207', '208', '209', '210', '211', '212', '213', '214', '215', '216', '217', '218', '219', '220'];
+
+        // Articles with pre-generated ElevenLabs audio (local files in questions Articles/audio/)
+        const PRE_GEN_AUDIO_ARTICLES = ['01', '02', '03', '04'];
 
         // Audio URLs for articles
         const ARTICLE_AUDIO_URLS = {
@@ -1699,9 +2233,248 @@
             '02': 'https://storage.googleapis.com/mockstream-listening-audio/Read%20an%20Understand/Read%20and%20Understand%201_Betty%20Kirkpatrick%20%26%20Rebecca%20Mok_2005_(%20%2BAudio%20-%20wma)/02-Too-Much-Traffic.mp3'
         };
 
-        let currentArticle = null;
-        let currentArticleNum = null; // Track article number for audio URL lookup
-        let currentView = 'normal'; // normal, practice, translation, lexical
+        var currentArticle = null;
+        var currentArticleNum = null; // Track article number for audio URL lookup
+        var currentView = 'normal'; // normal, practice, translation, lexical
+        var currentLevel = null; // null = original, 'B1', 'B2', 'C1'
+        const LEVELS = ['B1', 'B2', 'C1'];
+        const LEVEL_LABELS = { B1: 'Intermediate', B2: 'Upper-Intermediate', C1: 'Advanced' };
+        let pendingArticleNum = null; // article num waiting for level pick
+
+        // ── Level Picker ──
+        function openLevelPicker(num) {
+            pendingArticleNum = num;
+            const overlay = document.getElementById('levelPickerOverlay');
+            overlay.classList.add('active');
+        }
+        function closeLevelPicker() {
+            document.getElementById('levelPickerOverlay').classList.remove('active');
+            if (pendingArticleNum) {
+                // Cancel: load original version (no level)
+                currentLevel = null;
+                const num = pendingArticleNum;
+                pendingArticleNum = null;
+                loadArticle(num);
+                updateSidebarActive(num);
+            }
+        }
+        function pickLevel(level) {
+            currentLevel = level;
+            document.getElementById('levelPickerOverlay').classList.remove('active');
+            if (pendingArticleNum) {
+                const num = pendingArticleNum;
+                pendingArticleNum = null;
+                loadArticle(num);
+                updateSidebarActive(num);
+            }
+        }
+
+        // ── Level Switch (toolbar) ──
+        function cycleLevelSwitch() {
+            if (!currentArticle || !currentArticle.passageB1) return;
+            const idx = LEVELS.indexOf(currentLevel);
+            currentLevel = LEVELS[(idx + 1) % LEVELS.length];
+            applyLevel(currentLevel);
+        }
+        function applyLevel(level) {
+            if (!currentArticle) return;
+            const passageKey = 'passage' + level;
+            const transKey = 'translation' + level;
+            const vocabKey = 'vocabulary' + level;
+
+            const passage = currentArticle[passageKey] || currentArticle.passage;
+            const translation = currentArticle[transKey] || currentArticle.translation;
+            const vocabulary = currentArticle[vocabKey] || currentArticle.vocabulary;
+
+            // Re-process passage with vocabulary highlighting
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = passage;
+            const vocabWords = Object.keys(vocabulary);
+            vocabWords.sort((a, b) => b.length - a.length);
+            processNodeForVocab(tempDiv, vocabWords);
+            const finalHtml = tempDiv.innerHTML;
+
+            document.getElementById('articlePassage').innerHTML = finalHtml;
+            document.getElementById('practicePassage').innerHTML = finalHtml;
+
+            // Re-attach click handlers (show quick tooltip)
+            const handleVocabClick = (e) => {
+                const vocabSpan = e.target.closest('.vocab-word');
+                if (vocabSpan) {
+                    e.stopPropagation();
+                    showVocabTooltip(vocabSpan, vocabSpan.getAttribute('data-word'), vocabulary);
+                }
+            };
+            document.getElementById('articlePassage').onclick = handleVocabClick;
+            document.getElementById('practicePassage').onclick = handleVocabClick;
+
+            // Update translation
+            if (translation) {
+                document.getElementById('translationContent').innerHTML = translation;
+            }
+
+            // Update lexical
+            renderLexicalListForVocab(vocabulary);
+
+            // Update word count
+            const wordCount = passage.replace(/<[^>]*>/g, '').split(/\s+/).filter(w => w).length;
+            document.getElementById('articleWordCount').textContent = `${wordCount} words`;
+
+            // Update toolbar button labels
+            updateLevelUI(level);
+        }
+
+        function updateLevelUI(level) {
+            const badge = document.getElementById('articleLevelBadge');
+            const btn = document.getElementById('levelSwitchBtn');
+            const btnMob = document.getElementById('levelSwitchBtnMob');
+
+            if (level && currentArticle && currentArticle.passageB1) {
+                badge.textContent = level + ' — ' + LEVEL_LABELS[level];
+                badge.setAttribute('data-level', level);
+                badge.style.display = 'inline-block';
+
+                [btn, btnMob].forEach(b => {
+                    b.textContent = level;
+                    b.setAttribute('data-level', level);
+                    b.style.display = '';
+                });
+            } else {
+                badge.style.display = 'none';
+                [btn, btnMob].forEach(b => { b.style.display = 'none'; });
+            }
+        }
+
+        // Show quick tooltip on click/tap (like CEFR speaking/writing)
+        var _vocabTooltip = null;
+        var _activeVocabData = null; // stores {word, vocabulary} for "More..." link
+
+        function showVocabTooltip(spanEl, word, vocabulary) {
+            const vocab = vocabulary[word] || vocabulary[word.toLowerCase()];
+            if (!vocab) return;
+            if (!_vocabTooltip) _vocabTooltip = document.getElementById('vocabTooltip');
+
+            _activeVocabData = { word: word, vocabulary: vocabulary };
+
+            // Build tooltip content
+            var html = '<span class="vt-uz">' + (vocab.uzbek || '') + '</span>';
+            html += '<span class="vt-def">' + (vocab.definition || '') + '</span>';
+            html += '<span class="vt-more" id="vtMoreLink">Batafsil &#8250;</span>';
+            _vocabTooltip.innerHTML = html;
+
+            // Position below the span
+            var rect = spanEl.getBoundingClientRect();
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+
+            _vocabTooltip.classList.add('visible');
+
+            // Compute left position centered on word, clamped to viewport
+            var tipW = _vocabTooltip.offsetWidth;
+            var centerX = rect.left + rect.width / 2 + scrollX;
+            var left = centerX - tipW / 2;
+            var vpW = document.documentElement.clientWidth;
+            if (left < 8) left = 8;
+            if (left + tipW > vpW - 8) left = vpW - tipW - 8;
+
+            // Arrow position
+            var arrowPos = Math.max(12, Math.min(tipW - 12, centerX - left));
+            _vocabTooltip.style.setProperty('--arrow-pos', arrowPos + 'px');
+
+            _vocabTooltip.style.left = left + 'px';
+            _vocabTooltip.style.top = (rect.bottom + scrollY + 8) + 'px';
+
+            // "More..." link opens detailed popup
+            var moreLink = document.getElementById('vtMoreLink');
+            if (moreLink) {
+                moreLink.onclick = function(ev) {
+                    ev.stopPropagation();
+                    hideVocabTooltip();
+                    showVocabPopupFull(_activeVocabData.word, _activeVocabData.vocabulary);
+                };
+            }
+        }
+
+        function hideVocabTooltip() {
+            if (!_vocabTooltip) _vocabTooltip = document.getElementById('vocabTooltip');
+            _vocabTooltip.classList.remove('visible');
+        }
+
+        // Full detailed popup (accessed via "More..." link)
+        function showVocabPopupFull(word, vocabulary) {
+            const vocab = vocabulary[word] || vocabulary[word.toLowerCase()];
+            if (!vocab) return;
+            document.getElementById('popupWord').textContent = word;
+            document.getElementById('popupDefinition').textContent = vocab.definition;
+            document.getElementById('popupUzbek').textContent = vocab.uzbek;
+            document.getElementById('popupExample').innerHTML = `"${vocab.example}"`;
+            document.getElementById('popupExampleUz').textContent = vocab.exampleUzbek || '';
+            document.getElementById('vocabPopup').classList.add('active');
+        }
+
+        // Keep old function name for backward compat (lexical list etc.)
+        function showVocabForLevel(word, vocabulary) {
+            showVocabPopupFull(word, vocabulary);
+        }
+
+        function renderLexicalListForVocab(vocabulary) {
+            const list = document.getElementById('lexicalList');
+            list.innerHTML = '';
+            Object.entries(vocabulary).forEach(([word, data]) => {
+                const item = document.createElement('div');
+                item.className = 'lexical-item';
+                item.innerHTML = `
+                    <div class="lexical-word">${word}</div>
+                    <div class="lexical-definition">${data.definition}</div>
+                    <div class="lexical-uzbek">${data.uzbek}</div>
+                    <div class="popup-example-group" style="margin-top: 10px;">
+                        <div class="popup-example">"${data.example}"</div>
+                        <div class="popup-example-uz">${data.exampleUzbek || ''}</div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // Helper: process DOM nodes for vocab word highlighting
+        function processNodeForVocab(container, vocabWords) {
+            function processNode(node) {
+                if (node.nodeType === 3) {
+                    let text = node.textContent;
+                    let hasReplacement = false;
+                    let fragments = [{ text: text, isVocab: false }];
+                    vocabWords.forEach(word => {
+                        const newFragments = [];
+                        const regex = new RegExp(`\\b(${escapeRegex(word)})\\b`, 'gi');
+                        fragments.forEach(frag => {
+                            if (frag.isVocab) { newFragments.push(frag); return; }
+                            let lastIdx = 0; let match;
+                            while ((match = regex.exec(frag.text)) !== null) {
+                                if (match.index > lastIdx) newFragments.push({ text: frag.text.substring(lastIdx, match.index), isVocab: false });
+                                newFragments.push({ text: match[0], isVocab: true, originalWord: word });
+                                lastIdx = regex.lastIndex; hasReplacement = true;
+                            }
+                            if (lastIdx < frag.text.length) newFragments.push({ text: frag.text.substring(lastIdx), isVocab: false });
+                        });
+                        fragments = newFragments;
+                    });
+                    if (hasReplacement) {
+                        const container = document.createDocumentFragment();
+                        fragments.forEach(frag => {
+                            if (frag.isVocab) {
+                                const span = document.createElement('span');
+                                span.className = 'vocab-word';
+                                span.textContent = frag.text;
+                                span.setAttribute('data-word', frag.originalWord.toLowerCase());
+                                container.appendChild(span);
+                            } else { container.appendChild(document.createTextNode(frag.text)); }
+                        });
+                        node.parentNode.replaceChild(container, node);
+                    }
+                } else { Array.from(node.childNodes).forEach(processNode); }
+            }
+            processNode(container);
+        }
 
         function loadArticleList() {
             const grid = document.getElementById('articleGrid');
@@ -1709,7 +2482,7 @@
             AVAILABLE_ARTICLES.forEach((num, index) => {
                 const card = document.createElement('div');
                 card.className = 'article-card';
-                card.onclick = () => loadArticle(num);
+                card.onclick = () => startArticle(num);
                 card.innerHTML = `
                     <div class="article-number">${index + 1}</div>
                     <div class="article-info">
@@ -1736,6 +2509,11 @@
             });
         }
 
+        // Start article: show level picker immediately, load script after choice
+        function startArticle(num) {
+            openLevelPicker(num);
+        }
+
         function loadArticleScript(num) {
             return new Promise((resolve, reject) => {
                 const existing = document.getElementById('articleScript');
@@ -1750,6 +2528,119 @@
             });
         }
 
+        // Article Sidebar Logic — open by default on desktop only
+        let sidebarOpen = window.innerWidth > 768;
+        if (sidebarOpen) {
+            document.getElementById('articleSidebar').classList.add('open');
+            const content = document.querySelector('.content-area');
+            if (content) content.classList.add('sidebar-shifted');
+        }
+        const sidebarTitles = {}; // cache {num: title}
+
+        function populateSidebar() {
+            const list = document.getElementById('sidebarList');
+            list.innerHTML = '';
+            AVAILABLE_ARTICLES.forEach((num, index) => {
+                const li = document.createElement('li');
+                li.className = 'sidebar-item';
+                li.setAttribute('data-num', num);
+                li.innerHTML = `
+                    <span class="sidebar-item-num">${index + 1}</span>
+                    <span class="sidebar-item-title">${sidebarTitles[num] || 'Article ' + (index + 1)}</span>
+                `;
+                li.onclick = () => {
+                    // On mobile, close sidebar first
+                    if (window.innerWidth <= 768 && sidebarOpen) toggleArticleSidebar();
+                    startArticle(num);
+                };
+                list.appendChild(li);
+            });
+            // Load titles from index JSON (works on file:// protocol via script)
+            loadSidebarTitlesFromIndex();
+        }
+
+        function loadSidebarTitlesFromIndex() {
+            // Try loading from articles_index.json via XMLHttpRequest (works on file://)
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'articles_index.json', true);
+            xhr.onload = function() {
+                if (xhr.status === 200 || xhr.status === 0) { // status 0 for file://
+                    try {
+                        const articles = JSON.parse(xhr.responseText);
+                        const list = document.getElementById('sidebarList');
+                        articles.forEach(art => {
+                            sidebarTitles[art.num] = art.title;
+                            const item = list.querySelector(`[data-num="${art.num}"] .sidebar-item-title`);
+                            if (item) item.textContent = art.title;
+                        });
+                    } catch(e) { console.log('Could not parse articles index', e); }
+                }
+            };
+            xhr.onerror = function() {
+                // Fallback: load titles via script tags one by one
+                loadSidebarTitlesViaScripts();
+            };
+            xhr.send();
+        }
+
+        async function loadSidebarTitlesViaScripts() {
+            const list = document.getElementById('sidebarList');
+            for (let i = 0; i < AVAILABLE_ARTICLES.length; i++) {
+                const num = AVAILABLE_ARTICLES[i];
+                if (sidebarTitles[num]) continue;
+                try {
+                    const savedData = window.ARTICLE_DATA;
+                    await loadArticleScript(num);
+                    if (window.ARTICLE_DATA && window.ARTICLE_DATA.title) {
+                        sidebarTitles[num] = window.ARTICLE_DATA.title;
+                        const item = list.querySelector(`[data-num="${num}"] .sidebar-item-title`);
+                        if (item) item.textContent = window.ARTICLE_DATA.title;
+                    }
+                    window.ARTICLE_DATA = savedData;
+                } catch(e) {}
+            }
+        }
+
+        function updateSidebarActive(num) {
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-num') === num);
+            });
+            // Scroll active item into view
+            const active = document.querySelector('.sidebar-item.active');
+            if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+
+        function toggleArticleSidebar() {
+            sidebarOpen = !sidebarOpen;
+            const sidebar = document.getElementById('articleSidebar');
+            const content = document.querySelector('.content-area');
+            const btn = document.getElementById('sidebarToggleBtn');
+            const toolbar = document.getElementById('actionSidebar');
+            sidebar.classList.toggle('open', sidebarOpen);
+            // Only shift content on desktop
+            if (window.innerWidth > 768) {
+                content.classList.toggle('sidebar-shifted', sidebarOpen);
+            }
+            if (btn) btn.classList.toggle('active', sidebarOpen);
+            // Shift toolbar center to account for sidebar (desktop only)
+            if (toolbar && window.innerWidth > 768) {
+                if (sidebarOpen) {
+                    toolbar.style.left = 'calc(50% + 150px)';
+                } else {
+                    toolbar.style.left = '50%';
+                }
+            }
+        }
+
+        function filterSidebarArticles() {
+            const query = document.getElementById('sidebarSearch').value.toLowerCase();
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                const title = item.querySelector('.sidebar-item-title').textContent.toLowerCase();
+                const num = item.querySelector('.sidebar-item-num').textContent;
+                item.style.display = (title.includes(query) || num.includes(query)) ? '' : 'none';
+            });
+        }
+
         async function loadArticle(num) {
             try {
                 await loadArticleScript(num);
@@ -1758,108 +2649,78 @@
 
                 document.getElementById('articleTitle').textContent = currentArticle.title;
 
-                // Process passage - safely replace in text nodes only to avoid breaking HTML tags
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = currentArticle.passage;
+                // Try to load article header image
+                const headerImg = document.getElementById('articleHeaderImage');
+                const padded = String(num).padStart(2, '0');
+                const imgPath = `questions Articles/article-${padded}.png`;
+                headerImg.style.display = 'none';
+                headerImg.onload = function() { this.style.display = 'block'; };
+                headerImg.onerror = function() { this.style.display = 'none'; };
+                headerImg.src = imgPath;
 
-                const vocabWords = Object.keys(currentArticle.vocabulary);
-                vocabWords.sort((a, b) => b.length - a.length);
-
-                function processNode(node) {
-                    if (node.nodeType === 3) { // Text node
-                        let text = node.textContent;
-                        let hasReplacement = false;
-
-                        // We need a way to replace words without them being hit twice
-                        // We'll use a temporary placeholder strategy
-                        let fragments = [{ text: text, isVocab: false }];
-
-                        vocabWords.forEach(word => {
-                            const newFragments = [];
-                            const regex = new RegExp(`\\b(${escapeRegex(word)})\\b`, 'gi');
-
-                            fragments.forEach(frag => {
-                                if (frag.isVocab) {
-                                    newFragments.push(frag);
-                                    return;
-                                }
-
-                                let lastIdx = 0;
-                                let match;
-                                while ((match = regex.exec(frag.text)) !== null) {
-                                    // Add text before match
-                                    if (match.index > lastIdx) {
-                                        newFragments.push({ text: frag.text.substring(lastIdx, match.index), isVocab: false });
-                                    }
-                                    // Add match itself
-                                    newFragments.push({ text: match[0], isVocab: true, originalWord: word });
-                                    lastIdx = regex.lastIndex;
-                                    hasReplacement = true;
-                                }
-                                // Add remaining text
-                                if (lastIdx < frag.text.length) {
-                                    newFragments.push({ text: frag.text.substring(lastIdx), isVocab: false });
-                                }
-                            });
-                            fragments = newFragments;
-                        });
-
-                        if (hasReplacement) {
-                            const container = document.createDocumentFragment();
-                            fragments.forEach(frag => {
-                                if (frag.isVocab) {
-                                    const span = document.createElement('span');
-                                    span.className = 'vocab-word';
-                                    span.textContent = frag.text;
-                                    span.setAttribute('data-word', frag.originalWord.toLowerCase());
-                                    container.appendChild(span);
-                                } else {
-                                    container.appendChild(document.createTextNode(frag.text));
-                                }
-                            });
-                            node.parentNode.replaceChild(container, node);
-                        }
-                    } else {
-                        Array.from(node.childNodes).forEach(processNode);
-                    }
+                // Determine passage/vocabulary/translation based on selected level
+                let activePassage = currentArticle.passage;
+                let activeVocab = currentArticle.vocabulary;
+                let activeTranslation = currentArticle.translation;
+                if (currentLevel && currentArticle['passage' + currentLevel]) {
+                    activePassage = currentArticle['passage' + currentLevel];
+                    activeVocab = currentArticle['vocabulary' + currentLevel] || currentArticle.vocabulary;
+                    activeTranslation = currentArticle['translation' + currentLevel] || currentArticle.translation;
                 }
 
-                processNode(tempDiv);
+                // Process passage with vocabulary highlighting
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = activePassage;
+
+                const vocabWords = Object.keys(activeVocab);
+                vocabWords.sort((a, b) => b.length - a.length);
+                processNodeForVocab(tempDiv, vocabWords);
 
                 const finalHtml = tempDiv.innerHTML;
                 document.getElementById('articlePassage').innerHTML = finalHtml;
                 document.getElementById('practicePassage').innerHTML = finalHtml;
 
-                // Event delegation for clicks
+                // Event delegation for clicks (show quick tooltip)
                 const handleVocabClick = (e) => {
                     const vocabSpan = e.target.closest('.vocab-word');
                     if (vocabSpan) {
-                        showVocab(vocabSpan.getAttribute('data-word'));
+                        e.stopPropagation();
+                        showVocabTooltip(vocabSpan, vocabSpan.getAttribute('data-word'), activeVocab);
                     }
                 };
 
                 document.getElementById('articlePassage').onclick = handleVocabClick;
                 document.getElementById('practicePassage').onclick = handleVocabClick;
 
-                const wordCount = currentArticle.passage.replace(/<[^>]*>/g, '').split(/\s+/).filter(w => w).length;
+                const wordCount = activePassage.replace(/<[^>]*>/g, '').split(/\s+/).filter(w => w).length;
                 document.getElementById('articleWordCount').textContent = `${wordCount} words`;
 
                 // Load translation if available
-                if (currentArticle.translation) {
-                    document.getElementById('translationContent').innerHTML = currentArticle.translation;
+                if (activeTranslation) {
+                    document.getElementById('translationContent').innerHTML = activeTranslation;
                 } else {
                     document.getElementById('translationContent').innerHTML = '<p style="color: var(--muted); font-style: italic;">Translation coming soon...</p>';
                 }
 
                 // Load lexical resources
-                renderLexicalList();
+                renderLexicalListForVocab(activeVocab);
+
+                // Update level UI
+                updateLevelUI(currentLevel);
 
                 // Show article view
                 document.getElementById('articleList').classList.add('hidden');
                 document.getElementById('articleView').classList.add('active');
                 document.getElementById('actionSidebar').style.display = 'flex';
+                document.getElementById('mobileFabToggle').style.display = '';
                 currentView = 'normal';
                 updateActiveButtons();
+                updateSidebarActive(num);
+                // Re-open sidebar on desktop if it was closed (e.g. after goBack)
+                if ((window.innerWidth > 768 || screen.width > 768) && !sidebarOpen) {
+                    toggleArticleSidebar();
+                }
+                window.scrollTo(0, 0);
 
             } catch (e) {
                 console.error('Failed to load article:', e);
@@ -1898,7 +2759,7 @@
             document.getElementById('popupWord').textContent = word;
             document.getElementById('popupDefinition').textContent = vocab.definition;
             document.getElementById('popupUzbek').textContent = vocab.uzbek;
-            document.getElementById('popupExample').textContent = `"${vocab.example}"`;
+            document.getElementById('popupExample').innerHTML = `"${vocab.example}"`;
             document.getElementById('popupExampleUz').textContent = vocab.exampleUzbek || '';
 
             document.getElementById('vocabPopup').classList.add('active');
@@ -1943,6 +2804,15 @@
             document.getElementById('translateBtn').classList.toggle('active', currentView === 'translation');
             document.getElementById('lexicalBtn').classList.toggle('active', currentView === 'lexical');
             document.getElementById('dictationBtn').classList.toggle('active', currentView === 'dictation');
+            // Sync mobile FAB buttons
+            const mobP = document.getElementById('practiceBtnMob');
+            const mobT = document.getElementById('translateBtnMob');
+            const mobL = document.getElementById('lexicalBtnMob');
+            const mobD = document.getElementById('dictationBtnMob');
+            if (mobP) mobP.classList.toggle('active', currentView === 'practice');
+            if (mobT) mobT.classList.toggle('active', currentView === 'translation');
+            if (mobL) mobL.classList.toggle('active', currentView === 'lexical');
+            if (mobD) mobD.classList.toggle('active', currentView === 'dictation');
         }
 
         function pauseAndHideAudio() {
@@ -1951,10 +2821,9 @@
             if (window.currentPassageAudio && !window.currentPassageAudio.paused) {
                 window.currentPassageAudio.pause();
             }
-            // If there's cached audio for current article, show pause indicator instead of hiding
-            if (window.passageGTTSCache[currentArticleNum]) {
+            // If there's cached audio or pre-gen audio for current article, show pause indicator
+            if (window.passageGTTSCache[currentArticleNum] || (window.isPreGenAudio && window.currentAudioArticleNum === currentArticleNum)) {
                 speakerBtn.classList.add('has-paused');
-                // Keep the player bar visible but paused
                 playerBar.classList.add('active');
             } else {
                 playerBar.classList.remove('active');
@@ -1964,8 +2833,8 @@
 
         function showAudioPlayerIfAvailable() {
             const playerBar = document.getElementById('audioPlayerBar');
-            // Show player bar if audio exists or if we have cached GTTS for the current article
-            if (window.currentPassageAudio || window.passageGTTSCache[currentArticleNum]) {
+            // Show player bar if audio exists or if we have cached GTTS or pre-gen audio for the current article
+            if (window.currentPassageAudio || window.passageGTTSCache[currentArticleNum] || PRE_GEN_AUDIO_ARTICLES.includes(currentArticleNum)) {
                 playerBar.classList.add('active');
                 // Restore sentence highlighting if we have sentences for this article
                 const sentences = window.passageGTTSSentences[currentArticleNum];
@@ -2514,6 +3383,10 @@
                 hideAllViews();
                 document.getElementById('articleList').classList.remove('hidden');
                 document.getElementById('actionSidebar').style.display = 'none';
+                document.getElementById('mobileFabToggle').style.display = 'none';
+                closeMobileFab();
+                // Close sidebar
+                if (sidebarOpen) toggleArticleSidebar();
                 currentArticle = null;
                 currentView = 'normal';
             } else {
@@ -2533,6 +3406,7 @@
         window.passageGTTSSentences = {}; // Cache sentences per article
         window.currentSentenceIndex = 0;
         window.isLoadingPassageAudio = false;
+        window.isPreGenAudio = false; // Track if current audio is pre-generated (single file)
         window.sentenceToParagraphMap = {}; // Maps sentence index to paragraph element
 
         function wrapSentencesForHighlight(sentences) {
@@ -2618,9 +3492,16 @@
                         playPromise.then(() => {
                             updateAudioUI();
                         }).catch(err => {
-                            console.log('Resume failed, restarting from current sentence:', err);
-                            // If resume fails, restart from current sentence using cache
-                            if (window.passageGTTSCache[currentArticleNum]) {
+                            console.log('Resume failed, restarting:', err);
+                            // If resume fails, restart appropriately
+                            if (window.isPreGenAudio && PRE_GEN_AUDIO_ARTICLES.includes(currentArticleNum)) {
+                                const preGenPath = `questions Articles/audio/article-${currentArticleNum}.mp3`;
+                                const audio = new Audio(preGenPath);
+                                audio.volume = 1.0;
+                                window.currentPassageAudio = audio;
+                                setupAudioListeners(audio);
+                                audio.play();
+                            } else if (window.passageGTTSCache[currentArticleNum]) {
                                 playPassageFromGTTSCacheAtIndex(currentArticleNum, window.currentSentenceIndex);
                             }
                         });
@@ -2629,6 +3510,27 @@
                     window.currentPassageAudio.pause();
                 }
                 updateAudioUI();
+                return;
+            }
+
+            // Try pre-generated ElevenLabs audio first (before gTTS)
+            if (PRE_GEN_AUDIO_ARTICLES.includes(currentArticleNum)) {
+                const preGenPath = `questions Articles/audio/article-${currentArticleNum}.mp3`;
+                // Pre-generated audio exists - use single-file playback
+                if (window.currentPassageAudio) {
+                    window.currentPassageAudio.pause();
+                    window.currentPassageAudio = null;
+                }
+                window.isPreGenAudio = true;
+                const audio = new Audio(preGenPath);
+                audio.volume = 1.0;
+                window.currentPassageAudio = audio;
+                window.currentAudioArticleNum = currentArticleNum;
+                setupAudioListeners(audio);
+                playerBar.classList.add('active');
+                btn.classList.add('playing');
+                updateAudioUI();
+                await audio.play();
                 return;
             }
 
@@ -2655,7 +3557,7 @@
                 return;
             }
 
-            // Need to initialize new audio - use GTTS
+            // Fallback: initialize new audio via GTTS
             // Clean up previous audio if exists
             if (window.currentPassageAudio) {
                 window.currentPassageAudio.pause();
@@ -2914,6 +3816,19 @@
                     window.currentPassageAudio.pause();
                 }
                 updateAudioUI();
+            } else if (PRE_GEN_AUDIO_ARTICLES.includes(currentArticleNum)) {
+                // Pre-gen audio - recreate and play
+                const preGenPath = `questions Articles/audio/article-${currentArticleNum}.mp3`;
+                window.isPreGenAudio = true;
+                const audio = new Audio(preGenPath);
+                audio.volume = 1.0;
+                window.currentPassageAudio = audio;
+                window.currentAudioArticleNum = currentArticleNum;
+                setupAudioListeners(audio);
+                document.getElementById('audioPlayerBar').classList.add('active');
+                document.getElementById('speakerBtn').classList.add('playing');
+                updateAudioUI();
+                audio.play();
             } else if (window.passageGTTSCache[currentArticleNum]) {
                 // Audio object was lost but cache exists - restart from current sentence
                 const sentences = window.passageGTTSSentences[currentArticleNum];
@@ -2925,7 +3840,18 @@
         }
 
         function skipAudio(direction) {
-            // direction: positive = skip forward (next sentence), negative = skip back (previous sentence)
+            // For pre-generated single-file audio, skip by 10 seconds
+            if (window.isPreGenAudio && window.currentPassageAudio) {
+                const audio = window.currentPassageAudio;
+                if (direction > 0) {
+                    audio.currentTime = Math.min(audio.currentTime + 10, audio.duration || 0);
+                } else {
+                    audio.currentTime = Math.max(audio.currentTime - 10, 0);
+                }
+                return;
+            }
+
+            // For gTTS sentence-by-sentence, skip by sentence
             if (!window.passageGTTSCache[window.currentAudioArticleNum]) return;
 
             const sentences = window.passageGTTSSentences[window.currentAudioArticleNum];
@@ -3085,13 +4011,35 @@
             }
         }
 
+        // Mobile FAB Toggle
+        function toggleMobileFab() {
+            const toggle = document.getElementById('mobileFabToggle');
+            const menu = document.getElementById('mobileFabMenu');
+            const isOpen = toggle.classList.contains('open');
+            if (isOpen) {
+                closeMobileFab();
+            } else {
+                toggle.classList.add('open');
+                toggle.textContent = '✕';
+                menu.classList.add('open');
+            }
+        }
+
+        function closeMobileFab() {
+            const toggle = document.getElementById('mobileFabToggle');
+            const menu = document.getElementById('mobileFabMenu');
+            toggle.classList.remove('open');
+            toggle.textContent = '🛠️';
+            menu.classList.remove('open');
+        }
+
         // Font Size Cycling
         let fontSizeLevel = 2; // 1: S, 2: M, 3: L, 4: XL
         const fontSizes = {
-            1: { p: '16px', textarea: '16px', lexical: '16px' },
-            2: { p: '19px', textarea: '19px', lexical: '19px' },
-            3: { p: '22px', textarea: '22px', lexical: '21px' },
-            4: { p: '26px', textarea: '26px', lexical: '24px' }
+            1: { p: '22px', textarea: '22px', lexical: '22px' },
+            2: { p: '26px', textarea: '26px', lexical: '26px' },
+            3: { p: '30px', textarea: '30px', lexical: '28px' },
+            4: { p: '34px', textarea: '34px', lexical: '32px' }
         };
 
         let lastFontSizeClick = 0;
@@ -3425,16 +4373,320 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            populateSidebar();
+
+            // Dismiss vocab tooltip on click outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.vocab-word') && !e.target.closest('.vocab-tooltip')) {
+                    hideVocabTooltip();
+                }
+            });
+            // Dismiss on scroll
+            window.addEventListener('scroll', hideVocabTooltip, { passive: true });
+
             const urlParams = new URLSearchParams(window.location.search);
             const article = urlParams.get('article');
+            const urlLevel = urlParams.get('level');
+            if (urlLevel && ['B1', 'B2', 'C1'].includes(urlLevel)) {
+                currentLevel = urlLevel;
+            }
             if (article && AVAILABLE_ARTICLES.includes(article)) {
-                loadArticle(article);
+                if (urlLevel) {
+                    // Level already chosen on landing page — load directly, skip picker
+                    loadArticle(article);
+                    updateSidebarActive(article);
+                } else {
+                    startArticle(article);
+                }
             } else {
                 loadArticleList();
+            }
+            // Close sidebar on mobile (it's open by default for desktop/tablet)
+            const isMobile = window.innerWidth <= 768 && screen.width <= 768;
+            if (isMobile && sidebarOpen) {
+                toggleArticleSidebar();
             }
             initSplitterResizer();
         });
     </script>
+
+<!-- ===== LEAVE WARNING PROTECTION ===== -->
+<script>
+(function() {
+  window.__okToLeave = false;
+
+  // Detect if article has levels
+  function _hasLevels() {
+    return !!(window.currentArticle && window.currentArticle.passageB1);
+  }
+
+  function _navBack() {
+    const urlParams = new URLSearchParams(window.location.search);
+    // Stop audio
+    if (window.currentPassageAudio) {
+      window.currentPassageAudio.pause();
+      window.currentPassageAudio = null;
+      window.currentAudioArticleNum = null;
+      const bar = document.getElementById('audioPlayerBar');
+      if (bar) bar.classList.remove('active');
+    }
+    if (typeof window.stopAllDictationAudio === 'function') window.stopAllDictationAudio();
+
+    if (window.parent !== window) {
+      window.parent.postMessage({ action: 'returnToLanding', openModal: 'articles' }, '*');
+    } else {
+      window.location.href = 'landing.html?openModal=articles';
+    }
+  }
+
+  // Create leave warning modal
+  function createLeaveWarningModal() {
+    if (document.getElementById('leaveWarningModal')) return;
+
+    const hasLvl = _hasLevels();
+    const modalHTML = `
+      <div id="leaveWarningModal" style="
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999999;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+      ">
+        <div style="
+          background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+          border-radius: 20px;
+          padding: 40px;
+          max-width: 420px;
+          width: 90%;
+          text-align: center;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          animation: leaveModalPop 0.3s ease-out;
+        ">
+          <div style="
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+          "><span style="font-size: 40px;">⚠️</span></div>
+          <h2 style="color: #f8fafc; font-size: 24px; margin-bottom: 15px; font-weight: 700;">Leaving Article?</h2>
+          <p style="color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+            Are you sure you want to leave?<br>
+            <strong style="color: #f87171;">Your reading progress will be lost!</strong>
+          </p>
+          <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <button id="leaveStayBtn" style="
+              padding: 14px 35px; border: none; border-radius: 12px;
+              font-size: 16px; font-weight: 600; cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #667eea, #764ba2);
+              color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            ">✓ Continue Reading</button>
+            <button id="leaveSwitchLevelBtn" style="
+              display: none;
+              padding: 14px 35px; border: 2px solid #0f766e; border-radius: 12px;
+              font-size: 16px; font-weight: 600; cursor: pointer;
+              transition: all 0.3s ease;
+              background: linear-gradient(135deg, #0f766e, #134e4a);
+              color: #5eead4; box-shadow: 0 4px 15px rgba(15, 118, 110, 0.3);
+            ">🔄 Switch Level</button>
+            <button id="leaveConfirmBtn" style="
+              padding: 14px 35px; border: 2px solid #475569; border-radius: 12px;
+              font-size: 16px; font-weight: 600; cursor: pointer;
+              transition: all 0.3s ease;
+              background: transparent; color: #94a3b8;
+            ">Leave Anyway</button>
+          </div>
+        </div>
+      </div>
+      <style>
+        @keyframes leaveModalPop {
+          from { transform: scale(0.8); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        #leaveStayBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        #leaveConfirmBtn:hover { background: #334155; border-color: #64748b; color: #e2e8f0; }
+        #leaveSwitchLevelBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15, 118, 110, 0.4); background: linear-gradient(135deg, #14b8a6, #0f766e); }
+      </style>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    document.getElementById('leaveStayBtn').addEventListener('click', function() {
+      hideLeaveWarningModal();
+    });
+
+    document.getElementById('leaveSwitchLevelBtn').addEventListener('click', function() {
+      hideLeaveWarningModal();
+      showArticleLevelSwitcher();
+    });
+
+    document.getElementById('leaveConfirmBtn').addEventListener('click', function() {
+      window.__okToLeave = true;
+      hideLeaveWarningModal();
+      _navBack();
+    });
+  }
+
+  function showLeaveWarningModal() {
+    createLeaveWarningModal();
+    // Dynamically show/hide the switch-level button based on current article
+    const switchBtn = document.getElementById('leaveSwitchLevelBtn');
+    if (switchBtn) switchBtn.style.display = _hasLevels() ? '' : 'none';
+    document.getElementById('leaveWarningModal').style.display = 'flex';
+  }
+
+  function hideLeaveWarningModal() {
+    const modal = document.getElementById('leaveWarningModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  // Level switcher overlay (reuses existing applyLevel from Articles.html)
+  function showArticleLevelSwitcher() {
+    let existing = document.getElementById('levelSwitcherOverlay');
+    if (existing) existing.remove();
+
+    const LEVELS = ['B1', 'B2', 'C1'];
+    const levelMeta = {
+      'B1': { label: 'Intermediate', tag: 'B1–B2', color: '#0f766e', gradient: 'linear-gradient(135deg, #0f766e, #134e4a)' },
+      'B2': { label: 'Upper-Intermediate', tag: 'B2–C1', color: '#7c3aed', gradient: 'linear-gradient(135deg, #7c3aed, #4c1d95)' },
+      'C1': { label: 'Advanced', tag: 'C1–C2', color: '#dc2626', gradient: 'linear-gradient(135deg, #dc2626, #7f1d1d)' }
+    };
+
+    let btnsHTML = '';
+    for (const key of LEVELS) {
+      const meta = levelMeta[key];
+      const isCurrent = key === window.currentLevel;
+      btnsHTML += `<button class="lvl-switch-btn${isCurrent ? ' current' : ''}" data-level="${key}" style="
+        width: 100%; padding: 16px 20px;
+        border: 2px solid ${isCurrent ? meta.color : 'rgba(255,255,255,0.1)'};
+        border-radius: 14px; font-size: 16px; font-weight: 600;
+        cursor: ${isCurrent ? 'default' : 'pointer'};
+        transition: all 0.3s ease;
+        background: ${isCurrent ? meta.gradient : 'rgba(255,255,255,0.05)'};
+        color: ${isCurrent ? '#fff' : '#cbd5e1'};
+        display: flex; align-items: center; justify-content: space-between;
+        opacity: ${isCurrent ? '1' : '0.85'};
+      ">
+        <span>${meta.label}</span>
+        <span style="font-size: 12px; padding: 3px 10px; border-radius: 20px;
+          background: ${isCurrent ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)'};
+          color: ${isCurrent ? '#fff' : '#94a3b8'};
+        ">${isCurrent ? '✓ Current' : meta.tag}</span>
+      </button>`;
+    }
+
+    const html = `
+    <div id="levelSwitcherOverlay" style="
+      display: flex; position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75); z-index: 9999999;
+      justify-content: center; align-items: center;
+      backdrop-filter: blur(5px);
+    ">
+      <div style="
+        background: linear-gradient(145deg, #1e293b, #0f172a);
+        border-radius: 24px; padding: 35px 30px;
+        max-width: 380px; width: 90%; text-align: center;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: leaveModalPop 0.3s ease-out;
+      ">
+        <div style="font-size: 40px; margin-bottom: 15px;">🔄</div>
+        <h2 style="color: #f8fafc; font-size: 22px; margin-bottom: 8px; font-weight: 700;">Switch Level</h2>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">Switch to a different reading level</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+          ${btnsHTML}
+        </div>
+        <button id="lvlSwitchCancelBtn" style="
+          padding: 12px 30px; border: 2px solid #475569; border-radius: 12px;
+          font-size: 15px; font-weight: 600; cursor: pointer;
+          background: transparent; color: #94a3b8; transition: all 0.3s ease;
+        ">Cancel</button>
+      </div>
+    </div>
+    <style>
+      .lvl-switch-btn:not(.current):hover {
+        opacity: 1 !important; background: rgba(255,255,255,0.1) !important;
+        border-color: rgba(255,255,255,0.3) !important; transform: translateY(-1px);
+      }
+      #lvlSwitchCancelBtn:hover { background: #334155; border-color: #64748b; color: #e2e8f0; }
+    </style>`;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    document.getElementById('lvlSwitchCancelBtn').addEventListener('click', function() {
+      document.getElementById('levelSwitcherOverlay').remove();
+    });
+
+    document.querySelectorAll('.lvl-switch-btn:not(.current)').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const level = this.dataset.level;
+        document.getElementById('levelSwitcherOverlay').remove();
+        window.currentLevel = level;
+        if (typeof window.applyLevel === 'function') {
+          window.applyLevel(level);
+        }
+      });
+    });
+  }
+
+  // Override goBack to intercept leaving when article is open via ?article= param
+  const _origGoBack = window.goBack;
+  window.goBack = function() {
+    // Only intercept if we're reading an article loaded via URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('article') && window.currentArticle && !window.__okToLeave) {
+      // If in a sub-view (split, translation, etc.), let original handle returning to normal view
+      if (window.currentView && window.currentView !== 'normal') {
+        return _origGoBack.apply(this, arguments);
+      }
+      showLeaveWarningModal();
+      return;
+    }
+    return _origGoBack.apply(this, arguments);
+  };
+
+  // Back button trap
+  history.pushState(null, '', location.href);
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('article') && window.currentArticle && !window.__okToLeave) {
+      history.pushState(null, '', location.href);
+      showLeaveWarningModal();
+    }
+  });
+
+  // Keyboard shortcuts blocking (F5, Ctrl+R, Ctrl+W)
+  window.addEventListener('keydown', function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('article') || !window.currentArticle || window.__okToLeave) return;
+    const isF5 = e.key === 'F5';
+    const isCtrlR = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r';
+    const isCtrlW = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'w';
+    if (isF5 || isCtrlR || isCtrlW) {
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      showLeaveWarningModal();
+      return false;
+    }
+  }, true);
+
+  // Fallback beforeunload
+  window.addEventListener('beforeunload', function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('article') && window.currentArticle && !window.__okToLeave) {
+      e.preventDefault(); e.returnValue = ''; return '';
+    }
+  });
+})();
+</script>
+<script src="chat-bubble.js"></script>
 </body>
 
 </html>

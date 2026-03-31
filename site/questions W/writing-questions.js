@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi friend,<br>Music club! Good? Yes. <br>Musicians? Yes, good. Concert? Good.<br>New people? Yes. Bye.</p>",
       "sampleA2": "<p>Hi,<br>I think the music club is good. I think we can invite musicians, because it is fun. And we can have more concerts, but maybe not too many. New people can join if we have good music. What do you think? <br>Bye!</p>",
       "sampleB1": "<p>Hi,<br>I saw the email about the music club. I think it's a good idea to invite local musicians because it could be interesting for everyone. Also, maybe we should have more concerts and workshops to make the club more popular. To get new members, we could try advertising the club on social media or offering a discount for the first event. What do you think about these ideas?<br>See you soon,</p>",
-      "sampleB2": "<p>Hey,<br>I received the email from the club leader, and I have some thoughts. I believe inviting local musicians is a worthwhile initiative, as it could enrich our club's events and provide exposure for emerging artists. Furthermore, a combination of concerts and interactive workshops would likely appeal to a broader audience. To attract new members, perhaps we could implement a referral program or offer introductory sessions to showcase the club's activities. What are your views on these suggestions?<br>Best regards,</p>"
+      "sampleB2": "<p>Hey,<br>I received the email from the club leader, and I have some thoughts. I believe inviting local musicians is a worthwhile initiative, as it could enrich our club's events and provide exposure for emerging artists. Furthermore, a combination of concerts and interactive workshops would likely appeal to a broader audience. To attract new members, perhaps we could implement a referral program or offer introductory sessions to showcase the club's activities. What are your views on these suggestions?<br>Best regards,</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Klubning keyingi semestr tadbirlari haqidagi xabarini oldim. Rostini aytsam, mahalliy musiqachilarni taklif qilish ajoyib g'oya bo'lardi deb o'ylayman! Bu nafaqat vaziyatni jonlantiradi, balki mahalliy iste'dodlarni ham qo'llab-quvvatlaydi. Qolaversa, ko'proq konsertlar va interaktiv musiqa ustaxonalarini birga olib borish yangi odamlarni jalb qilishi mumkin. Yangi a'zolarni jalb qilish uchun biz birinchi tadbirni bepul yoki do'stlik tizimini taklif qilishimiz mumkin. Nima deb o'ylaysiz? Tez orada gaplashamiz!</p>\n<p>Xayr!</p>",
+      "uzSampleA1": "<p>Salom do'stim,<br>Musiqa klubi! Yaxshimi? Ha. <br>Musiqachilar? Ha, yaxshi. Konsert? Yaxshi.<br>Yangi odamlar? Ha. Xayr.</p>",
+      "uzSampleA2": "<p>Salom,<br>Menimcha, musiqa klubi yaxshi. O'ylaymanki, biz musiqachilarni taklif qila olamiz, chunki bu qiziqarli. Va biz ko'proq konsertlar o'tkazishimiz mumkin, lekin balki juda ko'p emas. Agar bizda yaxshi musiqa bo'lsa, yangi odamlar qo'shilishi mumkin. Siz nima deb o'ylaysiz? <br>Xayr!</p>",
+      "uzSampleB1": "<p>Salom,<br>Musiqa klubi haqidagi elektron pochtani ko'rdim. Mahalliy musiqachilarni taklif qilish yaxshi fikr deb o'ylayman, chunki bu hamma uchun qiziqarli bo'lishi mumkin. Shuningdek, klubni yanada ommalashtirish uchun ko'proq konsertlar va seminarlar o'tkazishimiz kerak bo'lishi mumkin. Yangi a'zolarni jalb qilish uchun klubni ijtimoiy tarmoqlarda reklama qilishga yoki birinchi tadbir uchun chegirma taklif qilishga harakat qilishimiz mumkin. Bu fikrlar haqida nima deb o'ylaysiz?<br>Tez orada ko'rishguncha,</p>",
+      "uzSampleB2": "<p>Salom,<br>Men klub rahbaridan xat oldim va menda ba'zi fikrlar bor. Menimcha, mahalliy musiqachilarni taklif qilish arziydigan tashabbus, chunki u klubimiz tadbirlarini boyitishi va yangi paydo bo'layotgan san'atkorlar uchun imkoniyat yaratishi mumkin. Bundan tashqari, konsertlar va interaktiv seminarlarning kombinatsiyasi kengroq auditoriyaga yoqishi mumkin. Yangi a'zolarni jalb qilish uchun, ehtimol, biz tavsiya dasturini amalga oshirishimiz yoki klub faoliyatini namoyish qilish uchun kirish sessiyalarini taklif qilishimiz mumkin. Sizning bu takliflar bo'yicha fikringiz qanday?<br>Eng yaxshi tilaklar bilan,</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!</p><br><p>Music club good. I like music. Yes to music. New people good. Bye!</p>",
       "sampleA2": "<p>Hi,</p><p>I like the music club. I think it is good to have music. We can have concerts and people will come. And we can ask musicians to play. It is fun! New people are good because more people like music. I like music because it is good. Bye!</p>",
       "sampleB1": "<p>Dear Club Leader,</p><p>I think it's a good idea to invite local musicians to perform. This could be interesting for our members. Also, I think we should have more concerts. Maybe one concert every month? That would be good. Workshops are also a good idea because people can learn new things.</p><p>To get new members, we could use social media. For example, we can post photos and videos on Instagram. Also, we can tell our friends about the club. I think these ideas will help the club.</p><p>Sincerely,</p><p>[Your Name]</p>",
-      "sampleB2": "<p>Dear Club Leader,</p><p>I am writing in response to your email regarding activities for the upcoming term. I strongly believe that inviting local musicians to perform would be a beneficial addition to our program. It offers them a platform and exposes our members to diverse musical perspectives. Furthermore, increasing the frequency of concerts and workshops would undoubtedly enhance engagement within the club.</p><p>Regarding attracting new members, I suggest implementing a multi-pronged approach. Actively promoting our events on social media platforms is crucial for reaching a wider audience. Additionally, we could organize an open day or taster session to allow prospective members to experience the club firsthand. Perhaps offering introductory discounts or buddy systems could also prove effective in encouraging sign-ups. I am confident that these strategies would contribute significantly to expanding our membership base.</p><p>Yours sincerely,</p><p>[Your Name]</p>"
+      "sampleB2": "<p>Dear Club Leader,</p><p>I am writing in response to your email regarding activities for the upcoming term. I strongly believe that inviting local musicians to perform would be a beneficial addition to our program. It offers them a platform and exposes our members to diverse musical perspectives. Furthermore, increasing the frequency of concerts and workshops would undoubtedly enhance engagement within the club.</p><p>Regarding attracting new members, I suggest implementing a multi-pronged approach. Actively promoting our events on social media platforms is crucial for reaching a wider audience. Additionally, we could organize an open day or taster session to allow prospective members to experience the club firsthand. Perhaps offering introductory discounts or buddy systems could also prove effective in encouraging sign-ups. I am confident that these strategies would contribute significantly to expanding our membership base.</p><p>Yours sincerely,</p><p>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli Klub Rahbari,</p>\n\n<p>Men mahalliy musiqachilarni chiqish qilishga taklif etish ajoyib g'oya deb hisoblayman. Bu nafaqat mahalliy iste'dodlarni qo'llab-quvvatlaydi, balki tadbirlarimizni turli xil musiqiy uslublar bilan boyitadi. Biz, ehtimol, butun semestr davomida jonli muhitni saqlab qolish uchun har oylik konsertlar tashkil qilishimiz mumkin. Ko'proq seminarlar o'tkazish, albatta, a'zolarga o'z mahoratini oshirish imkoniyatini beradi va yanada qiziqarli tajriba yaratadi.</p>\n\n<p>Yangi a'zolarni jalb qilish uchun tadbirlarimizni ijtimoiy media platformalari orqali faol ravishda targ'ib qilishni ko'rib chiqishimiz mumkin. Bundan tashqari, \"do'stingni olib kel\" sxemasi so'zni tarqatishda ajoyib natijalarga olib kelishi mumkin. Boshqalarni tavsiya qilganlar uchun chegirmali a'zolikni taklif qilish ham jozibali bo'lishi mumkin. Menimcha, bunday strategiyalar klubimizni yanada inklyuziv makonga aylantirishga yordam berishi mumkin.</p>\n\n<p>Iltimos, meni rejalardan xabardor qiling, chunki men bundan keyin ham hissa qo'shishni xohlayman.</p>\n\n<p>Eng yaxshi tilaklar bilan,<br>Muhammadrizo</p>",
+      "uzSampleA1": "<p>Salom!</p><br><p>Musiqa klubi yaxshi. Men musiqani yaxshi ko'raman. Musiqaga ha. Yangi odamlar yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,</p><p>Menga musiqa klubi yoqadi. O'ylaymanki, musiqa bo'lishi yaxshi. Biz konsertlar o'tkazishimiz mumkin va odamlar keladi. Va biz musiqachilardan o'ynashni so'rashimiz mumkin. Bu qiziqarli! Yangi odamlar yaxshi, chunki ko'proq odamlar musiqani yaxshi ko'radi. Menga musiqa yoqadi, chunki u yaxshi. Xayr!</p>",
+      "uzSampleB1": "<p>Hurmatli Klub Rahbari,</p><p>Menimcha, mahalliy musiqachilarni chiqishga taklif qilish yaxshi fikr. Bu bizning a'zolarimiz uchun qiziqarli bo'lishi mumkin. Shuningdek, menimcha, bizda ko'proq konsertlar bo'lishi kerak. Ehtimol, har oyda bitta konsert? Bu yaxshi bo'lardi. Seminarlar ham yaxshi fikr, chunki odamlar yangi narsalarni o'rganishlari mumkin.</p><p>Yangi a'zolarni jalb qilish uchun biz ijtimoiy tarmoqlardan foydalanishimiz mumkin. Misol uchun, biz Instagramga fotosuratlar va videolar joylashtirishimiz mumkin. Shuningdek, biz do'stlarimizga klub haqida aytishimiz mumkin. Menimcha, bu g'oyalar klubga yordam beradi.</p><p>Hurmat bilan,</p><p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli Klub Rahbari,</p><p>Men sizning kelgusi semestr uchun tadbirlar haqidagi elektron pochtangizga javoban yozyapman. Men mahalliy musiqachilarni chiqishga taklif qilish dasturimizga foydali qo'shimcha bo'lishiga qat'iy ishonaman. Bu ularga platforma taklif etadi va a'zolarimizni turli musiqiy nuqtai nazarlar bilan tanishtiradi. Bundan tashqari, konsertlar va seminarlar sonini ko'paytirish, shubhasiz, klub ichidagi ishtirokni kuchaytiradi.</p><p>Yangi a'zolarni jalb qilish borasida, men ko'p tomonlama yondashuvni amalga oshirishni taklif qilaman. Ijtimoiy media platformalarida tadbirlarimizni faol ravishda targ'ib qilish kengroq auditoriyaga yetib borish uchun juda muhimdir. Bundan tashqari, biz bo'lajak a'zolarga klubni bevosita his qilishlari uchun ochiq eshiklar kuni yoki sinov sessiyasini tashkil qilishimiz mumkin. Ehtimol, kirish chegirmalarini yoki do'stlik tizimlarini taklif qilish ham ro'yxatdan o'tishni rag'batlantirishda samarali bo'lishi mumkin. Ishonchim komilki, bu strategiyalar a'zolik bazamizni kengaytirishga sezilarli hissa qo'shadi.</p><p>Hurmat bilan,</p><p>[Sizning Ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi! <br> I think no phones. <br> Phones bad. <br> Class time no phones. <br> Bye!</p>",
       "sampleA2": "<p>Hello. <br> I think phones are bad in school. <br> Because students play games. <br> And they don't listen to the teacher. <br> But phones are good for parents. <br> So maybe a little phone is okay.</p>",
       "sampleB1": "<p>Hi everyone, <br> I have some opinions about phones in schools. I think that phones can be a problem. For example, students might use them during class and not pay attention. This is not good for learning. <br> However, phones can also be useful. Students can use them to find information quickly. Also, if there is an emergency, they can call their parents. <br> Maybe schools should have some rules about when phones can be used. I think it's important to find a balance. Thanks for reading.</p>",
-      "sampleB2": "<p>Hello, <br> This is an interesting debate. While I understand the arguments against cell phones in schools, I believe a complete ban might be too restrictive. <br> On the one hand, it's clear that cell phones can be a significant distraction. Students are often tempted to use them for social media or games instead of focusing on their studies. This can disrupt the learning environment and negatively impact academic performance. <br> On the other hand, cell phones can also be valuable tools. They provide access to a wealth of information and can be used for educational purposes. Furthermore, they offer a sense of security, allowing students to contact family in case of an emergency. <br> Perhaps a more nuanced approach is needed. Schools could implement policies that restrict cell phone use during class time but allow them during breaks or for specific educational activities. Educating students about responsible cell phone usage is also crucial. This would strike a better balance between minimizing distractions and maximizing the potential benefits of technology. <br> What are your thoughts?</p>"
+      "sampleB2": "<p>Hello, <br> This is an interesting debate. While I understand the arguments against cell phones in schools, I believe a complete ban might be too restrictive. <br> On the one hand, it's clear that cell phones can be a significant distraction. Students are often tempted to use them for social media or games instead of focusing on their studies. This can disrupt the learning environment and negatively impact academic performance. <br> On the other hand, cell phones can also be valuable tools. They provide access to a wealth of information and can be used for educational purposes. Furthermore, they offer a sense of security, allowing students to contact family in case of an emergency. <br> Perhaps a more nuanced approach is needed. Schools could implement policies that restrict cell phone use during class time but allow them during breaks or for specific educational activities. Educating students about responsible cell phone usage is also crucial. This would strike a better balance between minimizing distractions and maximizing the potential benefits of technology. <br> What are your thoughts?</p>",
+      "uzSample": "<p>Hammaga salom,</p>\n\n<p>Men bu muhokazani qiziqish bilan kuzatib kelmoqdaman va bu murakkab masala deb o'ylayman. Maktablarda mobil telefonlarni taqiqlash uchun asosli sabablar bo'lishi mumkin bo'lsa-da, menimcha, e'tiborga olish kerak bo'lgan kamchiliklar ham bor. Keling, o'z fikrlarimni bayon qilay.</p>\n\n<p>Shubhasiz, mobil telefonlar dars paytida chalg'itishi mumkin. O'quvchilar darsga e'tibor berish o'rniga, SMS yozish yoki ijtimoiy tarmoqlarni ko'rib chiqish bilan mashg'ul bo'lishlari mumkin. Bu ta'lim muhitini buzishi va o'qituvchilarga intizomni saqlashni qiyinlashtirishi mumkin.</p>\n\n<p>Biroq, menimcha, biz foydali tomonlarini ham ko'rib chiqishimiz kerak. Mobil telefonlar o'rganish uchun qimmatli manba bo'lishi mumkin. Bir tugmani bosish orqali o'quvchilar ma'lumot qidirishlari, ta'limiy ilovalardan foydalanishlari va hatto interaktiv o'rganishda ishtirok etishlari mumkin. Bundan tashqari, xavfsizlik nuqtai nazaridan, o'quvchining ota-onalari yoki vasiylari bilan tezda bog'lanishi kerak bo'lsa, mobil telefonning bo'lishi juda muhim bo'lishi mumkin.</p>\n\n<p>To'liq taqiq o'rniga, maktablar boshqariladigan foydalanishni joriy qilishi mumkin. Misol uchun, o'qituvchilar telefonlardan muayyan ta'limiy vazifalar yoki favqulodda vaziyatlar uchun foydalanishga ruxsat berishlari mumkin. O'quvchilarga texnologiyadan mas'uliyat bilan foydalanishni o'rgatish ham o'quv dasturiga kiritilishi mumkin. Umuman olganda, gap shunchaki telefonlarni taqiqlash emas; ulardan oqilona foydalanishni boshqarish haqida.</p>\n\n<p>Sizning fikrlaringizni o'qishni intiqlik bilan kutaman!</p>",
+      "uzSampleA1": "<p>Salom! <br> Menimcha, telefonlar kerak emas. <br> Telefonlar yomon. <br> Sinf vaqtida telefonlar bo'lmasligi kerak. <br> Xayr!</p>",
+      "uzSampleA2": "<p>Salom. <br> Menimcha, telefonlar maktabda yomon. <br> Chunki o'quvchilar o'yin o'ynashadi. <br> Va ular o'qituvchini tinglashmaydi. <br> Lekin telefonlar ota-onalar uchun yaxshi. <br> Shuning uchun, balki ozgina telefon yaxshi bo'lishi mumkin.</p>",
+      "uzSampleB1": "<p>Hammaga salom, <br> Maktablardagi telefonlar haqida ba'zi fikrlarim bor. Menimcha, telefonlar muammo bo'lishi mumkin. Misol uchun, o'quvchilar ulardan dars paytida foydalanishi va e'tibor bermasligi mumkin. Bu o'qish uchun yaxshi emas. <br> Biroq, telefonlar foydali ham bo'lishi mumkin. O'quvchilar ulardan tezda ma'lumot topish uchun foydalanishi mumkin. Shuningdek, agar favqulodda vaziyat bo'lsa, ular ota-onalariga qo'ng'iroq qilishlari mumkin. <br> Ehtimol, maktablar telefonlardan qachon foydalanish mumkinligi haqida ba'zi qoidalar belgilashi kerak. Men muvozanatni topish muhim deb o'ylayman. O'qiganingiz uchun rahmat.</p>",
+      "uzSampleB2": "<p>Salom, <br> Bu qiziqarli munozara. Maktablarda mobil telefonlarga qarshi argumentlarni tushunsam ham, to'liq taqiq juda cheklovchi bo'lishi mumkin deb hisoblayman. <br> Bir tomondan, mobil telefonlar sezilarli chalg'ituvchi omil bo'lishi aniq. Talabalar ko'pincha ulardan ijtimoiy tarmoqlar yoki o'yinlar uchun foydalanishga vasvasaga tushishadi, o'qishga e'tibor qaratish o'rniga. Bu ta'lim muhitini buzishi va akademik ko'rsatkichlarga salbiy ta'sir ko'rsatishi mumkin. <br> Boshqa tomondan, mobil telefonlar ham qimmatli vosita bo'lishi mumkin. Ular axborot boyligiga kirishni ta'minlaydi va ta'lim maqsadlarida foydalanish mumkin. Bundan tashqari, ular xavfsizlik hissini beradi, talabalarga favqulodda vaziyatlarda oilasi bilan bog'lanish imkonini beradi. <br> Ehtimol, yanada nozik yondashuv kerakdir. Maktablar dars vaqtida mobil telefonlardan foydalanishni cheklaydigan, lekin tanaffuslarda yoki muayyan ta'lim faoliyatlari uchun ruxsat beradigan siyosatni amalga oshirishi mumkin. Talabalarni mobil telefonlardan mas'uliyatli foydalanish haqida o'rgatish ham juda muhim. Bu chalg'itishni minimallashtirish va texnologiyaning potentsial afzalliklarini maksimal darajada oshirish o'rtasida yaxshiroq muvozanatni ta'minlaydi. <br> Sizning fikringiz qanday?</p>"
     }
   },
   "vocabulary": {
@@ -267,5 +282,135 @@ window.WRITING_TEST_DATA = {
         "uz": "Texnologiyadan axloqiy foydalanishni targ'ib qilish"
       }
     ]
+  },
+  "tokenTranslations": {
+    "local musicians": {
+      "uz": "mahalliy musiqachilar",
+      "type": "colloc"
+    },
+    "music workshops": {
+      "uz": "musiqa ustaxonalari",
+      "type": "colloc"
+    },
+    "draw in": {
+      "uz": "jalb qilish",
+      "type": "phrasal"
+    },
+    "attract new members": {
+      "uz": "yangi a'zolarni jalb qilish",
+      "type": "colloc"
+    },
+    "might": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "believe": {
+      "uz": "ishonaman",
+      "type": "modal"
+    },
+    "to perform": {
+      "uz": "chiqish qilish",
+      "type": "colloc"
+    },
+    "support local talent": {
+      "uz": "mahalliy iste'dodlarni qo'llab-quvvatlash",
+      "type": "phrasal"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "organize monthly concerts": {
+      "uz": "har oylik konsertlar tashkil qilish",
+      "type": "colloc"
+    },
+    "certainly": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "xohlardim",
+      "type": "modal"
+    },
+    "engaging experience": {
+      "uz": "qiziqarli tajriba",
+      "type": "colloc"
+    },
+    "bring in new members": {
+      "uz": "yangi a'zolarni olib kelish",
+      "type": "phrasal"
+    },
+    "might consider": {
+      "uz": "ko'rib chiqishingiz mumkin",
+      "type": "modal"
+    },
+    "discounted membership": {
+      "uz": "chegirmali a'zolik",
+      "type": "colloc"
+    },
+    "could help": {
+      "uz": "yordam berishi mumkin",
+      "type": "modal"
+    },
+    "keep me posted": {
+      "uz": "xabardor qilib turing",
+      "type": "phrasal"
+    },
+    "would love": {
+      "uz": "juda xohlardim",
+      "type": "modal"
+    },
+    "lay out": {
+      "uz": "bayon qilmoq",
+      "type": "phrasal"
+    },
+    "Undoubtedly": {
+      "uz": "Shubhasiz",
+      "type": "adv"
+    },
+    "cause distractions": {
+      "uz": "chalg'itishga sabab bo'ladi",
+      "type": "colloc"
+    },
+    "may end up": {
+      "uz": "olib kelishi mumkin",
+      "type": "phrasal"
+    },
+    "disrupt the learning environment": {
+      "uz": "ta'lim muhitini buzadi",
+      "type": "colloc"
+    },
+    "maintain discipline": {
+      "uz": "intizomni saqlash",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "valuable resource": {
+      "uz": "qimmatli manba",
+      "type": "colloc"
+    },
+    "the click of a button": {
+      "uz": "bir tugmani bosish orqali",
+      "type": "idiom"
+    },
+    "look up": {
+      "uz": "qidirmoq",
+      "type": "phrasal"
+    },
+    "engage in interactive learning": {
+      "uz": "interaktiv ta'limda ishtirok etmoq",
+      "type": "colloc"
+    },
+    "get in touch": {
+      "uz": "bog'lanmoq",
+      "type": "phrasal"
+    },
+    "All in all": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "idiom"
+    }
   }
 };

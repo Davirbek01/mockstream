@@ -1,0 +1,47 @@
+// Flashcard Data: Power & Influence — Upper-Intermediate (B2–C1)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "👑 Power & Influence: Upper-Intermediate",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Power & Influence",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#7c3aed",
+    bg2: "#4c1d95",
+    accent: "#7c3aed",
+    progress: "#a78bfa"
+  },
+  cards: [
+    {term: "pull rank", en: "", uz: "mansabidan foydalanish", uzDef: "O'z mansabini suiiste'mol qilib, boshqalarga bosim o'tkazish.", ex: "He always tries to pull rank on junior employees, making them do all the unpleasant tasks.", exUz: "U har doim quyi xodimlarga nisbatan o'z mansabidan foydalanib, ularga yoqimsiz vazifalarni yuklaydi."},
+    {term: "lead by example", en: "", uz: "o'rnak bo'lish", uzDef: "Boshqalarni o'z xatti-harakatlari orqali ruhlantirish.", ex: "A good leader doesn't just give orders; they lead by example and work alongside their team.", exUz: "Yaxshi yetakchi faqat buyruq bermaydi; u o'rnak bo'lib, jamoasi bilan birga ishlaydi."},
+    {term: "soft power", en: "", uz: "yumshoq kuch", uzDef: "Madaniyat va qadriyatlar orqali ta'sir o'tkazish.", ex: "The country's influence is largely based on soft power, like its films and music.", exUz: "Mamlakatning ta'siri asosan uning filmlari va musiqasi kabi yumshoq kuchga asoslangan."},
+    {term: "toe the line", en: "", uz: "qoidalarga rioya qilish", uzDef: "Qoidalarga qat'iy rioya qilish, itoat etish.", ex: "If you want to stay in his good graces, you'll have to toe the line and agree with everything he says.", exUz: "Agar siz uning nazarida qolmoqchi bo'lsangiz, qoidalarga rioya qilishingiz va u aytgan hamma narsaga rozi bo'lishingiz kerak."},
+    {term: "have a leg up", en: "", uz: "ustunlikka ega", uzDef: "Boshqalardan ko'ra afzallikka ega bo'lish.", ex: "Coming from a wealthy family gave him a leg up in the business world.", exUz: "Boy oiladan chiqqani unga biznes dunyosida ustunlik berdi."},
+    {term: "spin control", en: "", uz: "axborotni boshqarish", uzDef: "Salbiy xabarlarni ijobiy tomonga o'zgartirish harakati.", ex: "The politician's team is working hard on spin control after the scandal broke.", exUz: "Siyosatchining jamoasi janjal chiqqanidan keyin axborotni boshqarish ustida qattiq ishlamoqda."},
+    {term: "a puppet regime", en: "", uz: "qo'g'irchoq rejim", uzDef: "Boshqa davlat tomonidan boshqariladigan hukumat.", ex: "Many consider the current government to be a puppet regime controlled by foreign interests.", exUz: "Ko'pchilik hozirgi hukumatni xorijiy manfaatlar tomonidan boshqariladigan qo'g'irchoq rejim deb hisoblaydi."},
+    {term: "gain traction", en: "", uz: "mashhurlikka erishish", uzDef: "G'oya, loyiha yoki harakat mashhurlikka erishishi.", ex: "The campaign started slowly, but it's finally gaining traction with the public.", exUz: "Kampaniya sekin boshlandi, lekin nihoyat jamoatchilik orasida mashhurlikka erishmoqda."},
+    {term: "lead the charge", en: "", uz: "rahbarlik qilish", uzDef: "Hujumni yoki loyihani boshqarish, oldinda borish.", ex: "She led the charge for reform in the company, pushing for more ethical practices.", exUz: "U kompaniyada islohotlar uchun rahbarlik qildi va axloqiy amaliyotlarni kuchaytirishga intildi."},
+    {term: "the upper hand", en: "", uz: "ustunlik", uzDef: "Vaziyatda ustunlikka ega bo'lish.", ex: "Negotiating from a position of strength gives you the upper hand.", exUz: "Kuch pozitsiyasidan kelib chiqib muzokara olib borish sizga ustunlik beradi."},
+    {term: "on a pedestal", en: "", uz: "hurmat bilan", uzDef: "Kimgadir juda yuqori hurmat ko'rsatish.", ex: "We shouldn't put politicians on a pedestal; they're still human beings.", exUz: "Biz siyosatchilarni juda hurmat qilmasligimiz kerak; ular ham inson."},
+    {term: "the power behind", en: "", uz: "asosiy kuch", uzDef: "Rasmiy lavozimda bo'lmasdan, asosiy ta'sir o'tkazuvchi shaxs.", ex: "Everyone knows he's the power behind the throne; the king just does what he's told.", exUz: "Hamma biladi, u taxt ortidagi asosiy kuch; qirol faqat unga aytilganini qiladi."},
+    {term: "bend someone's ear", en: "", uz: "mizg'imoq", uzDef: "Kimnidir uzoq vaqt gap bilan zeriktirmoq.", ex: "I didn't mean to bend your ear for so long about my problems.", exUz: "Men sizni muammolarim haqida bunchalik ko'p gapirib zeriktirmoqchi emasdim."},
+    {term: "rock the boat", en: "", uz: "vaziyatni buzish", uzDef: "Vaziyatni o'zgartirishga harakat qilib, muammo chiqarmoq.", ex: "I don't want to rock the boat, but I think we need to address these issues.", exUz: "Men vaziyatni buzmoqchi emasman, lekin bu masalalarni hal qilishimiz kerak deb o'ylayman."},
+    {term: "win someone over", en: "", uz: "ko'ndirmoq", uzDef: "Kimnidir o'z fikriga ko'ndirmoq.", ex: "He tried to win her over with flowers and chocolates, but she wasn't interested.", exUz: "U uni gullar va shokoladlar bilan ko'ndirishga harakat qildi, lekin u qiziqmadi."},
+    {term: "power vacuum", en: "", uz: "hokimiyat bo'shlig'i", uzDef: "Hokimiyatning yo'qligi yoki zaifligi.", ex: "The dictator's death created a power vacuum in the country.", exUz: "Diktatorning o'limi mamlakatda hokimiyat bo'shlig'ini yaratdi."},
+    {term: "at someone's disposal", en: "", uz: "ixtiyorida", uzDef: "Kimningdir foydalanishi uchun mavjud bo'lish.", ex: "The company car is at your disposal for business trips.", exUz: "Kompaniya mashinasi sizning biznes safarlaringiz uchun ixtiyoringizda."},
+    {term: "underdog", en: "", uz: "omadsiz", uzDef: "G'alaba qozonishi kutilmaydigan shaxs yoki guruh.", ex: "Everyone loves to root for the underdog in a competition.", exUz: "Hamma musobaqada omadsizlar uchun jon kuydirishni yaxshi ko'radi."},
+    {term: "power base", en: "", uz: "tayanch nuqtasi", uzDef: "Ta'sirni amalga oshirish uchun tayanch bo'lgan shaxslar yoki joylar.", ex: "The politician's power base is in the rural areas of the state.", exUz: "Siyosatchining tayanch nuqtasi shtatning qishloq hududlarida."},
+    {term: "grease the wheels", en: "", uz: "ishni tezlashtirish", uzDef: "Ishni tezlashtirish yoki osonlashtirish uchun harakat qilish.", ex: "A little bribe can sometimes grease the wheels of bureaucracy.", exUz: "Ozroq pora ba'zan byurokratiya ishini tezlashtirishi mumkin."},
+    {term: "take the reins", en: "", uz: "boshqaruvni olish", uzDef: "Boshqaruvni o'z qo'liga olish.", ex: "After the CEO retired, his daughter took the reins of the company.", exUz: "Bosh direktor nafaqaga chiqqanidan so'ng, uning qizi kompaniya boshqaruvini o'z qo'liga oldi."},
+    {term: "fall from grace", en: "", uz: "obro'sizlanish", uzDef: "Obro' yoki hurmatni yo'qotish.", ex: "The actor's fall from grace was swift after the scandal was revealed.", exUz: "Aktyorning obro'sizlanishi janjal ochilgandan so'ng tez sodir bo'ldi."},
+    {term: "peer pressure", en: "", uz: "tengdoshlar bosimi", uzDef: "Tengdoshlarning xatti-harakatlariga ta'siri.", ex: "He gave in to peer pressure and started smoking.", exUz: "U tengdoshlarining bosimiga berilib, chekishni boshladi."},
+    {term: "sway public opinion", en: "", uz: "jamoatchilik fikrini o'zgartirish", uzDef: "Jamoatchilik fikrini o'zgartirishga harakat qilish.", ex: "The media has the power to sway public opinion on important issues.", exUz: "Ommaviy axborot vositalari muhim masalalarda jamoatchilik fikrini o'zgartirish kuchiga ega."},
+    {term: "muscle in on", en: "", uz: "aralashib qolish", uzDef: "Kimningdir biznesiga yoki hududiga kuch ishlatib aralashish.", ex: "The gang tried to muscle in on their territory and take over their operations.", exUz: "Guruh ularning hududiga kuch ishlatib aralashib, operatsiyalarini o'z qo'liga olishga harakat qildi."},
+    {term: "the powers that be", en: "", uz: "yuqori doiralar", uzDef: "Boshqaruvda bo'lgan yuqori lavozimli shaxslar.", ex: "You'll have to get permission from the powers that be before you can make any changes.", exUz: "Har qanday o'zgarish qilishdan oldin siz yuqori doiralardan ruxsat olishingiz kerak."},
+    {term: "a pawn in a game", en: "", uz: "o'yin qurboni", uzDef: "Boshqalar tomonidan foydalaniladigan shaxs.", ex: "He felt like a pawn in a game between the two powerful corporations.", exUz: "U o'zini ikki qudratli korporatsiya o'rtasidagi o'yinda qurbon deb his qildi."},
+    {term: "keep someone in check", en: "", uz: "nazoratda ushlab turish", uzDef: "Kimnidir nazorat ostida ushlab turish, cheklash.", ex: "The independent board members help keep the CEO in check.", exUz: "Mustaqil kengash a'zolari bosh direktorning nazorat ostida bo'lishiga yordam beradi."},
+    {term: "level the playing field", en: "", uz: "teng sharoit yaratish", uzDef: "Hamma uchun teng imkoniyatlar yaratish.", ex: "The new regulations are intended to level the playing field for small businesses.", exUz: "Yangi qoidalar kichik biznes uchun teng sharoit yaratishga qaratilgan."},
+    {term: "on equal footing", en: "", uz: "teng huquqli", uzDef: "Teng huquqlilik asosida.", ex: "We need to treat everyone on equal footing, regardless of their background.", exUz: "Biz hamma bilan teng huquqli munosabatda bo'lishimiz kerak, kelib chiqishidan qat'i nazar."}
+  ]
+};

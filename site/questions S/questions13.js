@@ -28,6 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like listening to music?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Absolutely</span>, I <span class=\"ml-token idiom\">can't imagine my life without music</span>. It's <span class=\"ml-token adv\">incredibly</span> therapeutic for me and serves as a <span class=\"ml-token colloc\">great escape</span> from the <span class=\"ml-token colloc\">hustle and bustle</span> of everyday life. I have a <span class=\"ml-token colloc\">diverse taste</span> in music, ranging from classical to rock, and I <span class=\"ml-token phrasal\">pick up</span> different genres depending on my mood. For instance, if I need to <span class=\"ml-token idiom\">get my creative juices flowing</span> while working, I usually listen to some instrumental music. On the other hand, if I'm <span class=\"ml-token phrasal\">hanging out</span> with friends, I'd prefer something <span class=\"ml-token colloc\">upbeat and lively</span>.</p>\n\n<p>Furthermore, music has the power to transcend boundaries and connect people globally. I often find that discussing musical preferences with others can be a <span class=\"ml-token colloc\">social experience</span> in itself, <span class=\"ml-token idiom\">breaking the ice</span> with strangers and making new friends. <span class=\"ml-token proverb\">\"Music is the universal language of mankind\"</span>, as they say, and I <span class=\"ml-token adv\">truly</span> believe in this sentiment.</p>\n\n<p>In addition, I have been exploring the idea of <span class=\"ml-token phrasal\">stepping into</span> music production myself. The prospect of <span class=\"ml-token colloc\">making it my career</span> excites me tremendously. I’ve even attended a few workshops to <span class=\"ml-token phrasal\">figure out</span> the nuances of digital music production. It's <span class=\"ml-token adv\">honestly</span> a <span class=\"ml-token colloc\">fascinating field</span>, and I <span class=\"ml-token adv\">genuinely</span> enjoy every moment I spend learning about it.</p>",
       "vocabulary": {
@@ -51,7 +52,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes. I like music. It is good. I listen at home.</p>",
       "sampleA2": "<p>Yes, I like music. I listen to music in my car and at home. I like pop music and sometimes rock music. It makes me happy when I listen to music.</p>",
       "sampleB1": "<p>Yes, I really like listening to music. I think it's a good way to relax after a long day. I usually listen to music when I'm cooking or cleaning. <span class=\"ml-token adv\">For example</span>, I like listening to pop music, but sometimes I listen to classical music if I want to concentrate. It helps me feel better.</p>",
-      "sampleB2": "<p>Yes, I <span class=\"ml-token adv\">definitely</span> enjoy listening to music. It's a significant part of my <span class=\"ml-token colloc\">daily routine</span> and I find it quite beneficial. I listen to music for various reasons, whether it's to unwind, boost my energy, or simply to appreciate the artistry. I have a fairly eclectic taste, so I might listen to anything from indie rock to electronic music, depending on my mood. It's also a great way to discover new artists and explore <span class=\"ml-token colloc\">different cultures</span>.</p>"
+      "sampleB2": "<p>Yes, I <span class=\"ml-token adv\">definitely</span> enjoy listening to music. It's a significant part of my <span class=\"ml-token colloc\">daily routine</span> and I find it quite beneficial. I listen to music for various reasons, whether it's to unwind, boost my energy, or simply to appreciate the artistry. I have a fairly eclectic taste, so I might listen to anything from indie rock to electronic music, depending on my mood. It's also a great way to discover new artists and explore <span class=\"ml-token colloc\">different cultures</span>.</p>",
+      "uzSampleAnswer": "<p>Albatta, men hayotimni musiqasiz tasavvur qila olmayman. Bu men uchun juda terapevtik va kundalik hayotning shovqinidan ajoyib qochish vazifasini o'taydi. Mening musiqaga bo'lgan didim xilma-xil, klassikadan rokka qadar boradi va kayfiyatimga qarab turli janrlarni tanlayman. Misol uchun, agar ishlayotganimda ijodiy kuchimni oshirishim kerak bo'lsa, odatda instrumental musiqa tinglayman. Boshqa tomondan, agar do'stlarim bilan vaqt o'tkazayotgan bo'lsam, men ko'tarinki va jonli narsalarni afzal ko'raman.</p>\n\n<p>Bundan tashqari, musiqa chegaralarni kesib o'tish va odamlarni global miqyosda bog'lash kuchiga ega. Ko'pincha boshqalar bilan musiqa afzalliklarini muhokama qilishning o'zi ijtimoiy tajriba bo'lishini, notanish odamlar bilan munosabatlarni osonlashtirishini va yangi do'stlar orttirishini sezaman. \"Musiqa - insoniyatning umumiy tilidir\", deyishadi va men bu fikrga chin dildan ishonaman.</p>\n\n<p>Bundan tashqari, men o'zim musiqa prodyuserligiga kirishish g'oyasini o'rganib kelyapman. Buni o'z kasbimga aylantirish istiqboli meni juda hayajonga soladi. Men hatto raqamli musiqa prodyuserligining nozik jihatlarini tushunish uchun bir nechta seminarlarda ham qatnashdim. Bu rostini aytsam, juda qiziqarli soha va men bu haqda o'rganishga sarflagan har bir daqiqadan chin dildan zavqlanaman.</p>",
+      "uzSampleA1": "<p>Ha. Men musiqa yoqtiraman. U yaxshi. Men uyda tinglayman.</p>",
+      "uzSampleA2": "<p>Ha, men musiqa tinglashni yaxshi ko'raman. Men mashinamda va uyda musiqa tinglayman. Menga pop musiqa va ba'zan rok musiqa yoqadi. Musiqa tinglaganimda xursand bo'laman.</p>",
+      "uzSampleB1": "<p>Ha, men musiqa tinglashni juda yoqtiraman. O'ylashimcha, bu uzoq kundan keyin dam olishning yaxshi usuli. Odatda ovqat pishirayotganimda yoki tozalayotganimda musiqa tinglayman. <br>Masalan, pop musiqasini tinglashni yoqtiraman, lekin ba'zida diqqatni jamlashni istasam, klassik musiqani tinglayman. Bu menga o'zimni yaxshiroq his qilishimga yordam beradi.</p>",
+      "uzSampleB2": "<p>Ha, men musiqa tinglashni albatta yoqtiraman. Bu mening kundalik hayotimning muhim qismi va men buni juda foydali deb bilaman. Men musiqa tinglashimning turli sabablari bor, xoh dam olish, xoh energiyamni oshirish, yoki shunchaki san'atni qadrlash uchun. Mening didim ancha xilma-xil, shuning uchun kayfiyatimga qarab, indie rokdan tortib elektron musiqagacha hamma narsani tinglashim mumkin. Bu, shuningdek, yangi san'atkorlarni kashf qilish va turli madaniyatlarni o'rganishning ajoyib usuli.</p>"
     },
     {
       "number": 2,
@@ -60,6 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of weather do you don't like?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Weather is an <span class=\"ml-token idiom\">integral part of our daily lives</span>, and while I do appreciate the diversity it offers, there is a <span class=\"ml-token colloc\">particular type</span> that I <span class=\"ml-token adv\">absolutely</span> despise: oppressive heat. Living in a tropical country has <span class=\"ml-token phrasal\">allowed me to</span> experience how <span class=\"ml-token colloc\">stifling temperatures</span> can <span class=\"ml-token phrasal\">take a toll</span> on both my body and mind.</p>\n\n<p><span class=\"ml-token adv\">Honestly</span>, during the sweltering summer months, when the mercury hits the roof, I find it <span class=\"ml-token colloc\">extremely challenging</span> to <span class=\"ml-token phrasal\">carry out</span> my daily tasks. It's like <span class=\"ml-token idiom\">walking through a furnace</span>, and the humidity only <span class=\"ml-token phrasal\">adds to</span> the discomfort. The heat <span class=\"ml-token adv\">often</span> leaves me feeling lethargic and <span class=\"ml-token idiom\">saps my energy</span>, making it impossible to focus on work or even <span class=\"ml-token phrasal\">enjoy being</span> outdoors.</p>\n\n<p>Moreover, such weather can <span class=\"ml-token idiom\">play havoc with</span> my sleep schedule. <span class=\"ml-token idiom\">Tossing and turning</span> all night because of the sticky heat is not ideal, and it <span class=\"ml-token phrasal\">takes a toll</span> on my productivity the next day. It's during these times that I truly <span class=\"ml-token idiom\">look forward to</span> a thunderstorm or a cool breeze, which can be <span class=\"ml-token colloc\">a breath of fresh air</span> in such a stifling environment.</p>\n\n<p>Given a choice, I would <span class=\"ml-token idiom\">much rather</span> endure the chilly winds of winter than <span class=\"ml-token phrasal\">put up with</span> the blistering heat. As the saying goes, <span class=\"ml-token proverb\">\"You can always put more on, but there's a limit to what you can take off\"</span>. This perfectly sums up why oppressive heat is my least favorite type of weather.</p>",
       "vocabulary": {
@@ -83,7 +90,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I no like rain. </p><p>Rain is bad.</p>",
       "sampleA2": "<p>I don't like the cold weather. </p><p>It is very cold and I don't like to go outside. </p><p>I like the sun because it is warm.</p>",
       "sampleB1": "<p>I don't really like very hot weather. </p><p>I think it's uncomfortable when it's too hot, <span class=\"ml-token adv\">especially</span> in the summer.</p><p><span class=\"ml-token adv\">For example</span>, I don't like going outside when it's really sunny and there's no wind.</p><p>It makes me feel tired and I can't do much.</p>",
-      "sampleB2": "<p>I'm not a big fan of extremely humid weather. </p><p>It's not just the heat, but the stickiness that really bothers me.</p><p>It makes everything feel uncomfortable and makes it hard to breathe.</p><p>I also find that it can affect my mood, making me feel sluggish and irritable.</p><p>While I appreciate a warm sunny day, the humidity just ruins it for me.</p>"
+      "sampleB2": "<p>I'm not a big fan of extremely humid weather. </p><p>It's not just the heat, but the stickiness that really bothers me.</p><p>It makes everything feel uncomfortable and makes it hard to breathe.</p><p>I also find that it can affect my mood, making me feel sluggish and irritable.</p><p>While I appreciate a warm sunny day, the humidity just ruins it for me.</p>",
+      "uzSampleAnswer": "<p>Ob-havo kundalik hayotimizning ajralmas qismi bo'lib, u taqdim etadigan xilma-xillikni qadrlasam ham, men mutlaqo yomon ko'radigan bir turi bor: jazirama issiq. Tropik mamlakatda yashash menga bo'g'iq haroratning tanamga ham, ongimga ham qanchalik ta'sir qilishini his qilish imkonini berdi.</p>\n\n<p>Rostini aytsam, yozning jazirama oylarida, harorat ko'tarilganda, kundalik vazifalarimni bajarish juda qiyin bo'ladi. Go'yo do'zax o'tida yurganingdek, namlik esa noqulaylikni yanada kuchaytiradi. Issiq ko'pincha meni lanj qilib qo'yadi va kuchimni yo'qotadi, bu esa ishga e'tibor qaratishni yoki hatto tashqarida dam olishni imkonsiz qiladi.</p>\n\n<p>Bundan tashqari, bunday ob-havo uyqu rejimimga jiddiy ta'sir qilishi mumkin. Yopishqoq issiqlik tufayli tun bo'yi ag'darilib yotish yaxshi emas va bu ertasi kuni unumdorligimga ta'sir qiladi. Aynan shunday paytlarda men momaqaldiroqni yoki salqin shabada esishini chin dildan kutaman, bu bunday bo'g'iq muhitda bir hovur suv bo'lishi mumkin.</p>\n\n<p>Agar tanlash imkoniyati bo'lsa, men jazirama issiqqa chidashdan ko'ra, qishning sovuq shamollariga bardosh berganim ma'qul. Aytishlaricha, \"Ustiga doim kiyim qo'shish mumkin, lekin yechishning ham chegarasi bor\". Bu jazirama issiqlik nega mening eng sevimli bo'lmagan ob-havo turiga aylanganini mukammal tarzda ifodalaydi.</p>",
+      "uzSampleA1": "<p>Men yomg'irni yoqtirmayman. </p><p>Yomg'ir yomon.</p>",
+      "uzSampleA2": "<p>Men sovuq ob-havoni yoqtirmayman.</p><p>Havo juda sovuq va men tashqariga chiqishni yoqtirmayman.</p><p>Men quyoshni yaxshi ko'raman, chunki u iliq.</p>",
+      "uzSampleB1": "<p>Men juda issiq ob-havoni unchalik yoqtirmayman.</p><p>Menimcha, juda issiq bo'lganda noqulay, ayniqsa yozda.</p><p>Masalan, quyosh juda qizdirganda va shamol bo'lmaganda tashqariga chiqishni yoqtirmayman.</p><p>Bu meni charchatadi va men ko'p narsa qila olmayman.</p>",
+      "uzSampleB2": "<p>Men juda nam ob-havoning muxlisi emasman.</p><p>Faqatgina issiqlik emas, balki yopishqoqlik ham meni bezovta qiladi.</p><p>Bu hamma narsani noqulay his qildiradi va nafas olishni qiyinlashtiradi.</p><p>Shuningdek, bu mening kayfiyatimga ta'sir qilib, meni dangasa va jahldor qilib qo'yishini sezaman.</p><p>Men iliq quyoshli kunni qadrlasam ham, namlik buni men uchun buzadi.</p>"
     },
     {
       "number": 3,
@@ -92,6 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do after work or school?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>After a long day at work, I <span class=\"ml-token phrasal\">love to unwind</span> by engaging in activities that <span class=\"ml-token colloc\">rejuvenate my mind</span> and body. <span class=\"ml-token adv\">Honestly</span>, I <span class=\"ml-token phrasal\">tend to</span> gravitate towards <span class=\"ml-token colloc\">physical activities</span> like jogging in the park or attending a yoga class. These are not just a means to stay fit but also a <span class=\"ml-token colloc\">great way</span> to clear my head. As they say, <span class=\"ml-token proverb\">\"a sound mind in a sound body\"</span>.</p>\n\n<p>Moreover, I <span class=\"ml-token adv\">genuinely</span> enjoy <span class=\"ml-token phrasal\">catching up</span> with friends. We often <span class=\"ml-token phrasal\">hang out</span> at a local café, where we can <span class=\"ml-token idiom\">let our hair down</span> and share our day's experiences. These social gatherings are invaluable for maintaining strong relationships and <span class=\"ml-token colloc\">enhancing my social experience</span>.</p>\n\n<p>On occasion, when I feel creatively inspired, I <span class=\"ml-token phrasal\">pick up</span> my guitar and play some tunes. Playing music is something I find <span class=\"ml-token adv\">incredibly</span> therapeutic; it allows me to express my emotions and <span class=\"ml-token colloc\">improve my skills</span>. Furthermore, if there's something interesting happening in town, like a cultural event or an exhibition, I make it a point to attend. I <span class=\"ml-token adv\">truly</span> believe that these activities enrich my life and prevent me from <span class=\"ml-token idiom\">putting all my eggs in one basket</span> by focusing solely on work.</p>",
       "vocabulary": {
@@ -119,7 +132,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I go home. I eat dinner. I watch TV.</p>",
       "sampleA2": "<p>I finish work and I go home. I am tired, so I eat dinner and watch TV. Sometimes I talk to my family. And then I go to sleep.</p>",
       "sampleB1": "<p>After work, I usually go straight home. I'm often quite tired, so I like to relax. I usually cook dinner and watch some TV. Sometimes, if I'm not too tired, I'll go to the gym or meet up with friends for a drink.</p>",
-      "sampleB2": "<p>Once I'm done with work for the day, I try to de-stress a bit. I often head to the gym, as exercise helps me to unwind and clear my head. Afterwards, I usually prepare a meal, maybe while listening to a podcast or some music. If I have the energy, I might <span class=\"ml-token phrasal\">catch up with</span> friends or work on a personal project, like learning a new skill online.</p>"
+      "sampleB2": "<p>Once I'm done with work for the day, I try to de-stress a bit. I often head to the gym, as exercise helps me to unwind and clear my head. Afterwards, I usually prepare a meal, maybe while listening to a podcast or some music. If I have the energy, I might <span class=\"ml-token phrasal\">catch up with</span> friends or work on a personal project, like learning a new skill online.</p>",
+      "uzSampleAnswer": "<p>Ishdagi uzoq kundan so'ng, aqliy va jismoniy holatimni tiklaydigan mashg'ulotlar bilan shug'ullanib, dam olishni yaxshi ko'raman. Rostini aytsam, parkda yugurish yoki yoga mashg'ulotlariga borish kabi jismoniy faoliyatlarga moyilman. Bular nafaqat sog'lom bo'lish vositasi, balki fikrlarimni tozalashning ajoyib usuli hamdir. Aytishlaricha, \"sog' tanda sog' aql\".</p>\n\n<p>Bundan tashqari, do'stlarim bilan vaqt o'tkazishni chin dildan yoqtiraman. Ko'pincha mahalliy kafeda uchrashamiz, u yerda erkin suhbatlashib, kunimizning taassurotlari bilan bo'lishamiz. Bu kabi uchrashuvlar mustahkam aloqalarni saqlash va ijtimoiy tajribamni oshirish uchun juda muhimdir.</p>\n\n<p>Ba'zida, ijodiy ilhom kelganda, gitaramni olib, bir nechta kuy chalishga kirishaman. Musiqa chalish men uchun juda foydali mashg'ulot; bu menga his-tuyg'ularimni ifoda etish va mahoratimni oshirishga imkon beradi. Bundan tashqari, agar shaharda madaniy tadbir yoki ko'rgazma kabi qiziqarli narsa bo'lsa, albatta borishga harakat qilaman. Ishga haddan tashqari berilib, hayotimni bir yoqlama qilib qo'ymaslik uchun bu kabi mashg'ulotlar hayotimni boyitadi deb chin dildan ishonaman.</p>",
+      "uzSampleA1": "<p>Men uyga boraman. Men kechki ovqat yeyman. Men televizor ko'raman.</p>",
+      "uzSampleA2": "<p>Men ishni tugataman va uyga boraman. Men charchaganman, shuning uchun kechki ovqat yeyman va televizor ko'raman. Ba'zan oilam bilan gaplashaman. Keyin esa uxlayman.</p>",
+      "uzSampleB1": "<p>Ishdan keyin, odatda to'g'ri uyga boraman. Ko'pincha juda charchagan bo'laman, shuning uchun dam olishni yaxshi ko'raman. Odatda kechki ovqat tayyorlayman va televizor ko'raman. Ba'zida, agar juda charchamagan bo'lsam, sport zaliga boraman yoki do'stlarim bilan birga ichimlik ichish uchun uchrashaman.</p>",
+      "uzSampleB2": "<p>Kun bo'yi ish bilan shug'ullanib bo'lgach, biroz dam olishga harakat qilaman. Ko'pincha sport zaliga boraman, chunki mashq qilish menga dam olishga va fikrlarimni tozalashga yordam beradi. Keyin odatda ovqat tayyorlayman, balki podkast yoki musiqa tinglab. Agar kuchim yetarli bo'lsa, do'stlarim bilan uchrashishim yoki shaxsiy loyiham ustida ishlashim mumkin, masalan, onlayn yangi ko'nikma o'rganish.</p>"
     },
     {
       "number": 4,
@@ -128,6 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first image, I can <span class=\"ml-token phrasal\">make out</span> a woman <span class=\"ml-token colloc\">jogging in a park</span>, surrounded by lush greenery and an expansive blue sky. This setting is absolutely <span class=\"ml-token idiom\">a breath of fresh air</span>, <span class=\"ml-token adv\">literally</span> and metaphorically, as it suggests a <span class=\"ml-token colloc\">peaceful environment</span> for exercise. The woman appears <span class=\"ml-token adv\">incredibly</span> focused and determined, exemplifying how outdoor activities can <span class=\"ml-token phrasal\">rejuvenate the spirit</span> and <span class=\"ml-token phrasal\">boost mental health</span>. <span class=\"ml-token proverb\">\"Health is wealth,\"</span> they say, and this particular image <span class=\"ml-token colloc\">captures the essence</span> of maintaining physical well-being in nature's embrace.</p>\n\n<p>Conversely, the second image depicts a person running on a treadmill in a gym setting. The atmosphere is <span class=\"ml-token colloc\">strikingly different</span>, with artificial lighting and an abundance of fitness equipment. This scene highlights the convenience and accessibility of modern <span class=\"ml-token colloc\">fitness facilities</span>, which allow individuals to <span class=\"ml-token phrasal\">work out</span> regardless of weather conditions. It seems <span class=\"ml-token adv\">genuinely</span> efficient for those with <span class=\"ml-token colloc\">hectic schedules</span>, providing a <span class=\"ml-token colloc\">controlled environment</span> for exercise. Personally, I find gyms to be an <span class=\"ml-token idiom\">ideal place to let off steam</span> and stay fit, especially during inclement weather.</p>\n\n<p>Overall, both images portray different yet <span class=\"ml-token colloc\">equally effective</span> ways of staying active. Whether one prefers the tranquil outdoors or the practicality of indoor facilities, the key is to find a routine that <span class=\"ml-token phrasal\">works for you</span> and helps you maintain a <span class=\"ml-token colloc\">healthy lifestyle</span>.</p>",
       "vocabulary": {
@@ -151,7 +170,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I see woman. She run. Park. Good.</p>",
       "sampleA2": "<p>I see a woman running. She is in a park and it is green. And I see another person running on a machine. It's inside. I think it's a gym.</p>",
       "sampleB1": "<p>In the first picture, I can see a woman running in a park. It looks like a nice day. In the second picture, there is a person running on a treadmill. I think they are in a gym. Both people are exercising, but in different places. I prefer the park, I think.</p>",
-      "sampleB2": "<p>The first picture shows a woman jogging in what appears to be a public park. The natural setting seems quite inviting and peaceful. <span class=\"ml-token adv\">In contrast</span>, the second image depicts someone using a treadmill inside a gym. The atmosphere is more artificial and controlled. Both images represent different approaches to physical exercise, one focusing on outdoor activity and the other on indoor fitness. While the park offers a connection with nature, the gym provides convenience and specialized equipment.</p>"
+      "sampleB2": "<p>The first picture shows a woman jogging in what appears to be a public park. The natural setting seems quite inviting and peaceful. <span class=\"ml-token adv\">In contrast</span>, the second image depicts someone using a treadmill inside a gym. The atmosphere is more artificial and controlled. Both images represent different approaches to physical exercise, one focusing on outdoor activity and the other on indoor fitness. While the park offers a connection with nature, the gym provides convenience and specialized equipment.</p>",
+      "uzSampleAnswer": "<p>Birinchi suratda men bir ayolni ko'rishim mumkin, u parkda yugurmoqda, atrofida serhosil ko'katlar va keng moviy osmon bor. Bu muhit, tom ma'noda va majoziy ma'noda, mutlaqo tetiklantiruvchi, chunki u mashq qilish uchun tinch muhitni taklif qiladi. Ayol juda diqqatli va qat'iyatli ko'rinadi, bu tashqi faoliyatlar ruhni qanday yangilashi va ruhiy salomatlikni yaxshilashi mumkinligini ko'rsatadi. \"Sog'lik - boylik\", deyishadi, va bu surat tabiat qo'ynida jismoniy farovonlikni saqlash mohiyatini aks ettiradi.</p>\n\n<p>Aksincha, ikkinchi suratda sport zalida treadmillda yugurayotgan odam tasvirlangan. Atmosfera keskin farq qiladi, sun'iy yoritish va fitnes uskunalari ko'p. Bu sahna zamonaviy fitnes markazlarining qulayligi va ommabopligini ta'kidlaydi, bu esa odamlarga ob-havo sharoitidan qat'i nazar, mashq qilish imkonini beradi. Bu, ayniqsa, band bo'lganlar uchun juda samarali ko'rinadi, mashq qilish uchun nazorat qilinadigan muhitni ta'minlaydi. Shaxsan men sport zallarini ayniqsa noqulay ob-havo paytida, bug'ni chiqarish va sog'lom bo'lish uchun ideal joy deb bilaman.</p>\n\n<p>Umuman olganda, ikkala surat ham faol bo'lishning turli, ammo bir xilda samarali usullarini tasvirlaydi. Odam tinch tabiatni yoki yopiq inshootlarning amaliyligini afzal ko'radimi, asosiy narsa - sizga mos keladigan va sog'lom turmush tarzini saqlashga yordam beradigan tartibni topishdir.</p>",
+      "uzSampleA1": "<p>Men ayolni ko'ryapman. U yuguryapti. Park. Yaxshi.</p>",
+      "uzSampleA2": "<p>Men bir ayolning yugurayotganini ko'ryapman. U parkda va u yer yashil. Va men yana bir odamning mashinada yugurayotganini ko'ryapman. Bu ichkarida. Menimcha, bu sport zal.</p>",
+      "uzSampleB1": "<p>Birinchi rasmda men parkda yugurayotgan ayolni ko'ryapman. Ob-havo yaxshi ko'rinadi. Ikkinchi rasmda esa, odam yugurish yo'lakchasida yuguryapti. Menimcha, ular sport zalida. Ikkala odam ham mashq qilyapti, lekin har xil joylarda. Men parkni afzal ko'raman, deb o'ylayman.</p>",
+      "uzSampleB2": "<p>Birinchi rasmda ayol kishi jamoat parkiga o'xshagan joyda yugurayotganini ko'rish mumkin. Tabiiy muhit juda jozibali va tinchdek ko'rinadi. <br>Aksincha, ikkinchi rasmda kimdir sport zalida treadmillda mashq qilayotganini tasvirlaydi. Atmosfera ko'proq sun'iy va nazorat qilinadigan. Ikkala rasm ham jismoniy mashq qilishning turli xil usullarini ifodalaydi, biri ochiq havoda faollikka, ikkinchisi esa yopiq joylardagi fitnesga qaratilgan. Park tabiat bilan aloqani taklif qilsa, sport zal qulaylik va maxsus jihozlarni taqdim etadi.</p>"
     },
     {
       "number": 5,
@@ -160,6 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some advantages of doing sport indoors instead of outdoors?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Engaging in sports indoors offers <span class=\"ml-token colloc\">distinct advantages</span> that can <span class=\"ml-token adv\">significantly</span> enhance one's experience and performance. Firstly, indoor sports provide a <span class=\"ml-token colloc\">controlled environment</span>, which means participants are <span class=\"ml-token idiom\">\"not at the mercy of\"</span> adverse weather conditions that can <span class=\"ml-token phrasal\">put off</span> even the most dedicated athletes. For instance, I regularly play badminton indoors, where the consistent lighting and absence of wind allow for a <span class=\"ml-token colloc\">more focused</span> game.</p>\n\n<p>Moreover, indoor facilities often come equipped with specialized equipment and <span class=\"ml-token colloc\">state-of-the-art technology</span> that can <span class=\"ml-token phrasal\">step up</span> one's training regimen. These amenities make it easier to <span class=\"ml-token phrasal\">track progress</span> and <span class=\"ml-token phrasal\">fine-tune</span> techniques, which is <span class=\"ml-token adv\">incredibly</span> beneficial for those <span class=\"ml-token colloc\">serious about</span> <span class=\"ml-token colloc\">making it their career</span>.</p>\n\n<p>Furthermore, indoor sports can foster a <span class=\"ml-token colloc\">vibrant social experience</span>. Facilities usually host a variety of events, from tournaments to casual meet-ups, allowing athletes to <span class=\"ml-token phrasal\">mingle with</span> like-minded individuals. This aspect not only enhances <span class=\"ml-token colloc\">social bonds</span> but also provides a <span class=\"ml-token idiom\">\"breeding ground\"</span> for <span class=\"ml-token colloc\">competitive spirit</span>.</p>\n\n<p>In conclusion, while outdoor sports have their own charm, the advantages of indoor sports, such as a <span class=\"ml-token colloc\">controlled environment</span>, access to advanced facilities, and a more consistent social setting, make them a compelling option for many. As the saying goes, <span class=\"ml-token proverb\">\"forewarned is forearmed,\"</span> and by choosing indoors, athletes can better prepare and <span class=\"ml-token phrasal\">gear up for</span> success.</p>",
       "vocabulary": {
@@ -183,7 +208,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Sport inside good. No rain.  I like inside.</p>",
       "sampleA2": "<p>I like sport. Inside is good because no cold. And no rain, but outside is fun too sometimes.</p>",
       "sampleB1": "<p>Well, I think doing sport indoors has some good points. <span class=\"ml-token adv\">For example</span>, the weather is always okay, you know? It's never too hot or raining. Also, you can usually find a gym or something with good equipment. <span class=\"ml-token adv\">However</span>, outdoor sports can be fun too!</p>",
-      "sampleB2": "<p>There are <span class=\"ml-token adv\">definitely</span> some advantages to playing sports indoors. One key benefit is the predictable environment. You don't have to worry about rain, strong winds, or extreme temperatures, which can really disrupt your training. Also, indoor facilities often have better equipment and surfaces designed for specific sports. <span class=\"ml-token adv\">However</span>, it's also true that outdoor sports offer a different kind of freedom and connection with nature.</p>"
+      "sampleB2": "<p>There are <span class=\"ml-token adv\">definitely</span> some advantages to playing sports indoors. One key benefit is the predictable environment. You don't have to worry about rain, strong winds, or extreme temperatures, which can really disrupt your training. Also, indoor facilities often have better equipment and surfaces designed for specific sports. <span class=\"ml-token adv\">However</span>, it's also true that outdoor sports offer a different kind of freedom and connection with nature.</p>",
+      "uzSampleAnswer": "<p>Sport bilan yopiq joylarda shug'ullanish o'z tajribasi va natijalarini sezilarli darajada yaxshilaydigan aniq afzalliklarni taqdim etadi. Birinchidan, yopiq sport turlari nazorat qilinadigan muhitni ta'minlaydi, ya'ni ishtirokchilar hatto eng sadoqatli sportchilarni ham to'xtatib qo'yishi mumkin bo'lgan noqulay ob-havo sharoitlariga \"qaram emas\". Misol uchun, men doimiy yoritish va shamol yo'qligi o'yinni yanada diqqat bilan o'tkazishga imkon beradigan yopiq joylarda badminton o'ynayman.</p>\n\n<p>Bundan tashqari, yopiq inshootlar ko'pincha maxsus jihozlar va eng zamonaviy texnologiyalar bilan jihozlangan bo'lib, ular mashg'ulot rejimini kuchaytirishi mumkin. Ushbu qulayliklar taraqqiyotni kuzatishni va texnikani aniqlashtirishni osonlashtiradi, bu o'z faoliyatini kasbga aylantirishga jiddiy yondashadiganlar uchun juda foydali.</p>\n\n<p>Bundan tashqari, yopiq sport turlari jonli ijtimoiy tajribani rivojlantirishi mumkin. Inshootlar odatda turnirlardan tortib, tasodifiy uchrashuvlargacha bo'lgan turli xil tadbirlarni o'tkazadi, bu sportchilarga fikrlari bir xil bo'lgan odamlar bilan aralashish imkonini beradi. Ushbu jihat nafaqat ijtimoiy aloqalarni mustahkamlaydi, balki raqobat ruhini rivojlantirish uchun \"qulay muhit\" ham yaratadi.</p>\n\n<p>Xulosa qilib aytganda, ochiq havoda sportning o'ziga xos jozibasi bo'lsa-da, yopiq sportning afzalliklari, masalan, nazorat qilinadigan muhit, zamonaviy inshootlarga kirish imkoniyati va yanada barqaror ijtimoiy muhit ularni ko'pchilik uchun jozibali variantga aylantiradi. Aytishlaricha, \"ogoh bo'lsa, qurolli bo'ladi\" va yopiq joyni tanlab, sportchilar muvaffaqiyatga yaxshiroq tayyorgarlik ko'rishlari va kuchayishlari mumkin.</p>",
+      "uzSampleA1": "<p>Sport zalda yaxshi. Yomg'ir yo'q. Menga zalda yoqadi.</p>",
+      "uzSampleA2": "<p>Men sportni yaxshi ko'raman. Ichkarida yaxshi, chunki sovuq emas. Va yomg'ir ham yo'q, lekin tashqarida ham ba'zida qiziqarli.</p>",
+      "uzSampleB1": "<p>Xo'sh, menimcha, sport bilan yopiq joylarda shug'ullanishning ba'zi yaxshi tomonlari bor. <br>Masalan, ob-havo har doim yaxshi bo'ladi, bilasizmi? Hech qachon juda issiq yoki yomg'ir bo'lmaydi. Shuningdek, odatda yaxshi jihozlangan sport zalini yoki shunga o'xshash narsani topishingiz mumkin. <br>Biroq, ochiq havoda sport bilan shug'ullanish ham qiziqarli bo'lishi mumkin!</p>",
+      "uzSampleB2": "<p>Sport bilan yopiq joylarda shug'ullanishning ba'zi afzalliklari, albatta, bor. Asosiy afzalliklardan biri bu - ob-havoning oldindan aytib bo'lishidir. Siz yomg'ir, kuchli shamol yoki haddan tashqari harorat haqida tashvishlanishingizga hojat yo'q, bu esa mashg'ulotlaringizga jiddiy ta'sir qilishi mumkin. Bundan tashqari, yopiq inshootlarda ko'pincha muayyan sport turlari uchun mo'ljallangan yaxshiroq uskunalar va sirtlar mavjud. Biroq, shuni ham aytish kerakki, ochiq havoda sport bilan shug'ullanish tabiat bilan boshqacha erkinlik va aloqani ta'minlaydi.</p>"
     },
     {
       "number": 6,
@@ -192,6 +222,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people still prefer to train with sport in the nature today?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>There are <span class=\"ml-token adv\">several</span> compelling reasons why individuals are still drawn to <span class=\"ml-token colloc\">training outdoors</span>, even in an age dominated by gyms and indoor facilities. <span class=\"ml-token proverb\">\"The early bird catches the worm,\"</span> and for many, starting the day with a run or yoga session amidst nature is <span class=\"ml-token adv\">incredibly</span> invigorating. <span class=\"ml-token adv\">Honestly</span>, the <span class=\"ml-token colloc\">fresh air</span> and <span class=\"ml-token colloc\">natural surroundings</span> can provide a <span class=\"ml-token colloc\">sense of tranquility</span> that <span class=\"ml-token colloc\">high-street gyms</span> simply cannot replicate.</p>\n\n<p>Furthermore, training in nature offers a dynamic environment that can <span class=\"ml-token phrasal\">shake up</span> one's routine. Instead of being confined to a <span class=\"ml-token colloc\">treadmill or elliptical</span>, outdoor enthusiasts often <span class=\"ml-token phrasal\">take advantage</span> of varied terrains which challenge different muscle groups and enhance <span class=\"ml-token colloc\">overall fitness</span>. <span class=\"ml-token idiom\">\"Variety is the spice of life,\"</span> they say, and this diversity can make exercising <span class=\"ml-token adv\">much</span> more enjoyable and beneficial.</p>\n\n<p>Moreover, many people find that being in nature allows them to <span class=\"ml-token phrasal\">tune into</span> the rhythm of their own bodies and the world around them. There's something <span class=\"ml-token adv\">genuinely</span> therapeutic about <span class=\"ml-token colloc\">listening to</span> the birds sing or feeling the <span class=\"ml-token colloc\">cool breeze</span> as you break a sweat. Personally, I've always found that <span class=\"ml-token colloc\">exercise in nature</span> helps to clear my mind, providing a much-needed escape from the <span class=\"ml-token colloc\">hustle and bustle</span> of city life.</p>",
       "vocabulary": {
@@ -215,7 +246,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like nature. I run. Nature is good.</p>",
       "sampleA2": "<p>I like sport in nature. It is nice. I go running and I like the trees. It is good for me and it is fun.</p>",
       "sampleB1": "<p>I think some people like sport in nature because it's more interesting than the gym. <span class=\"ml-token adv\">For example</span>, you can run in the forest. Also, it's good for your health because you get fresh air. <span class=\"ml-token adv\">However</span>, the weather can be bad sometimes.</p>",
-      "sampleB2": "<p>Many people still enjoy training in nature because it offers a different experience compared to indoor gyms. <span class=\"ml-token adv\">Firstly</span>, the natural environment can be very motivating and refreshing. <span class=\"ml-token adv\">Secondly</span>, outdoor training often provides a greater variety of physical challenges, like uneven terrain or hills. This can lead to improved fitness and a more engaging workout. Finally, some people find that being surrounded by nature reduces stress and improves their mental well-being.</p>"
+      "sampleB2": "<p>Many people still enjoy training in nature because it offers a different experience compared to indoor gyms. <span class=\"ml-token adv\">Firstly</span>, the natural environment can be very motivating and refreshing. <span class=\"ml-token adv\">Secondly</span>, outdoor training often provides a greater variety of physical challenges, like uneven terrain or hills. This can lead to improved fitness and a more engaging workout. Finally, some people find that being surrounded by nature reduces stress and improves their mental well-being.</p>",
+      "uzSampleAnswer": "<p>Odamlar sport bilan tabiatda shug‘ullanishni afzal ko‘rishlarining bir nechta asosli sabablari bor, hatto sport zallari va yopiq inshootlar hukmron bo‘lgan davrda ham. \"Kim erta tursa, o‘sha o‘ljaning ustidan chiqadi\", deganlaridek, ko‘pchilik uchun kunni tabiat qo‘ynida yugurish yoki yoga bilan boshlash juda tetiklantiradi. Rostini aytsam, toza havo va tabiiy muhit shunday xotirjamlik hissini berishi mumkinki, buni shahar markazidagi sport zallari takrorlay olmaydi.</p>\n\n<p>Bundan tashqari, tabiatda mashq qilish odamning kundalik tartibini o‘zgartirishi mumkin bo‘lgan dinamik muhitni taklif etadi. Yugurish yo‘lakchasi yoki elliptik trenajyor bilan cheklanib qolish o‘rniga, ochiq havoda mashq qiluvchilar turli xil relyeflardan foydalanib, turli mushak guruhlariga yuklama beradi va umumiy jismoniy holatni yaxshilaydi. \"Har xillik hayotga fayz beradi\", deyishadi, va bu xilma-xillik mashq qilishni ancha yoqimli va foydali qilishi mumkin.</p>\n\n<p>Bundan tashqari, ko‘pchilik tabiatda bo‘lish ularga o‘z tanasi va atrofidagi olam ritmiga moslashishga yordam berishini aniqlaydi. Qushlarning sayrashini tinglash yoki terlaganingizda salqin shabada esishini his qilishda chinakam terapevtik narsa bor. Shaxsan men, tabiatda mashq qilish doimo ongimni tozalashga yordam beradi, bu esa shahar hayotining shovqinidan qochish uchun zarur bo'lgan imkoniyatdir.</p>",
+      "uzSampleA1": "<p>Men tabiatni yaxshi ko'raman. Men yuguraman. Tabiat yaxshi.</p>",
+      "uzSampleA2": "<p>Men tabiatda sport bilan shug'ullanishni yaxshi ko'raman. Bu yoqimli. Men yuguraman va daraxtlar menga yoqadi. Bu men uchun foydali va qiziqarli.</p>",
+      "uzSampleB1": "<p>Menimcha, ba'zi odamlar tabiatda sport bilan shug'ullanishni yoqtirishadi, chunki bu sport zaldan ko'ra qiziqarliroq. <br>Masalan, o'rmonda yugurishingiz mumkin. <br>Shuningdek, bu sog'lig'ingiz uchun foydali, chunki siz toza havodan nafas olasiz. <br>Biroq, ob-havo ba'zan yomon bo'lishi mumkin.</p>",
+      "uzSampleB2": "<p>Ko'p odamlar hali ham tabiatda mashq qilishni yoqtirishadi, chunki u yopiq sport zallariga nisbatan boshqacha tajriba taklif etadi. Birinchidan, tabiiy muhit juda motivatsiya beruvchi va tetiklantiruvchi bo'lishi mumkin. Ikkinchidan, ochiq havoda mashq qilish ko'pincha notekis yer yoki tepaliklar kabi jismoniy qiyinchiliklarning kattaroq xilma-xilligini ta'minlaydi. Bu esa jismoniy tayyorgarlikning yaxshilanishiga va yanada qiziqarli mashg'ulotga olib kelishi mumkin. Nihoyat, ba'zi odamlar tabiat bilan o'ralgan holda stressni kamaytiradi va ruhiy farovonligini yaxshilaydi, deb hisoblashadi.</p>"
     },
     {
       "number": 7,
@@ -224,6 +260,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a team project that you worked on. <br>",
@@ -256,7 +293,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like team. </p><p>Team is good. </p><p>We work together. </p>",
       "sampleA2": "<p>I worked in a team. </p><p>We did a project and it was fun. </p><p>We helped each other, and we finished it. </p><p>Teamwork is good because we can do more.</p>",
       "sampleB1": "<p>I remember a team project from school. </p><p>We had to build something together. </p><p>I think it was a good experience because we learned how to share ideas. </p><p><span class=\"ml-token adv\">For example</span>, we had different opinions, but we listened to each other. </p><p>Also, teamwork is important in life. </p><p>It helps us to solve problems better.</p>",
-      "sampleB2": "<p>A memorable team project for me was when we organized a charity event. </p><p>It was challenging because we had to coordinate many different tasks. </p><p><span class=\"ml-token adv\">However</span>, it was also very rewarding to see everyone working towards a common goal. </p><p>I learned a lot about the importance of communication and delegation in teamwork. </p><p>Effective teamwork is essential for building strong relationships, both <span class=\"ml-token adv\">personally</span> and professionally. </p><p>When people collaborate effectively, they can achieve much more than they could individually, and it creates a supportive environment where everyone feels valued.</p>"
+      "sampleB2": "<p>A memorable team project for me was when we organized a charity event. </p><p>It was challenging because we had to coordinate many different tasks. </p><p><span class=\"ml-token adv\">However</span>, it was also very rewarding to see everyone working towards a common goal. </p><p>I learned a lot about the importance of communication and delegation in teamwork. </p><p>Effective teamwork is essential for building strong relationships, both <span class=\"ml-token adv\">personally</span> and professionally. </p><p>When people collaborate effectively, they can achieve much more than they could individually, and it creates a supportive environment where everyone feels valued.</p>",
+      "uzSampleAnswer": "<p>Mening yodimda eng yaxshi qolgan jamoaviy loyihalarimdan biri universitet yillarida bo'lgan, o'shanda men va mening jamoamga startap uchun barqaror biznes modelini yaratish vazifasi yuklatilgan edi. Loyiha bizdan turli fanlarni, jumladan, moliya va marketingdan tortib atrof-muhit fanigacha integratsiya qilishni talab qildi. Menga vazifaning ko'p qirraliligi va turli nuqtai nazarlarni birlashtirish imkoniyati juda yoqdi. Har bir jamoa a'zosining o'z tajribasi bor edi va biz modelimizning hayotiyligi va barqarorligini ta'minlash uchun eng yaxshi strategiyalarni aniqlash uchun tinimsiz ishladik. Oxir-oqibat, biz loyihamizni muvaffaqiyatli taqdim etdik, bu professorlarimiz tomonidan juda yaxshi qabul qilindi.</p>\n\n<p>Bu tajriba mening jamoaviy ish haqidagi tushunchamni sezilarli darajada oshirdi. Men samarali hamkorlik ochiq muloqotga va bir-birining g'oyalarini hurmat qilishga bog'liqligini angladim. Har bir insonning kuchli tomonlaridan foydalanib, biz individual imkoniyatlarimizdan ancha yuqori bo'lgan jamoaviy maqsadga erisha oldik. Bu menga hech kim yolg'iz yashay olmasligini o'rgatdi va odamlar umumiy maqsad sari harakat qilganda yaratiladigan sinergiyani qadrlashni boshladim.</p>\n\n<p>Jamoaviy ish kuchli jamiyatlar va munosabatlarni qurishda juda muhimdir. Ijtimoiy nuqtai nazardan, jamoaviy ish turli xil kelib chiqishi bo'lgan odamlarni birlashtiradi, o'zaro tushunish va bag'rikenglikni rivojlantiradi. Bu jamiyat tuyg'usini va umumiy mas'uliyatni shakllantiradi, bu esa jamiyat taraqqiyoti uchun juda muhimdir. Shaxsiy munosabatlarda jamoaviy ish ishonchni va ochiq muloqotni rag'batlantirish orqali aloqalarni mustahkamlaydi, bu esa har qanday sog'lom munosabatlarning ustunidir. \"Ko'p qo'l mehnatni yengillashtiradi\" deganlaridek, jamoaviy ish umumiy yuklarni bo'lishish va muvaffaqiyatni oshirish imkonini beradi, bu esa barcha ishtirokchilarga foyda keltiradi.</p>",
+      "uzSampleA1": "<p>Menga jamoa yoqadi.</p><p>Jamoa yaxshi.</p><p>Biz birga ishlaymiz.</p>",
+      "uzSampleA2": "<p>Men bir jamoada ishladim.</p><p>Biz bir loyiha qildik va bu qiziqarli edi.</p><p>Biz bir-birimizga yordam berdik va uni tugatdik.</p><p>Jamoaviy ish yaxshi, chunki biz ko'proq narsa qila olamiz.</p>",
+      "uzSampleB1": "<p>Esimda, maktabdagi jamoaviy loyiha bor edi.</p><p>Biz birgalikda nimadir qurishimiz kerak edi.</p><p>Menimcha, bu yaxshi tajriba bo'ldi, chunki biz fikr almashishni o'rgandik.</p><p>Masalan, bizda turli xil fikrlar bor edi, lekin biz bir-birimizni tingladik.</p><p>Shuningdek, jamoaviy ish hayotda muhim.</p><p>Bu bizga muammolarni yaxshiroq hal qilishga yordam beradi.</p>",
+      "uzSampleB2": "<p>Mening uchun yodda qolarli jamoaviy loyiha xayriya tadbirini tashkil qilganimiz bo'lgan edi.</p><p>Bu qiyin edi, chunki biz ko'plab turli vazifalarni muvofiqlashtirishimiz kerak edi.</p><p>Biroq, hamma umumiy maqsad sari harakat qilayotganini ko'rish ham juda foydali edi.</p><p>Men jamoaviy ishda aloqa va vakolat berishning muhimligi haqida ko'p narsalarni o'rgandim.</p><p>Samarali jamoaviy ish shaxsiy va professional jihatdan mustahkam munosabatlarni o'rnatish uchun juda muhimdir.</p><p>Odamlar samarali hamkorlik qilganda, ular yakka holda erisha oladiganidan ko'ra ko'proq narsaga erishishlari mumkin va bu har bir kishi o'zini qadrlaydigan qo'llab-quvvatlovchi muhit yaratadi.</p>"
     },
     {
       "number": 8,
@@ -265,6 +307,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Online education is better than offline education\n",
+      "audioFile": "questions S/audio/cefr-speaking-mock-13-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
@@ -296,7 +339,574 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like school.</p><p>Online is okay.</p><p>But I like my teacher at school.</p>",
       "sampleA2": "<p>I think online education is good.</p><p>Because it is easy and I can stay home.</p><p>But I also like to see my friends at school.</p><p>So, maybe school is better.</p>",
       "sampleB1": "<p><span class=\"ml-token adv\">In my opinion</span>, online education has some advantages.</p><p><span class=\"ml-token adv\">For example</span>, it's more flexible and you can study when you want.</p><p><span class=\"ml-token adv\">However</span>, I think it's also important to go to a real school.</p><p>Because you can meet people and talk to the teacher face-to-face.</p><p>So, I think both have good and bad points.</p>",
-      "sampleB2": "<p>The debate about online versus offline education is interesting.</p><p>Online education offers clear benefits such as convenience and the ability to learn at your own pace.</p><p><span class=\"ml-token adv\">However</span>, the lack of direct interaction can be a drawback.</p><p>Offline education provides a structured environment and opportunities for <span class=\"ml-token colloc\">social interaction</span>, which are important for many learners.</p><p>It really depends on the individual's learning style and preferences.</p><p><span class=\"ml-token adv\">Ultimately</span>, a blended approach might be the most effective solution for many students.</p>"
+      "sampleB2": "<p>The debate about online versus offline education is interesting.</p><p>Online education offers clear benefits such as convenience and the ability to learn at your own pace.</p><p><span class=\"ml-token adv\">However</span>, the lack of direct interaction can be a drawback.</p><p>Offline education provides a structured environment and opportunities for <span class=\"ml-token colloc\">social interaction</span>, which are important for many learners.</p><p>It really depends on the individual's learning style and preferences.</p><p><span class=\"ml-token adv\">Ultimately</span>, a blended approach might be the most effective solution for many students.</p>",
+      "uzSampleAnswer": "<p>\"Har bir tanga ikki tomonli,\" va onlayn ta'lim oflayn ta'limdan ustunmi degan bahs, shubhasiz, bu maqolning klassik namunasidir. Bir tomondan, onlayn ta'lim ko'proq moslashuvchanlikni taklif etadi, bu, ayniqsa, ish va oila kabi bir nechta majburiyatlarni muvozanatlashtiradigan shaxslar uchun foydalidir. Ma'ruzalar va o'quv materiallariga o'z uyining qulayligidan kirish imkoniyati butun dunyo bo'ylab o'quvchilar uchun imkoniyatlar olamini ochadi.</p>\n<p>Bundan tashqari, onlayn platformalar istalgan vaqtda osonlik bilan foydalanish mumkin bo'lgan ko'plab resurslarni taqdim etadi. Darsliklardan tortib video ma'ruzalargacha bo'lgan ushbu keng materiallar to'plami talabalarga o'zlarining shaxsiy xohishlari va tezligiga mos ravishda o'rganish tajribalarini moslashtirish imkonini beradi. Bundan tashqari, onlayn ta'lim ko'pincha an'anaviy ta'limga nisbatan tejamkorroq alternativani taqdim etadi, bu qatnov va turar joy bilan bog'liq xarajatlarni yo'q qiladi.</p>\n<p>Aksincha, oflayn ta'limning afzalliklariga ko'z yumib bo'lmaydi. An'anaviy sinf xonalari talabalar va o'qituvchilar o'rtasida bevosita muloqotni rivojlantiradi, bu esa darhol fikr-mulohazalar va tushuntirishlarni rag'batlantirish orqali o'rganish tajribasini yaxshilashi mumkin. Bundan tashqari, oflayn ta'lim belgilangan jadvallar va tartiblar bilan tuzilgan o'quv muhitini ta'minlaydi, bu intizom va izchillikka intiladiganlar uchun juda foydali bo'lishi mumkin.</p>\n<p>Bundan tashqari, oflayn ta'lim talabalarga mazmunli munosabatlar o'rnatish imkoniyatini beradi. Yuzma-yuz muloqotdan kelib chiqadigan ijtimoiy tajriba va aloqa o'rnatish imkoniyatlari beqiyos bo'lib, shaxsiy va professional o'sishga sezilarli hissa qo'shadi. Yakuniy tahlilda, onlayn va oflayn ta'limning har biri o'ziga xos afzalliklarga ega va ular o'rtasidagi tanlov oxir-oqibat individual ehtiyojlar va sharoitlarga bog'liq bo'lishi kerak.</p>",
+      "uzSampleA1": "<p>Men maktabni yaxshi ko'raman.</p><p>Onlayn yaxshi.</p><p>Lekin men maktabdagi o'qituvchimni yaxshi ko'raman.</p>",
+      "uzSampleA2": "<p>Menimcha, onlayn ta'lim yaxshi.</p><p>Chunki u oson va men uyda qolishim mumkin.</p><p>Lekin men ham do'stlarimni maktabda ko'rishni yoqtiraman.</p><p>Shunday qilib, balki maktab yaxshiroqdir.</p>",
+      "uzSampleB1": "<p>Mening fikrimcha, onlayn ta'limning ba'zi afzalliklari bor.</p><p>Masalan, u yanada moslashuvchan va siz xohlagan vaqtda o'qishingiz mumkin.</p><p>Biroq, menimcha, haqiqiy maktabga borish ham muhim.</p><p>Chunki siz odamlar bilan uchrashishingiz va o'qituvchi bilan yuzma-yuz gaplashishingiz mumkin.</p><p>Shunday qilib, menimcha, ikkalasining ham yaxshi va yomon tomonlari bor.</p>",
+      "uzSampleB2": "<p>Onlayn ta’lim offline ta’limga qarshi bahsi qiziqarli.</p><p>Onlayn ta’lim qulaylik va o'z tezligingizda o'rganish imkoniyati kabi aniq afzalliklarni taklif etadi.</p><p>Biroq, bevosita muloqotning yo'qligi kamchilik bo'lishi mumkin.</p><p>Offline ta'lim tuzilgan muhit va ijtimoiy muloqot uchun imkoniyatlar yaratadi, bu ko'plab o'quvchilar uchun muhimdir.</p><p>Bu haqiqatan ham shaxsning o'rganish uslubi va afzalliklariga bog'liq.</p><p>Oxir oqibat, aralash yondashuv ko'plab talabalar uchun eng samarali yechim bo'lishi mumkin.</p>"
     }
-  ]
+  ],
+  "tokenTranslations": {
+    "Absolutely": {
+      "uz": "Albatta",
+      "type": "adv"
+    },
+    "can't imagine my life without music": {
+      "uz": "musiqasiz hayotimni tasavvur qila olmayman",
+      "type": "idiom"
+    },
+    "incredibly": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "great escape": {
+      "uz": "qalb taskini",
+      "type": "colloc"
+    },
+    "hustle and bustle": {
+      "uz": "tirikchilik tashvishlari",
+      "type": "colloc"
+    },
+    "diverse taste": {
+      "uz": "turli xil did",
+      "type": "colloc"
+    },
+    "pick up": {
+      "uz": "o'rganib olmoq",
+      "type": "phrasal"
+    },
+    "get my creative juices flowing": {
+      "uz": "ijodiy ilhomimni uyg'otadi",
+      "type": "idiom"
+    },
+    "hanging out": {
+      "uz": "vaqt o'tkazmoq",
+      "type": "phrasal"
+    },
+    "upbeat and lively": {
+      "uz": "shodiyona va jo'shqin",
+      "type": "colloc"
+    },
+    "social experience": {
+      "uz": "ijtimoiy tajriba",
+      "type": "colloc"
+    },
+    "breaking the ice": {
+      "uz": "muhrni buzmoq",
+      "type": "idiom"
+    },
+    "\"Music is the universal language of mankind\"": {
+      "uz": "\"Musiqa - xalqaro til\"",
+      "type": "proverb"
+    },
+    "truly": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "stepping into": {
+      "uz": "kirishmoq",
+      "type": "phrasal"
+    },
+    "making it my career": {
+      "uz": "kasb qilib olmoq",
+      "type": "colloc"
+    },
+    "figure out": {
+      "uz": "aniqlamoq",
+      "type": "phrasal"
+    },
+    "honestly": {
+      "uz": "rostini aytsam",
+      "type": "adv"
+    },
+    "fascinating field": {
+      "uz": "qiziqarli soha",
+      "type": "colloc"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "For example": {
+      "uz": "Masalan",
+      "type": "adv"
+    },
+    "definitely": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "daily routine": {
+      "uz": "kundalik tartib",
+      "type": "colloc"
+    },
+    "different cultures": {
+      "uz": "turli madaniyatlar",
+      "type": "colloc"
+    },
+    "integral part of our daily lives": {
+      "uz": "kundalik hayotimizning ajralmas qismi",
+      "type": "idiom"
+    },
+    "particular type": {
+      "uz": "muayyan tur",
+      "type": "colloc"
+    },
+    "allowed me to": {
+      "uz": "imkon berdi",
+      "type": "phrasal"
+    },
+    "stifling temperatures": {
+      "uz": "dim havo harorati",
+      "type": "colloc"
+    },
+    "take a toll": {
+      "uz": "salbiy ta'sir ko'rsatmoq",
+      "type": "phrasal"
+    },
+    "extremely challenging": {
+      "uz": "juda qiyin",
+      "type": "colloc"
+    },
+    "carry out": {
+      "uz": "amalga oshirmoq",
+      "type": "phrasal"
+    },
+    "walking through a furnace": {
+      "uz": "o't ichidan o'tgandek",
+      "type": "idiom"
+    },
+    "adds to": {
+      "uz": "qo'shiladi",
+      "type": "phrasal"
+    },
+    "often": {
+      "uz": "ko'pincha",
+      "type": "adv"
+    },
+    "saps my energy": {
+      "uz": "madorimni quritadi",
+      "type": "idiom"
+    },
+    "enjoy being": {
+      "uz": "rohatlanmoq",
+      "type": "phrasal"
+    },
+    "play havoc with": {
+      "uz": "izdan chiqaradi",
+      "type": "idiom"
+    },
+    "Tossing and turning": {
+      "uz": "Ag'dar-to'ntar bo'lib",
+      "type": "idiom"
+    },
+    "takes a toll": {
+      "uz": "zarar yetkazadi",
+      "type": "phrasal"
+    },
+    "look forward to": {
+      "uz": "intizor bo'lmoq",
+      "type": "idiom"
+    },
+    "a breath of fresh air": {
+      "uz": "bir hovur toza havo",
+      "type": "colloc"
+    },
+    "much rather": {
+      "uz": "ko'proq afzal ko'raman",
+      "type": "idiom"
+    },
+    "put up with": {
+      "uz": "chidayman",
+      "type": "phrasal"
+    },
+    "\"You can always put more on, but there's a limit to what you can take off\"": {
+      "uz": "Issiqda yechingan sari yechging keladi, sovuqda kiyingan sari kiyging",
+      "type": "proverb"
+    },
+    "especially": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "love to unwind": {
+      "uz": "dam olishni yaxshi ko'raman",
+      "type": "phrasal"
+    },
+    "rejuvenate my mind": {
+      "uz": "ongimni yangilaydi",
+      "type": "colloc"
+    },
+    "tend to": {
+      "uz": "odatlanmoq",
+      "type": "phrasal"
+    },
+    "physical activities": {
+      "uz": "jismoniy mashg'ulotlar",
+      "type": "colloc"
+    },
+    "great way": {
+      "uz": "ajoyib usul",
+      "type": "colloc"
+    },
+    "\"a sound mind in a sound body\"": {
+      "uz": "Sog‘ tanda sog‘lom aql.",
+      "type": "proverb"
+    },
+    "catching up": {
+      "uz": "yetib olish",
+      "type": "phrasal"
+    },
+    "hang out": {
+      "uz": "vaqt o'tkazmoq",
+      "type": "phrasal"
+    },
+    "let our hair down": {
+      "uz": "dildan gaplashmoq",
+      "type": "idiom"
+    },
+    "enhancing my social experience": {
+      "uz": "ijtimoiy tajribamni oshirish",
+      "type": "colloc"
+    },
+    "improve my skills": {
+      "uz": "malakamni oshirish",
+      "type": "colloc"
+    },
+    "putting all my eggs in one basket": {
+      "uz": "hamma narsani bir savatga solmoq",
+      "type": "idiom"
+    },
+    "catch up with": {
+      "uz": "uchrashmoq",
+      "type": "phrasal"
+    },
+    "make out": {
+      "uz": "anglamoq",
+      "type": "phrasal"
+    },
+    "jogging in a park": {
+      "uz": "parkda yugurish",
+      "type": "colloc"
+    },
+    "literally": {
+      "uz": "so'zma-so'z",
+      "type": "adv"
+    },
+    "peaceful environment": {
+      "uz": "tinch muhit",
+      "type": "colloc"
+    },
+    "rejuvenate the spirit": {
+      "uz": "ruhiyatni tetiklashtirmoq",
+      "type": "phrasal"
+    },
+    "boost mental health": {
+      "uz": "ruhiy salomatlikni yaxshilash",
+      "type": "phrasal"
+    },
+    "\"Health is wealth,\"": {
+      "uz": "Sog'lik - boylik.",
+      "type": "proverb"
+    },
+    "captures the essence": {
+      "uz": "mohiyatini aks ettiradi",
+      "type": "colloc"
+    },
+    "strikingly different": {
+      "uz": "keskin farq qiladi",
+      "type": "colloc"
+    },
+    "fitness facilities": {
+      "uz": "fitnes uskunalari",
+      "type": "colloc"
+    },
+    "work out": {
+      "uz": "mashq qilmoq",
+      "type": "phrasal"
+    },
+    "hectic schedules": {
+      "uz": "tig'iz jadval",
+      "type": "colloc"
+    },
+    "controlled environment": {
+      "uz": "nazorat qilinadigan muhit",
+      "type": "colloc"
+    },
+    "ideal place to let off steam": {
+      "uz": "dam olish uchun ajoyib joy",
+      "type": "idiom"
+    },
+    "equally effective": {
+      "uz": "bir xilda samarali",
+      "type": "colloc"
+    },
+    "works for you": {
+      "uz": "sizga mos keladi",
+      "type": "phrasal"
+    },
+    "healthy lifestyle": {
+      "uz": "sog'lom turmush tarzi",
+      "type": "colloc"
+    },
+    "In contrast": {
+      "uz": "Aksincha",
+      "type": "adv"
+    },
+    "distinct advantages": {
+      "uz": "aniq afzalliklar",
+      "type": "colloc"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "\"not at the mercy of\"": {
+      "uz": "qaram bo'lmaslik",
+      "type": "idiom"
+    },
+    "put off": {
+      "uz": "kechiktirmoq",
+      "type": "phrasal"
+    },
+    "more focused": {
+      "uz": "diqqatliroq",
+      "type": "colloc"
+    },
+    "state-of-the-art technology": {
+      "uz": "eng zamonaviy texnologiya",
+      "type": "colloc"
+    },
+    "step up": {
+      "uz": "kuchaytirmoq",
+      "type": "phrasal"
+    },
+    "track progress": {
+      "uz": "rivojlanishni kuzatib borish",
+      "type": "phrasal"
+    },
+    "fine-tune": {
+      "uz": "sozlamoq",
+      "type": "phrasal"
+    },
+    "serious about": {
+      "uz": "jiddiy qaramoq",
+      "type": "colloc"
+    },
+    "making it their career": {
+      "uz": "kasb qilmoq",
+      "type": "colloc"
+    },
+    "vibrant social experience": {
+      "uz": "jonli ijtimoiy tajriba",
+      "type": "colloc"
+    },
+    "mingle with": {
+      "uz": "aralashmoq",
+      "type": "phrasal"
+    },
+    "social bonds": {
+      "uz": "ijtimoiy aloqalar",
+      "type": "colloc"
+    },
+    "\"breeding ground\"": {
+      "uz": "o'choq",
+      "type": "idiom"
+    },
+    "competitive spirit": {
+      "uz": "raqobat ruhini",
+      "type": "colloc"
+    },
+    "\"forewarned is forearmed,\"": {
+      "uz": "\"Ogoh bo'l, sergak tur\"",
+      "type": "proverb"
+    },
+    "gear up for": {
+      "uz": "tayyorgarlik ko'rmoq",
+      "type": "phrasal"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "several": {
+      "uz": "bir qancha",
+      "type": "adv"
+    },
+    "training outdoors": {
+      "uz": "tashqarida mashq qilish",
+      "type": "colloc"
+    },
+    "\"The early bird catches the worm,\"": {
+      "uz": "\"Ertaturgan qo'lga ilinar\"",
+      "type": "proverb"
+    },
+    "fresh air": {
+      "uz": "toza havo",
+      "type": "colloc"
+    },
+    "natural surroundings": {
+      "uz": "tabiiy muhit",
+      "type": "colloc"
+    },
+    "sense of tranquility": {
+      "uz": "xotirjamlik hissi",
+      "type": "colloc"
+    },
+    "high-street gyms": {
+      "uz": "markaziy ko'chadagi sport zallari",
+      "type": "colloc"
+    },
+    "shake up": {
+      "uz": "o'zgartirmoq",
+      "type": "phrasal"
+    },
+    "treadmill or elliptical": {
+      "uz": "yugurish yo'lakchasi yoki elliptik trenajyor",
+      "type": "colloc"
+    },
+    "take advantage": {
+      "uz": "foydalanmoq",
+      "type": "phrasal"
+    },
+    "overall fitness": {
+      "uz": "umumiy jismoniy holat",
+      "type": "colloc"
+    },
+    "\"Variety is the spice of life,\"": {
+      "uz": "\"Har kimning o'z havasi bor\"",
+      "type": "idiom"
+    },
+    "much": {
+      "uz": "ko'p",
+      "type": "adv"
+    },
+    "tune into": {
+      "uz": "moslashmoq",
+      "type": "phrasal"
+    },
+    "listening to": {
+      "uz": "tinglash",
+      "type": "colloc"
+    },
+    "cool breeze": {
+      "uz": "salqin shabada",
+      "type": "colloc"
+    },
+    "exercise in nature": {
+      "uz": "tabiatda mashq qilish",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "bring together": {
+      "uz": "birlashtirmoq",
+      "type": "phrasal"
+    },
+    "worked tirelessly": {
+      "uz": "tinimsiz mehnat qildi",
+      "type": "colloc"
+    },
+    "extremely": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "that no man is an island": {
+      "uz": "\"odam odamsiz bo'lmas\"",
+      "type": "idiom"
+    },
+    "brings together": {
+      "uz": "birlashtiradi",
+      "type": "phrasal"
+    },
+    "crucial for": {
+      "uz": "muhim",
+      "type": "colloc"
+    },
+    "\"many hands make light work,\"": {
+      "uz": "\"ko'p bo'lsa, ko'l bo'lar\"",
+      "type": "proverb"
+    },
+    "personally": {
+      "uz": "shaxsan",
+      "type": "adv"
+    },
+    "\"Every coin has two sides,\"": {
+      "uz": "\"Har narsaning ikki tomoni bor\"",
+      "type": "proverb"
+    },
+    "undoubtedly": {
+      "uz": "shubhasiz",
+      "type": "adv"
+    },
+    "offers a greater degree": {
+      "uz": "ko'proq imkoniyat beradi",
+      "type": "phrasal"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "juggle multiple responsibilities": {
+      "uz": "bir nechta vazifani bir vaqtda bajarmoq",
+      "type": "phrasal"
+    },
+    "opens up a world": {
+      "uz": "imkoniyatlar eshigini ochadi",
+      "type": "phrasal"
+    },
+    "easily": {
+      "uz": "osonlik bilan",
+      "type": "adv"
+    },
+    "vast array": {
+      "uz": "keng assortiment",
+      "type": "colloc"
+    },
+    "enables students": {
+      "uz": "talabalarga imkon beradi",
+      "type": "phrasal"
+    },
+    "eliminating expenses": {
+      "uz": "xarajatlarni kamaytirish",
+      "type": "colloc"
+    },
+    "turn a blind eye": {
+      "uz": "ko'z yummoq",
+      "type": "idiom"
+    },
+    "enhance the learning": {
+      "uz": "o'rganishni yaxshilash",
+      "type": "phrasal"
+    },
+    "highly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "In the final analysis": {
+      "uz": "Oxir-oqibat",
+      "type": "idiom"
+    },
+    "ultimately come down": {
+      "uz": "oxir-oqibatda bog'liq bo'lmoq",
+      "type": "phrasal"
+    },
+    "In my opinion": {
+      "uz": "Mening fikrimcha",
+      "type": "adv"
+    },
+    "social interaction": {
+      "uz": "ijtimoiy muloqot",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    }
+  }
 };

@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Writing Report - Tom Cruise</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}
+.header h1{margin:0 0 10px;font-size:28px;}
+.score-card{background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:24px;}
+.score{font-size:48px;font-weight:800;color:#7c3aed;}
+.task-section{background:white;padding:20px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.prompt-box{background:#ede9fe;padding:14px;border-radius:8px;margin-bottom:12px;border-left:4px solid #7c3aed;}
+.response-box{background:#f8fafc;padding:16px;border-radius:8px;white-space:pre-wrap;line-height:1.8;border:2px solid #e2e8f0;min-height:60px;cursor:text;user-select:text;}
+.response-box::selection{background:#fef08a;}
+.word-count{font-size:13px;padding:4px 10px;border-radius:6px;}
+.word-count.ok{background:#dcfce7;color:#16a34a;}.word-count.warn{background:#fef3c7;color:#d97706;}.word-count.under{background:#fee2e2;color:#dc2626;}
+/* Highlight functionality for teacher review */
+mark.hl-yellow{background-color:#fef08a !important;padding:1px 2px;border-radius:2px;}
+mark.hl-green{background-color:#bbf7d0 !important;padding:1px 2px;border-radius:2px;}
+mark.hl-red{background-color:#fecaca !important;padding:1px 2px;border-radius:2px;}
+.hl-toolbar{position:sticky;top:0;background:white;padding:12px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:16px;display:flex;gap:8px;align-items:center;z-index:10;flex-wrap:wrap;}
+.hl-btn{padding:6px 14px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;background:white;transition:all 0.2s;}
+.hl-btn:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.print-btn{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin:24px auto;}
+.print-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,0.4);}
+@media print{.hl-toolbar,.print-btn{display:none !important;}}
+</style></head><body>
+<div class="header"><h1>✍️ IELTS Writing Report</h1><p>Tom Cruise | 3/20/2026 5:03:51 PM</p></div>
+<div class="score-card"><div class="score" style="font-size:24px;">Candidate Work</div><p>Submitted for teacher review</p></div>
+<div class="hl-toolbar">
+    <span style="font-size:12px;font-weight:700;color:#64748b;">🖍️ Highlight:</span>
+    <button class="hl-btn" style="border-color:#fef08a;background:#fefce8;" onclick="applyHL('hl-yellow')">Yellow</button>
+    <button class="hl-btn" style="border-color:#bbf7d0;background:#f0fdf4;" onclick="applyHL('hl-green')">Green</button>
+    <button class="hl-btn" style="border-color:#fecaca;background:#fef2f2;" onclick="applyHL('hl-red')">Red</button>
+    <button class="hl-btn" onclick="removeHL()">✕ Remove</button>
+</div>
+
+                    <div class="task-section">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h3 style="margin:0;color:#7c3aed;">Task 1</h3>
+                            <span class="word-count under">2 words (goal: 150)</span>
+                        </div>
+                        <div class="prompt-box"><div style="font-weight:600;color:#7c3aed;font-size:13px;margin-bottom:6px;">📋 Task Prompt</div><div style="color:#374151;line-height:1.6;white-space:pre-wrap;">The charts below show the reasons of students to study a particular in a UK university in the year 1987 and 2007.</div></div>
+                        <div class="response-box" contenteditable="false">[No response]</div>
+                        
+                    </div>
+                    <div class="task-section">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h3 style="margin:0;color:#7c3aed;">Task 2</h3>
+                            <span class="word-count under">2 words (goal: 250)</span>
+                        </div>
+                        <div class="prompt-box"><div style="font-weight:600;color:#7c3aed;font-size:13px;margin-bottom:6px;">📋 Task Prompt</div><div style="color:#374151;line-height:1.6;white-space:pre-wrap;">It is better for people to be unemployed than people to be employed but they do not enjoy. To what extent do you agree or disagree?</div></div>
+                        <div class="response-box" contenteditable="false">[No response]</div>
+                        
+                    </div>
+<div style="text-align:center;"><button class="print-btn" onclick="window.print()">📄 Save as PDF</button></div>
+<scr' + 'ipt>
+function applyHL(cls){var s=window.getSelection();if(!s.rangeCount||s.isCollapsed)return;var r=s.getRangeAt(0);try{var m=document.createElement("mark");m.className=cls;r.surroundContents(m);}catch(e){var f=r.extractContents();var m2=document.createElement("mark");m2.className=cls;m2.appendChild(f);r.insertNode(m2);}s.removeAllRanges();}
+function removeHL(){var s=window.getSelection();if(!s.rangeCount||s.isCollapsed)return;var n=s.anchorNode;if(n.nodeType===3)n=n.parentNode;if(n.tagName==="MARK"){var p=n.parentNode;while(n.firstChild)p.insertBefore(n.firstChild,n);p.removeChild(n);}s.removeAllRanges();}
+</scr' + 'ipt></body></html>

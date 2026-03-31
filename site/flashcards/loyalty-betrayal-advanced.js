@@ -1,0 +1,47 @@
+// Flashcard Data: Loyalty & Betrayal — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🤞 Loyalty & Betrayal: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Loyalty & Betrayal",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "betray an ideal", en: "", uz: "idealga xiyonat", uzDef: "O'zingiz ilgari himoya qilgan muhim tamoyil yoki g'oyadan voz kechish.", ex: "Many felt the politician betrayed an ideal when they compromised on environmental protection.", exUz: "Ko'pchilik siyosatchi atrof-muhitni muhofaza qilish bo'yicha murosaga kelganida idealga xiyonat qildi deb hisobladi."},
+    {term: "a question of loyalty", en: "", uz: "sodiqlik masalasi", uzDef: "Sodiqlikni sinovdan o'tkazadigan vaziyat yoki qaror.", ex: "Choosing between my job and my family became a question of loyalty.", exUz: "Ishim va oilam o'rtasida tanlov qilish sodiqlik masalasiga aylandi."},
+    {term: "shift allegiance", en: "", uz: "sodiqlikni o'zgartirmoq", uzDef: "Bir tomon yoki guruhdan boshqasiga sodiqlikni o'zgartirish.", ex: "The general shifted allegiance to the rebel forces.", exUz: "General isyonkor kuchlarga sodiqligini o'zgartirdi."},
+    {term: "be beholden to", en: "", uz: "minnatdor bo'lmoq", uzDef: "Kimdandir yordam olgani uchun minnatdor bo'lish va uning xohishlariga bo'ysunish.", ex: "I don't want to be beholden to anyone for my success.", exUz: "Muvaffaqiyatim uchun hech kimdan minnatdor bo'lishni xohlamayman."},
+    {term: "implicit loyalty", en: "", uz: "so'zsiz sadoqat", uzDef: "So'z bilan aytilmagan, lekin mavjud deb hisoblangan sadoqat.", ex: "There's an implicit loyalty within the police force.", exUz: "Politsiya kuchlarida so'zsiz sadoqat mavjud."},
+    {term: "flout the law", en: "", uz: "qonunga bepisand bo'lmoq", uzDef: "Qonunni bilib turib buzish, hurmat qilmaslik.", ex: "The company flouted the law by dumping waste illegally.", exUz: "Kompaniya chiqindilarni noqonuniy tashlash orqali qonunga bepisand bo'ldi."},
+    {term: "divided loyalties", en: "", uz: "bo'lingan sadoqat", uzDef: "Ikki yoki undan ortiq tomonlarga nisbatan sadoqat hissi, qaysi birini tanlash qiyin.", ex: "He suffered from divided loyalties between his family and his country.", exUz: "U oilasi va mamlakati o'rtasida bo'lingan sadoqatdan aziyat chekdi."},
+    {term: "questionable allegiance", en: "", uz: "shubhali sadoqat", uzDef: "Sadoqatning rostligi yoki sabablari shubhali bo'lgan holat.", ex: "His questionable allegiance made him a suspect in the investigation.", exUz: "Uning shubhali sadoqati uni tergovda gumonlanuvchiga aylantirdi."},
+    {term: "loyalty is paramount", en: "", uz: "sodiqlik muhim", uzDef: "Sodiqlik eng muhim narsa, birinchi o'rinda turadi.", ex: "In our team, loyalty is paramount; we always support each other.", exUz: "Bizning jamoada sodiqlik eng muhim; biz har doim bir-birimizni qo'llab-quvvatlaymiz."},
+    {term: "oath of fealty", en: "", uz: "sadoqat qasamyodi", uzDef: "Biror kishiga yoki tashkilotga sadoqatli bo'lishga qasamyod qilish.", ex: "Knights swore an oath of fealty to their king.", exUz: "Ritsarlar o'z qiroliga sadoqat qasamyodini qabul qilishdi."},
+    {term: "a breach of faith", en: "", uz: "sodiqlik buzilishi", uzDef: "Vada yoki kelishuvni buzish, ishonchni yo'qotish.", ex: "His actions were seen as a breach of faith with his supporters.", exUz: "Uning harakatlari tarafdorlariga nisbatan sodiqlik buzilishi sifatida baholandi."},
+    {term: "defect to the enemy", en: "", uz: "dushmanga o'tmoq", uzDef: "Dushmanga o'tish, unga yordam berish va o'z tomoningizga xiyonat qilish.", ex: "The spy defected to the enemy, revealing crucial information.", exUz: "Josus dushmanga o'tib, muhim ma'lumotlarni oshkor qildi."},
+    {term: "throw someone under bus", en: "", uz: "sotmoq, ayblamoq", uzDef: "Birovni o'zingizni himoya qilish uchun ayblash yoki qiyin ahvolga solish.", ex: "He threw his colleague under the bus to save his own job.", exUz: "U o'z ishini saqlab qolish uchun hamkasbini sotdi/aybladi."},
+    {term: "question one's loyalty", en: "", uz: "sodiqlik shubha", uzDef: "Kimningdir sodiqligiga shubha qilish, uni tekshirishga urinish.", ex: "After the scandal, people began to question his loyalty to the company.", exUz: "Janjaldan so'ng, odamlar uning kompaniyaga sodiqligiga shubha qila boshladilar."},
+    {term: "have someone's back", en: "", uz: "himoya qilmoq", uzDef: "Kimnidir himoya qilish, qo'llab-quvvatlash, xavf ostida qoldirmaslik.", ex: "I always have my best friend's back, no matter what.", exUz: "Men har doim eng yaxshi do'stimni himoya qilaman, nima bo'lishidan qat'iy nazar."},
+    {term: "be in league with", en: "", uz: "til biriktirmoq", uzDef: "Kimdir bilan yashirincha hamkorlik qilish, birgalikda yomon ishlar qilish.", ex: "The mayor was suspected of being in league with the mafia.", exUz: "Shahar hokimi mafiya bilan til biriktirganlikda gumon qilindi."},
+    {term: "a stab in the back", en: "", uz: "xiyonat qilmoq", uzDef: "Ishonchni suiiste'mol qilish, orqadan pichoq urish, xiyonat qilish.", ex: "I felt it was a real stab in the back when he took my promotion.", exUz: "U mening lavozimimni olganida, bu haqiqiy xiyonat bo'ldi."},
+    {term: "betrayal of a friend", en: "", uz: "do'st xiyonati", uzDef: "Do'stlik munosabatlarida ishonchni suiiste'mol qilish, xiyonat qilish.", ex: "Betrayal of a friend is one of the hardest things to forgive.", exUz: "Do'st xiyonatini kechirish eng qiyin narsalardan biridir."},
+    {term: "turn a blind eye", en: "", uz: "ko'z yummoq", uzDef: "Nimadir noto'g'ri bo'lishiga qaramay, ko'rmaganga olish, e'tibor bermaslik.", ex: "The authorities turned a blind eye to the illegal activities.", exUz: "Rasmiylar noqonuniy faoliyatga ko'z yumdilar."},
+    {term: "put someone first", en: "", uz: "birinchi o'ringa qo'ymoq", uzDef: "Birovning manfaatlarini o'zingiznikidan ustun qo'yish, g'amxo'rlik qilish.", ex: "A true friend always puts you first when you need help.", exUz: "Haqiqiy do'st doim yordamga muhtoj bo'lganingizda sizni birinchi o'ringa qo'yadi."},
+    {term: "discretion is key", en: "", uz: "ehtiyotkorlik muhim", uzDef: "Muayyan vaziyatda ehtiyotkor va sir saqlash juda muhim.", ex: "In this sensitive matter, discretion is key to avoid causing further problems.", exUz: "Ushbu nozik masalada, qo'shimcha muammolarni oldini olish uchun ehtiyotkorlik muhim."},
+    {term: "go behind one's back", en: "", uz: "orqasidan gapirmoq", uzDef: "Kimningdir ruxsatisiz yoki bilmasdan unga qarshi harakat qilish.", ex: "I was furious when I found out he had gone behind my back to negotiate the deal.", exUz: "U kelishuvni muzokara qilish uchun mening orqamdan borganini bilganimda g'azablandim."},
+    {term: "unswerving allegiance", en: "", uz: "qat'iy sadoqat", uzDef: "O'zgarishsiz, doimiy va qat'iy sodiqlik.", ex: "The soldiers showed unswerving allegiance to their country.", exUz: "Askar o'z mamlakatiga qat'iy sadoqat ko'rsatdi."},
+    {term: "throw in one's lot", en: "", uz: "taqdirni bog'lamoq", uzDef: "Kimdir bilan birgalikda harakat qilish, taqdirini ularning taqdiri bilan bog'lash.", ex: "She decided to throw in her lot with the rebels, despite the risks.", exUz: "U xavfga qaramay, isyonchilar bilan taqdirini bog'lashga qaror qildi."},
+    {term: "act in bad faith", en: "", uz: "yomon niyatda harakat", uzDef: "Halol bo'lmaslik, yolg'on ishlatish, aldash niyatida harakat qilish.", ex: "The company acted in bad faith by denying the employee's valid claim.", exUz: "Kompaniya xodimning haqiqiy da'vosini rad etish orqali yomon niyatda harakat qildi."},
+    {term: "a stab in the heart", en: "", uz: "qalbga xiyonat", uzDef: "Juda og'ir xiyonat, qalbga chuqur yaralash.", ex: "Her leaving was like a stab in the heart; I never expected it.", exUz: "Uning ketishi qalbga xiyonatga o'xshardi; men hech qachon bunday bo'lishini kutmagan edim."},
+    {term: "keep someone at bay", en: "", uz: "yaqinlashtirmaslik", uzDef: "Kimnidir yoki nimanidir uzoqda saqlash, yaqinlashtirmaslik, oldini olish.", ex: "He tried to keep his creditors at bay by making small payments.", exUz: "U kichik to'lovlar bilan kreditorlarni yaqinlashtirmaslikka harakat qildi."},
+    {term: "prove one's loyalty", en: "", uz: "sodiqlikni isbotlamoq", uzDef: "O'zining sodiq ekanligini ko'rsatish, isbotlash, dalillash.", ex: "He had to prove his loyalty to the organization before being fully trusted.", exUz: "U to'liq ishonchga sazovor bo'lishidan oldin tashkilotga sodiqligini isbotlashi kerak edi."},
+    {term: "questionable ethics", en: "", uz: "shubhali axloq", uzDef: "Axloqiy tamoyillarga zid bo'lgan, shubhali harakatlar.", ex: "The company's questionable ethics led to several lawsuits.", exUz: "Kompaniyaning shubhali axloqi bir nechta sud da'volariga olib keldi."},
+    {term: "be true to oneself", en: "", uz: "o'ziga sodiq bo'lmoq", uzDef: "O'zining tamoyillariga, qadriyatlariga va e'tiqodlariga sodiq qolish.", ex: "It's important to be true to oneself, even when it's difficult.", exUz: "Qiyin bo'lsa ham, o'ziga sodiq bo'lish muhim."}
+  ]
+};

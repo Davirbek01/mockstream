@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Bookstore! I go. Books... hard to find. Staff... okay. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I went to the bookstore. They sent me an email. It is about the books. The books are hard to find, and I don't like that. The staff is nice, but they can't help me find the books. I like the reading corner. It is good. What do you think?</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>Guess what? The bookstore emailed me asking for feedback. I think it's a good bookstore, but it's sometimes difficult to find the books I want. Maybe they should organize them better. The staff are usually friendly and helpful, so that's good. Also, I like the new reading corner; it's very comfortable. What do you think about the bookstore?</p>",
-      "sampleB2": "<p>Hey [Friend's Name],<br>Did you get an email from the bookstore too? They're asking for feedback. I generally like the place, but I always struggle to locate specific titles. I think clearer signage would really improve the customer experience. The staff are usually pretty helpful, though. Have you tried the new reading corner yet? It's quite nice, a definite improvement. I'm wondering if they should offer more comfortable seating there, though. Let me know what you think they could improve!</p>"
+      "sampleB2": "<p>Hey [Friend's Name],<br>Did you get an email from the bookstore too? They're asking for feedback. I generally like the place, but I always struggle to locate specific titles. I think clearer signage would really improve the customer experience. The staff are usually pretty helpful, though. Have you tried the new reading corner yet? It's quite nice, a definite improvement. I'm wondering if they should offer more comfortable seating there, though. Let me know what you think they could improve!</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Men hozirgina bizning <span class=\"ml-token colloc\">sevimli kitob do'konimizdan</span> fikr-mulohazalar so'rab xat oldim. <span class=\"ml-token adv\">Rostini aytsam</span>, menga bu joy <span class=\"ml-token adv\">juda</span> yoqadi, lekin aniq kitoblarni topish biroz qiyin bo'lishi <span class=\"ml-token modal\">mumkin</span>. O'ylashimcha, ular ko'proq <span class=\"ml-token colloc\">aniq ko'rsatkichlar</span> qo'yishlari <span class=\"ml-token modal\">kerak</span>. Ularning yangi <span class=\"ml-token colloc\">o'qish burchagini</span> sinab ko'rdingmi? Juda ham shinam!</p>\n<p>Fikrlaringni menga ayt!</p>",
+      "uzSampleA1": "<p>Salom [Do'stingizning ismi],<br>Kitob do'koni! Men boraman. Kitoblar... topish qiyin. Xodimlar... yaxshi. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men kitob do'koniga bordim. Ular menga elektron pochta xabarini yuborishdi. Bu kitoblar haqida. Kitoblarni topish qiyin, va menga bu yoqmaydi. Xodimlar yaxshi, lekin ular menga kitoblarni topishga yordam bera olishmaydi. Menga o'qish burchagi yoqadi. U yaxshi. Siz nima deb o'ylaysiz?</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Nima deb o'ylaysan? Kitob do'koni menga fikr-mulohazalar so'rab elektron pochta orqali xabar yubordi. Menimcha, bu yaxshi kitob do'koni, lekin ba'zan menga kerakli kitoblarni topish qiyin. Ehtimol, ular ularni yaxshiroq tashkil qilishlari kerak. Xodimlar odatda do'stona va yordam berishga tayyor, shuning uchun bu yaxshi. Shuningdek, menga yangi o'qish burchagi yoqadi; u juda qulay. Kitob do'koni haqida nima deb o'ylaysiz?</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Siz ham kitob do'konidan xat oldingizmi? Ular fikr-mulohazalarni so'rashyapti. Menga umuman olganda bu joy yoqadi, lekin men har doim muayyan nomlarni topishda qiynalaman. O'ylashimcha, aniqroq ko'rsatkichlar mijozlar tajribasini sezilarli darajada yaxshilaydi. Xodimlar odatda juda yordam berishadi, to'g'ri. Siz yangi o'qish burchagini sinab ko'rdingizmi? U juda yaxshi, aniq yaxshilanish. O'ylaymanki, ular u yerda qulayroq o'rindiqlar taklif qilishlari kerakmi? Ularning nimani yaxshilashi mumkinligi haqida o'z fikringizni bildiring!</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Bookstore,</p><br><p>I like books. Find book ok. Staff good. Read corner? Yes. Good.</p><br><p>Bye.</p>",
       "sampleA2": "<p>Dear Bookstore,</p><br><p>Thank you for the email. I come to your shop. It is good. I find books, but it is a little hard. The staff are nice and they help me. The reading corner is okay, but it is small. Maybe you can make it bigger? Thank you.</p><br><p>From, [Your Name]</p>",
       "sampleB1": "<p>Dear Bookstore Team,</p><br><p>Thank you for your email. I want to tell you about my visit. It was mostly good. Finding the books was a little difficult. I think you should have better signs. The staff were very friendly and helpful, so that was good. I also liked the reading corner. It was quiet. However, maybe you could add more chairs? In my opinion, that would be better. Thank you for asking for my feedback.</p><br><p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear Bookstore Team,</p><br><p>Thank you for reaching out to gather feedback on my recent visit. Overall, I had a positive experience, but I do have a few suggestions for improvement.</p><br><p>Firstly, while the selection of books is commendable, I found navigating the store somewhat challenging. The current signage could be enhanced to facilitate easier location of specific genres or authors. Clearer and more prominent displays would be beneficial.</p><br><p>On a more positive note, the staff were exceptional. Their friendly demeanor and extensive knowledge created a welcoming atmosphere. They were readily available to answer questions and offer helpful recommendations, which I greatly appreciated.</p><br><p>Finally, I enjoyed the new reading corner; it offers a tranquil space for browsing. Perhaps adding a few more comfortable armchairs or cushions would further elevate the experience, encouraging customers to linger longer. Thank you for considering my feedback.</p><br><p>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear Bookstore Team,</p><br><p>Thank you for reaching out to gather feedback on my recent visit. Overall, I had a positive experience, but I do have a few suggestions for improvement.</p><br><p>Firstly, while the selection of books is commendable, I found navigating the store somewhat challenging. The current signage could be enhanced to facilitate easier location of specific genres or authors. Clearer and more prominent displays would be beneficial.</p><br><p>On a more positive note, the staff were exceptional. Their friendly demeanor and extensive knowledge created a welcoming atmosphere. They were readily available to answer questions and offer helpful recommendations, which I greatly appreciated.</p><br><p>Finally, I enjoyed the new reading corner; it offers a tranquil space for browsing. Perhaps adding a few more comfortable armchairs or cushions would further elevate the experience, encouraging customers to linger longer. Thank you for considering my feedback.</p><br><p>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli Kitob do'koni jamoasi,</p>\n\n<p>Fikrimni so'raganingiz uchun rahmat. Men doimiy mijozman va do'koningizga tashrif buyurishdan juda mamnunman.</p>\n\n<p>Avvalo, kitoblarni topish borasida, menimcha, yo'l-yo'riq tizimini yaxshilash kerak. To'plamingiz juda katta bo'lsa-da, xodimlarning yordamisiz muayyan kitoblarni topish biroz qiyin bo'lishi mumkin.</p>\n\n<p>Bundan tashqari, xodimlaringizni do'stona xizmati va keng bilimi uchun maqtashim kerak. Ular har doim yordam berishga va ajoyib tavsiyalar berishga tayyor.</p>\n\n<p>Qolaversa, yangi o'qish burchagingiz meni juda xursand qildi. U kitoblarni ko'rish uchun juda mos bo'lgan tinch muhitni ta'minlaydi. Ehtimol, ba'zi qulay o'rindiqlarni qo'shish tajribani yanada yaxshilashi mumkin.</p>\n\n<p>Ajoyib kitob do'konini yaratishga bo'lgan sadoqatingiz uchun tashakkur.</p>\n\n<p>Hurmat bilan,<br>Sizning sodiq mijozingiz</p>",
+      "uzSampleA1": "<p>Salom, Kitob do'koni,</p><br><p>Men kitoblarni yaxshi ko'raman. Kitob topish yaxshi. Xodimlar yaxshi. O'qish burchagi? Ha. Yaxshi.</p><br><p>Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli Kitob do'koni,</p><br><p>Elektron pochta uchun rahmat. Men sizning do'koningizga kelaman. U yaxshi. Men kitoblar topaman, lekin bu biroz qiyin. Xodimlar yaxshi va ular menga yordam berishadi. O'qish burchagi yaxshi, lekin u kichkina. Balki siz uni kattaroq qilishingiz mumkin? Rahmat.</p><br><p>Sizdan, [Sizning Ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli Kitob do'koni jamoasi,</p><br><p>Elektron pochtangiz uchun rahmat. Men sizga tashrifim haqida aytmoqchiman. Asosan yaxshi bo'ldi. Kitoblarni topish biroz qiyin edi. Menimcha, sizda yaxshiroq belgilar bo'lishi kerak. Xodimlar juda do'stona va yordam berishga tayyor edilar, shuning uchun bu yaxshi edi. Menga o'qish burchagi ham yoqdi. U yerda tinch edi. Biroq, balki siz ko'proq stullar qo'shishingiz mumkin? Mening fikrimcha, bu yaxshiroq bo'lardi. Fikrimni so'raganingiz uchun rahmat.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli Kitob do'koni jamoasi,</p><br><p>Yaqinda tashrifim haqida fikr-mulohazalar yig'ish uchun murojaat qilganingiz uchun rahmat. Umuman olganda, men ijobiy tajribaga ega bo'ldim, lekin takomillashtirish uchun bir nechta takliflarim bor.</p><br><p>Birinchidan, kitoblar tanlovi maqtashga arziydigan bo'lsa-da, do'konda yo'l topish biroz qiyin bo'ldi. Joriy ko'rsatkichlarni muayyan janrlar yoki mualliflarni osonroq topishga yordam berish uchun yaxshilash mumkin. Aniqroq va ko'zga tashlanadigan displeylar foydali bo'ladi.</p><br><p>Ijobiy tomonga o'tsak, xodimlar ajoyib edi. Ularning do'stona xulq-atvori va keng bilimlari mehmondo'st muhit yaratdi. Ular savollarga javob berish va foydali tavsiyalar berish uchun doimo tayyor edilar, men buni juda qadrladim.</p><br><p>Nihoyat, menga yangi o'qish burchagi yoqdi; u ko'rib chiqish uchun tinch joy taklif etadi. Ehtimol, yana bir nechta qulay kreslolar yoki yostiqlar qo'shish tajribani yanada oshirib, xaridorlarni uzoqroq qolishga undaydi. Fikrlarimni ko'rib chiqqaningiz uchun rahmat.</p><br><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi! <br><br>Bookstore good. Books good. Staff nice. I like books. Reading corner is good. Bye!</p>",
       "sampleA2": "<p>Hello, <br><br>I like the bookstore. The books are good and I found them. The staff are nice and they helped me. I like the reading corner, it is comfortable. I want to read more books! Thank you.<br><br>Bye.</p>",
       "sampleB1": "<p>Dear Student Magazine Editor,<br><br>I want to write about how to make children read more books. I think it is important because reading is good for your brain. <br><br>First, parents can read to their children. This makes reading fun. Also, children should choose their own books. If they like the books, they will read them more. For example, my little brother likes comic books, so he reads a lot. Schools can also help. They can have reading clubs. In my opinion, this is a good idea because children can talk about books together. <br><br>In conclusion, reading is important, and we should help children to read more. Thank you.<br><br>Sincerely,<br>A Student</p>",
-      "sampleB2": "<p>Dear Student Magazine Editor,<br><br>Here are my thoughts on how we can encourage children to read more books. In today's world, with so much competition from video games and social media, it's a real challenge.<br><br>Firstly, it's essential to make reading a fun and positive experience. Instead of forcing children to read books they find boring, we should let them choose books that genuinely interest them. Comic books, graphic novels, and even magazines can be a great starting point. Secondly, parents and educators should act as role models. If children see adults reading regularly and enjoying it, they're more likely to develop a similar habit. Creating a dedicated reading space at home, free from distractions, can also make a significant difference.<br><br>Furthermore, schools can play a crucial role by organizing book clubs, author visits, and reading challenges. These activities can foster a sense of community and make reading a more social and engaging activity. Finally, it's important to remember that every child is different. Some children may prefer to read alone, while others may thrive in a group setting. By offering a variety of reading options and creating a supportive environment, we can help all children discover the joy of reading.<br><br>Sincerely,<br>A Concerned Student</p>"
+      "sampleB2": "<p>Dear Student Magazine Editor,<br><br>Here are my thoughts on how we can encourage children to read more books. In today's world, with so much competition from video games and social media, it's a real challenge.<br><br>Firstly, it's essential to make reading a fun and positive experience. Instead of forcing children to read books they find boring, we should let them choose books that genuinely interest them. Comic books, graphic novels, and even magazines can be a great starting point. Secondly, parents and educators should act as role models. If children see adults reading regularly and enjoying it, they're more likely to develop a similar habit. Creating a dedicated reading space at home, free from distractions, can also make a significant difference.<br><br>Furthermore, schools can play a crucial role by organizing book clubs, author visits, and reading challenges. These activities can foster a sense of community and make reading a more social and engaging activity. Finally, it's important to remember that every child is different. Some children may prefer to read alone, while others may thrive in a group setting. By offering a variety of reading options and creating a supportive environment, we can help all children discover the joy of reading.<br><br>Sincerely,<br>A Concerned Student</p>",
+      "uzSample": "<h2>Sahifalarni varaqlash: Bolalarni kitob o'qishga qanday undash mumkin</h2>\n\n<p>Ekranlar va raqamli o'yin-kulgi hukmronlik qilayotgan davrda bolalarni kitob o'qishga undash tobora qiyinlashib bormoqda. Biroq, bunga yordam beradigan bir nechta samarali strategiyalar mavjud.</p>\n\n<p>Birinchidan, ota-onalar o'zlari namuna bo'lishlari kerak. Bolalar kattalarning muntazam ravishda o'qiyotganini ko'rsalar, ularda ham qiziqish uyg'onishi ehtimoli yuqori. Yotishdan oldin ertak o'qib berish kabi o'qish odatini yaratish, erta yoshdan ijobiy odatlarni shakllantirishi mumkin.</p>\n\n<p>Bundan tashqari, bolalarga o'z kitoblarini tanlashga ruxsat berish juda muhim. Ularni muayyan kitoblarni o'qishga majburlash qarshilikni keltirib chiqarishi mumkin. Kutubxonalar va kitob do'konlari sarguzasht hikoyalaridan tortib, ilmiy kitoblarga qadar turli xil qiziqishlarga mos keladigan xilma-xil tanlovlarni taklif etadi.</p>\n\n<p>Bundan tashqari, maktablar o'qishni ijtimoiy faoliyatga aylantirish uchun o'qish tanlovlari va kitob klublarini tashkil qilishi mumkin. Mukofotlar va e'tiroflar o'qishga ishtiyoqi yo'q o'quvchilarni rag'batlantirishi mumkin.</p>\n\n<p>Va nihoyat, ekran vaqtini cheklash va uyda qulay o'qish joyini yaratish kitoblarni yanada jozibador qilishi mumkin. Sabr-toqat va to'g'ri yondashuv bilan biz umr bo'yi davom etadigan kitobga muhabbatni rivojlantirishimiz mumkin.</p>",
+      "uzSampleA1": "<p>Salom! <br><br>Kitob do'koni yaxshi. Kitoblar yaxshi. Xodimlar yaxshi. Menga kitoblar yoqadi. O'qish burchagi yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br><br>Menga kitob do'koni yoqadi. Kitoblar yaxshi va men ularni topdim. Xodimlar yaxshi va ular menga yordam berishdi. Menga o'qish burchagi yoqadi, u qulay. Men ko'proq kitob o'qishni xohlayman! Rahmat.<br><br>Xayr.</p>",
+      "uzSampleB1": "<p>Hurmatli Talabalar Jurnali Muharriri,<br><br>Men bolalarni qanday qilib ko'proq kitob o'qishga undash haqida yozmoqchiman. O'ylashimcha, bu muhim, chunki o'qish miya uchun foydali.<br><br>Birinchidan, ota-onalar farzandlariga kitob o'qib berishlari mumkin. Bu o'qishni qiziqarli qiladi. Shuningdek, bolalar o'z kitoblarini tanlashlari kerak. Agar ularga kitoblar yoqsa, ular ularni ko'proq o'qiydilar. Misol uchun, mening ukam komikslarni yaxshi ko'radi, shuning uchun u ko'p o'qiydi. Maktablar ham yordam berishi mumkin. Ular kitobxonlik klublariga ega bo'lishlari mumkin. Mening fikrimcha, bu yaxshi fikr, chunki bolalar birgalikda kitoblar haqida gaplashishlari mumkin.<br><br>Xulosa qilib aytganda, o'qish muhim va biz bolalarga ko'proq o'qishga yordam berishimiz kerak. Rahmat.<br><br>Hurmat bilan,<br>Talaba</p>",
+      "uzSampleB2": "<p>Hurmatli Talabalar Jurnali Muharriri,<br><br>Bolalarni ko'proq kitob o'qishga qanday undashimiz mumkinligi haqidagi fikrlarim quyidagilar. Bugungi kunda video o'yinlar va ijtimoiy tarmoqlardan shunchalik ko'p raqobat bor ekan, bu haqiqiy muammo.<br><br>Birinchidan, o'qishni qiziqarli va ijobiy tajribaga aylantirish muhim. Bolalarni zerikarli deb biladigan kitoblarni o'qishga majburlash o'rniga, ularga chinakam qiziq bo'lgan kitoblarni tanlashga ruxsat berishimiz kerak. Komikslar, grafik romanlar va hatto jurnallar ham ajoyib boshlanish bo'lishi mumkin. Ikkinchidan, ota-onalar va o'qituvchilar namuna bo'lishlari kerak. Agar bolalar kattalarning muntazam ravishda o'qiyotganini va bundan zavqlanayotganini ko'rsalar, ularda ham shunga o'xshash odat paydo bo'lishi ehtimoli ko'proq. Uyda chalg'ituvchi narsalardan xoli bo'lgan maxsus o'qish joyini yaratish ham katta farq qilishi mumkin.<br><br>Bundan tashqari, maktablar kitob klublari, mualliflar tashrifi va o'qish bo'yicha musobaqalarni tashkil etish orqali muhim rol o'ynashi mumkin. Ushbu tadbirlar hamjamiyat tuyg'usini shakllantirishi va o'qishni yanada ijtimoiy va qiziqarli faoliyatga aylantirishi mumkin. Nihoyat, har bir bola har xil ekanligini unutmaslik kerak. Ba'zi bolalar yolg'iz o'qishni afzal ko'rishlari mumkin, boshqalari esa guruhda yaxshi rivojlanishlari mumkin. O'qish uchun turli xil imkoniyatlarni taklif qilish va qo'llab-quvvatlovchi muhit yaratish orqali biz barcha bolalarga o'qish zavqini kashf etishga yordam beramiz.<br><br>Hurmat bilan,<br>Xavotirdagi Talaba</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,191 @@ window.WRITING_TEST_DATA = {
         "uz": "adabiy ko'nikmalar"
       }
     ]
+  },
+  "tokenTranslations": {
+    "favorite bookstore": {
+      "uz": "eng sevimli kitob do'koni",
+      "type": "colloc"
+    },
+    "Honestly": {
+      "uz": "Rostini aytsam",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "can": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "clear signage": {
+      "uz": "aniq ko'rsatkichlar",
+      "type": "colloc"
+    },
+    "reading corner": {
+      "uz": "o'qish burchagi",
+      "type": "colloc"
+    },
+    "regular customer": {
+      "uz": "doimiy mijoz",
+      "type": "colloc"
+    },
+    "thoroughly": {
+      "uz": "mukammal tarzda",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "signage system": {
+      "uz": "ko'rsatkichlar tizimi",
+      "type": "colloc"
+    },
+    "impressive": {
+      "uz": "ta'sirli",
+      "type": "colloc"
+    },
+    "somewhat": {
+      "uz": "bir oz",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "must": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "friendly service": {
+      "uz": "do'stona xizmat",
+      "type": "colloc"
+    },
+    "extensive knowledge": {
+      "uz": "keng bilim",
+      "type": "colloc"
+    },
+    "always": {
+      "uz": "har doim",
+      "type": "adv"
+    },
+    "excellent recommendations": {
+      "uz": "a'lo tavsiyalar",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "pleasantly": {
+      "uz": "yoqimli tarzda",
+      "type": "adv"
+    },
+    "peaceful atmosphere": {
+      "uz": "tinch muhit",
+      "type": "colloc"
+    },
+    "Perhaps": {
+      "uz": "Ehtimol",
+      "type": "adv"
+    },
+    "comfortable seating": {
+      "uz": "qulay o'rindiqlar",
+      "type": "colloc"
+    },
+    "dedication": {
+      "uz": "sadoqat",
+      "type": "colloc"
+    },
+    "digital entertainment": {
+      "uz": "raqamli ko'ngilochar",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "effective strategies": {
+      "uz": "samarali strategiyalar",
+      "type": "colloc"
+    },
+    "lead by example": {
+      "uz": "o'z namunasi bilan ko'rsatmoq",
+      "type": "phrasal"
+    },
+    "regularly": {
+      "uz": "muntazam ravishda",
+      "type": "adv"
+    },
+    "reading routine": {
+      "uz": "mutolaa odati",
+      "type": "colloc"
+    },
+    "positive habits": {
+      "uz": "ijobiy odatlar",
+      "type": "colloc"
+    },
+    "crucial": {
+      "uz": "muhim",
+      "type": "adv"
+    },
+    "specific titles": {
+      "uz": "muayyan nomlar",
+      "type": "colloc"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "diverse selections": {
+      "uz": "xilma-xil tanlovlar",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "reading competitions": {
+      "uz": "kitobxonlik musobaqalari",
+      "type": "colloc"
+    },
+    "book clubs": {
+      "uz": "kitobxonlar klublari",
+      "type": "colloc"
+    },
+    "social activity": {
+      "uz": "ijtimoiy faoliyat",
+      "type": "colloc"
+    },
+    "Finally": {
+      "uz": "Nihoyat",
+      "type": "adv"
+    },
+    "screen time": {
+      "uz": "ekran vaqti",
+      "type": "colloc"
+    },
+    "cozy reading space": {
+      "uz": "shinam o'qish joyi",
+      "type": "colloc"
+    },
+    "love of reading": {
+      "uz": "kitobga muhabbat",
+      "type": "colloc"
+    }
   }
 };

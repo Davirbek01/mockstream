@@ -1,0 +1,1681 @@
+[2026-03-27 10:27:38] ============================================================
+[2026-03-27 10:27:38] BATCH VOCAB TEST LEVELS GENERATOR
+[2026-03-27 10:27:38] Model: gemini-2.0-flash | Levels per topic: 3 | Questions per level: 30
+[2026-03-27 10:27:38] ============================================================
+[2026-03-27 10:27:38] Found 114 vocab topics in landing.html
+[2026-03-27 10:27:38] 114 topics to process (0 already done)
+[2026-03-27 10:27:38] Estimated API calls: 342
+[2026-03-27 10:27:38] Estimated time: ~68 minutes
+[2026-03-27 10:27:38] 
+[2026-03-27 10:27:38] ============================================================
+[2026-03-27 10:27:38] TOPIC 1/114: Mixed Vocabulary (mixed-vocab01)
+[2026-03-27 10:27:38] ============================================================
+[2026-03-27 10:27:38]     Intermediate (B1–B2)...
+[2026-03-27 10:27:56]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 10:28:21]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:26]     Advanced (C1–C2)...
+[2026-03-27 10:28:49]       Got 30, 30 valid, total: 30
+[2026-03-27 10:28:54]     Wrote questions V\mixed-vocab01-intermediate.js (30 questions)
+[2026-03-27 10:28:54]     Wrote questions V\mixed-vocab01-upper-intermediate.js (30 questions)
+[2026-03-27 10:28:54]     Wrote questions V\mixed-vocab01-advanced.js (30 questions)
+[2026-03-27 10:28:54]     DONE: 90 new questions for Mixed Vocabulary
+[2026-03-27 10:28:54] 
+[2026-03-27 10:28:54] ============================================================
+[2026-03-27 10:28:54] TOPIC 2/114: Architecture & Urban Planning (architecture-urban01)
+[2026-03-27 10:28:54] ============================================================
+[2026-03-27 10:28:54]     Intermediate (B1–B2)...
+[2026-03-27 10:29:13]       Got 30, 29 valid, total: 29
+[2026-03-27 10:29:13]       Retry #2 — need 1 more questions...
+[2026-03-27 10:29:23]       Got 6, 1 valid, total: 30
+[2026-03-27 10:29:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:35:05] ============================================================
+[2026-03-27 11:35:05] BATCH VOCAB TEST LEVELS GENERATOR
+[2026-03-27 11:35:05] Model: gemini-2.0-flash | Levels per topic: 3 | Questions per level: 30
+[2026-03-27 11:35:05] ============================================================
+[2026-03-27 11:35:05] Found 114 vocab topics in landing.html
+[2026-03-27 11:35:05] 114 topics to process (0 already done)
+[2026-03-27 11:35:05] Estimated API calls: 342
+[2026-03-27 11:35:05] Estimated time: ~68 minutes
+[2026-03-27 11:35:05] 
+[2026-03-27 11:35:05] ============================================================
+[2026-03-27 11:35:05] TOPIC 1/114: Mixed Vocabulary (mixed-vocab01)
+[2026-03-27 11:35:05] ============================================================
+[2026-03-27 11:35:05]     Intermediate (B1–B2)...
+[2026-03-27 11:35:26]       Got 30, 30 valid, total: 30
+[2026-03-27 11:35:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:35:55]       Got 30, 30 valid, total: 30
+[2026-03-27 11:36:00]     Advanced (C1–C2)...
+[2026-03-27 11:36:27]       Got 30, 30 valid, total: 30
+[2026-03-27 11:36:32]     Wrote questions V\mixed-vocab01-intermediate.js (30 questions)
+[2026-03-27 11:36:32]     Wrote questions V\mixed-vocab01-upper-intermediate.js (30 questions)
+[2026-03-27 11:36:32]     Wrote questions V\mixed-vocab01-advanced.js (30 questions)
+[2026-03-27 11:36:32]     DONE: 90 new questions for Mixed Vocabulary
+[2026-03-27 11:36:32] 
+[2026-03-27 11:36:32] ============================================================
+[2026-03-27 11:36:32] TOPIC 2/114: Architecture & Urban Planning (architecture-urban01)
+[2026-03-27 11:36:32] ============================================================
+[2026-03-27 11:36:32]     Intermediate (B1–B2)...
+[2026-03-27 11:36:53]       Got 30, 30 valid, total: 30
+[2026-03-27 11:36:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:37:22]       Got 30, 30 valid, total: 30
+[2026-03-27 11:37:27]     Advanced (C1–C2)...
+[2026-03-27 11:37:51]       Got 30, 30 valid, total: 30
+[2026-03-27 11:37:56]     Wrote questions V\architecture-urban01-intermediate.js (30 questions)
+[2026-03-27 11:37:56]     Wrote questions V\architecture-urban01-upper-intermediate.js (30 questions)
+[2026-03-27 11:37:56]     Wrote questions V\architecture-urban01-advanced.js (30 questions)
+[2026-03-27 11:37:56]     DONE: 90 new questions for Architecture & Urban Planning
+[2026-03-27 11:37:56] 
+[2026-03-27 11:37:56] ============================================================
+[2026-03-27 11:37:56] TOPIC 3/114: Art, Design & Fashion (art-design-fashion01)
+[2026-03-27 11:37:56] ============================================================
+[2026-03-27 11:37:56]     Intermediate (B1–B2)...
+[2026-03-27 11:38:17]       Got 30, 30 valid, total: 30
+[2026-03-27 11:38:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:38:46]       Got 30, 30 valid, total: 30
+[2026-03-27 11:38:51]     Advanced (C1–C2)...
+[2026-03-27 11:39:16]       Got 30, 30 valid, total: 30
+[2026-03-27 11:39:21]     Wrote questions V\art-design-fashion01-intermediate.js (30 questions)
+[2026-03-27 11:39:21]     Wrote questions V\art-design-fashion01-upper-intermediate.js (30 questions)
+[2026-03-27 11:39:21]     Wrote questions V\art-design-fashion01-advanced.js (30 questions)
+[2026-03-27 11:39:21]     DONE: 90 new questions for Art, Design & Fashion
+[2026-03-27 11:39:21] 
+[2026-03-27 11:39:21] ============================================================
+[2026-03-27 11:39:21] TOPIC 4/114: Crime & Law (crime-law01)
+[2026-03-27 11:39:21] ============================================================
+[2026-03-27 11:39:21]     Intermediate (B1–B2)...
+[2026-03-27 11:39:45]       Got 30, 30 valid, total: 30
+[2026-03-27 11:39:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:40:14]       Got 29, 29 valid, total: 29
+[2026-03-27 11:40:14]       Retry #2 — need 1 more questions...
+[2026-03-27 11:40:26]       Got 6, 1 valid, total: 30
+[2026-03-27 11:40:31]     Advanced (C1–C2)...
+[2026-03-27 11:40:54]       Got 30, 30 valid, total: 30
+[2026-03-27 11:40:59]     Wrote questions V\crime-law01-intermediate.js (30 questions)
+[2026-03-27 11:40:59]     Wrote questions V\crime-law01-upper-intermediate.js (30 questions)
+[2026-03-27 11:40:59]     Wrote questions V\crime-law01-advanced.js (30 questions)
+[2026-03-27 11:40:59]     DONE: 90 new questions for Crime & Law
+[2026-03-27 11:40:59] 
+[2026-03-27 11:40:59] ============================================================
+[2026-03-27 11:40:59] TOPIC 5/114: Digital Frontier (digital-frontier01)
+[2026-03-27 11:40:59] ============================================================
+[2026-03-27 11:40:59]     Intermediate (B1–B2)...
+[2026-03-27 11:41:18]       Got 30, 30 valid, total: 30
+[2026-03-27 11:41:23]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:41:49]       Got 30, 30 valid, total: 30
+[2026-03-27 11:41:54]     Advanced (C1–C2)...
+[2026-03-27 11:42:19]       Got 30, 30 valid, total: 30
+[2026-03-27 11:42:24]     Wrote questions V\digital-frontier01-intermediate.js (30 questions)
+[2026-03-27 11:42:24]     Wrote questions V\digital-frontier01-upper-intermediate.js (30 questions)
+[2026-03-27 11:42:24]     Wrote questions V\digital-frontier01-advanced.js (30 questions)
+[2026-03-27 11:42:24]     DONE: 90 new questions for Digital Frontier
+[2026-03-27 11:42:24] 
+[2026-03-27 11:42:24] ============================================================
+[2026-03-27 11:42:24] TOPIC 6/114: Natural Disasters & Geography (disasters-geography01)
+[2026-03-27 11:42:24] ============================================================
+[2026-03-27 11:42:24]     Intermediate (B1–B2)...
+[2026-03-27 11:42:46]       Got 30, 30 valid, total: 30
+[2026-03-27 11:42:51]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:43:19]       Got 31, 30 valid, total: 30
+[2026-03-27 11:43:24]     Advanced (C1–C2)...
+[2026-03-27 11:43:52]       Got 30, 30 valid, total: 30
+[2026-03-27 11:43:57]     Wrote questions V\disasters-geography01-intermediate.js (30 questions)
+[2026-03-27 11:43:57]     Wrote questions V\disasters-geography01-upper-intermediate.js (30 questions)
+[2026-03-27 11:43:57]     Wrote questions V\disasters-geography01-advanced.js (30 questions)
+[2026-03-27 11:43:57]     DONE: 90 new questions for Natural Disasters & Geography
+[2026-03-27 11:43:57] 
+[2026-03-27 11:43:57] ============================================================
+[2026-03-27 11:43:57] TOPIC 7/114: Education & Learning (education-learning01)
+[2026-03-27 11:43:57] ============================================================
+[2026-03-27 11:43:57]     Intermediate (B1–B2)...
+[2026-03-27 11:44:19]       Got 30, 30 valid, total: 30
+[2026-03-27 11:44:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:44:48]       Got 29, 29 valid, total: 29
+[2026-03-27 11:44:48]       Retry #2 — need 1 more questions...
+[2026-03-27 11:44:59]       Got 6, 1 valid, total: 30
+[2026-03-27 11:45:04]     Advanced (C1–C2)...
+[2026-03-27 11:45:27]       Got 30, 30 valid, total: 30
+[2026-03-27 11:45:32]     Wrote questions V\education-learning01-intermediate.js (30 questions)
+[2026-03-27 11:45:32]     Wrote questions V\education-learning01-upper-intermediate.js (30 questions)
+[2026-03-27 11:45:32]     Wrote questions V\education-learning01-advanced.js (30 questions)
+[2026-03-27 11:45:32]     DONE: 90 new questions for Education & Learning
+[2026-03-27 11:45:32] 
+[2026-03-27 11:45:32] ============================================================
+[2026-03-27 11:45:32] TOPIC 8/114: Environment & Climate (environment-climate01)
+[2026-03-27 11:45:32] ============================================================
+[2026-03-27 11:45:32]     Intermediate (B1–B2)...
+[2026-03-27 11:45:53]       Got 31, 30 valid, total: 30
+[2026-03-27 11:45:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:46:22]       Got 30, 30 valid, total: 30
+[2026-03-27 11:46:27]     Advanced (C1–C2)...
+[2026-03-27 11:46:52]       Got 30, 30 valid, total: 30
+[2026-03-27 11:46:57]     Wrote questions V\environment-climate01-intermediate.js (30 questions)
+[2026-03-27 11:46:57]     Wrote questions V\environment-climate01-upper-intermediate.js (30 questions)
+[2026-03-27 11:46:57]     Wrote questions V\environment-climate01-advanced.js (30 questions)
+[2026-03-27 11:46:57]     DONE: 90 new questions for Environment & Climate
+[2026-03-27 11:46:57] 
+[2026-03-27 11:46:57] ============================================================
+[2026-03-27 11:46:57] TOPIC 9/114: Family, Friends & Relationships (family-friends01)
+[2026-03-27 11:46:57] ============================================================
+[2026-03-27 11:46:57]     Intermediate (B1–B2)...
+[2026-03-27 11:47:19]       Got 30, 30 valid, total: 30
+[2026-03-27 11:47:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:47:48]       Got 29, 29 valid, total: 29
+[2026-03-27 11:47:48]       Retry #2 — need 1 more questions...
+[2026-03-27 11:47:58]       Got 6, 1 valid, total: 30
+[2026-03-27 11:48:03]     Advanced (C1–C2)...
+[2026-03-27 11:48:29]       Got 30, 30 valid, total: 30
+[2026-03-27 11:48:34]     Wrote questions V\family-friends01-intermediate.js (30 questions)
+[2026-03-27 11:48:34]     Wrote questions V\family-friends01-upper-intermediate.js (30 questions)
+[2026-03-27 11:48:34]     Wrote questions V\family-friends01-advanced.js (30 questions)
+[2026-03-27 11:48:34]     DONE: 90 new questions for Family, Friends & Relationships
+[2026-03-27 11:48:34] 
+[2026-03-27 11:48:34] ============================================================
+[2026-03-27 11:48:34] TOPIC 10/114: Films, Books & Music (films-books-music01)
+[2026-03-27 11:48:34] ============================================================
+[2026-03-27 11:48:34]     Intermediate (B1–B2)...
+[2026-03-27 11:48:56]       Got 30, 30 valid, total: 30
+[2026-03-27 11:49:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:49:26]       Got 30, 30 valid, total: 30
+[2026-03-27 11:49:31]     Advanced (C1–C2)...
+[2026-03-27 11:49:55]       Got 30, 30 valid, total: 30
+[2026-03-27 11:50:00]     Wrote questions V\films-books-music01-intermediate.js (30 questions)
+[2026-03-27 11:50:00]     Wrote questions V\films-books-music01-upper-intermediate.js (30 questions)
+[2026-03-27 11:50:00]     Wrote questions V\films-books-music01-advanced.js (30 questions)
+[2026-03-27 11:50:00]     DONE: 90 new questions for Films, Books & Music
+[2026-03-27 11:50:00] 
+[2026-03-27 11:50:00] ============================================================
+[2026-03-27 11:50:00] TOPIC 11/114: Food & Nutrition (food-nutrition01)
+[2026-03-27 11:50:00] ============================================================
+[2026-03-27 11:50:00]     Intermediate (B1–B2)...
+[2026-03-27 11:50:21]       Got 30, 30 valid, total: 30
+[2026-03-27 11:50:26]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:50:50]       Got 30, 30 valid, total: 30
+[2026-03-27 11:50:55]     Advanced (C1–C2)...
+[2026-03-27 11:51:20]       Got 30, 30 valid, total: 30
+[2026-03-27 11:51:25]     Wrote questions V\food-nutrition01-intermediate.js (30 questions)
+[2026-03-27 11:51:25]     Wrote questions V\food-nutrition01-upper-intermediate.js (30 questions)
+[2026-03-27 11:51:25]     Wrote questions V\food-nutrition01-advanced.js (30 questions)
+[2026-03-27 11:51:25]     DONE: 90 new questions for Food & Nutrition
+[2026-03-27 11:51:25] 
+[2026-03-27 11:51:25] ============================================================
+[2026-03-27 11:51:25] TOPIC 12/114: Free Time, Hobbies & Sports (free-time-sports01)
+[2026-03-27 11:51:25] ============================================================
+[2026-03-27 11:51:25]     Intermediate (B1–B2)...
+[2026-03-27 11:51:47]       Got 30, 30 valid, total: 30
+[2026-03-27 11:51:52]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:52:15]       Got 30, 30 valid, total: 30
+[2026-03-27 11:52:20]     Advanced (C1–C2)...
+[2026-03-27 11:52:46]       Got 30, 30 valid, total: 30
+[2026-03-27 11:52:51]     Wrote questions V\free-time-sports01-intermediate.js (30 questions)
+[2026-03-27 11:52:51]     Wrote questions V\free-time-sports01-upper-intermediate.js (30 questions)
+[2026-03-27 11:52:51]     Wrote questions V\free-time-sports01-advanced.js (30 questions)
+[2026-03-27 11:52:51]     DONE: 90 new questions for Free Time, Hobbies & Sports
+[2026-03-27 11:52:51] 
+[2026-03-27 11:52:51] ============================================================
+[2026-03-27 11:52:51] TOPIC 13/114: Health & Body (health-body01)
+[2026-03-27 11:52:51] ============================================================
+[2026-03-27 11:52:51]     Intermediate (B1–B2)...
+[2026-03-27 11:53:12]       Got 30, 30 valid, total: 30
+[2026-03-27 11:53:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:53:40]       Got 30, 30 valid, total: 30
+[2026-03-27 11:53:45]     Advanced (C1–C2)...
+[2026-03-27 11:54:09]       Got 30, 30 valid, total: 30
+[2026-03-27 11:54:14]     Wrote questions V\health-body01-intermediate.js (30 questions)
+[2026-03-27 11:54:14]     Wrote questions V\health-body01-upper-intermediate.js (30 questions)
+[2026-03-27 11:54:14]     Wrote questions V\health-body01-advanced.js (30 questions)
+[2026-03-27 11:54:14]     DONE: 90 new questions for Health & Body
+[2026-03-27 11:54:14] 
+[2026-03-27 11:54:14] ============================================================
+[2026-03-27 11:54:14] TOPIC 14/114: History & Cultural Heritage (history-culture01)
+[2026-03-27 11:54:14] ============================================================
+[2026-03-27 11:54:14]     Intermediate (B1–B2)...
+[2026-03-27 11:54:36]       Got 30, 30 valid, total: 30
+[2026-03-27 11:54:41]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:55:07]       Got 30, 30 valid, total: 30
+[2026-03-27 11:55:12]     Advanced (C1–C2)...
+[2026-03-27 11:55:39]       Got 30, 30 valid, total: 30
+[2026-03-27 11:55:44]     Wrote questions V\history-culture01-intermediate.js (30 questions)
+[2026-03-27 11:55:44]     Wrote questions V\history-culture01-upper-intermediate.js (30 questions)
+[2026-03-27 11:55:44]     Wrote questions V\history-culture01-advanced.js (30 questions)
+[2026-03-27 11:55:44]     DONE: 90 new questions for History & Cultural Heritage
+[2026-03-27 11:55:44] 
+[2026-03-27 11:55:44] ============================================================
+[2026-03-27 11:55:44] TOPIC 15/114: Housing & City Life (housing-city-life01)
+[2026-03-27 11:55:44] ============================================================
+[2026-03-27 11:55:44]     Intermediate (B1–B2)...
+[2026-03-27 11:56:07]       Got 30, 30 valid, total: 30
+[2026-03-27 11:56:12]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:56:35]       Got 30, 30 valid, total: 30
+[2026-03-27 11:56:40]     Advanced (C1–C2)...
+[2026-03-27 11:57:09]       Got 30, 30 valid, total: 30
+[2026-03-27 11:57:14]     Wrote questions V\housing-city-life01-intermediate.js (30 questions)
+[2026-03-27 11:57:14]     Wrote questions V\housing-city-life01-upper-intermediate.js (30 questions)
+[2026-03-27 11:57:14]     Wrote questions V\housing-city-life01-advanced.js (30 questions)
+[2026-03-27 11:57:14]     DONE: 90 new questions for Housing & City Life
+[2026-03-27 11:57:14] 
+[2026-03-27 11:57:14] ============================================================
+[2026-03-27 11:57:14] TOPIC 16/114: Human Rights & Social Issues (human-rights-social01)
+[2026-03-27 11:57:14] ============================================================
+[2026-03-27 11:57:14]     Intermediate (B1–B2)...
+[2026-03-27 11:57:35]       Got 30, 30 valid, total: 30
+[2026-03-27 11:57:40]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:58:03]       Got 30, 30 valid, total: 30
+[2026-03-27 11:58:08]     Advanced (C1–C2)...
+[2026-03-27 11:58:35]       Got 30, 30 valid, total: 30
+[2026-03-27 11:58:40]     Wrote questions V\human-rights-social01-intermediate.js (30 questions)
+[2026-03-27 11:58:40]     Wrote questions V\human-rights-social01-upper-intermediate.js (30 questions)
+[2026-03-27 11:58:40]     Wrote questions V\human-rights-social01-advanced.js (30 questions)
+[2026-03-27 11:58:40]     DONE: 90 new questions for Human Rights & Social Issues
+[2026-03-27 11:58:40] 
+[2026-03-27 11:58:40] ============================================================
+[2026-03-27 11:58:40] TOPIC 17/114: Idioms & Expressions (idioms01)
+[2026-03-27 11:58:40] ============================================================
+[2026-03-27 11:58:40]     Intermediate (B1–B2)...
+[2026-03-27 11:59:00]       Got 30, 30 valid, total: 30
+[2026-03-27 11:59:05]     Upper-Intermediate (B2–C1)...
+[2026-03-27 11:59:28]       Got 30, 30 valid, total: 30
+[2026-03-27 11:59:33]     Advanced (C1–C2)...
+[2026-03-27 11:59:59]       Got 30, 30 valid, total: 30
+[2026-03-27 12:00:04]     Wrote questions V\idioms01-intermediate.js (30 questions)
+[2026-03-27 12:00:04]     Wrote questions V\idioms01-upper-intermediate.js (30 questions)
+[2026-03-27 12:00:04]     Wrote questions V\idioms01-advanced.js (30 questions)
+[2026-03-27 12:00:04]     DONE: 90 new questions for Idioms & Expressions
+[2026-03-27 12:00:04] 
+[2026-03-27 12:00:04] ============================================================
+[2026-03-27 12:00:04] TOPIC 18/114: Media & Advertising (media-advertising01)
+[2026-03-27 12:00:04] ============================================================
+[2026-03-27 12:00:04]     Intermediate (B1–B2)...
+[2026-03-27 12:00:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:00:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:00:58]       Got 30, 30 valid, total: 30
+[2026-03-27 12:01:03]     Advanced (C1–C2)...
+[2026-03-27 12:01:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:01:33]     Wrote questions V\media-advertising01-intermediate.js (30 questions)
+[2026-03-27 12:01:33]     Wrote questions V\media-advertising01-upper-intermediate.js (30 questions)
+[2026-03-27 12:01:33]     Wrote questions V\media-advertising01-advanced.js (30 questions)
+[2026-03-27 12:01:33]     DONE: 90 new questions for Media & Advertising
+[2026-03-27 12:01:33] 
+[2026-03-27 12:01:33] ============================================================
+[2026-03-27 12:01:33] TOPIC 19/114: Money & Consumerism (money-consumerism01)
+[2026-03-27 12:01:33] ============================================================
+[2026-03-27 12:01:33]     Intermediate (B1–B2)...
+[2026-03-27 12:01:56]       Got 30, 30 valid, total: 30
+[2026-03-27 12:02:01]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:02:24]       Got 29, 29 valid, total: 29
+[2026-03-27 12:02:24]       Retry #2 — need 1 more questions...
+[2026-03-27 12:02:35]       Got 6, 1 valid, total: 30
+[2026-03-27 12:02:40]     Advanced (C1–C2)...
+[2026-03-27 12:02:44]       Rate limited (429). Waiting 60s...
+[2026-03-27 12:04:14]       Got 30, 30 valid, total: 30
+[2026-03-27 12:04:19]     Wrote questions V\money-consumerism01-intermediate.js (30 questions)
+[2026-03-27 12:04:19]     Wrote questions V\money-consumerism01-upper-intermediate.js (30 questions)
+[2026-03-27 12:04:19]     Wrote questions V\money-consumerism01-advanced.js (30 questions)
+[2026-03-27 12:04:19]     DONE: 90 new questions for Money & Consumerism
+[2026-03-27 12:04:19] 
+[2026-03-27 12:04:19] ============================================================
+[2026-03-27 12:04:19] TOPIC 20/114: Personal Intro (personal-intro01)
+[2026-03-27 12:04:19] ============================================================
+[2026-03-27 12:04:19]     Intermediate (B1–B2)...
+[2026-03-27 12:04:43]       Got 30, 30 valid, total: 30
+[2026-03-27 12:04:48]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:05:02]       Rate limited (429). Waiting 60s...
+[2026-03-27 12:06:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:06:33]     Advanced (C1–C2)...
+[2026-03-27 12:06:56]       Got 30, 30 valid, total: 30
+[2026-03-27 12:07:01]     Wrote questions V\personal-intro01-intermediate.js (30 questions)
+[2026-03-27 12:07:01]     Wrote questions V\personal-intro01-upper-intermediate.js (30 questions)
+[2026-03-27 12:07:01]     Wrote questions V\personal-intro01-advanced.js (30 questions)
+[2026-03-27 12:07:01]     DONE: 90 new questions for Personal Intro
+[2026-03-27 12:07:01] 
+[2026-03-27 12:07:01] ============================================================
+[2026-03-27 12:07:01] TOPIC 21/114: Personality & Behavior (personality-behavior01)
+[2026-03-27 12:07:01] ============================================================
+[2026-03-27 12:07:01]     Intermediate (B1–B2)...
+[2026-03-27 12:07:25]       Got 30, 30 valid, total: 30
+[2026-03-27 12:07:30]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:07:54]       Got 30, 30 valid, total: 30
+[2026-03-27 12:07:59]     Advanced (C1–C2)...
+[2026-03-27 12:08:27]       Got 30, 30 valid, total: 30
+[2026-03-27 12:08:32]     Wrote questions V\personality-behavior01-intermediate.js (30 questions)
+[2026-03-27 12:08:32]     Wrote questions V\personality-behavior01-upper-intermediate.js (30 questions)
+[2026-03-27 12:08:32]     Wrote questions V\personality-behavior01-advanced.js (30 questions)
+[2026-03-27 12:08:32]     DONE: 90 new questions for Personality & Behavior
+[2026-03-27 12:08:32] 
+[2026-03-27 12:08:32] ============================================================
+[2026-03-27 12:08:32] TOPIC 22/114: Proverbs (A1–C2) (proverbs01)
+[2026-03-27 12:08:32] ============================================================
+[2026-03-27 12:08:32]     Intermediate (B1–B2)...
+[2026-03-27 12:08:53]       Got 30, 30 valid, total: 30
+[2026-03-27 12:08:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:09:28]       Got 31, 30 valid, total: 30
+[2026-03-27 12:09:33]     Advanced (C1–C2)...
+[2026-03-27 12:10:05]       Got 30, 30 valid, total: 30
+[2026-03-27 12:10:10]     Wrote questions V\proverbs01-intermediate.js (30 questions)
+[2026-03-27 12:10:10]     Wrote questions V\proverbs01-upper-intermediate.js (30 questions)
+[2026-03-27 12:10:10]     Wrote questions V\proverbs01-advanced.js (30 questions)
+[2026-03-27 12:10:10]     DONE: 90 new questions for Proverbs (A1–C2)
+[2026-03-27 12:10:10] 
+[2026-03-27 12:10:10] ============================================================
+[2026-03-27 12:10:10] TOPIC 23/114: Science & Research (science-research01)
+[2026-03-27 12:10:10] ============================================================
+[2026-03-27 12:10:10]     Intermediate (B1–B2)...
+[2026-03-27 12:10:33]       Got 30, 30 valid, total: 30
+[2026-03-27 12:10:38]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:11:02]       Got 30, 30 valid, total: 30
+[2026-03-27 12:11:07]     Advanced (C1–C2)...
+[2026-03-27 12:11:34]       Got 30, 30 valid, total: 30
+[2026-03-27 12:11:39]     Wrote questions V\science-research01-intermediate.js (30 questions)
+[2026-03-27 12:11:39]     Wrote questions V\science-research01-upper-intermediate.js (30 questions)
+[2026-03-27 12:11:39]     Wrote questions V\science-research01-advanced.js (30 questions)
+[2026-03-27 12:11:39]     DONE: 90 new questions for Science & Research
+[2026-03-27 12:11:39] 
+[2026-03-27 12:11:39] ============================================================
+[2026-03-27 12:11:39] TOPIC 24/114: Space Exploration (space-exploration01)
+[2026-03-27 12:11:39] ============================================================
+[2026-03-27 12:11:39]     Intermediate (B1–B2)...
+[2026-03-27 12:12:01]       Got 30, 30 valid, total: 30
+[2026-03-27 12:12:06]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:12:29]       Got 30, 30 valid, total: 30
+[2026-03-27 12:12:34]     Advanced (C1–C2)...
+[2026-03-27 12:12:58]       Got 30, 30 valid, total: 30
+[2026-03-27 12:13:03]     Wrote questions V\space-exploration01-intermediate.js (30 questions)
+[2026-03-27 12:13:03]     Wrote questions V\space-exploration01-upper-intermediate.js (30 questions)
+[2026-03-27 12:13:03]     Wrote questions V\space-exploration01-advanced.js (30 questions)
+[2026-03-27 12:13:03]     DONE: 90 new questions for Space Exploration
+[2026-03-27 12:13:03] 
+[2026-03-27 12:13:03] ============================================================
+[2026-03-27 12:13:03] TOPIC 25/114: Technology & Social Media (tech-social-media01)
+[2026-03-27 12:13:03] ============================================================
+[2026-03-27 12:13:03]     Intermediate (B1–B2)...
+[2026-03-27 12:13:26]       Got 30, 30 valid, total: 30
+[2026-03-27 12:13:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:13:54]       Got 30, 30 valid, total: 30
+[2026-03-27 12:13:59]     Advanced (C1–C2)...
+[2026-03-27 12:14:26]       Got 30, 30 valid, total: 30
+[2026-03-27 12:14:31]     Wrote questions V\tech-social-media01-intermediate.js (30 questions)
+[2026-03-27 12:14:31]     Wrote questions V\tech-social-media01-upper-intermediate.js (30 questions)
+[2026-03-27 12:14:31]     Wrote questions V\tech-social-media01-advanced.js (30 questions)
+[2026-03-27 12:14:31]     DONE: 90 new questions for Technology & Social Media
+[2026-03-27 12:14:31] 
+[2026-03-27 12:14:31] ============================================================
+[2026-03-27 12:14:31] TOPIC 26/114: Three-part Phrasal Verbs (three-part-verbs01)
+[2026-03-27 12:14:31] ============================================================
+[2026-03-27 12:14:31]     Intermediate (B1–B2)...
+[2026-03-27 12:14:54]       Got 29, 29 valid, total: 29
+[2026-03-27 12:14:54]       Retry #2 — need 1 more questions...
+[2026-03-27 12:15:06]       Got 6, 1 valid, total: 30
+[2026-03-27 12:15:11]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:15:38]       Got 29, 29 valid, total: 29
+[2026-03-27 12:15:38]       Retry #2 — need 1 more questions...
+[2026-03-27 12:15:51]       Got 6, 1 valid, total: 30
+[2026-03-27 12:15:56]     Advanced (C1–C2)...
+[2026-03-27 12:16:22]       Got 30, 30 valid, total: 30
+[2026-03-27 12:16:27]     Wrote questions V\three-part-verbs01-intermediate.js (30 questions)
+[2026-03-27 12:16:28]     Wrote questions V\three-part-verbs01-upper-intermediate.js (30 questions)
+[2026-03-27 12:16:28]     Wrote questions V\three-part-verbs01-advanced.js (30 questions)
+[2026-03-27 12:16:28]     DONE: 90 new questions for Three-part Phrasal Verbs
+[2026-03-27 12:16:28] 
+[2026-03-27 12:16:28] ============================================================
+[2026-03-27 12:16:28] TOPIC 27/114: Travel & Holiday (travel-holiday01)
+[2026-03-27 12:16:28] ============================================================
+[2026-03-27 12:16:28]     Intermediate (B1–B2)...
+[2026-03-27 12:16:49]       Got 30, 30 valid, total: 30
+[2026-03-27 12:16:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:17:19]       Got 30, 30 valid, total: 30
+[2026-03-27 12:17:24]     Advanced (C1–C2)...
+[2026-03-27 12:17:47]       Got 30, 30 valid, total: 30
+[2026-03-27 12:17:52]     Wrote questions V\travel-holiday01-intermediate.js (30 questions)
+[2026-03-27 12:17:52]     Wrote questions V\travel-holiday01-upper-intermediate.js (30 questions)
+[2026-03-27 12:17:52]     Wrote questions V\travel-holiday01-advanced.js (30 questions)
+[2026-03-27 12:17:52]     DONE: 90 new questions for Travel & Holiday
+[2026-03-27 12:17:52] 
+[2026-03-27 12:17:52] ============================================================
+[2026-03-27 12:17:52] TOPIC 28/114: Wildlife & Conservation (wildlife-conservation01)
+[2026-03-27 12:17:52] ============================================================
+[2026-03-27 12:17:52]     Intermediate (B1–B2)...
+[2026-03-27 12:18:15]       Got 30, 30 valid, total: 30
+[2026-03-27 12:18:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:18:42]       Got 30, 30 valid, total: 30
+[2026-03-27 12:18:47]     Advanced (C1–C2)...
+[2026-03-27 12:19:13]       Got 30, 30 valid, total: 30
+[2026-03-27 12:19:18]     Wrote questions V\wildlife-conservation01-intermediate.js (30 questions)
+[2026-03-27 12:19:18]     Wrote questions V\wildlife-conservation01-upper-intermediate.js (30 questions)
+[2026-03-27 12:19:18]     Wrote questions V\wildlife-conservation01-advanced.js (30 questions)
+[2026-03-27 12:19:18]     DONE: 90 new questions for Wildlife & Conservation
+[2026-03-27 12:19:18] 
+[2026-03-27 12:19:18] ============================================================
+[2026-03-27 12:19:18] TOPIC 29/114: Work & Career (work-career01)
+[2026-03-27 12:19:18] ============================================================
+[2026-03-27 12:19:18]     Intermediate (B1–B2)...
+[2026-03-27 12:19:41]       Got 30, 30 valid, total: 30
+[2026-03-27 12:19:46]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:20:10]       Got 30, 30 valid, total: 30
+[2026-03-27 12:20:15]     Advanced (C1–C2)...
+[2026-03-27 12:20:42]       Got 30, 30 valid, total: 30
+[2026-03-27 12:20:47]     Wrote questions V\work-career01-intermediate.js (30 questions)
+[2026-03-27 12:20:47]     Wrote questions V\work-career01-upper-intermediate.js (30 questions)
+[2026-03-27 12:20:47]     Wrote questions V\work-career01-advanced.js (30 questions)
+[2026-03-27 12:20:47]     DONE: 90 new questions for Work & Career
+[2026-03-27 12:20:47] 
+[2026-03-27 12:20:47] ============================================================
+[2026-03-27 12:20:47] TOPIC 30/114: Business & Economics (business-economics01)
+[2026-03-27 12:20:47] ============================================================
+[2026-03-27 12:20:47]     Intermediate (B1–B2)...
+[2026-03-27 12:21:09]       Got 30, 30 valid, total: 30
+[2026-03-27 12:21:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:21:40]       Got 31, 30 valid, total: 30
+[2026-03-27 12:21:45]     Advanced (C1–C2)...
+[2026-03-27 12:22:10]       Got 30, 30 valid, total: 30
+[2026-03-27 12:22:15]     Wrote questions V\business-economics01-intermediate.js (30 questions)
+[2026-03-27 12:22:15]     Wrote questions V\business-economics01-upper-intermediate.js (30 questions)
+[2026-03-27 12:22:15]     Wrote questions V\business-economics01-advanced.js (30 questions)
+[2026-03-27 12:22:15]     DONE: 90 new questions for Business & Economics
+[2026-03-27 12:22:15] 
+[2026-03-27 12:22:15] ============================================================
+[2026-03-27 12:22:15] TOPIC 31/114: Politics & Government (politics-government01)
+[2026-03-27 12:22:15] ============================================================
+[2026-03-27 12:22:15]     Intermediate (B1–B2)...
+[2026-03-27 12:22:39]       Got 30, 30 valid, total: 30
+[2026-03-27 12:22:44]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:23:10]       Got 30, 30 valid, total: 30
+[2026-03-27 12:23:15]     Advanced (C1–C2)...
+[2026-03-27 12:23:40]       Got 30, 30 valid, total: 30
+[2026-03-27 12:23:45]     Wrote questions V\politics-government01-intermediate.js (30 questions)
+[2026-03-27 12:23:45]     Wrote questions V\politics-government01-upper-intermediate.js (30 questions)
+[2026-03-27 12:23:45]     Wrote questions V\politics-government01-advanced.js (30 questions)
+[2026-03-27 12:23:45]     DONE: 90 new questions for Politics & Government
+[2026-03-27 12:23:45] 
+[2026-03-27 12:23:45] ============================================================
+[2026-03-27 12:23:45] TOPIC 32/114: Medicine & Healthcare (medicine-healthcare01)
+[2026-03-27 12:23:45] ============================================================
+[2026-03-27 12:23:45]     Intermediate (B1–B2)...
+[2026-03-27 12:24:08]       Got 30, 30 valid, total: 30
+[2026-03-27 12:24:13]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:24:39]       Got 30, 30 valid, total: 30
+[2026-03-27 12:24:44]     Advanced (C1–C2)...
+[2026-03-27 12:25:14]       Got 30, 30 valid, total: 30
+[2026-03-27 12:25:19]     Wrote questions V\medicine-healthcare01-intermediate.js (30 questions)
+[2026-03-27 12:25:19]     Wrote questions V\medicine-healthcare01-upper-intermediate.js (30 questions)
+[2026-03-27 12:25:19]     Wrote questions V\medicine-healthcare01-advanced.js (30 questions)
+[2026-03-27 12:25:19]     DONE: 90 new questions for Medicine & Healthcare
+[2026-03-27 12:25:19] 
+[2026-03-27 12:25:19] ============================================================
+[2026-03-27 12:25:19] TOPIC 33/114: Psychology & Mind (psychology-mind01)
+[2026-03-27 12:25:19] ============================================================
+[2026-03-27 12:25:19]     Intermediate (B1–B2)...
+[2026-03-27 12:25:43]       Got 30, 30 valid, total: 30
+[2026-03-27 12:25:48]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:26:12]       Got 30, 30 valid, total: 30
+[2026-03-27 12:26:17]     Advanced (C1–C2)...
+[2026-03-27 12:26:44]       Got 30, 30 valid, total: 30
+[2026-03-27 12:26:49]     Wrote questions V\psychology-mind01-intermediate.js (30 questions)
+[2026-03-27 12:26:49]     Wrote questions V\psychology-mind01-upper-intermediate.js (30 questions)
+[2026-03-27 12:26:49]     Wrote questions V\psychology-mind01-advanced.js (30 questions)
+[2026-03-27 12:26:49]     DONE: 90 new questions for Psychology & Mind
+[2026-03-27 12:26:49] 
+[2026-03-27 12:26:49] ============================================================
+[2026-03-27 12:26:49] TOPIC 34/114: Law & Court (law-court01)
+[2026-03-27 12:26:49] ============================================================
+[2026-03-27 12:26:49]     Intermediate (B1–B2)...
+[2026-03-27 12:27:13]       Got 30, 30 valid, total: 30
+[2026-03-27 12:27:18]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:27:40]       Got 30, 30 valid, total: 30
+[2026-03-27 12:27:45]     Advanced (C1–C2)...
+[2026-03-27 12:28:09]       Got 30, 30 valid, total: 30
+[2026-03-27 12:28:14]     Wrote questions V\law-court01-intermediate.js (30 questions)
+[2026-03-27 12:28:14]     Wrote questions V\law-court01-upper-intermediate.js (30 questions)
+[2026-03-27 12:28:14]     Wrote questions V\law-court01-advanced.js (30 questions)
+[2026-03-27 12:28:14]     DONE: 90 new questions for Law & Court
+[2026-03-27 12:28:14] 
+[2026-03-27 12:28:14] ============================================================
+[2026-03-27 12:28:14] TOPIC 35/114: Transport & Travel (transport-travel01)
+[2026-03-27 12:28:14] ============================================================
+[2026-03-27 12:28:14]     Intermediate (B1–B2)...
+[2026-03-27 12:28:35]       Got 30, 30 valid, total: 30
+[2026-03-27 12:28:40]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:29:02]       Got 30, 29 valid, total: 29
+[2026-03-27 12:29:02]       Retry #2 — need 1 more questions...
+[2026-03-27 12:29:12]       Got 6, 1 valid, total: 30
+[2026-03-27 12:29:17]     Advanced (C1–C2)...
+[2026-03-27 12:29:40]       Got 30, 30 valid, total: 30
+[2026-03-27 12:29:45]     Wrote questions V\transport-travel01-intermediate.js (30 questions)
+[2026-03-27 12:29:45]     Wrote questions V\transport-travel01-upper-intermediate.js (30 questions)
+[2026-03-27 12:29:45]     Wrote questions V\transport-travel01-advanced.js (30 questions)
+[2026-03-27 12:29:45]     DONE: 90 new questions for Transport & Travel
+[2026-03-27 12:29:45] 
+[2026-03-27 12:29:45] ============================================================
+[2026-03-27 12:29:45] TOPIC 36/114: Weather & Nature (weather-nature01)
+[2026-03-27 12:29:45] ============================================================
+[2026-03-27 12:29:45]     Intermediate (B1–B2)...
+[2026-03-27 12:30:05]       Got 30, 30 valid, total: 30
+[2026-03-27 12:30:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:30:11]       Rate limited (429). Waiting 60s...
+[2026-03-27 12:31:31]       Got 30, 30 valid, total: 30
+[2026-03-27 12:31:36]     Advanced (C1–C2)...
+[2026-03-27 12:31:59]       Got 30, 30 valid, total: 30
+[2026-03-27 12:32:04]     Wrote questions V\weather-nature01-intermediate.js (30 questions)
+[2026-03-27 12:32:04]     Wrote questions V\weather-nature01-upper-intermediate.js (30 questions)
+[2026-03-27 12:32:04]     Wrote questions V\weather-nature01-advanced.js (30 questions)
+[2026-03-27 12:32:04]     DONE: 90 new questions for Weather & Nature
+[2026-03-27 12:32:04] 
+[2026-03-27 12:32:04] ============================================================
+[2026-03-27 12:32:04] TOPIC 37/114: Sports & Competition (sports-competition01)
+[2026-03-27 12:32:04] ============================================================
+[2026-03-27 12:32:04]     Intermediate (B1–B2)...
+[2026-03-27 12:32:29]       Got 30, 30 valid, total: 30
+[2026-03-27 12:32:34]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:32:58]       Got 30, 30 valid, total: 30
+[2026-03-27 12:33:03]     Advanced (C1–C2)...
+[2026-03-27 12:33:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:33:33]     Wrote questions V\sports-competition01-intermediate.js (30 questions)
+[2026-03-27 12:33:33]     Wrote questions V\sports-competition01-upper-intermediate.js (30 questions)
+[2026-03-27 12:33:33]     Wrote questions V\sports-competition01-advanced.js (30 questions)
+[2026-03-27 12:33:33]     DONE: 90 new questions for Sports & Competition
+[2026-03-27 12:33:33] 
+[2026-03-27 12:33:33] ============================================================
+[2026-03-27 12:33:33] TOPIC 38/114: Music & Arts (music-arts01)
+[2026-03-27 12:33:33] ============================================================
+[2026-03-27 12:33:33]     Intermediate (B1–B2)...
+[2026-03-27 12:33:55]       Got 31, 30 valid, total: 30
+[2026-03-27 12:34:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:34:26]       Got 30, 30 valid, total: 30
+[2026-03-27 12:34:31]     Advanced (C1–C2)...
+[2026-03-27 12:34:53]       Got 30, 30 valid, total: 30
+[2026-03-27 12:34:58]     Wrote questions V\music-arts01-intermediate.js (30 questions)
+[2026-03-27 12:34:58]     Wrote questions V\music-arts01-upper-intermediate.js (30 questions)
+[2026-03-27 12:34:58]     Wrote questions V\music-arts01-advanced.js (30 questions)
+[2026-03-27 12:34:58]     DONE: 90 new questions for Music & Arts
+[2026-03-27 12:34:58] 
+[2026-03-27 12:34:58] ============================================================
+[2026-03-27 12:34:58] TOPIC 39/114: Fashion & Trends (fashion-trends01)
+[2026-03-27 12:34:58] ============================================================
+[2026-03-27 12:34:58]     Intermediate (B1–B2)...
+[2026-03-27 12:35:18]       Got 30, 30 valid, total: 30
+[2026-03-27 12:35:23]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:35:47]       Got 30, 30 valid, total: 30
+[2026-03-27 12:35:52]     Advanced (C1–C2)...
+[2026-03-27 12:36:15]       Got 30, 30 valid, total: 30
+[2026-03-27 12:36:20]     Wrote questions V\fashion-trends01-intermediate.js (30 questions)
+[2026-03-27 12:36:20]     Wrote questions V\fashion-trends01-upper-intermediate.js (30 questions)
+[2026-03-27 12:36:20]     Wrote questions V\fashion-trends01-advanced.js (30 questions)
+[2026-03-27 12:36:20]     DONE: 90 new questions for Fashion & Trends
+[2026-03-27 12:36:20] 
+[2026-03-27 12:36:20] ============================================================
+[2026-03-27 12:36:20] TOPIC 40/114: Journalism & Reporting (journalism-reporting01)
+[2026-03-27 12:36:20] ============================================================
+[2026-03-27 12:36:20]     Intermediate (B1–B2)...
+[2026-03-27 12:36:40]       Got 30, 30 valid, total: 30
+[2026-03-27 12:36:45]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:37:10]       Got 30, 30 valid, total: 30
+[2026-03-27 12:37:15]     Advanced (C1–C2)...
+[2026-03-27 12:37:42]       Got 30, 30 valid, total: 30
+[2026-03-27 12:37:47]     Wrote questions V\journalism-reporting01-intermediate.js (30 questions)
+[2026-03-27 12:37:47]     Wrote questions V\journalism-reporting01-upper-intermediate.js (30 questions)
+[2026-03-27 12:37:47]     Wrote questions V\journalism-reporting01-advanced.js (30 questions)
+[2026-03-27 12:37:47]     DONE: 90 new questions for Journalism & Reporting
+[2026-03-27 12:37:47] 
+[2026-03-27 12:37:47] ============================================================
+[2026-03-27 12:37:47] TOPIC 41/114: Agriculture & Farming (agriculture-farming01)
+[2026-03-27 12:37:47] ============================================================
+[2026-03-27 12:37:47]     Intermediate (B1–B2)...
+[2026-03-27 12:38:09]       Got 30, 30 valid, total: 30
+[2026-03-27 12:38:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:38:39]       Got 30, 30 valid, total: 30
+[2026-03-27 12:38:44]     Advanced (C1–C2)...
+[2026-03-27 12:39:09]       Got 30, 30 valid, total: 30
+[2026-03-27 12:39:14]     Wrote questions V\agriculture-farming01-intermediate.js (30 questions)
+[2026-03-27 12:39:14]     Wrote questions V\agriculture-farming01-upper-intermediate.js (30 questions)
+[2026-03-27 12:39:14]     Wrote questions V\agriculture-farming01-advanced.js (30 questions)
+[2026-03-27 12:39:14]     DONE: 90 new questions for Agriculture & Farming
+[2026-03-27 12:39:14] 
+[2026-03-27 12:39:14] ============================================================
+[2026-03-27 12:39:14] TOPIC 42/114: Energy & Resources (energy-resources01)
+[2026-03-27 12:39:14] ============================================================
+[2026-03-27 12:39:14]     Intermediate (B1–B2)...
+[2026-03-27 12:39:35]       Got 30, 30 valid, total: 30
+[2026-03-27 12:39:40]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:40:04]       Got 30, 30 valid, total: 30
+[2026-03-27 12:40:09]     Advanced (C1–C2)...
+[2026-03-27 12:40:38]       Got 30, 30 valid, total: 30
+[2026-03-27 12:40:43]     Wrote questions V\energy-resources01-intermediate.js (30 questions)
+[2026-03-27 12:40:43]     Wrote questions V\energy-resources01-upper-intermediate.js (30 questions)
+[2026-03-27 12:40:43]     Wrote questions V\energy-resources01-advanced.js (30 questions)
+[2026-03-27 12:40:43]     DONE: 90 new questions for Energy & Resources
+[2026-03-27 12:40:43] 
+[2026-03-27 12:40:43] ============================================================
+[2026-03-27 12:40:43] TOPIC 43/114: Society & Inequality (society-inequality01)
+[2026-03-27 12:40:43] ============================================================
+[2026-03-27 12:40:43]     Intermediate (B1–B2)...
+[2026-03-27 12:41:04]       Got 30, 30 valid, total: 30
+[2026-03-27 12:41:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:41:32]       Got 30, 30 valid, total: 30
+[2026-03-27 12:41:37]     Advanced (C1–C2)...
+[2026-03-27 12:42:02]       Got 30, 30 valid, total: 30
+[2026-03-27 12:42:07]     Wrote questions V\society-inequality01-intermediate.js (30 questions)
+[2026-03-27 12:42:07]     Wrote questions V\society-inequality01-upper-intermediate.js (30 questions)
+[2026-03-27 12:42:07]     Wrote questions V\society-inequality01-advanced.js (30 questions)
+[2026-03-27 12:42:07]     DONE: 90 new questions for Society & Inequality
+[2026-03-27 12:42:07] 
+[2026-03-27 12:42:07] ============================================================
+[2026-03-27 12:42:07] TOPIC 44/114: Marketing & Branding (marketing-branding01)
+[2026-03-27 12:42:07] ============================================================
+[2026-03-27 12:42:07]     Intermediate (B1–B2)...
+[2026-03-27 12:42:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:42:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:42:55]       Got 30, 30 valid, total: 30
+[2026-03-27 12:43:00]     Advanced (C1–C2)...
+[2026-03-27 12:43:28]       Got 30, 30 valid, total: 30
+[2026-03-27 12:43:33]     Wrote questions V\marketing-branding01-intermediate.js (30 questions)
+[2026-03-27 12:43:33]     Wrote questions V\marketing-branding01-upper-intermediate.js (30 questions)
+[2026-03-27 12:43:33]     Wrote questions V\marketing-branding01-advanced.js (30 questions)
+[2026-03-27 12:43:33]     DONE: 90 new questions for Marketing & Branding
+[2026-03-27 12:43:33] 
+[2026-03-27 12:43:33] ============================================================
+[2026-03-27 12:43:33] TOPIC 45/114: Relationships & Dating (relationships-dating01)
+[2026-03-27 12:43:33] ============================================================
+[2026-03-27 12:43:33]     Intermediate (B1–B2)...
+[2026-03-27 12:43:55]       Got 30, 30 valid, total: 30
+[2026-03-27 12:44:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:44:26]       Got 29, 29 valid, total: 29
+[2026-03-27 12:44:26]       Retry #2 — need 1 more questions...
+[2026-03-27 12:44:36]       Got 6, 1 valid, total: 30
+[2026-03-27 12:44:41]     Advanced (C1–C2)...
+[2026-03-27 12:45:06]       Got 30, 30 valid, total: 30
+[2026-03-27 12:45:11]     Wrote questions V\relationships-dating01-intermediate.js (30 questions)
+[2026-03-27 12:45:11]     Wrote questions V\relationships-dating01-upper-intermediate.js (30 questions)
+[2026-03-27 12:45:11]     Wrote questions V\relationships-dating01-advanced.js (30 questions)
+[2026-03-27 12:45:11]     DONE: 90 new questions for Relationships & Dating
+[2026-03-27 12:45:11] 
+[2026-03-27 12:45:11] ============================================================
+[2026-03-27 12:45:11] TOPIC 46/114: Immigration & Borders (immigration-borders01)
+[2026-03-27 12:45:11] ============================================================
+[2026-03-27 12:45:11]     Intermediate (B1–B2)...
+[2026-03-27 12:45:33]       Got 30, 30 valid, total: 30
+[2026-03-27 12:45:38]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:46:04]       Got 30, 30 valid, total: 30
+[2026-03-27 12:46:09]     Advanced (C1–C2)...
+[2026-03-27 12:46:32]       Got 30, 30 valid, total: 30
+[2026-03-27 12:46:37]     Wrote questions V\immigration-borders01-intermediate.js (30 questions)
+[2026-03-27 12:46:37]     Wrote questions V\immigration-borders01-upper-intermediate.js (30 questions)
+[2026-03-27 12:46:37]     Wrote questions V\immigration-borders01-advanced.js (30 questions)
+[2026-03-27 12:46:37]     DONE: 90 new questions for Immigration & Borders
+[2026-03-27 12:46:37] 
+[2026-03-27 12:46:37] ============================================================
+[2026-03-27 12:46:37] TOPIC 47/114: Cybersecurity & Privacy (cybersecurity-privacy01)
+[2026-03-27 12:46:37] ============================================================
+[2026-03-27 12:46:37]     Intermediate (B1–B2)...
+[2026-03-27 12:46:59]       Got 30, 30 valid, total: 30
+[2026-03-27 12:47:04]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:47:29]       Got 30, 30 valid, total: 30
+[2026-03-27 12:47:34]     Advanced (C1–C2)...
+[2026-03-27 12:48:00]       Got 30, 30 valid, total: 30
+[2026-03-27 12:48:05]     Wrote questions V\cybersecurity-privacy01-intermediate.js (30 questions)
+[2026-03-27 12:48:05]     Wrote questions V\cybersecurity-privacy01-upper-intermediate.js (30 questions)
+[2026-03-27 12:48:05]     Wrote questions V\cybersecurity-privacy01-advanced.js (30 questions)
+[2026-03-27 12:48:05]     DONE: 90 new questions for Cybersecurity & Privacy
+[2026-03-27 12:48:05] 
+[2026-03-27 12:48:05] ============================================================
+[2026-03-27 12:48:05] TOPIC 48/114: War & Military (war-military01)
+[2026-03-27 12:48:05] ============================================================
+[2026-03-27 12:48:05]     Intermediate (B1–B2)...
+[2026-03-27 12:48:26]       Got 30, 30 valid, total: 30
+[2026-03-27 12:48:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:48:54]       Got 30, 30 valid, total: 30
+[2026-03-27 12:48:59]     Advanced (C1–C2)...
+[2026-03-27 12:49:24]       Got 30, 30 valid, total: 30
+[2026-03-27 12:49:29]     Wrote questions V\war-military01-intermediate.js (30 questions)
+[2026-03-27 12:49:29]     Wrote questions V\war-military01-upper-intermediate.js (30 questions)
+[2026-03-27 12:49:29]     Wrote questions V\war-military01-advanced.js (30 questions)
+[2026-03-27 12:49:29]     DONE: 90 new questions for War & Military
+[2026-03-27 12:49:29] 
+[2026-03-27 12:49:29] ============================================================
+[2026-03-27 12:49:29] TOPIC 49/114: Philosophy & Ethics (philosophy-ethics01)
+[2026-03-27 12:49:29] ============================================================
+[2026-03-27 12:49:29]     Intermediate (B1–B2)...
+[2026-03-27 12:49:54]       Got 30, 30 valid, total: 30
+[2026-03-27 12:49:59]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:50:23]       Got 31, 30 valid, total: 30
+[2026-03-27 12:50:28]     Advanced (C1–C2)...
+[2026-03-27 12:50:54]       Got 30, 30 valid, total: 30
+[2026-03-27 12:50:59]     Wrote questions V\philosophy-ethics01-intermediate.js (30 questions)
+[2026-03-27 12:50:59]     Wrote questions V\philosophy-ethics01-upper-intermediate.js (30 questions)
+[2026-03-27 12:50:59]     Wrote questions V\philosophy-ethics01-advanced.js (30 questions)
+[2026-03-27 12:50:59]     DONE: 90 new questions for Philosophy & Ethics
+[2026-03-27 12:50:59] 
+[2026-03-27 12:50:59] ============================================================
+[2026-03-27 12:50:59] TOPIC 50/114: Astronomy & Space (astronomy-space01)
+[2026-03-27 12:50:59] ============================================================
+[2026-03-27 12:50:59]     Intermediate (B1–B2)...
+[2026-03-27 12:51:23]       Got 30, 30 valid, total: 30
+[2026-03-27 12:51:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:51:52]       Got 30, 30 valid, total: 30
+[2026-03-27 12:51:57]     Advanced (C1–C2)...
+[2026-03-27 12:52:24]       Got 30, 30 valid, total: 30
+[2026-03-27 12:52:29]     Wrote questions V\astronomy-space01-intermediate.js (30 questions)
+[2026-03-27 12:52:29]     Wrote questions V\astronomy-space01-upper-intermediate.js (30 questions)
+[2026-03-27 12:52:29]     Wrote questions V\astronomy-space01-advanced.js (30 questions)
+[2026-03-27 12:52:29]     DONE: 90 new questions for Astronomy & Space
+[2026-03-27 12:52:29] 
+[2026-03-27 12:52:29] ============================================================
+[2026-03-27 12:52:29] TOPIC 51/114: Banking & Finance (banking-finance01)
+[2026-03-27 12:52:29] ============================================================
+[2026-03-27 12:52:29]     Intermediate (B1–B2)...
+[2026-03-27 12:52:50]       Got 30, 30 valid, total: 30
+[2026-03-27 12:52:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:53:22]       Got 30, 30 valid, total: 30
+[2026-03-27 12:53:27]     Advanced (C1–C2)...
+[2026-03-27 12:53:52]       Got 30, 30 valid, total: 30
+[2026-03-27 12:53:57]     Wrote questions V\banking-finance01-intermediate.js (30 questions)
+[2026-03-27 12:53:57]     Wrote questions V\banking-finance01-upper-intermediate.js (30 questions)
+[2026-03-27 12:53:57]     Wrote questions V\banking-finance01-advanced.js (30 questions)
+[2026-03-27 12:53:57]     DONE: 90 new questions for Banking & Finance
+[2026-03-27 12:53:57] 
+[2026-03-27 12:53:57] ============================================================
+[2026-03-27 12:53:57] TOPIC 52/114: Cooking & Cuisine (cooking-cuisine01)
+[2026-03-27 12:53:57] ============================================================
+[2026-03-27 12:53:57]     Intermediate (B1–B2)...
+[2026-03-27 12:54:20]       Got 30, 30 valid, total: 30
+[2026-03-27 12:54:25]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:54:50]       Got 30, 30 valid, total: 30
+[2026-03-27 12:54:55]     Advanced (C1–C2)...
+[2026-03-27 12:55:19]       Got 30, 30 valid, total: 30
+[2026-03-27 12:55:24]     Wrote questions V\cooking-cuisine01-intermediate.js (30 questions)
+[2026-03-27 12:55:24]     Wrote questions V\cooking-cuisine01-upper-intermediate.js (30 questions)
+[2026-03-27 12:55:24]     Wrote questions V\cooking-cuisine01-advanced.js (30 questions)
+[2026-03-27 12:55:24]     DONE: 90 new questions for Cooking & Cuisine
+[2026-03-27 12:55:24] 
+[2026-03-27 12:55:24] ============================================================
+[2026-03-27 12:55:24] TOPIC 53/114: Diplomacy & International Relations (diplomacy-international01)
+[2026-03-27 12:55:24] ============================================================
+[2026-03-27 12:55:24]     Intermediate (B1–B2)...
+[2026-03-27 12:55:47]       Got 30, 30 valid, total: 30
+[2026-03-27 12:55:52]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:56:19]       Got 30, 30 valid, total: 30
+[2026-03-27 12:56:24]     Advanced (C1–C2)...
+[2026-03-27 12:56:49]       Got 30, 30 valid, total: 30
+[2026-03-27 12:56:54]     Wrote questions V\diplomacy-international01-intermediate.js (30 questions)
+[2026-03-27 12:56:54]     Wrote questions V\diplomacy-international01-upper-intermediate.js (30 questions)
+[2026-03-27 12:56:54]     Wrote questions V\diplomacy-international01-advanced.js (30 questions)
+[2026-03-27 12:56:54]     DONE: 90 new questions for Diplomacy & International Relations
+[2026-03-27 12:56:54] 
+[2026-03-27 12:56:54] ============================================================
+[2026-03-27 12:56:54] TOPIC 54/114: Ecology & Wildlife (ecology-wildlife01)
+[2026-03-27 12:56:54] ============================================================
+[2026-03-27 12:56:54]     Intermediate (B1–B2)...
+[2026-03-27 12:57:15]       Got 30, 30 valid, total: 30
+[2026-03-27 12:57:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:57:44]       Got 30, 30 valid, total: 30
+[2026-03-27 12:57:49]     Advanced (C1–C2)...
+[2026-03-27 12:58:14]       Got 30, 30 valid, total: 30
+[2026-03-27 12:58:19]     Wrote questions V\ecology-wildlife01-intermediate.js (30 questions)
+[2026-03-27 12:58:19]     Wrote questions V\ecology-wildlife01-upper-intermediate.js (30 questions)
+[2026-03-27 12:58:19]     Wrote questions V\ecology-wildlife01-advanced.js (30 questions)
+[2026-03-27 12:58:19]     DONE: 90 new questions for Ecology & Wildlife
+[2026-03-27 12:58:19] 
+[2026-03-27 12:58:19] ============================================================
+[2026-03-27 12:58:19] TOPIC 55/114: Film & Cinema (film-cinema01)
+[2026-03-27 12:58:19] ============================================================
+[2026-03-27 12:58:19]     Intermediate (B1–B2)...
+[2026-03-27 12:58:38]       Got 30, 30 valid, total: 30
+[2026-03-27 12:58:43]     Upper-Intermediate (B2–C1)...
+[2026-03-27 12:59:08]       Got 30, 30 valid, total: 30
+[2026-03-27 12:59:13]     Advanced (C1–C2)...
+[2026-03-27 12:59:39]       Got 30, 30 valid, total: 30
+[2026-03-27 12:59:44]     Wrote questions V\film-cinema01-intermediate.js (30 questions)
+[2026-03-27 12:59:44]     Wrote questions V\film-cinema01-upper-intermediate.js (30 questions)
+[2026-03-27 12:59:44]     Wrote questions V\film-cinema01-advanced.js (30 questions)
+[2026-03-27 12:59:44]     DONE: 90 new questions for Film & Cinema
+[2026-03-27 12:59:44] 
+[2026-03-27 12:59:44] ============================================================
+[2026-03-27 12:59:44] TOPIC 56/114: Genetics & Biotech (genetics-biotech01)
+[2026-03-27 12:59:44] ============================================================
+[2026-03-27 12:59:44]     Intermediate (B1–B2)...
+[2026-03-27 13:00:07]       Got 30, 30 valid, total: 30
+[2026-03-27 13:00:12]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:00:36]       Got 30, 30 valid, total: 30
+[2026-03-27 13:00:41]     Advanced (C1–C2)...
+[2026-03-27 13:01:05]       Got 30, 30 valid, total: 30
+[2026-03-27 13:01:10]     Wrote questions V\genetics-biotech01-intermediate.js (30 questions)
+[2026-03-27 13:01:10]     Wrote questions V\genetics-biotech01-upper-intermediate.js (30 questions)
+[2026-03-27 13:01:10]     Wrote questions V\genetics-biotech01-advanced.js (30 questions)
+[2026-03-27 13:01:10]     DONE: 90 new questions for Genetics & Biotech
+[2026-03-27 13:01:10] 
+[2026-03-27 13:01:10] ============================================================
+[2026-03-27 13:01:10] TOPIC 57/114: Hospitality & Tourism (hospitality-tourism01)
+[2026-03-27 13:01:10] ============================================================
+[2026-03-27 13:01:10]     Intermediate (B1–B2)...
+[2026-03-27 13:01:31]       Got 30, 30 valid, total: 30
+[2026-03-27 13:01:36]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:02:01]       Got 30, 30 valid, total: 30
+[2026-03-27 13:02:06]     Advanced (C1–C2)...
+[2026-03-27 13:02:30]       Got 30, 30 valid, total: 30
+[2026-03-27 13:02:35]     Wrote questions V\hospitality-tourism01-intermediate.js (30 questions)
+[2026-03-27 13:02:35]     Wrote questions V\hospitality-tourism01-upper-intermediate.js (30 questions)
+[2026-03-27 13:02:35]     Wrote questions V\hospitality-tourism01-advanced.js (30 questions)
+[2026-03-27 13:02:35]     DONE: 90 new questions for Hospitality & Tourism
+[2026-03-27 13:02:35] 
+[2026-03-27 13:02:35] ============================================================
+[2026-03-27 13:02:35] TOPIC 58/114: Insurance & Risk (insurance-risk01)
+[2026-03-27 13:02:35] ============================================================
+[2026-03-27 13:02:35]     Intermediate (B1–B2)...
+[2026-03-27 13:02:57]       Got 30, 30 valid, total: 30
+[2026-03-27 13:03:02]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:03:24]       Got 29, 29 valid, total: 29
+[2026-03-27 13:03:24]       Retry #2 — need 1 more questions...
+[2026-03-27 13:03:35]       Got 6, 1 valid, total: 30
+[2026-03-27 13:03:40]     Advanced (C1–C2)...
+[2026-03-27 13:04:06]       Got 30, 30 valid, total: 30
+[2026-03-27 13:04:11]     Wrote questions V\insurance-risk01-intermediate.js (30 questions)
+[2026-03-27 13:04:11]     Wrote questions V\insurance-risk01-upper-intermediate.js (30 questions)
+[2026-03-27 13:04:11]     Wrote questions V\insurance-risk01-advanced.js (30 questions)
+[2026-03-27 13:04:11]     DONE: 90 new questions for Insurance & Risk
+[2026-03-27 13:04:11] 
+[2026-03-27 13:04:11] ============================================================
+[2026-03-27 13:04:11] TOPIC 59/114: Linguistics & Language (linguistics-language01)
+[2026-03-27 13:04:11] ============================================================
+[2026-03-27 13:04:11]     Intermediate (B1–B2)...
+[2026-03-27 13:04:53]       Got 30, 30 valid, total: 30
+[2026-03-27 13:04:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:05:21]       Got 30, 30 valid, total: 30
+[2026-03-27 13:05:26]     Advanced (C1–C2)...
+[2026-03-27 13:05:55]       Got 30, 30 valid, total: 30
+[2026-03-27 13:06:00]     Wrote questions V\linguistics-language01-intermediate.js (30 questions)
+[2026-03-27 13:06:00]     Wrote questions V\linguistics-language01-upper-intermediate.js (30 questions)
+[2026-03-27 13:06:00]     Wrote questions V\linguistics-language01-advanced.js (30 questions)
+[2026-03-27 13:06:00]     DONE: 90 new questions for Linguistics & Language
+[2026-03-27 13:06:00] 
+[2026-03-27 13:06:00] ============================================================
+[2026-03-27 13:06:00] TOPIC 60/114: Architecture & Design (architecture-design01)
+[2026-03-27 13:06:00] ============================================================
+[2026-03-27 13:06:00]     Intermediate (B1–B2)...
+[2026-03-27 13:06:21]       Got 30, 30 valid, total: 30
+[2026-03-27 13:06:26]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:06:50]       Got 31, 30 valid, total: 30
+[2026-03-27 13:06:55]     Advanced (C1–C2)...
+[2026-03-27 13:07:18]       Got 30, 30 valid, total: 30
+[2026-03-27 13:07:23]     Wrote questions V\architecture-design01-intermediate.js (30 questions)
+[2026-03-27 13:07:23]     Wrote questions V\architecture-design01-upper-intermediate.js (30 questions)
+[2026-03-27 13:07:23]     Wrote questions V\architecture-design01-advanced.js (30 questions)
+[2026-03-27 13:07:23]     DONE: 90 new questions for Architecture & Design
+[2026-03-27 13:07:23] 
+[2026-03-27 13:07:23] ============================================================
+[2026-03-27 13:07:23] TOPIC 61/114: Childcare & Parenting (childcare-parenting01)
+[2026-03-27 13:07:23] ============================================================
+[2026-03-27 13:07:23]     Intermediate (B1–B2)...
+[2026-03-27 13:07:46]       Got 30, 30 valid, total: 30
+[2026-03-27 13:07:51]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:08:16]       Got 30, 30 valid, total: 30
+[2026-03-27 13:08:21]     Advanced (C1–C2)...
+[2026-03-27 13:08:45]       Got 30, 30 valid, total: 30
+[2026-03-27 13:08:50]     Wrote questions V\childcare-parenting01-intermediate.js (30 questions)
+[2026-03-27 13:08:50]     Wrote questions V\childcare-parenting01-upper-intermediate.js (30 questions)
+[2026-03-27 13:08:50]     Wrote questions V\childcare-parenting01-advanced.js (30 questions)
+[2026-03-27 13:08:50]     DONE: 90 new questions for Childcare & Parenting
+[2026-03-27 13:08:50] 
+[2026-03-27 13:08:50] ============================================================
+[2026-03-27 13:08:50] TOPIC 62/114: Disasters & Emergencies (disasters-emergencies01)
+[2026-03-27 13:08:50] ============================================================
+[2026-03-27 13:08:50]     Intermediate (B1–B2)...
+[2026-03-27 13:09:11]       Got 30, 30 valid, total: 30
+[2026-03-27 13:09:16]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:09:45]       Got 32, 30 valid, total: 30
+[2026-03-27 13:09:50]     Advanced (C1–C2)...
+[2026-03-27 13:10:16]       Got 30, 30 valid, total: 30
+[2026-03-27 13:10:21]     Wrote questions V\disasters-emergencies01-intermediate.js (30 questions)
+[2026-03-27 13:10:21]     Wrote questions V\disasters-emergencies01-upper-intermediate.js (30 questions)
+[2026-03-27 13:10:21]     Wrote questions V\disasters-emergencies01-advanced.js (30 questions)
+[2026-03-27 13:10:21]     DONE: 90 new questions for Disasters & Emergencies
+[2026-03-27 13:10:21] 
+[2026-03-27 13:10:21] ============================================================
+[2026-03-27 13:10:21] TOPIC 63/114: Entrepreneurship & Startups (entrepreneurship-startups01)
+[2026-03-27 13:10:21] ============================================================
+[2026-03-27 13:10:21]     Intermediate (B1–B2)...
+[2026-03-27 13:10:43]       Got 30, 30 valid, total: 30
+[2026-03-27 13:10:48]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:11:13]       Got 30, 30 valid, total: 30
+[2026-03-27 13:11:18]     Advanced (C1–C2)...
+[2026-03-27 13:11:43]       Got 30, 30 valid, total: 30
+[2026-03-27 13:11:48]     Wrote questions V\entrepreneurship-startups01-intermediate.js (30 questions)
+[2026-03-27 13:11:48]     Wrote questions V\entrepreneurship-startups01-upper-intermediate.js (30 questions)
+[2026-03-27 13:11:48]     Wrote questions V\entrepreneurship-startups01-advanced.js (30 questions)
+[2026-03-27 13:11:48]     DONE: 90 new questions for Entrepreneurship & Startups
+[2026-03-27 13:11:48] 
+[2026-03-27 13:11:48] ============================================================
+[2026-03-27 13:11:48] TOPIC 64/114: Fitness & Wellness (fitness-wellness01)
+[2026-03-27 13:11:48] ============================================================
+[2026-03-27 13:11:48]     Intermediate (B1–B2)...
+[2026-03-27 13:12:14]       Got 30, 30 valid, total: 30
+[2026-03-27 13:12:19]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:12:43]       Got 30, 30 valid, total: 30
+[2026-03-27 13:12:48]     Advanced (C1–C2)...
+[2026-03-27 13:13:14]       Got 30, 30 valid, total: 30
+[2026-03-27 13:13:19]     Wrote questions V\fitness-wellness01-intermediate.js (30 questions)
+[2026-03-27 13:13:19]     Wrote questions V\fitness-wellness01-upper-intermediate.js (30 questions)
+[2026-03-27 13:13:19]     Wrote questions V\fitness-wellness01-advanced.js (30 questions)
+[2026-03-27 13:13:19]     DONE: 90 new questions for Fitness & Wellness
+[2026-03-27 13:13:19] 
+[2026-03-27 13:13:19] ============================================================
+[2026-03-27 13:13:19] TOPIC 65/114: Globalisation & Trade (globalisation-trade01)
+[2026-03-27 13:13:19] ============================================================
+[2026-03-27 13:13:19]     Intermediate (B1–B2)...
+[2026-03-27 13:13:39]       Got 30, 30 valid, total: 30
+[2026-03-27 13:13:44]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:14:11]       Got 30, 30 valid, total: 30
+[2026-03-27 13:14:16]     Advanced (C1–C2)...
+[2026-03-27 13:14:42]       Got 30, 30 valid, total: 30
+[2026-03-27 13:14:47]     Wrote questions V\globalisation-trade01-intermediate.js (30 questions)
+[2026-03-27 13:14:47]     Wrote questions V\globalisation-trade01-upper-intermediate.js (30 questions)
+[2026-03-27 13:14:47]     Wrote questions V\globalisation-trade01-advanced.js (30 questions)
+[2026-03-27 13:14:47]     DONE: 90 new questions for Globalisation & Trade
+[2026-03-27 13:14:47] 
+[2026-03-27 13:14:47] ============================================================
+[2026-03-27 13:14:47] TOPIC 66/114: History & Civilisation (history-civilisation01)
+[2026-03-27 13:14:47] ============================================================
+[2026-03-27 13:14:47]     Intermediate (B1–B2)...
+[2026-03-27 13:15:10]       Got 30, 30 valid, total: 30
+[2026-03-27 13:15:15]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:15:39]       Got 29, 29 valid, total: 29
+[2026-03-27 13:15:39]       Retry #2 — need 1 more questions...
+[2026-03-27 13:15:49]       Got 6, 1 valid, total: 30
+[2026-03-27 13:15:54]     Advanced (C1–C2)...
+[2026-03-27 13:16:18]       Got 30, 30 valid, total: 30
+[2026-03-27 13:16:23]     Wrote questions V\history-civilisation01-intermediate.js (30 questions)
+[2026-03-27 13:16:23]     Wrote questions V\history-civilisation01-upper-intermediate.js (30 questions)
+[2026-03-27 13:16:23]     Wrote questions V\history-civilisation01-advanced.js (30 questions)
+[2026-03-27 13:16:23]     DONE: 90 new questions for History & Civilisation
+[2026-03-27 13:16:23] 
+[2026-03-27 13:16:23] ============================================================
+[2026-03-27 13:16:23] TOPIC 67/114: Internet & Technology (internet-technology01)
+[2026-03-27 13:16:23] ============================================================
+[2026-03-27 13:16:23]     Intermediate (B1–B2)...
+[2026-03-27 13:16:47]       Got 29, 29 valid, total: 29
+[2026-03-27 13:16:47]       Retry #2 — need 1 more questions...
+[2026-03-27 13:16:57]       Got 6, 1 valid, total: 30
+[2026-03-27 13:17:02]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:17:25]       Got 29, 29 valid, total: 29
+[2026-03-27 13:17:25]       Retry #2 — need 1 more questions...
+[2026-03-27 13:17:37]       Got 6, 1 valid, total: 30
+[2026-03-27 13:17:42]     Advanced (C1–C2)...
+[2026-03-27 13:18:08]       Got 30, 30 valid, total: 30
+[2026-03-27 13:18:13]     Wrote questions V\internet-technology01-intermediate.js (30 questions)
+[2026-03-27 13:18:13]     Wrote questions V\internet-technology01-upper-intermediate.js (30 questions)
+[2026-03-27 13:18:13]     Wrote questions V\internet-technology01-advanced.js (30 questions)
+[2026-03-27 13:18:13]     DONE: 90 new questions for Internet & Technology
+[2026-03-27 13:18:13] 
+[2026-03-27 13:18:13] ============================================================
+[2026-03-27 13:18:13] TOPIC 68/114: Journalism & Media (journalism-media01)
+[2026-03-27 13:18:13] ============================================================
+[2026-03-27 13:18:13]     Intermediate (B1–B2)...
+[2026-03-27 13:18:36]       Got 30, 30 valid, total: 30
+[2026-03-27 13:18:41]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:19:04]       Got 30, 30 valid, total: 30
+[2026-03-27 13:19:09]     Advanced (C1–C2)...
+[2026-03-27 13:19:39]       Got 30, 30 valid, total: 30
+[2026-03-27 13:19:44]     Wrote questions V\journalism-media01-intermediate.js (30 questions)
+[2026-03-27 13:19:44]     Wrote questions V\journalism-media01-upper-intermediate.js (30 questions)
+[2026-03-27 13:19:44]     Wrote questions V\journalism-media01-advanced.js (30 questions)
+[2026-03-27 13:19:44]     DONE: 90 new questions for Journalism & Media
+[2026-03-27 13:19:44] 
+[2026-03-27 13:19:44] ============================================================
+[2026-03-27 13:19:44] TOPIC 69/114: Religion & Beliefs (religion-beliefs01)
+[2026-03-27 13:19:44] ============================================================
+[2026-03-27 13:19:44]     Intermediate (B1–B2)...
+[2026-03-27 13:20:05]       Got 30, 30 valid, total: 30
+[2026-03-27 13:20:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:20:41]       Got 30, 30 valid, total: 30
+[2026-03-27 13:20:46]     Advanced (C1–C2)...
+[2026-03-27 13:21:10]       Got 30, 30 valid, total: 30
+[2026-03-27 13:21:15]     Wrote questions V\religion-beliefs01-intermediate.js (30 questions)
+[2026-03-27 13:21:15]     Wrote questions V\religion-beliefs01-upper-intermediate.js (30 questions)
+[2026-03-27 13:21:15]     Wrote questions V\religion-beliefs01-advanced.js (30 questions)
+[2026-03-27 13:21:15]     DONE: 90 new questions for Religion & Beliefs
+[2026-03-27 13:21:15] 
+[2026-03-27 13:21:15] ============================================================
+[2026-03-27 13:21:15] TOPIC 70/114: Aviation & Aerospace (aviation-aerospace01)
+[2026-03-27 13:21:15] ============================================================
+[2026-03-27 13:21:15]     Intermediate (B1–B2)...
+[2026-03-27 13:21:38]       Got 30, 30 valid, total: 30
+[2026-03-27 13:21:43]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:22:06]       Got 30, 30 valid, total: 30
+[2026-03-27 13:22:11]     Advanced (C1–C2)...
+[2026-03-27 13:22:41]       Got 30, 30 valid, total: 30
+[2026-03-27 13:22:46]     Wrote questions V\aviation-aerospace01-intermediate.js (30 questions)
+[2026-03-27 13:22:46]     Wrote questions V\aviation-aerospace01-upper-intermediate.js (30 questions)
+[2026-03-27 13:22:46]     Wrote questions V\aviation-aerospace01-advanced.js (30 questions)
+[2026-03-27 13:22:46]     DONE: 90 new questions for Aviation & Aerospace
+[2026-03-27 13:22:46] 
+[2026-03-27 13:22:46] ============================================================
+[2026-03-27 13:22:46] TOPIC 71/114: Charity & Volunteering (charity-volunteering01)
+[2026-03-27 13:22:46] ============================================================
+[2026-03-27 13:22:46]     Intermediate (B1–B2)...
+[2026-03-27 13:23:08]       Got 29, 29 valid, total: 29
+[2026-03-27 13:23:08]       Retry #2 — need 1 more questions...
+[2026-03-27 13:23:19]       Got 6, 1 valid, total: 30
+[2026-03-27 13:23:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:23:49]       Got 30, 30 valid, total: 30
+[2026-03-27 13:23:54]     Advanced (C1–C2)...
+[2026-03-27 13:24:20]       Got 30, 30 valid, total: 30
+[2026-03-27 13:24:25]     Wrote questions V\charity-volunteering01-intermediate.js (30 questions)
+[2026-03-27 13:24:25]     Wrote questions V\charity-volunteering01-upper-intermediate.js (30 questions)
+[2026-03-27 13:24:25]     Wrote questions V\charity-volunteering01-advanced.js (30 questions)
+[2026-03-27 13:24:25]     DONE: 90 new questions for Charity & Volunteering
+[2026-03-27 13:24:25] 
+[2026-03-27 13:24:25] ============================================================
+[2026-03-27 13:24:25] TOPIC 72/114: Education & Academia (education-academia01)
+[2026-03-27 13:24:25] ============================================================
+[2026-03-27 13:24:25]     Intermediate (B1–B2)...
+[2026-03-27 13:24:49]       Got 30, 30 valid, total: 30
+[2026-03-27 13:24:54]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:25:17]       Got 30, 30 valid, total: 30
+[2026-03-27 13:25:22]     Advanced (C1–C2)...
+[2026-03-27 13:25:47]       Got 30, 30 valid, total: 30
+[2026-03-27 13:25:52]     Wrote questions V\education-academia01-intermediate.js (30 questions)
+[2026-03-27 13:25:52]     Wrote questions V\education-academia01-upper-intermediate.js (30 questions)
+[2026-03-27 13:25:52]     Wrote questions V\education-academia01-advanced.js (30 questions)
+[2026-03-27 13:25:52]     DONE: 90 new questions for Education & Academia
+[2026-03-27 13:25:52] 
+[2026-03-27 13:25:52] ============================================================
+[2026-03-27 13:25:52] TOPIC 73/114: Forensics & Investigation (forensics-investigation01)
+[2026-03-27 13:25:52] ============================================================
+[2026-03-27 13:25:52]     Intermediate (B1–B2)...
+[2026-03-27 13:26:15]       Got 30, 30 valid, total: 30
+[2026-03-27 13:26:20]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:26:46]       Got 30, 30 valid, total: 30
+[2026-03-27 13:26:51]     Advanced (C1–C2)...
+[2026-03-27 13:27:16]       Got 30, 30 valid, total: 30
+[2026-03-27 13:27:21]     Wrote questions V\forensics-investigation01-intermediate.js (30 questions)
+[2026-03-27 13:27:21]     Wrote questions V\forensics-investigation01-upper-intermediate.js (30 questions)
+[2026-03-27 13:27:21]     Wrote questions V\forensics-investigation01-advanced.js (30 questions)
+[2026-03-27 13:27:21]     DONE: 90 new questions for Forensics & Investigation
+[2026-03-27 13:27:21] 
+[2026-03-27 13:27:21] ============================================================
+[2026-03-27 13:27:21] TOPIC 74/114: Gaming & Esports (gaming-esports01)
+[2026-03-27 13:27:21] ============================================================
+[2026-03-27 13:27:21]     Intermediate (B1–B2)...
+[2026-03-27 13:27:44]       Got 30, 30 valid, total: 30
+[2026-03-27 13:27:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:28:14]       Got 30, 30 valid, total: 30
+[2026-03-27 13:28:19]     Advanced (C1–C2)...
+[2026-03-27 13:28:46]       Got 30, 30 valid, total: 30
+[2026-03-27 13:28:51]     Wrote questions V\gaming-esports01-intermediate.js (30 questions)
+[2026-03-27 13:28:51]     Wrote questions V\gaming-esports01-upper-intermediate.js (30 questions)
+[2026-03-27 13:28:51]     Wrote questions V\gaming-esports01-advanced.js (30 questions)
+[2026-03-27 13:28:51]     DONE: 90 new questions for Gaming & Esports
+[2026-03-27 13:28:51] 
+[2026-03-27 13:28:51] ============================================================
+[2026-03-27 13:28:51] TOPIC 75/114: Housing & Property (housing-property01)
+[2026-03-27 13:28:51] ============================================================
+[2026-03-27 13:28:51]     Intermediate (B1–B2)...
+[2026-03-27 13:29:13]       Got 30, 30 valid, total: 30
+[2026-03-27 13:29:18]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:29:39]       Got 30, 30 valid, total: 30
+[2026-03-27 13:29:44]     Advanced (C1–C2)...
+[2026-03-27 13:30:09]       Got 30, 30 valid, total: 30
+[2026-03-27 13:30:14]     Wrote questions V\housing-property01-intermediate.js (30 questions)
+[2026-03-27 13:30:14]     Wrote questions V\housing-property01-upper-intermediate.js (30 questions)
+[2026-03-27 13:30:14]     Wrote questions V\housing-property01-advanced.js (30 questions)
+[2026-03-27 13:30:14]     DONE: 90 new questions for Housing & Property
+[2026-03-27 13:30:14] 
+[2026-03-27 13:30:14] ============================================================
+[2026-03-27 13:30:14] TOPIC 76/114: Manufacturing & Industry (manufacturing-industry01)
+[2026-03-27 13:30:14] ============================================================
+[2026-03-27 13:30:14]     Intermediate (B1–B2)...
+[2026-03-27 13:30:37]       Got 30, 30 valid, total: 30
+[2026-03-27 13:30:42]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:31:06]       Got 30, 30 valid, total: 30
+[2026-03-27 13:31:11]     Advanced (C1–C2)...
+[2026-03-27 13:31:37]       Got 30, 30 valid, total: 30
+[2026-03-27 13:31:42]     Wrote questions V\manufacturing-industry01-intermediate.js (30 questions)
+[2026-03-27 13:31:42]     Wrote questions V\manufacturing-industry01-upper-intermediate.js (30 questions)
+[2026-03-27 13:31:42]     Wrote questions V\manufacturing-industry01-advanced.js (30 questions)
+[2026-03-27 13:31:42]     DONE: 90 new questions for Manufacturing & Industry
+[2026-03-27 13:31:42] 
+[2026-03-27 13:31:42] ============================================================
+[2026-03-27 13:31:42] TOPIC 77/114: Oceanography & Marine Life (oceanography-marine01)
+[2026-03-27 13:31:42] ============================================================
+[2026-03-27 13:31:42]     Intermediate (B1–B2)...
+[2026-03-27 13:32:05]       Got 30, 30 valid, total: 30
+[2026-03-27 13:32:10]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:32:35]       Got 30, 30 valid, total: 30
+[2026-03-27 13:32:40]     Advanced (C1–C2)...
+[2026-03-27 13:33:12]       Got 30, 30 valid, total: 30
+[2026-03-27 13:33:17]     Wrote questions V\oceanography-marine01-intermediate.js (30 questions)
+[2026-03-27 13:33:17]     Wrote questions V\oceanography-marine01-upper-intermediate.js (30 questions)
+[2026-03-27 13:33:17]     Wrote questions V\oceanography-marine01-advanced.js (30 questions)
+[2026-03-27 13:33:17]     DONE: 90 new questions for Oceanography & Marine Life
+[2026-03-27 13:33:17] 
+[2026-03-27 13:33:17] ============================================================
+[2026-03-27 13:33:17] TOPIC 78/114: Photography & Visual Arts (photography-visual01)
+[2026-03-27 13:33:17] ============================================================
+[2026-03-27 13:33:17]     Intermediate (B1–B2)...
+[2026-03-27 13:33:40]       Got 30, 30 valid, total: 30
+[2026-03-27 13:33:45]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:34:09]       Got 30, 30 valid, total: 30
+[2026-03-27 13:34:14]     Advanced (C1–C2)...
+[2026-03-27 13:34:37]       Got 30, 30 valid, total: 30
+[2026-03-27 13:34:42]     Wrote questions V\photography-visual01-intermediate.js (30 questions)
+[2026-03-27 13:34:42]     Wrote questions V\photography-visual01-upper-intermediate.js (30 questions)
+[2026-03-27 13:34:42]     Wrote questions V\photography-visual01-advanced.js (30 questions)
+[2026-03-27 13:34:42]     DONE: 90 new questions for Photography & Visual Arts
+[2026-03-27 13:34:42] 
+[2026-03-27 13:34:42] ============================================================
+[2026-03-27 13:34:42] TOPIC 79/114: Taxation & Economics (taxation-economics01)
+[2026-03-27 13:34:42] ============================================================
+[2026-03-27 13:34:42]     Intermediate (B1–B2)...
+[2026-03-27 13:35:01]       Got 30, 30 valid, total: 30
+[2026-03-27 13:35:06]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:35:31]       Got 30, 30 valid, total: 30
+[2026-03-27 13:35:36]     Advanced (C1–C2)...
+[2026-03-27 13:36:03]       Got 30, 30 valid, total: 30
+[2026-03-27 13:36:08]     Wrote questions V\taxation-economics01-intermediate.js (30 questions)
+[2026-03-27 13:36:08]     Wrote questions V\taxation-economics01-upper-intermediate.js (30 questions)
+[2026-03-27 13:36:08]     Wrote questions V\taxation-economics01-advanced.js (30 questions)
+[2026-03-27 13:36:08]     DONE: 90 new questions for Taxation & Economics
+[2026-03-27 13:36:08] 
+[2026-03-27 13:36:08] ============================================================
+[2026-03-27 13:36:08] TOPIC 80/114: AI & Machine Learning (artificial-intelligence01)
+[2026-03-27 13:36:08] ============================================================
+[2026-03-27 13:36:08]     Intermediate (B1–B2)...
+[2026-03-27 13:36:34]       Got 30, 30 valid, total: 30
+[2026-03-27 13:36:39]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:37:04]       Got 30, 30 valid, total: 30
+[2026-03-27 13:37:09]     Advanced (C1–C2)...
+[2026-03-27 13:37:34]       Got 30, 30 valid, total: 30
+[2026-03-27 13:37:39]     Wrote questions V\artificial-intelligence01-intermediate.js (30 questions)
+[2026-03-27 13:37:39]     Wrote questions V\artificial-intelligence01-upper-intermediate.js (30 questions)
+[2026-03-27 13:37:39]     Wrote questions V\artificial-intelligence01-advanced.js (30 questions)
+[2026-03-27 13:37:39]     DONE: 90 new questions for AI & Machine Learning
+[2026-03-27 13:37:39] 
+[2026-03-27 13:37:39] ============================================================
+[2026-03-27 13:37:39] TOPIC 81/114: Mental Health & Well-being (mental-health01)
+[2026-03-27 13:37:39] ============================================================
+[2026-03-27 13:37:39]     Intermediate (B1–B2)...
+[2026-03-27 13:38:00]       Got 30, 30 valid, total: 30
+[2026-03-27 13:38:05]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:38:30]       Got 30, 30 valid, total: 30
+[2026-03-27 13:38:35]     Advanced (C1–C2)...
+[2026-03-27 13:38:59]       Got 30, 30 valid, total: 30
+[2026-03-27 13:39:04]     Wrote questions V\mental-health01-intermediate.js (30 questions)
+[2026-03-27 13:39:04]     Wrote questions V\mental-health01-upper-intermediate.js (30 questions)
+[2026-03-27 13:39:04]     Wrote questions V\mental-health01-advanced.js (30 questions)
+[2026-03-27 13:39:04]     DONE: 90 new questions for Mental Health & Well-being
+[2026-03-27 13:39:04] 
+[2026-03-27 13:39:04] ============================================================
+[2026-03-27 13:39:04] TOPIC 82/114: Social Justice & Activism (social-justice01)
+[2026-03-27 13:39:04] ============================================================
+[2026-03-27 13:39:04]     Intermediate (B1–B2)...
+[2026-03-27 13:39:26]       Got 30, 30 valid, total: 30
+[2026-03-27 13:39:31]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:39:54]       Got 30, 30 valid, total: 30
+[2026-03-27 13:39:59]     Advanced (C1–C2)...
+[2026-03-27 13:40:24]       Got 30, 30 valid, total: 30
+[2026-03-27 13:40:29]     Wrote questions V\social-justice01-intermediate.js (30 questions)
+[2026-03-27 13:40:29]     Wrote questions V\social-justice01-upper-intermediate.js (30 questions)
+[2026-03-27 13:40:29]     Wrote questions V\social-justice01-advanced.js (30 questions)
+[2026-03-27 13:40:29]     DONE: 90 new questions for Social Justice & Activism
+[2026-03-27 13:40:29] 
+[2026-03-27 13:40:29] ============================================================
+[2026-03-27 13:40:29] TOPIC 83/114: Renewable Energy & Clean Tech (renewable-energy01)
+[2026-03-27 13:40:29] ============================================================
+[2026-03-27 13:40:29]     Intermediate (B1–B2)...
+[2026-03-27 13:40:50]       Got 30, 30 valid, total: 30
+[2026-03-27 13:40:55]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:41:16]       Got 30, 30 valid, total: 30
+[2026-03-27 13:41:21]     Advanced (C1–C2)...
+[2026-03-27 13:41:49]       Got 30, 30 valid, total: 30
+[2026-03-27 13:41:54]     Wrote questions V\renewable-energy01-intermediate.js (30 questions)
+[2026-03-27 13:41:54]     Wrote questions V\renewable-energy01-upper-intermediate.js (30 questions)
+[2026-03-27 13:41:54]     Wrote questions V\renewable-energy01-advanced.js (30 questions)
+[2026-03-27 13:41:54]     DONE: 90 new questions for Renewable Energy & Clean Tech
+[2026-03-27 13:41:54] 
+[2026-03-27 13:41:54] ============================================================
+[2026-03-27 13:41:54] TOPIC 84/114: Urban Development & Smart Cities (urban-development01)
+[2026-03-27 13:41:54] ============================================================
+[2026-03-27 13:41:54]     Intermediate (B1–B2)...
+[2026-03-27 13:42:17]       Got 30, 30 valid, total: 30
+[2026-03-27 13:42:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:42:48]       Got 30, 30 valid, total: 30
+[2026-03-27 13:42:53]     Advanced (C1–C2)...
+[2026-03-27 13:43:17]       Got 30, 30 valid, total: 30
+[2026-03-27 13:43:22]     Wrote questions V\urban-development01-intermediate.js (30 questions)
+[2026-03-27 13:43:22]     Wrote questions V\urban-development01-upper-intermediate.js (30 questions)
+[2026-03-27 13:43:22]     Wrote questions V\urban-development01-advanced.js (30 questions)
+[2026-03-27 13:43:22]     DONE: 90 new questions for Urban Development & Smart Cities
+[2026-03-27 13:43:22] 
+[2026-03-27 13:43:22] ============================================================
+[2026-03-27 13:43:22] TOPIC 85/114: Cryptocurrency & Blockchain (cryptocurrency01)
+[2026-03-27 13:43:22] ============================================================
+[2026-03-27 13:43:22]     Intermediate (B1–B2)...
+[2026-03-27 13:43:44]       Got 30, 30 valid, total: 30
+[2026-03-27 13:43:49]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:44:15]       Got 31, 30 valid, total: 30
+[2026-03-27 13:44:20]     Advanced (C1–C2)...
+[2026-03-27 13:44:21]       Rate limited (429). Waiting 60s...
+[2026-03-27 13:45:47]       JSON parse error: Illegal trailing comma before end of object: line 141 column 21 (char 4420)
+[2026-03-27 13:45:57]       Retry #2 — need 30 more questions...
+[2026-03-27 13:46:31]       Got 35, 30 valid, total: 30
+[2026-03-27 13:46:36]     Wrote questions V\cryptocurrency01-intermediate.js (30 questions)
+[2026-03-27 13:46:36]     Wrote questions V\cryptocurrency01-upper-intermediate.js (30 questions)
+[2026-03-27 13:46:36]     Wrote questions V\cryptocurrency01-advanced.js (30 questions)
+[2026-03-27 13:46:36]     DONE: 90 new questions for Cryptocurrency & Blockchain
+[2026-03-27 13:46:36] 
+[2026-03-27 13:46:36] ============================================================
+[2026-03-27 13:46:36] TOPIC 86/114: Robotics & Automation (robotics-automation01)
+[2026-03-27 13:46:36] ============================================================
+[2026-03-27 13:46:36]     Intermediate (B1–B2)...
+[2026-03-27 13:46:55]       Got 30, 30 valid, total: 30
+[2026-03-27 13:47:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:47:27]       Got 30, 30 valid, total: 30
+[2026-03-27 13:47:32]     Advanced (C1–C2)...
+[2026-03-27 13:47:56]       Got 30, 30 valid, total: 30
+[2026-03-27 13:48:01]     Wrote questions V\robotics-automation01-intermediate.js (30 questions)
+[2026-03-27 13:48:01]     Wrote questions V\robotics-automation01-upper-intermediate.js (30 questions)
+[2026-03-27 13:48:01]     Wrote questions V\robotics-automation01-advanced.js (30 questions)
+[2026-03-27 13:48:01]     DONE: 90 new questions for Robotics & Automation
+[2026-03-27 13:48:01] 
+[2026-03-27 13:48:01] ============================================================
+[2026-03-27 13:48:01] TOPIC 87/114: Public Health & Epidemics (public-health01)
+[2026-03-27 13:48:01] ============================================================
+[2026-03-27 13:48:01]     Intermediate (B1–B2)...
+[2026-03-27 13:48:23]       Got 30, 30 valid, total: 30
+[2026-03-27 13:48:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:48:51]       Got 29, 29 valid, total: 29
+[2026-03-27 13:48:51]       Retry #2 — need 1 more questions...
+[2026-03-27 13:49:02]       Got 6, 1 valid, total: 30
+[2026-03-27 13:49:07]     Advanced (C1–C2)...
+[2026-03-27 13:49:31]       Got 30, 30 valid, total: 30
+[2026-03-27 13:49:36]     Wrote questions V\public-health01-intermediate.js (30 questions)
+[2026-03-27 13:49:36]     Wrote questions V\public-health01-upper-intermediate.js (30 questions)
+[2026-03-27 13:49:36]     Wrote questions V\public-health01-advanced.js (30 questions)
+[2026-03-27 13:49:36]     DONE: 90 new questions for Public Health & Epidemics
+[2026-03-27 13:49:36] 
+[2026-03-27 13:49:36] ============================================================
+[2026-03-27 13:49:36] TOPIC 88/114: Sustainability & Green Living (sustainability01)
+[2026-03-27 13:49:36] ============================================================
+[2026-03-27 13:49:36]     Intermediate (B1–B2)...
+[2026-03-27 13:49:59]       Got 30, 30 valid, total: 30
+[2026-03-27 13:50:04]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:50:29]       Got 30, 30 valid, total: 30
+[2026-03-27 13:50:34]     Advanced (C1–C2)...
+[2026-03-27 13:50:58]       Got 30, 30 valid, total: 30
+[2026-03-27 13:51:03]     Wrote questions V\sustainability01-intermediate.js (30 questions)
+[2026-03-27 13:51:03]     Wrote questions V\sustainability01-upper-intermediate.js (30 questions)
+[2026-03-27 13:51:03]     Wrote questions V\sustainability01-advanced.js (30 questions)
+[2026-03-27 13:51:03]     DONE: 90 new questions for Sustainability & Green Living
+[2026-03-27 13:51:03] 
+[2026-03-27 13:51:03] ============================================================
+[2026-03-27 13:51:03] TOPIC 89/114: Remote Work & Digital Nomads (remote-work01)
+[2026-03-27 13:51:03] ============================================================
+[2026-03-27 13:51:03]     Intermediate (B1–B2)...
+[2026-03-27 13:51:25]       Got 30, 30 valid, total: 30
+[2026-03-27 13:51:30]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:51:56]       Got 30, 30 valid, total: 30
+[2026-03-27 13:52:01]     Advanced (C1–C2)...
+[2026-03-27 13:52:28]       Got 31, 30 valid, total: 30
+[2026-03-27 13:52:33]     Wrote questions V\remote-work01-intermediate.js (30 questions)
+[2026-03-27 13:52:33]     Wrote questions V\remote-work01-upper-intermediate.js (30 questions)
+[2026-03-27 13:52:33]     Wrote questions V\remote-work01-advanced.js (30 questions)
+[2026-03-27 13:52:33]     DONE: 90 new questions for Remote Work & Digital Nomads
+[2026-03-27 13:52:33] 
+[2026-03-27 13:52:33] ============================================================
+[2026-03-27 13:52:33] TOPIC 90/114: Data Science & Analytics (data-analytics01)
+[2026-03-27 13:52:33] ============================================================
+[2026-03-27 13:52:33]     Intermediate (B1–B2)...
+[2026-03-27 13:52:55]       Got 30, 30 valid, total: 30
+[2026-03-27 13:53:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:53:25]       Got 30, 30 valid, total: 30
+[2026-03-27 13:53:30]     Advanced (C1–C2)...
+[2026-03-27 13:53:55]       Got 30, 30 valid, total: 30
+[2026-03-27 13:54:00]     Wrote questions V\data-analytics01-intermediate.js (30 questions)
+[2026-03-27 13:54:00]     Wrote questions V\data-analytics01-upper-intermediate.js (30 questions)
+[2026-03-27 13:54:00]     Wrote questions V\data-analytics01-advanced.js (30 questions)
+[2026-03-27 13:54:00]     DONE: 90 new questions for Data Science & Analytics
+[2026-03-27 13:54:00] 
+[2026-03-27 13:54:00] ============================================================
+[2026-03-27 13:54:00] TOPIC 91/114: E-Commerce & Online Business (e-commerce01)
+[2026-03-27 13:54:00] ============================================================
+[2026-03-27 13:54:00]     Intermediate (B1–B2)...
+[2026-03-27 13:54:22]       Got 30, 30 valid, total: 30
+[2026-03-27 13:54:27]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:54:53]       Got 30, 30 valid, total: 30
+[2026-03-27 13:54:58]     Advanced (C1–C2)...
+[2026-03-27 13:55:24]       Got 30, 30 valid, total: 30
+[2026-03-27 13:55:29]     Wrote questions V\e-commerce01-intermediate.js (30 questions)
+[2026-03-27 13:55:29]     Wrote questions V\e-commerce01-upper-intermediate.js (30 questions)
+[2026-03-27 13:55:29]     Wrote questions V\e-commerce01-advanced.js (30 questions)
+[2026-03-27 13:55:29]     DONE: 90 new questions for E-Commerce & Online Business
+[2026-03-27 13:55:29] 
+[2026-03-27 13:55:29] ============================================================
+[2026-03-27 13:55:29] TOPIC 92/114: Elderly Care & Aging (elderly-care01)
+[2026-03-27 13:55:29] ============================================================
+[2026-03-27 13:55:29]     Intermediate (B1–B2)...
+[2026-03-27 13:55:52]       Got 30, 30 valid, total: 30
+[2026-03-27 13:55:57]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:56:21]       Got 30, 30 valid, total: 30
+[2026-03-27 13:56:26]     Advanced (C1–C2)...
+[2026-03-27 13:56:52]       Got 30, 30 valid, total: 30
+[2026-03-27 13:56:57]     Wrote questions V\elderly-care01-intermediate.js (30 questions)
+[2026-03-27 13:56:57]     Wrote questions V\elderly-care01-upper-intermediate.js (30 questions)
+[2026-03-27 13:56:57]     Wrote questions V\elderly-care01-advanced.js (30 questions)
+[2026-03-27 13:56:57]     DONE: 90 new questions for Elderly Care & Aging
+[2026-03-27 13:56:57] 
+[2026-03-27 13:56:57] ============================================================
+[2026-03-27 13:56:57] TOPIC 93/114: Marine Pollution & Ocean Health (marine-pollution01)
+[2026-03-27 13:56:57] ============================================================
+[2026-03-27 13:56:57]     Intermediate (B1–B2)...
+[2026-03-27 13:57:21]       Got 31, 30 valid, total: 30
+[2026-03-27 13:57:26]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:57:50]       Got 30, 30 valid, total: 30
+[2026-03-27 13:57:55]     Advanced (C1–C2)...
+[2026-03-27 13:58:22]       Got 30, 30 valid, total: 30
+[2026-03-27 13:58:27]     Wrote questions V\marine-pollution01-intermediate.js (30 questions)
+[2026-03-27 13:58:27]     Wrote questions V\marine-pollution01-upper-intermediate.js (30 questions)
+[2026-03-27 13:58:27]     Wrote questions V\marine-pollution01-advanced.js (30 questions)
+[2026-03-27 13:58:27]     DONE: 90 new questions for Marine Pollution & Ocean Health
+[2026-03-27 13:58:27] 
+[2026-03-27 13:58:27] ============================================================
+[2026-03-27 13:58:27] TOPIC 94/114: Biotechnology & Innovation (biotechnology01)
+[2026-03-27 13:58:27] ============================================================
+[2026-03-27 13:58:27]     Intermediate (B1–B2)...
+[2026-03-27 13:58:48]       Got 30, 30 valid, total: 30
+[2026-03-27 13:58:53]     Upper-Intermediate (B2–C1)...
+[2026-03-27 13:59:17]       Got 30, 30 valid, total: 30
+[2026-03-27 13:59:22]     Advanced (C1–C2)...
+[2026-03-27 13:59:51]       Got 30, 30 valid, total: 30
+[2026-03-27 13:59:56]     Wrote questions V\biotechnology01-intermediate.js (30 questions)
+[2026-03-27 13:59:56]     Wrote questions V\biotechnology01-upper-intermediate.js (30 questions)
+[2026-03-27 13:59:56]     Wrote questions V\biotechnology01-advanced.js (30 questions)
+[2026-03-27 13:59:56]     DONE: 90 new questions for Biotechnology & Innovation
+[2026-03-27 13:59:56] 
+[2026-03-27 13:59:56] ============================================================
+[2026-03-27 13:59:56] TOPIC 95/114: Crime & Justice: Advanced (crime-law02)
+[2026-03-27 13:59:56] ============================================================
+[2026-03-27 13:59:56]     Intermediate (B1–B2)...
+[2026-03-27 14:00:19]       Got 30, 30 valid, total: 30
+[2026-03-27 14:00:24]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:00:50]       Got 30, 30 valid, total: 30
+[2026-03-27 14:00:55]     Advanced (C1–C2)...
+[2026-03-27 14:01:22]       Got 30, 30 valid, total: 30
+[2026-03-27 14:01:27]     Wrote questions V\crime-law02-intermediate.js (30 questions)
+[2026-03-27 14:01:27]     Wrote questions V\crime-law02-upper-intermediate.js (30 questions)
+[2026-03-27 14:01:27]     Wrote questions V\crime-law02-advanced.js (30 questions)
+[2026-03-27 14:01:27]     DONE: 90 new questions for Crime & Justice: Advanced
+[2026-03-27 14:01:27] 
+[2026-03-27 14:01:27] ============================================================
+[2026-03-27 14:01:27] TOPIC 96/114: Business & Economics: Advanced (business-economics02)
+[2026-03-27 14:01:27] ============================================================
+[2026-03-27 14:01:27]     Intermediate (B1–B2)...
+[2026-03-27 14:01:55]       Got 30, 30 valid, total: 30
+[2026-03-27 14:02:00]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:02:27]       Got 30, 30 valid, total: 30
+[2026-03-27 14:02:32]     Advanced (C1–C2)...
+[2026-03-27 14:02:59]       Got 30, 30 valid, total: 30
+[2026-03-27 14:03:04]     Wrote questions V\business-economics02-intermediate.js (30 questions)
+[2026-03-27 14:03:04]     Wrote questions V\business-economics02-upper-intermediate.js (30 questions)
+[2026-03-27 14:03:04]     Wrote questions V\business-economics02-advanced.js (30 questions)
+[2026-03-27 14:03:04]     DONE: 90 new questions for Business & Economics: Advanced
+[2026-03-27 14:03:04] 
+[2026-03-27 14:03:04] ============================================================
+[2026-03-27 14:03:04] TOPIC 97/114: Medicine: Cutting Edge (medicine-healthcare02)
+[2026-03-27 14:03:04] ============================================================
+[2026-03-27 14:03:04]     Intermediate (B1–B2)...
+[2026-03-27 14:03:28]       Got 30, 30 valid, total: 30
+[2026-03-27 14:03:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:03:59]       Got 29, 29 valid, total: 29
+[2026-03-27 14:03:59]       Retry #2 — need 1 more questions...
+[2026-03-27 14:04:10]       Got 6, 1 valid, total: 30
+[2026-03-27 14:04:15]     Advanced (C1–C2)...
+[2026-03-27 14:04:41]       Got 30, 30 valid, total: 30
+[2026-03-27 14:04:46]     Wrote questions V\medicine-healthcare02-intermediate.js (30 questions)
+[2026-03-27 14:04:46]     Wrote questions V\medicine-healthcare02-upper-intermediate.js (30 questions)
+[2026-03-27 14:04:46]     Wrote questions V\medicine-healthcare02-advanced.js (30 questions)
+[2026-03-27 14:04:46]     DONE: 90 new questions for Medicine: Cutting Edge
+[2026-03-27 14:04:46] 
+[2026-03-27 14:04:46] ============================================================
+[2026-03-27 14:04:46] TOPIC 98/114: Education: Modern Trends (education-learning02)
+[2026-03-27 14:04:46] ============================================================
+[2026-03-27 14:04:46]     Intermediate (B1–B2)...
+[2026-03-27 14:05:09]       Got 30, 30 valid, total: 30
+[2026-03-27 14:05:14]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:05:38]       Got 29, 29 valid, total: 29
+[2026-03-27 14:05:38]       Retry #2 — need 1 more questions...
+[2026-03-27 14:05:49]       Got 6, 1 valid, total: 30
+[2026-03-27 14:05:54]     Advanced (C1–C2)...
+[2026-03-27 14:06:19]       Got 30, 30 valid, total: 30
+[2026-03-27 14:06:24]     Wrote questions V\education-learning02-intermediate.js (30 questions)
+[2026-03-27 14:06:24]     Wrote questions V\education-learning02-upper-intermediate.js (30 questions)
+[2026-03-27 14:06:24]     Wrote questions V\education-learning02-advanced.js (30 questions)
+[2026-03-27 14:06:24]     DONE: 90 new questions for Education: Modern Trends
+[2026-03-27 14:06:24] 
+[2026-03-27 14:06:24] ============================================================
+[2026-03-27 14:06:24] TOPIC 99/114: Environment: Advanced (environment-climate02)
+[2026-03-27 14:06:24] ============================================================
+[2026-03-27 14:06:24]     Intermediate (B1–B2)...
+[2026-03-27 14:06:47]       Got 30, 30 valid, total: 30
+[2026-03-27 14:06:52]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:07:19]       Got 30, 30 valid, total: 30
+[2026-03-27 14:07:24]     Advanced (C1–C2)...
+[2026-03-27 14:07:47]       Got 30, 30 valid, total: 30
+[2026-03-27 14:07:52]     Wrote questions V\environment-climate02-intermediate.js (30 questions)
+[2026-03-27 14:07:52]     Wrote questions V\environment-climate02-upper-intermediate.js (30 questions)
+[2026-03-27 14:07:52]     Wrote questions V\environment-climate02-advanced.js (30 questions)
+[2026-03-27 14:07:52]     DONE: 90 new questions for Environment: Advanced
+[2026-03-27 14:07:52] 
+[2026-03-27 14:07:52] ============================================================
+[2026-03-27 14:07:52] TOPIC 100/114: Science: Cutting Edge (science-research02)
+[2026-03-27 14:07:52] ============================================================
+[2026-03-27 14:07:52]     Intermediate (B1–B2)...
+[2026-03-27 14:08:17]       Got 30, 30 valid, total: 30
+[2026-03-27 14:08:22]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:08:50]       Got 30, 30 valid, total: 30
+[2026-03-27 14:08:55]     Advanced (C1–C2)...
+[2026-03-27 14:09:23]       Got 30, 30 valid, total: 30
+[2026-03-27 14:09:28]     Wrote questions V\science-research02-intermediate.js (30 questions)
+[2026-03-27 14:09:28]     Wrote questions V\science-research02-upper-intermediate.js (30 questions)
+[2026-03-27 14:09:28]     Wrote questions V\science-research02-advanced.js (30 questions)
+[2026-03-27 14:09:28]     DONE: 90 new questions for Science: Cutting Edge
+[2026-03-27 14:09:28] 
+[2026-03-27 14:09:28] ============================================================
+[2026-03-27 14:09:28] TOPIC 101/114: Politics: Advanced (politics-government02)
+[2026-03-27 14:09:28] ============================================================
+[2026-03-27 14:09:28]     Intermediate (B1–B2)...
+[2026-03-27 14:09:53]       Got 30, 30 valid, total: 30
+[2026-03-27 14:09:58]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:10:23]       Got 30, 30 valid, total: 30
+[2026-03-27 14:10:28]     Advanced (C1–C2)...
+[2026-03-27 14:10:56]       Got 30, 30 valid, total: 30
+[2026-03-27 14:11:01]     Wrote questions V\politics-government02-intermediate.js (30 questions)
+[2026-03-27 14:11:01]     Wrote questions V\politics-government02-upper-intermediate.js (30 questions)
+[2026-03-27 14:11:01]     Wrote questions V\politics-government02-advanced.js (30 questions)
+[2026-03-27 14:11:01]     DONE: 90 new questions for Politics: Advanced
+[2026-03-27 14:11:01] 
+[2026-03-27 14:11:01] ============================================================
+[2026-03-27 14:11:01] TOPIC 102/114: Travel: Advanced (travel-holiday02)
+[2026-03-27 14:11:01] ============================================================
+[2026-03-27 14:11:01]     Intermediate (B1–B2)...
+[2026-03-27 14:11:25]       Got 30, 30 valid, total: 30
+[2026-03-27 14:11:30]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:11:58]       Got 30, 30 valid, total: 30
+[2026-03-27 14:12:03]     Advanced (C1–C2)...
+[2026-03-27 14:12:30]       Got 30, 30 valid, total: 30
+[2026-03-27 14:12:35]     Wrote questions V\travel-holiday02-intermediate.js (30 questions)
+[2026-03-27 14:12:35]     Wrote questions V\travel-holiday02-upper-intermediate.js (30 questions)
+[2026-03-27 14:12:35]     Wrote questions V\travel-holiday02-advanced.js (30 questions)
+[2026-03-27 14:12:35]     DONE: 90 new questions for Travel: Advanced
+[2026-03-27 14:12:35] 
+[2026-03-27 14:12:35] ============================================================
+[2026-03-27 14:12:35] TOPIC 103/114: Food & Health: Advanced (food-nutrition02)
+[2026-03-27 14:12:35] ============================================================
+[2026-03-27 14:12:35]     Intermediate (B1–B2)...
+[2026-03-27 14:13:01]       Got 29, 29 valid, total: 29
+[2026-03-27 14:13:01]       Retry #2 — need 1 more questions...
+[2026-03-27 14:13:12]       Got 6, 1 valid, total: 30
+[2026-03-27 14:13:17]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:13:42]       Got 30, 30 valid, total: 30
+[2026-03-27 14:13:47]     Advanced (C1–C2)...
+[2026-03-27 14:14:16]       Got 30, 30 valid, total: 30
+[2026-03-27 14:14:21]     Wrote questions V\food-nutrition02-intermediate.js (30 questions)
+[2026-03-27 14:14:21]     Wrote questions V\food-nutrition02-upper-intermediate.js (30 questions)
+[2026-03-27 14:14:21]     Wrote questions V\food-nutrition02-advanced.js (30 questions)
+[2026-03-27 14:14:21]     DONE: 90 new questions for Food & Health: Advanced
+[2026-03-27 14:14:21] 
+[2026-03-27 14:14:21] ============================================================
+[2026-03-27 14:14:21] TOPIC 104/114: Psychology: Advanced (psychology-mind02)
+[2026-03-27 14:14:21] ============================================================
+[2026-03-27 14:14:21]     Intermediate (B1–B2)...
+[2026-03-27 14:14:45]       Got 30, 30 valid, total: 30
+[2026-03-27 14:14:50]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:15:19]       Got 30, 30 valid, total: 30
+[2026-03-27 14:15:24]     Advanced (C1–C2)...
+[2026-03-27 14:15:52]       Got 30, 30 valid, total: 30
+[2026-03-27 14:15:57]     Wrote questions V\psychology-mind02-intermediate.js (30 questions)
+[2026-03-27 14:15:57]     Wrote questions V\psychology-mind02-upper-intermediate.js (30 questions)
+[2026-03-27 14:15:57]     Wrote questions V\psychology-mind02-advanced.js (30 questions)
+[2026-03-27 14:15:57]     DONE: 90 new questions for Psychology: Advanced
+[2026-03-27 14:15:57] 
+[2026-03-27 14:15:57] ============================================================
+[2026-03-27 14:15:57] TOPIC 105/114: Digital Technology: Advanced (technology-digital02)
+[2026-03-27 14:15:57] ============================================================
+[2026-03-27 14:15:57]     Intermediate (B1–B2)...
+[2026-03-27 14:16:23]       Got 30, 30 valid, total: 30
+[2026-03-27 14:16:28]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:16:55]       Got 30, 30 valid, total: 30
+[2026-03-27 14:17:00]     Advanced (C1–C2)...
+[2026-03-27 14:17:26]       Got 30, 30 valid, total: 30
+[2026-03-27 14:17:31]     Wrote questions V\technology-digital02-intermediate.js (30 questions)
+[2026-03-27 14:17:31]     Wrote questions V\technology-digital02-upper-intermediate.js (30 questions)
+[2026-03-27 14:17:31]     Wrote questions V\technology-digital02-advanced.js (30 questions)
+[2026-03-27 14:17:31]     DONE: 90 new questions for Digital Technology: Advanced
+[2026-03-27 14:17:31] 
+[2026-03-27 14:17:31] ============================================================
+[2026-03-27 14:17:31] TOPIC 106/114: Sports: Advanced (sports-competition02)
+[2026-03-27 14:17:31] ============================================================
+[2026-03-27 14:17:31]     Intermediate (B1–B2)...
+[2026-03-27 14:17:54]       Got 30, 30 valid, total: 30
+[2026-03-27 14:17:59]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:18:24]       Got 30, 30 valid, total: 30
+[2026-03-27 14:18:29]     Advanced (C1–C2)...
+[2026-03-27 14:18:56]       Got 30, 30 valid, total: 30
+[2026-03-27 14:19:01]     Wrote questions V\sports-competition02-intermediate.js (30 questions)
+[2026-03-27 14:19:01]     Wrote questions V\sports-competition02-upper-intermediate.js (30 questions)
+[2026-03-27 14:19:01]     Wrote questions V\sports-competition02-advanced.js (30 questions)
+[2026-03-27 14:19:01]     DONE: 90 new questions for Sports: Advanced
+[2026-03-27 14:19:01] 
+[2026-03-27 14:19:01] ============================================================
+[2026-03-27 14:19:01] TOPIC 107/114: Health & Fitness: Advanced (health-body02)
+[2026-03-27 14:19:01] ============================================================
+[2026-03-27 14:19:01]     Intermediate (B1–B2)...
+[2026-03-27 14:19:28]       Got 30, 30 valid, total: 30
+[2026-03-27 14:19:33]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:19:59]       Got 30, 30 valid, total: 30
+[2026-03-27 14:20:04]     Advanced (C1–C2)...
+[2026-03-27 14:20:29]       Got 30, 30 valid, total: 30
+[2026-03-27 14:20:34]     Wrote questions V\health-body02-intermediate.js (30 questions)
+[2026-03-27 14:20:34]     Wrote questions V\health-body02-upper-intermediate.js (30 questions)
+[2026-03-27 14:20:34]     Wrote questions V\health-body02-advanced.js (30 questions)
+[2026-03-27 14:20:34]     DONE: 90 new questions for Health & Fitness: Advanced
+[2026-03-27 14:20:34] 
+[2026-03-27 14:20:34] ============================================================
+[2026-03-27 14:20:34] TOPIC 108/114: Career Development: Advanced (work-career02)
+[2026-03-27 14:20:34] ============================================================
+[2026-03-27 14:20:34]     Intermediate (B1–B2)...
+[2026-03-27 14:21:00]       Got 30, 30 valid, total: 30
+[2026-03-27 14:21:05]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:21:30]       Got 30, 30 valid, total: 30
+[2026-03-27 14:21:35]     Advanced (C1–C2)...
+[2026-03-27 14:22:03]       Got 30, 30 valid, total: 30
+[2026-03-27 14:22:08]     Wrote questions V\work-career02-intermediate.js (30 questions)
+[2026-03-27 14:22:08]     Wrote questions V\work-career02-upper-intermediate.js (30 questions)
+[2026-03-27 14:22:08]     Wrote questions V\work-career02-advanced.js (30 questions)
+[2026-03-27 14:22:08]     DONE: 90 new questions for Career Development: Advanced
+[2026-03-27 14:22:08] 
+[2026-03-27 14:22:08] ============================================================
+[2026-03-27 14:22:08] TOPIC 109/114: Media & PR: Advanced (media-advertising02)
+[2026-03-27 14:22:08] ============================================================
+[2026-03-27 14:22:08]     Intermediate (B1–B2)...
+[2026-03-27 14:22:30]       Got 30, 30 valid, total: 30
+[2026-03-27 14:22:35]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:23:01]       Got 30, 30 valid, total: 30
+[2026-03-27 14:23:06]     Advanced (C1–C2)...
+[2026-03-27 14:23:35]       Got 30, 30 valid, total: 30
+[2026-03-27 14:23:40]     Wrote questions V\media-advertising02-intermediate.js (30 questions)
+[2026-03-27 14:23:40]     Wrote questions V\media-advertising02-upper-intermediate.js (30 questions)
+[2026-03-27 14:23:40]     Wrote questions V\media-advertising02-advanced.js (30 questions)
+[2026-03-27 14:23:40]     DONE: 90 new questions for Media & PR: Advanced
+[2026-03-27 14:23:40] 
+[2026-03-27 14:23:40] ============================================================
+[2026-03-27 14:23:40] TOPIC 110/114: Infinitive & Gerund (infinitive-gerund01)
+[2026-03-27 14:23:40] ============================================================
+[2026-03-27 14:23:40]     Intermediate (B1–B2)...
+[2026-03-27 14:24:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:24:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:24:39]       Got 30, 30 valid, total: 30
+[2026-03-27 14:24:44]     Advanced (C1–C2)...
+[2026-03-27 14:25:08]       Got 30, 30 valid, total: 30
+[2026-03-27 14:25:13]     Wrote questions V\infinitive-gerund01-intermediate.js (30 questions)
+[2026-03-27 14:25:13]     Wrote questions V\infinitive-gerund01-upper-intermediate.js (30 questions)
+[2026-03-27 14:25:13]     Wrote questions V\infinitive-gerund01-advanced.js (30 questions)
+[2026-03-27 14:25:13]     DONE: 90 new questions for Infinitive & Gerund
+[2026-03-27 14:25:13] 
+[2026-03-27 14:25:13] ============================================================
+[2026-03-27 14:25:13] TOPIC 111/114: Letter & Email Phrases (letter-email-phrases01)
+[2026-03-27 14:25:13] ============================================================
+[2026-03-27 14:25:13]     Intermediate (B1–B2)...
+[2026-03-27 14:25:37]       Got 30, 30 valid, total: 30
+[2026-03-27 14:25:42]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:26:06]       Got 30, 30 valid, total: 30
+[2026-03-27 14:26:11]     Advanced (C1–C2)...
+[2026-03-27 14:26:39]       Got 30, 30 valid, total: 30
+[2026-03-27 14:26:44]     Wrote questions V\letter-email-phrases01-intermediate.js (30 questions)
+[2026-03-27 14:26:44]     Wrote questions V\letter-email-phrases01-upper-intermediate.js (30 questions)
+[2026-03-27 14:26:44]     Wrote questions V\letter-email-phrases01-advanced.js (30 questions)
+[2026-03-27 14:26:44]     DONE: 90 new questions for Letter & Email Phrases
+[2026-03-27 14:26:44] 
+[2026-03-27 14:26:44] ============================================================
+[2026-03-27 14:26:44] TOPIC 112/114: Short Questions: Conversational (short-questions01)
+[2026-03-27 14:26:44] ============================================================
+[2026-03-27 14:26:44]     Intermediate (B1–B2)...
+[2026-03-27 14:27:07]       Got 30, 30 valid, total: 30
+[2026-03-27 14:27:12]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:27:34]       Got 30, 30 valid, total: 30
+[2026-03-27 14:27:39]     Advanced (C1–C2)...
+[2026-03-27 14:28:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:28:09]     Wrote questions V\short-questions01-intermediate.js (30 questions)
+[2026-03-27 14:28:09]     Wrote questions V\short-questions01-upper-intermediate.js (30 questions)
+[2026-03-27 14:28:09]     Wrote questions V\short-questions01-advanced.js (30 questions)
+[2026-03-27 14:28:09]     DONE: 90 new questions for Short Questions: Conversational
+[2026-03-27 14:28:09] 
+[2026-03-27 14:28:09] ============================================================
+[2026-03-27 14:28:09] TOPIC 113/114: Small Talk Collocations (small-talk01)
+[2026-03-27 14:28:09] ============================================================
+[2026-03-27 14:28:09]     Intermediate (B1–B2)...
+[2026-03-27 14:28:34]       Got 30, 30 valid, total: 30
+[2026-03-27 14:28:39]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:29:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:29:09]     Advanced (C1–C2)...
+[2026-03-27 14:29:36]       Got 30, 30 valid, total: 30
+[2026-03-27 14:29:41]     Wrote questions V\small-talk01-intermediate.js (30 questions)
+[2026-03-27 14:29:41]     Wrote questions V\small-talk01-upper-intermediate.js (30 questions)
+[2026-03-27 14:29:41]     Wrote questions V\small-talk01-advanced.js (30 questions)
+[2026-03-27 14:29:41]     DONE: 90 new questions for Small Talk Collocations
+[2026-03-27 14:29:41] 
+[2026-03-27 14:29:41] ============================================================
+[2026-03-27 14:29:41] TOPIC 114/114: Sample Test (sample01)
+[2026-03-27 14:29:41] ============================================================
+[2026-03-27 14:29:41]     Intermediate (B1–B2)...
+[2026-03-27 14:30:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:30:09]     Upper-Intermediate (B2–C1)...
+[2026-03-27 14:30:32]       Got 30, 30 valid, total: 30
+[2026-03-27 14:30:37]     Advanced (C1–C2)...
+[2026-03-27 14:31:04]       Got 30, 30 valid, total: 30
+[2026-03-27 14:31:09]     Wrote questions V\sample01-intermediate.js (30 questions)
+[2026-03-27 14:31:09]     Wrote questions V\sample01-upper-intermediate.js (30 questions)
+[2026-03-27 14:31:09]     Wrote questions V\sample01-advanced.js (30 questions)
+[2026-03-27 14:31:09]     DONE: 90 new questions for Sample Test
+[2026-03-27 14:31:09] 
+[2026-03-27 14:31:09] ============================================================
+[2026-03-27 14:31:09] BATCH COMPLETE!
+[2026-03-27 14:31:09]   Completed: 114 topics
+[2026-03-27 14:31:09]   Failed: 0 topics
+[2026-03-27 14:31:09] ============================================================

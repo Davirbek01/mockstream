@@ -28,6 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you use social media?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I use social media <span class=\"ml-token adv\">quite frequently</span>, I'd say several times a day. It's become an <span class=\"ml-token colloc\">integral part</span> of my daily routine, whether I'm checking updates from friends or staying informed about current events.</div>\n\n<div>I <span class=\"ml-token adv\">primarily</span> use platforms like Instagram and Telegram. Instagram is great for <span class=\"ml-token colloc\">visual content</span> and keeping up with friends' lives, while Telegram helps me stay connected with various groups and channels related to my interests and work.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I try to be mindful about my usage. It's easy to <span class=\"ml-token phrasal\">get sucked into</span> endless scrolling, so I've set <span class=\"ml-token colloc\">time limits</span> on my phone. As the saying goes, <span class=\"ml-token proverb\">\"Everything in moderation.\"</span> I believe social media is a useful tool, but it shouldn't <span class=\"ml-token phrasal\">take over</span> your life.</div>",
       "vocabulary": {
@@ -51,7 +52,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I use social media. Every day. I like it.</p>",
       "sampleA2": "<p>I use social media every day. I like to see photos of my friends and family. But sometimes it is boring. And I don't like the news.</p>",
       "sampleB1": "<p>I use <span class=\"ml-token colloc\">social media</span> quite a lot, I think. Probably every day, maybe for an hour or two. I like to see what my friends are doing, and also to follow some interesting pages. <span class=\"ml-token adv\">However</span>, sometimes I think I spend too much time on it. So I try to use it less.</p>",
-      "sampleB2": "<p>I'd say I use <span class=\"ml-token colloc\">social media</span> fairly regularly, perhaps a couple of times a day. It's a convenient way to stay connected with friends and family, <span class=\"ml-token adv\">especially</span> those who live far away. I also use it to follow news and learn about new things. <span class=\"ml-token adv\">However</span>, I'm aware of the potential downsides, such as the spread of misinformation and the addictive nature of these platforms. <span class=\"ml-token adv\">Therefore</span>, I try to be quite selective about what I consume and limit my time on <span class=\"ml-token colloc\">social media</span>.</p>"
+      "sampleB2": "<p>I'd say I use <span class=\"ml-token colloc\">social media</span> fairly regularly, perhaps a couple of times a day. It's a convenient way to stay connected with friends and family, <span class=\"ml-token adv\">especially</span> those who live far away. I also use it to follow news and learn about new things. <span class=\"ml-token adv\">However</span>, I'm aware of the potential downsides, such as the spread of misinformation and the addictive nature of these platforms. <span class=\"ml-token adv\">Therefore</span>, I try to be quite selective about what I consume and limit my time on <span class=\"ml-token colloc\">social media</span>.</p>",
+      "uzSampleAnswer": "<p>Men ijtimoiy tarmoqlardan juda tez-tez foydalanaman, kuniga bir necha marta desam ham bo'ladi. Bu mening kundalik hayotimning ajralmas qismiga aylandi, do'stlarimdan yangiliklarni tekshiramanmi yoki dolzarb voqealar haqida xabardor bo'lamanmi, farqi yo'q.</p>\n\n<p>Men asosan Instagram va Telegram kabi platformalardan foydalanaman. Instagram vizual kontent uchun va do'stlarimning hayotidan xabardor bo'lib turish uchun juda yaxshi, Telegram esa menga o'z qiziqishlarim va ishim bilan bog'liq turli guruhlar va kanallar bilan aloqada bo'lishga yordam beradi.</p>\n\n<p>Biroq, men foydalanishimga e'tiborli bo'lishga harakat qilaman. Cheksiz varaqlashga berilib ketish oson, shuning uchun telefonimda vaqt chegaralarini o'rnatdim. Maqol bor, \"Har narsada me'yor bo'lishi kerak\". Men ijtimoiy tarmoqlar foydali vosita deb hisoblayman, lekin u sizning hayotingizni egallab olmasligi kerak.</p>",
+      "uzSampleA1": "<p>Men ijtimoiy tarmoqlardan foydalanaman. Har kuni. Menga yoqadi.</p>",
+      "uzSampleA2": "<p>Men har kuni ijtimoiy tarmoqlardan foydalanaman. Menga do'stlarim va oilamning rasmlarini ko'rish yoqadi. Lekin ba'zida zerikarli bo'ladi. Va yangiliklarni yoqtirmayman.</p>",
+      "uzSampleB1": "<p>Men ijtimoiy tarmoqlardan juda ko'p foydalanaman, deb o'ylayman. Ehtimol, har kuni, balki bir-ikki soat. Menga do'stlarim nima qilayotganini ko'rish yoqadi, shuningdek, ba'zi qiziqarli sahifalarni kuzatib boraman. <br>Biroq, ba'zida men unga juda ko'p vaqt sarflayotganimni o'ylayman. Shuning uchun men undan kamroq foydalanishga harakat qilaman.</p>",
+      "uzSampleB2": "<p>Menimcha, ijtimoiy tarmoqlardan yetarlicha muntazam foydalanaman, balki kuniga bir necha marta. Bu do'stlar va oila a'zolari bilan aloqada bo'lishning qulay usuli, ayniqsa, uzoqda yashaydiganlar bilan. Shuningdek, undan yangiliklarni kuzatib borish va yangi narsalar haqida bilib olish uchun foydalanaman. Biroq, men noto'g'ri ma'lumotlarning tarqalishi va ushbu platformalarning o'rganib qolish xususiyati kabi potentsial kamchiliklardan xabardorman. Shuning uchun, men iste'mol qiladigan narsalarimni juda tanlab olishga va ijtimoiy tarmoqlarda vaqtimni cheklashga harakat qilaman.</p>"
     },
     {
       "number": 2,
@@ -60,6 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer texting or calling people?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I would say I <span class=\"ml-token adv\">generally</span> prefer texting over calling, though it <span class=\"ml-token adv\">really</span> depends on the situation and the person I'm communicating with.</div>\n\n<div>Texting is more convenient for <span class=\"ml-token colloc\">quick exchanges</span> and when I don't want to disturb someone. I can respond at my own pace and have time to think about what I want to say. It's also useful for sharing links, photos, or information that would be difficult to convey over the phone.</div>\n\n<div><span class=\"ml-token adv\">However</span>, for <span class=\"ml-token colloc\">important matters</span> or emotional conversations, I <span class=\"ml-token adv\">definitely</span> prefer calling or even meeting <span class=\"ml-token colloc\">face-to-face</span>. There's something about hearing someone's voice that makes communication more personal and <span class=\"ml-token adv\">genuinely</span> meaningful. As they say, <span class=\"ml-token proverb\">\"The tone of voice can say more than words.\"</span> You can't always <span class=\"ml-token phrasal\">pick up on</span> emotions through text.</div>",
       "vocabulary": {
@@ -83,7 +90,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like texting. It is easy. I text my friends.</p>",
       "sampleA2": "<p>I like texting more. Because it is easy. And I can text my friends. But calling is okay too sometimes.</p>",
       "sampleB1": "<p>I prefer texting people. I think it's easier than calling. <span class=\"ml-token adv\">For example</span>, if I need to ask a quick question, I will text. <span class=\"ml-token adv\">However</span>, if it's something important, maybe I will call them. It depends.</p>",
-      "sampleB2": "<p>I think I lean towards texting rather than calling most of the time. Texting allows me to communicate efficiently without interrupting the other person. It's also useful for keeping a record of the conversation. <span class=\"ml-token adv\">However</span>, for more complex or sensitive discussions, I find that a phone call is much better. You can convey tone and emotion more easily, which is important to avoid misunderstandings.</p>"
+      "sampleB2": "<p>I think I lean towards texting rather than calling most of the time. Texting allows me to communicate efficiently without interrupting the other person. It's also useful for keeping a record of the conversation. <span class=\"ml-token adv\">However</span>, for more complex or sensitive discussions, I find that a phone call is much better. You can convey tone and emotion more easily, which is important to avoid misunderstandings.</p>",
+      "uzSampleAnswer": "<p>Men odatda qo'ng'iroq qilishdan ko'ra xabar yozishni afzal ko'raman, deb aytgan bo'lardim, garchi bu vaziyatga va men muloqot qilayotgan odamga bog'liq.</p>\n\n<p>Xabar yozish tezkor almashinuvlar uchun va kimnidir bezovta qilishni xohlamaganimda qulayroq. Men o'z tezligimda javob bera olaman va nima demoqchiligim haqida o'ylab ko'rishga vaqtim bor. Bundan tashqari, telefon orqali yetkazish qiyin bo'lgan havolalar, fotosuratlar yoki ma'lumotlarni baham ko'rish uchun ham foydali.</p>\n\n<p>Biroq, muhim masalalar yoki hissiy suhbatlar uchun men qo'ng'iroq qilishni yoki hatto yuzma-yuz uchrashishni afzal ko'raman. Kimningdir ovozini eshitishda muloqotni shaxsiylashtiradigan va chinakam ma'noli qiladigan nimadir bor. Aytishlaricha, \"Ovoz ohangi so'zlardan ko'ra ko'proq narsani aytishi mumkin\". Siz har doim ham matn orqali his-tuyg'ularni ilg'ay olmaysiz.</p>",
+      "uzSampleA1": "<p>Menga xabar yozish yoqadi. Bu oson. Men do'stlarimga xabar yozaman.</p>",
+      "uzSampleA2": "<p>Menga ko'proq xabar yozish yoqadi. Chunki bu oson. Va men do'stlarimga xabar yoza olaman. Lekin qo'ng'iroq qilish ham ba'zida yaxshi.</p>",
+      "uzSampleB1": "<p>Men odamlarga xabar yozishni afzal ko'raman. O'ylashimcha, bu qo'ng'iroq qilishdan osonroq. <br> Misol uchun, agar menga tezda biror narsa so'rash kerak bo'lsa, men xabar yozaman. <br> Biroq, agar bu muhimroq narsa bo'lsa, ehtimol ularga qo'ng'iroq qilaman. Bu vaziyatga bog'liq.</p>",
+      "uzSampleB2": "<p>Men ko'p hollarda qo'ng'iroq qilishdan ko'ra, xabar yozishga moyilman deb o'ylayman. Xabar yozish menga boshqa odamning gapini bo'lmasdan samarali muloqot qilish imkonini beradi. Bundan tashqari, suhbatning yozuvini saqlab qolish uchun ham foydali. <br>Shunga qaramay, murakkabroq yoki nozikroq muhokamalar uchun telefon qo'ng'irog'i ancha yaxshiroq deb bilaman. Siz ohang va his-tuyg'ularni osonroq yetkazishingiz mumkin, bu esa tushunmovchiliklarning oldini olish uchun muhimdir.</p>"
     },
     {
       "number": 3,
@@ -92,6 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What gadget or device could you not live without?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Without a doubt, my smartphone is the one device I <span class=\"ml-token adv\">absolutely</span> could not live without. It has become an <span class=\"ml-token colloc\">essential tool</span> that I rely on for <span class=\"ml-token adv\">virtually</span> every aspect of my daily life.</div>\n\n<div>My phone serves multiple purposes – it's my alarm clock, my camera, my music player, my navigation system, and my connection to the world. I use it for communication, work, entertainment, and even banking. It's <span class=\"ml-token adv\">incredibly</span> convenient to have all these functions in one <span class=\"ml-token colloc\">pocket-sized device</span>.</div>\n\n<div>I remember once when my phone broke, and I felt <span class=\"ml-token adv\">completely</span> lost for a few days! It made me realize how <span class=\"ml-token colloc\">dependent</span> we've become on technology. As the saying goes, <span class=\"ml-token proverb\">\"You don't know what you've got until it's gone.\"</span> While this dependency might be concerning, the convenience my smartphone provides is <span class=\"ml-token adv\">truly</span> unmatched.</div>",
       "vocabulary": {
@@ -115,7 +128,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>My phone. </p><p>I like phone. </p><p>Use it every day.</p>",
       "sampleA2": "<p>I think my phone is important.</p><p>I use it for calls and messages.</p><p>And I listen to music on it. </p><p>I can't live without it, because it's very useful.</p>",
       "sampleB1": "<p>I think the gadget I couldn't live without is my laptop.</p><p>I use it for everything, like studying and watching videos.</p><p>Also, I need it for writing emails and doing homework.</p><p>It's very important for my studies and entertainment, so I would be lost without it.</p>",
-      "sampleB2": "<p>Well, if I had to choose, I'd say my noise-cancelling headphones are the one gadget I truly couldn't do without.</p><p>I use them constantly, <span class=\"ml-token adv\">especially</span> when I'm trying to focus on work or study in a noisy environment.</p><p>They allow me to create my own little bubble of silence, which is incredibly valuable.</p><p>Plus, they're great for travelling and blocking out distractions.</p><p>I’ve <span class=\"ml-token adv\">definitely</span> become reliant on them for my productivity and <span class=\"ml-token adv\">overall</span> well-being.</p>"
+      "sampleB2": "<p>Well, if I had to choose, I'd say my noise-cancelling headphones are the one gadget I truly couldn't do without.</p><p>I use them constantly, <span class=\"ml-token adv\">especially</span> when I'm trying to focus on work or study in a noisy environment.</p><p>They allow me to create my own little bubble of silence, which is incredibly valuable.</p><p>Plus, they're great for travelling and blocking out distractions.</p><p>I’ve <span class=\"ml-token adv\">definitely</span> become reliant on them for my productivity and <span class=\"ml-token adv\">overall</span> well-being.</p>",
+      "uzSampleAnswer": "<p>Shubhasiz, mening smartfonim мен mutlaqo yashay olmaydigan yagona qurilma. U mening kundalik hayotimning deyarli har bir jabhasida tayanishim mumkin bo'lgan muhim vositaga aylandi.</p>\n\n<p>Mening telefonim bir nechta maqsadlarga xizmat qiladi – u mening budilnikim, kameram, musiqa pleyerim, navigatsiya tizimim va dunyo bilan aloqam. Men undan aloqa, ish, ko'ngil ochish va hatto bank operatsiyalari uchun foydalanaman. Barcha funksiyalarning bitta cho'ntak o'lchamidagi qurilmada bo'lishi juda qulay.</p>\n\n<p>Esimda, bir marta telefonim buzilib qolganida, bir necha kun o'zimni butunlay yo'qotgandek his qilgandim! Bu bizning texnologiyaga qanchalik bog'lanib qolganimizni anglatdi. Aytishlaricha, \"Bor narsangni yo'qotmaguningcha qadriga yetmaysan\". Bu qaramlik xavotirli bo'lishi mumkin bo'lsa-da, mening smartfonim taqdim etadigan qulaylik haqiqatan ham beqiyosdir.</p>",
+      "uzSampleA1": "<p>Mening telefonim.</p><p>Telefon menga yoqadi.</p><p>Har kuni undan foydalanaman.</p>",
+      "uzSampleA2": "<p>Menimcha, telefonim muhim.</p><p>Men undan qo'ng'iroqlar va xabarlar uchun foydalanaman.</p><p>Va men unda musiqa tinglayman.</p><p>Men usiz yashay olmayman, chunki u juda foydali.</p>",
+      "uzSampleB1": "<p>Menimcha, men yashay olmasligim mumkin bo'lgan gadjet bu mening noutbukim.</p><p>Men undan hamma narsa uchun foydalanaman, masalan, o'qish va videolarni tomosha qilish uchun.</p><p>Shuningdek, menga elektron pochta xabarlarini yozish va uy vazifalarini bajarish uchun kerak.</p><p>Bu mening o'qishim va ko'ngil ochishim uchun juda muhim, shuning uchun mensiz yo'qolib qolardim.</p>",
+      "uzSampleB2": "<p>Xo'sh, agar tanlashim kerak bo'lsa, shovqinni bekor qiluvchi quloqchinlarim men haqiqatan ham ularsiz yashay olmaydigan yagona gadjet deb aytgan bo'lardim.</p><p>Men ulardan doimiy ravishda foydalanaman, ayniqsa, shovqinli muhitda ish yoki o'qishga e'tibor qaratmoqchi bo'lganimda.</p><p>Ular menga o'zimning kichik sukut pufagimni yaratishga imkon beradi, bu juda qimmatli.</p><p>Bundan tashqari, ular sayohat qilish va chalg'ituvchi omillarni to'sib qo'yish uchun juda yaxshi.</p><p>Men ularga mahsuldorligim va umumiy farovonligim uchun albatta bog'lanib qoldim.</p>"
     },
     {
       "number": 4,
@@ -124,6 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 60,
       "prompt": "Compare these two pictures showing different ways people communicate.",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures present a <span class=\"ml-token adv\">striking</span> contrast between two different approaches to <span class=\"ml-token colloc\">human communication</span> in today's world.</div>\n\n<div>In the first image, we can see people engaged in <span class=\"ml-token colloc\">face-to-face conversation</span>. They appear to be <span class=\"ml-token adv\">genuinely</span> connected, making eye contact and actively listening to each other. There's a warmth and <span class=\"ml-token colloc\">personal connection</span> visible in their interaction. The atmosphere seems relaxed and engaging, with people <span class=\"ml-token adv\">fully</span> present in the moment.</div>\n\n<div>The second picture shows a <span class=\"ml-token adv\">completely</span> different scenario – people who are physically together but each absorbed in their own smartphone. Despite being in the same space, they seem <span class=\"ml-token colloc\">disconnected from each other</span>, focused on their screens rather than the people around them. This has become an <span class=\"ml-token adv\">increasingly</span> common sight in our <span class=\"ml-token colloc\">digital age</span>.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> illustrate how technology has changed the way we interact. While smartphones keep us connected to the wider world, they can <span class=\"ml-token adv\">sometimes</span> create barriers to <span class=\"ml-token colloc\">meaningful connection</span> with those <span class=\"ml-token adv\">physically</span> present. As they say, <span class=\"ml-token proverb\">\"We are connected to everyone but connected to no one.\"</span></div>",
       "vocabulary": {
@@ -147,7 +166,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>This is people talk.</p><p>This is phone.</p><p>I like talk.</p>",
       "sampleA2": "<p>One picture is people talking. </p><p>And the other is people with phones.</p><p>The people with phones are not talking. </p><p>I think talking is good.</p>",
       "sampleB1": "<p>The pictures show different ways to communicate.</p><p>In one picture, people are talking to each other. It looks like they are having a good time.</p><p>But in the other picture, everyone is using their phone.</p><p>I think it's better to talk to people in person, <span class=\"ml-token adv\">however</span>, phones are also important.</p>",
-      "sampleB2": "<p>These two pictures illustrate contrasting methods of communication.</p><p>The first shows people interacting face-to-face, engaged in what appears to be a lively conversation. There's a sense of connection and shared experience.</p><p>The second image depicts a group of individuals all absorbed in their smartphones, seemingly ignoring each other.</p><p>While technology offers many benefits and allows for quick communication, it can also lead to a sense of isolation and detachment from those nearby. It's important to find a balance between these two forms of communication.</p>"
+      "sampleB2": "<p>These two pictures illustrate contrasting methods of communication.</p><p>The first shows people interacting face-to-face, engaged in what appears to be a lively conversation. There's a sense of connection and shared experience.</p><p>The second image depicts a group of individuals all absorbed in their smartphones, seemingly ignoring each other.</p><p>While technology offers many benefits and allows for quick communication, it can also lead to a sense of isolation and detachment from those nearby. It's important to find a balance between these two forms of communication.</p>",
+      "uzSampleAnswer": "<p>Bu ikki rasm bugungi kunda insonlar o'rtasidagi muloqotning ikki xil usulini o'rtaga tashlab, keskin farqni ko'rsatib beradi.</p>\n\n<p>Birinchi rasmda biz odamlarning yuzma-yuz suhbatlashayotganini ko'rishimiz mumkin. Ular chin dildan bog'langan, bir-biriga ko'z uzmay va faol tinglayotgandek ko'rinadi. Ularning o'zaro munosabatlarida iliqlik va shaxsiy aloqa seziladi. Atmosfera xotirjam va qiziqarli, odamlar butunlay shu lahzada hozirdek.</p>\n\n<p>Ikkinchi rasm butunlay boshqa vaziyatni ko'rsatadi – odamlar jismonan birga, lekin har biri o'z smartfoniga berilib ketgan. Bir xil joyda bo'lishiga qaramay, ular atrofidagilarga emas, balki ekranlariga e'tibor qaratib, bir-biridan uzilgandek tuyuladi. Bu bizning raqamli davrimizda tobora keng tarqalgan manzara bo'lib qoldi.</p>\n\n<p>Bu rasmlar texnologiyaning bizning o'zaro munosabatlarimizni qanday o'zgartirganini samarali tarzda ko'rsatib beradi. Smartfonlar bizni keng dunyo bilan bog'lab tursa-da, ular ba'zan jismonan hozir bo'lganlar bilan mazmunli aloqa o'rnatishga to'siqlar yaratishi mumkin. Aytishlaricha, \"Biz hamma bilan bog'langanmiz, lekin hech kim bilan bog'lanmaganmiz\".</p>",
+      "uzSampleA1": "<p>Bu odamlar gaplashyapti.</p><p>Bu telefon.</p><p>Menga gaplashish yoqadi.</p>",
+      "uzSampleA2": "<p>Birinchi rasmda odamlar gaplashyapti.</p><p>Va ikkinchi rasmda odamlar telefon bilan.</p><p>Telefonli odamlar gaplashmayapti.</p><p>Menimcha, gaplashish yaxshi.</p>",
+      "uzSampleB1": "<p>Rasmlarda odamlarning muloqot qilishning turli usullari ko'rsatilgan.</p><p>Bir rasmda odamlar bir-biri bilan gaplashmoqda. Ularning vaqti yaxshi o'tayotganga o'xshaydi.</p><p>Ammo boshqa rasmda hamma telefonidan foydalanmoqda.</p><p>Menimcha, odamlar bilan yuzma-yuz gaplashish yaxshiroq, ammo telefonlar ham muhim.</p>",
+      "uzSampleB2": "<p>Bu ikki rasm muloqotning qarama-qarshi usullarini ko'rsatadi.</p><p>Birinchisi, odamlarning yuzma-yuz muloqot qilishini, qizg'in suhbatga kirishganini ko'rsatadi. Aloqa va umumiy tajriba hissi bor.</p><p>Ikkinchi rasmda bir guruh odamlar smartfonlariga berilib, bir-biriga e'tibor bermayotgani tasvirlangan.</p><p>Texnologiya ko'plab afzalliklarni taqdim etsa va tezkor aloqaga imkon bersa-da, u yaqin atrofdagilardan ajralish va begonalashuv hissiga ham olib kelishi mumkin. Muloqotning bu ikki shakli o'rtasida muvozanatni topish muhim.</p>"
     },
     {
       "number": 5,
@@ -156,6 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 60,
       "prompt": "What are the benefits of face-to-face communication?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Face-to-face communication offers numerous <span class=\"ml-token colloc\">significant benefits</span> that digital communication simply cannot replicate.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most <span class=\"ml-token adv\">importantly</span>, in-person conversations allow us to read <span class=\"ml-token colloc\">body language</span> and <span class=\"ml-token colloc\">facial expressions</span>. Research suggests that over 70% of communication is non-verbal. A smile, a frown, or a gesture can convey meaning that words alone cannot express. This makes conversations richer and helps avoid misunderstandings.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, face-to-face interaction builds stronger <span class=\"ml-token colloc\">emotional bonds</span>. When we're physically present with someone, we can offer a comforting hug, share a laugh, or simply enjoy each other's company. These <span class=\"ml-token colloc\">shared experiences</span> create lasting memories and deepen relationships.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, in-person communication demands our full attention. There are no notifications to distract us, no other chats to check. This <span class=\"ml-token colloc\">focused attention</span> makes the other person feel valued and respected.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, important discussions – whether business negotiations or personal matters – are often more effective face-to-face. Trust is built more easily when you can look someone in the eye. As the proverb says, <span class=\"ml-token proverb\">\"The eyes are the window to the soul.\"</span></div>",
       "vocabulary": {
@@ -179,7 +204,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like face to face.</p><p>I can see you.</p><p>It is good.</p>",
       "sampleA2": "<p>I think face to face is good.</p><p>I can see my friends.</p><p>And we can talk easy.</p><p>It is better than phone, because I see their face.</p>",
       "sampleB1": "<p>I think face-to-face communication is better than talking online.</p><p><span class=\"ml-token adv\">For example</span>, you can see the person's expressions.</p><p>Also, it's easier to understand what they mean.</p><p><span class=\"ml-token adv\">However</span>, it can be difficult if the person is far away.</p><p>But <span class=\"ml-token adv\">overall</span>, I think it's more personal.</p>",
-      "sampleB2": "<p>There are several advantages to communicating in person.</p><p><span class=\"ml-token adv\">Firstly</span>, it allows for a richer understanding of the message, as you can observe non-verbal cues like body language and facial expressions.</p><p><span class=\"ml-token adv\">Secondly</span>, it can foster a stronger sense of connection and build trust more easily than digital communication.</p><p><span class=\"ml-token adv\">Furthermore</span>, face-to-face interactions often lead to more focused and productive conversations, as there are fewer distractions.</p><p>While it may not always be the most convenient option, the benefits of in-person communication are undeniable.</p>"
+      "sampleB2": "<p>There are several advantages to communicating in person.</p><p><span class=\"ml-token adv\">Firstly</span>, it allows for a richer understanding of the message, as you can observe non-verbal cues like body language and facial expressions.</p><p><span class=\"ml-token adv\">Secondly</span>, it can foster a stronger sense of connection and build trust more easily than digital communication.</p><p><span class=\"ml-token adv\">Furthermore</span>, face-to-face interactions often lead to more focused and productive conversations, as there are fewer distractions.</p><p>While it may not always be the most convenient option, the benefits of in-person communication are undeniable.</p>",
+      "uzSampleAnswer": "<p>Yuzma-yuz muloqot raqamli muloqot takrorlay olmaydigan ko'plab muhim afzalliklarni taqdim etadi.</p>\n\n<p>Birinchidan, va eng muhimi, shaxsan suhbatlar bizga tana tilini va yuz ifodalarini o'qishga imkon beradi. Tadqiqotlar shuni ko'rsatadiki, muloqotning 70% dan ortig'i og'zaki bo'lmagan holda amalga oshiriladi. Tabassum, qovog'ini solish yoki imo-ishora so'zlar bilan ifodalab bo'lmaydigan ma'noni anglatishi mumkin. Bu suhbatlarni yanada boy qiladi va tushunmovchiliklarning oldini olishga yordam beradi.</p>\n\n<p>Ikkinchidan, yuzma-yuz muloqot kuchliroq hissiy bog'lanishlarni yaratadi. Biz kimdir bilan jismonan birga bo'lganimizda, biz tasalli beruvchi quchoq taklif qilishimiz, birgalikda kulishimiz yoki shunchaki bir-birimizning kompaniyamizdan zavqlanishimiz mumkin. Ushbu birgalikdagi tajribalar uzoq muddatli xotiralarni yaratadi va munosabatlarni chuqurlashtiradi.</p>\n\n<p>Bundan tashqari, shaxsan muloqot bizning to'liq e'tiborimizni talab qiladi. Bizni chalg'itadigan bildirishnomalar yo'q, tekshirish uchun boshqa chatlar yo'q. Ushbu diqqat markazlashgan e'tibor boshqa odamni qadrlanadigan va hurmat qilinadigan his qiladi.</p>\n\n<p>Bundan tashqari, muhim muhokamalar - biznes muzokaralari yoki shaxsiy masalalar bo'ladimi - ko'pincha yuzma-yuz samaraliroq bo'ladi. Kimningdir ko'ziga qaray olganingizda ishonch osonroq shakllanadi. Maqolda aytilganidek, \"Ko'zlar - ruhning oynasi\".</p>",
+      "uzSampleA1": "<p>Menga yuzma-yuz muloqot yoqadi.</p><p>Men sizni ko'ra olaman.</p><p>Bu yaxshi.</p>",
+      "uzSampleA2": "<p>Menimcha, yuzma-yuz muloqot yaxshi.</p><p>Men do'stlarimni ko'ra olaman.</p><p>Va biz oson gaplasha olamiz.</p><p>Bu telefondan yaxshiroq, chunki men ularning yuzini ko'raman.</p>",
+      "uzSampleB1": "<p>Menimcha, yuzma-yuz muloqot onlayn gaplashishdan yaxshiroq.</p><p>Masalan, odamning ifodalarini ko'rishingiz mumkin.</p><p>Shuningdek, ularning nimani nazarda tutayotganini tushunish osonroq.</p><p>Biroq, agar odam uzoqda bo'lsa, qiyin bo'lishi mumkin.</p><p>Lekin umuman olganda, menimcha, bu shaxsiydroq.</p>",
+      "uzSampleB2": "<p>Shaxsan muloqot qilishning bir nechta afzalliklari bor.</p><p>Birinchidan, u xabarni boyroq tushunishga imkon beradi, chunki siz tana tili va yuz ifodalari kabi noverbal ishoralarni kuzatishingiz mumkin.</p><p>Ikkinchidan, u kuchliroq aloqa hissini uyg'otishi va raqamli aloqaga qaraganda ishonchni osonroq shakllantirishi mumkin.</p><p>Bundan tashqari, shaxsan muloqot ko'pincha kamroq chalg'ituvchi omillar bo'lgani uchun, yanada diqqatli va samarali suhbatlarga olib keladi.</p><p>Garchi u har doim ham eng qulay variant bo'lmasligi mumkin bo'lsa-da, shaxsan muloqotning afzalliklari inkor etib bo'lmaydi.</p>"
     },
     {
       "number": 6,
@@ -188,6 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 60,
       "prompt": "Why might some people prefer communicating through their phones?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several <span class=\"ml-token colloc\">valid reasons</span> why many people today prefer <span class=\"ml-token colloc\">digital communication</span> over face-to-face interaction.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, phone communication offers unmatched <span class=\"ml-token colloc\">convenience and flexibility</span>. You can send a message anytime, anywhere, without worrying about whether the other person is available. This is <span class=\"ml-token adv\">particularly</span> useful for people with busy schedules or those in different time zones.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, some people feel more comfortable expressing themselves through text. <span class=\"ml-token colloc\">Introverted individuals</span>, for example, may find face-to-face conversations draining or anxiety-inducing. Texting gives them time to think and compose their thoughts without the pressure of <span class=\"ml-token colloc\">immediate response</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, digital communication creates a <span class=\"ml-token colloc\">written record</span>. Important information, addresses, or instructions can be saved and referenced later. You can't do that with a spoken conversation.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, phones allow us to stay connected with people who are <span class=\"ml-token adv\">physically</span> far away. Thanks to messaging apps and video calls, we can maintain relationships across continents. For the younger generation who grew up with technology, <span class=\"ml-token colloc\">digital communication</span> feels as natural as breathing. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks.\"</span></div>",
       "vocabulary": {
@@ -211,7 +242,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like phone. It is easy. I talk to my mom.</p>",
       "sampleA2": "<p>I like phone. I can talk to friends and family. It's easy to send messages. But sometimes I like talking in person too.</p>",
       "sampleB1": "<p>Some people like phones more because it's easier. I think it's faster to send a message than to meet someone. Also, you can talk to people who live far away. <span class=\"ml-token adv\">However</span>, I also like talking to people face-to-face sometimes.</p>",
-      "sampleB2": "<p>Many people prefer communicating through their phones for a few reasons. One reason is convenience; it's so much easier to send a quick text than to arrange a meeting. Also, some people find it less stressful to communicate in writing because they have time to think about what they want to say. It also allows you to keep a record of the conversation. <span class=\"ml-token adv\">However</span>, I think face-to-face communication is still important for building stronger relationships.</p>"
+      "sampleB2": "<p>Many people prefer communicating through their phones for a few reasons. One reason is convenience; it's so much easier to send a quick text than to arrange a meeting. Also, some people find it less stressful to communicate in writing because they have time to think about what they want to say. It also allows you to keep a record of the conversation. <span class=\"ml-token adv\">However</span>, I think face-to-face communication is still important for building stronger relationships.</p>",
+      "uzSampleAnswer": "<p>Bugungi kunda ko'pchilikning yuzma-yuz muloqotdan ko'ra raqamli aloqani afzal ko'rishining bir nechta asosli sabablari bor.</p>\n\n<p>Birinchidan, telefon orqali aloqa misli ko'rilmagan qulaylik va moslashuvchanlikni ta'minlaydi. Siz xohlagan vaqtda, xohlagan joyda, boshqa odamning band yoki band emasligidan xavotirlanmasdan xabar yuborishingiz mumkin. Bu, ayniqsa, band jadvalga ega yoki turli vaqt mintaqalarida bo'lgan odamlar uchun foydalidir.</p>\n\n<p>Ikkinchidan, ba'zi odamlar o'z fikrlarini matn orqali ifoda etishda o'zlarini qulayroq his qilishadi. Misol uchun, introvert shaxslar yuzma-yuz suhbatlarni charchatuvchi yoki xavotirga soluvchi deb bilishlari mumkin. SMS yozish ularga o'ylash va o'z fikrlarini darhol javob berish bosimisiz yozib olishga vaqt beradi.</p>\n\n<p>Bundan tashqari, raqamli aloqa yozma yozuv yaratadi. Muhim ma'lumotlar, manzillar yoki ko'rsatmalarni saqlash va keyinroq ularga murojaat qilish mumkin. Og'zaki suhbatda buni qila olmaysiz.</p>\n\n<p>Bundan tashqari, telefonlar bizga jismonan uzoqda bo'lgan odamlar bilan aloqada bo'lishimizga imkon beradi. Xabar almashish ilovalari va video qo'ng'iroqlar tufayli biz qit'alar bo'ylab munosabatlarni saqlab qolishimiz mumkin. Texnologiya bilan o'sgan yosh avlod uchun raqamli aloqa nafas olish kabi tabiiy tuyuladi. Aytishlaricha, \"Har kimning o'z didi bor\".</p>",
+      "uzSampleA1": "<p>Menga telefon yoqadi. U oson. Men onam bilan gaplashaman.</p>",
+      "uzSampleA2": "<p>Menga telefon yoqadi. Men do'stlarim va oilam bilan gaplasha olaman. Xabarlar yuborish oson. Lekin ba'zida men shaxsan gaplashishni ham xohlayman.</p>",
+      "uzSampleB1": "<p>Ba'zi odamlarga telefonlar ko'proq yoqadi, chunki bu osonroq. Menimcha, xabar yuborish kim bilandir uchrashgandan ko'ra tezroq. Bundan tashqari, siz uzoqda yashaydigan odamlar bilan gaplasha olasiz. <br>Shunga qaramay, men ba'zida odamlar bilan yuzma-yuz gaplashishni ham yoqtiraman.</p>",
+      "uzSampleB2": "<p>Ko'p odamlar bir necha sabablarga ko'ra telefon orqali muloqot qilishni afzal ko'rishadi. Birinchi sabab qulaylik; uchrashuv tashkil qilishdan ko'ra tezkor xabar yuborish ancha oson. Shuningdek, ba'zi odamlar yozma ravishda muloqot qilishni kamroq stressli deb bilishadi, chunki ularda nima demoqchi ekanliklari haqida o'ylashga vaqt bor. Bundan tashqari, bu sizga suhbat yozuvini saqlash imkonini beradi. Biroq, menimcha, kuchliroq munosabatlar o'rnatish uchun yuzma-yuz muloqot qilish hali ham muhim.</p>"
     },
     {
       "number": 7,
@@ -220,6 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 60,
       "prompt": "Describe a time when technology helped you solve a problem.",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when technology helped you solve a problem.",
@@ -248,7 +285,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I have problem. My phone... no work. I ask friend. Friend help me. Phone okay now.</p>",
       "sampleA2": "<p>One time I needed help with my homework. It was math. I used the internet. I found the answer and I understood it. It was good because I finished my homework.</p>",
       "sampleB1": "<p>I remember once when I had a problem with my computer. It was very slow, and I didn't know why. I searched on Google for solutions. I found a video that explained how to clean up my computer. I followed the instructions, and it worked! My computer is much faster now. I think the internet is very useful.</p>",
-      "sampleB2": "<p>I had a really frustrating issue with my car a few months ago. The engine light came on, and I had no idea what was wrong. Instead of immediately taking it to a mechanic, I used an OBD-II scanner, which connects to the car's computer. It gave me a specific error code, which I then researched online. I discovered it was a faulty sensor. I was able to order the part myself and replace it, saving a significant amount of money on repair costs. This experience really highlighted the power of diagnostic technology and online resources.</p>"
+      "sampleB2": "<p>I had a really frustrating issue with my car a few months ago. The engine light came on, and I had no idea what was wrong. Instead of immediately taking it to a mechanic, I used an OBD-II scanner, which connects to the car's computer. It gave me a specific error code, which I then researched online. I discovered it was a faulty sensor. I was able to order the part myself and replace it, saving a significant amount of money on repair costs. This experience really highlighted the power of diagnostic technology and online resources.</p>",
+      "uzSampleAnswer": "<p>Men o'tgan yildagi, texnologiya mening xorijiy sayohatimni tom ma'noda qutqargan bir voqeani baham ko'rmoqchiman.</p>\n\n<p>Muammo shundaki, men notanish shaharda butunlay adashib qoldim. Men Istanbulga konferensiya uchun kelgandim va mehmonxonam chalkash ko'chalari bo'lgan mahallada joylashgan edi. Mening bosma xaritam foydasiz edi va atrofimdagi hech kim ingliz tilida gapirmasdi. Vaziyatni yanada og'irlashtiradigan narsa, telefonim batareyasi o'chib borayotgan edi va men mehmonxonamni qayerdan topishni bilmasdim.</p>\n\n<p>Yaxshiyamki, texnologiya yordamga keldi. Batareyam butunlay o'chib qolishidan oldin, men tezda oflayn xaritani yuklab oldim. Google Maps menga mehmonxonamga aniq yo'nalishni, qadam-baqadam ko'rsatmalar bilan ko'rsatdi. U hatto internetsiz ham ishladi! Bundan tashqari, men mahalliy do'kondordan yo'l so'rash uchun tarjima ilovasidan foydalandim va u menga to'g'ri yo'nalishni ko'rsatdi.</p>\n\n<p>Men nihoyat mehmonxonamga yetib kelganimda, o'zimni juda xotirjam va minnatdor his qildim. Bu tajriba menga texnologiyaning qiyin vaziyatlarda qanday qutqaruvchi bo'lishi mumkinligini anglashga yordam berdi. Bu menga doimo tayyor bo'lishni o'rgatdi – endi men har doim oflayn xaritalarni yuklab olaman va portativ zaryadlovchi olib yuraman. Aytishlaricha, \"Texnologiya odamlarni birlashtirganda eng yaxshisidir\" – yoki mening holatimda, odamlarni o'z mehmonxonalariga olib boradi!</p>",
+      "uzSampleA1": "<p>Menda muammo bor edi. Mening telefonim... ishlamadi. Men do'stimdan so'radim. Do'stim menga yordam berdi. Telefon hozir yaxshi.</p>",
+      "uzSampleA2": "<p>Bir marta uyga vazifamga yordam kerak bo'ldi. Bu matematika edi. Men internetdan foydalandim. Javobni topdim va tushundim. Bu yaxshi bo'ldi, chunki men uyga vazifamni tugatdim.</p>",
+      "uzSampleB1": "<p>Esimda, bir marta kompyuterim bilan muammo bo'lgan edi. U juda sekin ishlardi va men buning sababini bilmasdim. Men Google'da yechimlar qidirdim. Men kompyuterimni qanday tozalashni tushuntiradigan videoni topdim. Men ko'rsatmalarga amal qildim va bu ish berdi! Mening kompyuterim hozir ancha tezroq ishlaydi. Menimcha, internet juda foydali.</p>",
+      "uzSampleB2": "<p>Bir necha oy oldin mashinam bilan juda asabiy muammo yuz berdi. Dvigatel chirog'i yondi va nima noto'g'ri ekanligini bilmasdim. Darhol uni mexanikga olib borish o'rniga, men mashinaning kompyuteriga ulanadigan OBD-II skaneridan foydalandim. U menga aniq xatolik kodini berdi, keyin uni internetda qidirdim. Sensor nosoz ekanligini aniqladim. Men qismni o'zim buyurtma qilib, almashtira oldim, bu esa ta'mirlash xarajatlarida sezilarli miqdorda pulni tejashga yordam berdi. Bu tajriba diagnostika texnologiyasi va onlayn resurslarning kuchini haqiqatan ham ta'kidladi.</p>"
     },
     {
       "number": 8,
@@ -257,6 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 90,
       "prompt": "Children Under 12 Should Not Have Their Own Smartphones",
+      "audioFile": "questions S/audio/cefr-speaking-mock-22-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
@@ -292,7 +335,358 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I think no.  Phone is for big people.  Kids play.</p>",
       "sampleA2": "<p>I think no, because phones are expensive. And kids can break them. But maybe if they are good, they can have one.</p>",
       "sampleB1": "<p>I think that children under 12 probably shouldn't have smartphones. They are very young, and they might spend too much time on them. Also, there are a lot of bad things on the internet, and it's hard for parents to watch everything. <span class=\"ml-token adv\">However</span>, it can be useful for parents to contact their kids.</p>",
-      "sampleB2": "<p>Whether children under 12 should have their own smartphones is a complex issue. On the one hand, there are definite risks associated with young children having unrestricted access to the internet. This includes exposure to inappropriate content, the potential for cyberbullying, and the development of unhealthy screen habits. <span class=\"ml-token adv\">However</span>, smartphones can also provide a sense of security for both children and parents, allowing for easy communication and location tracking. A possible solution might be to delay smartphone ownership until children are older and better equipped to handle the responsibilities that come with it, or to implement strict parental controls and time limits.</p>"
+      "sampleB2": "<p>Whether children under 12 should have their own smartphones is a complex issue. On the one hand, there are definite risks associated with young children having unrestricted access to the internet. This includes exposure to inappropriate content, the potential for cyberbullying, and the development of unhealthy screen habits. <span class=\"ml-token adv\">However</span>, smartphones can also provide a sense of security for both children and parents, allowing for easy communication and location tracking. A possible solution might be to delay smartphone ownership until children are older and better equipped to handle the responsibilities that come with it, or to implement strict parental controls and time limits.</p>",
+      "uzSampleAnswer": "<p>12 yoshgacha bo'lgan bolalarning smartfonga ega bo'lishi kerakmi degan savol ota-onalar, o'qituvchilar va mutaxassislarni ikkiga bo'lib yuboradigan juda bahsli masala hisoblanadi. Keling, ushbu bahsning har ikki tomonini ko'rib chiqaylik.</p>\n<p>Yosh bolalar uchun smartfonlardan foydalanishni cheklashni qo'llab-quvvatlovchilar bir nechta jiddiy xavotirlarni ko'tarishadi. Birinchidan, smartfonlar bolalarni ularning aqliy rivojlanishi uchun yetarli bo'lmagan mos kelmaydigan kontentga – zo'ravonlik, kattalar uchun materiallar yoki zararli mafkuralarga duchor qilishi mumkin. Ikkinchidan, haddan tashqari ekran vaqti ko'zning zo'riqishi, noto'g'ri qomat va uyqu buzilishi kabi turli xil sog'liq muammolari bilan bog'liq. Bundan tashqari, ijtimoiy media platformalari yosh foydalanuvchilar orasida kiberbulling, tashvish va depressiyaga olib kelishi mumkin. Ko'pchilik bolalik davri ochiq havoda o'ynash va real dunyo ijtimoiy ko'nikmalarini rivojlantirishga sarflanishi kerak, degan fikrda.</p>\n<p>Boshqa tomondan, bolalarga telefonlarga ega bo'lishga ruxsat berish uchun asosli dalillar mavjud. Ota-onalar ko'pincha xavfsizlik xavotirlarini ta'kidlashadi – farzandi bilan bog'lana olish yoki uning joylashuvini kuzatish xotirjamlikni ta'minlaydi. Bundan tashqari, ko'plab ta'limiy ilovalar qiziqarli usullar bilan o'rganishni yaxshilashi mumkin. Raqamli dunyomizda ba'zilar bolalar erta texnologik savodxonlikni rivojlantirishlari kerak deb hisoblashadi. Ularga kirishni rad etish tengdoshlaridan orqada qoldirishi mumkin.</p>\n<p>Mening fikrimcha, muvozanatli yondashuv eng yaxshi ishlaydi. Ehtimol, bolalar cheklanmagan kirishdan ko'ra, ota-ona nazorati va vaqt cheklovlari bilan nazorat qilinadigan qurilmalardan foydalanishlari mumkin. Aytganidek, \"Har narsaning me'yori bor\". Asosiysi, to'liq taqiqlashdan ko'ra, mas'uliyatli foydalanishni o'rgatishdir.</p>",
+      "uzSampleA1": "<p>Menimcha yo'q. Telefon katta odamlar uchun. Bolalar o'ynaydi.</p>",
+      "uzSampleA2": "<p>Menimcha yo'q, chunki telefonlar qimmat turadi. Va bolalar ularni sindirib qo'yishi mumkin. Lekin agar ular yaxshi bo'lsa, ularda bittasi bo'lishi mumkin.</p>",
+      "uzSampleB1": "<p>Menimcha, 12 yoshgacha bo'lgan bolalarda smartfon bo'lmasligi kerak. Ular juda yosh va ularga juda ko'p vaqt sarflashlari mumkin. Bundan tashqari, internetda juda ko'p yomon narsalar bor va ota-onalarning hamma narsani kuzatishi qiyin. <br>Shunga qaramay, ota-onalarning farzandlari bilan bog'lanishi uchun foydali bo'lishi mumkin.</p>",
+      "uzSampleB2": "<p>12 yoshgacha bo'lgan bolalarning o'z smartfonlariga ega bo'lishi kerakmi yoki yo'qmi, bu murakkab masala. Bir tomondan, yosh bolalarning internetga cheklanmagan kirishi bilan bog'liq aniq xavflar mavjud. Bunga nomaqbul kontentga duchor bo'lish, kiberbulling ehtimoli va sog'lom bo'lmagan ekran odatlarining rivojlanishi kiradi. Biroq, smartfonlar bolalar va ota-onalar uchun xavfsizlik hissini ta'minlashi, oson aloqa va joylashuvni kuzatish imkonini berishi mumkin. Mumkin bo'lgan yechim smartfon egaligini bolalar kattaroq bo'lgunga qadar va u bilan birga keladigan mas'uliyatni o'z zimmalariga olishga yaxshiroq tayyor bo'lgunga qadar kechiktirish yoki qat'iy ota-ona nazorati va vaqt chegaralarini joriy etish bo'lishi mumkin.</p>"
     }
-  ]
+  ],
+  "tokenTranslations": {
+    "quite frequently": {
+      "uz": "juda tez-tez",
+      "type": "adv"
+    },
+    "integral part": {
+      "uz": "ajralmas qismi",
+      "type": "colloc"
+    },
+    "primarily": {
+      "uz": "asosan",
+      "type": "adv"
+    },
+    "visual content": {
+      "uz": "vizual kontent",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "get sucked into": {
+      "uz": "berilib ketmoq",
+      "type": "phrasal"
+    },
+    "time limits": {
+      "uz": "vaqt chegaralari",
+      "type": "colloc"
+    },
+    "\"Everything in moderation.\"": {
+      "uz": "\"Har narsaning me'yori yaxshi.\"",
+      "type": "proverb"
+    },
+    "take over": {
+      "uz": "egallab olmoq",
+      "type": "phrasal"
+    },
+    "social media": {
+      "uz": "ijtimoiy tarmoqlar",
+      "type": "colloc"
+    },
+    "especially": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "Therefore": {
+      "uz": "Shuning uchun",
+      "type": "adv"
+    },
+    "generally": {
+      "uz": "odatda",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan ham",
+      "type": "adv"
+    },
+    "quick exchanges": {
+      "uz": "tezkor almashinuvlar",
+      "type": "colloc"
+    },
+    "important matters": {
+      "uz": "muhim masalalar",
+      "type": "colloc"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "face-to-face": {
+      "uz": "yuzma-yuz",
+      "type": "colloc"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "\"The tone of voice can say more than words.\"": {
+      "uz": "\"Til birla emas, dil birla so'zlash.\"",
+      "type": "proverb"
+    },
+    "pick up on": {
+      "uz": "sezib qolmoq",
+      "type": "phrasal"
+    },
+    "For example": {
+      "uz": "Misol uchun",
+      "type": "adv"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "essential tool": {
+      "uz": "muhim vosita",
+      "type": "colloc"
+    },
+    "virtually": {
+      "uz": "deyarli",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "pocket-sized device": {
+      "uz": "cho'ntakbop qurilma",
+      "type": "colloc"
+    },
+    "completely": {
+      "uz": "butunlay",
+      "type": "adv"
+    },
+    "dependent": {
+      "uz": "qaram",
+      "type": "colloc"
+    },
+    "\"You don't know what you've got until it's gone.\"": {
+      "uz": "\"Qarg'a qarg'aning ko'zini cho'qimaydi\"",
+      "type": "proverb"
+    },
+    "truly": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "overall": {
+      "uz": "umuman",
+      "type": "adv"
+    },
+    "striking": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "human communication": {
+      "uz": "insonlar o'rtasidagi muloqot",
+      "type": "colloc"
+    },
+    "face-to-face conversation": {
+      "uz": "yuzma-yuz suhbat",
+      "type": "colloc"
+    },
+    "personal connection": {
+      "uz": "shaxsiy aloqa",
+      "type": "colloc"
+    },
+    "fully": {
+      "uz": "to'liq",
+      "type": "adv"
+    },
+    "disconnected from each other": {
+      "uz": "bir-biridan uzilgan",
+      "type": "colloc"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "digital age": {
+      "uz": "raqamli davr",
+      "type": "colloc"
+    },
+    "effectively": {
+      "uz": "samarali",
+      "type": "adv"
+    },
+    "sometimes": {
+      "uz": "ba'zan",
+      "type": "adv"
+    },
+    "meaningful connection": {
+      "uz": "mazmunli aloqa",
+      "type": "colloc"
+    },
+    "physically": {
+      "uz": "jismonan",
+      "type": "adv"
+    },
+    "\"We are connected to everyone but connected to no one.\"": {
+      "uz": "\"Hamma bilan aloqadamiz, lekin hech kim bilan emas.\"",
+      "type": "proverb"
+    },
+    "significant benefits": {
+      "uz": "sezilarli foydalar",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "importantly": {
+      "uz": "muhimi",
+      "type": "adv"
+    },
+    "body language": {
+      "uz": "tana tili",
+      "type": "colloc"
+    },
+    "facial expressions": {
+      "uz": "yuz ifodalari",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "emotional bonds": {
+      "uz": "hissiy bog'lanishlar",
+      "type": "colloc"
+    },
+    "shared experiences": {
+      "uz": "umumiy tajribalar",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "focused attention": {
+      "uz": "diqqatni jamlash",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "\"The eyes are the window to the soul.\"": {
+      "uz": "Ko'z ko'ngil oynasi",
+      "type": "proverb"
+    },
+    "valid reasons": {
+      "uz": "asosli sabablar",
+      "type": "colloc"
+    },
+    "digital communication": {
+      "uz": "raqamli aloqa",
+      "type": "colloc"
+    },
+    "convenience and flexibility": {
+      "uz": "qulaylik va moslashuvchanlik",
+      "type": "colloc"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "Introverted individuals": {
+      "uz": "introvert shaxslar",
+      "type": "colloc"
+    },
+    "immediate response": {
+      "uz": "tezkor javob",
+      "type": "colloc"
+    },
+    "written record": {
+      "uz": "yozma qayd",
+      "type": "colloc"
+    },
+    "\"Different strokes for different folks.\"": {
+      "uz": "Har kimning o'z ta'bi bor",
+      "type": "proverb"
+    },
+    "literally": {
+      "uz": "so'zma-so'z",
+      "type": "adv"
+    },
+    "confusing streets": {
+      "uz": "chalkash ko'chalar",
+      "type": "colloc"
+    },
+    "quickly": {
+      "uz": "tezda",
+      "type": "adv"
+    },
+    "offline map": {
+      "uz": "oflayn xarita",
+      "type": "colloc"
+    },
+    "step-by-step directions": {
+      "uz": "bosqichma-bosqich yo'nalishlar",
+      "type": "colloc"
+    },
+    "lifesaver": {
+      "uz": "jon saqlovchi",
+      "type": "colloc"
+    },
+    "always": {
+      "uz": "har doim",
+      "type": "adv"
+    },
+    "portable charger": {
+      "uz": "portativ zaryadlovchi",
+      "type": "colloc"
+    },
+    "\"Technology is best when it brings people together\"": {
+      "uz": "Texnologiya odamlarni birlashtirganda eng yaxshisidir",
+      "type": "proverb"
+    },
+    "highly contentious issue": {
+      "uz": "juda bahsli masala",
+      "type": "colloc"
+    },
+    "serious concerns": {
+      "uz": "жиддий хавотирлар",
+      "type": "colloc"
+    },
+    "inappropriate content": {
+      "uz": "ноўрин контент",
+      "type": "colloc"
+    },
+    "screen time": {
+      "uz": "экран вақти",
+      "type": "colloc"
+    },
+    "real-world social skills": {
+      "uz": "ҳаётий ижтимоий кўникмалар",
+      "type": "colloc"
+    },
+    "valid arguments": {
+      "uz": "асосли далиллар",
+      "type": "colloc"
+    },
+    "peace of mind": {
+      "uz": "хотиржамлик",
+      "type": "colloc"
+    },
+    "educational apps": {
+      "uz": "таълимий иловалар",
+      "type": "colloc"
+    },
+    "digital world": {
+      "uz": "рақамли олам",
+      "type": "colloc"
+    },
+    "technological literacy": {
+      "uz": "технологик саводхонлик",
+      "type": "colloc"
+    },
+    "balanced approach": {
+      "uz": "мувозанатли ёндашув",
+      "type": "colloc"
+    },
+    "parental controls": {
+      "uz": "ота-она назорати",
+      "type": "colloc"
+    }
+  }
 };

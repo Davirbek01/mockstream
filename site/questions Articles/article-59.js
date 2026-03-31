@@ -156,4 +156,349 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Ortiqcha elektr energiya milliy tarmoqqa qaytarib sotildi."
         }
     }
+,
+    passageB1: `<p>I have been thinking a lot about how big companies are making it hard to protect the environment. They seem to only care about making money. I read a book called 'A Climate of Truth' by Mike Berners-Lee. It said that some companies are not honest about how they <strong>harm</strong> the environment. This makes it difficult to solve the problem. I remember talking to Naomi Oreskes, a scientist, a few years ago. She told me how companies that sell things like tobacco and oil have been <strong>hiding</strong> the truth about science for years. It was shocking to hear. Sadly, things haven't improved since then.</p>
+<p>Recently, I was worried to see that the new government in the US is <strong>removing</strong> rules that protect the environment. They are also cutting money for science. It seems like they want companies to be able to do whatever they want to make a profit. It feels like we are <strong>losing</strong> this fight.</p>
+<p>Then, I saw some new research from the World Resources Institute (WRI). It said, 'The Most Important Things You Can Do for the Climate Are Not What You've Been Told'. I hoped this would <strong>remind</strong> people that we can still do something. I also wanted to find some new ideas about how to live in a way that helps the environment. So, I read the report.</p>
+<p>First, the good news. If we change our behavior in three areas – how we travel, how we power our homes, and what we eat – we can <strong>reduce</strong> our carbon footprint to zero or even less. The WRI says that the average person causes 6.28 tonnes of greenhouse gas emissions each year. But, according to their analysis, changing our behavior can <strong>cancel out</strong> all of those emissions. We can even reduce it by a little bit more.</p>
+<p>I wondered what these behaviors were and why I hadn't heard about them before. The first one is to stop using cars that use gasoline and <strong>switch to</strong> electric cars, public transport, or walking or cycling. If you stop using a car completely, you can cut your personal emissions by 30 percent. I think I already knew that.</p>
+<p>The next thing on the list is to fly less, which can cut emissions by 18 percent. The third thing is to install solar panels, insulation, and a heat pump at home. If you also move to a smaller house, you can reduce emissions by 16 percent. Eating a plant-based diet can cut your emissions by about 13 percent. Also, things like recycling, composting, and using less energy at home can help, but not as much.</p>
+<p>So, it's good to know that <strong>individual</strong> actions can have a big impact. Right?</p>
+<p>But here's the problem: even though these actions could get rid of the average person's carbon footprint (which, by the way, was an idea created by the energy company BP in 2004 to <strong>shift the blame</strong> from companies to individuals), in reality, these actions only reduce emissions by about 10 percent. That's not nearly enough to reach zero emissions.</p>
+<p>To make these changes really work, people need help from governments and companies. This includes giving money to people who want to buy heat pumps or cleaner cars, building charging stations for electric cars, investing in public transport and bike lanes, and offering plant-based meals in <strong>workplace</strong> cafeterias. But it seems like the opposite is happening. The WRI report says that the government in the US wants to stop giving tax credits that make electric cars and solar panels more <strong>affordable</strong>. Governments around the world are also stopping their plans to reach zero emissions.</p>
+<p>That doesn't mean it can't be done. The WRI report gives some examples. The Netherlands started giving a lot of money to people who installed solar panels on their homes. They also let people sell extra electricity back to the power company. This turned the Netherlands from a country with few solar panels into the country with the most solar panels per person in Europe. In Bogotá, Colombia, they invested in bike lanes. This increased the number of trips made by bicycle from 0.58 percent in 1996 to 9.1 percent in 2017.</p>
+<p>I <strong>support</strong> the WRI for reminding us that individual actions are important for dealing with the climate crisis. But I wish they would have been more direct and said that governments and companies are <strong>failing</strong> us. We need them to <strong>take action</strong>.</p>
+<p>It's time to start <strong>pressuring</strong> our leaders and businesses to do the right thing for the planet. We need to <strong>demand</strong> change and hold them <strong>accountable</strong> for their actions. The future of our planet depends on it. We can't just <strong>rely on</strong> individual actions. We need big changes from the top down. Let's work together to make sure our planet has a healthy future. We need to <strong>protect</strong> it now for the generations to come. There is no Planet B. We need to <strong>act now</strong> before it’s too late.</p>`,
+    translationB1: `<p>Men atrof-muhitni himoya qilishni yirik kompaniyalar qanchalik qiyinlashtirayotgani haqida ko'p o'ylayapman. Ular faqat pul topish haqida qayg'uradiganga o'xshaydi. Men Mayk Berners-Lining "Haqiqat iqlimi" kitobini o'qidim. Unda ba'zi kompaniyalar atrof-muhitga qanday <strong>zarar</strong> yetkazayotgani haqida halol emasligi aytilgan. Bu muammoni hal qilishni qiyinlashtiradi. Bir necha yil oldin olim Naomi Oreskes bilan gaplashganim esimda. U menga tamaki va neft kabi narsalarni sotadigan kompaniyalar yillar davomida ilm-fan haqidagi haqiqatni qanday <strong>yashirib</strong> kelganini aytib berdi. Buni eshitish hayratlanarli edi. Afsuski, o'shandan beri vaziyat yaxshilanmadi.</p>
+<p>Yaqinda AQShdagi yangi hukumat atrof-muhitni himoya qiluvchi qoidalarni <strong>olib tashlayotganini</strong> ko'rib, xavotirlandim. Ular, shuningdek, ilm-fanga pul ajratishni ham qisqartirmoqda. Ko'rinishidan, ular kompaniyalarga foyda olish uchun xohlagan ishni qilishga ruxsat bermoqchi. Biz bu kurashda <strong>mag'lub bo'layotgandek</strong> tuyuladi.</p>
+<p>Keyin, men Jahon Resurslari Instituti (WRI) tomonidan olib borilgan yangi tadqiqotni ko'rdim. Unda shunday deyilgan edi: "Iqlim uchun qila oladigan eng muhim narsalar sizga aytilgan narsalar emas". Bu odamlarga hali ham biror narsa qila olishimizni <strong>eslatadi</strong> deb umid qildim. Men, shuningdek, atrof-muhitga yordam beradigan tarzda yashash haqida yangi g'oyalar topmoqchi edim. Shuning uchun hisobotni o'qidim.</p>
+<p>Avvalo, yaxshi xabar. Agar biz uchta sohada - qanday sayohat qilishimiz, uylarimizni qanday quvvatlantirishimiz va nima yeyishimizda o'z xatti-harakatlarimizni o'zgartirsak - uglerod izimizni nolga yoki undan ham kamaytirishi mumkin. WRIning ta'kidlashicha, o'rtacha odam har yili 6,28 tonna issiqxona gazlari chiqindilarini chiqaradi. Ammo, ularning tahliliga ko'ra, xatti-harakatlarimizni o'zgartirish barcha chiqindilarni <strong>yo'q qilishi</strong> mumkin. Biz hatto uni biroz ko'proq kamaytirishimiz ham mumkin.</p>
+<p>Men bu xatti-harakatlar nima ekanligini va nega ular haqida avval eshitmaganimni o'yladim. Birinchisi, benzin bilan ishlaydigan mashinalardan foydalanishni to'xtatish va elektr mashinalariga, jamoat transportiga o'tish yoki piyoda yurish yoki velosipedda yurish. Agar siz mashinadan butunlay foydalanishni to'xtatsangiz, shaxsiy chiqindilaringizni 30 foizga kamaytirishingiz mumkin. Menimcha, men buni allaqachon bilardim.</p>
+<p>Ro'yxatdagi keyingi narsa - kamroq uchish, bu chiqindilarni 18 foizga kamaytirishi mumkin. Uchinchi narsa - uyga quyosh panellari, izolyatsiya va issiqlik nasosini o'rnatish. Agar siz kichikroq uyga ko'chsangiz, chiqindilarni 16 foizga kamaytirishingiz mumkin. O'simlikka asoslangan dieta iste'mol qilish chiqindilaringizni taxminan 13 foizga kamaytirishi mumkin. Bundan tashqari, qayta ishlash, kompost qilish va uyda kamroq energiya ishlatish kabi narsalar yordam berishi mumkin, lekin unchalik emas.</p>
+<p>Demak, <strong>yakka tartibdagi</strong> harakatlar katta ta'sir ko'rsatishi mumkinligini bilish yaxshi. Shunday emasmi?</p>
+<p>Ammo mana muammo: garchi bu harakatlar o'rtacha odamning uglerod izini yo'q qilishi mumkin bo'lsa-da (bu, aytmoqchi, 2004 yilda BP energiya kompaniyasi tomonidan kompaniyalardan <strong>aybni odamlarga ag'darish</strong> uchun yaratilgan g'oya edi), aslida, bu harakatlar faqat chiqindilarni taxminan 10 foizga kamaytiradi. Bu nol emissiyaga erishish uchun yetarli emas.</p>
+<p>Ushbu o'zgarishlar haqiqatan ham ishlashi uchun odamlarga hukumatlar va kompaniyalar yordam berishi kerak. Bunga issiqlik nasoslari yoki toza mashinalarni sotib olishni xohlovchilarga pul berish, elektr mashinalari uchun zaryadlash stantsiyalarini qurish, jamoat transporti va velosiped yo'laklariga sarmoya kiritish va <strong>ish joyidagi</strong> oshxonalarda o'simlikka asoslangan taomlarni taklif qilish kiradi. Ammo aksincha bo'layotganga o'xshaydi. WRI hisobotida AQSh hukumati elektr mashinalari va quyosh panellarini yanada <strong>arzonroq</strong> qiladigan soliq imtiyozlarini to'xtatmoqchi ekanligi aytilgan. Dunyo bo'ylab hukumatlar ham nol emissiyaga erishish rejalashtirgan rejalarini to'xtatmoqda.</p>
+<p>Bu buni amalga oshirib bo'lmaydi degani emas. WRI hisobotida ba'zi misollar keltirilgan. Niderlandiya o'z uylariga quyosh panellarini o'rnatgan odamlarga katta miqdorda pul bera boshladi. Ular, shuningdek, odamlarga ortiqcha elektr energiyasini elektr kompaniyasiga qaytarib sotishga ruxsat berishdi. Bu Niderlandiyani kam quyosh panellari bo'lgan mamlakatdan Yevropada har bir kishiga eng ko'p quyosh panellari bo'lgan mamlakatga aylantirdi. Kolumbiyaning Bogota shahrida ular velosiped yo'laklariga sarmoya kiritishdi. Bu velosipedda amalga oshirilgan sayohatlar sonini 1996 yildagi 0,58 foizdan 2017 yilda 9,1 foizga oshirdi.</p>
+<p>Men iqlim inqiroziga qarshi kurashishda yakka tartibdagi harakatlar muhimligini eslatgani uchun WRI ni <strong>qo'llab-quvvatlayman</strong>. Ammo ular yanada to'g'ridan-to'g'ri bo'lib, hukumatlar va kompaniyalar bizni <strong>aldayotganini</strong> aytishlarini xohlardim. Biz ulardan <strong>chora ko'rishni</strong> talab qilishimiz kerak.</p>
+<p>Sayyoramiz uchun to'g'ri ish qilish uchun rahbarlarimiz va korxonalarga <strong>bosim o'tkazishni</strong> boshlash vaqti keldi. Biz o'zgarishni <strong>talab qilishimiz</strong> va ularni o'z harakatlari uchun <strong>javobgar</strong> qilishimiz kerak. Sayyoramizning kelajagi bunga bog'liq. Biz faqat yakka tartibdagi harakatlarga <strong>ishonib qolishimiz</strong> mumkin emas. Biz tepadan pastga katta o'zgarishlarga muhtojmiz. Sayyoramizning sog'lom kelajagi bo'lishi uchun birgalikda ishlaylik. Biz uni kelajak avlodlar uchun hozir <strong>himoya qilishimiz</strong> kerak. B boshqa sayyora yo'q. Kech bo'lmasdan oldin hozir <strong>harakat qilishimiz kerak</strong>.</p>`,
+    vocabularyB1: {
+        "harm": {
+                "definition": "To cause damage or injury to something or someone",
+                "uzbek": "zarar keltirmoq",
+                "example": "Smoking can harm your health.",
+                "exampleUzbek": "Chekish sizning sog'lig'ingizga zarar etkazishi mumkin."
+        },
+        "hiding": {
+                "definition": "Keeping something secret or out of sight",
+                "uzbek": "yashirish",
+                "example": "They are hiding the truth from the public.",
+                "exampleUzbek": "Ular haqiqatni jamoatchilikdan yashirishmoqda."
+        },
+        "removing": {
+                "definition": "Taking something away or getting rid of it",
+                "uzbek": "olib tashlash",
+                "example": "The government is removing environmental regulations.",
+                "exampleUzbek": "Hukumat atrof-muhit qoidalarini olib tashlamoqda."
+        },
+        "losing": {
+                "definition": "Being defeated in a competition or struggle",
+                "uzbek": "yutqazmoq",
+                "example": "It feels like we are losing the fight against climate change.",
+                "exampleUzbek": "Iqlim o'zgarishiga qarshi kurashda yutqazayotgandek tuyuladi."
+        },
+        "remind": {
+                "definition": "To cause someone to remember something",
+                "uzbek": "eslatmoq",
+                "example": "This article will remind you of the importance of recycling.",
+                "exampleUzbek": "Ushbu maqola sizga qayta ishlashning muhimligini eslatadi."
+        },
+        "reduce": {
+                "definition": "To make something smaller or less",
+                "uzbek": "kamaytirmoq",
+                "example": "We need to reduce our carbon emissions.",
+                "exampleUzbek": "Biz karbonat angidrid gazlarini kamaytirishimiz kerak."
+        },
+        "cancel out": {
+                "definition": "To neutralize or make something ineffective",
+                "uzbek": "yo'q qilmoq",
+                "example": "These changes can cancel out your carbon footprint.",
+                "exampleUzbek": "Ushbu o'zgarishlar sizning karbonat izingizni yo'q qilishi mumkin."
+        },
+        "switch to": {
+                "definition": "To change from one thing to another",
+                "uzbek": "o'tmoq",
+                "example": "We should switch to renewable energy sources.",
+                "exampleUzbek": "Biz qayta tiklanadigan energiya manbalariga o'tishimiz kerak."
+        },
+        "individual": {
+                "definition": "Relating to a single person or thing",
+                "uzbek": "shaxsiy",
+                "example": "Individual actions can make a difference.",
+                "exampleUzbek": "Shaxsiy harakatlar o'zgarishga olib kelishi mumkin."
+        },
+        "shift the blame": {
+                "definition": "To make someone else responsible for something",
+                "uzbek": "aybni boshqaga yuklamoq",
+                "example": "Companies try to shift the blame for pollution onto consumers.",
+                "exampleUzbek": "Kompaniyalar ifloslanish uchun aybni iste'molchilarga yuklashga harakat qiladi."
+        },
+        "workplace": {
+                "definition": "A place where people work, such as an office or factory",
+                "uzbek": "ish joyi",
+                "example": "The workplace should be a safe environment.",
+                "exampleUzbek": "Ish joyi xavfsiz muhit bo'lishi kerak."
+        },
+        "affordable": {
+                "definition": "Not too expensive; able to be paid for",
+                "uzbek": "arzon",
+                "example": "We need to make renewable energy more affordable.",
+                "exampleUzbek": "Biz qayta tiklanadigan energiyani yanada arzon qilishimiz kerak."
+        },
+        "support": {
+                "definition": "To agree with and give encouragement to someone or something because you want them to succeed",
+                "uzbek": "qo'llab-quvvatlamoq",
+                "example": "I support organizations that are fighting climate change.",
+                "exampleUzbek": "Men iqlim o'zgarishiga qarshi kurashayotgan tashkilotlarni qo'llab-quvvatlayman."
+        },
+        "failing": {
+                "definition": "Not succeeding; not doing something well enough",
+                "uzbek": "muvaffaqiyatsiz",
+                "example": "Governments are failing to address climate change.",
+                "exampleUzbek": "Hukumatlar iqlim o'zgarishiga qarshi kurashishda muvaffaqiyatsiz bo'lmoqda."
+        },
+        "take action": {
+                "definition": "To do something to deal with a problem",
+                "uzbek": "chora ko'rmoq",
+                "example": "We need to take action to protect the environment.",
+                "exampleUzbek": "Biz atrof-muhitni muhofaza qilish uchun chora ko'rishimiz kerak."
+        },
+        "pressuring": {
+                "definition": "Attempting to persuade someone to do something",
+                "uzbek": "bosim o'tkazish",
+                "example": "We need to start pressuring our leaders.",
+                "exampleUzbek": "Biz rahbarlarimizga bosim o'tkazishni boshlashimiz kerak."
+        },
+        "demand": {
+                "definition": "To ask for something forcefully",
+                "uzbek": "talab qilmoq",
+                "example": "We need to demand change.",
+                "exampleUzbek": "Biz o'zgarishlarni talab qilishimiz kerak."
+        },
+        "accountable": {
+                "definition": "Responsible for your actions and expected to explain them",
+                "uzbek": "javobgar",
+                "example": "Hold them accountable for their actions.",
+                "exampleUzbek": "Ularni o'z harakatlari uchun javobgar qiling."
+        },
+        "rely on": {
+                "definition": "To depend on someone or something",
+                "uzbek": "ishonmoq",
+                "example": "We can't just rely on individual actions.",
+                "exampleUzbek": "Biz faqat shaxsiy harakatlarga ishona olmaymiz."
+        },
+        "protect": {
+                "definition": "To keep someone or something safe from harm",
+                "uzbek": "himoya qilmoq",
+                "example": "We need to protect our planet.",
+                "exampleUzbek": "Biz sayyoramizni himoya qilishimiz kerak."
+        },
+        "act now": {
+                "definition": "To take action immediately",
+                "uzbek": "hozir harakat qilmoq",
+                "example": "We need to act now before it's too late.",
+                "exampleUzbek": "Kech bo'lishidan oldin hozir harakat qilishimiz kerak."
+        }
+},
+    passageB2: `<p>It's hard not to feel discouraged when you see how <strong>entrenched</strong> corporate interests are, making it seem impossible to make the necessary changes to protect our planet. Recently, I read Mike Berners-Lee's book, 'A Climate of Truth,' which powerfully argues that the dishonesty and <strong>deception</strong> of industries that damage the climate are major factors in environmental destruction. It reminded me of an interview I did years ago with Naomi Oreskes, a science historian, who has spent years exposing the tactics used by corporations in the tobacco and oil and gas industries to deny scientific evidence. I was shocked by their level of deceit. Unfortunately, the situation hasn't improved.</p>
+<p>More recently, I've been dismayed to see the new administration in the US removing environmental protections and <strong>drastically</strong> cutting funding for related scientific research, seemingly determined to allow companies to do whatever they want to maximize profits. It feels like we're fighting a losing battle.</p>
+<p>Against this backdrop of <strong>powerlessness</strong>, some new research from the World Resources Institute (WRI), a non-profit organization, caught my attention. The headline read: 'The Most Impactful Things You Can Do for the Climate Aren't What You've Been Told.' I hoped it would be a useful reminder that individuals aren't helpless and would offer some new and <strong>practical</strong> advice on how to live in an environmentally friendly way. So, I read the report.</p>
+<p>First, the good news. By making changes in just three areas of our lives – how we travel, how we power our homes, and what we eat – it's theoretically possible for individuals to become carbon-neutral or even carbon-negative. According to the WRI, the average person is directly responsible for 6.28 tonnes of greenhouse gas emissions per year. Their analysis found that changes in behavior can completely <strong>offset</strong> that amount, or even reduce it by a little under a quarter of a tonne.</p>
+<p>I wondered, what are these behaviors, and why haven't I heard about them before? The first is to get rid of petrol-powered cars and switch to electric vehicles (EVs), public transport, or active transport like walking or cycling. Going completely car-free can reduce personal emissions by 30 percent. I already knew that, I thought.</p>
+<p>Next on the list is flying less, which can achieve an 18 percent reduction. Number three is installing solar panels, insulation, and a heat pump at home, which – along with moving to a smaller property – can reduce emissions by 16 percent. Switching to a plant-based diet can cut your emissions by about 13 percent. Meanwhile, familiar but less <strong>significant</strong> actions include recycling, composting, reducing food waste, and making small reductions in household energy use by, for example, switching to more energy-efficient appliances.</p>
+<p>No real surprises there, but it's still reassuring to know that individual changes in behavior can have a major impact. Right?</p>
+<p>Here's the problem: even though these actions can theoretically eliminate the average person's carbon footprint (a concept actually created by the energy company BP in 2004 to <strong>divert attention</strong> from the impact of the oil and gas industry on the climate and shift the responsibility onto individuals), in reality, such actions typically only result in a 10 percent reduction. That's nowhere near enough to reach net zero.</p>
+<p>To <strong>unlock</strong> the full potential of behavioral change, people need the support of – you guessed it – governments and corporations. This includes <strong>subsidizing</strong> investments in heat pumps or cleaner vehicles, installing charging stations for EVs, investing in public transport and bike lanes, and offering tasty plant-based meals in canteens. This seems to be the opposite of what's happening: the WRI report points out that the Trump administration, for example, wanted to eliminate tax credits that make EVs and home solar power more affordable. Governments around the world are <strong>backing away from</strong> net-zero targets.</p>
+<p>That's not to say it's impossible. The WRI report gives examples. The Netherlands introduced generous subsidies for home solar installations and allowed households to sell surplus electricity back into the power grid, transforming a country that once had low adoption rates for home solar panels into the highest per-capita user in Europe. In Bogotá, Colombia, investment in cycling infrastructure has increased the number of journeys made by bicycle from 0.58 percent in 1996 to 9.1 percent in 2017.</p>
+<p>I <strong>commend</strong> the WRI for reminding us that individual changes in behavior have a role to play in tackling the climate crisis. But I wish they had been more direct: governments and corporations are <strong>letting us down</strong>.</p>
+<p>Ultimately, it's a <strong>collective responsibility</strong>. We can only achieve true progress when individual efforts are supported and amplified by systemic changes led by those in positions of power.</p>`,
+    translationB2: `<p>Korporativ manfaatlar qanchalik <strong>mustahkam</strong> ekanligini ko'rib, sayyoramizni himoya qilish uchun zaruriy o'zgarishlarni amalga oshirish imkonsizdek tuyulishi odamning ruhi tushkunlikka tushishiga olib keladi. Yaqinda men Mayk Berners-Lining "Haqiqat iqlimi" kitobini o'qidim, unda iqlimga zarar yetkazadigan sanoatlarning halolliksizligi va <strong>aldovi</strong> atrof-muhitning buzilishida asosiy omil ekanligi kuchli dalillar bilan isbotlangan. Bu menga bir necha yil oldin fan tarixchisi Naomi Oreskes bilan qilgan suhbatimni eslatdi. U ko'p yillar davomida tamaki, neft va gaz sanoatlaridagi korporatsiyalarning ilmiy dalillarni inkor etish uchun ishlatgan taktikasini fosh qilish bilan shug'ullangan. Ularning aldov darajasidan hayratga tushdim. Afsuski, vaziyat yaxshilanmadi.</p>
+<p>Yaqinda AQShdagi yangi ma'muriyatning atrof-muhitni himoya qilish choralarini bekor qilishi va tegishli ilmiy tadqiqotlar uchun moliyalashtirishni <strong>keskin</strong> qisqartirishi meni tashvishga soldi, go'yo ular kompaniyalarga foydani maksimal darajada oshirish uchun xohlagan ishni qilishga ruxsat berishga qaror qilgandek. Go'yo biz mag'lubiyatga mahkum jang qilayotgandekmiz.</p>
+<p>Bu <strong>ojizlik</strong> fonida, nodavlat tashkilot bo'lgan Jahon Resurslari Instituti (WRI)ning yangi tadqiqoti e'tiborimni tortdi. Sarlavha shunday edi: "Iqlim uchun qila oladigan eng ta'sirli narsalar sizga aytilgan narsa emas". Men bu shaxslar ojiz emasligi haqida foydali eslatma bo'lishiga va atrof-muhitga do'stona tarzda yashash bo'yicha yangi va <strong>amaliy</strong> maslahatlar berishiga umid qildim. Shunday qilib, men hisobotni o'qidim.</p>
+<p>Avvalo, yaxshi yangilik. Hayotimizning atigi uchta sohasida - qanday sayohat qilishimiz, uylarimizni qanday energiya bilan ta'minlashimiz va nima iste'mol qilishimiz orqali - shaxslar nazariy jihatdan uglerod-neytral yoki hatto uglerod-salbiy bo'lishi mumkin. WRI ma'lumotlariga ko'ra, o'rtacha odam yiliga 6,28 tonna issiqxona gazlari emissiyasi uchun bevosita javobgardir. Ularning tahlili shuni ko'rsatdiki, xulq-atvorda o'zgarishlar ushbu miqdorni to'liq <strong>qoplaydi</strong> yoki hatto chorak tonnadan kamroqqa kamaytirishi mumkin.</p>
+<p>Qiziq, bu xatti-harakatlar nima va nega men ular haqida ilgari eshitmaganman? Birinchisi, benzin bilan ishlaydigan avtomobillardan voz kechish va elektr transport vositalariga (EV), jamoat transportiga yoki piyoda yurish yoki velosipedda yurish kabi faol transportga o'tish. Umuman olganda, mashinasiz yurish shaxsiy emissiyalarni 30 foizga kamaytirishi mumkin. Men buni allaqachon bilardim, deb o'yladim.</p>
+<p>Ro'yxatda keyingisi kamroq uchish, bu 18 foizga kamayishga olib kelishi mumkin. Uchinchi raqam - uyga quyosh panellari, izolyatsiya va issiqlik nasosini o'rnatish, bu - kichikroq mulkka ko'chish bilan birga - emissiyalarni 16 foizga kamaytirishi mumkin. O'simlikka asoslangan dietaga o'tish emissiyalarni taxminan 13 foizga kamaytirishi mumkin. Shu bilan birga, tanish, ammo kamroq <strong>ahamiyatli</strong> harakatlar qatoriga qayta ishlash, kompostlash, oziq-ovqat chiqindilarini kamaytirish va, masalan, energiya tejaydigan jihozlarga o'tish orqali uy xo'jaliklarining energiya sarfini biroz kamaytirish kiradi.</p>
+<p>Bu yerda hech qanday kutilmagan yangilik yo'q, ammo shaxsiy xatti-harakatlardagi o'zgarishlar katta ta'sir ko'rsatishi mumkinligini bilish hali ham xursand qiladi. Shunday emasmi?</p>
+<p>Mana muammo: garchi bu harakatlar nazariy jihatdan o'rtacha odamning uglerod izini yo'q qilsa ham (bu tushuncha aslida BP energiya kompaniyasi tomonidan 2004 yilda neft va gaz sanoatining iqlimga ta'siridan <strong>diqqatni chalg'itish</strong> va mas'uliyatni shaxslarga yuklash uchun yaratilgan), amalda bunday harakatlar odatda atigi 10 foizga kamayishga olib keladi. Bu nolga yaqinlashish uchun yetarli emas.</p>
+<p>Xulq-atvordagi o'zgarishlarning to'liq salohiyatini <strong>ochish</strong> uchun odamlarga - taxmin qiling - hukumatlar va korporatsiyalarning yordami kerak. Bunga issiqlik nasoslari yoki toza transport vositalariga sarmoyalarni <strong>subsidiyalash</strong>, EVlar uchun zaryadlash stantsiyalarini o'rnatish, jamoat transporti va velosiped yo'laklariga sarmoya kiritish va oshxonalarda mazali o'simlikka asoslangan taomlarni taklif qilish kiradi. Bu sodir bo'layotgan voqealarning teskarisi bo'lib tuyuladi: WRI hisobotida aytilishicha, masalan, Tramp ma'muriyati EVlar va uy quyosh energiyasini arzonroq qiladigan soliq imtiyozlarini bekor qilmoqchi edi. Dunyo hukumatlari nolga yaqinlashish maqsadlaridan <strong>voz kechmoqda</strong>.</p>
+<p>Bu imkonsiz degani emas. WRI hisobotida misollar keltirilgan. Niderlandiya uy quyosh panellarini o'rnatish uchun saxiy subsidiyalar kiritdi va uy xo'jaliklariga ortiqcha elektr energiyasini elektr tarmog'iga qaytarib sotishga ruxsat berdi va bir vaqtlar uy quyosh panellari uchun past qabul qilish darajasiga ega bo'lgan mamlakatni Evropada aholi jon boshiga eng yuqori foydalanuvchiga aylantirdi. Kolumbiyaning Bogota shahrida velosiped infratuzilmasiga investitsiyalar velosipedda sayohatlar sonini 1996 yildagi 0,58 foizdan 2017 yilda 9,1 foizga oshirdi.</p>
+<p>Iqlim inqirozini hal qilishda shaxsiy xatti-harakatlardagi o'zgarishlar muhim rol o'ynashini eslatgani uchun WRIga <strong>tahsin</strong> aytaman. Ammo ular yanada to'g'ridan-to'g'ri bo'lishlarini xohlardim: hukumatlar va korporatsiyalar bizni <strong>xafa qilmoqda</strong>.</p>
+<p>Oxir oqibat, bu <strong>jamoaviy mas'uliyat</strong>. Biz faqatgina shaxsiy harakatlar hokimiyat tepasida bo'lganlar tomonidan boshqariladigan tizimli o'zgarishlar bilan qo'llab-quvvatlangan va kuchaytirilganda chinakam yutuqlarga erishamiz.</p>`,
+    vocabularyB2: {
+        "entrenched": {
+                "definition": "Firmly established and difficult to change",
+                "uzbek": "Mustahkam o'rnashgan va o'zgartirish qiyin",
+                "example": "The company's values are deeply entrenched in its culture.",
+                "exampleUzbek": "Kompaniyaning qadriyatlari uning madaniyatida chuqur o'rnashgan."
+        },
+        "deception": {
+                "definition": "The act of deliberately misleading someone",
+                "uzbek": "Kimnidir ataylab chalg'itish harakati",
+                "example": "He was found guilty of deception and fraud.",
+                "exampleUzbek": "U aldash va firibgarlikda aybdor deb topildi."
+        },
+        "drastically": {
+                "definition": "In a severe and sudden way",
+                "uzbek": "Qattiq va to'satdan",
+                "example": "The company drastically reduced its spending.",
+                "exampleUzbek": "Kompaniya o'z xarajatlarini keskin qisqartirdi."
+        },
+        "powerlessness": {
+                "definition": "Lack of power or control",
+                "uzbek": "Kuch yoki nazoratning yo'qligi",
+                "example": "She felt a sense of powerlessness in the face of the crisis.",
+                "exampleUzbek": "U inqiroz qarshisida kuchsizlik hissini sezdi."
+        },
+        "practical": {
+                "definition": "Relating to what is real rather than to what is possible or imagined",
+                "uzbek": "Mumkin yoki tasavvur qilingandan ko'ra haqiqatga tegishli",
+                "example": "We need a practical solution to this problem.",
+                "exampleUzbek": "Bizga bu muammoni hal qilish uchun amaliy yechim kerak."
+        },
+        "offset": {
+                "definition": "To counteract or compensate for",
+                "uzbek": "Qarshi turish yoki qoplash",
+                "example": "The increase in salary was offset by a rise in taxes.",
+                "exampleUzbek": "Oylikning oshishi soliqlar oshishi bilan qoplandi."
+        },
+        "significant": {
+                "definition": "Important or noticeable",
+                "uzbek": "Muhim yoki sezilarli",
+                "example": "There has been a significant increase in sales this year.",
+                "exampleUzbek": "Bu yil sotuvlar sezilarli darajada oshdi."
+        },
+        "divert attention": {
+                "definition": "To distract someone's attention from something",
+                "uzbek": "Kimningdir e'tiborini nimadandir chalg'itish",
+                "example": "The magician used a trick to divert attention from his other hand.",
+                "exampleUzbek": "Sehrgar boshqa qo'lidan e'tiborni chalg'itish uchun hiyla ishlatdi."
+        },
+        "unlock": {
+                "definition": "To release or make available",
+                "uzbek": "Ochish yoki mavjud qilish",
+                "example": "The new technology will unlock new opportunities for the company.",
+                "exampleUzbek": "Yangi texnologiya kompaniya uchun yangi imkoniyatlar ochadi."
+        },
+        "subsidizing": {
+                "definition": "Supporting financially",
+                "uzbek": "Moliyaviy qo'llab-quvvatlash",
+                "example": "The government is subsidizing farmers to help them stay in business.",
+                "exampleUzbek": "Hukumat fermerlarga biznesda qolishlariga yordam berish uchun subsidiya bermoqda."
+        },
+        "backing away from": {
+                "definition": "Withdrawing from a commitment or plan",
+                "uzbek": "Majburiyat yoki rejalashtirishdan voz kechish",
+                "example": "The company is backing away from its promise to invest in new equipment.",
+                "exampleUzbek": "Kompaniya yangi uskunalar sotib olish va'dasidan voz kechmoqda."
+        },
+        "commend": {
+                "definition": "To praise formally or officially",
+                "uzbek": "Rasman yoki rasmiy ravishda maqtash",
+                "example": "I commend you for your hard work and dedication.",
+                "exampleUzbek": "Men sizni qattiq mehnatingiz va fidoyiligingiz uchun maqtayman."
+        },
+        "letting us down": {
+                "definition": "Failing to support or help someone as expected",
+                "uzbek": "Kutilganidek kimnidir qo'llab-quvvatlay olmaslik yoki yordam bermaslik",
+                "example": "The government is letting us down by not investing in education.",
+                "exampleUzbek": "Hukumat ta'limga sarmoya kiritmaslik orqali bizni pastga tushirmoqda."
+        },
+        "collective responsibility": {
+                "definition": "The idea that everyone is responsible for the actions of a group",
+                "uzbek": "Har bir kishi guruhning harakatlari uchun javobgar degan fikr",
+                "example": "Environmental protection is a collective responsibility.",
+                "exampleUzbek": "Atrof-muhitni muhofaza qilish - bu kollektiv javobgarlik."
+        }
+},
+    passageC1: `<p>The pervasive sense that <strong>vested corporate interests</strong> constitute a seemingly insurmountable barrier to meaningful environmental action has been weighing heavily on my mind. My recent review of Mike Berners-Lee's 'A Climate of Truth,' which compellingly argues that the systematic dishonesty and <strong>obfuscation</strong> perpetrated by industries complicit in environmental degradation are primary drivers of the crisis, only served to reinforce this conviction. This resonated with my prior interview with Harvard science historian Naomi Oreskes, whose years of research have exposed the <strong>Machiavellian tactics</strong> employed by corporate science deniers within the tobacco and oil and gas sectors. The sheer scale of their deception was deeply unsettling, and regrettably, the situation has only deteriorated since then.</p><p>More recently, the dismantling of environmental safeguards and the blatant defunding of climate science under the new Trump administration in the US, seemingly driven by a <strong>myopic</strong> pursuit of corporate profit, has been a source of considerable dismay. It often feels as though we are fighting a losing battle against forces that are both powerful and intransigent.</p><p>Against this backdrop of perceived powerlessness, new research from the World Resources Institute (WRI), a non-profit organization, caught my attention. The headline, "The Most Impactful Things You Can Do for the Climate Aren't What You've Been Told," offered a glimmer of hope. I was hoping this report would serve as a timely reminder of the agency that individuals still possess, while also providing novel and actionable strategies for adopting a more climate-conscious lifestyle. Consequently, I delved into the report's findings with considerable interest.</p><p>Initially, the news appeared encouraging. The WRI's analysis indicated that by embracing pro-environmental behaviors in three key areas – transportation, home energy consumption, and dietary choices – individuals could, in theory, achieve carbon neutrality or even become carbon-negative. The average person's direct greenhouse gas emissions are estimated at 6.28 tonnes annually, according to the WRI. Their research suggested that behavioral modifications could entirely offset this amount, potentially even exceeding it by nearly a quarter of a tonne.</p><p>Naturally, I was curious about the specific behaviors recommended and the reasons behind their perceived novelty. The primary recommendation was to abandon petrol-powered vehicles in favor of electric vehicles (EVs), public transportation, or active transportation options such as walking or cycling. Eliminating car use entirely could reduce an individual's carbon footprint by as much as 30 percent. While significant, this information was hardly groundbreaking.</p><p>The next suggestion was to reduce air travel, which could lead to an 18 percent reduction in emissions. The third recommendation involved installing solar panels, insulation, and a heat pump at home, coupled with downsizing to a smaller property, potentially reducing emissions by 16 percent. Adopting a plant-based diet could further reduce emissions by approximately 13 percent. More conventional, yet less impactful, actions included recycling, composting, reducing food waste, and making marginal improvements in household energy efficiency through measures like switching to more energy-efficient appliances.</p><p>While these suggestions were not particularly revelatory, it was still reassuring to learn that individual behavioral changes could exert a significant positive impact. Or so it seemed.</p><p>Herein lies the crux of the matter: despite the theoretical potential for these actions to neutralize an individual's carbon footprint (a concept, incidentally, <strong>coined</strong> by BP in 2004 to deflect attention from the hydrocarbon industry's role in climate change and <strong>foist responsibility</strong> onto individuals), their real-world impact typically results in a mere 10 percent reduction. This falls far short of the reductions required to achieve net-zero emissions.</p><p>To fully realize the transformative potential of behavioral change, individuals require the support of – and here’s the rub – governments and corporations. This support should include subsidizing investments in energy-efficient technologies like heat pumps and cleaner vehicles, developing comprehensive charging infrastructure for EVs, investing in robust public transportation systems and cycling infrastructure, and offering appealing plant-based meal options in institutional settings. However, this appears to be in stark contrast to the prevailing trends. The WRI report points out that the Trump administration, for instance, sought to eliminate tax credits that incentivize the adoption of EVs and home solar power. Moreover, governments worldwide are increasingly <strong>reneging</strong> on their net-zero commitments.</p><p>However, this is not to say that progress is impossible. The WRI report cites examples of successful interventions. The Netherlands, for instance, introduced generous subsidies for residential solar installations and permitted households to sell surplus electricity back into the grid, thereby transforming a nation with historically low solar panel adoption rates into a European leader in per-capita solar energy usage. In Bogotá, Colombia, strategic investments in cycling infrastructure have dramatically increased the proportion of journeys made by bicycle, from 0.58 percent in 1996 to 9.1 percent in 2017.</p><p>While I commend the WRI for its timely reminder of the role that individual behavioral change can play in addressing the climate crisis, I would have preferred a more direct assessment: that governments and corporations are, by and large, <strong>abdicating</strong> their responsibilities, leaving individuals to shoulder a burden that they cannot, and should not, bear alone. The <strong>onus</strong> cannot solely be on the individual when systemic change is so desperately needed. The <strong>imperative</strong> for collective action has never been greater, and to <strong>equivocate</strong> on this point is to do a disservice to the urgency of the crisis. We must <strong>galvanize</strong> action on all fronts, holding both corporations and governments accountable for their contributions to, and potential solutions for, this global challenge. The future of our planet <strong>hinges on</strong> it.</p>`,
+    translationC1: `<p>Mening ongimni doimiy ravishda <strong>korporativ manfaatlar</strong> mazmunli ekologik harakatlarga to'siq bo'lib tuyulishi hissi ezib kelmoqda. Yaqinda Mayk Berners-Lining "Haqiqat iqlimi" asarini ko'rib chiqdim. Unda atrof-muhitning degradatsiyasiga aloqador bo'lgan sanoat tomonidan amalga oshirilgan tizimli yolg'on va <strong>chalg'itish</strong> inqirozning asosiy omillari ekanligi ishonarli tarzda ta'kidlangan. Bu Harvard fan tarixchisi Naomi Oreskes bilan bo'lgan suhbatimda ham aks etgan edi. Uning ko'p yillik tadqiqotlari tamaki, neft va gaz sektorlaridagi korporativ fan inkorchilari tomonidan qo'llaniladigan <strong>makiavellistik taktikalarni</strong> fosh qildi. Ularning aldovining miqyosi juda tashvishli edi va afsuski, vaziyat o'shandan beri yomonlashdi.</p><p>Yaqin vaqtlarda AQShda yangi Tramp ma'muriyati ostida ekologik himoya choralarining bekor qilinishi va iqlimshunoslik fanini ochiqdan-ochiq moliyalashtirishning to'xtatilishi <strong>ko'r-ko'rona</strong> korporativ foyda ortidan quvish natijasi bo'lib, katta xavotirga sabab bo'ldi. Ko'pincha biz kuchli va murosasiz kuchlarga qarshi mag'lubiyatga uchrayotgandek his qilamiz.</p><p>Kuchsizlik hissi fonida "Jahon Resurslari Instituti" (WRI) nodavlat tashkilotining yangi tadqiqoti e'tiborimni tortdi. Sarlavha: "Iqlim uchun qilishingiz mumkin bo'lgan eng ta'sirli narsalar sizga aytilgan narsalar emas", degan umid uchqunini berdi. Umid qilamanki, bu hisobot shaxslarning hali ham ega bo'lgan vakolatini o'z vaqtida eslatib turadi, shu bilan birga iqlimga oid ongli turmush tarzini qabul qilish uchun yangi va amaliy strategiyalarni taqdim etadi. Shunday qilib, men hisobot natijalarini katta qiziqish bilan o'rganib chiqdim.</p><p>Dastlab, xabar dalda beradigandek tuyuldi. WRI tahliliga ko'ra, uchta asosiy yo'nalishda - transport, uy energiya iste'moli va ovqatlanish tanlovi - ekologik harakatlarni qo'llab-quvvatlash orqali shaxslar nazariy jihatdan karbon neytralligiga erishishlari yoki hatto karbon-salbiy bo'lishlari mumkin. WRI ma'lumotlariga ko'ra, o'rtacha odamning to'g'ridan-to'g'ri issiqxona gazlari emissiyasi yiliga 6,28 tonnani tashkil qiladi. Ularning tadqiqotlari shuni ko'rsatdiki, xatti-harakatlarni o'zgartirish bu miqdorni to'liq qoplashi, hatto deyarli chorak tonnaga oshib ketishi mumkin.</p><p>Tabiiyki, men tavsiya etilgan aniq xatti-harakatlar va ularning idrok etilgan yangiligi sabablari haqida qiziqdim. Asosiy tavsiya neft bilan ishlaydigan transport vositalaridan voz kechib, elektr transport vositalari (EV), jamoat transporti yoki piyoda yurish yoki velosipedda yurish kabi faol transport variantlariga o'tish edi. Avtomobildan butunlay voz kechish odamning karbon izini 30 foizgacha kamaytirishi mumkin. Muhim bo'lsa-da, bu ma'lumot yangilik emas edi.</p><p>Keyingi taklif havo sayohatini qisqartirish edi, bu emissiyani 18 foizga kamaytirishi mumkin. Uchinchi tavsiya quyosh panellari, izolyatsiya va issiqlik nasosini uyga o'rnatish, kichikroq mulkka ko'chib o'tish bilan birga, emissiyani 16 foizga kamaytirishi mumkin. O'simlikka asoslangan dietaga o'tish emissiyani yana taxminan 13 foizga kamaytirishi mumkin. An'anaviyroq, ammo kamroq ta'sirli harakatlarga qayta ishlash, kompostlash, oziq-ovqat chiqindilarini kamaytirish va energiya tejovchi maishiy texnika vositalariga o'tish kabi choralar orqali uy xo'jaligining energiya samaradorligini marginal yaxshilash kiradi.</p><p>Ushbu takliflar unchalik yangilik bo'lmasa-da, individual xatti-harakatlar o'zgarishlari sezilarli ijobiy ta'sir ko'rsatishi mumkinligini bilish hali ham ishonchli edi. Yoki shunday tuyuldi.</p><p>Mana, masalaning mohiyati: ushbu harakatlarning odamning karbon izini neytrallashtirish uchun nazariy imkoniyati mavjudligiga qaramay (bu tushunchani, aytmoqchi, BP 2004 yilda iqlim o'zgarishida uglevodorod sanoatining rolidan e'tiborni chalg'itish va mas'uliyatni shaxslarga <strong>yuklash</strong> uchun <strong>o'ylab topgan</strong>), ularning haqiqiy ta'siri odatda atigi 10 foizga qisqarishga olib keladi. Bu nol emissiyaga erishish uchun zarur bo'lgan qisqarishlardan ancha past.</p><p>Xatti-harakatlar o'zgarishining transformatsion salohiyatini to'liq ro'yobga chiqarish uchun shaxslarga hukumatlar va korporatsiyalarning yordami kerak. Bu yordam issiqlik nasoslari va toza transport vositalari kabi energiya tejovchi texnologiyalarga investitsiyalarni subsidiyalashni, EV uchun keng qamrovli zaryadlash infratuzilmasini ishlab chiqishni, mustahkam jamoat transporti tizimlariga va velosiped infratuzilmasiga investitsiya kiritishni va muassasalarda jozibali o'simlikka asoslangan ovqatlanish variantlarini taklif qilishni o'z ichiga olishi kerak. Biroq, bu mavjud tendentsiyalarga butunlay ziddek tuyuladi. WRI hisobotida aytilishicha, masalan, Tramp ma'muriyati EV va uy quyosh energiyasini qabul qilishni rag'batlantiruvchi soliq imtiyozlarini yo'q qilishga harakat qilgan. Bundan tashqari, dunyo hukumatlari tobora nol majburiyatlaridan <strong>vozv kechmoqda</strong>.</p><p>Biroq, bu taraqqiyotning iloji yo'q degani emas. WRI hisobotida muvaffaqiyatli aralashuvlar misollari keltirilgan. Masalan, Niderlandiya uyda quyosh panellarini o'rnatish uchun saxiy subsidiyalar kiritdi va uy xo'jaliklariga ortiqcha elektr energiyasini tarmoqqa qaytarishga ruxsat berdi, shu bilan quyosh panellarini o'rnatish darajasi past bo'lgan mamlakatni aholi jon boshiga to'g'ri keladigan quyosh energiyasi bo'yicha Yevropa yetakchisiga aylantirdi. Kolumbiyaning Bogota shahrida velosiped infratuzilmasiga strategik investitsiyalar velosipedda sayohat qilish ulushini 1996 yildagi 0,58 foizdan 2017 yilda 9,1 foizga keskin oshirdi.</p><p>Men WRI ni iqlim inqirozini hal qilishda individual xatti-harakatlar o'zgarishi o'ynashi mumkin bo'lgan rol haqida o'z vaqtida eslatgani uchun olqishlayman, lekin men to'g'ridan-to'g'ri baholashni afzal ko'rgan bo'lardim: hukumatlar va korporatsiyalar, asosan, o'z mas'uliyatlaridan <strong>voz kechmoqda</strong>, shaxslarga ular yolg'iz ko'tara olmaydigan va ko'tarmasligi kerak bo'lgan yukni yuklamoqda. Tizimli o'zgarishlar shunchalik zarur bo'lganda, <strong>mas'uliyat</strong> faqat shaxsga yuklanishi mumkin emas. Jamoaviy harakat qilish <strong>zarurati</strong> hech qachon bunchalik katta bo'lmagan va bu nuqtada <strong>ikki xil ma'noni anglatuvchi so'zlarni ishlatish</strong> inqirozning dolzarbligiga nisbatan bepisandlikdir. Biz barcha jabhalarda harakatni <strong>faollashtirishimiz</strong>, korporatsiyalar va hukumatlarni ushbu global muammoga qo'shgan hissasi va uni hal qilishning mumkin bo'lgan yo'llari uchun javobgarlikka tortishimiz kerak. Sayyoramizning kelajagi bunga <strong>bog'liq</strong>.</p>`,
+    vocabularyC1: {
+        "vested corporate interests": {
+                "definition": "The strong desire of a corporation to protect its profits and power, often leading to actions that may harm the environment or public good.",
+                "uzbek": "Korporatsiyalarning o'z foydasi va hokimiyatini himoya qilishga bo'lgan kuchli istagi, ko'pincha atrof-muhitga yoki jamoatchilik manfaatlariga zarar yetkazishi mumkin bo'lgan harakatlarga olib keladi.",
+                "example": "The government's decision was influenced by vested corporate interests in the oil industry.",
+                "exampleUzbek": "Hukumatning qaroriga neft sanoatidagi manfaatdor korporatsiyalar ta'sir ko'rsatdi."
+        },
+        "obfuscation": {
+                "definition": "The act of making something unclear, obscure, or unintelligible.",
+                "uzbek": "Nimadirni tushunarsiz, xira yoki anglab bo'lmaydigan qilish harakati.",
+                "example": "The company used obfuscation to hide the true environmental impact of their operations.",
+                "exampleUzbek": "Kompaniya o'z faoliyatining atrof-muhitga haqiqiy ta'sirini yashirish uchun chalkashtirishdan foydalangan."
+        },
+        "Machiavellian tactics": {
+                "definition": "Cunning, scheming, and unscrupulous methods, especially in politics, often involving deceit and manipulation.",
+                "uzbek": "Ayyor, rejalashtirilgan va vijdonan bo'lmagan usullar, ayniqsa siyosatda, ko'pincha aldash va manipulyatsiyani o'z ichiga oladi.",
+                "example": "The politician was known for his Machiavellian tactics to gain power.",
+                "exampleUzbek": "Siyosatchi hokimiyatni qo'lga kiritish uchun Machiavellian taktikalari bilan mashhur edi."
+        },
+        "myopic": {
+                "definition": "Lacking foresight or intellectual insight; narrow-minded.",
+                "uzbek": "Uzoqni ko'ra bilmaslik yoki intellektual tushunchaga ega bo'lmaslik; tor fikrlilik.",
+                "example": "The company's myopic focus on short-term profits led to long-term environmental damage.",
+                "exampleUzbek": "Kompaniyaning qisqa muddatli foydaga tor doirada e'tibor qaratishi uzoq muddatli ekologik zararga olib keldi."
+        },
+        "coined": {
+                "definition": "To invent or devise (a new word or phrase).",
+                "uzbek": "Yangi so'z yoki iborani ixtiro qilish yoki yaratish.",
+                "example": "The term 'carbon footprint' was coined to measure the impact of human activities on the environment.",
+                "exampleUzbek": "'Uglerod izi' atamasi inson faoliyatining atrof-muhitga ta'sirini o'lchash uchun o'ylab topilgan."
+        },
+        "foist responsibility": {
+                "definition": "To impose an unwelcome or unnecessary thing on someone.",
+                "uzbek": "Kimdirga yoqimsiz yoki keraksiz narsani yuklash.",
+                "example": "The company tried to foist responsibility for the pollution onto local residents.",
+                "exampleUzbek": "Kompaniya ifloslanish uchun mas'uliyatni mahalliy aholiga yuklashga harakat qildi."
+        },
+        "reneging": {
+                "definition": "To go back on a promise, undertaking, or contract.",
+                "uzbek": "Vada, majburiyat yoki shartnomadan voz kechish.",
+                "example": "The government is reneging on its commitment to reduce carbon emissions.",
+                "exampleUzbek": "Hukumat uglerod chiqindilarini kamaytirish bo'yicha majburiyatidan voz kechmoqda."
+        },
+        "abdicating": {
+                "definition": "To fail to fulfill or undertake (a responsibility or duty).",
+                "uzbek": "Mas'uliyat yoki vazifani bajarmaslik yoki o'z zimmasiga olmaslik.",
+                "example": "The company is abdicating its responsibility to protect the environment.",
+                "exampleUzbek": "Kompaniya atrof-muhitni himoya qilish bo'yicha o'z mas'uliyatidan voz kechmoqda."
+        },
+        "onus": {
+                "definition": "A duty or responsibility.",
+                "uzbek": "Burch yoki mas'uliyat.",
+                "example": "The onus is on the government to take action on climate change.",
+                "exampleUzbek": "Iqlim o'zgarishi bo'yicha chora ko'rish hukumatning zimmasida."
+        },
+        "imperative": {
+                "definition": "Of vital importance; crucial.",
+                "uzbek": "Hayotiy muhim; hal qiluvchi.",
+                "example": "It is imperative that we act now to address the climate crisis.",
+                "exampleUzbek": "Iqlim inqirozini hal qilish uchun hozir harakat qilishimiz juda muhim."
+        },
+        "equivocate": {
+                "definition": "Use ambiguous language so as to conceal the truth or avoid committing oneself.",
+                "uzbek": "Haqiqatni yashirish yoki o'zini majburiyatdan qochirish uchun noaniq tildan foydalanish.",
+                "example": "The politician equivocated when asked about his stance on environmental regulations.",
+                "exampleUzbek": "Siyosatchi atrof-muhitni muhofaza qilish qoidalari bo'yicha o'z pozitsiyasi haqida so'ralganda chalkash javob berdi."
+        },
+        "galvanize": {
+                "definition": "Shock or excite (someone) into taking action.",
+                "uzbek": "Kimnidir harakatga undash yoki hayajonga solish.",
+                "example": "The environmental disaster galvanized the community to protest.",
+                "exampleUzbek": "Atrof-muhit falokati jamiyatni norozilik bildirishga undadi."
+        },
+        "hinges on": {
+                "definition": "To depend entirely on.",
+                "uzbek": "To'liq bog'liq bo'lish.",
+                "example": "The success of the project hinges on securing funding.",
+                "exampleUzbek": "Loyihaning muvaffaqiyati moliyalashtirishni ta'minlashga bog'liq."
+        }
+}
 };

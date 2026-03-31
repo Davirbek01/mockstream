@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>Escape room! Good. Fun. Puzzles hard. I like it. You go!<br>Bye!</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I went to an escape room with my friends. It was fun and we did puzzles. It was a little hard, but good. You should go with your friends because it is fun. <br>See you!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I wanted to tell you about something fun we did! We went to an escape room. It was really interesting because you have to solve puzzles to get out. I think you and your friends would enjoy it. It's a good group activity. You should try it! <br>Let me know what you think.<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br>I wanted to recommend a really fun activity if you're still looking for ideas! We recently went to an escape room, and it was a fantastic experience. You work as a team to solve puzzles and escape a themed room within a time limit. It was challenging but incredibly rewarding when we finally cracked the code! I genuinely believe you and your friends would have a blast. It requires teamwork, problem-solving, and a bit of creativity – perfect for a group outing. You should definitely consider booking one!<br>Hope this helps!<br>All the best,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br>I wanted to recommend a really fun activity if you're still looking for ideas! We recently went to an escape room, and it was a fantastic experience. You work as a team to solve puzzles and escape a themed room within a time limit. It was challenging but incredibly rewarding when we finally cracked the code! I genuinely believe you and your friends would have a blast. It requires teamwork, problem-solving, and a bit of creativity – perfect for a group outing. You should definitely consider booking one!<br>Hope this helps!<br>All the best,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, tug'ilgan kuning uchun qiziqarli mashg'ulotlar qidiryapsan! Biz yaqinda \"escape room\" o'ynadik va bu juda ajoyib bo'ldi! Bir soat ichida qochib ketish uchun jamoang bilan birgalikda boshqotirmalarni yecha olasan. Bu juda hayajonli, qiyin va guruhlar uchun ayni muddao. Albatta, bittasiga buyurtma berishing kerak!</p>\n<p>Fikringni eshitishga sabrsizlik bilan kutyapman!</p>\n<p>Xayr!</p>",
+      "uzSampleA1": "<p>Salom [Do'stingizning ismi],<br>Escape room! Yaxshi. Qiziqarli. Topishmoqlar qiyin. Menga yoqadi. Sen bor!<br>Xayr!</p>",
+      "uzSampleA2": "<p>Salom [Do'stingizning ismi],<br>Men do'stlarim bilan birga \"escape room\"ga bordim. Qiziqarli bo'ldi va biz boshqotirmalarni yechdik. Ozgina qiyin edi, lekin yaxshi. Siz ham do'stlaringiz bilan borishingiz kerak, chunki bu qiziqarli.<br>Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Sizga biz qilgan qiziqarli bir narsa haqida aytmoqchi edim! Biz \"escape room\"ga bordik. U juda qiziqarli edi, chunki undan chiqish uchun boshqotirmalarni yechishingiz kerak. O'ylaymanki, siz va do'stlaringizga bu yoqadi. Bu yaxshi guruh mashg'uloti. Buni sinab ko'rishingiz kerak! <br>Fikringizni menga bildiring.<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Agar hali ham qiziqarli guruh mashg'ulotlari uchun g'oyalar qidirayotgan bo'lsangiz, sizga juda qiziqarli bir mashg'ulotni tavsiya qilmoqchiman! Yaqinda biz \"escape room\"ga bordik va bu ajoyib tajriba bo'ldi. Siz jamoa bo'lib boshqotirmalarni yechasiz va ma'lum vaqt ichida tematik xonadan qochib qutulasiz. Bu qiyin edi, lekin biz nihoyat kodni buzganimizda juda foydali bo'ldi! Men chin dildan siz va do'stlaringiz juda xursand bo'lishiga ishonaman. Bu jamoaviy ish, muammolarni hal qilish va biroz ijodkorlikni talab qiladi - guruh bilan sayr qilish uchun juda mos. Albatta, birini bron qilishni o'ylab ko'ring!<br>Umid qilamanki, bu yordam beradi!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi MindMaze,</p><p>Escape room good. Puzzles hard. Staff nice. <br>I like space room. <br>Bye</p>",
       "sampleA2": "<p>Hi MindMaze,</p><p>I went to your escape room. It was fun, but the puzzles were difficult. The staff was friendly and helped us. I think you should make a new room about pirates because I like pirates. And maybe easier puzzles. Thank you.</p><p>Bye, [Your name]</p>",
       "sampleB1": "<p>Dear MindMaze Team,</p><p>Thank you for your email. I wanted to tell you about my experience at your escape room. My friends and I did the mystery room, and it was pretty good. The puzzles were challenging, but we liked that. The staff was also very helpful when we needed clues.</p><p>I think you could improve the waiting area because it was a bit boring. Maybe add some games or magazines. Also, a new room theme about ancient Egypt would be cool, in my opinion.</p><p>Overall, we had a good time and might come back again.</p><p>Sincerely, <br>[Your name]</p>",
-      "sampleB2": "<p>Dear MindMaze Team,</p><p>Thank you for reaching out regarding our recent visit to your escape room. My friends and I participated in the 'Haunted Mansion' room, and I wanted to provide some feedback.</p><p>We found the overall experience quite engaging, although some puzzles felt somewhat disconnected from the central narrative. The staff were attentive and provided timely assistance without giving away too much. However, the ambient lighting in certain areas was a little too dim, making it difficult to examine clues effectively.</p><p>In terms of improvements, perhaps incorporating more interactive elements within the room itself would enhance the immersion. Furthermore, a steampunk-themed room or one based on a classic literary work, such as Sherlock Holmes, could be interesting additions to your repertoire. We appreciate the effort put into creating these experiences and hope to see further innovation in the future.</p><p>Yours sincerely,<br>[Your name]</p>"
+      "sampleB2": "<p>Dear MindMaze Team,</p><p>Thank you for reaching out regarding our recent visit to your escape room. My friends and I participated in the 'Haunted Mansion' room, and I wanted to provide some feedback.</p><p>We found the overall experience quite engaging, although some puzzles felt somewhat disconnected from the central narrative. The staff were attentive and provided timely assistance without giving away too much. However, the ambient lighting in certain areas was a little too dim, making it difficult to examine clues effectively.</p><p>In terms of improvements, perhaps incorporating more interactive elements within the room itself would enhance the immersion. Furthermore, a steampunk-themed room or one based on a classic literary work, such as Sherlock Holmes, could be interesting additions to your repertoire. We appreciate the effort put into creating these experiences and hope to see further innovation in the future.</p><p>Yours sincerely,<br>[Your name]</p>",
+      "uzSample": "<p>Hurmatli MindMaze jamoasi,</p>\n<p>Sizning joyingizda yaqinda bo'lib o'tgan <br>escape room tajribamiz haqida so'raganingiz uchun rahmat.</p>\n<p>Do'stlarim va men urinib ko'rgan <br>detektiv mavzusidagi xonadan <br>juda ham mamnun bo'ldik. Boshqotirmalar <br>ijodiy va murakkab bo'lib, yechish uchun <br>a'lo darajadagi jamoaviy ishni talab qildi. Bir soat <br>tez o'tib ketdi va biz vaqtida qutulib qolmagan bo'lsak ham, <br>juda ham xursand bo'ldik. Xodimlaringiz <br>rag'batlantiruvchi edilar va qiyin ahvolga tushib qolganimizda <br>foydali maslahatlar berishdi.</p>\n<p>Menda yaxshilash uchun ba'zi takliflar bor. <br>Birinchidan, har bir xona uchun turli <br>qiyinchilik darajalarini taklif qilish <br>boshlovchilar va tajribali o'yinchilarga yordam beradi.</p>\n<p>Ikkinchidan, erta kelganda, <br>ayniqsa, ichimliklar bilan ta'minlangan <br>kutish joyi qadrlanadi.</p>\n<p>Kelajakdagi mavzular uchun, <br>men kosmik tadqiqot yoki suv osti sarguzashtlari xonasini ko'rishni xohlardim.</p>\n<p>Boshqa xonalaringizni sinab ko'rish uchun <br>albatta qaytib kelamiz.</p>\n<p>Hurmat bilan,\n[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom, MindMaze,</p><p>Eskep xona yaxshi. Topishmoqlar qiyin. Xodimlar yaxshi. <br>Menga kosmik xona yoqdi. <br>Xayr</p>",
+      "uzSampleA2": "<p>Salom, MindMaze,</p><p>Men sizning escape roomingizga bordim. Qiziqarli edi, lekin boshqotirmalar qiyin edi. Xodimlar do'stona munosabatda bo'lishdi va bizga yordam berishdi. O'ylashimcha, siz qaroqchilar haqida yangi xona yaratishingiz kerak, chunki men qaroqchilarni yaxshi ko'raman. Va balki osonroq boshqotirmalar. Rahmat.</p><p>Xayr, [Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli MindMaze jamoasi,</p><p>Xatingiz uchun rahmat. Men sizga escape room'ingizdagi tajribam haqida aytib bermoqchiman. Do'stlarim bilan biz sirli xonani tanladik va u juda yaxshi edi. Topshiriqlar qiyin edi, lekin bizga bu yoqdi. Xodimlar ham bizga yordam kerak bo'lganda juda foydali bo'lishdi.</p><p>Menimcha, kutish joyini yaxshilashingiz mumkin, chunki u biroz zerikarli edi. Balki ba'zi o'yinlar yoki jurnallar qo'shishingiz mumkin. Shuningdek, qadimgi Misr haqidagi yangi xona mavzusi, menimcha, ajoyib bo'lardi.</p><p>Umuman olganda, biz yaxshi vaqt o'tkazdik va yana qaytib kelishimiz mumkin.</p><p>Hurmat bilan, <br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli MindMaze jamoasi,</p><p>Bizning yaqinda sizning escape room xonangizga tashrifimiz bo'yicha murojaat qilganingiz uchun rahmat. Do'stlarim va men \"Arvohli saroy\" xonasida ishtirok etdik va men ba'zi fikr-mulohazalarni bildirishni xohlardim.</p><p>Umuman olganda, tajriba juda qiziqarli bo'ldi, garchi ba'zi jumboqlar asosiy hikoyadan biroz uzilib qolgandek tuyuldi. Xodimlar e'tiborli edilar va juda ko'p narsani oshkor qilmasdan o'z vaqtida yordam berishdi. Biroq, ba'zi joylardagi yorug'lik biroz xira edi, bu esa dalillarni samarali tekshirishni qiyinlashtirdi.</p><p>Yaxshilanish nuqtai nazaridan, ehtimol, xonaning o'zida ko'proq interaktiv elementlarni kiritish immersiyani kuchaytirishi mumkin. Bundan tashqari, steampunk uslubidagi xona yoki Sherlock Holmes kabi klassik adabiy asarga asoslangan xona sizning repertuaringizga qiziqarli qo'shimchalar bo'lishi mumkin. Biz ushbu tajribalarni yaratishga qaratilgan sa'y-harakatlarni qadrlaymiz va kelajakda yanada innovatsiyalarni ko'rishga umid qilamiz.</p><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>Escape room good. Puzzles hard. Staff nice. I like new rooms, maybe with monsters. Bye!</p>",
       "sampleA2": "<p>Hello,<br><br>The escape room was fun! The puzzles were a little hard, but my friends helped me. The staff was friendly and helped us when we needed it. I think the room theme was good, but maybe you can make a new room with animals. That would be cool. Thank you!</p>",
       "sampleB1": "<p>Dear MindMaze Team,<br><br>Thank you for the escape room experience. Overall, I enjoyed it. I thought the puzzle difficulty was pretty good, challenging but not impossible. The room theme was interesting, although maybe a bit too similar to other escape rooms I've done. The staff were helpful and friendly, especially when we got stuck on one particular puzzle.<br><br>In terms of improvements, I think you could add more interactive elements to the rooms. Also, I would like to see a room with a historical theme, maybe something about ancient Egypt or the Wild West. That would be really cool and different. Thanks again!</p>",
-      "sampleB2": "<p>To the Editor,<br><br>The question of whether public transport should be free is a complex one, yet I believe the potential benefits significantly outweigh the drawbacks. While the financial implications are substantial, the positive impact on society and the environment warrants serious consideration.<br><br>Firstly, free public transport would dramatically reduce urban congestion. By removing the financial barrier, more people would opt for buses and trains over private vehicles, leading to less traffic and, consequently, lower carbon emissions. This shift is crucial in combating climate change and improving air quality in our cities.<br><br>Furthermore, free public transport would enhance social equity. It would provide affordable access to jobs, education, and essential services for low-income individuals and families, who often rely on public transport the most. This increased accessibility could lead to greater economic opportunities and improved quality of life.<br><br>Of course, the funding model for such a system presents a challenge. However, innovative solutions, such as redirecting existing transportation budgets or implementing a progressive tax system, could be explored. The long-term cost savings from reduced healthcare expenses due to cleaner air and decreased road maintenance should also be factored in.<br><br>In conclusion, while the implementation of free public transport requires careful planning and financial commitment, the potential benefits for our environment, society, and economy are undeniable. It is a bold step towards a more sustainable and equitable future.</p>"
+      "sampleB2": "<p>To the Editor,<br><br>The question of whether public transport should be free is a complex one, yet I believe the potential benefits significantly outweigh the drawbacks. While the financial implications are substantial, the positive impact on society and the environment warrants serious consideration.<br><br>Firstly, free public transport would dramatically reduce urban congestion. By removing the financial barrier, more people would opt for buses and trains over private vehicles, leading to less traffic and, consequently, lower carbon emissions. This shift is crucial in combating climate change and improving air quality in our cities.<br><br>Furthermore, free public transport would enhance social equity. It would provide affordable access to jobs, education, and essential services for low-income individuals and families, who often rely on public transport the most. This increased accessibility could lead to greater economic opportunities and improved quality of life.<br><br>Of course, the funding model for such a system presents a challenge. However, innovative solutions, such as redirecting existing transportation budgets or implementing a progressive tax system, could be explored. The long-term cost savings from reduced healthcare expenses due to cleaner air and decreased road maintenance should also be factored in.<br><br>In conclusion, while the implementation of free public transport requires careful planning and financial commitment, the potential benefits for our environment, society, and economy are undeniable. It is a bold step towards a more sustainable and equitable future.</p>",
+      "uzSample": "<p>Hamma uchun jamoat transportini bepul qilish g'oyasi butun dunyoda mashhurlikka erishmoqda. Men bir nechta muhim sabablarga ko'ra bu taklifni qat'iy qo'llab-quvvatlayman.</p>\n\n<p>Birinchidan, bepul jamoat transporti tirbandlik va havo ifloslanishini sezilarli darajada kamaytiradi. Agar avtobus va poyezdlar bepul bo'lsa, ko'proq odamlar o'z mashinalarini uyda qoldirishadi. Lyuksemburg kabi shaharlar allaqachon bepul jamoat transportini joriy etgan va ijobiy ekologik natijalarga erishgan.</p>\n\n<p>Ikkinchidan, bu transport xarajatlari bilan kurashayotgan kam daromadli oilalarga foyda keltiradi. Ko'p odamlar har kuni avtobus yoki poyezdga pul to'lashga qurbi yetmaydi, bu ularning ish, ta'lim va sog'liqni saqlash imkoniyatlarini cheklaydi. Bepul transport ijtimoiy tenglikni rag'batlantiradi.</p>\n\n<p>Biroq, tanqidchilar bu tashabbusni moliyalashtirish haqida bahslashmoqda. Hukumatlar soliqlarni oshirishi yoki byudjetlarni boshqa sohalardan yo'naltirishi kerak bo'ladi. Bu ehtiyotkorlik bilan rejalashtirishni talab qiladigan asosli xavotir.</p>\n\n<p>Xarajatlarga qaramay, uzoq muddatli foyda xarajatlardan ustun turadi. Toza havodan kelib chiqadigan sog'liqni saqlash xarajatlarining kamayishi, yo'llarni kamroq ta'mirlash va iqtisodiy faollikning oshishi dastlabki investitsiyalarni qoplaydi.</p>\n\n<p>Xulosa qilib aytganda, bepul jamoat transporti - bu yanada sog'lom, adolatli va barqaror kelajakka sarmoyadir. Hukumatlar ushbu siyosatni jiddiy ko'rib chiqishlari kerak.</p>",
+      "uzSampleA1": "<p>Salom!<br>Escape room yaxshi. Topishmoqlar qiyin. Xodimlar yaxshi. Menga yangi xonalar yoqadi, balki yirtqich hayvonlar bilan bo'lsa. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br><br>Escape xonasi juda qiziqarli bo'ldi! Topishmoqlar biroz qiyin edi, lekin do'stlarim menga yordam berishdi. Xodimlar do'stona munosabatda bo'lishdi va bizga kerak bo'lganda yordam berishdi. Menimcha, xonaning mavzusi yaxshi edi, lekin balki siz hayvonlar bilan yangi xona yasashingiz mumkin. Bu juda ajoyib bo'lardi. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli MindMaze jamoasi,<br><br>Escape room tajribasi uchun rahmat. Umuman olganda, menga yoqdi. Men boshqotirmalarning qiyinligi juda yaxshi deb o'yladim, qiyin, lekin imkonsiz emas. Xonaning mavzusi qiziqarli edi, garchi men qilgan boshqa escape room'larga biroz o'xshash bo'lsa ham. Xodimlar yordam berishga tayyor va do'stona edilar, ayniqsa, biz bitta boshqotirmada tiqilib qolganimizda.<br><br>Yaxshilash nuqtai nazaridan, menimcha, xonalarga ko'proq interaktiv elementlar qo'shishingiz mumkin. Shuningdek, men tarixiy mavzudagi xonani ko'rishni xohlardim, ehtimol qadimgi Misr yoki Yovvoyi G'arb haqida. Bu juda ajoyib va ​​boshqacha bo'lardi. Yana bir bor rahmat!</p>",
+      "uzSampleB2": "<p>Muharrirga,<br><br>Jamoat transporti bepul bo'lishi kerakmi degan savol murakkab, ammo menimcha, potentsial foydalari kamchiliklardan sezilarli darajada ustun turadi. Moliyaviy oqibatlari katta bo'lsa-da, jamiyat va atrof-muhitga ijobiy ta'siri jiddiy e'tiborga loyiqdir.<br><br>Birinchidan, bepul jamoat transporti shahar tirbandligini keskin kamaytiradi. Moliyaviy to'siqni olib tashlash orqali ko'proq odamlar shaxsiy transport vositalaridan ko'ra avtobus va poyezdlarni tanlaydilar, bu esa tirbandlikning kamayishiga va natijada karbonat angidrid chiqindilarining kamayishiga olib keladi. Bu o'zgarish iqlim o'zgarishiga qarshi kurashish va shaharlarimizda havo sifatini yaxshilashda juda muhimdir.<br><br>Bundan tashqari, bepul jamoat transporti ijtimoiy tenglikni oshiradi. Bu, ko'pincha jamoat transportiga eng ko'p tayanadigan kam daromadli shaxslar va oilalar uchun ish o'rinlari, ta'lim va muhim xizmatlarga arzon narxlarda kirish imkoniyatini beradi. Ushbu o'sib borayotgan qulaylik iqtisodiy imkoniyatlarning kengayishiga va hayot sifatining yaxshilanishiga olib kelishi mumkin.<br><br>Albatta, bunday tizimni moliyalashtirish modeli muammolarni keltirib chiqaradi. Biroq, mavjud transport byudjetlarini yo'naltirish yoki progressiv soliq tizimini joriy etish kabi innovatsion echimlarni o'rganish mumkin. Toza havo tufayli sog'liqni saqlash xarajatlarining kamayishi va yo'llarni ta'mirlashning qisqarishi natijasida uzoq muddatli xarajatlarni tejash ham hisobga olinishi kerak.<br><br>Xulosa qilib aytganda, bepul jamoat transportini joriy etish puxta rejalashtirish va moliyaviy majburiyatni talab qilsa-da, atrof-muhitimiz, jamiyatimiz va iqtisodiyotimiz uchun potentsial foydalari inkor etib bo'lmaydi. Bu yanada barqaror va adolatli kelajak sari dadil qadamdir.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,187 @@ window.WRITING_TEST_DATA = {
         "uz": "qat'iy qo'llab-quvvatlamoq"
       }
     ]
+  },
+  "tokenTranslations": {
+    "fun activities": {
+      "uz": "qiziqarli mashg'ulotlar",
+      "type": "colloc"
+    },
+    "escape room": {
+      "uz": "kvest xonasi",
+      "type": "colloc"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "perfect": {
+      "uz": "mukammal",
+      "type": "adv"
+    },
+    "should definitely": {
+      "uz": "albatta kerak",
+      "type": "modal"
+    },
+    "Can't wait": {
+      "uz": "intizorlik bilan kutyapman",
+      "type": "idiom"
+    },
+    "escape room experience": {
+      "uz": "kvest xonasidagi tajriba",
+      "type": "colloc"
+    },
+    "thoroughly": {
+      "uz": "puxta",
+      "type": "adv"
+    },
+    "detective-themed room": {
+      "uz": "detektiv uslubidagi xona",
+      "type": "colloc"
+    },
+    "creative and challenging": {
+      "uz": "ijodiy va qiyin",
+      "type": "colloc"
+    },
+    "excellent teamwork": {
+      "uz": "a'lo darajadagi jamoaviy ish",
+      "type": "colloc"
+    },
+    "quickly": {
+      "uz": "tezda",
+      "type": "adv"
+    },
+    "tremendous fun": {
+      "uz": "juda qiziqarli",
+      "type": "colloc"
+    },
+    "helpful hints": {
+      "uz": "foydali maslahatlar",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "difficulty levels": {
+      "uz": "qiyinlik darajalari",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "-moqchi",
+      "type": "modal"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "waiting area": {
+      "uz": "kutish joyi",
+      "type": "colloc"
+    },
+    "especially": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "future themes": {
+      "uz": "kelajak mavzulari",
+      "type": "colloc"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "public transport": {
+      "uz": "jamoat transporti",
+      "type": "colloc"
+    },
+    "strongly": {
+      "uz": "qattiq",
+      "type": "adv"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "traffic congestion": {
+      "uz": "transport tirbandligi",
+      "type": "colloc"
+    },
+    "air pollution": {
+      "uz": "havoning ifloslanishi",
+      "type": "colloc"
+    },
+    "free public transport": {
+      "uz": "bepul jamoat transporti",
+      "type": "colloc"
+    },
+    "positive environmental results": {
+      "uz": "ijobiy ekologik natijalar",
+      "type": "colloc"
+    },
+    "low-income families": {
+      "uz": "kam ta'minlangan oilalar",
+      "type": "colloc"
+    },
+    "transportation costs": {
+      "uz": "transport xarajatlari",
+      "type": "colloc"
+    },
+    "social equality": {
+      "uz": "ijtimoiy tenglik",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "valid concern": {
+      "uz": "asosli xavotir",
+      "type": "colloc"
+    },
+    "careful planning": {
+      "uz": "puxta rejalashtirish",
+      "type": "colloc"
+    },
+    "long-term benefits": {
+      "uz": "uzoq muddatli foydalar",
+      "type": "colloc"
+    },
+    "outweigh the expenses": {
+      "uz": "xarajatlardan ustun bo'lmoq",
+      "type": "idiom"
+    },
+    "healthcare costs": {
+      "uz": "sog'liqni saqlash xarajatlari",
+      "type": "colloc"
+    },
+    "road maintenance": {
+      "uz": "yo'llarni ta'mirlash",
+      "type": "colloc"
+    },
+    "economic activity": {
+      "uz": "iqtisodiy faoliyat",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "sustainable future": {
+      "uz": "barqaror kelajak",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "seriously": {
+      "uz": "jiddiy",
+      "type": "adv"
+    }
   }
 };

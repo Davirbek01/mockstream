@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I cook. It is good. FreshBox. Food comes. Easy. You try. Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I use FreshBox now. It is good because I can cook easy. The food comes to my house. You are busy, but FreshBox is easy. You should try it, and we can cook together. Bye!</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>Guess what? I've started using FreshBox, and it's really helpful. You know how you always say you're too busy to shop for food? Well, this solves that problem. They send you all the ingredients and recipes. I think you should give it a try. It might be a good solution for you. Let me know what you think!</p>",
-      "sampleB2": "<p>Hey [Friend's Name],<br>I wanted to tell you about something that might actually solve your cooking woes. I've been using FreshBox meal kits recently, and honestly, it's been a game-changer. Considering how swamped you always are with work, the pre-portioned ingredients and ready-to-go recipes could be perfect for you. It completely eliminates the need for grocery shopping, which I know is your biggest hurdle. Seriously, you should look into it; it might just be the answer you've been looking for.</p>"
+      "sampleB2": "<p>Hey [Friend's Name],<br>I wanted to tell you about something that might actually solve your cooking woes. I've been using FreshBox meal kits recently, and honestly, it's been a game-changer. Considering how swamped you always are with work, the pre-portioned ingredients and ready-to-go recipes could be perfect for you. It completely eliminates the need for grocery shopping, which I know is your biggest hurdle. Seriously, you should look into it; it might just be the answer you've been looking for.</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, ko'proq ovqat pishirishni xohlaysan, lekin oziq-ovqat do'konlariga borishni yomon ko'rasan. Men FreshBox ovqat to'plamlaridan foydalanib kelyapman va bu juda ajoyib bo'ldi! Barcha masalliqlar oldindan o'lchangan holda, oson retseptlar bilan birga keladi. Men hozir ancha yaxshi ovqat pishiryapman! Sen albatta buni sinab ko'rishing kerak!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Men ovqat qilaman. Bu yaxshi. FreshBox. Ovqat keladi. Oson. Sen harakat qil. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men hozir FreshBox'dan foydalanaman. Bu yaxshi, chunki men oson pishirishim mumkin. Ovqat uyimga keladi. Siz band bo'lsiz, lekin FreshBox oson. Siz buni sinab ko'rishingiz kerak, va biz birga pishirishimiz mumkin. Xayr!</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Nima deb o'ylaysan? Men FreshBox'dan foydalanishni boshladim va bu juda foydali. Bilasan, sen doim ovqatga xarid qilishga vaqting yo'qligini aytasanmi? Xo'sh, bu muammoni hal qiladi. Ular senga barcha masalliqlar va retseptlarni yuborishadi. Menimcha, sen ham urinib ko'rishing kerak. Bu senga yaxshi yechim bo'lishi mumkin. Fikringni menga bildir!</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Sizga ovqat pishirish muammolaringizni hal qilishi mumkin bo'lgan narsa haqida aytmoqchi edim. Yaqinda FreshBox ovqat to'plamlaridan foydalanib kelayapman va rostini aytsam, bu hayotimni o'zgartirdi. Siz doimo ish bilan bandligingizni hisobga olsak, oldindan o'lchangan ingredientlar va tayyor retseptlar siz uchun juda mos bo'lishi mumkin. Bu oziq-ovqat do'koniga borish zaruratini butunlay yo'q qiladi, bilaman, bu sizning eng katta to'sig'ingiz. Jiddiy aytaman, buni o'rganib ko'ring; bu siz qidirayotgan javob bo'lishi mumkin.</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi FreshBox,</p><br><p>I like food. Food good. Recipes easy. I want pizza. Bye.</p>",
       "sampleA2": "<p>Dear FreshBox,</p><br><p>Thank you for the food. I like the food, and the recipes are easy. But sometimes the box is big. I want more chicken, and my friend wants no meat because she is vegetarian. Thank you.</p><br><p>Bye,</p><br><p>[Your Name]</p>",
       "sampleB1": "<p>Dear FreshBox Team,</p><br><p>Thank you for your email. I wanted to tell you about my experience with your meal kits. I think the food is very good, and the recipes are easy to understand. The ingredients are usually fresh, but sometimes the vegetables are a little old.</p><br><p>I also think you should have more vegetarian options. My wife doesn't eat meat, so it's difficult to find meals we both like. Also, the packaging is a lot of plastic, and I am worried about the environment.</p><br><p>Overall, I am happy with FreshBox. Thank you.</p><br><p>Sincerely,</p><br><p>[Your Name]</p>",
-      "sampleB2": "<p>Dear FreshBox Team,</p><br><p>Thank you for reaching out to me regarding my experience with your meal kit delivery service. I've been using FreshBox for a few weeks now, and I wanted to provide some feedback.</p><br><p>Generally, I've been quite satisfied with the quality of the ingredients. They've consistently been fresh, and the recipe cards are straightforward and simple to follow. However, I do have a couple of suggestions for improvement.</p><br><p>Firstly, I've noticed that the portion sizes are sometimes a little inconsistent. Some meals feel quite generous, while others leave me wanting more. Secondly, I'd like to see a greater variety of international cuisines on the menu. Perhaps including some Thai or Indian options would be a welcome addition.</p><br><p>Finally, I believe it would be beneficial to offer more options for people with dietary restrictions, such as gluten-free or dairy-free meals. I look forward to seeing how FreshBox evolves in the future.</p><br><p>Sincerely,</p><br><p>[Your Name]</p>"
+      "sampleB2": "<p>Dear FreshBox Team,</p><br><p>Thank you for reaching out to me regarding my experience with your meal kit delivery service. I've been using FreshBox for a few weeks now, and I wanted to provide some feedback.</p><br><p>Generally, I've been quite satisfied with the quality of the ingredients. They've consistently been fresh, and the recipe cards are straightforward and simple to follow. However, I do have a couple of suggestions for improvement.</p><br><p>Firstly, I've noticed that the portion sizes are sometimes a little inconsistent. Some meals feel quite generous, while others leave me wanting more. Secondly, I'd like to see a greater variety of international cuisines on the menu. Perhaps including some Thai or Indian options would be a welcome addition.</p><br><p>Finally, I believe it would be beneficial to offer more options for people with dietary restrictions, such as gluten-free or dairy-free meals. I look forward to seeing how FreshBox evolves in the future.</p><br><p>Sincerely,</p><br><p>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli FreshBox jamoasi,</p>\n<p>Sizning taom to‘plamlari xizmatidan foydalanish tajribam haqida so‘raganingiz uchun rahmat.</p>\n<p>Men sifatdan juda ham hayratdaman. Yangi masalliqlar har doim a’lo holatda yetib keladi. Retsept kartochkalari aniq va tushunarli, hatto yangi boshlaganlar uchun ham. Men chin dildan pishirish mahoratimni oshirdim.</p>\n<p>Biroq, mening ba’zi takliflarim bor. Ba’zi retseptlar juda uzoq tayyorgarlik vaqtini talab qiladi, bu ish kunlari kechki ovqat uchun unchalik mos emas. Bundan tashqari, plastik qadoqlash juda ko‘pdek tuyuladi.</p>\n<p>Men 30 daqiqadan kam vaqt oladigan tez tayyor bo‘ladigan taomlar ko‘proq bo‘lishini xohlardim. Vegetarian taomlar va kam uglevodli taomlar turli xil ovqatlanish ehtiyojlarini qondirardi. Shuningdek, barqaror qadoqlashdan foydalanish atrof-muhitga ta’sirni kamaytiradi.</p>\n<p>Umuman olganda, FreshBox uyda ovqat tayyorlashni yoqimli va qulay qildi.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom FreshBox,</p><br><p>Men ovqatni yaxshi ko'raman. Ovqat yaxshi. Retseptlar oson. Men pizza xohlayman. Xayr.</p>",
+      "uzSampleA2": "<p>Hurmatli FreshBox,</p><br><p>Ovqat uchun rahmat. Menga ovqat yoqadi, va retseptlar oson. Lekin ba'zida quti katta bo'ladi. Men ko'proq tovuq go'shti xohlayman, va do'stim go'sht xohlamaydi, chunki u vegetarian.</p><br><p>Xayr,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli FreshBox jamoasi,</p><br><p>Elektron pochtangiz uchun rahmat. Men sizning ovqat to'plamlaringiz haqidagi tajribam haqida aytmoqchi edim. O'ylashimcha, ovqat juda yaxshi va retseptlar tushunarli. Masalliqlar odatda yangi, lekin ba'zida sabzavotlar biroz eski bo'ladi.</p><br><p>Shuningdek, sizda vegetarian taomlar ko'proq bo'lishi kerak deb o'ylayman. Mening rafiqam go'sht yemaydi, shuning uchun ikkalamizga ham yoqadigan taomlarni topish qiyin. Bundan tashqari, qadoqlashda plastik juda ko'p va men atrof-muhitdan xavotirdaman.</p><br><p>Umuman olganda, men FreshBox'dan mamnunman. Rahmat.</p><br><p>Hurmat bilan,</p><br><p>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli FreshBox jamoasi,</p><br><p>Ovqat to‘plamlari yetkazib berish xizmatingiz bo‘yicha tajribam haqida so‘raganingiz uchun rahmat. Men FreshBox’dan bir necha haftadan beri foydalanib kelayapman va ba’zi fikr-mulohazalarimni bildirmoqchiman.</p><br><p>Umuman olganda, men ingredientlarning sifatidan juda mamnunman. Ular doimiy ravishda yangi bo‘lib kelgan va retsept kartalari to‘g‘ri va sodda tushuntirilgan. Biroq, takomillashtirish uchun bir-ikkita taklifim bor.</p><br><p>Birinchidan, men ba’zan porsiyalarning hajmi biroz nomuvofiq ekanligini sezdim. Ba’zi taomlar juda saxiy tuyulsa, boshqalari esa meni ko‘proq yeyishni xohlab qoldiradi. Ikkinchidan, men menyuda xalqaro oshxonalarning xilma-xilligini ko‘rishni xohlar edim. Ehtimol, ba’zi Tailand yoki Hind taomlarini qo‘shish yaxshi qo‘shimcha bo‘lardi.</p><br><p>Va nihoyat, menimcha, tarkibida kleykovina yoki sut mahsulotlari bo‘lmagan taomlar kabi parhez cheklovlari bo‘lgan odamlar uchun ko‘proq variantlarni taklif qilish foydali bo‘ladi. FreshBox kelajakda qanday rivojlanishini ko‘rishni intiqlik bilan kutaman.</p><br><p>Hurmat bilan,</p><br><p>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi FreshBox!</p>\n<p>I like the food. It is good. The box is big. I cook dinner. I like chicken. Bye.</p>",
       "sampleA2": "<p>Hello FreshBox!</p>\n<p>I like the food, and it is easy to cook. The recipes are good, but sometimes they are too hard for me. The box is big, and the food is fresh. I like the chicken and the pasta. I want more pasta, because it is my favorite. Thank you!</p>",
       "sampleB1": "<p>Dear FreshBox Team,</p>\n<p>I wanted to give you some feedback about my experience with your meal kits. Overall, I'm pretty happy with the service. The recipes are usually easy to follow, and the ingredients seem fresh. However, sometimes the portions are a little too small, especially the vegetables. I think there could be more vegetables in the boxes.</p>\n<p>Also, I would like to see more vegetarian options. I don't eat meat very often, so it would be great to have more meals without meat. For example, maybe some Indian or Thai dishes. Thank you for asking for my opinion!</p>\n<p>Sincerely,<br>A Happy Customer</p>",
-      "sampleB2": "<p>Dear FreshBox Team,</p>\n<p>I am writing to provide feedback on my recent experience with your meal kit service. On the whole, I've been quite satisfied with the quality and convenience FreshBox offers. The recipes are generally well-written and easy to execute, even for someone with limited culinary experience. The freshness of the ingredients is also commendable, contributing significantly to the overall enjoyment of the meals.</p>\n<p>However, there are a couple of areas I believe could be improved. Firstly, while the portion sizes are adequate for a single person, they may prove insufficient for couples or individuals with larger appetites. Perhaps offering a larger portion option would be beneficial.</p>\n<p>Secondly, I would appreciate a greater variety of cuisines represented in your menu. While the current selection is diverse, incorporating more globally-inspired dishes, such as authentic Middle Eastern or East Asian options, would further enhance the appeal of your service. I also believe that more specific dietary options beyond vegetarian (e.g., gluten-free, dairy-free) would be welcomed by a wider audience.</p>\n<p>Thank you for considering my suggestions. I look forward to seeing how FreshBox evolves in the future.</p>\n<p>Sincerely,<br>A Valued Customer</p>"
+      "sampleB2": "<p>Dear FreshBox Team,</p>\n<p>I am writing to provide feedback on my recent experience with your meal kit service. On the whole, I've been quite satisfied with the quality and convenience FreshBox offers. The recipes are generally well-written and easy to execute, even for someone with limited culinary experience. The freshness of the ingredients is also commendable, contributing significantly to the overall enjoyment of the meals.</p>\n<p>However, there are a couple of areas I believe could be improved. Firstly, while the portion sizes are adequate for a single person, they may prove insufficient for couples or individuals with larger appetites. Perhaps offering a larger portion option would be beneficial.</p>\n<p>Secondly, I would appreciate a greater variety of cuisines represented in your menu. While the current selection is diverse, incorporating more globally-inspired dishes, such as authentic Middle Eastern or East Asian options, would further enhance the appeal of your service. I also believe that more specific dietary options beyond vegetarian (e.g., gluten-free, dairy-free) would be welcomed by a wider audience.</p>\n<p>Thank you for considering my suggestions. I look forward to seeing how FreshBox evolves in the future.</p>\n<p>Sincerely,<br>A Valued Customer</p>",
+      "uzSample": "<p>Band bo‘lgan turmush tarzi bilan ko‘pchilik restoranlar va olib ketishga tayyor ovqatlarga tayanadi. Biroq, men uyda ovqat tayyorlash sog‘lomroq ekanligiga qat’iy ishonaman.</p>\n\n<p>Birinchidan, uyda ovqat tayyorlash ingredientlar ustidan to‘liq nazoratni ta’minlaydi. Siz yangi sabzavotlarni tanlashingiz, tuz va shakarni cheklashingiz va zararli qo‘shimchalardan qochishingiz mumkin. Restoran ovqatlarida ko‘pincha yashirin yog‘lar va haddan tashqari natriy mavjud.</p>\n\n<p>Ikkinchidan, uyda porsiyalarni nazorat qilish osonroq. Restoranlar qiymatni ta’minlash uchun katta porsiyalarni taqdim etadi va bu ortiqcha ovqatlanishga undaydi. Uyda siz mos miqdorni tayyorlashingiz mumkin, bu esa sog‘lom vaznni saqlashga yordam beradi.</p>\n\n<p>Biroq, tashqarida ovqatlanishning afzalliklari bor. Bu vaqtni tejaydi, xilma-xillikni taklif qiladi va ijtimoiy tajribalarni ta’minlaydi. Bundan tashqari, ba’zi restoranlar ozuqaviy ma’lumotlarga ega sog‘lom menyularga e’tibor berishadi.</p>\n\n<p>Shunga qaramay, tadqiqotlar doimiy ravishda uyda ovqat tayyorlaydigan odamlar yaxshiroq ozuqaviy iste’molga ega ekanligini ko‘rsatadi. Ular ko‘proq meva va sabzavotlar iste’mol qilishadi va umuman kamroq kaloriya olishadi.</p>\n\n<p>Xulosa qilib aytganda, vaqti-vaqti bilan tashqarida ovqatlanish yoqimli bo‘lsa-da, yaxshiroq sog‘liq uchun muntazam ravishda uyda ovqat tayyorlashga ustunlik berish kerak. Uyda tayyorlangan oddiy ovqatlar ham odatda restoran ovqatlariga qaraganda ko‘proq to‘yimli bo‘ladi.</p>",
+      "uzSampleA1": "<p>Salom FreshBox!</p>\n<p>Menga ovqat yoqadi. U yaxshi. Quti katta. Men kechki ovqat tayyorlayman. Menga tovuq yoqadi. Xayr.</p>",
+      "uzSampleA2": "<p>Salom FreshBox!</p>\n<p>Menga ovqat yoqadi va uni pishirish oson. Retseptlar yaxshi, lekin ba'zida ular men uchun juda qiyin. Quti katta va ovqat yangi. Menga tovuq va makaron yoqadi. Men ko'proq makaron xohlayman, chunki u mening sevimli taomim. Rahmat!</p>",
+      "uzSampleB1": "<p>Hurmatli FreshBox jamoasi,</p>\n<p>Men sizning ovqat to‘plamlaringiz bilan bog‘liq tajribam haqida fikr-mulohazalarimni bildirmoqchiman. Umuman olganda, men xizmatingizdan juda mamnunman. Retseptlar odatda oson tushuniladi va ingredientlar yangi ko'rinadi. Biroq, ba'zida porsiyalar biroz kichik, ayniqsa sabzavotlar. Menimcha, qutilarda ko'proq sabzavot bo'lishi kerak.</p>\n<p>Shuningdek, men ko'proq vegetarian variantlarini ko'rishni xohlardim. Men juda kam go'sht iste'mol qilaman, shuning uchun go'shtsiz taomlarning ko'proq bo'lishi juda yaxshi bo'lardi. Masalan, ba'zi hind yoki tay taomlari. Fikrimni so'raganingiz uchun rahmat!</p>\n<p>Hurmat bilan,<br>Baxtli mijoz</p>",
+      "uzSampleB2": "<p>Hurmatli FreshBox jamoasi,</p>\n<p>Men sizning taomlar to‘plami xizmatidan yaqinda olgan tajribam haqida fikr-mulohazalarimni bildirish uchun yozyapman. Umuman olganda, men FreshBox taklif etayotgan sifat va qulaylikdan juda mamnunman. Retseptlar odatda yaxshi yozilgan va hatto kulinar tajribasi cheklangan odam uchun ham bajarish oson. Mahsulotlarning yangiligi ham maqtashga loyiq, bu taomlardan umumiy zavqlanishga sezilarli hissa qo'shadi.</p>\n<p>Biroq, menimcha, yaxshilanishi mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, porsiya hajmi bir kishi uchun yetarli bo'lsa-da, ular juftliklar yoki ishtahasi kattaroq bo'lgan odamlar uchun yetarli bo'lmasligi mumkin. Ehtimol, kattaroq porsiya variantini taklif qilish foydali bo'lar edi.</p>\n<p>Ikkinchidan, men sizning menyuingizda ko'proq xilma-xil oshxonalarning taqdim etilishini xohlardim. Hozirgi tanlov xilma-xil bo'lsa-da, haqiqiy Yaqin Sharq yoki Sharqiy Osiyo variantlari kabi global ilhomlantirilgan taomlarni kiritish sizning xizmatingizning jozibasini yanada oshiradi. Shuningdek, men vegetarianlikdan tashqari, yanada aniqroq parhez variantlari (masalan, glyutensiz, sut mahsulotisiz) kengroq auditoriya tomonidan mamnuniyat bilan qabul qilinishiga ishonaman.</p>\n<p>Takliflarimni ko'rib chiqqaningiz uchun tashakkur. FreshBox kelajakda qanday rivojlanishini ko'rishni intiqlik bilan kutaman.</p>\n<p>Hurmat bilan,<br>Qadrdon mijoz</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,179 @@ window.WRITING_TEST_DATA = {
         "uz": "yaxshiroq sog'liq"
       }
     ]
+  },
+  "tokenTranslations": {
+    "meal kits": {
+      "uz": "ovqat to'plamlari",
+      "type": "colloc"
+    },
+    "absolutely": {
+      "uz": "mutlaqo",
+      "type": "adv"
+    },
+    "pre-measured": {
+      "uz": "oldindan o'lchab qo'yilgan",
+      "type": "colloc"
+    },
+    "so": {
+      "uz": "shunday qilib",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "o'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "meal kit service": {
+      "uz": "ovqat to'plamlari xizmati",
+      "type": "colloc"
+    },
+    "thoroughly": {
+      "uz": "puxta",
+      "type": "adv"
+    },
+    "fresh ingredients": {
+      "uz": "yangi masalliqlar",
+      "type": "colloc"
+    },
+    "recipe cards": {
+      "uz": "retsept kartochkalari",
+      "type": "colloc"
+    },
+    "genuinely": {
+      "uz": "chin dildan",
+      "type": "adv"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "rather": {
+      "uz": "ko'proq",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "plastic packaging": {
+      "uz": "plastik qadoqlash",
+      "type": "colloc"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "quick meals": {
+      "uz": "tez tayyor bo'ladigan ovqatlar",
+      "type": "colloc"
+    },
+    "Vegetarian options": {
+      "uz": "Vegetarian taomlar",
+      "type": "colloc"
+    },
+    "low-carb meals": {
+      "uz": "kam uglevodli taomlar",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "sustainable packaging": {
+      "uz": "ekologik toza qadoqlash",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "takeaway food": {
+      "uz": "olib ketishga tayyor ovqat",
+      "type": "colloc"
+    },
+    "firmly": {
+      "uz": "qat'iy",
+      "type": "adv"
+    },
+    "home cooking": {
+      "uz": "uy taomlari",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "control over ingredients": {
+      "uz": "masalliqlar ustidan nazorat",
+      "type": "colloc"
+    },
+    "unhealthy additives": {
+      "uz": "zararli qo'shimchalar",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "portion control": {
+      "uz": "porsiya nazorati",
+      "type": "colloc"
+    },
+    "overeating": {
+      "uz": "me'yoridan ortiq yeyish",
+      "type": "colloc"
+    },
+    "healthy weight": {
+      "uz": "sog'lom vazn",
+      "type": "colloc"
+    },
+    "social experiences": {
+      "uz": "ijtimoiy tajribalar",
+      "type": "colloc"
+    },
+    "healthy menus": {
+      "uz": "sog'lom menyular",
+      "type": "colloc"
+    },
+    "Nevertheless": {
+      "uz": "Shunga qaramay",
+      "type": "adv"
+    },
+    "consistently": {
+      "uz": "doimiy ravishda",
+      "type": "adv"
+    },
+    "nutritional intake": {
+      "uz": "oziqlanish miqdori",
+      "type": "colloc"
+    },
+    "fruits and vegetables": {
+      "uz": "meva va sabzavotlar",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "occasional dining out": {
+      "uz": "vaqti-vaqti bilan tashqarida ovqatlanish",
+      "type": "colloc"
+    },
+    "regular home cooking": {
+      "uz": "doimiy uy taomlari",
+      "type": "colloc"
+    },
+    "typically": {
+      "uz": "odatda",
+      "type": "adv"
+    }
   }
 };

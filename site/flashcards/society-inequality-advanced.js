@@ -1,0 +1,47 @@
+// Flashcard Data: Society & Inequality — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "⚖️ Society & Inequality: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Society & Inequality",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "deep-seated prejudice", en: "", uz: "chuqur ildiz otgan kamsitish", uzDef: "Qattiq va uzoq vaqtdan beri mavjud bo'lgan, odamlarning ongiga chuqur singgan kamsitish.", ex: "The report revealed deep-seated prejudice within the police force.", exUz: "Hisobotda politsiya kuchlari ichida chuqur ildiz otgan kamsitish borligi aniqlandi."},
+    {term: "entrenched inequality", en: "", uz: "mustahkam tengsizlik", uzDef: "Uzoq vaqt davomida mavjud bo'lib, o'zgarishi qiyin bo'lgan tengsizlik.", ex: "Tackling entrenched inequality requires long-term systemic changes.", exUz: "Mustahkam tengsizlikka qarshi kurashish uzoq muddatli tizimli o'zgarishlarni talab qiladi."},
+    {term: "a two-tiered system", en: "", uz: "ikki qavatli tizim", uzDef: "Jamiyatda ikki xil darajadagi imkoniyatlar yoki imtiyozlar mavjudligi.", ex: "The education system is becoming a two-tiered system, with the rich getting better opportunities.", exUz: "Ta'lim tizimi ikki qavatli tizimga aylanib bormoqda, boylar yaxshiroq imkoniyatlarga ega."},
+    {term: "disparities in wealth", en: "", uz: "boylikdagi farqlar", uzDef: "Boylikning turli guruhlar o'rtasida notekis taqsimlanishi.", ex: "Disparities in wealth are growing, leading to social unrest.", exUz: "Boylikdagi farqlar ortib bormoqda, bu ijtimoiy norozilikka olib keladi."},
+    {term: "social mobility stalls", en: "", uz: "ijtimoiy harakat to'xtaydi", uzDef: "Odamlarning ijtimoiy mavqeini yaxshilash imkoniyati kamayadi.", ex: "When social mobility stalls, frustration and resentment build up.", exUz: "Ijtimoiy harakat to'xtaganda, umidsizlik va xafagarchilik kuchayadi."},
+    {term: "fall by the wayside", en: "", uz: "e'tibordan chetda qolmoq", uzDef: "Muammolar tufayli o'z maqsadiga erisha olmaslik.", ex: "Many promising students from poor backgrounds fall by the wayside due to lack of support.", exUz: "Qo'llab-quvvatlashning etishmasligi sababli kambag'al oilalardan chiqqan ko'plab istiqbolli talabalar e'tibordan chetda qoladi."},
+    {term: "hold sway", en: "", uz: "hukmronlik qilmoq", uzDef: "Katta ta'sirga ega bo'lmoq, hukmronlik qilmoq.", ex: "Old prejudices still hold sway in some sectors of society.", exUz: "Eski kamsitishlar jamiyatning ba'zi sohalarida hanuzgacha hukmronlik qilmoqda."},
+    {term: "turn the tide", en: "", uz: "vaziyatni o'zgartirmoq", uzDef: "Yomon vaziyatni yaxshilash uchun harakat qilmoq.", ex: "We need to turn the tide against growing inequality.", exUz: "Biz ortib borayotgan tengsizlikka qarshi vaziyatni o'zgartirishimiz kerak."},
+    {term: "under the thumb", en: "", uz: "bo'ysundirilgan", uzDef: "Boshqa birining nazorati ostida, bo'ysunuv holatida.", ex: "Many workers in the factory felt they were under the thumb of the management.", exUz: "Fabrikadagi ko'plab ishchilar o'zlarini boshqaruvning nazorati ostida his qilishdi."},
+    {term: "social fabric", en: "", uz: "ijtimoiy to'qima", uzDef: "Jamiyatning tuzilishi va odamlar o'rtasidagi munosabatlar.", ex: "Rising crime rates are tearing at the social fabric of the city.", exUz: "Jinoyatning ortishi shaharning ijtimoiy to'qimasini yirtmoqda."},
+    {term: "a widening chasm", en: "", uz: "kengayib borayotgan jarlik", uzDef: "Turli guruhlar o'rtasidagi katta farq yoki ajralish.", ex: "There's a widening chasm between the rich and the poor in this country.", exUz: "Bu mamlakatda boylar va kambag'allar o'rtasida kengayib borayotgan jarlik bor."},
+    {term: "redress the balance", en: "", uz: "muvozanatni tiklamoq", uzDef: "Adolatsizlikni tuzatish yoki tengsizlikni bartaraf etish.", ex: "The government is trying to redress the balance by investing in poorer areas.", exUz: "Hukumat kambag'al hududlarga sarmoya kiritish orqali muvozanatni tiklashga harakat qilmoqda."},
+    {term: "on equal footing", en: "", uz: "teng sharoitlarda", uzDef: "Teng huquq va imkoniyatlarga ega bo'lish.", ex: "We need to ensure that everyone starts on equal footing.", exUz: "Hamma teng sharoitlarda boshlashini ta'minlashimiz kerak."},
+    {term: "bear the brunt", en: "", uz: "asosiy zarbani qabul qilmoq", uzDef: "Qiyin vaziyatning eng yomon oqibatlariga duchor bo'lmoq.", ex: "The poorest communities often bear the brunt of environmental disasters.", exUz: "Eng kambag'al jamoalar ko'pincha ekologik falokatlarning eng yomon oqibatlariga duchor bo'ladi."},
+    {term: "prop up", en: "", uz: "qo'llab-quvvatlamoq", uzDef: "Yiqilishdan saqlash, qo'llab-quvvatlash.", ex: "The government uses subsidies to prop up the agricultural sector.", exUz: "Hukumat qishloq xo'jaligi sektorini qo'llab-quvvatlash uchun subsidiyalardan foydalanadi."},
+    {term: "exacerbate inequality", en: "", uz: "tengsizlikni kuchaytirish", uzDef: "Tengsizlikni yanada yomonlashtirish.", ex: "The pandemic has exacerbated inequality across the globe.", exUz: "Pandemiya butun dunyo bo'ylab tengsizlikni kuchaytirdi."},
+    {term: "a postcode lottery", en: "", uz: "manzil lotereyasi", uzDef: "Yashash joyingizga qarab imkoniyatlarning farqi.", ex: "Access to good healthcare can be a postcode lottery in some countries.", exUz: "Ba'zi mamlakatlarda yaxshi sog'liqni saqlash xizmatlariga kirish manzil lotereyasi bo'lishi mumkin."},
+    {term: "social cohesion", en: "", uz: "ijtimoiy birdamlik", uzDef: "Jamiyatdagi odamlar o'rtasidagi birlik va hamjihatlik.", ex: "Immigration can threaten social cohesion if not managed properly.", exUz: "Immigratsiya to'g'ri boshqarilmasa, ijtimoiy birdamlikka tahdid solishi mumkin."},
+    {term: "get ahead in life", en: "", uz: "hayotda oldinga siljish", uzDef: "Muaffaqiyatga erishish, martaba o'stirish.", ex: "It's becoming increasingly difficult for young people to get ahead in life.", exUz: "Yoshlarning hayotda oldinga siljishi tobora qiyinlashib bormoqda."},
+    {term: "benefit of the doubt", en: "", uz: "shubhani bartaraf etish", uzDef: "Kimdir aybsiz deb hisoblash, ishonch bildirish.", ex: "We should give everyone the benefit of the doubt until proven otherwise.", exUz: "Aksini isbotlanmaguncha, hammaga shubhani bartaraf etishimiz kerak."},
+    {term: "root causes", en: "", uz: "asosiy sabablar", uzDef: "Muammoning eng chuqur, asosiy sabablari.", ex: "We need to address the root causes of poverty, not just treat the symptoms.", exUz: "Biz kambag'allikning faqat alomatlarini davolash bilan cheklanib qolmasdan, asosiy sabablarini hal qilishimiz kerak."},
+    {term: "a glass ceiling", en: "", uz: "shisha shift", uzDef: "Ayollarning yuqori lavozimlarga ko'tarilishiga to'sqinlik qiluvchi yashirin to'siq.", ex: "Many women still face a glass ceiling in their careers.", exUz: "Ko'p ayollar o'z faoliyatida hali ham shisha shiftga duch kelishadi."},
+    {term: "social ladder", en: "", uz: "ijtimoiy zinapoya", uzDef: "Jamiyatdagi odamlarning ijtimoiy mavqei va boyligiga qarab joylashuvi.", ex: "People from poorer backgrounds often find it hard to climb the social ladder.", exUz: "Kambag'al oilalardan chiqqan odamlar ijtimoiy zinapoyadan ko'tarilishni qiyin deb bilishadi."},
+    {term: "raise awareness", en: "", uz: "xabardorlikni oshirish", uzDef: "Odamlarga muammo haqida ko'proq ma'lumot berish.", ex: "We need to raise awareness about the issue of homelessness.", exUz: "Biz uysizlik muammosi haqida xabardorlikni oshirishimiz kerak."},
+    {term: "break down barriers", en: "", uz: "to'siqlarni olib tashlash", uzDef: "Odamlar o'rtasidagi adolatsizlikni keltirib chiqaradigan to'siqlarni yo'q qilish.", ex: "Education can help break down barriers between different social classes.", exUz: "Ta'lim turli ijtimoiy tabaqalar o'rtasidagi to'siqlarni yo'q qilishga yordam beradi."},
+    {term: "narrow the gap", en: "", uz: "farqni qisqartirish", uzDef: "Ikki guruh o'rtasidagi farqni kamaytirish (masalan, boy va kambag'al).", ex: "Tax reforms are needed to narrow the gap between the rich and the poor.", exUz: "Boylar va kambag'allar o'rtasidagi farqni qisqartirish uchun soliq islohotlari zarur."},
+    {term: "entrenched privilege", en: "", uz: "mustahkam imtiyoz", uzDef: "Ba'zi odamlarning jamiyatda uzoq vaqtdan beri ega bo'lgan adolatsiz ustunligi.", ex: "It's hard to challenge entrenched privilege in some societies.", exUz: "Ba'zi jamiyatlarda mustahkam imtiyozga qarshi kurashish qiyin."},
+    {term: "a downward spiral", en: "", uz: "pastga qarab harakat", uzDef: "Vaziyatning tobora yomonlashuvi.", ex: "Losing his job sent him into a downward spiral of depression and debt.", exUz: "Ishidan ayrilishi uni depressiya va qarzning pastga qarab harakatiga tushirdi."},
+    {term: "uneven playing field", en: "", uz: "tengsiz sharoit", uzDef: "Hamma uchun bir xil imkoniyatlar yo'qligi, adolatsizlik.", ex: "The system is rigged; it's an uneven playing field for minorities.", exUz: "Tizim sozlangan; bu ozchiliklar uchun tengsiz sharoit."},
+    {term: "live hand to mouth", en: "", uz: "og'zidan yirtib yashamoq", uzDef: "Katta qiyinchilik bilan, faqat zarur narsalarga yetadigan darajada yashash.", ex: "Many families are living hand to mouth due to the economic crisis.", exUz: "Ko'pgina oilalar iqtisodiy inqiroz tufayli og'zidan yirtib yashamoqda."}
+  ]
+};

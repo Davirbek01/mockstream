@@ -160,4 +160,437 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Kitob inson tarixiga keng qamrovli nuqtai nazardan qaraydi."
         }
     }
+,
+    passageB1: `<p>Laura Spinney has written a new book called <strong>Proto</strong>. The name makes you wonder what it means. Is it like a <strong>prototype</strong>, which is the first version of something new? Or maybe like <strong>protoplasm</strong>, the material that makes up our cells? Or even a <strong>protoplanet</strong>, a small rock in space that might become a planet?</p><p>Actually, "Proto" refers to Proto-Indo-European. This is a very old language. Many languages we speak today, like English, come from it. Spinney says that almost half the people in the world speak a language that comes from Proto-Indo-European. In her book, <strong>Proto: How one ancient language went global</strong>, she wants to explain how this happened.</p><p>The story she tells is about thousands of years, many different <strong>civilizations</strong>, and a very large area of land. It's a big and impressive story.</p><p>It begins near the Black Sea, about 6000 to 7000 years ago. In that area, people started to meet and mix together. They also started to copy words from each other to help them do things like <strong>trade</strong>.</p><p>The area includes countries like Ukraine and Bulgaria today. It was a place with many <strong>resources</strong>, so it became important for new ideas and inventions, like the Copper Age. From this area, the <strong>steppe</strong> people, who are thought to have spoken Proto-Indo-European, began to move to other places. These people are called the Yamna in Ukrainian and Yamnaya in Russian.</p><p>The Yamna people are gone now, and so is their language. They lived before people started writing things down. So, the first part of Spinney's book uses <strong>imagination</strong> based on what we know. She uses the <strong>evidence</strong> we have to make the Yamna people seem real again. They are not just bones, but people who were tall, drank milk, and even smoked cannabis. They probably had a word for "wheel" (k'ék'los) and another word for "honey" (mélit).</p><p>The book is not just about history. There is also a lot of <strong>science</strong> in it. Spinney explains that studying Proto-Indo-European is a job that needs many different skills. It uses <strong>linguistics</strong>, which helps researchers look back at different languages to find the oldest parts. This helps them to <strong>reconstruct</strong> Proto-Indo-European. The words for “wheel” and “honey” are examples of words that have been reconstructed.</p><p>It also uses <strong>archaeology</strong>, which helps us see where the Yamna people went. And it uses <strong>genetics</strong>, which helps us follow them through other groups of people. One study says that these people moved from the steppe about 5000 years ago. In Europe, they changed the <strong>gene pool</strong> of the people there by a large amount.</p><p><strong>Migration</strong>, or people moving from one place to another, is a big part of Spinney's story. After she explains about Proto-Indo-European and the Yamna, the book tells about different movements of people. These movements were sometimes big and sometimes small, sometimes <strong>violent</strong> and sometimes peaceful. This is how the language spread and changed.</p><p>There are 12 main parts, or <strong>branches</strong>, of Proto-Indo-European. These include Greek, Germanic, Italic, and Indic. Each of these parts then divides into smaller parts. Some of these smaller parts have disappeared. For example, the Tocharian language, which was found along the Silk Road in China, might have been from a single trip by the Yamna people long ago.</p><p>In these parts of the book, it can be a little hard to follow. You need to pay attention to the difference between groups of people or groups of <strong>chromosomes</strong>. Spinney explains every detail of every idea. Sometimes, just when you understand something, she gives you another idea to think about.</p><p>But this is because the past and old languages are complicated. Any book that says it knows everything about prehistory is probably wrong. Proto doesn't do that. It is <strong>clever</strong>, careful, big, and <strong>insightful</strong>.</p>`,
+    translationB1: `<p>Laura Spinney <strong>Proto</strong> deb nomlangan yangi kitob yozdi. Bu nom sizni uning ma'nosi haqida o'ylantiradi. U yangi narsaning birinchi versiyasi bo'lgan <strong>prototip</strong>ga o'xshashmi? Yoki hujayralarimizni tashkil etuvchi material bo'lgan <strong>protoplazma</strong>ga o'xshashmi? Yoki hatto sayyoraga aylanishi mumkin bo'lgan kosmosdagi kichik tosh bo'lgan <strong>protoplaneta</strong>ga o'xshashmi?</p><p>Aslida, "Proto" Proto-Hind-Yevropa tiliga ishora qiladi. Bu juda qadimgi til. Biz bugun gaplashadigan ko'plab tillar, masalan, ingliz tili, undan kelib chiqqan. Spinneyning aytishicha, dunyo aholisining deyarli yarmi Proto-Hind-Yevropa tilidan kelib chiqqan tilda gaplashadi. U o'zining <strong>Proto: Qanday qilib bir qadimiy til global bo'ldi</strong> kitobida buning qanday sodir bo'lganini tushuntirmoqchi.</p><p>U aytib bergan hikoya ming yillar, turli xil <strong>sivilizatsiyalar</strong> va juda katta yer maydoni haqida. Bu katta va ta'sirchan hikoya.</p><p>U taxminan 6000-7000 yil oldin Qora dengiz yaqinida boshlanadi. O'sha hududda odamlar uchrashib, aralasha boshladilar. Ular, shuningdek, <strong>savdo</strong> kabi ishlarni bajarishga yordam berish uchun bir-birlaridan so'zlarni nusxalashni boshladilar.</p><p>Hududga bugungi Ukraina va Bolgariya kabi mamlakatlar kiradi. U ko'plab <strong>resurslar</strong>ga ega bo'lgan joy edi, shuning uchun u mis davri kabi yangi g'oyalar va ixtirolar uchun muhim bo'lib qoldi. Ushbu hududdan Proto-Hind-Yevropa tilida gaplashgan deb hisoblangan <strong>dasht</strong> xalqlari boshqa joylarga ko'chib o'ta boshladilar. Bu odamlar ukrain tilida Yamna, rus tilida esa Yamnaya deb ataladi.</p><p>Yamna xalqi endi yo'q, ularning tili ham yo'q. Ular odamlar yozishni boshlashidan oldin yashagan. Shunday qilib, Spinney kitobining birinchi qismi biz bilgan narsalarga asoslangan <strong>tasavvur</strong>dan foydalanadi. U Yamna xalqini yana haqiqiy ko'rsatish uchun bizda mavjud bo'lgan <strong>dalillar</strong>dan foydalanadi. Ular shunchaki suyaklar emas, balki bo'yi baland, sut ichgan va hatto kannabis chekkan odamlar edi. Ularda ehtimol "g'ildirak" (k'ék'los) va "asal" (mélit) uchun so'z bo'lgan.</p><p>Kitob faqat tarix haqida emas. Unda ko'plab <strong>fan</strong> ham bor. Spinneyning ta'kidlashicha, Proto-Hind-Yevropa tilini o'rganish ko'plab turli xil ko'nikmalarni talab qiladigan ishdir. U eng qadimgi qismlarni topish uchun tadqiqotchilarga turli tillarga nazar tashlashga yordam beradigan <strong>lingvistika</strong>dan foydalanadi. Bu ularga Proto-Hind-Yevropani <strong>tiklash</strong>ga yordam beradi. "G'ildirak" va "asal" so'zlari tiklangan so'zlarga misoldir.</p><p>U, shuningdek, Yamna xalqi qayerga ketganini ko'rishga yordam beradigan <strong>arxeologiya</strong>dan foydalanadi. Va u ularni boshqa odamlar guruhlari orqali kuzatishga yordam beradigan <strong>genetika</strong>dan foydalanadi. Bir tadqiqotga ko'ra, bu odamlar taxminan 5000 yil oldin dashtdan ko'chib o'tgan. Yevropada ular u yerdagi odamlarning <strong>gen fondi</strong>ni katta miqdorda o'zgartirdilar.</p><p><strong>Migratsiya</strong>, yoki odamlarning bir joydan boshqa joyga ko'chishi, Spinney hikoyasining katta qismidir. U Proto-Hind-Yevropa va Yamna haqida tushuntirgandan so'ng, kitob odamlarning turli xil harakatlari haqida hikoya qiladi. Bu harakatlar ba'zan katta, ba'zan kichik, ba'zan <strong>zo'ravonlik</strong> bilan, ba'zan tinch bo'lgan. Til shu tarzda tarqaldi va o'zgardi.</p><p>Proto-Hind-Yevropaning 12 ta asosiy qismi yoki <strong>tarmoqlari</strong> mavjud. Bularga grek, german, italyan va hind tillari kiradi. Ushbu qismlarning har biri keyin kichikroq qismlarga bo'linadi. Ushbu kichik qismlarning ba'zilari yo'q bo'lib ketgan. Misol uchun, Xitoydagi Ipak yo'li bo'ylab topilgan Toxar tili, Yamna xalqining uzoq vaqtdagi bir martalik sayohati natijasi bo'lishi mumkin.</p><p>Kitobning ushbu qismlarida kuzatib borish biroz qiyin bo'lishi mumkin. Odamlar guruhlari yoki <strong>xromosomalar</strong> guruhlari o'rtasidagi farqga e'tibor berishingiz kerak. Spinney har bir g'oyaning har bir detalini tushuntiradi. Ba'zan, nimanidir tushunganingizda, u sizga o'ylash uchun yana bir g'oya beradi.</p><p>Ammo buning sababi shundaki, o'tmish va qadimgi tillar murakkab. Tarixdan oldingi davr haqida hamma narsani bilaman degan har qanday kitob, ehtimol, noto'g'ri bo'ladi. Proto bunday qilmaydi. U <strong>aqlli</strong>, ehtiyotkor, katta va <strong>teran</strong>.</p>`,
+    vocabularyB1: {
+        "Proto": {
+                "definition": "A prefix meaning 'original' or 'first'",
+                "uzbek": "'Asl' yoki 'birinchi' degan ma'noni anglatuvchi prefiks",
+                "example": "The word 'prototype' begins with 'proto'.",
+                "exampleUzbek": "'Prototip' so'zi 'proto' bilan boshlanadi."
+        },
+        "prototype": {
+                "definition": "The first design of something from which other forms are developed.",
+                "uzbek": "Boshqa shakllar ishlab chiqiladigan narsaning birinchi dizayni.",
+                "example": "They tested the prototype of the new car.",
+                "exampleUzbek": "Ular yangi avtomobilning prototipini sinovdan o'tkazdilar."
+        },
+        "protoplasm": {
+                "definition": "The material that makes up the living parts of a cell.",
+                "uzbek": "Hujayraning tirik qismlarini tashkil etuvchi material.",
+                "example": "Protoplasm is essential for cell function.",
+                "exampleUzbek": "Protoplazma hujayra funktsiyasi uchun zarur."
+        },
+        "Proto: How one ancient language went global": {
+                "definition": "The full title of the book being reviewed, indicating its subject matter.",
+                "uzbek": "Ko'rib chiqilayotgan kitobning to'liq nomi, uning mavzusini ko'rsatadi.",
+                "example": "The book, titled \"Proto: How one ancient language went global\", explores the history of Proto-Indo-European.",
+                "exampleUzbek": "\"Proto: Qanday qilib bitta qadimgi til global miqyosga chiqdi\" nomli kitob Proto-Hind-Yevropa tarixini o'rganadi."
+        },
+        "civilizations": {
+                "definition": "Human societies with their own cultures and ways of life.",
+                "uzbek": "O'z madaniyati va turmush tarzi bilan insoniyat jamiyatlari.",
+                "example": "Ancient civilizations often built impressive monuments.",
+                "exampleUzbek": "Qadimgi tsivilizatsiyalar ko'pincha ta'sirchan yodgorliklar qurishgan."
+        },
+        "trade": {
+                "definition": "The activity of buying and selling goods or services.",
+                "uzbek": "Tovarlar yoki xizmatlarni sotib olish va sotish faoliyati.",
+                "example": "The Silk Road was important for trade between East and West.",
+                "exampleUzbek": "Ipak yo'li Sharq va G'arb o'rtasidagi savdo uchun muhim edi."
+        },
+        "resources": {
+                "definition": "Things that a country or area has that can be used to increase its wealth.",
+                "uzbek": "Mamlakat yoki hududning boyligini oshirish uchun ishlatilishi mumkin bo'lgan narsalar.",
+                "example": "The country has rich natural resources.",
+                "exampleUzbek": "Mamlakat boy tabiiy resurslarga ega."
+        },
+        "steppe": {
+                "definition": "A large area of flat land with grass and few trees.",
+                "uzbek": "O'tloqli va daraxtlari kam bo'lgan tekis yerning katta maydoni.",
+                "example": "The steppe is a vast and open landscape.",
+                "exampleUzbek": "Dasht keng va ochiq landshaftdir."
+        },
+        "imagination": {
+                "definition": "The ability to form new ideas or pictures in your mind.",
+                "uzbek": "O'z ongida yangi g'oyalar yoki rasmlarni shakllantirish qobiliyati.",
+                "example": "Children often have vivid imaginations.",
+                "exampleUzbek": "Bolalarda ko'pincha yorqin xayollar bo'ladi."
+        },
+        "evidence": {
+                "definition": "Facts or signs that show something is true.",
+                "uzbek": "Biror narsaning to'g'riligini ko'rsatadigan faktlar yoki belgilar.",
+                "example": "The police found evidence at the crime scene.",
+                "exampleUzbek": "Politsiya jinoyat joyida dalillar topdi."
+        },
+        "science": {
+                "definition": "The study of the world based on observation and experiments.",
+                "uzbek": "Kuzatish va tajribalarga asoslangan holda dunyoni o'rganish.",
+                "example": "Science is constantly advancing.",
+                "exampleUzbek": "Fan doimiy ravishda rivojlanmoqda."
+        },
+        "linguistics": {
+                "definition": "The scientific study of language.",
+                "uzbek": "Tilning ilmiy o'rganilishi.",
+                "example": "Linguistics helps us understand how languages change.",
+                "exampleUzbek": "Tilshunoslik bizga tillarning qanday o'zgarishini tushunishga yordam beradi."
+        },
+        "reconstruct": {
+                "definition": "To build or create something again after it has been damaged or destroyed.",
+                "uzbek": "Biror narsa shikastlangan yoki yo'q qilinganidan keyin uni qayta qurish yoki yaratish.",
+                "example": "Archaeologists tried to reconstruct the ancient building.",
+                "exampleUzbek": "Arxeologlar qadimgi binoni qayta tiklashga harakat qilishdi."
+        },
+        "archaeology": {
+                "definition": "The study of ancient cultures by examining the remains of buildings and objects found in the ground.",
+                "uzbek": "Yerda topilgan binolar va narsalarning qoldiqlarini o'rganish orqali qadimgi madaniyatlarni o'rganish.",
+                "example": "Archaeology provides insights into past civilizations.",
+                "exampleUzbek": "Arxeologiya o'tmish tsivilizatsiyalari haqida tushuncha beradi."
+        },
+        "genetics": {
+                "definition": "The study of genes and heredity.",
+                "uzbek": "Genlar va irsiyatni o'rganish.",
+                "example": "Genetics plays a role in many diseases.",
+                "exampleUzbek": "Genetika ko'plab kasalliklarda rol o'ynaydi."
+        },
+        "gene pool": {
+                "definition": "The total collection of genes in a population.",
+                "uzbek": "Populyatsiyadagi genlarning umumiy to'plami.",
+                "example": "Migration can affect the gene pool of a region.",
+                "exampleUzbek": "Migratsiya mintaqaning gen fondiga ta'sir qilishi mumkin."
+        },
+        "migration": {
+                "definition": "The movement of people from one place to another.",
+                "uzbek": "Odamlarning bir joydan boshqa joyga ko'chishi.",
+                "example": "Migration has shaped many cultures.",
+                "exampleUzbek": "Migratsiya ko'plab madaniyatlarni shakllantirgan."
+        },
+        "violent": {
+                "definition": "Using force to hurt or kill someone.",
+                "uzbek": "Kimnidir xafa qilish yoki o'ldirish uchun kuch ishlatish.",
+                "example": "The protest turned violent.",
+                "exampleUzbek": "Norozilik zo'ravonlikka aylandi."
+        },
+        "branches": {
+                "definition": "Divisions or parts of a larger system or family.",
+                "uzbek": "Katta tizim yoki oilaning bo'linmalari yoki qismlari.",
+                "example": "The company has branches in several countries.",
+                "exampleUzbek": "Kompaniyaning bir nechta mamlakatlarda filiallari bor."
+        },
+        "chromosomes": {
+                "definition": "Structures in cells that contain genes.",
+                "uzbek": "Hujayralarda genlarni o'z ichiga olgan tuzilmalar.",
+                "example": "Chromosomes carry genetic information.",
+                "exampleUzbek": "Xromosomalar genetik ma'lumotni olib yuradi."
+        },
+        "clever": {
+                "definition": "Intelligent and able to learn things quickly.",
+                "uzbek": "Aqlli va narsalarni tez o'rgana oladigan.",
+                "example": "She is a clever student.",
+                "exampleUzbek": "U aqlli talaba."
+        },
+        "insightful": {
+                "definition": "Showing a clear and deep understanding of a situation.",
+                "uzbek": "Vaziyatni aniq va chuqur tushunishni ko'rsatish.",
+                "example": "The book offers insightful analysis.",
+                "exampleUzbek": "Kitob chuqur tahlilni taklif qiladi."
+        }
+},
+    passageB2: `<p>Laura Spinney's new book, <i>Proto</i>, has a title that makes you wonder: proto-what? Is it about a <strong>prototype</strong>, like the first version of a new gadget? Or maybe protoplasm, the basic substance of living cells? Or even a protoplanet, a small planet that's still forming? </p>
+
+<p>Actually, the answer is bigger than all of those: Proto-Indo-European. This is the <strong>original language</strong> from which many languages, both old and new, including English, come. As Spinney writes, “Almost half the world speaks an Indo-European language.” In <i>Proto: How one ancient language went global</i>, she aims to explain how this happened.</p>
+
+<p>The story she tells, using both reporting and descriptive writing, covers thousands of years, many cultures, and vast distances. It's a truly <strong>impressive achievement</strong>.</p>
+
+<p>It starts around the Black Sea, about 6000 to 7000 years ago. In this area, ancient people began to meet, mix, and <strong>borrow words</strong> from each other, often for trading purposes.</p>
+
+<p>This region, which includes countries like Ukraine and Bulgaria today, was rich in resources. It became a center for the Copper Age and other advancements. From here, the steppe people, believed to be the source of Proto-Indo-European – known as the Yamna – began to <strong>spread out</strong>.</p>
+
+<p>The Yamna people and their language are long gone. They lived before written records existed. This makes the early parts of <i>Proto</i> a good example of <strong>informed speculation</strong>. Spinney uses the available evidence to bring the Yamna to life. They aren't just skeletons; they are real people, about 1.8 meters tall, who drank milk and smoked cannabis. It's believed they had a word for “wheel” (k'ék'los) and another for “honey” (mélit).</p>
+
+<p>If this makes <i>Proto</i> sound like just a history book, don't worry: there's a lot of science involved. Spinney, who has written articles for <i>New Scientist</i>, explains that studying Proto-Indo-European and how it spread requires many different fields of study. There's linguistics, which allows researchers to <strong>trace languages back</strong> to their roots and try to reconstruct Proto-Indo-European itself. Those words for wheel and honey are reconstructions.</p>
+
+<p>Then there's archaeology, which helps us see the Yamna's movements through time and space. And there's genetics, which allows us to <strong>track their influence</strong> on other populations. According to one study Spinney mentions, “migrants had radiated east and west from the steppe around five thousand years ago, and in Europe their ancestry had replaced up to ninety per cent or more of the gene pool”.</p>
+
+<p>Migration is a key part of Spinney's story. After explaining Proto-Indo-European and the Yamna, the book becomes a series of accounts of migrations, both large and small, violent and peaceful, through which the original language <strong>evolved and separated</strong>.</p>
+
+<p>There are 12 main branches of Proto-Indo-European – from Greek to Germanic, Italic to Indic – each of which has its own branches. Some of these have disappeared. As Spinney describes in one of the most <strong>memorable sections</strong> of <i>Proto</i>, the Tocharian language, found along the Silk Road in China, may have been the result of a single, ambitious journey by the Yamna centuries earlier.</p>
+
+<p>In these sections, <i>Proto</i> can become a bit <strong>difficult to follow</strong>. You need to pay close attention to distinguish between Hittites and Hattians, or between different chromosomal groups. Spinney presents every side of every argument in detail. Sometimes, just as you're starting to understand one complex idea, another one is <strong>thrown at you</strong>.</p>
+
+<p>However, this is necessary when dealing with the distant past and its lost languages. Any book that offers certainty about prehistory should be viewed with suspicion. <i>Proto</i> doesn't do that. It is intelligent, careful, <strong>thorough</strong>, insightful, and many other positive adjectives.</p>`,
+    translationB2: `<p>Laura Spinneyning yangi kitobi, <i>Proto</i>, sarlavhasi sizni o'ylantirib qo'yadi: proto-nima? Bu <strong>prototip</strong> haqidami, masalan, yangi gadjetning birinchi versiyasi? Yoki balki protoplazma, tirik hujayralarning asosiy moddasi? Yoki hatto protoplaneta, hali shakllanayotgan kichik planeta?</p>
+
+<p>Aslida, javob bularning hammasidan kattaroq: Proto-Hind-Yevropa. Bu ko'plab tillarning, ham eski, ham yangi, shu jumladan ingliz tilining <strong>asosiy tili</strong>. Spinney yozganidek, "Dunyoda deyarli yarmi Hind-Yevropa tilida gaplashadi." <i>Proto: Qanday qilib bir qadimiy til globalga aylandi</i> kitobida u buni qanday sodir bo'lganini tushuntirishga harakat qiladi.</p>
+
+<p>U hikoya qilgan voqea, ham reportaj, ham tavsifiy yozuvdan foydalangan holda, ming yillar, ko'plab madaniyatlar va ulkan masofalarni qamrab oladi. Bu haqiqatan ham <strong>ta'sirchan yutuq</strong>.</p>
+
+<p>U taxminan 6000 dan 7000 yil oldin Qora dengiz atrofida boshlanadi. Ushbu hududda qadimiy odamlar uchrasha boshladilar, aralashdilar va bir-birlaridan <strong>so'zlar o'zlashtirdilar</strong>, ko'pincha savdo maqsadlarida.</p>
+
+<p>Bugungi kunda Ukraina va Bolgariya kabi davlatlarni o'z ichiga olgan bu mintaqa resurslarga boy edi. U mis davri va boshqa yutuqlar markaziga aylandi. Bu yerdan Proto-Hind-Yevropa manbai deb hisoblangan dasht xalqi – Yamna nomi bilan mashhur – <strong>tarqala boshladi</strong>.</p>
+
+<p>Yamna xalqi va ularning tili uzoq o'tmishda qolgan. Ular yozma yozuvlar mavjud bo'lishidan oldin yashagan. Bu <i>Proto</i> ning dastlabki qismlarini <strong>asosli taxmin</strong>ning yaxshi namunasi qiladi. Spinney Yamnani hayotga qaytarish uchun mavjud dalillardan foydalanadi. Ular shunchaki skeletlar emas; ular bo'yi taxminan 1,8 metr bo'lgan, sut ichgan va kannabis chekkan haqiqiy odamlar. Ularda "g'ildirak" (k'ék'los) va "asal" (mélit) uchun so'z bo'lgan deb ishoniladi.</p>
+
+<p>Agar bu <i>Proto</i> ni shunchaki tarix kitobiga o'xshatsa, xavotir olmang: unda ko'plab fanlar mavjud. <i>New Scientist</i> uchun maqolalar yozgan Spinney, Proto-Hind-Yevropani o'rganish va uning tarqalishi ko'plab turli sohalarni talab qilishini tushuntiradi. U yerda tilshunoslik bor, bu tadqiqotchilarga tillarni o'z ildizlariga <strong>qaytishga</strong> va Proto-Hind-Yevropaning o'zini rekonstruksiya qilishga urinishga imkon beradi. G'ildirak va asal uchun bu so'zlar rekonstruksiyalardir.</p>
+
+<p>Keyin arxeologiya bor, bu bizga Yamnaning vaqt va makondagi harakatlarini ko'rishga yordam beradi. Va genetika bor, bu bizga ularning boshqa populyatsiyalarga <strong>ta'sirini kuzatishga</strong> imkon beradi. Spinney tilga olgan bir tadqiqotga ko'ra, "migrantlar taxminan besh ming yil oldin dashtdan sharq va g'arbga tarqalgan va Evropada ularning ajdodlari gen fondining to'qson foizdan ko'prog'ini almashtirgan."</p>
+
+<p>Migratsiya Spinney hikoyasining asosiy qismidir. Proto-Hind-Yevropa va Yamnani tushuntirgandan so'ng, kitob migratsiyalarning bir qator hisoblariga aylanadi, ham katta, ham kichik, zo'ravonliksiz va tinch, ular orqali asl til <strong>rivojlandi va ajraldi</strong>.</p>
+
+<p>Proto-Hind-Yevropaning 12 ta asosiy tarmog'i mavjud – yunonchadan german, italikdan hind – ularning har birining o'z shoxlari bor. Ularning ba'zilari yo'q bo'lib ketgan. Spinney <i>Proto</i> ning eng <strong>esda qolarli qismlaridan</strong> birida ta'riflaganidek, Xitoydagi Ipak yo'li bo'ylab topilgan Toxar tili, asrlar oldin Yamnaning yagona, ambitsiyali sayohatining natijasi bo'lishi mumkin.</p>
+
+<p>Ushbu qismlarda <i>Proto</i> ni <strong>tushunish biroz qiyin</strong> bo'lishi mumkin. Xetlar va Xattlar, yoki turli xromosomal guruhlari o'rtasida farq qilish uchun diqqat bilan e'tibor berishingiz kerak. Spinney har bir argumentning har bir tomonini batafsil bayon qiladi. Ba'zan, siz bir murakkab g'oyani tushuna boshlaganingizda, yana biri sizga <strong>tashlanadi</strong>.</p>
+
+<p>Biroq, bu uzoq o'tmish va uning yo'qolgan tillari bilan shug'ullanganda zarurdir. Tarixdan oldingi davr haqida aniqlikni taklif qiladigan har qanday kitobga shubha bilan qarash kerak. <i>Proto</i> buni qilmaydi. U aqlli, ehtiyotkor, <strong>mukammal</strong>, chuqur va boshqa ko'plab ijobiy sifatlarga ega.</p>`,
+    vocabularyB2: {
+        "prototype": {
+                "definition": "The first version of a product, design, or system",
+                "uzbek": "Mahsulot, dizayn yoki tizimning birinchi versiyasi",
+                "example": "The company is testing a prototype of their new electric car.",
+                "exampleUzbek": "Kompaniya o'zining yangi elektromobilining prototipini sinovdan o'tkazmoqda."
+        },
+        "original language": {
+                "definition": "The language from which other languages are derived.",
+                "uzbek": "Boshqa tillar kelib chiqqan til.",
+                "example": "Latin is the original language of the Romance languages.",
+                "exampleUzbek": "Lotin roman tillarining asl tilidir."
+        },
+        "impressive achievement": {
+                "definition": "Something that someone has done very well and that is admired.",
+                "uzbek": "Kimdir juda yaxshi bajargan va hayratga sazovor bo'lgan narsa.",
+                "example": "Winning the championship was an impressive achievement for the team.",
+                "exampleUzbek": "Chempionatda g'alaba qozonish jamoa uchun ajoyib yutuq edi."
+        },
+        "borrow words": {
+                "definition": "To adopt words from another language.",
+                "uzbek": "Boshqa tildan so'zlarni qabul qilish.",
+                "example": "English has borrowed many words from French.",
+                "exampleUzbek": "Ingliz tili frantsuz tilidan ko'p so'zlarni o'zlashtirgan."
+        },
+        "spread out": {
+                "definition": "To extend or move from a central point.",
+                "uzbek": "Markaziy nuqtadan cho'zilib yoki harakatlanish.",
+                "example": "The city began to spread out into the surrounding countryside.",
+                "exampleUzbek": "Shahar atrofidagi qishloq hududiga tarqala boshladi."
+        },
+        "informed speculation": {
+                "definition": "A guess or opinion based on knowledge and evidence.",
+                "uzbek": "Bilim va dalillarga asoslangan taxmin yoki fikr.",
+                "example": "The detective's theory was based on informed speculation.",
+                "exampleUzbek": "Detektivning nazariyasi asosli taxminga asoslangan edi."
+        },
+        "trace languages back": {
+                "definition": "To follow the development and history of a language.",
+                "uzbek": "Tilning rivojlanishi va tarixini kuzatib borish.",
+                "example": "Linguists can trace languages back to common ancestors.",
+                "exampleUzbek": "Tilshunoslar tillarni umumiy ajdodlarga olib borishlari mumkin."
+        },
+        "track their influence": {
+                "definition": "To follow the impact or effect that someone or something has.",
+                "uzbek": "Kimdir yoki biror narsaning ta'sirini kuzatib borish.",
+                "example": "Scientists can track the influence of climate change on ecosystems.",
+                "exampleUzbek": "Olimlar iqlim o'zgarishining ekotizimlarga ta'sirini kuzatib borishlari mumkin."
+        },
+        "evolved and separated": {
+                "definition": "Developed over time and became distinct.",
+                "uzbek": "Vaqt o'tishi bilan rivojlandi va alohida bo'ldi.",
+                "example": "The different species of birds evolved and separated over millions of years.",
+                "exampleUzbek": "Qushlarning turli xil turlari million yillar davomida rivojlandi va ajralib chiqdi."
+        },
+        "memorable sections": {
+                "definition": "Parts of a text that are easy to remember.",
+                "uzbek": "Matnning esda qolishi oson bo'lgan qismlari.",
+                "example": "The book had many memorable sections that stayed with me long after I finished reading it.",
+                "exampleUzbek": "Kitobda uni o'qib tugatganimdan keyin ham uzoq vaqt esimda qolgan ko'plab esda qolarli qismlar bor edi."
+        },
+        "difficult to follow": {
+                "definition": "Hard to understand or keep up with.",
+                "uzbek": "Tushunish yoki kuzatib borish qiyin.",
+                "example": "The lecture was so technical that it was difficult to follow.",
+                "exampleUzbek": "Ma'ruza shunchalik texnik ediki, uni kuzatib borish qiyin edi."
+        },
+        "thrown at you": {
+                "definition": "Presented quickly and suddenly.",
+                "uzbek": "Tez va to'satdan taqdim etilgan.",
+                "example": "The teacher threw a lot of information at us in a short amount of time.",
+                "exampleUzbek": "O'qituvchi qisqa vaqt ichida bizga juda ko'p ma'lumot berdi."
+        },
+        "thorough": {
+                "definition": "Complete and detailed.",
+                "uzbek": "To'liq va batafsil.",
+                "example": "The police conducted a thorough investigation of the crime scene.",
+                "exampleUzbek": "Politsiya jinoyat sodir bo'lgan joyni batafsil tekshirdi."
+        },
+        "original": {
+                "definition": "Existing since the beginning, or being the earliest form of something.",
+                "uzbek": "Boshidanoq mavjud bo'lgan yoki biror narsaning eng qadimgi shakli.",
+                "example": "This is the original version of the song, before it was remixed.",
+                "exampleUzbek": "Bu qo'shiqning remiks qilinishidan oldingi asl versiyasi."
+        },
+        "aims": {
+                "definition": "Intends or plans to achieve.",
+                "uzbek": "Erişmoqchi yoki rejalashtirmoqchi.",
+                "example": "The company aims to increase its profits this year.",
+                "exampleUzbek": "Kompaniya bu yil o'z foydasini oshirishni maqsad qilgan."
+        }
+},
+    passageC1: `<p>Laura Spinney's latest offering, provocatively titled <i>Proto</i>, immediately begs the question of its referent. Is it a <strong>prototype</strong>, the nascent iteration of a technological marvel? Perhaps <strong>protoplasm</strong>, the fundamental substance of life itself? Or even a <strong>protoplanet</strong>, a cosmic fragment pregnant with celestial potential?</p>
+
+<p>The answer, however, transcends and encompasses these possibilities: Proto-Indo-European. This is the <strong>fountainhead</strong> from which English, alongside a multitude of other languages, both extant and extinct, ultimately <strong>descends</strong>. As Spinney succinctly puts it, "Almost every second person on Earth speaks Indo-European." The ambitious undertaking she sets forth in <i>Proto: How one ancient language went global</i> is to <strong>elucidate</strong> the mechanisms of this linguistic dissemination.</p>
+
+<p>The narrative that Spinney masterfully constructs, through a blend of meticulous reportage and elegant prose, <strong>traverses</strong> millennia, encompassing scores of civilizations and spanning vast geographical expanses. It represents a truly <strong>magisterial</strong> achievement.</p>
+
+<p>The story <strong>unfolds</strong> around the Black Sea's turbulent shores, approximately 6000 to 7000 years ago, where ancient communities began to interact, integrate, and <strong>assimilate</strong> each other's linguistic elements, driven by pragmatic objectives such as facilitating trade.</p>
+
+<p>This region, encompassing contemporary Ukraine and Bulgaria, was – and remains – exceptionally resource-rich, serving as a <strong>crucible</strong> for the Copper Age and numerous subsequent advancements. It is from this area that the steppe peoples, widely considered the originators of Proto-Indo-European – known as the Yamna in Ukrainian and the Yamnaya in Russian – <strong>embarked on</strong> their migrations.</p>
+
+<p>The Yamna have long since vanished, as has their language. They reside in the realm of prehistory, preceding the advent of written records. This necessitates a degree of <strong>informed speculation</strong> in the early chapters of <i>Proto</i>. Drawing upon the available evidence, Spinney <strong>reanimates</strong> the Yamna, presenting them not merely as skeletal remains, but as fully realized individuals, approximately 1.8 meters tall, consuming milk and even partaking in cannabis use. They are believed to have possessed words for "wheel" (k'ék'los) and "honey" (mélit), both meticulously reconstructed.</p>
+
+<p>Lest this portrayal give the impression that <i>Proto</i> is solely a historical treatise, it is important to emphasize the significant scientific underpinning. Spinney, a seasoned contributor to <i>New Scientist</i>, elucidates that the study of Proto-Indo-European and its <strong>proliferation</strong> is an inherently multidisciplinary endeavor. It incorporates linguistics, enabling researchers to trace languages backward, meticulously identifying the <strong>etymological roots</strong> from which they originate, before attempting to reconstruct Proto-Indo-European itself (those words for wheel and honey being prime examples of such reconstruction).</p>
+
+<p>Archaeology provides the context for understanding the Yamna's movements through time and space. And genetics allows us to trace their impact on other populations. According to a study cited by Spinney, "migrants had radiated east and west from the steppe around five thousand years ago, and in Europe their ancestry had replaced up to ninety per cent or more of the gene pool".</p>
+
+<p>Migration constitutes a central theme in Spinney's narrative. Following the initial <strong>exposition</strong> of Proto-Indo-European and the Yamna, the book essentially becomes a series of case studies, chronicling the diverse migrations – large and small, violent and peaceful – through which the original language disseminated and diversified.</p>
+
+<p>There are 12 primary branches of Proto-Indo-European – ranging from Greek to Germanic, Italic to Indic – each of which subsequently subdivides into its own constituent branches. Some of these have <strong>atrophied</strong> and disappeared entirely. As Spinney recounts in one of the most evocative passages of <i>Proto</i>, the extinct Tocharian language, discovered along the Silk Road in China, may have been the consequence of a single, ambitious expedition undertaken by the Yamna centuries prior.</p>
+
+<p>It is within these later sections that <i>Proto</i> can become somewhat <strong>convoluted</strong>. Sustained mental agility is required to differentiate between Hittites and Hattians, or between distinct chromosomal groups. Spinney presents every facet of every argument, almost to a fault; just as one begins to grasp a complex concept, another is immediately introduced. Nevertheless, such is the nature of grappling with the vanished past and its extinct languages. Any book purporting to offer absolute certainty regarding prehistory should be treated with skepticism. <i>Proto</i> avoids this pitfall. It is insightful, expansive, meticulous, clever, and a wealth of other laudable Indo-European adjectives.</p>`,
+    translationC1: `<p>Laura Spinneyning so‘nggi asari, g‘alati tarzda <i>Proto</i> deb nomlangan, darhol uning nimani anglatishini so‘rashga undaydi. Bu <strong>prototip</strong>mi, texnologik mo‘jizaning yangi nusxasimi? Balki <strong>protoplazma</strong>dir, hayotning asosiy moddasimi? Yoki hatto <strong>protoplaneta</strong>dir, samoviy salohiyatga to‘la kosmik parchami?</p>
+
+<p>Ammo javob bu imkoniyatlardan tashqari va ularni o‘z ichiga oladi: Proto-Hind-Yevropa. Bu ingliz tili, shuningdek, ko‘plab boshqa tillar, ham mavjud, ham yo‘q bo‘lib ketgan tillar uchun <strong>bosh manba</strong>dir. Spinney qisqacha aytganidek, "Yer yuzida har ikkinchi odam hind-yevropa tilida gaplashadi". U <i>Proto: Qanday qilib bitta qadimgi til global miqyosga chiqdi</i> asarida ushbu lingvistik tarqalish mexanizmlarini <strong>yoritish</strong>dek ambitsioz vazifani o‘z oldiga qo‘yadi.</p>
+
+<p>Spinney mohirlik bilan qurgan hikoya, puxta hisobot va nafis uslubning uyg‘unligi orqali ming yilliklarni <strong>kesib o‘tadi</strong>, ko‘plab tsivilizatsiyalarni o‘z ichiga oladi va ulkan geografik hududlarni qamrab oladi. Bu haqiqatan ham <strong>ulug‘vor</strong> yutuqdir.</p>
+
+<p>Hikoya taxminan 6000-7000 yil oldin Qora dengizning notinch qirg‘oqlari atrofida <strong>rivojlanadi</strong>, u yerda qadimgi jamoalar o‘zaro ta’sirlasha boshladilar, bir-birlarining til elementlarini birlashtirdilar va <strong>o‘zlashtirdilar</strong>, savdoni osonlashtirish kabi pragmatik maqsadlar bilan boshqarildilar.</p>
+
+<p>Ushbu mintaqa, zamonaviy Ukraina va Bolgariyani o‘z ichiga olgan, mis davri va ko‘plab keyingi yutuqlar uchun <strong>qaynoqxonadir</strong> va juda boy resurslarga ega edi va shundayligicha qolmoqda. Aynan shu hududdan dasht xalqlari, keng tarqalgan fikrga ko‘ra, Proto-Hind-Yevropa tilining asoschilari - ukrain tilida Yamna va rus tilida Yamnaya deb nomlanuvchilar - o‘z migratsiyalariga <strong>kirishdilar</strong>.</p>
+
+<p>Yamna allaqachon yo‘q bo‘lib ketgan, ularning tili ham. Ular yozma yozuvlar paydo bo‘lishidan oldingi, tarixdan oldingi davrda yashaydilar. Bu <i>Proto</i>ning dastlabki boblarida ma’lum darajada <strong>asosli taxminlarni</strong> talab qiladi. Mavjud dalillarga asoslanib, Spinney Yamnani shunchaki skelet qoldiqlari sifatida emas, balki bo‘yi taxminan 1,8 metr bo‘lgan, sut iste’mol qiladigan va hatto kannabisdan foydalanadigan to‘liq shakllangan shaxslar sifatida <strong>jonlantiradi</strong>. Ularda "g‘ildirak" (k'ék'los) va "asal" (mélit) uchun so‘zlar bo‘lgan deb ishoniladi, ularning ikkalasi ham puxta rekonstruksiya qilingan.</p>
+
+<p>Bu tasvir <i>Proto</i> faqat tarixiy risola degan taassurot qoldirmasligi uchun, muhim ilmiy asosni ta’kidlash muhimdir. Spinney, <i>New Scientist</i> jurnalining tajribali muallifi, Proto-Hind-Yevropa tilini va uning <strong>tarqalishini</strong> o‘rganish o‘z mohiyatiga ko‘ra ko‘p tarmoqli harakat ekanligini tushuntiradi. U lingvistika, tadqiqotchilarga tillarni orqaga kuzatish, ularning kelib chiqishini aniqlash imkonini beradi, so‘ngra Proto-Hind-Yevropaning o‘zini rekonstruksiya qilishga urinishdan oldin (g‘ildirak va asal uchun so‘zlar shunday rekonstruksiya uchun asosiy misollardir).</p>
+
+<p>Arxeologiya Yamnaning vaqt va makonda harakatlanishini tushunish uchun kontekstni ta’minlaydi. Genetika esa ularning boshqa populyatsiyalarga ta’sirini kuzatishga imkon beradi. Spinney keltirgan tadqiqotga ko‘ra, "migrantlar taxminan besh ming yil oldin dashtdan sharq va g‘arbga tarqalgan va Yevropada ularning ajdodlari gen fondining to‘qson foizdan ko‘prog‘ini almashtirgan".</p>
+
+<p>Migratsiya Spinney hikoyasining markaziy mavzusini tashkil qiladi. Proto-Hind-Yevropa va Yamna haqidagi dastlabki <strong>bayonotdan</strong> so‘ng, kitob, asosan, asl til tarqalgan va diversifikatsiya qilingan turli migratsiyalarni - katta va kichik, zo‘ravon va tinch - xronikalashtiruvchi bir qator keys tadqiqotlariga aylanadi.</p>
+
+<p>Proto-Hind-Yevropaning 12 ta asosiy tarmog‘i mavjud - yunondan german, italyandan hindga qadar - ularning har biri keyinchalik o‘zining tarkibiy tarmoqlariga bo‘linadi. Ularning ba’zilari <strong>atrofiyaga uchradi</strong> va butunlay yo‘q bo‘lib ketdi. Spinney <i>Proto</i>ning eng hayajonli parchalaridan birida hikoya qilganidek, Xitoydagi Ipak yo‘lida topilgan yo‘q bo‘lib ketgan Toxar tili Yamna tomonidan asrlar oldin amalga oshirilgan bitta ambitsioz ekspeditsiyaning natijasi bo‘lishi mumkin.</p>
+
+<p>Aynan shu keyingi bo‘limlarda <i>Proto</i> biroz <strong>chalkash</strong> bo‘lishi mumkin. Xetlar va Xattlar o‘rtasida yoki xromosomalarning alohida guruhlari o‘rtasida farq qilish uchun doimiy aqliy chaqqonlik talab etiladi. Spinney har bir argumentning har bir jihatini deyarli xatoga yo‘l qo‘ymaslik uchun taqdim etadi; murakkab tushunchani tushuna boshlaganingizda, darhol boshqasi kiritiladi. Shunga qaramay, bu yo‘q bo‘lib ketgan o‘tmish va uning yo‘q bo‘lib ketgan tillari bilan kurashishning mohiyatidir. Tarixdan oldingi davrga nisbatan mutlaq ishonchni taklif qiluvchi har qanday kitobga shubha bilan qarash kerak. <i>Proto</i> bu xatodan qochadi. U chuqur, keng qamrovli, puxta, aqlli va boshqa maqtovga sazovor hind-yevropa sifatlariga boy.</p>`,
+    vocabularyC1: {
+        "prototype": {
+                "definition": "An original or first model of something from which other forms are copied or developed.",
+                "uzbek": "Prototip",
+                "example": "The company developed a prototype of the new electric car.",
+                "exampleUzbek": "Kompaniya yangi elektr mashinasining prototipini ishlab chiqdi."
+        },
+        "protoplasm": {
+                "definition": "The colorless material comprising the living part of a cell, including the cytoplasm, nucleus, and other organelles.",
+                "uzbek": "Protoplazma",
+                "example": "Protoplasm is essential for all life functions within a cell.",
+                "exampleUzbek": "Protoplazma hujayra ichidagi barcha hayotiy funktsiyalar uchun zarur."
+        },
+        "protoplanet": {
+                "definition": "A celestial body of significant size, considered a precursor to a planet.",
+                "uzbek": "Protoplaneta",
+                "example": "Scientists are studying protoplanets to understand how planets form.",
+                "exampleUzbek": "Olimlar sayyoralar qanday shakllanishini tushunish uchun protoplanetalarni o'rganmoqda."
+        },
+        "fountainhead": {
+                "definition": "The original source or origin of something.",
+                "uzbek": "Manba",
+                "example": "Ancient Greece is often seen as the fountainhead of Western civilization.",
+                "exampleUzbek": "Qadimgi Yunoniston ko'pincha G'arb tsivilizatsiyasining manbai sifatida qaraladi."
+        },
+        "descends": {
+                "definition": "To be derived from a particular ancestor or origin.",
+                "uzbek": "Kelib chiqadi",
+                "example": "Many modern languages descend from Latin.",
+                "exampleUzbek": "Ko'pgina zamonaviy tillar lotin tilidan kelib chiqqan."
+        },
+        "elucidate": {
+                "definition": "To make something clear; explain.",
+                "uzbek": "Tushuntirmoq",
+                "example": "The professor elucidated the complex theory with a simple analogy.",
+                "exampleUzbek": "Professor murakkab nazariyani oddiy o'xshashlik bilan tushuntirdi."
+        },
+        "traverses": {
+                "definition": "To travel across or through.",
+                "uzbek": "Kesib o'tmoq",
+                "example": "The expedition traversed the vast desert.",
+                "exampleUzbek": "Ekspeditsiya keng sahroni kesib o'tdi."
+        },
+        "magisterial": {
+                "definition": "Having or showing great authority or knowledge.",
+                "uzbek": "Ulug'vor",
+                "example": "The author delivered a magisterial lecture on the subject.",
+                "exampleUzbek": "Muallif mavzu bo'yicha ulug'vor ma'ruza qildi."
+        },
+        "unfolds": {
+                "definition": "To be revealed or become known gradually.",
+                "uzbek": "Ochilmoq",
+                "example": "The mystery unfolds as the detective gathers more clues.",
+                "exampleUzbek": "Detektiv ko'proq dalillarni to'plagani sayin sir ochiladi."
+        },
+        "assimilate": {
+                "definition": "To absorb and integrate (people, ideas, or culture) into a wider society or culture.",
+                "uzbek": "O'zlashtirmoq",
+                "example": "Immigrants often assimilate into the culture of their new country.",
+                "exampleUzbek": "Immigrantlar ko'pincha o'zlarining yangi mamlakati madaniyatiga o'zlashtiriladi."
+        },
+        "crucible": {
+                "definition": "A place or situation in which different elements or influences interact to produce something new.",
+                "uzbek": "Qozon",
+                "example": "The city was a crucible of new ideas and artistic expression.",
+                "exampleUzbek": "Shahar yangi g'oyalar va badiiy ifoda qozoni edi."
+        },
+        "embarked on": {
+                "definition": "To begin (a course of action, especially one that is important or demanding).",
+                "uzbek": "Boshlamoq",
+                "example": "The company embarked on an ambitious expansion plan.",
+                "exampleUzbek": "Kompaniya ulkan kengaytirish rejasini boshladi."
+        },
+        "informed speculation": {
+                "definition": "An educated guess or conjecture based on available knowledge and evidence.",
+                "uzbek": "Asosli taxmin",
+                "example": "Historians often rely on informed speculation when dealing with incomplete historical records.",
+                "exampleUzbek": "Tarixchilar ko'pincha to'liq bo'lmagan tarixiy yozuvlar bilan ishlaganda asosli taxminga tayanadilar."
+        },
+        "reanimates": {
+                "definition": "To restore to life or consciousness; revive.",
+                "uzbek": "Jonlantirmoq",
+                "example": "The author reanimates historical figures through vivid descriptions.",
+                "exampleUzbek": "Muallif tarixiy shaxslarni yorqin tasvirlar orqali jonlantiradi."
+        },
+        "proliferation": {
+                "definition": "A rapid increase in number; spread.",
+                "uzbek": "Ko'payish",
+                "example": "The proliferation of social media has changed the way we communicate.",
+                "exampleUzbek": "Ijtimoiy tarmoqlarning ko'payishi bizning aloqa usulimizni o'zgartirdi."
+        },
+        "etymological roots": {
+                "definition": "The origin and historical development of a word.",
+                "uzbek": "Etimologik ildizlar",
+                "example": "Studying etymological roots can help understand the evolution of language.",
+                "exampleUzbek": "Etimologik ildizlarni o'rganish tilning evolyutsiyasini tushunishga yordam beradi."
+        },
+        "exposition": {
+                "definition": "A comprehensive description and explanation of an idea or theory.",
+                "uzbek": "Bayon",
+                "example": "The book begins with a clear exposition of the main concepts.",
+                "exampleUzbek": "Kitob asosiy tushunchalarning aniq bayoni bilan boshlanadi."
+        },
+        "atrophied": {
+                "definition": "To decline or waste away, typically due to underuse or neglect.",
+                "uzbek": "Zaiflashmoq",
+                "example": "The muscle atrophied after being in a cast for several weeks.",
+                "exampleUzbek": "Mushak bir necha hafta davomida gipsda bo'lganidan keyin zaiflashdi."
+        },
+        "convoluted": {
+                "definition": "Extremely complex and difficult to follow.",
+                "uzbek": "Chigallashgan",
+                "example": "The plot of the novel was so convoluted that it was hard to understand.",
+                "exampleUzbek": "Roman syujeti shunchalik chigallashganki, uni tushunish qiyin edi."
+        }
+}
 };

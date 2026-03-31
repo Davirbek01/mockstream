@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Friend's Name],<br>I go to HubSpace. It is good. I like it. You come?<br>Bye.</p>",
       "sampleA2": "<p>Hi [Friend's Name],<br>I work in a new place. It is HubSpace. I like it because it is not home. At home, I am sad. But HubSpace is good. You should come with me! It is fun and you can work there too. What do you think?<br>See you soon,<br>[Your Name]</p>",
       "sampleB1": "<p>Hi [Friend's Name],<br>I heard you've been feeling a bit isolated working from home lately. I wanted to tell you about this coworking space I joined, called HubSpace. I really like it! It's much better than working alone all the time. I think you should try it out. In my opinion, it would be good for you to meet some new people and have a different environment.<br>Let me know what you think!<br>Best,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear [Friend's Name],<br>I was thinking about you the other day and how you mentioned feeling a bit cut off working from home. I wanted to share my experience since joining HubSpace, a local coworking space. Honestly, it's been a game-changer! The change of scenery and the opportunity to connect with other professionals have really boosted my motivation. I genuinely believe it could be beneficial for you too, especially if you're craving more social interaction and a less solitary work environment. You should consider checking it out; it might be just the antidote to your current situation.<br>Hope to hear from you soon,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear [Friend's Name],<br>I was thinking about you the other day and how you mentioned feeling a bit cut off working from home. I wanted to share my experience since joining HubSpace, a local coworking space. Honestly, it's been a game-changer! The change of scenery and the opportunity to connect with other professionals have really boosted my motivation. I genuinely believe it could be beneficial for you too, especially if you're craving more social interaction and a less solitary work environment. You should consider checking it out; it might be just the antidote to your current situation.<br>Hope to hear from you soon,<br>[Your Name]</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Bilaman, uyda ishlash yolg'izlik hissini berishi mumkin. Men yaqinda HubSpace kovorking maydoniga qo'shildim va bu ajoyib bo'ldi! Atmosfera juda motivatsiya beruvchi va men juda qiziqarli odamlar bilan tanishdim. Sen albatta buni ko'rib chiqishing kerak – bu senga aynan kerak bo'lgan narsa bo'lishi mumkin!</p>\n<p>O'zingni asra!</p>",
+      "uzSampleA1": "<p>Salom, [Do'stingizning ismi],<br>Men HubSpacega boraman. U yaxshi. Menga yoqadi. Sen kelasanmi?<br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Do'stingizning ismi],<br>Men yangi joyda ishlayman. Bu HubSpace. Menga yoqadi, chunki u uy emas. Uyda men xafaman. Lekin HubSpace yaxshi. Sen ham men bilan kelishing kerak! U yer qiziqarli va sen ham u yerda ishlashing mumkin. Nima deb o'ylaysan?<br>Tez orada ko'rishguncha,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Salom [Do'stingizning ismi],<br>Eshitishimcha, yaqinda uyda ishlaganingiz sababli o'zingizni biroz ajralib qolgandek his qilyapsiz. Sizga HubSpace deb nomlangan, men a'zo bo'lgan kovorking maydoni haqida aytmoqchiman. Menga juda yoqadi! Doim yolg'iz ishlagandan ko'ra ancha yaxshi. O'ylaymanki, siz ham sinab ko'rishingiz kerak. Mening fikrimcha, siz uchun yangi odamlar bilan tanishish va boshqacha muhitga ega bo'lish yaxshi bo'lardi.<br>Fikringizni menga bildiring!<br>Eng yaxshi tilaklar bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Salom [Do'stingizning ismi],<br>Men yaqinda siz haqingizda o'yladim va sizning uyda ishlaganingiz sababli o'zingizni biroz uzilgan his qilayotganingizni aytgan edingiz. Men mahalliy kovorking maydoni bo'lgan HubSpacega qo'shilganimdan beri o'z tajribamni baham ko'rmoqchiman. Rostini aytsam, bu hayotimni o'zgartirib yubordi! Manzaraning o'zgarishi va boshqa mutaxassislar bilan aloqa qilish imkoniyati mening motivatsiyamni sezilarli darajada oshirdi. Men chin dildan ishonamanki, bu siz uchun ham foydali bo'lishi mumkin, ayniqsa, agar siz ko'proq ijtimoiy muloqotni va kamroq yakka ish muhitini xohlasangiz. Siz uni ko'rib chiqishingiz kerak; bu sizning hozirgi holatingizga davo bo'lishi mumkin.<br>Tez orada sizdan xabar olishga umid qilaman,<br>[Sizning ismingiz]</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi HubSpace,</p><p>I like the space. It is good. WiFi good. <br>The place is near my house.</p><p>More coffee? </p><p>Bye,<br>[Your Name]</p>",
       "sampleA2": "<p>Dear HubSpace,</p><p>Thank you for the email. I like HubSpace. It is a good place to work. The WiFi is good and the location is good because it is near my work. </p><p>But sometimes it is noisy. And the coffee is not very good. Maybe you can buy better coffee? Also, more chairs would be good.</p><p>Thanks,<br>[Your Name]</p>",
       "sampleB1": "<p>Dear HubSpace Team,</p><p>Thank you for your email. I am writing to give you some feedback about the coworking space.</p><p>I like the location very much because it's easy to get to from my house. I also think the internet is very fast, which is important for my work.</p><p>However, I think there are some things that could be better. For example, it's often difficult to find a free desk, especially in the afternoon. Also, the kitchen area could be cleaner. I think it would be good if you cleaned it more often.</p><p>In my opinion, if you improved these things, HubSpace would be an even better place to work.</p><p>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear HubSpace Team,</p><p>Thank you for reaching out and requesting feedback regarding my experience at HubSpace. I appreciate the opportunity to share my thoughts.</p><p>Overall, I've found the coworking space to be a positive and productive environment. The location is indeed convenient, and the amenities, such as the fast internet and printing services, are valuable assets. I particularly appreciate the modern design and the natural light throughout the space.</p><p>However, there are a couple of areas where I believe improvements could be made. Firstly, the noise level can sometimes be disruptive, particularly during peak hours. Perhaps implementing designated quiet zones or investing in better soundproofing could mitigate this issue. Secondly, while the coffee is appreciated, offering a wider variety of beverage options, such as herbal teas or specialty coffees, could enhance the overall experience.</p><p>I believe addressing these points would further solidify HubSpace's position as a premier coworking destination.</p><p>Sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear HubSpace Team,</p><p>Thank you for reaching out and requesting feedback regarding my experience at HubSpace. I appreciate the opportunity to share my thoughts.</p><p>Overall, I've found the coworking space to be a positive and productive environment. The location is indeed convenient, and the amenities, such as the fast internet and printing services, are valuable assets. I particularly appreciate the modern design and the natural light throughout the space.</p><p>However, there are a couple of areas where I believe improvements could be made. Firstly, the noise level can sometimes be disruptive, particularly during peak hours. Perhaps implementing designated quiet zones or investing in better soundproofing could mitigate this issue. Secondly, while the coffee is appreciated, offering a wider variety of beverage options, such as herbal teas or specialty coffees, could enhance the overall experience.</p><p>I believe addressing these points would further solidify HubSpace's position as a premier coworking destination.</p><p>Sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli HubSpace jamoasi,</p>\n<p>Sizning kovorking maydoningizdagi tajribam haqida so'raganingiz uchun rahmat.</p>\n<p>Men ish joyi muhitidan juda mamnunman. Ochiq rejadagi dizayn juda yorug', yuqori tezlikdagi WiFi esa juda ishonchli. Markaziy joylashuvi qatnashni juda qulay qiladi.</p>\n<p>Biroq, yaxshilanishi kerak bo'lgan ba'zi sohalar mavjud. Uchrashuv xonalari ko'pincha band bo'lib, oxirgi daqiqalarda bron qilishni ancha qiyinlashtiradi. Bundan tashqari, shaxsiy qo'ng'iroqlar uchun telefon kabinalari juda cheklangan.</p>\n<p>Men diqqatni jamlagan holda ishlash uchun ko'proq sokin hududlar qo'shishni taklif qilaman. Tarmoqli tadbirlar taqvimi a'zolarga professional tarzda bog'lanishga yordam beradi. Shuningdek, dam olish kunlaridagi uzaytirilgan ish soatlari moslashuvchan jadvalga ega bo'lganlarga foyda keltiradi.</p>\n<p>Umuman olganda, HubSpace mening ish va hayot muvozanatimni sezilarli darajada yaxshiladi.</p>\n<p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleA1": "<p>Salom, HubSpace,</p><p>Menga joy yoqadi. U yaxshi. WiFi yaxshi. <br>Joy mening uyimga yaqin.</p><p>Ko'proq qahva kerakmi?</p><p>Xayr,<br>[Sizning ismingiz]</p>",
+      "uzSampleA2": "<p>Hurmatli HubSpace,</p><p>Xat uchun rahmat. Menga HubSpace yoqadi. Bu ishlash uchun yaxshi joy. WiFi yaxshi va joylashuvi ham yaxshi, chunki u mening ishimga yaqin.</p><p>Lekin ba'zida shovqin bo'ladi. Va kofe juda yaxshi emas. Balki siz yaxshiroq kofe sotib olarsiz? Shuningdek, ko'proq stullar yaxshi bo'lardi.</p><p>Rahmat,<br>[Sizning ismingiz]</p>",
+      "uzSampleB1": "<p>Hurmatli HubSpace jamoasi,</p><p>Sizning elektron pochtangiz uchun rahmat. Men sizga kovorking maydoni haqida ba'zi fikr-mulohazalarimni bildirish uchun yozyapman.</p><p>Menga joylashuvi juda yoqadi, chunki uyimdan borish oson. Shuningdek, internet juda tez deb o'ylayman, bu mening ishim uchun muhim.</p><p>Biroq, menimcha, yaxshilanishi mumkin bo'lgan ba'zi narsalar bor. Masalan, ko'pincha bo'sh stol topish qiyin, ayniqsa tushdan keyin. Shuningdek, oshxona zonasi toza bo'lishi mumkin. O'ylaymanki, uni tez-tez tozalab turilsa yaxshi bo'lardi.</p><p>Mening fikrimcha, agar siz bu narsalarni yaxshilasangiz, HubSpace ishlash uchun yanada yaxshi joy bo'lardi.</p><p>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli HubSpace jamoasi,</p><p>Murojaatingiz va HubSpacedagi tajribam haqida fikr-mulohaza so'raganingiz uchun rahmat. O'z fikrlarimni baham ko'rish imkoniyati uchun minnatdorman.</p><p>Umuman olganda, men kovorking maydonini ijobiy va samarali muhit deb topdim. Joylashuvi haqiqatan ham qulay va tezkor internet va bosib chiqarish xizmatlari kabi qulayliklar qimmatli aktivlardir. Ayniqsa, zamonaviy dizayn va butun makon bo'ylab tabiiy yorug'likni qadrlayman.</p><p>Biroq, menimcha, yaxshilanish mumkin bo'lgan bir nechta sohalar mavjud. Birinchidan, shovqin darajasi ba'zan, ayniqsa eng yuqori soatlarda, xalaqit berishi mumkin. Ehtimol, maxsus jim zonalarni joriy etish yoki yaxshiroq ovoz o'tkazmaslikka sarmoya kiritish bu muammoni yumshatishi mumkin. Ikkinchidan, qahva qadrlansa-da, o'simlik choylari yoki maxsus qahvalar kabi ichimliklar tanlovini kengaytirish umumiy tajribani yaxshilashi mumkin.</p><p>Ishonamanki, ushbu masalalarni hal qilish HubSpace'ning yetakchi kovorking manzili sifatidagi o'rnini yanada mustahkamlaydi.</p><p>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi HubSpace Team,<br>I like the space. It is good. The coffee is good too. The place is near my house. I want more chairs. Bye.</p>",
       "sampleA2": "<p>Hello HubSpace Team,<br>Thank you for the email. I like the coworking space. It is nice and clean. The location is good because it is near the bus stop. But the internet is slow sometimes. I think you need a better internet. And maybe more plants? Thank you.</p>",
       "sampleB1": "<p>Dear HubSpace Team,<br>Thank you for your email. I am enjoying the coworking space so far. The environment is good for working, and the amenities are useful. The location is also convenient because it's close to my home. <br><br>I think it would be helpful to have more meeting rooms available. Sometimes it's difficult to book a room when I need one. Also, perhaps you could organize more social events for members to network. That would be great. <br><br>Overall, I'm happy with the space. Thanks again!</p>",
-      "sampleB2": "<p>Dear HubSpace Team,<br><br>Thank you for reaching out. Overall, I've had a positive experience at HubSpace Coworking. The environment is conducive to productivity, and I appreciate the modern aesthetic.<br><br>In terms of improvements, I believe a more robust system for booking meeting rooms would be beneficial. Currently, availability can be limited, particularly during peak hours. Perhaps implementing a tiered booking system or increasing the number of available rooms could alleviate this issue. Furthermore, while the coffee is decent, upgrading to a higher-quality bean or offering a wider selection of beverages could enhance the overall experience.<br><br>Regarding additional services, workshops or seminars on relevant professional development topics would be a valuable addition. This could foster a sense of community and provide members with opportunities for growth. Thank you for considering my suggestions.</p>"
+      "sampleB2": "<p>Dear HubSpace Team,<br><br>Thank you for reaching out. Overall, I've had a positive experience at HubSpace Coworking. The environment is conducive to productivity, and I appreciate the modern aesthetic.<br><br>In terms of improvements, I believe a more robust system for booking meeting rooms would be beneficial. Currently, availability can be limited, particularly during peak hours. Perhaps implementing a tiered booking system or increasing the number of available rooms could alleviate this issue. Furthermore, while the coffee is decent, upgrading to a higher-quality bean or offering a wider selection of beverages could enhance the overall experience.<br><br>Regarding additional services, workshops or seminars on relevant professional development topics would be a valuable addition. This could foster a sense of community and provide members with opportunities for growth. Thank you for considering my suggestions.</p>",
+      "uzSample": "<p>Kosmik tadqiqotlar insoniyatning eng buyuk ilmiy intilishlarini ifodalaydi. Biroq, men hukumatlar bu xarajatlarni yer yuzidagi ustuvor vazifalar bilan muvozanatlashtirishlari kerak, deb hisoblayman.</p>\n\n<p>Birinchidan, kosmik tadqiqotlar ajoyib texnologik innovatsiyalarni yaratdi. GPS, ob-havo sun'iy yo'ldoshlari va tibbiy yutuqlarning barchasi kosmik dasturlardan kelib chiqqan. Ushbu qo'shimcha texnologiyalar kundalik hayotga son-sanoqsiz foyda keltiradi.</p>\n\n<p>Ikkinchidan, kosmosni o'rganish uzoq muddatli omon qolish masalalarini hal qiladi. Asteroidlarni tushunish, yangi resurslarni topish va ehtimol boshqa sayyoralarni kolonizatsiya qilish insoniyat kelajagi uchun muhim bo'lishi mumkin.</p>\n\n<p>Biroq, tanqidchilar to'g'ri ta'kidlashicha, raketalarga sarflangan milliardlab dollar qashshoqlik, ochlik va kasalliklarni bartaraf etishi mumkin edi. Odamlar asosiy ehtiyojlarga ega bo'lmaganida, uzoq sayyoralarga pul sarflash mas'uliyatsizlikdek tuyulishi mumkin.</p>\n\n<p>Shunga qaramay, bu investitsiya harbiy byudjetlar bilan solishtirganda nisbatan kichikdir. NASA AQSh federal xarajatlarining 1 foizidan kamrog'ini oladi. Bundan tashqari, xususiy kompaniyalar endi xarajatlarni bo'lishmoqda.</p>\n\n<p>Xulosa qilib aytganda, kosmik tadqiqotlar o'rtacha hukumat investitsiyalari bilan davom etishi kerak, shu bilan birga xususiy sektor hamkorliklari soliq to'lovchilarining yukini kamaytirishga yordam beradi. Koinotni o'rganish bizning turimizning qiziquvchanligi va intilishlarini belgilaydi.</p>",
+      "uzSampleA1": "<p>Salom, HubSpace jamoasi,<br>Menga kosmos yoqadi. U yaxshi. Kofe ham yaxshi. Joylashuv uyimga yaqin. Men ko'proq stullar xohlayman. Xayr.</p>",
+      "uzSampleA2": "<p>Salom, HubSpace jamoasi,<br>Xat uchun rahmat. Menga kovorking maydoni yoqdi. U chiroyli va toza. Joylashuvi yaxshi, chunki avtobus bekatiga yaqin. Lekin internet ba'zan sekin ishlaydi. O'ylaymanki, sizga yaxshiroq internet kerak. Va balki ko'proq o'simliklar kerakdir? Rahmat.</p>",
+      "uzSampleB1": "<p>Hurmatli HubSpace jamoasi,<br>Elektron pochtangiz uchun rahmat. Men hozircha kovorking maydonidan mamnunman. Muhit ishlash uchun yaxshi va qulayliklar foydali. Joylashuvi ham qulay, chunki uyimga yaqin.<br><br>O'ylaymanki, ko'proq yig'ilish xonalari bo'lishi foydali bo'lardi. Ba'zan kerak bo'lganda xonani bron qilish qiyin. Shuningdek, a'zolar uchun ko'proq ijtimoiy tadbirlar tashkil qilsangiz yaxshi bo'lardi. Bu juda ajoyib bo'lardi.<br><br>Umuman olganda, men maydondan mamnunman. Yana bir bor rahmat!</p>",
+      "uzSampleB2": "<p>Hurmatli HubSpace jamoasi,<br><br>Murojaatingiz uchun tashakkur. Umuman olganda, HubSpace Coworking-da ijobiy tajribaga ega bo'ldim. Muhit unumdorlik uchun qulay va zamonaviy estetikani qadrlayman.<br><br>Yaxshilash nuqtai nazaridan, yig'ilish xonalarini bron qilish uchun yanada mustahkam tizim foydali bo'ladi, deb o'ylayman. Hozirgi vaqtda, ayniqsa eng yuqori soatlarda, mavjudlik cheklangan bo'lishi mumkin. Ehtimol, bosqichma-bosqich bron qilish tizimini joriy etish yoki mavjud xonalar sonini ko'paytirish bu muammoni hal qilishi mumkin. Bundan tashqari, qahva yaxshi bo'lsa-da, yuqori sifatli donni yangilash yoki ichimliklar tanlovini kengaytirish umumiy tajribani yaxshilashi mumkin.<br><br>Qo'shimcha xizmatlarga kelsak, tegishli professional rivojlanish mavzularida seminarlar yoki treninglar qimmatli qo'shimcha bo'ladi. Bu hamjamiyat tuyg'usini rivojlantirishi va a'zolarga o'sish imkoniyatlarini taqdim etishi mumkin. Takliflarimni ko'rib chiqqaningiz uchun tashakkur.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,203 @@ window.WRITING_TEST_DATA = {
         "uz": "nisbatan kichik"
       }
     ]
+  },
+  "tokenTranslations": {
+    "recently": {
+      "uz": "yaqinda",
+      "type": "adv"
+    },
+    "coworking space": {
+      "uz": "kovorking markazi",
+      "type": "colloc"
+    },
+    "amazing": {
+      "uz": "ajoyib",
+      "type": "adv"
+    },
+    "atmosphere": {
+      "uz": "muhit",
+      "type": "colloc"
+    },
+    "so": {
+      "uz": "shunchalik",
+      "type": "adv"
+    },
+    "really": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "might": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "exactly": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "Take care": {
+      "uz": "O'zingni ehtiyot qil",
+      "type": "phrasal"
+    },
+    "thoroughly": {
+      "uz": "puxta",
+      "type": "adv"
+    },
+    "workspace environment": {
+      "uz": "ish joyi muhiti",
+      "type": "colloc"
+    },
+    "open-plan design": {
+      "uz": "ochiq rejadagi dizayn",
+      "type": "colloc"
+    },
+    "wonderfully": {
+      "uz": "ajoyib tarzda",
+      "type": "adv"
+    },
+    "extremely": {
+      "uz": "juda ham",
+      "type": "adv"
+    },
+    "commuting": {
+      "uz": "qatnov",
+      "type": "colloc"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "meeting rooms": {
+      "uz": "majlislar xonalari",
+      "type": "colloc"
+    },
+    "rather": {
+      "uz": "ko'proq",
+      "type": "adv"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "phone booths": {
+      "uz": "telefon kabinalari",
+      "type": "colloc"
+    },
+    "quite": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "quiet zones": {
+      "uz": "tinch zonalar",
+      "type": "colloc"
+    },
+    "networking events": {
+      "uz": "tarmoqlanish tadbirlari",
+      "type": "colloc"
+    },
+    "Also": {
+      "uz": "Shuningdek",
+      "type": "adv"
+    },
+    "weekend hours": {
+      "uz": "dam olish kunlari soatlari",
+      "type": "colloc"
+    },
+    "Overall": {
+      "uz": "Umuman olganda",
+      "type": "adv"
+    },
+    "significantly": {
+      "uz": "sezilarli darajada",
+      "type": "adv"
+    },
+    "work-life balance": {
+      "uz": "ish va hayot muvozanati",
+      "type": "colloc"
+    },
+    "Space exploration": {
+      "uz": "Kosmik tadqiqotlar",
+      "type": "colloc"
+    },
+    "earthly priorities": {
+      "uz": "erdagi ustuvorliklar",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "technological innovations": {
+      "uz": "texnologik yangiliklar",
+      "type": "colloc"
+    },
+    "space programs": {
+      "uz": "kosmik dasturlar",
+      "type": "colloc"
+    },
+    "spin-off technologies": {
+      "uz": "qo'shimcha texnologiyalar",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "long-term survival": {
+      "uz": "uzoq muddatli omon qolish",
+      "type": "colloc"
+    },
+    "potentially": {
+      "uz": "ehtimol",
+      "type": "adv"
+    },
+    "rightly": {
+      "uz": "haqli ravishda",
+      "type": "adv"
+    },
+    "could": {
+      "uz": "mumkin edi",
+      "type": "modal"
+    },
+    "poverty, hunger, and disease": {
+      "uz": "qashshoqlik, ochlik va kasallik",
+      "type": "colloc"
+    },
+    "may": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "Nevertheless": {
+      "uz": "Shunga qaramay",
+      "type": "adv"
+    },
+    "relatively": {
+      "uz": "nisbatan",
+      "type": "adv"
+    },
+    "Moreover": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "private companies": {
+      "uz": "xususiy kompaniyalar",
+      "type": "colloc"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    }
   }
 };

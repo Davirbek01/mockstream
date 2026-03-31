@@ -1,0 +1,47 @@
+// Flashcard Data: Arts & Entertainment — Advanced (C1–C2)
+// 30 cards: words, phrases, collocations, phrasal verbs, set expressions
+
+window.FLASHCARD_DATA = {
+  title: "🎨 Arts & Entertainment: Advanced",
+  logo: "https://i.ibb.co/4RYmcG6R/Bekzod-Turgunov-Logo.jpg",
+  brand: "Arts & Entertainment",
+  subtitle: "Bekzod Turg'unov",
+  colors: {
+    bg1: "#dc2626",
+    bg2: "#7f1d1d",
+    accent: "#dc2626",
+    progress: "#f87171"
+  },
+  cards: [
+    {term: "cliffhanger ending", en: "", uz: "tugunli yakun", uzDef: "Filmni yoki kitobni oxirida qiziqarli savol bilan tugatish, davomi kutiladigan holat.", ex: "The series finale had a real cliffhanger ending, leaving fans desperate for another season.", exUz: "Serialning finali haqiqiy tugunli yakunga ega bo'ldi, muxlislarni boshqa mavsumga tashna qoldirdi."},
+    {term: "the silver screen", en: "", uz: "kumush ekran", uzDef: "Kino ekrani, kinoteatr.", ex: "Her ultimate dream was to see her name in lights on the silver screen.", exUz: "Uning eng katta orzusi o'z ismini kumush ekranda yorug'likda ko'rish edi."},
+    {term: "a plot twist", en: "", uz: "syujet burilishi", uzDef: "Hikoyadagi kutilmagan voqea yoki o'zgarish.", ex: "The movie had so many plot twists that it was hard to keep track of what was happening.", exUz: "Filmda shunchalik ko'p syujet burilishlari bor ediki, nima bo'layotganini kuzatish qiyin edi."},
+    {term: "word of mouth", en: "", uz: "og'izdan og'izga", uzDef: "Reklama turi, bir odamdan boshqasiga aytish orqali tarqaladigan ma'lumot.", ex: "The play became a hit thanks to positive word of mouth.", exUz: "Pyesa ijobiy og'izdan og'izga tarqalishi tufayli xitga aylandi."},
+    {term: "virtuoso performance", en: "", uz: "virtuoz ijro", uzDef: "Juda yuqori mahorat bilan ijro etish.", ex: "The pianist gave a virtuoso performance that left the audience breathless.", exUz: "Pianinochi tomoshabinlarni hayratda qoldirgan virtuoz ijroni taqdim etdi."},
+    {term: "an opening night", en: "", uz: "ochilish kechasi", uzDef: "Teatr spektakli yoki filmining birinchi kechasi.", ex: "Opening night was a huge success, with critics praising the cast and direction.", exUz: "Ochilish kechasi katta muvaffaqiyat bo'ldi, tanqidchilar aktyorlar tarkibi va rejissurasini maqtashdi."},
+    {term: "a box office hit", en: "", uz: "kassa xiti", uzDef: "Katta daromad keltirgan film.", ex: "The film quickly became a box office hit, breaking all previous records.", exUz: "Film tezda kassa xitiga aylandi va barcha oldingi rekordlarni yangiladi."},
+    {term: "a blockbuster movie", en: "", uz: "blokbaster film", uzDef: "Katta byudjetga ega, katta muvaffaqiyat qozongan film.", ex: "This summer's biggest blockbuster movie is expected to draw huge crowds.", exUz: "Bu yozning eng katta blokbaster filmi katta olomonni jalb qilishi kutilmoqda."},
+    {term: "a standing room only", en: "", uz: "tik turish joyi", uzDef: "Joylar tugab, faqat tik turishga joy qolgan holat.", ex: "The concert was so popular that it was standing room only.", exUz: "Konsert shunchalik mashhur ediki, faqat tik turishga joy bor edi."},
+    {term: "in the offing", en: "", uz: "kelajakda", uzDef: "Yaqin kelajakda ro'y berishi mumkin bo'lgan narsa.", ex: "With several new projects in the offing, the studio is set for a busy year.", exUz: "Yaqin kelajakda bir nechta yangi loyihalar bilan studiya band yilga tayyor."},
+    {term: "a sell-out performance", en: "", uz: "barcha chiptalar sotilgan", uzDef: "Barcha chiptalari sotilgan spektakl yoki konsert.", ex: "The band's concert was a sell-out performance, with fans clamoring for tickets.", exUz: "Guruhning konserti barcha chiptalari sotilgan spektakl bo'ldi, muxlislar chiptalar uchun talashishdi."},
+    {term: "go off without a hitch", en: "", uz: "muammosiz o'tmoq", uzDef: "Hech qanday muammo bo'lmasdan muvaffaqiyatli o'tmoq.", ex: "The play went off without a hitch, thanks to the hard work of the cast and crew.", exUz: "Pyesa aktyorlar va ekipajning mashaqqatli mehnati tufayli hech qanday muammosiz o'tdi."},
+    {term: "an overnight sensation", en: "", uz: "bir kechada mashhur", uzDef: "Tezda va kutilmaganda mashhurlikka erishgan odam.", ex: "The singer became an overnight sensation after her song went viral.", exUz: "Qo'shiqchi qo'shig'i virusga aylangandan so'ng bir kechada mashhur bo'ldi."},
+    {term: "a stage presence", en: "", uz: "sahna ko'rinishi", uzDef: "Ijrochining sahnada o'zini tutishi, jozibasi.", ex: "The actress has incredible stage presence; she commands attention whenever she's on stage.", exUz: "Aktrisaning ajoyib sahna ko'rinishi bor; u sahnada bo'lganida e'tiborni tortadi."},
+    {term: "a critical darling", en: "", uz: "tanqidchilar suyuklisi", uzDef: "Tanqidchilar tomonidan yuqori baholangan shaxs yoki asar.", ex: "The indie film became a critical darling, winning several awards.", exUz: "Indi film tanqidchilarning suyuklisi bo'lib, bir nechta mukofotlarni qo'lga kiritdi."},
+    {term: "a slow burn", en: "", uz: "asta-sekin rivojlanish", uzDef: "Asta-sekin qiziqarli bo'lib boradigan hikoya yoki film.", ex: "The film is a slow burn, but it's worth the wait for the explosive climax.", exUz: "Film asta-sekin rivojlanadi, lekin portlovchi kulminatsiya uchun kutishga arziydi."},
+    {term: "a cult classic", en: "", uz: "kult klassika", uzDef: "Katta auditoriya tomonidan emas, balki kichik guruh muxlislar tomonidan sevib qabul qilingan film.", ex: "Despite not being a box office success, the film has become a cult classic over the years.", exUz: "Kassa muvaffaqiyatiga erishmagan bo'lsa ham, film yillar davomida kult klassikaga aylandi."},
+    {term: "play to the gallery", en: "", uz: "ommani xursand qilish", uzDef: "Ommaga yoqish uchun harakat qilish.", ex: "The comedian was accused of playing to the gallery with his cheap jokes.", exUz: "Komik o'zining arzon hazillari bilan ommani xursand qilishda ayblangan."},
+    {term: "a mixed bag", en: "", uz: "aralash taassurot", uzDef: "Yaxshi va yomon tomonlari bo'lgan narsa.", ex: "The album was a mixed bag; some songs were great, but others were forgettable.", exUz: "Albom aralash taassurot qoldirdi; ba'zi qo'shiqlar ajoyib edi, lekin boshqalari esdan chiqarildi."},
+    {term: "in the pipeline", en: "", uz: "rejalashtirilgan", uzDef: "Ishlab chiqilayotgan yoki rejalashtirilgan narsa.", ex: "The studio has several exciting new movies in the pipeline for next year.", exUz: "Studiya kelgusi yil uchun bir nechta qiziqarli yangi filmlarni rejalashtirgan."},
+    {term: "a sleeper hit", en: "", uz: "kutilmagan xit", uzDef: "Kutilmaganda muvaffaqiyat qozongan film yoki qo'shiq.", ex: "The indie film became a sleeper hit, surprising everyone with its success.", exUz: "Indi film kutilmagan xitga aylandi va o'z muvaffaqiyati bilan hammayog'ini hayratda qoldirdi."},
+    {term: "to rave about", en: "", uz: "maqtamoq", uzDef: "Juda yuqori baho berish, maqtamoq.", ex: "Critics are raving about the new play, calling it a masterpiece.", exUz: "Tanqidchilar yangi pyesani maqtashmoqda va uni durdona asar deb atashmoqda."},
+    {term: "the leading role", en: "", uz: "bosh rol", uzDef: "Film yoki spektakldagi asosiy rol.", ex: "She landed the leading role in the new musical, fulfilling her lifelong dream.", exUz: "U yangi musiqiy filmda bosh rolni qo'lga kiritdi va umrbod orzusini ro'yobga chiqardi."},
+    {term: "an action-packed", en: "", uz: "harakatga boy", uzDef: "Ko'p harakatlar bilan to'ldirilgan film yoki kitob.", ex: "The movie was an action-packed thriller that kept me on the edge of my seat.", exUz: "Film menga tinchlik bermagan harakatga boy triller edi."},
+    {term: "a tearjerker movie", en: "", uz: "yig'latuvchi film", uzDef: "Tomoshabinlarni yig'latadigan film.", ex: "I always bring tissues when I go to see a tearjerker movie.", exUz: "Men har doim yig'latuvchi filmga borganimda salfetka olib yuraman."},
+    {term: "a laugh riot", en: "", uz: "kulgu to'foni", uzDef: "Juda kulgili, xursandchilik bilan to'la voqea.", ex: "The comedy show was a laugh riot; the audience was in stitches.", exUz: "Komediya shousi kulgu to'foni edi; tomoshabinlar kulgudan qotib qolishdi."},
+    {term: "a thought-provoking", en: "", uz: "fikr uyg'otuvchi", uzDef: "Fikr yuritishga majbur qiladigan narsa.", ex: "The documentary was a thought-provoking exploration of social issues.", exUz: "Hujjatli film ijtimoiy muammolarning fikr uyg'otuvchi tadqiqoti edi."},
+    {term: "a must-see movie", en: "", uz: "ko'rish kerak bo'lgan", uzDef: "Ko'rish tavsiya etiladigan film.", ex: "The critics are calling it a must-see movie, so I'm definitely going to check it out.", exUz: "Tanqidchilar buni ko'rish kerak bo'lgan film deb atashmoqda, shuning uchun men uni albatta tekshirib ko'raman."},
+    {term: "to steal the show", en: "", uz: "e'tiborni tortmoq", uzDef: "Boshqalardan ko'ra ko'proq e'tiborni tortish, eng yaxshi bo'lish.", ex: "Although she only had a small part, she managed to steal the show with her incredible talent.", exUz: "Uning roli kichik bo'lishiga qaramay, u o'zining ajoyib iste'dodi bilan e'tiborni tortishga muvaffaq bo'ldi."},
+    {term: "a slow burner", en: "", uz: "sekin o'suvchi", uzDef: "Vaqt o'tishi bilan mashhur bo'ladigan narsa.", ex: "The song was a slow burner, gradually climbing the charts week after week.", exUz: "Qo'shiq sekin o'suvchi bo'ldi va hafta sayin chartlarda asta-sekin ko'tarildi."}
+  ]
+};

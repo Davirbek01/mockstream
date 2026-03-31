@@ -24,6 +24,7 @@ window.LISTENING_MOCK_CODES = {
   17: { fillers: [9, 8, 5, 3] },
   18: { fillers: [0, 0, 7, 4] },
   19: { fillers: [5, 8, 3, 6] },
+  20: { fillers: [4, 7, 2, 5] },
   20: { fillers: [7, 9, 2, 5] },
   21: { fillers: [1, 7, 3, 9] },
   22: { fillers: [1, 9, 1, 5] },

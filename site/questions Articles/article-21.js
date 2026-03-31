@@ -156,4 +156,347 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Harakat bo'lmasa, ijtimoiy ta'minot tizimi qulab tushadi."
         }
     }
+,
+    passageB1: `<p>People are living longer now. This is because we have <strong>healthier diets</strong> and better places to live. Also, doctors are better at <strong>treating</strong> and finding illnesses. This is good for people, especially if they stay healthy and can move around easily.</p>
+
+<p>But, because people live longer, governments have <strong>problems</strong>. Many older people need help. They might need help with <strong>personal care</strong>, like washing and dressing. Or they might need a nurse to look after them. Sometimes, they have to live in a <strong>residential home</strong> because their family can't look after them. It is hard for governments to <strong>find the money</strong> to pay for this. And old people often don't have enough money themselves.</p>
+
+<p>The number of old people is going up, but the number of young people is going down. Now, people can <strong>plan their families</strong> well. They can choose to have only one or two children. Maybe they think they can't <strong>afford</strong> more, or it would be too difficult.</p>
+
+<p>When fewer babies are born and people live longer, governments will have problems. Young and middle-aged people do most of the work and pay most of the <strong>taxes</strong>. They <strong>keep the country going</strong> because the money from taxes pays for things like schools and hospitals, and money for people who need help.</p>
+
+<p>It is <strong>worrying</strong> that there are not enough young people compared to old people. It is a problem with money. There are not enough people working to pay for the <strong>benefits system</strong>. This system helps people who can't work for some reason.</p>
+
+<p>One idea is to <strong>increase</strong> taxes a lot for people who work. Another idea is to make people <strong>retire</strong> later. Another idea is to ask healthy retired people to <strong>come back to work</strong>. People might not like these ideas, but we need to find a good solution. If we don't, our society could <strong>collapse</strong>.</p>`,
+    translationB1: `<p>Odamlar hozir uzoqroq umr ko'rishmoqda. Buning sababi, biz <strong>sog'lomroq ovqatlanamiz</strong> va yashash uchun yaxshiroq joylarga egamiz. Shuningdek, shifokorlar kasalliklarni <strong>davolash</strong> va aniqlashda yaxshiroq. Bu odamlar uchun yaxshi, ayniqsa, ular sog'lom bo'lib, bemalol harakatlana olsalar.</p>
+
+<p>Ammo, odamlar uzoqroq umr ko'rishlari sababli, hukumatlarda <strong>muammolar</strong> bor. Ko'plab keksa odamlar yordamga muhtoj. Ularga <strong>shaxsiy parvarish</strong>, masalan, yuvinish va kiyinishda yordam kerak bo'lishi mumkin. Yoki ularga qaraydigan hamshiraga muhtoj bo'lishlari mumkin. Ba'zan, oilasi ularga qaray olmagani uchun ular <strong>qariyalar uyida</strong> yashashga majbur bo'lishadi. Hukumatlarga buni to'lash uchun <strong>pul topish</strong> qiyin. Va keksa odamlarning o'zida ham ko'pincha yetarli pul bo'lmaydi.</p>
+
+<p>Keksa odamlarning soni ko'paymoqda, ammo yosh odamlarning soni kamaymoqda. Hozir odamlar <strong>oila qurishni rejalashtirishlari</strong> mumkin. Ular faqat bir yoki ikkita farzand ko'rishni tanlashlari mumkin. Ehtimol, ular ko'proq <strong>qurbi yetmaydi</strong> deb o'ylashadi, yoki bu juda qiyin bo'lardi.</p>
+
+<p>Kamroq chaqaloqlar tug'ilsa va odamlar uzoqroq umr ko'rishsa, hukumatlarda muammolar bo'ladi. Yosh va o'rta yoshli odamlar ishning ko'p qismini bajaradilar va <strong>soliqlarning</strong> ko'p qismini to'laydilar. Ular <strong>mamlakatni ushlab turadilar</strong>, chunki soliqlardan olingan pul maktablar va kasalxonalar kabi narsalar, shuningdek, yordamga muhtoj odamlar uchun pul to'lashga ketadi.</p>
+
+<p>Keksa odamlarga nisbatan yetarli yosh odamlar yo'qligi <strong>xavotirli</strong>. Bu pul bilan bog'liq muammo. <strong>Ijtimoiy ta'minot tizimini</strong> to'lash uchun yetarli ishlaydigan odamlar yo'q. Bu tizim qandaydir sababga ko'ra ishlay olmaydigan odamlarga yordam beradi.</p>
+
+<p>Bitta g'oya - ishlaydigan odamlar uchun soliqlarni sezilarli darajada <strong>oshirish</strong>. Boshqa bir g'oya - odamlarni keyinroq <strong>nafaqaga chiqarish</strong>. Yana bir g'oya - sog'lom nafaqaxo'rlardan <strong>ishga qaytishni</strong> so'rash. Odamlarga bu g'oyalar yoqmasligi mumkin, ammo biz yaxshi yechim topishimiz kerak. Agar topmasak, bizning jamiyatimiz <strong>qulashi</strong> mumkin.</p>`,
+    vocabularyB1: {
+        "healthier diets": {
+                "definition": "Eating food that is good for your health",
+                "uzbek": "Sog'lom ovqatlanish",
+                "example": "Eating more fruits and vegetables is part of having a healthier diet.",
+                "exampleUzbek": "Ko'proq meva va sabzavot iste'mol qilish sog'lom ovqatlanishning bir qismidir."
+        },
+        "treating": {
+                "definition": "Giving medical care to someone who is ill or injured",
+                "uzbek": "Davolash",
+                "example": "Doctors are treating patients with the new medicine.",
+                "exampleUzbek": "Doktorlar bemorlarni yangi dori bilan davolashmoqda."
+        },
+        "problems": {
+                "definition": "Difficulties or things that cause trouble",
+                "uzbek": "Muammolar",
+                "example": "We need to solve these problems quickly.",
+                "exampleUzbek": "Biz bu muammolarni tezda hal qilishimiz kerak."
+        },
+        "personal care": {
+                "definition": "Looking after your own body, like washing and dressing",
+                "uzbek": "Shaxsiy parvarish",
+                "example": "Some people need help with personal care as they get older.",
+                "exampleUzbek": "Ba'zi odamlar qarigan sari shaxsiy parvarishga muhtoj bo'lishadi."
+        },
+        "residential home": {
+                "definition": "A place where old people live and are looked after",
+                "uzbek": "Qariyalar uyi",
+                "example": "My grandmother lives in a residential home.",
+                "exampleUzbek": "Mening buvim qariyalar uyida yashaydi."
+        },
+        "find the money": {
+                "definition": "To get enough money for something",
+                "uzbek": "Pul topmoq",
+                "example": "It's hard to find the money for a new car.",
+                "exampleUzbek": "Yangi mashina uchun pul topish qiyin."
+        },
+        "plan their families": {
+                "definition": "To decide when and how many children to have",
+                "uzbek": "Oilani rejalashtirish",
+                "example": "People can now plan their families more easily.",
+                "exampleUzbek": "Odamlar endi oilalarini osonroq rejalashtirishlari mumkin."
+        },
+        "afford": {
+                "definition": "To have enough money to buy something",
+                "uzbek": "Qurbi yetmoq",
+                "example": "I can't afford to buy a new house.",
+                "exampleUzbek": "Mening yangi uy sotib olishga qurbim yetmaydi."
+        },
+        "taxes": {
+                "definition": "Money that people pay to the government",
+                "uzbek": "Soliqlar",
+                "example": "We pay taxes to support public services.",
+                "exampleUzbek": "Biz davlat xizmatlarini qo'llab-quvvatlash uchun soliqlar to'laymiz."
+        },
+        "keep the country going": {
+                "definition": "To help a country to continue to function well",
+                "uzbek": "Mamlakatni rivojlantirish",
+                "example": "Young people keep the country going by working and paying taxes.",
+                "exampleUzbek": "Yoshlar ishlayotgan va soliq to'layotgan holda mamlakatni rivojlantiradilar."
+        },
+        "worrying": {
+                "definition": "Causing concern or anxiety",
+                "uzbek": "Xavotirli",
+                "example": "The news about the economy is worrying.",
+                "exampleUzbek": "Iqtisodiyot haqidagi yangiliklar xavotirli."
+        },
+        "benefits system": {
+                "definition": "A system where the government gives money to people who need it",
+                "uzbek": "Nafaqa tizimi",
+                "example": "The benefits system helps people who are unemployed.",
+                "exampleUzbek": "Nafaqa tizimi ishsiz odamlarga yordam beradi."
+        },
+        "increase": {
+                "definition": "To make something bigger or more",
+                "uzbek": "Oshirish",
+                "example": "We need to increase the amount of food we produce.",
+                "exampleUzbek": "Biz ishlab chiqaradigan oziq-ovqat miqdorini oshirishimiz kerak."
+        },
+        "retire": {
+                "definition": "To stop working, usually because you are old",
+                "uzbek": "Pensiaga chiqmoq",
+                "example": "My father will retire next year.",
+                "exampleUzbek": "Otam kelasi yili pensiaga chiqadi."
+        },
+        "come back to work": {
+                "definition": "To return to a job after stopping for a period of time",
+                "uzbek": "Ishga qaytmoq",
+                "example": "The company asked retired employees to come back to work.",
+                "exampleUzbek": "Kompaniya pensiyadagi xodimlardan ishga qaytishni so'radi."
+        },
+        "collapse": {
+                "definition": "To fail suddenly and completely",
+                "uzbek": "Qulash",
+                "example": "The building collapsed after the earthquake.",
+                "exampleUzbek": "Bino zilziladan keyin qulab tushdi."
+        }
+},
+    passageB2: `<p>Thanks to better diets, improved living standards, and <strong>advancements in healthcare</strong>, people in developed countries are now living longer. This is undoubtedly positive news, especially when individuals maintain their health and mobility into old age.</p>
+
+<p>However, this increase in life expectancy presents challenges for governments. A significant number of older people <strong>require substantial care</strong>, ranging from assistance with daily activities to professional nursing. Often, this care is provided in residential or nursing homes, particularly when elderly individuals lack family members willing or able to provide support. Governments are <strong>finding it increasingly difficult</strong> to fund these services, and elderly individuals often lack the financial resources to cover the costs themselves.</p>
+
+<p>The problem is <strong>compounded by</strong> a declining birth rate alongside the growing elderly population. Widespread access to effective contraception has led to successful family planning, with many couples choosing to have only one or two children, perhaps feeling this is all they can <strong>financially manage</strong> or cope with.</p>
+
+<p>This combination of falling birth rates and increased life expectancy is likely to create problems for governments. The young and middle-aged are the primary workforce and taxpayers. In other words, they <strong>sustain the economy</strong>, as tax revenues fund public services and state benefits.</p>
+
+<p>The <strong>imbalance</strong> between the number of young and old people is therefore a serious concern financially. There are too few workers generating the necessary funds to support a state benefit system that cares for those who are unable to work for various reasons. This puts a <strong>strain</strong> on the system.</p>
+
+<p>One <strong>drastic solution</strong> would be to significantly increase taxes for those who are employed. Another is to raise the retirement age, and yet another is to encourage healthy retirees to return to the workforce. While none of these solutions may be popular, a successful strategy must be found. Ignoring the problem could lead to <strong>the collapse of social systems</strong> and <strong>economic instability</strong>. Governments need to <strong>address the issue head-on</strong> and <strong>implement sustainable solutions</strong> to ensure the well-being of both current and future generations. This requires careful planning and a <strong>long-term perspective</strong>.</p>`,
+    translationB2: `<p>Yaxshiroq ovqatlanish, turmush darajasining yaxshilanishi va <strong>sog'liqni saqlash sohasidagi yutuqlar</strong> tufayli rivojlangan mamlakatlarda odamlar hozir uzoqroq umr ko'rishmoqda. Bu, ayniqsa, odamlar keksalik davrida ham sog'lig'ini va harakatchanligini saqlab qolsa, shubhasiz, ijobiy yangilikdir.</p>
+
+<p>Biroq, umr ko'rish davomiyligining oshishi hukumatlar uchun muammolar tug'diradi. Ko'p sonli keksa odamlar <strong>jiddiy g'amxo'rlikka muhtoj</strong>, bu kundalik ishlarda yordam berishdan tortib to professional hamshiralik yordamigacha bo'lishi mumkin. Ko'pincha, bu g'amxo'rlik qariyalar uylarida yoki hamshiralik uylarida ko'rsatiladi, ayniqsa, keksa odamlarda yordam berishni xohlovchi yoki bunga qodir bo'lgan oila a'zolari bo'lmasa. Hukumatlar ushbu xizmatlarni moliyalashtirishda <strong>tobora qiyinchiliklarga duch kelmoqda</strong> va keksa odamlarning o'zlari ham ko'pincha xarajatlarni qoplash uchun yetarli moliyaviy resurslarga ega emaslar.</p>
+
+<p>Muammo <strong>keksalarning soni ortib borishi bilan birga tug'ilish darajasining pasayishi bilan yanada kuchayadi</strong>. Samarali kontratseptiv vositalardan keng foydalanish oilani muvaffaqiyatli rejalashtirishga olib keldi, ko'plab juftliklar faqat bitta yoki ikkita farzand ko'rishni tanlashmoqda, ehtimol, bu ularning <strong>moliyaviy jihatdan uddalay olishi</strong> yoki ko'tarishi mumkin bo'lgan narsa deb hisoblashadi.</p>
+
+<p>Tug'ilish darajasining pasayishi va umr ko'rish davomiyligining oshishi kombinatsiyasi hukumatlar uchun muammolar yaratishi mumkin. Yosh va o'rta yoshdagilar asosiy ishchi kuchi va soliq to'lovchilardir. Boshqacha qilib aytganda, ular <strong>iqtisodiyotni qo'llab-quvvatlaydilar</strong>, chunki soliq tushumlari davlat xizmatlari va davlat imtiyozlarini moliyalashtiradi.</p>
+
+<p>Yosh va keksa odamlar soni o'rtasidagi <strong>muvozanatning buzilishi</strong> moliyaviy jihatdan jiddiy tashvish uyg'otadi. Turli sabablarga ko'ra ishlashga qodir bo'lmaganlarga g'amxo'rlik qiladigan davlat imtiyozlari tizimini qo'llab-quvvatlash uchun zarur mablag'larni ishlab chiqaradigan ishchilar soni juda kam.</p>
+
+<p>Bir <strong>keskin yechim</strong> - ish bilan ta'minlanganlar uchun soliqlarni sezilarli darajada oshirish bo'lishi mumkin. Yana biri - pensiya yoshini oshirish, yana biri esa sog'lom nafaqaxo'rlarni ish joyiga qaytishga undash. Ushbu yechimlarning hech biri mashhur bo'lmasligi mumkin bo'lsa-da, muvaffaqiyatli strategiya topilishi kerak. Muammoga e'tibor bermaslik <strong>ijtimoiy tizimlarning qulashiga</strong> va <strong>iqtisodiy beqarorlikka</strong> olib kelishi mumkin. Hukumatlar <strong>muammoni to'g'ridan-to'g'ri hal qilishlari</strong> va hozirgi va kelajak avlodlarning farovonligini ta'minlash uchun <strong>barqaror yechimlarni amalga oshirishlari</strong> kerak. Buning uchun ehtiyotkorlik bilan rejalashtirish va <strong>uzoq muddatli istiqbol</strong> talab etiladi.</p>`,
+    vocabularyB2: {
+        "advancements in healthcare": {
+                "definition": "Improvements and progress in medical treatment and diagnosis.",
+                "uzbek": "Sog'liqni saqlash sohasidagi yutuqlar",
+                "example": "Advancements in healthcare have significantly increased life expectancy.",
+                "exampleUzbek": "Sog'liqni saqlash sohasidagi yutuqlar umr ko'rish davomiyligini sezilarli darajada oshirdi."
+        },
+        "require substantial care": {
+                "definition": "Need a significant amount of assistance and support.",
+                "uzbek": "Katta parvarishga muhtoj",
+                "example": "Elderly people often require substantial care.",
+                "exampleUzbek": "Keksa odamlar ko'pincha katta parvarishga muhtoj."
+        },
+        "finding it increasingly difficult": {
+                "definition": "Experiencing growing challenges in doing something.",
+                "uzbek": "Tobora qiyinlashib bormoqda",
+                "example": "Governments are finding it increasingly difficult to balance budgets.",
+                "exampleUzbek": "Hukumatlar byudjetlarni muvozanatlashda tobora qiyinlashib bormoqda."
+        },
+        "compounded by": {
+                "definition": "Made worse by; added to.",
+                "uzbek": "Bilan murakkablashgan",
+                "example": "The problem was compounded by a lack of resources.",
+                "exampleUzbek": "Muammo resurslarning etishmasligi bilan murakkablashdi."
+        },
+        "financially manage": {
+                "definition": "Have enough money to afford something.",
+                "uzbek": "Moliyaviy jihatdan boshqara olmoq",
+                "example": "Many families struggle to financially manage their expenses.",
+                "exampleUzbek": "Ko'p oilalar o'z xarajatlarini moliyaviy jihatdan boshqarish uchun kurashadilar."
+        },
+        "sustain the economy": {
+                "definition": "Support and maintain the economic system.",
+                "uzbek": "Iqtisodiyotni qo'llab-quvvatlamoq",
+                "example": "Young workers are essential to sustain the economy.",
+                "exampleUzbek": "Yosh ishchilar iqtisodiyotni qo'llab-quvvatlash uchun zarurdir."
+        },
+        "imbalance": {
+                "definition": "A lack of equality or proportion.",
+                "uzbek": "Muvozanatsizlik",
+                "example": "There is an imbalance in the distribution of wealth.",
+                "exampleUzbek": "Boylik taqsimotida muvozanatsizlik mavjud."
+        },
+        "strain": {
+                "definition": "Pressure or tension.",
+                "uzbek": "Zo'riqish",
+                "example": "The aging population puts a strain on healthcare resources.",
+                "exampleUzbek": "Keksa aholi sog'liqni saqlash resurslariga zo'riqish olib keladi."
+        },
+        "drastic solution": {
+                "definition": "An extreme or severe solution.",
+                "uzbek": "Keskin yechim",
+                "example": "The company took drastic solutions to avoid bankruptcy.",
+                "exampleUzbek": "Kompaniya bankrotlikdan qochish uchun keskin choralarni ko'rdi."
+        },
+        "the collapse of social systems": {
+                "definition": "Failure or breakdown of the structures that organize society.",
+                "uzbek": "Ijtimoiy tizimlarning qulashi",
+                "example": "Ignoring inequality can lead to the collapse of social systems.",
+                "exampleUzbek": "Tengsizlikka e'tibor bermaslik ijtimoiy tizimlarning qulashiga olib kelishi mumkin."
+        },
+        "economic instability": {
+                "definition": "A state of uncertainty and fluctuation in the economy.",
+                "uzbek": "Iqtisodiy beqarorlik",
+                "example": "The country is facing economic instability due to political turmoil.",
+                "exampleUzbek": "Mamlakat siyosiy notinchlik tufayli iqtisodiy beqarorlikka duch kelmoqda."
+        },
+        "address the issue head-on": {
+                "definition": "Deal with a problem directly and decisively.",
+                "uzbek": "Muammoni to'g'ridan-to'g'ri hal qilish",
+                "example": "The government needs to address the issue head-on.",
+                "exampleUzbek": "Hukumat muammoni to'g'ridan-to'g'ri hal qilishi kerak."
+        },
+        "implement sustainable solutions": {
+                "definition": "Put into effect solutions that can be maintained over time.",
+                "uzbek": "Barqaror echimlarni amalga oshirish",
+                "example": "We need to implement sustainable solutions to protect the environment.",
+                "exampleUzbek": "Atrof-muhitni muhofaza qilish uchun biz barqaror echimlarni amalga oshirishimiz kerak."
+        },
+        "long-term perspective": {
+                "definition": "Considering the effects of something over a long period of time.",
+                "uzbek": "Uzoq muddatli istiqbol",
+                "example": "We need a long-term perspective to address climate change.",
+                "exampleUzbek": "Iqlim o'zgarishiga qarshi kurashish uchun bizga uzoq muddatli istiqbol kerak."
+        }
+},
+    passageC1: `<p>The <strong>unprecedented increase</strong> in life expectancy, primarily in developed nations, is a testament to advancements in medical science, improved sanitation, and a greater emphasis on preventative healthcare. Individuals are, by and large, <strong>reaping the benefits</strong> of these developments, enjoying longer and healthier lives, provided they maintain a reasonable level of physical well-being.</p>
+
+<p>However, this demographic shift towards an <strong>ageing population</strong> presents a considerable challenge for governments. The <strong>burgeoning demand</strong> for elder care, ranging from basic assistance with daily tasks to specialized nursing facilities, places a significant strain on resources. While some families can and do provide such care, many elderly individuals lack this support network, necessitating reliance on state-funded or private institutions. The <strong>fiscal burden</strong> associated with this care is becoming increasingly unsustainable, particularly as many retirees find themselves unable to <strong>shoulder the financial responsibility</strong> themselves.</p>
+
+<p>Exacerbating this issue is the concurrent decline in birth rates. The widespread availability and adoption of effective contraception have empowered individuals to exercise greater control over family size, often opting for smaller families, perhaps due to financial constraints or lifestyle choices. This trend, coupled with increased longevity, creates a <strong>demographic imbalance</strong> with potentially far-reaching consequences.</p>
+
+<p>The <strong>far-reaching implications</strong> of this demographic shift are primarily economic. The working-age population, traditionally the engine of economic growth through taxation and productivity, is shrinking relative to the number of retirees. This <strong>erodes the tax base</strong> upon which governments rely to fund essential public services and welfare programs. It is the younger generations who <strong>bear the brunt</strong> of this financial pressure, as they effectively subsidize the care and benefits received by the older population.</p>
+
+<p>This <strong>structural imbalance</strong> between the young and old is a cause for serious concern. The dwindling workforce may struggle to generate sufficient revenue to sustain a robust social safety net for those unable to work, regardless of the reason. The viability of current welfare models is therefore called into question.</p>
+
+<p>Possible, albeit potentially unpopular, solutions include a significant increase in taxation for those in employment, raising the statutory retirement age, or incentivizing healthy retirees to <strong>re-enter the workforce</strong>. While none of these options are without their drawbacks and may <strong>meet with resistance</strong>, a viable strategy is urgently needed. Failure to address this issue effectively could <strong>jeopardize the stability</strong> of our societies and <strong>undermine the foundations</strong> of our current social structures.</p>`,
+    translationC1: `<p>Hayot davomiyligining, ayniqsa rivojlangan davlatlarda <strong>misli ko'rilmagan o'sishi</strong> tibbiyot fanining yutuqlari, sanitariya holatining yaxshilanishi va profilaktik sog'liqni saqlashga katta e'tibor qaratilishining dalilidir. Odamlar, umuman olganda, jismoniy holatlarini o'rtacha darajada saqlab turish sharti bilan, ushbu yutuqlardan <strong>bahramand bo'lib</strong>, uzoq va sog'lom hayot kechirmoqdalar.</p>
+
+<p>Biroq, aholining <strong>qarishi</strong> tomon demografik o'zgarishi hukumatlar uchun sezilarli muammoni keltirib chiqaradi. Qariyalarga g'amxo'rlik qilishga bo'lgan <strong>o'sib borayotgan talab</strong>, kundalik vazifalarda oddiy yordamdan tortib, ixtisoslashgan tibbiy muassasalargacha bo'lgan talab, resurslarga katta yuk tushiradi. Ba'zi oilalar bunday g'amxo'rlikni ta'minlay olsalar va ta'minlasalar ham, ko'plab keksa odamlarda bu kabi yordam tarmog'i yo'q, natijada davlat tomonidan moliyalashtiriladigan yoki xususiy muassasalarga tayanishga majbur bo'ladilar. Ushbu g'amxo'rlik bilan bog'liq <strong>moliyaviy yuk</strong> tobora barqaror bo'lmay qolmoqda, ayniqsa ko'plab nafaqaxo'rlar o'zlari <strong>moliyaviy mas'uliyatni o'z zimmalariga olishga</strong> qurbi yetmayotgan bir paytda.</p>
+
+<p>Bu muammoni yanada kuchaytiradigan narsa tug'ilish darajasining bir vaqtning o'zida pasayishidir. Samarali kontratseptiv vositalarning keng tarqalganligi va ulardan foydalanish odamlarga oila hajmiga nisbatan katta nazorat o'rnatish imkoniyatini berdi, ko'pincha moliyaviy cheklovlar yoki turmush tarzi tanlovi tufayli kichik oilalarni afzal ko'rishadi. Bu tendentsiya, hayot davomiyligining oshishi bilan birga, <strong>demografik nomutanosiblikni</strong> yaratadi, bu esa uzoq muddatli oqibatlarga olib kelishi mumkin.</p>
+
+<p>Ushbu demografik o'zgarishning <strong>keng qamrovli oqibatlari</strong> asosan iqtisodiy xarakterga ega. Ishlaydigan yoshdagi aholi, an'anaviy ravishda soliqqa tortish va unumdorlik orqali iqtisodiy o'sish dvigateli bo'lib, nafaqaxo'rlar soniga nisbatan qisqarmoqda. Bu hukumatlar asosiy davlat xizmatlari va ijtimoiy ta'minot dasturlarini moliyalashtirish uchun tayangan <strong>soliq bazasini yemiradi</strong>. Keksa avlod oladigan g'amxo'rlik va imtiyozlarni samarali subsidiyalash orqali ushbu moliyaviy bosimning <strong>asosiy zarbasi</strong> yosh avlodlar zimmasiga tushadi.</p>
+
+<p>Yoshlar va qariyalar o'rtasidagi ushbu <strong>strukturaviy nomutanosiblik</strong> jiddiy xavotirga solmoqda. Ishlaydiganlar sonining kamayishi, sababidan qat'i nazar, ishlashga qodir bo'lmaganlar uchun mustahkam ijtimoiy xavfsizlik tarmog'ini ta'minlash uchun yetarli daromad keltira olmasligi mumkin. Shunday qilib, joriy ijtimoiy ta'minot modellarining hayotiyligi shubha ostiga olinadi.</p>
+
+<p>Mumkin bo'lgan, ammo potentsial jihatdan ommabop bo'lmagan yechimlarga ishlayotganlar uchun soliq solishni sezilarli darajada oshirish, qonuniy nafaqaga chiqish yoshini oshirish yoki sog'lom nafaqaxo'rlarni <strong>ishga qaytishga</strong> undash kiradi. Ushbu variantlarning hech biri kamchiliklarsiz emas va <strong>qarshilikka uchrashi</strong> mumkin bo'lsa-da, tezkor strategiya zarur. Ushbu muammoni samarali hal qila olmaslik jamiyatlarimizning <strong>barqarorligiga xavf solishi</strong> va joriy ijtimoiy tuzilmalarimizning <strong>poydevorini buzishi</strong> mumkin.</p>`,
+    vocabularyC1: {
+        "unprecedented increase": {
+                "definition": "An increase that has never happened before",
+                "uzbek": "Misli ko'rilmagan o'sish",
+                "example": "The company reported an unprecedented increase in profits this quarter.",
+                "exampleUzbek": "Kompaniya shu chorakda foydaning misli ko'rilmagan o'sishi haqida xabar berdi."
+        },
+        "reaping the benefits": {
+                "definition": "Enjoying the good results of something",
+                "uzbek": "Foydasini ko'rmoq",
+                "example": "After years of hard work, she is finally reaping the benefits of her efforts.",
+                "exampleUzbek": "Uzoq yillik mehnatdan so'ng, u nihoyat o'z harakatlarining foydasini ko'rmoqda."
+        },
+        "ageing population": {
+                "definition": "A population with a rising average age",
+                "uzbek": "Qarigan aholi",
+                "example": "Many developed countries are facing the challenges of an ageing population.",
+                "exampleUzbek": "Ko'pgina rivojlangan davlatlar qarigan aholi muammolariga duch kelmoqdalar."
+        },
+        "burgeoning demand": {
+                "definition": "Rapidly increasing demand",
+                "uzbek": "Jadal o'sib borayotgan talab",
+                "example": "There is a burgeoning demand for renewable energy sources.",
+                "exampleUzbek": "Qayta tiklanadigan energiya manbalariga jadal o'sib borayotgan talab mavjud."
+        },
+        "fiscal burden": {
+                "definition": "The financial strain or responsibility",
+                "uzbek": "Moliyaviy yuk",
+                "example": "The new tax laws have created a significant fiscal burden for small businesses.",
+                "exampleUzbek": "Yangi soliq qonunlari kichik biznes uchun sezilarli moliyaviy yuk yaratdi."
+        },
+        "shoulder the financial responsibility": {
+                "definition": "To take on or bear the financial burden",
+                "uzbek": "Moliyaviy mas'uliyatni o'z zimmasiga olmoq",
+                "example": "Families often struggle to shoulder the financial responsibility of long-term care.",
+                "exampleUzbek": "Oilalar ko'pincha uzoq muddatli parvarishning moliyaviy mas'uliyatini o'z zimmasiga olish uchun kurashadilar."
+        },
+        "demographic imbalance": {
+                "definition": "An uneven distribution of different age groups within a population",
+                "uzbek": "Demografik nomutanosiblik",
+                "example": "The country is facing a demographic imbalance due to low birth rates and increased life expectancy.",
+                "exampleUzbek": "Mamlakat past tug'ilish darajasi va umr ko'rish davomiyligining oshishi sababli demografik nomutanosiblikka duch kelmoqda."
+        },
+        "far-reaching implications": {
+                "definition": "Significant and widespread consequences",
+                "uzbek": "Uzoqqa cho'ziladigan oqibatlar",
+                "example": "The decision could have far-reaching implications for the company's future.",
+                "exampleUzbek": "Bu qaror kompaniyaning kelajagi uchun uzoqqa cho'ziladigan oqibatlarga olib kelishi mumkin."
+        },
+        "erodes the tax base": {
+                "definition": "Reduces the amount of money collected through taxes",
+                "uzbek": "Soliq bazasini yemiradi",
+                "example": "Tax evasion erodes the tax base and reduces government revenue.",
+                "exampleUzbek": "Soliq to'lashdan bo'yin tovlash soliq bazasini yemiradi va hukumat daromadini kamaytiradi."
+        },
+        "bear the brunt": {
+                "definition": "To suffer the worst effects of something",
+                "uzbek": "Eng og'ir zarbani qabul qilmoq",
+                "example": "Small businesses often bear the brunt of economic downturns.",
+                "exampleUzbek": "Kichik biznes ko'pincha iqtisodiy pasayishning eng og'ir zarbasini qabul qiladi."
+        },
+        "structural imbalance": {
+                "definition": "A fundamental lack of balance in a system or structure",
+                "uzbek": "Tuzilmaviy nomutanosiblik",
+                "example": "There is a structural imbalance in the labor market between supply and demand.",
+                "exampleUzbek": "Mehnat bozorida talab va taklif o'rtasida tuzilmaviy nomutanosiblik mavjud."
+        },
+        "re-enter the workforce": {
+                "definition": "To return to working after a period of absence, often after retirement",
+                "uzbek": "Ish kuchiga qayta kirmoq",
+                "example": "Many retirees are choosing to re-enter the workforce due to financial pressures.",
+                "exampleUzbek": "Ko'pgina nafaqaxo'rlar moliyaviy bosim tufayli ish kuchiga qayta kirishni tanlamoqdalar."
+        },
+        "meet with resistance": {
+                "definition": "To encounter opposition or disapproval",
+                "uzbek": "Qarshilikka uchrash",
+                "example": "The proposed changes are likely to meet with resistance from employees.",
+                "exampleUzbek": "Tavsiya etilgan o'zgarishlar xodimlarning qarshiligiga uchrashi mumkin."
+        },
+        "jeopardize the stability": {
+                "definition": "To put the stability of something at risk",
+                "uzbek": "Barqarorlikka xavf solmoq",
+                "example": "The scandal could jeopardize the stability of the government.",
+                "exampleUzbek": "Janjal hukumatning barqarorligiga xavf solishi mumkin."
+        },
+        "undermine the foundations": {
+                "definition": "To weaken or damage the basis of something",
+                "uzbek": "Asoslarni zaiflashtirmoq",
+                "example": "Corruption can undermine the foundations of a democratic society.",
+                "exampleUzbek": "Korruptsiya demokratik jamiyat asoslarini zaiflashtirishi mumkin."
+        }
+}
 };

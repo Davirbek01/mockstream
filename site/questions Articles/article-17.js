@@ -156,4 +156,347 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Milliy parklar yovvoyi tabiatni ovchilardan himoya qiladi."
         }
     }
+,
+    passageB1: `<p>We all know that our modern life is <strong>harming</strong> the environment. This also hurts many animals. Some animals may <strong>disappear</strong> completely because of what we do. We might have already made some animals disappear.</p>
+
+<p>For millions of years, animals have <strong>died out</strong> naturally. This was part of how animals changed over time. But now, some animals are dying out because of things people do. If people had not done these things, many more animals would still be alive.</p>
+
+<p>Some animals have <strong>become extinct</strong>, or are in <strong>danger</strong> of dying out, because people hunt them. People have always hunted animals for food and clothes. This probably made some animals die out slowly. But when guns were invented, it became much easier to kill animals. From the 1800s, some animals were very close to <strong>extinction</strong>.</p>
+
+<p>At that time, people hunted animals to make money, not just for food and clothes. For example, elephants were hunted for their <strong>ivory</strong>. Now, people are trying to control this <strong>commercial hunting</strong>, but it is hard to do in some places. So, animals keep dying so that people can make money. Also, hunting for fun has helped make some animals die out.</p>
+
+<p>A newer problem for many animals is that their <strong>habitat</strong> is being destroyed. This changes the <strong>ecology</strong> of whole areas. We use <strong>pesticides</strong> and other chemicals that pollute the soil and water. This pollution is <strong>poisonous</strong> to many plants that animals need to live. Also, we often <strong>destroy</strong> land where animals live to make room for more people or to get goods for rich countries, like cutting down forests (<strong>deforestation</strong>).</p>
+
+<p>Modern life has had a <strong>bad effect</strong> on the environment. We need to change this to <strong>protect</strong> our animals and plants.</p>`,
+    translationB1: `<p>Hammamiz zamonaviy hayotimiz atrof-muhitga <strong>zarar</strong> yetkazayotganini bilamiz. Bu ko'plab hayvonlarga ham zarar yetkazadi. Ba'zi hayvonlar bizning xatti-harakatlarimiz tufayli butunlay <strong>yo'qolib ketishi</strong> mumkin. Ehtimol, biz allaqachon ba'zi hayvonlarning yo'qolishiga sabab bo'lgandirmiz.</p>
+
+<p>Millionlab yillar davomida hayvonlar tabiiy ravishda <strong>qirilib ketgan</strong>. Bu hayvonlarning vaqt o'tishi bilan o'zgarishining bir qismi edi. Ammo hozir ba'zi hayvonlar odamlarning xatti-harakatlari tufayli qirilib ketmoqda. Agar odamlar bu ishlarni qilmaganida, ancha ko'p hayvonlar hali ham tirik bo'lar edi.</p>
+
+<p>Ba'zi hayvonlar ovlanishi tufayli <strong>yo'q bo'lib ketdi</strong> yoki <strong>yo'q bo'lib ketish xavfi</strong> ostida. Odamlar doimo hayvonlarni oziq-ovqat va kiyim-kechak uchun ovlagan. Bu, ehtimol, ba'zi hayvonlarning asta-sekin qirilib ketishiga olib kelgan. Ammo qurollar ixtiro qilinganida, hayvonlarni o'ldirish ancha osonlashdi. 1800-yillardan boshlab ba'zi hayvonlar <strong>yo'q bo'lib ketish</strong> arafasida edi.</p>
+
+<p>O'sha paytda odamlar hayvonlarni faqat oziq-ovqat va kiyim-kechak uchun emas, balki pul topish uchun ham ovlagan. Misol uchun, fillar <strong>fil suyagi</strong> uchun ovlangan. Hozirda odamlar bu <strong>tijorat ovini</strong> nazorat qilishga harakat qilmoqda, ammo ba'zi joylarda buni amalga oshirish qiyin. Shunday qilib, odamlar pul topishi uchun hayvonlar o'lishda davom etmoqda. Shuningdek, zavq uchun ov qilish ham ba'zi hayvonlarning yo'q bo'lib ketishiga yordam berdi.</p>
+
+<p>Ko'pgina hayvonlar uchun yangi muammo ularning <strong>yashash joyi</strong>ning yo'q qilinishidir. Bu butun hududlarning <strong>ekologiyasi</strong>ni o'zgartiradi. Biz tuproq va suvni ifloslantiradigan <strong>pestitsidlar</strong> va boshqa kimyoviy moddalardan foydalanamiz. Bu ifloslanish hayvonlar yashashi uchun zarur bo'lgan ko'plab o'simliklar uchun <strong>zaharlidir</strong>. Shuningdek, biz ko'pincha ko'proq odamlar uchun joy ochish yoki boy mamlakatlar uchun tovarlar olish uchun hayvonlar yashaydigan yerlarni <strong>yo'q qilamiz</strong>, masalan, o'rmonlarni kesish (<strong>o'rmonlarning kesilishi</strong>).</p>
+
+<p>Zamonaviy hayot atrof-muhitga <strong>yomon ta'sir</strong> ko'rsatdi. Biz hayvonlarimiz va o'simliklarimizni <strong>himoya qilish</strong> uchun buni o'zgartirishimiz kerak.</p>`,
+    vocabularyB1: {
+        "harming": {
+                "definition": "Causing damage or injury to something or someone.",
+                "uzbek": "Zarar yetkazish",
+                "example": "Smoking is harming your health.",
+                "exampleUzbek": "Chekish sizning sog'lig'ingizga zarar yetkazmoqda."
+        },
+        "disappear": {
+                "definition": "To stop existing or be visible.",
+                "uzbek": "Yo'q bo'lib ketmoq",
+                "example": "The dinosaurs disappeared millions of years ago.",
+                "exampleUzbek": "Dinozavrlar million yillar oldin yo'q bo'lib ketgan."
+        },
+        "died out": {
+                "definition": "To become extinct; no longer exist.",
+                "uzbek": "Qirilib ketmoq",
+                "example": "Many species of plants and animals have died out.",
+                "exampleUzbek": "O'simliklar va hayvonlarning ko'p turlari qirilib ketgan."
+        },
+        "become extinct": {
+                "definition": "To no longer exist as a species.",
+                "uzbek": "Qirilib ketmoq",
+                "example": "The dodo bird has become extinct.",
+                "exampleUzbek": "Dodo qushi qirilib ketgan."
+        },
+        "danger": {
+                "definition": "The possibility of something bad happening.",
+                "uzbek": "Xavf",
+                "example": "The animals are in danger of extinction.",
+                "exampleUzbek": "Hayvonlar qirilib ketish xavfi ostida."
+        },
+        "extinction": {
+                "definition": "The state or process of a species becoming extinct.",
+                "uzbek": "Qirilib ketish",
+                "example": "Extinction is a natural process, but humans are speeding it up.",
+                "exampleUzbek": "Qirilib ketish - bu tabiiy jarayon, ammo odamlar uni tezlashtirmoqda."
+        },
+        "ivory": {
+                "definition": "A hard, white substance from the tusks of elephants and other animals.",
+                "uzbek": "Fil suyagi",
+                "example": "Ivory is used to make jewelry and other decorative items.",
+                "exampleUzbek": "Fil suyagi zargarlik buyumlari va boshqa bezak buyumlarini yasashda ishlatiladi."
+        },
+        "commercial hunting": {
+                "definition": "Hunting animals for the purpose of selling their parts or meat for profit.",
+                "uzbek": "Tijorat ov",
+                "example": "Commercial hunting can lead to the extinction of species.",
+                "exampleUzbek": "Tijorat ovi turlarning qirilib ketishiga olib kelishi mumkin."
+        },
+        "habitat": {
+                "definition": "The natural environment where an animal or plant lives.",
+                "uzbek": "Yashash joyi",
+                "example": "The panda's natural habitat is bamboo forests.",
+                "exampleUzbek": "Panda'ning tabiiy yashash joyi bambuk o'rmonlari."
+        },
+        "ecology": {
+                "definition": "The relationship between living things and their environment.",
+                "uzbek": "Ekologiya",
+                "example": "The ecology of the rainforest is very complex.",
+                "exampleUzbek": "Tropik o'rmonning ekologiyasi juda murakkab."
+        },
+        "pesticides": {
+                "definition": "Chemicals used to kill insects and other pests.",
+                "uzbek": "Pestitsidlar",
+                "example": "Pesticides can harm the environment.",
+                "exampleUzbek": "Pestitsidlar atrof-muhitga zarar etkazishi mumkin."
+        },
+        "poisonous": {
+                "definition": "Toxic; capable of causing death or illness.",
+                "uzbek": "Zaharli",
+                "example": "Some mushrooms are poisonous.",
+                "exampleUzbek": "Ba'zi qo'ziqorinlar zaharli."
+        },
+        "destroy": {
+                "definition": "To damage something so badly that it cannot be used or repaired.",
+                "uzbek": "Vayron qilmoq",
+                "example": "The fire destroyed the building.",
+                "exampleUzbek": "Yong'in binoni vayron qildi."
+        },
+        "deforestation": {
+                "definition": "The cutting down of forests.",
+                "uzbek": "O'rmonlarni kesish",
+                "example": "Deforestation is a major environmental problem.",
+                "exampleUzbek": "O'rmonlarni kesish katta ekologik muammo."
+        },
+        "bad effect": {
+                "definition": "A negative impact or consequence.",
+                "uzbek": "Yomon ta'sir",
+                "example": "Pollution has a bad effect on our health.",
+                "exampleUzbek": "Ifloslanish bizning sog'lig'imizga yomon ta'sir qiladi."
+        },
+        "protect": {
+                "definition": "To keep someone or something safe from harm.",
+                "uzbek": "Himoya qilmoq",
+                "example": "We must protect endangered species.",
+                "exampleUzbek": "Biz yo'qolib borayotgan turlarni himoya qilishimiz kerak."
+        }
+},
+    passageB2: `<p>It's now widely understood that our modern lifestyles are significantly damaging the environment. This includes the <strong>detrimental impact</strong> we're having on animal populations. In fact, we're <strong>jeopardizing</strong> the survival of numerous species, potentially pushing them to extinction.</p>
+
+<p>For millennia, animal extinction was a natural part of evolution. However, in recent times, human activities have become a primary driver of species extinction. Without our interference, many more animals would likely have continued to thrive. Human actions have <strong>accelerated</strong> what would have been a natural process.</p>
+
+<p>Hunting has either caused the extinction of some species or placed them on the <strong>endangered list</strong>. Early humans hunted for survival, using animal flesh for food and skins for clothing, undoubtedly contributing to the gradual disappearance of certain animals. However, the introduction of firearms, with their enhanced accuracy, <strong>posed a significant threat</strong> to specific species. From the nineteenth century onwards, several animals were on the <strong>verge of extinction</strong> due to hunting.</p>
+
+<p>During this period, commercial hunting expanded beyond basic needs like food and clothing. For example, elephants were hunted extensively for their ivory. While attempts are now being made to regulate this <strong>large-scale</strong> commercial hunting, enforcement can be difficult in some regions. Consequently, animals continue to be killed for profit. However, commercial interests aren't solely responsible. Sport hunting has also <strong>played a role</strong> in the extinction of particular species.</p>
+
+<p>A more contemporary threat to many animals is the <strong>destruction of habitat</strong> and the resulting disruption of entire ecosystems. Our use of pesticides and other chemicals has polluted both soil and water, proving <strong>toxic</strong> to many plants essential to animal habitats. Furthermore, we routinely <strong>clear land</strong> previously inhabited by animals to accommodate growing populations or, as with deforestation, to provide resources for wealthier countries. This is a <strong>pressing issue</strong> that needs addressing.</p>
+
+<p>Modern living has had a <strong>destructive effect</strong> on the ecosystem. To preserve our wildlife, we must actively work to <strong>reverse this trend</strong> and find more sustainable ways of living. It's a <strong>shared responsibility</strong>.</p>`,
+    translationB2: `<p>Hozirgi zamon turmush tarzimiz atrof-muhitga jiddiy zarar yetkazayotgani keng tarqalgan tushunchadir. Bunga hayvonlar populyatsiyasiga ko'rsatayotgan <strong>salbiy ta'sirimiz</strong> ham kiradi. Aslida, biz ko'plab turlarning omon qolishini <strong>xavf ostiga qo'ymoqdamiz</strong> va ularni yo'q bo'lib ketishga olib kelishimiz mumkin.</p>
+
+<p>Ming yillar davomida hayvonlarning yo'q bo'lib ketishi evolyutsiyaning tabiiy qismi bo'lgan. Biroq, so'nggi paytlarda inson faoliyati turlarning yo'q bo'lib ketishining asosiy omiliga aylandi. Bizning aralashuvimizsiz, ko'plab hayvonlar gullab-yashnashda davom etgan bo'lardi. Insonning harakatlari tabiiy jarayon bo'lishi mumkin bo'lgan narsani <strong>tezlashtirdi</strong>.</p>
+
+<p>Ov qilish ba'zi turlarning yo'q bo'lib ketishiga sabab bo'ldi yoki ularni <strong>yo'qolib ketish xavfi ostida bo'lganlar ro'yxatiga</strong> kiritdi. Qadimgi odamlar omon qolish uchun ov qilishgan, hayvon go'shtidan oziq-ovqat uchun, terisidan esa kiyim-kechak uchun foydalangan, bu esa, shubhasiz, ayrim hayvonlarning asta-sekin yo'q bo'lib ketishiga hissa qo'shgan. Biroq, aniqligi yuqori bo'lgan o'qotar qurollarning paydo bo'lishi muayyan turlar uchun <strong>jiddiy tahdid soldi</strong>. XIX asrdan boshlab, bir qancha hayvonlar ov qilish tufayli <strong>yo'q bo'lib ketish arafasida</strong> edi.</p>
+
+<p>Bu davrda tijorat ovchiligi oziq-ovqat va kiyim-kechak kabi asosiy ehtiyojlardan tashqariga chiqdi. Masalan, fillar suyaklari uchun keng ko'lamda ovlangan. Hozirda bu <strong>keng ko'lamli</strong> tijorat ovini tartibga solishga harakat qilinmoqda, ammo ba'zi hududlarda buni amalga oshirish qiyin bo'lishi mumkin. Natijada, hayvonlar foyda olish uchun o'ldirilishda davom etmoqda. Biroq, tijorat manfaatlari yagona javobgar emas. Sport ovchiligi ham muayyan turlarning yo'q bo'lib ketishida <strong>muhim rol o'ynadi</strong>.</p>
+
+<p>Ko'plab hayvonlar uchun zamonaviy tahdid - bu <strong>yashash joylarining yo'q qilinishi</strong> va butun ekotizimlarning buzilishiga olib kelishi. Bizning pestitsidlar va boshqa kimyoviy moddalardan foydalanishimiz tuproq va suvni ifloslantirdi, bu esa hayvonlar yashash joylari uchun zarur bo'lgan ko'plab o'simliklar uchun <strong>zaharli</strong> ekanligini isbotladi. Bundan tashqari, biz doimiy ravishda o'sib borayotgan aholini joylashtirish uchun yoki o'rmonlarning kesilishi kabi boyroq mamlakatlar uchun resurslar ta'minlash uchun avval hayvonlar yashagan <strong>erlarni tozalaymiz</strong>. Bu hal qilinishi kerak bo'lgan <strong>dolzarb masala</strong>.</p>
+
+<p>Zamonaviy turmush tarzi ekotizimga <strong>halokatli ta'sir</strong> ko'rsatdi. Yovvoyi tabiatimizni saqlab qolish uchun biz bu <strong>tendentsiyani o'zgartirish</strong> va yashashning yanada barqaror usullarini topish uchun faol ishlashimiz kerak. Bu <strong>umumiy mas'uliyatdir</strong>.</p>`,
+    vocabularyB2: {
+        "detrimental impact": {
+                "definition": "A harmful or damaging effect.",
+                "uzbek": "Zararli ta'sir",
+                "example": "The factory's emissions had a detrimental impact on the local environment.",
+                "exampleUzbek": "Fabrikaning chiqindilari mahalliy atrof-muhitga zararli ta'sir ko'rsatdi."
+        },
+        "jeopardizing": {
+                "definition": "Putting someone or something at risk.",
+                "uzbek": "Xavf ostiga qo'yish",
+                "example": "By not wearing a helmet, you are jeopardizing your safety.",
+                "exampleUzbek": "Dubulg'a kiymasdan, siz o'z xavfsizligingizni xavf ostiga qo'yasiz."
+        },
+        "accelerated": {
+                "definition": "To increase the rate or speed of something.",
+                "uzbek": "Tezlashtirilgan",
+                "example": "The new policy accelerated the company's growth.",
+                "exampleUzbek": "Yangi siyosat kompaniyaning o'sishini tezlashtirdi."
+        },
+        "endangered list": {
+                "definition": "A list of species that are at risk of extinction.",
+                "uzbek": "Yo'q bo'lib ketish xavfi ostida turgan turlar ro'yxati",
+                "example": "The giant panda is on the endangered list.",
+                "exampleUzbek": "Katta panda yo'q bo'lib ketish xavfi ostida turgan turlar ro'yxatida."
+        },
+        "posed a significant threat": {
+                "definition": "Presented a serious danger or risk.",
+                "uzbek": "Jiddiy xavf tug'dirdi",
+                "example": "The rising sea levels posed a significant threat to coastal communities.",
+                "exampleUzbek": "Dengiz sathining ko'tarilishi qirg'oq jamoalariga jiddiy xavf tug'dirdi."
+        },
+        "verge of extinction": {
+                "definition": "Very close to becoming extinct.",
+                "uzbek": "Yo'q bo'lib ketish arafasida",
+                "example": "The rhino was on the verge of extinction before conservation efforts began.",
+                "exampleUzbek": "Karkidonni muhofaza qilish ishlari boshlanishidan oldin yo'q bo'lib ketish arafasida edi."
+        },
+        "large-scale": {
+                "definition": "Extensive or on a grand scale.",
+                "uzbek": "Katta ko'lamli",
+                "example": "The project required large-scale investment.",
+                "exampleUzbek": "Loyiha katta ko'lamli investitsiyalarni talab qildi."
+        },
+        "played a role": {
+                "definition": "Had an effect or influence.",
+                "uzbek": "Rol o'ynadi",
+                "example": "Education played a role in reducing poverty.",
+                "exampleUzbek": "Ta'lim qashshoqlikni kamaytirishda rol o'ynadi."
+        },
+        "destruction of habitat": {
+                "definition": "The damaging or ruining of the natural environment where a species lives.",
+                "uzbek": "Yashash muhitini yo'q qilish",
+                "example": "The destruction of habitat is a major threat to wildlife.",
+                "exampleUzbek": "Yashash muhitini yo'q qilish yovvoyi tabiatga katta tahdiddir."
+        },
+        "toxic": {
+                "definition": "Poisonous or very harmful.",
+                "uzbek": "Zaharli",
+                "example": "The chemicals released into the river were toxic to fish.",
+                "exampleUzbek": "Daryoga chiqarilgan kimyoviy moddalar baliqlar uchun zaharli edi."
+        },
+        "clear land": {
+                "definition": "To remove trees, vegetation, and other obstacles from an area of land.",
+                "uzbek": "Yer maydonini tozalash",
+                "example": "They cleared the land to build a new housing development.",
+                "exampleUzbek": "Ular yangi uy-joy qurilishi uchun yer maydonini tozalashdi."
+        },
+        "pressing issue": {
+                "definition": "A problem that needs to be dealt with urgently.",
+                "uzbek": "Dolzarb masala",
+                "example": "Climate change is a pressing issue that requires immediate action.",
+                "exampleUzbek": "Iqlim o'zgarishi zudlik bilan hal qilinishi kerak bo'lgan dolzarb masaladir."
+        },
+        "destructive effect": {
+                "definition": "An action or process that causes great damage.",
+                "uzbek": "Buzuvchi ta'sir",
+                "example": "The hurricane had a destructive effect on the coastal town.",
+                "exampleUzbek": "Bo'ron qirg'oq shaharchasiga buzuvchi ta'sir ko'rsatdi."
+        },
+        "reverse this trend": {
+                "definition": "To change a situation so that it becomes the opposite of what it was.",
+                "uzbek": "Ushbu tendentsiyani o'zgartirish",
+                "example": "We need to reverse this trend of increasing pollution.",
+                "exampleUzbek": "Biz ifloslanishning kuchayib borayotgan tendentsiyasini o'zgartirishimiz kerak."
+        },
+        "shared responsibility": {
+                "definition": "A duty or obligation that is held by more than one person or group.",
+                "uzbek": "Umumiy mas'uliyat",
+                "example": "Protecting the environment is a shared responsibility.",
+                "exampleUzbek": "Atrof-muhitni muhofaza qilish umumiy mas'uliyatdir."
+        }
+},
+    passageC1: `<p>The pervasive environmental degradation wrought by our contemporary lifestyle is now, for the most part, <strong>axiomatic</strong>. This includes the undeniable harm inflicted upon countless animal species. Indeed, we are <strong>perilously close to</strong> eradicating certain species, if we haven't already <strong>sealed their fate</strong>.</p>
+
+<p>For millennia, species extinction was an intrinsic element of the natural order, an inherent facet of evolutionary processes. However, the recent surge in extinctions is largely attributable to anthropogenic activities. It could be reasonably argued that, absent human intervention, a greater number of species would have <strong>persisted</strong> and even flourished.</p>
+
+<p>Hunting has been instrumental in either driving species to extinction or rendering them endangered. While even early humans engaged in hunting for sustenance and clothing, thereby undoubtedly contributing incrementally to species decline, the advent of firearms, with their enhanced accuracy, <strong>precipitated a crisis</strong> for certain animals. From the nineteenth century onwards, several species found themselves <strong>teetering on the brink</strong> of oblivion.</p>
+
+<p>By this juncture, the motivations behind hunting had expanded beyond mere survival, encompassing commercial exploitation. The hunting of elephants for ivory serves as a <strong>pertinent example</strong>. Whilst efforts are currently underway to regulate such large-scale commercial hunting, enforcement proves challenging in numerous regions. Consequently, animals continue to <strong>succumb to</strong> the pursuit of human profit. It is crucial to acknowledge that commercial interests are not solely to blame; recreational hunting has also played a role in the demise of specific species.</p>
+
+<p>A more contemporary and insidious threat to wildlife stems from the destruction of their habitats and the consequent disruption of entire ecosystems. The extensive use of pesticides and other chemicals has contaminated both soil and water, engendering toxicity in plant life, which forms an integral part of many animals' natural environment. Furthermore, we routinely <strong>despoil</strong> land previously inhabited by animals to accommodate expanding human populations or, as exemplified by deforestation, to furnish resources for affluent nations. This reckless disregard for the natural world is <strong>tantamount to</strong> ecological vandalism.</p>
+
+<p>Modern living has had a <strong>deleterious impact</strong> on the ecosystem, the repercussions of which are far-reaching. To safeguard our wildlife, we must endeavor to <strong>reverse this trend</strong> and foster a more sustainable coexistence with the natural world. The future <strong>hinges on</strong> our collective willingness to embrace change.</p>`,
+    translationC1: `<p>Bizning zamonaviy turmush tarzimiz natijasida yuzaga kelgan keng tarqalgan ekologik tanazzul, ko'p jihatdan, <strong>aksiomatik</strong> hisoblanadi. Bunga son-sanoqsiz hayvon turlariga yetkazilgan inkor etib bo'lmaydigan zarar ham kiradi. Haqiqatan ham, biz ayrim turlarni yo'q qilib yuborishga <strong>juda yaqinmiz</strong>, agar ularning taqdirini allaqachon <strong>muhrlab qo'ymagan bo'lsak</strong>.</p>
+
+<p>Ming yillar davomida turlarning qirilib ketishi tabiiy tartibning ajralmas elementi, evolyutsion jarayonlarning o'ziga xos jihati edi. Biroq, so'nggi paytlarda qirilib ketish holatlarining keskin ortishi asosan antropogen faoliyat bilan bog'liq. Inson aralashuvi bo'lmagan taqdirda, ko'proq tur <strong>saqlanib qolishi</strong> va hatto rivojlanishi mumkin edi, deb taxmin qilish mumkin.</p>
+
+<p>Ovchilik turlarni yo'q bo'lib ketishiga yoki yo'qolib ketish xavfi ostida qolishiga olib keluvchi muhim omil bo'lib kelgan. Hatto qadimgi odamlar ham oziq-ovqat va kiyim-kechak uchun ov qilgan bo'lsalar, shu bilan turlarning kamayishiga asta-sekin hissa qo'shgan bo'lsalar ham, o'q otish qurollarining paydo bo'lishi, ularning aniqligi yuqori bo'lganligi sababli, ayrim hayvonlar uchun <strong>inqirozga olib keldi</strong>. XIX asrdan boshlab, bir nechta tur <strong>yo'q bo'lib ketish yoqasida</strong> qoldi.</p>
+
+<p>Shu nuqtaga kelib, ovchilikning sabablari oddiygina omon qolishdan tashqari, tijorat maqsadlarida foydalanishni ham o'z ichiga oldi. Fil suyagi uchun fillarni ovlash bunga <strong>yaxshi misol</strong> bo'la oladi. Hozirda bunday keng ko'lamli tijorat ovini tartibga solish bo'yicha harakatlar olib borilayotgan bo'lsa-da, ko'plab hududlarda nazoratni ta'minlash qiyin bo'lmoqda. Natijada, hayvonlar inson foydasi uchun ta'qib qilishga <strong>qurbon bo'lishda davom etmoqda</strong>. Tijorat manfaatlari yagona aybdor emasligini tan olish muhim; dam olish uchun ov qilish ham muayyan turlarning yo'q bo'lib ketishida rol o'ynadi.</p>
+
+<p>Yovvoyi tabiatga nisbatan zamonaviy va xavfliroq tahdid ularning yashash joylarining vayron qilinishi va butun ekotizimlarning buzilishidan kelib chiqadi. Pestitsidlar va boshqa kimyoviy moddalarning keng qo'llanilishi tuproq va suvni ifloslantirdi, bu ko'plab hayvonlarning tabiiy muhitining ajralmas qismi bo'lgan o'simliklar hayotida toksiklikni keltirib chiqardi. Bundan tashqari, biz odatda inson populyatsiyasining kengayishini ta'minlash uchun yoki, o'rmonlarning kesilishi misolida ko'rsatilganidek, badavlat davlatlar uchun resurslar yetkazib berish uchun ilgari hayvonlar yashagan erlarni <strong>buzamiz</strong>. Tabiiy dunyoga nisbatan bu beparvolik ekologik vandalizmga <strong>tengdir</strong>.</p>
+
+<p>Zamonaviy hayot ekotizimga <strong>salbiy ta'sir</strong> ko'rsatdi, buning oqibatlari uzoqqa boradi. Yovvoyi tabiatimizni himoya qilish uchun biz <strong>bu tendentsiyani o'zgartirishga</strong> va tabiiy dunyo bilan yanada barqaror hamkorlikni rivojlantirishga harakat qilishimiz kerak. Kelajak o'zgarishlarni qabul qilishga bo'lgan umumiy xohishimizga <strong>bog'liq</strong>.</p>`,
+    vocabularyC1: {
+        "axiomatic": {
+                "definition": "Self-evident or unquestionable.",
+                "uzbek": "O'z-o'zidan ravshan yoki shubhasiz.",
+                "example": "It is axiomatic that pollution is harmful to the environment.",
+                "exampleUzbek": "Atrof-muhitga ifloslanishning zararli ekanligi o'z-o'zidan ravshan."
+        },
+        "perilously close to": {
+                "definition": "Dangerously near to something negative.",
+                "uzbek": "Nimadir salbiy narsaga xavfli darajada yaqin.",
+                "example": "The company is perilously close to bankruptcy.",
+                "exampleUzbek": "Kompaniya bankrotlikka xavfli darajada yaqin."
+        },
+        "sealed their fate": {
+                "definition": "Determined a negative outcome for someone or something.",
+                "uzbek": "Kimdir yoki nimadir uchun salbiy natijani aniqladi.",
+                "example": "The judge's decision sealed their fate.",
+                "exampleUzbek": "Sudyaning qarori ularning taqdirini hal qildi."
+        },
+        "persisted": {
+                "definition": "Continued to exist or occur over a prolonged period.",
+                "uzbek": "Uzoq vaqt davomida mavjud bo'lish yoki sodir bo'lishda davom etdi.",
+                "example": "Despite the challenges, the company persisted.",
+                "exampleUzbek": "Qiyinchiliklarga qaramay, kompaniya o'z faoliyatini davom ettirdi."
+        },
+        "precipitated a crisis": {
+                "definition": "Caused a crisis to happen suddenly or unexpectedly.",
+                "uzbek": "To'satdan yoki kutilmaganda inqirozning sodir bo'lishiga sabab bo'ldi.",
+                "example": "The oil spill precipitated a major environmental crisis.",
+                "exampleUzbek": "Neft to'kilishi katta ekologik inqirozni keltirib chiqardi."
+        },
+        "teetering on the brink": {
+                "definition": "Very close to a dangerous or unpleasant situation.",
+                "uzbek": "Xavfli yoki yoqimsiz vaziyatga juda yaqin.",
+                "example": "The country is teetering on the brink of war.",
+                "exampleUzbek": "Mamlakat urush yoqasida turibdi."
+        },
+        "pertinent example": {
+                "definition": "A relevant and suitable example.",
+                "uzbek": "Tegishli va mos misol.",
+                "example": "The study provides a pertinent example of the effects of climate change.",
+                "exampleUzbek": "Tadqiqot iqlim o'zgarishining oqibatlariga tegishli misolni taqdim etadi."
+        },
+        "succumb to": {
+                "definition": "To give way to superior force; yield.",
+                "uzbek": "Yuqori kuchga yo'l qo'yish; taslim bo'lish.",
+                "example": "The city succumbed to the invading army.",
+                "exampleUzbek": "Shahar bosqinchi armiyaga taslim bo'ldi."
+        },
+        "despoil": {
+                "definition": "To strip of valuables; plunder; pillage.",
+                "uzbek": "Qimmatbaho narsalardan mahrum qilish; talon-toroj qilish.",
+                "example": "They despoiled the forest for timber.",
+                "exampleUzbek": "Ular o'rmonni yog'och uchun talon-toroj qilishdi."
+        },
+        "tantamount to": {
+                "definition": "Equivalent in seriousness to; virtually the same as.",
+                "uzbek": "Jiddiylik jihatidan teng; deyarli bir xil.",
+                "example": "Lying under oath is tantamount to perjury.",
+                "exampleUzbek": "Qasamyod ostida yolg'on gapirish yolg'on guvohlik berish bilan teng."
+        },
+        "deleterious impact": {
+                "definition": "Harmful or damaging effect.",
+                "uzbek": "Zararli yoki shikast etkazuvchi ta'sir.",
+                "example": "Pollution has a deleterious impact on human health.",
+                "exampleUzbek": "Ifloslanish inson salomatligiga zararli ta'sir ko'rsatadi."
+        },
+        "reverse this trend": {
+                "definition": "To change a negative trend into a positive one.",
+                "uzbek": "Salbiy tendentsiyani ijobiy tomonga o'zgartirish.",
+                "example": "We need to reverse this trend of declining sales.",
+                "exampleUzbek": "Biz sotuvlarning pasayish tendentsiyasini o'zgartirishimiz kerak."
+        },
+        "hinges on": {
+                "definition": "Depends entirely on.",
+                "uzbek": "Butunlay bog'liq.",
+                "example": "The success of the project hinges on securing funding.",
+                "exampleUzbek": "Loyihaning muvaffaqiyati moliyalashtirishni ta'minlashga bog'liq."
+        },
+        "anthropogenic activities": {
+                "definition": "Activities originating from human activity.",
+                "uzbek": "Inson faoliyatidan kelib chiqadigan harakatlar.",
+                "example": "Climate change is driven by anthropogenic activities.",
+                "exampleUzbek": "Iqlim o'zgarishi inson faoliyati natijasida kelib chiqadi."
+        }
+}
 };

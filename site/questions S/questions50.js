@@ -28,6 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When did you first use the internet?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I first used the internet when I was in primary school, <span class=\"ml-token adv\">probably</span> around the age of eight. Back then, connection speeds were <span class=\"ml-token adv\">agonizingly</span> slow, and we had to rely on a <span class=\"ml-token colloc\">dial-up modem</span> that made a terrible screeching noise.</div>\n\n<div><span class=\"ml-token adv\">Initially</span>, I only used it to play simple flash games or search for basic information for school projects. It is <span class=\"ml-token adv\">truly</span> <span class=\"ml-token colloc\">mind-boggling</span> to see how <span class=\"ml-token adv\">exponentially</span> the digital landscape has evolved since those <span class=\"ml-token proverb\">\"early days.\"</span></div>",
       "vocabulary": {
@@ -50,7 +51,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I... internet... when I was... small.  I play games.</p>",
       "sampleA2": "<p>I first used the internet when I was a child. I think I was maybe eight years old. We had a computer at home and I used it to play games and look at pictures. It was fun, but it was very slow.</p>",
       "sampleB1": "<p>I think I first used the internet when I was around ten years old. We had dial-up, which was incredibly slow compared to today. I mainly used it for school projects, like researching animals, and also to play online games. It was pretty basic back then, but I remember being really excited about it. <span class=\"ml-token adv\">However</span>, it was also very annoying when the phone line was busy.</p>",
-      "sampleB2": "<p>I remember first encountering the internet sometime in the late nineties, probably around the age of nine or ten. We had a bulky desktop computer with a dial-up modem, and the process of connecting was always an exercise in patience. Initially, my use was limited to searching for information for school assignments and playing rudimentary online games. While the internet of that era was primitive by today's standards, it <span class=\"ml-token adv\">definitely</span> sparked my curiosity about the possibilities of digital communication and information access. I think it really shaped my interest in technology later in life.</p>"
+      "sampleB2": "<p>I remember first encountering the internet sometime in the late nineties, probably around the age of nine or ten. We had a bulky desktop computer with a dial-up modem, and the process of connecting was always an exercise in patience. Initially, my use was limited to searching for information for school assignments and playing rudimentary online games. While the internet of that era was primitive by today's standards, it <span class=\"ml-token adv\">definitely</span> sparked my curiosity about the possibilities of digital communication and information access. I think it really shaped my interest in technology later in life.</p>",
+      "uzSampleAnswer": "<p>Men internetdan birinchi marta boshlang'ich maktabda o'qiganimda foydalanganman, taxminan sakkiz yoshimda bo'lganman. O'sha paytlarda ulanish tezligi juda sekin edi va biz dahshatli g'ichirlagan ovoz chiqaradigan dial-up modemga tayanishimiz kerak edi.</p>\n<p>Dastlab, men undan faqat oddiy flesh o'yinlarini o'ynash yoki maktab loyihalari uchun asosiy ma'lumotlarni qidirish uchun foydalanardim. O'sha \"dastlabki kunlardan\" beri raqamli landshaft qanchalik tez rivojlanganini ko'rish haqiqatan ham hayratlanarli.</p>",
+      "uzSampleA1": "<p>Men... internet... men... kichkina bo'lganimda. Men o'yinlar o'ynayman.</p>",
+      "uzSampleA2": "<p>Men birinchi marta internetdan bolaligimda foydalanganman. O'ylashimcha, men sakkiz yoshda bo'lganman. Uyda kompyuterimiz bor edi va men undan o'yin o'ynash va rasmlarga qarash uchun foydalanardim. Bu qiziqarli edi, lekin juda sekin edi.</p>",
+      "uzSampleB1": "<p>Menimcha, internetdan birinchi marta o'n yoshlarimda foydalanganman. Bizda dial-up aloqasi bor edi, u bugungi kunga nisbatan juda sekin edi. Men asosan undan maktab loyihalari uchun, masalan, hayvonlarni o'rganish uchun va onlayn o'yinlar o'ynash uchun foydalandim. O'sha paytda u juda oddiy edi, lekin men bundan juda xursand bo'lganimni eslayman. <br>Shunga qaramay, telefon liniyasi band bo'lganda ham juda asabiylashardim.</p>",
+      "uzSampleB2": "<p>Men internetga birinchi marta to'qsoninchi yillarning oxirida, taxminan to'qqiz yoki o'n yoshlarimda duch kelganimni eslayman. Bizda dial-up modemli katta stol kompyuterimiz bor edi va ulanish jarayoni har doim sabr-toqatni talab qilardi. Dastlab, mening foydalanishim maktab topshiriqlari uchun ma'lumot qidirish va oddiy onlayn o'yinlar o'ynash bilan cheklangan edi. O'sha davrdagi internet bugungi standartlarga ko'ra ibtidoiy bo'lsa-da, u raqamli aloqa va ma'lumot olish imkoniyatlariga bo'lgan qiziqishimni albatta uyg'otdi. O'ylaymanki, bu keyinchalik hayotimda texnologiyaga bo'lgan qiziqishimni shakllantirdi.</p>"
     },
     {
       "number": 2,
@@ -59,6 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you pay attention to your diet?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Absolutely</span>. I try to be <span class=\"ml-token adv\">highly</span> conscious of my diet by avoiding overly processed foods and reducing my sugar intake. I <span class=\"ml-token adv\">firmly</span> believe that maintaining a <span class=\"ml-token colloc\">balanced diet</span> is essential for long-term health.</div>\n\n<div><span class=\"ml-token adv\">Occasionally</span>, I might indulge in a <span class=\"ml-token colloc\">guilty pleasure</span> like a slice of chocolate cake, but I <span class=\"ml-token adv\">generally</span> stick to wholesome, nutritious meals because I subscribe to the belief that <span class=\"ml-token proverb\">\"you are what you eat.\"</span></div>",
       "vocabulary": {
@@ -81,7 +88,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes. I eat. I like pizza.</p>",
       "sampleA2": "<p>Yes, I pay attention. I eat fruit and vegetables. But I also eat chocolate sometimes because it is good.</p>",
       "sampleB1": "<p>Yes, I try to pay attention to my diet. I think it's important for my health. I try to eat healthy food like vegetables and fruit. <span class=\"ml-token adv\">However</span>, sometimes I eat fast food because it's easy.</p>",
-      "sampleB2": "<p>I would say I <span class=\"ml-token adv\">generally</span> pay attention to my diet, although I'm not always perfect. I try to make healthy choices most of the time, focusing on fresh ingredients and balanced meals. I'm aware that a good diet is crucial for both physical and mental well-being. Of course, there are occasions when I might indulge in something less healthy, but I see that as a treat rather than a regular habit.</p>"
+      "sampleB2": "<p>I would say I <span class=\"ml-token adv\">generally</span> pay attention to my diet, although I'm not always perfect. I try to make healthy choices most of the time, focusing on fresh ingredients and balanced meals. I'm aware that a good diet is crucial for both physical and mental well-being. Of course, there are occasions when I might indulge in something less healthy, but I see that as a treat rather than a regular habit.</p>",
+      "uzSampleAnswer": "<p>Albatta. Men haddan tashqari qayta ishlangan mahsulotlardan qochish va shakar iste'molini kamaytirish orqali ovqatlanishimga juda e'tibor berishga harakat qilaman. Men uzoq muddatli salomatlik uchun muvozanatli ovqatlanish muhim, deb qat'iy ishonaman.</p>\n<p>Vaqti-vaqti bilan shokoladli tort bo'lagi kabi \"gunohkor lazzat\"dan bahramand bo'lishim mumkin, lekin men odatda foydali, to'yimli ovqatlarga amal qilaman, chunki men \"nima yesang, shusan\" degan fikrga qo'shilaman.</p>",
+      "uzSampleA1": "<p>Ha. Men ovqat yeyman. Menga pizza yoqadi.</p>",
+      "uzSampleA2": "<p>Ha, men e'tibor beraman. Men meva va sabzavotlar yeyman. Lekin men ba'zida shokolad ham yeyman, chunki u mazali.</p>",
+      "uzSampleB1": "<p>Ha, men ovqatlanishimga e'tibor berishga harakat qilaman. Menimcha, bu sog'lig'im uchun muhim. Sabzavotlar va mevalar kabi sog'lom ovqatlarni yeyishga harakat qilaman. <br>Shunga qaramay, ba'zida tez tayyorlanadigan ovqatlarni yeyman, chunki bu oson.</p>",
+      "uzSampleB2": "<p>Men, odatda, ovqatlanishimga e'tibor beraman, deb ayta olaman, garchi har doim ham mukammal emasman. Ko'pincha sog'lom tanlovlar qilishga harakat qilaman, yangi masalliqlar va muvozanatli ovqatlarga e'tibor qarataman. Yaxshi ovqatlanish jismoniy va ruhiy farovonlik uchun juda muhim ekanligini bilaman. Albatta, ba'zida unchalik sog'lom bo'lmagan narsalarni iste'mol qilishim mumkin, lekin men buni doimiy odatdan ko'ra ko'proq xursandchilik deb bilaman.</p>"
     },
     {
       "number": 3,
@@ -90,6 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do many people in your country using bicycles?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, cycling has become <span class=\"ml-token adv\">increasingly</span> popular in recent years, <span class=\"ml-token adv\">especially</span> in major cities. Many locals use bicycles for their daily commute because it is an <span class=\"ml-token colloc\">eco-friendly alternative</span> to driving and helps them avoid <span class=\"ml-token colloc\">traffic congestion</span>.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, the government has <span class=\"ml-token adv\">actively</span> invested in building dedicated bike lanes, making it much safer. People are realizing that cycling kills two birds with one stone—it improves <span class=\"ml-token colloc\">cardiovascular health</span> while simultaneously protecting the environment.</div>",
       "vocabulary": {
@@ -112,7 +125,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Yes. I have bike. My friend have bike.</p>",
       "sampleA2": "<p>Yes, some people use bikes. I see bikes in the park and on the street. It is good for exercise, and it is cheap.</p>",
       "sampleB1": "<p>Yes, I think a lot of people in my country use bicycles. <span class=\"ml-token adv\">Especially</span> in the cities, because it's easier than driving. Also, it's good for your health. <span class=\"ml-token adv\">However</span>, it's not so common in the countryside.</p>",
-      "sampleB2": "<p>Yes, the popularity of bicycles is <span class=\"ml-token adv\">definitely</span> growing in my country. You see more and more people cycling, <span class=\"ml-token adv\">particularly</span> in urban areas. I believe this is partly due to increased awareness of environmental issues and a desire for healthier lifestyles. <span class=\"ml-token adv\">Furthermore</span>, some cities are investing in better cycling infrastructure, which encourages more people to choose bikes over cars for shorter journeys.</p>"
+      "sampleB2": "<p>Yes, the popularity of bicycles is <span class=\"ml-token adv\">definitely</span> growing in my country. You see more and more people cycling, <span class=\"ml-token adv\">particularly</span> in urban areas. I believe this is partly due to increased awareness of environmental issues and a desire for healthier lifestyles. <span class=\"ml-token adv\">Furthermore</span>, some cities are investing in better cycling infrastructure, which encourages more people to choose bikes over cars for shorter journeys.</p>",
+      "uzSampleAnswer": "<p>Ha, so'nggi yillarda velosiped haydash tobora ommalashib bormoqda, ayniqsa yirik shaharlarda. Ko'plab mahalliy aholi velosipedlardan kundalik ishga borish uchun foydalanadi, chunki bu mashina haydashga ekologik toza alternativa va ularga tirbandlikdan qochishga yordam beradi.</p>\n<p>Bundan tashqari, hukumat maxsus velosiped yo'laklarini qurishga faol sarmoya kiritmoqda, bu esa uni ancha xavfsizroq qiladi. Odamlar velosiped haydash bir o'q bilan ikki quyonni urishini anglashmoqda - u bir vaqtning o'zida yurak-qon tomir salomatligini yaxshilaydi va atrof-muhitni himoya qiladi.</p>",
+      "uzSampleA1": "<p>Ha. Menda velosiped bor. Mening do'stimda velosiped bor.</p>",
+      "uzSampleA2": "<p>Ha, ba'zi odamlar velosipedlardan foydalanadi. Men velosipedlarni parkda va ko'chada ko'raman. Bu jismoniy mashqlar uchun yaxshi va arzon.</p>",
+      "uzSampleB1": "<p>Ha, menimcha, mening mamlakatimda ko'p odamlar velosipedlardan foydalanadi. <br> Ayniqsa, shaharlarda, chunki bu mashina haydashdan osonroq. <br> Bundan tashqari, bu sizning sog'lig'ingiz uchun foydali. <br> Biroq, qishloq joylarda bu unchalik keng tarqalgan emas.</p>",
+      "uzSampleB2": "<p>Ha, mening mamlakatimda velosipedlarning ommaviyligi albatta o'sib bormoqda. Ayniqsa, shahar joylarida velosipedda yurgan odamlarni tobora ko'proq ko'ryapsiz. Menimcha, buning sababi qisman atrof-muhit muammolari haqida xabardorlikning oshishi va sog'lom turmush tarziga intilishdir. Bundan tashqari, ba'zi shaharlar velosiped infratuzilmasini yaxshilashga sarmoya kiritmoqda, bu esa ko'proq odamlarni qisqa masofalarga mashinalar o'rniga velosipedlarni tanlashga undaydi.</p>"
     },
     {
       "number": 4,
@@ -121,6 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you see in these pictures?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture shows a family huddled together on a sofa, <span class=\"ml-token adv\">joyfully</span> watching a movie. The atmosphere is <span class=\"ml-token adv\">incredibly</span> warm and <span class=\"ml-token colloc\">convivial</span>, highlighting a classic <span class=\"ml-token colloc\">bonding experience</span> where everyone is interacting and sharing laughter.</div>\n\n<div><span class=\"ml-token adv\">In stark contrast</span>, the second picture displays an individual sitting <span class=\"ml-token adv\">quietly</span> by themselves, watching a film on a laptop. This setting <span class=\"ml-token adv\">clearly</span> represents a solitary, <span class=\"ml-token colloc\">introspective activity</span>. While the first image focuses on shared entertainment, the second <span class=\"ml-token adv\">beautifully</span> illustrates the modern desire for personalized, uninterrupted escapism.</div>",
       "vocabulary": {
@@ -143,7 +162,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Picture one, family. Happy.</p><p>Picture two, one person. Watching TV.</p>",
       "sampleA2": "<p>I see a family. They are watching TV and they are happy.</p><p>And I see one person. He is watching TV too, but he is alone.</p><p>Maybe he is sad.</p>",
       "sampleB1": "<p>In the first picture, I see a family watching a movie together. They look like they are having a good time.</p><p>The second picture shows a person who is watching a movie by himself. Maybe he prefers to watch alone.</p><p>I think both are okay, but I prefer watching with friends.</p>",
-      "sampleB2": "<p>The first picture depicts a family enjoying a movie night together. It seems like a very cozy and bonding experience, with everyone sharing the moment.</p><p><span class=\"ml-token adv\">In contrast</span>, the second picture shows someone watching a movie alone on a laptop. This suggests a more solitary form of entertainment.</p><p>While both pictures involve watching a film, they highlight different ways people choose to spend their leisure time, one communal and the other individualistic.</p>"
+      "sampleB2": "<p>The first picture depicts a family enjoying a movie night together. It seems like a very cozy and bonding experience, with everyone sharing the moment.</p><p><span class=\"ml-token adv\">In contrast</span>, the second picture shows someone watching a movie alone on a laptop. This suggests a more solitary form of entertainment.</p><p>While both pictures involve watching a film, they highlight different ways people choose to spend their leisure time, one communal and the other individualistic.</p>",
+      "uzSampleAnswer": "<p>Birinchi rasmda bir oila divanda birga o'tirib, xursandchilik bilan kino tomosha qilayotganini ko'rish mumkin. Atmosfera juda iliq va samimiy, bu har bir kishi o'zaro muloqotda bo'lib, kulgini baham ko'radigan klassik birlashuv tajribasini ta'kidlaydi.</p>\n\n<p>Bunga keskin zid o'laroq, ikkinchi rasmda bir shaxs yolg'iz o'zi kompyuterda film tomosha qilib o'tirgani aks etgan. Bu holat aniq yolg'izlikni, ichki o'y-fikrlarga berilish faoliyatini ifodalaydi. Birinchi rasm umumiy ko'ngil ochishga qaratilgan bo'lsa, ikkinchisi shaxsiy, uzluksiz hordiq chiqarishga bo'lgan zamonaviy istakni chiroyli tarzda tasvirlaydi.</p>",
+      "uzSampleA1": "<p>Birinchi rasm, oila. Baxtli.</p><p>Ikkinchi rasm, bir kishi. Televizor ko'ryapti.</p>",
+      "uzSampleA2": "<p>Men bir oilani ko'ryapman. Ular televizor ko'rishyapti va ular xursand.</p><p>Va men bir odamni ko'ryapman. U ham televizor ko'ryapti, lekin u yolg'iz.</p><p>Balki u qayg'ulidir.</p>",
+      "uzSampleB1": "<p>Birinchi rasmda men bir oilani birgalikda kino ko'rayotganini ko'ryapman. Ularning kayfiyatlari yaxshi ko'rinadi.</p><p>Ikkinchi rasmda esa yolg'iz o'zi kino ko'rayotgan odamni ko'rsatadi. Ehtimol, u yolg'iz ko'rishni afzal ko'radi.</p><p>Menimcha, ikkalasi ham yaxshi, lekin men do'stlarim bilan ko'rishni afzal ko'raman.</p>",
+      "uzSampleB2": "<p>Birinchi rasmda bir oila birgalikda kino kechasidan zavqlanayotganini ko'rish mumkin. Bu juda ham iliq va yaqinlashtiruvchi tajriba ekanligi ko'rinib turibdi, hamma bir lahzani baham ko'rmoqda.</p><p>Bunga zid ravishda, ikkinchi rasmda kimdir noutbukda yolg'iz kino tomosha qilayotgani ko'rsatilgan. Bu ko'ngilochar vaqtni o'tkazishning ancha yakka shaklini taklif qiladi.</p><p>Ikkala rasm ham film tomosha qilishni o'z ichiga olgan bo'lsa-da, ular odamlarning bo'sh vaqtlarini o'tkazishning turli usullarini ta'kidlaydi, biri jamoaviy, ikkinchisi esa individualistik.</p>"
     },
     {
       "number": 5,
@@ -152,6 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 60,
       "prompt": "How can watching movies together strengthen family relationships?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Watching movies as a group acts as a <span class=\"ml-token adv\">remarkably</span> powerful catalyst for family bonding. <span class=\"ml-token adv\">Firstly</span>, it provides a <span class=\"ml-token colloc\">shared experience</span>. In today's fast-paced world, sitting down together guarantees dedicated <span class=\"ml-token colloc\">quality time</span> free from the distractions of separate devices.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, it <span class=\"ml-token adv\">naturally</span> sparks meaningful conversations. A thought-provoking film can serve as an <span class=\"ml-token colloc\">excellent icebreaker</span>, allowing parents and children to discuss complex moral dilemmas, emotions, and life lessons <span class=\"ml-token adv\">comfortably</span> in a safe environment.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, creating these cozy traditions builds <span class=\"ml-token colloc\">long-lasting memories</span>. Laughing at a comedy or anticipating a thriller's climax ensures that the family remains emotionally connected, proving that <span class=\"ml-token proverb\">\"the family that plays together, stays together.\"</span></div>",
       "vocabulary": {
@@ -174,7 +199,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like movies. My family watches movies. It is fun.</p>",
       "sampleA2": "<p>I like to watch movies with my family. We eat popcorn and it's good. I think it's nice because we are together and we laugh.</p>",
       "sampleB1": "<p>I think watching movies together is good for families. It's a way to spend time together, and you can talk about the movie afterwards. <span class=\"ml-token adv\">For example</span>, we watched a funny movie last week and we all laughed a lot. Also, it's just relaxing to sit together and watch something interesting.</p>",
-      "sampleB2": "<p>Watching movies together can <span class=\"ml-token adv\">definitely</span> improve family relationships. It offers a shared activity that encourages interaction and creates a sense of togetherness. After watching, the movie can be a starting point for conversations about the themes, characters, or even related personal experiences. This can help family members understand each other better. <span class=\"ml-token adv\">Furthermore</span>, it establishes a tradition of shared leisure time, which is important for building lasting bonds. It's a relatively simple way to connect in a busy world.</p>"
+      "sampleB2": "<p>Watching movies together can <span class=\"ml-token adv\">definitely</span> improve family relationships. It offers a shared activity that encourages interaction and creates a sense of togetherness. After watching, the movie can be a starting point for conversations about the themes, characters, or even related personal experiences. This can help family members understand each other better. <span class=\"ml-token adv\">Furthermore</span>, it establishes a tradition of shared leisure time, which is important for building lasting bonds. It's a relatively simple way to connect in a busy world.</p>",
+      "uzSampleAnswer": "<p>Birgalikda kino tomosha qilish oilaviy rishtalarni mustahkamlash uchun juda kuchli katalizator vazifasini o'taydi. Birinchidan, bu umumiy tajriba taqdim etadi. Bugungi tez sur'atlar bilan rivojlanayotgan dunyoda birga o'tirish alohida qurilmalarning chalg'ituvchi omillaridan xoli bo'lgan sifatli vaqtni kafolatlaydi.</p>\n<p>Ikkinchidan, bu tabiiy ravishda mazmunli suhbatlarni keltirib chiqaradi. Fikrga soluvchi film ota-onalar va bolalarga murakkab axloqiy dilemmalar, his-tuyg'ular va hayot saboqlarini xavfsiz muhitda qulay tarzda muhokama qilish imkonini beruvchi ajoyib muz yorar vazifasini o'tashi mumkin.</p>\n<p>Va nihoyat, bunday qulay an'analarni yaratish uzoq muddatli xotiralarni shakllantiradi. Komediyaga kulish yoki trillerning kulminatsion nuqtasini kutish oilaning hissiy jihatdan bog'langanligini ta'minlaydi va \"birga o'ynaydigan oila birga qoladi\" degan maqolni isbotlaydi.</p>",
+      "uzSampleA1": "<p>Men kinolarni yaxshi ko'raman. Mening oilam kinolar ko'radi. Bu qiziqarli.</p>",
+      "uzSampleA2": "<p>Men oilam bilan birga kino ko'rishni yaxshi ko'raman. Biz popkorn yeymiz va bu yaxshi. Menimcha, bu yaxshi, chunki biz birgamiz va kulamiz.</p>",
+      "uzSampleB1": "<p>Menimcha, filmlarni birga tomosha qilish oilalar uchun yaxshi. Bu birga vaqt o'tkazishning bir usuli va keyin film haqida gaplashishingiz mumkin. <br>Masalan, o'tgan hafta biz kulgili film tomosha qildik va hammamiz juda ko'p kuldik. Bundan tashqari, birga o'tirib, qiziqarli narsani tomosha qilish shunchaki dam olishga yordam beradi.</p>",
+      "uzSampleB2": "<p>Filmlarni birgalikda tomosha qilish oilaviy munosabatlarni albatta yaxshilashi mumkin. Bu o'zaro ta'sirni rag'batlantiradigan va birlik tuyg'usini yaratadigan umumiy faoliyatni taklif etadi. Tomosha qilgandan so'ng, film mavzular, personajlar yoki hatto shaxsiy tajribalar haqida suhbatlar uchun boshlang'ich nuqta bo'lishi mumkin. Bu oila a'zolariga bir-birini yaxshiroq tushunishga yordam beradi. <br>Bundan tashqari, bu uzoq muddatli aloqalarni o'rnatish uchun muhim bo'lgan umumiy bo'sh vaqt an'anasini yaratadi. Bu band dunyoda bog'lanishning nisbatan oddiy usuli.</p>"
     },
     {
       "number": 6,
@@ -183,6 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 60,
       "prompt": "Why do some individuals enjoy watching films on their own?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people <span class=\"ml-token adv\">greatly</span> prefer the solitude of watching films alone because it offers <span class=\"ml-token colloc\">unprecedented control</span> over their entertainment. They can pause the movie <span class=\"ml-token adv\">whenever</span> they want, rewind confusing dialogue, and completely immerse themselves without <span class=\"ml-token colloc\">annoying interruptions</span> from chatter.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, solitary viewing acts as an <span class=\"ml-token adv\">exceptional</span> form of escapism. After a long, stressful day of interacting with others, disappearing into a fictional universe allows them to mentally <span class=\"ml-token colloc\">recharge their batteries</span> <span class=\"ml-token adv\">entirely</span> on their own terms.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, movie tastes are <span class=\"ml-token adv\">highly</span> subjective. Watching alone means you don't have to compromise on genre, avoiding the tedious process of finding a film that satisfies everyone in a group. Sometimes, a little <span class=\"ml-token proverb\">\"me-time\"</span> is exactly what the doctor ordered.</div>",
       "vocabulary": {
@@ -205,7 +236,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like watch movie. I alone. Is good.</p>",
       "sampleA2": "<p>I like to watch films. I like alone because I can stop it when I want. And I can eat my popcorn.</p>",
       "sampleB1": "<p>Well, I think some people like watching films alone because they can relax. <span class=\"ml-token adv\">For example</span>, they can pause the film to go to the toilet. Also, they don't have to talk to anyone. It can be more comfortable, I think.</p>",
-      "sampleB2": "<p>Some people enjoy watching films on their own because it allows for a more focused and personal experience. They can fully immerse themselves in the story without distractions. <span class=\"ml-token adv\">Furthermore</span>, they don't have to consider anyone else's preferences or opinions about the film. It's a way to unwind and enjoy a film completely on their own terms. It can also be a way to avoid arguments about what to watch!</p>"
+      "sampleB2": "<p>Some people enjoy watching films on their own because it allows for a more focused and personal experience. They can fully immerse themselves in the story without distractions. <span class=\"ml-token adv\">Furthermore</span>, they don't have to consider anyone else's preferences or opinions about the film. It's a way to unwind and enjoy a film completely on their own terms. It can also be a way to avoid arguments about what to watch!</p>",
+      "uzSampleAnswer": "<p>Ko'pchilik odamlar filmlarni yolg'iz tomosha qilishni juda afzal ko'rishadi, chunki bu ularga o'z ko'ngilochar vaqtlarini misli ko'rilmagan darajada nazorat qilish imkoniyatini beradi. Ular filmni xohlagan vaqtda to'xtatib, tushunarsiz dialoglarni orqaga qaytarib, suhbatlardan kelib chiqadigan bezovta qiluvchi xalaqitlarsiz o'zlarini butunlay his qilishlari mumkin.</p>\n\n<p>Bundan tashqari, yolg'iz tomosha qilish ajoyib bir qochish shakli sifatida xizmat qiladi. Boshqalar bilan uzoq, stressli kun davomida muloqot qilgandan so'ng, fantastik olamga g'oyib bo'lish ularga o'z shartlariga ko'ra, aqliy jihatdan batareykalarini to'liq quvvatlantirishga imkon beradi.</p>\n\n<p>Nihoyat, kino didlari juda sub'ektivdir. Yolg'iz tomosha qilish siz janr bo'yicha murosaga kelishingizga hojat yo'q degani, bu guruhdagi hamma uchun maqbul bo'lgan filmni topishning zerikarli jarayonidan qochish demakdir. Ba'zan, ozgina \"o'zim uchun vaqt\" aynan shifokor buyurgan narsadir.</p>",
+      "uzSampleA1": "<p>Men kino ko'rishni yaxshi ko'raman. Men yolg'izman. Bu yaxshi.</p>",
+      "uzSampleA2": "<p>Men filmlar ko'rishni yaxshi ko'raman. Men yolg'iz ko'rishni yaxshi ko'raman, chunki xohlaganimda to'xtata olaman. Va men o'z popkornimni yeyishim mumkin.</p>",
+      "uzSampleB1": "<p>Xo'sh, menimcha, ba'zi odamlar filmlarni yolg'iz tomosha qilishni yoqtirishadi, chunki ular dam olishlari mumkin. <br>Masalan, ular hojatxonaga borish uchun filmni to'xtatib qo'yishlari mumkin. <br>Shuningdek, ular hech kim bilan gaplashishlari shart emas. <br>Menimcha, bu qulayroq bo'lishi mumkin.</p>",
+      "uzSampleB2": "<p>Ba'zi odamlar filmlarni yolg'iz tomosha qilishdan zavqlanishadi, chunki bu ularga ko'proq diqqatni jamlash va shaxsiy tajribaga ega bo'lish imkonini beradi. Ular hech qanday chalg'ituvchi omillarsiz hikoyaga to'liq sho'ng'ishlari mumkin. <br>Qolaversa, ular film haqida boshqa hech kimning xohishlari yoki fikrlari bilan hisoblashishlari shart emas. Bu dam olish va filmdan butunlay o'z shartlari asosida zavqlanish usuli. Bundan tashqari, bu nima tomosha qilish haqida bahslashmaslikning ham bir usuli bo'lishi mumkin!</p>"
     },
     {
       "number": 7,
@@ -214,6 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 30,
       "speakTime": 90,
       "prompt": "Can you describe a place where people often meet friends?",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a place where people often meet friends?",
@@ -242,7 +279,12 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>Park. I go park. See friends. Play.</p>",
       "sampleA2": "<p>I like to meet my friends at the cafe. It's near my house and it has good coffee. We talk and laugh there. It's nice.</p>",
       "sampleB1": "<p>I usually meet my friends at a local coffee shop. It's a comfortable place with good music, and we can sit and talk for hours. I think it's popular because it's easy to get to and the atmosphere is very relaxed. Also, they have really good cake!</p>",
-      "sampleB2": "<p>One place where people often meet friends is the town square. It's a central location, easily accessible, and usually has benches and maybe a fountain or some green space. It provides a neutral ground, so to speak, that is conducive to casual conversation and spontaneous meetups. Plus, there are often events happening there, which gives people a shared experience to bond over.</p>"
+      "sampleB2": "<p>One place where people often meet friends is the town square. It's a central location, easily accessible, and usually has benches and maybe a fountain or some green space. It provides a neutral ground, so to speak, that is conducive to casual conversation and spontaneous meetups. Plus, there are often events happening there, which gives people a shared experience to bond over.</p>",
+      "uzSampleAnswer": "<div><strong>Do'stlar uchrashadigan joy:</strong></div>\n<div>Mening shahrimdagi eng mashhur uchrashuv joylaridan biri bu gavjum ko'l bo'yidagi parkdir. Unda chiroyli obodonlashtirilgan bog'lar, shinam kafelar va keng piyoda yo'laklari mavjud. Dam olish kunlari u piknik qilayotgan va sport o'ynayotgan guruhlar bilan doimiy ravishda to'lib-toshadi. Qulay muhit do'stlarning uchrashishi va bemalol dam olishi uchun ideal sharoit yaratadi.</div>\n\n<div><strong>Ijtimoiy muloqotning ahamiyati:</strong></div>\n<div>Ijtimoiy muloqot juda muhim, chunki odamlar tabiatan ijtimoiy mavjudotlardir. Aloqalarni o'rnatish izolyatsiya va surunkali yolg'izlikning halokatli oqibatlarining oldini oladi. O'zaro suhbatlar orqali biz fikr almashamiz va turli nuqtai nazarlarga ega bo'lamiz, bu esa dunyoqarashimizni sezilarli darajada kengaytiradi va stressli davrlarda psixologik tayanch vazifasini o'taydi.</div>\n\n<div><strong>Do'stlikning baxtga ta'siri:</strong></div>\n<div>Do'stlik bizning baxt darajamizni chuqur belgilaydi. Kuchli qo'llab-quvvatlash tizimiga ega bo'lish, quvonch ulashilganda ko'payishini va qayg'u qiyinchilik paytida bo'linishini ta'minlaydi. Do'stlar shubhasiz sadoqatning xavfsizlik to'rini ta'minlaydi. Chuqur aloqa dofamin ajralishini rag'batlantiradi, bu esa \"qayg'u ulashilsa, yarmi ketadi\" degan qadimiy hikmatni isbotlaydi.</div>",
+      "uzSampleA1": "<p>Park. Men parkga boraman. Do'stlarimni ko'raman. O'ynayman.</p>",
+      "uzSampleA2": "<p>Men do'stlarim bilan kafeda uchrashishni yaxshi ko'raman. U mening uyimga yaqin va unda yaxshi qahva bor. Biz u yerda gaplashamiz va kulamiz. Bu juda yaxshi.</p>",
+      "uzSampleB1": "<p>Men odatda do'stlarim bilan mahalliy qahvaxonada uchrashaman. Bu yaxshi musiqa bilan qulay joy va biz soatlab o'tirib gaplasha olamiz. Menimcha, bu mashhur, chunki u yerga borish oson va muhit juda xotirjam. Bundan tashqari, ularda juda mazali tortlar bor!</p>",
+      "uzSampleB2": "<p>Odamlar ko'pincha do'stlari bilan uchrashadigan joylardan biri shahar markaziy maydonidir. Bu markaziy joy, oson yetib borish mumkin va odatda o'rindiqlar va balki favvora yoki biroz yashil hududga ega. U neytral hududni ta'minlaydi, shunday desak bo'ladi, bu oddiy suhbat va kutilmagan uchrashuvlar uchun qulaydir. Bundan tashqari, u yerda ko'pincha tadbirlar bo'lib turadi, bu odamlarga birgalikda bog'lanish uchun umumiy tajriba beradi.</p>"
     },
     {
       "number": 8,
@@ -251,6 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 90,
       "prompt": "People should live in big cities rather than small towns.",
+      "audioFile": "questions S/audio/cefr-speaking-mock-50-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
@@ -286,7 +329,362 @@ window.SPEAKING_TEST_DATA = {
       "sampleA1": "<p>I like city. City is good.  More shops.</p>",
       "sampleA2": "<p>I think city is better. Because there are more things to do. And more jobs. But small town is quiet.</p>",
       "sampleB1": "<p>I think living in a big city is better. <span class=\"ml-token adv\">For example</span>, there are more opportunities for work and education. Also, there are more things to do like going to the cinema or restaurants. <span class=\"ml-token adv\">However</span>, it can be more expensive to live in a city. But I still prefer it.</p>",
-      "sampleB2": "<p><span class=\"ml-token adv\">Generally</span>, I believe that big cities offer distinct advantages over small towns, <span class=\"ml-token adv\">particularly</span> for young professionals. The sheer concentration of industries and businesses in urban centers creates a more dynamic job market and greater potential for career advancement. <span class=\"ml-token adv\">Moreover</span>, cities tend to have more diverse cultural offerings, from museums and theaters to international cuisine. Of course, small towns have their appeal, <span class=\"ml-token adv\">especially</span> concerning a slower pace of life and a stronger <span class=\"ml-token colloc\">sense of community</span>. But for those seeking opportunity and cultural enrichment, the city is usually the better choice.</p>"
+      "sampleB2": "<p><span class=\"ml-token adv\">Generally</span>, I believe that big cities offer distinct advantages over small towns, <span class=\"ml-token adv\">particularly</span> for young professionals. The sheer concentration of industries and businesses in urban centers creates a more dynamic job market and greater potential for career advancement. <span class=\"ml-token adv\">Moreover</span>, cities tend to have more diverse cultural offerings, from museums and theaters to international cuisine. Of course, small towns have their appeal, <span class=\"ml-token adv\">especially</span> concerning a slower pace of life and a stronger <span class=\"ml-token colloc\">sense of community</span>. But for those seeking opportunity and cultural enrichment, the city is usually the better choice.</p>",
+      "uzSampleAnswer": "<p>Shahar hayoti va kichik shaharlarda yashash o'rtasidagi bahs juda nozik masala. Metropolitan hayot tarafdorlari beqiyos iqtisodiy istiqbollarni qat'iy ta'kidlaydilar. Shaharlar xalqaro korporatsiyalar uchun asosiy markaz bo'lib, mo'l-ko'l ish imkoniyatlari va martaba o'sishini taklif qiladi. Bundan tashqari, ular jahon darajasidagi universitetlardan tortib, eng zamonaviy tibbiy muassasalargacha bo'lgan juda yuqori darajadagi davlat infratuzilmasini ta'minlaydi. Nihoyat, madaniy hayotiylik — muzeylar, teatrlar va xilma-xil oshxona sahnasi — dinamik, hayajonli turmush tarzini ta'minlaydi.</p>\n\n<p>Aksincha, qishloq hayoti tarafdorlari shaharlar juda zaharli ekanligini ta'kidlaydilar. Tinchim bilmas harakat doimiy stress, surunkali tashvish va kuchli shovqin ifloslanishini keltirib chiqaradi. Bundan tashqari, osmono'par turmush narxi va haddan tashqari uy-joy narxlari moliyaviy barqarorlikni qiyinlashtiradi. Bunga javoban, kichik shaharlar chuqur tinch hayotni taklif qiladi, bu qo'shnilar bir-birini biladigan, odamlarga \"kalamushlar poygasi\"dan qochishga imkon beradigan ahil jamoalar bilan ajralib turadi.</p>\n\n<p>Xulosa qilib aytganda, har ikki muhit ham o'ziga xos afzalliklarga ega. Tanlov oxir-oqibatda butunlay shaxsning ustuvorliklariga bog'liq — ular beton o'rmonning ambitsiyalarini xohlashadimi yoki qishloqning osoyishtaligini.</p>",
+      "uzSampleA1": "<p>Menga shahar yoqadi. Shahar yaxshi. Ko'proq do'konlar bor.</p>",
+      "uzSampleA2": "<p>Menimcha, shahar yaxshiroq. Chunki u yerda qilinadigan ishlar ko'proq. Va ish o'rinlari ham ko'proq. Lekin kichik shaharcha tinch.</p>",
+      "uzSampleB1": "<p>Menimcha, katta shaharda yashash yaxshiroq. <br>Masalan, ish va ta'lim olish uchun imkoniyatlar ko'proq. Shuningdek, kinoga yoki restoranlarga borish kabi ko'proq mashg'ulotlar bor. <br>Biroq, shaharda yashash qimmatroq bo'lishi mumkin. Lekin men baribir shuni afzal ko'raman.</p>",
+      "uzSampleB2": "<p>Umuman olganda, men katta shaharlar kichik shaharchalarga nisbatan aniq afzalliklarni taqdim etadi, deb hisoblayman, ayniqsa yosh mutaxassislar uchun. Shahar markazlarida sanoat va biznesning yuqori darajada jamlanganligi yanada dinamik ish bozorini va martaba o'sishi uchun katta imkoniyatlarni yaratadi. Bundan tashqari, shaharlarda muzeylar va teatrlardan tortib xalqaro oshxonalargacha bo'lgan xilma-xil madaniy takliflar ko'proq bo'ladi. Albatta, kichik shaharlarning ham o'ziga xos jozibasi bor, ayniqsa hayotning sekin sur'ati va kuchliroq jamoatchilik tuyg'usi bilan bog'liq. Ammo imkoniyat va madaniy boylik izlayotganlar uchun shahar odatda yaxshiroq tanlovdir.</p>"
     }
-  ]
+  ],
+  "tokenTranslations": {
+    "probably": {
+      "uz": "ehtimol",
+      "type": "adv"
+    },
+    "agonizingly": {
+      "uz": "azobli ravishda",
+      "type": "adv"
+    },
+    "dial-up modem": {
+      "uz": "dial-up modem",
+      "type": "colloc"
+    },
+    "Initially": {
+      "uz": "Dastlab",
+      "type": "adv"
+    },
+    "truly": {
+      "uz": "haqiqatan",
+      "type": "adv"
+    },
+    "mind-boggling": {
+      "uz": "aqlni shoshiradigan",
+      "type": "colloc"
+    },
+    "exponentially": {
+      "uz": "ekspansion tarzda",
+      "type": "adv"
+    },
+    "\"early days.\"": {
+      "uz": "\"Hali boshlanishi.\"",
+      "type": "proverb"
+    },
+    "However": {
+      "uz": "Biroq",
+      "type": "adv"
+    },
+    "definitely": {
+      "uz": "albatta",
+      "type": "adv"
+    },
+    "Absolutely": {
+      "uz": "Mutlaqo",
+      "type": "adv"
+    },
+    "highly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "firmly": {
+      "uz": "qatiy",
+      "type": "adv"
+    },
+    "balanced diet": {
+      "uz": "muvozanatli ovqatlanish",
+      "type": "colloc"
+    },
+    "Occasionally": {
+      "uz": "Ba'zan",
+      "type": "adv"
+    },
+    "guilty pleasure": {
+      "uz": "zaiflik",
+      "type": "colloc"
+    },
+    "generally": {
+      "uz": "odatda",
+      "type": "adv"
+    },
+    "\"you are what you eat.\"": {
+      "uz": "\"Oshing halol bo'lsa, yeding halol.\"",
+      "type": "proverb"
+    },
+    "increasingly": {
+      "uz": "tobora",
+      "type": "adv"
+    },
+    "especially": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "eco-friendly alternative": {
+      "uz": "ekologik toza alternativa",
+      "type": "colloc"
+    },
+    "traffic congestion": {
+      "uz": "transport tirbandligi",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "actively": {
+      "uz": "faol ravishda",
+      "type": "adv"
+    },
+    "cardiovascular health": {
+      "uz": "yurak-qon tomir salomatligi",
+      "type": "colloc"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "Furthermore": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "joyfully": {
+      "uz": "xursandchilik bilan",
+      "type": "adv"
+    },
+    "incredibly": {
+      "uz": "nihoyatda",
+      "type": "adv"
+    },
+    "convivial": {
+      "uz": "dilkash",
+      "type": "colloc"
+    },
+    "bonding experience": {
+      "uz": "qadrdonlik hissini oshiruvchi tajriba",
+      "type": "colloc"
+    },
+    "In stark contrast": {
+      "uz": "Keskin farq o'laroq",
+      "type": "adv"
+    },
+    "quietly": {
+      "uz": "jimlikda",
+      "type": "adv"
+    },
+    "clearly": {
+      "uz": "aniq",
+      "type": "adv"
+    },
+    "introspective activity": {
+      "uz": "ichki dunyoga sayohat",
+      "type": "colloc"
+    },
+    "beautifully": {
+      "uz": "go'zal tarzda",
+      "type": "adv"
+    },
+    "In contrast": {
+      "uz": "Aksincha",
+      "type": "adv"
+    },
+    "remarkably": {
+      "uz": "ajoyib tarzda",
+      "type": "adv"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "shared experience": {
+      "uz": "umumiy tajriba",
+      "type": "colloc"
+    },
+    "quality time": {
+      "uz": "mazmunli vaqt",
+      "type": "colloc"
+    },
+    "Secondly": {
+      "uz": "Ikkinchidan",
+      "type": "adv"
+    },
+    "naturally": {
+      "uz": "tabiiyki",
+      "type": "adv"
+    },
+    "excellent icebreaker": {
+      "uz": "muloqot uchun ajoyib imkoniyat",
+      "type": "colloc"
+    },
+    "comfortably": {
+      "uz": "qulay tarzda",
+      "type": "adv"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "long-lasting memories": {
+      "uz": "uzoq muddatli xotiralar",
+      "type": "colloc"
+    },
+    "\"the family that plays together, stays together.\"": {
+      "uz": "\"Birga o'ynagan oila, birga qoladi.\"",
+      "type": "proverb"
+    },
+    "For example": {
+      "uz": "Masalan",
+      "type": "adv"
+    },
+    "greatly": {
+      "uz": "juda",
+      "type": "adv"
+    },
+    "unprecedented control": {
+      "uz": "misli ko'rilmagan nazorat",
+      "type": "colloc"
+    },
+    "whenever": {
+      "uz": "qachonki",
+      "type": "adv"
+    },
+    "annoying interruptions": {
+      "uz": "bezovta qiluvchi xalaqitlar",
+      "type": "colloc"
+    },
+    "exceptional": {
+      "uz": "favqulodda",
+      "type": "adv"
+    },
+    "recharge their batteries": {
+      "uz": "kuch to'plamoq",
+      "type": "colloc"
+    },
+    "entirely": {
+      "uz": "butunlay",
+      "type": "adv"
+    },
+    "Lastly": {
+      "uz": "Nihoyat",
+      "type": "adv"
+    },
+    "\"me-time\"": {
+      "uz": "\"o'ziga vaqt\"",
+      "type": "proverb"
+    },
+    "prominent": {
+      "uz": "taniqli",
+      "type": "adv"
+    },
+    "consistently": {
+      "uz": "doimiy ravishda",
+      "type": "adv"
+    },
+    "convivial atmosphere": {
+      "uz": "samimiy muhit",
+      "type": "colloc"
+    },
+    "ideal": {
+      "uz": "ideal",
+      "type": "adv"
+    },
+    "effortlessly": {
+      "uz": "osongina",
+      "type": "adv"
+    },
+    "fundamentally": {
+      "uz": "asosan",
+      "type": "adv"
+    },
+    "inherently social creatures": {
+      "uz": "tabiatan ijtimoiy mavjudotlar",
+      "type": "colloc"
+    },
+    "diverse perspectives": {
+      "uz": "xilma-xil nuqtai nazarlar",
+      "type": "colloc"
+    },
+    "crucially": {
+      "uz": "muhimi",
+      "type": "adv"
+    },
+    "psychological anchor": {
+      "uz": "psixologik tayanch",
+      "type": "colloc"
+    },
+    "profoundly": {
+      "uz": "chuqur",
+      "type": "adv"
+    },
+    "robust support system": {
+      "uz": "mustahkam qo'llab-quvvatlash tizimi",
+      "type": "colloc"
+    },
+    "safety net": {
+      "uz": "xavfsizlik to'ri",
+      "type": "colloc"
+    },
+    "\"a sorrow shared is a sorrow halved.\"": {
+      "uz": "\"Dard aytsang, yengil bo'ladi.\"",
+      "type": "proverb"
+    },
+    "highly nuanced": {
+      "uz": "juda nozik",
+      "type": "colloc"
+    },
+    "unparalleled economic prospects": {
+      "uz": "misli ko'rilmagan iqtisodiy imkoniyatlar",
+      "type": "colloc"
+    },
+    "abundant": {
+      "uz": "mo'l",
+      "type": "adv"
+    },
+    "vastly": {
+      "uz": "ancha",
+      "type": "adv"
+    },
+    "cutting-edge healthcare": {
+      "uz": "eng zamonaviy tibbiy xizmat",
+      "type": "colloc"
+    },
+    "cultural vibrancy": {
+      "uz": "madaniy hayotning jo'shqinligi",
+      "type": "colloc"
+    },
+    "Conversely": {
+      "uz": "Aksincha",
+      "type": "adv"
+    },
+    "overwhelmingly": {
+      "uz": "g'oyatda",
+      "type": "adv"
+    },
+    "relentless hustle": {
+      "uz": "tinimsiz harakat",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Qo'shimcha ravishda",
+      "type": "adv"
+    },
+    "cost of living": {
+      "uz": "yashash narxi",
+      "type": "colloc"
+    },
+    "tight-knit communities": {
+      "uz": "ahil qo'shnichilik",
+      "type": "colloc"
+    },
+    "\"rat race.\"": {
+      "uz": "\"chopqillab yugurish\"",
+      "type": "proverb"
+    },
+    "In conclusion": {
+      "uz": "Xulosa qilib aytganda",
+      "type": "adv"
+    },
+    "sense of community": {
+      "uz": "jamoatchilik hissi",
+      "type": "colloc"
+    }
+  }
 };

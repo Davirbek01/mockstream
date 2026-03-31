@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Speaking Mock - Examiner Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    (function() {
+      if (!window.jspdf && window.jsPDF) { window.jspdf = { jsPDF: window.jsPDF }; }
+      if (window.jspdf && !window.jspdf.jsPDF && window.jsPDF) { window.jspdf.jsPDF = window.jsPDF; }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; margin: 0; padding: 0; line-height: 1.6; color: #333; }
+    .container { max-width: 1200px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    h1 { color: #dc2626; text-align: center; margin: 0 0 20px 0; font-size: 1.8rem; border-bottom: 3px solid #dc2626; padding-bottom: 15px; }
+    .meta { background: #fef2f2; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #fecaca; line-height: 1.8; }
+    .meta b { color: #dc2626; }
+    .question-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 2px solid #e0e0e0; }
+    .question-card h3 { color: #dc2626; margin-top: 0; border-bottom: 2px solid #dc2626; padding-bottom: 8px; }
+    .question-text { font-size: 1.1rem; line-height: 1.6; color: #333; margin: 15px 0; font-weight: 500; }
+    .audio-section { background: #f0f9ff; padding: 15px; border-radius: 8px; border: 2px solid #3b82f6; margin: 15px 0; }
+    .part-header { color: #dc2626; font-size: 1.4rem; margin: 40px 0 20px; border-bottom: 3px solid #dc2626; padding-bottom: 10px; }
+    .scoring-section { margin-top: 25px; padding: 20px; background: #fff7ed; border-radius: 8px; border: 2px solid #f97316; }
+    .scoring-section h4 { color: #f97316; margin-top: 0; }
+    .score-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0; }
+    .score-item { text-align: center; padding: 12px; border-radius: 8px; border: 2px solid #ddd; }
+    .score-item label { display: block; font-weight: 600; color: #555; font-size: 0.85rem; margin-bottom: 6px; }
+    .score-item input { width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 6px; font-size: 1.1rem; font-weight: 700; text-align: center; }
+    .score-item input:focus { outline: none; border-color: #f97316; }
+    .notes-section textarea { width: 100%; min-height: 80px; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-family: inherit; resize: vertical; margin-top: 10px; }
+    .notes-section textarea:focus { outline: none; border-color: #f97316; }
+    .final-section { margin: 40px 0; padding: 25px; background: #fef2f2; border-radius: 10px; border: 2px solid #dc2626; }
+    .final-section h2 { color: #dc2626; margin-top: 0; border-bottom: 2px solid #dc2626; padding-bottom: 10px; }
+    .download-pdf-btn { background: linear-gradient(135deg,#dc2626,#b91c1c); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; display: block; margin: 30px auto; box-shadow: 0 4px 15px rgba(220,38,38,0.4); transition: all 0.3s; }
+    .download-pdf-btn:hover { background: linear-gradient(135deg,#b91c1c,#991b1b); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(220,38,38,0.5); }
+    .download-pdf-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #dc2626;padding-bottom:15px;margin-bottom:20px;">
+      <h1 style="color:#dc2626;margin:0;font-size:1.8rem;">🎤 IELTS Speaking Mock - Examiner Report</h1>
+      <button onclick="openAiModal()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;border:none;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(220,38,38,0.3);display:flex;align-items:center;gap:8px;white-space:nowrap;">🤖 AI Analysis</button>
+    </div>
+    <div class="meta">
+      <b>👤 Candidate:</b> Shomurodova Zilola<br>
+      <b>📅 Date:</b> 26/03/2026<br>
+      <b>⏱️ Time:</b> 22:16:19<br>
+      <b>🔢 Total Questions:</b> 17<br>
+      <b>⚠️ Violations:</b> 5
+    </div>
+
+    <!-- Part 1: Introduction and Interview (Q1-Q7) -->
+    <h2 class="part-header">Part 1: Introduction and Interview (Q1-Q7)</h2>
+    
+        <div class="question-card">
+          <h3>Q1 (Part 1)</h3>
+          <div class="question-text">How do people remember each stage of their lives?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q1.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q2 (Part 1)</h3>
+          <div class="question-text">At what age do you think people are the happiest?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q2.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q3 (Part 1)</h3>
+          <div class="question-text">Do you enjoy being the age you are now?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q3.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q4 (Part 1)</h3>
+          <div class="question-text">What did you often do with your friends in your childhood?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q4.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q5 (Part 1)</h3>
+          <div class="question-text">Do you have any plans for the next five years?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q5.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q6 (Part 1)</h3>
+          <div class="question-text">What do you think is the most important thing at the moment?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q6.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q7 (Part 1)</h3>
+          <div class="question-text">How do you think your life will change in the future?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q7.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+
+    <!-- Part 1 Teacher Assessment -->
+    <div class="scoring-section">
+      <h4>📊 Part 1 Assessment (Q1-Q7)</h4>
+      
+      <details style="margin-bottom:16px;border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+        <summary style="background:linear-gradient(135deg,#f8fafc,#f1f5f9);padding:12px 16px;cursor:pointer;font-weight:700;color:#475569;font-size:13px;user-select:none;list-style:none;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">📋</span> IELTS Band Descriptors <span style="margin-left:auto;font-size:11px;opacity:0.7;">▼</span>
+        </summary>
+        <div style="padding:14px;background:#fefefe;font-size:12px;line-height:1.7;color:#374151;">
+          <details style="margin-bottom:10px;border:1px solid #f59e0b;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fef3c7;padding:8px 12px;cursor:pointer;font-weight:700;color:#92400e;font-size:12px;">🗣️ FC (Fluency & Coherence)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Fluent, content-related hesitation only. Fully coherent. <b style="color:#d97706;">7:</b> Long turns without effort, flexible discourse markers. <b style="color:#65a30d;">5:</b> Relies on repetition/slow speech, overuses connectives. <b style="color:#16a34a;">4:</b> Noticeable pauses, slow, breakdowns. <b style="color:#0284c7;">2:</b> Lengthy pauses, no communicative significance. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #3b82f6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#dbeafe;padding:8px 12px;cursor:pointer;font-weight:700;color:#1e40af;font-size:12px;">📚 LR (Lexical Resource)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Total flexibility, precise, idiomatic. <b style="color:#d97706;">7:</b> Flexible, some less common items, effective paraphrase. <b style="color:#65a30d;">5:</b> Sufficient but limited flexibility. <b style="color:#16a34a;">4:</b> Basic meaning only on unfamiliar topics. <b style="color:#0284c7;">2:</b> Isolated words only. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #8b5cf6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#ede9fe;padding:8px 12px;cursor:pointer;font-weight:700;color:#5b21b6;font-size:12px;">✏️ GRA (Grammar Range & Accuracy)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Precise and accurate at all times. <b style="color:#d97706;">7:</b> Error-free sentences frequent, both simple and complex. <b style="color:#65a30d;">5:</b> Basic forms controlled, complex structures limited. <b style="color:#16a34a;">4:</b> Basic forms, subordinate clauses rare. <b style="color:#0284c7;">2:</b> No basic sentence forms. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="border:1px solid #ec4899;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fce7f3;padding:8px 12px;cursor:pointer;font-weight:700;color:#9d174d;font-size:12px;">🎙️ P (Pronunciation)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Full range of features, effortlessly understood. <b style="color:#d97706;">7:</b> Features of Band 6 + some of Band 8. <b style="color:#65a30d;">5:</b> Features of Band 4 + some of Band 6. <b style="color:#16a34a;">4:</b> Limited range, words mispronounced. <b style="color:#0284c7;">2:</b> Few features, often unintelligible. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <div style="margin-top:10px;padding:8px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;color:#64748b;"><b>📐 Overall Band:</b> (FC + LR + GRA + P) ÷ 4, rounded to nearest 0.5</div>
+        </div>
+      </details>
+      <div class="score-grid">
+        <div class="score-item" style="background:#dbeafe;border-color:#3b82f6;">
+          <label>FC (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part1" data-criteria="fc">
+        </div>
+        <div class="score-item" style="background:#dcfce7;border-color:#22c55e;">
+          <label>LR (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part1" data-criteria="lr">
+        </div>
+        <div class="score-item" style="background:#fef3c7;border-color:#f59e0b;">
+          <label>GRA (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part1" data-criteria="gra">
+        </div>
+        <div class="score-item" style="background:#ede9fe;border-color:#8b5cf6;">
+          <label>P (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part1" data-criteria="p">
+        </div>
+      </div>
+      <div class="notes-section">
+        <label style="font-weight:600;color:#555;">📝 Examiner Notes</label>
+        <textarea class="part-notes" data-part="part1" placeholder="Write your feedback for Part 1 (Q1-Q7)..."></textarea>
+      </div>
+    </div>
+
+    <hr style="margin:40px 0;border:none;border-top:3px solid #dc2626;">
+
+    <!-- Part 2: Cue Card (Q8) -->
+    <h2 class="part-header">Part 2: Individual Long Turn - Cue Card (Q8)</h2>
+    
+        <div class="question-card">
+          <h3>Q8 (Part 2 - Cue Card)</h3>
+          <div class="question-text" style="font-weight:700;margin-bottom:10px">Describe a time when you encouraged someone to do something that they didn't want to do.</div>
+          <div class="bullet-points">
+            <strong style="display:block;margin-bottom:10px;color:#059669">You should say:</strong>
+            <ul style="margin-bottom:15px;padding-left:25px">
+              <li>who this person is</li><li>what you encouraged them to do</li><li>how this person reacted</li><li>why you encouraged this person to do it</li>
+            </ul>
+          </div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Prep: 60s | Speaking: 2:00</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q8.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+
+    <!-- Part 2 Follow-up (Q9-Q10) -->
+    <h2 class="part-header">Part 2: Follow-up Questions (Q9-Q10)</h2>
+    
+        <div class="question-card">
+          <h3>Q9 (Part 2 Follow-up)</h3>
+          <div class="question-text">Did this experience change your relationship with this person?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q9.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q10 (Part 2 Follow-up)</h3>
+          <div class="question-text">Would you encourage someone to do the same thing again?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 30s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q10.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+
+    <!-- Part 2 Teacher Assessment -->
+    <div class="scoring-section">
+      <h4>📊 Part 2 Assessment (Q8-Q10)</h4>
+      
+      <details style="margin-bottom:16px;border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+        <summary style="background:linear-gradient(135deg,#f8fafc,#f1f5f9);padding:12px 16px;cursor:pointer;font-weight:700;color:#475569;font-size:13px;user-select:none;list-style:none;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">📋</span> IELTS Band Descriptors <span style="margin-left:auto;font-size:11px;opacity:0.7;">▼</span>
+        </summary>
+        <div style="padding:14px;background:#fefefe;font-size:12px;line-height:1.7;color:#374151;">
+          <details style="margin-bottom:10px;border:1px solid #f59e0b;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fef3c7;padding:8px 12px;cursor:pointer;font-weight:700;color:#92400e;font-size:12px;">🗣️ FC (Fluency & Coherence)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Fluent, content-related hesitation only. Fully coherent. <b style="color:#d97706;">7:</b> Long turns without effort, flexible discourse markers. <b style="color:#65a30d;">5:</b> Relies on repetition/slow speech, overuses connectives. <b style="color:#16a34a;">4:</b> Noticeable pauses, slow, breakdowns. <b style="color:#0284c7;">2:</b> Lengthy pauses, no communicative significance. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #3b82f6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#dbeafe;padding:8px 12px;cursor:pointer;font-weight:700;color:#1e40af;font-size:12px;">📚 LR (Lexical Resource)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Total flexibility, precise, idiomatic. <b style="color:#d97706;">7:</b> Flexible, some less common items, effective paraphrase. <b style="color:#65a30d;">5:</b> Sufficient but limited flexibility. <b style="color:#16a34a;">4:</b> Basic meaning only on unfamiliar topics. <b style="color:#0284c7;">2:</b> Isolated words only. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #8b5cf6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#ede9fe;padding:8px 12px;cursor:pointer;font-weight:700;color:#5b21b6;font-size:12px;">✏️ GRA (Grammar Range & Accuracy)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Precise and accurate at all times. <b style="color:#d97706;">7:</b> Error-free sentences frequent, both simple and complex. <b style="color:#65a30d;">5:</b> Basic forms controlled, complex structures limited. <b style="color:#16a34a;">4:</b> Basic forms, subordinate clauses rare. <b style="color:#0284c7;">2:</b> No basic sentence forms. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="border:1px solid #ec4899;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fce7f3;padding:8px 12px;cursor:pointer;font-weight:700;color:#9d174d;font-size:12px;">🎙️ P (Pronunciation)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Full range of features, effortlessly understood. <b style="color:#d97706;">7:</b> Features of Band 6 + some of Band 8. <b style="color:#65a30d;">5:</b> Features of Band 4 + some of Band 6. <b style="color:#16a34a;">4:</b> Limited range, words mispronounced. <b style="color:#0284c7;">2:</b> Few features, often unintelligible. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <div style="margin-top:10px;padding:8px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;color:#64748b;"><b>📐 Overall Band:</b> (FC + LR + GRA + P) ÷ 4, rounded to nearest 0.5</div>
+        </div>
+      </details>
+      <div class="score-grid">
+        <div class="score-item" style="background:#dbeafe;border-color:#3b82f6;">
+          <label>FC (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part2" data-criteria="fc">
+        </div>
+        <div class="score-item" style="background:#dcfce7;border-color:#22c55e;">
+          <label>LR (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part2" data-criteria="lr">
+        </div>
+        <div class="score-item" style="background:#fef3c7;border-color:#f59e0b;">
+          <label>GRA (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part2" data-criteria="gra">
+        </div>
+        <div class="score-item" style="background:#ede9fe;border-color:#8b5cf6;">
+          <label>P (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part2" data-criteria="p">
+        </div>
+      </div>
+      <div class="notes-section">
+        <label style="font-weight:600;color:#555;">📝 Examiner Notes</label>
+        <textarea class="part-notes" data-part="part2" placeholder="Write your feedback for Part 2 (Q8-Q10)..."></textarea>
+      </div>
+    </div>
+
+    <hr style="margin:40px 0;border:none;border-top:3px solid #dc2626;">
+
+    <!-- Part 3: Two-way Discussion (Q11-Q17) -->
+    <h2 class="part-header">Part 3: Two-way Discussion (Q11-Q17)</h2>
+    
+        <div class="question-card">
+          <h3>Q11 (Part 3)</h3>
+          <div class="question-text">Do you think some people are better than others at persuading?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q11.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q12 (Part 3)</h3>
+          <div class="question-text">What kind of encouragement should parents give?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q12.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q13 (Part 3)</h3>
+          <div class="question-text">Is the role of a leader important in a group?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q13.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q14 (Part 3)</h3>
+          <div class="question-text">How can leaders encourage employees?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q14.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q15 (Part 3)</h3>
+          <div class="question-text">When should parents encourage their children?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q15.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q16 (Part 3)</h3>
+          <div class="question-text">Do you think positive encouragement always works?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q16.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+        <div class="question-card">
+          <h3>Q17 (Part 3)</h3>
+          <div class="question-text">What is the difference between encouragement and pressure?</div>
+          <p style="color: #666; font-size: 0.9em;">⏱️ Speaking: 45s</p>
+          <div class="audio-section">
+            <audio controls style="width: 100%;">
+              <source src="answer_q17.webm" type="audio/webm">
+            </audio>
+          </div>
+        </div>
+
+    <!-- Part 3 Teacher Assessment -->
+    <div class="scoring-section">
+      <h4>📊 Part 3 Assessment (Q11-Q17)</h4>
+      
+      <details style="margin-bottom:16px;border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+        <summary style="background:linear-gradient(135deg,#f8fafc,#f1f5f9);padding:12px 16px;cursor:pointer;font-weight:700;color:#475569;font-size:13px;user-select:none;list-style:none;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">📋</span> IELTS Band Descriptors <span style="margin-left:auto;font-size:11px;opacity:0.7;">▼</span>
+        </summary>
+        <div style="padding:14px;background:#fefefe;font-size:12px;line-height:1.7;color:#374151;">
+          <details style="margin-bottom:10px;border:1px solid #f59e0b;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fef3c7;padding:8px 12px;cursor:pointer;font-weight:700;color:#92400e;font-size:12px;">🗣️ FC (Fluency & Coherence)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Fluent, content-related hesitation only. Fully coherent. <b style="color:#d97706;">7:</b> Long turns without effort, flexible discourse markers. <b style="color:#65a30d;">5:</b> Relies on repetition/slow speech, overuses connectives. <b style="color:#16a34a;">4:</b> Noticeable pauses, slow, breakdowns. <b style="color:#0284c7;">2:</b> Lengthy pauses, no communicative significance. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #3b82f6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#dbeafe;padding:8px 12px;cursor:pointer;font-weight:700;color:#1e40af;font-size:12px;">📚 LR (Lexical Resource)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Total flexibility, precise, idiomatic. <b style="color:#d97706;">7:</b> Flexible, some less common items, effective paraphrase. <b style="color:#65a30d;">5:</b> Sufficient but limited flexibility. <b style="color:#16a34a;">4:</b> Basic meaning only on unfamiliar topics. <b style="color:#0284c7;">2:</b> Isolated words only. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="margin-bottom:10px;border:1px solid #8b5cf6;border-radius:8px;overflow:hidden;">
+            <summary style="background:#ede9fe;padding:8px 12px;cursor:pointer;font-weight:700;color:#5b21b6;font-size:12px;">✏️ GRA (Grammar Range & Accuracy)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Precise and accurate at all times. <b style="color:#d97706;">7:</b> Error-free sentences frequent, both simple and complex. <b style="color:#65a30d;">5:</b> Basic forms controlled, complex structures limited. <b style="color:#16a34a;">4:</b> Basic forms, subordinate clauses rare. <b style="color:#0284c7;">2:</b> No basic sentence forms. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <details style="border:1px solid #ec4899;border-radius:8px;overflow:hidden;">
+            <summary style="background:#fce7f3;padding:8px 12px;cursor:pointer;font-weight:700;color:#9d174d;font-size:12px;">🎙️ P (Pronunciation)</summary>
+            <div style="padding:10px 12px;"><b style="color:#dc2626;">9:</b> Full range of features, effortlessly understood. <b style="color:#d97706;">7:</b> Features of Band 6 + some of Band 8. <b style="color:#65a30d;">5:</b> Features of Band 4 + some of Band 6. <b style="color:#16a34a;">4:</b> Limited range, words mispronounced. <b style="color:#0284c7;">2:</b> Few features, often unintelligible. <b style="color:#9333ea;">0:</b> Does not attend.</div>
+          </details>
+          <div style="margin-top:10px;padding:8px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;color:#64748b;"><b>📐 Overall Band:</b> (FC + LR + GRA + P) ÷ 4, rounded to nearest 0.5</div>
+        </div>
+      </details>
+      <div class="score-grid">
+        <div class="score-item" style="background:#dbeafe;border-color:#3b82f6;">
+          <label>FC (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part3" data-criteria="fc">
+        </div>
+        <div class="score-item" style="background:#dcfce7;border-color:#22c55e;">
+          <label>LR (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part3" data-criteria="lr">
+        </div>
+        <div class="score-item" style="background:#fef3c7;border-color:#f59e0b;">
+          <label>GRA (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part3" data-criteria="gra">
+        </div>
+        <div class="score-item" style="background:#ede9fe;border-color:#8b5cf6;">
+          <label>P (0-9)</label>
+          <input type="number" min="0" max="9" step="0.5" class="criteria-score" data-part="part3" data-criteria="p">
+        </div>
+      </div>
+      <div class="notes-section">
+        <label style="font-weight:600;color:#555;">📝 Examiner Notes</label>
+        <textarea class="part-notes" data-part="part3" placeholder="Write your feedback for Part 3 (Q11-Q17)..."></textarea>
+      </div>
+    </div>
+
+    <hr style="margin:40px 0;border:none;border-top:3px solid #dc2626;">
+
+    <!-- Final Assessment -->
+    <div class="final-section">
+      <h2>📊 Final IELTS Speaking Assessment</h2>
+      <div class="score-grid">
+        <div class="score-item" style="background:#dbeafe;border-color:#3b82f6;">
+          <label>Fluency & Coherence</label>
+          <input type="text" id="finalFC" readonly style="background:#f3f4f6;cursor:not-allowed;color:#1e40af;">
+        </div>
+        <div class="score-item" style="background:#dcfce7;border-color:#22c55e;">
+          <label>Lexical Resource</label>
+          <input type="text" id="finalLR" readonly style="background:#f3f4f6;cursor:not-allowed;color:#166534;">
+        </div>
+        <div class="score-item" style="background:#fef3c7;border-color:#f59e0b;">
+          <label>Grammatical Range</label>
+          <input type="text" id="finalGRA" readonly style="background:#f3f4f6;cursor:not-allowed;color:#92400e;">
+        </div>
+        <div class="score-item" style="background:#ede9fe;border-color:#8b5cf6;">
+          <label>Pronunciation</label>
+          <input type="text" id="finalP" readonly style="background:#f3f4f6;cursor:not-allowed;color:#5b21b6;">
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:20px;padding:20px;background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;color:white;">
+        <div style="font-size:14px;opacity:0.9;">Overall Band Score</div>
+        <div id="overallBand" style="font-size:48px;font-weight:900;">-</div>
+      </div>
+    </div>
+
+    <!-- Download Examiner Report as PDF -->
+    <button class="download-pdf-btn" onclick="generateExaminerPDF()">📥 Download as PDF</button>
+
+  </div>
+
+<!-- AI Score Popup Modal -->
+<div id="aiScoreResultModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:10000;">
+  <div onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);"></div>
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:900px;max-height:calc(100vh - 40px);background:white;border-radius:16px;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
+    <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
+        <span style="font-size:24px;flex-shrink:0;">🤖</span>
+        <div style="min-width:0;">
+          <h2 style="margin:0;font-size:18px;font-weight:700;">IELTS AI Speaking Assessment</h2>
+          <div style="font-size:12px;opacity:0.85;margin-top:2px;">Shomurodova Zilola</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+        <button onclick="printAiModal()" style="background:rgba(255,255,255,0.9);border:none;color:#dc2626;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;">📄 Save as PDF</button>
+        <button onclick="closeAiModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;">×</button>
+      </div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+      <!-- Overall Band -->
+      <div style="text-align:center;padding:20px;background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;color:white;margin-bottom:16px;">
+        <div style="font-size:14px;opacity:0.9;">Overall Band Score</div>
+        <div style="font-size:48px;font-weight:900;">6</div>
+        <div style="font-size:13px;opacity:0.8;">CEFR: B2</div>
+      </div>
+      <!-- 4 Criteria Scores -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+        <div style="background:#dbeafe;border:2px solid #3b82f6;padding:12px;border-radius:10px;text-align:center;">
+          <div style="font-size:11px;color:#1e40af;font-weight:600;">Fluency & Coherence</div>
+          <div style="font-size:22px;font-weight:800;color:#2563eb;">6/9</div>
+        </div>
+        <div style="background:#dcfce7;border:2px solid #22c55e;padding:12px;border-radius:10px;text-align:center;">
+          <div style="font-size:11px;color:#166534;font-weight:600;">Lexical Resource</div>
+          <div style="font-size:22px;font-weight:800;color:#15803d;">6/9</div>
+        </div>
+        <div style="background:#fef3c7;border:2px solid #f59e0b;padding:12px;border-radius:10px;text-align:center;">
+          <div style="font-size:11px;color:#92400e;font-weight:600;">Grammar Range</div>
+          <div style="font-size:22px;font-weight:800;color:#b45309;">5.5/9</div>
+        </div>
+        <div style="background:#ede9fe;border:2px solid #8b5cf6;padding:12px;border-radius:10px;text-align:center;">
+          <div style="font-size:11px;color:#5b21b6;font-weight:600;">Pronunciation</div>
+          <div style="font-size:22px;font-weight:800;color:#7c3aed;">6.5/9</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:12px;padding:18px;margin-bottom:20px;"><h4 style="margin:0 0 10px;color:#166534;font-size:15px;">📊 Overall Assessment</h4><p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">The candidate demonstrates the ability to discuss a range of topics with sufficient vocabulary, though sometimes uses it inappropriately. Grammatical errors are frequent, especially in complex structures, but rarely impede communication. Pronunciation is generally clear, but variable control of phonological features is evident. To improve, the candidate should focus on expanding grammatical range and accuracy, and on using vocabulary more precisely.</p></div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:16px;"><div style="font-weight:700;color:#475569;font-size:13px;margin-bottom:8px;">🎨 Color Code Legend:</div><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12px;"><span style="background:#fee2e2;color:#dc2626;padding:3px 8px;border-radius:4px;"><b>GRAMMAR</b></span><span style="background:#dbeafe;color:#2563eb;padding:3px 8px;border-radius:4px;"><b>VOCAB</b></span><span style="background:#fef3c7;color:#d97706;padding:3px 8px;border-radius:4px;"><b>FLUENCY</b></span><span style="background:#ede9fe;color:#7c3aed;padding:3px 8px;border-radius:4px;"><b>PRON</b></span></div></div><h3 style="color:#7c3aed;font-size:16px;font-weight:700;margin:0 0 16px;border-bottom:2px solid #e5e7eb;padding-bottom:10px;">📋 Detailed Question Feedback</h3><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q1 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">How do people remember each stage of their lives?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">say it is</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">think it</b></span> <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">is varied</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">varies</b></span> for each person, but I think most commonly people remember their childhood as a free spirit <span style="display:inline-block;background:linear-gradient(135deg,#bfdbfe,#dbeafe);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#1e40af;">VOCAB</b> <i style="text-decoration:line-through;color:#2563eb;">of their life, games</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">stage of life</b></span>, just getting to know the world, but during their teenage years into <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">the</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> adulthood, they struggle, so I think they remember it as a bitter sweet emotion.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response addresses the question directly.
+• There are some grammatical inaccuracies that slightly affect clarity.
+• Vocabulary is adequate but could be more precise.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Generally, recollections of life stages are subjective. Childhood is often remembered as a carefree period of exploration and play. Adolescence and early adulthood, however, are frequently recalled with more complex emotions, as these phases often involve navigating challenges and discovering one's identity.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q2 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">At what age do you think people are the happiest?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I can't say <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">all of the</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">for</b></span> people, but I would say most <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">of the</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> people are the happiest during their childhood. Because when you are a child, you don't know about the cruelty of the world. So you think everything is sunshine, everything is bright colored, so you will think everyone is good, you will think everything will give you a candy. So the childhood.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a clear opinion.
+• There is some repetition of sentence structures.
+• Vocabulary is simple but adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">It's difficult to generalize, but many people likely experience peak happiness during childhood. This is often because children are shielded from the harsh realities of the world. They tend to view life optimistically, believing in the inherent goodness of people and anticipating positive experiences.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q3 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Do you enjoy being the age you are now?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">To be honest, most of the time I do. I enjoy being the age. I'm 24 years old now. I would say most people start to feel old, but I think I enjoy every stage of my life. I enjoyed my childhood, I enjoyed my teenage years. Now, I am enjoying <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">my the</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> early stages of adulthood because it is my life, my</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a personal perspective.
+• There is some hesitation and repetition.
+• The response is not fully completed.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">For the most part, yes, I enjoy being my current age. While some might feel 'old' at 24, I appreciate each phase of life. I have fond memories of my childhood and adolescence, and I'm currently embracing the opportunities and experiences that come with early adulthood.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q4 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">What did you often do with your friends in your childhood?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">Unlike today's modern children, we used to play outside every day. We <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">do</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">did</b></span> any kind of activities. Yes, our clothes were dirty at the end of the day. We were dead tired, but I think our childhood <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">were</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">was</b></span> full of bright memories because we were children, not like</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a contrast with modern children.
+• There are some grammatical errors.
+• The response is not fully completed.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Unlike children today, my friends and I spent most of our time playing outdoors. We engaged in all sorts of activities, from building forts to playing tag. We'd come home exhausted and covered in dirt, but our childhood was filled with vibrant and joyful memories.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q5 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Do you have any plans for the next five years?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">Sometimes people say you should plan ahead, especially three, four years. But yes, I <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">will I have</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">do</b></span> have plans but not <span style="color:#2563eb;font-weight:700;">[for the]</span> next five years. I have plans for just one year because nowadays the modern world is changing fast, so you <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">you</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> should be adaptable. So if I <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">am have</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">have</b></span> if I have a plan for next five years, it cannot be achieved because of the changes. So I will plan for a year, next year, I might</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a reason for not planning too far ahead.
+• There are several fluency issues and grammatical errors.
+• The response is not fully completed.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">While some advocate for long-term planning, particularly three to five years out, I prefer to focus on the immediate year ahead. The rapid pace of change in today's world necessitates adaptability. A five-year plan could easily become obsolete, so I prioritize flexibility and adjust my goals annually.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q6 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">What do you think is the most important thing at the moment?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think the most important thing at the moment, I think <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">the</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> firstly it's health. If you are not healthy, you cannot enjoy life to the <span style="display:inline-block;background:linear-gradient(135deg,#bfdbfe,#dbeafe);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#1e40af;">VOCAB</b> <i style="text-decoration:line-through;color:#2563eb;">full fulfill</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">fullest</b></span>. But also I think except for health, you should know yourself. You should be self aware because there can be distractions from <span style="color:#2563eb;font-weight:700;">[the]</span> other side of the world. People can talk bad about you, but if you know yourself, it</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and identifies health and self-awareness as important.
+• There are some fluency issues and grammatical errors.
+• The response is not fully completed.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I believe that health is paramount. Without it, fully enjoying life becomes challenging. Beyond physical well-being, self-awareness is crucial. In a world filled with distractions and negativity, understanding oneself provides a strong foundation and resilience against external pressures.</div></details></div><div style="background:#dbeafe;border:2px solid #3b82f6;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#1e40af;font-size:14px;">Q7 (Part 1)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">How do you think your life will change in the future?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #3b82f6;"><div style="font-size:12px;color:#1e40af;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think and I hope that my life will change in the future for <span style="color:#2563eb;font-weight:700;">[the]</span> better. Because I'm a person that doesn't regret much about <span style="color:#2563eb;font-weight:700;">[your -> the]</span> past, because for me past is past, I just try to take lessons from my past and move on for the future. So every day I'm learning, I'm trying, I am trying to be better. So I hope I have a brighter future.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and expresses a positive outlook.
+• There are some minor grammatical errors.
+• The vocabulary is adequate but could be more varied.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I anticipate and hope that my life will evolve positively. I don't dwell on past regrets; instead, I extract lessons from them and focus on future growth. Each day, I strive to learn and improve, and I'm optimistic about the prospect of a brighter future.</div></details></div><div style="background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#92400e;font-size:14px;">Q8 (Part 2 Cue Card)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Describe a time when you encouraged someone to do something that they didn't want to do.</div><ul style="margin:8px 0 0 18px;padding:0;font-size:13px;color:#15803d;line-height:1.7;"><li>who this person is</li><li>what you encouraged them to do</li><li>how this person reacted</li><li>why you encouraged this person to do it</li></ul></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #f59e0b;"><div style="font-size:12px;color:#92400e;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think throughout my life, I <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">encouraged</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">have encouraged</b></span> a lot of people to do a lot of things, but some of them worked, some of them didn't. So, I wanna say about the time that I encouraged my sister to drop out from <span style="display:inline-block;background:linear-gradient(135deg,#bfdbfe,#dbeafe);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#1e40af;">VOCAB</b> <i style="text-decoration:line-through;color:#2563eb;">academic license</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">an academic course</b></span>. So, last year, from <span style="color:#2563eb;font-weight:700;">[in]</span> the September, my sister went to another city to pursue her studies. I also went to another city to pursue my job, my career. But for some reasons, I came back to our hometown. Then I encouraged my sister to come back too, because I said to her that we would study together, I will help her <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">that</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> to get a certificate, but she didn't want to do it. Because she <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">were</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">was</b></span> in another bigger city, there were a lot of facilities, a lot of opportunities <span style="color:#2563eb;font-weight:700;">[for her]</span> to <span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">FLUENCY</b> <i style="text-decoration:line-through;color:#ca8a04;">she would</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> enjoy different meals in different cafes, restaurants. She was making new friends, but I tried to encourage her because if she comes back, it would cost less to study, to live with us in our hometown. Then she thought about it for some time, she rejected my offer, but in the end she decided to come back. So, then we studied together, now she had her first certificate, <span style="color:#2563eb;font-weight:700;">[and]</span> for now she's preparing for the next one. Sometimes I think, maybe I shouldn't have encouraged her to do that. But I think uh it's turned out to be better in the end. This decision.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response addresses all bullet points of the cue card.
+• There are some grammatical errors and fluency issues.
+• The narrative is clear, but vocabulary could be more sophisticated.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I recall a time when I persuaded my cousin, Sarah, to volunteer at a local animal shelter, something she was initially hesitant to do. Sarah had always been an avid animal lover, but she was apprehensive about the emotional toll of working with neglected animals. I emphasized the positive impact she could have on their lives, even with small acts of kindness like providing comfort and care. 
+
+Initially, Sarah was resistant, citing her busy schedule and fear of becoming too emotionally attached. However, I highlighted the shelter's urgent need for volunteers and the fulfillment she would derive from making a tangible difference. Eventually, she agreed to dedicate a few hours each week. 
+
+To her surprise, Sarah found the experience incredibly rewarding. While it was emotionally challenging at times, she developed strong bonds with the animals and witnessed firsthand the positive impact of her efforts. She later thanked me profusely for encouraging her, admitting that it was one of the most meaningful experiences of her life. I encouraged her because I knew she had a compassionate heart and a genuine desire to help others, and I believed that volunteering at the animal shelter would provide her with a unique opportunity to make a difference.</div></details></div><div style="background:#fee2e2;border:2px solid #ef4444;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#991b1b;font-size:14px;">Q9 (Part 2 Follow-up)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Did this experience change your relationship with this person?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #ef4444;"><div style="font-size:12px;color:#991b1b;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think somehow, yes. I am proud to say that with my younger sisters, I have a friend-like relationship. They don't fear me. Sometimes they don't respect me, but it's okay because I want them not to fear me as an older person. But this experience changed our relationship because sometimes when something <span style="color:#2563eb;font-weight:700;">[goes]</span> wrong in my sister's life, she blames me for it.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and explains how the relationship changed.
+• There are some minor grammatical errors.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Yes, I believe it subtly altered our dynamic. While we've always enjoyed a close, almost fraternal bond, this experience introduced a new layer of accountability. Now, if things don't go as planned for her, I occasionally bear the brunt of her frustration, as she jokingly holds me responsible for the initial encouragement.</div></details></div><div style="background:#fee2e2;border:2px solid #ef4444;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#991b1b;font-size:14px;">Q10 (Part 2 Follow-up)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Would you encourage someone to do the same thing again?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;font-size:14px;color:#374151;line-height:1.6;"><strong>Your response:</strong> "Maybe, yes, because in the end, I mean, maybe in the middle, the things are turning out to be good. I am very interested in the concept of time travel. So, if it's a question like something like that, if you time travel to the past, would you change something? I would say not, because with the mistakes, with the things that I did in the past, I am who I am now. If I change the past, I am changing"</div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a philosophical perspective.
+• There are some fluency issues and grammatical errors.
+• The response is not fully completed.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Potentially, yes. Ultimately, the outcome was positive. I often ponder the concept of time travel and whether altering the past is advisable. I tend to believe that our past experiences, including mistakes, shape who we are today. Changing the past could inadvertently alter the present, so I'm generally hesitant to interfere.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q11 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Do you think some people are better than others at persuading?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #22c55e;"><div style="font-size:12px;color:#166534;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think yes, some people are naturally talented at persuading, but some people learn it, but some people cannot do it at all. I think personally, persuading is a type of or kind of manipulation. You have to make someone believe that the result will be beneficial for them to persuade them to do something. So I think it's a kind of psychological mind game. If you know the person, if you know where <span style="color:#2563eb;font-weight:700;">[their -> there]</span> is their strengths and weaknesses, you can persuade them.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a clear opinion.
+• There is some repetition.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Absolutely. Some individuals possess an innate talent for persuasion, while others acquire it through practice. In my view, persuasion often involves a degree of manipulation, as it requires convincing someone that a particular course of action will benefit them. It's a psychological game, where understanding someone's strengths and vulnerabilities is key.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q12 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">What kind of encouragement should parents give?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;font-size:14px;color:#374151;line-height:1.6;"><strong>Your response:</strong> "I think they should give both positive and negative encouragement. But I would say most of the time it should be positive. Parents should make their children look at the bright side of the situation. Like you did it, you got the result, even if it's a little, something like that. But sometimes, not always, not 50/50, sometimes maybe 80 to 20, they should encourage them like from the negative side. See, you don't have that. You should be like that. Because in the end, when you turn adult, life is not sunshine and rainbow."</div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a balanced perspective.
+• There is some hesitation and repetition.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I believe parents should offer a blend of positive and constructive encouragement, with a strong emphasis on the former. They should help their children focus on the positive aspects of any situation, celebrating even small achievements. However, occasional constructive criticism is also valuable, preparing them for the realities of adulthood, where challenges and setbacks are inevitable.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q13 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Is the role of a leader important in a group?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #22c55e;"><div style="font-size:12px;color:#166534;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think the role of a leader in a group is very important because a group can <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">be consists from consists of</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">consist of</b></span> several people. So in <span style="color:#2563eb;font-weight:700;">[any]</span> one situation, let's say solving one problem, everyone can have different solutions for it. But when you try to start acting on the solution, you need to choose one, right? But what if they say their solution is better, so they cannot <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">be have</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;"> </b></span> the same opinion what to do first. So and that <span style="color:#2563eb;font-weight:700;">[is when]</span> the leader steps up.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and explains the importance of a leader.
+• There are some grammatical errors.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">The role of a leader is indeed crucial in any group setting. A group comprises diverse individuals, each potentially offering unique solutions to a problem. However, when it comes to implementing a solution, a decision must be made. A leader is essential to facilitate consensus and guide the group towards a unified course of action.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q14 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">How can leaders encourage employees?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;font-size:14px;color:#374151;line-height:1.6;"><strong>Your response:</strong> "I think leaders should encourage their employees by pointing out the positive side of their job. Because if you think you are doing good and somebody says you can be better than that, you can be more than that, you try to be better, right? But if someone says that you are doing wrong, you are bad at something, then you will have self-doubt. You will start having insecurities that will lower your results in the end. So, leaders should encourage their employees by pointing out positivity."</div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a clear strategy for encouragement.
+• There is some repetition.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Leaders can effectively encourage employees by emphasizing the positive aspects of their work. When individuals feel appreciated and are told they have the potential to excel, they are more likely to strive for improvement. Conversely, focusing solely on shortcomings can breed self-doubt and insecurity, ultimately hindering performance.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q15 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">When should parents encourage their children?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #22c55e;"><div style="font-size:12px;color:#166534;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I would say most of the time because children are very young, they don't have a lot of opinion <span style="color:#2563eb;font-weight:700;">[about]</span> how the world works, what they should do in a certain situation, so they need guidance. So, naturally their guide is their parents. So parents should encourage their children most of the time when it's a small problem or a bigger problem. But sometimes, rarely sometimes, they should encourage their children to act by themselves because they need to learn to stand up for themselves.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a balanced perspective.
+• There is some repetition.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I believe parents should offer encouragement frequently, as children are still developing their understanding of the world and how to navigate various situations. Parents naturally serve as guides, providing support and encouragement in both minor and significant challenges. However, it's also crucial to occasionally encourage children to act independently, fostering self-reliance and the ability to advocate for themselves.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q16 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">Do you think positive encouragement always works?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #22c55e;"><div style="font-size:12px;color:#166534;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think yes, positive encourage<span style="color:#2563eb;font-weight:700;">[ment]</span> works because as a person we have <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">we are</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">we're</b></span> social creatures, we are hungry for compliments. So if a person encourages me by pointing out my positive sides, I would be very happy to act on it, to continue, to be better, to hear better compliments. So I think positive encouragement works. But sometimes some people need pushing from <span style="color:#2563eb;font-weight:700;">[the]</span> negative side to open up their eyes for what they are lacking. So, most of the time, yes, but sometimes positive encouragement <span style="color:#2563eb;font-weight:700;">[does]</span> not <span style="color:#2563eb;font-weight:700;">[work]</span>.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and provides a nuanced perspective.
+• There are some minor grammatical errors.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">Generally, yes, positive encouragement is effective. As social beings, we crave validation and appreciation. When someone highlights our strengths, we're motivated to build upon them and strive for further improvement. However, some individuals occasionally require constructive criticism to recognize their shortcomings and areas for development. Therefore, while positive reinforcement is generally beneficial, it's not universally effective.</div></details></div><div style="background:#dcfce7;border:2px solid #22c55e;border-radius:12px;padding:14px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-weight:700;color:#166534;font-size:14px;">Q17 (Part 3)</div><span style="background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;">✓ ON-TOPIC</span></div><div style="background:#f8fafc;border:2px solid #cbd5e1;border-radius:8px;padding:10px 12px;margin-bottom:10px;"><div style="font-size:12px;color:#475569;font-weight:700;margin-bottom:4px;">❓ Question:</div><div style="font-size:14px;color:#1e293b;font-weight:600;line-height:1.5;">What is the difference between encouragement and pressure?</div></div><div style="background:white;border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid #22c55e;"><div style="font-size:12px;color:#166534;font-weight:700;margin-bottom:6px;">📝 Inline Corrections:</div><div style="font-size:14px;color:#374151;line-height:2;">I think it's kind of the same thing, encouragement and pressure. Let's say, uh, on the table, I have a glass, and the glass, it's <span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">a, there is</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">half full of</b></span> water. So, you can look at the water side, saying that <span style="color:#2563eb;font-weight:700;">[be]</span>ing grateful for I have a water, at least the glass is not empty, but you can also <span style="color:#2563eb;font-weight:700;">[be]</span> saying the glass isn't full. The glass is half empty, something like that. I would say encouragement <span style="color:#2563eb;font-weight:700;">[is]</span> saying that you have half of the water and you can make it full, something like that. Uh, the pressure is the glass isn't full yet, you have to make it full, something like that.</div></div><div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note:</div><div style="font-size:14px;color:#991b1b;line-height:1.6;">• The response is relevant and uses an analogy to explain the difference.
+• There are some grammatical errors and fluency issues.
+• Vocabulary is adequate.</div></div><details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;user-select:none;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;border-top:1px solid #a7f3d0;">I see them as distinct but related concepts. Encouragement focuses on potential and possibility, highlighting the positive aspects of a situation and inspiring action. Pressure, on the other hand, emphasizes urgency and obligation, often creating a sense of anxiety or stress. Encouragement is about inspiring someone to reach their full potential, while pressure is about forcing them to meet a specific expectation.</div></details></div>
+    </div>
+  </div>
+</div>
+<style>
+@media print {
+  body.print-ai > *:not(#aiScoreResultModal) { display: none !important; }
+  body.print-ai #aiScoreResultModal { display: block !important; position: static !important; }
+  body.print-ai #aiScoreResultModal > div:first-child { display: none !important; }
+  body.print-ai #aiScoreResultModal > div:last-child { position: static !important; transform: none !important; max-width: 100% !important; max-height: none !important; width: 100% !important; box-shadow: none !important; overflow: visible !important; height: auto !important; }
+  body.print-ai #aiScoreResultModal > div:last-child > div:first-child button { display: none !important; }
+  body.print-ai #aiScoreResultModal > div:last-child > div:last-child { overflow: visible !important; height: auto !important; max-height: none !important; }
+  body.print-ai details { display: block !important; }
+}
+</style>
+<script>
+function openAiModal() { document.getElementById('aiScoreResultModal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+function closeAiModal() { document.getElementById('aiScoreResultModal').style.display = 'none'; document.body.style.overflow = ''; }
+function printAiModal() { var details = document.querySelectorAll('#aiScoreResultModal details'); details.forEach(function(d) { d.setAttribute('open', ''); }); document.body.classList.add('print-ai'); setTimeout(function() { window.print(); document.body.classList.remove('print-ai'); }, 100); }
+</script>
+
+
+  <script>
+    // Auto-calculate overall band from teacher inputs
+    document.querySelectorAll('.criteria-score').forEach(function(input) {
+      input.addEventListener('input', updateFinalScores);
+    });
+    function updateFinalScores() {
+      var parts = ['part1', 'part2', 'part3'];
+      var totals = { fc: 0, lr: 0, gra: 0, p: 0, count: 0 };
+      parts.forEach(function(part) {
+        ['fc', 'lr', 'gra', 'p'].forEach(function(c) {
+          var el = document.querySelector('.criteria-score[data-part="' + part + '"][data-criteria="' + c + '"]');
+          if (el && el.value) totals[c] += parseFloat(el.value);
+        });
+        var anyFilled = ['fc', 'lr', 'gra', 'p'].some(function(c) {
+          var el = document.querySelector('.criteria-score[data-part="' + part + '"][data-criteria="' + c + '"]');
+          return el && el.value;
+        });
+        if (anyFilled) totals.count++;
+      });
+      var divisor = totals.count || 1;
+      var fc = (totals.fc / divisor).toFixed(1);
+      var lr = (totals.lr / divisor).toFixed(1);
+      var gra = (totals.gra / divisor).toFixed(1);
+      var p = (totals.p / divisor).toFixed(1);
+      document.getElementById('finalFC').value = fc;
+      document.getElementById('finalLR').value = lr;
+      document.getElementById('finalGRA').value = gra;
+      document.getElementById('finalP').value = p;
+      var avg = (parseFloat(fc) + parseFloat(lr) + parseFloat(gra) + parseFloat(p)) / 4;
+      var band = Math.round(avg * 2) / 2;
+      document.getElementById('overallBand').textContent = band.toFixed(1);
+    }
+    updateFinalScores();
+
+    async function generateExaminerPDF() {
+      var btn = document.querySelector('.download-pdf-btn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating PDF...';
+
+      try {
+        // Wait for jsPDF
+        var attempts = 0;
+        while ((!window.jspdf || !window.jspdf.jsPDF) && attempts < 50) {
+          await new Promise(function(r) { setTimeout(r, 100); });
+          attempts++;
+          if (!window.jspdf && window.jsPDF) window.jspdf = { jsPDF: window.jsPDF };
+        }
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+          alert('PDF library failed to load. Please refresh and try again.');
+          btn.disabled = false;
+          btn.textContent = '📥 Download as PDF';
+          return;
+        }
+
+        var jsPDF = window.jspdf.jsPDF;
+        var pdf = new jsPDF('p', 'mm', 'a4');
+        var margin = 20;
+        var pw = pdf.internal.pageSize.getWidth();
+        var ph = pdf.internal.pageSize.getHeight();
+        var cw = pw - margin * 2;
+        var y = 20;
+
+        // Cyrillic transliteration
+        var cyr = {
+          'А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'Yo','Ж':'Zh',
+          'З':'Z','И':'I','Й':'Y','К':'K','Л':'L','М':'M','Н':'N','О':'O',
+          'П':'P','Р':'R','С':'S','Т':'T','У':'U','Ф':'F','Х':'Kh','Ц':'Ts',
+          'Ч':'Ch','Ш':'Sh','Щ':'Shch','Ъ':'','Ы':'Y','Ь':'','Э':'E','Ю':'Yu','Я':'Ya',
+          'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh',
+          'з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o',
+          'п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts',
+          'ч':'ch','ш':'sh','щ':'shch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',
+          'Ў':'O','Қ':'Q','Ғ':'G','Ҳ':'H',
+          'ў':'o','қ':'q','ғ':'g','ҳ':'h'
+        };
+        function translit(s) { return s.split('').map(function(c) { return cyr[c] || c; }).join(''); }
+
+        function checkPage(need) { if (y + need > ph - 15) { pdf.addPage(); y = 20; } }
+
+        // Helper to strip HTML
+        function stripHTML(h) { var d = document.createElement('div'); d.innerHTML = h; return d.textContent || d.innerText || ''; }
+
+        // ═══ TITLE ═══
+        pdf.setFontSize(20);
+        pdf.setTextColor(220, 38, 38);
+        pdf.text('IELTS Speaking Mock - Examiner Report', pw / 2, y, { align: 'center' });
+        y += 12;
+
+        // ═══ STUDENT INFO ═══
+        var metaEl = document.querySelector('.meta');
+        var metaHTML = metaEl ? metaEl.innerHTML : '';
+        var studentMatch = metaHTML.match(/Candidate:<\/b>\s*([^<]+)/);
+        var studentName = studentMatch ? studentMatch[1].trim() : 'Student';
+        var dateMatch = metaHTML.match(/Date:<\/b>\s*([^<]+)/);
+        var examDate = dateMatch ? dateMatch[1].trim() : '';
+        var timeMatch = metaHTML.match(/Time:<\/b>\s*([^<]+)/);
+        var examTime = timeMatch ? timeMatch[1].trim() : '';
+        var violMatch = metaHTML.match(/Violations:<\/b>\s*([^<]+)/);
+        var violations = violMatch ? violMatch[1].trim() : '0';
+
+        pdf.setFontSize(11);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text('Candidate: ' + translit(studentName), margin, y);
+        y += 6;
+        pdf.text('Date: ' + examDate + '  |  Time: ' + examTime, margin, y);
+        y += 6;
+        pdf.text('Total Questions: 17  |  Violations: ' + violations, margin, y);
+        y += 8;
+
+        // Red separator
+        pdf.setDrawColor(220, 38, 38);
+        pdf.setLineWidth(0.8);
+        pdf.line(margin, y, pw - margin, y);
+        y += 10;
+
+        // ═══ FINAL ASSESSMENT (at top) ═══
+        var finalFC = document.getElementById('finalFC').value || '-';
+        var finalLR = document.getElementById('finalLR').value || '-';
+        var finalGRA = document.getElementById('finalGRA').value || '-';
+        var finalP = document.getElementById('finalP').value || '-';
+        var overallBand = document.getElementById('overallBand').textContent || '-';
+
+        pdf.setFontSize(14);
+        pdf.setTextColor(220, 38, 38);
+        pdf.text('Final IELTS Speaking Assessment', margin, y);
+        y += 8;
+
+        // Overall band box
+        pdf.setDrawColor(220, 38, 38);
+        pdf.setFillColor(254, 242, 242);
+        pdf.roundedRect(margin, y - 3, cw, 32, 3, 3, 'FD');
+
+        pdf.setFontSize(11);
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFont(undefined, 'bold');
+        var scoreY = y + 4;
+        pdf.text('FC: ' + finalFC + '/9', margin + 8, scoreY);
+        pdf.text('LR: ' + finalLR + '/9', margin + 8 + cw * 0.25, scoreY);
+        pdf.text('GRA: ' + finalGRA + '/9', margin + 8 + cw * 0.5, scoreY);
+        pdf.text('P: ' + finalP + '/9', margin + 8 + cw * 0.75, scoreY);
+        scoreY += 10;
+
+        pdf.setFontSize(16);
+        pdf.setTextColor(220, 38, 38);
+        pdf.text('Overall Band: ' + overallBand, pw / 2, scoreY + 5, { align: 'center' });
+        pdf.setFont(undefined, 'normal');
+        y += 38;
+
+        // Red separator
+        pdf.setDrawColor(220, 38, 38);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, y, pw - margin, y);
+        y += 10;
+
+        // ═══ PART SECTIONS ═══
+        var parts = [
+          { name: 'Part 1: Introduction & Interview (Q1-Q7)', part: 'part1', criteria: ['fc','lr','gra','p'] },
+          { name: 'Part 2: Individual Long Turn (Q8-Q10)', part: 'part2', criteria: ['fc','lr','gra','p'] },
+          { name: 'Part 3: Two-way Discussion (Q11-Q17)', part: 'part3', criteria: ['fc','lr','gra','p'] }
+        ];
+
+        // Get all question texts from the DOM
+        var questionCards = document.querySelectorAll('.question-card');
+        var allQuestions = [];
+        questionCards.forEach(function(card) {
+          var h3 = card.querySelector('h3');
+          var qText = card.querySelector('.question-text');
+          allQuestions.push({
+            title: h3 ? stripHTML(h3.innerHTML) : '',
+            text: qText ? stripHTML(qText.innerHTML).trim() : ''
+          });
+        });
+
+        parts.forEach(function(partInfo, idx) {
+          checkPage(50);
+
+          // Part header
+          pdf.setFontSize(13);
+          pdf.setTextColor(220, 38, 38);
+          pdf.text(partInfo.name, margin, y);
+          y += 8;
+
+          // Determine question range
+          var qStart, qEnd;
+          if (idx === 0) { qStart = 0; qEnd = 7; }
+          else if (idx === 1) { qStart = 7; qEnd = 10; }
+          else { qStart = 10; qEnd = 17; }
+
+          // Print questions
+          for (var qi = qStart; qi < qEnd && qi < allQuestions.length; qi++) {
+            checkPage(12);
+            pdf.setFontSize(9);
+            pdf.setTextColor(80, 80, 80);
+            var qLine = '  Q' + (qi + 1) + ': ' + allQuestions[qi].text;
+            var splitQ = pdf.splitTextToSize(qLine, cw - 10);
+            pdf.text(splitQ, margin + 5, y);
+            y += splitQ.length * 4 + 2;
+          }
+          y += 3;
+
+          // Part scores
+          var fc = '', lr = '', gra = '', p = '';
+          var fcEl = document.querySelector('.criteria-score[data-part="' + partInfo.part + '"][data-criteria="fc"]');
+          var lrEl = document.querySelector('.criteria-score[data-part="' + partInfo.part + '"][data-criteria="lr"]');
+          var graEl = document.querySelector('.criteria-score[data-part="' + partInfo.part + '"][data-criteria="gra"]');
+          var pEl = document.querySelector('.criteria-score[data-part="' + partInfo.part + '"][data-criteria="p"]');
+          if (fcEl) fc = fcEl.value;
+          if (lrEl) lr = lrEl.value;
+          if (graEl) gra = graEl.value;
+          if (pEl) p = pEl.value;
+
+          checkPage(20);
+          pdf.setFontSize(11);
+          pdf.setTextColor(0, 0, 0);
+          if (fc || lr || gra || p) {
+            pdf.setFont(undefined, 'bold');
+            pdf.text('Scores:  FC: ' + (fc || '-') + '/9   LR: ' + (lr || '-') + '/9   GRA: ' + (gra || '-') + '/9   P: ' + (p || '-') + '/9', margin + 5, y);
+            pdf.setFont(undefined, 'normal');
+          } else {
+            pdf.setTextColor(150, 150, 150);
+            pdf.text('(No scores entered)', margin + 5, y);
+          }
+          y += 7;
+
+          // Teacher notes
+          var notesEl = document.querySelector('.part-notes[data-part="' + partInfo.part + '"]');
+          var notes = notesEl ? notesEl.value.trim() : '';
+          if (notes) {
+            var splitNotes = pdf.splitTextToSize(notes, cw - 20);
+            var notesH = splitNotes.length * 4 + 10;
+            checkPage(notesH + 5);
+
+            // Notes box
+            pdf.setDrawColor(220, 38, 38);
+            pdf.setFillColor(254, 242, 242);
+            pdf.roundedRect(margin + 5, y - 2, cw - 10, notesH, 2, 2, 'FD');
+
+            pdf.setFontSize(9);
+            pdf.setFont(undefined, 'bold');
+            pdf.setTextColor(220, 38, 38);
+            pdf.text('Examiner Notes:', margin + 8, y + 3);
+            y += 7;
+            pdf.setFont(undefined, 'italic');
+            pdf.setTextColor(185, 28, 28);
+            pdf.text(splitNotes, margin + 8, y);
+            y += splitNotes.length * 4 + 5;
+            pdf.setFont(undefined, 'normal');
+          }
+
+          y += 8;
+
+          // Part separator
+          if (idx < parts.length - 1) {
+            pdf.setDrawColor(220, 38, 38);
+            pdf.setLineWidth(0.3);
+            pdf.line(margin, y, pw - margin, y);
+            y += 8;
+          }
+        });
+
+        // ═══ SAVE ═══
+        var fileName = translit(studentName).replace(/[^a-zA-Z0-9]/g, '_') + '_IELTS_Speaking_Report.pdf';
+        pdf.save(fileName);
+
+        btn.disabled = false;
+        btn.textContent = '📥 Download as PDF';
+      } catch (err) {
+        console.error('PDF generation error:', err);
+        alert('Failed to generate PDF: ' + err.message);
+        btn.disabled = false;
+        btn.textContent = '📥 Download as PDF';
+      }
+    }
+  </script>
+</body>
+</html>

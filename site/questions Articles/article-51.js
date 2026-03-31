@@ -355,4 +355,327 @@ window.ARTICLE_DATA = {
             answer: "Answers will vary. Methods include: apologizing sincerely, explaining reasons honestly, offering alternatives, calling or writing as soon as possible, showing understanding of inconvenience caused, suggesting new dates, being direct but tactful, or expressing regret and disappointment."
         }
     ]
+,
+    passageB1: `<p>3/6/02</p>
+<p>Dear Stan,</p>
+<p>I'm sorry. My plans to visit you next weekend have <strong>changed</strong>. I was really <strong>looking forward to</strong> seeing you and having fun in the city. Life here is sometimes boring because many of my friends are at university.</p>
+<p>Unfortunately, two things have happened, so I have to change my plans. We are very <strong>busy</strong> at work right now. It's almost the end of the tax year, and we have a lot to do. To help us, the boss has asked if we can all work <strong>overtime</strong> this weekend. I don't have much money <strong>at the moment</strong>, and I really need the extra money. Also, I want to <strong>help</strong> the boss if I can. He is a good person and has always been fair to me. It's hard to say no when everyone else is working.</p>
+<p>Also, my grandfather has a problem. He is old, and he hasn't been <strong>feeling well</strong> recently. My mother was worried about him, so he is <strong>visiting</strong> us for a while. My mother doesn't want to leave him alone, and she is going to look after my sister's children on Saturday night. My father is away at a meeting that weekend, so I have to <strong>stay home</strong>.</p>
+<p>So, that's it. Because of these things, this weekend is not a good time to visit. It would be better for me to visit another weekend. <strong>On the other hand</strong>, this means I will have more money to spend when I finally visit, thanks to the overtime.</p>
+<p>I hope you are well. Write to me and tell me if there is any weekend that is not good for me to visit, or if there is a weekend that is <strong>especially</strong> good. I would tell you the news from home, but there isn't any – or, if there is, I'm working so hard that I haven't <strong>heard about</strong> it!</p>
+<p>Sorry again about the change of plan. I hope it hasn't <strong>caused problems</strong> for you. I'll think of you having fun while I'm watching TV with my grandfather!</p>
+<p><strong>Best wishes</strong>,</p>
+<p>Jeff</p>`,
+    translationB1: `<p>3/6/02</p>
+<p>Qadrdon Stan,</p>
+<p>Kechirasiz. Kelgusi hafta oxirida sizni ziyorat qilish rejalarim <strong>o'zgardi</strong>. Men sizni ko'rishni va shaharda yaxshi vaqt o'tkazishni juda <strong>xohlardim</strong>. Bu yerda hayot ba'zan zerikarli, chunki do'stlarimning ko'pchiligi universitetda.</p>
+<p>Afsuski, ikki narsa yuz berdi, shuning uchun rejalarimni o'zgartirishim kerak. Ishda hozir juda <strong>bandmiz</strong>. Soliq yili deyarli yakunlanyapti va bizda qilinadigan ishlar ko'p. Bizga yordam berish uchun xo'jayin hammamizdan shu hafta oxiri <strong>qo'shimcha</strong> ishlashimizni so'radi. Menda <strong>hozir</strong> pulim unchalik ko'p emas va menga qo'shimcha pul juda kerak. Shuningdek, imkonim bo'lsa, xo'jayinga <strong>yordam bermoqchiman</strong>. U yaxshi inson va menga doimo adolatli munosabatda bo'lgan. Boshqalarning hammasi ishlayotganida yo'q deyish qiyin.</p>
+<p>Shuningdek, bobomda muammo bor. U keksa va yaqinda o'zini <strong>yomon his qilyapti</strong>. Onam u haqida xavotirda edi, shuning uchun u biroz vaqtga bizni <strong>ziyorat qilgani</strong> keldi. Onam uni yolg'iz qoldirishni xohlamaydi va u shanba kuni kechqurun singlimning bolalariga qaraydi. Otam shu hafta oxirida yig'ilishda bo'ladi, shuning uchun men <strong>uyda qolishim</strong> kerak.</p>
+<p>Xullas, shunaqa gaplar. Shu sabablarga ko'ra, bu hafta oxiri ziyorat qilish uchun yaxshi vaqt emas. Boshqa hafta oxiri kelganim yaxshiroq bo'lardi. <strong>Boshqa tomondan</strong>, bu qo'shimcha ish tufayli, oxiri kelganimda sarflash uchun ko'proq pulim bo'ladi degani.</p>
+<p>Umid qilamanki, ahvolingiz yaxshi. Menga yozing va ziyorat qilishim uchun qaysi hafta oxiri yaxshi emasligini yoki qaysi hafta oxiri <strong>ayniqsa</strong> yaxshi ekanligini ayting. Sizga uydagi yangiliklarni aytib berardim, lekin hech qanday yangilik yo'q - yoki, agar bo'lsa ham, men shunchalik ko'p ishlayapman, <strong>eshitganim</strong> yo'q!</p>
+<p>Reja o'zgargani uchun yana bir bor uzr so'rayman. Umid qilamanki, bu sizga <strong>muammolar tug'dirmagan</strong>. Men bobom bilan televizor ko'rayotganimda sizning yaxshi dam olayotganingiz haqida o'ylayman!</p>
+<p><strong>Eng yaxshi tilaklar</strong>,</p>
+<p>Jeff</p>`,
+    vocabularyB1: {
+        "changed": {
+                "definition": "Different from before",
+                "uzbek": "o'zgargan",
+                "example": "The weather has changed a lot today.",
+                "exampleUzbek": "Bugun ob-havo juda o'zgardi."
+        },
+        "looking forward to": {
+                "definition": "Excited about something that will happen in the future",
+                "uzbek": "intizorlik bilan kutmoq",
+                "example": "I'm looking forward to my holiday.",
+                "exampleUzbek": "Men ta'tilimni intizorlik bilan kutyapman."
+        },
+        "busy": {
+                "definition": "Having a lot of things to do",
+                "uzbek": "band",
+                "example": "I'm very busy at work this week.",
+                "exampleUzbek": "Men bu hafta ishda juda bandman."
+        },
+        "overtime": {
+                "definition": "Working more hours than usual",
+                "uzbek": "ish vaqtidan tashqari",
+                "example": "I have to work overtime tonight.",
+                "exampleUzbek": "Men bugun kechqurun ish vaqtidan tashqari ishlashim kerak."
+        },
+        "at the moment": {
+                "definition": "Now",
+                "uzbek": "hozirda",
+                "example": "I'm busy at the moment, can I call you later?",
+                "exampleUzbek": "Men hozir bandman, sizga keyinroq qo'ng'iroq qilsam bo'ladimi?"
+        },
+        "help": {
+                "definition": "To give assistance",
+                "uzbek": "yordam bermoq",
+                "example": "Can you help me with my homework?",
+                "exampleUzbek": "Uy vazifamga yordam bera olasizmi?"
+        },
+        "feeling well": {
+                "definition": "In good health",
+                "uzbek": "o'zini yaxshi his qilmoq",
+                "example": "I'm not feeling well today, so I'm staying home.",
+                "exampleUzbek": "Men bugun o'zimni yaxshi his qilmayapman, shuning uchun uyda qolaman."
+        },
+        "visiting": {
+                "definition": "Going to see someone",
+                "uzbek": "ziyorat qilmoq",
+                "example": "We are visiting my grandparents this weekend.",
+                "exampleUzbek": "Biz bu hafta oxiri bobom va buvimni ziyorat qilamiz."
+        },
+        "stay home": {
+                "definition": "To remain in one's house",
+                "uzbek": "uyda qolmoq",
+                "example": "I'm going to stay home tonight and watch a movie.",
+                "exampleUzbek": "Men bugun kechqurun uyda qolib kino ko'rmoqchiman."
+        },
+        "on the other hand": {
+                "definition": "Used to introduce a contrasting idea",
+                "uzbek": "boshqa tomondan",
+                "example": "It's expensive, but on the other hand, it's very useful.",
+                "exampleUzbek": "Bu qimmat, lekin boshqa tomondan juda foydali."
+        },
+        "especially": {
+                "definition": "More than usual",
+                "uzbek": "ayniqsa",
+                "example": "I like fruit, especially apples.",
+                "exampleUzbek": "Men mevalarni yaxshi ko'raman, ayniqsa olmalarni."
+        },
+        "heard about": {
+                "definition": "To receive information about something",
+                "uzbek": "eshitmoq",
+                "example": "Have you heard about the new restaurant?",
+                "exampleUzbek": "Siz yangi restoran haqida eshitdingizmi?"
+        },
+        "caused problems": {
+                "definition": "To make difficulties",
+                "uzbek": "muammolarni keltirib chiqarmoq",
+                "example": "The rain caused problems for the traffic.",
+                "exampleUzbek": "Yomg'ir transport harakatiga muammolar tug'dirdi."
+        },
+        "Best wishes": {
+                "definition": "A polite way to end a letter",
+                "uzbek": "Eng yaxshi tilaklar",
+                "example": "Best wishes, John",
+                "exampleUzbek": "Eng yaxshi tilaklar bilan, Jon"
+        },
+        "change": {
+                "definition": "To become different",
+                "uzbek": "o'zgarish",
+                "example": "The weather can change quickly.",
+                "exampleUzbek": "Ob-havo tezda o'zgarishi mumkin."
+        }
+},
+    passageB2: `<p>3/6/02</p>
+
+<p>Dear Stan,</p>
+
+<p>I’m writing to apologise, but my plans to visit you next weekend have unfortunately <strong>fallen through</strong>. I was really looking forward to it and to enjoying myself in the city. Life here can be a bit dull when so many of my friends are away at university.</p>
+
+<p>Sadly, two things have come up that mean I have to change my plans. We're incredibly <strong>busy at work</strong> right now. It’s nearly the end of the tax year, and like all accountants, we're <strong>swamped</strong>. To manage the workload, the boss has asked if we could all work overtime this weekend. As usual, I’m a bit <strong>short of cash</strong> and could really use the extra money. Also, I want to <strong>stay in the boss's good books</strong> if I can. He’s a good guy and has always been fair to me. It would be hard to refuse when everyone else is agreeing to work.</p>
+
+<p>Then, there’s a situation with my grandfather. He's getting older and he hasn’t been feeling very well recently. My mum was worried about him, so he's come to stay with us for a while to <strong>recover</strong>. My mother doesn’t like leaving him alone, and she’s agreed to babysit for my sister on Saturday night. My dad is away at a conference that weekend, so it’s up to me to look after Granddad.</p>
+
+<p>So, that’s the situation. <strong>All things considered</strong>, this weekend just isn’t possible, and it would be better if I postponed my visit until another time. On the positive side, the delay will mean I'll have more money to spend when I do eventually get there, thanks to the overtime.</p>
+
+<p>I hope you're doing well. Send me a message and let me know if there are any weekends that you're <strong>unavailable</strong>, or if there are any weekends that would be particularly good for me to visit. I would tell you any news from home, but there isn’t any – or if there is, I’m working so hard that I <strong>haven’t heard a thing</strong>!</p>
+
+<p>I'm really sorry again about the change of plan. I hope it hasn’t <strong>disrupted</strong> any of your plans. I’ll be thinking of you enjoying yourself in the city while I’m watching TV with Granddad!</p>
+
+<p>Cheers</p>
+<p>Jeff</p>`,
+    translationB2: `<p>3/6/02</p>
+
+<p>Hurmatli Stan,</p>
+
+<p>Kechirasiz so'ramoqchiman, lekin kelgusi hafta oxirida sizni ziyorat qilish rejam afsuski <strong>amalga oshmaydigan bo'ldi</strong>. Men buni juda xohlardim va shaharda yaxshi dam olishni orzu qilgandim. Do'stlarimning ko'pchiligi universitetda o'qiyotgani sababli, bu yerda hayot biroz zerikarli bo'lishi mumkin.</p>
+
+<p>Afsuski, rejamni o'zgartirishimga sabab bo'ladigan ikkita narsa paydo bo'ldi. Hozir bizda <strong>ish juda ko'p</strong>. Soliq yili deyarli tugayapti va barcha buxgalterlar singari biz ham <strong>ishga ko'milib qolganmiz</strong>. Ish hajmini boshqarish uchun boshliq hammamizdan shu hafta oxiri qo'shimcha ishlashni so'radi. Odatdagidek, menda <strong>pul yetishmayapti</strong> va qo'shimcha pul menga juda kerak. Bundan tashqari, imkon qadar <strong>boshliqning ko'ziga yaxshi ko'rinishni</strong> xohlayman. U yaxshi odam va doimo menga adolatli munosabatda bo'lgan. Barcha rozi bo'lganda rad etish qiyin bo'lardi.</p>
+
+<p>Keyin, bobom bilan bog'liq vaziyat bor. U keksa bo'lib qolmoqda va yaqinda o'zini yaxshi his qilmayapti. Onam undan xavotirda edi, shuning uchun u <strong>sog'lig'ini tiklash</strong> uchun bir muddat biz bilan yashashga keldi. Onam uni yolg'iz qoldirishni xohlamaydi va u shanba kuni kechqurun singlimning bolalariga qarashga rozi bo'ldi. Otam shu hafta oxiri konferentsiyada bo'ladi, shuning uchun bobomga qarash meniki.</p>
+
+<p>Xullas, vaziyat shunday. <strong>Hammasini hisobga olsak</strong>, bu hafta oxiri umuman iloji yo'q va tashrifimni boshqa vaqtga qoldirganim yaxshiroq bo'lardi. Yaxshi tomoni shundaki, kechikish qo'shimcha ish tufayli u yerga borgach, sarflash uchun ko'proq pulim bo'lishini anglatadi.</p>
+
+<p>Umid qilamanki, siz yaxshi yuribsiz. Menga xabar yuboring va qaysi dam olish kunlari siz <strong>band bo'lishingizni</strong> yoki qaysi dam olish kunlari mening tashrifim uchun ayniqsa yaxshi bo'lishini bildiring. Uyimizdan qandaydir yangiliklar bo'lsa aytardim, lekin hech qanday yangilik yo'q - yoki bo'lsa ham, men shunchalik qattiq ishlayapman, <strong>hech narsa eshitganim yo'q</strong>!</p>
+
+<p>Reja o'zgarishi uchun yana bir bor uzr so'rayman. Umid qilamanki, bu sizning hech qanday rejalaringizni <strong>buzmadi</strong>. Men bobom bilan televizor ko'rib o'tirganimda, siz shaharda dam olayotganingizni o'ylab turaman!</p>
+
+<p>Salom bilan</p>
+<p>Jeff</p>`,
+    vocabularyB2: {
+        "fallen through": {
+                "definition": "Failed to happen; didn't work out.",
+                "uzbek": "amalga oshmadi, ish bermadi",
+                "example": "Our vacation plans have fallen through because of the storm.",
+                "exampleUzbek": "Bo'ron tufayli bizning ta'til rejalarimiz amalga oshmadi."
+        },
+        "busy at work": {
+                "definition": "Having a lot of work to do.",
+                "uzbek": "ishda band",
+                "example": "I'm very busy at work this week with the project deadline.",
+                "exampleUzbek": "Bu hafta loyiha muddati tufayli ishda juda bandman."
+        },
+        "swamped": {
+                "definition": "Extremely busy; overwhelmed with work.",
+                "uzbek": "juda band, ish bilan to'lib toshgan",
+                "example": "We were swamped with orders after the sale.",
+                "exampleUzbek": "Aksiyadan keyin biz buyurtmalar bilan to'lib toshdik."
+        },
+        "short of cash": {
+                "definition": "Not having enough money.",
+                "uzbek": "pul yetishmasligi",
+                "example": "I'm a bit short of cash this month, so I can't go to the concert.",
+                "exampleUzbek": "Bu oy pulim biroz kamroq, shuning uchun konsertga bora olmayman."
+        },
+        "stay in the boss's good books": {
+                "definition": "To keep a good relationship with your boss.",
+                "uzbek": "boshliqning yaxshi munosabatini saqlab qolish",
+                "example": "I always try to arrive on time to stay in the boss's good books.",
+                "exampleUzbek": "Boshliqning yaxshi munosabatini saqlab qolish uchun doimo vaqtida kelishga harakat qilaman."
+        },
+        "recover": {
+                "definition": "To get better after being ill.",
+                "uzbek": "sog'aymoq",
+                "example": "It takes time to recover from a serious illness.",
+                "exampleUzbek": "Jiddiy kasallikdan tuzalish uchun vaqt kerak."
+        },
+        "All things considered": {
+                "definition": "Taking everything into account.",
+                "uzbek": "hamma narsani hisobga olgan holda",
+                "example": "All things considered, it was a successful trip.",
+                "exampleUzbek": "Hamma narsani hisobga olgan holda, bu muvaffaqiyatli sayohat bo'ldi."
+        },
+        "unavailable": {
+                "definition": "Not able to be contacted or seen; not free to do something.",
+                "uzbek": "mavjud emas, qila olmaydigan",
+                "example": "I'm unavailable for meetings next week.",
+                "exampleUzbek": "Keyingi hafta uchrashuvlar uchun mavjud emasman."
+        },
+        "haven’t heard a thing": {
+                "definition": "Heard absolutely no news or information.",
+                "uzbek": "hech qanday yangilik eshitmagan",
+                "example": "I haven't heard a thing about the promotion.",
+                "exampleUzbek": "Men lavozim ko'tarilishi haqida hech qanday yangilik eshitmadim."
+        },
+        "disrupted": {
+                "definition": "Interrupted or prevented from continuing normally.",
+                "uzbek": "buzilgan, to'xtatilgan",
+                "example": "The bad weather disrupted our travel plans.",
+                "exampleUzbek": "Yomon ob-havo bizning sayohat rejalarimizni buzdi."
+        },
+        "come up": {
+                "definition": "To arise or occur.",
+                "uzbek": "paydo bo'lmoq, yuzaga kelmoq",
+                "example": "A problem has come up at work.",
+                "exampleUzbek": "Ishda muammo paydo bo'ldi."
+        },
+        "dull": {
+                "definition": "Boring or uninteresting.",
+                "uzbek": "zerikarli",
+                "example": "The movie was quite dull.",
+                "exampleUzbek": "Kino juda zerikarli edi."
+        },
+        "situation": {
+                "definition": "A set of circumstances.",
+                "uzbek": "vaziyat",
+                "example": "The situation is getting worse.",
+                "exampleUzbek": "Vaziyat yomonlashib bormoqda."
+        },
+        "postponed": {
+                "definition": "To put off to a later time.",
+                "uzbek": "kechiktirmoq",
+                "example": "The meeting was postponed until next week.",
+                "exampleUzbek": "Uchrashuv keyingi haftaga kechiktirildi."
+        },
+        "eventually": {
+                "definition": "At a later time; in the end.",
+                "uzbek": "oxir-oqibat",
+                "example": "Eventually, he found a job.",
+                "exampleUzbek": "Oxir-oqibat u ish topdi."
+        }
+},
+    passageC1: `<p>3/6/02</p><p>Dear Stan,</p><p>Please accept my apologies; my planned visit next weekend has unfortunately <strong>gone awry</strong>. I was genuinely anticipating catching up with you and enjoying the vibrant atmosphere of the city. Life here has become rather monotonous, particularly with so many friends away pursuing their studies.</p><p>Regrettably, a confluence of factors has necessitated this change of plan. Firstly, we are currently <strong>under immense pressure</strong> at work. As the tax year-end approaches, we are, as is typical for accountants, <strong>inundated with work</strong>. In an attempt to mitigate the workload, our manager has requested that we all work overtime this weekend. Given my current <strong>precarious financial situation</strong>, the additional income would be a welcome boost. Furthermore, I feel a sense of obligation to support our manager. He has consistently treated me fairly, and it would be difficult to decline when the rest of the team is contributing.</p><p>Secondly, my grandfather's health has become a concern. He is, understandably, feeling the effects of age and has been somewhat <strong>out of sorts</strong> recently. My mother, understandably worried, has invited him to stay with us for a while for observation and care. She is reluctant to leave him unattended and has agreed to provide childcare for my sister on Saturday evening. With my father attending a conference that weekend, the responsibility falls to me.</p><p>Consequently, due to this combination of circumstances, a visit this weekend is simply not feasible. From my perspective, it would be preferable to <strong>postpone the trip</strong> until a more suitable time. On a more positive note, the delay will allow me to <strong>accrue more funds</strong>, thanks to the overtime, which I can then enjoy during my visit.</p><p>I trust that everything is well with you. Do let me know if there are any weekends that are inconvenient for you, or conversely, particularly convenient. I would share any local news, but frankly, there is either none, or I am so <strong>engrossed in my work</strong> that I am completely oblivious!</p><p>Once again, I apologize for the alteration to our plans. I sincerely hope it hasn't <strong>disrupted any prior commitments</strong> you may have made. I'll be thinking of you enjoying the city nightlife while I'm <strong>keeping my grandfather company</strong> in front of the television!</p><p>Cheers,</p><p>Jeff</p>`,
+    translationC1: `<p>3/6/02</p><p>Qadrdon Stan,</p><p>Iltimos, uzrimni qabul qiling; kelgusi dam olish kunlariga rejalashtirilgan tashrifim afsuski, <strong>amalga oshmay qoldi</strong>. Men siz bilan uchrashishni va shaharning jonli muhitidan bahramand bo'lishni chin dildan kutgandim. Bu yerda hayot bir xil tus oldi, ayniqsa ko'plab do'stlar o'qish uchun ketganidan so'ng.</p><p>Afsuski, bir qator omillar ushbu rejani o'zgartirishni taqozo qildi. Birinchidan, biz hozirda ishda <strong>juda katta bosim ostidamiz</strong>. Soliq yilining oxiri yaqinlashar ekan, biz, buxgalterlar uchun odatiy hol, <strong>ishga ko'milib qoldik</strong>. Ish hajmini kamaytirish maqsadida, menejerimiz barchamizdan shu dam olish kunlari qo'shimcha ishlashimizni so'radi. Mening hozirgi <strong>nozik moliyaviy ahvolimni</strong> hisobga olsak, qo'shimcha daromad juda foydali bo'lardi. Bundan tashqari, men menejerimizni qo'llab-quvvatlashga majburman, deb his qilaman. U menga doimo adolatli munosabatda bo'lgan va jamoaning qolgan a'zolari hissa qo'shayotgan paytda rad etish qiyin bo'lardi.</p><p>Ikkinchidan, bobomning sog'lig'i tashvishga solmoqda. U, tushunarli, yoshning ta'sirini his qilmoqda va yaqinda <strong>o'zini yomon his qilyapti</strong>. Onam, tushunarli tarzda xavotirda, uni kuzatuv va parvarish uchun bir muddat biz bilan yashashga taklif qildi. U uni qarovsiz qoldirishni istamaydi va shanba oqshomida singlimga bolalar bog'chasini ta'minlashga rozi bo'ldi. Otam o'sha dam olish kunlari konferensiyada qatnashgani sababli, mas'uliyat menga yuklanadi.</p><p>Natijada, ushbu holatlar yig'indisi tufayli, bu dam olish kunlari tashrif buyurishning umuman iloji yo'q. Mening nuqtai nazarimdan, <strong>sayohatni</strong> yanada qulay vaqtgacha <strong>kechiktirish</strong> afzalroq bo'lardi. Yaxshiroq tomonga o'tsak, kechikish menga qo'shimcha ish vaqti tufayli <strong>ko'proq mablag' to'plashga</strong> imkon beradi, keyin esa tashrifim davomida undan zavqlanishim mumkin.</p><p>Umid qilamanki, sizda hammasi yaxshi. Qaysi dam olish kunlari siz uchun noqulay yoki aksincha, ayniqsa qulay ekanligini menga xabar bering. Men har qanday mahalliy yangiliklarni baham ko'rardim, lekin, to'g'risini aytsam, yoki umuman yo'q, yoki men <strong>ishimga shunchalik berilib ketganmanki</strong>, hech narsani sezmay qolaman!</p><p>Rejalarimizdagi o'zgarish uchun yana bir bor uzr so'rayman. Chin dildan umid qilamanki, bu sizning avvaldan <strong>qilgan majburiyatlaringizni buzmagan</strong>. Men sizning shaharning tungi hayotidan zavqlanayotganingizni o'ylab turaman, men esa televizor oldida <strong>bobomning vaqtini chog' qilaman</strong>!</p><p>Salom bilan,</p><p>Jeff</p>`,
+    vocabularyC1: {
+        "gone awry": {
+                "definition": "Failed to proceed as planned; gone wrong.",
+                "uzbek": "Reja bo'yicha ketmadi; xato ketdi.",
+                "example": "All our carefully laid plans had gone awry.",
+                "exampleUzbek": "Bizning barcha ehtiyotkorlik bilan tuzilgan rejalarimiz xato ketdi."
+        },
+        "under immense pressure": {
+                "definition": "Experiencing a very high level of stress and demands.",
+                "uzbek": "Juda yuqori darajadagi stress va talablarni boshdan kechirish.",
+                "example": "The team is under immense pressure to deliver the project on time.",
+                "exampleUzbek": "Jamoa loyihani o'z vaqtida topshirish uchun juda katta bosim ostida."
+        },
+        "inundated with work": {
+                "definition": "Having so much work that it is difficult to deal with it all.",
+                "uzbek": "Shunchalik ko'p ishga ega bo'lishki, ularning hammasini bajarish qiyin.",
+                "example": "After the promotion, she was inundated with work.",
+                "exampleUzbek": "Lavozim ko'tarilgandan so'ng, uning ishi juda ko'payib ketdi."
+        },
+        "precarious financial situation": {
+                "definition": "A state of financial instability or insecurity.",
+                "uzbek": "Moliyaviy beqarorlik yoki xavfsizlik holati.",
+                "example": "Many families are in a precarious financial situation due to job losses.",
+                "exampleUzbek": "Ko'p oilalar ishsizlik tufayli moliyaviy jihatdan beqaror holatda."
+        },
+        "out of sorts": {
+                "definition": "Slightly unwell or unhappy.",
+                "uzbek": "Biroz kasal yoki baxtsiz.",
+                "example": "I've been feeling a bit out of sorts all week.",
+                "exampleUzbek": "Men butun hafta davomida o'zimni biroz yomon his qilyapman."
+        },
+        "postpone the trip": {
+                "definition": "To delay the trip to a later date.",
+                "uzbek": "Sayohatni keyinroq sanaga kechiktirish.",
+                "example": "We had to postpone the trip due to unforeseen circumstances.",
+                "exampleUzbek": "Biz kutilmagan holatlar tufayli sayohatni kechiktirishga majbur bo'ldik."
+        },
+        "accrue more funds": {
+                "definition": "To gradually increase the amount of money.",
+                "uzbek": "Pulingizni asta-sekin ko'paytirish.",
+                "example": "The interest will accrue more funds in your savings account.",
+                "exampleUzbek": "Foiz sizning jamg'arma hisobingizda ko'proq pul to'playdi."
+        },
+        "engrossed in my work": {
+                "definition": "Completely occupied or absorbed in work.",
+                "uzbek": "Ishga to'liq band yoki singib ketgan.",
+                "example": "She was so engrossed in her work that she didn't notice the time.",
+                "exampleUzbek": "U ishiga shunchalik berilib ketganki, vaqtni sezmadi."
+        },
+        "disrupted any prior commitments": {
+                "definition": "Interfered with or prevented existing arrangements.",
+                "uzbek": "Mavjud kelishuvlarga xalaqit berdi yoki ularni to'xtatdi.",
+                "example": "I hope my cancellation hasn't disrupted any prior commitments you had.",
+                "exampleUzbek": "Umid qilamanki, mening bekor qilishim sizning oldindan kelishilgan majburiyatlaringizga xalaqit bermadi."
+        },
+        "keeping my grandfather company": {
+                "definition": "Spending time with one's grandfather to prevent him from feeling lonely.",
+                "uzbek": "Bobosi yolg'iz qolmasligi uchun u bilan vaqt o'tkazish.",
+                "example": "I'll be keeping my grandfather company while my parents are out.",
+                "exampleUzbek": "Ota-onam tashqarida bo'lganida, men bobomga hamroh bo'laman."
+        },
+        "a confluence of factors": {
+                "definition": "A coming together of multiple factors",
+                "uzbek": "Bir nechta omillarning birga kelishi",
+                "example": "The company's success was due to a confluence of factors, including good leadership and a strong market.",
+                "exampleUzbek": "Kompaniyaning muvaffaqiyati bir qator omillar, jumladan yaxshi rahbarlik va kuchli bozor tufayli edi."
+        },
+        "mitigate the workload": {
+                "definition": "To make the amount of work seem less difficult",
+                "uzbek": "Ish hajmini kamaytirish",
+                "example": "Delegating tasks can help to mitigate the workload and reduce stress.",
+                "exampleUzbek": "Vazifalarni topshirish ish yukini kamaytirishga va stressni kamaytirishga yordam beradi."
+        },
+        "sense of obligation": {
+                "definition": "A feeling that one is morally or legally bound to do something",
+                "uzbek": "Biror narsani qilishga axloqiy yoki qonuniy jihatdan majbur ekanligini his qilish",
+                "example": "She felt a sense of obligation to help her family after they had supported her through college.",
+                "exampleUzbek": "U kollejda qo'llab-quvvatlaganidan keyin oilasiga yordam berish majburiyatini his qildi."
+        }
+}
 };

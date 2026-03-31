@@ -132,4 +132,357 @@ window.ARTICLE_DATA = {
             exampleUzbek: "Kuchukcha burchakda ingrab yig'lardi."
         }
     }
+,
+    passageB1: `<p>The town of Springford had some <strong>bad news</strong> yesterday. The police said they found the body of a young woman. It was in a <strong>forest</strong> area just outside the town. A man called Jim Bradley, who is 46 years old, <strong>found</strong> the body. He was walking his dog.</p>
+
+<p>He told our reporter, 'My dog is usually good and stays near me. But on Thursday morning, he ran quickly into the <strong>bushes</strong>. I could hear him, but I couldn't see him. I wasn't happy because I wanted to stay on the path. I didn't have the right shoes for walking through the bushes. When I <strong>finally</strong> got to the dog, I couldn't believe what I saw. He was digging at something in the ground. I saw a human arm <strong>sticking out</strong>. I thought I was imagining things. I went closer and saw that the dog was <strong>uncovering</strong> a dead body.'</p>
+
+<p>'I put the dog on his leash and pulled him away. Then I called the police on my phone. I wanted to <strong>leave</strong> right away, but the police asked me to <strong>stay</strong> there until they came. I didn't want to stay there at all, but I had to wait until the police arrived. The dog was also <strong>scared</strong> and was making quiet, sad sounds and shaking at my feet. Luckily, the police came very <strong>quickly</strong>.'</p>
+
+<p>'I feel very sorry for the family of that young woman. I just want to try and <strong>forget</strong> about the whole thing, but I don't think that will be possible. I think I will have <strong>nightmares</strong> about this for a long time.'</p>
+
+<p>Detective Inspector Tony Miles said he couldn't tell us much yet. 'It's early in the <strong>investigation</strong>. We will do everything we can to find out who did this terrible thing to the young woman. We can't say who she is yet because we haven't told her family. We will tell you more when we know more. Please, everyone, try to <strong>remain calm</strong>.'</p>
+
+<p>The police are asking anyone who has any <strong>information</strong> to contact them. They hope to <strong>identify</strong> the young woman soon and find out what happened to her.</p>`,
+    translationB1: `<p>Springford shahrida kecha <strong>yomon xabar</strong> tarqaldi. Politsiya yosh ayolning jasadini topganini ma'lum qildi. U shahar tashqarisidagi <strong>o'rmon</strong> hududida edi. Jim Bredli ismli 46 yoshli erkak jasadni <strong>topdi</strong>. U iti bilan sayr qilayotgan edi.</p>
+
+<p>U bizning muxbirimizga shunday dedi: 'Itim odatda yaxshi, yonimda yuradi. Ammo payshanba kuni ertalab u tezda <strong>butazorlar</strong> ichiga yugurdi. Uni eshitdim, lekin ko'ra olmadim. Men xursand emas edim, chunki yo'lda qolishni xohlardim. Butazorlar ichida yurish uchun to'g'ri poyabzalim yo'q edi. Nihoyat itimga yetganimda, ko'zlarimga ishonmadim. U yerda nimadir qaziyotgan edi. Men insonning qo'li <strong>chiqib turganini</strong> ko'rdim. O'yladimki, men xayol suryapman. Yaqinroq bordim va it o'lik jasadni <strong>ochayotganini</strong> ko'rdim.'</p>
+
+<p>'Itimni bog'ichga bog'lab, uni tortib oldim. Keyin telefonim orqali politsiyaga qo'ng'iroq qildim. Men darhol <strong>ketmoqchi</strong> edim, lekin politsiya kelguniga qadar u yerda <strong>qolishimni</strong> so'radi. Men u yerda umuman qolishni xohlamadim, lekin politsiya kelguniga qadar kutishim kerak edi. It ham <strong>qo'rqqan</strong> edi va oyoqlarim ostida jim, qayg'uli tovushlar chiqarib, titrayotgan edi. Yaxshiyamki, politsiya juda <strong>tez</strong> keldi.'</p>
+
+<p>'Men o'sha yosh ayolning oilasiga juda achinaman. Men shunchaki butun narsani <strong>unutishga</strong> harakat qilmoqchiman, lekin bu mumkin bo'ladi deb o'ylamayman. Men bu haqda uzoq vaqt davomida <strong>dahshatli tushlar</strong> ko'raman deb o'ylayman.'</p>
+
+<p>Detektiv inspektor Toni Mayls hali ko'p narsa ayta olmasligini aytdi. 'Bu <strong>tergovning</strong> boshlanishi. Biz bu yosh ayolga bu dahshatli ishni kim qilganini aniqlash uchun qo'limizdan kelganicha harakat qilamiz. Biz uning oilasiga aytmaganimiz uchun hali kimligini ayta olmaymiz. Ko'proq bilganimizda sizga ko'proq ma'lumot beramiz. Iltimos, hammangiz <strong>xotirjam bo'lishga</strong> harakat qiling.'</p>
+
+<p>Politsiya har qanday <strong>ma'lumotga</strong> ega bo'lganlardan ular bilan bog'lanishni so'ramoqda. Ular tez orada yosh ayolni <strong>aniqlashga</strong> va unga nima bo'lganini bilishga umid qilishmoqda.</p>`,
+    vocabularyB1: {
+        "bad news": {
+                "definition": "Information that makes you feel sad or worried",
+                "uzbek": "Yomon xabar",
+                "example": "I have some bad news for you: the concert has been cancelled.",
+                "exampleUzbek": "Siz uchun yomon xabarim bor: konsert bekor qilindi."
+        },
+        "forest": {
+                "definition": "A large area covered with trees",
+                "uzbek": "O'rmon",
+                "example": "We went for a walk in the forest.",
+                "exampleUzbek": "Biz o'rmonda sayr qildik."
+        },
+        "found": {
+                "definition": "Past tense of find: discovered something by chance or while looking for it",
+                "uzbek": "Topdi",
+                "example": "I found my keys under the sofa.",
+                "exampleUzbek": "Kalitlarimni divan ostidan topdim."
+        },
+        "bushes": {
+                "definition": "Plants with many small branches growing from the ground",
+                "uzbek": "Butalar",
+                "example": "There are many bushes in the garden.",
+                "exampleUzbek": "Bog'da ko'plab butalar bor."
+        },
+        "finally": {
+                "definition": "After a long time or some difficulty",
+                "uzbek": "Nihoyat",
+                "example": "We finally arrived at the hotel.",
+                "exampleUzbek": "Biz nihoyat mehmonxonaga yetib keldik."
+        },
+        "sticking out": {
+                "definition": "Extending out from a surface or object",
+                "uzbek": "Chiqib turgan",
+                "example": "The pen was sticking out of his pocket.",
+                "exampleUzbek": "Ruchka cho'ntagidan chiqib turardi."
+        },
+        "uncovering": {
+                "definition": "Removing something that covers something else",
+                "uzbek": "Ochmoq",
+                "example": "The archaeologists are uncovering ancient ruins.",
+                "exampleUzbek": "Arxeologlar qadimgi xarobalarni ochmoqda."
+        },
+        "leave": {
+                "definition": "To go away from a place",
+                "uzbek": "Tark etmoq",
+                "example": "I want to leave this town.",
+                "exampleUzbek": "Men bu shaharni tark etmoqchiman."
+        },
+        "stay": {
+                "definition": "To remain in a place",
+                "uzbek": "Qolmoq",
+                "example": "Please stay here with me.",
+                "exampleUzbek": "Iltimos, men bilan shu yerda qoling."
+        },
+        "scared": {
+                "definition": "Feeling fear or worry",
+                "uzbek": "Qo'rqan",
+                "example": "I was scared of the dark.",
+                "exampleUzbek": "Men qorong'idan qo'rqardim."
+        },
+        "quickly": {
+                "definition": "Fast",
+                "uzbek": "Tez",
+                "example": "He ran quickly to catch the bus.",
+                "exampleUzbek": "U avtobusga yetib olish uchun tez yugurdi."
+        },
+        "forget": {
+                "definition": "To be unable to remember something",
+                "uzbek": "Unutmoq",
+                "example": "I always forget his name.",
+                "exampleUzbek": "Men har doim uning ismini unutaman."
+        },
+        "nightmares": {
+                "definition": "Bad dreams",
+                "uzbek": "Yomon tushlar",
+                "example": "I had nightmares after watching the horror movie.",
+                "exampleUzbek": "Qo'rqinchli filmdan keyin yomon tushlar ko'rdim."
+        },
+        "investigation": {
+                "definition": "An official examination of the facts about a situation, crime, etc.",
+                "uzbek": "Tekshiruv",
+                "example": "The police are carrying out an investigation into the robbery.",
+                "exampleUzbek": "Politsiya o'g'irlik bo'yicha tekshiruv o'tkazmoqda."
+        },
+        "remain calm": {
+                "definition": "To stay peaceful and not get upset",
+                "uzbek": "Xotirjam qolmoq",
+                "example": "It's important to remain calm in an emergency.",
+                "exampleUzbek": "Favqulodda vaziyatda xotirjam qolish muhim."
+        },
+        "information": {
+                "definition": "Facts or details about someone or something",
+                "uzbek": "Ma'lumot",
+                "example": "I need more information about the job.",
+                "exampleUzbek": "Menga ish haqida ko'proq ma'lumot kerak."
+        },
+        "identify": {
+                "definition": "To recognize someone or something and say who or what they are",
+                "uzbek": "Aniqlamoq",
+                "example": "The police are trying to identify the thief.",
+                "exampleUzbek": "Politsiya o'g'rini aniqlashga harakat qilmoqda."
+        }
+},
+    passageB2: `<p>The town of Springford was <strong>shaken</strong> yesterday by the discovery of a body just outside of town. Police have confirmed that the body of a young woman was found in a wooded area. The <strong>unfortunate</strong> individual who made the discovery was Jim Bradley, a 46-year-old local resident, who was walking his dog.</p>
+
+<p>Mr. Bradley spoke to our reporter earlier today, describing the <strong>sequence of events</strong>. 'Normally, my dog stays right by my side, he's very well-behaved. But yesterday morning, he suddenly took off into the bushes at <strong>high speed</strong>. I could hear him crashing around, but I couldn't see him. I wasn't too happy, as I was planning on sticking to the path and wasn't wearing suitable shoes for <strong>trekking</strong> through the undergrowth. When I finally caught up with him, I was completely <strong>stunned</strong>. He was digging at something in the ground, and I saw what looked like a human arm sticking out. At first, I thought I was imagining things. But when I got closer, I realised he was <strong>unearthing</strong> a dead body.'</p>
+
+<p>'I immediately put the dog on his leash and pulled him away from the scene before calling the police. I wanted to <strong>get out of there</strong> as quickly as possible, but the police asked me to remain until they arrived. I wasn't thrilled about staying, I can tell you, but I had no choice but to <strong>wait it out</strong> until they got there. The dog was clearly <strong>distressed</strong>, whimpering and shivering at my feet. Thankfully, the police responded promptly and arrived very quickly.'</p>
+
+<p>'My heart goes out to the family of that poor young woman. I'm trying to <strong>block it out</strong>, but I don't think I'll be able to. I'm sure I'll be having nightmares about this for a long time,' he added.</p>
+
+<p>Detective Inspector Tony Miles stated that he could only release limited information at this stage. 'The investigation is in its <strong>initial stages</strong>, but we are <strong>doing everything we can</strong> to find out who committed this terrible crime. We cannot release the victim's identity yet, as we have not yet <strong>notified</strong> her next of kin. We will update the public with any <strong>significant developments</strong> as they happen. In the meantime, we ask everyone to remain calm and <strong>refrain from speculation</strong>.'</p>`,
+    translationB2: `<p>Springford shahri kecha shahardan tashqarida jasad topilishi bilan <strong>larzaga keldi</strong>. Politsiya yosh ayolning jasadi o'rmon hududida topilganini tasdiqladi. Jasadni topgan <strong>baxtsiz</strong> shaxs 46 yoshli mahalliy aholi vakili Jim Bredli bo'lib, u itini sayr qildirayotgan edi.</p>
+
+<p>Janob Bredli bugun ertalab bizning muxbirimizga bo'lgan <strong>voqealar ketma-ketligini</strong> aytib berdi. 'Odatda, itim yonimda yuradi, u juda itoatkor. Ammo kecha ertalab u to'satdan <strong>katta tezlikda</strong> butalar orasiga yugurib ketdi. Uning shovqinini eshitdim, lekin uni ko'rmadim. Men unchalik xursand bo'lmadim, chunki men yo'ldan chiqmaslikni rejalashtirgandim va <strong>sayohat qilish</strong> uchun mos poyabzal kiymagandim. Nihoyat unga yetib olganimda, men butunlay <strong>hayratda qoldim</strong>. U yerda nimadir qaziyotgan edi va men yerga qadalgan odamning qo'liga o'xshash narsani ko'rdim. Avvaliga, men tasavvur qilayotgandek tuyuldi. Ammo yaqinroq borgach, u o'lik jasadni <strong>qazib olayotganini</strong> angladim.'</p>
+
+<p>'Men darhol itimga bog'ich taqib, uni voqea joyidan olib tashladim, so'ngra politsiyaga qo'ng'iroq qildim. Men u yerdan iloji boricha tezroq <strong>qochib ketmoqchi edim</strong>, lekin politsiya menga ular kelguncha qolishimni so'radi. Qolishdan xursand emasdim, aytishim mumkin, lekin ular kelguncha <strong>kutib turishdan</strong> boshqa ilojim yo'q edi. Itim aniq <strong>xavotirda edi</strong>, oyoqlarim ostida ingrab, titrab turardi. Yaxshiyamki, politsiya tezda javob berdi va juda tez yetib keldi.'</p>
+
+<p>'Mening yuragim o'sha bechora yosh ayolning oilasi bilan birga. Men buni <strong>unutishga harakat qilyapman</strong>, lekin o'ylaymanki, bunga erisha olmayman. Ishonchim komilki, bu haqda uzoq vaqt davomida dahshatli tushlar ko'raman', - deb qo'shimcha qildi u.</p>
+
+<p>Detektiv inspektor Toni Maylzning ta'kidlashicha, u hozircha faqat cheklangan ma'lumotlarni e'lon qilishi mumkin. 'Tergov <strong>dastlabki bosqichida</strong>, lekin biz bu dahshatli jinoyatni kim sodir etganini aniqlash uchun <strong>qo'limizdan kelganicha harakat qilyapmiz</strong>. Jabrlanuvchining shaxsini hozircha e'lon qila olmaymiz, chunki biz uning eng yaqin qarindoshlariga hali <strong>xabar bermadik</strong>. Biz har qanday <strong>muhim o'zgarishlar</strong> haqida jamoatchilikni xabardor qilib boramiz. Shu bilan birga, biz hammadan xotirjam bo'lishni va <strong>taxminlardan tiyilishni</strong> so'raymiz'.</p>`,
+    vocabularyB2: {
+        "shaken": {
+                "definition": "Shocked and upset",
+                "uzbek": "Larzaga kelgan",
+                "example": "The town was shaken by the news of the accident.",
+                "exampleUzbek": "Shahar baxtsiz hodisa haqidagi xabardan larzaga keldi."
+        },
+        "unfortunate": {
+                "definition": "Having or marked by bad luck; unlucky",
+                "uzbek": "Bextsiz",
+                "example": "The unfortunate man lost his job and his house.",
+                "exampleUzbek": "Bextsiz odam ishi va uyidan ayrildi."
+        },
+        "sequence of events": {
+                "definition": "The order in which things happened",
+                "uzbek": "Voqealar ketma-ketligi",
+                "example": "The police are trying to reconstruct the sequence of events leading to the crime.",
+                "exampleUzbek": "Politsiya jinoyatga olib kelgan voqealar ketma-ketligini tiklashga harakat qilmoqda."
+        },
+        "high speed": {
+                "definition": "Moving or operating very quickly",
+                "uzbek": "Yuqori tezlik",
+                "example": "The car was traveling at high speed when it crashed.",
+                "exampleUzbek": "Mashina urilganda yuqori tezlikda harakatlanayotgan edi."
+        },
+        "trekking": {
+                "definition": "Going on a long arduous journey, typically on foot.",
+                "uzbek": "Sayohat qilish",
+                "example": "We went trekking in the mountains for a week.",
+                "exampleUzbek": "Biz bir hafta tog'larda sayohat qildik."
+        },
+        "stunned": {
+                "definition": "So shocked that one is temporarily unable to react.",
+                "uzbek": "Hayratda qolgan",
+                "example": "I was stunned by the news of his death.",
+                "exampleUzbek": "Men uning o'limi haqidagi xabardan hayratda qoldim."
+        },
+        "unearthing": {
+                "definition": "Discovering something by digging it out of the earth.",
+                "uzbek": "Qazib olish",
+                "example": "Archaeologists are unearthing ancient artifacts.",
+                "exampleUzbek": "Arxeologlar qadimgi artefaktlarni qazib olmoqdalar."
+        },
+        "get out of there": {
+                "definition": "To leave a place quickly, especially because it is dangerous or unpleasant.",
+                "uzbek": "U yerdan chiqib ketmoq",
+                "example": "We need to get out of there before the storm hits.",
+                "exampleUzbek": "Bo'ron boshlanishidan oldin u yerdan chiqib ketishimiz kerak."
+        },
+        "wait it out": {
+                "definition": "To wait until something ends, especially something unpleasant.",
+                "uzbek": "Kutib o'tirish",
+                "example": "We'll just have to wait it out and see what happens.",
+                "exampleUzbek": "Biz shunchaki kutib o'tirishimiz va nima bo'lishini ko'rishimiz kerak."
+        },
+        "distressed": {
+                "definition": "Suffering from anxiety, sorrow, or pain.",
+                "uzbek": "G'amgin",
+                "example": "She was deeply distressed by the news.",
+                "exampleUzbek": "U bu xabardan juda g'amgin edi."
+        },
+        "block it out": {
+                "definition": "To try not to think about something unpleasant.",
+                "uzbek": "Unutishga harakat qilmoq",
+                "example": "I try to block out the bad memories.",
+                "exampleUzbek": "Men yomon xotiralarni unutishga harakat qilaman."
+        },
+        "initial stages": {
+                "definition": "The beginning of a process or activity.",
+                "uzbek": "Dastlabki bosqichlar",
+                "example": "The project is in its initial stages.",
+                "exampleUzbek": "Loyiha dastlabki bosqichda."
+        },
+        "doing everything we can": {
+                "definition": "Making the greatest effort possible",
+                "uzbek": "Qo'limizdan kelganicha harakat qilamiz",
+                "example": "We are doing everything we can to help the victims.",
+                "exampleUzbek": "Biz jabrlanganlarga yordam berish uchun qo'limizdan kelganicha harakat qilamiz."
+        },
+        "notified": {
+                "definition": "To inform someone about something, typically in a formal manner.",
+                "uzbek": "Xabar berildi",
+                "example": "The police have notified his family.",
+                "exampleUzbek": "Politsiya uning oilasiga xabar berdi."
+        },
+        "significant developments": {
+                "definition": "Important changes or events.",
+                "uzbek": "Muhim o'zgarishlar",
+                "example": "We will keep you informed of any significant developments.",
+                "exampleUzbek": "Biz sizni har qanday muhim o'zgarishlar haqida xabardor qilamiz."
+        },
+        "refrain from speculation": {
+                "definition": "Avoid making guesses or forming opinions without sufficient evidence.",
+                "uzbek": "Taxmin qilishdan saqlaning",
+                "example": "The police asked the public to refrain from speculation about the case.",
+                "exampleUzbek": "Politsiya jamoatchilikdan ish bo'yicha taxmin qilishdan saqlanishni so'radi."
+        }
+},
+    passageC1: `<p>Springford residents were <strong>jolted awake</strong> yesterday by the unsettling news that an unidentified female corpse had been discovered just beyond the town's periphery. The grim find was made by Jim Bradley, a 46-year-old local, while he was exercising his dog in a nearby wooded area.</p>
+
+<p>Speaking to our reporter earlier today, a visibly shaken Mr. Bradley recounted the <strong>harrowing experience</strong>. 'Normally, my dog is exceptionally well-behaved and stays within close proximity. However, on Thursday morning, he suddenly <strong>bolted off</strong> into the dense undergrowth with unexpected alacrity. Although I could hear him, my line of sight was completely obstructed. I was, to put it mildly, displeased, as I had intended to adhere to the designated path and was, frankly, <strong>ill-equipped</strong> for traversing such terrain. Upon finally reaching him, I was met with a scene that was, quite frankly, unbelievable. He was frantically digging at something partially buried, and I could discern what appeared to be a human arm protruding from the earth. Initially, I questioned my own perception, but upon closer inspection, it <strong>dawned on me</strong> that he was in the process of unearthing a deceased individual.</p>
+
+<p>'I immediately secured his leash and physically restrained him before contacting the authorities via my mobile phone. My immediate instinct was to <strong>remove myself from the scene</strong> as swiftly as possible, but the police requested that I remain in situ until their arrival. Needless to say, I was far from comfortable with this proposition, and I was left with no option but to <strong>endure the wait</strong> until they arrived. The dog, understandably, was also deeply distressed, <strong>exhibiting signs of extreme anxiety</strong>, whimpering and shivering at my feet. Fortunately, the police responded with commendable speed and were on the scene expeditiously.</p>
+
+<p>'My deepest sympathies are extended to the family of this unfortunate young woman. As for myself, I am attempting to <strong>compartmentalize</strong> this entire episode and relegate it to the recesses of my mind, although I concede that this may prove to be an insurmountable task. I fully anticipate that I will be <strong>plagued by nightmares</strong> as a consequence of this experience for the foreseeable future.'</p>
+
+<p>Detective Inspector Tony Miles, when approached for comment, stated that he was severely limited in what he could divulge at this juncture. 'The investigation is in its nascent stages, but we are <strong>leaving no stone unturned</strong> in our efforts to identify the perpetrator(s) responsible for this heinous act. At present, we are unable to disclose the victim's identity, as her next of kin have yet to be notified. We will, of course, keep the public apprised of any significant developments as they <strong>come to light</strong>. In the meantime, we urge everyone to remain calm and refrain from speculation that could <strong>impede the investigation</strong>.'</p>`,
+    translationC1: `<p>Спрингфилд аҳолиси кеча шаҳар ташқарисида номаълум аёл жасади топилгани ҳақидаги нохуш хабардан <strong>сергак тортишди</strong>. Мудҳиш топилма 46 ёшли маҳаллий аҳоли вакили Жим Брэдли томонидан яқин атрофдаги ўрмонда итини сайр қилдираётганда аниқланган.</p>
+
+<p>Бугун эрталаб бизнинг мухбиримизга интервью берган, кўринишидан қаттиқ ҳаяжонланган жаноб Брэдли <strong>даҳшатли воқеани</strong> ҳикоя қилиб берди. 'Одатда, менинг итим жуда итоаткор ва доимо ёнимда юради. Бироқ, пайшанба куни эрталаб у тўсатдан кутилмаганда <strong>ўрмон ичига отилиб кетди</strong>. Уни эшитиб турсам ҳам, кўзим билан кўра олмадим. Тўғрисини айтсам, бундан жуда норози бўлдим, чунки белгиланган йўлдан юришни режалаштирган эдим ва бундай жойларда юриш учун <strong>етарлича тайёр эмасдим</strong>. Ниҳоят унга етганимда, кўзларимга ишонмадим. У ниманидир қисман кўмилган ҳолда қазиётган эди ва мен ердан чиқиб турган инсон қўли эканлигини кўрдим. Аввалига, кўзларимга ишонмадим, лекин яқинроқ қараганимдан кейин, у <strong>вазиятни англадим</strong> ва у ўлик одамни ковлаётган экан.'</p>
+
+<p>'Мен дарҳол унинг ипини маҳкамладим ва қўлим билан ушлаб турдим, сўнгра мобил телефоним орқали ҳукуматга хабар бердим. Биринчи ўйим <strong>воқеа жойидан иложи борича тезроқ кетиш</strong> эди, аммо полиция улар келгунига қадар ўша ерда қолишимни сўради. Айтиш керакки, бу таклиф менга умуман ёқмади ва улар келгунига қадар <strong>кутишга мажбур бўлдим</strong>. Итим ҳам, тушунарлики, жуда хавотирланган эди, <strong>ўта ташвиш аломатларини намоён қиларди</strong>, оёқларим остида инграб ва титраб турарди. Яхшиямки, полиция тезда етиб келди ва воқеа жойига тезлик билан етиб келди.'</p>
+
+<p>'Марҳум ёш аёлнинг оиласига чуқур таъзиямни билдираман. Ўзимга келсак, мен бутун воқеани <strong>тартибга солишга</strong> ва онгимнинг энг чекка қисмларига жойлашга ҳаракат қиляпман, гарчи бунинг уддасидан чиқиш жуда қийин бўлиши мумкинлигини тан оламан. Бу воқеа натижасида яқин келажакда <strong>даҳшатли тушлар кўришимни</strong> кутяпман.'</p>
+
+<p>Детектив инспектор Тони Майлз изоҳ сўралганда, ҳозирги вақтда нимани ошкор қилиши мумкинлиги жуда чекланганини айтди. 'Тергов энди бошланмоқда, аммо биз бу жирканчли ишни содир этган айбдор(лар)ни аниқлаш учун <strong>ҳеч нарсани эътибордан четда қолдирмаймиз</strong>. Ҳозирги вақтда биз жабрланувчининг шахсини ошкор қила олмаймиз, чунки унинг яқинларига ҳали хабар берилмаган. Албатта, <strong>маълумотлар аниқ бўлгани сари</strong> биз аҳолини барча муҳим воқеалардан хабардор қилиб турамиз. Шу билан бирга, биз ҳаммани хотиржам бўлишга ва терговга <strong>халақит бериши мумкин бўлган</strong> тахминлардан тийилишга чақирамиз.'</p>`,
+    vocabularyC1: {
+        "jolted awake": {
+                "definition": "To be suddenly awakened or startled, often by something shocking or alarming.",
+                "uzbek": "Shokdan uyg'onish",
+                "example": "The loud bang jolted me awake in the middle of the night.",
+                "exampleUzbek": "Kattik portlash meni tunda shokdan uyg'otdi."
+        },
+        "harrowing experience": {
+                "definition": "An extremely distressing or disturbing experience.",
+                "uzbek": "Dahshatli voqea",
+                "example": "The survivors recounted their harrowing experience during the earthquake.",
+                "exampleUzbek": "Tirik qolganlar zilzila paytidagi dahshatli voqeani eslashdi."
+        },
+        "bolted off": {
+                "definition": "To run away suddenly and quickly, often out of fear or excitement.",
+                "uzbek": "Birdan qochib ketmoq",
+                "example": "The horse bolted off when it heard the gunshot.",
+                "exampleUzbek": "Ot qurol ovozini eshitgach birdan qochib ketdi."
+        },
+        "ill-equipped": {
+                "definition": "Not having the necessary resources, skills, or equipment for a particular task or situation.",
+                "uzbek": "Yaroqsiz",
+                "example": "They were ill-equipped to deal with the harsh winter conditions.",
+                "exampleUzbek": "Ular qattiq qish sharoitlariga dosh berish uchun yaroqsiz edilar."
+        },
+        "dawned on me": {
+                "definition": "To become clear or obvious to someone, often after a period of time.",
+                "uzbek": "Anglamoq",
+                "example": "It suddenly dawned on me that I had forgotten my keys.",
+                "exampleUzbek": "Birdan kalitlarimni unutganimni angladim."
+        },
+        "remove myself from the scene": {
+                "definition": "To leave a particular location or situation, often to avoid something unpleasant or dangerous.",
+                "uzbek": "Voqea joyidan ketmoq",
+                "example": "I decided to remove myself from the scene before the argument escalated.",
+                "exampleUzbek": "Bahs kuchaymasdan avval voqea joyidan ketishga qaror qildim."
+        },
+        "endure the wait": {
+                "definition": "To tolerate or put up with a period of waiting, often one that is unpleasant or boring.",
+                "uzbek": "Kutishga toqat qilmoq",
+                "example": "We had to endure the wait in the crowded waiting room.",
+                "exampleUzbek": "Biz gavjum kutish xonasida kutishga toqat qilishimiz kerak edi."
+        },
+        "exhibiting signs of extreme anxiety": {
+                "definition": "Showing clear indications of severe worry, nervousness, or unease.",
+                "uzbek": "O'ta xavotirlik belgilarini namoyon etmoq",
+                "example": "The child was exhibiting signs of extreme anxiety before the test.",
+                "exampleUzbek": "Bola imtihondan oldin o'ta xavotirlik belgilarini namoyon etardi."
+        },
+        "compartmentalize": {
+                "definition": "To divide something into separate categories or sections, often to manage or control it.",
+                "uzbek": "Bo'laklarga ajratmoq",
+                "example": "She tries to compartmentalize her work and personal life.",
+                "exampleUzbek": "U ish va shaxsiy hayotini bo'laklarga ajratishga harakat qiladi."
+        },
+        "plagued by nightmares": {
+                "definition": "To be constantly troubled or disturbed by bad dreams.",
+                "uzbek": "Yomon tushlar bilan qiynalmoq",
+                "example": "He was plagued by nightmares after the accident.",
+                "exampleUzbek": "U baxtsiz hodisadan keyin yomon tushlar bilan qiynaldi."
+        },
+        "leaving no stone unturned": {
+                "definition": "To make every possible effort to find something or solve a problem.",
+                "uzbek": "Har qanday imkoniyatdan foydalanmoq",
+                "example": "The police are leaving no stone unturned in their investigation.",
+                "exampleUzbek": "Politsiya tergovda har qanday imkoniyatdan foydalanmoqda."
+        },
+        "come to light": {
+                "definition": "To become known or revealed.",
+                "uzbek": "Ma'lum bo'lmoq",
+                "example": "New evidence has come to light in the case.",
+                "exampleUzbek": "Ishda yangi dalillar ma'lum bo'ldi."
+        },
+        "impede the investigation": {
+                "definition": "To hinder or obstruct the progress of an investigation.",
+                "uzbek": "Tergovga to'sqinlik qilmoq",
+                "example": "Spreading rumors could impede the investigation.",
+                "exampleUzbek": "Mish-mishlar tarqatish tergovga to'sqinlik qilishi mumkin."
+        },
+        "with unexpected alacrity": {
+                "definition": "With eagerness and speed.",
+                "uzbek": "Kutilmagan shijoat bilan",
+                "example": "He accepted the offer with unexpected alacrity.",
+                "exampleUzbek": "U taklifni kutilmagan shijoat bilan qabul qildi."
+        },
+        "apprised of": {
+                "definition": "To give (someone) notice of something; inform.",
+                "uzbek": "Xabardor qilmoq",
+                "example": "The CEO kept the board apprised of the situation.",
+                "exampleUzbek": "Bosh direktor kengashni vaziyatdan xabardor qilib turdi."
+        }
+}
 };

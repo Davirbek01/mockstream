@@ -25,7 +25,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi [Classmate's Name],<br>Green campus! Good?<br>Recycle? Yes!<br>Bye.</p>",
       "sampleA2": "<p>Hi [Classmate's Name],<br>I see green campus news. It is good. Solar panels are nice, and garden is good too. I think recycle is important because it helps the planet. What do you think? See you!</p>",
       "sampleB1": "<p>Hey [Classmate's Name],<br>Did you see the email about the Green Campus Initiative? I think it's a good idea. I like the sound of the campus garden; it would be nice to have fresh vegetables. Also, reducing plastic is important. I think the recycling stations would be really effective. What do you think we should do to help?</p>",
-      "sampleB2": "<p>Hi [Classmate's Name],<br>Have you seen the announcement about the Green Campus Initiative? I'm really pleased the university is finally focusing on sustainability. I think the solar panels are a great long-term investment, and the campus garden could be a really nice community space. However, I think reducing single-use plastics will have the most immediate impact. Perhaps a campaign to encourage reusable coffee cups and water bottles? What are your thoughts on the most effective strategies?</p>"
+      "sampleB2": "<p>Hi [Classmate's Name],<br>Have you seen the announcement about the Green Campus Initiative? I'm really pleased the university is finally focusing on sustainability. I think the solar panels are a great long-term investment, and the campus garden could be a really nice community space. However, I think reducing single-use plastics will have the most immediate impact. Perhaps a campaign to encourage reusable coffee cups and water bottles? What are your thoughts on the most effective strategies?</p>",
+      "uzSample": "<p>Salom!</p>\n<p>Yashil Kampus Tashabbusi haqida eshitdingmi? Universitetning bu borada chora ko'rayotgani juda yaxshi deb o'ylayman! Kampus bog'i qiziqarli tuyuladi – o'zimizning sabzavotlarimizni yetishtirishimiz mumkin! Shuningdek, men plastik chiqindilarni kamaytirishni to'liq qo'llab-quvvatlayman. Balki ular kafeteryada plastik butilkalarni taqiqlashlari kerakdir? Seningcha, nima eng yaxshi natija beradi?</p>\n<p>Darsda ko'rishguncha!</p>",
+      "uzSampleA1": "<p>Salom, [Sinfdoshning ismi],<br>Yashil kampus! Yaxshimi?<br>Qayta ishlash? Ha!<br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom, [Sinfdoshning ismi],<br>Men yashil kampus yangiliklarini ko'ryapman. Bu yaxshi. Quyosh panellari yaxshi, va bog' ham yaxshi. Menimcha, qayta ishlash muhim, chunki u planetaga yordam beradi. Siz nima deb o'ylaysiz? Ko'rishguncha!</p>",
+      "uzSampleB1": "<p>Salom, [Sinfdoshning ismi],<br>Yashil Kampus Tashabbusi haqidagi elektron pochtani ko'rdingmi? Menimcha, bu yaxshi g'oya. Menga kampus bog'i haqidagi fikr yoqdi; yangi sabzavotlarga ega bo'lish yaxshi bo'lardi. Shuningdek, plastikni kamaytirish muhim. O'ylashimcha, qayta ishlash stansiyalari juda samarali bo'ladi. Yordam berish uchun nima qilishimiz kerak deb o'ylaysan?</p>",
+      "uzSampleB2": "<p>Salom, [Sinfdoshning ismi],<br>Yashil Kampus Tashabbusi haqidagi e'lonni ko'rdingmi? Universitet nihoyat barqarorlikka e'tibor qaratayotganidan juda xursandman. O'ylashimcha, quyosh panellari uzoq muddatli ajoyib sarmoya va kampus bog'i chindan ham yaxshi jamoat joyi bo'lishi mumkin. Biroq, bir martalik plastikdan foydalanishni kamaytirish eng tezkor ta'sirga ega bo'ladi deb o'ylayman. Ehtimol, qayta ishlatiladigan qahva krujkalari va suv idishlarini rag'batlantirish kampaniyasi? Eng samarali strategiyalar haqida sizning fikringiz qanday?</p>"
     },
     "t12": {
       "title": "Task 1.2",
@@ -35,7 +40,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi Sustainability Office,<br>I like green campus.<br>Recycle good. Garden good.<br>Bye.</p>",
       "sampleA2": "<p>Hi,<br>I want a green campus. I think we need more recycling bins, and maybe a garden. It is good for the campus. We can also use less plastic bottles because they are bad. Students can help if we ask them. Thank you.<br>Bye</p>",
       "sampleB1": "<p>Dear Sustainability Office,<br><br>I am writing about the Green Campus Initiative. I think it is a good idea. I have some ideas.<br><br>First, we could have more places to recycle. Also, maybe we could have a day where people learn about the environment. I think students would like to help if we made it fun. For example, we could have prizes for the best recycling.<br><br>Thank you for listening.<br><br>Sincerely,<br>[Your Name]</p>",
-      "sampleB2": "<p>Dear Sustainability Office,<br><br>I am writing in response to your message about the Green Campus Initiative. I am very supportive of this and have a few suggestions to contribute.<br><br>Firstly, I think it would be beneficial to introduce reusable coffee cups with a discount for students who use them at campus cafes. This would reduce the amount of disposable cups used daily. Furthermore, we could organize workshops on how to live more sustainably, covering topics such as reducing food waste and energy consumption. To encourage student participation, we could create a point system where students earn points for attending sustainability events or participating in green initiatives, which can then be redeemed for rewards like gift cards or university merchandise. Perhaps a social media campaign showcasing student efforts could also motivate others.<br><br>Thank you for considering my suggestions. I look forward to seeing the positive impact of the Green Campus Initiative.<br><br>Yours sincerely,<br>[Your Name]</p>"
+      "sampleB2": "<p>Dear Sustainability Office,<br><br>I am writing in response to your message about the Green Campus Initiative. I am very supportive of this and have a few suggestions to contribute.<br><br>Firstly, I think it would be beneficial to introduce reusable coffee cups with a discount for students who use them at campus cafes. This would reduce the amount of disposable cups used daily. Furthermore, we could organize workshops on how to live more sustainably, covering topics such as reducing food waste and energy consumption. To encourage student participation, we could create a point system where students earn points for attending sustainability events or participating in green initiatives, which can then be redeemed for rewards like gift cards or university merchandise. Perhaps a social media campaign showcasing student efforts could also motivate others.<br><br>Thank you for considering my suggestions. I look forward to seeing the positive impact of the Green Campus Initiative.<br><br>Yours sincerely,<br>[Your Name]</p>",
+      "uzSample": "<p>Hurmatli Barqarorlik Ofisi,</p>\n\n<p>Men Yashil Kampus Tashabbusini qizg'in qo'llab-quvvatlashimni va bir nechta takliflarimni bildirish uchun yozyapman.</p>\n\n<p>Avvalo, menimcha, kampus bo'ylab suv quyish stantsiyalarini o'rnatish bir martalik plastik iste'molini sezilarli darajada kamaytiradi. Bundan tashqari, talabalar boshchiligidagi eko-klubni yaratish xabardorlikni oshirishga va ekologik tadbirlarni tashkil etishga yordam berishi mumkin.</p>\n\n<p>Ishtirokni rag'batlantirish uchun universitet barqarorlik bilan bog'liq ko'ngilli ish uchun kurs kreditlarini berishni ko'rib chiqishi mumkin. Bundan tashqari, har oyda sovrinli eko-bellashuv o'tkazish talabalarni yanada ekologik odatlarni qabul qilishga undashi mumkin.</p>\n\n<p>Kampus bog'i tashabbusi ayniqsa jozibali. Ehtimol, ko'proq talabalarni jalb qilish uchun barqaror bog'dorchilik bo'yicha seminarlar tashkil etilishi mumkin.</p>\n\n<p>Men yanada yashil kampusga hissa qo'shishni intiqlik bilan kutaman.</p>\n\n<p>Hurmat bilan,<br>Emili Chen</p>",
+      "uzSampleA1": "<p>Salom, Barqarorlik Ofisi,<br>Menga yashil kampus yoqadi.<br>Qayta ishlash yaxshi. Bog' yaxshi.<br>Xayr.</p>",
+      "uzSampleA2": "<p>Salom,<br>Men yashil kampusni xohlayman. O'ylashimcha, bizga ko'proq qayta ishlash qutilari kerak, va balki bog'. Bu kampus uchun yaxshi. Biz shuningdek, plastik butilkalarni kamroq ishlatishimiz mumkin, chunki ular yomon. Agar biz ulardan so'rasak, talabalar yordam berishi mumkin. Rahmat.<br>Xayr</p>",
+      "uzSampleB1": "<p>Hurmatli Barqarorlik Ofisi,<br><br>Men Yashil Kampus Tashabbusi haqida yozmoqdaman. Menimcha, bu yaxshi g'oya. Menda ba'zi fikrlar bor.<br><br>Avvalo, bizda qayta ishlash uchun ko'proq joylar bo'lishi mumkin. Shuningdek, balki bizda odamlar atrof-muhit haqida bilib oladigan kun bo'lishi mumkin. O'ylaymanki, agar biz buni qiziqarli qilsak, talabalar yordam berishni xohlashadi. Misol uchun, eng yaxshi qayta ishlash uchun sovrinlarimiz bo'lishi mumkin.<br><br>E'tiboringiz uchun rahmat.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>",
+      "uzSampleB2": "<p>Hurmatli Barqarorlik Ofisi,<br><br>Men sizning Yashil Kampus Tashabbusi haqidagi xabaringizga javoban yozyapman. Men buni juda qo'llab-quvvatlayman va qo'shish uchun bir nechta takliflarim bor.<br><br>Avvalo, o'ylaymanki, kampus kafelarida ulardan foydalanadigan talabalar uchun chegirma bilan qayta ishlatiladigan qahva krujkalarini joriy etish foydali bo'ladi. Bu har kuni ishlatiladigan bir martalik krujkalar sonini kamaytiradi. Bundan tashqari, biz oziq-ovqat chiqindilarini kamaytirish va energiya sarfini qisqartirish kabi mavzularni qamrab olgan holda, qanday qilib yanada barqaror yashash bo'yicha seminarlar tashkil qilishimiz mumkin. Talabalarning ishtirokini rag'batlantirish uchun biz talabalarga barqarorlik tadbirlarida qatnashganliklari yoki yashil tashabbuslarda ishtirok etganliklari uchun ball to'plash tizimini yaratishimiz mumkin, keyinchalik ularni sovg'a kartalari yoki universitet mahsulotlari kabi mukofotlarga almashtirish mumkin. Ehtimol, talabalarning sa'y-harakatlarini namoyish etuvchi ijtimoiy media kampaniyasi ham boshqalarni rag'batlantirishi mumkin.<br><br>Takliflarimni ko'rib chiqqaningiz uchun tashakkur. Yashil Kampus Tashabbusining ijobiy ta'sirini ko'rishni intiqlik bilan kutaman.<br><br>Hurmat bilan,<br>[Sizning ismingiz]</p>"
     },
     "t2": {
       "title": "Task 2",
@@ -45,7 +55,12 @@ window.WRITING_TEST_DATA = {
       "sampleA1": "<p>Hi!<br>I like green campus. Trees good. Recycle good. No plastic good. Bye!</p>",
       "sampleA2": "<p>Hello,<br>I think university should be green. It is important for the world. We can recycle paper and plastic. And we can have a garden. It is good for us and good for animals. But some students don't care. We need to tell them why it is important. Thank you.</p>",
       "sampleB1": "<p>Should universities be more green? I think yes. It's very important for the environment. For example, we can recycle more things like paper and bottles. Also, the university could use less plastic. That would be good. I think students should help too. We can have a club to clean up the campus and plant trees. However, it's not easy. Some people don't care about recycling. But if we all try, we can make a difference. In my opinion, the university should show us how to be more environmentally friendly.</p>",
-      "sampleB2": "<p>Universities play a crucial role in shaping future generations, and therefore, they should definitely take the lead in promoting environmental sustainability. There are several reasons why this is important.<br><br>Firstly, universities are centers of knowledge and innovation. They can research and develop new technologies and practices that reduce our impact on the environment. For instance, universities can invest in renewable energy sources like solar power and wind turbines.<br><br>Secondly, universities educate future leaders. By integrating sustainability into the curriculum, they can equip students with the knowledge and skills to address environmental challenges in their future careers. This includes teaching about climate change, resource management, and sustainable development.<br><br>Finally, universities can serve as models for other institutions and communities. By implementing sustainable practices on campus, such as reducing waste, conserving energy, and promoting sustainable transportation, they can demonstrate the benefits of environmental responsibility. However, it requires a concerted effort from both the university administration and the students. It's time to make changes.</p>"
+      "sampleB2": "<p>Universities play a crucial role in shaping future generations, and therefore, they should definitely take the lead in promoting environmental sustainability. There are several reasons why this is important.<br><br>Firstly, universities are centers of knowledge and innovation. They can research and develop new technologies and practices that reduce our impact on the environment. For instance, universities can invest in renewable energy sources like solar power and wind turbines.<br><br>Secondly, universities educate future leaders. By integrating sustainability into the curriculum, they can equip students with the knowledge and skills to address environmental challenges in their future careers. This includes teaching about climate change, resource management, and sustainable development.<br><br>Finally, universities can serve as models for other institutions and communities. By implementing sustainable practices on campus, such as reducing waste, conserving energy, and promoting sustainable transportation, they can demonstrate the benefits of environmental responsibility. However, it requires a concerted effort from both the university administration and the students. It's time to make changes.</p>",
+      "uzSample": "<h2>Universitetlar: Ekologik Barqarorlikning Kashshoflari</h2>\n\n<p>Dunyo iqlim o'zgarishi bilan kurashayotgan bir paytda, savol tug'iladi: universitetlar ekologik barqarorlikning oldingi saflarida bo'lishi kerakmi? Men ular bo'lishi kerak, deb qat'iy ishonaman va buning sabablari quyida.</p>\n\n<p>Birinchidan, universitetlar innovatsiya markazlaridir. Tadqiqot imkoniyatlari va zukko aql egalariga ega bo'lgan holda, ular barqaror yechimlarni ishlab chiqish uchun noyob imkoniyatga ega. Misol uchun, ko'plab universitetlar hozirda butun dunyoda qo'llaniladigan qayta tiklanadigan energiya texnologiyalarini yaratdilar.</p>\n\n<p>Bundan tashqari, universitetlar kelajak liderlarini shakllantiradi. Barqarorlik tamoyillarini ta'limga singdirish orqali ular bitiruvchilarning ushbu qadriyatlarni o'z kasblariga olib kirishini ta'minlashi mumkin. Yashil kampuslarda ta'lim olgan talabalar o'z ish joylarida ekologik mas'uliyatni himoya qilish ehtimoli ko'proq.</p>\n\n<p>Bundan tashqari, universitetlar sezilarli uglerod iziga ega. Minglab talabalar va xodimlar bilan ekologik toza amaliyotlarni joriy etish sezilarli ta'sir ko'rsatishi mumkin.</p>\n\n<p>Biroq, mazmunli o'zgarishlar sadoqatni talab qiladi. Universitetlar resurslarni ajratishi va talabalarni qaror qabul qilish jarayonlariga jalb qilishi kerak.</p>\n\n<p>Oxir oqibat, universitetlar namuna bo'lish uchun ham imkoniyatga, ham mas'uliyatga ega. Harakat qilish vaqti keldi.</p>",
+      "uzSampleA1": "<p>Salom!<br>Menga yashil kampus yoqadi. Daraxtlar yaxshi. Qayta ishlash yaxshi. Plastmassa yo'q yaxshi. Xayr!</p>",
+      "uzSampleA2": "<p>Salom,<br>Menimcha, universitetlar ekologik toza bo'lishi kerak. Bu dunyo uchun muhim. Biz qog'oz va plastmassani qayta ishlashimiz mumkin. Va bizda bog' bo'lishi mumkin. Bu biz uchun ham, hayvonlar uchun ham yaxshi. Lekin ba'zi talabalar befarq. Biz ularga nima uchun bu muhimligini aytishimiz kerak. Rahmat.</p>",
+      "uzSampleB1": "<p>Universitetlar ekologik toza bo'lishi kerakmi? Menimcha, ha. Bu atrof-muhit uchun juda muhim. Misol uchun, biz qog'oz va butilkalar kabi ko'proq narsalarni qayta ishlashimiz mumkin. Shuningdek, universitet kamroq plastikdan foydalanishi mumkin. Bu yaxshi bo'lardi. Menimcha, talabalar ham yordam berishi kerak. Biz kampusni tozalash va daraxtlar ekish uchun klub tashkil qilishimiz mumkin. Biroq, bu oson emas. Ba'zi odamlar qayta ishlashga befarq. Ammo agar hammamiz harakat qilsak, biz o'zgarish qila olamiz. Mening fikrimcha, universitet bizga qanday qilib ekologik toza bo'lishni ko'rsatishi kerak.</p>",
+      "uzSampleB2": "<p>Universitetlar kelajak avlodlarni shakllantirishda muhim rol o'ynaydi va shuning uchun ular, albatta, atrof-muhit barqarorligini targ'ib qilishda yetakchilik qilishlari kerak. Buning muhimligini ko'rsatadigan bir nechta sabablar mavjud.<br><br>Birinchidan, universitetlar bilim va innovatsiya markazlaridir. Ular atrof-muhitga ta'sirimizni kamaytiradigan yangi texnologiyalar va amaliyotlarni tadqiq qilib, ishlab chiqishlari mumkin. Misol uchun, universitetlar quyosh energiyasi va shamol turbinalari kabi qayta tiklanadigan energiya manbalariga sarmoya kiritishlari mumkin.<br><br>Ikkinchidan, universitetlar kelajak liderlarini tarbiyalaydi. Barqarorlikni o'quv dasturiga integratsiya qilish orqali ular talabalarni kelajakdagi faoliyatida atrof-muhit muammolarini hal qilish uchun bilim va ko'nikmalar bilan ta'minlashlari mumkin. Bu iqlim o'zgarishi, resurslarni boshqarish va barqaror rivojlanish haqida ta'lim berishni o'z ichiga oladi.<br><br>Nihoyat, universitetlar boshqa muassasalar va jamiyatlar uchun namuna bo'lib xizmat qilishi mumkin. Kampusda chiqindilarni kamaytirish, energiyani tejash va barqaror transportni rivojlantirish kabi barqaror amaliyotlarni joriy etish orqali ular atrof-muhitga nisbatan mas'uliyatning afzalliklarini namoyish etishlari mumkin. Biroq, bu universitet ma'muriyati va talabalarning birgalikdagi sa'y-harakatlarini talab qiladi. O'zgarishlar qilish vaqti keldi.</p>"
     }
   },
   "vocabulary": {
@@ -295,5 +310,183 @@ window.WRITING_TEST_DATA = {
         "uz": "global ta'sir"
       }
     ]
+  },
+  "tokenTranslations": {
+    "Green Campus Initiative": {
+      "uz": "Yashil Kampus Tashabbusi",
+      "type": "colloc"
+    },
+    "really great": {
+      "uz": "juda ajoyib",
+      "type": "adv"
+    },
+    "taking action": {
+      "uz": "chora ko'rmoq",
+      "type": "phrasal"
+    },
+    "campus garden": {
+      "uz": "kampus bog'i",
+      "type": "colloc"
+    },
+    "could": {
+      "uz": "mumkin",
+      "type": "modal"
+    },
+    "totally": {
+      "uz": "butunlay",
+      "type": "adv"
+    },
+    "reducing plastic waste": {
+      "uz": "plastmassa chiqindilarini kamaytirish",
+      "type": "colloc"
+    },
+    "should": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "would": {
+      "uz": "edi",
+      "type": "modal"
+    },
+    "enthusiastic support": {
+      "uz": "qizg'in qo'llab-quvvatlash",
+      "type": "colloc"
+    },
+    "Firstly": {
+      "uz": "Birinchidan",
+      "type": "adv"
+    },
+    "water refill stations": {
+      "uz": "suv quyish stansiyalari",
+      "type": "colloc"
+    },
+    "single-use plastic": {
+      "uz": "bir martalik plastmassa",
+      "type": "colloc"
+    },
+    "Additionally": {
+      "uz": "Bundan tashqari",
+      "type": "adv"
+    },
+    "student-led eco club": {
+      "uz": "talabalar boshchiligidagi eko klub",
+      "type": "colloc"
+    },
+    "environmental activities": {
+      "uz": "ekologik tadbirlar",
+      "type": "colloc"
+    },
+    "might": {
+      "uz": "ehtimol",
+      "type": "modal"
+    },
+    "course credits": {
+      "uz": "kurs kreditlari",
+      "type": "colloc"
+    },
+    "Furthermore": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "eco-challenge": {
+      "uz": "eko-bellashuv",
+      "type": "colloc"
+    },
+    "greener habits": {
+      "uz": "yashil odatlar",
+      "type": "colloc"
+    },
+    "particularly": {
+      "uz": "ayniqsa",
+      "type": "adv"
+    },
+    "sustainable gardening": {
+      "uz": "barqaror bog'dorchilik",
+      "type": "colloc"
+    },
+    "look forward to": {
+      "uz": "intizorlik bilan kutmoq",
+      "type": "phrasal"
+    },
+    "greener campus": {
+      "uz": "yashilroq kampus",
+      "type": "colloc"
+    },
+    "climate change": {
+      "uz": "iqlim o'zgarishi",
+      "type": "colloc"
+    },
+    "environmental sustainability": {
+      "uz": "ekologik barqarorlik",
+      "type": "colloc"
+    },
+    "hubs of innovation": {
+      "uz": "innovatsiya markazlari",
+      "type": "colloc"
+    },
+    "bright minds": {
+      "uz": "yorqin aqllar",
+      "type": "colloc"
+    },
+    "sustainable solutions": {
+      "uz": "barqaror yechimlar",
+      "type": "colloc"
+    },
+    "renewable energy": {
+      "uz": "qayta tiklanadigan energiya",
+      "type": "colloc"
+    },
+    "Moreover": {
+      "uz": "Qolaversa",
+      "type": "adv"
+    },
+    "future leaders": {
+      "uz": "kelajak yetakchilari",
+      "type": "colloc"
+    },
+    "sustainability principles": {
+      "uz": "barqarorlik tamoyillari",
+      "type": "colloc"
+    },
+    "green campuses": {
+      "uz": "yashil kampus",
+      "type": "colloc"
+    },
+    "environmental responsibility": {
+      "uz": "ekologik mas'uliyat",
+      "type": "colloc"
+    },
+    "significant carbon footprints": {
+      "uz": "sezilarli uglerod izlari",
+      "type": "colloc"
+    },
+    "eco-friendly practices": {
+      "uz": "ekologik toza amaliyotlar",
+      "type": "colloc"
+    },
+    "substantial impact": {
+      "uz": "sezilarli ta'sir",
+      "type": "colloc"
+    },
+    "meaningful change": {
+      "uz": "mazmunli o'zgarish",
+      "type": "colloc"
+    },
+    "must": {
+      "uz": "kerak",
+      "type": "modal"
+    },
+    "decision-making processes": {
+      "uz": "qaror qabul qilish jarayonlari",
+      "type": "colloc"
+    },
+    "Ultimately": {
+      "uz": "Oxir-oqibat",
+      "type": "adv"
+    },
+    "time to act": {
+      "uz": "ishga kirishadigan vaqt",
+      "type": "idiom"
+    }
   }
 };

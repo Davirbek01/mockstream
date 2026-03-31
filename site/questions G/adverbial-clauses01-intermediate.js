@@ -1,0 +1,36 @@
+// Grammar Test: Adverbial Clauses — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> it rained, we stayed home.", correct: "Because", options: ["Because", "But", "So", "And"], def: "'Because' introduces an adverbial clause of reason.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "I will call you <b>___</b> I arrive.", correct: "when", options: ["when", "that", "what", "who"], def: "'When' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He will go <b>___</b> he has finished.", correct: "after", options: ["after", "during", "before", "while"], def: "'After' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I study hard, I will pass the exam.", correct: "If", options: ["If", "But", "So", "Because"], def: "'If' introduces a conditional adverbial clause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She can go <b>___</b> she wants to.", correct: "wherever", options: ["wherever", "where", "what", "who"], def: "'Wherever' introduces an adverbial clause of place.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he works, he earns money.", correct: "As", options: ["As", "So", "But", "Because of"], def: "'As' introduces an adverbial clause of manner.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will wait <b>___</b> you are ready.", correct: "until", options: ["until", "but", "so", "and"], def: "'Until' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he is rich, he is not happy.", correct: "Although", options: ["Although", "Because", "So", "And"], def: "'Although' introduces a clause of concession.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>While</b> I <b>am</b> <b>waiting</b>, I <b>will read</b> a book.", correct: "am", options: ["While", "am", "waiting", "will read"], def: "Use the present simple after 'while' when referring to the future.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "They <b>___</b> they want.", correct: "wherever", options: ["wherever", "where", "what", "who"], def: "'Wherever' introduces an adverbial clause of place.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She is taller <b>___</b> her sister.", correct: "than", options: ["than", "that", "then", "as"], def: "'Than' is used in comparative adverbial clauses.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He runs <b>___</b> he can.", correct: "as fast as", options: ["as fast as", "as fast", "so fast as", "fastly"], def: "'As fast as' introduces a clause of manner.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I have time.", correct: "when", options: ["when", "while", "before", "after"], def: "'When' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "He will pass <b>___</b> he studies.", correct: "if", options: ["if", "so", "but", "and"], def: "'If' introduces a conditional adverbial clause.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he was tired, he continued.", correct: "Even though", options: ["Even though", "Because", "So", "And"], def: "'Even though' introduces a clause of concession.", level: "B1–B2"},
+  {type: "Find the error:", question: "I <b>will</b> give <b>it</b> to <b>him</b> when <b>I will see</b> him.", correct: "I will see", options: ["will", "it", "him", "I will see"], def: "Use the present simple in adverbial clauses of time referring to the future.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "She cooks <b>___</b> her mother.", correct: "as", options: ["as", "that", "than", "like"], def: "'As' introduces an adverbial clause of manner.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She started <b>___</b> the bell rang.", correct: "when", options: ["when", "but", "so", "and"], def: "'When' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he studies, he will pass.", correct: "If", options: ["If", "But", "So", "And"], def: "'If' introduces a conditional clause.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "He earns money <b>___</b> he works hard.", correct: "because", options: ["because", "so", "but", "and"], def: "'Because' introduces an adverbial clause of reason.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will leave <b>___</b> you are ready.", correct: "when", options: ["when", "but", "so", "and"], def: "'When' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "He drives <b>___</b> he is careful.", correct: "as", options: ["as", "so", "but", "and"], def: "'As' introduces an adverbial clause of manner.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will call you <b>___</b> I arrive.", correct: "when", options: ["when", "what", "who", "that"], def: "'When' introduces an adverbial clause of time.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "She can sing <b>___</b> she wants to.", correct: "wherever", options: ["wherever", "where", "what", "who"], def: "'Wherever' clause of place.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he is tired, he works.", correct: "Even if", options: ["Even if", "So", "And", "But"], def: "'Even if' introduces a clause of concession.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "I will call you <b>___</b> I arrive home.", correct: "when", options: ["when", "while", "but", "so"], def: "\"When\" introduces an adverbial clause of time. It indicates when the action will happen.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "She started cooking <b>___</b> he got home.", correct: "after", options: ["after", "before", "since", "during"], def: "\"After\" indicates the sequence of events. Cooking started after arrival.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "I will go <b>___</b> after I <b>___</b> lunch.", correct: "shopping", options: ["shopping", "to shop", "shop", "shops"], def: "\"After I eat lunch\" is an adverbial clause of time. 'Shopping' is the correct use.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> she studies hard, she will pass the exam.", correct: "If", options: ["If", "Unless", "Although", "But"], def: "\"If\" introduces a condition. She'll pass *if* she studies.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> it was late, we decided to walk home.", correct: "Although", options: ["Although", "Because", "If", "When"], def: "\"Although\" introduces a contrasting idea (it was late, but we walked).", level: "B1–B2"}
+];

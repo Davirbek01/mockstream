@@ -1,0 +1,36 @@
+// Grammar Test: Conditional Inversion — Intermediate (B1–B2)
+// 30 MCQ questions — leveled grammar test
+// Generated via Gemini API
+
+window.ALL_QUESTIONS = [
+  {type: "Fill in the blank:", question: "<b>___</b> I known, I wouldn't have gone.", correct: "Had", options: ["Had", "Have", "If", "Has"], def: "Inverted conditional uses 'Had' + subject + past participle.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he studied harder, he would pass.", correct: "Were", options: ["Were", "Was", "If", "Had"], def: "'Were' is used for hypothetical conditional inversion.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> I known about the party, I would have come.", correct: "Had", options: ["Had", "Have", "If I have", "If"], def: "'Had' begins inverted conditional for past unreal.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you need help, just ask.", correct: "Should", options: ["Should", "If", "Would", "Could"], def: "'Should' offers polite conditional inversion.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> she to ask, I would help.", correct: "Were", options: ["Were", "Was", "If", "Had"], def: "'Were' + to-infinitive in formal conditionals.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>If</b> he <b>had</b> have arrived <b>earlier</b>, he would <b>seen</b> her.", correct: "If", options: ["If", "had", "earlier", "seen"], def: "'If' is not used in conditional inversion.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> you to leave, just say so.", correct: "Should", options: ["Should", "Would", "Do", "If"], def: "'Should' is used for polite suggestions.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I to see him, I'll tell him.", correct: "Were", options: ["Were", "Was", "If", "Have"], def: "'Were' + to-infinitive for formal conditions.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he known the answer, he'd have told us.", correct: "Had", options: ["Had", "Have", "If", "Does"], def: "'Had' begins inverted conditional for past unreal.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>If</b> I <b>have</b> more time, I <b>would</b> help <b>you</b>.", correct: "If", options: ["If", "have", "would", "you"], def: "Inverted conditionals do not begin with 'if'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he to arrive late, he will be fired.", correct: "Should", options: ["Should", "Would", "If", "Be"], def: "'Should' indicates a possible future condition.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you ever need anything, call me.", correct: "Should", options: ["Should", "If", "Could", "Would"], def: "'Should' for a polite and gentle condition.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> I rich, I would travel the world.", correct: "Were", options: ["Were", "Was", "If", "Am"], def: "'Were' for hypothetical conditions.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>If</b> I <b>was</b> you, I <b>would</b> go <b>home</b>.", correct: "If", options: ["If", "was", "would", "home"], def: "'If' is not used in conditional inversion.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he to fail, he will try again.", correct: "Should", options: ["Should", "Would", "If he", "Will"], def: "'Should' expresses a possible future condition.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I known it was your birthday, I'd have baked a cake.", correct: "Had", options: ["Had", "Have", "If", "Would"], def: "'Had' is used for past unreal conditionals.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> she decide to come, we'll be ready.", correct: "Should", options: ["Should", "If", "Would", "Does"], def: "'Should' introduces a possible condition.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>If</b> I <b>would</b> see him, I'll <b>tell</b> him about <b>it</b>.", correct: "If", options: ["If", "would", "tell", "it"], def: "'If' is not used in inverted conditionals.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> you need anything, don't hesitate to call.", correct: "Should", options: ["Should", "Would", "If", "Do"], def: "'Should' for a polite and gentle condition.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I the money, I would buy a car.", correct: "Were", options: ["Were", "Was", "Had", "If"], def: "'Were' is used for hypothetical conditions.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he to change his mind, let me know.", correct: "Should", options: ["Should", "Would", "If", "Did"], def: "'Should' is a formal way to say 'if'.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> he arrived late, he'll miss the meeting.", correct: "Should", options: ["Should", "Would", "If", "Will"], def: "'Should' expresses a possible future condition.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> you require further information, please contact us.", correct: "Should", options: ["Should", "If", "Would", "Could"], def: "'Should' introduces a formal condition.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> I been informed earlier, I could have helped.", correct: "Had", options: ["Had", "Have", "If", "Would"], def: "'Had' for past unreal conditionals.", level: "B1–B2"},
+  {type: "Find the error:", question: "<b>If</b> she <b>should</b> call, please <b>to</b> take a <b>message</b>.", correct: "If", options: ["If", "should", "to", "message"], def: "'If' is not used in conditional inversion.", level: "B1–B2"},
+  {type: "Complete with the correct form:", question: "<b>___</b> something happen, call me.", correct: "Should", options: ["Should", "Would", "If", "Does"], def: "'Should' for a possible future event.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I known the truth, I would have acted differently.", correct: "Had", options: ["Had", "Have", "If", "Would"], def: "'Had' begins inverted conditional for past unreal.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> he to refuse, we will find someone else.", correct: "Should", options: ["Should", "If", "Would", "Does"], def: "'Should' is a formal way to say 'if'.", level: "B1–B2"},
+  {type: "Fill in the blank:", question: "<b>___</b> I known, I would have helped.", correct: "Had", options: ["Had", "Have", "If", "Did"], def: "Inverted conditional: 'Had' moves before the subject when 'if' is omitted.", level: "B1–B2"},
+  {type: "Choose the correct option:", question: "<b>___</b> you need anything, just call me.", correct: "Should", options: ["Should", "Would", "If", "Do"], def: "'Should' inverts with the subject to form a conditional without 'if'.", level: "B1–B2"}
+];
