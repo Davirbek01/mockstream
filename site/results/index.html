@@ -806,20 +806,84 @@
     /* Conversation list cards */
     .conv-card {
       display: flex;
-      align-items: center;
-      gap: 14px;
+      flex-direction: column;
+      gap: 0;
       padding: 14px 16px;
       background: var(--surface);
       border: 1.5px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
+      position: relative;
     }
     .conv-card:hover {
       border-color: #2563eb;
       background: rgba(37,99,235,0.04);
       transform: translateX(3px);
     }
+    .conv-fav-star { color: #f59e0b; font-size: 13px; margin-right: 2px; }
+    .conv-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .conv-card-action-bar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+      padding-top: 7px;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: opacity 0.18s, height 0.18s;
+    }
+    .conv-card:hover .conv-card-action-bar {
+      opacity: 1;
+      height: 32px;
+    }
+    .conv-action-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      transition: background 0.13s, color 0.13s;
+      white-space: nowrap;
+    }
+    .conv-action-btn:hover { background: rgba(37,99,235,0.08); color: #2563eb; }
+    .conv-action-btn.fav:hover { background: rgba(245,158,11,0.1); color: #d97706; }
+    .conv-action-btn.resolve:hover { background: rgba(5,150,105,0.1); color: #059669; }
+    .conv-action-btn.danger:hover { background: #fef2f2; color: #dc2626; }
+    .conv-action-sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
+    .center-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .center-tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .center-tab:hover { border-color: #2563eb; color: #2563eb; }
+    .center-tab.active { background: linear-gradient(135deg,#2563eb,#7c3aed); border-color: transparent; color: #fff; }
     .conv-card-icon {
       width: 42px;
       height: 42px;
@@ -866,6 +930,23 @@
       font-weight: 700;
       margin-top: 4px;
     }
+    .conv-card-badge.urgent {
+      background: linear-gradient(135deg,#dc2626,#f97316);
+      color: #fff;
+      animation: urgentPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes urgentPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.5); }
+      50% { box-shadow: 0 0 0 5px rgba(220,38,38,0); }
+    }
+    .conv-card.urgent-card {
+      border-color: #f97316;
+      background: linear-gradient(135deg, rgba(239,68,68,0.06), rgba(249,115,22,0.04));
+    }
+    .conv-card.urgent-card:hover {
+      border-color: #dc2626;
+      background: linear-gradient(135deg, rgba(239,68,68,0.10), rgba(249,115,22,0.07));
+    }
     /* Thread message bubbles */
     .thread-msg {
       max-width: 85%;
@@ -903,6 +984,80 @@
       font-size: 10px;
       opacity: 0.5;
       margin-top: 3px;
+    }
+
+    /* Voice message player (telegram-style) */
+    .voice-msg-player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.08);
+      min-width: 200px;
+      max-width: 260px;
+      cursor: default;
+      margin: 2px 0;
+    }
+    .thread-msg.user-msg .voice-msg-player {
+      background: rgba(255,255,255,0.2);
+    }
+    .thread-msg.admin-msg .voice-msg-player {
+      background: rgba(255,255,255,0.2);
+    }
+    .voice-play-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: none;
+      color: white;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .thread-msg.user-msg .voice-play-btn,
+    .thread-msg.admin-msg .voice-play-btn {
+      background: rgba(255,255,255,0.9);
+      color: #2563eb;
+    }
+    .voice-play-btn:hover { opacity: 0.85; }
+    .voice-waveform {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 22px;
+    }
+    .voice-waveform span {
+      flex: 1;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.2);
+      min-width: 2px;
+      transition: background 0.2s;
+    }
+    .thread-msg.user-msg .voice-waveform span,
+    .thread-msg.admin-msg .voice-waveform span {
+      background: rgba(255,255,255,0.45);
+    }
+    .voice-msg-player.playing .voice-waveform span {
+      background: #3b82f6;
+    }
+    .thread-msg.user-msg .voice-msg-player.playing .voice-waveform span,
+    .thread-msg.admin-msg .voice-msg-player.playing .voice-waveform span {
+      background: rgba(255,255,255,0.9);
+    }
+    .voice-duration {
+      font-size: 11px;
+      opacity: 0.7;
+      min-width: 28px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     /* Premium management overlay */
@@ -1534,15 +1689,17 @@
         <button class="viewer-close" onclick="closeMessagesPanel()">✕</button>
       </div>
       <div class="premium-body" id="messagesBody">
+        <div class="center-tabs" id="centerTabs">
+          <button class="center-tab active" data-center="" onclick="switchCenterTab(this)">🌐 All</button>
+          <button class="center-tab" data-center="mock_stream" onclick="switchCenterTab(this)">🏠 Mock Stream</button>
+          <button class="center-tab" data-center="bek" onclick="switchCenterTab(this)">📘 Bekzods Multilevel</button>
+          <button class="center-tab" data-center="global" onclick="switchCenterTab(this)">🌍 Global Education</button>
+          <button class="center-tab" data-center="niners" onclick="switchCenterTab(this)">9️⃣ Niners Academy</button>
+          <button class="center-tab" data-center="muzaffars" onclick="switchCenterTab(this)">🎓 Muzaffars English</button>
+          <button class="center-tab" data-center="__favs__" onclick="switchCenterTab(this)">⭐ Favorites</button>
+        </div>
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-          <select id="msgFilterCenter" onchange="loadConversations()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);">
-            <option value="">All Centers</option>
-            <option value="mock_stream">Mock Stream</option>
-            <option value="bek">Bekzods Multilevel</option>
-            <option value="global">Global Education</option>
-            <option value="niners">Niners Academy</option>
-            <option value="muzaffars">Muzaffars English</option>
-          </select>
+          <input type="hidden" id="msgFilterCenter" value="">
           <select id="msgFilterCategory" onchange="loadConversations()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);">
             <option value="">All Topics</option>
             <option value="support">💬 Support</option>
@@ -3323,7 +3480,7 @@
       try {
         // Get all messages, grouped by conversation_id
         var url = SUPABASE_URL + '/rest/v1/support_messages?select=*&order=created_at.desc&limit=500';
-        if (centerFilter) url += '&center=eq.' + encodeURIComponent(centerFilter);
+        if (centerFilter && centerFilter !== '__favs__') url += '&center=eq.' + encodeURIComponent(centerFilter);
         if (catFilter) url += '&category=eq.' + encodeURIComponent(catFilter);
 
         var resp = await fetch(url, {
@@ -3357,14 +3514,43 @@
           }
         });
 
-        // Sort conversations by latest message
+        // Detect urgency: payment/premium transfer or partnership inquiry
+        function _isUrgentMsg(text) {
+          if (!text) return null;
+          var t = text.toLowerCase();
+          if (/to['']?lov|pulini o'tkaz|pul o'tkaz|transfer|karta|card number|o'tkazma|pullik|pulini yubor|payment sent|paid|i paid|i transferred|sent the money|pul yubord|yubordi|yuborildi|obuna|sotib old|sotib oldi|activate|aktivlash|premium ol|premium xarid|subscrib|i bought|i purchased|purchased premium|money sent/.test(t)) return 'payment';
+          if (/hamkorlik|hamkor|sheriklik|sherik|partner|collab|business deal|advertis|sponsor|b2b|birgalik|shartnoma|taklif/.test(t)) return 'partner';
+          return null;
+        }
+
+        // Tag each conversation with urgency
+        Object.values(convMap).forEach(function(c) {
+          c.urgent = null;
+          c.messages.forEach(function(m) {
+            if (m.role === 'user') {
+              var u = _isUrgentMsg(m.content);
+              if (u === 'payment') c.urgent = 'payment';
+              else if (u === 'partner' && !c.urgent) c.urgent = 'partner';
+            }
+          });
+        });
+
+        // Sort: urgent-payment first, then urgent-partner, then by latest message
         var convs = Object.values(convMap);
         convs.sort(function(a, b) {
           return new Date(b.lastMsg.created_at) - new Date(a.lastMsg.created_at);
         });
 
+        // Filter to favorites only if that tab is active
+        if (centerFilter === '__favs__') {
+          var favIds = _getFavs();
+          convs = convs.filter(function(c) { return favIds.indexOf(c.id) !== -1; });
+        }
+
         if (convs.length === 0) {
-          listEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">📭 No messages yet</div>';
+          listEl.innerHTML = centerFilter === '__favs__'
+            ? '<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">⭐ No favorites yet — star a conversation to pin it here</div>'
+            : '<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">📭 No messages yet</div>';
           return;
         }
 
@@ -3380,28 +3566,176 @@
           var preview = c.lastMsg.content ? c.lastMsg.content.substring(0, 60) + (c.lastMsg.content.length > 60 ? '...' : '') : (c.lastMsg.attachment_type === 'voice' ? '🎤 Voice message' : (c.lastMsg.attachment_type === 'image' ? '📷 Image' : (c.lastMsg.attachment_type === 'pdf' ? '📄 Document' : '')));
           var lastRole = c.lastMsg.role === 'admin' ? '🛡️ ' : (c.lastMsg.role === 'ai' ? '🤖 ' : '');
           var needsReply = c.lastMsg.role === 'user' && c.messages.length > 1;
+          var urgentClass = c.urgent ? ' urgent-card' : '';
+          var urgentLabel = c.urgent === 'payment' ? '🔴 PAYMENT — URGENT' : (c.urgent === 'partner' ? '🤝 Partnership' : null);
+          var isFav = _getFavs().indexOf(c.id) !== -1;
+          var isResolved = _getResolved().indexOf(c.id) !== -1;
+          var favStar = isFav ? '<span class="conv-fav-star" title="Favorite">★</span>' : '';
 
-          html += '<div class="conv-card" onclick="openThread(\'' + c.id + '\')">';
+          var favLabel = isFav ? '★ Unfavorite' : '☆ Favorite';
+          var resolveLabel = isResolved ? '↩ Unresolve' : '✅ Resolve';
+
+          html += '<div class="conv-card' + urgentClass + '" onclick="openThread(\'' + c.id + '\')">'
+          html += '<div class="conv-card-inner">';
           html += '<div class="conv-card-icon" style="background:' + color + '22;color:' + color + ';">' + icon + '</div>';
           html += '<div class="conv-card-body">';
-          html += '<div class="conv-card-title">' + escapeHtml(c.sender || 'Anonymous') + ' <span style="font-weight:400;font-size:12px;color:var(--muted);">· ' + escapeHtml(centerLabel) + '</span></div>';
+          html += '<div class="conv-card-title">' + favStar + escapeHtml(c.sender || 'Anonymous') + ' <span style="font-weight:400;font-size:12px;color:var(--muted);">· ' + escapeHtml(centerLabel) + '</span></div>';
           html += '<div class="conv-card-preview">' + lastRole + escapeHtml(preview) + '</div>';
           html += '</div>';
           html += '<div class="conv-card-meta">';
           html += '<div class="conv-card-time">' + timeStr + '</div>';
-          if (needsReply) {
+          if (urgentLabel) {
+            html += '<div class="conv-card-badge urgent">' + urgentLabel + '</div>';
+          } else if (needsReply) {
             html += '<div class="conv-card-badge" style="background:#fef2f2;color:#dc2626;">Needs Reply</div>';
           } else if (c.hasAdminReply) {
             html += '<div class="conv-card-badge" style="background:#f0fdf4;color:#059669;">Replied</div>';
           }
+          if (isResolved) {
+            html += '<div class="conv-card-badge conv-resolved-badge" style="background:#f0fdf4;color:#059669;">✅ Resolved</div>';
+          }
           html += '<div style="font-size:10px;color:var(--muted);margin-top:2px;">' + c.messages.length + ' msgs</div>';
           html += '</div>';
+          html += '</div>'; // end inner
+          html += '<div class="conv-card-action-bar" onclick="event.stopPropagation()">';
+          html += '<button class="conv-action-btn fav" onclick="toggleFavConv(event,\'' + c.id + '\')">' + favLabel + '</button>';
+          html += '<span class="conv-action-sep"></span>';
+          html += '<button class="conv-action-btn resolve" onclick="toggleResolveConv(event,\'' + c.id + '\')">' + resolveLabel + '</button>';
+          html += '<span class="conv-action-sep"></span>';
+          html += '<button class="conv-action-btn" onclick="copyConvId(event,\'' + c.id + '\')" title="Copy conversation ID">📋 Copy ID</button>';
+          html += '<span class="conv-action-sep"></span>';
+          html += '<button class="conv-action-btn danger" onclick="deleteConv(event,\'' + c.id + '\')" title="Delete conversation">🗑️ Delete</button>';
           html += '</div>';
+          html += '</div>'; // end card
         });
         listEl.innerHTML = html;
       } catch(e) {
         listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#dc2626;font-size:14px;">❌ Failed to load messages</div>';
         console.log('[Messages]', e);
+      }
+    }
+
+    function switchCenterTab(btn) {
+      document.querySelectorAll('#centerTabs .center-tab').forEach(function(t) { t.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('msgFilterCenter').value = btn.getAttribute('data-center');
+      loadConversations();
+    }
+
+    // ── Conversation action menu ──
+    var _convMenuOpen = null;
+
+    function _getFavs() {
+      try { return JSON.parse(localStorage.getItem('ms_fav_convs') || '[]'); } catch(e) { return []; }
+    }
+    function _saveFavs(arr) { localStorage.setItem('ms_fav_convs', JSON.stringify(arr)); }
+    function _getResolved() {
+      try { return JSON.parse(localStorage.getItem('ms_resolved_convs') || '[]'); } catch(e) { return []; }
+    }
+    function _saveResolved(arr) { localStorage.setItem('ms_resolved_convs', JSON.stringify(arr)); }
+
+    function toggleConvMenu(e, convId) {
+      e.stopPropagation();
+      document.querySelectorAll('.conv-actions-menu').forEach(function(m) { m.remove(); });
+      if (_convMenuOpen === convId) { _convMenuOpen = null; return; }
+      _convMenuOpen = convId;
+      var card = e.currentTarget.closest('.conv-card');
+      var isFav = _getFavs().indexOf(convId) !== -1;
+      var isResolved = _getResolved().indexOf(convId) !== -1;
+      var menu = document.createElement('div');
+      menu.className = 'conv-actions-menu';
+      menu.innerHTML =
+        '<div class="conv-actions-menu-item" onclick="toggleFavConv(event,\'' + convId + '\')">' + (isFav ? '★ Remove Favorite' : '☆ Add to Favorites') + '</div>' +
+        '<div class="conv-actions-menu-item" onclick="toggleResolveConv(event,\'' + convId + '\')">' + (isResolved ? '↩ Mark Unresolved' : '✅ Mark Resolved') + '</div>' +
+        '<div class="conv-actions-menu-item" onclick="copyConvId(event,\'' + convId + '\')">📋 Copy ID</div>' +
+        '<div class="conv-actions-menu-sep"></div>' +
+        '<div class="conv-actions-menu-item danger" onclick="deleteConv(event,\'' + convId + '\')">🗑️ Delete Conversation</div>';
+      card.appendChild(menu);
+      setTimeout(function() {
+        document.addEventListener('click', function _closeMenu(ev) {
+          if (!menu.contains(ev.target)) {
+            menu.remove();
+            _convMenuOpen = null;
+            document.removeEventListener('click', _closeMenu);
+          }
+        });
+      }, 0);
+    }
+
+    function toggleFavConv(e, convId) {
+      e.stopPropagation();
+      var favs = _getFavs();
+      var idx = favs.indexOf(convId);
+      if (idx === -1) { favs.push(convId); } else { favs.splice(idx, 1); }
+      _saveFavs(favs);
+      var nowFav = idx === -1;
+      document.querySelectorAll('.conv-card').forEach(function(card) {
+        var oc = card.getAttribute('onclick') || '';
+        if (oc.indexOf(convId) === -1) return;
+        // Update star in title
+        var titleEl = card.querySelector('.conv-card-title');
+        if (titleEl) {
+          var existing = titleEl.querySelector('.conv-fav-star');
+          if (nowFav && !existing) {
+            var star = document.createElement('span');
+            star.className = 'conv-fav-star'; star.title = 'Favorite'; star.textContent = '★';
+            titleEl.prepend(star);
+          } else if (!nowFav && existing) { existing.remove(); }
+        }
+        // Update button label
+        card.querySelectorAll('.conv-action-btn.fav').forEach(function(btn) {
+          btn.textContent = nowFav ? '★ Unfavorite' : '☆ Favorite';
+        });
+      });
+    }
+
+    function toggleResolveConv(e, convId) {
+      e.stopPropagation();
+      var resolved = _getResolved();
+      var idx = resolved.indexOf(convId);
+      if (idx === -1) { resolved.push(convId); } else { resolved.splice(idx, 1); }
+      _saveResolved(resolved);
+      var nowResolved = idx === -1;
+      document.querySelectorAll('.conv-card').forEach(function(card) {
+        var oc = card.getAttribute('onclick') || '';
+        if (oc.indexOf(convId) === -1) return;
+        var meta = card.querySelector('.conv-card-meta');
+        if (meta) {
+          var existing = meta.querySelector('.conv-resolved-badge');
+          if (nowResolved && !existing) {
+            var rb = document.createElement('div');
+            rb.className = 'conv-card-badge conv-resolved-badge';
+            rb.style.background = '#f0fdf4'; rb.style.color = '#059669';
+            rb.textContent = '✅ Resolved';
+            meta.appendChild(rb);
+          } else if (!nowResolved && existing) { existing.remove(); }
+        }
+        // Update button label
+        card.querySelectorAll('.conv-action-btn.resolve').forEach(function(btn) {
+          btn.textContent = nowResolved ? '↩ Unresolve' : '✅ Resolve';
+        });
+      });
+    }
+
+    function copyConvId(e, convId) {
+      e.stopPropagation();
+      navigator.clipboard.writeText(convId).catch(function() {});
+    }
+
+    async function deleteConv(e, convId) {
+      e.stopPropagation();
+      if (!confirm('Delete this entire conversation? This cannot be undone.')) return;
+      try {
+        await fetch(SUPABASE_URL + '/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(convId), {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        document.querySelectorAll('.conv-card').forEach(function(card) {
+          var oc = card.getAttribute('onclick') || '';
+          if (oc.indexOf(convId) !== -1) card.remove();
+        });
+      } catch(err) {
+        alert('Failed to delete conversation');
       }
     }
 
@@ -3433,7 +3767,14 @@
           var attachHtml = '';
           if (m.attachment_url) {
             if (m.attachment_type === 'voice') {
-              attachHtml = '<audio controls preload="none" src="' + escapeHtml(m.attachment_url) + '" style="width:100%;max-width:280px;height:36px;margin:4px 0;"></audio>';
+              var vpId = 'vp_' + Math.random().toString(36).substr(2, 9);
+              var vpHeights = [30,55,75,45,85,60,40,70,50,65,35,75,55,30,65,80,45,60,70,40];
+              var vpBars = vpHeights.map(function(h){ return '<span style="height:' + h + '%;"></span>'; }).join('');
+              attachHtml = '<div class="voice-msg-player" id="' + vpId + '">' +
+                '<button class="voice-play-btn" onclick="toggleVoicePlayer(\'' + vpId + '\',\'' + escapeHtml(m.attachment_url) + '\')" aria-label="Play voice message">&#9654;</button>' +
+                '<div class="voice-waveform">' + vpBars + '</div>' +
+                '<span class="voice-duration" id="' + vpId + '_dur">0:00</span>' +
+                '</div>';
             } else if (m.attachment_type === 'image') {
               attachHtml = '<img src="' + escapeHtml(m.attachment_url) + '" style="max-width:240px;max-height:180px;border-radius:8px;margin:4px 0;cursor:pointer;" onclick="window.open(this.src)">';
             } else if (m.attachment_type === 'pdf') {
@@ -3458,6 +3799,70 @@
     function closeThread() {
       document.getElementById('threadOverlay').classList.remove('show');
       currentThreadConvId = null;
+      // Pause any playing voice messages
+      Object.keys(_voicePlayers).forEach(function(id) {
+        var p = _voicePlayers[id];
+        if (p && !p.audio.paused) p.audio.pause();
+      });
+      _voicePlayers = {};
+    }
+
+    // ── Voice message custom player ──
+    var _voicePlayers = {};
+    function toggleVoicePlayer(id, src) {
+      var p = _voicePlayers[id];
+      if (!p) {
+        var audio = new Audio(src);
+        var el = document.getElementById(id);
+        p = { audio: audio, el: el };
+        _voicePlayers[id] = p;
+        audio.addEventListener('timeupdate', function() {
+          var dur = document.getElementById(id + '_dur');
+          if (dur) {
+            var t = Math.floor(audio.currentTime);
+            dur.textContent = Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2);
+          }
+        });
+        audio.addEventListener('loadedmetadata', function() {
+          if (audio.duration && isFinite(audio.duration)) {
+            var dur = document.getElementById(id + '_dur');
+            if (dur) {
+              var t = Math.floor(audio.duration);
+              dur.textContent = Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2);
+            }
+          }
+        });
+        audio.addEventListener('ended', function() {
+          var btn = el && el.querySelector('.voice-play-btn');
+          if (btn) btn.innerHTML = '&#9654;';
+          if (el) el.classList.remove('playing');
+          var dur = document.getElementById(id + '_dur');
+          if (dur && audio.duration && isFinite(audio.duration)) {
+            var t = Math.floor(audio.duration);
+            dur.textContent = Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2);
+          }
+        });
+      }
+      var btn = p.el && p.el.querySelector('.voice-play-btn');
+      if (p.audio.paused) {
+        // Pause all other players first
+        Object.keys(_voicePlayers).forEach(function(oid) {
+          var op = _voicePlayers[oid];
+          if (oid !== id && op && !op.audio.paused) {
+            op.audio.pause();
+            var ob = op.el && op.el.querySelector('.voice-play-btn');
+            if (ob) ob.innerHTML = '&#9654;';
+            if (op.el) op.el.classList.remove('playing');
+          }
+        });
+        p.audio.play();
+        if (btn) btn.innerHTML = '&#9646;&#9646;';
+        if (p.el) p.el.classList.add('playing');
+      } else {
+        p.audio.pause();
+        if (btn) btn.innerHTML = '&#9654;';
+        if (p.el) p.el.classList.remove('playing');
+      }
     }
 
     async function sendAdminReply(attachmentData) {
@@ -3492,6 +3897,43 @@
           body: JSON.stringify(body)
         });
         input.value = '';
+        // Update card badge immediately without reloading the whole list
+        document.querySelectorAll('.conv-card').forEach(function(card) {
+          var oc = card.getAttribute('onclick') || '';
+          if (oc.indexOf(currentThreadConvId) !== -1) {
+            var meta = card.querySelector('.conv-card-meta');
+            var urgentBadge = card.querySelector('.conv-card-badge.urgent');
+            var nonUrgentBadge = card.querySelector('.conv-card-badge:not(.urgent)');
+            if (urgentBadge) {
+              // Keep urgent badge, add/update a separate Replied badge
+              if (nonUrgentBadge) {
+                nonUrgentBadge.style.background = '#f0fdf4';
+                nonUrgentBadge.style.color = '#059669';
+                nonUrgentBadge.textContent = 'Replied';
+              } else if (meta) {
+                var nb = document.createElement('div');
+                nb.className = 'conv-card-badge';
+                nb.style.background = '#f0fdf4';
+                nb.style.color = '#059669';
+                nb.textContent = 'Replied';
+                urgentBadge.insertAdjacentElement('afterend', nb);
+              }
+            } else if (nonUrgentBadge) {
+              nonUrgentBadge.style.background = '#f0fdf4';
+              nonUrgentBadge.style.color = '#059669';
+              nonUrgentBadge.textContent = 'Replied';
+            } else if (meta) {
+              var nb = document.createElement('div');
+              nb.className = 'conv-card-badge';
+              nb.style.background = '#f0fdf4';
+              nb.style.color = '#059669';
+              nb.textContent = 'Replied';
+              var time = meta.querySelector('.conv-card-time');
+              if (time) time.insertAdjacentElement('afterend', nb);
+              else meta.prepend(nb);
+            }
+          }
+        });
         // Refresh thread
         openThread(currentThreadConvId);
       } catch(e) {

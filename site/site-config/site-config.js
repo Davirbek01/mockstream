@@ -1,34 +1,34 @@
 // ============================================================================
-// SITE CONFIG — Muzaffars English
+// SITE CONFIG — Mock Stream
 // ============================================================================
 // Single source of truth for all branding, URLs, and identity settings.
-// Load this file via <script src="site-config/site-config.js">
+// Load this file via <script src="site config/mock stream/site-config.js">
 // BEFORE any other scripts so window.SITE_CONFIG is available everywhere.
 // ============================================================================
 
 window.SITE_CONFIG = {
 
   // ─── PWA / Clone folder ─────────────────────────────────────────────────────
-  pwaFolder:        'site-config/5. muzaffars english',
+  pwaFolder:        'site-config/1. mock stream',
 
   // ─── Brand Identity ────────────────────────────────────────────────────────
-  brandName:        'Muzaffars English',
-  testIdentifier:   'muzaffars',
-  logoUrl:          'https://i.ibb.co/gMQ80dNn/image.png',
+  brandName:        'Mock Stream',
+  testIdentifier:   'mock_stream',
+  logoUrl:          'https://i.ibb.co/WN0XY5Lv/logo.png',
   heading1:         'Bilim va malakalarni baholash agentligi',
   heading2:         'Chet tilini bilish darajasi',
 
   // ─── Telegram ──────────────────────────────────────────────────────────────
-  telegramChannel:      'Muzaffars English',
-  telegramUrl:          'https://t.me/Muzaffar_Jovliyev_blog',
-  ieltsTelegramChannel: 'https://t.me/Muzaffar_Jovliyev_blog',
-  adminTelegram:        'https://t.me/m_jovliyevv',
+  telegramChannel:      '@mock_stream',
+  telegramUrl:          'https://t.me/mock_stream',
+  ieltsTelegramChannel: '@ieltsmockstream',
+  adminTelegram:        'https://t.me/mrkhasanoff3',
 
   // ─── Certificate / PDF ─────────────────────────────────────────────────────
-  directorName:     'J.Muzaffar',
-  directorFullName: 'Jovliyev Muzaffar',
+  directorName:     'D. KHASANOV',
+  directorFullName: 'Davirbek Khasanov',
   directorTitle:    'Direktor | Director',
-  ceoTitle:         'CEO of Muzaffars English',
+  ceoTitle:         'CEO of Mock Stream Inc.',
   siteDomain:       'mockstream.site',
 
   // ─── Backend ───────────────────────────────────────────────────────────────
@@ -36,6 +36,7 @@ window.SITE_CONFIG = {
   adminBackendUrl:    'https://admin0709.alwaysdata.net',
   routingBackendUrl:  'https://u-se-r.alwaysdata.net',
 
+ 
   access:             'default',
 
   // ─── AI Score Boost (temporary) ────────────────────────────────────────────
@@ -96,6 +97,8 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
 };
 
 // ─── Seed legacy window._site* globals ───────────────────────────────────────
+// Many existing pages use  window._siteLogoUrl || 'fallback'  etc.
+// Pre-populating these means all those fallbacks resolve from this config.
 window._siteLogoUrl         = window.SITE_CONFIG.logoUrl;
 window._siteLogoWording     = window.SITE_CONFIG.brandName;
 window._siteTestId          = window.SITE_CONFIG.testIdentifier;

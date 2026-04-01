@@ -1761,6 +1761,32 @@
       visibility: visible;
     }
 
+    /* ===== FULLSCREEN TOGGLE BUTTON (welcome screen) ===== */
+    #fsWelcomeBtn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 200;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--ink);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    }
+    #fsWelcomeBtn:hover { background: rgba(255,255,255,0.30); transform: scale(1.08); }
+    #fsWelcomeBtn:active { transform: scale(0.93); }
+    #welcomeScreen.hidden #fsWelcomeBtn { display: none; }
+
     /* ===== FULLSCREEN SUGGESTION POPUP ===== */
     .fs-suggest-overlay {
       position: fixed;
@@ -2006,6 +2032,8 @@
 
   <!-- Welcome Screen (shown initially) -->
   <div id="welcomeScreen">
+    <!-- Fullscreen toggle button -->
+    <button id="fsWelcomeBtn" title="Toggle fullscreen" onclick="toggleWelcomeFullscreen()">⛶</button>
     <!-- Animated Background -->
     <div class="bg-pattern"></div>
 
@@ -3695,9 +3723,6 @@
         document.getElementById('nameOverlay').classList.add('show');
       }, 300);
 
-      // Request fullscreen on the whole document
-      const elem = document.documentElement;
-
       const startLoading = () => {
         // Start preloading iframe in background
         appFrame.src = 'landing.html';
@@ -3761,22 +3786,7 @@
         }
       }
 
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen().then(() => {
-          lockPortrait();
-          startLoading();
-        }).catch(startLoading);
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen();
-        lockPortrait();
-        startLoading();
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen();
-        lockPortrait();
-        startLoading();
-      } else {
-        startLoading();
-      }
+      startLoading();
     }
 
     // ===== FULLSCREEN SUGGESTION =====
@@ -3784,9 +3794,9 @@
       var overlay = document.getElementById('fsSuggestOverlay');
       if (!overlay) return;
 
-      // Skip if already fullscreen or user dismissed this session
+      // Skip if already fullscreen
       var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-      if (isFS || sessionStorage.getItem('fs_suggestion_done')) {
+      if (isFS) {
         overlay.style.display = 'none';
         return;
       }
@@ -3798,7 +3808,6 @@
         overlay.classList.remove('visible');
         overlay.classList.add('hiding');
         setTimeout(function () { overlay.style.display = 'none'; }, 350);
-        sessionStorage.setItem('fs_suggestion_done', '1');
       }
 
       document.getElementById('fsSuggestOk').addEventListener('click', function () {
@@ -3823,6 +3832,24 @@
         if (e.target === overlay) dismiss();
       });
     }
+
+    // ===== WELCOME SCREEN FULLSCREEN TOGGLE =====
+    function toggleWelcomeFullscreen() {
+      var btn = document.getElementById('fsWelcomeBtn');
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } else {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+      }
+    }
+    document.addEventListener('fullscreenchange', function () {
+      var btn = document.getElementById('fsWelcomeBtn');
+      if (btn) btn.textContent = document.fullscreenElement ? '\u2715' : '\u26f6';
+    });
 
     // Reset welcome screen to initial state
     function resetWelcomeScreen() {
@@ -3851,7 +3878,17 @@
 
     // Listen for messages from iframe to navigate back to welcome or landing
     window.addEventListener('message', function (event) {
-      if (event.data === 'showWelcome') {
+      if (event.data === 'toggleFullscreen') {
+        var elem = document.documentElement;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else {
+          if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+          else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+          else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+      } else if (event.data === 'showWelcome') {
         resetWelcomeScreen();
         // Clear history state when going to welcome
         history.replaceState({ page: 'welcome' }, '', '');

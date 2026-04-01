@@ -1134,20 +1134,6 @@
       }
     }
 
-    // Universal fullscreen - tap anywhere to enter fullscreen
-    document.addEventListener('click', function (e) {
-      if (!document.fullscreenElement) {
-        enterFullscreen();
-      }
-    });
-
-    // Also handle touch for mobile devices
-    document.addEventListener('touchstart', function (e) {
-      if (!document.fullscreenElement) {
-        enterFullscreen();
-      }
-    }, { passive: true });
-
     // ===== NAME VALIDATION =====
     // Disabled: universal name input in index.html handles validation
     function isValidName(name) {

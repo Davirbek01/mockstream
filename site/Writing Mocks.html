@@ -5318,20 +5318,6 @@
       return false;
     }
 
-    // Universal fullscreen - tap anywhere to enter fullscreen (but not on interactive elements)
-    document.addEventListener('click', function (e) {
-      if (!document.fullscreenElement && !shouldSkipFullscreen(e.target)) {
-        enterFullscreen();
-      }
-    });
-
-    // Also handle touch for mobile devices
-    document.addEventListener('touchstart', function (e) {
-      if (!document.fullscreenElement && !shouldSkipFullscreen(e.target)) {
-        enterFullscreen();
-      }
-    }, { passive: true });
-
     /* ===== ANTI-CHEAT POLICY ===== */
 
     // Admin bypass for developers

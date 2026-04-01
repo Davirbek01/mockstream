@@ -862,20 +862,28 @@
       @keyframes cb-spin{to{transform:rotate(360deg)}}
 
       /* ── Telegram-style voice message ── */
-      .cb-voice-msg{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;min-width:180px;max-width:260px;margin:4px 0;user-select:none}
+      .cb-voice-msg{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;min-width:200px;max-width:260px;margin:4px 0;user-select:none}
+      .cb-msg-user .cb-voice-msg{background:linear-gradient(135deg,#2563eb 0%,#3b82f6 100%);border-bottom-right-radius:4px}
+      .cb-msg-ai .cb-voice-msg{background:#e5e7eb;border-bottom-left-radius:4px}
+      .cb-msg-admin .cb-voice-msg{background:linear-gradient(135deg,#059669 0%,#10b981 100%);border-bottom-left-radius:4px}
       .cb-voice-play{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s}
       .cb-voice-play:hover{transform:scale(1.08)}
       .cb-voice-play svg{width:16px;height:16px;fill:currentColor}
-      .cb-msg-user .cb-voice-play{background:rgba(255,255,255,.25);color:#fff}
-      .cb-msg-ai .cb-voice-play,.cb-msg-admin .cb-voice-play{background:rgba(0,0,0,.08);color:#1e293b}
+      .cb-msg-user .cb-voice-play{background:rgba(255,255,255,.9);color:#2563eb}
+      .cb-msg-ai .cb-voice-play{background:#6366f1;color:#fff}
+      .cb-msg-admin .cb-voice-play{background:rgba(255,255,255,.9);color:#059669}
       .cb-voice-body{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
       .cb-voice-wave{display:flex;align-items:center;gap:2px;height:28px}
       .cb-voice-wave .cb-bar{width:3.5px;border-radius:2px;transition:background .15s;min-height:4px}
       .cb-msg-user .cb-voice-wave .cb-bar{background:rgba(255,255,255,.55)}
       .cb-msg-user .cb-voice-wave .cb-bar.played{background:#fff}
-      .cb-msg-ai .cb-voice-wave .cb-bar,.cb-msg-admin .cb-voice-wave .cb-bar{background:rgba(99,102,241,.35)}
-      .cb-msg-ai .cb-voice-wave .cb-bar.played,.cb-msg-admin .cb-voice-wave .cb-bar.played{background:#6366f1}
-      .cb-voice-dur{font-size:10px;opacity:.7;font-variant-numeric:tabular-nums}
+      .cb-msg-ai .cb-voice-wave .cb-bar{background:rgba(99,102,241,.35)}
+      .cb-msg-ai .cb-voice-wave .cb-bar.played{background:#6366f1}
+      .cb-msg-admin .cb-voice-wave .cb-bar{background:rgba(255,255,255,.45)}
+      .cb-msg-admin .cb-voice-wave .cb-bar.played{background:#fff}
+      .cb-voice-dur{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+      .cb-msg-user .cb-voice-dur,.cb-msg-admin .cb-voice-dur{color:rgba(255,255,255,.8)}
+      .cb-msg-ai .cb-voice-dur{color:#475569}
 
       /* ── Hold-to-record overlay ── */
       .cb-rec-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:20;border-radius:0 0 20px 20px;animation:cbHcFadeIn .15s ease}

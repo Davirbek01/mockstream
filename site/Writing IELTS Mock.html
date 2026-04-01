@@ -5338,23 +5338,6 @@
       return false;
     }
 
-    // Universal fullscreen - tap anywhere to enter fullscreen (but not on interactive elements)
-    // Skip fullscreen entirely in practice mode
-    document.addEventListener('click', function (e) {
-      if (window._practiceMode) return;
-      if (!document.fullscreenElement && !shouldSkipFullscreen(e.target)) {
-        enterFullscreen();
-      }
-    });
-
-    // Also handle touch for mobile devices
-    document.addEventListener('touchstart', function (e) {
-      if (window._practiceMode) return;
-      if (!document.fullscreenElement && !shouldSkipFullscreen(e.target)) {
-        enterFullscreen();
-      }
-    }, { passive: true });
-
     // Generate paper-based exam PDF for IELTS
     async function generatePaperExam() {
       // Ensure site branding is loaded from Mock 1
