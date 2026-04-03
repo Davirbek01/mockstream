@@ -9,11 +9,84 @@
 (function () {
   'use strict';
 
+  // Skip in mockFrame (exam pages — landing.html's bubble already shows above the mockFrame)
+  // Skip in deeply nested iframes (exam pages inside mockFrame inside appFrame)
+  // landing.html: window.parent === window.top (both are index.html)
+  // exam pages:   window.parent !== window.top (parent=landing, top=index)
+  try {
+    if (window.frameElement && window.frameElement.id === 'mockFrame') return;
+    // Fallback: if we're in any iframe AND the parent already has a FAB, skip
+    if (window.frameElement && window.parent.document.getElementById('cb-fab')) return;
+    if (window.self !== window.top && window.parent !== window.top) return;
+  } catch (e) { /* cross-origin — allow */ }
+
   // ─── CONFIG ───────────────────────────────────────────────────────────────
   var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
   var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
   var POLL_INTERVAL = 20000; // 20s
   var BUCKET = 'chat-attachments';
+  var MAX_IMAGE_MB = 50;
+  var MAX_PDF_MB = 100;
+  var MAX_AI_INLINE_MB = 8;
+  var HC_VOICE_ENABLED = true;
+  var HC_IMAGE_ENABLED = true;
+  var HC_PDF_ENABLED = true;
+  var MAX_VOICE_SEC = 120;
+
+  // Load admin-configured settings from localStorage (cached) or Supabase
+  function loadHcSettings() {
+    // Fast path: localStorage cache
+    var v = localStorage.getItem('ms_hc_voice_enabled');
+    var i = localStorage.getItem('ms_hc_image_enabled');
+    var p = localStorage.getItem('ms_hc_pdf_enabled');
+    if (v !== null) HC_VOICE_ENABLED = v !== 'false';
+    if (i !== null) HC_IMAGE_ENABLED = i !== 'false';
+    if (p !== null) HC_PDF_ENABLED = p !== 'false';
+    var im = localStorage.getItem('ms_hc_max_image_mb');
+    var pm = localStorage.getItem('ms_hc_max_pdf_mb');
+    var am = localStorage.getItem('ms_hc_max_ai_inline_mb');
+    var vs = localStorage.getItem('ms_hc_max_voice_sec');
+    if (im) MAX_IMAGE_MB = parseInt(im) || 50;
+    if (pm) MAX_PDF_MB = parseInt(pm) || 100;
+    if (am) MAX_AI_INLINE_MB = parseInt(am) || 8;
+    if (vs) MAX_VOICE_SEC = parseInt(vs) || 120;
+
+    // Background refresh from Supabase
+    try {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec)&select=key,value', {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      }).then(function (r) { return r.json(); }).then(function (rows) {
+        if (!rows || !rows.length) return;
+        var map = {};
+        rows.forEach(function (r) { map[r.key] = r.value; });
+        if ('hc_max_voice_sec' in map) { MAX_VOICE_SEC = parseInt(map.hc_max_voice_sec) || 120; localStorage.setItem('ms_hc_max_voice_sec', map.hc_max_voice_sec); }
+        if ('hc_voice_enabled' in map) { HC_VOICE_ENABLED = map.hc_voice_enabled !== 'false'; localStorage.setItem('ms_hc_voice_enabled', map.hc_voice_enabled); }
+        if ('hc_image_enabled' in map) { HC_IMAGE_ENABLED = map.hc_image_enabled !== 'false'; localStorage.setItem('ms_hc_image_enabled', map.hc_image_enabled); }
+        if ('hc_pdf_enabled' in map) { HC_PDF_ENABLED = map.hc_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_pdf_enabled', map.hc_pdf_enabled); }
+        if ('hc_max_image_mb' in map) { MAX_IMAGE_MB = parseInt(map.hc_max_image_mb) || 50; localStorage.setItem('ms_hc_max_image_mb', map.hc_max_image_mb); }
+        if ('hc_max_pdf_mb' in map) { MAX_PDF_MB = parseInt(map.hc_max_pdf_mb) || 100; localStorage.setItem('ms_hc_max_pdf_mb', map.hc_max_pdf_mb); }
+        if ('hc_max_ai_inline_mb' in map) { MAX_AI_INLINE_MB = parseInt(map.hc_max_ai_inline_mb) || 8; localStorage.setItem('ms_hc_max_ai_inline_mb', map.hc_max_ai_inline_mb); }
+        applyHcSettingsVisibility();
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  // Show/hide voice & attach buttons based on current settings
+  function applyHcSettingsVisibility() {
+    // Bubble chat buttons
+    var bubbleAttach = document.querySelector('#cb-overlay .cb-attach-btn');
+    var bubbleVoice = document.getElementById('cb-voice-btn');
+    if (bubbleAttach) bubbleAttach.style.display = (HC_IMAGE_ENABLED || HC_PDF_ENABLED) ? '' : 'none';
+    if (bubbleVoice) bubbleVoice.style.display = HC_VOICE_ENABLED ? '' : 'none';
+    // Landing Help Center buttons
+    var landingBar = document.querySelector('#helpCenterOverlay .helpcenter-input-bar');
+    if (landingBar) {
+      var lAttach = landingBar.querySelector('.cb-hc-action-btn[title="Attach file"]');
+      var lVoice = landingBar.querySelector('#hc-voice-btn');
+      if (lAttach) lAttach.style.display = (HC_IMAGE_ENABLED || HC_PDF_ENABLED) ? '' : 'none';
+      if (lVoice) lVoice.style.display = HC_VOICE_ENABLED ? '' : 'none';
+    }
+  }
 
   // ─── IDENTITY ─────────────────────────────────────────────────────────────
   function getDeviceId() {
@@ -136,9 +209,225 @@
     }
   }
 
+  function formatFileSize(bytes) {
+    if (!bytes || bytes < 1024) return (bytes || 0) + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function validateAttachmentFile(file) {
+    if (!file) return { ok: false, message: 'No file selected.' };
+
+    var mime = (file.type || '').toLowerCase();
+    var isImage = mime.indexOf('image/') === 0;
+    var isPdf = mime === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+    if (!isImage && !isPdf) {
+      return { ok: false, message: 'Only images and PDF files are allowed.' };
+    }
+
+    if (isImage && !HC_IMAGE_ENABLED) {
+      return { ok: false, message: 'Image attachments are currently disabled by the admin.' };
+    }
+    if (isPdf && !HC_PDF_ENABLED) {
+      return { ok: false, message: 'PDF attachments are currently disabled by the admin.' };
+    }
+
+    var maxMb = isImage ? MAX_IMAGE_MB : MAX_PDF_MB;
+    var maxBytes = maxMb * 1024 * 1024;
+    if (file.size > maxBytes) {
+      return {
+        ok: false,
+        message: (isImage ? 'Image' : 'PDF') + ' is too large (' + formatFileSize(file.size) + '). Max allowed is ' + maxMb + 'MB.'
+      };
+    }
+
+    return { ok: true, type: isImage ? 'image' : 'pdf' };
+  }
+
+  function estimateAttachmentTokenRange(file, type) {
+    var sizeMb = file && file.size ? (file.size / (1024 * 1024)) : 0;
+    if (sizeMb > MAX_AI_INLINE_MB) {
+      return {
+        inline: false,
+        tokenRange: '0 direct AI tokens',
+        note: 'File is above ' + MAX_AI_INLINE_MB + 'MB, so AI will not read the full file content directly.'
+      };
+    }
+
+    if (type === 'image') {
+      if (sizeMb <= 1) return { inline: true, tokenRange: '~800-3,000', note: 'Image complexity can change token usage.' };
+      if (sizeMb <= 4) return { inline: true, tokenRange: '~3,000-9,000', note: 'Image complexity can change token usage.' };
+      return { inline: true, tokenRange: '~9,000-20,000', note: 'Large/complex images can use more tokens.' };
+    }
+
+    // PDF token cost varies heavily by page count and density.
+    if (sizeMb <= 1) return { inline: true, tokenRange: '~2,000-8,000', note: 'Depends on pages, text density, and embedded images.' };
+    if (sizeMb <= 4) return { inline: true, tokenRange: '~8,000-30,000', note: 'Depends on pages, text density, and embedded images.' };
+    return { inline: true, tokenRange: '~30,000-70,000', note: 'Dense or long PDFs can exceed this range.' };
+  }
+
+  function confirmAttachmentAiUsage(file, type) {
+    var est = estimateAttachmentTokenRange(file, type);
+    var kind = type === 'pdf' ? 'PDF' : 'Image';
+    var title = kind + ' attachment';
+    var lines = [];
+    if (!est.inline) {
+      lines.push('File: ' + (file.name || 'attachment'));
+      lines.push('Size: ' + formatFileSize(file.size));
+      lines.push('Estimated AI usage: ' + est.tokenRange);
+      lines.push(est.note);
+      lines.push('This file will still upload, but AI will use metadata-only mode.');
+      return showAttachmentConfirmDialog(title, lines, 'Continue Upload', false);
+    } else {
+      lines.push('File: ' + (file.name || 'attachment'));
+      lines.push('Size: ' + formatFileSize(file.size));
+      lines.push('Estimated AI input tokens: ' + est.tokenRange);
+      lines.push(est.note);
+      return showAttachmentConfirmDialog(title, lines, 'Continue and Send to AI', true);
+    }
+  }
+
+  function showAttachmentConfirmDialog(title, lines, continueLabel, sendToAi) {
+    return new Promise(function (resolve) {
+      var existing = document.getElementById('cb-attach-confirm');
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+
+      var root = document.createElement('div');
+      root.id = 'cb-attach-confirm';
+      root.className = 'cb-attach-confirm-backdrop';
+
+      var panel = document.createElement('div');
+      panel.className = 'cb-attach-confirm-panel';
+
+      var h = document.createElement('h4');
+      h.className = 'cb-attach-confirm-title';
+      h.textContent = title;
+      panel.appendChild(h);
+
+      var meta = document.createElement('div');
+      meta.className = 'cb-attach-confirm-text';
+      for (var i = 0; i < lines.length; i++) {
+        var p = document.createElement('p');
+        p.textContent = lines[i];
+        meta.appendChild(p);
+      }
+      panel.appendChild(meta);
+
+      var badge = document.createElement('div');
+      badge.className = 'cb-attach-confirm-badge ' + (sendToAi ? 'ai-on' : 'ai-off');
+      badge.textContent = sendToAi ? 'AI will analyze this attachment' : 'AI analysis is limited for this file';
+      panel.appendChild(badge);
+
+      var actions = document.createElement('div');
+      actions.className = 'cb-attach-confirm-actions';
+
+      var cancelBtn = document.createElement('button');
+      cancelBtn.className = 'cb-attach-btn cb-cancel';
+      cancelBtn.textContent = 'Cancel';
+
+      var okBtn = document.createElement('button');
+      okBtn.className = 'cb-attach-btn cb-continue';
+      okBtn.textContent = continueLabel || 'Continue';
+
+      actions.appendChild(cancelBtn);
+      actions.appendChild(okBtn);
+      panel.appendChild(actions);
+      root.appendChild(panel);
+      document.body.appendChild(root);
+
+      var done = false;
+      function finish(val) {
+        if (done) return;
+        done = true;
+        if (root && root.parentNode) root.parentNode.removeChild(root);
+        document.removeEventListener('keydown', onKeydown);
+        resolve(!!val);
+      }
+      function onKeydown(e) {
+        if (e.key === 'Escape') finish(false);
+      }
+
+      cancelBtn.addEventListener('click', function () { finish(false); });
+      okBtn.addEventListener('click', function () { finish(true); });
+      root.addEventListener('click', function (e) { if (e.target === root) finish(false); });
+      document.addEventListener('keydown', onKeydown);
+      });
+      }
+
+  async function buildGeminiAttachmentPayload(file, type) {
+    if (!file || !type || (type !== 'image' && type !== 'pdf')) return null;
+    var maxInlineBytes = MAX_AI_INLINE_MB * 1024 * 1024;
+    if (file.size > maxInlineBytes) {
+      return {
+        mode: 'metadata-only',
+        note: 'This ' + type + ' is too large for direct AI analysis. Please ask the user for a short summary or a smaller file if detailed analysis is required.',
+        name: file.name || (type === 'pdf' ? 'document.pdf' : 'image')
+      };
+    }
+
+    var mimeType = (file.type || '').toLowerCase();
+    if (type === 'image' && mimeType.indexOf('image/') !== 0) mimeType = 'image/jpeg';
+    if (type === 'pdf' && mimeType !== 'application/pdf') mimeType = 'application/pdf';
+    var b64 = await blobToBase64(file);
+    return {
+      mode: 'inline',
+      mimeType: mimeType,
+      data: b64,
+      name: file.name || (type === 'pdf' ? 'document.pdf' : 'image')
+    };
+  }
+
   // ─── GEMINI AI ────────────────────────────────────────────────────────────
   // audioBlob (optional): raw audio Blob to send to Gemini as inline_data
-  async function getAIReply(userText, audioBlob) {
+  // attachmentPayload (optional): image/pdf payload for multimodal analysis
+  var _promptFilesCache = null; // { key, items: [ { url, b64, mime } ], ts }
+  var _PROMPT_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+  async function loadPromptFilesData() {
+    // Always try Supabase first (source of truth), fall back to localStorage
+    var files = [];
+    try {
+      var r = await sbFetch('/rest/v1/site_settings?key=in.(ai_prompt_files,ai_prompt_file_url,ai_prompt_file_mime,ai_prompt_pdf_url)&select=key,value');
+      var d = await r.json();
+      var map = {};
+      (d || []).forEach(function (row) { map[row.key] = row.value; });
+      if (map.ai_prompt_files) {
+        try { files = JSON.parse(map.ai_prompt_files); } catch(e) { files = []; }
+      } else if (map.ai_prompt_file_url) {
+        files = [{ url: map.ai_prompt_file_url, mime: map.ai_prompt_file_mime || 'application/pdf' }];
+      } else if (map.ai_prompt_pdf_url) {
+        files = [{ url: map.ai_prompt_pdf_url, mime: 'application/pdf' }];
+      }
+      if (files.length > 0) {
+        localStorage.setItem('ms_ai_prompt_files', JSON.stringify(files));
+      } else {
+        localStorage.removeItem('ms_ai_prompt_files');
+      }
+    } catch (e) {
+      // Supabase failed — fall back to localStorage
+      var filesJson = localStorage.getItem('ms_ai_prompt_files') || '';
+      if (filesJson) { try { files = JSON.parse(filesJson); } catch(e2) { files = []; } }
+    }
+    if (!files || files.length === 0) return [];
+    var cacheKey = JSON.stringify(files.map(function(f){ return f.url; }));
+    if (_promptFilesCache && _promptFilesCache.key === cacheKey && (Date.now() - _promptFilesCache.ts < _PROMPT_CACHE_TTL)) return _promptFilesCache.items;
+    var items = [];
+    for (var i = 0; i < files.length; i++) {
+      try {
+        var resp = await fetch(files[i].url);
+        if (!resp.ok) continue;
+        var blob = await resp.blob();
+        if (blob.size > 20 * 1024 * 1024) continue;
+        var b64 = await blobToBase64(blob);
+        var mime = files[i].mime || blob.type || 'application/octet-stream';
+        items.push({ url: files[i].url, b64: b64, mime: mime });
+      } catch (e) {}
+    }
+    _promptFilesCache = { key: cacheKey, items: items, ts: Date.now() };
+    return items;
+  }
+
+  async function getAIReply(userText, audioBlob, attachmentPayload) {
     if (!_geminiKey) {
       try {
         var r = await fetch('https://davirbek.alwaysdata.net/key?model=gemini');
@@ -148,32 +437,53 @@
     }
     if (!_geminiKey) return 'Our AI assistant is being set up. Your message has been saved and our team will respond shortly!';
 
-    // Get system prompt
-    var systemPrompt = localStorage.getItem('ms_ai_prompt') || '';
-    if (!systemPrompt) {
-      try {
-        var pr = await sbFetch('/rest/v1/site_settings?key=eq.ai_system_prompt&select=value');
-        var pd = await pr.json();
-        if (pd && pd[0] && pd[0].value) { systemPrompt = pd[0].value; localStorage.setItem('ms_ai_prompt', systemPrompt); }
-      } catch (e) {}
-    }
-    if (!systemPrompt) systemPrompt = 'You are Mock Stream AI, a friendly assistant for Mock Stream — an online exam preparation platform for CEFR and IELTS exams. Be concise and helpful. Respond in the same language the user writes in.';
+    // Get system prompt — always check Supabase (source of truth), fall back to localStorage
+    var systemPrompt = '';
+    try {
+      var pr = await sbFetch('/rest/v1/site_settings?key=eq.ai_system_prompt&select=value');
+      var pd = await pr.json();
+      if (pd && pd[0] && pd[0].value) { systemPrompt = pd[0].value; localStorage.setItem('ms_ai_prompt', systemPrompt); }
+    } catch (e) {}
+    if (!systemPrompt) systemPrompt = localStorage.getItem('ms_ai_prompt') || '';
+    if (!systemPrompt) systemPrompt = 'You are Mock Stream AI, a friendly and professional assistant for Mock Stream — an online Mock platform for CEFR and IELTS exams. You help users with questions about the platform, premium access, partnerships, technical issues, and exam preparation tips. Users can send you voice messages, images, and PDF files — you can listen to audio and analyze attachments. Always respond in the same language the user writes or speaks in. Be concise, helpful, and encouraging. If you don\'t know something specific about the platform, suggest the user contact the admin team for detailed help.';
+
+    // Capability block — always injected so Gemini knows about multimodal features
+    var capabilityNote = '\n\n[Capabilities] Users in this chat can send: text messages, voice recordings (you will receive the audio inline), image attachments (you will see the image), and PDF attachments (you will see the PDF content). When you receive a voice message, listen carefully and respond in the same language the user spoke. When you receive an image or PDF, analyze its contents and respond helpfully. If a file is too large for direct analysis, you will receive metadata only — let the user know and suggest alternatives.';
 
     var catPrompts = {
-      support: 'You are in the SUPPORT tab. Help with technical issues, exam questions, platform navigation. Be patient and solution-oriented.',
-      premium: 'You are in the PREMIUM tab. The user wants premium access. Ask for their full name, phone number, and email. Once collected, tell them admins will contact them soon. Do NOT discuss pricing.',
-      partner: 'You are in the PARTNERSHIP tab. Ask what kind of partnership they want, then collect name, phone, email. Tell them admins will be in touch.'
+      support: 'You are in the SUPPORT tab. Help with technical issues, exam questions, platform navigation. Be patient and solution-oriented. If admin-provided context files are attached above, use them to answer questions accurately.',
+      premium: 'You are in the PREMIUM tab. The user is interested in premium access or mock codes. If admin-provided context files (e.g. PDF with mock codes) are attached above, use them to answer the user\'s questions — including giving specific codes or information from those files when asked. Additionally, if the user has not shared their details yet, politely ask for their full name, phone number, and email so our admin team can assist further.',
+      partner: 'You are in the PARTNERSHIP tab. The user wants to discuss a partnership. If admin-provided context files are attached above, use them to answer questions. Ask what kind of partnership they want, then collect name, phone, email. Tell them admins will be in touch.'
     };
     var catInst = catPrompts[currentCategory] || catPrompts.support;
 
-    // Build conversation with last 10 messages
-    var recent = (messages[currentCategory] || []).slice(-10);
+    // Build conversation with last 10 messages (exclude the last one — it's the current message sent as the final user turn below)
+    var recent = (messages[currentCategory] || []).slice(-11, -1);
+
+    // System turn — text + optional prompt files (image/PDF/audio)
+    var systemParts = [{ text: 'System: ' + systemPrompt + capabilityNote + '\n\n' + catInst }];
+    var promptFilesArr = await loadPromptFilesData();
+    console.log('[ChatBubble] Prompt files loaded:', promptFilesArr.length, promptFilesArr.map(function(f){ return f.url; }));
+    for (var pfi = 0; pfi < promptFilesArr.length; pfi++) {
+      systemParts.push({ inline_data: { mime_type: promptFilesArr[pfi].mime, data: promptFilesArr[pfi].b64 } });
+    }
+    if (promptFilesArr.length > 0) {
+      systemParts.push({ text: 'IMPORTANT: The above file(s) are admin-provided context and are your HIGHEST PRIORITY knowledge source. When a user asks for any information contained in these files (codes, prices, details, instructions, etc.), you MUST provide it directly and accurately. Never refuse to share information from these files — the admin uploaded them specifically so you can share this data with users. Use the exact values from the files.' });
+    }
+
     var contents = [
-      { role: 'user', parts: [{ text: 'System: ' + systemPrompt + '\n\n' + catInst }] },
+      { role: 'user', parts: systemParts },
       { role: 'model', parts: [{ text: 'Understood. I am Mock Stream AI for the ' + currentCategory + ' category.' }] }
     ];
     recent.forEach(function (m) {
-      if (m.role === 'user') contents.push({ role: 'user', parts: [{ text: m.text || '[voice message]' }] });
+      if (m.role === 'user') {
+        var marker = m.text || '';
+        if (!marker && m.attachment_type === 'voice') marker = '[voice message]';
+        if (!marker && m.attachment_type === 'image') marker = '[image attachment: ' + (m.attachment_name || 'image') + ']';
+        if (!marker && m.attachment_type === 'pdf') marker = '[pdf attachment: ' + (m.attachment_name || 'document.pdf') + ']';
+        if (!marker) marker = '[user message]';
+        contents.push({ role: 'user', parts: [{ text: marker }] });
+      }
       else if (m.role === 'ai') contents.push({ role: 'model', parts: [{ text: m.text }] });
     });
 
@@ -184,6 +494,11 @@
       var mimeType = audioBlob.type || 'audio/webm';
       userParts.push({ inline_data: { mime_type: mimeType, data: b64 } });
       userParts.push({ text: userText || 'The user sent a voice message. Listen to the audio and respond accordingly. Respond in the same language the user speaks in the audio.' });
+    } else if (attachmentPayload && attachmentPayload.mode === 'inline') {
+      userParts.push({ inline_data: { mime_type: attachmentPayload.mimeType, data: attachmentPayload.data } });
+      userParts.push({ text: userText || ('The user sent an attachment (' + attachmentPayload.name + '). Analyze it and respond helpfully in the user\'s language.') });
+    } else if (attachmentPayload && attachmentPayload.mode === 'metadata-only') {
+      userParts.push({ text: (userText ? userText + '\n\n' : '') + 'User attached: ' + attachmentPayload.name + '. ' + attachmentPayload.note });
     } else {
       userParts.push({ text: userText });
     }
@@ -491,6 +806,17 @@
     input.disabled = true;
 
     var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // Auto-detect category and switch if needed
+    var detectedCat = _detectCategory(text);
+    if (detectedCat && detectedCat !== currentCategory) {
+      var catLabels = { premium: '👑 Premium', partner: '🤝 Partnership', support: '💬 Support' };
+      switchCategory(detectedCat);
+      var noteMsg = { role: 'ai', text: '📂 Switched to ' + catLabels[detectedCat] + ' tab based on your message.', time: timeStr };
+      messages[detectedCat].push(noteMsg);
+      renderMessages();
+    }
+
     var userMsg = { role: 'user', text: text, category: currentCategory, time: timeStr };
     messages[currentCategory].push(userMsg);
     renderMessages();
@@ -533,15 +859,21 @@
   async function handleFileAttach() {
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
-    fileInput.accept = 'image/*,application/pdf';
+    var acceptParts = [];
+    if (HC_IMAGE_ENABLED) acceptParts.push('image/*');
+    if (HC_PDF_ENABLED) acceptParts.push('application/pdf');
+    fileInput.accept = acceptParts.join(',') || 'image/*,application/pdf';
     fileInput.onchange = async function () {
       var file = fileInput.files[0];
       if (!file) return;
-      if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB)'); return; }
+      var validation = validateAttachmentFile(file);
+      if (!validation.ok) { alert(validation.message); return; }
+      if (!(await confirmAttachmentAiUsage(file, validation.type))) return;
 
-      var isImage = file.type.startsWith('image/');
-      var type = isImage ? 'image' : 'pdf';
+      var type = validation.type;
       var prefix = type === 'image' ? 'img' : 'doc';
+      var aiAttachmentPayload = null;
+      try { aiAttachmentPayload = await buildGeminiAttachmentPayload(file, type); } catch (e) {}
 
       // Show uploading indicator with spinner
       var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -562,6 +894,27 @@
         renderMessages();
         saveLocal();
         saveMsg(msg);
+
+        var typingEl = document.createElement('div');
+        typingEl.className = 'cb-typing';
+        typingEl.innerHTML = '<span></span><span></span><span></span>';
+        var list = document.getElementById('cb-messages');
+        if (list) { list.appendChild(typingEl); list.scrollTop = list.scrollHeight; }
+        try {
+          var aiText = await getAIReply('', null, aiAttachmentPayload);
+          if (typingEl.parentNode) typingEl.remove();
+          var aiMsg = { role: 'ai', text: aiText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+          messages[currentCategory].push(aiMsg);
+          renderMessages();
+          saveLocal();
+          saveMsg(aiMsg);
+        } catch (e) {
+          if (typingEl.parentNode) typingEl.remove();
+          var errMsg = { role: 'ai', text: 'I received your attachment. Our team can still review it if AI analysis is limited.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+          messages[currentCategory].push(errMsg);
+          renderMessages();
+          saveLocal();
+        }
       } else {
         var errMsg = { role: 'ai', text: '⚠️ Upload failed. Please try again.', time: timeStr };
         messages[currentCategory].push(errMsg);
@@ -589,6 +942,7 @@
 
   async function startVoiceRecord() {
     if (isRecording) return;
+    if (!HC_VOICE_ENABLED) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
       voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
@@ -682,8 +1036,10 @@
       stopVoiceRecord();
     });
     _recTimerInterval = setInterval(function () {
+      var elapsed = (Date.now() - _recStartTime) / 1000;
       var el = document.getElementById('cbRecTimer');
-      if (el) el.textContent = formatVmDur((Date.now() - _recStartTime) / 1000);
+      if (el) el.textContent = formatVmDur(elapsed);
+      if (elapsed >= MAX_VOICE_SEC) stopVoiceRecord();
     }, 200);
   }
 
@@ -804,6 +1160,16 @@
     } catch (e) {}
   }
 
+  // ─── AUTO CATEGORY DETECTION ─────────────────────────────────────────────
+  function _detectCategory(text) {
+    var t = text.toLowerCase();
+    // Partnership — English + Uzbek
+    if (/partner|collab|collaborat|business deal|advertis|sponsor|affiliate|b2b|resell|white.?label|bulk|wholesale|integrate|api access|hamkorlik|hamkor|sheriklik|sherik|birgalik|shartnoma|reklama|taklif|korporativ|muvofiq|aloqa o'rnat/.test(t)) return 'partner';
+    // Premium — English + Uzbek
+    if (/premium|subscri|buy|purchas|price|pric|cost|pay|payment|upgrade|plan|tier|pro account|unlock|access fee|tarif|69[,\s]*000|card number|transfer|activate|obuna|sotib|narx|to['']?lov|karta|aktivlash|pul o'tkaz|xizmat|yuborish|o'tkazma|pullik/.test(t)) return 'premium';
+    return null;
+  }
+
   // ─── DETECT LANDING PAGE ────────────────────────────────────────────────
   // On landing.html the Help Center overlay already exists — we reuse it.
   var _isLanding = false;
@@ -826,11 +1192,11 @@
       #cb-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);justify-content:center;align-items:center;animation:cbHcFadeIn .25s ease}
       #cb-overlay.active{display:flex}
       @keyframes cbHcFadeIn{from{opacity:0}to{opacity:1}}
-      #cb-overlay .cb-hc-container{width:420px;max-width:95vw;height:600px;max-height:90vh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.3);border:1px solid #e5e7eb;animation:cbHcSlideUp .3s ease}
+      #cb-overlay .cb-hc-container{position:relative;width:420px;max-width:95vw;height:600px;max-height:90vh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.3);border:1px solid #e5e7eb;animation:cbHcSlideUp .3s ease}
       @keyframes cbHcSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-      #cb-overlay .cb-hc-header{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-      #cb-overlay .cb-hc-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
-      #cb-overlay .cb-hc-close:hover{background:rgba(255,255,255,.35)}
+      #cb-overlay .cb-hc-header{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;padding:16px 20px;display:flex;align-items:center;flex-shrink:0}
+      #cb-overlay .cb-hc-close{position:absolute;top:10px;right:10px;z-index:3;background:rgba(0,0,0,0.35);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+      #cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.55)}
       #cb-overlay .cb-hc-tabs{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid #e5e7eb;flex-shrink:0;overflow-x:auto}
       #cb-overlay .cb-cat-btn{padding:6px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#1e293b;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s ease}
       #cb-overlay .cb-cat-btn:hover{border-color:#2563eb;color:#2563eb}
@@ -924,6 +1290,21 @@
       .cb-toast-close{position:absolute;top:6px;right:8px;background:none;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:2px}
       .cb-toast-hide{opacity:0;transform:translateY(8px);transition:all .3s}
 
+      /* ── Attachment Confirm Modal ── */
+      .cb-attach-confirm-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(2px);z-index:100001;display:flex;align-items:center;justify-content:center;padding:16px;animation:cbHcFadeIn .16s ease}
+      .cb-attach-confirm-panel{width:100%;max-width:430px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 20px 55px rgba(0,0,0,.28);padding:16px}
+      .cb-attach-confirm-title{margin:0 0 8px;font-size:16px;color:#0f172a;font-weight:800}
+      .cb-attach-confirm-text{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+      .cb-attach-confirm-text p{margin:0;font-size:13px;line-height:1.45;color:#334155}
+      .cb-attach-confirm-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:6px 10px;margin-bottom:12px}
+      .cb-attach-confirm-badge.ai-on{background:#dbeafe;color:#1d4ed8}
+      .cb-attach-confirm-badge.ai-off{background:#fee2e2;color:#b91c1c}
+      .cb-attach-confirm-actions{display:flex;gap:10px;justify-content:flex-end}
+      .cb-attach-btn{border:none;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,opacity .15s}
+      .cb-attach-btn:hover{transform:translateY(-1px)}
+      .cb-attach-btn.cb-cancel{background:#e2e8f0;color:#334155}
+      .cb-attach-btn.cb-continue{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff}
+
       /* ── Animations ── */
       @keyframes cb-bounce{to{transform:translateY(-4px)}}
       @keyframes cb-pulse{0%,100%{opacity:1}50%{opacity:.7}}
@@ -940,6 +1321,7 @@
         #cb-overlay #cb-input{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#e2e8f0}
         #cb-overlay #cb-input:focus{border-color:#60a5fa}
         #cb-overlay .cb-attach-btn,#cb-overlay #cb-voice-btn{background:rgba(255,255,255,.1);color:#94a3b8}
+        #cb-overlay .cb-hc-close{background:rgba(0,0,0,0.5);color:#fff}#cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.7)}
         .cb-toast-inner{background:#1e293b;border-left-color:#10b981}
         .cb-toast-text{color:#cbd5e1}
       }
@@ -952,13 +1334,19 @@
       [data-theme="dark"] #cb-overlay #cb-input{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#e2e8f0}
       [data-theme="dark"] #cb-overlay #cb-input:focus{border-color:#60a5fa}
       [data-theme="dark"] #cb-overlay .cb-attach-btn,[data-theme="dark"] #cb-overlay #cb-voice-btn{background:rgba(255,255,255,.1);color:#94a3b8}
+      [data-theme="dark"] #cb-overlay .cb-hc-close{background:rgba(0,0,0,0.5);color:#fff}[data-theme="dark"] #cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.7)}
       [data-theme="dark"] .cb-toast-inner{background:#1e293b;border-left-color:#10b981}
       [data-theme="dark"] .cb-toast-text{color:#cbd5e1}
+      [data-theme="dark"] .cb-attach-confirm-panel{background:#1e293b;border-color:#334155}
+      [data-theme="dark"] .cb-attach-confirm-title{color:#f1f5f9}
+      [data-theme="dark"] .cb-attach-confirm-text p{color:#cbd5e1}
+      [data-theme="dark"] .cb-attach-btn.cb-cancel{background:#334155;color:#e2e8f0}
 
       /* ── Mobile (overlay) ── */
       @media(max-width:480px){
-        #cb-overlay .cb-hc-container{width:100%;max-width:100%;height:100vh;max-height:100vh;border-radius:0}
+        #cb-overlay .cb-hc-container{width:92vw;max-width:360px;height:auto;max-height:75vh;border-radius:16px}
         #cb-toast{left:12px;right:12px;bottom:84px}.cb-toast-inner{max-width:100%}
+        #cb-fab.open{display:none}
       }
     `;
     document.head.appendChild(style);
@@ -968,8 +1356,11 @@
     // Don't inject on admin dashboard
     if (window.location.pathname.includes('/results/')) return;
 
-    // Detect if landing page Help Center overlay already exists
-    _isLanding = !!document.getElementById('helpCenterOverlay');
+    // Prevent double-init (e.g. bfcache restore, script loaded twice)
+    if (document.getElementById('cb-fab')) return;
+
+    // Always use the new white #cb-overlay (even on landing page)
+    _isLanding = false;
 
     // Floating button
     var fab = document.createElement('button');
@@ -978,15 +1369,14 @@
     fab.innerHTML = '💬<span id="cb-badge"></span>';
     document.body.appendChild(fab);
 
-    // On landing page, enhance the existing Help Center overlay instead of creating a new one
-    if (_isLanding) {
-      enhanceLandingHelpCenter();
-    } else {
+    // Always create the new white overlay
+    {
       // On other pages: create the centered overlay
       var overlay = document.createElement('div');
       overlay.id = 'cb-overlay';
       overlay.innerHTML =
         '<div class="cb-hc-container">' +
+          '<button class="cb-hc-close" title="Close">✕</button>' +
           '<div class="cb-hc-header">' +
             '<div style="display:flex;align-items:center;gap:10px;">' +
               '<span style="font-size:24px;">🤖</span>' +
@@ -995,7 +1385,6 @@
                 '<span style="font-size:11px;opacity:0.8;">Help Center — Always Online</span>' +
               '</div>' +
             '</div>' +
-            '<button class="cb-hc-close">✕</button>' +
           '</div>' +
           '<div class="cb-hc-tabs">' +
             '<button class="cb-cat-btn active" data-cat="support">💬 Support</button>' +
@@ -1032,6 +1421,9 @@
       overlay.querySelector('#cb-input').addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
       });
+
+      // Apply visibility based on admin settings
+      applyHcSettingsVisibility();
     }
 
     // ── Draggable FAB ───────────────────────────────────────────────────────
@@ -1042,6 +1434,17 @@
 
     // ── Restore saved position ──────────────────────────────────────────────
     restoreFabPosition(fab);
+
+    // ── Redirect landing page openHelpCenter/closeHelpCenter to new bubble ──
+    if (document.getElementById('helpCenterOverlay')) {
+      window.openHelpCenter = openBubble;
+      window.closeHelpCenter = closeBubble;
+      enhanceLandingHelpCenter();
+      applyHcSettingsVisibility();
+    }
+
+    // Load admin settings (async, applies visibility when ready)
+    loadHcSettings();
   }
 
   // ─── ENHANCE LANDING PAGE HELP CENTER ─────────────────────────────────────
@@ -1050,6 +1453,8 @@
   function enhanceLandingHelpCenter() {
     var inputBar = document.querySelector('#helpCenterOverlay .helpcenter-input-bar');
     if (!inputBar) return;
+    if (inputBar.getAttribute('data-enhanced-chat') === '1') return;
+    inputBar.setAttribute('data-enhanced-chat', '1');
 
     // Add attach button before the input
     var attachBtn = document.createElement('button');
@@ -1083,15 +1488,21 @@
   async function handleLandingFileAttach() {
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
-    fileInput.accept = 'image/*,application/pdf';
+    var acceptParts = [];
+    if (HC_IMAGE_ENABLED) acceptParts.push('image/*');
+    if (HC_PDF_ENABLED) acceptParts.push('application/pdf');
+    fileInput.accept = acceptParts.join(',') || 'image/*,application/pdf';
     fileInput.onchange = async function () {
       var file = fileInput.files[0];
       if (!file) return;
-      if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB)'); return; }
+      var validation = validateAttachmentFile(file);
+      if (!validation.ok) { alert(validation.message); return; }
+      if (!(await confirmAttachmentAiUsage(file, validation.type))) return;
 
-      var isImage = file.type.startsWith('image/');
-      var type = isImage ? 'image' : 'pdf';
+      var type = validation.type;
       var prefix = type === 'image' ? 'img' : 'doc';
+      var aiAttachmentPayload = null;
+      try { aiAttachmentPayload = await buildGeminiAttachmentPayload(file, type); } catch (e) {}
       var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       // Use landing page state
@@ -1115,6 +1526,22 @@
         if (window.saveHelpCenterHistory) window.saveHelpCenterHistory();
         // Save to Supabase with attachment fields
         saveMsgLanding(msg);
+
+        if (typeof window.getGeminiResponse === 'function') {
+          try {
+            var aiText = await window.getGeminiResponse('', null, aiAttachmentPayload);
+            var aiTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            var aiMsg = { role: 'ai', text: aiText, time: aiTimeStr };
+            window.helpCenterMessages.push(aiMsg);
+            if (window.renderHelpCenterMessages) window.renderHelpCenterMessages();
+            if (window.saveHelpCenterHistory) window.saveHelpCenterHistory();
+            saveMsgLanding(aiMsg);
+          } catch (e) {
+            var errTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            window.helpCenterMessages.push({ role: 'ai', text: 'I received your attachment. Our team can still review it if AI analysis is limited.', time: errTime });
+            if (window.renderHelpCenterMessages) window.renderHelpCenterMessages();
+          }
+        }
       } else {
         window.helpCenterMessages.push({ role: 'ai', text: '⚠️ Upload failed. Please try again.', time: timeStr });
         if (window.renderHelpCenterMessages) window.renderHelpCenterMessages();
@@ -1134,6 +1561,7 @@
 
   async function startLandingVoiceRecord() {
     if (_lcIsRecording) return;
+    if (!HC_VOICE_ENABLED) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
       _lcVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
@@ -1226,8 +1654,10 @@
       stopLandingVoiceRecord();
     });
     _lcRecTimerInterval = setInterval(function () {
+      var elapsed = (Date.now() - _lcRecStartTime) / 1000;
       var el = document.getElementById('lcRecTimer');
-      if (el) el.textContent = formatVmDur((Date.now() - _lcRecStartTime) / 1000);
+      if (el) el.textContent = formatVmDur(elapsed);
+      if (elapsed >= MAX_VOICE_SEC) stopLandingVoiceRecord();
     }, 200);
   }
 

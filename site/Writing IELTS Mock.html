@@ -2499,6 +2499,9 @@
       <div class="font-control">
         <button class="font-btn" id="fontToggle" title="Tap to change font size">🔍</button>
       </div>
+      <div class="font-control">
+        <button class="font-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">⛶</button>
+      </div>
       <div class="switch" id="themeSwitch" title="Toggle theme">
         <span class="switch-icon">☀️</span>
         <div class="knob"></div>
@@ -5324,6 +5327,33 @@
 
     // Make exitFullscreen globally available for download functions
     window.exitFullscreenForDownload = exitFullscreen;
+
+    // Toggle fullscreen (posts to parent frame which owns the fullscreen request)
+    function toggleExamFullscreen() {
+      try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+    }
+    window.toggleExamFullscreen = toggleExamFullscreen;
+    function _updateFSBtnIcons(isFS) {
+      var b = document.getElementById('btnFS');
+      var mb = document.getElementById('mobFSBtn');
+      if (b) b.textContent = isFS ? '⛶' : '⛶';
+      if (mb) {
+        var lbl = mb.querySelectorAll('span')[1];
+        if (lbl) lbl.textContent = isFS ? 'Exit FS' : 'Fullscreen';
+      }
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(document.fullscreenElement));
+      });
+    }
 
     // Check if click target should NOT trigger fullscreen
     function shouldSkipFullscreen(target) {
@@ -9574,6 +9604,70 @@ function printWritingAiModal() {
 
     /* ===== GEMINI AI KEY ===== */
     let GEMINI_KEY = null;
+
+    // Supabase scoring prompt loader
+    var _scoringPromptsCache = null;
+    var _scoringPromptsCacheTime = 0;
+    async function _loadScoringPrompts() {
+      if (_scoringPromptsCache && Date.now() - _scoringPromptsCacheTime < 300000) return _scoringPromptsCache;
+      try {
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+        });
+        if (!r.ok) throw new Error(r.status);
+        var rows = await r.json();
+        _scoringPromptsCache = {};
+        rows.forEach(function(x) { _scoringPromptsCache[x.key] = x.value; });
+        _scoringPromptsCacheTime = Date.now();
+      } catch(e) { console.warn('[ScoringPrompts] load failed:', e.message); }
+      return _scoringPromptsCache || {};
+    }
+
+    async function _callScoringAI(systemText, userPrompt, opts) {
+      var cp = await _loadScoringPrompts();
+      var provider = cp['scoring_ai_provider'] || 'gemini';
+      opts = opts || {};
+      if (provider === 'openai') {
+        if (!WRITING_API_KEY) { try { await getWritingApiKey(); } catch(e){} }
+        if (!WRITING_API_KEY) throw new Error('No OpenAI API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + WRITING_API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else {
+        if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+        if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+        var gBody = {
+          contents: [{ parts: [{ text: userPrompt }] }],
+          generationConfig: { temperature: opts.temperature || 0.3 }
+        };
+        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+        if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(gBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
+      }
+    }
+
     async function getGeminiKey() {
       const response = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
         method: 'GET',
@@ -9796,18 +9890,10 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       updateTaskProgress('T1', 50, 'Checking vocabulary...');
       updateTaskProgress('T2', 20, 'Preparing...');
 
-      const response = await attemptWithRetry(async () => {
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.5, maxOutputTokens: 16384, response_mime_type: 'application/json' },
-            systemInstruction: { parts: [{ text: 'You are a STRICT but FAIR expert IELTS examiner. CRITICAL: Score each criterion (TA, CC, LR, GRA) INDEPENDENTLY — it is extremely rare for all 4 sub-scores to be identical. Students typically have DIFFERENT strengths: good ideas but weak grammar, or accurate grammar but limited vocabulary. If you find 3+ grammar mistakes, GRA must be lower than TA. Count actual errors before scoring. ANTI-BOILERPLATE: NEVER include generic feedback unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback point MUST quote a specific example from the text and show the CORRECTED version. CRITERION SCORES (TA, CC, LR, GRA) must be WHOLE NUMBERS (5, 6, 7, 8) — NO half bands for criteria. Task bands and overall band CAN be half bands since they are averages.' }] }
-          })
-        });
-        if (!resp.ok) throw new Error(`AI API error: ${resp.status}`);
-        return resp;
+      const resultText = await attemptWithRetry(async () => {
+        var _cp = await _loadScoringPrompts();
+        var _sysInstr = _cp['scoring_ielts_writing_system'] || '';
+        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.5, maxTokens: 16384, jsonMode: true });
       });
 
       // Continue progress animation
@@ -9815,10 +9901,6 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       updateTaskProgress('T2', 50, 'Checking grammar...');
 
       if (updateStep) { updateStep('aiStep4', 'completed'); updateStep('aiStep5', 'active'); }
-
-      const data = await response.json();
-      if (data.error) throw new Error(data.error.message || 'AI API returned an error');
-      if (!data.candidates || data.candidates.length === 0) throw new Error('No AI response - content may have been filtered');
 
       // Simulate thorough checking with delays
       updateTaskProgress('T1', 100, '✓ Complete');
@@ -9829,7 +9911,6 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
 
       if (updateStep) { updateStep('aiStep5', 'completed'); updateStep('aiStep6', 'active'); }
 
-      let resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!resultText) throw new Error('No AI response');
 
       // Sanitize control characters that break JSON.parse
@@ -11204,6 +11285,10 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
       <div class="mob-tool-btn" id="mobPauseBtn">
         <span class="mob-tool-item-icon">⏸</span>
         <span>Pause</span>
+      </div>
+      <div class="mob-tool-btn" id="mobFSBtn" onclick="toggleExamFullscreen()">
+        <span class="mob-tool-item-icon">⛶</span>
+        <span>Fullscreen</span>
       </div>
     </div>
 

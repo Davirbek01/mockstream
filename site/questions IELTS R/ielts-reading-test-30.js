@@ -130,7 +130,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 20-23",
-                    "instruction": "Questions 20\u201323<br><br>Do the following statements agree with the information given in Reading Passage 2?<br><br>In boxes 20\u201323 on your answer sheet, write<br><br><strong>TRUE</strong> if the statement agrees with the information<br><strong>FALSE</strong> if the statement contradicts the information<br><strong>NOT GIVEN</strong> if there is no information on this",
+                    "instruction": "Questions 20\u201323<br><br>Do the following statements agree with the information given in Reading Passage 2?<br><br>In boxes 20\u201323 on your answer sheet, write<br><br><strong>True</strong> if the statement agrees with the information<br><strong>False</strong> if the statement contradicts the information<br><strong>Not Given</strong> if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -228,7 +228,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 31-37",
-                    "instruction": "Questions 31\u201337<br><br>Do the following statements agree with the information given in Reading Passage 3?<br><br>In boxes 31\u201337 on your answer sheet, write<br><br><strong>TRUE</strong> if the statement agrees with the information<br><strong>FALSE</strong> if the statement contradicts the information<br><strong>NOT GIVEN</strong> if there is no information on this",
+                    "instruction": "Questions 31\u201337<br><br>Do the following statements agree with the information given in Reading Passage 3?<br><br>In boxes 31\u201337 on your answer sheet, write<br><br><strong>True</strong> if the statement agrees with the information<br><strong>False</strong> if the statement contradicts the information<br><strong>Not Given</strong> if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [

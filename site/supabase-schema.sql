@@ -43,6 +43,12 @@ CREATE POLICY "Allow anon select" ON results
   FOR SELECT TO anon
   USING (true);
 
+-- Allow anon UPDATE (profile name change merges results)
+CREATE POLICY "Allow anon update results" ON results
+  FOR UPDATE TO anon
+  USING (true)
+  WITH CHECK (true);
+
 -- 5. Create the Storage bucket for report files
 -- Go to Storage → New Bucket → Name: "reports" → Public: ON
 -- Or run via SQL:
@@ -181,6 +187,9 @@ CREATE POLICY "Allow anon insert settings" ON site_settings
 CREATE POLICY "Allow anon update settings" ON site_settings
   FOR UPDATE TO anon USING (true) WITH CHECK (true);
 
+CREATE POLICY "Allow anon delete settings" ON site_settings
+  FOR DELETE TO anon USING (true);
+
 -- ============================================================================
 -- 11. Storage Stats Function — returns file count, total bytes, db size
 -- ============================================================================
@@ -298,3 +307,37 @@ SELECT cron.schedule(
   '30 4 * * *',
   'SELECT cleanup_expired_sessions()'
 );
+
+-- ============================================================================
+-- 14. Candidates — student profile data (synced from sidebar profile popup)
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS candidates (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  student_name  TEXT NOT NULL DEFAULT '',
+  email         TEXT DEFAULT '',
+  phone         TEXT DEFAULT '',
+  address       TEXT DEFAULT '',
+  avatar_url    TEXT DEFAULT '',
+  center        TEXT NOT NULL DEFAULT 'mock_stream',
+  device_id     TEXT DEFAULT '',
+  blocked       BOOLEAN DEFAULT false
+);
+
+-- One row per name+center combo (upsert on save)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_candidates_name_center
+  ON candidates (student_name, center);
+
+CREATE INDEX IF NOT EXISTS idx_candidates_center ON candidates (center);
+
+ALTER TABLE candidates ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "candidates_select" ON candidates
+  FOR SELECT TO anon USING (true);
+
+CREATE POLICY "candidates_insert" ON candidates
+  FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "candidates_update" ON candidates
+  FOR UPDATE TO anon USING (true) WITH CHECK (true);

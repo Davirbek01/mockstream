@@ -4013,6 +4013,10 @@
         <button class="zoom-btn" id="btnZoom" title="Zoom In">
           🔍
         </button>
+
+        <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">
+          ⛶
+        </button>
       </div>
     </div>
   </header>
@@ -4305,6 +4309,9 @@
       <button class="modal-btn secondary" onclick="promptFriendlyLeave(function(){ goBack(); })" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 10px 0; font-size: 13px; border-radius: 10px;">🚪 Leave</button>
       <button class="modal-btn primary" onclick="handleFabFinish()" style="background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 13px; border-radius: 10px;">✓ Finish</button>
     </div>
+    <div style="margin-top: 8px;">
+      <button id="mobFSBtn" onclick="toggleExamFullscreen()" style="width:100%;padding:10px 0;border:1px solid #e2e8f0;background:#f1f5f9;color:#475569;border-radius:10px;font-size:13px;cursor:pointer;">⛶ Fullscreen</button>
+    </div>
   </div>
 
   <script>
@@ -4341,6 +4348,42 @@
       window.__okToLeave = true;
       _navToLanding();
     }
+
+    // ===== FULLSCREEN TOGGLE =====
+    function toggleExamFullscreen() {
+      try {
+        window.top.postMessage('toggleFullscreen', '*');
+      } catch(e) {
+        // Fallback if not in iframe
+        var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (isFS) {
+          if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else {
+          var el = document.documentElement;
+          if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        }
+      }
+    }
+    function _updateFSBtnIcons(isFS) {
+      var pcBtn = document.getElementById('btnFS');
+      var mobBtn = document.getElementById('mobFSBtn');
+      if (pcBtn) pcBtn.textContent = isFS ? '✕' : '⛶';
+      if (mobBtn) mobBtn.textContent = isFS ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() { _updateFSBtnIcons(!!document.fullscreenElement); });
+      document.addEventListener('webkitfullscreenchange', function() { _updateFSBtnIcons(!!document.webkitFullscreenElement); });
+    }
+
     // ===== MOBILE FAB & TOOLS MENU LOGIC =====
     var fabIdleTimer;
     function resetFabIdle() {

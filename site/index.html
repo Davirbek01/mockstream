@@ -2002,6 +2002,261 @@
       cursor: not-allowed;
       transform: none;
     }
+
+    /* ===== SIDEBAR PROFILE ===== */
+    .sidebar-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(124,58,237,0.08) 100%);
+      border-radius: 14px;
+      border: 1px solid rgba(37,99,235,0.12);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .sidebar-profile:hover {
+      background: linear-gradient(135deg, rgba(37,99,235,0.14) 0%, rgba(124,58,237,0.14) 100%);
+      border-color: rgba(37,99,235,0.25);
+    }
+    .sidebar-profile-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .sidebar-profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .sidebar-profile-avatar .avatar-cam {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 16px;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .sidebar-profile-avatar:hover .avatar-cam {
+      opacity: 1;
+    }
+    .sidebar-profile-info { flex: 1; min-width: 0; }
+    .sidebar-profile-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sidebar-profile-name:hover .name-edit-icon {
+      opacity: 1;
+    }
+    .name-edit-icon {
+      font-size: 11px;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+    .sidebar-name-input {
+      font-size: 14px;
+      font-weight: 600;
+      border: 2px solid #3b82f6;
+      border-radius: 6px;
+      padding: 4px 8px;
+      width: 100%;
+      outline: none;
+      background: var(--card-bg, #fff);
+      color: var(--ink, #1e293b);
+    }
+    .sidebar-profile-role {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    /* ===== PROFILE EDIT POPUP ===== */
+    .profile-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .profile-popup-overlay.show { display: flex; }
+    .profile-popup {
+      background: #fff;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: ppSlideIn 0.25s ease;
+    }
+    @keyframes ppSlideIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .pp-header {
+      text-align: center;
+      padding: 24px 24px 0;
+    }
+    .pp-avatar-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      position: relative;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 700;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(37,99,235,0.35);
+    }
+    .pp-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .pp-avatar-cam {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pp-avatar-wrap:hover .pp-avatar-cam { opacity: 1; }
+    .pp-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 4px;
+    }
+    .pp-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .pp-body { padding: 20px 24px; }
+    .pp-field {
+      margin-bottom: 14px;
+    }
+    .pp-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+    .pp-field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #1e293b;
+      background: #f8fafc;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .pp-field input:focus {
+      border-color: #3b82f6;
+      background: #fff;
+    }
+    .pp-field .pp-required { color: #ef4444; }
+    .pp-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin: 18px 0 10px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .pp-footer {
+      display: flex;
+      gap: 10px;
+      padding: 0 24px 24px;
+    }
+    .pp-btn-cancel {
+      flex: 1;
+      padding: 11px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fff;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pp-btn-cancel:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .pp-btn-save {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+    .pp-btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
+    .pp-btn-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    [data-theme="dark"] .profile-popup { background: #1e293b; }
+    [data-theme="dark"] .pp-title { color: #f1f5f9; }
+    [data-theme="dark"] .pp-field input { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+    [data-theme="dark"] .pp-field input:focus { border-color: #3b82f6; background: #1e293b; }
+    [data-theme="dark"] .pp-field label { color: #94a3b8; }
+    [data-theme="dark"] .pp-section-title { color: #64748b; border-color: #334155; }
+    [data-theme="dark"] .pp-btn-cancel { background: #0f172a; border-color: #334155; color: #94a3b8; }
   </style>
 </head>
 
@@ -2020,15 +2275,360 @@
 
   <!-- Sidebar Menu -->
   <nav class="sidebar-menu" id="sidebarMenu">
-    <h3>Menu</h3>
+    <a href="javascript:void(0)" class="sidebar-profile" id="sidebarProfile" onclick="openProfilePopup()">
+      <div class="sidebar-profile-avatar" id="sidebarAvatar" title="Tap to edit profile">
+        <span id="sidebarAvatarInitials">S</span>
+        <span class="avatar-cam">📷</span>
+      </div>
+      <div class="sidebar-profile-info">
+        <div class="sidebar-profile-name" id="sidebarName"><span id="sidebarNameText">Student</span><span class="name-edit-icon">✏️</span></div>
+        <div class="sidebar-profile-role">Mock Stream Student</div>
+      </div>
+    </a>
     <ul>
-      <li><a href="landing.html" target="_self"><span class="menu-icon">🏠</span> Home</a></li>
       <li><a href="Speaking Mocks.html" target="_self"><span class="menu-icon">🎤</span> Speaking Mocks</a></li>
       <li><a href="Writing Mocks.html" target="_self"><span class="menu-icon">✍️</span> Writing Mocks</a></li>
       <li><a href="Speaking IELTS Booking.html" target="_self"><span class="menu-icon">📅</span> IELTS Speaking</a></li>
       <li><a href="Writing IELTS Mock.html" target="_self"><span class="menu-icon">📝</span> IELTS Writing</a></li>
     </ul>
   </nav>
+  <script>
+    (function initSidebarProfile() {
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      if (name) {
+        _updateSidebarNameDisplay(name);
+      }
+      var avatarUrl = localStorage.getItem('ms_avatar_url') || '';
+      if (avatarUrl) _showAvatarImage(avatarUrl);
+      _injectProfilePopup();
+    })();
+
+    function _updateSidebarNameDisplay(name) {
+      var nameTextEl = document.getElementById('sidebarNameText');
+      var initialsEl = document.getElementById('sidebarAvatarInitials');
+      if (nameTextEl) nameTextEl.textContent = name;
+      if (initialsEl && name) {
+        var parts = name.trim().split(/\s+/);
+        var initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]) : parts[0].substring(0, 2);
+        initialsEl.textContent = initials.toUpperCase();
+      }
+    }
+
+    function _injectProfilePopup() {
+      if (document.getElementById('profilePopupOverlay')) return;
+      var div = document.createElement('div');
+      div.innerHTML = '<div class="profile-popup-overlay" id="profilePopupOverlay" onclick="if(event.target===this)closeProfilePopup()">'
+        + '<div class="profile-popup">'
+        + '<div class="pp-header">'
+        + '<div class="pp-avatar-wrap" id="ppAvatar" onclick="pickProfileAvatar()" title="Tap to change photo">'
+        + '<span id="ppAvatarInitials">S</span>'
+        + '<span class="pp-avatar-cam">📷 Change</span>'
+        + '</div>'
+        + '<div class="pp-title">Edit Profile</div>'
+        + '<div class="pp-subtitle">Tap photo to change it</div>'
+        + '</div>'
+        + '<div class="pp-body">'
+        + '<div class="pp-field"><label>Full Name <span class="pp-required">*</span></label><input type="text" id="ppName" maxlength="60" placeholder="Surname Firstname" autocomplete="off"></div>'
+        + '<div class="pp-section-title">Contact Details (optional)</div>'
+        + '<div class="pp-field"><label>📧 Email</label><input type="email" id="ppEmail" maxlength="100" placeholder="your@email.com" autocomplete="off"></div>'
+        + '<div class="pp-field"><label>📱 Phone</label><input type="tel" id="ppPhone" maxlength="20" placeholder="+998 90 123 45 67" autocomplete="off"></div>'
+        + '<div class="pp-field"><label>📍 Address</label><input type="text" id="ppAddress" maxlength="150" placeholder="City, Country" autocomplete="off"></div>'
+        + '</div>'
+        + '<div class="pp-footer">'
+        + '<button class="pp-btn-cancel" onclick="closeProfilePopup()">Cancel</button>'
+        + '<button class="pp-btn-save" id="ppSaveBtn" onclick="saveProfilePopup()">Save</button>'
+        + '</div>'
+        + '</div></div>';
+      document.body.appendChild(div.firstChild);
+    }
+
+    function openProfilePopup() {
+      var overlay = document.getElementById('profilePopupOverlay');
+      if (!overlay) { _injectProfilePopup(); overlay = document.getElementById('profilePopupOverlay'); }
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      var profile = JSON.parse(localStorage.getItem('ms_candidate_profile') || '{}');
+      document.getElementById('ppName').value = name;
+      document.getElementById('ppEmail').value = profile.email || '';
+      document.getElementById('ppPhone').value = profile.phone || '';
+      document.getElementById('ppAddress').value = profile.address || '';
+      var ppAvatar = document.getElementById('ppAvatar');
+      var ppInitials = document.getElementById('ppAvatarInitials');
+      var existingImg = ppAvatar.querySelector('img');
+      if (existingImg) existingImg.remove();
+      var avatarUrl = localStorage.getItem('ms_avatar_url') || '';
+      if (avatarUrl) {
+        var img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = 'Avatar';
+        img.onerror = function () { img.remove(); if (ppInitials) ppInitials.style.display = ''; };
+        if (ppInitials) ppInitials.style.display = 'none';
+        ppAvatar.insertBefore(img, ppAvatar.firstChild);
+      } else if (name && ppInitials) {
+        var parts = name.trim().split(/\s+/);
+        ppInitials.textContent = (parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : name.substring(0, 2)).toUpperCase();
+        ppInitials.style.display = '';
+      }
+      overlay.classList.add('show');
+    }
+
+    function closeProfilePopup() {
+      var overlay = document.getElementById('profilePopupOverlay');
+      if (overlay) overlay.classList.remove('show');
+    }
+
+    function pickProfileAvatar() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5 MB.'); return; }
+        _uploadSidebarAvatar(file);
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var ppAvatar = document.getElementById('ppAvatar');
+          var ppInitials = document.getElementById('ppAvatarInitials');
+          var existing = ppAvatar.querySelector('img');
+          if (existing) existing.remove();
+          var img = document.createElement('img');
+          img.src = e.target.result;
+          if (ppInitials) ppInitials.style.display = 'none';
+          ppAvatar.insertBefore(img, ppAvatar.firstChild);
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+
+    async function saveProfilePopup() {
+      var nameInput = document.getElementById('ppName');
+      var newName = (nameInput.value || '').trim();
+      if (!newName || newName.length < 2) {
+        nameInput.style.borderColor = '#ef4444';
+        nameInput.focus();
+        return;
+      }
+      nameInput.style.borderColor = '';
+      var btn = document.getElementById('ppSaveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      var oldName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+
+      var profile = JSON.parse(localStorage.getItem('ms_candidate_profile') || '{}');
+      profile.email = (document.getElementById('ppEmail').value || '').trim();
+      profile.phone = (document.getElementById('ppPhone').value || '').trim();
+      profile.address = (document.getElementById('ppAddress').value || '').trim();
+      localStorage.setItem('ms_candidate_profile', JSON.stringify(profile));
+
+      sessionStorage.setItem('CANDIDATE_FULL_NAME', newName);
+      localStorage.setItem('ms_candidate_name', newName);
+      var parts = newName.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        localStorage.setItem('CANDIDATE_SURNAME', parts[0]);
+        localStorage.setItem('CANDIDATE_FIRSTNAME', parts.slice(1).join(' '));
+      }
+      _updateSidebarNameDisplay(newName);
+
+      if (oldName && oldName !== newName) {
+        await _mergeSupabaseResults(oldName, newName);
+      }
+
+      // Upsert candidate to Supabase
+      await _upsertCandidate(newName, profile);
+
+      // Check if this user is blocked
+      var isBlocked = await _checkBlockedStatus(newName);
+      if (isBlocked) return;
+
+      btn.textContent = 'Saved!';
+      setTimeout(function () {
+        btn.disabled = false;
+        btn.textContent = 'Save';
+        closeProfilePopup();
+      }, 600);
+    }
+
+    async function _mergeSupabaseResults(oldName, newName) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(oldName), {
+          method: 'PATCH',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ student_name: newName })
+        });
+        if (resp.ok) {
+          console.log('[Profile] Merged results: "' + oldName + '" → "' + newName + '"');
+        } else {
+          console.warn('[Profile] Merge failed:', resp.status);
+        }
+      } catch (e) {
+        console.warn('[Profile] Merge error:', e);
+      }
+    }
+
+    async function _upsertCandidate(name, profile) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var row = {
+        student_name: name,
+        email: profile.email || '',
+        phone: profile.phone || '',
+        address: profile.address || '',
+        avatar_url: localStorage.getItem('ms_avatar_url') || '',
+        center: center,
+        updated_at: new Date().toISOString()
+      };
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates,return=minimal'
+          },
+          body: JSON.stringify(row)
+        });
+        if (resp.ok) {
+          console.log('[Profile] Candidate upserted:', name, center);
+        } else {
+          console.warn('[Profile] Candidate upsert failed:', resp.status);
+        }
+      } catch (e) {
+        console.warn('[Profile] Candidate upsert error:', e);
+      }
+    }
+
+    // Check if current user is blocked — reusable
+    async function _checkBlockedStatus(name) {
+      if (!name) return false;
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(name) + '&center=eq.' + encodeURIComponent(center) + '&select=blocked', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) return false;
+        var rows = await resp.json();
+        if (rows.length && rows[0].blocked === true) {
+          _enforceBlock(name);
+          return true;
+        }
+      } catch (e) {
+        console.warn('[BlockCheck] Error:', e);
+      }
+      return false;
+    }
+
+    function _enforceBlock(name) {
+      sessionStorage.removeItem('vipSessionAccess');
+      sessionStorage.removeItem('vipPremiumAi');
+      _showBlockedOverlay(name);
+      window._userIsBlocked = true;
+    }
+
+    // Run on page load
+    (async function() {
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      if (name) await _checkBlockedStatus(name);
+    })();
+
+    function _showBlockedOverlay(name) {
+      if (document.getElementById('blockedOverlay')) return;
+      document.body.style.overflow = 'hidden';
+      var d = document.createElement('div');
+      d.id = 'blockedOverlay';
+      d.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;';
+      d.innerHTML = '<div style="background:#fff;border-radius:16px;padding:40px 32px;max-width:380px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);">'
+        + '<div style="font-size:48px;margin-bottom:16px;">🚫</div>'
+        + '<div style="font-size:20px;font-weight:700;color:#e53935;margin-bottom:8px;">Access Blocked</div>'
+        + '<div style="font-size:14px;color:#666;line-height:1.6;">Your account <strong>' + name.replace(/</g, '&lt;') + '</strong> has been blocked by the administrator.<br><br>Please contact your center for assistance.</div>'
+        + '</div>';
+      d.addEventListener('click', function(e) { e.stopPropagation(); });
+      d.addEventListener('keydown', function(e) { e.stopPropagation(); e.preventDefault(); });
+      document.body.appendChild(d);
+      d.setAttribute('tabindex', '0');
+      d.focus();
+    }
+
+    function _showAvatarImage(url) {
+      var el = document.getElementById('sidebarAvatar');
+      if (!el) return;
+      var initialsEl = document.getElementById('sidebarAvatarInitials');
+      if (initialsEl) initialsEl.style.display = 'none';
+      var existing = el.querySelector('img');
+      if (existing) existing.remove();
+      var img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Avatar';
+      img.onerror = function () {
+        img.remove();
+        if (initialsEl) initialsEl.style.display = '';
+        localStorage.removeItem('ms_avatar_url');
+      };
+      el.insertBefore(img, el.firstChild);
+    }
+
+    function pickSidebarAvatar() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5 MB.'); return; }
+        _uploadSidebarAvatar(file);
+      };
+      input.click();
+    }
+
+    async function _uploadSidebarAvatar(file) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      // Delete old avatar from storage to save space
+      var oldUrl = localStorage.getItem('ms_avatar_url');
+      if (oldUrl && oldUrl.indexOf(SB_URL + '/storage/v1/object/public/chat-attachments/') === 0) {
+        var oldPath = oldUrl.replace(SB_URL + '/storage/v1/object/public/chat-attachments/', '');
+        try {
+          await fetch(SB_URL + '/storage/v1/object/chat-attachments', {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prefixes: [oldPath] })
+          });
+        } catch (e) { /* ignore delete errors */ }
+      }
+      var ext = (file.name || '').split('.').pop() || 'jpg';
+      var path = 'avatars/' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+      try {
+        var resp = await fetch(SB_URL + '/storage/v1/object/chat-attachments/' + path, {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': file.type || 'image/jpeg',
+            'x-upsert': 'true'
+          },
+          body: file
+        });
+        if (!resp.ok) throw new Error('Upload failed');
+        var url = SB_URL + '/storage/v1/object/public/chat-attachments/' + path;
+        localStorage.setItem('ms_avatar_url', url);
+        _showAvatarImage(url);
+      } catch (e) {
+        alert('Failed to upload avatar. Please try again.');
+      }
+    }
+  </script>
 
   <!-- Welcome Screen (shown initially) -->
   <div id="welcomeScreen">
@@ -3666,6 +4266,9 @@
       const fullName = surname + ' ' + firstname;
       sessionStorage.setItem('CANDIDATE_FULL_NAME', fullName);
 
+      // Check if this user is blocked (async, will show overlay if blocked)
+      _checkBlockedStatus(fullName);
+
       // Cache for future visits
       localStorage.setItem('CANDIDATE_SURNAME', surname);
       localStorage.setItem('CANDIDATE_FIRSTNAME', firstname);
@@ -3734,6 +4337,8 @@
         const tryShowApp = () => {
           // Wait for all four: iframe loaded, mocks preloaded, progress done, AND name submitted
           if (iframeReady && mocksReady && progressDone && nameSubmitted) {
+            // If user is blocked, don't show the app
+            if (window._userIsBlocked) return;
             // Small delay for smooth transition
             setTimeout(() => {
               welcomeScreen.classList.add('hidden');
@@ -4195,6 +4800,57 @@
         });
       });
     }
+  </script>
+
+  <!-- Mobile Back Button Support -->
+  <script>
+  (function() {
+    var _overlayRegistry = [
+      function() { var el = document.getElementById('profilePopupOverlay'); return el && el.classList.contains('show') ? closeProfilePopup : null; },
+      function() { var el = document.getElementById('downloadModal'); return el && el.classList.contains('show') ? function() { closeDownloadModal(); } : null; },
+      function() { var el = document.getElementById('adminPanelModal'); return el && el.classList.contains('show') ? closeAdminPanel : null; },
+      function() { var el = document.getElementById('adminPasscodeModal'); return el && el.classList.contains('show') ? closeAdminModal : null; },
+      function() { var el = document.getElementById('sidebarMenu'); return el && el.classList.contains('active') ? toggleSidebar : null; },
+    ];
+
+    function _closeTopmostOverlay() {
+      for (var i = 0; i < _overlayRegistry.length; i++) {
+        var closeFn = _overlayRegistry[i]();
+        if (closeFn) {
+          try { closeFn(); } catch(e) {}
+          return true;
+        }
+      }
+      return false;
+    }
+
+    var _historyDepth = 0;
+    function _pushOverlayState() {
+      _historyDepth++;
+      history.pushState({ overlayDepth: _historyDepth }, '');
+    }
+
+    window.addEventListener('popstate', function(e) {
+      if (_closeTopmostOverlay()) {
+        if (_historyDepth > 0) _historyDepth--;
+      }
+    });
+
+    var _fnNames = ['toggleSidebar', 'openProfilePopup', 'openAdminPasscodeModal', 'openAdminPanel', 'openDownloadModal'];
+    _fnNames.forEach(function(name) {
+      if (typeof window[name] === 'function') {
+        var orig = window[name];
+        window[name] = function() {
+          if (name === 'toggleSidebar') {
+            var sb = document.getElementById('sidebarMenu');
+            if (sb && sb.classList.contains('active')) return orig.apply(this, arguments);
+          }
+          _pushOverlayState();
+          return orig.apply(this, arguments);
+        };
+      }
+    });
+  })();
   </script>
 </body>
 

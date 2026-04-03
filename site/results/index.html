@@ -1750,11 +1750,99 @@
           <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Customize how Mock Stream AI responds to students in the Help Center chat.</p>
           <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">🔑 The Gemini API key is loaded securely from your backend proxy — no need to enter it here.</p>
           <textarea id="settingsAiPrompt" rows="8" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;resize:vertical;font-family:inherit;line-height:1.5;box-sizing:border-box;" placeholder="You are Mock Stream AI..."></textarea>
+
+          <!-- Prompt File Attachments (Image, PDF, Audio — multiple allowed) -->
+          <div style="margin-top:10px;margin-bottom:6px;">
+            <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">📎 Attach images, PDFs, or voice/audio files as extra context for Gemini (FAQ, rules, diagrams, course info, spoken instructions, etc.)</label>
+            <div id="promptFilesList" style="margin-bottom:8px;"></div>
+            <button onclick="pickPromptFile()" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">📎 Choose Image, PDF, or Audio</button>
+            <button id="promptVoiceRecordBtn" onclick="togglePromptVoiceRecord()" title="Click to record voice prompt" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;margin-left:4px;">🎤 Record Voice</button>
+            <span id="promptVoiceTimer" style="font-size:11px;color:#ef4444;font-weight:600;margin-left:6px;display:none;">⏺ 0:00</span>
+            <span style="font-size:11px;color:var(--muted);margin-left:8px;">Max 20 MB each — Gemini reads/listens to all with every conversation.</span>
+          </div>
+
           <div style="display:flex;gap:8px;margin-top:8px;">
             <button onclick="saveAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Prompt</button>
             <button onclick="resetAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Default</button>
           </div>
           <div id="aiPromptStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
+        <!-- Voice & Attachments Settings -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🎙️ Voice & Attachments</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Help Center chat. Changes apply immediately.</p>
+
+          <!-- Toggles -->
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsVoiceEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsImageEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsPdfEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
+            </label>
+          </div>
+
+          <!-- Size limits -->
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <div style="flex:1;min-width:100px;">
+              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max image size (MB)</label>
+              <input type="number" id="settingsMaxImageMb" value="50" min="1" max="100" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+            </div>
+            <div style="flex:1;min-width:100px;">
+              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max PDF size (MB)</label>
+              <input type="number" id="settingsMaxPdfMb" value="100" min="1" max="200" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+            </div>
+            <div style="flex:1;min-width:100px;">
+              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">AI inline limit (MB)</label>
+              <input type="number" id="settingsMaxAiInlineMb" value="8" min="1" max="20" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+            </div>
+            <div style="flex:1;min-width:100px;">
+              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max voice duration (sec)</label>
+              <input type="number" id="settingsMaxVoiceSec" value="120" min="5" max="600" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Files above the AI inline limit are still uploaded but Gemini receives metadata only (saves tokens). Below that limit, Gemini reads the full content. Voice recording auto-stops at the configured duration.</p>
+
+          <div style="display:flex;gap:8px;">
+            <button onclick="saveVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+            <button onclick="resetVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+          </div>
+          <div id="voiceAttachStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
+        <!-- Test AI Section -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🧪 Test AI</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Send text, voice, images, or PDFs to Gemini using your current system prompt. Test before going live.</p>
+
+          <!-- Test chat output -->
+          <div id="testAiChat" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:80px;max-height:300px;overflow-y:auto;margin-bottom:10px;font-size:13px;line-height:1.5;color:var(--ink);">
+            <div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>
+          </div>
+
+          <!-- Attachment preview -->
+          <div id="testAiAttachPreview" style="display:none;margin-bottom:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);align-items:center;">
+            <span id="testAiAttachName"></span>
+            <button onclick="clearTestAiAttach()" style="margin-left:8px;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;font-weight:700;">✕</button>
+          </div>
+
+          <!-- Input bar -->
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button onclick="testAiPickFile()" title="Attach image or PDF" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">📎</button>
+            <input type="text" id="testAiInput" placeholder="Type a test message..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendTestAiMsg();}">
+            <button id="testAiVoiceBtn" onmousedown="startTestAiVoice()" onmouseup="stopTestAiVoice()" ontouchstart="startTestAiVoice()" ontouchend="stopTestAiVoice()" title="Hold to record voice" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">🎤</button>
+            <button onclick="sendTestAiMsg()" title="Send" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:linear-gradient(135deg,#059669,#047857);color:white;transition:all .2s;">➤</button>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px;">
+            <button onclick="clearTestAiChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🗑️ Clear Chat</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2962,7 +3050,9 @@
         var toggleLabel = item.active ? '✓ Active' : '✗ Inactive';
         var centerLabel = item.center ? (CENTER_NAMES[item.center] || item.center) : 'All centers';
         var devCount = deviceCountMap[item.email] || 0;
-        var devClass = devCount >= 5 ? 'color:#dc2626;font-weight:800;' : devCount >= 3 ? 'color:#d97706;font-weight:700;' : 'color:var(--ink-secondary);';
+        var isAdminRow = (item.role === 'admin');
+        var devClass = isAdminRow ? 'color:var(--ink-secondary);' : (devCount >= 5 ? 'color:#dc2626;font-weight:800;' : devCount >= 3 ? 'color:#d97706;font-weight:700;' : 'color:var(--ink-secondary);');
+        var devLabel = isAdminRow ? (devCount + '/∞') : (devCount + '/5');
         var escapedEmail = escapeHtml(item.email).replace(/'/g, "\\'");
         var expiryBadge = '';
         if ((item.role === 'user' || item.role === 'student') && item.created_at) {
@@ -3006,7 +3096,7 @@
           + '<span class="premium-item-role ' + roleClass + '">' + roleLabel + '</span>'
           + '<span class="premium-item-center">' + escapeHtml(centerLabel) + '</span>'
           + expiryBadge
-          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devCount + '/5</span>'
+          + '<span style="font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);cursor:pointer;' + devClass + '" onclick="showDeviceDetails(\'' + escapedEmail + '\')" title="' + devCount + ' device(s) — click to view">📱 ' + devLabel + '</span>'
           + '<button class="premium-item-toggle ' + toggleClass + '" onclick="togglePremium(\'' + item.id + '\',' + !item.active + ')">' + toggleLabel + '</button>'
           + '<button class="premium-item-delete" onclick="deletePremium(\'' + item.id + '\',\'' + escapedEmail + '\')" title="Delete">🗑</button>'
           + '</div>'
@@ -4039,13 +4129,39 @@
         } else {
           document.getElementById('settingsAiPrompt').value = getDefaultAiPrompt();
         }
+
+        // Voice & Attachment settings
+        document.getElementById('settingsVoiceEnabled').checked = map.hc_voice_enabled !== 'false';
+        document.getElementById('settingsImageEnabled').checked = map.hc_image_enabled !== 'false';
+        document.getElementById('settingsPdfEnabled').checked = map.hc_pdf_enabled !== 'false';
+        document.getElementById('settingsMaxImageMb').value = map.hc_max_image_mb || '50';
+        document.getElementById('settingsMaxPdfMb').value = map.hc_max_pdf_mb || '100';
+        document.getElementById('settingsMaxAiInlineMb').value = map.hc_max_ai_inline_mb || '8';
+        document.getElementById('settingsMaxVoiceSec').value = map.hc_max_voice_sec || '120';
+
+        // Prompt files (multi-file: image, PDF, audio)
+        if (map.ai_prompt_files) {
+          try { _promptFiles = JSON.parse(map.ai_prompt_files); } catch(e) { _promptFiles = []; }
+          renderPromptFilesList();
+        } else if (map.ai_prompt_file_url && map.ai_prompt_file_name) {
+          // Legacy single-file migration
+          _promptFiles = [{ url: map.ai_prompt_file_url, name: map.ai_prompt_file_name, mime: map.ai_prompt_file_mime || 'application/pdf' }];
+          renderPromptFilesList();
+        } else if (map.ai_prompt_pdf_url && map.ai_prompt_pdf_name) {
+          // Legacy PDF-only migration
+          _promptFiles = [{ url: map.ai_prompt_pdf_url, name: map.ai_prompt_pdf_name, mime: 'application/pdf' }];
+          renderPromptFilesList();
+        } else {
+          _promptFiles = [];
+          renderPromptFilesList();
+        }
       } catch(e) {
         console.log('[Settings] Load failed:', e);
       }
     }
 
     function getDefaultAiPrompt() {
-      return 'You are Mock Stream AI, a friendly and professional assistant for Mock Stream — an online exam preparation platform for CEFR and IELTS exams. You help users with questions about the platform, premium access, partnerships, technical issues, and exam preparation tips. Always respond in the same language the user writes in. Be concise, helpful, and encouraging. If you don\'t know something specific about the platform, suggest the user contact the admin team for detailed help.';
+      return 'You are Mock Stream AI, a friendly and professional assistant for Mock Stream — an online exam preparation platform for CEFR and IELTS exams. You help users with questions about the platform, premium access, partnerships, technical issues, and exam preparation tips. Users can send you voice messages, images, and PDF files — you can listen to audio and analyze attachments. Always respond in the same language the user writes or speaks in. Be concise, helpful, and encouraging. If you don\'t know something specific about the platform, suggest the user contact the admin team for detailed help.';
     }
 
     async function upsertSetting(key, value) {
@@ -4089,18 +4205,512 @@
       }
       statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
       try {
+        // Upload any pending files
+        var hasPending = false;
+        for (var i = 0; i < _promptFiles.length; i++) {
+          if (_promptFiles[i].pendingFile) {
+            hasPending = true;
+            statusEl.innerHTML = '<span style="color:var(--muted);">Uploading file ' + (i + 1) + '...</span>';
+            var uploadedUrl = await uploadPromptFile(_promptFiles[i].pendingFile);
+            _promptFiles[i].url = uploadedUrl;
+            delete _promptFiles[i].pendingFile;
+          }
+        }
+        renderPromptFilesList();
+
+        // Build clean array for storage (no pendingFile)
+        var stored = _promptFiles.map(function (f) { return { url: f.url, name: f.name, mime: f.mime }; });
+        var filesJson = JSON.stringify(stored);
+
         await upsertSetting('ai_system_prompt', prompt);
-        statusEl.innerHTML = '<span style="color:#059669;">✅ AI prompt saved successfully</span>';
-        // Also update localStorage cache
+        await upsertSetting('ai_prompt_files', filesJson);
+
+        // Update localStorage cache
         localStorage.setItem('ms_ai_prompt', prompt);
+        localStorage.setItem('ms_ai_prompt_files', filesJson);
+
+        var types = [];
+        _promptFiles.forEach(function (f) {
+          var t = (f.mime && f.mime.indexOf('image') === 0) ? 'image' : (f.mime && f.mime.indexOf('audio') === 0) ? 'audio' : 'PDF';
+          if (types.indexOf(t) === -1) types.push(t);
+        });
+        var fileLabel = types.length > 0 ? (' (with ' + types.join(' + ') + ')') : '';
+        statusEl.innerHTML = '<span style="color:#059669;">✅ AI prompt saved' + fileLabel + '</span>';
       } catch(e) {
-        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save: ' + (e.message || 'Unknown error') + '</span>';
       }
     }
 
     function resetAiPrompt() {
       document.getElementById('settingsAiPrompt').value = getDefaultAiPrompt();
       document.getElementById('aiPromptStatus').innerHTML = '<span style="color:var(--muted);">Default prompt restored. Click Save to apply.</span>';
+    }
+
+    // ====================================================================
+    // PROMPT FILES — attach images, PDFs, or audio as extra Gemini context
+    // ====================================================================
+    var _promptFiles = []; // [ { url, name, mime, pendingFile? } ]
+
+    function _promptFileIcon(mime) {
+      if (mime && mime.indexOf('image') === 0) return '🖼️';
+      if (mime && mime.indexOf('audio') === 0) return '🎤';
+      return '📄';
+    }
+
+    function renderPromptFilesList() {
+      var container = document.getElementById('promptFilesList');
+      if (!container) return;
+      if (_promptFiles.length === 0) { container.innerHTML = ''; return; }
+      var html = '';
+      _promptFiles.forEach(function (f, idx) {
+        var icon = _promptFileIcon(f.mime);
+        var label = f.pendingFile ? (f.name + ' <span style="color:#d97706;">(unsaved)</span>') : f.name;
+        html += '<div style="display:flex;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);margin-bottom:4px;align-items:center;gap:8px;">';
+        html += '<span>' + icon + '</span>';
+        html += '<span style="flex:1;">' + label + '</span>';
+        html += '<button onclick="removePromptFile(' + idx + ')" style="background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;font-weight:700;" title="Remove file">✕</button>';
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    function pickPromptFile() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*,application/pdf,audio/*';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        var mime = (file.type || '').toLowerCase();
+        var isImage = mime.indexOf('image/') === 0;
+        var isPdf = mime === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+        var isAudio = mime.indexOf('audio/') === 0 || /\.(mp3|wav|ogg|m4a|webm|aac|flac)$/i.test(file.name || '');
+        if (!isImage && !isPdf && !isAudio) { alert('Only images, PDF, and audio files are allowed.'); return; }
+        if (file.size > 20 * 1024 * 1024) {
+          alert('File is too large (' + (file.size / (1024 * 1024)).toFixed(1) + ' MB). Max 20 MB.');
+          return;
+        }
+        _promptFiles.push({ url: null, name: file.name, mime: file.type, pendingFile: file });
+        renderPromptFilesList();
+        var icon = _promptFileIcon(file.type);
+        document.getElementById('aiPromptStatus').innerHTML = '<span style="color:#d97706;">' + icon + ' File added. Click <b>Save Prompt</b> to upload and apply.</span>';
+      };
+      input.click();
+    }
+
+    function removePromptFile(idx) {
+      _promptFiles.splice(idx, 1);
+      renderPromptFilesList();
+      document.getElementById('aiPromptStatus').innerHTML = '<span style="color:#d97706;">File removed. Click <b>Save Prompt</b> to apply.</span>';
+    }
+
+    async function uploadPromptFile(file) {
+      var prefix = (file.type && file.type.indexOf('image') === 0) ? 'prompt-img' : (file.type && file.type.indexOf('audio') === 0) ? 'prompt-audio' : 'prompt-pdf';
+      var path = prefix + '/' + Date.now() + '_' + (file.name || 'file').replace(/[^a-zA-Z0-9._-]/g, '_');
+      var resp = await fetch(SUPABASE_URL + '/storage/v1/object/chat-attachments/' + path, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': file.type || 'application/octet-stream',
+          'x-upsert': 'true'
+        },
+        body: file
+      });
+      if (!resp.ok) throw new Error('Upload failed: ' + resp.status);
+      return SUPABASE_URL + '/storage/v1/object/public/chat-attachments/' + path;
+    }
+
+    // ====================================================================
+    // PROMPT VOICE RECORDING — record mic audio as system prompt context
+    // ====================================================================
+    var _promptVoiceRecorder = null;
+    var _promptVoiceStream = null;
+    var _promptVoiceChunks = [];
+    var _promptVoiceIsRecording = false;
+    var _promptVoiceTimerInterval = null;
+    var _promptVoiceStartTime = 0;
+
+    function togglePromptVoiceRecord() {
+      if (_promptVoiceIsRecording) {
+        stopPromptVoiceRecord();
+      } else {
+        startPromptVoiceRecord();
+      }
+    }
+
+    function startPromptVoiceRecord() {
+      if (_promptVoiceIsRecording) return;
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+        _promptVoiceStream = stream;
+        _promptVoiceChunks = [];
+        var mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+        var mime = '';
+        for (var i = 0; i < mimeTypes.length; i++) {
+          if (MediaRecorder.isTypeSupported(mimeTypes[i])) { mime = mimeTypes[i]; break; }
+        }
+        _promptVoiceRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+        _promptVoiceRecorder.ondataavailable = function (e) { if (e.data.size > 0) _promptVoiceChunks.push(e.data); };
+        _promptVoiceRecorder.onstop = function () {
+          stream.getTracks().forEach(function (t) { t.stop(); });
+          _promptVoiceIsRecording = false;
+          _updatePromptVoiceUI(false);
+          if (_promptVoiceChunks.length > 0) {
+            var recMime = _promptVoiceRecorder.mimeType || 'audio/webm';
+            var ext = recMime.indexOf('ogg') !== -1 ? '.ogg' : recMime.indexOf('mp4') !== -1 ? '.m4a' : '.webm';
+            var blob = new Blob(_promptVoiceChunks, { type: recMime });
+            if (blob.size > 20 * 1024 * 1024) {
+              alert('Recording is too large (' + (blob.size / (1024 * 1024)).toFixed(1) + ' MB). Max 20 MB.');
+              return;
+            }
+            var file = new File([blob], 'voice-prompt' + ext, { type: recMime });
+            _promptFiles.push({ url: null, name: file.name, mime: file.type, pendingFile: file });
+            renderPromptFilesList();
+            var dur = ((Date.now() - _promptVoiceStartTime) / 1000).toFixed(0);
+            document.getElementById('aiPromptStatus').innerHTML = '<span style="color:#d97706;">🎤 Voice recorded (' + dur + 's). Click <b>Save Prompt</b> to upload and apply.</span>';
+          }
+        };
+        _promptVoiceRecorder.start();
+        _promptVoiceIsRecording = true;
+        _promptVoiceStartTime = Date.now();
+        _updatePromptVoiceUI(true);
+      }).catch(function () {
+        alert('Microphone access denied.');
+      });
+    }
+
+    function stopPromptVoiceRecord() {
+      if (!_promptVoiceIsRecording) return;
+      if (_promptVoiceRecorder && _promptVoiceRecorder.state !== 'inactive') _promptVoiceRecorder.stop();
+    }
+
+    function _updatePromptVoiceUI(recording) {
+      var btn = document.getElementById('promptVoiceRecordBtn');
+      var timer = document.getElementById('promptVoiceTimer');
+      if (recording) {
+        if (btn) { btn.style.background = '#ef4444'; btn.style.color = '#fff'; btn.textContent = '⏹ Stop Recording'; }
+        if (timer) timer.style.display = 'inline';
+        _promptVoiceTimerInterval = setInterval(function () {
+          var sec = Math.floor((Date.now() - _promptVoiceStartTime) / 1000);
+          var m = Math.floor(sec / 60);
+          var s = sec % 60;
+          if (timer) timer.textContent = '⏺ ' + m + ':' + (s < 10 ? '0' : '') + s;
+        }, 500);
+      } else {
+        if (btn) { btn.style.background = ''; btn.style.color = ''; btn.textContent = '🎤 Record Voice'; }
+        if (timer) timer.style.display = 'none';
+        if (_promptVoiceTimerInterval) { clearInterval(_promptVoiceTimerInterval); _promptVoiceTimerInterval = null; }
+      }
+    }
+
+    async function saveVoiceAttachSettings() {
+      var statusEl = document.getElementById('voiceAttachStatus');
+      statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var voiceEnabled = document.getElementById('settingsVoiceEnabled').checked;
+        var imageEnabled = document.getElementById('settingsImageEnabled').checked;
+        var pdfEnabled = document.getElementById('settingsPdfEnabled').checked;
+        var maxImageMb = parseInt(document.getElementById('settingsMaxImageMb').value) || 50;
+        var maxPdfMb = parseInt(document.getElementById('settingsMaxPdfMb').value) || 100;
+        var maxAiInlineMb = parseInt(document.getElementById('settingsMaxAiInlineMb').value) || 8;
+        var maxVoiceSec = parseInt(document.getElementById('settingsMaxVoiceSec').value) || 120;
+
+        await upsertSetting('hc_voice_enabled', String(voiceEnabled));
+        await upsertSetting('hc_image_enabled', String(imageEnabled));
+        await upsertSetting('hc_pdf_enabled', String(pdfEnabled));
+        await upsertSetting('hc_max_image_mb', String(maxImageMb));
+        await upsertSetting('hc_max_pdf_mb', String(maxPdfMb));
+        await upsertSetting('hc_max_ai_inline_mb', String(maxAiInlineMb));
+        await upsertSetting('hc_max_voice_sec', String(maxVoiceSec));
+
+        // Update localStorage cache for chat clients
+        localStorage.setItem('ms_hc_voice_enabled', String(voiceEnabled));
+        localStorage.setItem('ms_hc_image_enabled', String(imageEnabled));
+        localStorage.setItem('ms_hc_pdf_enabled', String(pdfEnabled));
+        localStorage.setItem('ms_hc_max_image_mb', String(maxImageMb));
+        localStorage.setItem('ms_hc_max_pdf_mb', String(maxPdfMb));
+        localStorage.setItem('ms_hc_max_ai_inline_mb', String(maxAiInlineMb));
+        localStorage.setItem('ms_hc_max_voice_sec', String(maxVoiceSec));
+
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Voice & attachment settings saved</span>';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save settings</span>';
+      }
+    }
+
+    function resetVoiceAttachSettings() {
+      document.getElementById('settingsVoiceEnabled').checked = true;
+      document.getElementById('settingsImageEnabled').checked = true;
+      document.getElementById('settingsPdfEnabled').checked = true;
+      document.getElementById('settingsMaxImageMb').value = '50';
+      document.getElementById('settingsMaxPdfMb').value = '100';
+      document.getElementById('settingsMaxAiInlineMb').value = '8';
+      document.getElementById('settingsMaxVoiceSec').value = '120';
+      document.getElementById('voiceAttachStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
+    }
+
+    // ====================================================================
+    // TEST AI — send text/voice/image/pdf to Gemini from settings
+    // ====================================================================
+    var _testAiKey = null;
+    var _testAiHistory = [];
+    var _testAiAttachFile = null;
+    var _testAiAttachType = null; // 'image' or 'pdf'
+    var _testAiVoiceRecorder = null;
+    var _testAiVoiceChunks = [];
+    var _testAiVoiceStream = null;
+    var _testAiIsRecording = false;
+
+    function _testAiBlobToBase64(blob) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          var result = reader.result;
+          resolve(result.substring(result.indexOf(',') + 1));
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    function appendTestAiMsg(role, html) {
+      var chat = document.getElementById('testAiChat');
+      if (!chat) return;
+      // Clear placeholder
+      if (_testAiHistory.length === 0) chat.innerHTML = '';
+      var color = role === 'user' ? '#059669' : '#2563eb';
+      var label = role === 'user' ? '🧑 You' : '🤖 AI';
+      var align = role === 'user' ? 'right' : 'left';
+      var bg = role === 'user' ? 'rgba(5,150,105,.08)' : 'rgba(37,99,235,.08)';
+      var div = document.createElement('div');
+      div.style.cssText = 'margin-bottom:8px;text-align:' + align;
+      div.innerHTML = '<div style="display:inline-block;max-width:90%;text-align:left;background:' + bg + ';border-radius:12px;padding:8px 12px;">' +
+        '<div style="font-size:11px;font-weight:700;color:' + color + ';margin-bottom:2px;">' + label + '</div>' +
+        '<div style="font-size:13px;color:var(--ink);line-height:1.45;white-space:pre-wrap;word-break:break-word;">' + html + '</div>' +
+        '</div>';
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      _testAiHistory.push({ role: role, html: html });
+    }
+
+    function clearTestAiChat() {
+      _testAiHistory = [];
+      var chat = document.getElementById('testAiChat');
+      if (chat) chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>';
+    }
+
+    // File attachment
+    function testAiPickFile() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*,application/pdf';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        var mime = (file.type || '').toLowerCase();
+        var isImage = mime.indexOf('image/') === 0;
+        var isPdf = mime === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+        if (!isImage && !isPdf) { alert('Only images and PDF files are allowed.'); return; }
+        _testAiAttachFile = file;
+        _testAiAttachType = isImage ? 'image' : 'pdf';
+        var prev = document.getElementById('testAiAttachPreview');
+        var nameEl = document.getElementById('testAiAttachName');
+        if (prev && nameEl) {
+          nameEl.textContent = (_testAiAttachType === 'image' ? '🖼️ ' : '📄 ') + file.name + ' (' + _formatTestSize(file.size) + ')';
+          prev.style.display = 'flex';
+        }
+      };
+      input.click();
+    }
+
+    function clearTestAiAttach() {
+      _testAiAttachFile = null;
+      _testAiAttachType = null;
+      var prev = document.getElementById('testAiAttachPreview');
+      if (prev) prev.style.display = 'none';
+    }
+
+    function _formatTestSize(bytes) {
+      if (!bytes || bytes < 1024) return (bytes || 0) + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    // Voice recording
+    function startTestAiVoice() {
+      if (_testAiIsRecording) return;
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+        _testAiVoiceStream = stream;
+        _testAiVoiceChunks = [];
+        var mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+        var mime = '';
+        for (var i = 0; i < mimeTypes.length; i++) {
+          if (MediaRecorder.isTypeSupported(mimeTypes[i])) { mime = mimeTypes[i]; break; }
+        }
+        _testAiVoiceRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+        _testAiVoiceRecorder.ondataavailable = function (e) { if (e.data.size > 0) _testAiVoiceChunks.push(e.data); };
+        _testAiVoiceRecorder.onstop = function () {
+          stream.getTracks().forEach(function (t) { t.stop(); });
+          _testAiIsRecording = false;
+          var btn = document.getElementById('testAiVoiceBtn');
+          if (btn) { btn.style.background = ''; btn.style.color = ''; }
+          if (_testAiVoiceChunks.length > 0) {
+            var blob = new Blob(_testAiVoiceChunks, { type: _testAiVoiceRecorder.mimeType || 'audio/webm' });
+            sendTestAiVoice(blob);
+          }
+        };
+        _testAiVoiceRecorder.start();
+        _testAiIsRecording = true;
+        var btn = document.getElementById('testAiVoiceBtn');
+        if (btn) { btn.style.background = '#ef4444'; btn.style.color = '#fff'; }
+      }).catch(function () {
+        alert('Microphone access denied.');
+      });
+    }
+
+    function stopTestAiVoice() {
+      if (!_testAiIsRecording) return;
+      if (_testAiVoiceRecorder && _testAiVoiceRecorder.state !== 'inactive') _testAiVoiceRecorder.stop();
+    }
+
+    async function sendTestAiVoice(audioBlob) {
+      appendTestAiMsg('user', '🎤 <em>Voice message</em>');
+      await _callTestAiGemini('', audioBlob, null);
+    }
+
+    // Send text (+ optional attachment)
+    async function sendTestAiMsg() {
+      var input = document.getElementById('testAiInput');
+      var text = (input ? input.value.trim() : '');
+
+      // If we have an attachment, send it
+      if (_testAiAttachFile) {
+        var file = _testAiAttachFile;
+        var type = _testAiAttachType;
+        clearTestAiAttach();
+        var label = (type === 'image' ? '🖼️' : '📄') + ' ' + (file.name || 'file');
+        appendTestAiMsg('user', (text ? _escTestHtml(text) + '<br>' : '') + '<em>' + _escTestHtml(label) + '</em>');
+        var payload = await _buildTestAiPayload(file, type);
+        await _callTestAiGemini(text, null, payload);
+        if (input) input.value = '';
+        return;
+      }
+
+      if (!text) return;
+      if (input) input.value = '';
+      appendTestAiMsg('user', _escTestHtml(text));
+      await _callTestAiGemini(text, null, null);
+    }
+
+    function _escTestHtml(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    async function _buildTestAiPayload(file, type) {
+      var maxInline = (parseInt(document.getElementById('settingsMaxAiInlineMb').value) || 8) * 1024 * 1024;
+      if (file.size > maxInline) {
+        return { mode: 'metadata-only', note: 'File too large for inline AI. Metadata only.', name: file.name || 'file' };
+      }
+      var mime = (file.type || '').toLowerCase();
+      if (type === 'image' && mime.indexOf('image/') !== 0) mime = 'image/jpeg';
+      if (type === 'pdf' && mime !== 'application/pdf') mime = 'application/pdf';
+      var b64 = await _testAiBlobToBase64(file);
+      return { mode: 'inline', mimeType: mime, data: b64, name: file.name || 'file' };
+    }
+
+    async function _callTestAiGemini(userText, audioBlob, attachPayload) {
+      // Get key
+      if (!_testAiKey) {
+        try {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=gemini');
+          var d = await r.json();
+          _testAiKey = d.key;
+        } catch (e) {}
+      }
+      if (!_testAiKey) { appendTestAiMsg('ai', '⚠️ Could not load Gemini API key.'); return; }
+
+      // Get current prompt from the textarea
+      var systemPrompt = (document.getElementById('settingsAiPrompt').value || '').trim();
+      if (!systemPrompt) systemPrompt = getDefaultAiPrompt();
+
+      var capNote = '\n\n[Capabilities] Users can send: text, voice recordings (audio inline), images, and PDFs. When you receive audio, listen and respond in that language. When you receive an image or PDF, analyze it. If a file is metadata-only, explain that you cannot see the full content.';
+
+      // System turn — text + optional prompt files (image, PDF, audio)
+      var sysParts = [{ text: 'System: ' + systemPrompt + capNote + '\n\nYou are in the SUPPORT tab. Help with questions.' }];
+      for (var pi = 0; pi < _promptFiles.length; pi++) {
+        var pf = _promptFiles[pi];
+        if (!pf.url) continue;
+        try {
+          var pResp = await fetch(pf.url);
+          if (pResp.ok) {
+            var pBlob = await pResp.blob();
+            if (pBlob.size <= 20 * 1024 * 1024) {
+              var pB64 = await _testAiBlobToBase64(pBlob);
+              var pMime = pf.mime || pBlob.type || 'application/octet-stream';
+              sysParts.push({ inline_data: { mime_type: pMime, data: pB64 } });
+            }
+          }
+        } catch (e) {}
+      }
+      if (_promptFiles.length > 0) {
+        sysParts.push({ text: 'The above file(s) are admin-provided context. Use them to answer user questions accurately.' });
+      }
+
+      var contents = [
+        { role: 'user', parts: sysParts },
+        { role: 'model', parts: [{ text: 'Understood. I am Mock Stream AI.' }] }
+      ];
+
+      // Add history (last 10)
+      var recent = _testAiHistory.slice(-10);
+      for (var i = 0; i < recent.length; i++) {
+        var h = recent[i];
+        contents.push({ role: h.role === 'user' ? 'user' : 'model', parts: [{ text: h.html.replace(/<[^>]*>/g, '') }] });
+      }
+
+      // Build user turn
+      var userParts = [];
+      if (audioBlob) {
+        var b64 = await _testAiBlobToBase64(audioBlob);
+        var mime = audioBlob.type || 'audio/webm';
+        userParts.push({ inline_data: { mime_type: mime, data: b64 } });
+        userParts.push({ text: userText || 'The user sent a voice message. Listen and respond in the same language.' });
+      } else if (attachPayload && attachPayload.mode === 'inline') {
+        userParts.push({ inline_data: { mime_type: attachPayload.mimeType, data: attachPayload.data } });
+        userParts.push({ text: userText || 'The user sent an attachment (' + attachPayload.name + '). Analyze it and respond helpfully.' });
+      } else if (attachPayload && attachPayload.mode === 'metadata-only') {
+        userParts.push({ text: (userText ? userText + '\n\n' : '') + 'User attached: ' + attachPayload.name + '. ' + attachPayload.note });
+      } else {
+        userParts.push({ text: userText });
+      }
+      contents.push({ role: 'user', parts: userParts });
+
+      // Show loading
+      var chat = document.getElementById('testAiChat');
+      var loadingDiv = document.createElement('div');
+      loadingDiv.style.cssText = 'margin-bottom:8px;text-align:left;';
+      loadingDiv.innerHTML = '<div style="display:inline-block;background:rgba(37,99,235,.08);border-radius:12px;padding:8px 12px;"><div style="font-size:11px;font-weight:700;color:#2563eb;margin-bottom:2px;">🤖 AI</div><div style="font-size:13px;color:var(--muted);">Thinking…</div></div>';
+      if (chat) { chat.appendChild(loadingDiv); chat.scrollTop = chat.scrollHeight; }
+
+      try {
+        var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + _testAiKey, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: contents })
+        });
+        var gd = await gr.json();
+        if (loadingDiv.parentNode) loadingDiv.remove();
+        var reply = 'No response from AI.';
+        if (gd.candidates && gd.candidates[0] && gd.candidates[0].content) {
+          reply = gd.candidates[0].content.parts[0].text;
+        }
+        appendTestAiMsg('ai', _escTestHtml(reply));
+      } catch (e) {
+        if (loadingDiv.parentNode) loadingDiv.remove();
+        appendTestAiMsg('ai', '⚠️ Error contacting Gemini: ' + _escTestHtml(e.message || 'Unknown error'));
+      }
     }
 
     // ====================================================================

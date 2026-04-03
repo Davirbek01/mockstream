@@ -1,4 +1,4 @@
-﻿// IELTS Reading Test - Generated 12/15/2025
+// IELTS Reading Test - Generated 12/15/2025
 // This file contains all 3 passages with questions, answers, and explanations
 
 window.IELTS_READING_TEST = {
@@ -25,7 +25,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 1-7",
-                    "instruction": "Questions 1–7<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 1–7 on your answer sheet, write<br><br><strong>TRUE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>FALSE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if there is no information on this",
+                    "instruction": "Questions 1–7<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 1–7 on your answer sheet, write<br><br><strong>True</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>False</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>Not Given</strong>&nbsp;&nbsp;if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -137,19 +137,58 @@ window.IELTS_READING_TEST = {
                 ]
             },
             "explanations": {
-                "q1": "The passage says Murray was previously regarded as a talented outsider, not someone expected to become world number one.",
-                "q2": "The racket change was described as “so subtle as to pass more or less unnoticed”.",
-                "q3": "A professional racket stringer is mentioned, but it is not stated that most top players take one on tour.",
-                "q4": "The Bryans’ rackets “weigh more than the average model”, not lighter.",
-                "q5": "The passage says Werner Fischer started playing with the spaghetti-strung racket, but does not say he designed it himself.",
-                "q6": "Players change string tension depending on “climatic conditions”, which includes weather.",
-                "q7": "Sampras’s serving power “was attributed to” adding lead weights to his rackets.",
-                "q8": "They experimented with “different kinds of paint” on their rackets.",
-                "q9": "The spaghetti-strung racket created “so much topspin” that it was banned.",
-                "q10": "Racket modification is said to be equal in importance to “nutrition or training”.",
-                "q11": "Natural gut was made from sheep or cow “intestines”.",
-                "q12": "Sampras added “four to five lead weights” to his rackets.",
-                "q13": "Oliveira replaced the “original grips” on his rackets."
+                "q1": {
+                    "text": "The passage states that five years before 2016, Murray was considered an outsider who hadn't won major tournaments, indicating that people did not expect him to become the world's top player, thus the statement is false.",
+                    "quote": "Yet five years previously, he had been regarded as a talented outsider who entered but never won the major tournaments."
+                },
+                "q2": {
+                    "text": "The passage states that the change Murray made to his racket was 'so subtle as to pass more or less unnoticed,' which directly contradicts the statement that it attracted a lot of attention, therefore the answer is FALSE.",
+                    "quote": "Another change was so subtle as to pass more or less unnoticed."
+                },
+                "q3": {
+                    "text": "The passage discusses the importance of racket stringers and customization for professional players, but it doesn't mention whether players take a stringer on tour with them. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q4": {
+                    "text": "The passage states that the Bryan brothers' rackets weigh *more* than the average model, directly contradicting the statement that they are light. Therefore, the answer is FALSE.",
+                    "quote": "The rackets they use now weigh more than the average model and also have a denser string pattern (i.e. more crosses and mains)."
+                },
+                "q5": {
+                    "text": "The passage states that Werner Fischer played with a spaghetti-strung racket, but it doesn't say whether he designed it himself. Therefore, the answer is NOT GIVEN.",
+                    "quote": "Racket modifications mainly date back to the 1970s, when the amateur German tennis player Werner Fischer started playing with the so-called spaghetti-strung racket."
+                },
+                "q6": {
+                    "text": "The passage states that players change their string tension depending on various factors, including climatic conditions, which is synonymous with weather. Therefore, the statement is true.",
+                    "quote": "They will continually change it depending on various factors including the court surface, climatic conditions, and game styles."
+                },
+                "q7": {
+                    "text": "The passage states that Pete Sampras' serving power was attributed to the addition of lead weights to his rackets, which directly supports the statement that the change he made contributed to his strong serve.",
+                    "quote": "For example, much of the serving power of US professional player Pete Sampras was attributed to the addition of four to five lead weights into his rackets, and today many professionals have the weight adjusted during the manufacturing process."
+                },
+                "q8": {
+                    "text": "The passage states that Mike and Bob Bryan experimented with different kinds of paint, which directly supports the answer 'paint' as something they changed on their racket frames.",
+                    "quote": "They explain how they have adjusted not only racket length, but even experimented with different kinds of paint."
+                },
+                "q9": {
+                    "text": "The passage states that the spaghetti-strung racket created a string bed that generated so much topspin that it was banned. Therefore, 'topspin' is the correct answer.",
+                    "quote": "It created a string bed that generated so much topspin that it was quickly banned by the International Tennis Federation."
+                },
+                "q10": {
+                    "text": "The passage states that racket modification is equal in significance to nutrition or training, thus 'training' is the correct answer to complete the sentence.",
+                    "quote": "Today it is, in many ways, an aspect of the game that is equal in significance to nutrition or training."
+                },
+                "q11": {
+                    "text": "The passage states that rackets were strung with natural gut made from the intestines of animals, which directly answers the question about the material used for natural strings.",
+                    "quote": "At one time, all tennis rackets were strung with natural gut made from the outer layer of sheep or cow intestines."
+                },
+                "q12": {
+                    "text": "The passage states that Pete Sampras had lead weights added to his rackets, which directly supports the answer 'WEIGHTS'.",
+                    "quote": "For example, much of the serving power of US professional player Pete Sampras was attributed to the addition of four to five lead weights into his rackets, and today many professionals have the weight adjusted during the manufacturing process."
+                },
+                "q13": {
+                    "text": "The passage states that Gonçalo Oliveira replaced the original 'grips' of his rackets, which directly answers the question.",
+                    "quote": "The professional Portuguese player Gonçalo Oliveira replaced the original grips of his rackets with something thinner because they had previously felt uncomfortable to hold."
+                }
             }
         },
         {
@@ -296,27 +335,103 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q14": ["D"],
-                "q15": ["G"],
-                "q16": ["C"],
-                "q17": ["A"],
-                "q18": ["G"],
-                "q19": ["B"],
-                "q20": ["B", "D"],
-                "q21": ["B", "D"],
-                "q22": ["C", "E"],
-                "q23": ["C", "E"],
-                "q24": ["GRAIN"],
-                "q25": ["PUNISHMENT"],
-                "q26": ["RANSOM"]
+                "q14": [
+                    "D"
+                ],
+                "q15": [
+                    "G"
+                ],
+                "q16": [
+                    "C"
+                ],
+                "q17": [
+                    "A"
+                ],
+                "q18": [
+                    "G"
+                ],
+                "q19": [
+                    "B"
+                ],
+                "q20": [
+                    "B",
+                    "D"
+                ],
+                "q21": [
+                    "B",
+                    "D"
+                ],
+                "q22": [
+                    "C",
+                    "E"
+                ],
+                "q23": [
+                    "C",
+                    "E"
+                ],
+                "q24": [
+                    "GRAIN"
+                ],
+                "q25": [
+                    "PUNISHMENT"
+                ],
+                "q26": [
+                    "RANSOM"
+                ]
             },
             "explanations": {
-                "q14": "— a reference to a denial of involvement in piracy Paragraph D states that the king of Alashiya “rejected Akhenaten’s claims of a connection with the Lukka” and denied involvement, which is a clear denial.",
-                "q15": "Paragraph G explains how Pompey divided the Mediterranean into districts, assigned fleets, and cleared pirates district by district.",
-                "q16": "Paragraph C says governments employed pirates’ services “especially during wartime”, using them in the first wave of attack.",
-                "q17": "Paragraph A opens with a modern stereotype of pirates as “misfits, daredevils and adventurers”, reflecting today’s common image.",
-                "q18": "Paragraph G explains pirates were offered land far from the sea, encouraging them to become farmers instead of returning to piracy.",
-                "q19": "Paragraph B explains that before ocean-going ships, vessels followed coastlines and could not cross long open water distances."
+                "q14": {
+                    "text": "This sentence directly references the king of Alashiya denying any involvement of his subjects with the Lukka pirates, thus supporting the answer D.",
+                    "quote": "In the letters, the king of Alashiya (modern Cyprus) rejected Akhenaten’s claims of a connection with the Lukka (based in modern-day Turkey)."
+                },
+                "q15": {
+                    "text": "This quote directly supports the answer because it describes the start of a campaign (Pompey being granted funds) and how it was carried out (dividing the Mediterranean into districts and systematically clearing them of pirates).",
+                    "quote": "In 67 BCE, a new law granted Pompey vast funds to combat the Mediterranean menace."
+                },
+                "q16": {
+                    "text": "This sentence directly states that governments in the first and second millennia BCE sometimes used pirates, particularly during wartime, which aligns with the question's focus on the circumstances in which states would use pirates.",
+                    "quote": "One should also add that it was not unknown in the first and second millennia BCE for governments to resort to pirates’ services, especially during wartime, employing their skills and numbers against their opponents."
+                },
+                "q17": {
+                    "text": "This sentence directly describes the common, modern perception of pirates, aligning with the question's request for a reference to how people today commonly view pirates.",
+                    "quote": "When one mentions pirates, an image springs to most people’s minds of a crew of misfits, daredevils and adventurers in command of a tall sailing ship in the Caribbean Sea."
+                },
+                "q18": {
+                    "text": "Section G describes how Pompey offered pirates land in fertile areas away from the sea, which encouraged them to become farmers instead of continuing their piratical activities. This directly addresses how people were encouraged not to return to piracy.",
+                    "quote": "Although thousands of pirates died at the hands of Pompey’s troops, as a long-term solution to the problem, many more were offered land in fertile areas located far from the sea."
+                },
+                "q19": {
+                    "text": "This sentence directly states that ships were limited in their ability to travel far from land before the 15th century, implying they needed to stay relatively close to the coastline, which matches the question's requirement.",
+                    "quote": "Before the invention of ocean-going caravels in the 15th century, ships could not easily cross long distances over open water."
+                },
+                "q20": {
+                    "text": "This quote supports option B, as it states that pirates had 'unsurpassed knowledge of the local coastline and sailing routes', which allowed them to escape capture. It also supports option D, as it implies that they 'relied heavily on marine resources', suggesting they depended more on the sea than farming.",
+                    "quote": "Most had their own boats, possessed good seafaring skills, and unsurpassed knowledge of the local coastline and sailing routes."
+                },
+                "q21": {
+                    "text": "Option D is supported by this sentence, which implies that the inhabitants depended more on the sea for their livelihood than on farming, as they turned to piracy during hardships.",
+                    "quote": "Thus, it is not surprising that during hardships, these men turned to piracy."
+                },
+                "q22": {
+                    "text": "This sentence directly supports option C/E, as it states that even high-ranking members of the state (important officials) participated in piracy.",
+                    "quote": "Even high-ranking members of the state were not beyond engaging in such activities."
+                },
+                "q23": {
+                    "text": "This sentence directly supports option C, as it states that even high-ranking members of the state participated in piracy. The passage also says \"in his works the Iliad and the Odyssey, the ancient Greek writer Homer not only condones, but praises the lifestyle and actions of pirates\" which supports option E.",
+                    "quote": "Even high-ranking members of the state were not beyond engaging in such activities."
+                },
+                "q24": {
+                    "text": "The passage states that 'pirate attacks on grain ships...led to angry voices in the Senate', which directly supports the answer 'grain' as the commodity being transported and the result being calls for punishment.",
+                    "quote": "Pirate attacks on grain ships, which were essential to Roman citizens, led to angry voices in the Senate, demanding punishment of the culprits."
+                },
+                "q25": {
+                    "text": "The king of Alashiya assured Akhenaten he was prepared to \"punish\" any of his subjects involved in piracy, which directly supports the answer PUNISHMENT.",
+                    "quote": "The king assured Akhenaten he was prepared to punish any of his subjects involved in piracy."
+                },
+                "q26": {
+                    "text": "The passage states that pirates kidnapped Roman dignitaries and asked for a \"large ransom to be paid\", which directly supports the answer RANSOM.",
+                    "quote": "By the 1st century BCE, emboldened pirates kidnapped prominent Roman dignitaries, asking for a large ransom to be paid."
+                }
             }
         },
         {
@@ -432,7 +547,7 @@ window.IELTS_READING_TEST = {
                     "type": "ynng",
                     "typeName": "Yes/No/Not Given",
                     "title": "Questions 37-40",
-                    "instruction": "Questions 37–40<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 37–40 on your answer sheet, write<br><br><strong>YES</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>NO</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
+                    "instruction": "Questions 37–40<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 37–40 on your answer sheet, write<br><br><strong>Yes</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>No</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>Not Given</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -456,24 +571,107 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q27": ["D"],
-                "q28": ["A"],
-                "q29": ["C"],
-                "q30": ["D"],
-                "q31": ["G"],
-                "q32": ["J"],
-                "q33": ["H"],
-                "q34": ["B"],
-                "q35": ["E"],
-                "q36": ["C"],
-                "q37": ["YES"],
-                "q38": ["NOT GIVEN"],
-                "q39": ["NO"],
-                "q40": ["NOT GIVEN"]
+                "q27": [
+                    "D"
+                ],
+                "q28": [
+                    "A"
+                ],
+                "q29": [
+                    "C"
+                ],
+                "q30": [
+                    "D"
+                ],
+                "q31": [
+                    "G"
+                ],
+                "q32": [
+                    "J"
+                ],
+                "q33": [
+                    "H"
+                ],
+                "q34": [
+                    "B"
+                ],
+                "q35": [
+                    "E"
+                ],
+                "q36": [
+                    "C"
+                ],
+                "q37": [
+                    "YES"
+                ],
+                "q38": [
+                    "NOT GIVEN"
+                ],
+                "q39": [
+                    "NO"
+                ],
+                "q40": [
+                    "NOT GIVEN"
+                ]
             },
-            "explanations": {}
+            "explanations": {
+                "q27": {
+                    "text": "The quote indicates that there are multiple reasons why people might spread misinformation, such as gaining an advantage, motivating others, or protecting relationships, which supports option D.",
+                    "quote": "Deceiving others can offer an apparent opportunity to gain strategic advantage, to motivate others to action, or even to protect interpersonal bonds."
+                },
+                "q28": {
+                    "text": "The quote directly states that technology (mass communication and facilitated spread of information) might eventually provide a way to correct misinformation, which supports option A.",
+                    "quote": "Yet the means to correct misinformation might, over time, be found in those same patterns of mass communication and of the facilitated spread of information."
+                },
+                "q29": {
+                    "text": "The quote directly introduces three key observations about misinformation that are important for various groups, thus outlining significant issues connected with misinformation today.",
+                    "quote": "At least three observations related to misinformation in the contemporary mass-media environment warrant the attention of researchers, policy makers, and really everyone who watches television, listens to the radio, or reads information online."
+                },
+                "q30": {
+                    "text": "This quote directly supports option D, stating that even with regulatory programs, false advertising (a form of misinformation) still appears in the media. Therefore, regulation fails to prevent misinformation from appearing.",
+                    "quote": "Such programs, although laudable and useful, do not keep false advertising off the airwaves."
+                },
+                "q31": {
+                    "text": "The quote directly addresses the question of how and when we label information as true or false, and it mentions that individuals routinely encounter false information, which is synonymous with 'frequent exposure' to misinformation. This supports 'G' as the correct answer.",
+                    "quote": "Although it is fairly routine for individuals to come across information that is false, the question of exactly how – and when – we mentally label information as true or false has garnered philosophical debate."
+                },
+                "q32": {
+                    "text": "The passage states that Descartes and Spinoza had \"conflicting predictions\" about how people engage with information, which means they had different ideas.",
+                    "quote": "The dilemma is neatly summarized by a contrast between how the 17th-century philosophers René Descartes and Baruch Spinoza described human information engagement, with conflicting predictions that only recently have been empirically tested in robust ways."
+                },
+                "q33": {
+                    "text": "The quote directly contrasts Descartes' and Spinoza's views on information processing, stating Spinoza believed people verify/reject information through a 'separate cognitive process', which is synonymous with 'mental operation'.",
+                    "quote": "Descartes argued that a person only accepts or rejects information after considering its truth or falsehood; Spinoza argued that people accept all encountered information (or misinformation) by default and then subsequently verify or reject it through a separate cognitive process."
+                },
+                "q34": {
+                    "text": "The passage states that 'empirical evidence' supports Spinoza's account, which directly corresponds to 'additional evidence' in the question. The passage then elaborates on how people initially accept information as true, even briefly, aligning with the rest of the summary completion.",
+                    "quote": "In recent decades, empirical evidence from the research teams of Erik Asp of the University of Chicago and Daniel Gilbert at Harvard University, among others, has supported Spinoza’s account: people appear to encode all new information as if it were true, even if only momentarily, and later tag the information as being either true or false, a pattern that seems consistent with the observation that mental resources for skepticism physically reside in a different part of the brain than the resources used in perceiving and encoding."
+                },
+                "q35": {
+                    "text": "The passage states that people encode information as true, 'even if only momentarily', before tagging it as true or false. This supports the answer 'short period' as it indicates the initial acceptance is brief.",
+                    "quote": "people appear to encode all new information as if it were true, even if only momentarily, and later tag the information as being either true or false"
+                },
+                "q36": {
+                    "text": "The passage states that mental resources for skepticism reside in a different part of the brain than the resources used for perceiving and encoding, which directly supports the answer that they are in different locations.",
+                    "quote": "a pattern that seems consistent with the observation that mental resources for skepticism physically reside in a different part of the brain than the resources used in perceiving and encoding."
+                },
+                "q37": {
+                    "text": "The passage states that corrective campaigns need audiences to comprehend them in order to be persuasive. Therefore, if people are unable to understand the campaigns, they will fail to achieve their purpose.",
+                    "quote": "For corrective campaigns to be persuasive, audiences need to be able to comprehend them, which requires either effort to frame messages in ways that are accessible or effort to educate and sensitize audiences to the possibility of misinformation."
+                },
+                "q38": {
+                    "text": "The passage mentions the utility of media literacy efforts as early as elementary school, but it does not state whether such attempts have been opposed or not. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q39": {
+                    "text": "The passage states that overcoming misinformation requires 'coordinated efforts over time' and not a 'one-time panacea', indicating that a solution will not be found in a short period. Therefore, the answer is NO.",
+                    "quote": "To overcome the worst effects of the phenomenon, we will need coordinated efforts over time, rather than any singular one-time panacea we could hope to offer."
+                },
+                "q40": {
+                    "text": "The passage discusses the prevalence and impact of misinformation but does not address whether the need to keep up with new information is exaggerated. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                }
+            }
         }
     ]
 };
-
-

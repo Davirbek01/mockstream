@@ -19,44 +19,44 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 1",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 1-13</strong> which are based on Reading Passage 1 on pages 2 and 3."
             },
-            "passage": "<p><em>Silk, a natural fibre produced by a particular worm called a silkworm, has been used in clothing for many centuries.</em></p>\n\n<p>When silk was first discovered in China over 4,500 years ago, it was reserved exclusively for the use of the emperor, his close relations and the very highest of his dignitaries. Within the palace, the emperor is believed to have worn a robe of white silk; outside, he, his principal wife, and the heir to the throne wore yellow, the colour of the earth.</p>\n\n<p>Gradually silk came into more general use, and the various classes of Chinese society began wearing tunics of silk. As well as being used for clothing and decoration, silk was quite quickly put to industrial use, and rapidly became one of the principal elements of the Chinese economy. It was used in the production of musical instruments, as string for fishing, and even as the world\u2019s first luxury paper. Eventually even the common people were able to wear garments of silk.</p>\n\n<p>During the Han dynasty (206 BC-220 AD), silk ceased to be a mere fabric and became a form of currency. Farmers paid their taxes in grain and silk, and silk was used to pay civil servants and to reward subjects for outstanding services. Values were calculated in lengths of silk as they had previously been calculated in weight of gold. Before long, silk became a currency used in trade with foreign countries, which continued into the Tang dynasty (616-907 AD). It is possible that this added importance was the result of a major increase in production. Silk also found its way so thoroughly into the Chinese language that 230 of the 5,000 most common characters of Mandarin\u00b9 have \u2018silk\u2019 as their key component. Silk became a precious commodity, highly sought after by other countries from an early date, and it is believed that the silk trade actually existed before the Silk Road\u00b2 was officially opened in the second century BC. An Egyptian mummy with a silk thread in her hair, dating from 1070 BC, has been discovered in the village of Deir el Medina near the Valley of the Kings, and is probably the earliest evidence of the silk trade. During the second century BC, the Chinese emperor Han Wu Di\u2019s ambassadors travelled as far west as Persia and Mesopotamia, bearing gifts including silks. A range of important finds of Chinese silks have also been made along the Silk Road. One of the most dramatic of these finds was some Tang silk discovered in 1900. It is believed that around 1015 AD Buddhist monks, possibly alarmed by the threat of invasion by Tibetan people, had sealed more than ten thousand manuscripts and silk paintings, silk banners and textiles in caves near Dunhuang, a trading station on the Silk Road in north-west China.</p>\n\n<p>Some historians believe the first Europeans to set eyes upon the fabulous fabric were Roman legions of Marcus Licinius Crassus, Governor of Syria. According to certain accounts of the period, at an important battle near the Euphrates River in 53 BC, the Roman soldiers were so startled by the bright silken banners of the enemy that they fled in panic. Yet, within decades Chinese silks were widely worn by the rich and noble families of Rome. The Roman Emperor Heliogabalus (218-222 AD) wore nothing but silk. By 380 AD, the Roman historian Marcellinus Ammianus reported that. The use of silk, which was one confined to the nobility, has now spread to all classes without distinction \u2013 even to the lowest. The desire for silk continued to increase over the centuries. Despite this demand, the price of silk remained very high.</p>\n\n<p>In spite of their secrecy about production methods, the Chinese eventually lost their monopoly on silk production. Knowledge of silk production methods reached Korea around 200 BC, when waves of Chinese immigrants arrived there. Shortly after 300 AD, it travelled westward, and the cultivation of the silkworm was established in India.</p>\n\n<p>Around 550 AD silk production reached the Middle East. Records indicate that two monks from Constantinople (modern-day Istanbul), capital of the Byzantine Empire, appeared at their emperor\u2019s court with silkworm eggs which they had obtained secretly, and hidden in their hollow bamboo walking sticks. Under their supervision the eggs hatched into worms, and the worms spun silk threads. Byzantium was in the silk business at last. The Byzantine church and state created imperial workshops, monopolising production and keeping the secret to themselves. This allowed a silk industry to be established, undercutting the market for ordinary-grade Chinese silk. However, high quality silk textiles, woven in China especially for the Middle Eastern market, continued to achieve high prices in the West, and trade along the Silk Road continued as before. By the sixth century the Persians, too, had mastered the art of silk weaving, developing their own rich patterns and techniques. But it wasn\u2019t until the 13th century that Italy began silk production, with the introduction of 2,000 skilled silk weavers from Constantinople. Eventually, silk production became widespread throughout Europe.</p>\n\n<p>World silk production has approximately doubled during the last 30 years in spite of man-made fibres replacing certain uses of silk. Before this period, China and Japan were the two main producers, together manufacturing more than 50 per cent of world production each year. After the late 1970s, however, China dramatically increased its silk production, and once again became the world\u2019s leading producer.</p>\n\n<p><small>\u00b9 A group of related Chinese dialects which have been recognised as the \u2018national language\u2019 since the early 20th century</small></p>\n<p><small>\u00b2 An ancient trade route between China and the Mediterranean Sea</small></p>",
+            "passage": "<p><em>Silk, a natural fibre produced by a particular worm called a silkworm, has been used in clothing for many centuries.</em></p>\n\n<p>When silk was first discovered in China over 4,500 years ago, it was reserved exclusively for the use of the emperor, his close relations and the very highest of his dignitaries. Within the palace, the emperor is believed to have worn a robe of white silk; outside, he, his principal wife, and the heir to the throne wore yellow, the colour of the earth.</p>\n\n<p>Gradually silk came into more general use, and the various classes of Chinese society began wearing tunics of silk. As well as being used for clothing and decoration, silk was quite quickly put to industrial use, and rapidly became one of the principal elements of the Chinese economy. It was used in the production of musical instruments, as string for fishing, and even as the world’s first luxury paper. Eventually even the common people were able to wear garments of silk.</p>\n\n<p>During the Han dynasty (206 BC-220 AD), silk ceased to be a mere fabric and became a form of currency. Farmers paid their taxes in grain and silk, and silk was used to pay civil servants and to reward subjects for outstanding services. Values were calculated in lengths of silk as they had previously been calculated in weight of gold. Before long, silk became a currency used in trade with foreign countries, which continued into the Tang dynasty (616-907 AD). It is possible that this added importance was the result of a major increase in production. Silk also found its way so thoroughly into the Chinese language that 230 of the 5,000 most common characters of Mandarin¹ have ‘silk’ as their key component. Silk became a precious commodity, highly sought after by other countries from an early date, and it is believed that the silk trade actually existed before the Silk Road² was officially opened in the second century BC. An Egyptian mummy with a silk thread in her hair, dating from 1070 BC, has been discovered in the village of Deir el Medina near the Valley of the Kings, and is probably the earliest evidence of the silk trade. During the second century BC, the Chinese emperor Han Wu Di’s ambassadors travelled as far west as Persia and Mesopotamia, bearing gifts including silks. A range of important finds of Chinese silks have also been made along the Silk Road. One of the most dramatic of these finds was some Tang silk discovered in 1900. It is believed that around 1015 AD Buddhist monks, possibly alarmed by the threat of invasion by Tibetan people, had sealed more than ten thousand manuscripts and silk paintings, silk banners and textiles in caves near Dunhuang, a trading station on the Silk Road in north-west China.</p>\n\n<p>Some historians believe the first Europeans to set eyes upon the fabulous fabric were Roman legions of Marcus Licinius Crassus, Governor of Syria. According to certain accounts of the period, at an important battle near the Euphrates River in 53 BC, the Roman soldiers were so startled by the bright silken banners of the enemy that they fled in panic. Yet, within decades Chinese silks were widely worn by the rich and noble families of Rome. The Roman Emperor Heliogabalus (218-222 AD) wore nothing but silk. By 380 AD, the Roman historian Marcellinus Ammianus reported that. The use of silk, which was one confined to the nobility, has now spread to all classes without distinction – even to the lowest. The desire for silk continued to increase over the centuries. Despite this demand, the price of silk remained very high.</p>\n\n<p>In spite of their secrecy about production methods, the Chinese eventually lost their monopoly on silk production. Knowledge of silk production methods reached Korea around 200 BC, when waves of Chinese immigrants arrived there. Shortly after 300 AD, it travelled westward, and the cultivation of the silkworm was established in India.</p>\n\n<p>Around 550 AD silk production reached the Middle East. Records indicate that two monks from Constantinople (modern-day Istanbul), capital of the Byzantine Empire, appeared at their emperor’s court with silkworm eggs which they had obtained secretly, and hidden in their hollow bamboo walking sticks. Under their supervision the eggs hatched into worms, and the worms spun silk threads. Byzantium was in the silk business at last. The Byzantine church and state created imperial workshops, monopolising production and keeping the secret to themselves. This allowed a silk industry to be established, undercutting the market for ordinary-grade Chinese silk. However, high quality silk textiles, woven in China especially for the Middle Eastern market, continued to achieve high prices in the West, and trade along the Silk Road continued as before. By the sixth century the Persians, too, had mastered the art of silk weaving, developing their own rich patterns and techniques. But it wasn’t until the 13th century that Italy began silk production, with the introduction of 2,000 skilled silk weavers from Constantinople. Eventually, silk production became widespread throughout Europe.</p>\n\n<p>World silk production has approximately doubled during the last 30 years in spite of man-made fibres replacing certain uses of silk. Before this period, China and Japan were the two main producers, together manufacturing more than 50 per cent of world production each year. After the late 1970s, however, China dramatically increased its silk production, and once again became the world’s leading producer.</p>\n\n<p><small>¹ A group of related Chinese dialects which have been recognised as the ‘national language’ since the early 20th century</small></p>\n<p><small>² An ancient trade route between China and the Mediterranean Sea</small></p>",
             "questionSections": [
                 {
                     "type": "completion",
                     "typeName": "Note Completion",
                     "title": "Questions 1-7",
-                    "instruction": "Questions 1\u20137<br><br>Complete the notes below.<br><br>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.<br><br>Write your answers in boxes 1\u20137 on your answer sheet.",
+                    "instruction": "Questions 1–7<br><br>Complete the notes below.<br><br>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.<br><br>Write your answers in boxes 1–7 on your answer sheet.",
                     "boxTitle": "Chinese silk",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
                         {
                             "id": 1,
-                            "text": "<strong>Early Uses</strong><br><u>Clothing</u><br>\u2022 at first, silk only available to Chinese of high rank<br>\u2022 emperor wore 1 {INPUT} silk indoors"
+                            "text": "<strong>Early Uses</strong><br><u>Clothing</u><br>• at first, silk only available to Chinese of high rank<br>• emperor wore 1 {INPUT} silk indoors"
                         },
                         {
                             "id": 2,
-                            "text": "<u>In industry</u><br>\u2022 silk items included parts of musical instruments, fishing strings and 2 {INPUT}"
+                            "text": "<u>In industry</u><br>• silk items included parts of musical instruments, fishing strings and 2 {INPUT}"
                         },
                         {
                             "id": 3,
-                            "text": "<u>Currency</u><br>\u2022 silk was used as payment of 3 {INPUT} as well as for wages and rewards"
+                            "text": "<u>Currency</u><br>• silk was used as payment of 3 {INPUT} as well as for wages and rewards"
                         },
                         {
                             "id": 4,
-                            "text": "\u2022 silk replaced 4 {INPUT} as a unit of value"
+                            "text": "• silk replaced 4 {INPUT} as a unit of value"
                         },
                         {
                             "id": 5,
-                            "text": "\u2022 silk soon used as payment in 5 {INPUT} trade"
+                            "text": "• silk soon used as payment in 5 {INPUT} trade"
                         },
                         {
                             "id": 6,
-                            "text": "<strong>Evidence of silk trade</strong><br>1070 BC, Egypt:<br>\u2022 hair of a 6 {INPUT} contained silk"
+                            "text": "<strong>Evidence of silk trade</strong><br>1070 BC, Egypt:<br>• hair of a 6 {INPUT} contained silk"
                         },
                         {
                             "id": 7,
-                            "text": "2nd century BC, Persia and Mesopotamia:<br>\u2022 gifts of silk were presented by Chinese ambassadors<br><br>1015 AD, north-west China:<br>\u2022 silk objects were hidden inside 7 {INPUT}"
+                            "text": "2nd century BC, Persia and Mesopotamia:<br>• gifts of silk were presented by Chinese ambassadors<br><br>1015 AD, north-west China:<br>• silk objects were hidden inside 7 {INPUT}"
                         }
                     ]
                 },
@@ -64,7 +64,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 8-13",
-                    "instruction": "Questions 8\u201313<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 8\u201313 on your answer sheet, write<br><br><strong>TRUE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>FALSE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if there is no information on this",
+                    "instruction": "Questions 8–13<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 8–13 on your answer sheet, write<br><br><strong>True</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>False</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>Not Given</strong>&nbsp;&nbsp;if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -96,34 +96,99 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q1": ["WHITE"],
-                "q2": ["PAPER"],
-                "q3": ["TAXES"],
-                "q4": ["GOLD"],
-                "q5": ["FOREIGN"],
-                "q6": ["MUMMY"],
-                "q7": ["CAVES"],
-                "q8": ["TRUE"],
-                "q9": ["NOT GIVEN"],
-                "q10": ["FALSE"],
-                "q11": ["FALSE"],
-                "q12": ["TRUE"],
-                "q13": ["FALSE"]
+                "q1": [
+                    "WHITE"
+                ],
+                "q2": [
+                    "PAPER"
+                ],
+                "q3": [
+                    "TAXES"
+                ],
+                "q4": [
+                    "GOLD"
+                ],
+                "q5": [
+                    "FOREIGN"
+                ],
+                "q6": [
+                    "MUMMY"
+                ],
+                "q7": [
+                    "CAVES"
+                ],
+                "q8": [
+                    "TRUE"
+                ],
+                "q9": [
+                    "NOT GIVEN"
+                ],
+                "q10": [
+                    "FALSE"
+                ],
+                "q11": [
+                    "FALSE"
+                ],
+                "q12": [
+                    "TRUE"
+                ],
+                "q13": [
+                    "FALSE"
+                ]
             },
             "explanations": {
-                "q1": "The passage states: 'Within the palace, the emperor is believed to have worn a robe of white silk.'",
-                "q2": "The passage states silk was used 'in the production of musical instruments, as string for fishing, and even as the world\u2019s first luxury paper.'",
-                "q3": "The passage states: 'Farmers paid their taxes in grain and silk.'",
-                "q4": "The passage states: 'Values were calculated in lengths of silk as they had previously been calculated in weight of gold.'",
-                "q5": "The passage states: 'silk became a currency used in trade with foreign countries.'",
-                "q6": "The passage states: 'An Egyptian mummy with a silk thread in her hair.'",
-                "q7": "The passage states monks 'had sealed more than ten thousand manuscripts and silk paintings, silk banners and textiles in caves near Dunhuang.'",
-                "q8": "The passage states Roman soldiers 'were so startled by the bright silken banners of the enemy that they fled in panic.' This shows fear. TRUE.",
-                "q9": "The passage does not mention variation in quality of Chinese silk imported by the early Romans. NOT GIVEN.",
-                "q10": "The passage says two monks obtained silkworm eggs secretly, not from the Chinese emperor. FALSE.",
-                "q11": "The passage says the Byzantine industry undercut the market for 'ordinary-grade' Chinese silk, but 'high quality silk textiles...continued to achieve high prices.' FALSE.",
-                "q12": "Silk production reached the Middle East around 550 AD, while Italy began silk production in the 13th century. TRUE.",
-                "q13": "The passage states world silk production 'has approximately doubled during the last 30 years.' FALSE."
+                "q1": {
+                    "text": "The question asks what color silk the emperor wore indoors, and the passage states that \"Within the palace, the emperor is believed to have worn a robe of white silk.\"",
+                    "quote": "Within the palace, the emperor is believed to have worn a robe of white silk"
+                },
+                "q2": {
+                    "text": "The passage states that silk was used in the production of musical instruments, fishing strings, and luxury paper. Therefore, 'paper' is the correct answer to complete the note.",
+                    "quote": "As well as being used for clothing and decoration, silk was quite quickly put to industrial use, and rapidly became one of the principal elements of the Chinese economy. It was used in the production of musical instruments, as string for fishing, and even as the world’s first luxury paper."
+                },
+                "q3": {
+                    "text": "The passage states that farmers paid their taxes in grain and silk, which directly supports the answer 'taxes' as something silk was used as payment for.",
+                    "quote": "Farmers paid their taxes in grain and silk, and silk was used to pay civil servants and to reward subjects for outstanding services."
+                },
+                "q4": {
+                    "text": "The passage states that values were calculated in lengths of silk as they had previously been calculated in weight of gold, meaning silk replaced gold as a unit of value.",
+                    "quote": "Values were calculated in lengths of silk as they had previously been calculated in weight of gold."
+                },
+                "q5": {
+                    "text": "The passage states that silk became a currency used in trade with foreign countries, which directly supports the answer 'FOREIGN' for the note completion question.",
+                    "quote": "Before long, silk became a currency used in trade with foreign countries, which continued into the Tang dynasty (616-907 AD)."
+                },
+                "q6": {
+                    "text": "The passage states that an Egyptian mummy dating from 1070 BC was found with a silk thread in her hair, providing evidence of the silk trade at that time. Therefore, 'mummy' is the correct answer.",
+                    "quote": "An Egyptian mummy with a silk thread in her hair, dating from 1070 BC, has been discovered in the village of Deir el Medina near the Valley of the Kings, and is probably the earliest evidence of the silk trade."
+                },
+                "q7": {
+                    "text": "The passage states that in 1015 AD, silk objects were hidden inside caves in north-west China, which directly answers the question.",
+                    "quote": "It is believed that around 1015 AD Buddhist monks, possibly alarmed by the threat of invasion by Tibetan people, had sealed more than ten thousand manuscripts and silk paintings, silk banners and textiles in caves near Dunhuang, a trading station on the Silk Road in north-west China."
+                },
+                "q8": {
+                    "text": "The passage states that Roman soldiers fled in panic after being startled by silk banners, indicating that their first sight of silk created fear among them.",
+                    "quote": "According to certain accounts of the period, at an important battle near the Euphrates River in 53 BC, the Roman soldiers were so startled by the bright silken banners of the enemy that they fled in panic."
+                },
+                "q9": {
+                    "text": "The passage mentions that Chinese silks were widely worn by rich and noble families of Rome, and that high quality silk textiles woven in China continued to achieve high prices in the West. However, there is no information about the quality of Chinese silk varying widely, so the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q10": {
+                    "text": "The passage states that two monks obtained the silkworm eggs secretly, implying they were not given to them by the Chinese emperor, thus the statement is false.",
+                    "quote": "Records indicate that two monks from Constantinople (modern-day Istanbul), capital of the Byzantine Empire, appeared at their emperor’s court with silkworm eggs which they had obtained secretly, and hidden in their hollow bamboo walking sticks."
+                },
+                "q11": {
+                    "text": "The passage states that high quality Chinese silk continued to achieve high prices, indicating that the price did not fall due to competition. Therefore, the statement is false.",
+                    "quote": "However, high quality silk textiles, woven in China especially for the Middle Eastern market, continued to achieve high prices in the West, and trade along the Silk Road continued as before."
+                },
+                "q12": {
+                    "text": "The passage states that silk production reached the Middle East around 550 AD, while Italy (and therefore Europe) didn't begin silk production until the 13th century, meaning the Middle East produced silk several centuries before Europe.",
+                    "quote": "Around 550 AD silk production reached the Middle East."
+                },
+                "q13": {
+                    "text": "The passage states that world silk production has approximately doubled in the last 30 years, which directly contradicts the statement that it has declined. Therefore, the answer is FALSE.",
+                    "quote": "World silk production has approximately doubled during the last 30 years in spite of man-made fibres replacing certain uses of silk."
+                }
             }
         },
         {
@@ -137,15 +202,22 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 2",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 14-26</strong>, which are based on Reading Passage 2 on pages 6 and 7."
             },
-            "passage": "<p><em>A near-perfect frozen mammoth offers clues to a great vanished species</em></p>\n\n<p><strong>A</strong></p>\n<p>On a May morning in 2007, on the Yamal Peninsula in northwestern Siberia, a Nenets reindeer herder named Yuri Khudi stood on a sandbar on the Yuribey River, looking carefully at a diminutive corpse. Although he\u2019d never seen such an animal before, Khudi had seen many mammoth tusks, the thick corkscrew shafts that his people found each summer, and this persuaded him the corpse was a baby mammoth. It was eerily well preserved. Apart from its missing hair and toenails, it was perfectly intact. Khudi realised the find might be significant and he knew he couldn\u2019t just return home and forget all about it. He therefore decided to travel to the small town of Yar Sale to consult an old friend named Kirill Serotetto. His friend took him to meet the director of the local museum, who persuaded the local authorities to fly Khudi and Serotetto back to the Yuribey River to collect the baby mammoth.</p>\n\n<p><strong>B</strong></p>\n<p>Mammoths became extinct between 14,000 and 10,000 years ago and since the extinctions coincided with the end of the most recent Ice age, many researchers believe that the primary cause of the great die-off was the sharp rise in temperature, which dramatically altered the vegetation. \u2018We have strong evidence that the temperature rise played a significant part in their extinction,\u2019 says Adrian Lister, a palaeontologist and mammoth expert at London\u2019s Natural History Museum. \u2018In Eurasia, the timing of the two events matches closely.\u2019 The extinctions also coincided, however, with the arrival of modern humans. In addition to exploiting mammoths for food, they used their bones and tusks to make weapons, tools, and even dwellings. Some scientists believe humans were as much to blame as the temperature rise for the great die-off. Some say they caused it.</p>\n\n<p><strong>C</strong></p>\n<p>The body of the baby mammoth was eventually sent to the St Petersburg Zoological Museum in Russia. Alexei Tikhonov, the museum\u2019s director, was one of the first scientists to view the baby, a female. According to Tikhonov, Khudi had rescued \u2018the best preserved mammoth to come down to US from the Ice Age\u2019, and he gratefully named her Lyuba, after Khudi\u2019s wife. Tikhonov knew that no-one would be more excited by the find than Dan Fisher, an American colleague at the University of Michigan who had spent 30 years researching the lives of mammoths. Tikhonov invited Fisher, along with Bernard Buigues, a French mammoth hunter, to come and view the baby mammoth. Fisher and Buigues had examined other specimens together, including infants, but these had been in a relatively poor state. Lyuba was another story entirely. Other than the missing hair and toenails, the only flaw in her pristine appearance was a curious dent above the trunk.</p>\n\n<p><strong>D</strong></p>\n<p>Fisher was particularly excited about one specific part of Lyuba\u2019s anatomy: her milk tusks. Through his career, Fisher has taken hundreds of tusk samples. Most of these came from the Great Lakes region of North America, and his research showed that these animals continued to thrive, despite the late Pleistocene* temperature change. On the other hand, to Fisher the tusks often revealed telltale evidence of human hunting. His samples frequently came from animals that had died in the autumn, when they should have been at their peak after summer grazing, and less likely to die of natural causes, but also when humans would have been most eager to stockpile meat for the coming winter. He has done limited work in Siberia, but his analysis of tusks from Wrangel Island, off the coast of Siberia, suggests the same conclusion.</p>\n\n<p><strong>E</strong></p>\n<p>In December 2007, Buigues arranged for the specimen to be transported to Japan to undergo a CT scan by Naoki Suzuki of the Jikei University School of Medicine. The test confirmed her skeleton was undamaged, and her internal organs seemed largely intact. It also showed that the end of her trunk, and her throat, mouth, and windpipe were filled with dense sediment. Six months later, in a laboratory in St Petersburg, Fisher, Buigues, Suzuki, Tikhonov and other colleagues began a three-day series of tests on Lyuba. During these, Fisher noted a dense mix of clay and sand in her trunk, mouth and throat, which had been indicated earlier by the scan. In fact, the sediment in Lyuba\u2019s trunk was packed so tightly that Fisher saw it as a possible explanation for the dent above her trunk. If she was frantically fighting for breath and inhaled convulsively, perhaps a partial vacuum was created in the base of her trunk, which would have flattened surrounding soft tissue. To Fisher, the circumstances of Lyuba\u2019s death were clear: she had asphyxiated. Suzuki, however, proposed a different interpretation, seeing more evidence for drowning than asphyxiation.</p>\n\n<p><strong>F</strong></p>\n<p>Studies are ongoing, but Lyuba has begun to shed the secrets of her short life and some clues to the fate of her kind. Her good general health was shown in the record of her dental development, a confirmation for Fisher that dental research is useful for evaluating health and thus key to investigating the causes of mammoth extinction. Analysis of her well-preserved DNA has revealed that she belonged to a distinct population of Mammuthus primigenius and that, soon after her time, another population migrating to Siberia from North America would take their place. Finally, Lyuba\u2019s premolars and tusks revealed that she had been born in late spring and was only a month old when she died.</p>\n\n<p><small>* Pleistocene era: the time between roughly 2.6 million years ago and 10,000 years ago</small></p>",
+            "passage": "<p><em>A near-perfect frozen mammoth offers clues to a great vanished species</em></p>\n\n<p><strong>A</strong></p>\n<p>On a May morning in 2007, on the Yamal Peninsula in northwestern Siberia, a Nenets reindeer herder named Yuri Khudi stood on a sandbar on the Yuribey River, looking carefully at a diminutive corpse. Although he’d never seen such an animal before, Khudi had seen many mammoth tusks, the thick corkscrew shafts that his people found each summer, and this persuaded him the corpse was a baby mammoth. It was eerily well preserved. Apart from its missing hair and toenails, it was perfectly intact. Khudi realised the find might be significant and he knew he couldn’t just return home and forget all about it. He therefore decided to travel to the small town of Yar Sale to consult an old friend named Kirill Serotetto. His friend took him to meet the director of the local museum, who persuaded the local authorities to fly Khudi and Serotetto back to the Yuribey River to collect the baby mammoth.</p>\n\n<p><strong>B</strong></p>\n<p>Mammoths became extinct between 14,000 and 10,000 years ago and since the extinctions coincided with the end of the most recent Ice age, many researchers believe that the primary cause of the great die-off was the sharp rise in temperature, which dramatically altered the vegetation. ‘We have strong evidence that the temperature rise played a significant part in their extinction,’ says Adrian Lister, a palaeontologist and mammoth expert at London’s Natural History Museum. ‘In Eurasia, the timing of the two events matches closely.’ The extinctions also coincided, however, with the arrival of modern humans. In addition to exploiting mammoths for food, they used their bones and tusks to make weapons, tools, and even dwellings. Some scientists believe humans were as much to blame as the temperature rise for the great die-off. Some say they caused it.</p>\n\n<p><strong>C</strong></p>\n<p>The body of the baby mammoth was eventually sent to the St Petersburg Zoological Museum in Russia. Alexei Tikhonov, the museum’s director, was one of the first scientists to view the baby, a female. According to Tikhonov, Khudi had rescued ‘the best preserved mammoth to come down to US from the Ice Age’, and he gratefully named her Lyuba, after Khudi’s wife. Tikhonov knew that no-one would be more excited by the find than Dan Fisher, an American colleague at the University of Michigan who had spent 30 years researching the lives of mammoths. Tikhonov invited Fisher, along with Bernard Buigues, a French mammoth hunter, to come and view the baby mammoth. Fisher and Buigues had examined other specimens together, including infants, but these had been in a relatively poor state. Lyuba was another story entirely. Other than the missing hair and toenails, the only flaw in her pristine appearance was a curious dent above the trunk.</p>\n\n<p><strong>D</strong></p>\n<p>Fisher was particularly excited about one specific part of Lyuba’s anatomy: her milk tusks. Through his career, Fisher has taken hundreds of tusk samples. Most of these came from the Great Lakes region of North America, and his research showed that these animals continued to thrive, despite the late Pleistocene* temperature change. On the other hand, to Fisher the tusks often revealed telltale evidence of human hunting. His samples frequently came from animals that had died in the autumn, when they should have been at their peak after summer grazing, and less likely to die of natural causes, but also when humans would have been most eager to stockpile meat for the coming winter. He has done limited work in Siberia, but his analysis of tusks from Wrangel Island, off the coast of Siberia, suggests the same conclusion.</p>\n\n<p><strong>E</strong></p>\n<p>In December 2007, Buigues arranged for the specimen to be transported to Japan to undergo a CT scan by Naoki Suzuki of the Jikei University School of Medicine. The test confirmed her skeleton was undamaged, and her internal organs seemed largely intact. It also showed that the end of her trunk, and her throat, mouth, and windpipe were filled with dense sediment. Six months later, in a laboratory in St Petersburg, Fisher, Buigues, Suzuki, Tikhonov and other colleagues began a three-day series of tests on Lyuba. During these, Fisher noted a dense mix of clay and sand in her trunk, mouth and throat, which had been indicated earlier by the scan. In fact, the sediment in Lyuba’s trunk was packed so tightly that Fisher saw it as a possible explanation for the dent above her trunk. If she was frantically fighting for breath and inhaled convulsively, perhaps a partial vacuum was created in the base of her trunk, which would have flattened surrounding soft tissue. To Fisher, the circumstances of Lyuba’s death were clear: she had asphyxiated. Suzuki, however, proposed a different interpretation, seeing more evidence for drowning than asphyxiation.</p>\n\n<p><strong>F</strong></p>\n<p>Studies are ongoing, but Lyuba has begun to shed the secrets of her short life and some clues to the fate of her kind. Her good general health was shown in the record of her dental development, a confirmation for Fisher that dental research is useful for evaluating health and thus key to investigating the causes of mammoth extinction. Analysis of her well-preserved DNA has revealed that she belonged to a distinct population of Mammuthus primigenius and that, soon after her time, another population migrating to Siberia from North America would take their place. Finally, Lyuba’s premolars and tusks revealed that she had been born in late spring and was only a month old when she died.</p>\n\n<p><small>* Pleistocene era: the time between roughly 2.6 million years ago and 10,000 years ago</small></p>",
             "questionSections": [
                 {
                     "type": "matching-info",
                     "typeName": "Matching Information",
                     "title": "Questions 14-18",
-                    "instruction": "Questions 14\u201318<br><br>Reading Passage 2 has six paragraphs, <strong>A\u2013F</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A\u2013F</strong>, in boxes 14\u201318 on your answer sheet.",
+                    "instruction": "Questions 14–18<br><br>Reading Passage 2 has six paragraphs, <strong>A–F</strong>.<br><br>Which paragraph contains the following information?<br><br>Write the correct letter, <strong>A–F</strong>, in boxes 14–18 on your answer sheet.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F"
+                    ],
                     "questions": [
                         {
                             "id": 14,
@@ -157,7 +229,7 @@ window.IELTS_READING_TEST = {
                         },
                         {
                             "id": 16,
-                            "text": "A theory that accounts for the damage to Lyuba\u2019s face."
+                            "text": "A theory that accounts for the damage to Lyuba’s face."
                         },
                         {
                             "id": 17,
@@ -173,7 +245,7 @@ window.IELTS_READING_TEST = {
                     "type": "matching-features",
                     "typeName": "Matching Features",
                     "title": "Questions 19-23",
-                    "instruction": "Questions 19\u201323<br><br>Look at the following statements (Questions 19\u201323) and the list of people below.<br><br>Match each statement with the correct person, <strong>A\u2013G</strong>.<br><br>Write the correct letter, <strong>A\u2013G</strong>, in boxes 19\u201323 on your answer sheet.<br><br><strong>NB</strong> <em>You may use any letter more than once.</em>",
+                    "instruction": "Questions 19–23<br><br>Look at the following statements (Questions 19–23) and the list of people below.<br><br>Match each statement with the correct person, <strong>A–G</strong>.<br><br>Write the correct letter, <strong>A–G</strong>, in boxes 19–23 on your answer sheet.<br><br><strong>NB</strong> <em>You may use any letter more than once.</em>",
                     "boxTitle": "List of People",
                     "headingsList": [],
                     "featuresList": [
@@ -200,7 +272,7 @@ window.IELTS_READING_TEST = {
                         },
                         {
                             "id": 22,
-                            "text": "It would be a mistake to ignore the baby mammoth\u2019s discovery, because of its potential importance."
+                            "text": "It would be a mistake to ignore the baby mammoth’s discovery, because of its potential importance."
                         },
                         {
                             "id": 23,
@@ -212,7 +284,7 @@ window.IELTS_READING_TEST = {
                     "type": "completion",
                     "typeName": "Sentence Completion",
                     "title": "Questions 24-26",
-                    "instruction": "Questions 24\u201326<br><br>Complete the sentences below.<br><br>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br>Write your answers in boxes 24\u201326 on your answer sheet.",
+                    "instruction": "Questions 24–26<br><br>Complete the sentences below.<br><br>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br>Write your answers in boxes 24–26 on your answer sheet.",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -226,40 +298,105 @@ window.IELTS_READING_TEST = {
                         },
                         {
                             "id": 26,
-                            "text": "Not long after Lyuba\u2019s death, the <em>Mammuthus primigenius</em> group she belonged to was replaced by another group that came from {INPUT}."
+                            "text": "Not long after Lyuba’s death, the <em>Mammuthus primigenius</em> group she belonged to was replaced by another group that came from {INPUT}."
                         }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q14": ["D"],
-                "q15": ["B"],
-                "q16": ["E"],
-                "q17": ["A"],
-                "q18": ["C"],
-                "q19": ["C"],
-                "q20": ["E"],
-                "q21": ["D"],
-                "q22": ["A"],
-                "q23": ["E"],
-                "q24": ["VEGETATION"],
-                "q25": ["HUMAN HUNTING"],
-                "q26": ["NORTH AMERICA"]
+                "q14": [
+                    "D"
+                ],
+                "q15": [
+                    "B"
+                ],
+                "q16": [
+                    "E"
+                ],
+                "q17": [
+                    "A"
+                ],
+                "q18": [
+                    "C"
+                ],
+                "q19": [
+                    "C"
+                ],
+                "q20": [
+                    "E"
+                ],
+                "q21": [
+                    "D"
+                ],
+                "q22": [
+                    "A"
+                ],
+                "q23": [
+                    "E"
+                ],
+                "q24": [
+                    "VEGETATION"
+                ],
+                "q25": [
+                    "HUMAN HUNTING"
+                ],
+                "q26": [
+                    "NORTH AMERICA"
+                ]
             },
             "explanations": {
-                "q14": "Paragraph D: Fisher\u2019s analysis of tusks from both the Great Lakes region of North America and Wrangel Island off the coast of Siberia 'suggests the same conclusion.'",
-                "q15": "Paragraph B: 'they used their bones and tusks to make weapons, tools, and even dwellings.'",
-                "q16": "Paragraph E: Fisher saw the sediment packed in Lyuba\u2019s trunk 'as a possible explanation for the dent above her trunk.'",
-                "q17": "Paragraph A: Khudi 'had seen many mammoth tusks, the thick corkscrew shafts that his people found each summer, and this persuaded him the corpse was a baby mammoth.'",
-                "q18": "Paragraph C: 'Fisher and Buigues had examined other specimens together, including infants, but these had been in a relatively poor state. Lyuba was another story entirely.'",
-                "q19": "Adrian Lister says: 'We have strong evidence that the temperature rise played a significant part in their extinction.'",
-                "q20": "Paragraph F: Fisher confirms 'dental research is useful for evaluating health and thus key to investigating the causes of mammoth extinction.'",
-                "q21": "Tikhonov described Lyuba as 'the best preserved mammoth to come down to US from the Ice Age.'",
-                "q22": "Khudi 'realised the find might be significant and he knew he couldn\u2019t just return home and forget all about it.'",
-                "q23": "Fisher\u2019s samples 'frequently came from animals that had died in the autumn, when they should have been at their peak after summer grazing.'",
-                "q24": "The passage states temperature rise 'dramatically altered the vegetation.'",
-                "q25": "The passage states: 'the tusks often revealed telltale evidence of human hunting.'",
-                "q26": "The passage states: 'another population migrating to Siberia from North America would take their place.'"
+                "q14": {
+                    "text": "This quote supports answer D because it discusses Fisher's analysis of tusks from Wrangel Island (Siberia) and compares it to his findings from the Great Lakes region of North America, showing similarities between studies of mammoth remains from different parts of the world.",
+                    "quote": "He has done limited work in Siberia, but his analysis of tusks from Wrangel Island, off the coast of Siberia, suggests the same conclusion."
+                },
+                "q15": {
+                    "text": "This sentence directly describes the uses of mammoth body parts (bones and tusks) for various purposes, matching the question's focus.",
+                    "quote": "In addition to exploiting mammoths for food, they used their bones and tusks to make weapons, tools, and even dwellings."
+                },
+                "q16": {
+                    "text": "This sentence in paragraph E directly explains Fisher's theory about how the dent above Lyuba's trunk might have been caused by a vacuum created during a struggle to breathe, thus accounting for the damage to her face.",
+                    "quote": "If she was frantically fighting for breath and inhaled convulsively, perhaps a partial vacuum was created in the base of her trunk, which would have flattened surrounding soft tissue."
+                },
+                "q17": {
+                    "text": "The quote explains that Yuri Khudi, despite never seeing a baby mammoth before, was able to identify the corpse as such because he had seen many mammoth tusks, which are common finds in the area. This directly answers how he was able to identify the corpse.",
+                    "quote": "Although he’d never seen such an animal before, Khudi had seen many mammoth tusks, the thick corkscrew shafts that his people found each summer, and this persuaded him the corpse was a baby mammoth."
+                },
+                "q18": {
+                    "text": "This quote directly compares Lyuba to other young mammoth corpses, stating that other infant specimens examined by Fisher and Buigues were in \"relatively poor state\" compared to Lyuba, making C the correct answer.",
+                    "quote": "Fisher and Buigues had examined other specimens together, including infants, but these had been in a relatively poor state. Lyuba was another story entirely."
+                },
+                "q19": {
+                    "text": "Adrian Lister states that there is strong evidence that temperature rise played a significant part in the extinction of mammoths, which supports the idea that climate change was a factor in their demise.",
+                    "quote": "‘We have strong evidence that the temperature rise played a significant part in their extinction,’ says Adrian Lister, a palaeontologist and mammoth expert at London’s Natural History Museum."
+                },
+                "q20": {
+                    "text": "The quote directly states that dental research (teeth analysis) is useful for evaluating health and key to investigating the causes of mammoth extinction, which aligns with Dan Fisher's work.",
+                    "quote": "Her good general health was shown in the record of her dental development, a confirmation for Fisher that dental research is useful for evaluating health and thus key to investigating the causes of mammoth extinction."
+                },
+                "q21": {
+                    "text": "Alexei Tikhonov stated that the baby mammoth was the best preserved mammoth to come down to us from the Ice Age, which directly supports the answer that the corpse of the baby mammoth is in better condition than any other that has been discovered.",
+                    "quote": "According to Tikhonov, Khudi had rescued ‘the best preserved mammoth to come down to US from the Ice Age’"
+                },
+                "q22": {
+                    "text": "Yuri Khudi understood the potential importance of the baby mammoth discovery, which is why he didn't ignore it and instead sought help.",
+                    "quote": "Khudi realised the find might be significant and he knew he couldn’t just return home and forget all about it."
+                },
+                "q23": {
+                    "text": "The quote directly states that Fisher's samples often came from mammoths that died in autumn, a time when they should have been in good condition after summer grazing, supporting the answer E.",
+                    "quote": "His samples frequently came from animals that had died in the autumn, when they should have been at their peak after summer grazing, and less likely to die of natural causes, but also when humans would have been most eager to stockpile meat for the coming winter."
+                },
+                "q24": {
+                    "text": "The provided sentence directly states that a sharp rise in temperature dramatically altered the vegetation, which researchers believe was the primary cause of the mammoth die-off. Therefore, the missing word is vegetation.",
+                    "quote": "many researchers believe that the primary cause of the great die-off was the sharp rise in temperature, which dramatically altered the vegetation."
+                },
+                "q25": {
+                    "text": "The question asks what Fisher concluded the tusks displayed signs of, and the passage states that to Fisher, the tusks often revealed telltale evidence of human hunting.",
+                    "quote": "On the other hand, to Fisher the tusks often revealed telltale evidence of human hunting."
+                },
+                "q26": {
+                    "text": "The passage states that another population migrating to Siberia from North America would take the place of Lyuba's Mammuthus primigenius group, which directly answers the question.",
+                    "quote": "Analysis of her well-preserved DNA has revealed that she belonged to a distinct population of Mammuthus primigenius and that, soon after her time, another population migrating to Siberia from North America would take their place."
+                }
             }
         },
         {
@@ -273,13 +410,13 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 3",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 27-40</strong>, which are based on Reading Passage 3 on pages 10 and 11."
             },
-            "passage": "<p><em>How does someone become expert in music? And IS it really possible to have a \u2018talent\u2019 for music?</em></p>\n\n<p>Does that class of people acknowledged to be musical experts just have more of the same basic skills we are all endowed with, or do they have a set of abilities \u2013 or neural structures \u2013 that are totally different from those of the rest of us? Are high levels of musical achievement simply the result of training and practice, or are they based on innate brain structure \u2013 what we refer to as \u2018talent\u2019? Talent can be defined as something that originates in genetic structures and that is identifiable by trained people who can recognize its existence before a person has achieved exceptional levels of performance. The emphasis on early identification means that to investigate it, we study the development of skills in children.</p>\n\n<p>It is evident that some children acquire skills more rapidly than others: the age of onset for walking and talking varies widely, even between children in the same household. There may be genetic factors at work, but these are closely linked with other factors \u2013 with a presumably environmental component \u2013 such as motivation and family dynamics. Similar factors can influence musical development and can mask the contribution of genetics to musical ability.</p>\n\n<p>Brain studies, so far, haven\u2019t been of much use in sorting out the issues. Gottfried Schlaug at Harvard collected brain scans of individuals with absolute pitch* (AP) and showed that a region in the brain called the planum temporale is larger in these people than in others. This suggests that the planum is involved in AP, but it\u2019s not clear if it starts out larger in people who eventually acquire AP, or if the acquisition of AP makes the planum increase in size.</p>\n\n<p>Results of research into the areas of the brain involved in skilled motor movement are more conclusive. Studies of violin players have shown that the region of the brain responsible for controlling the movement of the left hand (the hand that requires greater precision in violin playing) increases in size as a result of practice. We do not know yet if the propensity for increase pre-exists in some people and not others.</p>\n\n<p>The evidence against talent comes from research on how much training the experts do. Like experts in mathematics, chess, or sports, experts in music require lengthy periods of instruction and practice. In several studies, the very best music students were found to have practiced more than twice as much as the others. In another study, students were secretly divided into two groups based on teachers\u2019 perceptions of their talent. Several years later, it was found that the students who achieved the highest performance ratings had practiced the most, irrespective of which \u2018talent\u2019 group they had been assigned to, suggesting that practice does not merely correlate with achievement, but causes it.</p>\n\n<p>Anders Ericsson, at Florida State University, approaches the topic of musical expertise as a general problem in cognitive psychology. He takes as a starting point the assumption that there are certain issues involved in becoming an expert at <em>anything</em>; that we can learn about musical expertise by studying expert chess players, athletes, artists, mathematicians, as well as the musicians themselves. The emerging picture from such studies is that ten thousand hours of practice is required to achieve the level of mastery associated with being a world-class expert \u2013 in anything. In study after study, of composers, ice skaters, concert pianists, chess players and master criminals, this number comes up again and again. Someone would do this amount of practice if they practiced, for example, roughly 20 hours a week for ten years. Of course, this does not address why some people do not seem to get anywhere when they practice, and why some people get more out of their practice sessions than others. But no-one has yet found a case in which true world-class expertise was accomplished in less time. It seems that it takes the brain this long to assimilate all that it needs to know to achieve true mastery.</p>\n\n<p>The ten-thousand-hour theory is consistent with what we know about how the brain learns. Learning requires the assimilation and consolidation of information in neural tissue. The more experiences we have with something, the stronger the memory/learning trace for that experience becomes. Although people differ in how long it takes them to consolidate information neutrally, it remains true that increased practice leads to a greater number of neural traces, which create stronger memory representation.</p>\n\n<p>The classic rebuttal to this theory goes something like this: \u2018What about Mozart? I hear that he composed his first symphony at the age of four!\u2019 First, there is a factual error here: Mozart did not write it until he was eight. Still, this is unusual, to say the least. However, this early work received little acclaim and was not performed very often. In fact, the only reason we know about it is because the child who wrote it grew up to become Mozart. And Mozart had an expert teacher in his father, who was renowned as a teacher of musicians all over Europe. We do not know how much Mozart practiced, but if he started at age two and worked thirty-two hours a week (quite possible, given that his father was a stern taskmaster) he would have made his ten thousand hours by the time he composed his first symphony. This does not mean that there are no genetic factors involved in Mozart\u2019s greatness, but that inborn traits may not be the only cause.</p>\n\n<p><small>* individuals with absolute pitch: people who can identify or sing any musical note correctly without help</small></p>",
+            "passage": "<p><em>How does someone become expert in music? And IS it really possible to have a ‘talent’ for music?</em></p>\n\n<p>Does that class of people acknowledged to be musical experts just have more of the same basic skills we are all endowed with, or do they have a set of abilities – or neural structures – that are totally different from those of the rest of us? Are high levels of musical achievement simply the result of training and practice, or are they based on innate brain structure – what we refer to as ‘talent’? Talent can be defined as something that originates in genetic structures and that is identifiable by trained people who can recognize its existence before a person has achieved exceptional levels of performance. The emphasis on early identification means that to investigate it, we study the development of skills in children.</p>\n\n<p>It is evident that some children acquire skills more rapidly than others: the age of onset for walking and talking varies widely, even between children in the same household. There may be genetic factors at work, but these are closely linked with other factors – with a presumably environmental component – such as motivation and family dynamics. Similar factors can influence musical development and can mask the contribution of genetics to musical ability.</p>\n\n<p>Brain studies, so far, haven’t been of much use in sorting out the issues. Gottfried Schlaug at Harvard collected brain scans of individuals with absolute pitch* (AP) and showed that a region in the brain called the planum temporale is larger in these people than in others. This suggests that the planum is involved in AP, but it’s not clear if it starts out larger in people who eventually acquire AP, or if the acquisition of AP makes the planum increase in size.</p>\n\n<p>Results of research into the areas of the brain involved in skilled motor movement are more conclusive. Studies of violin players have shown that the region of the brain responsible for controlling the movement of the left hand (the hand that requires greater precision in violin playing) increases in size as a result of practice. We do not know yet if the propensity for increase pre-exists in some people and not others.</p>\n\n<p>The evidence against talent comes from research on how much training the experts do. Like experts in mathematics, chess, or sports, experts in music require lengthy periods of instruction and practice. In several studies, the very best music students were found to have practiced more than twice as much as the others. In another study, students were secretly divided into two groups based on teachers’ perceptions of their talent. Several years later, it was found that the students who achieved the highest performance ratings had practiced the most, irrespective of which ‘talent’ group they had been assigned to, suggesting that practice does not merely correlate with achievement, but causes it.</p>\n\n<p>Anders Ericsson, at Florida State University, approaches the topic of musical expertise as a general problem in cognitive psychology. He takes as a starting point the assumption that there are certain issues involved in becoming an expert at <em>anything</em>; that we can learn about musical expertise by studying expert chess players, athletes, artists, mathematicians, as well as the musicians themselves. The emerging picture from such studies is that ten thousand hours of practice is required to achieve the level of mastery associated with being a world-class expert – in anything. In study after study, of composers, ice skaters, concert pianists, chess players and master criminals, this number comes up again and again. Someone would do this amount of practice if they practiced, for example, roughly 20 hours a week for ten years. Of course, this does not address why some people do not seem to get anywhere when they practice, and why some people get more out of their practice sessions than others. But no-one has yet found a case in which true world-class expertise was accomplished in less time. It seems that it takes the brain this long to assimilate all that it needs to know to achieve true mastery.</p>\n\n<p>The ten-thousand-hour theory is consistent with what we know about how the brain learns. Learning requires the assimilation and consolidation of information in neural tissue. The more experiences we have with something, the stronger the memory/learning trace for that experience becomes. Although people differ in how long it takes them to consolidate information neutrally, it remains true that increased practice leads to a greater number of neural traces, which create stronger memory representation.</p>\n\n<p>The classic rebuttal to this theory goes something like this: ‘What about Mozart? I hear that he composed his first symphony at the age of four!’ First, there is a factual error here: Mozart did not write it until he was eight. Still, this is unusual, to say the least. However, this early work received little acclaim and was not performed very often. In fact, the only reason we know about it is because the child who wrote it grew up to become Mozart. And Mozart had an expert teacher in his father, who was renowned as a teacher of musicians all over Europe. We do not know how much Mozart practiced, but if he started at age two and worked thirty-two hours a week (quite possible, given that his father was a stern taskmaster) he would have made his ten thousand hours by the time he composed his first symphony. This does not mean that there are no genetic factors involved in Mozart’s greatness, but that inborn traits may not be the only cause.</p>\n\n<p><small>* individuals with absolute pitch: people who can identify or sing any musical note correctly without help</small></p>",
             "questionSections": [
                 {
                     "type": "mcq",
                     "typeName": "Multiple Choice",
                     "title": "Questions 27-30",
-                    "instruction": "Questions 27\u201330<br><br>Choose the correct letter, <strong>A, B, C or D</strong>.<br><br>Write the correct letter in boxes 27\u201330 on your answer sheet.",
+                    "instruction": "Questions 27–30<br><br>Choose the correct letter, <strong>A, B, C or D</strong>.<br><br>Write the correct letter in boxes 27–30 on your answer sheet.",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -309,7 +446,7 @@ window.IELTS_READING_TEST = {
                             "options": [
                                 "Changes may occur in the brain following violin practice.",
                                 "Left-handed violinists have a different brain structure from other people.",
-                                "A violinist\u2019s hand size is not due to practice but to genetic factors.",
+                                "A violinist’s hand size is not due to practice but to genetic factors.",
                                 "Violinists are born with brains that have a particular structure."
                             ]
                         },
@@ -329,13 +466,13 @@ window.IELTS_READING_TEST = {
                     "type": "ynng",
                     "typeName": "Yes/No/Not Given",
                     "title": "Questions 31-36",
-                    "instruction": "Questions 31\u201336<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 31\u201336 on your answer sheet, write<br><br><strong>YES</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>NO</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
+                    "instruction": "Questions 31–36<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 31–36 on your answer sheet, write<br><br><strong>Yes</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>No</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>Not Given</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
                         {
                             "id": 31,
-                            "text": "Anders Ericsson\u2019s work with cognitive psychology has influenced other researchers."
+                            "text": "Anders Ericsson’s work with cognitive psychology has influenced other researchers."
                         },
                         {
                             "id": 32,
@@ -351,7 +488,7 @@ window.IELTS_READING_TEST = {
                         },
                         {
                             "id": 35,
-                            "text": "Occasionally, someone can become an expert at global level with fewer than 10,000 hours\u2019 practice."
+                            "text": "Occasionally, someone can become an expert at global level with fewer than 10,000 hours’ practice."
                         },
                         {
                             "id": 36,
@@ -363,7 +500,7 @@ window.IELTS_READING_TEST = {
                     "type": "list-selection",
                     "typeName": "Summary Completion (List)",
                     "title": "Questions 37-40",
-                    "instruction": "Questions 37\u201340<br><br>Complete the summary using the list of words, <strong>A\u2013J</strong>, below.<br><br>Write the correct letter, <strong>A\u2013J</strong>, in boxes 37\u201340 on your answer sheet.",
+                    "instruction": "Questions 37–40<br><br>Complete the summary using the list of words, <strong>A–J</strong>, below.<br><br>Write the correct letter, <strong>A–J</strong>, in boxes 37–40 on your answer sheet.",
                     "boxTitle": "Mozart",
                     "headingsList": [],
                     "featuresList": [
@@ -399,36 +536,106 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q27": ["C"],
-                "q28": ["C"],
-                "q29": ["A"],
-                "q30": ["A"],
-                "q31": ["NOT GIVEN"],
-                "q32": ["YES"],
-                "q33": ["NOT GIVEN"],
-                "q34": ["NO"],
-                "q35": ["NO"],
-                "q36": ["YES"],
-                "q37": ["E"],
-                "q38": ["D"],
-                "q39": ["A"],
-                "q40": ["G"]
+                "q27": [
+                    "C"
+                ],
+                "q28": [
+                    "C"
+                ],
+                "q29": [
+                    "A"
+                ],
+                "q30": [
+                    "A"
+                ],
+                "q31": [
+                    "NOT GIVEN"
+                ],
+                "q32": [
+                    "YES"
+                ],
+                "q33": [
+                    "NOT GIVEN"
+                ],
+                "q34": [
+                    "NO"
+                ],
+                "q35": [
+                    "NO"
+                ],
+                "q36": [
+                    "YES"
+                ],
+                "q37": [
+                    "E"
+                ],
+                "q38": [
+                    "D"
+                ],
+                "q39": [
+                    "A"
+                ],
+                "q40": [
+                    "G"
+                ]
             },
             "explanations": {
-                "q27": "C \u2013 Talent is defined as something 'identifiable by trained people who can recognize its existence before a person has achieved exceptional levels of performance' \u2013 i.e. performing well in early childhood.",
-                "q28": "C \u2013 The passage states 'it\u2019s not clear if it starts out larger in people who eventually acquire AP, or if the acquisition of AP makes the planum increase in size' \u2013 whether the brain feature is a cause or an effect.",
-                "q29": "A \u2013 'the region of the brain responsible for controlling the movement of the left hand...increases in size as a result of practice' \u2013 changes may occur in the brain following practice.",
-                "q30": "A \u2013 Students who practiced most achieved highest ratings 'irrespective of which talent group they had been assigned to' \u2013 suggesting talent may have little to do with expertise.",
-                "q31": "NOT GIVEN \u2013 The passage describes Ericsson\u2019s research but does not say whether he has influenced other researchers.",
-                "q32": "YES \u2013 The passage states 'ten thousand hours of practice is required...in anything' and 'this number comes up again and again' across many different fields.",
-                "q33": "NOT GIVEN \u2013 The passage discusses hours of practice but does not specify that practice must be carried out every day.",
-                "q34": "NO \u2013 The passage states 'this does not address why some people do not seem to get anywhere when they practice.'",
-                "q35": "NO \u2013 The passage states 'no-one has yet found a case in which true world-class expertise was accomplished in less time.'",
-                "q36": "YES \u2013 'The ten-thousand-hour theory is consistent with what we know about how the brain learns.'",
-                "q37": "E (tuition) \u2013 'Mozart had an expert teacher in his father' \u2013 tuition means teaching/instruction.",
-                "q38": "D (eight) \u2013 'Mozart did not write it until he was eight.'",
-                "q39": "A (popular) \u2013 'this early work received little acclaim and was not performed very often' \u2013 it was not popular.",
-                "q40": "G (inherited) \u2013 'inborn traits may not be the only cause' \u2013 inborn = inherited."
+                "q27": {
+                    "text": "The passage defines talent as something identifiable before exceptional performance, implying early childhood performance. Therefore, a talented musician is someone who can perform extremely well in early childhood.",
+                    "quote": "Talent can be defined as something that originates in genetic structures and that is identifiable by trained people who can recognize its existence before a person has achieved exceptional levels of performance."
+                },
+                "q28": {
+                    "text": "The quote directly addresses the uncertainty regarding whether the larger planum temporale in individuals with absolute pitch (AP) is a pre-existing condition or a result of acquiring AP, which aligns with option C's focus on cause and effect.",
+                    "quote": "This suggests that the planum is involved in AP, but it’s not clear if it starts out larger in people who eventually acquire AP, or if the acquisition of AP makes the planum increase in size."
+                },
+                "q29": {
+                    "text": "The passage states that studies of violin players have shown that the region of the brain controlling the left hand increases in size as a result of practice, which directly supports the idea that changes may occur in the brain following violin practice.",
+                    "quote": "Studies of violin players have shown that the region of the brain responsible for controlling the movement of the left hand (the hand that requires greater precision in violin playing) increases in size as a result of practice."
+                },
+                "q30": {
+                    "text": "The passage states that the students with the highest performance practiced the most, regardless of their assigned 'talent' group, implying that practice is the primary driver of expertise, thus talent may have little to do with it.",
+                    "quote": "Several years later, it was found that the students who achieved the highest performance ratings had practiced the most, irrespective of which ‘talent’ group they had been assigned to, suggesting that practice does not merely correlate with achievement, but causes it."
+                },
+                "q31": {
+                    "text": "The passage mentions Anders Ericsson's approach to musical expertise as a general problem in cognitive psychology and his ten-thousand-hour theory, but it doesn't state whether his work has influenced other researchers. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q32": {
+                    "text": "The quote indicates that there are common elements in achieving expertise across different fields, supporting the statement that different areas of expertise have something in common.",
+                    "quote": "He takes as a starting point the assumption that there are certain issues involved in becoming an expert at anything ; that we can learn about musical expertise by studying expert chess players, athletes, artists, mathematicians, as well as the musicians themselves."
+                },
+                "q33": {
+                    "text": "The passage discusses the amount of practice required to become an expert, but it does not specify that practice must be carried out regularly every day. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q34": {
+                    "text": "The passage states that some people do not seem to improve despite practice, indicating that practice alone is not sufficient to become a world-class expert, thus the answer is NO.",
+                    "quote": "Of course, this does not address why some people do not seem to get anywhere when they practice, and why some people get more out of their practice sessions than others."
+                },
+                "q35": {
+                    "text": "The passage states that no one has found a case where world-class expertise was achieved in less than 10,000 hours, directly contradicting the statement that someone can occasionally become an expert at a global level with fewer hours of practice.",
+                    "quote": "But no-one has yet found a case in which true world-class expertise was accomplished in less time."
+                },
+                "q36": {
+                    "text": "The passage states that the ten-thousand-hour theory, which emphasizes practice, aligns with our understanding of how the brain learns, thus supporting the importance of practice in learning and cognitive skills.",
+                    "quote": "The ten-thousand-hour theory is consistent with what we know about how the brain learns."
+                },
+                "q37": {
+                    "text": "The passage states that Mozart had an expert teacher in his father, which equates to tuition. The passage also mentions Mozart's first symphony was written at eight, not four.",
+                    "quote": "However, this early work received little acclaim and was not performed very often."
+                },
+                "q38": {
+                    "text": "The passage states that Mozart did not write his first symphony at four, but at eight, which supports the answer that eight was not completed.",
+                    "quote": "First, there is a factual error here: Mozart did not write it until he was eight."
+                },
+                "q39": {
+                    "text": "The quote indicates Mozart's early work was not well-received, suggesting it was not a \"popular\" success. This supports the idea that expertise requires more than just innate talent, implying that Mozart's later success was not solely the result of inherited ability.",
+                    "quote": "However, this early work received little acclaim and was not performed very often."
+                },
+                "q40": {
+                    "text": "The passage states that genetic factors may be involved in Mozart's greatness, indicating that some characteristics are inherited, but they are not the only cause.",
+                    "quote": "This does not mean that there are no genetic factors involved in Mozart’s greatness, but that inborn traits may not be the only cause."
+                }
             }
         }
     ]

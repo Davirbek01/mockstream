@@ -488,6 +488,270 @@
       text-align: center;
     }
 
+    /* ===== SIDEBAR PROFILE ===== */
+    .sidebar-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(124,58,237,0.08) 100%);
+      border-radius: 14px;
+      border: 1px solid rgba(37,99,235,0.12);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .sidebar-profile:hover {
+      background: linear-gradient(135deg, rgba(37,99,235,0.14) 0%, rgba(124,58,237,0.14) 100%);
+      border-color: rgba(37,99,235,0.25);
+    }
+    .sidebar-profile-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .sidebar-profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .sidebar-profile-avatar .avatar-cam {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 16px;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .sidebar-profile-avatar:hover .avatar-cam {
+      opacity: 1;
+    }
+    .sidebar-profile-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .sidebar-profile-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sidebar-profile-name:hover .name-edit-icon {
+      opacity: 1;
+    }
+    .name-edit-icon {
+      font-size: 11px;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+    .sidebar-name-input {
+      font-size: 14px;
+      font-weight: 600;
+      border: 2px solid #3b82f6;
+      border-radius: 6px;
+      padding: 4px 8px;
+      width: 100%;
+      outline: none;
+      background: var(--card-bg, #fff);
+      color: var(--ink, #1e293b);
+    }
+    .sidebar-profile-role {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    /* ===== PROFILE EDIT POPUP ===== */
+    .profile-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .profile-popup-overlay.show { display: flex; }
+    .profile-popup {
+      background: #fff;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: ppSlideIn 0.25s ease;
+    }
+    @keyframes ppSlideIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .pp-header {
+      text-align: center;
+      padding: 24px 24px 0;
+    }
+    .pp-avatar-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      position: relative;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 700;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(37,99,235,0.35);
+    }
+    .pp-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .pp-avatar-cam {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pp-avatar-wrap:hover .pp-avatar-cam { opacity: 1; }
+    .pp-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 4px;
+    }
+    .pp-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .pp-body { padding: 20px 24px; }
+    .pp-field {
+      margin-bottom: 14px;
+    }
+    .pp-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+    .pp-field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #1e293b;
+      background: #f8fafc;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .pp-field input:focus {
+      border-color: #3b82f6;
+      background: #fff;
+    }
+    .pp-field .pp-required { color: #ef4444; }
+    .pp-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin: 18px 0 10px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .pp-footer {
+      display: flex;
+      gap: 10px;
+      padding: 0 24px 24px;
+    }
+    .pp-btn-cancel {
+      flex: 1;
+      padding: 11px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fff;
+      color: #64748b;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pp-btn-cancel:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .pp-btn-save {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+    .pp-btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
+    .pp-btn-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    [data-theme="dark"] .profile-popup { background: #1e293b; }
+    [data-theme="dark"] .pp-title { color: #f1f5f9; }
+    [data-theme="dark"] .pp-field input { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+    [data-theme="dark"] .pp-field input:focus { border-color: #3b82f6; background: #1e293b; }
+    [data-theme="dark"] .pp-field label { color: #94a3b8; }
+    [data-theme="dark"] .pp-section-title { color: #64748b; border-color: #334155; }
+    [data-theme="dark"] .pp-btn-cancel { background: #0f172a; border-color: #334155; color: #94a3b8; }
+    [data-theme="dark"] .sidebar-profile {
+      background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(124,58,237,0.12) 100%);
+      border-color: rgba(96,165,250,0.2);
+    }
+    [data-theme="dark"] .sidebar-profile:hover {
+      background: linear-gradient(135deg, rgba(37,99,235,0.22) 0%, rgba(124,58,237,0.18) 100%);
+    }
 
 
     /* ===== VIP SIDEBAR INLINE SECTION ===== */
@@ -922,12 +1186,14 @@
       filter: brightness(1.1);
     }
     .site-mgmt-submenu .skill-btn {
-      display: flex !important;
       background: var(--surface);
       border: 1px solid var(--ring);
       color: var(--ink);
       border-radius: 8px;
       transition: all 0.2s ease;
+    }
+    .site-mgmt-submenu .skill-btn.admin-revealed {
+      display: flex !important;
     }
     .site-mgmt-submenu .skill-btn:hover {
       background: var(--ring);
@@ -940,6 +1206,193 @@
     [data-theme="dark"] .site-mgmt-submenu .skill-btn:hover {
       background: rgba(255,255,255,0.1);
     }
+
+    /* ===== REGISTERED USERS PANEL ===== */
+    .ru-overlay {
+      position: fixed; inset: 0; z-index: 10100;
+      background: rgba(0,0,0,0.5); display: flex;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .ru-overlay.active { opacity: 1; pointer-events: auto; }
+    .ru-panel {
+      background: var(--surface, #fff); border-radius: 16px;
+      width: 94vw; max-width: 560px; max-height: 85vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .ru-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; border-bottom: 1px solid var(--ring, #e5e7eb);
+      background: linear-gradient(135deg, #6366f122, #818cf822);
+    }
+    .ru-header h3 { margin: 0; font-size: 16px; font-weight: 700; }
+    .ru-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--ink, #333); line-height: 1; }
+    .ru-search {
+      margin: 12px 16px 8px; padding: 10px 14px;
+      border: 1px solid var(--ring, #e5e7eb); border-radius: 10px;
+      font-size: 14px; outline: none; width: calc(100% - 32px);
+      background: var(--surface, #fff); color: var(--ink, #333);
+    }
+    .ru-search:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+    .ru-stats {
+      padding: 4px 16px 8px; font-size: 12px; color: #888;
+    }
+    .ru-list {
+      flex: 1; overflow-y: auto; padding: 0 16px 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .ru-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 14px; border-radius: 12px;
+      border: 1px solid var(--ring, #e5e7eb);
+      background: var(--surface, #fff);
+      transition: all .15s ease;
+    }
+    .ru-card:hover { border-color: #6366f1; box-shadow: 0 2px 8px rgba(99,102,241,0.1); }
+    .ru-card-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #818cf8);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 15px;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .ru-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .ru-card-info { flex: 1; min-width: 0; }
+    .ru-card-name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    .ru-card-detail { font-size: 12px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ru-center-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px;
+      font-size: 11px; font-weight: 600; color: #fff;
+      margin-top: 4px; text-transform: capitalize;
+    }
+    .ru-center-badge.mock_stream { background: linear-gradient(135deg, #6366f1, #818cf8); }
+    .ru-center-badge.bek { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .ru-center-badge.global { background: linear-gradient(135deg, #10b981, #059669); }
+    .ru-center-badge.niners { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .ru-center-badge.muzaffars { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .ru-center-badge.unknown { background: #888; }
+    .ru-empty { text-align: center; padding: 32px 0; color: #aaa; font-size: 14px; }
+    .ru-card { cursor: pointer; }
+    .ru-card-blocked { opacity: 0.55; }
+    .ru-role-badge { display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;vertical-align:middle;margin-left:4px; }
+    .ru-role-premium { background:#fff3e0;color:#e65100;border:1px solid #ffcc80; }
+    .ru-role-admin { background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7; }
+    .ru-role-super-admin { background:#ede7f6;color:#4527a0;border:1px solid #b39ddb; }
+    [data-theme="dark"] .ru-role-premium { background:rgba(230,81,0,0.15);color:#ffb74d;border-color:rgba(255,183,77,0.3); }
+    [data-theme="dark"] .ru-role-admin { background:rgba(46,125,50,0.15);color:#81c784;border-color:rgba(129,199,132,0.3); }
+    [data-theme="dark"] .ru-role-super-admin { background:rgba(69,39,160,0.15);color:#b39ddb;border-color:rgba(179,157,219,0.3); }
+    .ru-back-btn {
+      background: none; border: none; font-size: 14px; cursor: pointer;
+      color: #6366f1; font-weight: 600; display: flex; align-items: center; gap: 4px;
+    }
+    .ru-back-btn:hover { text-decoration: underline; }
+    .ru-result-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 14px; border-radius: 12px;
+      border: 1px solid var(--ring, #e5e7eb); background: var(--surface, #fff);
+      transition: all .15s ease; cursor: pointer;
+    }
+    .ru-result-card:hover { border-color: #6366f1; box-shadow: 0 2px 8px rgba(99,102,241,0.1); }
+    .ru-result-score {
+      min-width: 56px; text-align: center; padding: 6px 0;
+    }
+    .ru-result-score .big { font-size: 20px; font-weight: 800; color: #6366f1; line-height: 1.1; }
+    .ru-result-score .sub { font-size: 11px; color: #888; }
+    .ru-result-info { flex: 1; min-width: 0; }
+    .ru-result-date { font-size: 12px; color: #888; margin-bottom: 2px; }
+    .ru-result-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+    .ru-result-badges .rb {
+      display: inline-block; padding: 2px 7px; border-radius: 6px;
+      font-size: 10px; font-weight: 600; color: #fff;
+    }
+    .rb-ielts { background: #3b82f6; }
+    .rb-cefr { background: #8b5cf6; }
+    .rb-speaking { background: #f59e0b; }
+    .rb-writing { background: #10b981; }
+    .rb-listening { background: #6366f1; }
+    .rb-reading { background: #ec4899; }
+    .rb-full { background: #ef4444; }
+    .rb-practice { background: #94a3b8; }
+    .rb-ai { background: linear-gradient(135deg,#6366f1,#818cf8); }
+    .ru-result-details { font-size: 11px; color: #888; margin-top: 3px; line-height: 1.5; }
+    .ru-result-details .dl { font-weight: 600; color: #666; }
+    .ru-summary-row {
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 0 4px;
+    }
+    .ru-summary-stat {
+      flex: 1; min-width: 70px; text-align: center;
+      padding: 8px 4px; border-radius: 10px;
+      background: linear-gradient(135deg, #6366f108, #818cf808);
+      border: 1px solid var(--ring, #e5e7eb);
+    }
+    .ru-summary-stat .sv { font-size: 18px; font-weight: 800; color: #6366f1; }
+    .ru-summary-stat .sl { font-size: 10px; color: #888; margin-top: 2px; }
+    [data-theme="dark"] .ru-result-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .ru-result-card:hover { border-color: #818cf8; }
+    [data-theme="dark"] .ru-result-details .dl { color: #aaa; }
+    [data-theme="dark"] .ru-summary-stat { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); }
+    .ru-report-overlay {
+      position: fixed; inset: 0; z-index: 10200;
+      background: rgba(0,0,0,0.6); display: flex;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .ru-report-overlay.active { opacity: 1; pointer-events: auto; }
+    .ru-report-panel {
+      background: #fff; border-radius: 10px; width: 100vw; max-width: 100vw;
+      height: 100vh; display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35); overflow: hidden;
+    }
+    .ru-report-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid #e5e7eb;
+      background: linear-gradient(135deg, #6366f108, #818cf808);
+    }
+    .ru-report-header h4 { margin: 0; font-size: 14px; font-weight: 600; }
+    .ru-report-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #333; line-height: 1; }
+    .ru-report-body { flex: 1; overflow: hidden; position: relative; }
+    .ru-report-body iframe { width: 100%; height: 100%; border: none; }
+    .ru-report-progress {
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: #e5e7eb; z-index: 2; overflow: hidden;
+    }
+    .ru-report-progress-bar {
+      height: 100%; width: 0%; border-radius: 3px;
+      background: linear-gradient(90deg, #6366f1, #818cf8, #6366f1);
+      background-size: 200% 100%;
+      animation: ruProgressShimmer 1.5s ease infinite;
+      transition: width 0.3s ease;
+    }
+    .ru-report-progress.done { opacity: 0; transition: opacity 0.4s ease 0.3s; }
+    @keyframes ruProgressShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .ru-report-loading {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      background: var(--surface, #fff); z-index: 1;
+    }
+    .ru-report-loading .spinner {
+      width: 36px; height: 36px; border: 3px solid #e5e7eb;
+      border-top-color: #6366f1; border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .ru-report-loading .label { font-size: 13px; color: #888; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    [data-theme="dark"] .ru-report-progress { background: rgba(255,255,255,0.1); }
+    [data-theme="dark"] .ru-report-loading { background: #1e1e2e; }
+    [data-theme="dark"] .ru-report-loading .spinner { border-color: rgba(255,255,255,0.1); border-top-color: #818cf8; }
+    [data-theme="dark"] .ru-report-panel { background: #1e1e2e; }
+    [data-theme="dark"] .ru-report-header { border-color: rgba(255,255,255,0.1); }
+    [data-theme="dark"] .ru-report-close { color: #e0e0e0; }
+    [data-theme="dark"] .ru-panel { background: #1e1e2e; }
+    [data-theme="dark"] .ru-header { border-color: rgba(255,255,255,0.1); }
+    [data-theme="dark"] .ru-search { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #e0e0e0; }
+    [data-theme="dark"] .ru-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .ru-card:hover { border-color: #818cf8; }
 
     /* ===== HELP CENTER NEW MESSAGE TOAST ===== */
     #hcMsgToast {
@@ -1067,6 +1520,7 @@
       to { opacity: 1; }
     }
     .helpcenter-container {
+      position: relative;
       width: 420px;
       max-width: 95vw;
       height: 600px;
@@ -1090,11 +1544,14 @@
       padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       flex-shrink: 0;
     }
     .helpcenter-close {
-      background: rgba(255,255,255,0.2);
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      background: rgba(0,0,0,0.35);
       border: none;
       color: white;
       width: 32px;
@@ -1108,7 +1565,7 @@
       transition: background 0.2s;
     }
     .helpcenter-close:hover {
-      background: rgba(255,255,255,0.35);
+      background: rgba(0,0,0,0.55);
     }
     .helpcenter-categories {
       display: flex;
@@ -1377,6 +1834,17 @@
       border-color: #60a5fa;
     }
 
+    /* Mobile: keep help center as a compact popup, not fullscreen */
+    @media (max-width: 480px) {
+      .helpcenter-container {
+        width: 92vw;
+        max-width: 360px;
+        height: auto;
+        max-height: 75vh;
+        border-radius: 16px;
+      }
+    }
+
     /* ===== TEST MAKER MENU ITEM ===== */
     .testmaker-menu-item {
       margin-top: 10px;
@@ -1557,6 +2025,217 @@
     [data-theme="dark"] .results-dashboard-menu-item a:hover {
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.15) 100%);
       border-color: rgba(16, 185, 129, 0.6);
+    }
+
+    /* ===== SYSTEM PROMPTS PANEL ===== */
+    .sysprompt-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sysprompt-overlay.visible {
+      display: flex;
+      opacity: 1;
+    }
+    .sysprompt-panel {
+      background: var(--card);
+      border-radius: 16px;
+      width: 95%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+    .sysprompt-overlay.visible .sysprompt-panel {
+      transform: scale(1);
+    }
+    .sysprompt-header {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sysprompt-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .sysprompt-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sysprompt-close:hover {
+      background: rgba(255,255,255,0.35);
+    }
+    .sysprompt-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--ring);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .sysprompt-tab {
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .sysprompt-tab:hover {
+      color: var(--ink);
+      background: rgba(124,58,237,0.05);
+    }
+    .sysprompt-tab.active {
+      color: #7c3aed;
+      border-bottom-color: #7c3aed;
+    }
+    .sysprompt-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .sysprompt-section {
+      display: none;
+    }
+    .sysprompt-section.active {
+      display: block;
+    }
+    .sysprompt-field {
+      margin-bottom: 20px;
+    }
+    .sysprompt-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .sysprompt-field textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--ring);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 12px;
+      font-family: monospace;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .sysprompt-field textarea:focus {
+      border-color: #7c3aed;
+    }
+    .sysprompt-provider-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--ring);
+      flex-shrink: 0;
+    }
+    .sysprompt-provider-row span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+    .sysprompt-provider-btn {
+      padding: 6px 16px;
+      border: 2px solid var(--ring);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sysprompt-provider-btn.active {
+      border-color: #7c3aed;
+      background: linear-gradient(135deg, #7c3aed22, #6d28d922);
+      color: #7c3aed;
+    }
+    .sysprompt-provider-btn:hover:not(.active) {
+      border-color: var(--muted);
+      color: var(--foreground);
+    }
+    .sysprompt-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .sysprompt-save-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .sysprompt-save-btn:hover {
+      transform: translateY(-1px);
+    }
+    .sysprompt-reset-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: var(--ring);
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .sysprompt-status {
+      font-size: 12px;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+    @media (max-width: 480px) {
+      .sysprompt-panel {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+      .sysprompt-tab {
+        padding: 8px 10px;
+        font-size: 11px;
+      }
     }
 
     /* ===== TEST MAKER MODAL ===== */
@@ -5568,9 +6247,17 @@
 
   <!-- Sidebar Menu -->
   <nav class="sidebar-menu" id="sidebarMenu">
-    <h3>Menu</h3>
+    <a href="javascript:void(0)" class="sidebar-profile" id="sidebarProfile" onclick="openProfilePopup()">
+      <div class="sidebar-profile-avatar" id="sidebarAvatar" title="Tap to edit profile">
+        <span id="sidebarAvatarInitials">S</span>
+        <span class="avatar-cam">📷</span>
+      </div>
+      <div class="sidebar-profile-info">
+        <div class="sidebar-profile-name" id="sidebarName"><span id="sidebarNameText">Student</span><span class="name-edit-icon">✏️</span></div>
+        <div class="sidebar-profile-role">Mock Stream Student</div>
+      </div>
+    </a>
     <ul>
-      <li><a href="landing.html"><span class="menu-icon">🏠</span> Home</a></li>
 
       <!-- VIP Client Inline Section -->
       <li class="vip-sidebar-section" id="vipSidebarSection">
@@ -5629,8 +6316,14 @@
           <a href="results/index.html" onclick="toggleSidebar();" class="skill-btn" style="margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="resultsDashboardMenuItem">
             <span>📊</span> Results Dashboard
           </a>
-          <a href="javascript:void(0)" onclick="openTestMakerModal(); toggleSidebar();" class="skill-btn" style="margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="testMakerMenuItem2">
+          <a href="javascript:void(0)" onclick="openSystemPromptsPanel(); toggleSidebar();" class="skill-btn" id="systemPromptsMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+            <span>📝</span> System Prompts
+          </a>
+          <a href="javascript:void(0)" onclick="openTestMakerModal(); toggleSidebar();" class="skill-btn" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="testMakerMenuItem2">
             <span>🛠️</span> Test Maker
+          </a>
+          <a href="javascript:void(0)" onclick="openRegisteredUsersPanel(); toggleSidebar();" class="skill-btn" id="registeredUsersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+            <span>👥</span> Registered Users
           </a>
         </div>
       </li>
@@ -5766,6 +6459,7 @@
   <!-- ===== HELP CENTER CHAT OVERLAY ===== -->
   <div class="helpcenter-overlay" id="helpCenterOverlay">
     <div class="helpcenter-container">
+      <button class="helpcenter-close" onclick="closeHelpCenter()">✕</button>
       <div class="helpcenter-header">
         <div style="display:flex;align-items:center;gap:10px;">
           <span style="font-size:24px;">🤖</span>
@@ -5774,7 +6468,6 @@
             <span style="font-size:11px;opacity:0.8;">Help Center — Always Online</span>
           </div>
         </div>
-        <button class="helpcenter-close" onclick="closeHelpCenter()">✕</button>
       </div>
       <div class="helpcenter-categories" id="helpCenterCategories">
         <button class="hc-cat-btn active" data-cat="support" onclick="setHelpCategory('support')">💬 Support</button>
@@ -6270,6 +6963,148 @@
     </div>
   </div>
 
+  <!-- System Prompts Panel Overlay -->
+  <div class="sysprompt-overlay" id="sysPromptOverlay" onclick="closeSystemPromptsPanel()">
+    <div class="sysprompt-panel" onclick="event.stopPropagation()">
+      <div class="sysprompt-header">
+        <h3>📝 System Prompts</h3>
+        <button class="sysprompt-close" onclick="closeSystemPromptsPanel()">✕</button>
+      </div>
+      <div class="sysprompt-provider-row">
+        <span>AI Provider:</span>
+        <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini AI</button>
+        <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
+      </div>
+      <div class="sysprompt-tabs" id="sysPromptTabs">
+        <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
+        <button class="sysprompt-tab" data-tab="cefr-speaking">CEFR Speaking</button>
+        <button class="sysprompt-tab" data-tab="ielts-writing">IELTS Writing</button>
+        <button class="sysprompt-tab" data-tab="ielts-speaking">IELTS Speaking</button>
+      </div>
+      <div class="sysprompt-body" id="sysPromptBody">
+        <!-- CEFR Writing -->
+        <div class="sysprompt-section active" id="sec-cefr-writing">
+          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Writing Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_system" placeholder="System instruction for CEFR writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_prompt" placeholder="User prompt template for CEFR writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_task_system" placeholder="System instruction for CEFR writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_task_prompt" placeholder="User prompt template for CEFR writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_cefr_writing_full_system" placeholder="System instruction for CEFR full mock writing..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_writing_full_prompt" placeholder="User prompt template for CEFR full mock writing..."></textarea>
+          </div>
+        </div>
+        <!-- CEFR Speaking -->
+        <div class="sysprompt-section" id="sec-cefr-speaking">
+          <h4 style="margin:0 0 12px;font-size:15px;">CEFR Speaking Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_system" placeholder="System instruction for CEFR speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_prompt" placeholder="User prompt template for CEFR speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_part_system" placeholder="System instruction for CEFR speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_part_prompt" placeholder="User prompt template for CEFR speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_cefr_speaking_full_system" placeholder="System instruction for CEFR full mock speaking..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_cefr_speaking_full_prompt" placeholder="User prompt template for CEFR full mock speaking..."></textarea>
+          </div>
+        </div>
+        <!-- IELTS Writing -->
+        <div class="sysprompt-section" id="sec-ielts-writing">
+          <h4 style="margin:0 0 12px;font-size:15px;">IELTS Writing Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_system" placeholder="System instruction for IELTS writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_prompt" placeholder="User prompt template for IELTS writing scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_task_system" placeholder="System instruction for IELTS writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Task Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_task_prompt" placeholder="User prompt template for IELTS writing task scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_ielts_writing_full_system" placeholder="System instruction for IELTS full mock writing..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_writing_full_prompt" placeholder="User prompt template for IELTS full mock writing..."></textarea>
+          </div>
+        </div>
+        <!-- IELTS Speaking -->
+        <div class="sysprompt-section" id="sec-ielts-speaking">
+          <h4 style="margin:0 0 12px;font-size:15px;">IELTS Speaking Prompts</h4>
+          <div class="sysprompt-field">
+            <label>Regular — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_system" placeholder="System instruction for IELTS speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Regular — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_prompt" placeholder="User prompt template for IELTS speaking scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_part_system" placeholder="System instruction for IELTS speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Part Mode — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_part_prompt" placeholder="User prompt template for IELTS speaking part scoring..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — System Instruction</label>
+            <textarea id="sp_scoring_ielts_speaking_full_system" placeholder="System instruction for IELTS full mock speaking..."></textarea>
+          </div>
+          <div class="sysprompt-field">
+            <label>Full Mock — User Prompt Template</label>
+            <textarea id="sp_scoring_ielts_speaking_full_prompt" placeholder="User prompt template for IELTS full mock speaking..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div style="padding:12px 20px 16px;border-top:1px solid var(--ring);flex-shrink:0;">
+        <div class="sysprompt-actions">
+          <button class="sysprompt-save-btn" onclick="saveScoringPrompts()">💾 Save All</button>
+          <button class="sysprompt-reset-btn" onclick="resetScoringPrompts()">↩️ Reset to Defaults</button>
+        </div>
+        <div class="sysprompt-status" id="sysPromptStatus"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Test Maker Modal Overlay -->
   <div class="testmaker-overlay" id="testMakerOverlay" onclick="closeTestMakerModal()">
     <div class="testmaker-modal" onclick="event.stopPropagation()">
@@ -6585,6 +7420,73 @@
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
           &amp; Start</button>
       </div>
+    </div>
+  </div>
+
+  <!-- IELTS Reading Mode Selector Modal -->
+  <div id="ieltsReadingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsReadingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">📖</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="ieltsReadingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">IELTS Reading Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_ieltsReadingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📖</div>
+          Full Reading Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 3 passages • 60 min</div>
+        </button>
+        <button onclick="_ieltsReadingModePassageBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Passage Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one passage • ~20 min</div>
+        </button>
+      </div>
+      <button onclick="closeIeltsReadingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- IELTS Reading Passage Picker Modal -->
+  <div id="ieltsReadingPassagePickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsReadingPassagePicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Passage</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which passage you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickIeltsReadingPassage(1)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Passage 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~13 questions • ~20 min</div></div>
+        </button>
+        <button onclick="_pickIeltsReadingPassage(2)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Passage 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~14 questions • ~20 min</div></div>
+        </button>
+        <button onclick="_pickIeltsReadingPassage(3)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Passage 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">~13 questions • ~20 min</div></div>
+        </button>
+      </div>
+      <button onclick="closeIeltsReadingPassagePicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
     </div>
   </div>
 
@@ -7607,6 +8509,53 @@
     // --- Reading Access Code Modal Logic ---
     let _pendingReadingMock = null;
 
+    // --- IELTS Reading Mode Modal Logic ---
+    var _pendingIeltsReadingUrl = null;
+
+    function _loadReadingMockOrShowMode(pageUrl, category) {
+      if (category === 'ielts-reading') {
+        _pendingIeltsReadingUrl = pageUrl;
+        var mockNum = _extractReadingMockNumber(pageUrl) || '??';
+        var label = document.getElementById('ieltsReadingModeMockLabel');
+        if (label) label.textContent = 'IELTS Reading Mock ' + mockNum;
+        var modal = document.getElementById('ieltsReadingModeModal');
+        if (modal) modal.style.display = 'flex';
+      } else {
+        loadMock(pageUrl, 'reading');
+      }
+    }
+
+    function closeIeltsReadingModeModal() {
+      var modal = document.getElementById('ieltsReadingModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingIeltsReadingUrl = null;
+    }
+
+    function _ieltsReadingModeFullMock() {
+      var url = _pendingIeltsReadingUrl;
+      closeIeltsReadingModeModal();
+      if (url) loadMock(url, 'reading');
+    }
+
+    function _ieltsReadingModePassageBased() {
+      document.getElementById('ieltsReadingModeModal').style.display = 'none';
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'flex';
+    }
+
+    function closeIeltsReadingPassagePicker() {
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'none';
+      if (_pendingIeltsReadingUrl) {
+        document.getElementById('ieltsReadingModeModal').style.display = 'flex';
+      }
+    }
+
+    function _pickIeltsReadingPassage(n) {
+      var url = _pendingIeltsReadingUrl;
+      document.getElementById('ieltsReadingPassagePickerModal').style.display = 'none';
+      _pendingIeltsReadingUrl = null;
+      if (url) loadMock(url + '&passage=' + n, 'reading');
+    }
+
     function _extractReadingMockNumber(pageUrl) {
       const m = pageUrl.match(/(\d+)(?:\.js)?(?=&|$)/);
       return m ? m[1].padStart(2, '0') : null;
@@ -7637,7 +8586,7 @@
       document.getElementById('categoryModal').classList.remove('show');
       const mockNumber = _extractReadingMockNumber(pageUrl);
       sessionStorage.setItem('readingMockReturnCategory', category);
-      if (!mockNumber) { loadMock(pageUrl, 'reading'); return; }
+      if (!mockNumber) { _loadReadingMockOrShowMode(pageUrl, category); return; }
 
       // Super access or premium - bypass
       if (window.isSuperAccessUnlocked()) {
@@ -7646,14 +8595,14 @@
         if (!isVipAi && _isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
         sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
         sessionStorage.setItem('readingCodeValidated', 'true');
-        loadMock(pageUrl, 'reading');
+        _loadReadingMockOrShowMode(pageUrl, category);
         return;
       }
       if (window.isPremiumUnlocked && window.isPremiumUnlocked()) {
         sessionStorage.setItem('readingPremiumEntry', 'true');
         sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: true }));
         sessionStorage.setItem('readingCodeValidated', 'true');
-        loadMock(pageUrl, 'reading');
+        _loadReadingMockOrShowMode(pageUrl, category);
         return;
       }
 
@@ -7663,7 +8612,7 @@
         if (_isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
         sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
         sessionStorage.setItem('readingCodeValidated', 'true');
-        loadMock(pageUrl, 'reading');
+        _loadReadingMockOrShowMode(pageUrl, category);
         return;
       }
 
@@ -7737,8 +8686,9 @@
 
         setTimeout(() => {
           const url = _pendingReadingMock.pageUrl;
+          const cat = _pendingReadingMock.category;
           closeReadingAccessCodeModal();
-          loadMock(url, 'reading');
+          _loadReadingMockOrShowMode(url, cat);
         }, 400);
       } catch (err) {
         error.style.color = '#dc2626';
@@ -7981,6 +8931,399 @@
       hamburger.classList.toggle('active');
       sidebar.classList.toggle('active');
       overlay.classList.toggle('active');
+    }
+
+    // ===== SIDEBAR PROFILE =====
+    (function initSidebarProfile() {
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      if (name) {
+        _updateSidebarNameDisplay(name);
+      }
+      var avatarUrl = localStorage.getItem('ms_avatar_url') || '';
+      if (avatarUrl) _showAvatarImage(avatarUrl);
+      // Inject profile popup HTML
+      _injectProfilePopup();
+      // Show Registered Users for main site only
+      var _siteId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      // Admin menu items hidden by default — revealed via Ctrl+Shift+Alt+K or 5 taps on logo (mobile)
+      if (_siteId === 'mock_stream') {
+        function _revealAdminItems() {
+          var ruItem = document.getElementById('registeredUsersMenuItem');
+          var spItem = document.getElementById('systemPromptsMenuItem');
+          var tmItem = document.getElementById('testMakerMenuItem2');
+          if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
+          if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
+          if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
+        }
+        // Keyboard shortcut: Ctrl+Shift+Alt+K
+        document.addEventListener('keydown', function _adminShortcut(e) {
+          if (e.ctrlKey && e.shiftKey && e.altKey && (e.key === 'k' || e.key === 'K')) {
+            e.preventDefault();
+            _revealAdminItems();
+            document.removeEventListener('keydown', _adminShortcut);
+          }
+        });
+        // Mobile: 5 taps on landing logo
+        var _logoTaps = 0, _logoTimer = null;
+        var _welcomeLogo = document.getElementById('welcomeLogo');
+        if (_welcomeLogo) {
+          _welcomeLogo.addEventListener('click', function() {
+            _logoTaps++;
+            clearTimeout(_logoTimer);
+            _logoTimer = setTimeout(function() { _logoTaps = 0; }, 2000);
+            if (_logoTaps >= 5) {
+              _logoTaps = 0;
+              clearTimeout(_logoTimer);
+              _revealAdminItems();
+            }
+          });
+        }
+      }
+    })();
+
+    function _updateSidebarNameDisplay(name) {
+      var nameTextEl = document.getElementById('sidebarNameText');
+      var initialsEl = document.getElementById('sidebarAvatarInitials');
+      if (nameTextEl) nameTextEl.textContent = name;
+      if (initialsEl && name) {
+        var parts = name.trim().split(/\s+/);
+        var initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]) : parts[0].substring(0, 2);
+        initialsEl.textContent = initials.toUpperCase();
+      }
+    }
+
+    function _injectProfilePopup() {
+      if (document.getElementById('profilePopupOverlay')) return;
+      var div = document.createElement('div');
+      div.innerHTML = '<div class="profile-popup-overlay" id="profilePopupOverlay" onclick="if(event.target===this)closeProfilePopup()">'
+        + '<div class="profile-popup">'
+        + '<div class="pp-header">'
+        + '<div class="pp-avatar-wrap" id="ppAvatar" onclick="pickProfileAvatar()" title="Tap to change photo">'
+        + '<span id="ppAvatarInitials">S</span>'
+        + '<span class="pp-avatar-cam">📷 Change</span>'
+        + '</div>'
+        + '<div class="pp-title">Edit Profile</div>'
+        + '<div class="pp-subtitle">Tap photo to change it</div>'
+        + '</div>'
+        + '<div class="pp-body">'
+        + '<div class="pp-field"><label>Full Name <span class="pp-required">*</span></label><input type="text" id="ppName" maxlength="60" placeholder="Surname Firstname" autocomplete="off"></div>'
+        + '<div class="pp-section-title">Contact Details (optional)</div>'
+        + '<div class="pp-field"><label>📧 Email</label><input type="email" id="ppEmail" maxlength="100" placeholder="your@email.com" autocomplete="off"></div>'
+        + '<div class="pp-field"><label>📱 Phone</label><input type="tel" id="ppPhone" maxlength="20" placeholder="+998 90 123 45 67" autocomplete="off"></div>'
+        + '<div class="pp-field"><label>📍 Address</label><input type="text" id="ppAddress" maxlength="150" placeholder="City, Country" autocomplete="off"></div>'
+        + '</div>'
+        + '<div class="pp-footer">'
+        + '<button class="pp-btn-cancel" onclick="closeProfilePopup()">Cancel</button>'
+        + '<button class="pp-btn-save" id="ppSaveBtn" onclick="saveProfilePopup()">Save</button>'
+        + '</div>'
+        + '</div></div>';
+      document.body.appendChild(div.firstChild);
+    }
+
+    function openProfilePopup() {
+      var overlay = document.getElementById('profilePopupOverlay');
+      if (!overlay) { _injectProfilePopup(); overlay = document.getElementById('profilePopupOverlay'); }
+      // Fill current values
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      var profile = JSON.parse(localStorage.getItem('ms_candidate_profile') || '{}');
+      document.getElementById('ppName').value = name;
+      document.getElementById('ppEmail').value = profile.email || '';
+      document.getElementById('ppPhone').value = profile.phone || '';
+      document.getElementById('ppAddress').value = profile.address || '';
+      // Sync avatar in popup
+      var ppAvatar = document.getElementById('ppAvatar');
+      var ppInitials = document.getElementById('ppAvatarInitials');
+      var existingImg = ppAvatar.querySelector('img');
+      if (existingImg) existingImg.remove();
+      var avatarUrl = localStorage.getItem('ms_avatar_url') || '';
+      if (avatarUrl) {
+        var img = document.createElement('img');
+        img.src = avatarUrl;
+        img.alt = 'Avatar';
+        img.onerror = function () { img.remove(); if (ppInitials) ppInitials.style.display = ''; };
+        if (ppInitials) ppInitials.style.display = 'none';
+        ppAvatar.insertBefore(img, ppAvatar.firstChild);
+      } else if (name && ppInitials) {
+        var parts = name.trim().split(/\s+/);
+        ppInitials.textContent = (parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : name.substring(0, 2)).toUpperCase();
+        ppInitials.style.display = '';
+      }
+      overlay.classList.add('show');
+    }
+
+    function closeProfilePopup() {
+      var overlay = document.getElementById('profilePopupOverlay');
+      if (overlay) overlay.classList.remove('show');
+    }
+
+    function pickProfileAvatar() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5 MB.'); return; }
+        _uploadSidebarAvatar(file);
+        // Also update popup avatar preview
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var ppAvatar = document.getElementById('ppAvatar');
+          var ppInitials = document.getElementById('ppAvatarInitials');
+          var existing = ppAvatar.querySelector('img');
+          if (existing) existing.remove();
+          var img = document.createElement('img');
+          img.src = e.target.result;
+          if (ppInitials) ppInitials.style.display = 'none';
+          ppAvatar.insertBefore(img, ppAvatar.firstChild);
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+
+    async function saveProfilePopup() {
+      var nameInput = document.getElementById('ppName');
+      var newName = (nameInput.value || '').trim();
+      if (!newName || newName.length < 2) {
+        nameInput.style.borderColor = '#ef4444';
+        nameInput.focus();
+        return;
+      }
+      nameInput.style.borderColor = '';
+      var btn = document.getElementById('ppSaveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      var oldName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+
+      // Save contact details
+      var profile = JSON.parse(localStorage.getItem('ms_candidate_profile') || '{}');
+      profile.email = (document.getElementById('ppEmail').value || '').trim();
+      profile.phone = (document.getElementById('ppPhone').value || '').trim();
+      profile.address = (document.getElementById('ppAddress').value || '').trim();
+      localStorage.setItem('ms_candidate_profile', JSON.stringify(profile));
+
+      // Save name
+      sessionStorage.setItem('CANDIDATE_FULL_NAME', newName);
+      localStorage.setItem('ms_candidate_name', newName);
+      var parts = newName.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        localStorage.setItem('CANDIDATE_SURNAME', parts[0]);
+        localStorage.setItem('CANDIDATE_FIRSTNAME', parts.slice(1).join(' '));
+      }
+      _updateSidebarNameDisplay(newName);
+
+      // Merge results in Supabase if name changed
+      if (oldName && oldName !== newName) {
+        await _mergeSupabaseResults(oldName, newName);
+      }
+
+      // Upsert candidate to Supabase
+      await _upsertCandidate(newName, profile);
+
+      // Check if this user is blocked
+      var isBlocked = await _checkBlockedStatus(newName);
+      if (isBlocked) return;
+
+      btn.textContent = 'Saved!';
+      setTimeout(function () {
+        btn.disabled = false;
+        btn.textContent = 'Save';
+        closeProfilePopup();
+      }, 600);
+    }
+
+    async function _mergeSupabaseResults(oldName, newName) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(oldName), {
+          method: 'PATCH',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ student_name: newName })
+        });
+        if (resp.ok) {
+          console.log('[Profile] Merged results: "' + oldName + '" → "' + newName + '"');
+        } else {
+          console.warn('[Profile] Merge failed:', resp.status);
+        }
+      } catch (e) {
+        console.warn('[Profile] Merge error:', e);
+      }
+    }
+
+    async function _upsertCandidate(name, profile) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var row = {
+        student_name: name,
+        email: profile.email || '',
+        phone: profile.phone || '',
+        address: profile.address || '',
+        avatar_url: localStorage.getItem('ms_avatar_url') || '',
+        center: center,
+        updated_at: new Date().toISOString()
+      };
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'resolution=merge-duplicates,return=minimal'
+          },
+          body: JSON.stringify(row)
+        });
+        if (resp.ok) {
+          console.log('[Profile] Candidate upserted:', name, center);
+        } else {
+          console.warn('[Profile] Candidate upsert failed:', resp.status);
+        }
+      } catch (e) {
+        console.warn('[Profile] Candidate upsert error:', e);
+      }
+    }
+
+    // Check if current user is blocked — reusable, call from multiple places
+    async function _checkBlockedStatus(name) {
+      if (!name) return false;
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(name) + '&center=eq.' + encodeURIComponent(center) + '&select=blocked', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) return false;
+        var rows = await resp.json();
+        if (rows.length && rows[0].blocked === true) {
+          _enforceBlock(name);
+          return true;
+        }
+      } catch (e) {
+        console.warn('[BlockCheck] Error:', e);
+      }
+      return false;
+    }
+
+    function _enforceBlock(name) {
+      // Revoke all access keys
+      sessionStorage.removeItem('vipSessionAccess');
+      sessionStorage.removeItem('vipPremiumAi');
+      // Show inescapable overlay
+      _showBlockedOverlay(name);
+      // Set a global flag so other code can check synchronously
+      window._userIsBlocked = true;
+    }
+
+    // Periodically re-check block status (every 60s) to catch mid-session blocks
+    setInterval(function() {
+      if (window._userIsBlocked) return;
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      if (name) _checkBlockedStatus(name);
+    }, 60000);
+
+    // Run on page load
+    (async function() {
+      var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+      if (name) await _checkBlockedStatus(name);
+    })();
+
+    function _showBlockedOverlay(name) {
+      if (document.getElementById('blockedOverlay')) return;
+      // Disable everything behind the overlay
+      document.body.style.overflow = 'hidden';
+      var d = document.createElement('div');
+      d.id = 'blockedOverlay';
+      d.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;';
+      d.innerHTML = '<div style="background:#fff;border-radius:16px;padding:40px 32px;max-width:380px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);">'
+        + '<div style="font-size:48px;margin-bottom:16px;">🚫</div>'
+        + '<div style="font-size:20px;font-weight:700;color:#e53935;margin-bottom:8px;">Access Blocked</div>'
+        + '<div style="font-size:14px;color:#666;line-height:1.6;">Your account <strong>' + name.replace(/</g, '&lt;') + '</strong> has been blocked by the administrator.<br><br>Please contact your center for assistance.</div>'
+        + '</div>';
+      // Prevent any click-through
+      d.addEventListener('click', function(e) { e.stopPropagation(); });
+      d.addEventListener('keydown', function(e) { e.stopPropagation(); e.preventDefault(); });
+      document.body.appendChild(d);
+      // Trap focus inside overlay
+      d.setAttribute('tabindex', '0');
+      d.focus();
+    }
+
+    function _showAvatarImage(url) {
+      var el = document.getElementById('sidebarAvatar');
+      if (!el) return;
+      var initialsEl = document.getElementById('sidebarAvatarInitials');
+      if (initialsEl) initialsEl.style.display = 'none';
+      var existing = el.querySelector('img');
+      if (existing) existing.remove();
+      var img = document.createElement('img');
+      img.src = url;
+      img.alt = 'Avatar';
+      img.onerror = function () {
+        img.remove();
+        if (initialsEl) initialsEl.style.display = '';
+        localStorage.removeItem('ms_avatar_url');
+      };
+      el.insertBefore(img, el.firstChild);
+    }
+
+    function pickSidebarAvatar() {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function () {
+        var file = input.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5 MB.'); return; }
+        _uploadSidebarAvatar(file);
+      };
+      input.click();
+    }
+
+    async function _uploadSidebarAvatar(file) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      // Delete old avatar from storage to save space
+      var oldUrl = localStorage.getItem('ms_avatar_url');
+      if (oldUrl && oldUrl.indexOf(SB_URL + '/storage/v1/object/public/chat-attachments/') === 0) {
+        var oldPath = oldUrl.replace(SB_URL + '/storage/v1/object/public/chat-attachments/', '');
+        try {
+          await fetch(SB_URL + '/storage/v1/object/chat-attachments', {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prefixes: [oldPath] })
+          });
+        } catch (e) { /* ignore delete errors */ }
+      }
+      var ext = (file.name || '').split('.').pop() || 'jpg';
+      var path = 'avatars/' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+      try {
+        var resp = await fetch(SB_URL + '/storage/v1/object/chat-attachments/' + path, {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': file.type || 'image/jpeg',
+            'x-upsert': 'true'
+          },
+          body: file
+        });
+        if (!resp.ok) throw new Error('Upload failed');
+        var url = SB_URL + '/storage/v1/object/public/chat-attachments/' + path;
+        localStorage.setItem('ms_avatar_url', url);
+        _showAvatarImage(url);
+      } catch (e) {
+        alert('Failed to upload avatar. Please try again.');
+      }
     }
 
     // ===== DRAGGABLE HAMBURGER FAB (mobile) =====
@@ -9165,6 +10508,13 @@
       { file: 'IELTS reading.html?test=ielts-reading-test-36.js', name: 'IELTS Reading Practice Test 36', icon: '📖', actionText: 'Take Test' },
       { file: 'IELTS reading.html?test=ielts-reading-test-37.js', name: 'IELTS Reading Practice Test 37', icon: '📖', actionText: 'Take Test' },
       { file: 'IELTS reading.html?test=ielts-reading-test-38.js', name: 'IELTS Reading Practice Test 38', icon: '📖', actionText: 'Take Test' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-39.js', name: 'IELTS Reading Practice Test 39', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-40.js', name: 'IELTS Reading Practice Test 40', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-41.js', name: 'IELTS Reading Practice Test 41', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-42.js', name: 'IELTS Reading Practice Test 42', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-43.js', name: 'IELTS Reading Practice Test 43', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-44.js', name: 'IELTS Reading Practice Test 44', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-45.js', name: 'IELTS Reading Practice Test 45', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
     ];
 
     // ===== DYNAMIC ARTICLES MENU =====
@@ -9423,7 +10773,7 @@
     // ===== WRITING MOCKS ARRAYS =====
     const cefrWritingMocks = (() => {
       const mocks = [];
-      for (let i = 1; i <= 99; i++) {
+      for (let i = 1; i <= 100; i++) {
         const padded = String(i).padStart(2, '0');
         mocks.push({
           file: `Writing Mocks.html?test=cefr-writing-mock-${padded}&auto=1`,
@@ -10077,6 +11427,17 @@
         }
       }
     }
+
+    // Handle toggleFullscreen messages from exam iframes (when landing.html is the top window)
+    window.addEventListener('message', function(event) {
+      if (event.data === 'toggleFullscreen') {
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          exitFullscreen();
+        } else {
+          enterFullscreen();
+        }
+      }
+    });
 
     // Update button icon when fullscreen state changes
     document.addEventListener('fullscreenchange', function () {
@@ -13960,7 +15321,7 @@
       }
 
       try {
-        const url = SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email) + '&active=eq.true&select=tier,role,center';
+        const url = SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email) + '&select=tier,role,center,active';
         const resp = await fetch(url, {
           headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
         });
@@ -13970,6 +15331,30 @@
 
         if (rows.length > 0) {
           const match = rows[0];
+          const isAdmin = match.role === 'admin';
+
+          // Non-admin inactive accounts are blocked
+          if (!isAdmin && !match.active) {
+            status.className = 'vip-sidebar-status error';
+            status.textContent = '❌ Your access has been deactivated. Contact admin.';
+            btn.disabled = false;
+            btn.textContent = '→';
+            return;
+          }
+
+          // If an admin was wrongly deactivated (e.g. by old device-limit code), auto-reactivate
+          if (isAdmin && !match.active) {
+            await fetch(SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({ active: true })
+            });
+          }
 
           // Check center restriction if applicable
           const siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
@@ -13989,8 +15374,11 @@
           const knownDeviceIds = existingDevices.map(function(d) { return d.device_id; });
           const isKnownDevice = knownDeviceIds.indexOf(deviceId) > -1;
 
+          // Device limit only applies to regular users — admins/super admins are exempt
+          // (isAdmin already declared above)
+
           // If this is a NEW device and already at the limit → block
-          if (!isKnownDevice && knownDeviceIds.length >= MAX_DEVICES) {
+          if (!isAdmin && !isKnownDevice && knownDeviceIds.length >= MAX_DEVICES) {
             // Auto-deactivate the premium email
             await fetch(SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
               method: 'PATCH',
@@ -14035,6 +15423,17 @@
               },
               body: JSON.stringify({ email: email, device_id: deviceId, device_info: devInfo })
             });
+          }
+
+          // Check if user is blocked before granting VIP access
+          var _candName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+          if (_candName) {
+            var _blocked = await _checkBlockedStatus(_candName);
+            if (_blocked) {
+              btn.disabled = false;
+              btn.textContent = '→';
+              return;
+            }
           }
 
           // Activate VIP
@@ -14108,6 +15507,13 @@
             body: JSON.stringify({ last_seen: new Date().toISOString(), device_info: devInfo })
           });
 
+          // Check if user is blocked before auto-login VIP access
+          var _candNameAuto = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+          if (_candNameAuto) {
+            var _blockedAuto = await _checkBlockedStatus(_candNameAuto);
+            if (_blockedAuto) return;
+          }
+
           // Activate VIP
           sessionStorage.setItem(SUPER_ACCESS_KEY, 'true');
           if (match.tier === 'premium') {
@@ -14131,6 +15537,565 @@
       var sub = document.getElementById('siteMgmtSubmenu');
       if (!sub) return;
       sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // ===== REGISTERED USERS PANEL =====
+    var _ruData = [];
+
+    function _showRuPasscode() {
+      var existing = document.getElementById('ruPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('ruPasscodeInput').value = ''; document.getElementById('ruPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'ruPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeRuPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view registered users</p>' +
+        '<input type="password" id="ruPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyRuPasscode()">' +
+        '<div id="ruPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="ruPasscodeBtn" onclick="_verifyRuPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeRuPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('ruPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeRuPasscode() {
+      var el = document.getElementById('ruPasscodeOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _verifyRuPasscode() {
+      var input = document.getElementById('ruPasscodeInput');
+      var error = document.getElementById('ruPasscodeError');
+      var btn = document.getElementById('ruPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'registered-users' })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _ruAdminUnlocked = true;
+          _closeRuPasscode();
+          openRegisteredUsersPanel();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = '';
+        input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
+    function _ensureRuOverlay() {
+      if (document.getElementById('ruOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'ruOverlay';
+      div.className = 'ru-overlay';
+      div.onclick = function(e) { if (e.target === div) closeRegisteredUsersPanel(); };
+      div.innerHTML = '<div class="ru-panel">' +
+        '<div class="ru-header"><h3>👥 Registered Users</h3><button class="ru-close" onclick="closeRegisteredUsersPanel()">&times;</button></div>' +
+        '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
+        '<div class="ru-stats" id="ruStats"></div>' +
+        '<div class="ru-list" id="ruList"><div class="ru-empty">Loading...</div></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    var _ruAdminUnlocked = false;
+
+    async function openRegisteredUsersPanel() {
+      // Require admin passcode
+      if (!_ruAdminUnlocked) {
+        _showRuPasscode();
+        return;
+      }
+      _ensureRuOverlay();
+      var overlay = document.getElementById('ruOverlay');
+      overlay.classList.add('active');
+      document.getElementById('ruList').innerHTML = '<div class="ru-empty">Loading...</div>';
+      document.getElementById('ruSearch').value = '';
+      document.getElementById('ruStats').textContent = '';
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var [candResp, premResp] = await Promise.all([
+          fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc', {
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          }),
+          fetch(SB_URL + '/rest/v1/premium_emails?select=email,tier,role,center,active', {
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          })
+        ]);
+        if (!candResp.ok) throw new Error('HTTP ' + candResp.status);
+        _ruData = await candResp.json();
+        var premRows = premResp.ok ? await premResp.json() : [];
+        // Build email→role lookup: { email: { tier, role, center, active, premiumEmail } }
+        window._ruPremiumMap = {};
+        premRows.forEach(function(p) {
+          if (p.email) window._ruPremiumMap[p.email.toLowerCase()] = p;
+        });
+      } catch (e) {
+        _ruData = [];
+        window._ruPremiumMap = {};
+        console.warn('[RegisteredUsers] Fetch error:', e);
+      }
+      _renderRuList(_ruData);
+    }
+
+    function closeRegisteredUsersPanel() {
+      var overlay = document.getElementById('ruOverlay');
+      if (overlay) overlay.classList.remove('active');
+    }
+
+    function _filterRuList() {
+      var q = (document.getElementById('ruSearch').value || '').toLowerCase().trim();
+      if (!q) { _renderRuList(_ruData); return; }
+      var filtered = _ruData.filter(function(c) {
+        var match = (c.student_name || '').toLowerCase().indexOf(q) !== -1 ||
+               (c.email || '').toLowerCase().indexOf(q) !== -1 ||
+               (c.center || '').toLowerCase().indexOf(q) !== -1 ||
+               (c.phone || '').toLowerCase().indexOf(q) !== -1;
+        if (!match && c.email && window._ruPremiumMap) {
+          var p = window._ruPremiumMap[c.email.toLowerCase()];
+          if (p && p.active) {
+            var roleStr = (p.role === 'admin' ? ((!p.center || p.center === '') ? 'super admin' : 'admin') : '') + ' ' + (p.tier || '');
+            match = roleStr.toLowerCase().indexOf(q) !== -1;
+          }
+        }
+        if (!match && c.blocked && 'blocked'.indexOf(q) !== -1) match = true;
+        return match;
+      });
+      _renderRuList(filtered);
+    }
+
+    function _getRoleBadge(email) {
+      if (!email || !window._ruPremiumMap) return '';
+      var p = window._ruPremiumMap[email.toLowerCase()];
+      if (!p || !p.active) return '';
+      if (p.role === 'admin' && (!p.center || p.center === '')) {
+        return '<span class="ru-role-badge ru-role-super-admin">⚡ Super Admin</span>';
+      }
+      if (p.role === 'admin') {
+        return '<span class="ru-role-badge ru-role-admin">🛡️ Admin</span>';
+      }
+      if (p.tier === 'premium') {
+        return '<span class="ru-role-badge ru-role-premium">⭐ Premium</span>';
+      }
+      return '';
+    }
+
+    function _getRoleBadgeDetail(email) {
+      if (!email || !window._ruPremiumMap) return '';
+      var p = window._ruPremiumMap[email.toLowerCase()];
+      if (!p || !p.active) return '';
+      var label = '', cls = '';
+      if (p.role === 'admin' && (!p.center || p.center === '')) {
+        label = '⚡ Super Admin'; cls = 'ru-role-super-admin';
+      } else if (p.role === 'admin') {
+        label = '🛡️ Admin'; cls = 'ru-role-admin';
+      } else if (p.tier === 'premium') {
+        label = '⭐ Premium'; cls = 'ru-role-premium';
+      }
+      if (!label) return '';
+      return '<div style="font-size:11px;margin-top:3px;"><span class="ru-role-badge ' + cls + '">' + label + '</span> <span style="color:#aaa;font-size:10px;">' + p.email.replace(/</g, '&lt;') + '</span></div>';
+    }
+
+    function _renderRuList(list) {
+      var container = document.getElementById('ruList');
+      var statsEl = document.getElementById('ruStats');
+      if (!list.length) {
+        container.innerHTML = '<div class="ru-empty">No users found</div>';
+        statsEl.textContent = '0 users';
+        return;
+      }
+      // Count by center
+      var centerCounts = {};
+      list.forEach(function(c) { var cn = c.center || 'unknown'; centerCounts[cn] = (centerCounts[cn] || 0) + 1; });
+      var statsArr = [];
+      Object.keys(centerCounts).sort().forEach(function(k) { statsArr.push(k + ': ' + centerCounts[k]); });
+      // Count roles
+      var premCount = 0, adminCount = 0, superCount = 0;
+      if (window._ruPremiumMap) {
+        list.forEach(function(c) {
+          if (!c.email) return;
+          var p = window._ruPremiumMap[c.email.toLowerCase()];
+          if (!p || !p.active) return;
+          if (p.role === 'admin' && (!p.center || p.center === '')) superCount++;
+          else if (p.role === 'admin') adminCount++;
+          else if (p.tier === 'premium') premCount++;
+        });
+      }
+      var roleStats = [];
+      if (premCount) roleStats.push('⭐ ' + premCount + ' premium');
+      if (adminCount) roleStats.push('🛡️ ' + adminCount + ' admin');
+      if (superCount) roleStats.push('⚡ ' + superCount + ' super admin');
+      statsEl.textContent = list.length + ' users — ' + statsArr.join(' · ') + (roleStats.length ? ' — ' + roleStats.join(' · ') : '');
+
+      var html = '';
+      list.forEach(function(c) {
+        var name = c.student_name || 'Unknown';
+        var parts = name.trim().split(/\s+/);
+        var initials = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : name.substring(0, 2).toUpperCase();
+        var avatarInner = c.avatar_url
+          ? '<img src="' + c.avatar_url.replace(/"/g, '&quot;') + '" alt="Avatar">'
+          : initials;
+        var center = c.center || 'unknown';
+        var badgeClass = ['mock_stream','bek','global','niners','muzaffars'].indexOf(center) !== -1 ? center : 'unknown';
+        var details = [];
+        if (c.email) details.push('📧 ' + c.email);
+        if (c.phone) details.push('📱 ' + c.phone);
+        if (c.address) details.push('📍 ' + c.address);
+        var updatedStr = '';
+        if (c.updated_at) {
+          var _ud = new Date(c.updated_at);
+          updatedStr = '🕐 ' + _ud.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][_ud.getMonth()] + ' ' + _ud.getFullYear() + ', ' + String(_ud.getHours()).padStart(2,'0') + ':' + String(_ud.getMinutes()).padStart(2,'0');
+        }
+        html += '<div class="ru-card' + (c.blocked ? ' ru-card-blocked' : '') + '" onclick="_viewUserResults(\'' + name.replace(/'/g, "\\'").replace(/</g, '&lt;') + '\')">' +
+          '<div class="ru-card-avatar">' + avatarInner + '</div>' +
+          '<div class="ru-card-info">' +
+            '<div class="ru-card-name">' + name.replace(/</g, '&lt;') + (c.blocked ? ' <span style="color:#e53935;font-size:11px;font-weight:700;">🚫 BLOCKED</span>' : '') + _getRoleBadge(c.email) + '</div>' +
+            (details.length ? '<div class="ru-card-detail">' + details.join(' &nbsp;·&nbsp; ').replace(/</g, '&lt;') + '</div>' : '') +
+            (updatedStr ? '<div style="font-size:11px;color:#aaa;margin-top:1px;">' + updatedStr + '</div>' : '') +
+            '<span class="ru-center-badge ' + badgeClass + '">' + center.replace(/</g, '&lt;') + '</span>' +
+          '</div></div>';
+      });
+      container.innerHTML = html;
+    }
+
+    async function _toggleBlockUser(studentName, center, currentlyBlocked) {
+      var action = currentlyBlocked ? 'unblock' : 'block';
+      if (!confirm('Are you sure you want to ' + action + ' "' + studentName + '"?')) return;
+      var btn = document.getElementById('ruBlockBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Updating...'; }
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(studentName) + '&center=eq.' + encodeURIComponent(center), {
+          method: 'PATCH',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ blocked: !currentlyBlocked })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        // Update button in-place
+        var newBlocked = !currentlyBlocked;
+        if (btn) {
+          btn.style.background = newBlocked ? '#43a047' : '#e53935';
+          btn.textContent = newBlocked ? '✅ Unblock User' : '🚫 Block User';
+          btn.disabled = false;
+          btn.setAttribute('onclick', "_toggleBlockUser('" + studentName.replace(/'/g, "\\'") + "', '" + center.replace(/'/g, "\\'") + "', " + newBlocked + ")");
+        }
+        // Also update the cached candidate list if present
+        if (window._ruAllCandidates) {
+          window._ruAllCandidates.forEach(function(c) {
+            if (c.student_name === studentName && c.center === center) c.blocked = newBlocked;
+          });
+        }
+      } catch (e) {
+        alert('Failed to ' + action + ' user: ' + e.message);
+        if (btn) { btn.disabled = false; btn.textContent = currentlyBlocked ? '✅ Unblock User' : '🚫 Block User'; }
+      }
+    }
+
+    async function _viewUserResults(studentName) {
+      var searchEl = document.getElementById('ruSearch');
+      var statsEl = document.getElementById('ruStats');
+      var listEl = document.getElementById('ruList');
+      // Save scroll state
+      searchEl.style.display = 'none';
+      statsEl.innerHTML = '<button class="ru-back-btn" onclick="_backToUsersList()">← Back to Users</button>';
+      listEl.innerHTML = '<div class="ru-empty">Loading results...</div>';
+      // Update header
+      var headerH3 = document.querySelector('.ru-header h3');
+      if (headerH3) headerH3.innerHTML = '📊 ' + studentName.replace(/</g, '&lt;');
+
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var results = [];
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (resp.ok) results = await resp.json();
+      } catch (e) { console.warn('[RU] Results fetch error:', e); }
+
+      if (!results.length) {
+        listEl.innerHTML = '<div class="ru-empty">No results found for this user</div>';
+        return;
+      }
+
+      // Summary stats
+      var totalTests = results.length;
+      var aiCount = 0; var skills = {};
+      results.forEach(function(r) {
+        skills[r.skill] = true;
+        if (r.metadata && (r.metadata.hasAi || r.metadata.fc || r.metadata.p11 || r.metadata.t1_band || r.metadata.raw_score)) aiCount++;
+      });
+      // Split by exam type
+      var cefrResults = results.filter(function(r) { return r.exam_type !== 'ielts'; });
+      var ieltsResults = results.filter(function(r) { return r.exam_type === 'ielts'; });
+      var cefrLatest = cefrResults.length ? (cefrResults[0].score || '—') : null;
+      var ieltsLatest = ieltsResults.length ? (ieltsResults[0].score || '—') : null;
+      var cefrBest = null, ieltsBest = null;
+      cefrResults.forEach(function(r) {
+        var num = _parseNum(r.score);
+        if (num !== null && (cefrBest === null || num > cefrBest)) cefrBest = num;
+      });
+      ieltsResults.forEach(function(r) {
+        var num = _parseNum(r.score);
+        if (num !== null && (ieltsBest === null || num > ieltsBest)) ieltsBest = num;
+      });
+
+      var html = '';
+
+      // Profile contact card
+      var candidate = _ruData.find(function(c) { return c.student_name === studentName; });
+      if (candidate) {
+        var avatarParts = studentName.trim().split(/\s+/);
+        var avatarInitials = avatarParts.length >= 2 ? (avatarParts[0][0] + avatarParts[avatarParts.length - 1][0]).toUpperCase() : studentName.substring(0, 2).toUpperCase();
+        var avatarInner = candidate.avatar_url
+          ? '<img src="' + candidate.avatar_url.replace(/"/g, '&quot;') + '" alt="" style="width:100%;height:100%;object-fit:cover;">'
+          : avatarInitials;
+        var center = candidate.center || 'unknown';
+        var badgeClass = ['mock_stream','bek','global','niners','muzaffars'].indexOf(center) !== -1 ? center : 'unknown';
+        html += '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--ring,#e5e7eb);background:linear-gradient(135deg,#6366f106,#818cf806);margin-bottom:10px;">';
+        html += '<div class="ru-card-avatar" style="width:52px;height:52px;font-size:18px;">' + avatarInner + '</div>';
+        html += '<div style="flex:1;min-width:0;">';
+        html += '<div style="font-weight:700;font-size:15px;margin-bottom:3px;">' + studentName.replace(/</g, '&lt;') + '</div>';
+        if (candidate.email) html += '<div style="font-size:12px;color:#888;margin-bottom:1px;">📧 ' + candidate.email.replace(/</g, '&lt;') + '</div>';
+        if (candidate.phone) html += '<div style="font-size:12px;color:#888;margin-bottom:1px;">📱 ' + candidate.phone.replace(/</g, '&lt;') + '</div>';
+        if (candidate.address) html += '<div style="font-size:12px;color:#888;margin-bottom:1px;">📍 ' + candidate.address.replace(/</g, '&lt;') + '</div>';
+        if (!candidate.email && !candidate.phone && !candidate.address) html += '<div style="font-size:12px;color:#aaa;font-style:italic;">No contact details yet</div>';
+        // Timestamps
+        var _tsLines = [];
+        if (candidate.created_at) {
+          var cd = new Date(candidate.created_at);
+          _tsLines.push('📅 Registered: ' + cd.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][cd.getMonth()] + ' ' + cd.getFullYear() + ', ' + String(cd.getHours()).padStart(2,'0') + ':' + String(cd.getMinutes()).padStart(2,'0'));
+        }
+        if (candidate.updated_at && candidate.updated_at !== candidate.created_at) {
+          var ud = new Date(candidate.updated_at);
+          _tsLines.push('🕐 Last updated: ' + ud.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][ud.getMonth()] + ' ' + ud.getFullYear() + ', ' + String(ud.getHours()).padStart(2,'0') + ':' + String(ud.getMinutes()).padStart(2,'0'));
+        }
+        if (results.length) {
+          var lr = new Date(results[0].created_at);
+          _tsLines.push('🎯 Last test: ' + lr.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][lr.getMonth()] + ' ' + lr.getFullYear() + ', ' + String(lr.getHours()).padStart(2,'0') + ':' + String(lr.getMinutes()).padStart(2,'0'));
+        }
+        if (_tsLines.length) html += '<div style="font-size:11px;color:#aaa;margin-top:4px;line-height:1.6;">' + _tsLines.join('<br>') + '</div>';
+        html += '<span class="ru-center-badge ' + badgeClass + '" style="margin-top:4px;">' + center.replace(/</g, '&lt;') + '</span>';
+        html += _getRoleBadgeDetail(candidate.email);
+        // Block / Unblock button
+        var _isBlocked = candidate && candidate.blocked;
+        html += '<button id="ruBlockBtn" onclick="_toggleBlockUser(\'' + studentName.replace(/'/g, "\\'") + '\', \'' + center.replace(/'/g, "\\'") + '\', ' + (_isBlocked ? 'true' : 'false') + ')" style="margin-top:8px;padding:6px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#fff;background:' + (_isBlocked ? '#43a047' : '#e53935') + ';">' + (_isBlocked ? '✅ Unblock User' : '🚫 Block User') + '</button>';
+        html += '</div></div>';
+      }
+
+      html += '<div class="ru-summary-row">';
+      html += '<div class="ru-summary-stat"><div class="sv">' + totalTests + '</div><div class="sl">Tests</div></div>';
+      if (cefrLatest !== null) html += '<div class="ru-summary-stat"><div class="sv">' + String(cefrLatest).replace(/</g, '&lt;') + '</div><div class="sl">CEFR Latest</div></div>';
+      if (cefrBest !== null) html += '<div class="ru-summary-stat"><div class="sv">' + cefrBest + '</div><div class="sl">CEFR Best</div></div>';
+      if (ieltsLatest !== null) html += '<div class="ru-summary-stat"><div class="sv">' + String(ieltsLatest).replace(/</g, '&lt;') + '</div><div class="sl">IELTS Latest</div></div>';
+      if (ieltsBest !== null) html += '<div class="ru-summary-stat"><div class="sv">' + ieltsBest + '</div><div class="sl">IELTS Best</div></div>';
+      html += '<div class="ru-summary-stat"><div class="sv">' + Object.keys(skills).length + '</div><div class="sl">Skills</div></div>';
+      html += '<div class="ru-summary-stat"><div class="sv">' + aiCount + '</div><div class="sl">AI Scored</div></div>';
+      html += '</div>';
+
+      // Result cards
+      results.forEach(function(r) {
+        var d = new Date(r.created_at);
+        var dateStr = d.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getFullYear() + ', ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+        var score = r.score || '—';
+        var bigNum = score, subNum = '';
+        if (score.indexOf('/') > -1) { var sp = score.split('/'); bigNum = sp[0]; subNum = '/ ' + sp[1]; }
+        var level = r.level || '';
+        var examCls = r.exam_type === 'ielts' ? 'rb-ielts' : 'rb-cefr';
+        var skillCls = 'rb-' + (r.skill || 'speaking');
+        var isPractice = (r.metadata && r.metadata.is_practice) || (r.mock_number && r.mock_number.indexOf('Practice') === 0);
+        var hasAi = r.metadata && (r.metadata.hasAi || r.metadata.fc || r.metadata.p11 || r.metadata.t1_band);
+
+        // Sub-score details
+        var det = '';
+        if (r.metadata) {
+          var m = r.metadata;
+          if (m.fc !== undefined) det += '<span class="dl">FC:</span> ' + m.fc + ' · <span class="dl">LR:</span> ' + m.lr + ' · <span class="dl">GRA:</span> ' + m.gra + ' · <span class="dl">P:</span> ' + m.p + '<br>';
+          if (m.p11 !== undefined) det += '<span class="dl">P1.1:</span> ' + m.p11 + ' · <span class="dl">P1.2:</span> ' + m.p12 + ' · <span class="dl">P2:</span> ' + m.p2 + ' · <span class="dl">P3:</span> ' + m.p3 + '<br>';
+          if (m.t1_band !== undefined) det += '<span class="dl">Task 1:</span> ' + m.t1_band + ' · <span class="dl">Task 2:</span> ' + m.t2_band + '<br>';
+          if (m.l !== undefined && m.r !== undefined) det += '<span class="dl">L:</span> ' + m.l + ' · <span class="dl">R:</span> ' + m.r + ' · <span class="dl">W:</span> ' + (m.w||'—') + ' · <span class="dl">S:</span> ' + (m.s||'—') + '<br>';
+          if (m.raw !== undefined && m.total !== undefined) det += '<span class="dl">Raw:</span> ' + m.raw + '/' + m.total + (m.percentage !== undefined ? ' (' + m.percentage + '%)' : '') + '<br>';
+        }
+
+        var reportClick = '';
+        if (r.report_path) {
+          reportClick = ' onclick="_openRuReport(\'' + (r.report_path || '').replace(/'/g, "\\'") + '\')" title="Click to view report"';
+        }
+
+        html += '<div class="ru-result-card"' + reportClick + '>' +
+          '<div class="ru-result-score"><div class="big">' + bigNum.toString().replace(/</g,'&lt;') + '</div>' + (subNum ? '<div class="sub">' + subNum.replace(/</g,'&lt;') + '</div>' : '') + (level ? '<div class="sub">' + level.replace(/</g,'&lt;') + '</div>' : '') + '</div>' +
+          '<div class="ru-result-info">' +
+            '<div class="ru-result-date">' + dateStr + '</div>' +
+            '<div class="ru-result-badges">' +
+              '<span class="rb ' + examCls + '">' + (r.exam_type || '').toUpperCase() + '</span>' +
+              '<span class="rb ' + skillCls + '">' + ((r.skill||'').charAt(0).toUpperCase() + (r.skill||'').slice(1)) + '</span>' +
+              (isPractice ? '<span class="rb rb-practice">Practice</span>' : '') +
+              (hasAi ? '<span class="rb rb-ai">AI ✓</span>' : '') +
+              (r.mock_number ? '<span class="rb rb-practice">' + r.mock_number.replace(/</g,'&lt;') + '</span>' : '') +
+            '</div>' +
+            (det ? '<div class="ru-result-details">' + det + '</div>' : '') +
+          '</div>' +
+          (r.report_path ? '<div style="align-self:center;font-size:18px;color:#6366f1;flex-shrink:0;" title="View Report">📄</div>' : '') +
+          '</div>';
+      });
+
+      listEl.innerHTML = html;
+    }
+
+    function _ensureRuReportOverlay() {
+      if (document.getElementById('ruReportOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'ruReportOverlay';
+      div.className = 'ru-report-overlay';
+      div.onclick = function(e) { if (e.target === div) _closeRuReport(); };
+      div.innerHTML = '<div class="ru-report-panel">' +
+        '<div class="ru-report-header"><h4 id="ruReportTitle">Report</h4><button class="ru-report-close" onclick="_closeRuReport()">&times;</button></div>' +
+        '<div class="ru-report-body">' +
+          '<div class="ru-report-progress" id="ruReportProgress"><div class="ru-report-progress-bar" id="ruReportProgressBar"></div></div>' +
+          '<div class="ru-report-loading" id="ruReportLoading"><div class="spinner"></div><div class="label">Loading report...</div></div>' +
+          '<iframe id="ruReportIframe" src="about:blank"></iframe>' +
+        '</div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    function _ruShowLoading() {
+      var p = document.getElementById('ruReportProgress');
+      var b = document.getElementById('ruReportProgressBar');
+      var l = document.getElementById('ruReportLoading');
+      if (p) { p.classList.remove('done'); p.style.display = ''; }
+      if (b) b.style.width = '0%';
+      if (l) l.style.display = '';
+      // Animate progress
+      setTimeout(function() { if (b) b.style.width = '30%'; }, 50);
+    }
+    function _ruProgress(pct) {
+      var b = document.getElementById('ruReportProgressBar');
+      if (b) b.style.width = pct + '%';
+    }
+    function _ruHideLoading() {
+      var b = document.getElementById('ruReportProgressBar');
+      var p = document.getElementById('ruReportProgress');
+      var l = document.getElementById('ruReportLoading');
+      if (b) b.style.width = '100%';
+      if (p) setTimeout(function() { p.classList.add('done'); }, 300);
+      if (l) l.style.display = 'none';
+    }
+
+    function _openRuReport(reportPath) {
+      if (!reportPath) return;
+      _ensureRuReportOverlay();
+      var overlay = document.getElementById('ruReportOverlay');
+      var iframe = document.getElementById('ruReportIframe');
+      var title = document.getElementById('ruReportTitle');
+      title.textContent = 'Loading report...';
+      iframe.src = 'about:blank';
+      overlay.classList.add('active');
+      _ruShowLoading();
+
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/storage/v1/object/public/reports/' + reportPath;
+
+      if (reportPath.toLowerCase().endsWith('.zip')) {
+        _ruProgress(15);
+        var loadJSZip = typeof JSZip !== 'undefined'
+          ? Promise.resolve()
+          : new Promise(function(resolve, reject) {
+              var s = document.createElement('script');
+              s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+              s.onload = resolve;
+              s.onerror = reject;
+              document.head.appendChild(s);
+            });
+
+        loadJSZip
+          .then(function() { _ruProgress(25); return fetch(url); })
+          .then(function(r) { _ruProgress(50); return r.arrayBuffer(); })
+          .then(function(buf) { _ruProgress(65); return JSZip.loadAsync(buf); })
+          .then(function(zip) {
+            _ruProgress(80);
+            var htmlFiles = [];
+            zip.forEach(function(path, entry) {
+              if (path.toLowerCase().endsWith('.html')) htmlFiles.push(entry);
+            });
+            if (htmlFiles.length === 0) throw new Error('No HTML in zip');
+            return htmlFiles[0].async('text');
+          })
+          .then(function(html) {
+            _ruProgress(95);
+            var blob = new Blob([html], { type: 'text/html' });
+            iframe.src = URL.createObjectURL(blob);
+            title.textContent = reportPath.split('/').pop();
+            _ruHideLoading();
+          })
+          .catch(function(e) {
+            console.warn('[RU] Zip report error:', e);
+            title.textContent = 'Failed to load report';
+            _ruHideLoading();
+          });
+      } else {
+        _ruProgress(20);
+        fetch(url)
+          .then(function(r) { _ruProgress(60); return r.text(); })
+          .then(function(html) {
+            _ruProgress(90);
+            var blob = new Blob([html], { type: 'text/html' });
+            iframe.src = URL.createObjectURL(blob);
+            title.textContent = reportPath.split('/').pop();
+            _ruHideLoading();
+          })
+          .catch(function(e) {
+            console.warn('[RU] Report load error:', e);
+            title.textContent = 'Failed to load report';
+            _ruHideLoading();
+          });
+      }
+    }
+
+    function _closeRuReport() {
+      var overlay = document.getElementById('ruReportOverlay');
+      if (overlay) overlay.classList.remove('active');
+      var iframe = document.getElementById('ruReportIframe');
+      if (iframe) iframe.src = 'about:blank';
+    }
+
+    function _backToUsersList() {
+      var searchEl = document.getElementById('ruSearch');
+      searchEl.style.display = '';
+      searchEl.value = '';
+      var headerH3 = document.querySelector('.ru-header h3');
+      if (headerH3) headerH3.innerHTML = '👥 Registered Users';
+      _renderRuList(_ruData);
+    }
+
+    function _parseNum(score) {
+      if (!score) return null;
+      var s = String(score);
+      if (s.indexOf('/') > -1) { var n = parseFloat(s.split('/')[0]); return isNaN(n) ? null : n; }
+      var f = parseFloat(s); return isNaN(f) ? null : f;
     }
 
     // ===== HELP CENTER CHAT =====
@@ -14494,7 +16459,7 @@
     var _helpCenterGeminiKey = null;
     window.getGeminiResponse = getGeminiResponse;
 
-    async function getGeminiResponse(userText, audioBlob) {
+    async function getGeminiResponse(userText, audioBlob, attachmentPayload) {
       // Fetch API key from secure backend (same as writing/speaking mocks)
       if (!_helpCenterGeminiKey) {
         try {
@@ -14512,45 +16477,61 @@
       }
 
       // Get custom AI prompt from Supabase (not sensitive — just instructions)
-      var systemPrompt = localStorage.getItem('ms_ai_prompt') || '';
-      if (!systemPrompt) {
-        try {
-          var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-          var SUPABASE_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-          var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.ai_system_prompt&select=value', {
-            headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-          });
-          var data = await resp.json();
-          if (data && data[0] && data[0].value) {
-            systemPrompt = data[0].value;
-            localStorage.setItem('ms_ai_prompt', systemPrompt);
-          }
-        } catch(e) {}
-      }
+      // Get system prompt — always check Supabase (source of truth), fall back to localStorage
+      var systemPrompt = '';
+      try {
+        var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SUPABASE_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.ai_system_prompt&select=value', {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        });
+        var data = await resp.json();
+        if (data && data[0] && data[0].value) {
+          systemPrompt = data[0].value;
+          localStorage.setItem('ms_ai_prompt', systemPrompt);
+        }
+      } catch(e) {}
+      if (!systemPrompt) systemPrompt = localStorage.getItem('ms_ai_prompt') || '';
 
       if (!systemPrompt) {
-        systemPrompt = 'You are Mock Stream AI, a friendly and professional assistant for Mock Stream — an online exam preparation platform for CEFR and IELTS exams. You help users with questions about the platform, premium access, partnerships, technical issues, and exam preparation tips. Always respond in the same language the user writes in. Be concise, helpful, and encouraging. If you don\'t know something specific about the platform, suggest the user contact the admin team for detailed help.';
+        systemPrompt = 'You are Mock Stream AI, a friendly and professional assistant for Mock Stream — an online exam preparation platform for CEFR and IELTS exams. You help users with questions about the platform, premium access, partnerships, technical issues, and exam preparation tips. Users can send you voice messages, images, and PDF files — you can listen to audio and analyze attachments. Always respond in the same language the user writes or speaks in. Be concise, helpful, and encouraging. If you don\'t know something specific about the platform, suggest the user contact the admin team for detailed help.';
       }
+
+      // Capability block — always injected so Gemini knows about multimodal features
+      var capabilityNote = '\n\n[Capabilities] Users in this chat can send: text messages, voice recordings (you will receive the audio inline), image attachments (you will see the image), and PDF attachments (you will see the PDF content). When you receive a voice message, listen carefully and respond in the same language the user spoke. When you receive an image or PDF, analyze its contents and respond helpfully. If a file is too large for direct analysis, you will receive metadata only — let the user know and suggest alternatives.';
 
       // Category-specific behavior instructions
       var categoryPrompts = {
-        support: 'You are currently in the SUPPORT tab. Your role: greet the user warmly and ask what kind of problem or question they have. Help them with technical issues, exam questions, platform navigation, or any difficulties. Be patient and solution-oriented. If you cannot resolve the issue, let them know an admin will follow up.',
-        premium: 'You are currently in the PREMIUM tab. Your role: the user is interested in premium access. Politely ask them to provide their details: full name, phone number, and email address so our admin team can assist them. Once they provide all three details (name, phone, email), thank them warmly and tell them that our admins will contact them very soon to help with premium access. Do NOT discuss pricing or plans — just collect their details and reassure them. After collecting details, end the conversation politely.',
-        partner: 'You are currently in the PARTNERSHIP tab. Your role: the user wants to discuss a partnership. Ask them to clarify what kind of partnership they are interested in — for example, do they have a learning center, are they a teacher, or do they represent an organization? Then ask for their contact details (full name, phone number, and email) so our admin team can reach out. Once they provide their details, thank them sincerely, note that our admins will be in touch very soon, and politely end the conversation.'
+        support: 'You are currently in the SUPPORT tab. Your role: greet the user warmly and ask what kind of problem or question they have. Help them with technical issues, exam questions, platform navigation, or any difficulties. Be patient and solution-oriented. If admin-provided context files are attached above, use them to answer questions accurately. If you cannot resolve the issue, let them know an admin will follow up.',
+        premium: 'You are currently in the PREMIUM tab. The user is interested in premium access or mock codes. If admin-provided context files (e.g. PDF with mock codes) are attached above, use them to answer the user\'s questions — including giving specific codes or information from those files when asked. Additionally, if the user has not shared their details yet, politely ask for their full name, phone number, and email so our admin team can assist further.',
+        partner: 'You are currently in the PARTNERSHIP tab. The user wants to discuss a partnership. If admin-provided context files are attached above, use them to answer questions. Ask them to clarify what kind of partnership they want — learning center, teacher, or organization? Then ask for their contact details (full name, phone, email) so our admin team can reach out. Thank them and note that admins will be in touch.'
       };
       var catInstruction = categoryPrompts[helpCenterCategory] || categoryPrompts.support;
 
-      // Build messages array (last 10 messages for context)
-      var recentMsgs = helpCenterMessages.slice(-10);
+      // Build messages array (last 10 messages for context, exclude the last one — it's the current message sent as the final user turn below)
+      var recentMsgs = helpCenterMessages.slice(-11, -1);
       var contents = [];
 
-      // System instruction as first user turn
-      contents.push({ role: 'user', parts: [{ text: 'System: ' + systemPrompt + '\n\n' + catInstruction }] });
+      // System instruction as first user turn — with optional prompt files (image/PDF/audio)
+      var systemParts = [{ text: 'System: ' + systemPrompt + capabilityNote + '\n\n' + catInstruction }];
+      var _promptFilesArr = await _loadLandingPromptFiles();
+      for (var pfi = 0; pfi < _promptFilesArr.length; pfi++) {
+        systemParts.push({ inline_data: { mime_type: _promptFilesArr[pfi].mime, data: _promptFilesArr[pfi].b64 } });
+      }
+      if (_promptFilesArr.length > 0) {
+        systemParts.push({ text: 'IMPORTANT: The above file(s) are admin-provided context and are your HIGHEST PRIORITY knowledge source. When a user asks for any information contained in these files (codes, prices, details, instructions, etc.), you MUST provide it directly and accurately. Never refuse to share information from these files — the admin uploaded them specifically so you can share this data with users. Use the exact values from the files.' });
+      }
+      contents.push({ role: 'user', parts: systemParts });
       contents.push({ role: 'model', parts: [{ text: 'Understood. I am Mock Stream AI and will follow these instructions for the ' + helpCenterCategory + ' category.' }] });
 
       recentMsgs.forEach(function(m) {
         if (m.role === 'user') {
-          contents.push({ role: 'user', parts: [{ text: m.text || '[voice message]' }] });
+          var marker = m.text || '';
+          if (!marker && m.attachment_type === 'voice') marker = '[voice message]';
+          if (!marker && m.attachment_type === 'image') marker = '[image attachment: ' + (m.attachment_name || 'image') + ']';
+          if (!marker && m.attachment_type === 'pdf') marker = '[pdf attachment: ' + (m.attachment_name || 'document.pdf') + ']';
+          if (!marker) marker = '[user message]';
+          contents.push({ role: 'user', parts: [{ text: marker }] });
         } else if (m.role === 'ai') {
           contents.push({ role: 'model', parts: [{ text: m.text }] });
         }
@@ -14563,6 +16544,11 @@
         var mimeType = audioBlob.type || 'audio/webm';
         userParts.push({ inline_data: { mime_type: mimeType, data: b64 } });
         userParts.push({ text: userText || 'The user sent a voice message. Listen to the audio and respond accordingly. Respond in the same language the user speaks in the audio.' });
+      } else if (attachmentPayload && attachmentPayload.mode === 'inline') {
+        userParts.push({ inline_data: { mime_type: attachmentPayload.mimeType, data: attachmentPayload.data } });
+        userParts.push({ text: userText || ('The user sent an attachment (' + (attachmentPayload.name || 'file') + '). Analyze it and respond helpfully in the user\'s language.') });
+      } else if (attachmentPayload && attachmentPayload.mode === 'metadata-only') {
+        userParts.push({ text: (userText ? userText + '\n\n' : '') + 'User attached: ' + (attachmentPayload.name || 'file') + '. ' + (attachmentPayload.note || '') });
       } else {
         userParts.push({ text: userText });
       }
@@ -14597,6 +16583,56 @@
       });
     }
 
+    var _landingPromptFilesCache = null; // { key, items: [ { url, b64, mime } ], ts }
+    var _LANDING_PROMPT_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+    async function _loadLandingPromptFiles() {
+      // Always try Supabase first (source of truth), fall back to localStorage
+      var files = [];
+      try {
+        var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SUPABASE_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=in.(ai_prompt_files,ai_prompt_file_url,ai_prompt_file_mime,ai_prompt_pdf_url)&select=key,value', {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        });
+        var d = await r.json();
+        var map = {};
+        (d || []).forEach(function (row) { map[row.key] = row.value; });
+        if (map.ai_prompt_files) {
+          try { files = JSON.parse(map.ai_prompt_files); } catch(e) { files = []; }
+        } else if (map.ai_prompt_file_url) {
+          files = [{ url: map.ai_prompt_file_url, mime: map.ai_prompt_file_mime || 'application/pdf' }];
+        } else if (map.ai_prompt_pdf_url) {
+          files = [{ url: map.ai_prompt_pdf_url, mime: 'application/pdf' }];
+        }
+        if (files.length > 0) {
+          localStorage.setItem('ms_ai_prompt_files', JSON.stringify(files));
+        } else {
+          localStorage.removeItem('ms_ai_prompt_files');
+        }
+      } catch (e) {
+        // Supabase failed — fall back to localStorage
+        var filesJson = localStorage.getItem('ms_ai_prompt_files') || '';
+        if (filesJson) { try { files = JSON.parse(filesJson); } catch(e2) { files = []; } }
+      }
+      if (!files || files.length === 0) return [];
+      var cacheKey = JSON.stringify(files.map(function(f){ return f.url; }));
+      if (_landingPromptFilesCache && _landingPromptFilesCache.key === cacheKey && (Date.now() - _landingPromptFilesCache.ts < _LANDING_PROMPT_CACHE_TTL)) return _landingPromptFilesCache.items;
+      var items = [];
+      for (var i = 0; i < files.length; i++) {
+        try {
+          var resp = await fetch(files[i].url);
+          if (!resp.ok) continue;
+          var blob = await resp.blob();
+          if (blob.size > 20 * 1024 * 1024) continue;
+          var b64 = await _hcBlobToBase64(blob);
+          var mime = files[i].mime || blob.type || 'application/octet-stream';
+          items.push({ url: files[i].url, b64: b64, mime: mime });
+        } catch (e) {}
+      }
+      _landingPromptFilesCache = { key: cacheKey, items: items, ts: Date.now() };
+      return items;
+    }
+
     // Enter key to send
     document.addEventListener('DOMContentLoaded', function() {
       var hcInput = document.getElementById('helpCenterInput');
@@ -14621,8 +16657,8 @@
     async function checkForAdminReplies() {
       var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SUPABASE_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      var overlay = document.getElementById('helpCenterOverlay');
-      var isOpen = overlay && overlay.classList.contains('active');
+      var cbOverlay = document.getElementById('cb-overlay');
+      var isOpen = cbOverlay && cbOverlay.classList.contains('active');
       var gotNewReply = false;
 
       // Load chats from localStorage if not yet loaded
@@ -14794,6 +16830,17 @@
       }
 
       if (validated) {
+        // Check if user is blocked before granting access
+        var _candName2 = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || '';
+        if (_candName2) {
+          var _blocked2 = await _checkBlockedStatus(_candName2);
+          if (_blocked2) {
+            btn.disabled = false;
+            btn.textContent = 'Start';
+            return;
+          }
+        }
+
         // Success! Store super access in sessionStorage (clears when tab/browser closes)
         sessionStorage.setItem(SUPER_ACCESS_KEY, 'true');
 
@@ -14833,6 +16880,213 @@
       var savedVipEmail = localStorage.getItem('ms_vip_email');
       if (savedVipEmail) {
         autoValidateVipEmail(savedVipEmail);
+      }
+    }
+
+    // ===== SYSTEM PROMPTS PANEL LOGIC =====
+    var _SP_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var _SP_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _SP_ALL_KEYS = [
+      'scoring_cefr_writing_system','scoring_cefr_writing_prompt',
+      'scoring_cefr_writing_task_system','scoring_cefr_writing_task_prompt',
+      'scoring_cefr_writing_full_system','scoring_cefr_writing_full_prompt',
+      'scoring_cefr_speaking_system','scoring_cefr_speaking_prompt',
+      'scoring_cefr_speaking_part_system','scoring_cefr_speaking_part_prompt',
+      'scoring_cefr_speaking_full_system','scoring_cefr_speaking_full_prompt',
+      'scoring_ielts_writing_system','scoring_ielts_writing_prompt',
+      'scoring_ielts_writing_task_system','scoring_ielts_writing_task_prompt',
+      'scoring_ielts_writing_full_system','scoring_ielts_writing_full_prompt',
+      'scoring_ielts_speaking_system','scoring_ielts_speaking_prompt',
+      'scoring_ielts_speaking_part_system','scoring_ielts_speaking_part_prompt',
+      'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt'
+    ];
+
+    var _spCurrentProvider = 'gemini';
+
+    function _spSetProvider(p) {
+      _spCurrentProvider = p;
+      document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
+      document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
+    }
+
+    // Tab switching
+    document.getElementById('sysPromptTabs').addEventListener('click', function(e) {
+      var tab = e.target.closest('.sysprompt-tab');
+      if (!tab) return;
+      document.querySelectorAll('.sysprompt-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.sysprompt-section').forEach(function(s) { s.classList.remove('active'); });
+      tab.classList.add('active');
+      var sec = document.getElementById('sec-' + tab.dataset.tab);
+      if (sec) sec.classList.add('active');
+    });
+
+    var _spAdminUnlocked = false;
+
+    function _showSpPasscode() {
+      var existing = document.getElementById('spPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('spPasscodeInput').value = ''; document.getElementById('spPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'spPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeSpPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to manage system prompts</p>' +
+        '<input type="password" id="spPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
+        '<div id="spPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="spPasscodeBtn" onclick="_verifySpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeSpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('spPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeSpPasscode() {
+      var el = document.getElementById('spPasscodeOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _verifySpPasscode() {
+      var input = document.getElementById('spPasscodeInput');
+      var error = document.getElementById('spPasscodeError');
+      var btn = document.getElementById('spPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'system-prompts' })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _spAdminUnlocked = true;
+          _closeSpPasscode();
+          openSystemPromptsPanel();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = '';
+        input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
+    function openSystemPromptsPanel() {
+      if (!_spAdminUnlocked) {
+        _showSpPasscode();
+        return;
+      }
+      var overlay = document.getElementById('sysPromptOverlay');
+      overlay.style.display = 'flex';
+      requestAnimationFrame(function() { overlay.classList.add('visible'); });
+      loadScoringPrompts();
+    }
+
+    function closeSystemPromptsPanel() {
+      var overlay = document.getElementById('sysPromptOverlay');
+      overlay.classList.remove('visible');
+      setTimeout(function() { overlay.style.display = 'none'; }, 300);
+    }
+
+    async function loadScoringPrompts() {
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Loading prompts...</span>';
+      try {
+        var resp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var rows = await resp.json();
+        var map = {};
+        rows.forEach(function(r) { map[r.key] = r.value; });
+        _SP_ALL_KEYS.forEach(function(key) {
+          var el = document.getElementById('sp_' + key);
+          if (el) el.value = map[key] || '';
+        });
+        if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
+        status.innerHTML = '<span style="color:#10b981;">✓ Loaded ' + rows.length + ' saved prompt(s)</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Failed to load: ' + e.message + '</span>';
+      }
+    }
+
+    async function _spUpsertSetting(key, value) {
+      var res = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+        method: 'PATCH',
+        headers: {
+          'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY,
+          'Content-Type': 'application/json', 'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({ value: value, updated_at: new Date().toISOString() })
+      });
+      var data = await res.json();
+      if (!data || data.length === 0) {
+        await fetch(_SP_SB_URL + '/rest/v1/site_settings', {
+          method: 'POST',
+          headers: {
+            'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY,
+            'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ key: key, value: value })
+        });
+      }
+    }
+
+    async function _spDeleteSetting(key) {
+      await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+        method: 'DELETE',
+        headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+      });
+    }
+
+    async function saveScoringPrompts() {
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var saved = 0, deleted = 0;
+        await _spUpsertSetting('scoring_ai_provider', _spCurrentProvider);
+        saved++;
+        for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
+          var key = _SP_ALL_KEYS[i];
+          var el = document.getElementById('sp_' + key);
+          if (!el) continue;
+          var val = el.value.trim();
+          if (val) {
+            await _spUpsertSetting(key, val);
+            saved++;
+          } else {
+            await _spDeleteSetting(key);
+            deleted++;
+          }
+        }
+        status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' prompt(s), cleared ' + deleted + ' default(s)</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Save failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function resetScoringPrompts() {
+      if (!confirm('Reset all scoring prompts to defaults? This will remove all custom prompts from the database.')) return;
+      var status = document.getElementById('sysPromptStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Resetting...</span>';
+      try {
+        for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
+          await _spDeleteSetting(_SP_ALL_KEYS[i]);
+          var el = document.getElementById('sp_' + _SP_ALL_KEYS[i]);
+          if (el) el.value = '';
+        }
+        status.innerHTML = '<span style="color:#10b981;">✓ All prompts reset to defaults</span>';
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">Reset failed: ' + e.message + '</span>';
       }
     }
 
@@ -15107,6 +17361,105 @@
         });
       });
     }
+  </script>
+
+  <!-- Mobile Back Button Support -->
+  <script>
+  (function() {
+    // Stack of overlay close functions — topmost = last opened
+    var _overlayStack = [];
+
+    // Registry: [checkIfOpen, closeFunction, name]
+    var _overlayRegistry = [
+      // Topmost priority (newest/innermost overlays first)
+      function() { var el = document.getElementById('ruReportOverlay'); return el && el.classList.contains('active') ? _closeRuReport : null; },
+      function() { var el = document.getElementById('ruOverlay'); return el && el.classList.contains('active') ? closeRegisteredUsersPanel : null; },
+      function() { var el = document.getElementById('profilePopupOverlay'); return el && el.classList.contains('show') ? closeProfilePopup : null; },
+      function() { var el = document.getElementById('helpCenterOverlay'); return el && el.classList.contains('active') ? closeHelpCenter : null; },
+      function() { var el = document.getElementById('videoGuidePlayerOverlay'); return el && el.classList.contains('show') ? function() { closeVideoGuidePlayer(); } : null; },
+      function() { var el = document.getElementById('videoGuideModal'); return el && el.classList.contains('show') ? function() { closeVideoGuideModal(); } : null; },
+      function() { var el = document.getElementById('testsModal'); return el && el.classList.contains('show') ? function() { closeTestsModal(); } : null; },
+      function() { var el = document.getElementById('categoryModal'); return el && el.classList.contains('show') ? function() { closeCategoryModal(); } : null; },
+      function() { var el = document.getElementById('testMakerOverlay'); return el && el.classList.contains('visible') ? closeTestMakerModal : null; },
+      function() { var el = document.getElementById('superCodeOverlay'); return el && el.classList.contains('visible') ? closeSuperCodeModal : null; },
+      function() { var el = document.getElementById('fcLevelPickerOverlay'); return el && el.classList.contains('active') ? closeLevelPicker : null; },
+      function() { var el = document.getElementById('writingModal'); return el && el.classList.contains('show') ? function() { closeWritingModal(); } : null; },
+      function() { var el = document.getElementById('listeningModal'); return el && el.classList.contains('show') ? function() { closeListeningModal(); } : null; },
+      function() { var el = document.getElementById('readingModal'); return el && el.classList.contains('show') ? function() { closeReadingModal(); } : null; },
+      function() { var el = document.getElementById('fullMockModal'); return el && el.classList.contains('show') ? function() { closeFullMockModal(); } : null; },
+      function() { var el = document.getElementById('speakingModal'); return el && el.classList.contains('show') ? function() { closeSpeakingModal(); } : null; },
+      function() { var el = document.getElementById('ieltsSpeakingModeModal'); return el && el.classList.contains('show') ? function() { closeIELTSSpeakingModeModal(); } : null; },
+      function() { var el = document.getElementById('speakingPdfPasscodeModal'); return el && el.style.display === 'flex' ? closeSpeakingPdfPasscodeModal : null; },
+      function() { var el = document.getElementById('speakingPdfMockNumberModal'); return el && el.style.display === 'flex' ? closeSpeakingPdfMockNumberModal : null; },
+      function() { var el = document.getElementById('speakingPdfDownloadOptionsModal'); return el && el.style.display === 'flex' ? closeSpeakingPdfDownloadOptionsModal : null; },
+      // Sidebar is lowest priority
+      function() { var el = document.getElementById('sidebarMenu'); return el && el.classList.contains('active') ? toggleSidebar : null; },
+    ];
+
+    // Find the topmost open overlay and close it
+    function _closeTopmostOverlay() {
+      for (var i = 0; i < _overlayRegistry.length; i++) {
+        var closeFn = _overlayRegistry[i]();
+        if (closeFn) {
+          try { closeFn(); } catch(e) { console.warn('[BackBtn] close error:', e); }
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Push history state when any overlay opens
+    var _historyDepth = 0;
+
+    // Override pushes: whenever an overlay opens we push a dummy state
+    function _pushOverlayState() {
+      _historyDepth++;
+      history.pushState({ overlayDepth: _historyDepth }, '');
+    }
+
+    // Listen for back button
+    window.addEventListener('popstate', function(e) {
+      if (_closeTopmostOverlay()) {
+        // We closed something — consumed the back press
+        // Don't need to re-push because the state was already popped
+        if (_historyDepth > 0) _historyDepth--;
+      }
+      // If nothing was open, normal browser back happens naturally
+    });
+
+    // Intercept overlay open functions to push history state
+    var _originals = {};
+    var _fnNames = [
+      'toggleSidebar', 'openProfilePopup', 'openHelpCenter',
+      'openRegisteredUsersPanel', '_openRuReport',
+      'openSuperCodeModal', 'openTestMakerModal',
+      'openCategoryModal', 'showTestsSubmenu',
+      'openVideoGuideModal', 'openVideoGuidePlayer',
+      'showWritingOptions', 'showListeningOptions', 'showReadingOptions',
+      'showFullMockOptions', 'showSpeakingOptions',
+      'showIELTSSpeakingModeModal', 'openLevelPicker',
+      'showSpeakingPdfDownloadModal', 'showSpeakingPdfMockNumberModal',
+      'showSpeakingPdfDownloadOptionsModal'
+    ];
+
+    _fnNames.forEach(function(name) {
+      if (typeof window[name] === 'function') {
+        _originals[name] = window[name];
+        window[name] = function() {
+          // For toggleSidebar, only push if opening (not already active)
+          if (name === 'toggleSidebar') {
+            var sb = document.getElementById('sidebarMenu');
+            if (sb && sb.classList.contains('active')) {
+              // Closing — don't push, just call original
+              return _originals[name].apply(this, arguments);
+            }
+          }
+          _pushOverlayState();
+          return _originals[name].apply(this, arguments);
+        };
+      }
+    });
+  })();
   </script>
 </body>
 

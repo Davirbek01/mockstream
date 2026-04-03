@@ -555,7 +555,7 @@
     @keyframes loaderPulse { 0%{width:10%} 50%{width:70%} 100%{width:90%} }
 
     /* Content viewer (non-iframe) */
-    .viewer-content { flex: 1; overflow-y: auto; padding: 24px; display: none; background: var(--surface); }
+    .viewer-content { flex: 1; overflow-y: auto; padding: 24px; display: none; background: var(--surface); position: relative; isolation: isolate; transform: translateZ(0); }
     .viewer-content.show { display: block; }
 
     /* Clean result cards */
@@ -1607,6 +1607,31 @@
       var out = '';
       audioBlobMap = audioBlobMap || {};
 
+      // ── Strip #aiScoreModal FIRST: capture AI cards + overall assessment from it,
+      //    then remove it so its inner elements don't pollute other selectors ──
+      var aiCards = {};
+      doc.querySelectorAll('div[style*="border-radius:12px"][style*="border:2px solid"]').forEach(function(div) {
+        var hEl = div.querySelector('div[style*="font-weight:700"]');
+        if (!hEl) return;
+        var m = hEl.textContent.trim().match(/^Q(\d+)/);
+        if (m) aiCards[parseInt(m[1])] = div;
+      });
+      var overallAssessmentText = '';
+      var _aiModal = doc.getElementById('aiScoreModal');
+      if (_aiModal) {
+        var _h4s = _aiModal.querySelectorAll('h4');
+        for (var _hi = 0; _hi < _h4s.length; _hi++) {
+          if (_h4s[_hi].textContent.indexOf('Overall Assessment') !== -1) {
+            var _op = _h4s[_hi].nextElementSibling;
+            if (_op) overallAssessmentText = _op.textContent.trim();
+            break;
+          }
+        }
+        _aiModal.parentNode.removeChild(_aiModal);
+      }
+      // Remove any buttons that open the modal
+      doc.querySelectorAll('[onclick*="openAiModal"]').forEach(function(el) { try { el.parentNode.removeChild(el); } catch(e) {} });
+
       // ── Helper: resolve audio src through blobMap ──
       function resolveAudio(audioEl) {
         if (!audioEl) return '';
@@ -1681,20 +1706,7 @@
       // ── Collect teacher question cards (.question-card) ──
       var teacherCards = doc.querySelectorAll('.question-card');
 
-      // ── Collect AI analysis cards (inline-styled per-question blocks) ──
-      // They have pattern: background:#fef3c7 / #dbeafe / #ede9fe / #fce7f3 with Q{N} header
-      var aiCards = {};  // keyed by question number (1-8)
-      var aiCandidates = doc.querySelectorAll('div[style*="border-radius:12px"][style*="border:2px solid"]');
-      aiCandidates.forEach(function (div) {
-        // Look for Q{N} text in header
-        var headerEl = div.querySelector('div[style*="font-weight:700"]');
-        if (!headerEl) return;
-        var hText = headerEl.textContent.trim();
-        var qMatch = hText.match(/^Q(\d+)/);
-        if (qMatch) {
-          aiCards[parseInt(qMatch[1])] = div;
-        }
-      });
+      // ── AI analysis cards already captured from #aiScoreModal at function start (before modal was removed) ──
 
       // ── Collect sample answers (<details>) that are NOT inside a question card ──
       var allDetails = doc.querySelectorAll('details');
@@ -1889,7 +1901,12 @@
         });
       }
 
-      // ── Overall AI detailed feedback section ──
+      // ── Overall AI assessment (captured from modal before it was removed) ──
+      if (overallAssessmentText) {
+        out += '<div class="vr-ai"><div class="vr-ai-label">📊 Overall Assessment</div><div class="vr-ai-text" style="font-size:14px;line-height:1.7;">' + escapeHtml(overallAssessmentText) + '</div></div>';
+      }
+
+      // ── Overall AI detailed feedback section (older format) ──
       var detailedFb = doc.getElementById('aiDetailedFeedback');
       if (detailedFb && detailedFb.textContent.trim()) {
         out += '<div class="vr-ai"><div class="vr-ai-label">💬 AI Examiner Summary</div><div class="vr-ai-text">' + detailedFb.innerHTML + '</div></div>';

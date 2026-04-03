@@ -1,0 +1,416 @@
+import json
+import os
+import re
+import subprocess
+import tempfile
+
+API_KEY = "AIzaSyC61g88nXtTAlY53GVKl4HE-gjzAvz1T-o"
+URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
+
+
+def call_gemini(prompt, temperature=0.35, max_tokens=8192):
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": temperature,
+            "maxOutputTokens": max_tokens,
+            "responseMimeType": "application/json"
+        }
+    }
+    payload_json = json.dumps(payload, ensure_ascii=False)
+    last_err = None
+    for _ in range(3):
+        tmp_path = None
+        try:
+            with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tf:
+                tf.write(payload_json)
+                tmp_path = tf.name
+            result = subprocess.run(
+                ["curl.exe", "-s", "--max-time", "180", "-X", "POST", "-H", "Content-Type: application/json", "-d", "@" + tmp_path, URL],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=200,
+            )
+            if not result.stdout.strip():
+                raise RuntimeError("Empty Gemini response")
+            data = json.loads(result.stdout)
+            return data["candidates"][0]["content"]["parts"][0]["text"]
+        except Exception as e:
+            last_err = e
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+    raise RuntimeError(f"Gemini failed after retries: {last_err}")
+
+
+def parse_json_obj(text):
+    text = text.strip()
+    try:
+        return json.loads(text)
+    except Exception:
+        m = re.search(r"\{[\s\S]*\}", text)
+        if not m:
+            raise
+        return json.loads(m.group(0))
+
+
+def strip_html(s):
+    return re.sub(r"<[^>]+>", "", s or "")
+
+
+def build_prompt(passage_title, passage_text, questions, answers):
+    q_lines = []
+    for q in questions:
+        qid = q["id"]
+        base = f"Q{qid}: {strip_html(q['text'])}"
+        if "options" in q and q["options"]:
+            base += "\nOptions: " + " | ".join(q["options"])
+        base += f"\nCorrect answer(s): {', '.join(answers.get(f'q{qid}', []))}"
+        q_lines.append(base)
+
+    return f"""
+Generate IELTS Reading explanations.
+Return ONLY valid JSON object with keys like q1, q2, ... and values:
+{{"text":"short reason","quote":"exact passage quote or empty for not given"}}
+Rules:
+- concise 1-3 sentences
+- learner-friendly
+- align strictly with provided answers
+- for Not Given, quote should be empty string
+
+Passage title: {passage_title}
+Passage text:
+{strip_html(passage_text)}
+
+Questions and answers:
+{chr(10).join(q_lines)}
+""".strip()
+
+
+passage1_text = """<h3>The History of the Chicken</h3>
+
+<p><strong>A</strong> Chicken is the universal food of our era, crossing cultural boundaries with ease. With its mild taste and uniform texture, chicken presents a blank canvas for the national flavours of almost any cuisine. However, until the introduction of large-scale industrial production in the 20th century, the economic and nutritional contribution of chickens was small. Chickens were considered as domestic birds that were useful to humanity, but unlike other animals such as the horse or the ox, they did little to change the course of history. Nonetheless, the chicken has inspired contributions to culture, art, cuisine, science and religion over the millennia. Chickens were, and still are, a sacred animal in some cultures. The hen is a worldwide symbol of nurturing and fertility. The rooster is a universal sign of masculinity.</p>
+
+<p><strong>B</strong> The domesticated chicken has a complicated family tree, stretching back 10,000 years. Recent DNA testing has shown that the chicken's wild ancestor is the red junglefowl. The bird's resemblance to modern chickens is seen in the red feathers on top of its head, the red flesh around its mouth, and its distinctive call in the morning. The females of this breed protect their eggs in the same way modern chickens do, and they make the same clucking sounds. In its habitat, which stretches from north-eastern India to the Philippines, the red junglefowl looks on the forest floor for insects, seeds and fruit, and flies up to nest in the trees at night. That's about as much flying as it can manage, a trait that made it relatively easy for humans to capture and domesticate it. But the red junglefowl is not the sole ancestor of the modern chicken. Scientists have identified three closely related species that might have bred with the red junglefowl. Precisely how much genetic material these other birds contributed to the DNA of domesticated chickens is unknown. However, recent research suggests that modern chickens inherited at least one trait, their yellow skin, from the grey junglefowl of southern India.</p>
+
+<p><strong>C</strong> Once chickens were domesticated, cultural contacts, trade, migration and territorial conquest resulted in their introduction to different regions around the world over several thousand years. Chickens arrived in Egypt in around 1750 BC, as fighting birds and additions to zoos. Drawings of the birds decorated royal tombs, which contained the treasures that the kings and queens would take to the afterlife. Yet it would be another 100 years before the bird became popular among ordinary Egyptians.</p>
+
+<p><strong>D</strong> It was in that era that Egyptians mastered the technique of artificial incubation, which freed hens to lay more eggs. This was not easy. Most chicken eggs will hatch in three weeks, but only if the temperature remains at around 38 degrees Celsius. The eggs must also be turned three to five times a day, and the humidity must remain stable at about 55 percent, otherwise physical deformities can result, or the eggs won't hatch. The Egyptians constructed vast complexes of large rooms, which were essentially ovens, and these were connected to a series of corridors and vents that allowed attendants to regulate the heat from fires. The egg attendants kept their methods a secret from outsiders for centuries.</p>
+
+<p><strong>E</strong> Around the Mediterranean, archaeologists have uncovered chicken bones from about 800 BC. Chickens were a delicacy among the Romans, whose culinary innovations included the omelette, and the practice of stuffing birds for cooking. European farmers began developing methods to fatten the birds, such as feeding them bread and wine, which soaked in wine. But the chicken's status in Europe appears to have diminished with the collapse of Rome. In the period after the fall of the Roman Empire, chicken farms vanished and the birds returned to the size they had been 1,000 years earlier.</p>
+
+<p><strong>F</strong> Well into the 20th century chickens, although valued as a source of eggs, played a relatively minor role in diet and the economy. Long after cattle had entered the industrial age of centralized and mechanized large-scale production, chicken production was still a small-scale, local enterprise. The breakthrough that made today's huge bird farms was the inclusion of antibiotics, along with a mixture of different vitamins, in the food chickens ate. This allowed chickens to be raised indoors and be protected from colder temperatures and heavy rain as well as predators. This factory farming represents the chicken's final step in its transformation into a big protein-producing business.</p>
+
+<p><strong>G</strong> Factory farms turning out an increasing amount of chicken have resulted in an increasing demand. Modern chickens are eggs in a system designed to convert grain into protein with staggering efficiency. It takes less than 1 kilogram of feed to produce 400 grams of chicken. By comparison, around 3 kilograms of feed are required to produce 400 grams of beef. A day-old chick can be turned into a 2 kilogram bird in six weeks — half the time it took two generations ago.</p>
+
+<p><strong>H</strong> Chickens also make wonderful pets, as breeders will tell you. They are as colourful as tropical fish but more affectionate, as cute as guinea pigs and better at catching mice than cats. In the USA, exotic and heritage breeds of chicken are being sold for a considerable source of money as the fashion for keeping chickens in the backyards becomes more popular.</p>
+
+<p><strong>I</strong> All in all, the globe-spanning chicken is an epic story of evolutionary, agricultural and culinary success, outnumbering human beings on the planet by nearly three to one.</p>"""
+
+passage2_text = """<h3>A study of introvert and extrovert characters</h3>
+
+<p><strong>A</strong> We are often labelled as introverts or extroverts, and humans do seem to have biological propensities to behave in certain ways; some of us are naturally more talkative and sociable while others prefer more time alone. But, according to Canadian-born research psychologist Professor Brian Little, our traits are by no means fixed. In his book <em>Myself and Us: The Science of Personality and the Art of Well-Being</em>, Little suggests that we are often able to override our biological make-up through the adoption of what he calls 'free-traits', which allow us to behave in a manner which contrasts with our natural selves. According to Little, we adopt these free-traits only when we need them, in order to meet the demands of different situations and reach targets and goals that are important to us - our 'persona projects'. These projects might be big (such as career ambitions) or small (like cleaning the car) and pursuing them shapes our day-to-day behaviour and our relationships with friends, family and workmates.</p>
+
+<p><strong>B</strong> Little recommends that we might usefully think of ourselves as amateur scientists. We are continually exploring and testing the world around us to discover what works and what doesn't. We do things, say things, and then we observe the reactions and unconsciously store the results. We apply the knowledge gained from our 'experiments' to the advancement of our personal projects. Sometimes our personal pursuit requires us to engage in free traits; at other times, we can just be ourselves. Little proposes that the successful pursuit of personal projects which are meaningful, manageable, supported by others and generate positive feelings can greatly impact our happiness and the quality of our lives.</p>
+
+<p><strong>C</strong> Professor Little and one of his graduate students, Sanna Balsari-Palsule, have looked into the experiences of employees in a range of organisations. The reason for basing the research on this environment, as Balsari-Palsule explains, is that in an ideal world, one's job would fit one's traits perfectly, but that's very rarely the case. As so much can hinge on how we behave with others while at work, I wanted to discover what happens when people push the limits of their ability to act out of character. Do employees experience detriments in their well-being or work performance and does this increase their chances of burnout?</p>
+
+<p><strong>D</strong> Their findings suggest that extroverts initially experience advantages over introverts at work, in terms of getting noticed and promoted more rapidly. However, when introvert employees higher up in the organisation act out of character and take on extrovert traits, they have equal performance ratings to those extroverts, and do not report any negative effects of this use of free traits. Balsari Palsule offers an explanation: introvert employees make frequent use of 'restorative resources'. These are spaces designed to allow employees to read quietly or simply relax in order to recover their equilibrium after a strenuous session of acting out of character that would otherwise leave them feeling drained. However, if the same employees were expected to act out of character for run more prolonged periods, without the chance to recover, the benefits could quickly turn into costs.</p>
+
+<p><strong>E</strong> In the same study, however, extroverts report strikingly different, and much less rewarding, experiences of acting out of character. It appears that more outwardly confident personality types find it extremely hard and stressful to rein back their personalities and act as if they were introverted. We found this difference was most common among younger employees. It may be that introverts are generally so used to acting extrovertly in situations outside of the workplace that it becomes a relatively easy force of habit, particularly in Western cultures where extroversion is often highly valued. On the other hand, extrovert employees at the beginning of their careers are much less used to being isolated in an office for long periods of time, so may feel like caged animals, needing to feed off the energy of others in order to thrive,' says Balsari-Palsule.</p>
+
+<p><strong>F</strong> In the second stage of research, Balsari-Palsule is looking into the idiosyncrasies of people's work projects and how the work environment plays a vital role in supporting or, in some cases, constraining them. For example, highly competitive environments, which place demands on employees to conform to certain types of behaviour, may leave little time for employees to pursue projects which are important to them on a personal level. This could eventually be detrimental to their well-being. She expects that a closer look at the influences of different factors in the work environment, in conjunction with how people behave, will shed more light on what acting out of character may lead to.</p>
+
+<p><strong>G</strong> The implications of Little and Balsari-Palsule's research are numerous and need to be taken into account by businesses. Balsari-Palsule suggests that it would serve companies well not to dismiss the costs of free-trait acting. She points out that compromised psychological and physical well-being can quickly result in more frequent occurrences of absenteeism. She also believes that management should rely less on handing out personality surveys that pigeonhole employees into introvert and extrovert categories. Instead, organisations should adopt policies and build work environments that are supportive of free-trait expression, and also provide the spaces for people to be themselves. Furthermore, making these changes is also likely to lead to increases in productivity in the long term.</p>"""
+
+passage3_text = """<h3>Seeing the colour of sounds, hearing the colour of numbers<br>When the senses mix together</h3>
+
+<p><strong>A</strong> What is the colour of five? What is the sound of blue? To most of us such questions are either meaningless or suitable only for poetry. But for some people these are questions to which very precise answers can be given. Five, for example, for some people is green, while others say the sound of a guitar is like someone blowing on their ankles. People who 'see' colour in numbers or letters of the alphabet and 'feel' sensation in sound have synesthesia - meaning literally 'joined sensation' - an extraordinary condition that causes certain senses to 'leak' into one another.</p>
+
+<p><strong>B</strong> People whose senses behave in this way are called 'synesthetes'. Some synesthetes take pleasure in it. To me it's like other people see the world in black and white,' says one, who sees every letter, number, sound and pain in colour. Others learn to keep it a secret for fear of people laughing at them. But to neurologists investigating the brain it is of great interest. 'When scientists study normal perception,' says Daniel Smilek of the University of Waterloo in Ontario, Canada, 'there are lots of things we don't question because most of us perceive in the same way. Synesthesia, because it's abnormal, can give us new insights into normal perception.'</p>
+
+<p><strong>C</strong> Seventeenth-century English philosopher John Locke was the first westerner to describe synesthesia. He wrote about a man who experienced bright red as the sound of the trumpet. Later, the condition excited the imagination of nineteenth-century European painters, such as the non-synesthete Wassily Kandinsky, who believed synesthetes were like gods, much-played violins, which vibrate in all their parts and fibres. But it proved impossible to research and people lost interest. Recently, however, advances in brain imaging have sparked renewed interest.</p>
+
+<p><strong>D</strong> Early claims that the multi-sensory experiences of synesthesia were linked with the hallucinations of mental illness have long been disproved. Until 1993, many researchers dismissed it as another name for a vivid imagination, but then an experiment by Simon Baron-Cohen of Cambridge University in the UK showed that synesthetes who, when tested, had linked particular colours and shapes to letters, gave the same answers in 92 per cent of instances when tested again a week later. Non-synesthetes, given similar examples to imagine, returned the same answers in only 37 per cent of instances.</p>
+
+<p><strong>E</strong> Although there is some overlap between senses and colours in what colour is linked to what - 56 per cent see the letter 'o' as white - most of the responses are individual. There are 30 possible sensory combinations, but links between sounds and colours are the most common. Women are between two and eight times more likely than men to have the condition.</p>
+
+<p><strong>F</strong> As yet there is no explanation for any of this, but small pieces of the jigsaw are emerging. A brain scanning experiment by Baron-Cohen in 1995 found that when synesthetes were listening to words, areas of the brain lit up that are normally only active in response to vision and colour. From this comes the notion that we may all have synesthesia at birth, when many parts of the brain are linked, but as we develop, connections are pruned, so our senses become separated and the synesthetic mechanism is no longer intact. Somehow, synesthetes have kept their synaptic connections intact. It's an idea that has been challenged, however, on the grounds that if you give people certain drugs they will have synesthetic experiences, which suggests the mechanism is intact in adults but repressed.</p>
+
+<p><strong>G</strong> There are many more unanswered questions about synesthesia. For example, is the synesthete's colour response to a number five triggered by actually seeing the number five written on a page, or does the synesthete 'see' the colour just by thinking of the number five? The neurologist Vilaynur Ramachandran came up with a test for synesthesia which seemed to suggest it was the sight of the number that was important. He asked people to look at a page made up of specially drawn twos and fives that were a mirror image of each other. The fives were placed at random on the page but the twos were placed to form shapes such as circles or triangles. To most people the numbers just looked like a jumble without order, but to synesthetes the patterns made by the twos were very obvious as a different colour from the fives. 'This shows they were really sensing colour in the numbers they saw,' says Ramachandran. 'Ideas don't form these kinds of patterns.'</p>
+
+<p><strong>H</strong> However, Smilek subsequently came up with evidence that what really matters is the idea of a number rather than the sight of it on a page. He asked a synesthete to do some simple mental arithmetic while looking at different coloured papers. The subject did not write her answers, but only thought of them and said them aloud. Smilek found that when the colour of the paper clashed with the colour of the answer, the subject's response was slower than when the colours were the same. An actual colour (the colour of the paper) could interfere with the colour of a number that existed only in her head (the answer to the mental arithmetic question). 'My research suggests that colour experiences coincide with the processing of meaning,' says Smilek. 'It's the concept of a number that's coloured.'</p>
+
+<p><strong>I</strong> So which is it? At present, we don't know, but in the future neurologists may be able to explain what's going on in the brains of people like the novelist Nabokov, who perceived the English 'a' as dark brown and the French 'e' as black.</p>"""
+
+p1_sections = [
+    {
+        "type": "tfng",
+        "typeName": "True/False/Not Given",
+        "title": "Questions 1-7",
+        "instruction": "Questions 1-7<br><br>Choose True if the statement agrees with the information in the text, choose False if the statement contradicts the information, or choose Not Given if there is no information on this.",
+        "headingsList": [],
+        "featuresList": [],
+        "questions": [
+            {"id": 1, "text": "Chicken is globally popular because it can be used for different styles of cooking."},
+            {"id": 2, "text": "Chickens have poor capacity for flight compared to Junglefowl."},
+            {"id": 3, "text": "Scientists believe that the domestic chicken has more than one ancestor."},
+            {"id": 4, "text": "A modern chicken has the same skin colour as the grey junglefowl."},
+            {"id": 5, "text": "After the Roman Empire ended, chicken consumption in Europe declined."},
+            {"id": 6, "text": "Some people criticise the methods involved in factory farming chickens."},
+            {"id": 7, "text": "In the USA, fewer people are keeping expensive breeds of chicken at home."}
+        ]
+    },
+    {
+        "type": "completion",
+        "typeName": "Note Completion",
+        "title": "Questions 8-13",
+        "instruction": "Questions 8-13<br><br>Complete the notes below.<br><br>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.",
+        "headingsList": [],
+        "featuresList": [],
+        "questions": [
+            {"id": 8, "text": "<strong>The domestication and farming of chickens</strong><br><strong>Egypt</strong><br>In 1750 BC the first chickens were seen in Egyptian {INPUT} and used in fights."},
+            {"id": 9, "text": "Pictures of chickens were used on the {INPUT} of kings and queens."},
+            {"id": 10, "text": "Egyptians developed a method of egg {INPUT} that didn't involve hens."},
+            {"id": 11, "text": "For eggs to hatch, heat and {INPUT} levels had to stay the same."},
+            {"id": 12, "text": "The eggs were hatched in rooms that functioned as {INPUT}."},
+            {"id": 13, "text": "<strong>20th-century farming</strong><br>Chickens were kept inside, safe from bad weather and {INPUT}."}
+        ]
+    }
+]
+
+p2_sections = [
+    {
+        "type": "matching-headings",
+        "typeName": "Matching Headings",
+        "title": "Questions 14-20",
+        "instruction": "Questions 14-20<br><br>Reading Passage 2 has seven paragraphs, <strong>A-G</strong>.<br><br>Choose the correct heading for each paragraph from the list of headings below.<br><br>Write the correct number, <strong>i-viii</strong>, in boxes 14-20.",
+        "headingsList": [
+            "i How company culture can have a negative impact",
+            "ii Recommendations for employers",
+            "iii The pressure of restraining an outgoing nature",
+            "iv Why researchers decided to focus on the workplace",
+            "v How does personality influence your choice of career?",
+            "vi Examples of various contexts in which we might need to act out of character",
+            "vii How workplace facilities aid the success of one personality type",
+            "viii Learning by trial and error"
+        ],
+        "featuresList": [],
+        "questions": [
+            {"id": 14, "text": "Paragraph A"},
+            {"id": 15, "text": "Paragraph B"},
+            {"id": 16, "text": "Paragraph C"},
+            {"id": 17, "text": "Paragraph D"},
+            {"id": 18, "text": "Paragraph E"},
+            {"id": 19, "text": "Paragraph F"},
+            {"id": 20, "text": "Paragraph G"}
+        ]
+    },
+    {
+        "type": "mcq",
+        "typeName": "Multiple Choice (Multiple Answers)",
+        "title": "Questions 21-22",
+        "instruction": "Questions 21-22<br><br>Choose <strong>TWO</strong> correct answers.<br><br>Below are some statements about the possible characteristics of free traits. Which TWO are made by Professor Brian Little in the 1st paragraph?",
+        "headingsList": [],
+        "featuresList": [],
+        "questions": [
+            {"id": 20, "text": "(Choice 1)", "options": ["They can affect the degree to which people are content with what they have.", "They are not used by people all the time.", "They influence people's choice of profession.", "They are useful in the pursuit of objectives assigned by others.", "They enable people to act in ways which are not typical for them."]},
+            {"id": 21, "text": "(Choice 2)", "options": ["They can affect the degree to which people are content with what they have.", "They are not used by people all the time.", "They influence people's choice of profession.", "They are useful in the pursuit of objectives assigned by others.", "They enable people to act in ways which are not typical for them."]}
+        ]
+    },
+    {
+        "type": "completion",
+        "typeName": "Sentence Completion",
+        "title": "Questions 22-25",
+        "instruction": "Questions 22-25<br><br>Complete the sentences below.<br><br>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.",
+        "headingsList": [],
+        "featuresList": [],
+        "questions": [
+            {"id": 22, "text": "In the second stage of her research, Balsari-Palsule will explore her theory that very {INPUT} workplaces prevent employees from completing projects of personal importance."},
+            {"id": 23, "text": "The research done by Little and Balsari-Palsule has many {INPUT} for businesses."},
+            {"id": 24, "text": "Balsari-Palsule thinks that managers depend too much on {INPUT} aimed at determining personality types."},
+            {"id": 25, "text": "Balsari-Palsule thinks that relieving the stress caused by free-trait acting could boost a company's {INPUT} over time."}
+        ]
+    }
+]
+
+p3_sections = [
+    {
+        "type": "matching-features",
+        "typeName": "Matching Features",
+        "title": "Questions 27-30",
+        "instruction": "Questions 27-30<br><br>Look at the following statements (Questions 27-30) and the list of people below.<br><br>Match each finding with the correct academic, <strong>A, B, C or D</strong>.<br><br><strong>NB</strong> You may use any letter more than once.",
+        "boxTitle": "List of people",
+        "headingsList": [],
+        "featuresList": [
+            "A Daniel Smilek",
+            "B John Locke",
+            "C Simon Baron-Cohen",
+            "D Vilaynur Ramachandran"
+        ],
+        "questions": [
+            {"id": 27, "text": "For synesthetes, hearing the names of things affects the brain in the same way that looking at things does."},
+            {"id": 28, "text": "Synesthetes are consistent in their association of a certain colour with a certain written symbol."},
+            {"id": 29, "text": "One synesthete heard a particular musical instrument when he saw a certain colour."},
+            {"id": 30, "text": "Because synesthetes experience things differently to other people, studying synesthesia can give fresh perspectives on how the senses usually work."}
+        ]
+    },
+    {
+        "type": "matching-info",
+        "typeName": "Matching Information",
+        "title": "Questions 31-35",
+        "instruction": "Questions 31-35<br><br>Reading Passage 3 has nine paragraphs, <strong>A-I</strong>.<br><br>Which paragraph contains the following information?<br><br>Choose the correct letter, <strong>A-I</strong>, in boxes 31-35.<br><br><strong>NB</strong> You may use any letter more than once.",
+        "headingsList": [],
+        "featuresList": ["A","B","C","D","E","F","G","H","I"],
+        "questions": [
+            {"id": 31, "text": "an investigation into synesthesia using modern medical technology"},
+            {"id": 32, "text": "a mention of a writer who was a synesthete"},
+            {"id": 33, "text": "a definition of synesthesia"},
+            {"id": 34, "text": "two different explanations of why synesthesia is uncommon in adults"},
+            {"id": 35, "text": "a reason why some synesthetes do not tell people about their experiences"}
+        ]
+    },
+    {
+        "type": "tfng",
+        "typeName": "True/False/Not Given",
+        "title": "Questions 36-40",
+        "instruction": "Questions 36-40<br><br>Choose True if the statement agrees with the information given in the text, choose False if the statement contradicts the information, or choose Not Given if there is no information on this.",
+        "headingsList": [],
+        "featuresList": [],
+        "questions": [
+            {"id": 36, "text": "The painter Kandinsky admired synesthetes."},
+            {"id": 37, "text": "It is no longer believed that synesthesia is associated with mental illness."},
+            {"id": 38, "text": "Equal numbers of men and women have synesthesia."},
+            {"id": 39, "text": "Synesthetes have greater powers of logic than people with normal perception."},
+            {"id": 40, "text": "It is possible that we are all born with synesthesia."}
+        ]
+    }
+]
+
+correct_answers = {
+    "q1": ["TRUE"],
+    "q2": ["NOT GIVEN"],
+    "q3": ["TRUE"],
+    "q4": ["TRUE"],
+    "q5": ["NOT GIVEN"],
+    "q6": ["NOT GIVEN"],
+    "q7": ["FALSE"],
+    "q8": ["zoos"],
+    "q9": ["tombs"],
+    "q10": ["incubation"],
+    "q11": ["humidity"],
+    "q12": ["ovens"],
+    "q13": ["predators"],
+    "q14": ["vi"],
+    "q15": ["viii"],
+    "q16": ["iv"],
+    "q17": ["vii"],
+    "q18": ["iii"],
+    "q19": ["i"],
+    "q20": ["B"],
+    "q20": ["B"],
+    "q21": ["E"],
+    "q22": ["competitive"],
+    "q23": ["implications"],
+    "q24": ["surveys"],
+    "q25": ["productivity"],
+    "q29": ["B"],
+    "q30": ["A"],
+    "q31": ["F"],
+    "q32": ["I"],
+    "q33": ["A"],
+    "q34": ["F"],
+    "q35": ["B"],
+    "q36": ["TRUE"],
+    "q37": ["TRUE"],
+    "q38": ["FALSE"],
+    "q39": ["NOT GIVEN"],
+    "q40": ["TRUE"]
+}
+
+passages = [
+    {
+        "id": 1,
+        "title": "The History of the Chicken",
+        "shortName": "The history of chicken",
+        "difficulty": "Easy",
+        "questionRange": "1-13",
+        "timeRecommended": 20,
+        "passageHeader": {
+            "title": "READING PASSAGE 1",
+            "instruction": "You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below."
+        },
+        "passage": passage1_text,
+        "questionSections": p1_sections,
+        "correctAnswers": {k: v for k, v in correct_answers.items() if 1 <= int(k[1:]) <= 13},
+        "explanations": {}
+    },
+    {
+        "id": 2,
+        "title": "A study of introvert and extrovert characters",
+        "shortName": "Introvert and extrovert",
+        "difficulty": "Medium",
+        "questionRange": "14-25",
+        "timeRecommended": 20,
+        "passageHeader": {
+            "title": "READING PASSAGE 2",
+            "instruction": "You should spend about 20 minutes on <strong>Questions 14-25</strong>, which are based on Reading Passage 2 below."
+        },
+        "passage": passage2_text,
+        "questionSections": p2_sections,
+        "correctAnswers": {k: v for k, v in correct_answers.items() if 14 <= int(k[1:]) <= 25},
+        "explanations": {}
+    },
+    {
+        "id": 3,
+        "title": "Seeing the colour of sounds, hearing the colour of numbers",
+        "shortName": "When the senses mix together",
+        "difficulty": "Hard",
+        "questionRange": "27-40",
+        "timeRecommended": 20,
+        "passageHeader": {
+            "title": "READING PASSAGE 3",
+            "instruction": "You should spend about 20 minutes on <strong>Questions 27-40</strong>, which are based on Reading Passage 3 below."
+        },
+        "passage": passage3_text,
+        "questionSections": p3_sections,
+        "correctAnswers": {k: v for k, v in correct_answers.items() if 27 <= int(k[1:]) <= 40},
+        "explanations": {}
+    }
+]
+
+print("Generating explanations with Gemini...")
+for p in passages:
+    all_q = []
+    for sec in p["questionSections"]:
+        all_q.extend(sec.get("questions", []))
+    prompt = build_prompt(p["title"], p["passage"], all_q, p["correctAnswers"])
+    raw = call_gemini(prompt)
+    obj = parse_json_obj(raw)
+    for q in all_q:
+        key = f"q{q['id']}"
+        item = obj.get(key, {}) if isinstance(obj, dict) else {}
+        p["explanations"][key] = {
+            "text": item.get("text", "Explanation generated based on passage evidence."),
+            "quote": item.get("quote", "")
+        }
+
+final_data = {
+    "testInfo": {
+        "totalQuestions": 40,
+        "totalTime": 60,
+        "passages": 3
+    },
+    "passages": passages
+}
+
+js = "// IELTS Reading Test 45 - Generated 04/02/2026\n" \
+     "// Passage 1: The History of the Chicken | Passage 2: A study of introvert and extrovert characters | Passage 3: Seeing the colour of sounds\n\n" \
+     "window.IELTS_READING_TEST = " + json.dumps(final_data, ensure_ascii=False, indent=4) + ";\n"
+
+out = r"questions IELTS R\ielts-reading-test-45.js"
+with open(out, "w", encoding="utf-8") as f:
+    f.write(js)
+
+print(f"Done: {out}")

@@ -2700,6 +2700,7 @@
       <div class="chip"><span id="scoreDone">0</span> / <span id="scoreTotal">8</span></div>
       <button class="zoom-btn" id="zoomBtn" onclick="cycleZoom()" title="Zoom text">&#128269;<span class="zoom-level"
           id="zoomLevel" style="display:none"></span></button>
+      <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">⛶</button>
       <button class="pause-btn" id="pauseBtn">Pause</button>
     </div>
     <!-- Microphone Button -->
@@ -4145,7 +4146,7 @@
 
       <div id="aiScorePasscodeSection" style="position:relative;">
         <!-- AI Provider Menu (Top Left Corner) - for passcode entry -->
-        <div id="speakingAiProviderMenuContainer2" style="position:absolute;top:-10px;left:0;z-index:10;">
+        <div id="speakingAiProviderMenuContainer2" style="position:absolute;top:-10px;left:0;z-index:10;display:none;">
           <button id="speakingAiProviderMenuBtn2" onclick="toggleSpeakingAiProviderMenu2()"
             style="background:var(--card);border:2px solid var(--ring-strong);width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:18px;"
             title="Select AI Provider" onmouseover="this.style.background='#f5f3ff';this.style.borderColor='#7c3aed'"
@@ -4242,7 +4243,7 @@
 
       <div id="aiScoreQuestionSelection" style="display:none;position:relative;">
         <!-- AI Provider Menu (Top Left Corner) -->
-        <div id="speakingAiProviderMenuContainer" style="position:absolute;top:-10px;left:0;z-index:10;">
+        <div id="speakingAiProviderMenuContainer" style="position:absolute;top:-10px;left:0;z-index:10;display:none;">
           <button id="speakingAiProviderMenuBtn" onclick="toggleSpeakingAiProviderMenu()"
             style="background:var(--card);border:2px solid var(--ring-strong);width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:18px;"
             title="Select AI Provider" onmouseover="this.style.background='#f5f3ff';this.style.borderColor='#7c3aed'"
@@ -5600,6 +5601,29 @@
 
     // Make exitFullscreen globally available for download functions
     window.exitFullscreenForDownload = exitFullscreen;
+
+    // Toggle fullscreen via postMessage (iframe-safe)
+    function toggleExamFullscreen() {
+      try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+    }
+    function _updateFSBtnIcon(isFS) {
+      var btn = document.getElementById('btnFS');
+      var fabBtn = document.getElementById('spkFabFSBtn');
+      if (btn) btn.textContent = isFS ? '✕' : '⛶';
+      if (fabBtn) fabBtn.textContent = isFS ? '✕' : '⛶';
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcon(!!(window.top.document.fullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcon(!!(window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcon(!!(document.fullscreenElement));
+      });
+    }
 
     // Check if click target should NOT trigger fullscreen
     function shouldSkipFullscreen(target) {
@@ -7269,13 +7293,70 @@
     let API_KEY = null;
     let GEMINI_KEY = null;
 
-    // OpenAI Model Configuration with automatic fallback
-    // Models are tried in order until one works
-    const OPENAI_VISION_MODELS = ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-4']; // Vision-capable models in priority order
-    const OPENAI_WHISPER_MODELS = ['whisper-1']; // Audio transcription models
+    // Supabase scoring prompt loader
+    var _scoringPromptsCache = null;
+    var _scoringPromptsCacheTime = 0;
+    async function _loadScoringPrompts() {
+      if (_scoringPromptsCache && Date.now() - _scoringPromptsCacheTime < 300000) return _scoringPromptsCache;
+      try {
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+        });
+        if (!r.ok) throw new Error(r.status);
+        var rows = await r.json();
+        _scoringPromptsCache = {};
+        rows.forEach(function(x) { _scoringPromptsCache[x.key] = x.value; });
+        _scoringPromptsCacheTime = Date.now();
+      } catch(e) { console.warn('[ScoringPrompts] load failed:', e.message); }
+      return _scoringPromptsCache || {};
+    }
 
-    let CURRENT_VISION_MODEL = OPENAI_VISION_MODELS[0]; // Will auto-update if deprecated
-    let CURRENT_WHISPER_MODEL = OPENAI_WHISPER_MODELS[0]; // Will auto-update if deprecated
+    async function _callScoringAI(systemText, userPrompt, opts) {
+      var cp = await _loadScoringPrompts();
+      var provider = cp['scoring_ai_provider'] || 'gemini';
+      opts = opts || {};
+      if (provider === 'openai') {
+        if (!API_KEY) { try { await getKey(); } catch(e){} }
+        if (!API_KEY) throw new Error('No OpenAI API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        var uText = userPrompt;
+        if (opts.contentParts) uText = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+        messages.push({ role: 'user', content: uText });
+        var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else {
+        if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+        if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+        var gBody = {
+          contents: [{ parts: opts.contentParts || [{ text: userPrompt }] }],
+          generationConfig: { temperature: opts.temperature || 0.3 }
+        };
+        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+        if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(gBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
+      }
+    }
 
     async function getKey() {
       try {
@@ -11958,9 +12039,9 @@ ${autoAiResult ? (() => {
               }
               return `
 <!-- AI Score Popup Modal -->
-<div id="aiScoreModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:10000;">
-  <div onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
-  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:900px;max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);background:white;border-radius:16px;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.3);margin:0 auto;display:flex;flex-direction:column;">
+<div id="aiScoreModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:2147483647;isolation:isolate;">
+  <div onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1;"></div>
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:900px;max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);background:white;border-radius:16px;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.3);margin:0 auto;display:flex;flex-direction:column;z-index:2;">
     <div style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
       <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
         <span style="font-size:24px;flex-shrink:0;">🤖</span>
@@ -12043,8 +12124,8 @@ ${autoAiResult ? (() => {
 }
 </style>
 <script>
-function openAiModal() { document.getElementById('aiScoreModal').style.display = 'block'; document.body.style.overflow = 'hidden'; document.querySelectorAll('.audio-section audio, .question-card audio').forEach(function(a){a.style.display='none';}); }
-function closeAiModal() { document.getElementById('aiScoreModal').style.display = 'none'; document.body.style.overflow = ''; document.querySelectorAll('.audio-section audio, .question-card audio').forEach(function(a){a.style.display='';}); }
+function openAiModal() { document.getElementById('aiScoreModal').style.display = 'block'; document.body.style.overflow = 'hidden'; document.querySelectorAll('audio').forEach(function(a){try{a.pause();}catch(e){}a.style.display='none';a.style.visibility='hidden';}); document.querySelectorAll('.audio-section').forEach(function(s){s.style.visibility='hidden';}); }
+function closeAiModal() { document.getElementById('aiScoreModal').style.display = 'none'; document.body.style.overflow = ''; document.querySelectorAll('audio').forEach(function(a){a.style.display='';a.style.visibility='';}); document.querySelectorAll('.audio-section').forEach(function(s){s.style.visibility='';}); }
 function printAiModal() { 
   var details = document.querySelectorAll('#aiScoreModal details'); 
   details.forEach(function(d) { d.setAttribute('open', ''); }); 
@@ -14309,29 +14390,12 @@ RETURN ONLY THIS JSON FORMAT (no other text):
               });
             }
 
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: [{ parts: contentParts }],
-                generationConfig: { temperature: 0.3, maxOutputTokens: 16384, response_mime_type: 'application/json' }
-              })
-            });
-            if (!resp.ok) throw new Error(`AI scoring API error: ${resp.status}`);
-            return resp;
+            var _cp = await _loadScoringPrompts();
+            var _sysS = _cp['scoring_cefr_speaking_system'] || '';
+            return await _callScoringAI(_sysS, '', { temperature: 0.3, maxTokens: 16384, jsonMode: true, contentParts: contentParts });
           });
 
-          const analysisData = await analysisResp.json();
-
-          // Check for API errors or blocked content
-          if (analysisData.error) {
-            throw new Error(analysisData.error.message || 'AI API returned an error');
-          }
-          if (!analysisData.candidates || analysisData.candidates.length === 0) {
-            throw new Error('No AI response - content may have been filtered or blocked');
-          }
-
-          let jsonText = analysisData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          let jsonText = analysisResp || '';
           if (!jsonText) {
             throw new Error('Empty response from AI');
           }
@@ -15395,11 +15459,11 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
 
           let feedback;
 
-          // Check if using Gemini or OpenAI for analysis
-          if (useGemini && GEMINI_KEY) {
+          // Always use Gemini for analysis
+          {
             console.log('Using Gemini AI for speaking analysis...');
 
-            // Build Gemini-compatible content (convert messageContent to Gemini format)
+            // Build Gemini-compatible content
             const geminiParts = [];
 
             // Add system prompt + user prompt as text
@@ -15411,7 +15475,6 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
             // Add images as inline_data (Gemini format)
             for (const item of messageContent) {
               if (item.type === 'image_url' && item.image_url?.url) {
-                // Extract base64 data from data URL
                 const dataUrl = item.image_url.url;
                 if (dataUrl.startsWith('data:image')) {
                   const matches = dataUrl.match(/^data:image\/(\w+);base64,(.+)$/);
@@ -15427,99 +15490,13 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
               }
             }
 
-            const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                contents: [{
-                  parts: geminiParts
-                }],
-                generationConfig: {
-                  temperature: 0.7,
-                  maxOutputTokens: 8192
-                }
-              })
-            });
-
-            if (!geminiResponse.ok) {
-              const errorText = await geminiResponse.text();
-              console.error('Gemini API Error:', errorText);
-              throw new Error(`Gemini API Error ${geminiResponse.status}: ${errorText}`);
-            }
-
-            const geminiData = await geminiResponse.json();
-            feedback = geminiData.candidates[0].content.parts[0].text;
-            console.log('Gemini analysis completed successfully');
-
-          } else {
-            // Use OpenAI for analysis (original logic with model fallback)
-            console.log('Using OpenAI for speaking analysis...');
-
-            let visionSuccess = false;
-            let visionModelIndex = OPENAI_VISION_MODELS.indexOf(CURRENT_VISION_MODEL);
-            let result;
-
-            while (!visionSuccess && visionModelIndex < OPENAI_VISION_MODELS.length) {
-              const modelToTry = OPENAI_VISION_MODELS[visionModelIndex];
-              console.log(`Attempting AI analysis with model: ${modelToTry}`);
-
-              const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${API_KEY}`
-                },
-                body: JSON.stringify({
-                  model: modelToTry,
-                  messages: [
-                    {
-                      role: 'system',
-                      content: speakingSystemPrompt
-                    },
-                    {
-                      role: 'user',
-                      content: messageContent
-                    }
-                  ],
-                  temperature: 0.7,
-                  max_tokens: 4000
-                })
-              });
-
-              if (openaiResponse.ok) {
-                result = await openaiResponse.json();
-                console.log(`Analysis completed successfully with ${modelToTry}`);
-                visionSuccess = true;
-
-                // Update current model if we had to switch
-                if (modelToTry !== CURRENT_VISION_MODEL) {
-                  console.log(`Auto-switched Vision model from ${CURRENT_VISION_MODEL} to ${modelToTry}`);
-                  CURRENT_VISION_MODEL = modelToTry;
-                }
-              } else {
-                const errorData = await openaiResponse.json().catch(() => ({}));
-
-                // If 404 (deprecated), try next model
-                if (openaiResponse.status === 404 && visionModelIndex < OPENAI_VISION_MODELS.length - 1) {
-                  console.warn(`Model ${modelToTry} deprecated, trying next model...`);
-                  visionModelIndex++;
-                } else {
-                  // Other error or last model failed
-                  console.error('OpenAI API Error:', openaiResponse.status, errorData);
-                  throw new Error(`OpenAI API request failed: ${openaiResponse.status} - ${errorData.error?.message || 'Unknown error'}`);
-                }
-              }
-            }
-
-            if (!visionSuccess) {
-              throw new Error('All vision models failed or are deprecated');
-            }
-            feedback = result.choices[0].message.content;
+            var _cpInd = await _loadScoringPrompts();
+            var _sysInd = _cpInd['scoring_cefr_speaking_part_system'] || '';
+            feedback = await _callScoringAI(_sysInd, '', { temperature: 0.7, maxTokens: 8192, contentParts: geminiParts });
+            console.log('AI analysis completed successfully');
           }
 
-          console.log('AI Provider used:', useGemini ? 'Gemini' : 'OpenAI');
+          console.log('AI Provider used: provider-aware');
           console.log('=== RAW AI FEEDBACK ===');
           console.log(feedback);
 
@@ -19984,7 +19961,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
     .spk-tools-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
     .spk-tools-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; color: #0f172a; }
     .spk-home-btn { width: 40px; height: 36px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0d9488, #0f766e); color: #fff; text-decoration: none; font-size: 20px; }
-    .spk-top-tools { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .spk-top-tools { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
     .spk-tool-btn { border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px 6px; background: #fff; color: #0f172a; font-weight: 800; font-size: 20px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
     .spk-tool-btn:active { transform: scale(0.93); }
     .spk-tool-btn.is-paused { color: #166534; border-color: #16a34a; background: #f0fdf4; }
@@ -20038,6 +20015,7 @@ Please contact your instructor or upgrade to the full version with speech recogn
       <div class="spk-tool-progress" id="spkFabProgress">0 / 8</div>
       <button class="spk-tool-btn" id="spkFabZoomBtn">🔍</button>
       <button class="spk-tool-btn" id="spkFabPauseBtn">⏸️</button>
+      <button class="spk-tool-btn" id="spkFabFSBtn" onclick="toggleExamFullscreen()" title="Toggle Fullscreen">⛶</button>
     </div>
     <div class="spk-tools-actions">
       <button class="spk-act leave" onclick="closeSpkToolsMenu();promptFriendlyLeave(function(){ goBack(); })">🚪 Leave</button>

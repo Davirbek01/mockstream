@@ -25,7 +25,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 1-8",
-                    "instruction": "Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 1-8 on your answer sheet, write<br><br><strong>TRUE</strong> if the statement agrees with the information<br><strong>FALSE</strong> if the statement contradicts the information<br><strong>NOT GIVEN</strong> if there is no information on this",
+                    "instruction": "Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 1-8 on your answer sheet, write<br><br><strong>True</strong> if the statement agrees with the information<br><strong>False</strong> if the statement contradicts the information<br><strong>Not Given</strong> if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -319,7 +319,7 @@ window.IELTS_READING_TEST = {
                     "type": "ynng",
                     "typeName": "Yes/No/Not Given",
                     "title": "Questions 43-46",
-                    "instruction": "Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 43-46 on your answer sheet, write<br><br><strong>YES</strong> if the statement agrees with the claims of the writer<br><strong>NO</strong> if the statement contradicts the claims of the writer<br><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this",
+                    "instruction": "Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 43-46 on your answer sheet, write<br><br><strong>Yes</strong> if the statement agrees with the claims of the writer<br><strong>No</strong> if the statement contradicts the claims of the writer<br><strong>Not Given</strong> if it is impossible to say what the writer thinks about this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [

@@ -4053,6 +4053,10 @@
         <button class="zoom-btn" id="btnZoom" title="Zoom In">
           🔍
         </button>
+
+        <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">
+          ⛶
+        </button>
       </div>
     </div>
   </header>
@@ -4220,15 +4224,57 @@
       _navToLanding();
     }
 
+    // ===== FULLSCREEN TOGGLE =====
+    function toggleExamFullscreen() {
+      try {
+        window.top.postMessage('toggleFullscreen', '*');
+      } catch(e) {
+        // Fallback if not in iframe
+        var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (isFS) {
+          if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else {
+          var el = document.documentElement;
+          if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        }
+      }
+    }
+    function _updateFSBtnIcons(isFS) {
+      var pcBtn = document.getElementById('btnFS');
+      var mobBtn = document.getElementById('mobFSBtn');
+      if (pcBtn) pcBtn.textContent = isFS ? '✕' : '⛶';
+      if (mobBtn) mobBtn.textContent = isFS ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() { _updateFSBtnIcons(!!document.fullscreenElement); });
+      document.addEventListener('webkitfullscreenchange', function() { _updateFSBtnIcons(!!document.webkitFullscreenElement); });
+    }
+
     // ===== PLACEHOLDER - SCRIPT WILL BE ADDED IN NEXT BATCH =====
     const urlParams = new URLSearchParams(window.location.search);
     const testFile = urlParams.get('test') || 'cefr-listening-test-01';
+
+    // Practice part mode: ?part=1..6
+    var _partParam = urlParams.get('part');
+    if (_partParam) {
+      var _ptNum = parseInt(_partParam, 10);
+      if (_ptNum >= 1 && _ptNum <= 6) { window._practicePart = _ptNum; }
+    }
 
     let TEST_DATA = null;
     let currentPart = 0;
     let userAnswers = {};
     let timerInterval = null;
-    let timeRemaining = 40 * 60;
+    let timeRemaining = window._practicePart ? 10 * 60 : 40 * 60;
     let isReviewMode = false;
 
     // British ↔ American spelling variant pairs
@@ -4411,10 +4457,47 @@
     }
 
     function initTest() {
-      timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+      // Set timer (practice mode uses shorter time)
+      if (window._practicePart) {
+        var practiceTimeLookup = { 1: 7, 2: 7, 3: 6, 4: 6, 5: 7, 6: 7 };
+        timeRemaining = (practiceTimeLookup[window._practicePart] || 10) * 60;
+      } else {
+        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+      }
       generatePartNav();
       generateParts();
-      showPart(0);
+      showPart(window._practicePart ? (window._practicePart - 1) : 0);
+
+      // Practice mode: hide part nav, show only practised part, always show submit
+      if (window._practicePart) {
+        var partIdx = window._practicePart - 1;
+        // Hide PC part nav
+        var pcNav = document.getElementById('partNav');
+        if (pcNav) pcNav.style.display = 'none';
+        // Hide mobile part nav
+        var mobNav = document.getElementById('partNavMobile');
+        if (mobNav) mobNav.style.display = 'none';
+        // Hide mobile part dots
+        document.querySelectorAll('.mobile-part-dot').forEach(function(d){ d.style.display = 'none'; });
+        // Hide non-practice part sections
+        document.querySelectorAll('.part-section').forEach(function(s, i){
+          s.style.display = i === partIdx ? '' : 'none';
+          if (i === partIdx) s.classList.add('active');
+        });
+        // Always show submit, hide prev/next
+        var btnSubmit = document.getElementById('btnSubmit');
+        if (btnSubmit) btnSubmit.style.display = 'flex';
+        var btnNext = document.getElementById('btnNext');
+        if (btnNext) btnNext.style.display = 'none';
+        var btnPrev = document.getElementById('btnPrev');
+        if (btnPrev) btnPrev.style.visibility = 'hidden';
+        // Show floating submit
+        var floatingSubmit = document.getElementById('mobileFloatingSubmit');
+        if (floatingSubmit) floatingSubmit.classList.add('visible');
+        // Load only the practice part audio
+        if (typeof loadPartAudio === 'function') loadPartAudio(partIdx, false);
+      }
+
       startTimer();
       document.getElementById('loadingScreen').style.display = 'none';
       // Show FAB now that test is ready
@@ -4738,6 +4821,8 @@
 
     function showPart(index) {
       if (index < 0 || index >= TEST_DATA.parts.length) return;
+      // In practice mode, lock to the practised part
+      if (window._practicePart && index !== (window._practicePart - 1)) return;
       currentPart = index;
 
       // When manually switching parts, also load the audio but don't play it
@@ -5032,7 +5117,10 @@
 
     function calculateScore() {
       let score = 0;
-      TEST_DATA.parts.forEach(part => {
+      var _scoreParts = window._practicePart
+        ? [TEST_DATA.parts[window._practicePart - 1]]
+        : TEST_DATA.parts;
+      _scoreParts.forEach(part => {
         if (part.answers) {
           Object.keys(part.answers).forEach(qId => {
             const correct = part.answers[qId];
@@ -5093,15 +5181,22 @@
 
       collectAnswers();
       const score = calculateScore();
+      // In practice mode, compute total from practised part only
+      var _submitParts = window._practicePart
+        ? [TEST_DATA.parts[window._practicePart - 1]]
+        : TEST_DATA.parts;
+      var _totalQ = 0;
+      _submitParts.forEach(function(p){ if (p.answers) _totalQ += Object.keys(p.answers).length; });
+
       document.getElementById('finalScore').textContent = score;
-      document.getElementById('finalTotal').textContent = '/' + TEST_DATA.testInfo.totalQuestions;
+      document.getElementById('finalTotal').textContent = '/' + _totalQ;
 
       var _isPremiumListen = sessionStorage.getItem('listeningPremiumEntry') === 'true';
       if (!_isPremiumListen) {
         try { var _tk = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); _tk[testFile] = true; localStorage.setItem('takenListeningMocks', JSON.stringify(_tk)); } catch(e) {}
       }
       let resultsHtml = '';
-      TEST_DATA.parts.forEach((part, partIndex) => {
+      _submitParts.forEach((part, partIndex) => {
         let partCorrect = 0, partTotal = 0;
         let answersTableRows = '';
 
@@ -5362,11 +5457,13 @@
 
         const testIdentifier = TEST_DATA?.testInfo?.title || 'CEFR Listening Test';
         const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
-        const total = TEST_DATA?.testInfo?.totalQuestions || 0;
+
+        // In practice mode, scope to practised part only
+        var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
 
         // Calculate correct/incorrect/unanswered FIRST
         var correct = 0, incorrect = 0, unanswered = 0;
-        TEST_DATA.parts.forEach(function (part) {
+        _reportParts.forEach(function (part) {
           if (part.answers) {
             Object.keys(part.answers).forEach(function (qId) {
               var correctAns = part.answers[qId];
@@ -5384,6 +5481,7 @@
 
         // Use 'correct' as the actual score (more reliable than passed parameter)
         const actualScore = correct;
+        const total = correct + incorrect + unanswered;
         const percentage = total > 0 ? Math.round((actualScore / total) * 100) : 0;
 
         // Certificate score conversion table for CEFR Listening (Tinglab tushunish)
@@ -5410,7 +5508,7 @@
         // Build part results HTML
         function generatePartResults() {
           var html = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             var partCorrect = 0, partTotal = 0;
             if (part.answers) {
               Object.keys(part.answers).forEach(function (qId) {
@@ -5430,7 +5528,7 @@
         // Build answer rows
         function generateAnswerRows() {
           var rows = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             if (part.answers) {
               for (var qId in part.answers) {
                 var userAnswer = userAnswers[qId] || '';
@@ -5455,7 +5553,7 @@
         // Build detailed parts
         function generateDetailedParts() {
           var html = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             html += '<div class="part-block"><div class="part-title">' + part.title + ' (' + part.questionRange + ')</div>';
             html += '<div class="part-instruction">' + (part.instruction || '') + '</div>';
 
@@ -5569,7 +5667,7 @@
           '.pdf-btn { display: block; margin: 20px auto; padding: 15px 40px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(220,38,38,0.3); }' +
           '.pdf-btn:hover { background: linear-gradient(135deg, #b91c1c, #991b1b); transform: translateY(-2px); }' +
           '</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><' + '/script></head><body><div class="container">' +
-          '<h1>🎧 CEFR Listening Mock ' + mockNum + '</h1>' +
+          '<h1>🎧 CEFR Listening ' + (window._practicePart ? 'Practice Part ' + window._practicePart + ' · Mock ' + mockNum : 'Mock ' + mockNum) + '</h1>' +
           '<div style="text-align:center;margin-bottom:20px;padding:15px;background:#f0fdfa;border-radius:12px;border:2px solid #0d9488">' +
           '<div style="font-size:14px;color:#64748b;margin-bottom:5px">👤 Candidate</div>' +
           '<div style="font-size:22px;font-weight:bold;color:#0d9488">' + candidateName + '</div></div>' +
@@ -5609,7 +5707,7 @@
             date: now.toLocaleDateString(),
             time: now.toLocaleTimeString(),
             logoUrl: GLOBAL_LOGO_URL,
-            partResults: TEST_DATA.parts.map(function (part) {
+            partResults: _reportParts.map(function (part) {
               var pc = 0, pt = 0;
               if (part.answers) {
                 for (var q in part.answers) {
@@ -5734,7 +5832,7 @@
         const testIdTag = GLOBAL_TEST_IDENTIFIER.replace(/-/g, '_');
         // Build per-part score lines for caption
         var partScoreLines = '';
-        TEST_DATA.parts.forEach(function (part, idx) {
+        _reportParts.forEach(function (part, idx) {
           var pc = 0, pt = 0;
           if (part.answers) {
             Object.keys(part.answers).forEach(function (qId) {
@@ -5744,7 +5842,7 @@
               if (matchesAnswer(ua, ca)) pc++;
             });
           }
-          partScoreLines += '\n📝 Part ' + (idx + 1) + ': ' + pc + '/' + pt;
+          partScoreLines += '\n📝 ' + part.title + ': ' + pc + '/' + pt;
         });
 
         // Calculate duration
@@ -5765,7 +5863,8 @@
           '\n🏆 CEFR Level: ' + cefrResult.level +
           '\n' + partScoreLines +
           '\n\n📋 Mock Details:' +
-          '\n🔢 Mock №: ' + mockNum +
+          (window._practicePart ? '\n🎧 Practice Mode: Part ' + window._practicePart : '') +
+          '\n🔢 Mock №: ' + (window._practicePart ? 'Part ' + window._practicePart + ' · Mock ' + mockNum : mockNum) +
           '\n📅 Date: ' + dateStr +
           '\n🕐 Start: ' + startTimeStr +
           '\n🕐 Finish: ' + finishTimeStr +
@@ -5778,7 +5877,7 @@
           '\n📊 #all_' + dateTag +
           '\n📊 #all_' + monthTag +
           '\n📊 #all_' + yearTag +
-          '\n#CEFR_Listening #' + cefrResult.level.replace(/ /g, '_');
+          '\n#CEFR_Listening' + (window._practicePart ? '_Practice' : '') + ' #' + cefrResult.level.replace(/ /g, '_');
 
         // Send to Supabase first (get result link for caption)
         var finalCaption = caption;
@@ -5790,11 +5889,11 @@
               skill: 'listening',
               score: certificateScore + '/75',
               level: cefrResult.level,
-              mockNumber: 'Mock ' + mockNum,
+              mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' · Mock ' + mockNum) : ('Mock ' + mockNum),
               file: htmlBlob,
               fileType: 'html',
               caption: caption,
-              metadata: { raw: actualScore, total: total }
+              metadata: window._practicePart ? { raw: actualScore, total: total, is_practice: true, part: 'p' + window._practicePart } : { raw: actualScore, total: total }
             });
             if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
           } catch (e) { console.warn('[Supabase] skipped:', e); }
@@ -5836,7 +5935,8 @@
       document.body.classList.add('review-mode');
 
       // Mark all answers for review
-      TEST_DATA.parts.forEach(part => {
+      var _reviewParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+      _reviewParts.forEach(part => {
         if (!part.answers) return;
 
         for (const [qId, correctAnswerRaw] of Object.entries(part.answers)) {
@@ -5945,7 +6045,7 @@
         const qId = el.dataset.q;
         const val = el.dataset.val;
         let correct = null;
-        TEST_DATA.parts.forEach(p => { if (p.answers && p.answers[qId]) correct = p.answers[qId]; });
+        _reviewParts.forEach(p => { if (p.answers && p.answers[qId]) correct = p.answers[qId]; });
         if (correct) {
           const isCorrectAnswer = Array.isArray(correct) ? correct.includes(val) : correct === val;
           const isSelected = el.classList.contains('selected');
@@ -5963,7 +6063,7 @@
       document.querySelectorAll('.option-item-box').forEach(el => {
         const letter = el.dataset.letter;
         // Check if this option is a correct answer for any question
-        TEST_DATA.parts.forEach(part => {
+        _reviewParts.forEach(part => {
           if (part.answers) {
             for (const [qId, ans] of Object.entries(part.answers)) {
               const correctAnswer = Array.isArray(ans) ? ans[0] : ans;
@@ -5983,7 +6083,7 @@
         });
       });
 
-      showPart(0);
+      showPart(window._practicePart ? window._practicePart - 1 : 0);
     }
 
     // Event listeners
@@ -7746,6 +7846,9 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
       <button class="modal-btn secondary" onclick="window.goBack()" style="background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 10px 0; font-size: 13px; border-radius: 10px;">🚪 Leave</button>
       <button class="modal-btn primary" onclick="handleFabFinish()" style="background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 0; font-size: 13px; border-radius: 10px;">✓ Finish</button>
+    </div>
+    <div style="margin-top: 8px;">
+      <button id="mobFSBtn" onclick="toggleExamFullscreen()" style="width:100%;padding:10px 0;border:1px solid #e2e8f0;background:#f1f5f9;color:#475569;border-radius:10px;font-size:13px;cursor:pointer;">⛶ Fullscreen</button>
     </div>
   </div>
 

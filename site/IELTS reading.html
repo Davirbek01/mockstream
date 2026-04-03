@@ -1118,6 +1118,24 @@
              color: #065f46 !important;
         }
 
+        .interactive-receiver.readonly-slot.review-incorrect {
+            background-color: #fee2e2 !important;
+            border: 2px solid #ef4444 !important;
+            color: #991b1b !important;
+        }
+        .interactive-receiver.readonly-slot.review-correct,
+        .interactive-receiver.readonly-slot.filled.review-correct {
+            background-color: #d1fae5 !important;
+            border: 2px solid #10b981 !important;
+            color: #065f46 !important;
+        }
+        .interactive-receiver.readonly-slot.review-unanswered {
+            background-color: #fef3c7 !important;
+            border: 2px solid #f59e0b !important;
+            color: #92400e !important;
+            font-style: italic;
+        }
+
         .compact-select:hover,
         .matching-select:hover {
             border-color: #218838;
@@ -2004,6 +2022,7 @@
                 .ir-results-overlay.minimized .ir-score-details,
                 .ir-results-overlay.minimized .ir-parts-breakdown,
                 .ir-results-overlay.minimized .ir-btn-review,
+                .ir-results-overlay.minimized .ir-btn-expl,
                 .ir-results-overlay.minimized .ir-btn-tryagain,
                 .ir-results-overlay.minimized .ir-btn-back {
                     display: none !important;
@@ -2109,6 +2128,134 @@
         .ir-btn-review { background: #0d9488; color: #fff; }
         .ir-btn-tryagain { background: #f59e0b; color: #fff; }
         .ir-btn-back { background: #64748b; color: #fff; }
+        .ir-btn-expl { background: linear-gradient(135deg,#4f46e5,#7c3aed); color: #fff; }
+
+        /* ── Explanations Panel ─────────────────────────────────────── */
+        .ir-expl-panel {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
+            z-index: 10200; overflow-y: auto; padding: 24px 20px;
+        }
+        .ir-expl-inner {
+            max-width: 1060px; width: 100%; margin: 0 auto;
+            background: #ffffff; border-radius: 20px;
+            overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+        }
+        /* Passage Viewer */
+        .ir-pv-toggle-row { padding: 0 14px 12px; background: #fff; }
+        .ir-show-passage-btn {
+            display: flex; align-items: center; gap: 6px; width: 100%;
+            padding: 8px 14px; background: #f8fafc; border: 1.5px solid #e2e8f0;
+            border-radius: 8px; color: #4f46e5; font-size: 13px; font-weight: 600;
+            cursor: pointer; transition: all 0.18s; text-align: left;
+        }
+        .ir-show-passage-btn:hover { background: #eff6ff; border-color: #a5b4fc; }
+        .ir-show-passage-btn.open  { background: #eff6ff; border-color: #6366f1; }
+        .ir-pv-wrap { display: none; border-top: 1.5px solid #e2e8f0; }
+        .ir-pv-wrap.open { display: block; }
+        .ir-pv-header {
+            background: #f8fafc; padding: 8px 16px;
+            font-size: 11px; font-weight: 700; color: #64748b;
+            text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .ir-pv-scroll {
+            max-height: 340px; overflow-y: auto; padding: 10px 14px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .ir-pv-para {
+            display: flex; gap: 10px; font-size: 14px; line-height: 1.75;
+            color: #374151; padding: 5px 8px; border-radius: 6px;
+        }
+        .ir-pv-para.ir-pv-para-hl { background: #fffbeb; }
+        .ir-pv-pnum {
+            font-size: 10px; font-weight: 700; color: #94a3b8;
+            min-width: 24px; padding-top: 4px; flex-shrink: 0; font-family: monospace;
+        }
+        .ir-pv-para.ir-pv-para-hl .ir-pv-pnum { color: #f59e0b; }
+        .ir-pv-ptext { flex: 1; }
+        mark.ir-hl { background: #fef08a; border-radius: 3px; padding: 1px 2px; font-weight: 700; color: inherit; }
+        @media (max-width: 600px) {
+            .ir-expl-panel { padding: 0; }
+            .ir-expl-inner { border-radius: 0; min-height: 100dvh; }
+            .ir-expl-header { padding: 14px 16px; }
+            .ir-expl-header h2 { font-size: 16px; }
+            .ir-expl-list { padding: 12px; gap: 10px; }
+            .ir-expl-card-head { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
+            .ir-expl-qtext { font-size: 12px; }
+            .ir-expl-badge { font-size: 10px; }
+            .ir-expl-card-body { padding: 10px 12px; }
+            .ir-expl-ans-row { font-size: 12px; gap: 6px; }
+            .ir-expl-text { font-size: 12px; }
+            .ir-expl-quote { font-size: 12px; padding: 8px 10px; }
+            .ir-pv-scroll { max-height: 260px; }
+            .ir-pv-para { font-size: 13px; }
+        }
+        .ir-expl-header {
+            background: linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);
+            padding: 20px 24px; display: flex;
+            align-items: flex-start; justify-content: space-between; gap: 12px;
+        }
+        .ir-expl-header h2 { margin: 0; font-size: 20px; color: #fff; }
+        .ir-expl-header p  { margin: 4px 0 0; font-size: 13px; color: rgba(255,255,255,0.8); }
+        .ir-expl-close {
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            border-radius: 10px; width: 36px; height: 36px; flex-shrink: 0;
+            cursor: pointer; font-size: 18px; display: flex;
+            align-items: center; justify-content: center; transition: background 0.2s;
+        }
+        .ir-expl-close:hover { background: rgba(255,255,255,0.38); }
+        .ir-expl-list {
+            padding: 20px; display: flex; flex-direction: column; gap: 14px;
+        }
+        .ir-expl-phead {
+            font-size: 11px; font-weight: 800; color: #94a3b8;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            padding: 4px 0 10px; border-bottom: 2px solid #f1f5f9;
+        }
+        /* Question cards */
+        .ir-expl-card { border-radius: 12px; overflow: hidden; border: 2px solid; }
+        .ir-expl-card.ct { border-color: #10b981; }
+        .ir-expl-card.in { border-color: #ef4444; }
+        .ir-expl-card.un { border-color: #f59e0b; }
+        .ir-expl-card-head {
+            padding: 10px 14px; display: flex; align-items: flex-start; gap: 10px;
+        }
+        .ir-expl-card.ct .ir-expl-card-head { background: #f0fdf4; }
+        .ir-expl-card.in .ir-expl-card-head { background: #fef2f2; }
+        .ir-expl-card.un .ir-expl-card-head { background: #fffbeb; }
+        .ir-expl-qnum {
+            font-size: 11px; font-weight: 800; padding: 3px 9px;
+            border-radius: 6px; color: white; flex-shrink: 0; margin-top: 2px;
+        }
+        .ir-expl-card.ct .ir-expl-qnum { background: #10b981; }
+        .ir-expl-card.in .ir-expl-qnum { background: #ef4444; }
+        .ir-expl-card.un .ir-expl-qnum { background: #f59e0b; }
+        .ir-expl-qtext { font-size: 14px; font-weight: 600; color: #1e293b; flex: 1; line-height: 1.5; }
+        .ir-expl-badge {
+            font-size: 11px; font-weight: 700; padding: 3px 9px;
+            border-radius: 20px; flex-shrink: 0; margin-top: 2px;
+        }
+        .ir-expl-card.ct .ir-expl-badge { background: #dcfce7; color: #16a34a; }
+        .ir-expl-card.in .ir-expl-badge { background: #fee2e2; color: #dc2626; }
+        .ir-expl-card.un .ir-expl-badge { background: #fef3c7; color: #d97706; }
+        .ir-expl-card-body { padding: 12px 16px; background: #fff; }
+        .ir-expl-ans-row {
+            display: flex; flex-wrap: wrap; gap: 8px 18px;
+            margin-bottom: 10px; font-size: 14px; align-items: center;
+        }
+        .ir-expl-ans-row .yours { color: #64748b; }
+        .ir-expl-ans-row .correct-ans { color: #16a34a; font-weight: 700; }
+        .ir-expl-ans-row .arrow { color: #cbd5e1; font-size: 16px; }
+        .ir-expl-text { font-size: 14px; color: #475569; margin: 0 0 10px; line-height: 1.65; }
+        .ir-expl-quote {
+            background: #fffbeb; border-left: 4px solid #f59e0b;
+            border-radius: 0 8px 8px 0; padding: 10px 14px;
+            font-size: 14px; color: #78350f; font-style: italic;
+            line-height: 1.65; margin: 0; position: relative;
+        }
+        .ir-expl-quote::before { content: '\201C'; font-size: 22px; color: #f59e0b; font-style: normal; vertical-align: -5px; margin-right: 2px; line-height: 0; }
+        .ir-expl-quote::after  { content: '\201D'; font-size: 22px; color: #f59e0b; font-style: normal; vertical-align: -5px; margin-left:  2px; line-height: 0; }
 
         /* Compact & Responsive finish modal */
         @media (max-width: 480px) {
@@ -2733,6 +2880,7 @@
                     <i class="fa fa-search-plus" aria-hidden="true"></i>
                     <span class="zoom-level-indicator">1</span>
                 </a>
+                <a href="#" class="btn-zoom" id="btnFS" title="Toggle Fullscreen" onclick="event.preventDefault();toggleExamFullscreen()">⛶</a>
                 <div class="clock" id="timerDesktop">
                     <span id="stopwatch"><time>00:00</time></span>
                 </div>
@@ -2763,6 +2911,7 @@
                         <i class="fa fa-search-plus" aria-hidden="true"></i>
                         <span class="zoom-level-indicator">1</span>
                     </a>
+                    <a href="#" class="btn-zoom" id="btnFS2" title="Toggle Fullscreen" onclick="event.preventDefault();toggleExamFullscreen()">⛶</a>
                     <div class="clock">
                         <span id="stopwatch"><time>00:00</time></span>
                     </div>
@@ -2842,6 +2991,9 @@
             <button class="btn btn-success btn-submit" onclick="toggleMobileMenu(); document.getElementById('confirmSubmit').classList.add('active')">
                 <i class="fa fa-paper-plane"></i> Submit
             </button>
+        </div>
+        <div style="margin-top:8px;padding:0 8px 8px;">
+            <button id="mobFSBtn" onclick="toggleExamFullscreen()" style="width:100%;padding:10px;background:#2c3e50;color:#fff;border:none;border-radius:6px;font-size:16px;cursor:pointer;">⛶ Fullscreen</button>
         </div>
     </div>
 
@@ -3066,6 +3218,7 @@
         <div class="ir-parts-breakdown" id="irPartsBreakdown"></div>
         <div class="ir-modal-buttons">
           <button class="ir-btn-review" id="btnShowSolutions">Review Answers</button>
+          <button class="ir-btn-expl" id="btnShowExpl" onclick="showIrExplPanel()" style="display:none;">💡 Explanations</button>
           <button class="ir-btn-tryagain" id="btnTryAgain" onclick="window.__okToLeave=true;location.reload()">🔄 Try Again</button>
           <button class="ir-btn-back" onclick="window.__okToLeave=true;sessionStorage.setItem('readingMockReturnCategory','ielts-reading');try{if(window.top&&window.top!==window&&typeof window.top.returnToLanding==='function'){window.top.returnToLanding();return;}}catch(e1){}try{if(window.parent&&window.parent!==window&&typeof window.parent.returnToLanding==='function'){window.parent.returnToLanding();return;}}catch(e2){}try{if(window.top&&window.top!==window){window.top.postMessage('returnToLanding','*');return;}}catch(e3){}try{window.top.location.href='landing.html';}catch(e4){window.location.href='landing.html';}">← Back to Mock Selection</button>
                     <button class="ir-btn-restore" id="btnRestoreResults">↗ Restore Results</button>
@@ -3074,6 +3227,18 @@
     </div>
 
     <!-- Solutions Modal -->
+    <div class="ir-expl-panel" id="irExplPanel">
+      <div class="ir-expl-inner">
+        <div class="ir-expl-header">
+          <div>
+            <h2>💡 Answer Explanations</h2>
+            <p id="irExplSubtitle">See the passage evidence for every answer</p>
+          </div>
+          <button class="ir-expl-close" onclick="closeIrExplPanel()">✕</button>
+        </div>
+        <div class="ir-expl-list" id="irExplList"></div>
+      </div>
+    </div>
     <div class="modal fade" id="solutionsModal" tabindex="-1" role="dialog" aria-labelledby="solutionsModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -3100,6 +3265,13 @@
             // Get test file from URL parameter
             const urlParams = new URLSearchParams(window.location.search);
             const testFile = urlParams.get('test') || 'ielts-reading-01.js';
+
+            // Practice passage mode: ?passage=1, 2, or 3
+            var _passageParam = urlParams.get('passage');
+            if (_passageParam) {
+                var _pNum = parseInt(_passageParam, 10);
+                if (_pNum >= 1 && _pNum <= 3) { window._practicePassage = _pNum; }
+            }
 
             // Create and load the script
             const script = document.createElement('script');
@@ -4238,9 +4410,47 @@
                 }
             }
 
+            function getTotalQuestionCount() {
+                var test = window.IELTS_READING_TEST;
+                if (test && test.testInfo && test.testInfo.totalQuestions) {
+                    var declared = parseInt(test.testInfo.totalQuestions, 10);
+                    if (!isNaN(declared) && declared > 0) return declared;
+                }
+
+                var maxQ = 0;
+                if (test && Array.isArray(test.passages)) {
+                    test.passages.forEach(function(p) {
+                        if (p && typeof p.questionRange === 'string') {
+                            var parts = p.questionRange.split('-');
+                            if (parts.length === 2) {
+                                var end = parseInt(parts[1], 10);
+                                if (!isNaN(end)) maxQ = Math.max(maxQ, end);
+                            }
+                        }
+                    });
+                }
+
+                return maxQ || 40;
+            }
+
             // Get question range for a given passage
             function getQuestionRangeForPassage(passageNum) {
-                // Passage 1: 1-13, Passage 2: 14-26, Passage 3: 27-40
+                var test = window.IELTS_READING_TEST;
+                if (test && Array.isArray(test.passages)) {
+                    var p = test.passages[passageNum - 1];
+                    if (p && typeof p.questionRange === 'string') {
+                        var parts = p.questionRange.split('-');
+                        if (parts.length === 2) {
+                            var start = parseInt(parts[0], 10);
+                            var end = parseInt(parts[1], 10);
+                            if (!isNaN(start) && !isNaN(end)) {
+                                return { start: start, end: end };
+                            }
+                        }
+                    }
+                }
+
+                // Fallback defaults for legacy tests.
                 var ranges = {
                     1: { start: 1, end: 13 },
                     2: { start: 14, end: 26 },
@@ -4274,7 +4484,8 @@
                     if (existing) data = JSON.parse(existing);
                 } catch (e) { data = {}; }
 
-                for (var i = 1; i <= 40; i++) {
+                var totalQuestions = getTotalQuestionCount();
+                for (var i = 1; i <= totalQuestions; i++) {
                     var key = 'q' + i;
                     // Only overwrite if the element actually exists in the DOM
                     var el = document.getElementById(key);
@@ -4292,7 +4503,8 @@
                 if (!raw) return;
                 try {
                     var data = JSON.parse(raw);
-                    for (var i = 1; i <= 40; i++) {
+                    var totalQuestions = getTotalQuestionCount();
+                    for (var i = 1; i <= totalQuestions; i++) {
                         var key = 'q' + i;
                         if (!data.hasOwnProperty(key)) continue;
                         var val = data[key];
@@ -4374,7 +4586,8 @@
             }
 
             function buildReview() {
-                for (var i = 1; i <= 40; i++) {
+                var totalQuestions = getTotalQuestionCount();
+                for (var i = 1; i <= totalQuestions; i++) {
                     var txt = document.getElementById('txtq' + i);
                     if (txt) {
                         txt.value = getAnswer(i);
@@ -4672,7 +4885,7 @@
                         '.gap-answer.user-wrong{background:#fee2e2;color:#991b1b;text-decoration:line-through;}' +
                         '.gap-answer.correct-ans{background:#d1fae5;color:#065f46;font-weight:600;}' +
                         '</style></head><body><div class="container">' +
-                        '<h1>📖 IELTS Reading Mock ' + mockNum + '</h1>' +
+                        '<h1>📖 ' + (window._practicePassage ? 'IELTS Reading Practice — Passage ' + window._practicePassage + '<br><span style="font-size:18px;font-weight:500;">Mock ' + mockNum + '</span>' : 'IELTS Reading Mock ' + mockNum) + '</h1>' +
                         '<div style="text-align:center;margin-bottom:20px;padding:15px;background:#fff5f5;border-radius:12px;border:2px solid #C8102E">' +
                         '<div style="font-size:14px;color:#64748b;margin-bottom:5px">👤 Candidate</div>' +
                         '<div style="font-size:22px;font-weight:bold;color:#C8102E">' + candidateName + '</div></div>' +
@@ -4842,7 +5055,8 @@
                     // Create file blob
                     const htmlBlob = new Blob([reportHtml], { type: 'text/html' });
                     const safeName = candidateName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 30);
-                    const filename = safeName + '_IELTS_Reading_Mock' + mockNum + '_' + now.toISOString().slice(0, 10) + '.html';
+                    const practiceFileSuffix = window._practicePassage ? '_P' + window._practicePassage : '';
+                    const filename = safeName + '_IELTS_Reading_Mock' + mockNum + practiceFileSuffix + '_' + now.toISOString().slice(0, 10) + '.html';
 
                     // Caption
                     const dateTag = String(now.getDate()).padStart(2, '0') + '_' + String(now.getMonth() + 1).padStart(2, '0') + '_' + String(now.getFullYear()).slice(-2);
@@ -4853,6 +5067,8 @@
                     // Per-passage scores for caption
                     var passageLines = '';
                     passages.forEach(function (p, idx) {
+                        // In practice mode, only show the practised passage
+                        if (window._practicePassage && (idx + 1) !== window._practicePassage) return;
                         var pc = 0, pt = 0;
                         if (p.correctAnswers) {
                             for (var qId in p.correctAnswers) {
@@ -4884,12 +5100,13 @@
                     var dateStr = String(now.getDate()) + '/' + String(now.getMonth() + 1) + '/' + now.getFullYear();
 
                     const caption = '👤 #' + candidateName.replace(/ /g, '_') + '\n\n' +
+                        (window._practicePassage ? '📖 Practice Mode: Passage ' + window._practicePassage + '\n' : '') +
                         '🧠 AI Scoring:\n' +
                         '📊 Raw score: ' + correct + '/' + total + '\n' +
                         '🏆 IELTS Band: ' + bandLabel + '\n' +
                         passageLines + '\n\n' +
                         '📋 Mock Details:\n' +
-                        '🔢 Mock №: ' + mockNum + '\n' +
+                        '🔢 Mock №: ' + (window._practicePassage ? 'Passage ' + window._practicePassage + ' · Mock ' + mockNum : mockNum) + '\n' +
                         '📅 Date: ' + dateStr + '\n' +
                         '🕐 Start: ' + startStr + '\n' +
                         '🕐 Finish: ' + finishStr + '\n' +
@@ -4902,7 +5119,7 @@
                         '📊 #all_' + dateTag + '\n' +
                         '📊 #all_' + monthTag + '\n' +
                         '📊 #all_' + yearTag + '\n' +
-                        '#IELTS_Reading #Band_' + bandLabel.replace('.', '_');
+                        '#IELTS_Reading' + (window._practicePassage ? '_Practice' : '') + ' #Band_' + bandLabel.replace('.', '_');
 
                     // Send to Supabase first (get result link for caption)
                     var finalCaption = caption;
@@ -4914,11 +5131,14 @@
                           skill: 'reading',
                           score: bandLabel,
                           level: 'Band ' + bandLabel,
-                          mockNumber: 'Mock ' + mockNum,
+                          mockNumber: window._practicePassage ? ('Practice Passage ' + window._practicePassage + ' - Mock ' + mockNum) : ('Mock ' + mockNum),
                           file: htmlBlob,
                           fileType: 'html',
                           caption: caption,
-                          metadata: { raw: correct, total: total, percentage: percentage }
+                          metadata: Object.assign(
+                            { raw: correct, total: total, percentage: percentage },
+                            window._practicePassage ? { is_practice: true, passage: 'p' + window._practicePassage } : {}
+                          )
                         });
                         if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
                       } catch (e) { console.warn('[Supabase] skipped:', e); }
@@ -5057,8 +5277,10 @@
                     });
                 });
 
-                for (var i = 1; i <= total; i++) {
-                    var key = 'q' + i;
+                var caKeysEval = Object.keys(correctAnswers);
+                for (var _ei = 0; _ei < caKeysEval.length; _ei++) {
+                    var key = caKeysEval[_ei];
+                    var i = parseInt(key.replace('q', ''));
                     if (!correctAnswers.hasOwnProperty(key)) continue;
                     // Try DOM first, fall back to saved localStorage data
                     var userAns = getAnswer(i) || savedData[key] || '';
@@ -5100,6 +5322,9 @@
                     questionResults[i] = { ok: ok, userAns: userAns, correct: correctAnswers[key], mergedPair: !!mergedPairMap[i] };
                 }
 
+                // Expose results globally for the explanations panel
+                window._irQuestionResults = questionResults;
+
                 // Populate CEFR-style result overlay
                 var incorrect = 0, unanswered = 0;
                 for (var qi = 1; qi <= total; qi++) {
@@ -5115,6 +5340,20 @@
                 document.getElementById('irUnansweredCount').textContent = unanswered;
                 var pillScore = document.getElementById('irPillScore');
                 if (pillScore) pillScore.textContent = score + '/' + total;
+
+                // Show explanations button only when explanations data exists
+                (function() {
+                    var hasExpl = false;
+                    var test = window.IELTS_READING_TEST;
+                    if (test && test.passages) {
+                        test.passages.some(function(p) {
+                            var keys = Object.keys(p.explanations || {});
+                            if (keys.length > 0) { hasExpl = true; return true; }
+                        });
+                    }
+                    var btn = document.getElementById('btnShowExpl');
+                    if (btn) btn.style.display = hasExpl ? '' : 'none';
+                })();
 
                 // Build passage-by-passage breakdown
                 var passageRanges = [
@@ -5136,6 +5375,8 @@
 
                 var partsHtml = '';
                 passageRanges.forEach(function(pr, pIdx) {
+                    // In practice mode, only show the practised passage
+                    if (window._practicePassage && (pIdx + 1) !== window._practicePassage) return;
                     var pCorrect = 0, pTotal = 0;
                     var ansRows = '';
                     for (var qi = pr.start; qi <= pr.end; qi++) {
@@ -5281,9 +5522,9 @@
                 minimizeResultModal();
                 // Mark all visible answers
                 markReviewAnswers();
-                // Switch to passage 1
+                // Switch to the practised passage (or passage 1 in full-test mode)
                 if (typeof switchPassage === 'function') {
-                    switchPassage(1);
+                    switchPassage(window._practicePassage || 1);
                 }
             }
 
@@ -5325,9 +5566,10 @@
                     return results;
                 }
 
-                for (var i = 1; i <= total; i++) {
-                    var key = 'q' + i;
-                    if (!correctAnswers.hasOwnProperty(key)) continue;
+                var caKeys = Object.keys(correctAnswers);
+                for (var _ci = 0; _ci < caKeys.length; _ci++) {
+                    var key = caKeys[_ci];
+                    var i = parseInt(key.replace('q', ''));
                     var userAns = getAnswer(i) || '';
                     var acceptable = correctAnswers[key] || [];
                     var acceptableNorm = acceptable.map(normalizeForCompare);
@@ -5413,6 +5655,7 @@
                                 }
                             } else {
                                 el.value = correctStr;
+                                if (el.readOnly) el.classList.add('filled');
                             }
                         } else if (isCorrect) {
                             el.classList.add('review-correct');
@@ -5570,8 +5813,9 @@
             });
 
             function attachEvents() {
-                // Attach events for all questions (Q1-40) dynamically
-                for (var i = 1; i <= 40; i++) {
+                // Attach events for all questions dynamically
+                var totalQuestions = getTotalQuestionCount();
+                for (var i = 1; i <= totalQuestions; i++) {
                     (function (idx) {
                         var el = document.getElementById('q' + idx);
                         if (el) {
@@ -6540,13 +6784,30 @@
                         }
 
                         // Render questions with dropdowns in place of {INPUT}
-                        section.questions.forEach(function (q) {
+                        var skipNext = 0;
+                        section.questions.forEach(function (q, idx) {
+                            if (skipNext > 0) { skipNext--; return; }
                             html += '<div class="question-container" id="q' + q.id + '-container">';
-                            var selectHtml = '<input type="text" readonly id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
-                            // Replace {INPUT} with dropdown
-                            var text = q.text.replace(/\{INPUT\}/g, selectHtml);
-                            // Don't add q.id prefix — numbers are already embedded in the summary text
-                            html += '<p>' + text + '</p></div>';
+                            // Count how many {INPUT} in this question
+                            var inputCount = (q.text.match(/\{INPUT\}/g) || []).length;
+                            if (inputCount > 1) {
+                                // Multi-input: first {INPUT} = this q.id, subsequent {INPUT}s = next question ids
+                                var inputIdx = 0;
+                                var text = q.text.replace(/\{INPUT\}/g, function() {
+                                    var qId = inputIdx === 0 ? q.id : section.questions[idx + inputIdx].id;
+                                    inputIdx++;
+                                    return '<input type="text" readonly id="q' + qId + '" name="q' + qId + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qId + '">';
+                                });
+                                skipNext = inputCount - 1;
+                                html += '<p>' + text + '</p></div>';
+                            } else if (q.text.indexOf('(second answer') === 0 || q.text.indexOf('(Second answer') === 0) {
+                                // Skip standalone "(second answer...)" questions — already embedded above
+                                html += '<p style="display:none"></p></div>';
+                            } else {
+                                var selectHtml = '<input type="text" readonly id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var text = q.text.replace(/\{INPUT\}/g, selectHtml);
+                                html += '<p>' + text + '</p></div>';
+                            }
                         });
                     } else {
                         // Default: text input
@@ -6639,6 +6900,170 @@
                         else tab.classList.remove('completed');
                     });
                 }
+            };
+
+            // ── Explanations Panel ────────────────────────────────────────────
+            function _irEscHtml(s) {
+                return String(s || '')
+                    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            }
+
+            window.showIrExplPanel = function() {
+                var panel = document.getElementById('irExplPanel');
+                var list  = document.getElementById('irExplList');
+                var test  = window.IELTS_READING_TEST;
+                if (!panel || !list || !test) return;
+
+                var qResults = window._irQuestionResults || {};
+                var html = '';
+
+                test.passages.forEach(function(passage) {
+                    if (window._practicePassage && passage.id !== window._practicePassage) return;
+
+                    var pHeader = (passage.passageHeader && passage.passageHeader.title) || ('Passage ' + passage.id);
+                    html += '<div class="ir-expl-phead">' + _irEscHtml(pHeader) + ' \u2014 ' + _irEscHtml(passage.title || '') + '</div>';
+
+                    passage.questionSections.forEach(function(section) {
+                        section.questions.forEach(function(q) {
+                            var qr    = qResults[q.id];
+                            var expl  = (explanations && explanations['q' + q.id]) || null;
+                            var explText  = expl ? (typeof expl === 'object' ? (expl.text  || '') : expl) : '';
+                            var explQuote = expl && typeof expl === 'object' ? (expl.quote || '') : '';
+
+                            var cls, badge;
+                            if (!qr || !qr.userAns)      { cls = 'un'; badge = '\u2014 Unanswered'; }
+                            else if (qr.ok)              { cls = 'ct'; badge = '\u2713 Correct';    }
+                            else                         { cls = 'in'; badge = '\u2717 Incorrect';  }
+
+                            var userAns    = qr ? (qr.userAns || '(blank)') : '(blank)';
+                            var correctAns = qr ? (Array.isArray(qr.correct) ? qr.correct.join(' / ') : String(qr.correct || '')) : '';
+
+                            // Strip HTML from question text
+                            var tmp = document.createElement('div');
+                            tmp.innerHTML = q.text || '';
+                            var qplain = (tmp.textContent || tmp.innerText || '').replace(/\{INPUT\}/g, '___').trim();
+
+                            html += '<div class="ir-expl-card ' + cls + '">';
+                            html += '<div class="ir-expl-card-head">';
+                            html +=   '<span class="ir-expl-qnum">Q' + q.id + '</span>';
+                            html +=   '<span class="ir-expl-qtext">' + _irEscHtml(qplain) + '</span>';
+                            html +=   '<span class="ir-expl-badge">' + badge + '</span>';
+                            html += '</div>';
+                            html += '<div class="ir-expl-card-body">';
+                            html +=   '<div class="ir-expl-ans-row">';
+                            html +=     '<span class="yours">Your answer: <strong>' + _irEscHtml(userAns) + '</strong></span>';
+                            if (cls !== 'ct') {
+                                html += '<span class="arrow">\u2192</span>';
+                                html += '<span class="correct-ans">Correct: ' + _irEscHtml(correctAns) + '</span>';
+                            }
+                            html +=   '</div>';
+                            if (explText)  html += '<p class="ir-expl-text">'  + _irEscHtml(explText)  + '</p>';
+                            if (explQuote) html += '<blockquote class="ir-expl-quote">' + _irEscHtml(explQuote) + '</blockquote>';
+                            html += '</div>'; // close card-body
+                            html += '<div class="ir-pv-toggle-row"><button class="ir-show-passage-btn" id="ir-pvbtn-' + q.id + '" onclick="window._irTogglePassage(' + q.id + ',' + passage.id + ')">📖 Show in passage ▼</button></div>';
+                            html += '<div class="ir-pv-wrap" id="ir-pv-' + q.id + '"></div>';
+                            html += '</div>'; // close card;
+                        });
+                    });
+                });
+
+                list.innerHTML = html;
+                panel.style.display = 'block';
+                panel.scrollTop = 0;
+                // Minimize the finish overlay so it doesn't overlap
+                var overlay = document.getElementById('resultModal');
+                if (overlay) overlay.classList.add('minimized');
+            }
+
+            window.closeIrExplPanel = function() {
+                var panel = document.getElementById('irExplPanel');
+                if (panel) panel.style.display = 'none';
+                // Restore the finish overlay
+                var overlay = document.getElementById('resultModal');
+                if (overlay) overlay.classList.remove('minimized');
+            };
+
+            window._irTogglePassage = function(qid, pid) {
+                var wrap = document.getElementById('ir-pv-' + qid);
+                var btn  = document.getElementById('ir-pvbtn-' + qid);
+                if (!wrap) return;
+
+                // Toggle close
+                if (wrap.classList.contains('open')) {
+                    wrap.classList.remove('open');
+                    if (btn) { btn.classList.remove('open'); btn.innerHTML = '\uD83D\uDCD6 Show in passage \u25BC'; }
+                    return;
+                }
+
+                // Render lazily on first open
+                if (!wrap.dataset.rendered) {
+                    var test = window.IELTS_READING_TEST;
+                    if (!test) return;
+                    var passage = null;
+                    test.passages.forEach(function(p) { if (p.id === pid) passage = p; });
+                    if (!passage || !passage.passage) return;
+
+                    // Get the quote for this question
+                    var quoteRaw = (explanations && explanations['q' + qid]) || '';
+                    var quoteText = quoteRaw ? (typeof quoteRaw === 'object' ? (quoteRaw.quote || '') : '') : '';
+                    // Strip surrounding AI-added smart quotes
+                    quoteText = quoteText.replace(/^[\u201c\u201d\u2018\u2019"']+|[\u201c\u201d\u2018\u2019"']+$/g, '').trim();
+                    var normQ = quoteText.toLowerCase()
+                        .replace(/[\u201c\u201d]/g, '"').replace(/[\u2018\u2019]/g, "'");
+                    var safeQ = normQ ? normQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
+
+                    var tmpDiv = document.createElement('div');
+                    tmpDiv.innerHTML = passage.passage;
+                    var paras = Array.from(tmpDiv.querySelectorAll('p'));
+
+                    var targetIdx = -1;
+                    var renderedParas = paras.map(function(p, i) {
+                        var plain = p.textContent;
+                        var normPlain = plain.toLowerCase()
+                            .replace(/[\u201c\u201d]/g, '"').replace(/[\u2018\u2019]/g, "'");
+                        var matchObj = safeQ ? normPlain.match(new RegExp(safeQ)) : null;
+                        var isTarget = !!matchObj && targetIdx < 0;
+                        if (isTarget) targetIdx = i;
+
+                        var content;
+                        if (isTarget) {
+                            var idx = matchObj.index, len = matchObj[0].length;
+                            content = _irEscHtml(plain.substring(0, idx))
+                                + '<mark class="ir-hl" id="ir-hl-' + qid + '">'
+                                + _irEscHtml(plain.substring(idx, idx + len))
+                                + '</mark>'
+                                + _irEscHtml(plain.substring(idx + len));
+                        } else {
+                            content = _irEscHtml(plain);
+                        }
+                        return '<div class="ir-pv-para' + (isTarget ? ' ir-pv-para-hl' : '') + '">'
+                            + '<span class="ir-pv-pnum">P' + (i + 1) + '</span>'
+                            + '<span class="ir-pv-ptext">' + content + '</span>'
+                            + '</div>';
+                    });
+
+                    var paraInfo = targetIdx >= 0 ? ' \u00b7 Para\u00a0' + (targetIdx + 1) : '';
+                    wrap.innerHTML =
+                        '<div class="ir-pv-header">\uD83D\uDCC4 ' + _irEscHtml(passage.title || ('Passage ' + pid)) + paraInfo + '</div>'
+                        + '<div class="ir-pv-scroll" id="ir-pvscroll-' + qid + '">' + renderedParas.join('') + '</div>';
+                    wrap.dataset.rendered = '1';
+                }
+
+                // Open
+                wrap.classList.add('open');
+                if (btn) { btn.classList.add('open'); btn.innerHTML = '\uD83D\uDCD6 Hide passage \u25B2'; }
+
+                // Scroll to the highlighted sentence inside the passage scroll box
+                setTimeout(function() {
+                    var hl = document.getElementById('ir-hl-' + qid);
+                    var scrollBox = document.getElementById('ir-pvscroll-' + qid);
+                    if (hl && scrollBox) {
+                        var hlRect = hl.getBoundingClientRect();
+                        var sbRect = scrollBox.getBoundingClientRect();
+                        scrollBox.scrollTop += hlRect.top - sbRect.top - (scrollBox.clientHeight / 2) + (hl.offsetHeight / 2);
+                    }
+                }, 80);
             };
 
             // Switch between passages (for multi-passage tests)
@@ -6835,6 +7260,26 @@
                             updatePassageCompletionStatus();
                         });
                     });
+
+                    // Practice passage mode — single passage only
+                    if (window._practicePassage) {
+                        switchPassage(window._practicePassage);
+                        var pNav = document.getElementById('passageNavBar');
+                        if (pNav) pNav.style.display = 'none';
+                        var mNav = document.getElementById('mobilePassageNav');
+                        if (mNav) mNav.style.display = 'none';
+                        if (submitRight) submitRight.style.display = ''; // always show submit in practice mode
+
+                        // Restrict correctAnswers & explanations to this passage only
+                        // so scoring, report, and total question count are passage-scoped
+                        var _pp = window.IELTS_READING_TEST && window.IELTS_READING_TEST.passages && window.IELTS_READING_TEST.passages[window._practicePassage - 1];
+                        if (_pp) {
+                            correctAnswers = {};
+                            explanations = {};
+                            if (_pp.correctAnswers) { for (var _k in _pp.correctAnswers) correctAnswers[_k] = _pp.correctAnswers[_k]; }
+                            if (_pp.explanations)   { for (var _k2 in _pp.explanations)   explanations[_k2]   = _pp.explanations[_k2]; }
+                        }
+                    }
                 }
 
                 // Check if data is already loaded (with session recovery)
@@ -7059,6 +7504,32 @@
                     }, 5000);
                 }
             }
+        }
+
+        function toggleExamFullscreen() {
+            try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+        }
+        function _updateFSBtnIcons(isFS) {
+            var label = isFS ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+            var icon = isFS ? '⛶' : '⛶';
+            var b1 = document.getElementById('btnFS');
+            var b2 = document.getElementById('btnFS2');
+            var mb = document.getElementById('mobFSBtn');
+            if (b1) b1.textContent = icon;
+            if (b2) b2.textContent = icon;
+            if (mb) mb.textContent = label;
+        }
+        try {
+            window.top.document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcons(!!(window.top.document.fullscreenElement));
+            });
+            window.top.document.addEventListener('webkitfullscreenchange', function() {
+                _updateFSBtnIcons(!!(window.top.document.webkitFullscreenElement));
+            });
+        } catch(e) {
+            document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcons(!!(document.fullscreenElement));
+            });
         }
 
         function toggleMobileMenu() {

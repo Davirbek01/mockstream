@@ -2219,6 +2219,10 @@
         <button class="zoom-btn" id="btnZoom" title="Zoom In">
           🔍<span id="zoomLevel" class="zoom-level">0</span>
         </button>
+
+        <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">
+          ⛶
+        </button>
       </div>
     </div>
   </header>
@@ -2269,6 +2273,9 @@
       <button onclick="document.getElementById('confirmModal').classList.add('active'); toggleMobileMenu();" style="background: var(--primary); color: white; border: none; padding: 10px; border-radius: 12px; font-weight: 700; flex: 2; margin-left:10px;">
         <i class="fa fa-check-circle"></i> Submit Test
       </button>
+    </div>
+    <div style="margin-top: 8px;">
+      <button id="mobFSBtn" onclick="toggleExamFullscreen()" style="width:100%;padding:10px 0;border:1px solid #e2e8f0;background:#f1f5f9;color:#475569;border-radius:10px;font-size:13px;cursor:pointer;">⛶ Fullscreen</button>
     </div>
   </div>
 
@@ -2401,16 +2408,57 @@
       _navToLanding();
     }
 
+    // ===== FULLSCREEN TOGGLE =====
+    function toggleExamFullscreen() {
+      try {
+        window.top.postMessage('toggleFullscreen', '*');
+      } catch(e) {
+        var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (isFS) {
+          if (document.exitFullscreen) document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } else {
+          var el = document.documentElement;
+          if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+          else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        }
+      }
+    }
+    function _updateFSBtnIcons(isFS) {
+      var pcBtn = document.getElementById('btnFS');
+      var mobBtn = document.getElementById('mobFSBtn');
+      if (pcBtn) pcBtn.textContent = isFS ? '✕' : '⛶';
+      if (mobBtn) mobBtn.textContent = isFS ? '✕ Exit Fullscreen' : '⛶ Fullscreen';
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement || window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() { _updateFSBtnIcons(!!document.fullscreenElement); });
+      document.addEventListener('webkitfullscreenchange', function() { _updateFSBtnIcons(!!document.webkitFullscreenElement); });
+    }
+
     // ===== CONFIGURATION =====
     const urlParams = new URLSearchParams(window.location.search);
     const testFile = urlParams.get('test') || 'cefr-reading-test-01';
+
+    // Practice part mode: ?part=1..5
+    var _partParam = urlParams.get('part');
+    if (_partParam) {
+      var _ptNum = parseInt(_partParam, 10);
+      if (_ptNum >= 1 && _ptNum <= 5) { window._practicePart = _ptNum; }
+    }
 
     // Global variables
     let TEST_DATA = null;
     let currentPart = 0;
     let userAnswers = {};
     let timerInterval = null;
-    let timeRemaining = 60 * 60; // 60 minutes in seconds
+    let timeRemaining = window._practicePart ? 15 * 60 : 60 * 60; // 15 min practice / 60 min full
     let isReviewMode = false;
 
     // British ↔ American spelling variant pairs
@@ -2485,8 +2533,13 @@
     function initTest() {
       try {
         mockStartTime = new Date();
-        // Set timer
-        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+        // Set timer (practice mode uses shorter time)
+        if (window._practicePart) {
+          var practiceTimeLookup = { 1: 10, 2: 12, 3: 14, 4: 12, 5: 12 };
+          timeRemaining = (practiceTimeLookup[window._practicePart] || 15) * 60;
+        } else {
+          timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+        }
         
         // Generate part navigation
         generatePartNav();
@@ -2494,8 +2547,36 @@
         // Generate all parts
         generateParts();
         
-        // Show first part
-        showPart(0);
+        // Show first part (or practice part)
+        showPart(window._practicePart ? (window._practicePart - 1) : 0);
+        
+        // Practice mode: hide part nav, show only practised part, always show submit
+        if (window._practicePart) {
+          var partIdx = window._practicePart - 1;
+          // Hide PC part nav
+          var pcNav = document.getElementById('partNav');
+          if (pcNav) pcNav.style.display = 'none';
+          // Hide mobile dots
+          var mobDots = document.getElementById('mobilePartNav');
+          if (mobDots) mobDots.style.display = 'none';
+          // Hide mobile FAB part tabs
+          document.querySelectorAll('.part-tab').forEach(function(t){ t.style.display = 'none'; });
+          // Hide non-practice part containers
+          document.querySelectorAll('.part-container').forEach(function(p, i){
+            p.style.display = i === partIdx ? '' : 'none';
+            if (i === partIdx) p.classList.add('active');
+          });
+          // Always show submit, hide prev/next
+          var btnSubmit = document.getElementById('btnSubmit');
+          if (btnSubmit) btnSubmit.style.display = 'flex';
+          var btnNext = document.getElementById('btnNext');
+          if (btnNext) btnNext.style.display = 'none';
+          var btnPrev = document.getElementById('btnPrev');
+          if (btnPrev) btnPrev.style.display = 'none';
+          // Show floating submit
+          var floatingSubmit = document.getElementById('mobileFloatingSubmit');
+          if (floatingSubmit) floatingSubmit.classList.add('visible');
+        }
         
         // Start timer
         startTimer();
@@ -3073,6 +3154,8 @@
     // ===== SHOW PART =====
     function showPart(index) {
       if (index < 0 || index >= TEST_DATA.parts.length) return;
+      // In practice mode, lock to the practised part
+      if (window._practicePart && index !== (window._practicePart - 1)) return;
       
       currentPart = index;
       
@@ -3205,8 +3288,13 @@
       let incorrect = 0;
       let unanswered = 0;
 
-      // Check all answers
-      TEST_DATA.parts.forEach(part => {
+      // In practice mode, only score the practised part
+      var _scoreParts = window._practicePart
+        ? [TEST_DATA.parts[window._practicePart - 1]]
+        : TEST_DATA.parts;
+
+      // Check answers
+      _scoreParts.forEach(part => {
         for (const [qId, correctAnswerRaw] of Object.entries(part.answers)) {
           const userAnswer = userAnswers[qId] || '';
           
@@ -3233,19 +3321,20 @@
       });
 
       // Show results
+      var _totalQ = correct + incorrect + unanswered;
       document.getElementById('finalScore').textContent = correct;
-      document.getElementById('finalTotal').textContent = `/ ${TEST_DATA.testInfo.totalQuestions}`;
+      document.getElementById('finalTotal').textContent = `/ ${_totalQ}`;
       document.getElementById('correctCount').textContent = correct;
       document.getElementById('incorrectCount').textContent = incorrect;
       document.getElementById('unansweredCount').textContent = unanswered;
       
       // Set pill score for minimized state
       var pillScore = document.getElementById('pillScore');
-      if (pillScore) pillScore.textContent = correct + '/' + TEST_DATA.testInfo.totalQuestions;
+      if (pillScore) pillScore.textContent = correct + '/' + _totalQ;
       
       // Generate part-by-part breakdown with expandable dropdowns
       let partsHtml = '';
-      TEST_DATA.parts.forEach((part, partIndex) => {
+      _scoreParts.forEach((part, partIndex) => {
         let partCorrect = 0, partTotal = 0;
         let answersTableRows = '';
         
@@ -3363,7 +3452,7 @@
         
         const testIdentifier = TEST_DATA?.testInfo?.title || 'CEFR Reading Test';
         const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
-        const total = TEST_DATA?.testInfo?.totalQuestions || (correct + incorrect + unanswered);
+        const total = correct + incorrect + unanswered;
         const percentage = Math.round((correct / total) * 100);
 
         // Certificate score conversion table for CEFR Reading (O'qish)
@@ -3388,9 +3477,10 @@
         const cefrResult = getCEFRLevel(correct);
 
         // Build part results
+        var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
         function generatePartResults() {
           var html = '';
-          TEST_DATA.parts.forEach(function(part) {
+          _reportParts.forEach(function(part) {
             var partCorrect = 0, partTotal = 0;
             if (part.answers) {
               for (var qId in part.answers) {
@@ -3410,7 +3500,7 @@
         // Build answer rows
         function generateAnswerRows() {
           var rows = '';
-          TEST_DATA.parts.forEach(function(part) {
+          _reportParts.forEach(function(part) {
             for (var qId in part.answers) {
               var userAnswer = userAnswers[qId] || '';
               var correctAnswerRaw = part.answers[qId];
@@ -3433,7 +3523,7 @@
         // Build detailed parts
         function generateDetailedParts() {
           var html = '';
-          TEST_DATA.parts.forEach(function(part) {
+          _reportParts.forEach(function(part) {
             html += '<div class="part-block"><div class="part-title">' + part.title + ' (' + part.questionRange + ')</div>';
             html += '<div class="part-instruction">' + (part.instruction || '') + '</div>';
             
@@ -3626,7 +3716,7 @@
           '.pdf-btn { display: block; margin: 20px auto; padding: 15px 40px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(220,38,38,0.3); }' +
           '.pdf-btn:hover { background: linear-gradient(135deg, #b91c1c, #991b1b); transform: translateY(-2px); }' +
           '</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><' + '/script></head><body><div class="container">' +
-          '<h1>📖 CEFR Reading Mock ' + mockNum + '</h1>' +
+          '<h1>📖 ' + (window._practicePart ? 'CEFR Reading Practice — Part ' + window._practicePart + '<br><span style="font-size:18px;font-weight:500;">Mock ' + mockNum + '</span>' : 'CEFR Reading Mock ' + mockNum) + '</h1>' +
           '<div style="text-align:center;margin-bottom:20px;padding:15px;background:#f0fdfa;border-radius:12px;border:2px solid #0d9488">' +
           '<div style="font-size:14px;color:#64748b;margin-bottom:5px">👤 Candidate</div>' +
           '<div style="font-size:22px;font-weight:bold;color:#0d9488">' + candidateName + '</div></div>' +
@@ -3666,7 +3756,7 @@
             date: now.toLocaleDateString(),
             time: now.toLocaleTimeString(),
             logoUrl: GLOBAL_LOGO_URL,
-            partResults: TEST_DATA.parts.map(function(part) {
+            partResults: _reportParts.map(function(part) {
               var pc = 0, pt = 0;
               if (part.answers) {
                 for (var q in part.answers) {
@@ -3792,7 +3882,7 @@
 
         // Per-part scores for caption
         var partLines = '';
-        TEST_DATA.parts.forEach(function(part, idx) {
+        _reportParts.forEach(function(part, idx) {
           var pc = 0, pt = 0;
           if (part.answers) {
             for (var qId in part.answers) {
@@ -3802,7 +3892,7 @@
               if (matchesAnswer(ua, ca)) pc++;
             }
           }
-          partLines += '\n📝 Part ' + (idx + 1) + ': ' + pc + '/' + pt;
+          partLines += '\n📝 ' + part.title + ': ' + pc + '/' + pt;
         });
 
         // Timing
@@ -3822,7 +3912,8 @@
           '🏆 CEFR Level: ' + cefrResult.level + '\n' +
           partLines + '\n\n' +
           '📋 Mock Details:\n' +
-          '🔢 Mock №: ' + mockNum + '\n' +
+          (window._practicePart ? '📖 Practice Mode: Part ' + window._practicePart + '\n' : '') +
+          '🔢 Mock №: ' + (window._practicePart ? 'Part ' + window._practicePart + ' · Mock ' + mockNum : mockNum) + '\n' +
           '📅 Date: ' + dateStr + '\n' +
           '🕐 Start: ' + startStr + '\n' +
           '🕐 Finish: ' + finishStr + '\n' +
@@ -3835,7 +3926,7 @@
           '📊 #all_' + dateTag + '\n' +
           '📊 #all_' + monthTag + '\n' +
           '📊 #all_' + yearTag + '\n' +
-          '#CEFR_Reading #' + cefrResult.level.replace(/ /g, '_');
+          '#CEFR_Reading' + (window._practicePart ? '_Practice' : '') + ' #' + cefrResult.level.replace(/ /g, '_');
 
         // Send to Supabase first (get result link for caption)
         var finalCaption = caption;
@@ -3847,11 +3938,14 @@
               skill: 'reading',
               score: certificateScore + '/75',
               level: cefrResult.level,
-              mockNumber: 'Mock ' + mockNum,
+              mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' - Mock ' + mockNum) : ('Mock ' + mockNum),
               file: htmlBlob,
               fileType: 'html',
               caption: caption,
-              metadata: { raw: correct, total: total, percentage: percentage }
+              metadata: Object.assign(
+                { raw: correct, total: total, percentage: percentage },
+                window._practicePart ? { is_practice: true, part: 'p' + window._practicePart } : {}
+              )
             });
             if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
           } catch (e) { console.warn('[Supabase] skipped:', e); }
@@ -4446,8 +4540,10 @@
         await addCanvasToPDF(headerCanvas, false);
 
         // ===== RENDER EACH PART =====
-        for (var partIdx = 0; partIdx < TEST_DATA.parts.length; partIdx++) {
-          var part = TEST_DATA.parts[partIdx];
+        var _dlParts = window._practicePart ? [{ part: TEST_DATA.parts[window._practicePart - 1], idx: window._practicePart - 1 }]
+          : TEST_DATA.parts.map(function(p, i){ return { part: p, idx: i }; });
+        for (var _di = 0; _di < _dlParts.length; _di++) {
+          var part = _dlParts[_di].part;
           
           // Part header HTML (will be combined with first content)
           var partHeaderHtml = `
@@ -4588,9 +4684,10 @@
         var ansHeaderCanvas = await renderBlockToCanvas(ansHeaderHtml);
         await addCanvasToPDF(ansHeaderCanvas, false);
 
-        // Collect all answers
+        // Collect all answers (practice mode: only practised part)
         var allAnswers = {};
-        TEST_DATA.parts.forEach(function(part) {
+        var _pdfParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        _pdfParts.forEach(function(part) {
           if (part.answers) {
             Object.keys(part.answers).forEach(function(qId) {
               var ans = part.answers[qId];
@@ -4600,11 +4697,13 @@
         });
 
         // Answer grid
+        var _pdfTotalQ = Object.keys(allAnswers).length;
         var ansGridHtml = '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">';
-        for (var i = 1; i <= TEST_DATA.testInfo.totalQuestions; i++) {
+        var ansKeys = Object.keys(allAnswers).sort(function(a,b){ return (parseInt(a)||0)-(parseInt(b)||0); });
+        ansKeys.forEach(function(i) {
           var answer = allAnswers[i] || '-';
           ansGridHtml += '<div style="display:inline-block;width:18%;padding:10px 6px;border:1px solid #e2e8f0;border-radius:4px;text-align:center;font-size:13px;background:#f8fafc;"><strong style="color:#0d9488;">' + i + '.</strong> <span style="color:#1e293b;font-weight:600;">' + answer + '</span></div>';
-        }
+        });
         ansGridHtml += '</div>';
         var ansGridCanvas = await renderBlockToCanvas(ansGridHtml);
         await addCanvasToPDF(ansGridCanvas, false);

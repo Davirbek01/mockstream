@@ -19,19 +19,7 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 1",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 1-13</strong>, which are based on Reading Passage 1 below."
             },
-            "passage": `<p><strong>A.</strong> Staying up an hour or two past bedtime makes it far harder for kids to learn, say scientists who deprived youngsters of sleep and tested whether their teachers could tell the difference. They could. If parents want their children to thrive academically, "Getting them to sleep on time is as important as getting them to school on time," said psychologist Gahan Fallone, who conducted the research at Brown Medical School.</p>
-
-<p><strong>B.</strong> The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders. Difficulty paying attention was among the problems the sleepy youngsters faced - raising the question of whether sleep deprivation could prove even worse for people with attention deficit hyperactivity disorder, or ADHD. Fallone now is studying that question, and suspects that sleep problems "could hit children with ADHD as a double whammy".</p>
-
-<p><strong>C.</strong> Sleep experts have long warned that Americans of all ages do not get enough shuteye. Sleep is important for health, bringing a range of benefits that, as Shakespeare put it, "knits up the ravelled sleave of care". Not getting enough is linked to a host of problems, from car crashes as drivers doze off to crippled memory and inhibited creativity. Exactly how much sleep correlates with school performance is hard to prove. So, Brown researchers set out to test whether teachers could detect problems with attention and learning when children stayed up late - even if the teachers had no idea how much sleep their students actually got.</p>
-
-<p><strong>D.</strong> They recruited seventy-four 6- to 12-year-olds from Rhode Island and southern Massachusetts for the three-week study. For one week, the youngsters went to bed and woke up at their usual times. They already were fairly good sleepers, getting nine to 9.5 hours of sleep a night. Another week, they were assigned to spend no fewer than ten hours in bed a night. The other week, they were kept up later than usual: First -and second-graders were in bed no more than eight hours and the older children no more than 6.5 hours. In addition to parents' reports, the youngsters wore motiondetecting wrist monitors to ensure compliance.</p>
-
-<p><strong>E.</strong> Teachers were not told how much the children slept or which week they stayed up late, but rated the students on a variety of performance measures each week. The teachers reported significantly more academic problems during the week of sleep deprivation, the study, which will be published in the journal Sleep in December, concluded. Students who got eight hours of sleep or less a night were more forgetful, had the most trouble learning new lessons, and had the most problems paying attention, reported Fallone, now at the Forest Institute of Professional Psychology.</p>
-
-<p><strong>F.</strong> Sleep has long been a concern of educators. Potter-Burns Elementary School sends notes to parents reminding them to make sure students get enough sleep prior to the school's yearly achievement testing. Another school considers it important enough to include in the school's monthly newsletters. Definitely, there is an impact on students' performance if they come to school tired. However, the findings may change physician practice, said Dr. Regina Benjamin, a family physician in Bayou La Batre, who reviewed the data at the Thursday's AMA meeting. "I don't ask about sleep" when evaluating academically struggling students, she noted. "I'm going to start."</p>
-
-<p><strong>G.</strong> So how much sleep do kids need? Recommended amounts range from about ten to eleven hours a night for young elementary students to 8.5 hours for teens. Fallone insists that his own second-grader get ten hours a night, even when it meant dropping soccer - season that practice did not start until 7:30 \u2014 too late for her to fit in dinner and time to wind down before she needed to be snoozing. "It's tough," he acknowledged, but "parents must believe in the importance of sleep."</p>`,
+            "passage": "<p><strong>A.</strong> Staying up an hour or two past bedtime makes it far harder for kids to learn, say scientists who deprived youngsters of sleep and tested whether their teachers could tell the difference. They could. If parents want their children to thrive academically, \"Getting them to sleep on time is as important as getting them to school on time,\" said psychologist Gahan Fallone, who conducted the research at Brown Medical School.</p>\n\n<p><strong>B.</strong> The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders. Difficulty paying attention was among the problems the sleepy youngsters faced - raising the question of whether sleep deprivation could prove even worse for people with attention deficit hyperactivity disorder, or ADHD. Fallone now is studying that question, and suspects that sleep problems \"could hit children with ADHD as a double whammy\".</p>\n\n<p><strong>C.</strong> Sleep experts have long warned that Americans of all ages do not get enough shuteye. Sleep is important for health, bringing a range of benefits that, as Shakespeare put it, \"knits up the ravelled sleave of care\". Not getting enough is linked to a host of problems, from car crashes as drivers doze off to crippled memory and inhibited creativity. Exactly how much sleep correlates with school performance is hard to prove. So, Brown researchers set out to test whether teachers could detect problems with attention and learning when children stayed up late - even if the teachers had no idea how much sleep their students actually got.</p>\n\n<p><strong>D.</strong> They recruited seventy-four 6- to 12-year-olds from Rhode Island and southern Massachusetts for the three-week study. For one week, the youngsters went to bed and woke up at their usual times. They already were fairly good sleepers, getting nine to 9.5 hours of sleep a night. Another week, they were assigned to spend no fewer than ten hours in bed a night. The other week, they were kept up later than usual: First -and second-graders were in bed no more than eight hours and the older children no more than 6.5 hours. In addition to parents' reports, the youngsters wore motiondetecting wrist monitors to ensure compliance.</p>\n\n<p><strong>E.</strong> Teachers were not told how much the children slept or which week they stayed up late, but rated the students on a variety of performance measures each week. The teachers reported significantly more academic problems during the week of sleep deprivation, the study, which will be published in the journal Sleep in December, concluded. Students who got eight hours of sleep or less a night were more forgetful, had the most trouble learning new lessons, and had the most problems paying attention, reported Fallone, now at the Forest Institute of Professional Psychology.</p>\n\n<p><strong>F.</strong> Sleep has long been a concern of educators. Potter-Burns Elementary School sends notes to parents reminding them to make sure students get enough sleep prior to the school's yearly achievement testing. Another school considers it important enough to include in the school's monthly newsletters. Definitely, there is an impact on students' performance if they come to school tired. However, the findings may change physician practice, said Dr. Regina Benjamin, a family physician in Bayou La Batre, who reviewed the data at the Thursday's AMA meeting. \"I don't ask about sleep\" when evaluating academically struggling students, she noted. \"I'm going to start.\"</p>\n\n<p><strong>G.</strong> So how much sleep do kids need? Recommended amounts range from about ten to eleven hours a night for young elementary students to 8.5 hours for teens. Fallone insists that his own second-grader get ten hours a night, even when it meant dropping soccer - season that practice did not start until 7:30 \\u2014 too late for her to fit in dinner and time to wind down before she needed to be snoozing. \"It's tough,\" he acknowledged, but \"parents must believe in the importance of sleep.\"</p>",
             "questionSections": [
                 {
                     "type": "matching-info",
@@ -97,7 +85,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 9-13",
-                    "instruction": "Questions 9-13<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 9-13 on your answer sheet, write<br><br><strong>TRUE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>FALSE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if there is no information on this",
+                    "instruction": "Questions 9-13<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 9-13 on your answer sheet, write<br><br><strong>True</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>False</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>Not Given</strong>&nbsp;&nbsp;if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -125,34 +113,99 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q1": ["C"],
-                "q2": ["D"],
-                "q3": ["F"],
-                "q4": ["E"],
-                "q5": ["ADHD"],
-                "q6": ["WRIST MONITORS"],
-                "q7": ["PAYING ATTENTION"],
-                "q8": ["TOUGH"],
-                "q9": ["FALSE"],
-                "q10": ["FALSE"],
-                "q11": ["TRUE"],
-                "q12": ["NOT GIVEN"],
-                "q13": ["NOT GIVEN"]
+                "q1": [
+                    "C"
+                ],
+                "q2": [
+                    "D"
+                ],
+                "q3": [
+                    "F"
+                ],
+                "q4": [
+                    "E"
+                ],
+                "q5": [
+                    "ADHD"
+                ],
+                "q6": [
+                    "WRIST MONITORS"
+                ],
+                "q7": [
+                    "PAYING ATTENTION"
+                ],
+                "q8": [
+                    "TOUGH"
+                ],
+                "q9": [
+                    "FALSE"
+                ],
+                "q10": [
+                    "FALSE"
+                ],
+                "q11": [
+                    "TRUE"
+                ],
+                "q12": [
+                    "NOT GIVEN"
+                ],
+                "q13": [
+                    "NOT GIVEN"
+                ]
             },
             "explanations": {
-                "q1": "Paragraph C mentions car crashes as drivers doze off, linking lack of sleep to traffic accidents.",
-                "q2": "Paragraph D states they recruited seventy-four 6- to 12-year-olds for the study.",
-                "q3": "Paragraph F describes Potter-Burns Elementary School and another school taking steps to address sleep.",
-                "q4": "Paragraph E explains that teachers rated students on a variety of performance measures each week.",
-                "q5": "Paragraph B says Fallone is now studying whether sleep deprivation is worse for children with ADHD.",
-                "q6": "Paragraph D says the youngsters wore motiondetecting wrist monitors to ensure compliance.",
-                "q7": "Paragraph E says students had the most problems paying attention.",
-                "q8": "Paragraph G quotes Fallone: 'It's tough,' he acknowledged.",
-                "q9": "FALSE because the study was unveiled at an AMA science writers meeting (Paragraph B), not distributed to school principals.",
-                "q10": "FALSE because Paragraph B says the study was conducted on healthy children with no evidence of sleep- or learning-related disorders.",
-                "q11": "TRUE because Paragraph F says the findings may change physician practice.",
-                "q12": "NOT GIVEN because although soccer is mentioned in Paragraph G, it refers to dropping soccer season practice for bedtime, not forbidding his daughter from playing.",
-                "q13": "NOT GIVEN because the passage does not mention homework as a reason for staying up later."
+                "q1": {
+                    "text": "This sentence directly states that car crashes are linked to not getting enough sleep, which supports the idea that traffic accidents are sometimes caused by lack of sleep.",
+                    "quote": "Not getting enough is linked to a host of problems, from car crashes as drivers doze off to crippled memory and inhibited creativity."
+                },
+                "q2": {
+                    "text": "The passage states that \"seventy-four 6- to 12-year-olds\" were recruited for the study, which directly answers the question about the number of children included.",
+                    "quote": "They recruited seventy-four 6- to 12-year-olds from Rhode Island and southern Massachusetts for the three-week study."
+                },
+                "q3": {
+                    "text": "This sentence describes one school's method of addressing the issue of sleep deprivation. The following sentence mentions another school including sleep information in newsletters, thus showing how two schools are dealing with the problem.",
+                    "quote": "Potter-Burns Elementary School sends notes to parents reminding them to make sure students get enough sleep prior to the school's yearly achievement testing."
+                },
+                "q4": {
+                    "text": "This sentence directly describes how the effect of sleep deprivation was measured: teachers rated student performance without knowing their sleep schedules, thus measuring the impact of less sleep.",
+                    "quote": "Teachers were not told how much the children slept or which week they stayed up late, but rated the students on a variety of performance measures each week."
+                },
+                "q5": {
+                    "text": "The quote directly states that Fallone is now studying the sleep patterns of children with ADHD, confirming the answer.",
+                    "quote": "Fallone now is studying that question, and suspects that sleep problems \"could hit children with ADHD as a double whammy\"."
+                },
+                "q6": {
+                    "text": "The passage states that the children wore 'motiondetecting wrist monitors' to ensure they followed the sleep schedule, which confirms that wrist monitors were used to check if they went to bed at the right time.",
+                    "quote": "In addition to parents' reports, the youngsters wore motiondetecting wrist monitors to ensure compliance."
+                },
+                "q7": {
+                    "text": "The quote directly states that students with less sleep had problems with memory (being forgetful), remembering new material (trouble learning new lessons), and paying attention, thus supporting the answer.",
+                    "quote": "Students who got eight hours of sleep or less a night were more forgetful, had the most trouble learning new lessons, and had the most problems paying attention, reported Fallone, now at the Forest Institute of Professional Psychology."
+                },
+                "q8": {
+                    "text": "The quote directly states that Fallone acknowledged that \"it's tough\" for children to get enough sleep, which supports the answer. The rest of the quote emphasizes the importance of parents prioritizing sleep.",
+                    "quote": "\"It's tough,\" he acknowledged, but \"parents must believe in the importance of sleep.\""
+                },
+                "q9": {
+                    "text": "The study results were first unveiled at an American Medical Association meeting, not distributed to principals of American schools, therefore the statement is false.",
+                    "quote": "The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders."
+                },
+                "q10": {
+                    "text": "The passage states that the study was conducted on children who had no evidence of sleep-related disorders, meaning that none of the children had previously shown signs of sleeping problems, so the statement is false.",
+                    "quote": "The study, unveiled Thursday at an American Medical Association (AMA) science writers meeting, was conducted on healthy children who had no evidence of sleep- or learning-related disorders."
+                },
+                "q11": {
+                    "text": "This sentence directly states that the study's findings may influence how physicians practice, implying a change in how they deal with children's health problems.",
+                    "quote": "However, the findings may change physician practice, said Dr. Regina Benjamin, a family physician in Bayou La Batre, who reviewed the data at the Thursday's AMA meeting."
+                },
+                "q12": {
+                    "text": "The passage states that Fallone dropped soccer *season* because of the late practice time, but it doesn't say that his daughter never plays soccer at all, so the answer is NOT GIVEN.",
+                    "quote": "Fallone insists that his own second-grader get ten hours a night, even when it meant dropping soccer - season that practice did not start until 7:30 — too late for her to fit in dinner and time to wind down before she needed to be snoozing."
+                },
+                "q13": {
+                    "text": "The passage discusses the impact of sleep deprivation on academic performance but does not mention whether staying up later for homework is acceptable. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                }
             }
         },
         {
@@ -166,17 +219,7 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 2",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 14-26</strong>, which are based on Reading Passage 2 below."
             },
-            "passage": `<p><strong>A.</strong> For those of a certain age and educational background, it is hard to think of higher education without thinking of ancient institutions. Some universities are of a venerable age - the University of Bologna was founded in 1088, the University of Oxford in 1096 - and many of them have a strong sense of tradition. The truly old ones make the most of their pedigrees, and those of a more recent vintage work hard to create an aura of antiquity. Yet these tradition-loving (or-creating) institutions are currently enduring a thunderstorm of changes so fundamental that some say the very idea of the university is being challenged. Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions. Such changes are tugging at the ivy's roots.</p>
-
-<p><strong>B.</strong> This is happening for four reasons. The first is the democratisation of higher education "massification" in the language of the educational profession. In the rich world, massification has been going on for some time. The proportion of adults with higher educational qualifications in developed countries almost doubled between 1975 and 2000, from 22% to 41%. Most of the rich countries are still struggling to digest this huge growth in numbers. Now massification is spreading to the developing world. China doubled its student population in the late 1990s, and India is trying to follow suit.</p>
-
-<p><strong>C.</strong> The second reason is the rise of the knowledge economy. The world is in the grips of a "soft revolution" in which knowledge is replacing physical resources as the main driver of economic growth. Between 1985 and 1997, the contribution of knowledge-based industries to total value added increased from 51% to 59% in Germany and from 45% to 51% in Britain. The best companies are now devoting at least a third of their investment to knowledge-intensive intangibles such as R&D, licensing, and marketing. Universities are among the most important engines of the knowledge economy. Not only do they produce the brain workers who man it, they also provide much of its backbone, from laboratories to libraries to computer networks.</p>
-
-<p><strong>D.</strong> The third factor is globalisation. The death of distance is transforming academia just as radically as it is transforming business. The number of people from developed countries studying abroad has doubled over the past twenty years, to 1.9 million; universities are opening campuses all around the world; and a growing number of countries are trying to turn higher education into an export industry. The fourth is competition. Traditional universities are being forced to compete for students and research grants, and private companies are trying to break into a sector which they regard as "the new health care". The World Bank calculates that global spending on higher education amounts to $300 billion a year, or 1% of global economic output. There are more than 80 million students worldwide, and 3.5 million people are employed to teach them or look after them.</p>
-
-<p><strong>E.</strong> All this sounds as though a golden age for universities has arrived. However, inside academia, particularly in Europe, it does not feel like it. Academics complain and administrators are locked in bad-tempered exchanges with the politicians who fund them. What has gone wrong? The biggest problem is the role of the state. If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite funds (as the Scandinavian countries do) or allow universities to charge realistic fees. Many governments have tried to square the circle through lighter management, but management cannot make up for lack of resources.</p>
-
-<p><strong>F.</strong> What, if anything can be done? Techno-utopians believe that higher education is ripe for revolution. The university, they say, is a hopelessly antiquated institution, wedded in outdated practices such as tenure and lectures, and incapable of serving a new world of mass audiences and just-in-time information. "Thirty years from now the big university campuses will be relics," says Peter Drucker, a veteran management guru. "I consider the American research university of the past 40 years to be a failure." Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities. Cultural conservatives, on the other hand, believe that the best way forward is backward. They think it is foolish to waste higher education on people who would rather study "Seinfeld" than Socrates, and disingenuous to confuse the pursuit of truth with the pursuit of profit.</p>`,
+            "passage": "<p><strong>A.</strong> For those of a certain age and educational background, it is hard to think of higher education without thinking of ancient institutions. Some universities are of a venerable age - the University of Bologna was founded in 1088, the University of Oxford in 1096 - and many of them have a strong sense of tradition. The truly old ones make the most of their pedigrees, and those of a more recent vintage work hard to create an aura of antiquity. Yet these tradition-loving (or-creating) institutions are currently enduring a thunderstorm of changes so fundamental that some say the very idea of the university is being challenged. Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions. Such changes are tugging at the ivy's roots.</p>\n\n<p><strong>B.</strong> This is happening for four reasons. The first is the democratisation of higher education \"massification\" in the language of the educational profession. In the rich world, massification has been going on for some time. The proportion of adults with higher educational qualifications in developed countries almost doubled between 1975 and 2000, from 22% to 41%. Most of the rich countries are still struggling to digest this huge growth in numbers. Now massification is spreading to the developing world. China doubled its student population in the late 1990s, and India is trying to follow suit.</p>\n\n<p><strong>C.</strong> The second reason is the rise of the knowledge economy. The world is in the grips of a \"soft revolution\" in which knowledge is replacing physical resources as the main driver of economic growth. Between 1985 and 1997, the contribution of knowledge-based industries to total value added increased from 51% to 59% in Germany and from 45% to 51% in Britain. The best companies are now devoting at least a third of their investment to knowledge-intensive intangibles such as R&D, licensing, and marketing. Universities are among the most important engines of the knowledge economy. Not only do they produce the brain workers who man it, they also provide much of its backbone, from laboratories to libraries to computer networks.</p>\n\n<p><strong>D.</strong> The third factor is globalisation. The death of distance is transforming academia just as radically as it is transforming business. The number of people from developed countries studying abroad has doubled over the past twenty years, to 1.9 million; universities are opening campuses all around the world; and a growing number of countries are trying to turn higher education into an export industry. The fourth is competition. Traditional universities are being forced to compete for students and research grants, and private companies are trying to break into a sector which they regard as \"the new health care\". The World Bank calculates that global spending on higher education amounts to $300 billion a year, or 1% of global economic output. There are more than 80 million students worldwide, and 3.5 million people are employed to teach them or look after them.</p>\n\n<p><strong>E.</strong> All this sounds as though a golden age for universities has arrived. However, inside academia, particularly in Europe, it does not feel like it. Academics complain and administrators are locked in bad-tempered exchanges with the politicians who fund them. What has gone wrong? The biggest problem is the role of the state. If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite funds (as the Scandinavian countries do) or allow universities to charge realistic fees. Many governments have tried to square the circle through lighter management, but management cannot make up for lack of resources.</p>\n\n<p><strong>F.</strong> What, if anything can be done? Techno-utopians believe that higher education is ripe for revolution. The university, they say, is a hopelessly antiquated institution, wedded in outdated practices such as tenure and lectures, and incapable of serving a new world of mass audiences and just-in-time information. \"Thirty years from now the big university campuses will be relics,\" says Peter Drucker, a veteran management guru. \"I consider the American research university of the past 40 years to be a failure.\" Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities. Cultural conservatives, on the other hand, believe that the best way forward is backward. They think it is foolish to waste higher education on people who would rather study \"Seinfeld\" than Socrates, and disingenuous to confuse the pursuit of truth with the pursuit of profit.</p>",
             "questionSections": [
                 {
                     "type": "matching-info",
@@ -361,9 +404,15 @@ window.IELTS_READING_TEST = {
                 "q14": [
                     "B"
                 ],
-                "q15": ["F"],
-                "q16": ["D"],
-                "q17": ["E"],
+                "q15": [
+                    "F"
+                ],
+                "q16": [
+                    "D"
+                ],
+                "q17": [
+                    "E"
+                ],
                 "q18": [
                     "A",
                     "C",
@@ -399,8 +448,14 @@ window.IELTS_READING_TEST = {
                     "E",
                     "H"
                 ],
-                "q23": ["A", "B"],
-                "q24": ["A", "B"],
+                "q23": [
+                    "A",
+                    "B"
+                ],
+                "q24": [
+                    "A",
+                    "B"
+                ],
                 "q25": [
                     "A",
                     "C"
@@ -411,19 +466,58 @@ window.IELTS_READING_TEST = {
                 ]
             },
             "explanations": {
-                "q14": "Paragraph B focuses on massification, or education expansion to large populations.",
-                "q15": "Paragraph F presents future directions from both techno-utopians and conservatives.",
-                "q16": "Paragraph D discusses both globalisation and intensified competition.",
-                "q17": "Paragraph E highlights the funding gap and state finance problem.",
-                "q18": "Correct choices are A, C, D, E and H based on statements explicitly supported by the passage.",
-                "q19": "Correct choices are A, C, D, E and H based on statements explicitly supported by the passage.",
-                "q20": "Correct choices are A, C, D, E and H based on statements explicitly supported by the passage.",
-                "q21": "Correct choices are A, C, D, E and H based on statements explicitly supported by the passage.",
-                "q22": "Correct choices are A, C, D, E and H based on statements explicitly supported by the passage.",
-                "q23": "A is supported by the pressure over realistic fees, and B by bad-tempered exchanges with politicians.",
-                "q24": "A is supported by the pressure over realistic fees, and B by bad-tempered exchanges with politicians.",
-                "q25": "A is proposed by techno-utopians via internet tuition and for-profit universities.",
-                "q26": "C is proposed by conservatives who favor a return to traditional academic values."
+                "q14": {
+                    "text": "The phrase \"democratisation of higher education 'massification'\" directly refers to education for the masses, making B the correct answer.",
+                    "quote": "The first is the democratisation of higher education \"massification\" in the language of the educational profession."
+                },
+                "q15": {
+                    "text": "The question asks about future possibilities, and this quote introduces the perspective of 'Techno-utopians' who envision a radical transformation of higher education, indicating a potential future direction.",
+                    "quote": "Techno-utopians believe that higher education is ripe for revolution."
+                },
+                "q16": {
+                    "text": "This quote, found in section D, directly addresses globalisation's impact on academia. The rest of section D discusses competition, thus supporting the answer.",
+                    "quote": "The death of distance is transforming academia just as radically as it is transforming business."
+                },
+                "q17": {
+                    "text": "Section E discusses the problems faced by universities, and it directly mentions the role of the state as the biggest problem, which relates to funding issues as governments are unwilling to provide adequate funds or allow realistic fees.",
+                    "quote": "The biggest problem is the role of the state."
+                },
+                "q18": {
+                    "text": "Option A is correct because the passage states that universities are engaging in mergers and acquisitions, which means they are joining with each other.",
+                    "quote": "Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions."
+                },
+                "q19": {
+                    "text": "Option A is correct because the passage states that universities are engaging in mergers and acquisitions, which means they are joining with each other.",
+                    "quote": "Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions."
+                },
+                "q20": {
+                    "text": "This supports answer A because 'engaging in mergers and acquisitions' means that some universities are joining with each other.",
+                    "quote": "Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions."
+                },
+                "q21": {
+                    "text": "This supports option A, as 'mergers and acquisitions' implies universities are joining with each other.",
+                    "quote": "Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions."
+                },
+                "q22": {
+                    "text": "This supports option A, as 'mergers and acquisitions' implies universities are joining with each other.",
+                    "quote": "Universities are experimenting with new ways of funding (most notably through student fees), forging partnerships with private companies and engaging in mergers and acquisitions."
+                },
+                "q23": {
+                    "text": "This quote directly supports option A, as it discusses the pressure to charge students higher tuition fees due to insufficient government funding. It also supports option B, as it mentions the conflicts between university administrators and government funders regarding the allocation of resources.",
+                    "quote": "If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite funds (as the Scandinavian countries do) or allow universities to charge realistic fees."
+                },
+                "q24": {
+                    "text": "This quote directly supports option A, as it mentions the pressure to charge students realistic (higher) fees due to the lack of government funding. It also supports option B, as the following sentence mentions administrators being locked in bad-tempered exchanges with the politicians who fund them.",
+                    "quote": "If more and more governments are embracing massification, few of them are willing to draw the appropriate conclusion from their enthusiasm: that they should either provide the requisite funds (as the Scandinavian countries do) or allow universities to charge realistic fees."
+                },
+                "q25": {
+                    "text": "Option A is supported by Drucker's view that Internet tuition and for-profit universities are the future. The passage states, \"Cultural conservatives, on the other hand, believe that the best way forward is backward,\" which supports option C, returning to traditional academic values.",
+                    "quote": "\"Thirty years from now the big university campuses will be relics,\" says Peter Drucker, a veteran management guru. \"I consider the American research university of the past 40 years to be a failure.\" Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities."
+                },
+                "q26": {
+                    "text": "The passage mentions that techno-utopians support expanding internet tuition and for-profit universities, while cultural conservatives advocate for returning to traditional academic values, thus supporting options A and C.",
+                    "quote": "Techno-utopians believe that higher education is ripe for revolution...Fortunately, in his view, help is on the way in the form of Internet tuition and for-profit universities. Cultural conservatives, on the other hand, believe that the best way forward is backward. They think it is foolish to waste higher education on people who would rather study \"Seinfeld\" than Socrates, and disingenuous to confuse the pursuit of truth with the pursuit of profit."
+                }
             }
         },
         {
@@ -437,25 +531,7 @@ window.IELTS_READING_TEST = {
                 "title": "READING PASSAGE 3",
                 "instruction": "You should spend about 20 minutes on <strong>Questions 27-40</strong>, which are based on Reading Passage 3 below."
             },
-            "passage": `<p>In a new study, Essex University sociologists have dissected the typical British Sunday, and found we get up later and do fewer chores than we did 40 years ago - and we are far more likely to be out shopping or enjoying ourselves than cooking Sunday lunch. Academics at the university's Institute of Social and Economic Research asked 10,000 people to keep a detailed diary of how they spent Sundays in 2001. Then they compared the results with 3,500 diaries written in 1961, a treasure trove of information that had been uncovered 'in two egg boxes and a tea chest' in the basement of the BBC by ISER's director, Professor Jonathan Gershuny.</p>
-
-<p>The contrast between the two periods could not be more striking. Forty years ago, Sunday mornings were a flurry of activity as men and women - especially women - caught up on their weekly chores and cooked up a storm in the kitchen. Women rarely allowed themselves any 'leisure' until the afternoon, after the dishes were cleaned. In 1961, more than a fifth of all men and women in Britain were sitting at a table by 2 p.m., most likely tucking into a roast with all the trimmings. Then there would be another rush to the table between 5 p.m. and 6 p.m. for high tea.</p>
-
-<p>Since the arrival of brunch, the gastropub and the all-you-can-eat Sunday buffet at the local curry house, such institutions have become extinct. Today, we graze the entire day. You only have two free days a week. You don't want to have to waste one because there is nothing to do but watch TV. Sunday has leapfrogged Saturday in the fun stakes. On Saturdays, you are recovering from the week. Sundays are the last bastion of the weekend - you want to get as much as you can out of the day before you have to go back to work.</p>
-
-<p>According to researchers, the ability to trail around B&Q has made the most dramatic difference to our Sundays. In 1961, adults spent an average of 20 minutes a day shopping; by 2001, it was 50 minutes. 'Shopping used to be a gender segregated activity that would take place during the week, while the husband was at work. Now it's as much men as women,' said Gershuny. We're all more likely to be relaxing or shopping on a Sunday morning these days than scrubbing the floor or putting up shelves. 'Men now stay in bed longer, and get up not, as previously, to work around the house, but rather to shop or to pursue other outside leisure activities.'</p>
-
-<p>Men do about the same amount of unpaid work around the house as they used to on a Sunday, but it's spread throughout the whole day, instead of crammed into the morning. Women do considerably less than 40 years ago. Indeed, men and women were 'pretty much different species' in 1961, as far as the way they spent Sundays was concerned, with men far more likely to be out of the house - at the pub or playing football - before lunch. 'For women, leisure happened only in the afternoon. But by 2001, the shapes of men's and women's Sundays were much more similar,' says the report.</p>
-
-<p>'Sunday for me is all about holding on to the weekend and trying to stave off Monday. An ideal Sunday would involve getting up and having a nice lunch. Sometimes we cook, but more often I go out to get a roast or bangers and mash at a gastropub. If it is a nice day, there is nothing better than sitting outside in the beer garden, reading the Sunday papers - one tabloid and one broadsheet - with a Guinness, extra cold. Sunday is often a chance to visit other parts of London, as long as it is not too far. I use Sundays to go clothes shopping, or to the cinema. I often go to Camden market, as I love the international foods on offer and hunting for bargains and vintage clothes.'</p>
-
-<p>Jonathan Bentley Atchison (25, Clapham, London, works in communications)</p>
-
-<p>'I am usually at home making the Sunday lunch. Some friends go out to eat, but my husband Mark loves a roast, so we don't. After that, I do the washing, like every day, and then I take my daughter Grace to netball and watch her play. Mark potters around - last Sunday, he tidied the garage. He works six days a week, so on Sunday he stays at home. I don't like shopping on a Sunday because every man and his dog is out. I don't work, so I can do it in the week. I tend to watch television and chill out. When summer comes, we go to barbecues at family or friends' houses. When I was growing up, my dad would do the gardening and paint the fences while my mum would do housework.'</p>
-
-<p>Hazel Hallows (42, Manchester, housewife, married with three children)</p>
-
-<p>'When we were at home, I would get out in the garden, and my late wife Rose would cook the Sunday lunch and do the housework. I was an engineer, and Rose worked full-time as a supermarket manageress. In 1961, we had just moved to Bristol, and I spent Sunday maintaining the new house. The washing and ironing had to be done - it was a working-together atmosphere. We would sometimes go and spend the day with Rose's sister or other relatives. In 1961, it was the first time I had a new car, so we spent time in the countryside or garden centres. Now, I get up on Sundays and spend a couple of hours reading the newspapers.'</p>`,
+            "passage": "<p>In a new study, Essex University sociologists have dissected the typical British Sunday, and found we get up later and do fewer chores than we did 40 years ago - and we are far more likely to be out shopping or enjoying ourselves than cooking Sunday lunch. Academics at the university's Institute of Social and Economic Research asked 10,000 people to keep a detailed diary of how they spent Sundays in 2001. Then they compared the results with 3,500 diaries written in 1961, a treasure trove of information that had been uncovered 'in two egg boxes and a tea chest' in the basement of the BBC by ISER's director, Professor Jonathan Gershuny.</p>\n\n<p>The contrast between the two periods could not be more striking. Forty years ago, Sunday mornings were a flurry of activity as men and women - especially women - caught up on their weekly chores and cooked up a storm in the kitchen. Women rarely allowed themselves any 'leisure' until the afternoon, after the dishes were cleaned. In 1961, more than a fifth of all men and women in Britain were sitting at a table by 2 p.m., most likely tucking into a roast with all the trimmings. Then there would be another rush to the table between 5 p.m. and 6 p.m. for high tea.</p>\n\n<p>Since the arrival of brunch, the gastropub and the all-you-can-eat Sunday buffet at the local curry house, such institutions have become extinct. Today, we graze the entire day. You only have two free days a week. You don't want to have to waste one because there is nothing to do but watch TV. Sunday has leapfrogged Saturday in the fun stakes. On Saturdays, you are recovering from the week. Sundays are the last bastion of the weekend - you want to get as much as you can out of the day before you have to go back to work.</p>\n\n<p>According to researchers, the ability to trail around B&Q has made the most dramatic difference to our Sundays. In 1961, adults spent an average of 20 minutes a day shopping; by 2001, it was 50 minutes. 'Shopping used to be a gender segregated activity that would take place during the week, while the husband was at work. Now it's as much men as women,' said Gershuny. We're all more likely to be relaxing or shopping on a Sunday morning these days than scrubbing the floor or putting up shelves. 'Men now stay in bed longer, and get up not, as previously, to work around the house, but rather to shop or to pursue other outside leisure activities.'</p>\n\n<p>Men do about the same amount of unpaid work around the house as they used to on a Sunday, but it's spread throughout the whole day, instead of crammed into the morning. Women do considerably less than 40 years ago. Indeed, men and women were 'pretty much different species' in 1961, as far as the way they spent Sundays was concerned, with men far more likely to be out of the house - at the pub or playing football - before lunch. 'For women, leisure happened only in the afternoon. But by 2001, the shapes of men's and women's Sundays were much more similar,' says the report.</p>\n\n<p>'Sunday for me is all about holding on to the weekend and trying to stave off Monday. An ideal Sunday would involve getting up and having a nice lunch. Sometimes we cook, but more often I go out to get a roast or bangers and mash at a gastropub. If it is a nice day, there is nothing better than sitting outside in the beer garden, reading the Sunday papers - one tabloid and one broadsheet - with a Guinness, extra cold. Sunday is often a chance to visit other parts of London, as long as it is not too far. I use Sundays to go clothes shopping, or to the cinema. I often go to Camden market, as I love the international foods on offer and hunting for bargains and vintage clothes.'</p>\n\n<p>Jonathan Bentley Atchison (25, Clapham, London, works in communications)</p>\n\n<p>'I am usually at home making the Sunday lunch. Some friends go out to eat, but my husband Mark loves a roast, so we don't. After that, I do the washing, like every day, and then I take my daughter Grace to netball and watch her play. Mark potters around - last Sunday, he tidied the garage. He works six days a week, so on Sunday he stays at home. I don't like shopping on a Sunday because every man and his dog is out. I don't work, so I can do it in the week. I tend to watch television and chill out. When summer comes, we go to barbecues at family or friends' houses. When I was growing up, my dad would do the gardening and paint the fences while my mum would do housework.'</p>\n\n<p>Hazel Hallows (42, Manchester, housewife, married with three children)</p>\n\n<p>'When we were at home, I would get out in the garden, and my late wife Rose would cook the Sunday lunch and do the housework. I was an engineer, and Rose worked full-time as a supermarket manageress. In 1961, we had just moved to Bristol, and I spent Sunday maintaining the new house. The washing and ironing had to be done - it was a working-together atmosphere. We would sometimes go and spend the day with Rose's sister or other relatives. In 1961, it was the first time I had a new car, so we spent time in the countryside or garden centres. Now, I get up on Sundays and spend a couple of hours reading the newspapers.'</p>",
             "questionSections": [
                 {
                     "type": "mcq",
@@ -537,7 +613,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 36-40",
-                    "instruction": "Questions 36-40<br><br>Do the following statements agree with the information given in Reading Passage 3?<br><br>In boxes 36-40 on your answer sheet, write<br><br><strong>TRUE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>FALSE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if there is no information on this",
+                    "instruction": "Questions 36-40<br><br>Do the following statements agree with the information given in Reading Passage 3?<br><br>In boxes 36-40 on your answer sheet, write<br><br><strong>True</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>False</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>Not Given</strong>&nbsp;&nbsp;if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -574,39 +650,97 @@ window.IELTS_READING_TEST = {
                 "q29": [
                     "C"
                 ],
-                "q30": ["A"],
-                "q31": ["DIARIES"],
-                "q32": ["HIGH TEA"],
-                "q33": ["AN AVERAGE OF"],
-                "q34": ["GENDER SEGREGATED"],
-                "q35": ["PLAYING FOOTBALL"],
+                "q30": [
+                    "A"
+                ],
+                "q31": [
+                    "DIARIES"
+                ],
+                "q32": [
+                    "HIGH TEA"
+                ],
+                "q33": [
+                    "AN AVERAGE OF"
+                ],
+                "q34": [
+                    "GENDER SEGREGATED"
+                ],
+                "q35": [
+                    "PLAYING FOOTBALL"
+                ],
                 "q36": [
                     "FALSE"
                 ],
-                "q37": ["FALSE"],
+                "q37": [
+                    "FALSE"
+                ],
                 "q38": [
                     "TRUE"
                 ],
-                "q39": ["TRUE"],
+                "q39": [
+                    "TRUE"
+                ],
                 "q40": [
                     "NOT GIVEN"
                 ]
             },
             "explanations": {
-                "q27": "A is correct because women in 1961 usually delayed leisure until after morning chores.",
-                "q28": "C is correct because the passage says people are often recovering on Saturday and want to maximize Sunday.",
-                "q29": "C is correct because shopping is described as no longer mainly female and now done by men as much as women.",
-                "q30": "A is correct because women now do considerably less unpaid Sunday housework than 40 years ago.",
-                "q31": "Professor Gershuny found old diaries stored in the BBC basement.",
-                "q32": "The text says there was another rush to the table for high tea between 5 p.m. and 6 p.m.",
-                "q33": "Adults in 2001 spent an average of 50 minutes shopping on Sundays.",
-                "q34": "Shopping is described as less gender segregated than in 1961.",
-                "q35": "The report says men were often at the pub or playing football before lunch in 1961.",
-                "q36": "FALSE because Atchison says he sometimes cooks and more often goes out, not that he usually eats out in all cases.",
-                "q37": "FALSE because Mrs. Hallows says her husband potters around and does tasks like tidying the garage.",
-                "q38": "TRUE because she says she avoids Sunday shopping since every man and his dog is out.",
-                "q39": "TRUE because Mr. Jones refers to his late wife Rose.",
-                "q40": "NOT GIVEN because he says he now reads newspapers on Sundays, with no direct statement about current chores."
+                "q27": {
+                    "text": "The quote directly states that women rarely had leisure time until the afternoon, implying that their mornings were occupied with chores and housework, thus supporting option A.",
+                    "quote": "Women rarely allowed themselves any 'leisure' until the afternoon, after the dishes were cleaned."
+                },
+                "q28": {
+                    "text": "The passage states that people are 'recovering from the week' on Saturdays, implying they are tired. Therefore, they want to maximize their enjoyment on Sundays before returning to work.",
+                    "quote": "On Saturdays, you are recovering from the week. Sundays are the last bastion of the weekend - you want to get as much as you can out of the day before you have to go back to work."
+                },
+                "q29": {
+                    "text": "The quote directly states that shopping used to be done mostly by women during the week, but now men and women shop equally, supporting option C.",
+                    "quote": "'Shopping used to be a gender segregated activity that would take place during the week, while the husband was at work. Now it's as much men as women,' said Gershuny."
+                },
+                "q30": {
+                    "text": "The passage states that women do considerably less housework than 40 years ago (1961), which directly supports option A. The passage also mentions that men do about the same amount of unpaid work, so options B and C are incorrect.",
+                    "quote": "Women do considerably less than 40 years ago."
+                },
+                "q31": {
+                    "text": "The quote explicitly states that Professor Gershuny uncovered 3,500 diaries at the BBC, which directly supports the answer.",
+                    "quote": "Then they compared the results with 3,500 diaries written in 1961, a treasure trove of information that had been uncovered 'in two egg boxes and a tea chest' in the basement of the BBC by ISER's director, Professor Jonathan Gershuny."
+                },
+                "q32": {
+                    "text": "The passage states that there was another rush to the table between 5 p.m. and 6 p.m. for high tea, which directly answers the question.",
+                    "quote": "Then there would be another rush to the table between 5 p.m. and 6 p.m. for high tea."
+                },
+                "q33": {
+                    "text": "The passage states that 'by 2001, it was 50 minutes', and the question asks how long people spent shopping in 2001, so the answer is 'an average of'.",
+                    "quote": "In 1961, adults spent an average of 20 minutes a day shopping; by 2001, it was 50 minutes."
+                },
+                "q34": {
+                    "text": "The quote directly states that shopping 'used to be a gender segregated activity,' implying it is less so now than it was in 1961.",
+                    "quote": "'Shopping used to be a gender segregated activity that would take place during the week, while the husband was at work."
+                },
+                "q35": {
+                    "text": "The provided text does not contain the exact phrase \"playing football\". However, it does state that men were \"far more likely to be out of the house - at the pub or playing football - before lunch.\"",
+                    "quote": "'For women, leisure happened only in the afternoon. But by 2001, the shapes of men's and women's Sundays were much more similar,' says the report."
+                },
+                "q36": {
+                    "text": "Mr. Atchison states that he sometimes cooks, but more often he goes out to eat, meaning he doesn't usually eat out, making the statement false.",
+                    "quote": "Sometimes we cook, but more often I go out to get a roast or bangers and mash at a gastropub."
+                },
+                "q37": {
+                    "text": "The passage states that Mark tidied the garage last Sunday, meaning he does perform household chores, making the statement false.",
+                    "quote": "After that, I do the washing, like every day, and then I take my daughter Grace to netball and watch her play. Mark potters around - last Sunday, he tidied the garage."
+                },
+                "q38": {
+                    "text": "Mrs. Hallows states that she doesn't like shopping on Sundays because \"every man and his dog is out\", indicating that she thinks the shops are too busy.",
+                    "quote": "I don't like shopping on a Sunday because every man and his dog is out."
+                },
+                "q39": {
+                    "text": "The phrase 'my late wife Rose' indicates that Mr. Jones is a widower, as his wife is deceased.",
+                    "quote": "'When we were at home, I would get out in the garden, and my late wife Rose would cook the Sunday lunch and do the housework.'"
+                },
+                "q40": {
+                    "text": "The passage does not mention anyone named Mr. Jones, so we cannot determine if he does household chores on Sundays. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                }
             }
         }
     ]

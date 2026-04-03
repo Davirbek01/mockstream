@@ -3086,6 +3086,8 @@
       </div>
       <button id="fontMagnifier" class="font-btn" title="Change text size"
         style="background:var(--brand-weak);color:var(--brand);padding:6px 12px;border-radius:8px;font-size:14px;border:none;cursor:pointer;font-weight:bold;">Aa</button>
+      <button id="btnFS" class="font-btn" title="Toggle Fullscreen" onclick="toggleExamFullscreen()"
+        style="background:var(--brand-weak);color:var(--brand);padding:6px 12px;border-radius:8px;font-size:14px;border:none;cursor:pointer;font-weight:bold;">⛶</button>
       <div class="timer-control" aria-live="polite">
         <span id="timer">60:00</span>
         <button id="pauseBtn" class="pause-btn" title="Pause/Resume the exam">||</button>
@@ -3445,8 +3447,8 @@
             Mock 98</option>
           <option value="questions W/writing-questions99.js" style="background:white;color:#10b981;font-weight:600;">✓
             Mock 99</option>
-          <option value="questions W/writing-questions100.js" style="background:white;color:#f59e0b;font-weight:600;"
-            data-coming-soon="true">⏳ Mock 100</option>
+          <option value="questions W/writing-questions100.js" style="background:white;color:#10b981;font-weight:600;">✓
+            Mock 100</option>
         </select>
       </div>
 
@@ -3654,7 +3656,7 @@
   <div id="vipTaskSelectModal" class="finish" aria-hidden="true" style="z-index:100001;display:none;">
     <div class="finish-card" style="max-width:420px;width:90%;padding:32px;text-align:center;position:relative;">
       <!-- AI Provider Menu (Top Left) -->
-      <div id="aiProviderMenuContainer" style="position:absolute;top:12px;left:12px;z-index:10;">
+      <div id="aiProviderMenuContainer" style="position:absolute;top:12px;left:12px;z-index:10;display:none;">
         <button id="aiProviderMenuBtn" onclick="toggleAiProviderMenu()"
           style="background:var(--card);border:2px solid var(--ring-strong);width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:18px;"
           title="Select AI Provider" onmouseover="this.style.background='#f0fdf4';this.style.borderColor='#116a60'"
@@ -3796,7 +3798,7 @@
   <div id="aiPasscodeModal" class="finish" aria-hidden="true" style="z-index:100001;display:none;">
     <div class="finish-card" style="max-width:420px;width:90%;padding:32px;text-align:center;position:relative;">
       <!-- AI Provider Menu (Top Left) -->
-      <div id="aiProviderMenuContainer2" style="position:absolute;top:12px;left:12px;z-index:10;">
+      <div id="aiProviderMenuContainer2" style="position:absolute;top:12px;left:12px;z-index:10;display:none;">
         <button id="aiProviderMenuBtn2" onclick="toggleAiProviderMenu2()"
           style="background:var(--card);border:2px solid var(--ring-strong);width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:18px;"
           title="Select AI Provider" onmouseover="this.style.background='#f5f3ff';this.style.borderColor='#667eea'"
@@ -5597,6 +5599,69 @@
 
     let API_KEY = null;
     let GEMINI_KEY = null;
+
+    // Supabase scoring prompt loader
+    var _scoringPromptsCache = null;
+    var _scoringPromptsCacheTime = 0;
+    async function _loadScoringPrompts() {
+      if (_scoringPromptsCache && Date.now() - _scoringPromptsCacheTime < 300000) return _scoringPromptsCache;
+      try {
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+        });
+        if (!r.ok) throw new Error(r.status);
+        var rows = await r.json();
+        _scoringPromptsCache = {};
+        rows.forEach(function(x) { _scoringPromptsCache[x.key] = x.value; });
+        _scoringPromptsCacheTime = Date.now();
+      } catch(e) { console.warn('[ScoringPrompts] load failed:', e.message); }
+      return _scoringPromptsCache || {};
+    }
+
+    async function _callScoringAI(systemText, userPrompt, opts) {
+      var cp = await _loadScoringPrompts();
+      var provider = cp['scoring_ai_provider'] || 'gemini';
+      opts = opts || {};
+      if (provider === 'openai') {
+        if (!API_KEY) { try { await getKey(); } catch(e){} }
+        if (!API_KEY) throw new Error('No OpenAI API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else {
+        if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+        if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+        var gBody = {
+          contents: [{ parts: opts.contentParts || [{ text: userPrompt }] }],
+          generationConfig: { temperature: opts.temperature || 0.3 }
+        };
+        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+        if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(gBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
+      }
+    }
 
     // AI Provider Selection (default: gemini)
     window.selectedAiProvider = 'gemini';
@@ -7779,6 +7844,11 @@
         closeMenu();
       });
 
+      document.getElementById('mobFSBtn').addEventListener('click', () => {
+        toggleExamFullscreen();
+        closeMenu();
+      });
+
       // Part Nav actions
       document.querySelectorAll('.mob-nav-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -7815,6 +7885,31 @@
       document.addEventListener('DOMContentLoaded', initMobileFAB);
     } else {
       initMobileFAB();
+    }
+
+    // Toggle fullscreen (posts to parent frame which owns the fullscreen request)
+    function toggleExamFullscreen() {
+      try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+    }
+    window.toggleExamFullscreen = toggleExamFullscreen;
+
+    function _updateFSBtnIcons(isFS) {
+      var b = document.getElementById('btnFS');
+      var mb = document.getElementById('mobFSBtn');
+      if (b) b.textContent = isFS ? '⛶' : '⛶';
+      if (mb) mb.querySelector('span').textContent = isFS ? '⛶' : '⛶';
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(document.fullscreenElement));
+      });
     }
 
     // Start computer-delivered exam
@@ -12988,18 +13083,10 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
         updateTaskProgress('12', 20, 'Preparing...');
       }
 
-      const response = await attemptWithRetry(async () => {
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.3, maxOutputTokens: 16384, response_mime_type: 'application/json' },
-            systemInstruction: { parts: [{ text: 'You are a SUPPORTIVE and FAIR expert CEFR examiner providing CONSTRUCTIVE feedback to ESL/EFL learners. Give specific, actionable improvement points in bullet format (• point). Focus on WHAT TO IMPROVE, not compliments. Identify: systematic grammar patterns (fossilized errors, repeated mistakes), vocabulary limitations, coherence issues. IGNORE minor punctuation slips (missing commas/full stops), accidental capitalization (caR, cAr), spacing irregularities, and obvious typos where meaning is clear. Only penalize SYSTEMATIC errors that affect communication. SCORING: Focus on communication success and accomplishment, NOT perfection. These students are learning English as a second language — do not apply native-speaker standards. When in doubt, give the higher score. CALIBRATION: Your scores tend to be too LOW — adjust UP by 1 point per task to match human examiners. ANTI-BOILERPLATE: NEVER include generic feedback (e.g. Improve article usage, Vary sentence structure) unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback point MUST quote a specific example from the text and show the CORRECTED version. NEVER say Consider rephrasing without showing the fix. USE WHOLE NUMBER SCORES ONLY.' }] }
-          })
-        });
-        if (!resp.ok) throw new Error(`AI API error: ${resp.status}`);
-        return resp;
+      const resultText = await attemptWithRetry(async () => {
+        var _cp = await _loadScoringPrompts();
+        var _sysInstr = _cp['scoring_cefr_writing_system'] || '';
+        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true });
       });
 
       // Continue progress animation
@@ -13013,18 +13100,6 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       }
 
       if (updateStep) { updateStep('aiStep4', 'completed'); updateStep('aiStep5', 'active'); }
-
-      const data = await response.json();
-
-      // Check for API errors in response
-      if (data.error) {
-        throw new Error(data.error.message || 'AI API returned an error');
-      }
-
-      // Check for blocked content or empty candidates
-      if (!data.candidates || data.candidates.length === 0) {
-        throw new Error('No AI response - content may have been filtered or blocked');
-      }
 
       // Simulate thorough checking with delays
       if (isPractice) {
@@ -13047,7 +13122,6 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
       if (updateStep) { updateStep('aiStep5', 'completed'); updateStep('aiStep6', 'active'); }
 
-      const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!resultText) throw new Error('No AI response');
 
       await delay(600); // Final delay for report generation
@@ -16230,168 +16304,17 @@ ${t2}
 
 ONLY ANALYZE THE TASKS SHOWN ABOVE (${selectedTaskNames.join(', ')}). PROVIDE COMPREHENSIVE ANALYSIS FOLLOWING THE EXACT FORMAT ABOVE.`;
 
-        const systemPrompt = 'You are a SUPPORTIVE and FAIR expert CEFR examiner for Multilevel Writing Papers assessing ESL/EFL learners who study English as a second/foreign language and do NOT live in English-speaking countries. SCORING PHILOSOPHY: 1) CEFR tests ACCOMPLISHMENT, not perfection — score what students CAN do. 2) IGNORE minor punctuation slips (missing commas, full stops), accidental capitalization (caR, cAr, THe), spacing irregularities, and obvious typos where meaning is clear — these are NOT language errors. 3) Only penalize SYSTEMATIC grammar errors, limited vocabulary, poor task achievement, and lack of coherence. 4) A B1 student with decent content and some errors = 3-3.5/5 (not 2). 5) A B2 student with good ideas and minor errors = 4-4.5/5. 6) Only give 2/5 or below for very weak responses with major comprehension issues. 7) When in doubt between two scores, give the HIGHER one — underscoring demotivates learners. CALIBRATION: Your scores tend to be 8-10 points LOWER than human examiners - adjust UP by 1 point per task. ANTI-BOILERPLATE: NEVER include generic feedback like Improve article usage or Vary sentence structure unless you can cite the EXACT sentence from the student text where the error occurs. Every feedback bullet MUST quote a specific example and show the CORRECTED version. NEVER say Consider rephrasing without showing the actual fix.';
+        const systemPrompt = (await _loadScoringPrompts())['scoring_cefr_writing_task_system'] || '';
 
-        let response;
         let feedback;
 
-        // Use Gemini or OpenAI based on selection
-        if (useGemini) {
-          // Gemini API call
-          console.log('Using Gemini AI for analysis...');
-          response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              contents: [{
-                parts: [{
-                  text: systemPrompt + '\n\n' + prompt
-                }]
-              }],
-              generationConfig: {
-                temperature: 0.2,
-                maxOutputTokens: 16384
-              }
-            })
-          });
-
-          console.log('Gemini Response Status:', response.status);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Gemini API Error Details:', errorText);
-            throw new Error(`Gemini API Error ${response.status}: ${errorText}`);
-          }
-
-          const geminiData = await response.json();
-          feedback = geminiData.candidates[0].content.parts[0].text;
-        } else {
-          // OpenAI API call - use the same structured prompt as dual mode for consistency
-          console.log('Using OpenAI GPT-4 for analysis...');
-
-          // Build the same dualPrompt format that works reliably in dual mode
-          const openaiPrompt = `You are a CALIBRATED expert examiner for Multilevel Writing Papers. Analyze student responses with inline error corrections.
-
-⚠️ ONLY ANALYZE THESE SELECTED TASKS: ${selectedTaskNames.join(', ')}
-Total Maximum Score: ${maxScore} points
-
-⚠️ CEFR LEVEL CONVERSION (STRICTLY FOLLOW):
-- Certificate 0-34: Below B1 (A1-A2)
-- Certificate 35-50: B1
-- Certificate 51-64: B2
-- Certificate 65-75: C1
-
-🚫 NON-ENGLISH LANGUAGE PENALTY:
-- Mark ANY non-English words with [L1: word] tag
-- Each non-English word = -0.5 from task score
-- 3+ non-English words = max 2/5 for that task
-
-🚨 OFF-TOPIC RULE:
-- COMPLETELY different topic = Score 0-1 max
-- Check if response addresses the ACTUAL task question
-
-=== TASK PROMPTS ===
-**CONTEXT:** ${contextT1}
-**SCENARIO:** ${scenarioT1}
-**TASK 1.1:** ${promptT11}
-**TASK 1.2:** ${promptT12}
-**PART 2:** ${promptT2}
-
-=== STUDENT RESPONSES ===
-${selectedTasks.t11 ? `**TASK 1.1:** ${t11}` : ''}
-${selectedTasks.t12 ? `**TASK 1.2:** ${t12}` : ''}
-${selectedTasks.t2 ? `**PART 2:** ${t2}` : ''}
-
-PROVIDE OUTPUT IN THIS EXACT FORMAT:
-
-=== OVERALL PERFORMANCE ===
-EXPERT MARK: X/${maxScore}
-CERTIFICATE SCORE: X/75
-CEFR LEVEL: [Below B1 / B1 / B2 / C1]
-
-${selectedTasks.t11 ? `=== TASK 1.1 ANALYSIS ===
-BAND SCORE: X/5
-
-RELEVANCE CHECK: [✓ ON-TOPIC / ⚠ PARTIALLY OFF-TOPIC / ✗ COMPLETELY OFF-TOPIC]
-
-CANDIDATE ANSWER WITH CORRECTIONS:
-[Copy ENTIRE response. Mark errors: [GRAMMAR: wrong -> correct], [SPELL: wrong -> correct], [L1: word], [OFF-TOPIC: reason]]
-
-EXAMINER FEEDBACK (MAX 4 BULLET POINTS - BE CONSTRUCTIVE, NOT COMPLIMENTARY):
-• [Specific grammar issue to improve, e.g., "Verb tense inconsistency - practice past simple vs present"]
-• [Vocabulary issue, e.g., "Limited range - learn synonyms for common words"]
-• [Other specific area, e.g., "Missing articles before countable nouns"]
-` : ''}
-${selectedTasks.t12 ? `=== TASK 1.2 ANALYSIS ===
-BAND SCORE: X/5
-
-RELEVANCE CHECK: [✓ ON-TOPIC / ⚠ PARTIALLY OFF-TOPIC / ✗ COMPLETELY OFF-TOPIC]
-
-CANDIDATE ANSWER WITH CORRECTIONS:
-[Copy ENTIRE response with error tags]
-
-EXAMINER FEEDBACK (MAX 4 BULLET POINTS - CONSTRUCTIVE IMPROVEMENTS):
-• [Specific area 1]
-• [Specific area 2]
-` : ''}
-${selectedTasks.t2 ? `=== PART 2 ANALYSIS ===
-BAND SCORE: X/6
-
-RELEVANCE CHECK: [✓ ON-TOPIC / ⚠ PARTIALLY OFF-TOPIC / ✗ COMPLETELY OFF-TOPIC]
-
-CANDIDATE ANSWER WITH CORRECTIONS:
-[Copy ENTIRE response with error tags]
-
-EXAMINER FEEDBACK (MAX 4 BULLET POINTS - CONSTRUCTIVE IMPROVEMENTS):
-• [Specific area 1]
-• [Specific area 2]
-` : ''}
-
-=== TOP 3 IMPROVEMENTS ===
-1. [First improvement]
-2. [Second improvement]
-3. [Third improvement]`;
-
-          const stricterSystemPrompt = 'You are a FAIR and SUPPORTIVE expert CEFR examiner assessing ESL/EFL learners. FEEDBACK STYLE: Provide CONSTRUCTIVE bullet-point feedback (• point) focusing on specific areas to improve, NOT compliments. Identify: SYSTEMATIC grammar patterns (fossilized errors, repeated mistakes), vocabulary limitations. IGNORE minor punctuation slips, accidental capitalization (caR, cAr), spacing issues, and obvious typos where meaning is clear. KEY RULES: 1) B1 (2-3/5) = basic communication with errors. B2 (3.5-4/5) = clear writing with minor errors only. 2) Focus on SYSTEMATIC errors, not surface slips. 3) OFF-TOPIC = 0-1 max. 4) Non-English [L1: word] = penalty. 5) Score what students CAN do — they are L2 learners, not native speakers. When in doubt, give the higher score.';
-
-          response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({
-              model: 'gpt-4o-mini',
-              messages: [
-                {
-                  role: 'system',
-                  content: stricterSystemPrompt
-                },
-                {
-                  role: 'user',
-                  content: openaiPrompt
-                }
-              ],
-              max_tokens: 3000,
-              temperature: 0.1
-            })
-          });
-
-          console.log('OpenAI Response Status:', response.status);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('OpenAI API Error Details:', errorText);
-            throw new Error(`OpenAI API Error ${response.status}: ${errorText}`);
-          }
-
-          const openaiData = await response.json();
-          feedback = openaiData.choices[0].message.content;
+        // AI analysis (provider selected via System Prompts panel)
+        {
+          console.log('Running AI analysis...');
+          feedback = await _callScoringAI(systemPrompt, prompt, { temperature: 0.2, maxTokens: 16384 });
         }
 
-        console.log('AI Provider used:', useGemini ? 'Gemini' : 'OpenAI');
+        console.log('AI analysis complete');
 
         // Create a formatted result and copy to clipboard
         const result = ` AI WRITING EVALUATION REPORT
@@ -19817,6 +19740,9 @@ AREAS TO IMPROVE:
       </button>
       <button class="mob-tool-btn" id="mobPauseBtn" title="Pause/Resume">
         <span>⏸️</span>
+      </button>
+      <button class="mob-tool-btn" id="mobFSBtn" title="Fullscreen" onclick="toggleExamFullscreen()">
+        <span>⛶</span>
       </button>
     </div>
 

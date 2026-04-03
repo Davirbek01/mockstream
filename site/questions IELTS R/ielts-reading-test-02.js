@@ -64,7 +64,7 @@ window.IELTS_READING_TEST = {
                     "type": "tfng",
                     "typeName": "True/False/Not Given",
                     "title": "Questions 8-13",
-                    "instruction": "Questions 8–13<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 8–13 on your answer sheet, write<br><br><strong>TRUE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>FALSE</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if there is no information on this",
+                    "instruction": "Questions 8–13<br><br>Do the following statements agree with the information given in Reading Passage 1?<br><br>In boxes 8–13 on your answer sheet, write<br><br><strong>True</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the information<br><strong>False</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the information<br><strong>Not Given</strong>&nbsp;&nbsp;if there is no information on this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -96,34 +96,101 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q1": ["PISTON"],
-                "q2": ["COAL"],
-                "q3": ["WORKSHOPS"],
-                "q4": ["LABOUR", "LABOR"],
-                "q5": ["QUALITY"],
-                "q6": ["RAILWAY", "RAILWAYS"],
-                "q7": ["SANITATION"],
-                "q8": ["NOT GIVEN"],
-                "q9": ["FALSE"],
-                "q10": ["NOT GIVEN"],
-                "q11": ["TRUE"],
-                "q12": ["TRUE"],
-                "q13": ["NOT GIVEN"]
+                "q1": [
+                    "PISTON"
+                ],
+                "q2": [
+                    "COAL"
+                ],
+                "q3": [
+                    "WORKSHOPS"
+                ],
+                "q4": [
+                    "LABOUR",
+                    "LABOR"
+                ],
+                "q5": [
+                    "QUALITY"
+                ],
+                "q6": [
+                    "RAILWAY",
+                    "RAILWAYS"
+                ],
+                "q7": [
+                    "SANITATION"
+                ],
+                "q8": [
+                    "NOT GIVEN"
+                ],
+                "q9": [
+                    "FALSE"
+                ],
+                "q10": [
+                    "NOT GIVEN"
+                ],
+                "q11": [
+                    "TRUE"
+                ],
+                "q12": [
+                    "TRUE"
+                ],
+                "q13": [
+                    "NOT GIVEN"
+                ]
             },
             "explanations": {
-                "q1": "The passage states: 'a new steam engine driven by both the forward and backward strokes of the piston, while the gear mechanism it was connected to produced rotary motion.'",
-                "q2": "The passage states: 'The demand for coal, which was a relatively cheap energy source, grew rapidly during the Industrial Revolution, as it was needed to run not only the factories.'",
-                "q3": "The passage states: 'the work performed in small workshops or even homes by individual spinners, weavers and dyers.'",
-                "q4": "The passage states: 'With these machines, relatively little labour was required to produce cloth.'",
-                "q5": "The passage states: 'This method was cheaper and produced metals that were of a higher quality.'",
-                "q6": "The passage states: 'enabling Britain's iron and steel production to expand in response to demand created by the Napoleonic Wars (1803–15) and the expansion of the railways from the 1830s.'",
-                "q7": "The passage states: 'overcrowded cities suffered from pollution and inadequate sanitation.'",
-                "q8": "The passage mentions canals were used to carry goods but doesn't say the canal network grew rapidly.",
-                "q9": "The passage says the coke method 'was cheaper', which contradicts the statement that costs rose.",
-                "q10": "The passage mentions both systems but doesn't compare their reliability.",
-                "q11": "The passage states: 'industrialisation increased the country's economic output overall and improved the standard of living for the middle and upper classes, many poor people continued to struggle.'",
-                "q12": "The passage states: 'they feared that unskilled machine operators were robbing them of their livelihood.'",
-                "q13": "The passage doesn't mention whether local people had sympathy for the arrested Luddites."
+                "q1": {
+                    "text": "The passage states that Watt and Boulton's steam engine was driven by the forward and backward strokes of the piston, and that the gear mechanism was connected to it, which directly answers the question.",
+                    "quote": "Watt later worked with the English manufacturer Matthew Boulton to invent a new steam engine driven by both the forward and backward strokes of the piston, while the gear mechanism it was connected to produced rotary motion."
+                },
+                "q2": {
+                    "text": "The passage states that the demand for coal grew rapidly during the Industrial Revolution because it was needed to run factories and steam-powered transportation, thus supporting the answer that a greater supply of coal was required to power steam engines.",
+                    "quote": "The demand for coal, which was a relatively cheap energy source, grew rapidly during the Industrial Revolution, as it was needed to run not only the factories used to produce manufactured goods, but also steam-powered transportation."
+                },
+                "q3": {
+                    "text": "The passage states that before the Industrial Revolution, textile work was performed in \"small workshops or even homes\", directly supporting \"workshops\" as the correct answer.",
+                    "quote": "prior to the Industrial Revolution, the British textile business was a true 'cottage industry', with the work performed in small workshops or even homes by individual spinners, weavers and dyers."
+                },
+                "q4": {
+                    "text": "The passage states that 'relatively little labour was required to produce cloth' with the new machines, directly supporting 'labour' as the answer.",
+                    "quote": "With these machines, relatively little labour was required to produce cloth, and the new, mechanised textile factories that opened around the country were quickly able to meet customer demand for cloth both at home and abroad."
+                },
+                "q5": {
+                    "text": "The passage states that smelting iron ore with coke produced metals of a \"higher quality,\" which directly supports the answer QUALITY for the note completion question.",
+                    "quote": "This method was cheaper and produced metals that were of a higher quality, enabling Britain's iron and steel production to expand in response to demand created by the Napoleonic Wars (1803–15) and the expansion of the railways from the 1830s."
+                },
+                "q6": {
+                    "text": "The passage states that Britain's iron and steel production expanded in response to demand created by the expansion of the railways, which directly answers the question.",
+                    "quote": "This method was cheaper and produced metals that were of a higher quality, enabling Britain's iron and steel production to expand in response to demand created by the Napoleonic Wars (1803–15) and the expansion of the railways from the 1830s."
+                },
+                "q7": {
+                    "text": "The passage states that rapid urbanization led to overcrowded cities that suffered from pollution and inadequate sanitation, which directly supports 'sanitation' as the answer to what the new cities lacked.",
+                    "quote": "This rapid urbanisation brought significant challenges, as overcrowded cities suffered from pollution and inadequate sanitation."
+                },
+                "q8": {
+                    "text": "The passage mentions that steam-powered boats were used on canals, but it doesn't say whether the canal network itself grew rapidly. Therefore, the answer is NOT GIVEN.",
+                    "quote": "In addition, steam-powered boats and ships were widely used to carry goods along Britain's canals as well as across the Atlantic."
+                },
+                "q9": {
+                    "text": "The passage states that smelting iron ore with coke was cheaper, directly contradicting the statement that costs rose. Therefore, the answer is FALSE.",
+                    "quote": "This method was cheaper and produced metals that were of a higher quality, enabling Britain's iron and steel production to expand in response to demand created by the Napoleonic Wars (1803–15) and the expansion of the railways from the 1830s."
+                },
+                "q10": {
+                    "text": "The passage states that Samuel Morse worked on his own version of a telegraphy system, but it does not compare its reliability to the system developed by Cooke and Wheatstone. Therefore, the answer is NOT GIVEN.",
+                    "quote": "In the 1830s and 1840s, Samuel Morse and other inventors worked on their own versions in the United States."
+                },
+                "q11": {
+                    "text": "This sentence directly states that while industrialisation improved the standard of living for the middle and upper classes, many poor people continued to struggle, indicating that the economic benefits were not universally distributed, thus supporting the statement that the benefits were limited to certain sectors.",
+                    "quote": "Although industrialisation increased the country's economic output overall and improved the standard of living for the middle and upper classes, many poor people continued to struggle."
+                },
+                "q12": {
+                    "text": "The passage states that skilled weavers feared that unskilled machine operators were robbing them of their livelihood, meaning they believed the new machines would lead to job losses. Therefore, the statement is true.",
+                    "quote": "Many had spent years learning their craft, and they feared that unskilled machine operators were robbing them of their livelihood."
+                },
+                "q13": {
+                    "text": "The passage states that Luddites were arrested after an attack on a mill near Huddersfield, but it does not mention whether local people sympathized with them. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                }
             }
         },
         {
@@ -145,7 +212,14 @@ window.IELTS_READING_TEST = {
                     "title": "Questions 14-18",
                     "instruction": "Questions 14–18\n\nReading Passage 2 has six paragraphs, A–F.\n\nWhich paragraph contains the following information?\n\nWrite the correct letter, A–F, in boxes 14–18 on your answer sheet.\n\nNB You may use any letter more than once.",
                     "headingsList": [],
-                    "featuresList": ["A", "B", "C", "D", "E", "F"],
+                    "featuresList": [
+                        "A",
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F"
+                    ],
                     "questions": [
                         {
                             "id": 14,
@@ -261,34 +335,104 @@ window.IELTS_READING_TEST = {
                 }
             ],
             "correctAnswers": {
-                "q14": ["D"],
-                "q15": ["F"],
-                "q16": ["A"],
-                "q17": ["C"],
-                "q18": ["F"],
-                "q19": ["INJURY"],
-                "q20": ["SERVES"],
-                "q21": ["EXCITEMENT"],
-                "q22": ["VISUALISATION", "VISUALIZATION"],
-                "q23": ["B", "D"],
-                "q24": ["B", "D"],
-                "q25": ["A", "E"],
-                "q26": ["A", "E"]
+                "q14": [
+                    "D"
+                ],
+                "q15": [
+                    "F"
+                ],
+                "q16": [
+                    "A"
+                ],
+                "q17": [
+                    "C"
+                ],
+                "q18": [
+                    "F"
+                ],
+                "q19": [
+                    "INJURY"
+                ],
+                "q20": [
+                    "SERVES"
+                ],
+                "q21": [
+                    "EXCITEMENT"
+                ],
+                "q22": [
+                    "VISUALISATION",
+                    "VISUALIZATION"
+                ],
+                "q23": [
+                    "B",
+                    "D"
+                ],
+                "q24": [
+                    "B",
+                    "D"
+                ],
+                "q25": [
+                    "A",
+                    "E"
+                ],
+                "q26": [
+                    "A",
+                    "E"
+                ]
             },
             "explanations": {
-                "q14": "Paragraph D mentions 'adrenaline and cortisol – also known as stress hormones' and their effects on performance.",
-                "q15": "Paragraph F discusses strategies like positive language, visualisation, and recreating competitive pressure during training.",
-                "q16": "Paragraph A describes Emma Raducanu attributing her experience to 'the accumulation of the excitement and the buzz'.",
-                "q17": "Paragraph C states: 'Research shows that the challenge states lead to good performance, while threat states lead to poorer performance.'",
-                "q18": "Paragraph F mentions 'coaches or parents' and 'Psychologists' who can influence athletes' perceptions.",
-                "q19": "Paragraph B mentions 'any potential dangers such as injury' as one of the demands.",
-                "q20": "Paragraph D states: 'In tennis players, cortisol has been associated with more unsuccessful serves.'",
-                "q21": "Paragraph F states: 'helping them see a higher heart rate as excitement, rather than nerves.'",
-                "q22": "Paragraph F describes 'visualisation' as a psychological skill that can 'help decrease physiological responses to threat.'",
-                "q23": "B - symptoms mentioned (difficulty regulating breathing and heart rate); D - aspects that increased stress (larger audience, higher expectations, more skilful opponent).",
-                "q24": "Same as Q23 - these are paired questions requiring two answers.",
-                "q25": "A - 'The intensity with which a person experiences anxiety depends on the demands and resources they have'; E - 'repeated episodes of anxiety coupled with negative responses can increase risk of heart disease and depression.'",
-                "q26": "Same as Q25 - these are paired questions requiring two answers."
+                "q14": {
+                    "text": "Paragraph D discusses how challenge and threat responses influence the body by affecting the production of adrenaline and cortisol, which are chemical compounds that impact performance.",
+                    "quote": "Our challenge and threat responses essentially influence how our body responds to stressful situations, as both affect the production of adrenaline and cortisol – also known as 'stress hormones'."
+                },
+                "q15": {
+                    "text": "Section F discusses strategies for athletes to respond positively under pressure, which directly relates to minimising the effects of stress.",
+                    "quote": "But there are many ways athletes can ensure they respond positively under pressure."
+                },
+                "q16": {
+                    "text": "The passage states that Emma Raducanu wrote about her experience of stress on social media, directly supporting the answer that section A contains how a sportsperson accounted for their own experience of stress.",
+                    "quote": "This is something that British tennis player Emma Raducanu wrote about on social media following her withdrawal from the 2021 Wimbledon tournament."
+                },
+                "q17": {
+                    "text": "This sentence directly links challenge states to good performance and threat states to poorer performance, which aligns with the question about study results indicating links between stress responses and performance.",
+                    "quote": "Research shows that the challenge states lead to good performance, while threat states lead to poorer performance."
+                },
+                "q18": {
+                    "text": "This sentence directly mentions that coaches or parents can influence how athletes perceive their stress responses, supporting answer F.",
+                    "quote": "Positive stress responses can be promoted through the language that they and others – such as coaches or parents – use."
+                },
+                "q19": {
+                    "text": "The quote directly states that demands on an athlete include concerns about potential dangers such as injury, which supports the answer 'injury' as a risk athletes cope with under performance stress.",
+                    "quote": "These demands include the high level of physical and mental effort required to succeed, and also the athlete's concerns about the difficulty of the event, their chance of succeeding, and any potential dangers such as injury."
+                },
+                "q20": {
+                    "text": "The passage states that cortisol has been associated with more unsuccessful serves in tennis players, which directly supports the answer 'serves' as something cortisol causes tennis players to produce fewer of.",
+                    "quote": "In tennis players, cortisol has been associated with more unsuccessful serves and greater anxiety."
+                },
+                "q21": {
+                    "text": "The passage states that psychologists can help athletes view their physiological responses as excitement rather than nerves, which directly supports the answer.",
+                    "quote": "Psychologists can also help athletes change how they see their physiological responses – such as helping them see a higher heart rate as excitement, rather than nerves."
+                },
+                "q22": {
+                    "text": "The passage states that developing psychological skills, such as visualisation, can help decrease physiological responses to threat, which are stress responses. Therefore, visualisation is a psychological technique that can reduce an athlete's stress responses.",
+                    "quote": "Developing psychological skills, such as visualisation, can also help decrease physiological responses to threat."
+                },
+                "q23": {
+                    "text": "This quote directly supports option B, as it describes the symptoms Emma Raducanu experienced due to performance stress, such as difficulty regulating breathing and heart rate.",
+                    "quote": "Though the young player had been doing well in the tournament, she began having difficulty regulating her breathing and heart rate during a match, which she later attributed to 'the accumulation of the excitement and the buzz'."
+                },
+                "q24": {
+                    "text": "This quote supports option B because it describes the symptoms Emma Raducanu experienced (difficulty breathing and regulating heart rate) due to performance stress. The sentence 'a much larger audience, higher expectations and facing a more skilful opponent, may all have led her to feel there were greater demands being placed on her at Wimbledon' supports option D, as it lists aspects of the tournament that increased her stress levels.",
+                    "quote": "Though the young player had been doing well in the tournament, she began having difficulty regulating her breathing and heart rate during a match, which she later attributed to 'the accumulation of the excitement and the buzz'."
+                },
+                "q25": {
+                    "text": "This supports answer A, as it states that there are factors that determine how people respond to stressful events, which relates to the severity of the stress. The passage also states that repeated episodes of anxiety coupled with negative responses can increase risk of heart disease and depression, supporting answer E.",
+                    "quote": "But there are many different factors that dictate just how people's minds and bodies respond to stressful events."
+                },
+                "q26": {
+                    "text": "Option A is supported by the sentence that states different factors dictate how people respond to stressful events. Option E is supported by the sentence 'Negative stress responses can be damaging to both physical and mental health – and repeated episodes of anxiety coupled with negative responses can increase risk of heart disease and depression.'",
+                    "quote": "But there are many different factors that dictate just how people's minds and bodies respond to stressful events."
+                }
             }
         },
         {
@@ -311,7 +455,19 @@ window.IELTS_READING_TEST = {
                     "instruction": "Questions 27–32<br><br>Complete the summary using the list of phrases, A–K, below.<br><br>Write the correct letter, A–K, in boxes 27–32 on your answer sheet.",
                     "boxTitle": "Maryam Mirzakhani",
                     "headingsList": [],
-                    "featuresList": ["A appeal", "B determined", "C intrigued", "D single", "E achievement", "F devoted", "G involved", "H unique", "I innovative", "J satisfaction", "K intent"],
+                    "featuresList": [
+                        "A appeal",
+                        "B determined",
+                        "C intrigued",
+                        "D single",
+                        "E achievement",
+                        "F devoted",
+                        "G involved",
+                        "H unique",
+                        "I innovative",
+                        "J satisfaction",
+                        "K intent"
+                    ],
                     "questions": [
                         {
                             "id": 27,
@@ -343,7 +499,7 @@ window.IELTS_READING_TEST = {
                     "type": "ynng",
                     "typeName": "Yes/No/Not Given",
                     "title": "Questions 33-37",
-                    "instruction": "Questions 33–37<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 33–37 on your answer sheet, write<br><br><strong>YES</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>NO</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>NOT GIVEN</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
+                    "instruction": "Questions 33–37<br><br>Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br>In boxes 33–37 on your answer sheet, write<br><br><strong>Yes</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement agrees with the claims of the writer<br><strong>No</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the statement contradicts the claims of the writer<br><strong>Not Given</strong>&nbsp;&nbsp;if it is impossible to say what the writer thinks about this",
                     "headingsList": [],
                     "featuresList": [],
                     "questions": [
@@ -380,52 +536,137 @@ window.IELTS_READING_TEST = {
                         {
                             "id": 38,
                             "text": "What does Eyre believe is needed for children to equal 'gifted' standards?",
-                            "options": ["strict discipline from the teaching staff", "assistance from their peers in the classroom", "the development of a spirit of inquiry towards their studies", "the determination to surpass everyone else's achievements"]
+                            "options": [
+                                "strict discipline from the teaching staff",
+                                "assistance from their peers in the classroom",
+                                "the development of a spirit of inquiry towards their studies",
+                                "the determination to surpass everyone else's achievements"
+                            ]
                         },
                         {
                             "id": 39,
                             "text": "What is the result of Ericsson's research?",
-                            "options": ["Very gifted students do not need to work on improving memory skills.", "Being born with a special gift is not the key factor in becoming expert.", "Including time for physical exercise is crucial in raising performance.", "10,000 hours of relevant and demanding work will create a genius."]
+                            "options": [
+                                "Very gifted students do not need to work on improving memory skills.",
+                                "Being born with a special gift is not the key factor in becoming expert.",
+                                "Including time for physical exercise is crucial in raising performance.",
+                                "10,000 hours of relevant and demanding work will create a genius."
+                            ]
                         },
                         {
                             "id": 40,
                             "text": "In the penultimate paragraph, it is stated the key to some deprived children's success is",
-                            "options": ["a regular and nourishing diet at home.", "the loving support of more than one parent.", "a community which has well-funded facilities for learning.", "the guidance of someone who recognises the benefits of learning."]
+                            "options": [
+                                "a regular and nourishing diet at home.",
+                                "the loving support of more than one parent.",
+                                "a community which has well-funded facilities for learning.",
+                                "the guidance of someone who recognises the benefits of learning."
+                            ]
                         }
                     ]
                 }
             ],
             "correctAnswers": {
-                "q27": ["H"],
-                "q28": ["A"],
-                "q29": ["C"],
-                "q30": ["B"],
-                "q31": ["J"],
-                "q32": ["I"],
-                "q33": ["YES"],
-                "q34": ["NOT GIVEN"],
-                "q35": ["YES"],
-                "q36": ["NOT GIVEN"],
-                "q37": ["NO"],
-                "q38": ["C"],
-                "q39": ["B"],
-                "q40": ["D"]
+                "q27": [
+                    "H"
+                ],
+                "q28": [
+                    "A"
+                ],
+                "q29": [
+                    "C"
+                ],
+                "q30": [
+                    "B"
+                ],
+                "q31": [
+                    "J"
+                ],
+                "q32": [
+                    "I"
+                ],
+                "q33": [
+                    "YES"
+                ],
+                "q34": [
+                    "NOT GIVEN"
+                ],
+                "q35": [
+                    "YES"
+                ],
+                "q36": [
+                    "NOT GIVEN"
+                ],
+                "q37": [
+                    "NO"
+                ],
+                "q38": [
+                    "C"
+                ],
+                "q39": [
+                    "B"
+                ],
+                "q40": [
+                    "D"
+                ]
             },
             "explanations": {
-                "q27": "H (unique) - She was 'the only woman to win the Fields Medal', making her unique in this achievement.",
-                "q28": "A (appeal) - 'maths wasn't her interest' and 'she did rather poorly at it' suggests maths held little appeal for her.",
-                "q29": "C (intrigued) - 'He shared a famous maths problem from a magazine that fascinated her' - fascinated means intrigued.",
-                "q30": "B (determined) - 'resolute in the face of setbacks' means she was determined.",
-                "q31": "J (satisfaction) - 'the most rewarding part is the \"Aha\" moment' - rewarding relates to satisfaction.",
-                "q32": "I (innovative) - Her 'original research into mathematics' suggests innovative work.",
-                "q33": "The passage states 'Most Nobel prize winners were unexceptional in childhood.'",
-                "q34": "The passage doesn't mention Einstein's confidence or lack thereof as a reason for his failures.",
-                "q35": "The passage states 'While the jury is out on giftedness being innate' suggesting there is no agreement.",
-                "q36": "There is no information about Einstein's feelings regarding the public's view of his work.",
-                "q37": "Einstein said 'it's just that I stay with problems longer' - the opposite of dealing with them quickly.",
-                "q38": "C - Eyre mentions developing 'curiosity, persistence and hard work' - curiosity relates to a spirit of inquiry.",
-                "q39": "B - Ericsson 'doesn't think unique and innate talents are at the heart of performance.'",
-                "q40": "D - The passage mentions 'strong evidence of an adult or adults in the child's life who valued and supported education.'"
+                "q27": {
+                    "text": "The passage states that Mirzakhani was the only woman to win the Fields Medal, which supports the answer that she is regarded as 'unique' in the field of mathematics.",
+                    "quote": "She was the only woman to win the Fields Medal – the mathematical equivalent of a Nobel prize."
+                },
+                "q28": {
+                    "text": "The passage states that maths \"wasn't her interest,\" which is synonymous with \"held little appeal.\" This indicates that she was not particularly drawn to or interested in mathematics during her childhood.",
+                    "quote": "She went to a highly selective girls' school but maths wasn't her interest – reading was."
+                },
+                "q29": {
+                    "text": "The passage states that Mirzakhani became 'interested' in maths when her brother shared a problem with her, which is synonymous with being 'intrigued' by it. Therefore, 'C intrigued' is the correct answer.",
+                    "quote": "As for maths, she did rather poorly at it for the first couple of years in her middle school, but became interested when her elder brother told her about what he'd learned."
+                },
+                "q30": {
+                    "text": "The passage states that Mirzakhani was \"resolute in the face of setbacks,\" which is synonymous with being determined when things don't go smoothly, thus supporting the answer B.",
+                    "quote": "In adult life it is clear that she was curious, excited by what she did and also resolute in the face of setbacks."
+                },
+                "q31": {
+                    "text": "The quote directly states that the \"most rewarding part\" for her is the excitement of discovery, which equates to the greatest satisfaction from making ground-breaking discoveries. Therefore, 'satisfaction' is the correct answer.",
+                    "quote": "'Of course, the most rewarding part is the \"Aha\" moment, the excitement of discovery and enjoyment of understanding something new . . .'"
+                },
+                "q32": {
+                    "text": "The passage states Mirzakhani's work led to \"original research into mathematics,\" which supports the answer \"innovative\" as a synonym for original.",
+                    "quote": "That trail took her to the heights of original research into mathematics."
+                },
+                "q33": {
+                    "text": "The question states that many people who won prestigious prizes only reached an average standard when young, and the passage confirms this by stating that most Nobel prize winners were unexceptional in childhood, meaning they were of average standard.",
+                    "quote": "Most Nobel prize winners were unexceptional in childhood."
+                },
+                "q34": {
+                    "text": "The passage mentions Einstein's early struggles and failures, but it does not attribute them to a lack of confidence. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q35": {
+                    "text": "The phrase \"While the jury is out on giftedness being innate\" directly indicates that there is no consensus or agreement on whether giftedness is something people are born with, thus supporting the 'Yes' answer.",
+                    "quote": "While the jury is out on giftedness being innate and other factors potentially making the difference, what is certain is that the behaviours associated with high levels of performance are replicable and most can be taught – even traits such as curiosity."
+                },
+                "q36": {
+                    "text": "The passage discusses Einstein's struggles and determination, and quotes him on the importance of character over intellect, but it does not mention his feelings about the public's view of his work. Therefore, the answer is NOT GIVEN.",
+                    "quote": ""
+                },
+                "q37": {
+                    "text": "Einstein attributed his success to persistence ('stay with problems longer'), not speed, directly contradicting the statement.",
+                    "quote": "He once wrote: 'It's not that I'm so smart, it's just that I stay with problems longer."
+                },
+                "q38": {
+                    "text": "Eyre believes that children need to be taught the right attitudes and approaches to learning, including curiosity, to reach the levels of performance associated with gifted children, which aligns with option C.",
+                    "quote": "However, they must be taught the right attitudes and approaches to their learning and develop the attributes of high performers – curiosity, persistence and hard work, for example – an approach Eyre calls 'high performance learning'."
+                },
+                "q39": {
+                    "text": "Ericsson's research, as stated in the passage, indicates that innate talents are not the primary factor in achieving high performance, directly supporting option B.",
+                    "quote": "After research going back to 1980 into diverse achievements, from music to memory to sport, he doesn't think unique and innate talents are at the heart of performance."
+                },
+                "q40": {
+                    "text": "The quote directly states that the success of deprived children was linked to having an adult figure who valued and supported education, which aligns with option D.",
+                    "quote": "Interviews uncovered strong evidence of an adult or adults in the child's life who valued and supported education, either in the immediate or extended family or in the child's wider community."
+                }
             }
         }
     ]
