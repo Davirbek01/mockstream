@@ -4649,11 +4649,15 @@
     const isFullMock = urlParams.get('fullMock') === 'true';
     if (isFullMock) document.body.classList.add('is-full-mock');
 
+    // Practice-part mode  (?part=1..4)
+    var _partParam = parseInt(urlParams.get('part'), 10);
+    window._practicePart = (_partParam >= 1 && _partParam <= 4) ? _partParam : null;
+
     let TEST_DATA = null;
     let currentPart = 0;
     let userAnswers = {};
     let timerInterval = null;
-    let timeRemaining = 40 * 60;
+    let timeRemaining = window._practicePart ? 10 * 60 : 40 * 60;
     let isReviewMode = false;
 
     // British ↔ American spelling variant pairs
@@ -4839,11 +4843,42 @@
     }
 
     function initTest() {
-      timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+      if (window._practicePart) {
+        var _ptMap = { 1: 10, 2: 10, 3: 10, 4: 10 };
+        timeRemaining = (_ptMap[window._practicePart] || 10) * 60;
+      } else {
+        timeRemaining = TEST_DATA.testInfo.totalTime * 60;
+      }
       window.__testStartTime = new Date();
       generatePartNav();
       generateParts();
-      showPart(0);
+
+      if (window._practicePart) {
+        var partIdx = window._practicePart - 1;
+        // Hide nav
+        var pcNav = document.getElementById('pcPartNav');
+        var mobNav = document.getElementById('mobilePartNav');
+        if (pcNav) pcNav.style.display = 'none';
+        if (mobNav) mobNav.style.display = 'none';
+        document.querySelectorAll('.mobile-part-dot').forEach(function (d) { d.style.display = 'none'; });
+
+        // Hide non-practice parts
+        document.querySelectorAll('.part-section').forEach(function (s, i) {
+          s.style.display = i === partIdx ? '' : 'none';
+        });
+        // Show submit button immediately
+        var btnSubmit = document.getElementById('btnSubmit');
+        if (btnSubmit) btnSubmit.style.display = 'flex';
+        var floatSubmit = document.getElementById('mobileFloatingSubmit');
+        if (floatSubmit) floatSubmit.classList.add('visible');
+
+        showPart(partIdx);
+        // Load only the practice part audio
+        if (window.loadPartAudio) window.loadPartAudio(partIdx, false);
+      } else {
+        showPart(0);
+      }
+
       startTimer();
       document.getElementById('loadingScreen').style.display = 'none';
       // Show FAB now that test is ready
@@ -5227,6 +5262,7 @@
     }
 
     function showPart(index) {
+      if (window._practicePart && index !== (window._practicePart - 1)) return;
       if (index < 0 || index >= TEST_DATA.parts.length) return;
       currentPart = index;
       document.querySelectorAll('.part-section').forEach((s, i) => s.classList.toggle('active', i === index));
@@ -5653,8 +5689,11 @@
     // ---- End normalisation helpers ----
 
     function calculateScore() {
+      var _scoreParts = window._practicePart
+        ? [TEST_DATA.parts[window._practicePart - 1]]
+        : TEST_DATA.parts;
       let score = 0;
-      TEST_DATA.parts.forEach(part => {
+      _scoreParts.forEach(part => {
         if (!part.answers) return;
         // Detect merged pairs for either-order scoring
         var ids = Object.keys(part.answers).map(Number).sort(function (a, b) { return a - b; });
@@ -5742,8 +5781,15 @@
       const rawScore = calculateScore();
       const scaledScore = getScaledModuleScore(rawScore);
 
-      document.getElementById('finalScore').textContent = scaledScore;
-      document.getElementById('finalTotal').textContent = ' Band';
+      if (window._practicePart) {
+        var _pPart = TEST_DATA.parts[window._practicePart - 1];
+        var _pTotal = _pPart && _pPart.answers ? Object.keys(_pPart.answers).length : 10;
+        document.getElementById('finalScore').textContent = rawScore + '/' + _pTotal;
+        document.getElementById('finalTotal').textContent = '';
+      } else {
+        document.getElementById('finalScore').textContent = scaledScore;
+        document.getElementById('finalTotal').textContent = ' Band';
+      }
 
       // Keep raw score info for reference in the modal if needed, 
       // but the primary focus is now the officially scaled mark.
@@ -5794,7 +5840,8 @@
         try { var _tk = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); _tk[testFile] = true; localStorage.setItem('takenListeningMocks', JSON.stringify(_tk)); } catch(e) {}
       }
       let resultsHtml = '';
-      TEST_DATA.parts.forEach((part, partIndex) => {
+      var _submitParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+      _submitParts.forEach((part, partIndex) => {
         let partCorrect = 0, partTotal = 0;
         let answersTableRows = '';
 
@@ -6254,7 +6301,10 @@
 
         const testIdentifier = TEST_DATA?.testInfo?.title || 'IELTS Listening Test';
         const mockNum = testFile.match(/(\d+)/) ? testFile.match(/(\d+)/)[1].padStart(2, '0') : '01';
-        const total = TEST_DATA?.testInfo?.totalQuestions || 0;
+        // In practice mode, scope to practised part only
+        var _reportParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        var total = 0;
+        _reportParts.forEach(function (p) { if (p.answers) total += Object.keys(p.answers).length; });
 
         // Helper: check if user answer matches any acceptable answer, including "/" or "or" combined inputs
         // Also accepts British/American spelling variants automatically
@@ -6279,7 +6329,7 @@
 
         // Calculate correct/incorrect/unanswered FIRST
         var correct = 0, incorrect = 0, unanswered = 0;
-        TEST_DATA.parts.forEach(function (part) {
+        _reportParts.forEach(function (part) {
           if (part.answers) {
             Object.keys(part.answers).forEach(function (qId) {
               var correctAns = part.answers[qId];
@@ -6312,7 +6362,7 @@
         // Build part results HTML
         function generatePartResults() {
           var html = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             var partCorrect = 0, partTotal = 0;
             if (part.answers) {
               Object.keys(part.answers).forEach(function (qId) {
@@ -6332,7 +6382,7 @@
         // Build answer rows
         function generateAnswerRows() {
           var rows = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             if (part.answers) {
               for (var qId in part.answers) {
                 var userAnswer = userAnswers[qId] || '';
@@ -6357,7 +6407,7 @@
         // Build detailed parts
         function generateDetailedParts() {
           var html = '';
-          TEST_DATA.parts.forEach(function (part) {
+          _reportParts.forEach(function (part) {
             html += '<div class="part-block"><div class="part-title">' + part.title + ' (' + part.questionRange + ')</div>';
             html += '<div class="part-instruction">' + (part.instruction || '') + '</div>';
 
@@ -6471,7 +6521,7 @@
           '.pdf-btn { display: block; margin: 20px auto; padding: 15px 40px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(220,38,38,0.3); }' +
           '.pdf-btn:hover { background: linear-gradient(135deg, #b91c1c, #991b1b); transform: translateY(-2px); }' +
           '</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><' + '/script></head><body><div class="container">' +
-          '<h1>🎧 IELTS Listening Mock ' + mockNum + '</h1>' +
+          '<h1>🎧 IELTS Listening ' + (window._practicePart ? 'Practice Part ' + window._practicePart + ' · Mock ' + mockNum : 'Mock ' + mockNum) + '</h1>' +
           '<div style="text-align:center;margin-bottom:20px;padding:15px;background:#f0f9ff;border-radius:12px;border:2px solid #0369a1">' +
           '<div style="font-size:14px;color:#64748b;margin-bottom:5px">👤 Candidate</div>' +
           '<div style="font-size:22px;font-weight:bold;color:#0369a1">' + candidateName + '</div></div>' +
@@ -6511,7 +6561,7 @@
             date: now.toLocaleDateString(),
             time: now.toLocaleTimeString(),
             logoUrl: GLOBAL_LOGO_URL,
-            partResults: TEST_DATA.parts.map(function (part) {
+            partResults: _reportParts.map(function (part) {
               var pc = 0, pt = 0;
               if (part.answers) {
                 for (var q in part.answers) {
@@ -6631,7 +6681,7 @@
 
         // Build per-section score lines
         var sectionScoreLines = '';
-        TEST_DATA.parts.forEach(function (part, idx) {
+        _reportParts.forEach(function (part, idx) {
           var sc = 0, st = 0;
           if (part.answers) {
             Object.keys(part.answers).forEach(function (qId) {
@@ -6641,7 +6691,7 @@
               if (ua && matchesAnswer(ua, ca)) sc++;
             });
           }
-          sectionScoreLines += '\n📝 Section ' + (idx + 1) + ': ' + sc + '/' + st;
+          sectionScoreLines += '\n📝 ' + part.title + ': ' + sc + '/' + st;
         });
 
         // Duration calculation
@@ -6662,20 +6712,21 @@
 
         // IELTS Caption Format (matching CEFR style)
         const caption = '👤 #' + candidateName.replace(/ /g, '_') +
-          '\n\n🎧 IELTS Listening Mock ' + mockNum +
+          '\n\n🎧 IELTS Listening ' + (window._practicePart ? 'Practice Part ' + window._practicePart + ' · Mock ' + mockNum : 'Mock ' + mockNum) +
           '\n\n🧠 Scoring:' +
           '\n📊 Raw score: ' + correct + '/' + total +
-          '\n📊 IELTS Score: ' + scaledScore.toFixed(1) + '/9.0' +
+          (window._practicePart ? '' : '\n📊 IELTS Score: ' + scaledScore.toFixed(1) + '/9.0') +
           '\n✅ Correct: ' + correct +
           '\n❌ Incorrect: ' + incorrect +
           '\n⏭️ Unanswered: ' + unanswered +
           sectionScoreLines +
           '\n\n📋 Mock Details:' +
-          '\n🔢 Mock №: ' + mockNum +
+          '\n🔢 Mock №: ' + (window._practicePart ? 'Part ' + window._practicePart + ' · Mock ' + mockNum : mockNum) +
           '\n📅 Date: ' + dateStr +
           '\n🕐 Start: ' + startTimeStr +
           '\n🕐 Finish: ' + finishTimeStr +
           '\n⏳ Duration: ' + durationStr +
+          (window._practicePart ? '\n\n🎧 Practice Mode: Part ' + window._practicePart : '') +
           '\n\n🏛️ Center: #' + testIdTag +
           '\n📊 #' + testIdTag + '_' + dateTag + '_ielts' +
           '\n📊 #' + testIdTag + '_' + monthTag + '_ielts' +
@@ -6684,8 +6735,8 @@
           '\n📊 #all_' + dateTag + '_ielts' +
           '\n📊 #all_' + monthTag + '_ielts' +
           '\n📊 #all_' + yearTag + '_ielts' +
-          '\n#IELTS' +
-          '\n#' + scaledScore.toFixed(1);
+          '\n#IELTS' + (window._practicePart ? '_Listening_Practice' : '') +
+          (window._practicePart ? '' : '\n#' + scaledScore.toFixed(1));
 
         // Send to Supabase first (get result link for caption)
         var finalCaption = caption;
@@ -6695,13 +6746,15 @@
               studentName: candidateName,
               examType: 'ielts',
               skill: 'listening',
-              score: scaledScore.toFixed(1) + '/9.0',
-              level: 'Band ' + scaledScore.toFixed(1),
-              mockNumber: 'Mock ' + mockNum,
+              score: window._practicePart ? correct + '/' + total : scaledScore.toFixed(1) + '/9.0',
+              level: window._practicePart ? 'Part ' + window._practicePart : 'Band ' + scaledScore.toFixed(1),
+              mockNumber: window._practicePart ? ('Practice Part ' + window._practicePart + ' \u00b7 Mock ' + mockNum) : ('Mock ' + mockNum),
               file: htmlBlob,
               fileType: 'html',
               caption: caption,
-              metadata: { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered }
+              metadata: window._practicePart
+                ? { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered, is_practice: true, part: 'p' + window._practicePart }
+                : { raw: correct, total: total, incorrect: incorrect, unanswered: unanswered }
             });
             if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
           } catch (e) { console.warn('[Supabase] skipped:', e); }
@@ -6770,7 +6823,8 @@
 
       // Mark all answers for review
       try {
-        TEST_DATA.parts.forEach(part => {
+        var _reviewParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        _reviewParts.forEach(part => {
           if (!part.answers) return;
 
           for (const [qId, correctAnswerRaw] of Object.entries(part.answers)) {
@@ -6921,7 +6975,7 @@
         var firstQid = qIds[0];
 
         var correctAns = null;
-        TEST_DATA.parts.forEach(function (p) { if (p.answers && p.answers[firstQid]) correctAns = p.answers[firstQid]; });
+        _reviewParts.forEach(function (p) { if (p.answers && p.answers[firstQid]) correctAns = p.answers[firstQid]; });
         if (!correctAns) return;
         var correctLetters = (Array.isArray(correctAns) ? correctAns : [correctAns]).map(function (a) { return a.toUpperCase(); });
         card.querySelectorAll('.option-item').forEach(function (el) {
@@ -6945,7 +6999,7 @@
         const qId = el.dataset.q;
         const val = el.dataset.val;
         let correct = null;
-        TEST_DATA.parts.forEach(p => { if (p.answers && p.answers[qId]) correct = p.answers[qId]; });
+        _reviewParts.forEach(p => { if (p.answers && p.answers[qId]) correct = p.answers[qId]; });
         if (correct) {
           const isCorrectAnswer = Array.isArray(correct) ? correct.includes(val) : correct === val;
           const isSelected = el.classList.contains('selected');
@@ -6962,7 +7016,7 @@
       // Also highlight correct option in options-box for matching questions
       document.querySelectorAll('.option-item-box').forEach(el => {
         const letter = el.dataset.letter;
-        TEST_DATA.parts.forEach(part => {
+        _reviewParts.forEach(part => {
           if (part.answers) {
             for (const [qId, ans] of Object.entries(part.answers)) {
               const correctAnswer = Array.isArray(ans) ? ans[0] : ans;
@@ -6982,7 +7036,7 @@
         });
       });
 
-      showPart(0);
+      showPart(window._practicePart ? window._practicePart - 1 : 0);
       console.log('[Review] Review mode activated. Navigate sections to see marked answers.');
     }
 
@@ -7398,8 +7452,9 @@
         await addCanvasToPDF(headerCanvas, false);
 
         // ===== RENDER EACH PART =====
-        for (var partIdx = 0; partIdx < TEST_DATA.parts.length; partIdx++) {
-          var part = TEST_DATA.parts[partIdx];
+        var _pdfParts = window._practicePart ? [TEST_DATA.parts[window._practicePart - 1]] : TEST_DATA.parts;
+        for (var partIdx = 0; partIdx < _pdfParts.length; partIdx++) {
+          var part = _pdfParts[partIdx];
 
           // Generate QR code for part audio if available
           var qrCodeBase64 = null;
@@ -7726,7 +7781,7 @@
 
         // Collect all answers
         var allAnswers = {};
-        TEST_DATA.parts.forEach(function (part) {
+        _pdfParts.forEach(function (part) {
           if (part.answers) {
             Object.keys(part.answers).forEach(function (qId) {
               var ans = part.answers[qId];

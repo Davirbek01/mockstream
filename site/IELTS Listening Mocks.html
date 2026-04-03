@@ -173,116 +173,74 @@
       gap: 20px;
     }
 
-    .test-card {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 24px;
+    .test-card-wrap {
+      background: white;
       border: 2px solid var(--border);
-      text-decoration: none;
-      color: var(--text);
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,.05);
+      transition: border-color .3s, box-shadow .3s;
     }
-
-    .test-card:hover {
+    .test-card-wrap:hover {
       border-color: var(--primary);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(3, 105, 161, 0.15);
+      box-shadow: 0 12px 30px rgba(3,105,161,.15);
     }
 
-    .test-icon {
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border-radius: 16px;
+    .test-card-header {
+      padding: 18px 20px 14px;
+      text-align: center;
+    }
+    .test-card-header h3 {
+      font-size: 17px;
+      margin: 0 0 4px;
+      color: var(--text);
+    }
+    .test-card-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    .test-mode-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      padding: 0 12px 14px;
+    }
+    .mode-btn {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      flex-shrink: 0;
-    }
-
-    .test-info {
-      flex: 1;
-    }
-
-    .test-info h3 {
-      font-size: 20px;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-
-    .test-info p {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .test-meta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--muted);
-      background: var(--bg);
-      padding: 6px 12px;
-      border-radius: 20px;
-    }
-
-    .meta-item.level {
-      background: var(--primary-light);
-      color: var(--primary-dark);
+      gap: 2px;
+      padding: 8px 2px;
+      border-radius: 10px;
+      text-decoration: none;
       font-weight: 600;
-    }
-
-    .test-arrow {
-      font-size: 24px;
-      color: var(--primary);
-      opacity: 0;
-      transition: all 0.3s;
-    }
-
-    .test-card:hover .test-arrow {
-      opacity: 1;
-      transform: translateX(5px);
-    }
-
-    .coming-soon {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-
-    .coming-soon .test-icon {
-      background: var(--border);
-    }
-
-    .coming-soon-badge {
-      background: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      border: none;
       color: white;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 600;
+    }
+    .mode-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.18); }
+    .mode-btn .mode-icon { font-size: 16px; }
+    .mode-btn .mode-label { font-size: 10px; opacity: .92; }
+
+    .mode-btn.full  { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+    .mode-btn.part1 { background: linear-gradient(135deg,#f59e0b,#d97706); }
+    .mode-btn.part2 { background: linear-gradient(135deg,#10b981,#059669); }
+    .mode-btn.part3 { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+    .mode-btn.part4 { background: linear-gradient(135deg,#ef4444,#dc2626); }
+
+    @media (max-width: 480px) {
+      .test-mode-row { grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 0 8px 10px; }
+      .mode-btn { padding: 6px 2px; font-size: 11px; }
+      .mode-btn .mode-icon { font-size: 14px; }
     }
 
     @media (max-width: 600px) {
-      .test-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .test-meta {
-        justify-content: center;
-      }
 
       .header-top {
         flex-direction: column;
@@ -299,10 +257,6 @@
 
       .info-desk {
         gap: 16px;
-      }
-
-      .test-arrow {
-        display: none;
       }
     }
 
@@ -858,37 +812,40 @@
 
     const grid = document.getElementById('testsGrid');
 
-    tests.forEach((test) => {
-      const card = document.createElement('a');
-      card.className = `test-card ${!test.available ? 'coming-soon' : ''}`;
-      card.href = test.available ? `IELTS listening.html?test=${test.id}` : '#';
+    var partsMeta = [
+      { questions: 10, time: 10 },
+      { questions: 10, time: 10 },
+      { questions: 10, time: 10 },
+      { questions: 10, time: 10 }
+    ];
 
-      // Intercept click to show access code modal
-      if (test.available) {
-        card.addEventListener('click', function (e) {
-          e.preventDefault();
-          const mockNum = test.id.match(/(\d+)/);
-          const num = mockNum ? mockNum[1] : '1';
-          window._pendingListeningTest = { url: this.href, mockNumber: num };
-          showListeningAccessModal(num);
-        });
+    grid.innerHTML = tests.filter(function (t) { return t.available; }).map(function (test) {
+      var num = test.id.match(/(\d+)/);
+      num = num ? num[1] : '1';
+      var partBtns = '';
+      for (var p = 1; p <= 4; p++) {
+        partBtns += '<button class="mode-btn part' + p + '" data-id="' + test.id + '" data-mock="' + num + '" data-part="' + p + '">' +
+          '<span class="mode-icon">📝</span><span class="mode-label">Part ' + p + '</span>' +
+          '<span class="mode-label">' + partsMeta[p - 1].questions + 'Q · ' + partsMeta[p - 1].time + 'm</span></button>';
       }
+      return '<div class="test-card-wrap">' +
+        '<div class="test-card-header"><h3>Mock ' + num + '</h3><p>' + test.description + '</p></div>' +
+        '<div class="test-mode-row">' +
+        '<button class="mode-btn full" data-id="' + test.id + '" data-mock="' + num + '">' +
+        '<span class="mode-icon">🎧</span><span class="mode-label">Full</span>' +
+        '<span class="mode-label">' + test.questions + 'Q · ' + test.time + 'm</span></button>' +
+        partBtns + '</div></div>';
+    }).join('');
 
-      card.innerHTML = `
-        <div class="test-icon">🎧</div>
-        <div class="test-info">
-          <h3>${test.title} ${!test.available ? '<span class="coming-soon-badge">Coming Soon</span>' : ''}</h3>
-          <p>${test.description}</p>
-          <div class="test-meta">
-            <span class="meta-item">📝 ${test.questions} Questions</span>
-            <span class="meta-item">⏱️ ${test.time} min</span>
-            <span class="meta-item level">${test.level}</span>
-          </div>
-        </div>
-        <span class="test-arrow">→</span>
-      `;
-
-      grid.appendChild(card);
+    grid.addEventListener('click', function (e) {
+      var btn = e.target.closest('.mode-btn');
+      if (!btn) return;
+      var id = btn.dataset.id;
+      var mockNum = btn.dataset.mock;
+      var part = btn.dataset.part;
+      var url = 'IELTS listening.html?test=' + id + (part ? '&part=' + part : '');
+      window._pendingListeningTest = { url: url, mockNumber: mockNum };
+      showListeningAccessModal(mockNum);
     });
 
     // Name Modal Logic
