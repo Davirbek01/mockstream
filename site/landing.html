@@ -4713,6 +4713,7 @@
       width: 100%;
       height: 100%;
       border: none;
+      resize: none;
       z-index: -1;
       background: var(--bg);
       pointer-events: none;
@@ -7167,7 +7168,7 @@
   </div>
 
   <!-- Iframe for loading mocks (stays in same page, keeps fullscreen) -->
-  <iframe id="mockFrame" allowfullscreen allow="downloads; microphone; camera"></iframe>
+  <iframe id="mockFrame" allowfullscreen allow="downloads; microphone; camera" style="resize:none"></iframe>
 
   <!-- CEFR Speaking Mode Selector Modal -->
   <div id="speakingModeModal"
@@ -7490,6 +7491,87 @@
     </div>
   </div>
 
+  <!-- CEFR Reading Mode Modal -->
+  <div id="cefrReadingModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrReadingModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">📖</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="cefrReadingModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">CEFR Reading Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_cefrReadingModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">📖</div>
+          Full Reading Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 5 parts • 60 min</div>
+        </button>
+        <button onclick="_cefrReadingModePartBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Part Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~12 min</div>
+        </button>
+      </div>
+      <button onclick="closeCefrReadingModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CEFR Reading Part Picker Modal -->
+  <div id="cefrReadingPartPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrReadingPartPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickCefrReadingPart(1)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Gap Fill • ~7 questions</div></div>
+        </button>
+        <button onclick="_pickCefrReadingPart(2)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Matching • ~8 questions</div></div>
+        </button>
+        <button onclick="_pickCefrReadingPart(3)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Matching Headings • ~6 questions</div></div>
+        </button>
+        <button onclick="_pickCefrReadingPart(4)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
+          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Reading Comprehension • ~7 questions</div></div>
+        </button>
+        <button onclick="_pickCefrReadingPart(5)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">5</span>
+          <div><div>Part 5</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">Reading Comprehension • ~7 questions</div></div>
+        </button>
+      </div>
+      <button onclick="closeCefrReadingPartPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
   <!-- Reading Access Code Modal -->
   <div id="readingAccessCodeModal"
     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:10002;align-items:center;justify-content:center;padding:20px;"
@@ -7516,6 +7598,168 @@
           style="flex:2;padding:11px;background:linear-gradient(135deg,var(--brand) 0%,#059669 100%);color:white;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;">Verify
           &amp; Start</button>
       </div>
+    </div>
+  </div>
+
+  <!-- CEFR Listening Mode Modal -->
+  <div id="cefrListeningModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrListeningModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎧</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="cefrListeningModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">CEFR Listening Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_cefrListeningModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎧</div>
+          Full Listening Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 6 parts • 40 min</div>
+        </button>
+        <button onclick="_cefrListeningModePartBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Part Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~7 min</div>
+        </button>
+      </div>
+      <button onclick="closeCefrListeningModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CEFR Listening Part Picker Modal -->
+  <div id="cefrListeningPartPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeCefrListeningPartPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickCefrListeningPart(1)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">8 questions • ~7 min</div></div>
+        </button>
+        <button onclick="_pickCefrListeningPart(2)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+        </button>
+        <button onclick="_pickCefrListeningPart(3)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">5 questions • ~6 min</div></div>
+        </button>
+        <button onclick="_pickCefrListeningPart(4)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
+          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">5 questions • ~6 min</div></div>
+        </button>
+        <button onclick="_pickCefrListeningPart(5)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">5</span>
+          <div><div>Part 5</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+        </button>
+        <button onclick="_pickCefrListeningPart(6)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">6</span>
+          <div><div>Part 6</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">6 questions • ~7 min</div></div>
+        </button>
+      </div>
+      <button onclick="closeCefrListeningPartPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
+    </div>
+  </div>
+
+  <!-- IELTS Listening Mode Modal -->
+  <div id="ieltsListeningModeModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10003;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsListeningModeModal()">
+    <div
+      style="background:var(--card);border:2px solid var(--brand);border-radius:24px;padding:32px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎧</div>
+      <h3 style="font-size:20px;color:var(--brand);margin-bottom:4px;">Choose Your Mode</h3>
+      <p id="ieltsListeningModeMockLabel" style="font-size:13px;color:var(--muted);margin-bottom:22px;">IELTS Listening Mock</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="_ieltsListeningModeFullMock()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#0369a1 0%,#0284c7 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(3,105,161,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎧</div>
+          Full Listening Test
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 4 parts • 40 min</div>
+        </button>
+        <button onclick="_ieltsListeningModePartBased()"
+          style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
+          <div style="font-size:28px;margin-bottom:6px;">🎯</div>
+          Part Practice
+          <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Pick one part • ~10 min</div>
+        </button>
+      </div>
+      <button onclick="closeIeltsListeningModeModal()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- IELTS Listening Part Picker Modal -->
+  <div id="ieltsListeningPartPickerModal"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);z-index:10004;align-items:center;justify-content:center;padding:20px;"
+    onclick="closeIeltsListeningPartPicker()">
+    <div
+      style="background:var(--card);border:2px solid #7c3aed;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.35);animation:slideUp 0.3s ease;"
+      onclick="event.stopPropagation()">
+      <div style="font-size:36px;margin-bottom:6px;">🎯</div>
+      <h3 style="font-size:20px;color:#7c3aed;margin-bottom:4px;">Select a Part</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Choose which part you'd like to practice</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="_pickIeltsListeningPart(1)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">1</span>
+          <div><div>Part 1</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+        </button>
+        <button onclick="_pickIeltsListeningPart(2)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">2</span>
+          <div><div>Part 2</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+        </button>
+        <button onclick="_pickIeltsListeningPart(3)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">3</span>
+          <div><div>Part 3</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+        </button>
+        <button onclick="_pickIeltsListeningPart(4)"
+          style="padding:16px 20px;background:var(--bg);border:2px solid var(--ring);border-radius:14px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:12px;"
+          onmouseover="this.style.borderColor='#7c3aed';this.style.background='rgba(124,58,237,0.06)'"
+          onmouseout="this.style.borderColor='var(--ring)';this.style.background='var(--bg)'">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;font-size:14px;font-weight:800;flex-shrink:0;">4</span>
+          <div><div>Part 4</div><div style="font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;">10 questions • ~10 min</div></div>
+        </button>
+      </div>
+      <button onclick="closeIeltsListeningPartPicker()"
+        style="margin-top:18px;padding:8px 24px;background:transparent;color:var(--muted);border:1.5px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;">Back</button>
     </div>
   </div>
 
@@ -8520,6 +8764,13 @@
         if (label) label.textContent = 'IELTS Reading Mock ' + mockNum;
         var modal = document.getElementById('ieltsReadingModeModal');
         if (modal) modal.style.display = 'flex';
+      } else if (category === 'cefr-reading') {
+        _pendingCefrReadingUrl = pageUrl;
+        var mockNum = _extractReadingMockNumber(pageUrl) || '??';
+        var label = document.getElementById('cefrReadingModeMockLabel');
+        if (label) label.textContent = 'CEFR Reading Mock ' + mockNum;
+        var modal = document.getElementById('cefrReadingModeModal');
+        if (modal) modal.style.display = 'flex';
       } else {
         loadMock(pageUrl, 'reading');
       }
@@ -8554,6 +8805,40 @@
       document.getElementById('ieltsReadingPassagePickerModal').style.display = 'none';
       _pendingIeltsReadingUrl = null;
       if (url) loadMock(url + '&passage=' + n, 'reading');
+    }
+
+    // --- CEFR Reading Mode Modal Logic ---
+    var _pendingCefrReadingUrl = null;
+
+    function closeCefrReadingModeModal() {
+      var modal = document.getElementById('cefrReadingModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingCefrReadingUrl = null;
+    }
+
+    function _cefrReadingModeFullMock() {
+      var url = _pendingCefrReadingUrl;
+      closeCefrReadingModeModal();
+      if (url) loadMock(url, 'reading');
+    }
+
+    function _cefrReadingModePartBased() {
+      document.getElementById('cefrReadingModeModal').style.display = 'none';
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'flex';
+    }
+
+    function closeCefrReadingPartPicker() {
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'none';
+      if (_pendingCefrReadingUrl) {
+        document.getElementById('cefrReadingModeModal').style.display = 'flex';
+      }
+    }
+
+    function _pickCefrReadingPart(n) {
+      var url = _pendingCefrReadingUrl;
+      document.getElementById('cefrReadingPartPickerModal').style.display = 'none';
+      _pendingCefrReadingUrl = null;
+      if (url) loadMock(url + '&part=' + n, 'reading');
     }
 
     function _extractReadingMockNumber(pageUrl) {
@@ -8807,11 +9092,99 @@
       ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
     }
 
+    // --- CEFR Listening Mode Modal Logic ---
+    var _pendingCefrListeningUrl = null;
+
+    function _loadListeningMockOrShowMode(pageUrl, category) {
+      if (category === 'cefr-listening') {
+        _pendingCefrListeningUrl = pageUrl;
+        var mockNum = _extractListeningMockNumber(pageUrl) || '??';
+        var label = document.getElementById('cefrListeningModeMockLabel');
+        if (label) label.textContent = 'CEFR Listening Mock ' + mockNum;
+        var modal = document.getElementById('cefrListeningModeModal');
+        if (modal) modal.style.display = 'flex';
+      } else if (category === 'ielts-listening') {
+        _pendingIeltsListeningUrl = pageUrl;
+        var mockNum = _extractListeningMockNumber(pageUrl) || '??';
+        var label = document.getElementById('ieltsListeningModeMockLabel');
+        if (label) label.textContent = 'IELTS Listening Mock ' + mockNum;
+        var modal = document.getElementById('ieltsListeningModeModal');
+        if (modal) modal.style.display = 'flex';
+      } else {
+        loadMock(pageUrl, 'listening');
+      }
+    }
+
+    function closeCefrListeningModeModal() {
+      var modal = document.getElementById('cefrListeningModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingCefrListeningUrl = null;
+    }
+
+    function _cefrListeningModeFullMock() {
+      var url = _pendingCefrListeningUrl;
+      closeCefrListeningModeModal();
+      if (url) loadMock(url, 'listening');
+    }
+
+    function _cefrListeningModePartBased() {
+      document.getElementById('cefrListeningModeModal').style.display = 'none';
+      document.getElementById('cefrListeningPartPickerModal').style.display = 'flex';
+    }
+
+    function closeCefrListeningPartPicker() {
+      document.getElementById('cefrListeningPartPickerModal').style.display = 'none';
+      if (_pendingCefrListeningUrl) {
+        document.getElementById('cefrListeningModeModal').style.display = 'flex';
+      }
+    }
+
+    function _pickCefrListeningPart(n) {
+      var url = _pendingCefrListeningUrl;
+      document.getElementById('cefrListeningPartPickerModal').style.display = 'none';
+      _pendingCefrListeningUrl = null;
+      if (url) loadMock(url + '&part=' + n, 'listening');
+    }
+
+    // --- IELTS Listening Mode Modal Logic ---
+    var _pendingIeltsListeningUrl = null;
+
+    function closeIeltsListeningModeModal() {
+      var modal = document.getElementById('ieltsListeningModeModal');
+      if (modal) modal.style.display = 'none';
+      _pendingIeltsListeningUrl = null;
+    }
+
+    function _ieltsListeningModeFullMock() {
+      var url = _pendingIeltsListeningUrl;
+      closeIeltsListeningModeModal();
+      if (url) loadMock(url, 'listening');
+    }
+
+    function _ieltsListeningModePartBased() {
+      document.getElementById('ieltsListeningModeModal').style.display = 'none';
+      document.getElementById('ieltsListeningPartPickerModal').style.display = 'flex';
+    }
+
+    function closeIeltsListeningPartPicker() {
+      document.getElementById('ieltsListeningPartPickerModal').style.display = 'none';
+      if (_pendingIeltsListeningUrl) {
+        document.getElementById('ieltsListeningModeModal').style.display = 'flex';
+      }
+    }
+
+    function _pickIeltsListeningPart(n) {
+      var url = _pendingIeltsListeningUrl;
+      document.getElementById('ieltsListeningPartPickerModal').style.display = 'none';
+      _pendingIeltsListeningUrl = null;
+      if (url) loadMock(url + '&part=' + n, 'listening');
+    }
+
     function handleListeningMockClick(pageUrl, category) {
       document.getElementById('categoryModal').classList.remove('show');
       const mockNumber = _extractListeningMockNumber(pageUrl);
       sessionStorage.setItem('listeningMockReturnCategory', category);
-      if (!mockNumber) { loadMock(pageUrl, 'listening'); return; }
+      if (!mockNumber) { _loadListeningMockOrShowMode(pageUrl, category); return; }
 
       // Super access or premium - bypass
       if (window.isSuperAccessUnlocked()) {
@@ -8820,14 +9193,14 @@
         if (!isVipAi && _isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
         sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
         sessionStorage.setItem('listeningCodeValidated', 'true');
-        loadMock(pageUrl, 'listening');
+        _loadListeningMockOrShowMode(pageUrl, category);
         return;
       }
       if (window.isPremiumUnlocked && window.isPremiumUnlocked()) {
         sessionStorage.setItem('listeningPremiumEntry', 'true');
         sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: true }));
         sessionStorage.setItem('listeningCodeValidated', 'true');
-        loadMock(pageUrl, 'listening');
+        _loadListeningMockOrShowMode(pageUrl, category);
         return;
       }
 
@@ -8837,7 +9210,7 @@
         if (_isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
         sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
         sessionStorage.setItem('listeningCodeValidated', 'true');
-        loadMock(pageUrl, 'listening');
+        _loadListeningMockOrShowMode(pageUrl, category);
         return;
       }
 
@@ -8911,8 +9284,9 @@
 
         setTimeout(() => {
           const url = _pendingListeningMock.pageUrl;
+          const cat = _pendingListeningMock.category;
           closeListeningAccessCodeModal();
-          loadMock(url, 'listening');
+          _loadListeningMockOrShowMode(url, cat);
         }, 400);
       } catch (err) {
         error.style.color = '#dc2626';
@@ -10405,6 +10779,20 @@
       { file: 'CEFR Listening.html?test=cefr-listening-test-12', name: 'CEFR Listening Test 12', icon: '🎧', actionText: 'Take Test' },
       { file: 'CEFR Listening.html?test=cefr-listening-test-13', name: 'CEFR Listening Test 13', icon: '🎧', actionText: 'Take Test' },
       { file: 'CEFR Listening.html?test=cefr-listening-test-14', name: 'CEFR Listening Test 14', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-15', name: 'CEFR Listening Test 15', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-16', name: 'CEFR Listening Test 16', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-17', name: 'CEFR Listening Test 17', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-18', name: 'CEFR Listening Test 18', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-19', name: 'CEFR Listening Test 19', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-20', name: 'CEFR Listening Test 20', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-21', name: 'CEFR Listening Test 21', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-22', name: 'CEFR Listening Test 22', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-23', name: 'CEFR Listening Test 23', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-24', name: 'CEFR Listening Test 24', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-25', name: 'CEFR Listening Test 25', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-26', name: 'CEFR Listening Test 26', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-27', name: 'CEFR Listening Test 27', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-28', name: 'CEFR Listening Test 28', icon: '🎧', actionText: 'Take Test' },
     ];
 
     const ieltsListeningTests = [
@@ -10448,6 +10836,16 @@
       { file: 'IELTS listening.html?test=ielts-listening-test-38', name: 'IELTS Listening Practice Test 38', icon: '🎧', actionText: 'Take Test' },
       { file: 'IELTS listening.html?test=ielts-listening-test-39', name: 'IELTS Listening Practice Test 39', icon: '🎧', actionText: 'Take Test' },
       { file: 'IELTS listening.html?test=ielts-listening-test-40', name: 'IELTS Listening Practice Test 40', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-41', name: 'IELTS Listening Practice Test 41', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-42', name: 'IELTS Listening Practice Test 42', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-43', name: 'IELTS Listening Practice Test 43', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-44', name: 'IELTS Listening Practice Test 44', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-45', name: 'IELTS Listening Practice Test 45', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-46', name: 'IELTS Listening Practice Test 46', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-47', name: 'IELTS Listening Practice Test 47', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-48', name: 'IELTS Listening Practice Test 48', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-49', name: 'IELTS Listening Practice Test 49', icon: '🎧', actionText: 'Take Test' },
+      { file: 'IELTS listening.html?test=ielts-listening-test-50', name: 'IELTS Listening Practice Test 50', icon: '🎧', actionText: 'Take Test' },
     ];
 
     // ===== READING TESTS =====
@@ -10467,6 +10865,32 @@
       { file: 'CEFR Reading.html?test=cefr-reading-test-12', name: 'CEFR Reading Test 12', icon: '📖', actionText: 'Take Test' },
       { file: 'CEFR Reading.html?test=cefr-reading-test-13', name: 'CEFR Reading Test 13', icon: '📖', actionText: 'Take Test' },
       { file: 'CEFR Reading.html?test=cefr-reading-test-14', name: 'CEFR Reading Test 14', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-15', name: 'CEFR Reading Test 15', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-16', name: 'CEFR Reading Test 16', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-17', name: 'CEFR Reading Test 17', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-18', name: 'CEFR Reading Test 18', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-19', name: 'CEFR Reading Test 19', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-20', name: 'CEFR Reading Test 20', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-21', name: 'CEFR Reading Test 21', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-22', name: 'CEFR Reading Test 22', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-23', name: 'CEFR Reading Test 23', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-24', name: 'CEFR Reading Test 24', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-25', name: 'CEFR Reading Test 25', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-26', name: 'CEFR Reading Test 26', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-27', name: 'CEFR Reading Test 27', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-28', name: 'CEFR Reading Test 28', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-29', name: 'CEFR Reading Test 29', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-30', name: 'CEFR Reading Test 30', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-31', name: 'CEFR Reading Test 31', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-32', name: 'CEFR Reading Test 32', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-33', name: 'CEFR Reading Test 33', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-34', name: 'CEFR Reading Test 34', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-35', name: 'CEFR Reading Test 35', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-36', name: 'CEFR Reading Test 36', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-37', name: 'CEFR Reading Test 37', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-38', name: 'CEFR Reading Test 38', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-39', name: 'CEFR Reading Test 39', icon: '📖', actionText: 'Take Test' },
+      { file: 'CEFR Reading.html?test=cefr-reading-test-40', name: 'CEFR Reading Test 40', icon: '📖', actionText: 'Take Test' },
     ];
 
     const ieltsReadingTests = [
@@ -10515,6 +10939,11 @@
       { file: 'IELTS reading.html?test=ielts-reading-test-43.js', name: 'IELTS Reading Practice Test 43', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
       { file: 'IELTS reading.html?test=ielts-reading-test-44.js', name: 'IELTS Reading Practice Test 44', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
       { file: 'IELTS reading.html?test=ielts-reading-test-45.js', name: 'IELTS Reading Practice Test 45', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-46.js', name: 'IELTS Reading Practice Test 46', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-47.js', name: 'IELTS Reading Practice Test 47', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-48.js', name: 'IELTS Reading Practice Test 48', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-49.js', name: 'IELTS Reading Practice Test 49', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
+      { file: 'IELTS reading.html?test=ielts-reading-test-50.js', name: 'IELTS Reading Practice Test 50', icon: '📖', actionText: 'Take Test', badge: 'PRETEST' },
     ];
 
     // ===== DYNAMIC ARTICLES MENU =====

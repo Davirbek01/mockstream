@@ -6251,6 +6251,49 @@
             syncMobilePartNav();
         }
 
+        function getGapIdsFromFormContent(formContent) {
+            if (!formContent) return [];
+
+            if (Array.isArray(formContent)) {
+                return formContent
+                    .map(item => item && item.gapId)
+                    .filter(Boolean);
+            }
+
+            if (typeof formContent === 'string') {
+                const ids = [];
+                const re = /data-q\s*=\s*["']?([^"'\s>]+)/gi;
+                let m;
+                while ((m = re.exec(formContent)) !== null) {
+                    if (m[1]) ids.push(m[1]);
+                }
+                return ids;
+            }
+
+            return [];
+        }
+
+        function bindListeningFormHtmlInputs(pIdx) {
+            const root = document.getElementById('module-container');
+            if (!root) return;
+
+            const inputs = root.querySelectorAll('.form-html input.gap-input[data-q]');
+            inputs.forEach(input => {
+                const qNum = input.getAttribute('data-q');
+                if (!qNum) return;
+
+                const qId = `L-${pIdx}-${qNum}`;
+                const saved = state.answers.listening[qId];
+                if ((saved || saved === 0) && !input.value) {
+                    input.value = saved;
+                }
+
+                const sync = () => saveAns('listening', qId, input.value);
+                input.addEventListener('input', sync);
+                input.addEventListener('change', sync);
+            });
+        }
+
         // ===== LISTENING MODULE =====
         function renderL() {
             const data = state.currentTestData;
@@ -6287,26 +6330,30 @@
                     html += `<h3 style="color:var(--primary);margin-bottom:16px;">${part.formTitle}</h3>`;
                 }
                 html += `<div class="form-content" style="background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">`;
-                part.formContent.forEach(item => {
-                    if (item.type === 'heading') {
-                        html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
-                    } else if (item.type === 'item') {
-                        html += `<p style="margin:8px 0;line-height:1.6;">• ${item.text}</p>`;
-                    } else if (item.type === 'item-gap') {
-                        const qId = `L-${pIdx}-${item.gapId}`;
-                        const ans = state.answers.listening[qId] || '';
-                        html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
-                            <span class="gap-number">${item.gapId}</span>
-                            <span>${item.text}</span>
-                            <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
-                                onchange="saveAns('listening','${qId}',this.value)" 
-                                placeholder="..." style="min-width:150px;">
-                            ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
-                        </p>`;
-                    } else if (item.type === 'html') {
-                        html += `<div class="form-html">${item.text}</div>`;
-                    }
-                });
+                if (Array.isArray(part.formContent)) {
+                    part.formContent.forEach(item => {
+                        if (item.type === 'heading') {
+                            html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
+                        } else if (item.type === 'item') {
+                            html += `<p style="margin:8px 0;line-height:1.6;">• ${item.text}</p>`;
+                        } else if (item.type === 'item-gap') {
+                            const qId = `L-${pIdx}-${item.gapId}`;
+                            const ans = state.answers.listening[qId] || '';
+                            html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+                                <span class="gap-number">${item.gapId}</span>
+                                <span>${item.text}</span>
+                                <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
+                                    onchange="saveAns('listening','${qId}',this.value)" 
+                                    placeholder="..." style="min-width:150px;">
+                                ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
+                            </p>`;
+                        } else if (item.type === 'html') {
+                            html += `<div class="form-html">${item.text}</div>`;
+                        }
+                    });
+                } else if (typeof part.formContent === 'string') {
+                    html += `<div class="form-html">${part.formContent}</div>`;
+                }
                 html += `</div>`;
             }
 
@@ -6323,26 +6370,30 @@
                             html += `<h3 style="color:var(--primary);margin:16px 0 12px;">${sub.formTitle}</h3>`;
                         }
                         html += `<div class="form-content" style="background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:16px;">`;
-                        sub.formContent.forEach(item => {
-                            if (item.type === 'heading') {
-                                html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
-                            } else if (item.type === 'item' || item.type === 'text') {
-                                html += `<p style="margin:8px 0;line-height:1.6;">• ${item.text}</p>`;
-                            } else if (item.type === 'item-gap') {
-                                const qId = `L-${pIdx}-${item.gapId}`;
-                                const ans = state.answers.listening[qId] || '';
-                                html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
-                                    <span class="gap-number">${item.gapId}</span>
-                                    <span>${item.text}</span>
-                                    <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
-                                        onchange="saveAns('listening','${qId}',this.value)" 
-                                        placeholder="..." style="min-width:150px;">
-                                    ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
-                                </p>`;
-                            } else if (item.type === 'html') {
-                                html += `<div class="form-html">${item.text}</div>`;
-                            }
-                        });
+                        if (Array.isArray(sub.formContent)) {
+                            sub.formContent.forEach(item => {
+                                if (item.type === 'heading') {
+                                    html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
+                                } else if (item.type === 'item' || item.type === 'text') {
+                                    html += `<p style="margin:8px 0;line-height:1.6;">• ${item.text}</p>`;
+                                } else if (item.type === 'item-gap') {
+                                    const qId = `L-${pIdx}-${item.gapId}`;
+                                    const ans = state.answers.listening[qId] || '';
+                                    html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+                                        <span class="gap-number">${item.gapId}</span>
+                                        <span>${item.text}</span>
+                                        <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
+                                            onchange="saveAns('listening','${qId}',this.value)" 
+                                            placeholder="..." style="min-width:150px;">
+                                        ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
+                                    </p>`;
+                                } else if (item.type === 'html') {
+                                    html += `<div class="form-html">${item.text}</div>`;
+                                }
+                            });
+                        } else if (typeof sub.formContent === 'string') {
+                            html += `<div class="form-html">${sub.formContent}</div>`;
+                        }
                         html += `</div>`;
                     }
 
@@ -6617,6 +6668,7 @@
 
             html += `</div>`;
             moduleContainer.innerHTML = html;
+            bindListeningFormHtmlInputs(pIdx);
 
             // For listening module: Audio plays sequentially, independent of which section user is viewing
             // Only start audio playback on first render (Section 1) or when audio advances
@@ -7826,12 +7878,13 @@
             q.scrollIntoView({ behavior: 'smooth', block: 'start' });
             fmUpdatePartIndicator(i);
 
-            const promptText = fmQ('.fm-prompt', q)?.innerText?.trim() || '';
+            const questionData = state.currentTestData?.questions?.[i] || null;
+            const promptText = questionData?.prompt || fmQ('.fm-prompt', q)?.innerText?.trim() || '';
 
             // For Q1 (first question), show Part 1 intro first
             if (i === 0) {
                 fmShowPartIntro('part1', () => {
-                    speakText(promptText).then(() => {
+                    speakText(promptText, i).then(() => {
                         fmStartTimers(i);
                     });
                 });
@@ -7839,7 +7892,7 @@
             }
 
             // For all other questions, just read and start timers
-            speakText(promptText).then(() => {
+            speakText(promptText, i).then(() => {
                 fmStartTimers(i);
             });
         }
@@ -7951,15 +8004,38 @@
         }
 
         // Play cached audio from batch TTS
-        function speakText(text) {
+        function speakText(text, questionIndex = null) {
             return new Promise(async (resolve) => {
                 try {
                     const questions = state.currentTestData?.questions || [];
+                    let question = null;
+
+                    if (Number.isInteger(questionIndex) && questionIndex >= 0 && questionIndex < questions.length) {
+                        question = questions[questionIndex];
+                    }
+
+                    // Always try pre-recorded question audio first.
+                    if (question?.audioFile) {
+                        const played = await playAudioFile(question.audioFile);
+                        if (played) {
+                            resolve();
+                            return;
+                        }
+                        console.warn('[Audio] Pre-recorded question playback failed, using fallback');
+                    }
+
                     let cacheKey = null;
-                    for (let i = 0; i < questions.length; i++) {
-                        const q = questions[i];
-                        const qText = q.prompt || q.text || q.question || '';
-                        if (qText === text) { cacheKey = `q${i + 1}`; break; }
+                    if (question) {
+                        cacheKey = `q${questionIndex + 1}`;
+                    } else {
+                        for (let i = 0; i < questions.length; i++) {
+                            const q = questions[i];
+                            const qText = q.prompt || q.text || q.question || '';
+                            if (qText === text) {
+                                cacheKey = `q${i + 1}`;
+                                break;
+                            }
+                        }
                     }
 
                     // Wait briefly for GTTS if it's still loading (first question safety)
@@ -8012,9 +8088,9 @@
                 audio.volume = 1.0;
                 currentSpeakingAudio = audio;
                 currentSpeakingResolve = resolve;
-                audio.onended = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(); };
-                audio.onerror = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(); };
-                audio.play().catch(() => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(); });
+                audio.onended = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(true); };
+                audio.onerror = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(false); };
+                audio.play().catch(() => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(false); });
             });
         }
 
@@ -8027,80 +8103,50 @@
         async function fetchSpeakingTTS() {
             // Prevent double preloading
             if (gttsPreloadComplete || isGTTSPreloading) {
-                console.log('🔄 GTTS preload already complete or in progress, skipping...');
+                console.log('🔄 Audio preload already complete or in progress, skipping...');
                 return true;
             }
 
             const questions = state.currentTestData?.questions || [];
-            console.log('[TTS] Starting batch TTS for', questions.length, 'questions');
+            const withAudio = questions.filter(q => q.audioFile);
+            const totalItems = withAudio.length;
+            if (totalItems === 0) return true;
+
+            console.log(`[Audio] Preloading ${totalItems} pre-recorded question audio files...`);
 
             const modal = document.getElementById('audioPreloadModal');
             const progressText = document.getElementById('preloadProgress');
             const progressBar = document.getElementById('preloadProgressBar');
             const statusText = document.getElementById('preloadStatus');
 
-            const requestBody = {};
-            questions.forEach((q, idx) => {
-                const text = q.prompt || q.text || q.question || '';
-                if (text) requestBody[`q${idx + 1}`] = text;
-            });
-            const totalItems = Object.keys(requestBody).length;
-            if (totalItems === 0) return true;
-
-            console.log(`[TTS] Requesting batch TTS for ${totalItems} items...`);
-
             // Show loading modal
             modal.style.display = 'flex';
             isGTTSPreloading = true;
-            statusText.textContent = 'Connecting to TTS server...';
+            statusText.textContent = 'Loading question audio...';
             progressText.textContent = `0 / ${totalItems}`;
             progressBar.style.width = '0%';
 
             try {
-                statusText.textContent = '🎵 Generating audio files...';
-                progressBar.style.width = '30%';
-
-                const response = await fetch('https://english-server-p7y6.onrender.com/tts/audio', {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody)
-                });
-                if (!response.ok) throw new Error(`TTS server error: ${response.status}`);
-
-                statusText.textContent = '📦 Downloading audio package...';
-                progressBar.style.width = '50%';
-
-                const zipBlob = await response.blob();
-                console.log(`📦 Received ZIP file: ${zipBlob.size} bytes`);
-
-                statusText.textContent = '📂 Extracting audio files...';
-                progressBar.style.width = '70%';
-
-                if (typeof JSZip === 'undefined') {
-                    await new Promise((resolve, reject) => {
-                        const script = document.createElement('script');
-                        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
-                        script.onload = resolve; script.onerror = reject;
-                        document.head.appendChild(script);
-                    });
-                }
-                const zip = await JSZip.loadAsync(zipBlob);
                 let loaded = 0;
-                for (const [filename, zipEntry] of Object.entries(zip.files)) {
-                    if (filename.endsWith('.mp3')) {
-                        const key = filename.replace('.mp3', '');
-                        gttsAudioCache[key] = await zipEntry.async('blob');
-                        loaded++;
 
-                        // Update progress
-                        const percent = 70 + Math.round((loaded / totalItems) * 30);
-                        progressText.textContent = `${loaded} / ${totalItems}`;
-                        progressBar.style.width = `${percent}%`;
-                        statusText.textContent = `🎵 Extracted: ${key}`;
-
-                        console.log(`✅ Audio cached: ${key} (${gttsAudioCache[key].size} bytes)`);
+                for (let idx = 0; idx < questions.length; idx++) {
+                    const q = questions[idx];
+                    if (!q.audioFile) continue;
+                    try {
+                        const resp = await fetch(q.audioFile);
+                        if (resp.ok) {
+                            gttsAudioCache[`q${idx + 1}`] = await resp.blob();
+                            loaded++;
+                            const pct = Math.round((loaded / totalItems) * 100);
+                            progressText.textContent = `${loaded} / ${totalItems}`;
+                            progressBar.style.width = `${pct}%`;
+                            statusText.textContent = `🎵 Loaded Q${idx + 1}`;
+                            console.log(`✅ Audio cached: q${idx + 1}`);
+                        }
+                    } catch (e) {
+                        console.warn(`⚠️ Failed to preload Q${idx + 1}:`, e);
                     }
                 }
-                if (loaded === 0) throw new Error('No audio files in ZIP');
 
                 progressBar.style.width = '100%';
                 statusText.textContent = `✅ All ${loaded} audio files ready!`;
@@ -8112,11 +8158,11 @@
                 isGTTSPreloading = false;
                 gttsPreloadComplete = true;
 
-                console.log(`[TTS] Batch complete! Cached ${loaded} files`, Object.keys(gttsAudioCache));
+                console.log(`✅ Audio preloading complete! Cached ${loaded} files`, Object.keys(gttsAudioCache));
                 return true;
             } catch (error) {
-                console.error('[TTS] Batch TTS failed:', error);
-                statusText.textContent = '⚠️ TTS unavailable, using browser voice';
+                console.error('Audio preloading failed:', error);
+                statusText.textContent = '⚠️ Audio preload failed, using browser voice';
 
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 modal.style.display = 'none';
@@ -8303,9 +8349,7 @@
 
                 // From formContent (gap-fill)
                 if (part.formContent) {
-                    part.formContent.forEach(item => {
-                        if (item.gapId) questionIds.push(item.gapId);
-                    });
+                    questionIds.push(...getGapIdsFromFormContent(part.formContent));
                 }
 
                 // From subParts (mixed sections)
@@ -8313,9 +8357,7 @@
                     part.subParts.forEach(sub => {
                         // Gap-fill form inside subParts
                         if (sub.formContent) {
-                            sub.formContent.forEach(item => {
-                                if (item.gapId) questionIds.push(item.gapId);
-                            });
+                            questionIds.push(...getGapIdsFromFormContent(sub.formContent));
                         }
                         // Table completion inside subParts
                         if (sub.rows) {
@@ -9313,9 +9355,9 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                     const answers = part.answers || {};
                     let questionIds = [];
 
-                    if (part.formContent) part.formContent.forEach(item => { if (item.gapId) questionIds.push(item.gapId); });
+                    if (part.formContent) questionIds.push(...getGapIdsFromFormContent(part.formContent));
                     if (part.subParts) part.subParts.forEach(sub => {
-                        if (sub.formContent) sub.formContent.forEach(item => { if (item.gapId) questionIds.push(item.gapId); });
+                        if (sub.formContent) questionIds.push(...getGapIdsFromFormContent(sub.formContent));
                         if (sub.rows) sub.rows.forEach(row => row.forEach(cell => { if (typeof cell === 'object' && cell.gapId) questionIds.push(cell.gapId); }));
                         if (sub.extracts) sub.extracts.forEach(ext => { if (ext.questions) ext.questions.forEach(q => questionIds.push(q.id)); });
                         if (sub.questions) sub.questions.forEach(q => questionIds.push(q.id));

@@ -1,0 +1,730 @@
+window.CEFR_READING_TEST = {
+    "testInfo": {
+        "title": "CEFR B1-B2-C1 Reading Test 19",
+        "totalQuestions": 35,
+        "totalTime": 60,
+        "parts": 5,
+        "level": "B1-B2-C1"
+    },
+    "parts": [
+        {
+            "partNumber": 1,
+            "title": "Part 1",
+            "type": "gap-fill-text",
+            "questionRange": "1-8",
+            "instruction": "Read the text. Fill in each gap with ONE word. You must use a word which is somewhere in the rest of the text.",
+            "passage": {
+                "title": "Fire Crews Hunt Escaped Hamster",
+                "content": "<p>Eight firefighters have been called in to help find an escaped hamster. Two crews used a chocolate-covered camera and a vacuum cleaner to try and locate the missing <span class=\"gap\" data-gap=\"1\">_____(1)_____</span>, called Fudgie, at the home of a six-year-old girl in Dunbar, Scotland.</p><p>The girl's mother said: 'We came down for breakfast and discovered Fudgie had opened the top lid of her cage and had made her way into the kitchen and we think she has gone through a small hole in the floor.'</p><p>The fire crews spent five hours trying to recover the pet after it ran down a hole in the kitchen floor. But, the hamster still refused to come out of the <span class=\"gap\" data-gap=\"2\">_____(2)_____</span>.</p><p>In the search for <span class=\"gap\" data-gap=\"3\">_____(3)_____</span>, the firefighters took the family cooker and gas pipes apart. They also dropped a mini-camera coated with chocolate under the floorboards. They then hoped to take out the hamster using a vacuum cleaner. Despite all their efforts, they failed to find Fudgie.</p><p>In the end, the <span class=\"gap\" data-gap=\"4\">_____(4)_____</span> put another camera down the hole and left it under the floorboards, connected to the screen of the family home computer, to see if Fudgie appeared. Besides, the <span class=\"gap\" data-gap=\"5\">_____(5)_____</span> and her parents regularly dropped food through the <span class=\"gap\" data-gap=\"6\">_____(6)_____</span> for the <span class=\"gap\" data-gap=\"7\">_____(7)_____</span>.</p><p>At last, after eight days the hamster returned to her cage safe and sound. She crawled from the hole in the kitchen floor early in the morning. It was the girl's father who first found Fudgie and locked the runaway hamster.</p><p>The girl said that day it was like Christmas morning for her. Her parents added that they too felt extremely happy when Fudgie had finally <span class=\"gap\" data-gap=\"8\">_____(8)_____</span>.</p>"
+            },
+            "questions": [
+                {
+                    "id": 1,
+                    "hint": "locate the missing _____"
+                },
+                {
+                    "id": 2,
+                    "hint": "refused to come out of the _____"
+                },
+                {
+                    "id": 3,
+                    "hint": "In the search for _____"
+                },
+                {
+                    "id": 4,
+                    "hint": "the _____ put another camera"
+                },
+                {
+                    "id": 5,
+                    "hint": "the _____ and her parents"
+                },
+                {
+                    "id": 6,
+                    "hint": "dropped food through the _____"
+                },
+                {
+                    "id": 7,
+                    "hint": "for the _____"
+                },
+                {
+                    "id": 8,
+                    "hint": "Fudgie had finally _____"
+                }
+            ],
+            "answers": {
+                "1": [
+                    "hamster"
+                ],
+                "2": [
+                    "hole"
+                ],
+                "3": [
+                    "Fudgie"
+                ],
+                "4": [
+                    "firefighters"
+                ],
+                "5": [
+                    "girl"
+                ],
+                "6": [
+                    "hole"
+                ],
+                "7": [
+                    "hamster"
+                ],
+                "8": [
+                    "returned"
+                ]
+            },
+            "explanations": {
+                "q1": {
+                    "text": "The passage introduces the topic as 'Eight firefighters have been called in to help find an escaped hamster.'",
+                    "quote": "Eight firefighters have been called in to help find an escaped hamster."
+                },
+                "q2": {
+                    "text": "The sentence states that the hamster 'ran down a hole in the kitchen floor' and then 'refused to come out of the hole'.",
+                    "quote": "But, the hamster still refused to come out of the hole."
+                },
+                "q3": {
+                    "text": "The firefighters are searching for the hamster, whose name is Fudgie.",
+                    "quote": "In the search for Fudgie, the firefighters took the family cooker and gas pipes apart."
+                },
+                "q4": {
+                    "text": "The firefighters are the ones who are trying to locate the hamster using various methods, including cameras.",
+                    "quote": "In the end, the firefighters put another camera down the hole and left it under the floorboards"
+                },
+                "q5": {
+                    "text": "The girl is the owner of the hamster, and the sentence refers to her and her parents.",
+                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                },
+                "q6": {
+                    "text": "The girl and her parents are dropping food through the hole to try and lure the hamster out.",
+                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                },
+                "q7": {
+                    "text": "The food is being dropped for the hamster, Fudgie, who is hiding in the hole.",
+                    "quote": "Besides, the girl and her parents regularly dropped food through the hole for the hamster."
+                },
+                "q8": {
+                    "text": "The passage describes the hamster's return after being lost for eight days.",
+                    "quote": "Her parents added that they too felt extremely happy when Fudgie had finally returned."
+                }
+            }
+        },
+        {
+            "partNumber": 2,
+            "title": "Part 2",
+            "type": "matching",
+            "questionRange": "9-13",
+            "instruction": "The people all want to attend a course. Read the descriptions of eight courses. Decide which course would be the most suitable for each person. For Questions 9-13, select the best course.",
+            "statementsFirst": false,
+            "statements": [
+                {
+                    "letter": "A",
+                    "text": "Form and Colour. This is year-long course is perfect for people who want to learn about how to use a camera and who want to take it up as a profession. Students will learn how to use light and shade, colour and different shapes. The course will also teach students to change their work using computer technology. Tips will be given on how best to get started in the profession."
+                },
+                {
+                    "letter": "B",
+                    "text": "Practice makes Perfect. Learn about how to use computer software to make your work life easier. This course is designed for people who use computers regularly as part of their career, but who feel they are unable to make the most of the technology. Learn about new software for storing documents and photographs and keeping records. This evening class runs for ten weeks from September to December."
+                },
+                {
+                    "letter": "C",
+                    "text": "Armchair Explorer. This is a series of daytime lectures by people who have lived and worked in wild places. Each of the six talks will focus on a different continent. Lecturers will show photographs of the animals and plants, and explain why they are only found in one area. Lecturers will include Leo Holland, a scientist from the Antarctic project, and Milly Oliphant, who researches birds in the Amazon rainforest. Tea and Biscuits provided."
+                },
+                {
+                    "letter": "D",
+                    "text": "Art Starter. Are you interested in a career in art? If so, this full-time, eight-week course will be perfect for you. Learn about different methods used by artists, including painting, drawing, photography and computer design. Artists will create work for an exhibition which will be displayed in the Town Hall for one month in September. Top businessmen and women from the design industry will be invited to attend the exhibition, so this could be a great start to your career!"
+                },
+                {
+                    "letter": "E",
+                    "text": "Wild Design. Whether you want a career in art, or you just want to enjoy your hobby, this holiday course is for you. Wild Design is a two-week summer course situated on the wild coast of South Wales. We teach all kinds of art, including photography and painting, and the wild sea, beautiful flowers and great wildlife will definitely give you lots of creative ideas. Even if you already have a good understanding of art, you are sure to learn something new from our team of professional tutors."
+                },
+                {
+                    "letter": "F",
+                    "text": "Explore your Imagination. Do you want to show your friends a photograph of you beside the Egyptian pyramids or in the jungles of Borneo? Well now you can tell your friends that you have travelled the world without actually leaving the country! Join this evening class and learn how to use the latest technology and software to change photographs to a professional standard. You will also learn how to make your own computer designs using the computer programmes used by professionals."
+                },
+                {
+                    "letter": "G",
+                    "text": "Technology for You. Do you feel as if everyone is using a computer except you? Join in this five-day course and learn the basics. You'll learn how to store your personal files, send emails and use simple programmes to write and print letters. In the afternoons you will have the choice of either learning how to make Birthday Cards and other designs on a computer, or you can join our 'Basic computers for Work' class."
+                },
+                {
+                    "letter": "H",
+                    "text": "Wildlife Photographer. Travel to a different wild place every week and learn how to take photographs of animals, plants and scenery. Our expert teachers will advise you how to take the best pictures. This course will run for six weeks on Saturdays. Students should already have a good understanding of photography and their own equipment. The class is suitable for everyone, as there is very little walking involved."
+                }
+            ],
+            "texts": [
+                {
+                    "number": 9,
+                    "title": "Person 9",
+                    "content": "Harriet is 71, and is interested in painting and drawing. She would like to go somewhere in the summer where she can learn new tips and paint attractive scenery."
+                },
+                {
+                    "number": 10,
+                    "title": "Person 10",
+                    "content": "Belinda works for a large Art Company and she feels she needs to improve her computer skills. She already has a basic understanding of some common computer programmes, but she wants to learn how to organise her work and store information."
+                },
+                {
+                    "number": 11,
+                    "title": "Person 11",
+                    "content": "Jenny is interested in a career in design, and wants to learn how to create art and change photographs using special computer programmes. She wants a course that will fit into her normal school day."
+                },
+                {
+                    "number": 12,
+                    "title": "Person 12",
+                    "content": "George is unable to travel because he has difficulty walking, but he wants to learn more about the wildlife and scenery in different parts of the world."
+                },
+                {
+                    "number": 13,
+                    "title": "Person 13",
+                    "content": "Chris wants a change in career, so he's looking for a full-time course in which he can learn everything there is to know about photography and how to use computers to change and sell his work."
+                }
+            ],
+            "questions": [
+                {
+                    "id": 9,
+                    "textNumber": 9
+                },
+                {
+                    "id": 10,
+                    "textNumber": 10
+                },
+                {
+                    "id": 11,
+                    "textNumber": 11
+                },
+                {
+                    "id": 12,
+                    "textNumber": 12
+                },
+                {
+                    "id": 13,
+                    "textNumber": 13
+                }
+            ],
+            "answers": {
+                "9": [
+                    "E"
+                ],
+                "10": [
+                    "B"
+                ],
+                "11": [
+                    "F"
+                ],
+                "12": [
+                    "C"
+                ],
+                "13": [
+                    "A"
+                ]
+            },
+            "extraStatements": [
+                "D",
+                "G",
+                "H"
+            ],
+            "explanations": {
+                "q9": {
+                    "text": "Option E, Wild Design, is a two-week summer course situated on the wild coast of South Wales. It teaches all kinds of art, including photography and painting, and the wild sea, beautiful flowers and great wildlife will definitely give you lots of creative ideas.",
+                    "quote": "Wild Design is a two-week summer course situated on the wild coast of South Wales. We teach all kinds of art, including photography and painting, and the wild sea, beautiful flowers and great wildlife will definitely give you lots of creative ideas."
+                },
+                "q10": {
+                    "text": "Option B, Practice makes Perfect, is designed for people who use computers regularly as part of their career, but who feel they are unable to make the most of the technology. It teaches about new software for storing documents and photographs and keeping records.",
+                    "quote": "This course is designed for people who use computers regularly as part of their career, but who feel they are unable to make the most of the technology. Learn about new software for storing documents and photographs and keeping records."
+                },
+                "q11": {
+                    "text": "Option F, Explore your Imagination, teaches how to use the latest technology and software to change photographs to a professional standard and how to make your own computer designs using the computer programmes used by professionals.",
+                    "quote": "Join this evening class and learn how to use the latest technology and software to change photographs to a professional standard. You will also learn how to make your own computer designs using the computer programmes used by professionals."
+                },
+                "q12": {
+                    "text": "Option C, Armchair Explorer, is a series of daytime lectures by people who have lived and worked in wild places. Each of the six talks will focus on a different continent. Lecturers will show photographs of the animals and plants, and explain why they are only found in one area.",
+                    "quote": "This is a series of daytime lectures by people who have lived and worked in wild places. Each of the six talks will focus on a different continent. Lecturers will show photographs of the animals and plants, and explain why they are only found in one area."
+                },
+                "q13": {
+                    "text": "Option A, Form and Colour, is a year-long course perfect for people who want to learn about how to use a camera and who want to take it up as a profession. Students will learn how to use light and shade, colour and different shapes.",
+                    "quote": "This is year-long course is perfect for people who want to learn about how to use a camera and who want to take it up as a profession. Students will learn how to use light and shade, colour and different shapes."
+                }
+            }
+        },
+        {
+            "partNumber": 3,
+            "title": "Part 3",
+            "type": "matching-headings",
+            "questionRange": "14-21",
+            "instruction": "Read the text and choose the correct heading for each paragraph from the list of headings below. There are more headings than paragraphs, so you will not use all of them. You cannot use any heading more than once.",
+            "headings": [
+                {
+                    "text": "Failing relationships and negative feelings",
+                    "letter": "1"
+                },
+                {
+                    "text": "Winning the lottery may not make you happier",
+                    "letter": "2"
+                },
+                {
+                    "text": "What is Hedonic Adaptation?",
+                    "letter": "3"
+                },
+                {
+                    "text": "Philanthropy benefits the giver",
+                    "letter": "4"
+                },
+                {
+                    "text": "Wealth management issues",
+                    "letter": "5"
+                },
+                {
+                    "text": "Spend your winnings wisely",
+                    "letter": "6"
+                },
+                {
+                    "text": "What you do, not what you buy",
+                    "letter": "7"
+                },
+                {
+                    "text": "Behavioral Changes",
+                    "letter": "8"
+                },
+                {
+                    "text": "Case of Lisa Arcand",
+                    "letter": "9"
+                }
+            ],
+            "closingParagraph": "While having money does make us happy today, it doesn't guarantee our happiness in the long-run. Thanks to hedonic adaptation, we get used to the emotions that we feel but we can get around it by making every penny count – not on materialistic things – but on experiences and by giving back to the community.",
+            "questions": [
+                {
+                    "id": 14,
+                    "paragraphLetter": "A"
+                },
+                {
+                    "id": 15,
+                    "paragraphLetter": "B"
+                },
+                {
+                    "id": 16,
+                    "paragraphLetter": "C"
+                },
+                {
+                    "id": 17,
+                    "paragraphLetter": "D"
+                },
+                {
+                    "id": 18,
+                    "paragraphLetter": "E"
+                },
+                {
+                    "id": 19,
+                    "paragraphLetter": "F"
+                },
+                {
+                    "id": 20,
+                    "paragraphLetter": "G"
+                },
+                {
+                    "id": 21,
+                    "paragraphLetter": "H"
+                }
+            ],
+            "answers": {
+                "14": [
+                    "3"
+                ],
+                "15": [
+                    "2"
+                ],
+                "16": [
+                    "5"
+                ],
+                "17": [
+                    "1"
+                ],
+                "18": [
+                    "8"
+                ],
+                "19": [
+                    "6"
+                ],
+                "20": [
+                    "7"
+                ],
+                "21": [
+                    "4"
+                ]
+            },
+            "extraHeadings": [
+                "9"
+            ],
+            "explanations": {
+                "q14": {
+                    "text": "Paragraph C discusses the case of Lisa Arcand, who won $1 million in 2004.",
+                    "quote": "Take for example the case of Lisa Arcand from Massachusetts. She won $1 million in 2004"
+                },
+                "q15": {
+                    "text": "Paragraph B mentions that winning the lottery would make you happy but only for a short period of time.",
+                    "quote": "Piecing together this information, winning the lottery would make you happy but only for a short period of time."
+                },
+                "q16": {
+                    "text": "Paragraph E describes a study by Paul Piff at UC Berkeley Campus.",
+                    "quote": "A study conducted by social-psychologist Paul Piff at the UC Berkeley Campus in California, proves that gaining wealth can actually change our behaviour drastically."
+                },
+                "q17": {
+                    "text": "Paragraph A introduces the concept of hedonic adaptation.",
+                    "quote": "This is partially due to a phenomenon called hedonic adaptation or the hedonic treadmill."
+                },
+                "q18": {
+                    "text": "Paragraph F is the concluding paragraph.",
+                    "quote": "Winning the lottery will make you happy but thanks to hedonic adaptation, it won't last."
+                },
+                "q19": {
+                    "text": "Paragraph D discusses how winning the lottery can be an isolating experience.",
+                    "quote": "Aside from difficulty in managing finances, winning the lottery can be an isolating experience."
+                },
+                "q20": {
+                    "text": "Paragraph E mentions that some lottery winners become greedier.",
+                    "quote": "While the constant fear of losing everything can haunt lottery winners, some even become greedier than they were before winning."
+                },
+                "q21": {
+                    "text": "Paragraph C provides examples of lottery winners who made poor financial decisions.",
+                    "quote": "Janite Lee, Willie Hurt, and Lou Eisenberg, are just some of the many names that have won the lottery but went from rags to riches and back to rags because of poor financial decisions."
+                }
+            },
+            "passage": {
+                "title": "",
+                "paragraphs": [
+                    {
+                        "number": "A",
+                        "questionId": 14,
+                        "content": "This is partially due to a phenomenon called hedonic adaptation or the hedonic treadmill. This describes our tendency to become used to the happiness after experiencing it for the first time. For example, landing the job that you have always wanted may give you happiness but the thrill wears off after a certain period of time. Though it may sound a little bit counterintuitive, hedonic adaptation helps us maintain a steady and emotional equilibrium which makes us less sensitive to any changes including negative events. This phenomenon allows us to revert back to our default emotional state after experiencing high levels of emotion whether good or bad."
+                    },
+                    {
+                        "number": "B",
+                        "questionId": 15,
+                        "content": "Piecing together this information, winning the lottery would make you happy but only for a short period of time. After getting used to the luxuries of having enough funds for grandiose homes, better food, and nicer clothes, we go back to how we used to feel before we won the prize. Therefore, winning the lottery doesn't guarantee happiness, in fact, lottery winners even reported being unhappy after they have won the prize."
+                    },
+                    {
+                        "number": "C",
+                        "questionId": 16,
+                        "content": "One of the reasons why this is so is because large sums of money can be a lot to manage. Take for example the case of Lisa Arcand from Massachusetts. She won $1 million in 2004 and like all winners, she went on lavish vacations and bought a nice house. However, a million dollars isn't much for taxes; she even opened a restaurant to keep the cash flowing but to no avail, losing everything in 2007. Another example is Michael Caroll who turned from lottery winner to factory worker, even after winning £9.7 million in 2002. Janite Lee, Willie Hurt, and Lou Eisenberg, are just some of the many names that have won the lottery but went from rags to riches and back to rags because of poor financial decisions."
+                    },
+                    {
+                        "number": "D",
+                        "questionId": 17,
+                        "content": "Aside from difficulty in managing finances, winning the lottery can be an isolating experience. Unwanted attention and unwanted requests for money from peers can make us paranoid and anxious. Eventually, lottery winners wind up cutting themselves from others because of the fear of being used as a just a source of money than a source of friendship."
+                    },
+                    {
+                        "number": "E",
+                        "questionId": 18,
+                        "content": "While the constant fear of losing everything can haunt lottery winners, some even become greedier than they were before winning. A study conducted by social-psychologist Paul Piff at the UC Berkeley Campus in California, proves that gaining wealth can actually change our behaviour drastically. Using a rigged game of Monopoly, Piff chose a player at random to play the game at a certain advantage such as more starting money, and better ability to move around the board. In just after 15 minutes, the advantaged players displayed dramatic change in behaviour including forceful movement of boardgame pieces, speaking louder, and even minute things such as eating more snacks compared to other players."
+                    },
+                    {
+                        "number": "F",
+                        "questionId": 19,
+                        "content": "Winning the lottery will make you happy but thanks to hedonic adaptation, the thrill and excitement of spending all that cash won't last long. While most of us would indulge in a fabulous lifestyle after winning, there are ways that winning the lottery can make us happier than having the latest supercar in your garage. It's that old saying it's not what you have, but what you do that counts. The key to happiness, it seems, is to invest in experiences. Think carefully before you start spending."
+                    },
+                    {
+                        "number": "G",
+                        "questionId": 20,
+                        "content": "Having a lot of money can open new opportunities for us to enjoy life more than just having expensive things. With hedonic adaptation embedded in our systems, finding what really guarantees happiness can be a hurdle on the way. However, findings show that people tend to adapt faster to extrinsic and material things than we do on experience. Travelling, exploring, and even learning a new skill, gives us more gratification than having the latest clothes from your favourite designer or luxury brand. Therefore, investing in experiences makes us happier than investing in things."
+                    },
+                    {
+                        "number": "H",
+                        "questionId": 21,
+                        "content": "Another thing that would help you convert your money into happiness is through charity. Believe it or not, giving others provides more happiness than spending it on yourself. A study by the University of British Columbia and Harvard Business School proved that spending more on others provides more happiness than spending it on yourself. Participants were asked to spend money however they wish, be it on themselves or unto others. Afterwards, a survey was conducted to rate their level of happiness. The group who donated their money to charity feel happier than those who spent it on themselves."
+                    }
+                ]
+            }
+        },
+        {
+            "partNumber": 4,
+            "title": "Part 4",
+            "type": "reading-comprehension",
+            "questionRange": "22-30",
+            "instruction": "Read the following text for questions 22-30.",
+            "passage": {
+                "title": "Britain needs strong TV industry",
+                "content": "<p>Comedy writer Armando Iannucci has called for an industry-wide defence of the BBC and British programme-makers. \"The Thick of It\" creator made his remarks in the annual MacTaggart Lecture at the Edinburgh TV Festival.</p><p>\"It's more important than ever that we have more strong, popular channels... that act as beacons, drawing audiences to the best content,\" he said. Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC.</p><p><strong>'Champion supporters'</strong></p><p>Iannucci co-wrote \"I'm Alan Partridge\", wrote the movie \"In the Loop\" and created and wrote the hit \"HBO\" and \"Sky Atlantic show Veep\". He delivered the 40th annual MacTaggart Lecture, which has previously been given by Oscar winner Kevin Spacey, former BBC director general Greg Dyke, Jeremy Paxman and Rupert Murdoch. Iannucci said: \"Faced with a global audience, British television needs its champion supporters.\"</p><p>He continued his praise for British programming by saying the global success of American TV shows had come about because they were emulating British television. \"The best US shows are modelling themselves on what used to make British TV so world-beating,\" he said. \"US prime-time schedules are now littered with those quirky formats from the UK - the \"Who Do You Think You Are\"'s and the variants on \"Strictly Come Dancing\" - as well as the single-camera non-audience sitcom, which we brought into the mainstream first. We have changed international viewing for the better.\"</p><p>With the renewal of the BBC's royal charter approaching, Iannucci also praised the corporation. He said: \"If public service broadcasting - one of the best things we've ever done creatively as a country - if it was a car industry, our ministers would be out championing it overseas, trying to win contracts, boasting of the British jobs that would bring.\" In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC, including the broadcaster's size, its funding and governance.</p><p>Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN. Iannucci bemoaned the lack of \"creatives\" involved in the discussions.</p><p>\"When the media, communications and information industries make up nearly 8% our GDP, larger than the car and oil and gas industries put together, we need to be heard, as those industries are heard. But when I see the panel of experts who've been asked by the culture secretary to take a root and branch look at the BBC, I don't see anyone who is a part of that cast and crew list. I see executives, media owners, industry gurus, all talented people - but not a single person who's made a classic and enduring television show.\"</p>"
+            },
+            "questionSections": [
+                {
+                    "type": "tfni",
+                    "questionRange": "22-26",
+                    "instruction": "Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, NOT GIVEN if there is no information on this.",
+                    "options": [
+                        "True",
+                        "False",
+                        "Not Given"
+                    ],
+                    "questions": [
+                        {
+                            "id": 22,
+                            "text": "Armando Iannucci expressed a need of having more popular channels."
+                        },
+                        {
+                            "id": 23,
+                            "text": "John Whittingdale wanted to dismantle the BBC."
+                        },
+                        {
+                            "id": 24,
+                            "text": "Iannucci delivered the 30th annual MacTaggart Lecture."
+                        },
+                        {
+                            "id": 25,
+                            "text": "Iannucci believes that British television has contributed to the success of American TV-shows."
+                        },
+                        {
+                            "id": 26,
+                            "text": "There have been negotiations over the future of the BBC in July."
+                        }
+                    ],
+                    "title": "Questions 22-26: True/False/Not Given"
+                },
+                {
+                    "type": "mcq",
+                    "questionRange": "27-30",
+                    "instruction": "For questions 27-30, choose the correct answer A, B, C, or D.",
+                    "questions": [
+                        {
+                            "id": 27,
+                            "text": "Iannucci praised everything EXCEPT",
+                            "options": [
+                                {
+                                    "letter": "A",
+                                    "text": "US shows"
+                                },
+                                {
+                                    "letter": "B",
+                                    "text": "British shows"
+                                },
+                                {
+                                    "letter": "C",
+                                    "text": "Corporation"
+                                },
+                                {
+                                    "letter": "D",
+                                    "text": "British programming"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 28,
+                            "text": "To advise on the charter renewal Mr Whittingdale appointed a panel of",
+                            "options": [
+                                {
+                                    "letter": "A",
+                                    "text": "five people"
+                                },
+                                {
+                                    "letter": "B",
+                                    "text": "two people"
+                                },
+                                {
+                                    "letter": "C",
+                                    "text": "seven people"
+                                },
+                                {
+                                    "letter": "D",
+                                    "text": "four people"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 29,
+                            "text": "Who of these people was NOT invited to the discussion concerning BBC renewal?",
+                            "options": [
+                                {
+                                    "letter": "A",
+                                    "text": "Armando Iannucci"
+                                },
+                                {
+                                    "letter": "B",
+                                    "text": "Dawn Airey"
+                                },
+                                {
+                                    "letter": "C",
+                                    "text": "John Whittingdale"
+                                },
+                                {
+                                    "letter": "D",
+                                    "text": "Stewart Purvis"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 30,
+                            "text": "The panel of experts lacks:",
+                            "options": [
+                                {
+                                    "letter": "A",
+                                    "text": "media owners"
+                                },
+                                {
+                                    "letter": "B",
+                                    "text": "people who make enduring TV-shows"
+                                },
+                                {
+                                    "letter": "C",
+                                    "text": "gurus of Television industry"
+                                },
+                                {
+                                    "letter": "D",
+                                    "text": "top executives"
+                                }
+                            ]
+                        }
+                    ],
+                    "title": "Questions 27-30: Multiple Choice"
+                }
+            ],
+            "answers": {
+                "22": [
+                    "True"
+                ],
+                "23": [
+                    "False"
+                ],
+                "24": [
+                    "Not Given"
+                ],
+                "25": [
+                    "True"
+                ],
+                "26": [
+                    "False"
+                ],
+                "27": [
+                    "A"
+                ],
+                "28": [
+                    "C"
+                ],
+                "29": [
+                    "A"
+                ],
+                "30": [
+                    "B"
+                ]
+            },
+            "explanations": {
+                "q22": {
+                    "text": "Iannucci stated that 'It's more important than ever that we have more strong, popular channels... that act as beacons, drawing audiences to the best content'.",
+                    "quote": "\"It's more important than ever that we have more strong, popular channels... that act as beacons, drawing audiences to the best content,\" he said."
+                },
+                "q23": {
+                    "text": "The passage states that 'Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC'.",
+                    "quote": "Speaking earlier, Culture Secretary John Whittingdale rejected suggestions that he wanted to dismantle the BBC."
+                },
+                "q24": {
+                    "text": "The passage mentions that Iannucci delivered the 40th annual MacTaggart Lecture, not the 30th.",
+                    "quote": "He delivered the 40th annual MacTaggart Lecture, which has previously been given by Oscar winner Kevin Spacey, former BBC director general Greg Dyke, Jeremy Paxman and Rupert Murdoch."
+                },
+                "q25": {
+                    "text": "Iannucci said that 'The best US shows are modelling themselves on what used to make British TV so world-beating'.",
+                    "quote": "\"The best US shows are modelling themselves on what used to make British TV so world-beating,\" he said."
+                },
+                "q26": {
+                    "text": "The passage states that 'In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC'. This means the negotiations were planned, not necessarily completed.",
+                    "quote": "In July, the government issued a green paper setting out issues that will be explored during negotiations over the future of the BBC, including the broadcaster's size, its funding and governance."
+                },
+                "q27": {
+                    "text": "Iannucci praised British shows, the corporation, and British programming. He did not explicitly praise US shows, but rather stated that they were emulating British television.",
+                    "quote": "He continued his praise for British programming by saying the global success of American TV shows had come about because they were emulating British television."
+                },
+                "q28": {
+                    "text": "The passage states that Mr. Whittingdale 'invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis'. Adding these two to the original panel of five makes a total of seven.",
+                    "quote": "Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN."
+                },
+                "q29": {
+                    "text": "The passage mentions that Dawn Airey and Stewart Purvis were invited to the discussion. While John Whittingdale is the one who invited them, Armando Iannucci bemoaned the lack of 'creatives' involved in the discussions, implying he was not invited.",
+                    "quote": "Primarily Mr Whittingdale wanted to appoint a panel of five people, but finally he invited two more people to advise on the charter renewal, namely former Channel 4 boss Dawn Airey and journalism professor Stewart Purvis, a former editor-in-chief of ITN. Iannucci bemoaned the lack of \"creatives\" involved in the discussions."
+                },
+                "q30": {
+                    "text": "Iannucci stated that he didn't see 'a single person who's made a classic and enduring television show' on the panel.",
+                    "quote": "\"But when I see the panel of experts who've been asked by the culture secretary to take a root and branch look at the BBC, I don't see anyone who is a part of that cast and crew list. I see executives, media owners, industry gurus, all talented people - but not a single person who's made a classic and enduring television show.\""
+                }
+            }
+        },
+        {
+            "partNumber": 5,
+            "title": "Part 5",
+            "type": "reading-comprehension",
+            "questionRange": "31-35",
+            "instruction": "Read the text below and answer Questions 31-35.",
+            "passage": {
+                "title": "'Don't be modest'",
+                "content": "<p>Iannucci suggested one way of easing the strain on the licence fee was \"by pushing ourselves more commercially abroad\".</p><p>\"Use the BBC's name, one of the most recognised brands in the world,\" he said. \"And use the reputation of British television across all networks, to capitalise financially oversees. Be more aggressive in selling our shows, through advertising, through proper international subscription channels, freeing up BBC Worldwide to be fully commercial, whatever it takes.</p><p>\"Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value.\"</p><p>Mr Whittingdale, who was interviewed by ITV News' Alastair Stewart at the festival, said he wanted an open debate about whether the corporation should do everything it has done in the past. He said he had a slight sense that people who rushed to defend the BBC were \"trying to have an argument that's never been started\".</p><p>\"Whatever my view is, I don't determine what programmes the BBC should show,\" he added. \"That's the job of the BBC.\" Mr Whittingdale said any speculation that the Conservative Party had always wanted to change the BBC due to issues such as its editorial line was \"absolute nonsense\".</p>"
+            },
+            "questionSections": [
+                {
+                    "type": "gap-fill",
+                    "questionRange": "31-35",
+                    "instruction": "Complete the summary below. Choose NO MORE THAN TWO WORDS from the text for each answer.",
+                    "summaryTitle": "Easing the strain on the licence fees",
+                    "summaryText": "Iannucci recommended increasing BBC's profit by pushing ourselves more <span class=\"gap-input\" data-gap=\"31\">_____(31)_____</span>. He suggests being more aggressive in selling British shows, through advertising and proper international <span class=\"gap-input\" data-gap=\"32\">_____(32)_____</span>. Also, he invokes producers to stop being <span class=\"gap-input\" data-gap=\"33\">_____(33)_____</span> and modest about making money and invest into even <span class=\"gap-input\" data-gap=\"34\">_____(34)_____</span> quality shows. However, Mr Whittingdale denied any <span class=\"gap-input\" data-gap=\"35\">_____(35)_____</span> that the Conservative Party had always wanted to change the BBC because of its editorial line.",
+                    "questions": [
+                        {
+                            "id": 31,
+                            "hint": "pushing ourselves more _____"
+                        },
+                        {
+                            "id": 32,
+                            "hint": "proper international _____"
+                        },
+                        {
+                            "id": 33,
+                            "hint": "stop being _____ and modest"
+                        },
+                        {
+                            "id": 34,
+                            "hint": "invest into even _____ quality shows"
+                        },
+                        {
+                            "id": 35,
+                            "hint": "denied any _____"
+                        }
+                    ],
+                    "title": "Questions 31-35: Summary Completion"
+                }
+            ],
+            "answers": {
+                "31": [
+                    "commercially abroad"
+                ],
+                "32": [
+                    "subscription channels"
+                ],
+                "33": [
+                    "icky"
+                ],
+                "34": [
+                    "more ambitious"
+                ],
+                "35": [
+                    "speculation"
+                ]
+            },
+            "explanations": {
+                "q31": {
+                    "text": "The passage suggests 'pushing ourselves more commercially abroad' as a way to ease the strain on the license fee.",
+                    "quote": "Iannucci suggested one way of easing the strain on the licence fee was \"by pushing ourselves more commercially abroad\"."
+                },
+                "q32": {
+                    "text": "The passage mentions using 'proper international subscription channels' to capitalize financially overseas.",
+                    "quote": "\"And use the reputation of British television across all networks, to capitalise financially oversees. Be more aggressive in selling our shows, through advertising, through proper international subscription channels, freeing up BBC Worldwide to be fully commercial, whatever it takes."
+                },
+                "q33": {
+                    "text": "The passage encourages not being 'icky and modest' about making money.",
+                    "quote": "\"Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
+                },
+                "q34": {
+                    "text": "The passage suggests investing in 'even more ambitious quality shows'.",
+                    "quote": "\"Frankly, don't be icky and modest about making money, let's monetise the bezeesus Mary and Joseph out of our programmes abroad so that money can come back, take some pressure off the licence fee at home and be invested in even more ambitious quality shows, that can only add to our value."
+                },
+                "q35": {
+                    "text": "Mr. Whittingdale denied any 'speculation' that the Conservative Party had always wanted to change the BBC.",
+                    "quote": "Mr Whittingdale said any speculation that the Conservative Party had always wanted to change the BBC due to issues such as its editorial line was \"absolute nonsense\"."
+                }
+            }
+        }
+    ]
+};

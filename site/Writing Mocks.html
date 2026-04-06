@@ -7867,8 +7867,84 @@
         closeMenu();
       });
 
-      // Back action
+      // Back action – context-aware: sub-overlays → finish, finish → landing
       document.getElementById('mobBackBtn').addEventListener('click', () => {
+        closeMenu();
+
+        var myAns = document.getElementById('myAnswersModal');
+        var samplesEl = document.getElementById('samples');
+        var vocabEl = document.getElementById('vocabModal');
+        var aiRes = document.getElementById('aiResultsModal');
+        var dualAiRes = document.getElementById('dualAiResultsModal');
+        var aiDetails = document.getElementById('aiDetailsModal');
+        var paidService = document.getElementById('paidServiceModal');
+        var finishEl = document.getElementById('finish');
+
+        // AI Details (View Details) open → close it
+        if (aiDetails && aiDetails.style.display !== 'none' && aiDetails.style.display !== '') {
+          aiDetails.style.display = 'none';
+          return;
+        }
+
+        // Paid Service (Expert Score) open → close it
+        if (paidService && paidService.classList.contains('show')) {
+          paidService.classList.remove('show');
+          paidService.setAttribute('aria-hidden', 'true');
+          return;
+        }
+
+        // My Answers open → back to finish
+        if (myAns && myAns.classList.contains('show')) {
+          myAns.classList.remove('show');
+          myAns.setAttribute('aria-hidden', 'true');
+          if (window._practiceMode) {
+            var pf = document.getElementById('practiceFinish');
+            if (pf) pf.style.display = 'flex';
+          } else if (finishEl) {
+            finishEl.classList.add('show');
+          }
+          return;
+        }
+
+        // Samples open → back to finish
+        if (samplesEl && samplesEl.classList.contains('show')) {
+          samplesEl.classList.remove('show');
+          samplesEl.setAttribute('aria-hidden', 'true');
+          if (window._practiceFinishWasOpen) {
+            var pf2 = document.getElementById('practiceFinish');
+            if (pf2) pf2.style.display = 'flex';
+            window._practiceFinishWasOpen = false;
+          } else if (finishEl) {
+            finishEl.classList.add('show');
+          }
+          return;
+        }
+
+        // Vocab open → back to finish
+        if (vocabEl && vocabEl.classList.contains('show')) {
+          vocabEl.classList.remove('show');
+          vocabEl.setAttribute('aria-hidden', 'true');
+          if (finishEl) finishEl.classList.add('show');
+          return;
+        }
+
+        // AI Results open → back to finish
+        if (aiRes && aiRes.classList.contains('show')) {
+          aiRes.classList.remove('show');
+          if (finishEl) finishEl.classList.add('show');
+          return;
+        }
+
+        // Dual AI Results open → back to finish
+        if (dualAiRes && dualAiRes.classList.contains('show')) {
+          dualAiRes.classList.remove('show');
+          if (finishEl) finishEl.classList.add('show');
+          return;
+        }
+
+        // Finish or exam → go to landing
+        __okToLeave = true;
+        sessionStorage.setItem('writingMockReturnCategory', 'cefr-writing');
         if (typeof window.goToLanding === 'function') {
           window.goToLanding();
         } else {
@@ -13212,6 +13288,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
             // Format feedback as bullet list
             const formatFeedbackBullets = (text) => {
               if (!text) return '';
+              text = String(text);
               // Split by bullet points and filter empty
               const points = text.split(/[\u2022\u25CF\u25AA\u2023]|(?:^|\s)-\s/).map(p => p.trim()).filter(p => p.length > 0);
               if (points.length <= 1 && !text.includes('\u2022')) {
@@ -13675,6 +13752,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
       var formatFeedbackBullets = function(text) {
         if (!text) return '';
+        text = String(text);
         var points = text.split(/[\u2022\u25CF\u25AA\u2023]|(?:^|\s)-\s/).map(function(p) { return p.trim(); }).filter(function(p) { return p.length > 0; });
         if (points.length <= 1 && text.indexOf('\u2022') < 0) return '<p style="margin:0;font-size:13px;color:#b91c1c;line-height:1.6;text-align:left;">' + text + '</p>';
         return '<ul style="margin:0;padding-left:20px;font-size:13px;color:#b91c1c;line-height:1.8;text-align:left;">' + points.map(function(p) { return '<li style="margin-bottom:4px;text-align:left;">' + p + '</li>'; }).join('') + '</ul>';
@@ -13984,6 +14062,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
               // Format feedback as bullet list
               const formatFeedbackBullets = (text) => {
                 if (!text) return '';
+                text = String(text);
                 const points = text.split(/[\u2022\u25CF\u25AA\u2023]|(?:^|\s)-\s/).map(p => p.trim()).filter(p => p.length > 0);
                 if (points.length <= 1 && !text.includes('\u2022')) {
                   return `<p style="margin:0;font-size:13px;color:#b91c1c;line-height:1.6;text-align:left;">${text}</p>`;

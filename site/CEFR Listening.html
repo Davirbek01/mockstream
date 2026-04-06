@@ -582,7 +582,7 @@
         height: 100%;
         background: rgba(0,0,0,0.4);
         backdrop-filter: blur(2px);
-        z-index: 10000;
+        z-index: 100001;
         display: none;
       }
 
@@ -608,7 +608,7 @@
         flex-direction: column;
         gap: 10px;
         animation: menuAppearCentered 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        z-index: 10001;
+        z-index: 100002;
       }
 
       .mobile-tools-menu.active { display: flex; }
@@ -715,6 +715,22 @@
         border-color: var(--primary);
         box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
       }
+
+      .mobile-tools-menu .cl-fab-back-btn {
+        padding: 9px 0;
+        border-radius: 10px;
+        background: rgba(99, 102, 241, 0.12);
+        border: 2px solid #6366f1;
+        color: #4f46e5;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        display: none;
+      }
+      .mobile-tools-menu .cl-fab-back-btn.visible { display: block; }
+      .mobile-tools-menu .cl-fab-back-btn:active { background: #6366f1; color: #fff; }
 
       .mobile-zoom-btn {
         background: var(--primary-light);
@@ -4173,12 +4189,12 @@
     <div class="transcripts-popup">
       <div class="transcripts-popup-header">
         <div class="transcripts-popup-title">📜 Transcripts & Answer Highlights</div>
+        <button class="transcripts-popup-close" onclick="closeTranscriptsPopup()" title="Close">&times;</button>
       </div>
       <div class="transcripts-popup-tabs" id="transcriptTabs"></div>
       <div class="transcripts-popup-body" id="transcriptBody"></div>
       <div class="transcripts-popup-footer">
         <span>💡 Highlighted lines show where each answer is found in the script</span>
-        <button class="transcripts-popup-close" onclick="closeTranscriptsPopup()" title="Close">&times;</button>
       </div>
     </div>
   </div>
@@ -5270,6 +5286,8 @@
       });
       document.getElementById('resultsBody').innerHTML = resultsHtml;
       document.getElementById('resultsModal').classList.add('active');
+      if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
+      if (typeof resetFabIdle === 'function') resetFabIdle();
 
       // Grey-out Review/TryAgain/Transcripts for regular (non-premium) codes
       (function () {
@@ -5409,6 +5427,8 @@
       document.getElementById('transcriptTabs').innerHTML = tabsHtml;
       document.getElementById('transcriptBody').innerHTML = bodyHtml;
       document.getElementById('transcriptsOverlay').classList.add('active');
+      if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
+      if (typeof resetFabIdle === 'function') resetFabIdle();
     }
 
     function getLegendColor(idx) {
@@ -5432,7 +5452,43 @@
 
     function closeTranscriptsPopup() {
       document.getElementById('transcriptsOverlay').classList.remove('active');
+      if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
     }
+
+    /* ---- FAB Back button helpers (CEFR Listening) ---- */
+    window._clUpdateFabBack = function() {
+      var btn = document.getElementById('clFabBackBtn');
+      if (!btn) return;
+      var transcriptOpen = document.getElementById('transcriptsOverlay') && document.getElementById('transcriptsOverlay').classList.contains('active');
+      var resultsOpen = document.getElementById('resultsModal') && document.getElementById('resultsModal').classList.contains('active');
+      var show = !!(transcriptOpen || resultsOpen);
+      btn.classList.toggle('visible', show);
+      if (show) {
+        var fab = document.getElementById('mobileFab');
+        if (fab) { fab.classList.remove('idle'); clearTimeout(fabIdleTimer); }
+      }
+    };
+
+    window._clFabBack = function() {
+      var transcript = document.getElementById('transcriptsOverlay');
+      var results = document.getElementById('resultsModal');
+      // Close mobile menu first
+      var menu = document.getElementById('mobileToolsMenu');
+      if (menu && menu.classList.contains('active')) toggleMobileMenu();
+      // Transcript open → close it
+      if (transcript && transcript.classList.contains('active')) {
+        closeTranscriptsPopup();
+        return;
+      }
+      // Results overlay → go back to landing
+      if (results && results.classList.contains('active')) {
+        sessionStorage.setItem('listeningMockReturnCategory', 'cefr-listening');
+        window.__okToLeave = true;
+        if (typeof _navToLanding === 'function') _navToLanding();
+        else window.location.href = 'landing.html';
+        return;
+      }
+    };
 
     // Close transcripts popup on overlay click
     document.addEventListener('click', function (e) {
@@ -6040,6 +6096,55 @@
         }
       });
 
+      // Handle map letter buttons (map-labeling questions)
+      _reviewParts.forEach(part => {
+        if (!part.answers || part.type !== 'map-labeling') return;
+        for (const [qId, correctAnswerRaw] of Object.entries(part.answers)) {
+          const correctAnswer = Array.isArray(correctAnswerRaw) ? correctAnswerRaw[0] : correctAnswerRaw;
+          const userAnswer = userAnswers[qId] || '';
+          const isCorrect = matchesAnswer(userAnswer, Array.isArray(correctAnswerRaw) ? correctAnswerRaw : [correctAnswerRaw]);
+
+          // Lock all letter buttons for this question
+          const optionsRow = document.querySelector('.map-letter-options[data-for="' + qId + '"]');
+          if (!optionsRow) continue;
+          optionsRow.querySelectorAll('.map-letter-btn').forEach(btn => {
+            btn.style.pointerEvents = 'none';
+            const letter = btn.dataset.letter;
+            if (letter === correctAnswer) {
+              btn.classList.add('selected');
+              btn.style.cssText = 'pointer-events:none; background:#10b981; color:white; border-color:#10b981; font-weight:700;';
+            } else if (letter === userAnswer && !isCorrect) {
+              btn.style.cssText = 'pointer-events:none; background:#fee2e2; color:#ef4444; border-color:#ef4444; font-weight:700;';
+            } else {
+              btn.style.opacity = '0.4';
+              btn.style.pointerEvents = 'none';
+            }
+          });
+
+          // Update the selected-letter display
+          const selectedDisplay = document.querySelector('.map-selected-letter[data-q="' + qId + '"]');
+          if (selectedDisplay) {
+            if (!userAnswer) {
+              selectedDisplay.textContent = correctAnswer;
+              selectedDisplay.style.cssText = 'color:#92400e; background:#fef3c7; border-color:#f59e0b; font-style:italic;';
+            } else if (isCorrect) {
+              selectedDisplay.style.cssText = 'color:#065f46; background:#dcfce7; border-color:#10b981;';
+            } else {
+              selectedDisplay.style.cssText = 'color:#ef4444; background:#fee2e2; border-color:#ef4444; text-decoration:line-through;';
+              // Add correct answer badge after the question item
+              const questionItem = document.querySelector('.map-question-item[data-q="' + qId + '"]');
+              if (questionItem && !questionItem.querySelector('.correct-answer-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'correct-answer-badge';
+                badge.textContent = '✓ ' + correctAnswer;
+                badge.style.cssText = 'display:inline-block; background:#10b981; color:white; padding:4px 10px; border-radius:6px; font-size:13px; font-weight:600; margin-left:8px;';
+                questionItem.appendChild(badge);
+              }
+            }
+          }
+        }
+      });
+
       // Highlight MCQ options (correct/incorrect)
       document.querySelectorAll('.option-item').forEach(el => {
         const qId = el.dataset.q;
@@ -6131,6 +6236,8 @@
     function restoreResults() {
       document.getElementById('resultsMinPill').classList.remove('visible');
       document.getElementById('resultsModal').classList.add('active');
+      if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
+      if (typeof resetFabIdle === 'function') resetFabIdle();
     }
 
     // Anti-cheat
@@ -7553,6 +7660,10 @@
       if (fab) {
         fab.classList.remove('idle');
         clearTimeout(fabIdleTimer);
+        // Never go idle when a post-test overlay is visible
+        var transcriptOpen = document.getElementById('transcriptsOverlay') && document.getElementById('transcriptsOverlay').classList.contains('active');
+        var resultsOpen = document.getElementById('resultsModal') && document.getElementById('resultsModal').classList.contains('active');
+        if (transcriptOpen || resultsOpen) return;
         if (!document.getElementById('mobileToolsMenu').classList.contains('active')) {
           fabIdleTimer = setTimeout(function () {
             fab.classList.add('idle');
@@ -7593,6 +7704,7 @@
           fab.classList.remove('idle');
           clearTimeout(fabIdleTimer);
           updateMobileMenuStatus();
+          if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
         } else {
           resetFabIdle();
         }
@@ -7611,7 +7723,7 @@
         mobilePartTabs.innerHTML = window.TEST_DATA.parts.map((part, i) => {
           const isActive = i === currentPart;
           return `<div class="part-tab ${isActive ? 'active' : ''}" onclick="showPart(${i}); toggleMobileMenu();">Part ${i + 1}</div>`;
-        }).join('');
+        }).join('') + '<div class="cl-fab-back-btn" id="clFabBackBtn" onclick="window._clFabBack()">↩ Back</div>';
       }
 
       // Sync Zoom Badge

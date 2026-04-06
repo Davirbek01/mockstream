@@ -46,6 +46,7 @@
       color: var(--text);
       font-size: 16px;
       overflow-x: hidden;
+      resize: none;
       scrollbar-width: thin;
       scrollbar-color: rgba(0,0,0,0.15) transparent;
     }
@@ -648,7 +649,10 @@
     }
 
     .collapsible-statements.open .collapsible-content {
-      max-height: 600px;
+      max-height: min(560px, 55vh);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .statements-inner {
@@ -1349,7 +1353,8 @@
     .modal-overlay.minimized .parts-breakdown,
     .modal-overlay.minimized .btn-review,
     .modal-overlay.minimized .btn-tryagain,
-    .modal-overlay.minimized .btn-close {
+    .modal-overlay.minimized .btn-close,
+    .modal-overlay.minimized .btn-expl {
       display: none !important;
     }
     .modal-overlay.minimized .modal-buttons {
@@ -1863,7 +1868,7 @@
       position: fixed;
       right: 22px;
       bottom: calc(22px + env(safe-area-inset-bottom, 0px));
-      z-index: 10050;
+      z-index: 10300;
       flex-direction: column;
       align-items: flex-end;
       gap: 12px;
@@ -1981,7 +1986,7 @@
         position: fixed;
         bottom: 25px;
         right: 25px;
-        z-index: 2000;
+        z-index: 10300;
         flex-direction: column;
         align-items: flex-end;
         gap: 12px;
@@ -2029,7 +2034,7 @@
         flex-direction: column;
         gap: 15px;
         animation: menuAppearCentered 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        z-index: 10001;
+        z-index: 10401;
       }
 
       .mobile-tools-menu.active { display: flex; }
@@ -2039,7 +2044,7 @@
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.4);
-        z-index: 10000;
+        z-index: 10400;
         backdrop-filter: blur(2px);
       }
       .mobile-menu-overlay.active { display: block; }
@@ -2058,11 +2063,6 @@
         gap: 10px;
         width: 100%;
       }
-      .mobile-tools-menu .part-tabs .part-tab:last-child:nth-child(odd) {
-        grid-column: 1 / -1;
-        width: calc(50% - 5px);
-        justify-self: center;
-      }
       
       .mobile-tools-menu .part-tab {
         padding: 12px 10px;
@@ -2080,6 +2080,24 @@
       .mobile-tools-menu .part-tab.active {
         background: var(--primary);
         color: white;
+      }
+
+      .mobile-tools-menu .fab-back-btn {
+        padding: 12px 10px;
+        border-radius: 12px;
+        background: rgba(99, 102, 241, 0.12);
+        border: 2px solid #6366f1;
+        color: #4f46e5;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        display: none;
+      }
+      .mobile-tools-menu .fab-back-btn.visible { display: block; }
+      .mobile-tools-menu .fab-back-btn:active {
+        background: #6366f1; color: #fff;
       }
     }
 
@@ -2183,6 +2201,163 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(16,185,129,0.4);
     }
+
+    /* ── Explanation Button ─────────────────────────────────────── */
+    .btn-expl { background: linear-gradient(135deg,#4f46e5,#7c3aed); color: #fff; }
+
+    /* ── Explanations Panel ─────────────────────────────────────── */
+    .cr-expl-panel {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
+        z-index: 10200; overflow-y: auto; padding: 24px 20px;
+    }
+    .cr-expl-inner {
+        max-width: 1060px; width: 100%; margin: 0 auto;
+        background: #ffffff; border-radius: 20px;
+        overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+    }
+    .cr-expl-header {
+        background: linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);
+        padding: 20px 24px; display: flex;
+        align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+    .cr-expl-header h2 { margin: 0; font-size: 20px; color: #fff; }
+    .cr-expl-header p  { margin: 4px 0 0; font-size: 13px; color: rgba(255,255,255,0.8); }
+    .cr-expl-close {
+        background: rgba(255,255,255,0.2); border: none; color: white;
+        border-radius: 10px; width: 36px; height: 36px; flex-shrink: 0;
+        cursor: pointer; font-size: 18px; display: flex;
+        align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .cr-expl-close:hover { background: rgba(255,255,255,0.38); }
+    .cr-expl-list {
+        padding: 20px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .cr-expl-phead {
+        font-size: 13px; font-weight: 800; color: #4f46e5;
+        text-transform: uppercase; letter-spacing: 1.2px;
+        padding: 14px 16px; background: #f8fafc; border: 2px solid #e2e8f0;
+        border-radius: 12px; cursor: pointer; display: flex;
+        align-items: center; justify-content: space-between;
+        transition: all 0.2s; user-select: none;
+    }
+    .cr-expl-phead:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .cr-expl-phead.open { border-color: #4f46e5; background: #eef2ff; border-radius: 12px 12px 0 0; }
+    .cr-expl-phead-arrow {
+        font-size: 12px; transition: transform 0.3s; color: #94a3b8;
+    }
+    .cr-expl-phead.open .cr-expl-phead-arrow { transform: rotate(180deg); color: #4f46e5; }
+    .cr-expl-part-body {
+        display: none; flex-direction: column; gap: 14px;
+        padding: 14px; background: #fafbfc;
+        border: 2px solid #e2e8f0; border-top: none;
+        border-radius: 0 0 12px 12px;
+    }
+    .cr-expl-part-body.open { display: flex; }
+    .cr-expl-card { border-radius: 12px; overflow: hidden; border: 2px solid; }
+    .cr-expl-card.ct { border-color: #10b981; }
+    .cr-expl-card.in { border-color: #ef4444; }
+    .cr-expl-card.un { border-color: #f59e0b; }
+    .cr-expl-card-head {
+        padding: 10px 14px; display: flex; align-items: flex-start; gap: 10px;
+    }
+    .cr-expl-card.ct .cr-expl-card-head { background: #f0fdf4; }
+    .cr-expl-card.in .cr-expl-card-head { background: #fef2f2; }
+    .cr-expl-card.un .cr-expl-card-head { background: #fffbeb; }
+    .cr-expl-qnum {
+        font-size: 11px; font-weight: 800; padding: 3px 9px;
+        border-radius: 6px; color: white; flex-shrink: 0; margin-top: 2px;
+    }
+    .cr-expl-card.ct .cr-expl-qnum { background: #10b981; }
+    .cr-expl-card.in .cr-expl-qnum { background: #ef4444; }
+    .cr-expl-card.un .cr-expl-qnum { background: #f59e0b; }
+    .cr-expl-qtext { font-size: 14px; font-weight: 600; color: #1e293b; flex: 1; line-height: 1.5; }
+    .cr-expl-badge {
+        font-size: 11px; font-weight: 700; padding: 3px 9px;
+        border-radius: 20px; flex-shrink: 0; margin-top: 2px;
+    }
+    .cr-expl-card.ct .cr-expl-badge { background: #dcfce7; color: #16a34a; }
+    .cr-expl-card.in .cr-expl-badge { background: #fee2e2; color: #dc2626; }
+    .cr-expl-card.un .cr-expl-badge { background: #fef3c7; color: #d97706; }
+    .cr-expl-card-body { padding: 12px 16px; background: #fff; }
+    .cr-expl-ans-row {
+        display: flex; flex-wrap: wrap; gap: 8px 18px;
+        margin-bottom: 10px; font-size: 14px; align-items: center;
+    }
+    .cr-expl-ans-row .yours { color: #64748b; }
+    .cr-expl-ans-row .correct-ans { color: #16a34a; font-weight: 700; }
+    .cr-expl-ans-row .arrow { color: #cbd5e1; font-size: 16px; }
+    .cr-expl-text { font-size: 14px; color: #475569; margin: 0 0 10px; line-height: 1.65; }
+    .cr-expl-quote {
+        background: #fffbeb; border-left: 4px solid #f59e0b;
+        border-radius: 0 8px 8px 0; padding: 10px 14px;
+        font-size: 14px; color: #78350f; font-style: italic;
+        line-height: 1.65; margin: 0; position: relative;
+    }
+    .cr-expl-quote::before { content: '\201C'; font-size: 22px; color: #f59e0b; font-style: normal; vertical-align: -5px; margin-right: 2px; line-height: 0; }
+    .cr-expl-quote::after  { content: '\201D'; font-size: 22px; color: #f59e0b; font-style: normal; vertical-align: -5px; margin-left:  2px; line-height: 0; }
+    /* Passage viewer */
+    .cr-pv-toggle-row { padding: 0 14px 12px; background: #fff; }
+    .cr-show-passage-btn {
+        display: flex; align-items: center; gap: 6px; width: 100%;
+        padding: 8px 14px; background: #f8fafc; border: 1.5px solid #e2e8f0;
+        border-radius: 8px; color: #4f46e5; font-size: 13px; font-weight: 600;
+        cursor: pointer; transition: all 0.18s; text-align: left;
+    }
+    .cr-show-passage-btn:hover { background: #eff6ff; border-color: #a5b4fc; }
+    .cr-show-passage-btn.open  { background: #eff6ff; border-color: #6366f1; }
+    .cr-pv-wrap { display: none; border-top: 1.5px solid #e2e8f0; }
+    .cr-pv-wrap.open { display: block; }
+    .cr-pv-header {
+        background: #f8fafc; padding: 8px 16px;
+        font-size: 11px; font-weight: 700; color: #64748b;
+        text-transform: uppercase; letter-spacing: 1px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .cr-pv-scroll {
+        max-height: 340px; overflow-y: auto; padding: 10px 14px;
+        display: flex; flex-direction: column; gap: 6px;
+    }
+    .cr-pv-para {
+        display: flex; gap: 10px; font-size: 14px; line-height: 1.75;
+        color: #374151; padding: 5px 8px; border-radius: 6px;
+    }
+    .cr-pv-para.cr-pv-para-hl { background: #fffbeb; }
+    .cr-pv-pnum {
+        font-size: 10px; font-weight: 700; color: #94a3b8;
+        min-width: 24px; padding-top: 4px; flex-shrink: 0; font-family: monospace;
+    }
+    .cr-pv-para.cr-pv-para-hl .cr-pv-pnum { color: #f59e0b; }
+    .cr-pv-ptext { flex: 1; }
+    mark.cr-hl { background: #fef08a; border-radius: 3px; padding: 1px 2px; font-weight: 700; color: inherit; }
+    /* Loading spinner for explanation generation */
+    .cr-expl-loading {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        padding: 60px 20px; gap: 16px;
+    }
+    .cr-expl-spinner {
+        width: 40px; height: 40px; border: 4px solid #e2e8f0;
+        border-top-color: #7c3aed; border-radius: 50%;
+        animation: crSpin 0.8s linear infinite;
+    }
+    @keyframes crSpin { to { transform: rotate(360deg); } }
+    .cr-expl-loading-text { font-size: 14px; color: #64748b; font-weight: 500; }
+    @media (max-width: 600px) {
+        .cr-expl-panel { padding: 0; }
+        .cr-expl-inner { border-radius: 0; min-height: 100dvh; }
+        .cr-expl-header { padding: 14px 16px; }
+        .cr-expl-header h2 { font-size: 16px; }
+        .cr-expl-list { padding: 12px; gap: 10px; }
+        .cr-expl-card-head { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
+        .cr-expl-qtext { font-size: 12px; }
+        .cr-expl-badge { font-size: 10px; }
+        .cr-expl-card-body { padding: 10px 12px; }
+        .cr-expl-ans-row { font-size: 12px; gap: 6px; }
+        .cr-expl-text { font-size: 12px; }
+        .cr-expl-quote { font-size: 12px; padding: 8px 10px; }
+        .cr-pv-scroll { max-height: 260px; }
+        .cr-pv-para { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -2192,7 +2367,7 @@
       <div class="header-left">
         <a href="landing.html" onclick="goBack(); return false;" class="back-btn">←</a>
         <div class="logo" id="logoContainer">
-          <img id="logoImg" src="" alt="Logo">
+          <img id="logoImg" src="" alt="Logo" style="display:none" onload="this.style.display=''">
         </div>
         <span class="header-title">📖 </span>
         <span class="mock-number" id="mockNumber">01</span>
@@ -2326,6 +2501,7 @@
       </div>
       <div class="modal-buttons">
         <button class="btn-review" id="btnReview">Review Answers</button>
+        <button class="btn-expl" id="btnShowExpl" onclick="showCrExplPanel()" style="display:none;">💡 Explanations</button>
         <button class="btn-tryagain" id="btnTryAgain" onclick="location.reload()">🔄 Try Again</button>
         <button class="btn-close" onclick="sessionStorage.setItem('readingMockReturnCategory','cefr-reading');window.__okToLeave=true;_navToLanding()" style="background:#64748b;color:#fff">← Back to Mock Selection</button>
         <button class="btn-restore" id="btnRestoreResults" onclick="restoreResultModal()">↗ Restore Results</button>
@@ -2367,6 +2543,20 @@
           <span id="reviewUnanswered">0</span> Unanswered
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Explanations Panel (Gemini AI) -->
+  <div class="cr-expl-panel" id="crExplPanel">
+    <div class="cr-expl-inner">
+      <div class="cr-expl-header">
+        <div>
+          <h2>💡 Answer Explanations</h2>
+          <p id="crExplSubtitle">AI-generated explanations with passage evidence</p>
+        </div>
+        <button class="cr-expl-close" onclick="closeCrExplPanel()">✕</button>
+      </div>
+      <div class="cr-expl-list" id="crExplList"></div>
     </div>
   </div>
 
@@ -2644,7 +2834,7 @@
           <div class="part-tab ${index === currentPart ? 'active' : ''}" data-part="${index}">
             Part ${part.partNumber}
           </div>
-        `).join('');
+        `).join('') + '<div class="fab-back-btn" id="fabBackBtn" onclick="window._fabBack()">↩ Back</div>';
         fabTabs.querySelectorAll('.part-tab').forEach(tab => {
           tab.addEventListener('click', () => {
             showPart(parseInt(tab.dataset.part));
@@ -3400,6 +3590,8 @@
       
       document.getElementById('resultsModal').classList.remove('minimized');
       document.getElementById('resultsModal').classList.add('show');
+      if (typeof window._updateFabBack === 'function') window._updateFabBack();
+      if (typeof resetFabIdle === 'function') resetFabIdle();
 
       // Grey-out Review/TryAgain for regular (non-premium) codes
       (function() {
@@ -3422,6 +3614,20 @@
             }
           });
         }
+      })();
+
+      // Show explanations button if pre-generated explanations exist
+      (function() {
+        var hasExpl = false;
+        if (TEST_DATA && TEST_DATA.parts) {
+          TEST_DATA.parts.some(function(p) {
+            if (window._practicePart && p.partNumber !== window._practicePart) return false;
+            var keys = Object.keys(p.explanations || {});
+            if (keys.length > 0) { hasExpl = true; return true; }
+          });
+        }
+        var btn = document.getElementById('btnShowExpl');
+        if (btn) btn.style.display = hasExpl ? '' : 'none';
       })();
 
       // Auto-submit results to backend
@@ -4071,6 +4277,297 @@
     function closeReviewModal() {
       document.getElementById('reviewModal').classList.remove('show');
     }
+
+    // ===== EXPLANATIONS PANEL =====
+    function _crEscHtml(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    window.showCrExplPanel = function() {
+      var panel = document.getElementById('crExplPanel');
+      var list  = document.getElementById('crExplList');
+      if (!panel || !list || !TEST_DATA) return;
+
+      var scoreParts = window._practicePart
+        ? [TEST_DATA.parts[window._practicePart - 1]]
+        : TEST_DATA.parts;
+
+      var html = '';
+      scoreParts.forEach(function(part, pIdx) {
+        var pTitle = part.title || ('Part ' + part.partNumber);
+        var pType = part.type || '';
+        var qRange = part.questionRange || '';
+        var isFirst = (pIdx === 0);
+        // Real index in TEST_DATA.parts (not the filtered scoreParts index)
+        var realPartIdx = TEST_DATA.parts.indexOf(part);
+
+        var explanations = part.explanations || {};
+
+        // Collect all question IDs from this part
+        var allQs = [];
+        if (part.questions) {
+          part.questions.forEach(function(q) { allQs.push(q); });
+        }
+        if (part.questionSections) {
+          part.questionSections.forEach(function(sec) {
+            (sec.questions || []).forEach(function(q) { allQs.push(q); });
+          });
+        }
+
+        // Count correct/wrong/unanswered for summary
+        var cntCorrect = 0, cntWrong = 0, cntUn = 0;
+        allQs.forEach(function(q) {
+          var correctRaw = part.answers[q.id] || part.answers[String(q.id)] || [];
+          var correctArr = Array.isArray(correctRaw) ? correctRaw : [correctRaw];
+          var uAns = userAnswers[q.id] || userAnswers[String(q.id)] || '';
+          if (!uAns) cntUn++;
+          else if (matchesAnswer(uAns, correctArr)) cntCorrect++;
+          else cntWrong++;
+        });
+        var summary = '✓ ' + cntCorrect + '  ✗ ' + cntWrong + '  — ' + cntUn;
+
+        html += '<div class="cr-expl-phead' + (isFirst ? ' open' : '') + '" onclick="this.classList.toggle(\'open\');var b=this.nextElementSibling;b.classList.toggle(\'open\')">';
+        html += '<span>' + _crEscHtml(pTitle) + ' — ' + _crEscHtml(qRange) + '&nbsp;&nbsp;<span style="font-size:11px;font-weight:600;color:#64748b;letter-spacing:0;text-transform:none">' + summary + '</span></span>';
+        html += '<span class="cr-expl-phead-arrow">▼</span>';
+        html += '</div>';
+        html += '<div class="cr-expl-part-body' + (isFirst ? ' open' : '') + '">';
+
+        allQs.forEach(function(q) {
+          var qId = q.id;
+          var key = 'q' + qId;
+          var expl = explanations[key] || null;
+          var explText  = expl ? (typeof expl === 'object' ? (expl.text  || '') : expl) : '';
+          var explQuote = expl && typeof expl === 'object' ? (expl.quote || '') : '';
+
+          var correctRaw = part.answers[qId] || part.answers[String(qId)] || [];
+          var correctArr = Array.isArray(correctRaw) ? correctRaw : [correctRaw];
+          var correctStr = correctArr.length > 1 ? correctArr.join(' / ') : (correctArr[0] || '');
+          var userAns = userAnswers[qId] || userAnswers[String(qId)] || '';
+          var isCorrect = userAns && matchesAnswer(userAns, correctArr);
+
+          var cls, badge;
+          if (!userAns)         { cls = 'un'; badge = '— Unanswered'; }
+          else if (isCorrect)   { cls = 'ct'; badge = '✓ Correct'; }
+          else                  { cls = 'in'; badge = '✗ Incorrect'; }
+
+          // Get question display text
+          var qDisplay = q.text || q.hint || '';
+          var tmp = document.createElement('div');
+          tmp.innerHTML = qDisplay;
+          var qplain = (tmp.textContent || tmp.innerText || '').trim();
+
+          html += '<div class="cr-expl-card ' + cls + '">';
+          html += '<div class="cr-expl-card-head">';
+          html +=   '<span class="cr-expl-qnum">Q' + qId + '</span>';
+          html +=   '<span class="cr-expl-qtext">' + _crEscHtml(qplain) + '</span>';
+          html +=   '<span class="cr-expl-badge">' + badge + '</span>';
+          html += '</div>';
+          html += '<div class="cr-expl-card-body">';
+          html +=   '<div class="cr-expl-ans-row">';
+          html +=     '<span class="yours">Your answer: <strong>' + _crEscHtml(userAns || '(blank)') + '</strong></span>';
+          if (cls !== 'ct') {
+            html += '<span class="arrow">→</span>';
+            html += '<span class="correct-ans">Correct: ' + _crEscHtml(correctStr) + '</span>';
+          }
+          html +=   '</div>';
+          if (explText)  html += '<p class="cr-expl-text">'  + _crEscHtml(explText)  + '</p>';
+          if (explQuote) html += '<blockquote class="cr-expl-quote">' + _crEscHtml(explQuote) + '</blockquote>';
+          html += '</div>';
+          html += '<div class="cr-pv-toggle-row"><button class="cr-show-passage-btn" id="cr-pvbtn-' + qId + '" onclick="window._crTogglePassage(' + qId + ',' + realPartIdx + ')">📖 Show in passage ▼</button></div>';
+          html += '<div class="cr-pv-wrap" id="cr-pv-' + qId + '"></div>';
+          html += '</div>';
+        });
+
+        html += '</div>'; // close cr-expl-part-body
+      });
+
+      list.innerHTML = html;
+      panel.style.display = 'block';
+      panel.scrollTop = 0;
+      var overlay = document.getElementById('resultsModal');
+      if (overlay) overlay.classList.add('minimized');
+      window._updateFabBack();
+      if (typeof resetFabIdle === 'function') resetFabIdle();
+    };
+
+    window.closeCrExplPanel = function() {
+      var panel = document.getElementById('crExplPanel');
+      if (panel) panel.style.display = 'none';
+      var overlay = document.getElementById('resultsModal');
+      if (overlay) overlay.classList.remove('minimized');
+      window._updateFabBack();
+    };
+
+    /* ---- FAB Back button helpers ---- */
+    window._updateFabBack = function() {
+      var btn = document.getElementById('fabBackBtn');
+      if (!btn) return;
+      var explPanel = document.getElementById('crExplPanel');
+      var explOpen = explPanel && explPanel.style.display === 'block';
+      var reviewOpen = document.getElementById('reviewModal') && document.getElementById('reviewModal').classList.contains('show');
+      var resultsOpen = document.getElementById('resultsModal') && document.getElementById('resultsModal').classList.contains('show');
+      var show = !!(explOpen || reviewOpen || resultsOpen);
+      btn.classList.toggle('visible', show);
+      // Keep FAB fully visible when an overlay is open
+      if (show) {
+        var fab = document.getElementById('mobileFab');
+        if (fab) { fab.classList.remove('idle'); clearTimeout(fabIdleTimer); }
+      }
+    };
+
+    window._fabBack = function() {
+      var expl = document.getElementById('crExplPanel');
+      var review = document.getElementById('reviewModal');
+      var results = document.getElementById('resultsModal');
+
+      // Close mobile menu first
+      var menu = document.getElementById('mobileToolsMenu');
+      if (menu && menu.classList.contains('active')) toggleMobileMenu();
+
+      // If explanations panel is open → close it (returns to results overlay)
+      if (expl && expl.style.display === 'block') {
+        window.closeCrExplPanel();
+        return;
+      }
+      // If review mode active → restore results modal
+      if (document.body.classList.contains('review-mode')) {
+        document.body.classList.remove('review-mode');
+        restoreResultModal();
+        window._updateFabBack();
+        return;
+      }
+      // If results overlay is open → go back to landing
+      if (results && results.classList.contains('show')) {
+        sessionStorage.setItem('readingMockReturnCategory', 'cefr-reading');
+        window.__okToLeave = true;
+        _navToLanding();
+        return;
+      }
+    };
+
+    window._crTogglePassage = function(qid, partIdx) {
+      var wrap = document.getElementById('cr-pv-' + qid);
+      var btn  = document.getElementById('cr-pvbtn-' + qid);
+      if (!wrap) return;
+
+      // Toggle close
+      if (wrap.classList.contains('open')) {
+        wrap.classList.remove('open');
+        if (btn) { btn.classList.remove('open'); btn.innerHTML = '\uD83D\uDCD6 Show in passage \u25BC'; }
+        return;
+      }
+
+      // Render lazily on first open
+      if (!wrap.dataset.rendered) {
+        if (!TEST_DATA || !TEST_DATA.parts[partIdx]) return;
+        var part = TEST_DATA.parts[partIdx];
+        var pTitle = part.title || ('Part ' + part.partNumber);
+        var pType = part.type || '';
+
+        // Get the quote for this question
+        var explanations = part.explanations || {};
+        var quoteRaw = explanations['q' + qid] || '';
+        var quoteText = quoteRaw ? (typeof quoteRaw === 'object' ? (quoteRaw.quote || '') : '') : '';
+        quoteText = quoteText.replace(/^[\u201c\u201d\u2018\u2019"']+|[\u201c\u201d\u2018\u2019"']+$/g, '').trim();
+        var normQ = quoteText.toLowerCase()
+          .replace(/[\u201c\u201d]/g, '"').replace(/[\u2018\u2019]/g, "'");
+        var safeQ = normQ ? normQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
+
+        var paras = [];
+
+        if (pType === 'matching' && part.texts) {
+          // Part 2: individual text snippets
+          part.texts.forEach(function(t) {
+            paras.push({ num: 'T' + t.number, text: t.content || '' });
+          });
+        } else if (pType === 'matching-headings' && part.passage && part.passage.paragraphs) {
+          // Part 3: paragraphs array
+          part.passage.paragraphs.forEach(function(p, i) {
+            paras.push({ num: 'P' + (p.number || (i + 1)), text: p.content || '' });
+          });
+        } else if (part.passage && part.passage.content) {
+          // Parts 1, 4, 5: HTML content with <p> tags
+          var tmpDiv = document.createElement('div');
+          tmpDiv.innerHTML = part.passage.content;
+          var pEls = tmpDiv.querySelectorAll('p');
+          var passageTitle = (part.passage.title || '').trim().toLowerCase();
+          if (pEls.length === 0) {
+            // Fallback: split by newlines
+            var lines = (tmpDiv.textContent || '').split(/\n+/).filter(function(l) { return l.trim(); });
+            var pNum = 1;
+            lines.forEach(function(l) {
+              var lt = l.trim();
+              // Skip line that matches passage title (source attribution)
+              if (passageTitle && lt.toLowerCase() === passageTitle) return;
+              paras.push({ num: 'P' + pNum, text: lt });
+              pNum++;
+            });
+          } else {
+            var pNum = 1;
+            Array.from(pEls).forEach(function(p) {
+              var txt = (p.textContent || '').trim();
+              // Skip <p> that matches passage title (source attribution)
+              if (passageTitle && txt.toLowerCase() === passageTitle) return;
+              paras.push({ num: 'P' + pNum, text: txt });
+              pNum++;
+            });
+          }
+        }
+
+        if (paras.length === 0) {
+          wrap.innerHTML = '<div class="cr-pv-header">\uD83D\uDCC4 No passage available</div>';
+          wrap.dataset.rendered = '1';
+        } else {
+          var targetIdx = -1;
+          var renderedParas = paras.map(function(p, i) {
+            var plain = p.text;
+            var normPlain = plain.toLowerCase()
+              .replace(/[\u201c\u201d]/g, '"').replace(/[\u2018\u2019]/g, "'")
+              .replace(/\s*_+\(\d+\)_+\s*/g, ' ');
+            var matchObj = safeQ ? normPlain.match(new RegExp(safeQ)) : null;
+            var isTarget = !!matchObj && targetIdx < 0;
+            if (isTarget) targetIdx = i;
+
+            var content;
+            if (isTarget) {
+              var idx = matchObj.index, len = matchObj[0].length;
+              content = _crEscHtml(plain.substring(0, idx))
+                + '<mark class="cr-hl" id="cr-hl-' + qid + '">'
+                + _crEscHtml(plain.substring(idx, idx + len))
+                + '</mark>'
+                + _crEscHtml(plain.substring(idx + len));
+            } else {
+              content = _crEscHtml(plain);
+            }
+            return '<div class="cr-pv-para' + (isTarget ? ' cr-pv-para-hl' : '') + '">'
+              + '<span class="cr-pv-pnum">' + p.num + '</span>'
+              + '<span class="cr-pv-ptext">' + content + '</span>'
+              + '</div>';
+          });
+
+          var paraInfo = targetIdx >= 0 ? ' \u00b7 ' + paras[targetIdx].num : '';
+          wrap.innerHTML =
+            '<div class="cr-pv-header">\uD83D\uDCC4 ' + _crEscHtml(pTitle) + paraInfo + '</div>'
+            + '<div class="cr-pv-scroll" id="cr-pvscroll-' + qid + '">' + renderedParas.join('') + '</div>';
+          wrap.dataset.rendered = '1';
+        }
+      }
+
+      // Open
+      wrap.classList.add('open');
+      if (btn) { btn.classList.add('open'); btn.innerHTML = '\uD83D\uDCD6 Hide passage \u25B2'; }
+
+      // Scroll to the highlighted sentence
+      setTimeout(function() {
+        var hl = document.getElementById('cr-hl-' + qid);
+        var scrollBox = document.getElementById('cr-pvscroll-' + qid);
+        if (hl && scrollBox) {
+          var hlRect = hl.getBoundingClientRect();
+          var sbRect = scrollBox.getBoundingClientRect();
+          scrollBox.scrollTop += hlRect.top - sbRect.top - (scrollBox.clientHeight / 2) + (hl.offsetHeight / 2);
+        }
+      }, 80);
+    };
 
     // ===== TEXT HIGHLIGHTING =====
     (function initHighlighting() {
@@ -5111,6 +5608,10 @@
         if (fab) {
             fab.classList.remove('idle');
             clearTimeout(fabIdleTimer);
+            // Never go idle when a post-test overlay is visible
+            var explOpen = (document.getElementById('crExplPanel') || {}).style.display === 'block';
+            var resultsOpen = document.getElementById('resultsModal') && document.getElementById('resultsModal').classList.contains('show');
+            if (explOpen || resultsOpen) return;
             if (!document.getElementById('mobileToolsMenu').classList.contains('active')) {
                 fabIdleTimer = setTimeout(function() {
                     fab.classList.add('idle');
@@ -5143,6 +5644,8 @@
                         generatePartNav();
                     }
                 } catch (e) {}
+                // Update FAB back button visibility
+                if (typeof window._updateFabBack === 'function') window._updateFabBack();
             } else {
                 resetFabIdle();
             }
@@ -5279,7 +5782,7 @@
                 fabContainer.style.bottom = '22px';
                 fabContainer.style.left = 'auto';
                 fabContainer.style.top = 'auto';
-                fabContainer.style.zIndex = '10050';
+                fabContainer.style.zIndex = '10300';
                 // Ensure it's at the end of body so it's above other content
                 if (document.body && fabContainer.parentNode !== document.body) {
                     document.body.appendChild(fabContainer);

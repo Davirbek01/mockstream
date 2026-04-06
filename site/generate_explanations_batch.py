@@ -25,7 +25,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyAgsMeOT8t-8AGcEE0QWgh4V
 GEMINI_MODEL   = "gemini-2.0-flash"
 SCRIPT_DIR     = os.path.dirname(os.path.abspath(__file__))
 QUESTIONS_DIR  = os.path.join(SCRIPT_DIR, "questions IELTS R")
-TOTAL_TESTS    = 38
+TOTAL_TESTS    = 48
 DELAY_SECS     = 1.5   # between API calls
 
 
