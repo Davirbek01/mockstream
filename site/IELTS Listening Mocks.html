@@ -1058,7 +1058,7 @@
             try {
               var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (resp.ok) { var data = await resp.json(); if (data.access || data.valid) { sessionStorage.setItem('listeningPremiumEntry', 'true'); return { valid: true, premiumEntry: true }; } }
             } catch (e) { }
@@ -1073,7 +1073,7 @@
             var fullCode = new Date().getFullYear() + otp;
             var resp2 = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullCode })
+              body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!resp2.ok) return { valid: false, error: 'Server error. Please try again.' };
             var data2 = await resp2.json();
@@ -1147,6 +1147,60 @@
     }
     document.getElementById('listeningAccessCodeInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') verifyListeningAccessCode(); });
     document.getElementById('listeningAccessModal').addEventListener('click', function (e) { if (e.target === this) closeListeningAccessModal(); });
+  </script>
+  <!-- Supabase dynamic mocks loader -->
+  <script>
+  (async function loadDynamicMocks() {
+    try {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var res = await fetch(
+        SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-listening&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+        { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+      );
+      if (!res.ok) return;
+      var mocks = await res.json();
+      if (!mocks || !mocks.length) return;
+
+      var grid = document.getElementById('testsGrid');
+      if (!grid) return;
+
+      var existingCards = grid.querySelectorAll('.test-card-wrap');
+      var nextIndex = existingCards.length + 1;
+      var added = 0;
+
+      mocks.forEach(function(m) {
+        var card = document.createElement('div');
+        card.className = 'test-card-wrap';
+        card.innerHTML = '<div class="test-card-header"><h3>\uD83D\uDFE2 Mock ' + m.mock_number + '</h3><p>' + (m.title || '') + '</p></div>'
+          + '<div class="test-mode-row">'
+          + '<button class="mode-btn full" data-id="sbmock-' + m.id + '" data-mock="' + m.mock_number + '" style="border-color:#6366f1;">'
+          + '<span class="mode-icon">\uD83C\uDFA7</span><span class="mode-label">Full</span>'
+          + '<span class="mode-label">Dynamic</span></button>'
+          + '</div>';
+        grid.appendChild(card);
+        nextIndex++;
+        added++;
+      });
+
+      // Override click handler for dynamic mocks (sbmock- prefix)
+      grid.addEventListener('click', function(e) {
+        var btn = e.target.closest('.mode-btn');
+        if (!btn) return;
+        var id = btn.dataset.id;
+        if (!id || !id.startsWith('sbmock-')) return;
+        e.stopImmediatePropagation();
+        var sbId = id.replace('sbmock-', '');
+        var mockNum = btn.dataset.mock;
+        var url = 'IELTS listening.html?sbmock=' + sbId;
+        window._pendingListeningTest = { url: url, mockNumber: mockNum };
+        showListeningAccessModal(mockNum);
+      });
+      console.log('\uD83C\uDF10 IELTS Listening dynamic mocks: ' + added + ' added');
+    } catch (e) {
+      console.warn('Could not load dynamic IELTS listening mocks:', e);
+    }
+  })();
   </script>
   <script src="chat-bubble.js"></script>
 </body>

@@ -252,9 +252,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 7,
       "part": "Part 3",
-      "badge": "60s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 60,
+      "speakTime": 120,
       "prompt": "Describe a time when technology helped you solve a problem.",
       "audioFile": "questions S/audio/cefr-speaking-mock-22-q7.mp3",
       "hasImages": false,
@@ -295,9 +295,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 8,
       "part": "Part 4",
-      "badge": "90s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 90,
+      "speakTime": 120,
       "prompt": "Children Under 12 Should Not Have Their Own Smartphones",
       "audioFile": "questions S/audio/cefr-speaking-mock-22-q8.mp3",
       "hasImages": false,

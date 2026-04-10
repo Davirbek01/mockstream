@@ -28,6 +28,7 @@
   var MAX_IMAGE_MB = 50;
   var MAX_PDF_MB = 100;
   var MAX_AI_INLINE_MB = 8;
+  var HC_TEXT_ENABLED = true;
   var HC_VOICE_ENABLED = true;
   var HC_IMAGE_ENABLED = true;
   var HC_PDF_ENABLED = true;
@@ -36,9 +37,11 @@
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
     // Fast path: localStorage cache
+    var tx = localStorage.getItem('ms_hc_text_enabled');
     var v = localStorage.getItem('ms_hc_voice_enabled');
     var i = localStorage.getItem('ms_hc_image_enabled');
     var p = localStorage.getItem('ms_hc_pdf_enabled');
+    if (tx !== null) HC_TEXT_ENABLED = tx !== 'false';
     if (v !== null) HC_VOICE_ENABLED = v !== 'false';
     if (i !== null) HC_IMAGE_ENABLED = i !== 'false';
     if (p !== null) HC_PDF_ENABLED = p !== 'false';
@@ -53,13 +56,14 @@
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
         var map = {};
         rows.forEach(function (r) { map[r.key] = r.value; });
         if ('hc_max_voice_sec' in map) { MAX_VOICE_SEC = parseInt(map.hc_max_voice_sec) || 120; localStorage.setItem('ms_hc_max_voice_sec', map.hc_max_voice_sec); }
+        if ('hc_text_enabled' in map) { HC_TEXT_ENABLED = map.hc_text_enabled !== 'false'; localStorage.setItem('ms_hc_text_enabled', map.hc_text_enabled); }
         if ('hc_voice_enabled' in map) { HC_VOICE_ENABLED = map.hc_voice_enabled !== 'false'; localStorage.setItem('ms_hc_voice_enabled', map.hc_voice_enabled); }
         if ('hc_image_enabled' in map) { HC_IMAGE_ENABLED = map.hc_image_enabled !== 'false'; localStorage.setItem('ms_hc_image_enabled', map.hc_image_enabled); }
         if ('hc_pdf_enabled' in map) { HC_PDF_ENABLED = map.hc_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_pdf_enabled', map.hc_pdf_enabled); }
@@ -78,13 +82,22 @@
     var bubbleVoice = document.getElementById('cb-voice-btn');
     if (bubbleAttach) bubbleAttach.style.display = (HC_IMAGE_ENABLED || HC_PDF_ENABLED) ? '' : 'none';
     if (bubbleVoice) bubbleVoice.style.display = HC_VOICE_ENABLED ? '' : 'none';
+    // Hide text input + send when text disabled
+    var bubbleInput = document.getElementById('cb-input');
+    var bubbleSend = document.querySelector('#cb-overlay .cb-send-btn');
+    if (bubbleInput) bubbleInput.style.display = HC_TEXT_ENABLED ? '' : 'none';
+    if (bubbleSend) bubbleSend.style.display = HC_TEXT_ENABLED ? '' : 'none';
     // Landing Help Center buttons
     var landingBar = document.querySelector('#helpCenterOverlay .helpcenter-input-bar');
     if (landingBar) {
       var lAttach = landingBar.querySelector('.cb-hc-action-btn[title="Attach file"]');
       var lVoice = landingBar.querySelector('#hc-voice-btn');
+      var lInput = document.getElementById('helpCenterInput');
+      var lSend = document.getElementById('helpCenterSendBtn');
       if (lAttach) lAttach.style.display = (HC_IMAGE_ENABLED || HC_PDF_ENABLED) ? '' : 'none';
       if (lVoice) lVoice.style.display = HC_VOICE_ENABLED ? '' : 'none';
+      if (lInput) lInput.style.display = HC_TEXT_ENABLED ? '' : 'none';
+      if (lSend) lSend.style.display = HC_TEXT_ENABLED ? '' : 'none';
     }
   }
 
@@ -802,6 +815,7 @@
     var input = document.getElementById('cb-input');
     var text = (input.value || '').trim();
     if (!text) return;
+    if (!HC_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
     isSending = true;
     input.disabled = true;
 

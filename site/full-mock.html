@@ -3873,6 +3873,10 @@
                     <i>⏸️</i>
                     <span>Pause</span>
                 </button>
+                <button class="tool-btn" id="mobFSBtn" onclick="toggleExamFullscreen()">
+                    <i style="font-style:normal;font-size:20px;">⛶</i>
+                    <span>Fullscreen</span>
+                </button>
                 <button class="tool-btn" style="border-color:#dc2626; color:#dc2626;" id="mobFinishBtn">
                     <i>🏁</i>
                     <span>Finish</span>
@@ -4175,6 +4179,9 @@
                 </button>
                 <button class="zoom-btn" id="btnZoom" title="Zoom In">
                     🔍
+                </button>
+                <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">
+                    ⛶
                 </button>
             </div>
         </header>
@@ -5778,16 +5785,44 @@
             }
         })();
 
-        // Re-enter fullscreen if the landing page was in fullscreen
+        // Fullscreen toggle (manual only — no auto-fullscreen)
         function enterFullscreen() {
             var elem = document.documentElement;
             if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
             else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
             else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
         }
+        function exitFullscreen() {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+        function toggleExamFullscreen() {
+            try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {
+                if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen();
+                else enterFullscreen();
+            }
+        }
+        function _updateFSBtnIcon(isFS) {
+            var btn = document.getElementById('btnFS');
+            var mobBtn = document.getElementById('mobFSBtn');
+            if (btn) btn.textContent = isFS ? '✕' : '⛶';
+            if (mobBtn) mobBtn.querySelector('span').textContent = isFS ? 'Exit FS' : 'Fullscreen';
+        }
+        try {
+            window.top.document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.fullscreenElement));
+            });
+            window.top.document.addEventListener('webkitfullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.webkitFullscreenElement));
+            });
+        } catch(e) {
+            document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(document.fullscreenElement));
+            });
+        }
 
         document.getElementById('start-exam-btn').onclick = async () => {
-            enterFullscreen();
             const rawName = document.getElementById('candidate-name-input').value;
             const result = validateAndFormatName(rawName);
             const passcodeInput = document.getElementById('passcode-input');
@@ -5839,7 +5874,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         cache: 'no-store',
-                        body: JSON.stringify({ code: fullCode })
+                        body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
                     });
 
                     if (regRes.ok) {
@@ -5859,7 +5894,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         cache: 'no-store',
-                        body: JSON.stringify({ passcode: parseInt(premiumCode, 10) })
+                        body: JSON.stringify({ passcode: parseInt(premiumCode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
                     });
 
                     if (premRes.ok) {
@@ -8486,9 +8521,16 @@
           return _scoringPromptsCache || {};
         }
 
+        var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+        async function _fetchProviderKey(m) {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+          if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+        }
+
         async function _callScoringAI(systemText, userPrompt, opts) {
           var cp = await _loadScoringPrompts();
           var provider = cp['scoring_ai_provider'] || 'gemini';
+          if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
           opts = opts || {};
           if (provider === 'openai') {
             if (!API_KEY) { try { await getOpenAIKey(); } catch(e){} }
@@ -8504,6 +8546,63 @@
             var r = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'claude') {
+            if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+            if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+            var uMsg = userPrompt;
+            if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+            var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
+            if (systemText) cBody.system = systemText;
+            if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+            var r = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+              body: JSON.stringify(cBody)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.content[0].text;
+          } else if (provider === 'grok') {
+            if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+            if (!_GROK_KEY) throw new Error('No Grok API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            var uMsg = userPrompt;
+            if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+            messages.push({ role: 'user', content: uMsg });
+            var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.x.ai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'deepseek') {
+            if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+            if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            var uMsg = userPrompt;
+            if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+            messages.push({ role: 'user', content: uMsg });
+            var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.deepseek.com/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
               body: JSON.stringify(body)
             });
             if (!r.ok) throw new Error('AI API error: ' + r.status);
@@ -9333,40 +9432,73 @@ Respond ONLY in JSON format:
             overlay.style.display = 'flex';
 
             // ===== PREMIUM vs REGULAR VIP LOGIC =====
+            // Center-level AI overrides for Full Mock
+            const _fmAi = (window._centerConfig && window._centerConfig.fullMockAi) || {};
+            const _aiWritingOn = _fmAi.cefr_writing !== 'regular';
+            const _aiSpeakingOn = _fmAi.cefr_speaking !== 'regular';
+
             if (state.isPremiumVip) {
-                // PREMIUM: Run AI analysis for Writing & Speaking
+                // PREMIUM: Run AI analysis for Writing & Speaking (respecting center AI controls)
                 let writingResult = null, speakingResult = null;
                 try {
                     [writingResult, speakingResult] = await Promise.all([
-                        analyzeWritingWithGemini(),
-                        analyzeSpeakingWithGemini()
+                        _aiWritingOn ? analyzeWritingWithGemini() : Promise.resolve(null),
+                        _aiSpeakingOn ? analyzeSpeakingWithGemini() : Promise.resolve(null)
                     ]);
                 } catch (aiErr) {
                     console.error('[Results] AI analysis Promise.all failed:', aiErr);
-                    writingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
-                    speakingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
+                    if (_aiWritingOn) writingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
+                    if (_aiSpeakingOn) speakingResult = { certificate_score: 0, cefr_level: 'N/A', feedback: 'Analysis unavailable.' };
                 }
 
                 state.aiResults.writing = writingResult;
                 state.aiResults.speaking = speakingResult;
 
-                // Update Cards with AI scores
-                const wScore = writingResult.certificate_score || writingResult.total_score || 0, wLvl = getLvl(wScore);
-                document.getElementById('writing-score-card').innerHTML = `
+                // Update Writing card
+                let wScore = 0, wLvl = 'N/A';
+                if (_aiWritingOn && writingResult) {
+                    wScore = writingResult.certificate_score || writingResult.total_score || 0;
+                    wLvl = getLvl(wScore);
+                    document.getElementById('writing-score-card').innerHTML = `
                             <div style="font-weight:600; color:var(--text-light); font-size:12px; margin-bottom:4px;">Writing</div>
                             <div style="font-size:20px; font-weight:800; color:var(--primary);">${wScore}/75</div>
                             <div style="background:${getClr(wLvl)}; color:white; padding:1px 6px; border-radius:4px; font-size:11px; font-weight:600; display:inline-block; margin-top:2px;">${wLvl}</div>
                         `;
+                } else {
+                    document.getElementById('writing-score-card').innerHTML = `
+                            <div style="font-weight:600; color:var(--text-light); font-size:12px; margin-bottom:4px;">Writing</div>
+                            <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#64748b,#475569); color:white; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; margin-top:4px;">
+                                <span>📊</span> Standard Mode
+                            </div>
+                            <div style="font-size:10px; color:var(--text-light); margin-top:4px; opacity:0.7;">AI Analysis managed by center admin</div>
+                        `;
+                }
 
-                const sScore = speakingResult.certificate_score || 0, sLvl = getLvl(sScore);
-                document.getElementById('speaking-score-card').innerHTML = `
+                // Update Speaking card
+                let sScore = 0, sLvl = 'N/A';
+                if (_aiSpeakingOn && speakingResult) {
+                    sScore = speakingResult.certificate_score || 0;
+                    sLvl = getLvl(sScore);
+                    document.getElementById('speaking-score-card').innerHTML = `
                             <div style="font-weight:600; color:var(--text-light); font-size:12px; margin-bottom:4px;">Speaking</div>
                             <div style="font-size:20px; font-weight:800; color:var(--primary);">${sScore}/75</div>
                             <div style="background:${getClr(sLvl)}; color:white; padding:1px 6px; border-radius:4px; font-size:11px; font-weight:600; display:inline-block; margin-top:2px;">${sLvl}</div>
                         `;
+                } else {
+                    document.getElementById('speaking-score-card').innerHTML = `
+                            <div style="font-weight:600; color:var(--text-light); font-size:12px; margin-bottom:4px;">Speaking</div>
+                            <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg,#64748b,#475569); color:white; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; margin-top:4px;">
+                                <span>📊</span> Standard Mode
+                            </div>
+                            <div style="font-size:10px; color:var(--text-light); margin-top:4px; opacity:0.7;">AI Analysis managed by center admin</div>
+                        `;
+                }
 
-                // Final Dashboard Gauge (all 4 skills)
-                const overallScore = Math.round((ls_scaled + rs_scaled + wScore + sScore) / 4);
+                // Final Dashboard Gauge — average only skills that have AI
+                const _aiScores = [ls_scaled, rs_scaled];
+                if (_aiWritingOn && writingResult) _aiScores.push(wScore);
+                if (_aiSpeakingOn && speakingResult) _aiScores.push(sScore);
+                const overallScore = Math.round(_aiScores.reduce((a, b) => a + b, 0) / _aiScores.length);
                 const overallLevel = getLvl(overallScore);
                 const overallColor = getClr(overallLevel);
 

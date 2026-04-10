@@ -671,7 +671,7 @@
     try{
       var resp=await fetch('https://admin0709.alwaysdata.net/verify',{
         method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({passcode:parseInt(code,10)||code,type:'bsb',validate:true,timestamp:Date.now(),source:'builder-auth'})
+        body:JSON.stringify({passcode:parseInt(code,10)||code,type:'bsb',validate:true,timestamp:Date.now(),source:'builder-auth', center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
       });
       if(!resp.ok)throw new Error('Server error');
       var data=await resp.json();

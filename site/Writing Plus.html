@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Writing Plus</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script>
+    (function () {
+      function goBack() {
+        try { if (window.top !== window && typeof window.top.returnToLanding === 'function') { window.top.returnToLanding(); return; } } catch (e) {}
+        try { if (window.parent !== window && typeof window.parent.returnToLanding === 'function') { window.parent.returnToLanding(); return; } } catch (e) {}
+        try { if (window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; } } catch (e) {}
+        window.location.href = 'landing.html';
+      }
+      window.goBack = goBack;
+      window.goToLanding = goBack;
+    })();
+  </script>
+  <style>
+    :root {
+      --brand: #0d9488;
+      --brand-weak: #f0fdfa;
+      --brand-strong: #115e59;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --ring: #e2e8f0;
+      --ring-strong: #cbd5e1;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    [data-theme="dark"] {
+      --brand: #2dd4bf;
+      --brand-weak: #042f2e;
+      --brand-strong: #5eead4;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --ink: #f1f5f9;
+      --muted: #94a3b8;
+      --ring: #334155;
+      --ring-strong: #475569;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+    /* ===== SETUP WIZARD ===== */
+    .wizard-overlay {
+      position: fixed; inset: 0; background: var(--bg); z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .wizard-overlay.hidden { display: none; }
+    .wizard-card {
+      background: var(--card); border-radius: 20px; padding: 32px;
+      max-width: 600px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      border: 2px solid var(--ring);
+    }
+    .wizard-card h2 { font-size: 22px; color: var(--brand); margin-bottom: 4px; }
+    .wizard-card p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    .wizard-step { display: none; }
+    .wizard-step.active { display: block; }
+
+    /* Back arrow */
+    .wizard-back { background: none; border: 2px solid var(--ring-strong); color: var(--brand); padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 6px; }
+    .wizard-back:hover { background: var(--brand-weak); }
+
+    /* Option buttons */
+    .opt-grid { display: grid; gap: 12px; }
+    .opt-grid.two-col { grid-template-columns: 1fr 1fr; }
+    .opt-btn {
+      background: var(--card); border: 2px solid var(--ring); border-radius: 14px;
+      padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s;
+    }
+    .opt-btn:hover { border-color: var(--brand); background: var(--brand-weak); transform: translateY(-2px); }
+    .opt-btn.selected { border-color: var(--brand); background: var(--brand-weak); box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+    .opt-btn .opt-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+    .opt-btn .opt-title { font-size: 16px; font-weight: 700; color: var(--ink); display: block; }
+    .opt-btn .opt-desc { font-size: 12px; color: var(--muted); display: block; margin-top: 4px; }
+
+    /* Task input area */
+    .task-input-section { margin-top: 16px; }
+    .task-input-section h3 { font-size: 16px; color: var(--brand); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .task-input-section h3 .badge { background: var(--brand); color: white; padding: 2px 8px; border-radius: 6px; font-size: 11px; }
+    .input-mode-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-mode-tab {
+      flex: 1; padding: 10px; border: 2px solid var(--ring); border-radius: 10px;
+      background: var(--card); cursor: pointer; text-align: center; font-weight: 600;
+      font-size: 13px; color: var(--muted); transition: all 0.2s;
+    }
+    .input-mode-tab.active { border-color: var(--brand); color: var(--brand); background: var(--brand-weak); }
+
+    /* Text input */
+    .task-text-input {
+      width: 100%; min-height: 100px; padding: 12px; border: 2px solid var(--ring);
+      border-radius: 10px; font-family: inherit; font-size: 14px; resize: vertical;
+      background: var(--bg); color: var(--ink); line-height: 1.6;
+    }
+    .task-text-input:focus { outline: none; border-color: var(--brand); }
+
+    /* Image upload */
+    .upload-zone {
+      border: 2px dashed var(--ring-strong); border-radius: 12px; padding: 24px;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg);
+    }
+    .upload-zone:hover, .upload-zone.dragover, .upload-zone:focus { border-color: var(--brand); background: var(--brand-weak); outline: none; }
+    .upload-zone .upload-icon { font-size: 36px; margin-bottom: 8px; }
+    .upload-zone p { color: var(--muted); font-size: 13px; }
+    .upload-zone input { display: none; }
+
+    .image-previews { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .image-preview {
+      position: relative; width: 100px; height: 100px; border-radius: 8px; overflow: hidden;
+      border: 2px solid var(--ring); flex-shrink: 0;
+    }
+    .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .image-preview .remove-img {
+      position: absolute; top: 2px; right: 2px; background: var(--danger); color: white;
+      border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer;
+      font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Processing overlay */
+    .processing-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000;
+      display: none; align-items: center; justify-content: center;
+    }
+    .processing-overlay.show { display: flex; }
+    .processing-box {
+      background: var(--card); border-radius: 16px; padding: 32px; text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3); max-width: 360px; width: 90%;
+    }
+    .processing-box .spinner {
+      width: 48px; height: 48px; border: 4px solid var(--ring);
+      border-top: 4px solid var(--brand); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .processing-box h3 { color: var(--ink); margin-bottom: 6px; }
+    .processing-box p { color: var(--muted); font-size: 13px; }
+
+    /* Continue button */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: white; border: none; padding: 12px 28px; border-radius: 10px;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(13,148,136,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,148,136,0.4); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary {
+      background: var(--card); border: 2px solid var(--ring-strong); color: var(--ink);
+      padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer;
+      font-size: 14px; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-secondary:hover { border-color: var(--brand); color: var(--brand); }
+
+    /* Task list in wizard */
+    .task-inputs-list { display: flex; flex-direction: column; gap: 16px; max-height: 55vh; overflow-y: auto; padding-right: 4px; }
+    .task-inputs-list::-webkit-scrollbar { width: 4px; }
+    .task-inputs-list::-webkit-scrollbar-thumb { background: var(--ring-strong); border-radius: 4px; }
+    .wizard-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+    /* Name input */
+    .name-input {
+      width: 100%; padding: 12px 16px; border: 2px solid var(--ring); border-radius: 10px;
+      font-size: 15px; background: var(--bg); color: var(--ink); margin-bottom: 12px;
+    }
+    .name-input:focus { outline: none; border-color: var(--brand); }
+
+    /* Inline prompt editor in exam view */
+    .prompt-mode-btn {
+      background: var(--card); border: 2px solid var(--ring); padding: 5px 12px;
+      border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+      color: var(--muted); transition: all 0.2s;
+    }
+    .prompt-mode-btn.active { border-color: var(--brand); color: var(--brand); background: var(--brand-weak); }
+    .prompt-mode-btn:hover { border-color: var(--brand); }
+
+    .prompt-textarea {
+      width: 100%; min-height: 300px; border: 2px solid var(--ring); border-radius: 10px;
+      padding: 12px; font-family: inherit; font-size: 14px; resize: vertical;
+      background: var(--card); color: var(--ink); line-height: 1.6;
+    }
+    .prompt-textarea:focus { outline: none; border-color: var(--brand); }
+    .prompt-textarea::placeholder { color: var(--muted); }
+
+    .upload-zone-inline {
+      border: 2px dashed var(--ring-strong); border-radius: 10px; padding: 16px;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--card);
+      min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .upload-zone-inline:hover, .upload-zone-inline:focus, .upload-zone-inline.dragover {
+      border-color: var(--brand); background: var(--brand-weak); outline: none;
+    }
+    .upload-zone-inline .zone-placeholder { pointer-events: none; }
+    .upload-zone-inline.has-images { padding: 8px; cursor: default; }
+    .upload-zone-inline.has-images .zone-placeholder { display: none; }
+    .upload-zone-inline .zone-previews {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: 100%;
+    }
+    .upload-zone-inline .zone-previews .zone-img {
+      position: relative; width: 90px; height: 90px; border-radius: 8px;
+      overflow: hidden; border: 2px solid var(--ring); flex-shrink: 0;
+    }
+    .upload-zone-inline .zone-previews .zone-img img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .upload-zone-inline .zone-previews .zone-img .remove-img {
+      position: absolute; top: 2px; right: 2px; background: var(--danger); color: white;
+      border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer;
+      font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+    }
+    .upload-actions {
+      display: none; gap: 8px; margin-top: 8px;
+    }
+    .upload-actions.visible { display: flex; }
+    .upload-actions .ua-btn {
+      flex: 1; padding: 10px 14px; border: none; border-radius: 10px;
+      font-weight: 700; font-size: 13px; cursor: pointer; display: flex;
+      align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+    }
+    .ua-btn.add-more {
+      background: var(--brand-weak); color: var(--brand); border: 1px solid var(--ring-strong);
+    }
+    .ua-btn.add-more:hover { background: var(--brand); color: white; }
+    .ua-btn.done-btn {
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong)); color: white;
+    }
+    .ua-btn.done-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+    .ua-btn.done-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .ua-btn .spinner-sm {
+      width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .prompt-mode-area { margin-top: 4px; }
+
+    /* ===== EXAM INTERFACE ===== */
+    .exam-interface { display: none; height: 100vh; flex-direction: column; }
+    .exam-interface.active { display: flex; }
+
+    .top-bar {
+      background: var(--card); border-bottom: 2px solid var(--ring);
+      padding: 8px 16px; display: flex; align-items: center; gap: 12px;
+      flex-shrink: 0; z-index: 10;
+    }
+    .top-bar .back-btn {
+      background: none; border: 2px solid var(--ring-strong); color: var(--brand);
+      padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer;
+      font-size: 13px; display: flex; align-items: center; gap: 4px;
+    }
+    .top-bar .exam-title { font-weight: 700; color: var(--brand); font-size: 15px; flex: 1; }
+    .top-bar .timer-display {
+      background: var(--brand-weak); color: var(--brand); padding: 6px 14px;
+      border-radius: 8px; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums;
+    }
+    .top-bar .submit-btn {
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: white; border: none; padding: 8px 18px; border-radius: 8px;
+      font-weight: 700; cursor: pointer; font-size: 13px;
+    }
+    .top-bar .submit-btn:hover { opacity: 0.9; }
+    .top-bar .fs-btn {
+      background: var(--brand-weak); border: 1px solid var(--ring-strong); color: var(--brand);
+      width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .top-bar .fs-btn:hover { background: var(--brand); color: white; }
+
+    /* ===== MOBILE FAB ===== */
+    .mob-fab-container { display: none; }
+
+    .task-nav {
+      display: flex; background: var(--card); border-bottom: 2px solid var(--ring);
+      flex-shrink: 0; overflow-x: auto;
+    }
+    .task-nav-btn {
+      flex: 1; padding: 10px 16px; border: none; background: none;
+      font-weight: 600; font-size: 13px; color: var(--muted); cursor: pointer;
+      border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap;
+    }
+    .task-nav-btn.active { color: var(--brand); border-bottom-color: var(--brand); background: var(--brand-weak); }
+    .task-nav-btn:hover { background: var(--brand-weak); }
+
+    .task-container { display: none; flex: 1; overflow: hidden; }
+    .task-container.active { display: flex; flex-direction: column; }
+
+    #taskContainers { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+
+    .task-split { display: flex; flex: 1; overflow: hidden; position: relative; }
+    .task-prompt-side {
+      flex: 0 0 45%; background: var(--brand-weak); padding: 20px 24px;
+      overflow-y: auto; border-right: 3px solid var(--brand); position: relative;
+    }
+    .task-answer-side {
+      flex: 1; padding: 12px 20px; background: var(--bg);
+      overflow-y: auto; display: flex; flex-direction: column;
+    }
+    .resize-handle {
+      width: 6px; background: var(--ring-strong); cursor: col-resize;
+      position: relative; flex-shrink: 0; transition: background 0.2s;
+    }
+    .resize-handle:hover { background: var(--brand); }
+
+    .prompt-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .prompt-header h2 { font-size: 18px; color: var(--brand); }
+    .chip { background: var(--brand); color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+    .prompt-text { line-height: 1.7; font-size: 15px; color: var(--ink); white-space: pre-wrap; }
+    .prompt-text img { max-width: 100%; border-radius: 8px; margin: 12px 0; border: 2px solid var(--ring); }
+
+    .prompt-locked { padding: 4px 0; }
+    .prompt-locked .prompt-card {
+      background: #fffbeb; border: 2px solid #f59e0b; border-radius: 10px;
+      padding: 16px 18px; margin: 6px 0; white-space: pre-wrap;
+      font-family: 'Georgia', serif; color: var(--ink); line-height: 1.8; font-size: 15px;
+    }
+    .prompt-edit-btn {
+      background: var(--brand-weak); color: var(--brand); border: 1px solid var(--ring-strong);
+      padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 12px;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 8px; transition: all 0.2s;
+    }
+    .prompt-edit-btn:hover { background: var(--brand); color: white; }
+
+    /* CEFR Task 1.2 shared context */
+    .t12-shared-context { margin-bottom: 0; }
+    .t12-shared-context .t12-card {
+      background: #f0f9ff; border: 2px solid #38bdf8; border-radius: 10px;
+      padding: 16px 18px;
+      font-family: 'Georgia', serif; color: var(--ink); line-height: 1.8; font-size: 15px;
+    }
+    .t12-card #t12-ctx-text { white-space: pre-wrap; }
+    .t12-card .t12-prompt-area {
+      margin-top: 0; padding-top: 0;
+    }
+    .t12-card .t12-prompt-area label {
+      display: block; font-weight: 700; font-size: 12px; color: var(--brand);
+      margin-bottom: 6px; font-family: system-ui, sans-serif;
+    }
+    .t12-card .t12-prompt-ta {
+      width: 100%; min-height: 60px; max-height: 120px; padding: 10px 12px;
+      border: 1.5px solid var(--ring-strong); border-radius: 8px; font-size: 14px;
+      font-family: system-ui, sans-serif; resize: vertical; background: #fff;
+      line-height: 1.5; color: var(--ink);
+    }
+    .t12-card .t12-prompt-ta:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(20,184,166,0.13); }
+    .t12-card .t12-done-btn {
+      margin-top: 8px; background: var(--brand); color: #fff; border: none;
+      padding: 6px 16px; border-radius: 8px; font-weight: 700; font-size: 13px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .t12-card .t12-done-btn:hover { filter: brightness(1.1); }
+    .t12-prompt-locked { margin-top: 0; padding-top: 0; }
+    .t12-prompt-display {
+      font-family: 'Georgia', serif; color: var(--ink); line-height: 1.7; font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .answer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .answer-header h3 { font-size: 15px; color: var(--ink); }
+    .wc { font-size: 13px; font-weight: 600; color: var(--muted); background: var(--brand-weak); padding: 4px 10px; border-radius: 6px; }
+
+    .answer-textarea {
+      flex: 1; width: 100%; border: 2px solid var(--ring); border-radius: 10px;
+      padding: 14px; font-family: 'Georgia', serif; font-size: 16px; line-height: 1.8;
+      resize: none; background: var(--card); color: var(--ink);
+    }
+    .answer-textarea:focus { outline: none; border-color: var(--brand); }
+
+    /* Graph/chart container in prompt */
+    .task-graph { margin: 12px 0; text-align: center; }
+    .task-graph img { max-width: 100%; border-radius: 8px; border: 2px solid var(--ring); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+    /* ===== RESULTS OVERLAY ===== */
+    .results-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 3000;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+      overflow-y: auto;
+    }
+    .results-overlay.show { display: flex; }
+    .results-card {
+      background: var(--card); border-radius: 16px; padding: 28px;
+      max-width: 700px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      max-height: 90vh; overflow-y: auto;
+    }
+    .results-card h2 { color: var(--brand); margin-bottom: 16px; font-size: 20px; }
+    .score-grid { display: grid; gap: 12px; margin-bottom: 20px; }
+    .score-item {
+      background: var(--bg); border: 2px solid var(--ring); border-radius: 10px;
+      padding: 14px; display: flex; align-items: center; gap: 12px;
+    }
+    .score-item .score-num {
+      background: var(--brand); color: white; width: 48px; height: 48px;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; flex-shrink: 0;
+    }
+    .score-item .score-info h4 { font-size: 14px; color: var(--ink); }
+    .score-item .score-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .feedback-section { margin-top: 16px; }
+    .feedback-section h3 { font-size: 15px; color: var(--brand); margin-bottom: 8px; }
+    .feedback-box {
+      background: var(--bg); border: 2px solid var(--ring); border-radius: 10px;
+      padding: 14px; font-size: 14px; line-height: 1.6; color: var(--ink); white-space: pre-wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .wizard-card { padding: 20px; }
+      .opt-grid.two-col { grid-template-columns: 1fr 1fr; }
+      .task-split { flex-direction: column; }
+      .task-prompt-side {
+        flex: 0 0 40vh; min-height: 20vh; max-height: 60vh;
+        border-right: none; border-bottom: 3px solid var(--brand);
+      }
+      .task-answer-side { flex: 1 1 auto; min-height: 30vh; }
+      .resize-handle { width: 100%; height: 8px; cursor: row-resize; }
+      .top-bar { flex-wrap: nowrap; gap: 8px; padding: 6px 12px; }
+      .top-bar .back-btn { padding: 5px 10px; font-size: 12px; }
+      .top-bar .exam-title { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .top-bar .timer-display { display: none; }
+      .top-bar .fs-btn { display: none; }
+      .top-bar .submit-btn { display: none; }
+      .task-nav { display: none; }
+
+      /* FAB visible on mobile */
+      .mob-fab-container { display: block; }
+
+      .mob-fab {
+        position: fixed; right: 20px; bottom: 20px;
+        width: 60px; height: 60px;
+        background: linear-gradient(135deg, var(--brand) 0%, #0d554d 100%);
+        color: white; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        cursor: pointer; z-index: 2000; transition: transform 0.3s, opacity 0.4s;
+      }
+      .mob-fab.active { transform: rotate(45deg); }
+
+      .mob-menu-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px); display: none; z-index: 1998;
+      }
+
+      .mob-tools-menu {
+        position: fixed; right: 20px; bottom: 90px;
+        width: min(320px, 90vw); background: var(--card);
+        border: 1px solid var(--ring-strong); border-radius: 20px;
+        padding: 20px; display: none; flex-direction: column; gap: 15px;
+        z-index: 1999; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        animation: fabSlideUp 0.3s ease-out;
+      }
+
+      @keyframes fabSlideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+
+      .mob-timer-display {
+        text-align: center; font-size: 28px; font-weight: 800;
+        color: var(--brand); background: var(--brand-weak);
+        padding: 10px; border-radius: 12px; letter-spacing: 1px;
+      }
+
+      .mob-action-row {
+        display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      }
+
+      .mob-tool-btn {
+        background: var(--brand-weak); border: 1px solid var(--ring-strong);
+        color: var(--brand); padding: 10px 4px; border-radius: 12px;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 4px; cursor: pointer; font-weight: 700; font-size: 11px;
+      }
+
+      .mob-tool-item-icon { font-size: 18px; }
+
+      .mob-nav-grid {
+        display: grid; grid-template-columns: repeat(2, 1fr);
+        gap: 10px; margin-top: 5px;
+      }
+
+      .mob-nav-btn {
+        padding: 12px; border-radius: 12px;
+        border: 1px solid var(--ring-strong); background: var(--card);
+        color: var(--muted); font-weight: 800;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+      }
+      .mob-nav-btn.active {
+        background: var(--brand); color: white; border-color: var(--brand);
+      }
+
+      .mob-footer-actions {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      }
+
+      .mob-back-btn {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white; border: none; padding: 15px; border-radius: 12px;
+        font-weight: 800; font-size: 16px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+      }
+
+      .mob-submit-btn {
+        background: var(--brand); color: white; border: none;
+        padding: 15px; border-radius: 12px; font-weight: 800;
+        font-size: 16px; cursor: pointer;
+      }
+    }
+    @media (max-width: 400px) {
+      .opt-grid.two-col { grid-template-columns: 1fr; }
+    }
+
+    /* ===== CUSTOM CONFIRM OVERLAY ===== */
+    .confirm-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px); display: flex; align-items: center;
+      justify-content: center; z-index: 10000;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    }
+    .confirm-overlay.active { opacity: 1; visibility: visible; }
+    .confirm-box {
+      background: white; border-radius: 20px; padding: 32px;
+      max-width: 400px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: scale(0.8) translateY(20px); transition: transform 0.3s ease;
+    }
+    .confirm-overlay.active .confirm-box { transform: scale(1) translateY(0); }
+    .confirm-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, #fde2e2, #fee2e2);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 20px; font-size: 36px;
+    }
+    .confirm-title { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+    .confirm-message { color: #64748b; font-size: 13px; font-style: italic; line-height: 1.6; margin-bottom: 24px; }
+    .confirm-buttons { display: flex; gap: 12px; }
+    .confirm-btn {
+      flex: 1; padding: 14px 20px; border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .confirm-btn.cancel { background: #f1f5f9; color: #1e293b; }
+    .confirm-btn.cancel:hover { background: #e2e8f0; }
+    .confirm-btn.exit {
+      background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+    }
+    .confirm-btn.exit:hover {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239,68,68,0.4);
+    }
+
+    /* Custom badge */
+    .writing-plus-badge {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: white; padding: 2px 8px; border-radius: 6px; font-size: 10px;
+      font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== EXIT CONFIRM OVERLAY ===== -->
+  <div class="confirm-overlay" id="confirmExitOverlay">
+    <div class="confirm-box">
+      <div class="confirm-icon">🚪</div>
+      <div class="confirm-title">Exit Writing?</div>
+      <div class="confirm-message">Are you sure you want to leave? Your progress will <strong>not be saved</strong>.</div>
+      <div class="confirm-buttons">
+        <button class="confirm-btn cancel" id="exitCancelBtn">Cancel</button>
+        <button class="confirm-btn exit" id="exitConfirmBtn">Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SETUP WIZARD ===== -->
+  <div class="wizard-overlay" id="wizardOverlay">
+    <div class="wizard-card">
+
+      <!-- Step 1: Choose Format -->
+      <div class="wizard-step active" id="step1">
+        <button class="wizard-back" onclick="goBack()">← Back</button>
+        <h2>✍️ Writing Plus</h2>
+        <p>Practice with your own writing tasks</p>
+        <div class="opt-grid two-col">
+          <div class="opt-btn" onclick="selectFormat('cefr')">
+            <span class="opt-icon"><img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ" style="width:40px;height:40px;border-radius:50%;border:2px solid #e2e8f0"></span>
+            <span class="opt-title">CEFR</span>
+            <span class="opt-desc">3 tasks: 1.1, 1.2, Task 2</span>
+          </div>
+          <div class="opt-btn" onclick="selectFormat('ielts')">
+            <span class="opt-icon">🌍</span>
+            <span class="opt-title">IELTS</span>
+            <span class="opt-desc">2 tasks: Task 1, Task 2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Choose Mode -->
+      <div class="wizard-step" id="step2">
+        <button class="wizard-back" onclick="goToStep(1)">← Back</button>
+        <h2 id="step2Title">Select Mode</h2>
+        <p>How would you like to practice?</p>
+        <div class="opt-grid two-col">
+          <div class="opt-btn" onclick="selectMode('fullmock')">
+            <span class="opt-icon">📋</span>
+            <span class="opt-title">Full Mock</span>
+            <span class="opt-desc" id="fullmockDesc">Complete all tasks with a timer</span>
+          </div>
+          <div class="opt-btn" onclick="selectMode('practice')">
+            <span class="opt-icon">🎯</span>
+            <span class="opt-title">Task Practice</span>
+            <span class="opt-desc">Practice a single task</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2b: Choose which task (practice mode only) -->
+      <div class="wizard-step" id="step2b">
+        <button class="wizard-back" onclick="goToStep(2)">← Back</button>
+        <h2>Which task?</h2>
+        <p>Select the task you want to practice</p>
+        <div class="opt-grid" id="taskPickerGrid"></div>
+      </div>
+
+      <!-- Hidden candidateName holder for auto-pulled name -->
+      <input type="hidden" id="candidateName" value="">
+    </div>
+  </div>
+
+  <!-- ===== PROCESSING OVERLAY ===== -->
+  <div class="processing-overlay" id="processingOverlay">
+    <div class="processing-box">
+      <div class="spinner"></div>
+      <h3 id="processingTitle">Converting Images...</h3>
+      <p id="processingMsg">Gemini AI is reading your task images</p>
+    </div>
+  </div>
+
+  <!-- ===== AI SCORING MODAL ===== -->
+  <div id="wpAiScoringModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;width:min(92vw,420px);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#116a60,#0d9488);padding:18px 20px;border-radius:16px 16px 0 0;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:28px;">📊</span>
+          <h3 style="margin:0;color:#fff;font-size:17px;font-weight:800;">AI Writing Evaluation Report</h3>
+        </div>
+        <div style="width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+          <span style="font-size:14px;">⬇</span>
+        </div>
+      </div>
+      <!-- Content -->
+      <div style="padding:24px 20px;">
+        <!-- Spinner -->
+        <div style="width:56px;height:56px;margin:0 auto 16px;position:relative;">
+          <div style="position:absolute;inset:0;border:3px solid #e5e7eb;border-radius:50%;"></div>
+          <div style="position:absolute;inset:0;border:3px solid transparent;border-top-color:#116a60;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        <h4 style="text-align:center;color:var(--ink);font-size:15px;margin:0 0 4px;">👑 Premium AI Scoring</h4>
+        <p style="text-align:center;color:#6b7280;font-size:12px;margin:0 0 18px;">Thoroughly analyzing each task...</p>
+
+        <!-- Task progress bars -->
+        <div style="max-width:320px;margin:0 auto 18px;">
+          <div style="margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#92400e;">📝 Task 1.1</span>
+              <span id="wpTask11Status" style="font-size:10px;color:#9ca3af;">Waiting...</span>
+            </div>
+            <div style="height:6px;background:#fef3c7;border-radius:3px;overflow:hidden;">
+              <div id="wpTask11Bar" style="height:100%;width:0%;background:linear-gradient(90deg,#f59e0b,#d97706);transition:width 0.5s ease;"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#1e40af;">📝 Task 1.2</span>
+              <span id="wpTask12Status" style="font-size:10px;color:#9ca3af;">Waiting...</span>
+            </div>
+            <div style="height:6px;background:#dbeafe;border-radius:3px;overflow:hidden;">
+              <div id="wpTask12Bar" style="height:100%;width:0%;background:linear-gradient(90deg,#3b82f6,#2563eb);transition:width 0.5s ease;"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+              <span style="font-size:11px;font-weight:600;color:#7c3aed;">📝 Part 2</span>
+              <span id="wpTaskP2Status" style="font-size:10px;color:#9ca3af;">Waiting...</span>
+            </div>
+            <div style="height:6px;background:#ede9fe;border-radius:3px;overflow:hidden;">
+              <div id="wpTaskP2Bar" style="height:100%;width:0%;background:linear-gradient(90deg,#8b5cf6,#7c3aed);transition:width 0.5s ease;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div style="max-width:280px;margin:0 auto;">
+          <div id="wpAiStep1" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">1</div>
+            <span>Premium verified</span>
+          </div>
+          <div id="wpAiStep2" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">2</div>
+            <span>Connecting to Gemini AI...</span>
+          </div>
+          <div id="wpAiStep3" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">3</div>
+            <span>Reading task prompts...</span>
+          </div>
+          <div id="wpAiStep4" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">4</div>
+            <span>Evaluating responses...</span>
+          </div>
+          <div id="wpAiStep5" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">5</div>
+            <span>Calculating scores...</span>
+          </div>
+          <div id="wpAiStep6" style="display:flex;align-items:center;gap:10px;padding:4px 0;color:#9ca3af;font-size:13px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">6</div>
+            <span>Generating report...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXAM INTERFACE ===== -->
+  <div class="exam-interface" id="examInterface">
+    <div class="top-bar">
+      <button class="back-btn" onclick="confirmExit()">← Exit</button>
+      <span class="exam-title" id="examTitle">Writing Plus — CEFR</span>
+      <span class="timer-display" id="timerDisplay">00:00</span>
+      <button class="fs-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">⛶</button>
+      <button class="submit-btn" onclick="submitExam()">Submit</button>
+    </div>
+    <div class="task-nav" id="taskNav"></div>
+    <div id="taskContainers"></div>
+
+    <!-- Mobile FAB Toolkit -->
+    <div class="mob-fab-container">
+      <div class="mob-menu-overlay" id="mobMenuOverlay"></div>
+      <div class="mob-tools-menu" id="mobToolsMenu">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div class="mob-timer-display" id="mobTimer">00:00</div>
+          <button onclick="toggleMenu()" style="width:32px;height:32px;border:none;background:#f1f5f9;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#64748b;flex-shrink:0;" title="Close">✕</button>
+        </div>
+        <div class="mob-action-row">
+          <div class="mob-tool-btn" id="mobFSBtn" onclick="toggleExamFullscreen()">
+            <span class="mob-tool-item-icon">⛶</span>
+            <span>Fullscreen</span>
+          </div>
+          <div class="mob-tool-btn" onclick="toggleMenu(); confirmExit();">
+            <span class="mob-tool-item-icon">🚪</span>
+            <span>Exit</span>
+          </div>
+        </div>
+        <div class="mob-nav-grid" id="mobNavGrid"></div>
+        <div class="mob-footer-actions">
+          <button class="mob-back-btn" onclick="toggleMenu(); confirmExit();">
+            <span>↩️</span> Back
+          </button>
+          <button class="mob-submit-btn" onclick="submitExam()">Finish</button>
+        </div>
+      </div>
+      <div class="mob-fab" id="mobFab">🛠️</div>
+    </div>
+  </div>
+
+  <!-- ===== RESULTS OVERLAY (mirrors Writing Mocks finish overlay) ===== -->
+  <div class="results-overlay" id="resultsOverlay">
+    <div class="results-card" id="resultsCard" style="max-width:650px;width:94vw;max-height:85vh;overflow-y:auto;padding:20px 16px;position:relative;">
+
+      <h3 id="finishHeading" style="margin:0 0 16px;font-size:clamp(20px,4.5vw,28px);color:var(--brand);text-align:center;user-select:none;">
+        Thank you for completing the test! 🎉
+      </h3>
+
+      <!-- Submission status -->
+      <div id="wpSubmissionStatus" style="background:#ecfdf5;border:2px solid #059669;border-radius:12px;padding:14px;margin:12px 0;text-align:center;display:none;">
+        <p style="margin:0;color:#059669;font-weight:700;font-size:15px;">✅ Your answers have been submitted successfully!</p>
+      </div>
+
+      <!-- AI Score Display -->
+      <div id="wpAiScoreDisplay" style="display:none;background:linear-gradient(135deg,#f8fafc,#f1f5f9);border:2px solid #7c3aed;border-radius:16px;padding:20px;margin:16px 0;">
+        <h4 style="margin:0 0 16px;text-align:center;color:#7c3aed;font-size:18px;font-weight:800;">🤖 AI Score Results</h4>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;">
+          <div style="background:linear-gradient(135deg,#3b82f6,#2563eb);padding:16px 8px;border-radius:10px;text-align:center;color:white;">
+            <div style="font-size:11px;opacity:0.85;margin-bottom:4px;">Certificate Score</div>
+            <div id="wpCertScore" style="font-size:28px;font-weight:800;">—/75</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:16px 8px;border-radius:10px;text-align:center;color:white;">
+            <div style="font-size:11px;opacity:0.85;margin-bottom:4px;">CEFR Level</div>
+            <div id="wpCefrLevel" style="font-size:28px;font-weight:800;">—</div>
+          </div>
+        </div>
+        <!-- Raw Score (secondary) -->
+        <div id="wpRawScoreRow" style="display:none;text-align:center;margin-bottom:12px;">
+          <span style="font-size:13px;color:#64748b;">Raw Score: </span>
+          <span id="wpRawScore" style="font-size:15px;font-weight:800;color:#334155;">—/16</span>
+          <span style="font-size:12px;color:#94a3b8;margin-left:8px;">(T1.1: <span id="wpT11Score">—</span>/5 · T1.2: <span id="wpT12Score">—</span>/5 · Part 2: <span id="wpT2Score">—</span>/6)</span>
+        </div>
+        <!-- View Details button -->
+        <button id="wpViewDetailsBtn" onclick="showAiDetails()" style="display:none;margin-top:4px;padding:14px 20px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(124,58,237,0.4)'"
+          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">📋 View Details</button>
+      </div>
+
+      <!-- Fallback: raw feedback when AI doesn't return structured JSON -->
+      <div id="wpRawFeedback" style="display:none;background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:20px;margin:16px 0;white-space:pre-wrap;font-size:14px;line-height:1.8;color:var(--ink);"></div>
+
+      <!-- IELTS results content (used by showResults for IELTS mode) -->
+      <div id="resultsContent" style="display:none;"></div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px;">
+        <button onclick="tryAgain()" style="background:var(--brand);color:white;border:none;padding:14px 24px;border-radius:10px;font-weight:900;cursor:pointer;font-size:16px;flex:1;min-width:140px;transition:all 0.2s;box-shadow:0 4px 12px rgba(13,148,136,0.3);"
+          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">🔄 Try Again</button>
+        <button onclick="goBack()" style="background:#64748b;color:white;border:none;padding:14px 24px;border-radius:10px;font-weight:900;cursor:pointer;font-size:16px;flex:1;min-width:140px;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);"
+          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">🏠 Back to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Details Modal (full analysis popup) -->
+  <div id="wpAiDetailsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:4000;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;">
+    <div style="background:white;border-radius:16px;max-width:750px;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;box-shadow:0 25px 50px rgba(0,0,0,0.3);position:relative;">
+      <div style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;position:sticky;top:0;z-index:1;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:24px;">🤖</span>
+          <div>
+            <h2 style="margin:0;font-size:18px;font-weight:700;">AI Writing Assessment</h2>
+            <div style="font-size:13px;opacity:0.9;">Detailed Analysis</div>
+          </div>
+        </div>
+        <button onclick="closeAiDetails()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;min-width:36px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;">×</button>
+      </div>
+      <div id="wpAiDetailsContent" style="padding:24px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const ADMIN_TELEGRAM_ENDPOINT = 'https://admin0709.alwaysdata.net/send';
+    let GEMINI_KEY = null;
+    let API_KEY = null;
+    let startedAt = null;
+
+    async function getGeminiKey() {
+      const r = await fetch('https://davirbek.alwaysdata.net/key?model=gemini').then(r => r.json());
+      GEMINI_KEY = r.key;
+    }
+    async function getOpenAIKey() {
+      const r = await fetch('https://davirbek.alwaysdata.net/key').then(r => r.json());
+      API_KEY = r.key;
+    }
+
+    /* --- AI Scoring Modal helpers --- */
+    function _showAiScoringModal() {
+      const m = document.getElementById('wpAiScoringModal');
+      m.style.display = 'flex';
+      // Reset all steps and bars
+      for (let i = 1; i <= 6; i++) {
+        const s = document.getElementById('wpAiStep' + i);
+        if (s) { s.style.color = '#9ca3af'; s.querySelector('div').style.background = '#e5e7eb'; s.querySelector('div').textContent = i; }
+      }
+      ['wpTask11Bar','wpTask12Bar','wpTaskP2Bar'].forEach(id => { var b = document.getElementById(id); if(b) b.style.width = '0%'; });
+      ['wpTask11Status','wpTask12Status','wpTaskP2Status'].forEach(id => { var s = document.getElementById(id); if(s) s.textContent = 'Waiting...'; });
+    }
+    function _hideAiScoringModal() { document.getElementById('wpAiScoringModal').style.display = 'none'; }
+    function _wpStep(n, state) {
+      const s = document.getElementById('wpAiStep' + n);
+      if (!s) return;
+      const icon = s.querySelector('div');
+      if (state === 'active') { s.style.color = '#116a60'; s.style.fontWeight = '600'; icon.style.background = '#d1fae5'; icon.textContent = n; }
+      else if (state === 'done') { s.style.color = '#059669'; s.style.fontWeight = '600'; icon.style.background = '#059669'; icon.style.color = '#fff'; icon.innerHTML = '✓'; }
+    }
+    function _wpTaskBar(task, pct, status) {
+      var b = document.getElementById('wpTask' + task + 'Bar');
+      var s = document.getElementById('wpTask' + task + 'Status');
+      if (b) b.style.width = pct + '%';
+      if (s) s.textContent = status;
+    }
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // ===== SCORING PROMPTS (from Site Management) =====
+    var _scoringPromptsCache = null;
+    var _scoringPromptsCacheTime = 0;
+    async function _loadScoringPrompts() {
+      if (_scoringPromptsCache && Date.now() - _scoringPromptsCacheTime < 300000) return _scoringPromptsCache;
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error(r.status);
+        var rows = await r.json();
+        _scoringPromptsCache = {};
+        rows.forEach(function(x) { _scoringPromptsCache[x.key] = x.value; });
+        _scoringPromptsCacheTime = Date.now();
+      } catch(e) { console.warn('[ScoringPrompts] load failed:', e.message); }
+      return _scoringPromptsCache || {};
+    }
+
+    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+    async function _fetchProviderKey(m) {
+      var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+      if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+    }
+
+    async function _callScoringAI(systemText, userPrompt, opts) {
+      var cp = await _loadScoringPrompts();
+      var provider = cp['scoring_ai_provider'] || 'gemini';
+      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      opts = opts || {};
+      if (provider === 'openai') {
+        if (!API_KEY) { try { await getOpenAIKey(); } catch(e){} }
+        if (!API_KEY) throw new Error('No OpenAI API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'claude') {
+        if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+        if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+        var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+        if (systemText) cBody.system = systemText;
+        if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+        var r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+          body: JSON.stringify(cBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.content[0].text;
+      } else if (provider === 'grok') {
+        if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+        if (!_GROK_KEY) throw new Error('No Grok API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'deepseek') {
+        if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+        if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.deepseek.com/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else {
+        if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+        if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+        var gBody = {
+          contents: [{ parts: opts.contentParts || [{ text: userPrompt }] }],
+          generationConfig: { temperature: opts.temperature || 0.3 }
+        };
+        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+        if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(gBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
+      }
+    }
+
+    // ===== STATE =====
+    let examFormat = ''; // 'cefr' or 'ielts'
+    let examMode = '';   // 'fullmock' or 'practice'
+    let practiceTaskId = ''; // e.g. 't11', 't12', 't2', 't1'
+    let taskDefs = [];   // [{id, label, target, prompt, graphUrl, graphBase64}]
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let examStarted = false;
+
+    const TASK_CONFIGS = {
+      cefr: [
+        { id: 't11', label: 'Task 1.1', target: '50–70 words', time: 15 },
+        { id: 't12', label: 'Task 1.2', target: '120–150 words', time: 25 },
+        { id: 't2',  label: 'Task 2',   target: '180–200 words', time: 20 }
+      ],
+      ielts: [
+        { id: 't1', label: 'Task 1', target: '150+ words', time: 20, hasGraph: true },
+        { id: 't2', label: 'Task 2', target: '250+ words', time: 40 }
+      ]
+    };
+
+    // ===== WIZARD NAVIGATION =====
+    function goToStep(n) {
+      document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + n).classList.add('active');
+    }
+
+    function selectFormat(fmt) {
+      examFormat = fmt;
+      document.getElementById('step2Title').textContent = fmt.toUpperCase() + ' Writing Plus';
+      const tasks = TASK_CONFIGS[fmt];
+      document.getElementById('fullmockDesc').textContent = 
+        fmt === 'cefr' ? 'All 3 tasks (60 min timer)' : 'Both tasks (60 min timer)';
+      goToStep(2);
+    }
+
+    function selectMode(mode) {
+      examMode = mode;
+      if (mode === 'practice') {
+        // Show task picker
+        const grid = document.getElementById('taskPickerGrid');
+        const tasks = TASK_CONFIGS[examFormat];
+        grid.innerHTML = tasks.map(t => `
+          <div class="opt-btn" onclick="selectPracticeTask('${t.id}')">
+            <span class="opt-icon">📝</span>
+            <span class="opt-title">${t.label}</span>
+            <span class="opt-desc">🎯 ${t.target} · ${t.time} min</span>
+          </div>
+        `).join('');
+        goToStep('2b');
+      } else {
+        practiceTaskId = '';
+        launchExam();
+      }
+    }
+
+    function selectPracticeTask(taskId) {
+      practiceTaskId = taskId;
+      launchExam();
+    }
+
+    function goBackFromExam() {
+      if (examMode === 'practice') goToStep('2b');
+      else goToStep(2);
+    }
+
+    // ===== FILE HANDLING =====
+    const uploadedFiles = {}; // taskId -> [File, File, File]
+    const graphFiles = {};    // taskId -> File
+
+    function renderPreviews(taskId, files, containerId, isGraph) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = files.map((f, i) => {
+        const url = URL.createObjectURL(f);
+        return `<div class="image-preview">
+          <img src="${url}" alt="Preview">
+          <button class="remove-img" onclick="removeImage('${taskId}',${i},${!!isGraph})">&times;</button>
+        </div>`;
+      }).join('');
+    }
+
+    function removeImage(taskId, idx, isGraph) {
+      if (isGraph) {
+        delete graphFiles[taskId];
+        const gPrev = document.getElementById('gprev-' + taskId);
+        if (gPrev) gPrev.innerHTML = '';
+        const gFile = document.getElementById('gfile-' + taskId);
+        if (gFile) gFile.value = '';
+      } else {
+        uploadedFiles[taskId].splice(idx, 1);
+        renderPreviews(taskId, uploadedFiles[taskId], 'pprev-' + taskId);
+      }
+    }
+
+    function setupDragDrop(zoneId, inputId) {
+      const zone = document.getElementById(zoneId);
+      if (!zone) return;
+      ['dragenter', 'dragover'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.add('dragover'); }));
+      ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.remove('dragover'); }));
+      zone.addEventListener('drop', ev => {
+        const input = document.getElementById(inputId);
+        input.files = ev.dataTransfer.files;
+        input.dispatchEvent(new Event('change'));
+      });
+
+      // Paste support — works when zone is focused or globally when image mode is visible
+      zone.addEventListener('paste', ev => { handlePasteEvent(ev, inputId); });
+    }
+
+    // Global paste listener — pastes into the first visible inline upload zone
+    document.addEventListener('paste', function(ev) {
+      const images = Array.from(ev.clipboardData?.items || []).filter(i => i.type.startsWith('image/'));
+      if (!images.length) return;
+      // Find first visible inline upload zone (image or graph mode that is shown)
+      const visibleZone = document.querySelector('.prompt-mode-area:not([style*="display:none"]):not([style*="display: none"]) .upload-zone-inline')
+        || document.querySelector('.upload-zone-inline:focus');
+      if (!visibleZone) return;
+      const input = visibleZone.querySelector('input[type="file"]');
+      if (input) handlePasteEvent(ev, input.id);
+    });
+
+    function handlePasteEvent(ev, inputId) {
+      const items = Array.from(ev.clipboardData?.items || []);
+      const imageItems = items.filter(i => i.type.startsWith('image/'));
+      if (!imageItems.length) return;
+      ev.preventDefault();
+
+      const isGraph = inputId.startsWith('gfile-');
+      const taskId = inputId.replace('pfile-', '').replace('gfile-', '');
+
+      const pastedFiles = imageItems.map(item => item.getAsFile()).filter(Boolean);
+      if (!pastedFiles.length) return;
+
+      if (isGraph) {
+        graphFiles[taskId] = pastedFiles[0];
+        renderPreviews(taskId, [pastedFiles[0]], 'gprev-' + taskId, true);
+      } else {
+        const existing = uploadedFiles[taskId] || [];
+        const combined = existing.concat(pastedFiles).slice(0, 5);
+        uploadedFiles[taskId] = combined;
+        renderInlineZonePreviews(taskId);
+      }
+    }
+
+    // ===== GEMINI IMAGE-TO-TEXT =====
+    async function imageToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function convertImagesToText(files, context) {
+      if (!GEMINI_KEY) await getGeminiKey();
+      if (!GEMINI_KEY) throw new Error('No Gemini API key');
+
+      const parts = [];
+      parts.push({ text: `You are an expert at reading exam task sheets. Extract and structure the text from the following image(s) of a writing exam task. Context: ${context}.\n\nRules:\n- Output ONLY the task text, properly formatted\n- If there's a graph/chart/table, describe it in detail noting all data points, labels, axes, and trends\n- Preserve any bullet points, numbered items, or formatting\n- If the image is unclear, do your best to interpret it\n- Do NOT add any commentary or instructions that aren't in the original` });
+
+      for (const file of files) {
+        const base64 = await imageToBase64(file);
+        parts.push({
+          inlineData: {
+            mimeType: file.type || 'image/jpeg',
+            data: base64
+          }
+        });
+      }
+
+      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts }],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 2000 }
+        })
+      });
+      if (!r.ok) throw new Error('Gemini API error: ' + r.status);
+      const j = await r.json();
+      if (j.error) throw new Error(j.error.message);
+      if (!j.candidates?.length) throw new Error('No response from Gemini');
+      return j.candidates[0].content.parts[0].text;
+    }
+
+    // ===== UPLOAD GRAPH TO SUPABASE STORAGE =====
+    async function uploadGraphToSupabase(file) {
+      const ext = file.name.split('.').pop() || 'jpg';
+      const uid = crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2);
+      const testId = (window.SITE_CONFIG?.testIdentifier || 'writing_plus').replace(/_/g, '');
+      const path = `${testId}/graphs/${uid}.${ext}`;
+
+      const r = await fetch(`${SB_URL}/storage/v1/object/reports/${path}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': file.type || 'image/jpeg',
+          'x-upsert': 'true'
+        },
+        body: file
+      });
+      if (!r.ok) throw new Error('Storage upload failed: ' + r.status);
+      return `${SB_URL}/storage/v1/object/public/reports/${path}`;
+    }
+
+    // ===== LAUNCH EXAM DIRECTLY =====
+    function launchExam() {
+      const allTasks = TASK_CONFIGS[examFormat];
+      const tasks = examMode === 'practice'
+        ? allTasks.filter(t => t.id === practiceTaskId)
+        : allTasks;
+
+      taskDefs = tasks.map(t => ({ ...t, prompt: '', graphUrl: '', graphBase64: '' }));
+
+      // Auto-pull name
+      const savedName = getGlobalCandidateName();
+      document.getElementById('candidateName').value = savedName || '';
+
+      startExam();
+    }
+
+    // ===== START EXAM =====
+    function startExam() {
+      const name = document.getElementById('candidateName').value.trim() || 'Student';
+
+      // Hide wizard, show exam
+      document.getElementById('wizardOverlay').classList.add('hidden');
+      const exam = document.getElementById('examInterface');
+      exam.classList.add('active');
+
+      // Set title
+      const modeLabel = examMode === 'fullmock' ? 'Full Mock' : taskDefs[0].label;
+      document.getElementById('examTitle').textContent = 
+        `Writing Plus — ${examFormat.toUpperCase()} ${modeLabel}`;
+
+      // Build task navigation
+      const nav = document.getElementById('taskNav');
+      nav.innerHTML = taskDefs.map((t, i) => 
+        `<button class="task-nav-btn ${i === 0 ? 'active' : ''}" onclick="switchTask('${t.id}')">${t.label}</button>`
+      ).join('');
+
+      // Build task containers with INLINE prompt editors
+      const containers = document.getElementById('taskContainers');
+      containers.innerHTML = taskDefs.map((t, i) => {
+        // CEFR Task 1.2: special layout — shared context from 1.1 + text-only prompt
+        const isCefrT12 = (examFormat === 'cefr' && t.id === 't12');
+
+        if (isCefrT12) {
+          return `
+          <div class="task-container ${i === 0 ? 'active' : ''}" id="exam-${t.id}">
+            <div class="task-split">
+              <div class="task-prompt-side">
+                <div class="prompt-header">
+                  <h2>${t.label}</h2>
+                  <div class="chip">🎯 ${t.target}</div>
+                </div>
+                <!-- Shared context + inline T1.2 prompt -->
+                <div id="t12-shared-context" class="t12-shared-context">
+                  <div class="t12-context-placeholder" id="t12-ctx-placeholder">
+                    <div style="color:var(--muted);font-size:13px;font-style:italic;padding:16px;text-align:center;border:2px dashed var(--ring-strong);border-radius:10px;">
+                      📋 Complete Task 1.1 first — the shared context will appear here automatically
+                    </div>
+                  </div>
+                  <div class="t12-card" id="t12-ctx-card" style="display:none">
+                    <div id="t12-card-display">
+                      <div id="t12-ctx-text"></div>
+                      <div class="t12-prompt-locked" id="t12-prompt-locked" style="display:none">
+                        <div class="t12-prompt-display" id="t12-prompt-display"></div>
+                      </div>
+                      <button class="prompt-edit-btn" id="t12-edit-btn" onclick="editT12Card()" style="margin-top:8px">✏️ Edit</button>
+                    </div>
+                    <div id="t12-card-edit" style="display:none">
+                      <textarea class="prompt-textarea" id="t12-full-ta" style="min-height:200px"></textarea>
+                      <button class="t12-done-btn" onclick="finishT12Card()" style="margin-top:8px">✅ Done</button>
+                    </div>
+                    <div class="t12-prompt-area" id="prompt-input-${t.id}">
+                      <label>Task 1.2 Prompt:</label>
+                      <textarea class="t12-prompt-ta" id="ptxt-${t.id}" placeholder="Type the Task 1.2 specific instructions here..."></textarea>
+                      <button class="t12-done-btn" onclick="finishTyping('${t.id}')">✅ Done</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Hidden placeholder for prompt-locked (needed by generic code) -->
+                <div class="prompt-locked" id="prompt-locked-${t.id}" style="display:none">
+                  <div class="prompt-text" id="prompt-display-${t.id}"></div>
+                </div>
+              </div>
+              <div class="resize-handle"></div>
+              <div class="task-answer-side">
+                <div class="answer-header">
+                  <h3>Your Answer</h3>
+                  <div class="wc"><span id="wc-${t.id}">0</span> words</div>
+                </div>
+                <textarea class="answer-textarea" id="ans-${t.id}"
+                  placeholder="Start writing your answer here..."
+                  oninput="updateWordCount('${t.id}')"
+                  spellcheck="false" data-gramm="false"></textarea>
+              </div>
+            </div>
+          </div>`;
+        }
+
+        // Standard layout for all other tasks
+        return `
+        <div class="task-container ${i === 0 ? 'active' : ''}" id="exam-${t.id}">
+          <div class="task-split">
+            <div class="task-prompt-side">
+              <div class="prompt-header">
+                <h2>${t.label}</h2>
+                <div class="chip">🎯 ${t.target}</div>
+              </div>
+              <!-- Inline prompt input -->
+              <div class="inline-prompt-input" id="prompt-input-${t.id}">
+                <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center;">
+                  <button class="prompt-mode-btn active" onclick="switchPromptMode('${t.id}','text',this)">⌨️ Type</button>
+                  <button class="prompt-mode-btn" onclick="switchPromptMode('${t.id}','image',this)">📷 Image</button>
+                  ${t.hasGraph ? '<button class="prompt-mode-btn" onclick="switchPromptMode(\''+t.id+'\',\'graph\',this)">📊 Graph</button>' : ''}
+                </div>
+                <div class="prompt-mode-area" id="prompt-text-${t.id}">
+                  <textarea class="prompt-textarea" id="ptxt-${t.id}" placeholder="Paste or type your ${t.label} prompt here...">${t.hasGraph ? 'The chart/graph below shows...\\n\\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\\n\\nWrite at least 150 words.' : ''}</textarea>
+                  <button class="ua-btn done-btn" style="margin-top:8px" onclick="finishTyping('${t.id}')">✅ Done</button>
+                </div>
+                <div class="prompt-mode-area" id="prompt-image-${t.id}" style="display:none">
+                  <div class="upload-zone-inline" id="uzone-drop-${t.id}" onclick="zoneClick('${t.id}')" tabindex="0">
+                    <div class="zone-placeholder">
+                      <div style="font-size:28px">📸</div>
+                      <div style="font-size:12px;color:var(--muted)">Click, drag, or <b>Ctrl+V</b></div>
+                    </div>
+                    <div class="zone-previews" id="pprev-${t.id}"></div>
+                    <input type="file" id="pfile-${t.id}" accept="image/*" multiple style="display:none" onchange="handleInlineUpload('${t.id}',this)">
+                  </div>
+                  <div class="upload-actions" id="uacts-${t.id}">
+                    <button class="ua-btn add-more" onclick="document.getElementById('pfile-${t.id}').click()">📷 Add more</button>
+                    <button class="ua-btn done-btn" id="udone-${t.id}" onclick="transcribeImages('${t.id}')">✅ Done</button>
+                  </div>
+                </div>
+                ${t.hasGraph ? `
+                <div class="prompt-mode-area" id="prompt-graph-${t.id}" style="display:none">
+                  <div class="upload-zone-inline" onclick="document.getElementById('gfile-${t.id}').click()" tabindex="0">
+                    <div style="font-size:28px">📊</div>
+                    <div style="font-size:12px;color:var(--muted)">Upload chart/graph image</div>
+                    <input type="file" id="gfile-${t.id}" accept="image/*" style="display:none" onchange="handleInlineGraphUpload('${t.id}',this)">
+                  </div>
+                  <div class="image-previews" id="gprev-${t.id}"></div>
+                </div>` : ''}
+              </div>
+              <!-- Locked prompt (shown after submission / conversion) -->
+              <div class="prompt-locked" id="prompt-locked-${t.id}" style="display:none">
+                <div class="prompt-text" id="prompt-display-${t.id}"></div>
+                <div class="task-graph" id="graph-display-${t.id}"></div>
+              </div>
+            </div>
+            <div class="resize-handle"></div>
+            <div class="task-answer-side">
+              <div class="answer-header">
+                <h3>Your Answer</h3>
+                <div class="wc"><span id="wc-${t.id}">0</span> words</div>
+              </div>
+              <textarea class="answer-textarea" id="ans-${t.id}" 
+                placeholder="Start writing your answer here..."
+                oninput="updateWordCount('${t.id}')"
+                spellcheck="false" data-gramm="false"></textarea>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      // Setup resize handles + drag-drop + paste on upload zones
+      setupResizeHandles();
+      taskDefs.forEach(t => {
+        setupDragDrop('uzone-drop-' + t.id, 'pfile-' + t.id);
+        if (t.hasGraph) {
+          const gZone = document.querySelector(`#prompt-graph-${t.id} .upload-zone-inline`);
+          if (gZone) {
+            gZone.id = 'gzone-' + t.id;
+            setupDragDrop('gzone-' + t.id, 'gfile-' + t.id);
+          }
+        }
+      });
+
+      // Start timer (counts up from 0)
+      timerSeconds = 0;
+      startTimer();
+      examStarted = true;
+      startedAt = Date.now();
+    }
+
+    // Inline prompt mode switching
+    function switchPromptMode(taskId, mode, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.prompt-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('prompt-text-' + taskId).style.display = mode === 'text' ? 'block' : 'none';
+      document.getElementById('prompt-image-' + taskId).style.display = mode === 'image' ? 'block' : 'none';
+      const graphEl = document.getElementById('prompt-graph-' + taskId);
+      if (graphEl) graphEl.style.display = mode === 'graph' ? 'block' : 'none';
+    }
+
+    // Inline file handlers
+    function zoneClick(taskId) {
+      // Only open file picker if no images yet
+      if (!uploadedFiles[taskId] || !uploadedFiles[taskId].length) {
+        document.getElementById('pfile-' + taskId).click();
+      }
+    }
+
+    function handleInlineUpload(taskId, input) {
+      const newFiles = Array.from(input.files);
+      if (!newFiles.length) return;
+      const existing = uploadedFiles[taskId] || [];
+      const combined = existing.concat(newFiles).slice(0, 5);
+      uploadedFiles[taskId] = combined;
+      renderInlineZonePreviews(taskId);
+    }
+
+    function renderInlineZonePreviews(taskId) {
+      const zone = document.getElementById('uzone-drop-' + taskId);
+      const prev = document.getElementById('pprev-' + taskId);
+      const acts = document.getElementById('uacts-' + taskId);
+      const files = uploadedFiles[taskId] || [];
+
+      if (!files.length) {
+        zone.classList.remove('has-images');
+        prev.innerHTML = '';
+        acts.classList.remove('visible');
+        return;
+      }
+
+      zone.classList.add('has-images');
+      prev.innerHTML = files.map((f, i) => {
+        const url = URL.createObjectURL(f);
+        return `<div class="zone-img">
+          <img src="${url}" alt="Image ${i+1}">
+          <button class="remove-img" onclick="event.stopPropagation(); removeInlineImage('${taskId}',${i})">&times;</button>
+        </div>`;
+      }).join('');
+      acts.classList.add('visible');
+    }
+
+    function removeInlineImage(taskId, idx) {
+      uploadedFiles[taskId].splice(idx, 1);
+      renderInlineZonePreviews(taskId);
+      // Reset file input
+      const input = document.getElementById('pfile-' + taskId);
+      if (input) input.value = '';
+    }
+
+    async function transcribeImages(taskId) {
+      const files = uploadedFiles[taskId];
+      if (!files || !files.length) return;
+
+      const btn = document.getElementById('udone-' + taskId);
+      const origText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<div class="spinner-sm"></div> Reading...';
+
+      try {
+        const task = taskDefs.find(t => t.id === taskId);
+        const label = task ? `${examFormat.toUpperCase()} ${task.label}` : 'Writing Task';
+        const text = await convertImagesToText(files, label);
+
+        // Store transcribed text in textarea (hidden) for submit
+        document.getElementById('ptxt-' + taskId).value = text;
+
+        // Show locked prompt with styled card display
+        showLockedPrompt(taskId, text);
+
+      } catch (err) {
+        console.error('Transcription error:', err);
+        alert('Could not read image: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }
+    }
+
+    function showLockedPrompt(taskId, text) {
+      const inputEl = document.getElementById('prompt-input-' + taskId);
+      const lockedEl = document.getElementById('prompt-locked-' + taskId);
+      const displayEl = document.getElementById('prompt-display-' + taskId);
+
+      const formatted = formatPromptAsCards(text);
+      displayEl.innerHTML = `
+        <div class="prompt-card">${formatted}</div>
+        <button class="prompt-edit-btn" onclick="editPrompt('${taskId}')">
+          ✏️ Edit
+        </button>
+      `;
+
+      inputEl.style.display = 'none';
+      lockedEl.style.display = 'block';
+
+      // Auto-fill CEFR Task 1.2 context from Task 1.1
+      if (taskId === 't11' && examFormat === 'cefr') {
+        autoFillT12Context(text);
+      }
+    }
+
+    function extractSharedContext(text) {
+      // Extract only the scenario ("You are a...") and the letter ("Dear ...")
+      // Stop before PART 1.1 / Part 1 task instructions
+      const lines = text.split('\n');
+      const out = [];
+      let foundDear = false;
+      for (const line of lines) {
+        const trimmed = line.trim();
+        // Stop at PART 1.1 / PART 1 / Part 1.1 markers
+        if (/^(PART|Part)\s*1[\.:]?1?/i.test(trimmed)) break;
+        // Stop at "Write a letter", "Write about", "Write to" task instructions
+        if (/^Write\s+(a\s+letter|about|to\s+)/i.test(trimmed)) break;
+        if (trimmed.toLowerCase().startsWith('dear ')) foundDear = true;
+        out.push(line);
+      }
+      // Trim trailing empty lines
+      while (out.length && !out[out.length - 1].trim()) out.pop();
+      return out.join('\n');
+    }
+
+    function autoFillT12Context(text) {
+      const placeholder = document.getElementById('t12-ctx-placeholder');
+      const card = document.getElementById('t12-ctx-card');
+      const ctxText = document.getElementById('t12-ctx-text');
+      if (!placeholder || !card || !ctxText) return;
+      const shared = extractSharedContext(text);
+      if (!shared.trim()) return;
+      placeholder.style.display = 'none';
+      card.style.display = 'block';
+      ctxText.innerHTML = formatPromptAsCards(shared);
+      // Store for submit
+      window._t12SharedContext = shared;
+    }
+
+    function formatPromptAsCards(text) {
+      // Convert markdown-ish text to HTML, preserving line breaks
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/&quot;(.+?)&quot;/g, '<strong>&ldquo;$1&rdquo;</strong>')
+        .replace(/"(.+?)"/g, '<strong>\u201c$1\u201d</strong>')
+        .replace(/\u201c(.+?)\u201d/g, '<strong>\u201c$1\u201d</strong>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function editT12Card() {
+      const full = window._t12FullText || ((window._t12SharedContext || '') + '\n\n' + (document.getElementById('ptxt-t12')?.value?.trim() || '')).trim();
+      document.getElementById('t12-full-ta').value = full;
+      document.getElementById('t12-card-display').style.display = 'none';
+      document.getElementById('t12-card-edit').style.display = 'block';
+      // Hide the initial prompt input area if visible
+      document.getElementById('prompt-input-t12').style.display = 'none';
+      document.getElementById('t12-full-ta').focus();
+    }
+
+    function finishT12Card() {
+      const full = document.getElementById('t12-full-ta').value.trim();
+      if (!full) return;
+      // Store the full text for submission
+      window._t12FullText = full;
+      // Display all text as one formatted card
+      document.getElementById('t12-ctx-text').innerHTML = formatPromptAsCards(full);
+      // Hide prompt-related areas — everything is in the single display now
+      document.getElementById('t12-prompt-locked').style.display = 'none';
+      document.getElementById('prompt-input-t12').style.display = 'none';
+      document.getElementById('t12-card-edit').style.display = 'none';
+      document.getElementById('t12-card-display').style.display = 'block';
+    }
+
+    function editPrompt(taskId) {
+      const inputEl = document.getElementById('prompt-input-' + taskId);
+      const lockedEl = document.getElementById('prompt-locked-' + taskId);
+
+      lockedEl.style.display = 'none';
+      inputEl.style.display = 'block';
+
+      // CEFR Task 1.2: use full-card edit
+      if (examFormat === 'cefr' && taskId === 't12') {
+        editT12Card();
+        return;
+      }
+      {
+        // Hide mode buttons, show only textarea + Done button
+        const modeRow = inputEl.children[0];
+        if (modeRow) modeRow.style.display = 'none';
+
+        // Show text mode
+        document.getElementById('prompt-text-' + taskId).style.display = 'block';
+        document.getElementById('prompt-image-' + taskId).style.display = 'none';
+        const graphEl = document.getElementById('prompt-graph-' + taskId);
+        if (graphEl) graphEl.style.display = 'none';
+      }
+
+      // Focus textarea
+      const ta = document.getElementById('ptxt-' + taskId);
+      if (ta) ta.focus();
+    }
+
+    function finishTyping(taskId) {
+      const text = document.getElementById('ptxt-' + taskId).value.trim();
+      if (!text) return;
+
+      // CEFR T1.2: hide textarea, show locked prompt INSIDE the blue card
+      if (examFormat === 'cefr' && taskId === 't12') {
+        const promptArea = document.getElementById('prompt-input-t12');
+        const lockedArea = document.getElementById('t12-prompt-locked');
+        const displayEl = document.getElementById('t12-prompt-display');
+        const editBtn = document.getElementById('t12-edit-btn');
+        if (promptArea) promptArea.style.display = 'none';
+        if (editBtn) editBtn.style.display = 'inline-flex';
+        if (lockedArea && displayEl) {
+          displayEl.innerHTML = formatPromptAsCards(text);
+          lockedArea.style.display = 'block';
+        }
+        // Store full text for edit/submit
+        window._t12FullText = (window._t12SharedContext || '') + '\n\n' + text;
+        return;
+      }
+
+      // Show locked card view
+      showLockedPrompt(taskId, text);
+    }
+
+    function handleInlineGraphUpload(taskId, input) {
+      const file = input.files[0];
+      if (!file) return;
+      graphFiles[taskId] = file;
+      renderPreviews(taskId, [file], 'gprev-' + taskId, true);
+    }
+
+    function switchTask(taskId) {
+      document.querySelectorAll('.task-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.task-container').forEach(c => c.classList.remove('active'));
+      document.querySelector(`[onclick="switchTask('${taskId}')"]`).classList.add('active');
+      document.getElementById('exam-' + taskId).classList.add('active');
+    }
+
+    function updateWordCount(taskId) {
+      const textarea = document.getElementById('ans-' + taskId);
+      const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+      document.getElementById('wc-' + taskId).textContent = words;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML.replace(/\n/g, '<br>');
+    }
+
+    // ===== TIMER =====
+    function startTimer() {
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timerSeconds / 60);
+      const s = timerSeconds % 60;
+      const display = document.getElementById('timerDisplay');
+      display.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    // ===== RESIZE HANDLES =====
+    function setupResizeHandles() {
+      document.querySelectorAll('.resize-handle').forEach(handle => {
+        let startX, startY, startWidth, startHeight, split, promptSide, isMobile;
+
+        handle.addEventListener('mousedown', initDrag);
+        handle.addEventListener('touchstart', initDrag, { passive: false });
+
+        function initDrag(e) {
+          e.preventDefault();
+          split = handle.parentElement;
+          promptSide = split.querySelector('.task-prompt-side');
+          isMobile = window.innerWidth <= 768;
+          const touch = e.touches ? e.touches[0] : e;
+          startX = touch.clientX;
+          startY = touch.clientY;
+          startWidth = promptSide.offsetWidth;
+          startHeight = promptSide.offsetHeight;
+          document.addEventListener('mousemove', doDrag);
+          document.addEventListener('mouseup', stopDrag);
+          document.addEventListener('touchmove', doDrag, { passive: false });
+          document.addEventListener('touchend', stopDrag);
+        }
+
+        function doDrag(e) {
+          e.preventDefault();
+          const touch = e.touches ? e.touches[0] : e;
+          if (isMobile) {
+            const dy = touch.clientY - startY;
+            const newH = Math.max(100, Math.min(startHeight + dy, window.innerHeight * 0.7));
+            promptSide.style.flex = 'none';
+            promptSide.style.height = newH + 'px';
+          } else {
+            const dx = touch.clientX - startX;
+            const newW = Math.max(200, Math.min(startWidth + dx, split.offsetWidth * 0.7));
+            promptSide.style.flex = 'none';
+            promptSide.style.width = newW + 'px';
+          }
+        }
+
+        function stopDrag() {
+          document.removeEventListener('mousemove', doDrag);
+          document.removeEventListener('mouseup', stopDrag);
+          document.removeEventListener('touchmove', doDrag);
+          document.removeEventListener('touchend', stopDrag);
+        }
+      });
+    }
+
+    // ===== SUBMIT =====
+    function confirmExit() {
+      if (examStarted) {
+        document.getElementById('confirmExitOverlay').classList.add('active');
+        return;
+      }
+      clearInterval(timerInterval);
+      goBack();
+    }
+
+    // Wire up custom confirm overlay buttons
+    document.getElementById('exitCancelBtn').onclick = function() {
+      document.getElementById('confirmExitOverlay').classList.remove('active');
+    };
+    document.getElementById('exitConfirmBtn').onclick = function() {
+      document.getElementById('confirmExitOverlay').classList.remove('active');
+      clearInterval(timerInterval);
+      goBack();
+    };
+
+    async function submitExam() {
+      clearInterval(timerInterval);
+
+      const overlay = document.getElementById('processingOverlay');
+      overlay.classList.add('show');
+      document.getElementById('processingTitle').textContent = 'Preparing...';
+      document.getElementById('processingMsg').textContent = 'Reading your task prompts';
+
+      try {
+        if (!GEMINI_KEY) await getGeminiKey();
+
+        // First, collect prompts from inline inputs
+        for (const t of taskDefs) {
+          // CEFR Task 1.2: use full text (edited card) or context + prompt
+          if (examFormat === 'cefr' && t.id === 't12') {
+            if (window._t12FullText) {
+              t.prompt = window._t12FullText;
+            } else {
+              const sharedCtx = window._t12SharedContext || '';
+              const t12Specific = document.getElementById('ptxt-t12')?.value?.trim() || '';
+              t.prompt = sharedCtx + (t12Specific ? '\n\n' + t12Specific : '');
+            }
+            continue;
+          }
+
+          // Check which input mode is active
+          const activeBtn = document.querySelector(`#prompt-input-${t.id} .prompt-mode-btn.active`);
+          const mode = activeBtn?.textContent?.includes('Image') ? 'image' : 'text';
+
+          if (mode === 'image' && uploadedFiles[t.id]?.length > 0) {
+            document.getElementById('processingTitle').textContent = 'Converting Images...';
+            document.getElementById('processingMsg').textContent = `Reading ${t.label} task image`;
+            t.prompt = await convertImagesToText(uploadedFiles[t.id], `${examFormat.toUpperCase()} ${t.label}`);
+          } else {
+            t.prompt = document.getElementById('ptxt-' + t.id)?.value?.trim() || '';
+          }
+
+          // Handle graph upload
+          if (graphFiles[t.id]) {
+            document.getElementById('processingTitle').textContent = 'Uploading Graph...';
+            t.graphBase64 = await imageToBase64(graphFiles[t.id]);
+            try { t.graphUrl = await uploadGraphToSupabase(graphFiles[t.id]); }
+            catch(e) { t.graphUrl = URL.createObjectURL(graphFiles[t.id]); }
+          }
+        }
+
+        // Now score
+        document.getElementById('processingTitle').textContent = 'Evaluating...';
+        document.getElementById('processingMsg').textContent = 'AI is scoring your writing';
+
+        const isCefr = examFormat === 'cefr';
+
+        if (isCefr) {
+          // Hide simple overlay, show fancy AI scoring modal
+          overlay.classList.remove('show');
+          _showAiScoringModal();
+
+          // Step 1: Premium verified
+          _wpStep(1, 'done');
+          await delay(300);
+
+          // Step 2: Connecting to AI
+          _wpStep(2, 'active');
+          if (!GEMINI_KEY) await getGeminiKey();
+          _wpStep(2, 'done');
+          await delay(300);
+
+          // Step 3: Reading prompts
+          _wpStep(3, 'active');
+          _wpTaskBar('11', 15, 'Reading prompt...');
+          _wpTaskBar('12', 10, 'Preparing...');
+          _wpTaskBar('P2', 5, 'Waiting...');
+          await delay(400);
+          _wpStep(3, 'done');
+
+          // Step 4: Evaluating responses
+          _wpStep(4, 'active');
+          _wpTaskBar('11', 30, 'Checking grammar...');
+          _wpTaskBar('12', 20, 'Preparing...');
+          _wpTaskBar('P2', 10, 'Waiting...');
+
+          // Start scoring (single AI call handles all tasks)
+          const aiResultPromise = scoreTask(taskDefs[0], '', 0);
+
+          // Animate progress while waiting
+          await delay(800);
+          _wpTaskBar('11', 55, 'Checking vocabulary...');
+          _wpTaskBar('12', 35, 'Analyzing...');
+          _wpTaskBar('P2', 20, 'Preparing...');
+          await delay(800);
+          _wpTaskBar('11', 80, 'Scoring...');
+          _wpTaskBar('12', 55, 'Checking coherence...');
+          _wpTaskBar('P2', 40, 'Analyzing...');
+          await delay(600);
+
+          const aiResult = await aiResultPromise;
+
+          _wpTaskBar('11', 100, 'Done ✓');
+          _wpTaskBar('12', 100, 'Done ✓');
+          _wpTaskBar('P2', 100, 'Done ✓');
+          _wpStep(4, 'done');
+          await delay(300);
+
+          // Step 5: Calculating scores
+          _wpStep(5, 'active');
+          await delay(400);
+          _wpStep(5, 'done');
+
+          // Step 6: Generating report
+          _wpStep(6, 'active');
+          const student = document.getElementById('candidateName').value.trim() || 'Student';
+          const reportBlob = buildWritingPlusReport(student, aiResult);
+          await sendWritingPlusToTelegram(student, reportBlob, aiResult);
+          _wpStep(6, 'done');
+          await delay(400);
+
+          _hideAiScoringModal();
+
+          // Show AI feedback in results overlay
+          showCefrResults(aiResult);
+
+          // Also save to writing_plus_submissions
+          await saveSubmission([{ task: 'CEFR Writing', aiResult }]);
+        } else {
+          // IELTS: per-task scoring (unchanged)
+          const results = [];
+          for (const t of taskDefs) {
+            const answer = document.getElementById('ans-' + t.id)?.value?.trim() || '';
+            const words = answer.split(/\s+/).filter(w => w.length > 0).length;
+            
+            if (!answer || words < 5) {
+              results.push({ task: t.label, score: 0, feedback: 'No answer provided or answer too short.' });
+              continue;
+            }
+
+            if (!t.prompt) {
+              results.push({ task: t.label, score: 0, feedback: 'No task prompt was provided. Cannot evaluate without a prompt.' });
+              continue;
+            }
+
+            const scoreResult = await scoreTask(t, answer, words);
+            results.push({ task: t.label, ...scoreResult });
+          }
+
+          overlay.classList.remove('show');
+          showResults(results);
+          await saveSubmission(results);
+        }
+
+      } catch (err) {
+        overlay.classList.remove('show');
+        _hideAiScoringModal();
+        console.error(err);
+        alert('Scoring error: ' + err.message + '\n\nYour answers have been saved.');
+      }
+    }
+
+    async function scoreTask(taskDef, answer, wordCount) {
+      const isCefr = examFormat === 'cefr';
+
+      if (isCefr) {
+        // Use the same scoring system as CEFR Writing Mocks (from Site Management prompts)
+        var _cp = await _loadScoringPrompts();
+        const systemPrompt = _cp['scoring_cefr_writing_system'] || _cp['scoring_cefr_writing_task_system'] || '';
+
+        // Collect task texts and prompts
+        const t11Ans = document.getElementById('ans-t11')?.value?.trim() || '';
+        const t12Ans = document.getElementById('ans-t12')?.value?.trim() || '';
+        const t2Ans  = document.getElementById('ans-t2')?.value?.trim() || '';
+        const promptT11 = taskDefs.find(t => t.id === 't11')?.prompt || '';
+        const promptT12 = taskDefs.find(t => t.id === 't12')?.prompt || '';
+        const promptT2  = taskDefs.find(t => t.id === 't2')?.prompt  || '';
+
+        // Build same comprehensive prompt as Writing Mocks with explicit JSON schema
+        const userPrompt = `You are a FAIR and BALANCED expert examiner for CEFR Multilevel Writing Papers.
+
+\u26A0\uFE0F SCORING RULES - USE WHOLE NUMBERS ONLY:
+- Scores MUST be whole integers: 0, 1, 2, 3, 4, 5 (or 6 for Part 2). NO DECIMALS.
+- Score FAIRLY - neither too strict nor too generous.
+- Average student work with some errors typically scores 3.
+- Work with good ideas but grammar issues can still score 3-4 if communicative.
+- Only give 1-2 if the writing is very poor or completely fails the task.
+
+SCORE CONVERSION TABLE (Raw to Certificate):
+16\u219275, 15\u219269, 14\u219265, 13\u219263, 12\u219261, 11\u219257, 10\u219253, 9\u219250, 8\u219247, 7\u219243, 6\u219240, 5\u219237, 4\u219233, 3\u219228, 2\u219221, 1\u219214, 0\u21920
+
+CEFR LEVELS: 0-34\u2192Below B1, 35-50\u2192B1, 51-64\u2192B2, 65-75\u2192C1
+
+=== ORIGINAL TASK PROMPTS ===
+**TASK 1.1 PROMPT:** ${promptT11 || '(no prompt)'}
+**TASK 1.2 PROMPT:** ${promptT12 || '(no prompt)'}
+**PART 2 PROMPT:** ${promptT2 || '(no prompt)'}
+
+=== STUDENT RESPONSES ===
+**TASK 1.1:** ${t11Ans || '[No response]'}
+**TASK 1.2:** ${t12Ans || '[No response]'}
+**PART 2:** ${t2Ans || '[No response]'}
+
+RESPOND IN THIS EXACT JSON FORMAT ONLY:
+{
+  "t11_score": <0-5 INTEGER>,
+  "t11_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "t11_feedback": "<bullet points quoting errors with corrections>",
+  "t11_corrected": "<full text with [TYPE: error -> correction] inline>",
+  "t11_sample": "<C1 model answer, 80-90 words>",
+  "t12_score": <0-5 INTEGER>,
+  "t12_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "t12_feedback": "<bullet points quoting errors with corrections>",
+  "t12_corrected": "<full text with [TYPE: error -> correction] inline>",
+  "t12_sample": "<C1 model answer, 160-180 words>",
+  "t2_score": <0-6 INTEGER>,
+  "t2_relevance": "<ON-TOPIC/OFF-TOPIC>",
+  "t2_feedback": "<bullet points quoting errors with corrections>",
+  "t2_corrected": "<full text with [TYPE: error -> correction] inline>",
+  "t2_sample": "<C1 model answer, 250-300 words>",
+  "raw_score": <sum of all task scores>,
+  "certificate_score": <from conversion table>,
+  "cefr_level": "<Below B1/B1/B2/C1>",
+  "overall_feedback": "<3-4 sentence assessment>"
+}`;
+
+        const feedback = await _callScoringAI(systemPrompt, userPrompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true });
+
+        // Parse AI response into structured aiResult (same format as Writing Mocks)
+        let aiResult = { rawFeedback: feedback };
+        try {
+          // Try to extract JSON from response (may be wrapped in ```json ... ``` or raw)
+          let jsonStr = feedback;
+          const codeBlockMatch = feedback.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (codeBlockMatch) jsonStr = codeBlockMatch[1].trim();
+          const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            aiResult = { ...parsed, rawFeedback: feedback };
+          }
+        } catch (e) {
+          console.warn('Could not parse AI scoring response as JSON, using raw feedback');
+        }
+
+        // Recalculate scores (same as Writing Mocks) to ensure consistency
+        if (aiResult.t11_score !== undefined || aiResult.t12_score !== undefined || aiResult.t2_score !== undefined) {
+          aiResult.t11_score = Math.round(aiResult.t11_score || 0);
+          aiResult.t12_score = Math.round(aiResult.t12_score || 0);
+          aiResult.t2_score = Math.round(aiResult.t2_score || 0);
+          aiResult.raw_score = aiResult.t11_score + aiResult.t12_score + aiResult.t2_score;
+          const scoreMap = { 16: 75, 15: 69, 14: 65, 13: 63, 12: 61, 11: 57, 10: 53, 9: 50, 8: 47, 7: 43, 6: 40, 5: 37, 4: 33, 3: 28, 2: 21, 1: 14, 0: 0 };
+          aiResult.certificate_score = scoreMap[aiResult.raw_score] || 0;
+          if (aiResult.certificate_score >= 65) aiResult.cefr_level = 'C1';
+          else if (aiResult.certificate_score >= 51) aiResult.cefr_level = 'B2';
+          else if (aiResult.certificate_score >= 35) aiResult.cefr_level = 'B1';
+          else aiResult.cefr_level = 'Below B1';
+        }
+
+        return aiResult;
+      } else {
+        // IELTS: simple per-task scoring
+        const systemPrompt = `You are an IELTS writing examiner. Score this ${taskDef.label} response. Use IELTS band descriptors (0-9, in 0.5 increments). Evaluate: Task Response, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy. Give a JSON response: {"score": number, "breakdown": {"task_response": number, "coherence": number, "lexical": number, "grammar": number}, "band": "overall band", "feedback": "detailed feedback paragraph"}`;
+        const userPrompt = `TASK PROMPT:\n${taskDef.prompt}\n\nSTUDENT'S ANSWER (${wordCount} words):\n${answer}\n\nExpected minimum: ${taskDef.target}`;
+        const responseText = await callGemini(systemPrompt, userPrompt, true);
+        try {
+          let json;
+          const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) json = JSON.parse(jsonMatch[0]);
+          else json = JSON.parse(responseText);
+          return { score: json.score || json.band || 0, breakdown: json.breakdown || {}, level: json.level || json.band || '', feedback: json.feedback || 'Evaluation complete.' };
+        } catch (e) {
+          return { score: 0, breakdown: {}, level: '', feedback: responseText || 'Could not parse score.' };
+        }
+      }
+    }
+
+    async function callGemini(system, user, jsonMode) {
+      if (!GEMINI_KEY) await getGeminiKey();
+      const body = {
+        contents: [{ parts: [{ text: user }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 2000 }
+      };
+      if (jsonMode) body.generationConfig.response_mime_type = 'application/json';
+      if (system) body.systemInstruction = { parts: [{ text: system }] };
+      
+      const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!r.ok) throw new Error('AI error: ' + r.status);
+      const j = await r.json();
+      if (j.error) throw new Error(j.error.message);
+      return j.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    // ===== SHOW RESULTS (IELTS mode) =====
+    function showResults(results) {
+      const isCefr = examFormat === 'cefr';
+      const content = document.getElementById('resultsContent');
+      content.style.display = 'block';
+
+      const criteriaLabels = isCefr
+        ? { task_achievement: 'Task Achievement', coherence: 'Coherence & Cohesion', vocabulary: 'Vocabulary Range', grammar: 'Grammar Accuracy' }
+        : { task_response: 'Task Response', coherence: 'Coherence & Cohesion', lexical: 'Lexical Resource', grammar: 'Grammar Range & Accuracy' };
+
+      let html = '<div class="score-grid">';
+      let totalScore = 0;
+      let validTasks = 0;
+
+      results.forEach(r => {
+        if (r.score > 0) { totalScore += r.score; validTasks++; }
+        const scoreDisplay = isCefr ? `${r.score}/25` : `${r.score}`;
+        html += `
+          <div class="score-item">
+            <div class="score-num">${r.score}</div>
+            <div class="score-info">
+              <h4>${r.task} ${r.level ? '· ' + r.level : ''}</h4>
+              <p>${scoreDisplay}</p>
+            </div>
+          </div>`;
+      });
+
+      // Overall
+      if (validTasks > 0) {
+        const avg = isCefr ? Math.round(totalScore / validTasks) : (totalScore / validTasks).toFixed(1);
+        html += `
+          <div class="score-item" style="border-color:var(--brand);background:var(--brand-weak)">
+            <div class="score-num" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">${avg}</div>
+            <div class="score-info">
+              <h4>Overall ${isCefr ? 'Score' : 'Band'}</h4>
+              <p>${isCefr ? `Average of ${validTasks} tasks` : `Average band score`}</p>
+            </div>
+          </div>`;
+      }
+      html += '</div>';
+
+      // Detailed feedback
+      results.forEach(r => {
+        if (r.feedback) {
+          html += `
+            <div class="feedback-section">
+              <h3>${r.task} — Feedback</h3>
+              <div class="feedback-box">${r.feedback}</div>
+            </div>`;
+        }
+        if (r.breakdown && Object.keys(r.breakdown).length > 0) {
+          html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">`;
+          for (const [key, val] of Object.entries(r.breakdown)) {
+            const label = criteriaLabels[key] || key;
+            html += `<div style="background:var(--bg);border:1px solid var(--ring);border-radius:8px;padding:8px 12px;font-size:12px;flex:1;min-width:120px;text-align:center">
+              <div style="font-weight:700;color:var(--brand)">${val}</div>
+              <div style="color:var(--muted);margin-top:2px">${label}</div>
+            </div>`;
+          }
+          html += '</div>';
+        }
+      });
+
+      content.innerHTML = html;
+      document.getElementById('resultsOverlay').classList.add('show');
+    }
+
+    // ===== SAVE TO SUPABASE =====
+    async function saveSubmission(results) {
+      try {
+        const name = document.getElementById('candidateName').value.trim();
+        const testId = (window.SITE_CONFIG?.testIdentifier || 'writing_plus').replace(/_/g, '');
+
+        // Build submission data
+        const submission = {
+          student_name: name,
+          exam_format: examFormat,
+          exam_mode: examMode,
+          center: testId,
+          status: 'pending', // pending / approved / draft / deleted
+          tasks: taskDefs.map(t => ({
+            id: t.id,
+            label: t.label,
+            prompt: t.prompt,
+            graph_url: t.graphUrl || null,
+            answer: document.getElementById('ans-' + t.id)?.value?.trim() || ''
+          })),
+          scores: results,
+          created_at: new Date().toISOString()
+        };
+
+        // Save to Supabase
+        const r = await fetch(`${SB_URL}/rest/v1/writing_plus_submissions`, {
+          method: 'POST',
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(submission)
+        });
+
+        if (r.ok) {
+          console.log('✅ Submission saved to Supabase');
+        } else {
+          console.warn('Supabase save failed:', r.status);
+        }
+      } catch (e) {
+        console.warn('Save error:', e);
+      }
+    }
+
+    // ===== CEFR RESULTS DISPLAY (mirrors Writing Mocks finish overlay) =====
+    var _lastAiResult = null;
+
+    function showCefrResults(aiResult) {
+      _lastAiResult = aiResult;
+      const hasScores = aiResult.raw_score !== undefined;
+
+      // Show submission success
+      document.getElementById('wpSubmissionStatus').style.display = 'block';
+
+      if (hasScores) {
+        // Populate score cards
+        const scoreDisplay = document.getElementById('wpAiScoreDisplay');
+        scoreDisplay.style.display = 'block';
+        document.getElementById('wpCertScore').textContent = (aiResult.certificate_score || 0) + '/75';
+        document.getElementById('wpCefrLevel').textContent = aiResult.cefr_level || 'N/A';
+
+        // Raw score row
+        const rawRow = document.getElementById('wpRawScoreRow');
+        rawRow.style.display = 'block';
+        document.getElementById('wpRawScore').textContent = (aiResult.raw_score || 0) + '/16';
+        document.getElementById('wpT11Score').textContent = aiResult.t11_score || 0;
+        document.getElementById('wpT12Score').textContent = aiResult.t12_score || 0;
+        document.getElementById('wpT2Score').textContent = aiResult.t2_score || 0;
+
+        // Show View Details button
+        document.getElementById('wpViewDetailsBtn').style.display = 'block';
+
+        // Hide raw feedback
+        document.getElementById('wpRawFeedback').style.display = 'none';
+      } else {
+        // Fallback: show raw feedback text
+        document.getElementById('wpAiScoreDisplay').style.display = 'none';
+        const rawEl = document.getElementById('wpRawFeedback');
+        rawEl.style.display = 'block';
+        rawEl.textContent = aiResult.rawFeedback || 'No feedback available.';
+      }
+
+      document.getElementById('resultsOverlay').classList.add('show');
+    }
+
+    function showAiDetails() {
+      const aiResult = _lastAiResult;
+      if (!aiResult) return;
+      const modal = document.getElementById('wpAiDetailsModal');
+      const content = document.getElementById('wpAiDetailsContent');
+
+      let html = '';
+
+      // Scores grid
+      html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">';
+      html += `<div style="background:linear-gradient(135deg,#116a60,#0d9488);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">Raw Score</div><div style="font-size:26px;font-weight:800;">${aiResult.raw_score || 0}/16</div></div>`;
+      html += `<div style="background:linear-gradient(135deg,#3b82f6,#2563eb);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">Certificate</div><div style="font-size:26px;font-weight:800;">${aiResult.certificate_score || 0}/75</div></div>`;
+      html += `<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">CEFR</div><div style="font-size:26px;font-weight:800;">${aiResult.cefr_level || 'N/A'}</div></div>`;
+      html += '</div>';
+
+      // Per-task detailed sections
+      const tasks = [
+        { key: 't11', label: 'Task 1.1', max: 5, color: '#f59e0b', bg: '#fef3c7', dark: '#92400e' },
+        { key: 't12', label: 'Task 1.2', max: 5, color: '#3b82f6', bg: '#dbeafe', dark: '#1e40af' },
+        { key: 't2', label: 'Part 2', max: 6, color: '#8b5cf6', bg: '#ede9fe', dark: '#5b21b6' }
+      ];
+
+      tasks.forEach(t => {
+        const score = aiResult[t.key + '_score'] || 0;
+        const relevance = aiResult[t.key + '_relevance'] || '';
+        const feedback = aiResult[t.key + '_feedback'] || '';
+        const corrected = aiResult[t.key + '_corrected'] || '';
+        const sample = aiResult[t.key + '_sample'] || '';
+
+        html += `<div style="margin-bottom:16px;border:2px solid ${t.color};border-radius:12px;overflow:hidden;">`;
+        html += `<div style="background:${t.bg};padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">`;
+        html += `<h4 style="margin:0;color:${t.dark};font-size:15px;">📝 ${t.label}</h4>`;
+        html += `<div style="display:flex;align-items:center;gap:8px;">`;
+        html += `<span style="font-weight:700;font-size:17px;color:${t.dark};">${score}/${t.max}</span>`;
+        if (relevance) html += `<span style="font-size:11px;padding:3px 8px;border-radius:12px;font-weight:700;background:${relevance === 'ON-TOPIC' ? '#dcfce7;color:#166534' : '#fee2e2;color:#991b1b'};">${relevance}</span>`;
+        html += '</div></div>';
+        html += '<div style="padding:14px 16px;background:white;">';
+
+        if (corrected) {
+          html += `<div style="margin-bottom:12px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#64748b;font-weight:700;margin-bottom:6px;">Teacher Corrections</div>`;
+          html += `<div style="background:${t.bg};padding:12px;border-radius:8px;font-size:13px;line-height:2;">${highlightCorrections(corrected)}</div></div>`;
+        }
+        if (feedback) {
+          html += `<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px;margin-bottom:12px;">`;
+          html += `<div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#dc2626;font-weight:700;margin-bottom:6px;">📌 Examiner Note</div>`;
+          html += `<div style="font-size:13px;line-height:1.6;color:#333;">${escapeHtml(feedback)}</div></div>`;
+        }
+        if (sample) {
+          html += `<details style="border:1.5px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:#ecfdf5;padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:12px;">📖 See Sample Answer</summary><div style="padding:12px;background:#f0fdf4;font-size:13px;color:#064e3b;line-height:1.7;white-space:pre-wrap;">${escapeHtml(sample)}</div></details>`;
+        }
+
+        html += '</div></div>';
+      });
+
+      // Overall feedback
+      if (aiResult.overall_feedback) {
+        html += `<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:12px;padding:16px;">`;
+        html += `<h4 style="margin:0 0 10px;color:#166534;font-size:15px;">📊 Overall Assessment</h4>`;
+        html += `<p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">${escapeHtml(aiResult.overall_feedback)}</p></div>`;
+      }
+
+      content.innerHTML = html;
+      modal.style.display = 'flex';
+    }
+
+    function closeAiDetails() {
+      document.getElementById('wpAiDetailsModal').style.display = 'none';
+    }
+
+    function highlightCorrections(text) {
+      if (!text) return '<em style="color:#9ca3af;">No corrections needed</em>';
+      return escapeHtml(text)
+        .replace(/\[GRAMMAR:\s*([^\]\[]+?)\s*-&gt;\s*([^\]]+)\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:2px 6px;border-radius:5px;margin:1px 2px;font-size:12px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+        .replace(/\[SPELL:\s*([^\]\[]+?)\s*-&gt;\s*([^\]]+)\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fed7aa,#ffedd5);padding:2px 6px;border-radius:5px;margin:1px 2px;font-size:12px;"><b style="color:#9a3412;">SPELL</b> <i style="text-decoration:line-through;color:#ea580c;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+        .replace(/\[VOCAB:\s*([^\]\[]+?)\s*-&gt;\s*([^\]]+)\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:2px 6px;border-radius:5px;margin:1px 2px;font-size:12px;"><b style="color:#854d0e;">VOCAB</b> <i style="text-decoration:line-through;color:#ca8a04;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+        .replace(/\[PUNCT:\s*([^\]\[]+?)\s*-&gt;\s*([^\]]+)\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#c4b5fd,#ddd6fe);padding:2px 6px;border-radius:5px;margin:1px 2px;font-size:12px;"><b style="color:#5b21b6;">PUNCT</b> <i style="text-decoration:line-through;color:#7c3aed;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+        .replace(/\[L1:\s*([^\]]+)\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fca5a5,#fecaca);padding:2px 6px;border-radius:5px;margin:1px 2px;font-size:12px;"><b style="color:#b91c1c;">L1</b> <i style="color:#dc2626;">$1</i></span>');
+    }
+
+    // ===== BUILD HTML REPORT (same format as CEFR Writing Mocks) =====
+    function buildWritingPlusReport(student, aiResult) {
+      const logoWording = window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+      const wcFn = (v) => (v.trim().match(/\b[\w'-]+\b/g) || []).length;
+
+      // Gather answers and prompts from taskDefs
+      const answers = {};
+      const prompts = {};
+      const counts = {};
+      for (const t of taskDefs) {
+        const ans = document.getElementById('ans-' + t.id)?.value?.trim() || '';
+        answers[t.id] = ans;
+        prompts[t.id] = t.prompt || '';
+        counts[t.id] = wcFn(ans || ' ');
+      }
+
+      const started = startedAt ? new Date(startedAt).toISOString() : 'N/A';
+      const usedSeconds = startedAt ? Math.floor((Date.now() - startedAt) / 1000) : 0;
+      const minutes = Math.floor(usedSeconds / 60);
+      const seconds = usedSeconds % 60;
+      const timeFormatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      const summaryLine = `Part one: Task one → ${counts.t11 || 0}, Task two → ${counts.t12 || 0}; Part two → ${counts.t2 || 0}`;
+
+      const nl2br = (s) => escapeHtml(s || '').replace(/\n/g, '<br>');
+      const nl2p = (s) => (s || '').split(/\n{2,}/).map(p => `<div>${escapeHtml(p).replace(/\n/g, '<br>')}</div>`).join('');
+
+      const hasAi = aiResult && aiResult.raw_score !== undefined;
+
+      // AI data JSON for the modal
+      const aiDataJson = hasAi ? JSON.stringify({
+        student: student,
+        raw_score: aiResult.raw_score || 0,
+        certificate_score: aiResult.certificate_score || 0,
+        cefr_level: aiResult.cefr_level || 'N/A',
+        t11_score: aiResult.t11_score || 0, t11_relevance: aiResult.t11_relevance || 'N/A',
+        t11_feedback: aiResult.t11_feedback || '', t11_corrected: aiResult.t11_corrected || '', t11_sample: aiResult.t11_sample || '',
+        t12_score: aiResult.t12_score || 0, t12_relevance: aiResult.t12_relevance || 'N/A',
+        t12_feedback: aiResult.t12_feedback || '', t12_corrected: aiResult.t12_corrected || '', t12_sample: aiResult.t12_sample || '',
+        t2_score: aiResult.t2_score || 0, t2_relevance: aiResult.t2_relevance || 'N/A',
+        t2_feedback: aiResult.t2_feedback || '', t2_corrected: aiResult.t2_corrected || '', t2_sample: aiResult.t2_sample || '',
+        overall_feedback: aiResult.overall_feedback || ''
+      }).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') : 'null';
+
+      // Format a feedback string for the ai modal
+      const fmtFeedback = (fb) => escapeHtml(fb || '').replace(/\n/g, '<br>');
+
+      const aiButtonHtml = hasAi ? '<button class="ai-score-btn" onclick="openAiModal()" title="AI Score">🤖</button>' : '';
+
+      // AI Score Modal
+      const aiSectionHtml = hasAi ? `
+<div id="aiScoreModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:10000;align-items:center;justify-content:center;">
+  <div id="aiModalBackdrop" onclick="closeAiModal()" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
+  <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:900px;max-height:calc(100dvh - 40px);background:white;border-radius:16px;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
+    <div style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;"><span style="font-size:24px;flex-shrink:0;">🤖</span><div style="min-width:0;"><h2 style="margin:0;font-size:18px;font-weight:700;">AI Writing Assessment</h2><div style="font-size:13px;opacity:0.9;">${escapeHtml(student)}</div></div></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+        <button onclick="printWritingAiModal()" style="background:rgba(255,255,255,0.9);border:none;color:#7c3aed;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;">📄 Save as PDF</button>
+        <button onclick="closeAiModal()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;min-width:36px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;">×</button>
+      </div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:20px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:linear-gradient(135deg,#116a60,#0d9488);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">Raw Score</div><div style="font-size:26px;font-weight:800;">${aiResult.raw_score || 0}/16</div></div>
+        <div style="background:linear-gradient(135deg,#3b82f6,#2563eb);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">Certificate</div><div style="font-size:26px;font-weight:800;">${aiResult.certificate_score || 0}/75</div></div>
+        <div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:16px;border-radius:12px;text-align:center;color:white;"><div style="font-size:13px;opacity:0.9;">CEFR</div><div style="font-size:26px;font-weight:800;">${aiResult.cefr_level || 'N/A'}</div></div>
+      </div>
+      <!-- Task 1.1 -->
+      <div style="margin-bottom:20px;border:2px solid #f59e0b;border-radius:12px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);padding:14px 18px;"><div style="display:flex;justify-content:space-between;align-items:center;"><h4 style="margin:0;color:#92400e;font-size:16px;">📝 Task 1.1</h4><div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:700;font-size:18px;color:#92400e;">${aiResult.t11_score || 0}/5</span><span style="font-size:12px;padding:4px 10px;border-radius:14px;background:${aiResult.t11_relevance === 'ON-TOPIC' ? '#dcfce7;color:#166534' : '#fee2e2;color:#991b1b'}">${aiResult.t11_relevance || 'N/A'}</span></div></div><p style="margin:10px 0 0;font-size:13px;color:#78350f;font-style:italic;">${escapeHtml(prompts.t11 || '')}</p></div>
+        <div style="padding:14px 18px;background:white;"><div style="background:#fef3c7;padding:14px;border-radius:8px;font-size:14px;line-height:2;margin-bottom:12px;" id="t11CorrectedText"></div>${aiResult.t11_feedback ? `<div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:8px;">📌 EXAMINER NOTE:</div>${fmtFeedback(aiResult.t11_feedback)}</div>` : ''}${aiResult.t11_sample ? `<details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:#ecfdf5;padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;white-space:pre-wrap;">${escapeHtml(aiResult.t11_sample)}</div></details>` : ''}</div>
+      </div>
+      <!-- Task 1.2 -->
+      <div style="margin-bottom:20px;border:2px solid #3b82f6;border-radius:12px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);padding:14px 18px;"><div style="display:flex;justify-content:space-between;align-items:center;"><h4 style="margin:0;color:#1e40af;font-size:16px;">📝 Task 1.2</h4><div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:700;font-size:18px;color:#1e40af;">${aiResult.t12_score || 0}/5</span><span style="font-size:12px;padding:4px 10px;border-radius:14px;background:${aiResult.t12_relevance === 'ON-TOPIC' ? '#dcfce7;color:#166534' : '#fee2e2;color:#991b1b'}">${aiResult.t12_relevance || 'N/A'}</span></div></div><p style="margin:10px 0 0;font-size:13px;color:#1e3a8a;font-style:italic;">${escapeHtml(prompts.t12 || '')}</p></div>
+        <div style="padding:14px 18px;background:white;"><div style="background:#dbeafe;padding:14px;border-radius:8px;font-size:14px;line-height:2;margin-bottom:12px;" id="t12CorrectedText"></div>${aiResult.t12_feedback ? `<div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:8px;">📌 EXAMINER NOTE:</div>${fmtFeedback(aiResult.t12_feedback)}</div>` : ''}${aiResult.t12_sample ? `<details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:#ecfdf5;padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;white-space:pre-wrap;">${escapeHtml(aiResult.t12_sample)}</div></details>` : ''}</div>
+      </div>
+      <!-- Part 2 -->
+      <div style="margin-bottom:20px;border:2px solid #8b5cf6;border-radius:12px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);padding:14px 18px;"><div style="display:flex;justify-content:space-between;align-items:center;"><h4 style="margin:0;color:#5b21b6;font-size:16px;">📝 Part 2</h4><div style="display:flex;align-items:center;gap:10px;"><span style="font-weight:700;font-size:18px;color:#5b21b6;">${aiResult.t2_score || 0}/6</span><span style="font-size:12px;padding:4px 10px;border-radius:14px;background:${aiResult.t2_relevance === 'ON-TOPIC' ? '#dcfce7;color:#166534' : '#fee2e2;color:#991b1b'}">${aiResult.t2_relevance || 'N/A'}</span></div></div><p style="margin:10px 0 0;font-size:13px;color:#4c1d95;font-style:italic;">${escapeHtml(prompts.t2 || '')}</p></div>
+        <div style="padding:14px 18px;background:white;"><div style="background:#ede9fe;padding:14px;border-radius:8px;font-size:14px;line-height:2;margin-bottom:12px;" id="t2CorrectedText"></div>${aiResult.t2_feedback ? `<div style="background:#fef2f2;border:2px solid #ef4444;border-radius:8px;padding:12px;"><div style="font-size:12px;color:#dc2626;font-weight:700;margin-bottom:8px;">📌 EXAMINER NOTE:</div>${fmtFeedback(aiResult.t2_feedback)}</div>` : ''}${aiResult.t2_sample ? `<details style="margin-top:10px;border:2px solid #10b981;border-radius:8px;overflow:hidden;"><summary style="background:#ecfdf5;padding:10px 14px;cursor:pointer;font-weight:700;color:#065f46;font-size:13px;">📖 See Sample Answer</summary><div style="padding:12px 14px;background:#f0fdf4;font-size:14px;color:#064e3b;line-height:1.7;white-space:pre-wrap;">${escapeHtml(aiResult.t2_sample)}</div></details>` : ''}</div>
+      </div>
+      <!-- Overall -->
+      <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:12px;padding:18px;">
+        <h4 style="margin:0 0 10px;color:#166534;font-size:16px;">📊 Overall Assessment</h4>
+        <p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">${escapeHtml(aiResult.overall_feedback || '')}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var aiData = ${aiDataJson};
+function highlightCorr(t) {
+  if (!t) return '<em style="color:#9ca3af;">No corrections needed</em>';
+  return t
+    .replace(/\\[GRAMMAR:\\s*([^\\]\\[]+?)\\s*->\\s*([^\\]]+)\\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fecaca,#fee2e2);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#991b1b;">GRAMMAR</b> <i style="text-decoration:line-through;color:#dc2626;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+    .replace(/\\[SPELL:\\s*([^\\]\\[]+?)\\s*->\\s*([^\\]]+)\\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fed7aa,#ffedd5);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#9a3412;">SPELL</b> <i style="text-decoration:line-through;color:#ea580c;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+    .replace(/\\[VOCAB:\\s*([^\\]\\[]+?)\\s*->\\s*([^\\]]+)\\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fef08a,#fef9c3);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#854d0e;">VOCAB</b> <i style="text-decoration:line-through;color:#ca8a04;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+    .replace(/\\[PUNCT:\\s*([^\\]\\[]+?)\\s*->\\s*([^\\]]+)\\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#c4b5fd,#ddd6fe);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#5b21b6;">PUNCT</b> <i style="text-decoration:line-through;color:#7c3aed;">$1</i> <span style="color:#6b7280;">→</span> <b style="color:#059669;">$2</b></span>')
+    .replace(/\\[L1:\\s*([^\\]]+)\\]/g, '<span style="display:inline-block;background:linear-gradient(135deg,#fca5a5,#fecaca);padding:3px 8px;border-radius:6px;margin:2px 3px;font-size:13px;"><b style="color:#b91c1c;">L1</b> <i style="color:#dc2626;">$1</i></span>')
+    .replace(/\\[([^\\]]+)\\]/g, '<span style="color:#2563eb;font-weight:700;">[$1]</span>');
+}
+function openAiModal() {
+  var m = document.getElementById('aiScoreModal');
+  m.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('t11CorrectedText').innerHTML = highlightCorr(aiData.t11_corrected);
+  document.getElementById('t12CorrectedText').innerHTML = highlightCorr(aiData.t12_corrected);
+  document.getElementById('t2CorrectedText').innerHTML = highlightCorr(aiData.t2_corrected);
+}
+function closeAiModal() { document.getElementById('aiScoreModal').style.display = 'none'; document.body.style.overflow = ''; }
+function printWritingAiModal() {
+  var allD = document.querySelectorAll('#aiScoreModal details');
+  allD.forEach(function(d) { d.setAttribute('open', ''); });
+  window.print();
+}
+<\/script>` : '';
+
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${logoWording} - Writing Plus Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; line-height: 1.6; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 100%; margin: 0; background: white; padding: 40px; }
+    h1 { color: #116a60; border-bottom: 4px solid #116a60; padding-bottom: 15px; margin: 0 0 25px 0; font-size: 28px; }
+    h2 { color: #0d5049; background: linear-gradient(135deg, #e6f7f5, #d0ece7); padding: 12px 18px; border-radius: 8px; border-left: 5px solid #116a60; margin: 30px 0 15px 0; font-size: 22px; }
+    h3 { color: #2c5a54; margin: 20px 0 10px; font-size: 17px; }
+    .meta { background: #f8f9fa; padding: 18px; border-radius: 8px; margin: 15px 0; border: 1px solid #dee2e6; font-size: 15px; }
+    .meta b { color: #116a60; }
+    .rule { border-top: 2px solid #dee2e6; margin: 35px 0; }
+    .prompt { background: linear-gradient(135deg, #f3f7f6, #e6f0ee); border: 2px solid #b7d1cb; border-radius: 10px; padding: 18px; margin: 15px 0; font-size: 15px; line-height: 1.7; }
+    .answer-content { white-space: pre-wrap; border: 2px solid #cfe1dd; border-radius: 10px; padding: 20px; background: #fafbfc; font-family: 'Times New Roman', Georgia, serif; font-size: 16px; line-height: 1.8; min-height: 100px; }
+    .answer-content div { margin-bottom: 1em; }
+    .answer-content div:last-child { margin-bottom: 0; }
+    .word-count-badge { background: #116a60; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block; margin-top: 10px; }
+    .font-controller { position: sticky; top: 0; background: linear-gradient(135deg, #116a60, #0d5049); padding: 8px 16px; box-shadow: 0 2px 12px rgba(17,106,96,0.3); z-index: 1000; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: white; font-weight: 600; font-size: 13px; margin: 0 0 20px 0; }
+    .font-controls { display: flex; align-items: center; gap: 10px; flex: 1; justify-content: center; }
+    .font-controller button, .theme-toggle button { background: white; color: #116a60; border: none; width: 28px; height: 28px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .font-controller button:hover, .theme-toggle button:hover { background: #e6f7f5; transform: scale(1.05); }
+    .font-controller .size-display { background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 5px; font-size: 13px; min-width: 50px; text-align: center; font-weight: bold; }
+    .ai-score-btn { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: white; border: none; padding: 4px 8px; border-radius: 6px; font-size: 16px; cursor: pointer; height: 28px; min-width: 28px; box-shadow: 0 2px 6px rgba(124,58,237,0.3); }
+    .ai-score-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(124,58,237,0.4); }
+    .task-work-area { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 20px 0; }
+    .examiner-notes { margin-top: 15px; padding: 15px; background: #fff9e6; border: 2px solid #f39c12; border-radius: 10px; }
+    .examiner-notes label { display: block; font-weight: 700; color: #d68910; margin-bottom: 8px; font-size: 14px; }
+    .examiner-notes textarea { width: 100%; min-height: 80px; padding: 12px; border: 2px solid #f39c12; border-radius: 8px; font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; line-height: 1.5; resize: vertical; }
+    .scoring-section { background: linear-gradient(135deg, #e3f2fd, #bbdefb); border: 2px solid #1976d2; border-radius: 12px; padding: 25px; margin: 30px 0; }
+    .scoring-section h3 { color: #1565c0; margin-top: 0; font-size: 20px; }
+    .score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+    .score-item { background: white; padding: 12px; border-radius: 8px; border: 1px solid #90caf9; }
+    .score-item label { display: block; font-weight: 600; color: #1565c0; margin-bottom: 6px; font-size: 14px; }
+    .score-item input { width: 100%; padding: 8px 12px; border: 2px solid #90caf9; border-radius: 6px; font-size: 16px; font-weight: 600; text-align: center; }
+    .teacher-correction { font-weight: 700 !important; font-size: 1.05em !important; }
+    body.dark-theme { background: #0f172a !important; color: #e2e8f0 !important; }
+    body.dark-theme .container { background: #1e293b !important; color: #e2e8f0 !important; }
+    body.dark-theme h1, body.dark-theme h2, body.dark-theme h3 { color: #60a5fa !important; }
+    body.dark-theme .meta { background: #1f2937 !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+    body.dark-theme .prompt { background: rgba(15,23,42,0.35) !important; border: 1px solid #334155 !important; color: #e2e8f0 !important; }
+    body.dark-theme .answer-content { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+    body.dark-theme .font-controller { background: linear-gradient(135deg, #0f766e, #115e59) !important; }
+    @media print {
+      body { background: white !important; padding: 0 !important; margin: 0 !important; }
+      body > *:not(#aiScoreModal) { display: none !important; }
+      .font-controller { display: none !important; }
+      #aiScoreModal, #aiScoreModal * { visibility: visible !important; }
+      #aiScoreModal { position: absolute !important; top: 0 !important; left: 0 !important; display: block !important; background: white !important; overflow: visible !important; height: auto !important; width: 100% !important; }
+      #aiModalBackdrop { display: none !important; }
+      #aiScoreModal > div:not(#aiModalBackdrop) { position: static !important; max-height: none !important; overflow: visible !important; box-shadow: none !important; border-radius: 0 !important; max-width: 100% !important; width: 100% !important; transform: none !important; }
+      #aiScoreModal button { display: none !important; }
+      details { display: block !important; }
+      details[open] summary ~ * { display: block !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="font-controller">
+  ${aiButtonHtml}
+  <div class="font-controls">
+    <span style="font-size:12px;">📝 Font Size:</span>
+    <button id="decreaseFontBtn" title="Decrease font size">−</button>
+    <span class="size-display" id="fontSizeDisplay">100%</span>
+    <button id="increaseFontBtn" title="Increase font size">+</button>
+    <button id="resetFontBtn" title="Reset to default" style="width:auto;padding:0 8px;font-size:11px;">↺</button>
+  </div>
+  <div class="theme-toggle">
+    <button id="themeToggleBtn" title="Toggle dark/light theme">☀️</button>
+  </div>
+</div>
+
+<div class="container" id="mainContainer">
+  <h1>✏️➕ ${logoWording} - Writing Plus Report</h1>
+
+  <div class="meta">
+    <b>Student:</b> ${escapeHtml(student)}<br>
+    <b>Started:</b> ${escapeHtml(started)} &nbsp;|&nbsp; <b>Time used:</b> ${timeFormatted}<br>
+    <b>Word counts:</b> ${summaryLine}
+  </div>
+
+  <div class="rule"></div>
+
+  <h2>📝 PART 1</h2>
+
+  <h3>Task 1.1 prompt</h3>
+  <div class="prompt">${nl2br(prompts.t11 || '')}</div>
+
+  <div class="task-work-area">
+    <div>
+      <h3>Task 1.1 (~50 words) - Student Answer</h3>
+      <div class="answer-content" contenteditable="true" spellcheck="true" lang="en-US">${nl2p(answers.t11 || '–')}</div>
+      <span class="word-count-badge">📊 Word count: ${counts.t11 || 0}</span>
+      <div class="examiner-notes"><label>📝 Examiner Notes for Task 1.1:</label><textarea placeholder="Add your comments..."></textarea></div>
+    </div>
+  </div>
+
+  <h3>Task 1.2 prompt</h3>
+  <div class="prompt">${nl2br(prompts.t12 || '')}</div>
+
+  <div class="task-work-area">
+    <div>
+      <h3>Task 1.2 (120-150 words) - Student Answer</h3>
+      <div class="answer-content" contenteditable="true" spellcheck="true" lang="en-US">${nl2p(answers.t12 || '–')}</div>
+      <span class="word-count-badge">📊 Word count: ${counts.t12 || 0}</span>
+      <div class="examiner-notes"><label>📝 Examiner Notes for Task 1.2:</label><textarea placeholder="Add your comments..."></textarea></div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <h2>📝 Part 2</h2>
+  <h3>Task 2 prompt</h3>
+  <div class="prompt">${nl2br(prompts.t2 || '')}</div>
+
+  <div class="task-work-area">
+    <div>
+      <h3>Task 2 (180-200 words) - Student Answer</h3>
+      <div class="answer-content" contenteditable="true" spellcheck="true" lang="en-US">${nl2p(answers.t2 || '–')}</div>
+      <span class="word-count-badge">📊 Word count: ${counts.t2 || 0}</span>
+      <div class="examiner-notes"><label>📝 Examiner Notes for Part 2:</label><textarea placeholder="Add your comments..."></textarea></div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="scoring-section">
+    <h3>Final Score Summary</h3>
+    <div class="score-grid">
+      <div class="score-item"><label>Task 1.1 (out of 5)</label><input type="number" min="0" max="5" step="0.5" placeholder="0-5" class="score-t11" value="${hasAi ? (aiResult.t11_score || '') : ''}"></div>
+      <div class="score-item"><label>Task 1.2 (out of 5)</label><input type="number" min="0" max="5" step="0.5" placeholder="0-5" class="score-t12" value="${hasAi ? (aiResult.t12_score || '') : ''}"></div>
+      <div class="score-item"><label>Part 2 (out of 6)</label><input type="number" min="0" max="6" step="0.5" placeholder="0-6" class="score-t2" value="${hasAi ? (aiResult.t2_score || '') : ''}"></div>
+      <div class="score-item"><label>Total (out of 16)</label><input type="number" id="totalScore" readonly style="background:#e8f5e9;font-weight:800;font-size:20px;color:#116a60;" value="${hasAi ? (aiResult.raw_score || '') : ''}"></div>
+    </div>
+  </div>
+
+  <div class="scoring-section" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:3px solid #2e7d32;">
+    <h3 style="color:#1b5e20;font-size:24px;">Final Certificate Score</h3>
+    <div class="score-grid">
+      <div class="score-item"><label style="font-size:18px;font-weight:700;color:#2e7d32;">🏆 Certificate Score (out of 75)</label><input type="number" id="certificateScoreInput" readonly style="background:white;font-weight:800;font-size:28px;color:#1b5e20;text-align:center;border:3px solid #43a047;padding:20px;" value="${hasAi ? (aiResult.certificate_score || '') : ''}"></div>
+      <div class="score-item"><label style="font-size:18px;font-weight:700;color:#2e7d32;">📊 CEFR Level</label><input type="text" id="cefrLevelInput" readonly style="background:white;font-weight:800;font-size:28px;text-align:center;border:3px solid #43a047;padding:20px;" value="${hasAi ? (aiResult.cefr_level || '') : ''}"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Font size controller
+  var currentFontSize = parseInt(localStorage.getItem('reportFontSize') || '100', 10);
+  var container = document.getElementById('mainContainer');
+  var fontSizeDisplay = document.getElementById('fontSizeDisplay');
+  function updateFontSize() {
+    var scale = currentFontSize + '%';
+    if (container) container.querySelectorAll('.answer-content').forEach(function(el) { el.style.fontSize = scale; });
+    if (fontSizeDisplay) fontSizeDisplay.textContent = scale;
+    localStorage.setItem('reportFontSize', currentFontSize);
+  }
+  document.getElementById('increaseFontBtn')?.addEventListener('click', function() { if (currentFontSize < 200) { currentFontSize++; updateFontSize(); } });
+  document.getElementById('decreaseFontBtn')?.addEventListener('click', function() { if (currentFontSize > 60) { currentFontSize--; updateFontSize(); } });
+  document.getElementById('resetFontBtn')?.addEventListener('click', function() { currentFontSize = 100; updateFontSize(); });
+  updateFontSize();
+
+  // Dark theme
+  var isDark = localStorage.getItem('reportTheme') === 'dark';
+  function updateTheme() {
+    document.body.classList.toggle('dark-theme', isDark);
+    var btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.textContent = isDark ? '🌙' : '☀️';
+    localStorage.setItem('reportTheme', isDark ? 'dark' : 'light');
+  }
+  document.getElementById('themeToggleBtn')?.addEventListener('click', function() { isDark = !isDark; updateTheme(); });
+  updateTheme();
+
+  // Teacher inline correction
+  document.querySelectorAll('.answer-content').forEach(function(area) {
+    var currentCorrectionSpan = null;
+    area.addEventListener('mousedown', function() { currentCorrectionSpan = null; });
+    area.addEventListener('beforeinput', function(e) {
+      if (e.inputType !== 'insertText') { currentCorrectionSpan = null; return; }
+      var sel = window.getSelection();
+      if (!sel.rangeCount) return;
+      var range = sel.getRangeAt(0);
+      var parentEl = range.startContainer.parentElement;
+      if (parentEl && parentEl.closest('.teacher-correction')) return;
+      if (currentCorrectionSpan && currentCorrectionSpan.parentNode) {
+        e.preventDefault();
+        var text = currentCorrectionSpan.textContent;
+        if (text.endsWith(']')) text = text.slice(0, -1);
+        currentCorrectionSpan.textContent = text + e.data + ']';
+        range.setStartAfter(currentCorrectionSpan);
+        range.collapse(true); sel.removeAllRanges(); sel.addRange(range);
+        return;
+      }
+      if (e.data) {
+        e.preventDefault();
+        var span = document.createElement('span');
+        span.className = 'teacher-correction';
+        span.textContent = '[' + e.data + ']';
+        range.deleteContents(); range.insertNode(span);
+        range.setStartAfter(span); range.collapse(true);
+        sel.removeAllRanges(); sel.addRange(range);
+        currentCorrectionSpan = span;
+      }
+    });
+    area.addEventListener('blur', function() { currentCorrectionSpan = null; });
+  });
+
+  // Score auto-calc
+  var conversionTable = {16:{cert:75,cefr:'C1'},15.5:{cert:72,cefr:'C1'},15:{cert:69,cefr:'C1'},14.5:{cert:67,cefr:'C1'},14:{cert:65,cefr:'C1'},13.5:{cert:64,cefr:'B2'},13:{cert:63,cefr:'B2'},12.5:{cert:62,cefr:'B2'},12:{cert:61,cefr:'B2'},11.5:{cert:59,cefr:'B2'},11:{cert:57,cefr:'B2'},10.5:{cert:55,cefr:'B2'},10:{cert:53,cefr:'B2'},9.5:{cert:51,cefr:'B2'},9:{cert:50,cefr:'B1'},8.5:{cert:48,cefr:'B1'},8:{cert:47,cefr:'B1'},7.5:{cert:45,cefr:'B1'},7:{cert:43,cefr:'B1'},6.5:{cert:41,cefr:'B1'},6:{cert:40,cefr:'B1'},5.5:{cert:38,cefr:'B1'},5:{cert:37,cefr:'A1-A2'},4.5:{cert:35,cefr:'A1-A2'},4:{cert:33,cefr:'A1-A2'},3.5:{cert:31,cefr:'A1-A2'},3:{cert:28,cefr:'A1-A2'},2.5:{cert:25,cefr:'A1-A2'},2:{cert:21,cefr:'A1-A2'},1.5:{cert:17,cefr:'A1-A2'},1:{cert:14,cefr:'A1-A2'},0.5:{cert:10,cefr:'A1-A2'},0:{cert:0,cefr:'A1-A2'}};
+  function calcTotal() {
+    var t11 = parseFloat(document.querySelector('.score-t11')?.value) || 0;
+    var t12 = parseFloat(document.querySelector('.score-t12')?.value) || 0;
+    var t2 = parseFloat(document.querySelector('.score-t2')?.value) || 0;
+    var total = t11 + t12 + t2;
+    var ti = document.getElementById('totalScore');
+    if (ti) ti.value = total.toFixed(1);
+    var rounded = Math.round(total * 2) / 2;
+    var conv = conversionTable[rounded];
+    if (conv) {
+      var ci = document.getElementById('certificateScoreInput');
+      var li = document.getElementById('cefrLevelInput');
+      if (ci) ci.value = conv.cert;
+      if (li) li.value = conv.cefr;
+    }
+  }
+  document.querySelectorAll('.score-t11,.score-t12,.score-t2').forEach(function(el) {
+    el.addEventListener('input', calcTotal);
+  });
+
+  // Anti-cheat
+  var adminMode = false;
+  document.addEventListener('keydown', function(e) {
+    if (e.shiftKey && e.altKey && e.ctrlKey && e.key === 'K') { adminMode = !adminMode; }
+    if (!adminMode) {
+      if (e.key === 'F12' || (e.ctrlKey && e.key === 'u') || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) { e.preventDefault(); return false; }
+    }
+  });
+  document.addEventListener('contextmenu', function(e) { if (!adminMode) { e.preventDefault(); return false; } });
+});
+<\/script>
+${aiSectionHtml}
+</body>
+</html>`;
+
+      return new Blob([html], { type: 'text/html;charset=utf-8' });
+    }
+
+    // ===== SEND TO TELEGRAM (same as CEFR Writing Mocks, with ➕ marker) =====
+    async function sendWritingPlusToTelegram(student, docBlob, aiResult) {
+      try {
+        const testIdentifier = (window._siteTestId || (window.SITE_CONFIG?.testIdentifier) || 'WP').trim();
+        const now = new Date();
+        const pd = (n) => String(n).padStart(2, '0');
+        const safeName = (s) => s.replace(/[^a-zA-Z0-9_\s-]/g, '').replace(/\s+/g, '_');
+        const dateStr = `${pd(now.getDate())}${pd(now.getMonth() + 1)}`;
+        const filename = `${safeName(student)}_${dateStr}_WP.html`;
+
+        const fd = new FormData();
+        fd.append('file', new File([docBlob], filename, { type: 'text/html' }));
+
+        // Timing
+        const endTime = now;
+        const startTime = startedAt ? new Date(startedAt) : null;
+        const usedSeconds = startedAt ? Math.floor((Date.now() - startedAt) / 1000) : 0;
+        const usedH = Math.floor(usedSeconds / 3600);
+        const usedM = Math.floor((usedSeconds % 3600) / 60);
+        const usedS = usedSeconds % 60;
+        const durationStr = usedH > 0 ? `${usedH}h ${pd(usedM)}m ${pd(usedS)}s` : `${usedM}m ${pd(usedS)}s`;
+
+        // Tags
+        const dateTag = `${pd(now.getDate())}_${pd(now.getMonth() + 1)}_${String(now.getFullYear()).slice(-2)}`;
+        const monthTag = `${pd(now.getMonth() + 1)}_${String(now.getFullYear()).slice(-2)}`;
+        const yearTag = `${now.getFullYear()}`;
+        const testIdTag = testIdentifier.replace(/-/g, '_');
+        const cleanNameTag = student.replace(/[''`]/g, '').replace(/ /g, '_');
+
+        const hasScores = aiResult && aiResult.raw_score !== undefined;
+
+        // Build caption with ➕ marker to distinguish from regular CEFR Writing Mocks
+        let caption = `👤 Candidate: #${cleanNameTag}\n`;
+
+        if (hasScores) {
+          caption += `\n🤖 AI SCORING:\n`;
+          caption += `📊 Certificate: ${aiResult.certificate_score || 0}/75\n`;
+          caption += `🎯 CEFR Level: ${aiResult.cefr_level || 'N/A'}\n`;
+          caption += `📈 Raw: ${aiResult.raw_score || 0}/16\n`;
+          caption += `✏️ Task 1.1: ${aiResult.t11_score || 0}/5\n`;
+          caption += `📝 Task 1.2: ${aiResult.t12_score || 0}/5\n`;
+          caption += `📄 Part 2: ${aiResult.t2_score || 0}/6\n`;
+        }
+
+        caption += `\n📁 ✏️➕ Writing Plus:\n`;
+        caption += `📅 ${pd(now.getDate())}.${pd(now.getMonth() + 1)}.${now.getFullYear()}\n`;
+        if (startTime) {
+          caption += `🟢 Start: ${pd(startTime.getHours())}:${pd(startTime.getMinutes())}:${pd(startTime.getSeconds())}\n`;
+        }
+        caption += `🔴 Finish: ${pd(endTime.getHours())}:${pd(endTime.getMinutes())}:${pd(endTime.getSeconds())}\n`;
+        caption += `⏳ Duration: ${durationStr}\n`;
+
+        caption += `\n🏛️ Center: #${testIdTag}\n`;
+        caption += `📊 #${testIdTag}_${dateTag}\n`;
+        caption += `📊 #${testIdTag}_${monthTag}\n`;
+        caption += `📊 #${testIdTag}_${yearTag}\n`;
+        caption += `Overall:\n`;
+        caption += `📊 #all_${dateTag}\n`;
+        caption += `📊 #all_${monthTag}\n`;
+        caption += `📊 #all_${yearTag}\n`;
+
+        if (hasScores) {
+          caption += `#CEFR_Writing_Plus #AI_Scored #${(aiResult.cefr_level || 'B1').replace(' ', '_')}`;
+        } else {
+          caption += `#CEFR_Writing_Plus`;
+        }
+
+        fd.append('caption', caption);
+
+        // Send to Supabase first (get result link for caption)
+        let finalCaption = caption;
+        if (window.sendToSupabase) {
+          try {
+            const sbResult = await window.sendToSupabase({
+              studentName: student,
+              examType: 'cefr',
+              skill: 'writing',
+              score: hasScores ? (aiResult.certificate_score || 0) + '/75' : '',
+              level: hasScores ? aiResult.cefr_level || '' : '',
+              mockNumber: 'Writing Plus',
+              file: docBlob,
+              fileType: 'html',
+              caption: caption,
+              metadata: hasScores ? { raw_score: aiResult.raw_score, t11: aiResult.t11_score, t12: aiResult.t12_score, t2: aiResult.t2_score, is_writing_plus: true } : { is_writing_plus: true }
+            });
+            if (sbResult && window.appendResultLink) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+          } catch (e) { console.warn('[Supabase] skipped:', e); }
+        }
+
+        fd.set('caption', finalCaption);
+
+        // Send to Telegram
+        const resp = await fetch(ADMIN_TELEGRAM_ENDPOINT, { method: 'POST', body: fd });
+        if (!resp.ok) {
+          const raw = await resp.text().catch(() => '');
+          console.warn('Telegram send failed:', resp.status, raw.slice(0, 300));
+        } else {
+          console.log('✅ Writing Plus report sent to Telegram');
+        }
+
+        // Send to routing backend if available
+        if (window.sendToRoutingBackend) {
+          await window.sendToRoutingBackend({ skill: 'writing', caption: finalCaption, file: new File([docBlob], filename, { type: 'text/html' }) });
+        }
+      } catch (e) {
+        console.warn('Telegram/Supabase send error:', e);
+      }
+    }
+
+    function tryAgain() {
+      document.getElementById('resultsOverlay').classList.remove('show');
+      document.getElementById('wpAiDetailsModal').style.display = 'none';
+      // Reset finish overlay elements
+      document.getElementById('wpSubmissionStatus').style.display = 'none';
+      document.getElementById('wpAiScoreDisplay').style.display = 'none';
+      document.getElementById('wpRawFeedback').style.display = 'none';
+      document.getElementById('wpViewDetailsBtn').style.display = 'none';
+      document.getElementById('wpRawScoreRow').style.display = 'none';
+      _lastAiResult = null;
+
+      examStarted = false;
+      document.getElementById('examInterface').classList.remove('active');
+      document.getElementById('wizardOverlay').classList.remove('hidden');
+      goToStep(1);
+      // Reset state
+      examFormat = '';
+      examMode = '';
+      practiceTaskId = '';
+      taskDefs = [];
+      Object.keys(uploadedFiles).forEach(k => delete uploadedFiles[k]);
+      Object.keys(graphFiles).forEach(k => delete graphFiles[k]);
+    }
+
+    // ===== GLOBAL NAME =====
+    function getGlobalCandidateName() {
+      try {
+        // Check parent frame first (when loaded inside landing iframe)
+        if (window.parent !== window) {
+          const pDoc = window.parent.document;
+          const nameEl = pDoc.getElementById('sidebarNameText') || pDoc.getElementById('displayName');
+          if (nameEl && nameEl.textContent && nameEl.textContent !== 'Student') return nameEl.textContent.trim();
+        }
+      } catch(e) {}
+      // Fall back to storage (same keys the landing page uses)
+      return sessionStorage.getItem('CANDIDATE_FULL_NAME')
+        || localStorage.getItem('ms_candidate_name')
+        || '';
+    }
+
+    // Pre-fill name input on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const name = getGlobalCandidateName();
+      if (name) document.getElementById('candidateName').value = name;
+    });
+
+    // ===== FULLSCREEN =====
+    function toggleExamFullscreen() {
+      try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {}
+    }
+    window.toggleExamFullscreen = toggleExamFullscreen;
+
+    function _updateFSBtnIcons(isFS) {
+      var b = document.getElementById('btnFS');
+      var mb = document.getElementById('mobFSBtn');
+      if (b) b.textContent = isFS ? '⛶' : '⛶';
+      if (mb) {
+        var lbl = mb.querySelectorAll('span')[1];
+        if (lbl) lbl.textContent = isFS ? 'Exit FS' : 'Fullscreen';
+      }
+    }
+    try {
+      window.top.document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.fullscreenElement));
+      });
+      window.top.document.addEventListener('webkitfullscreenchange', function() {
+        _updateFSBtnIcons(!!(window.top.document.webkitFullscreenElement));
+      });
+    } catch(e) {
+      document.addEventListener('fullscreenchange', function() {
+        _updateFSBtnIcons(!!(document.fullscreenElement));
+      });
+    }
+
+    // ===== MOBILE FAB =====
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobFab = document.getElementById('mobFab');
+      const mobFabContainer = document.querySelector('.mob-fab-container');
+      const mobMenu = document.getElementById('mobToolsMenu');
+      const mobOverlay = document.getElementById('mobMenuOverlay');
+      const realTimer = document.getElementById('timerDisplay');
+      const mobTimer = document.getElementById('mobTimer');
+      let fabIdleTimer = null;
+      let isDraggingFab = false;
+      let hasMovedFab = false;
+      let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+      if (!mobFab || !mobMenu) return;
+
+      function setFabActive() {
+        mobFab.style.opacity = '1';
+        clearTimeout(fabIdleTimer);
+        if (mobMenu.style.display !== 'flex') {
+          fabIdleTimer = setTimeout(() => { mobFab.style.opacity = '0.16'; }, 5000);
+        }
+      }
+
+      function applyFabPosition(left, top) {
+        if (!mobFabContainer) return;
+        const maxX = Math.max(0, window.innerWidth - mobFabContainer.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - mobFabContainer.offsetHeight);
+        mobFabContainer.style.position = 'fixed';
+        mobFabContainer.style.left = Math.min(Math.max(0, left), maxX) + 'px';
+        mobFabContainer.style.top = Math.min(Math.max(0, top), maxY) + 'px';
+        mobFabContainer.style.right = 'auto';
+        mobFabContainer.style.bottom = 'auto';
+      }
+
+      function beginFabDrag(cx, cy) {
+        if (!mobFabContainer || mobMenu.style.display === 'flex') return;
+        isDraggingFab = true; hasMovedFab = false; setFabActive();
+        const rect = mobFabContainer.getBoundingClientRect();
+        startX = cx; startY = cy; initialLeft = rect.left; initialTop = rect.top;
+      }
+      function moveFabDrag(cx, cy) {
+        if (!isDraggingFab) return;
+        const dx = cx - startX, dy = cy - startY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+        applyFabPosition(initialLeft + dx, initialTop + dy);
+      }
+      function endFabDrag() {
+        if (!isDraggingFab) return;
+        isDraggingFab = false; setFabActive();
+      }
+
+      // Toggle menu
+      function toggleMenu() {
+        const isOpen = (mobMenu.style.display === 'flex');
+        mobMenu.style.display = isOpen ? 'none' : 'flex';
+        mobOverlay.style.display = isOpen ? 'none' : 'block';
+        mobFab.classList.toggle('active', !isOpen);
+        if (isOpen) setFabActive();
+        else { mobFab.style.opacity = '1'; clearTimeout(fabIdleTimer); }
+      }
+      window.toggleMenu = toggleMenu;
+
+      mobFab.addEventListener('click', () => {
+        if (hasMovedFab) { hasMovedFab = false; return; }
+        toggleMenu();
+      });
+      mobOverlay.addEventListener('click', toggleMenu);
+
+      // Drag support
+      const dragTarget = mobFabContainer || mobFab;
+      dragTarget.addEventListener('mousedown', e => beginFabDrag(e.clientX, e.clientY));
+      document.addEventListener('mousemove', e => moveFabDrag(e.clientX, e.clientY));
+      document.addEventListener('mouseup', endFabDrag);
+      dragTarget.addEventListener('touchstart', e => {
+        const t = e.touches[0]; if (t) beginFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchmove', e => {
+        const t = e.touches[0]; if (t) moveFabDrag(t.clientX, t.clientY);
+      }, { passive: true });
+      document.addEventListener('touchend', endFabDrag, { passive: true });
+
+      // Sync timer to FAB
+      setInterval(() => {
+        if (realTimer && mobTimer) {
+          mobTimer.textContent = realTimer.textContent;
+          mobTimer.style.color = realTimer.style.color === '#ef4444' ? '#ef4444' : 'var(--brand)';
+        }
+      }, 1000);
+
+      // Build nav buttons dynamically when exam starts
+      const origStartExam = window.startExam;
+      if (typeof origStartExam === 'function') {
+        // Monkey-patch won't work well here; use MutationObserver instead
+      }
+      // Watch for exam to become active, then populate nav grid
+      const observer = new MutationObserver(() => {
+        const exam = document.getElementById('examInterface');
+        if (!exam || !exam.classList.contains('active')) return;
+        observer.disconnect();
+        buildMobNavGrid();
+      });
+      observer.observe(document.getElementById('examInterface') || document.body, { attributes: true, attributeFilter: ['class'] });
+
+      function buildMobNavGrid() {
+        const navBtns = document.querySelectorAll('.task-nav-btn');
+        const grid = document.getElementById('mobNavGrid');
+        if (!grid || !navBtns.length) return;
+        grid.innerHTML = '';
+        navBtns.forEach(btn => {
+          const taskId = btn.getAttribute('onclick')?.match(/switchTask\('(.+?)'\)/)?.[1];
+          if (!taskId) return;
+          const mbtn = document.createElement('button');
+          mbtn.className = 'mob-nav-btn' + (btn.classList.contains('active') ? ' active' : '');
+          mbtn.setAttribute('data-task', taskId);
+          mbtn.innerHTML = '<span>' + btn.textContent + '</span>';
+          mbtn.addEventListener('click', () => {
+            if (window.switchTask) window.switchTask(taskId);
+            grid.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+            mbtn.classList.add('active');
+            toggleMenu();
+          });
+          grid.appendChild(mbtn);
+        });
+        // Single-task practice: span full width
+        if (grid.children.length === 1) {
+          grid.children[0].style.gridColumn = '1 / -1';
+          grid.children[0].style.pointerEvents = 'none';
+        }
+      }
+
+      // Sync active task state periodically
+      setInterval(() => {
+        const activeBtn = document.querySelector('.task-nav-btn.active');
+        if (!activeBtn) return;
+        const activeId = activeBtn.getAttribute('onclick')?.match(/switchTask\('(.+?)'\)/)?.[1];
+        if (!activeId) return;
+        document.querySelectorAll('.mob-nav-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-task') === activeId);
+        });
+      }, 2000);
+
+      setFabActive();
+    });
+
+    // ===== INIT =====
+    // Pre-fetch Gemini key
+    getGeminiKey().catch(() => {});
+  </script>
+</body>
+</html>

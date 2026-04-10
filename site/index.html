@@ -2825,6 +2825,18 @@
           </div>
         </div>
 
+        <!-- Writing Plus Submissions Review -->
+        <div style="margin-top:16px;">
+          <div class="column-header" style="background:linear-gradient(135deg,#0d9488,#115e59);border-radius:12px 12px 0 0;padding:12px 16px;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;justify-content:space-between;">
+            <span>✨ Writing Plus Submissions</span>
+            <button onclick="loadWritingPlusSubmissions()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">🔄 Refresh</button>
+          </div>
+          <div id="writingPlusBody" style="background:#fff;border:2px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;padding:16px;min-height:60px;max-height:400px;overflow-y:auto;">
+            <div class="no-otp-hint" id="wpNoData">Click Refresh to load submissions</div>
+            <div id="wpSubmissionsList" style="display:none"></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -3117,7 +3129,7 @@
             validate: true,
             timestamp: Date.now(),
             source: 'admin-panel-index'
-          })
+          , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) {
@@ -3198,7 +3210,7 @@
         const response = await fetch('https://davirbek.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: enteredOtp })
+          body: JSON.stringify({ code: enteredOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) throw new Error('Server error');
@@ -3264,7 +3276,7 @@
         const response = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: passcodeInt })
+          body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) throw new Error('Server error');
@@ -3557,6 +3569,111 @@
       toast.textContent = message;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // ===== WRITING PLUS SUBMISSIONS =====
+    async function loadWritingPlusSubmissions() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var noData = document.getElementById('wpNoData');
+      var list = document.getElementById('wpSubmissionsList');
+      noData.textContent = '⏳ Loading...';
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=50', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error(r.status);
+        var rows = await r.json();
+        if (!rows.length) { noData.textContent = 'No submissions yet'; list.style.display = 'none'; return; }
+        noData.style.display = 'none';
+        list.style.display = 'block';
+        list.innerHTML = rows.map(function(row) {
+          var statusColors = { pending: '#f59e0b', approved: '#10b981', draft: '#6366f1', deleted: '#ef4444' };
+          var statusColor = statusColors[row.status] || '#64748b';
+          var tasks = row.tasks || [];
+          var scores = row.scores || [];
+          var avg = scores.length ? (scores.reduce(function(s,x){ return s+(x.score||0); },0)/scores.length).toFixed(1) : '-';
+          var fmt = (row.exam_format || '').toUpperCase();
+          var date = new Date(row.created_at).toLocaleDateString();
+          return '<div style="border:2px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px;background:#fafafa">' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">' +
+              '<div><strong>' + (row.student_name || 'Unknown') + '</strong>' +
+              ' <span style="background:' + statusColor + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700">' + (row.status || 'pending') + '</span>' +
+              ' <span style="font-size:12px;color:#64748b">' + fmt + ' · ' + (row.exam_mode || '') + ' · ' + date + '</span></div>' +
+              '<div style="font-weight:700;color:#0d9488">Score: ' + avg + '</div>' +
+            '</div>' +
+            '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">' +
+              tasks.map(function(t) {
+                return '<span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:6px;font-size:11px">' + (t.label || t.id) + '</span>';
+              }).join('') +
+            '</div>' +
+            '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">' +
+              '<button onclick="viewWPSubmission(\'' + row.id + '\')" style="background:#0d9488;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">👁️ View</button>' +
+              (row.status !== 'approved' ? '<button onclick="updateWPStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">✅ Approve</button>' : '') +
+              (row.status !== 'draft' ? '<button onclick="updateWPStatus(\'' + row.id + '\',\'draft\')" style="background:#6366f1;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">📌 Draft</button>' : '') +
+              (row.status !== 'deleted' ? '<button onclick="updateWPStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">🗑️ Delete</button>' : '') +
+            '</div>' +
+          '</div>';
+        }).join('');
+      } catch(e) {
+        noData.textContent = '❌ Failed to load: ' + e.message;
+        noData.style.display = 'block';
+        list.style.display = 'none';
+      }
+    }
+
+    async function updateWPStatus(id, status) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        if (r.ok) {
+          showToast('✅ Status updated to ' + status);
+          loadWritingPlusSubmissions();
+        }
+      } catch(e) { showToast('❌ Update failed'); }
+    }
+
+    async function viewWPSubmission(id) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        var rows = await r.json();
+        if (!rows.length) return;
+        var row = rows[0];
+        var tasks = row.tasks || [];
+        var scores = row.scores || [];
+        var html = '<h3 style="color:#0d9488;margin-bottom:12px">' + (row.student_name || 'Unknown') + ' — ' + (row.exam_format || '').toUpperCase() + '</h3>';
+        tasks.forEach(function(t, i) {
+          var score = scores[i] || {};
+          html += '<div style="border:2px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px">';
+          html += '<h4 style="color:#0d9488">' + (t.label || t.id) + ' <span style="font-size:12px;color:#64748b">Score: ' + (score.score || '-') + '</span></h4>';
+          html += '<div style="margin:8px 0"><strong>Prompt:</strong><div style="background:#f0fdfa;padding:8px;border-radius:6px;font-size:13px;white-space:pre-wrap;max-height:150px;overflow-y:auto">' + (t.prompt || '-').replace(/</g,'&lt;') + '</div></div>';
+          if (t.graph_url) html += '<div style="margin:8px 0"><img src="' + t.graph_url + '" style="max-width:100%;border-radius:8px;border:2px solid #e5e7eb" alt="Graph"></div>';
+          html += '<div style="margin:8px 0"><strong>Answer:</strong><div style="background:#fff;padding:8px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;white-space:pre-wrap;max-height:200px;overflow-y:auto">' + (t.answer || '-').replace(/</g,'&lt;') + '</div></div>';
+          if (score.feedback) html += '<div style="margin:8px 0"><strong>Feedback:</strong><div style="background:#fef3c7;padding:8px;border-radius:6px;font-size:12px;white-space:pre-wrap">' + score.feedback.replace(/</g,'&lt;') + '</div></div>';
+          html += '</div>';
+        });
+        html += '<button onclick="this.closest(\'.admin-modal-overlay\')?.remove()||this.closest(\'div[style]\')?.remove()" style="background:#64748b;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px">Close</button>';
+        // Show in a simple overlay
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px';
+        overlay.className = 'admin-modal-overlay';
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2)';
+        card.innerHTML = html;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      } catch(e) { showToast('❌ Failed to load details'); }
     }
 
     // ===== DOWNLOAD PDF FUNCTIONALITY =====
@@ -4346,6 +4463,8 @@
               appFrame.classList.add('active');
               // Push history state so back button works properly
               history.pushState({ page: 'app' }, '', '');
+              // Remember that user passed welcome screen
+              sessionStorage.setItem('ms_entered_app', '1');
             }, 300);
           }
         };
@@ -4528,6 +4647,22 @@
 
     // Initialize history state
     history.replaceState({ page: 'welcome' }, '', '');
+
+    // ===== AUTO-RESUME: skip welcome on refresh if user already entered =====
+    (function autoResume() {
+      if (sessionStorage.getItem('ms_entered_app') === '1') {
+        // Restore name if stored
+        const savedName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name');
+        if (savedName) nameSubmitted = true;
+        // Skip welcome screen instantly
+        appFrame.src = 'landing.html';
+        appFrame.onload = function () {
+          welcomeScreen.classList.add('hidden');
+          appFrame.classList.add('active');
+          history.replaceState({ page: 'app' }, '', '');
+        };
+      }
+    })();
 
     // Note: Exiting fullscreen no longer resets to welcome screen
     // Users can tap/click anywhere to re-enter fullscreen

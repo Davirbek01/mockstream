@@ -88,6 +88,7 @@
       const autoMode = urlParams.get('auto');
       const testParam = urlParams.get('test');
       const partParam = urlParams.get('part');
+      const sbMockParam = urlParams.get('sbmock');   // Supabase dynamic mock ID
       if (partParam) {
         var _pm = { p1: [0, 6], p2: [7, 9], p3: [10, 16] };
         window._practiceMode = true;
@@ -207,6 +208,23 @@
               continueBtn.click();
             }, 300);
           }
+
+          // ── Supabase dynamic mock via ?sbmock= ──
+          if (!found && sbMockParam) {
+            var sbValue = 'supabase:' + sbMockParam;
+            var opt = selector.querySelector('option[value="' + sbValue + '"]');
+            if (!opt) {
+              opt = document.createElement('option');
+              opt.value = sbValue;
+              opt.textContent = '🟢 Dynamic Mock';
+              opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+              selector.appendChild(opt);
+            }
+            selector.value = sbValue;
+            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
+            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
+            setTimeout(() => { continueBtn.click(); }, 300);
+          }
         };
 
         // Start checking for DOM readiness
@@ -306,7 +324,7 @@
               const response = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: passcodeInt })
+                body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (response.ok) {
                 const data = await response.json();
@@ -332,7 +350,7 @@
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode })
+              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
 
             if (!response.ok) {
@@ -4706,7 +4724,7 @@
         const response = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: passcodeInt })
+          body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) {
@@ -4904,7 +4922,7 @@
             validate: true,
             timestamp: Date.now(),
             source: 'speaking-pdf-download'
-          })
+          , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) {
@@ -5935,9 +5953,16 @@
       return _scoringPromptsCache || {};
     }
 
+    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+    async function _fetchProviderKey(m) {
+      var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+      if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+    }
+
     async function _callScoringAI(systemText, userPrompt, opts) {
       var cp = await _loadScoringPrompts();
       var provider = cp['scoring_ai_provider'] || 'gemini';
+      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
       opts = opts || {};
       if (provider === 'openai') {
         if (!API_KEY) { try { await getKey(); } catch(e){} }
@@ -5953,6 +5978,63 @@
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'claude') {
+        if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+        if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+        var uMsg = userPrompt;
+        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+        var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
+        if (systemText) cBody.system = systemText;
+        if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+        var r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+          body: JSON.stringify(cBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.content[0].text;
+      } else if (provider === 'grok') {
+        if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+        if (!_GROK_KEY) throw new Error('No Grok API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        var uMsg = userPrompt;
+        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+        messages.push({ role: 'user', content: uMsg });
+        var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'deepseek') {
+        if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+        if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        var uMsg = userPrompt;
+        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+        messages.push({ role: 'user', content: uMsg });
+        var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.deepseek.com/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
           body: JSON.stringify(body)
         });
         if (!r.ok) throw new Error('AI API error: ' + r.status);
@@ -8977,9 +9059,6 @@
           candidateDetailsModal.classList.remove('show');
           candidateDetailsModal.setAttribute('aria-hidden', 'true');
 
-          // Request fullscreen after microphone is granted
-          requestFullscreen();
-
           // Face verification runs silently in background - no blocking required
           gate.style.display = 'none';
           window.speakingExamStartTime = Date.now();
@@ -8999,9 +9078,6 @@
             // Hide candidate details modal
             candidateDetailsModal.classList.remove('show');
             candidateDetailsModal.setAttribute('aria-hidden', 'true');
-
-            // Request fullscreen after microphone is granted
-            requestFullscreen();
 
             alert(`Could not load ${selectedFile}. Using default mock test instead.\n\nPlease create ${selectedFile} using the test builder if you want to use it.`);
 
@@ -9032,9 +9108,6 @@
           $$('.t-title').forEach(tt => tt.style.display = (tt.getAttribute('data-title') === lang ? '' : 'none'));
         } else if (t && t.id === 'tutorialBegin') {
           _iosUnlockAudio();
-          // Microphone access already granted when "Start the test" was clicked
-          // Re-request fullscreen in case it was exited
-          requestFullscreen();
           const modal = $('#tutorialModal');
           modal.classList.remove('show');
           modal.setAttribute('aria-hidden', 'true');
@@ -9054,8 +9127,6 @@
             alert('Microphone access is required to test your microphone. Please allow microphone access and try again.');
             return;
           }
-          // Re-request fullscreen if exited during mic permission
-          requestFullscreen();
           // Open mic check modal from tutorial
           const tutModal = $('#tutorialModal');
           tutModal.classList.remove('show');
@@ -10054,7 +10125,8 @@ ${qJsonLines}
           console.log('✅ JSZip available');
 
           // ===== AUTO IELTS AI ANALYSIS (only for premium codes) =====
-          const isPremiumEntry = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+          let isPremiumEntry = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+          if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
           let ieltsAiResult = null;
 
           if (isPremiumEntry) {
@@ -10700,7 +10772,7 @@ ${questionsContent}
           const response = await fetch('https://davirbek.alwaysdata.net/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: passcode })
+            body: JSON.stringify({ code: passcode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
           });
 
           if (!response.ok) {
@@ -11045,7 +11117,8 @@ ${questionsContent}
 
       // AI Score button: hidden for premium entries (auto AI runs), disabled lock for regular users
       (function () {
-        const isPremiumEntry = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        let isPremiumEntry = sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
         const aiBtn = document.getElementById('aiScoreBtn');
         if (aiBtn) {
           if (isPremiumEntry) {
@@ -11218,7 +11291,7 @@ ${questionsContent}
           const response = await fetch('https://admin0709.alwaysdata.net/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ passcode: passcodeInt })
+            body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
           });
 
           if (!response.ok) {
@@ -15100,8 +15173,7 @@ IMPORTANT: Score FAIRLY - award B2 or C1 if the candidate truly deserves it base
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              code: enteredPasscode.trim(),
-            })
+              code: enteredPasscode.trim(), center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
           });
 
           if (!response.ok) {
@@ -15585,6 +15657,27 @@ Please contact your instructor or upgrade to the full version with speech recogn
         window.SPEAKING_TEST_DATA = null;
         window.SPEAKING_TEST_DATA_CACHED = null;
 
+        // ── Supabase dynamic mock ──
+        if (filename.startsWith('supabase:')) {
+          const mockId = filename.replace('supabase:', '');
+          console.log('🌐 Loading IELTS Speaking from Supabase, id=' + mockId);
+          const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(mockId) + '&select=mock_data', {
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          })
+          .then(r => { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
+          .then(rows => {
+            if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
+            window.SPEAKING_TEST_DATA = rows[0].mock_data;
+            console.log('✅ Loaded IELTS Speaking from Supabase');
+            resolve();
+          })
+          .catch(err => { console.error('❌ Supabase load failed:', err); reject(err); });
+          return;
+        }
+        // ── End Supabase dynamic mock ──
+
         // Remove ALL existing question scripts
         const existingScripts = document.querySelectorAll('script[src*="questions"]');
         existingScripts.forEach(script => script.remove());
@@ -15818,8 +15911,15 @@ Please contact your instructor or upgrade to the full version with speech recogn
           };
 
           // Extract mock number for promocode check
-          const mockMatch = selectedFile.match(/(?:questions|mock)-?(\d+)?\.js/i);
-          const mockNumber = mockMatch ? (mockMatch[1] || '01') : '01';
+          let mockNumber = '01';
+          if (selectedFile.startsWith('supabase:')) {
+            const optText = this.options[this.selectedIndex].text;
+            const sbMatch = optText.match(/(\d+)/);
+            mockNumber = sbMatch ? sbMatch[1] : '01';
+          } else {
+            const mockMatch = selectedFile.match(/(?:questions|mock)-?(\d+)?\.js/i);
+            mockNumber = mockMatch ? (mockMatch[1] || '01') : '01';
+          }
           const paddedMockNumber = mockNumber.padStart(2, '0');
 
           // Show/hide promocode section based on whether this mock requires it
@@ -17433,7 +17533,7 @@ function printAiModal() { var details = document.querySelectorAll('#aiScoreResul
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: code })
+              body: JSON.stringify({ code: code , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
 
             if (response.ok) {
@@ -17965,6 +18065,49 @@ function printAiModal() { var details = document.querySelectorAll('#aiScoreResul
   <!-- Holiday Snowflakes (auto-disables after Jan 16) -->
   <script src="holiday-snowflakes.js"></script>
   <script src="chat-bubble.js"></script>
+  <!-- Supabase dynamic mocks loader -->
+  <script>
+  (async function loadDynamicMocks() {
+    try {
+      const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      const res = await fetch(
+        SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-speaking&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+        { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+      );
+      if (!res.ok) return;
+      const mocks = await res.json();
+      if (!mocks || !mocks.length) return;
+
+      const selector = document.getElementById('mockSelector');
+      if (!selector) return;
+
+      let upgraded = 0, added = 0;
+      mocks.forEach(function(m) {
+        const num = m.mock_number;
+        // Try to find a hardcoded option with matching mock file
+        const existing = selector.querySelector('option[value="questions IELTS S/ielts-speaking-mock-' + num + '.js"]');
+        if (existing) {
+          existing.value = 'supabase:' + m.id;
+          existing.textContent = '🟢 ' + m.title;
+          existing.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+          existing.removeAttribute('data-coming-soon');
+          upgraded++;
+        } else {
+          var opt = document.createElement('option');
+          opt.value = 'supabase:' + m.id;
+          opt.textContent = '🟢 ' + m.title;
+          opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+          selector.appendChild(opt);
+          added++;
+        }
+      });
+      console.log('🌐 IELTS Speaking Supabase mocks: ' + upgraded + ' upgraded, ' + added + ' new');
+    } catch (e) {
+      console.warn('Could not load dynamic IELTS speaking mocks:', e);
+    }
+  })();
+  </script>
 </body>
 
 </html>

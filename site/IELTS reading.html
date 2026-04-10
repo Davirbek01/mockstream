@@ -3289,6 +3289,30 @@
                 if (_pNum >= 1 && _pNum <= 3) { window._practicePassage = _pNum; }
             }
 
+            // ── Supabase dynamic mock ──
+            var sbMockId = urlParams.get('sbmock');
+            if (sbMockId) {
+                console.log('🌐 Loading IELTS Reading from Supabase, id=' + sbMockId);
+                var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+                var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+                fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data', {
+                    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+                })
+                .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
+                .then(function(rows) {
+                    if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
+                    window.IELTS_READING_TEST = rows[0].mock_data;
+                    document.dispatchEvent(new Event('testDataLoaded'));
+                })
+                .catch(function(err) {
+                    console.error('❌ Supabase load failed:', err);
+                    alert('Failed to load test from Supabase');
+                    window.location.href = 'landing.html';
+                });
+                return;
+            }
+            // ── End Supabase ──
+
             // Create and load the script
             const script = document.createElement('script');
             script.src = 'questions IELTS R/' + testFile;
@@ -3363,29 +3387,6 @@
                     antiCheatEnabled = !antiCheatEnabled;
                     console.log('Anti-cheat ' + (antiCheatEnabled ? 'enabled' : 'disabled') + ' by admin');
                     return;
-                }
-
-                // Always allow ESC key (27) to toggle fullscreen
-                if (e.keyCode === 27) {
-                    if (document.fullscreenElement || document.webkitFullscreenElement ||
-                        document.msFullscreenElement || document.mozFullScreenElement) {
-                        exitFullscreen();
-                    } else {
-                        requestFullscreen();
-                    }
-                    return; // Allow default behavior too
-                }
-
-                // Ctrl+A to toggle fullscreen (always available)
-                if (e.ctrlKey && e.keyCode === 65) {
-                    e.preventDefault();
-                    if (document.fullscreenElement || document.webkitFullscreenElement ||
-                        document.msFullscreenElement || document.mozFullScreenElement) {
-                        exitFullscreen();
-                    } else {
-                        requestFullscreen();
-                    }
-                    return false;
                 }
 
                 if (!antiCheatEnabled) return; // Skip all checks if disabled
@@ -3531,76 +3532,6 @@
                     document.mozCancelFullScreen();
                 }
             }
-
-            // Try to enter fullscreen on page load
-            window.addEventListener('load', function () {
-                // Immediate fullscreen attempt
-                requestFullscreen();
-
-                // Aggressive retry for mobile
-                setTimeout(function () {
-                    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                        requestFullscreen();
-                    }
-                }, 100);
-
-                setTimeout(function () {
-                    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                        requestFullscreen();
-                    }
-                }, 500);
-            });
-
-            // Aggressive mobile fullscreen triggers
-            var hasTriedFullscreen = false;
-            function tryFullscreenOnInteraction(e) {
-                requestFullscreen();
-                if (!hasTriedFullscreen) {
-                    hasTriedFullscreen = true;
-                    // Multiple retries after interaction
-                    setTimeout(function () { requestFullscreen(); }, 50);
-                    setTimeout(function () { requestFullscreen(); }, 200);
-                }
-            }
-
-            // Attach to multiple interaction events
-            document.addEventListener('click', tryFullscreenOnInteraction);
-            document.addEventListener('touchstart', tryFullscreenOnInteraction);
-            document.addEventListener('touchend', tryFullscreenOnInteraction);
-            document.addEventListener('touchmove', tryFullscreenOnInteraction, { once: true });
-            document.addEventListener('scroll', tryFullscreenOnInteraction, { once: true });
-
-            // Force fullscreen on DOMContentLoaded
-            document.addEventListener('DOMContentLoaded', function () {
-                setTimeout(function () {
-                    requestFullscreen();
-                }, 50);
-            });
-
-            // Retry fullscreen when visibility changes (tab becomes active)
-            document.addEventListener('visibilitychange', function () {
-                if (!document.hidden && !document.fullscreenElement && !document.webkitFullscreenElement) {
-                    requestFullscreen();
-                    setTimeout(function () {
-                        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                            requestFullscreen();
-                        }
-                    }, 200);
-                }
-            });
-
-            // Monitor fullscreen exit and re-enter
-            document.addEventListener('fullscreenchange', function () {
-                if (!document.fullscreenElement) {
-                    setTimeout(function () { requestFullscreen(); }, 100);
-                }
-            });
-
-            document.addEventListener('webkitfullscreenchange', function () {
-                if (!document.webkitFullscreenElement) {
-                    setTimeout(function () { requestFullscreen(); }, 100);
-                }
-            });
 
             // Prevent accidental refresh
             var allowNavigation = false; // Flag to allow back button navigation

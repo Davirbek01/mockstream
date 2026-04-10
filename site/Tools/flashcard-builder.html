@@ -1256,13 +1256,20 @@
         <div class="ai-options">
           <label>Cards to generate:</label>
           <input type="number" id="aiCardCount" value="10" min="1" max="100" style="width: 70px;">
-          
-          <label style="margin-left: 15px;">Model:</label>
-          <select id="aiModel">
-            <option value="gpt-4o-mini">GPT-4o Mini (Fast & Cheap)</option>
-            <option value="gpt-4o">GPT-4o (Best Quality)</option>
-            <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Legacy)</option>
-          </select>
+        </div>
+
+        <div class="ai-options" style="margin-top:8px;">
+          <label>AI Model:</label>
+          <button class="preset-btn" id="mdl-claude" onclick="setAiModel('claude')" style="background:#ede9fe;border-color:#a855f7;font-weight:700;">🟣 Claude</button>
+          <button class="preset-btn" id="mdl-openai" onclick="setAiModel('openai')">🟢 GPT-4o</button>
+          <button class="preset-btn" id="mdl-gemini" onclick="setAiModel('gemini')">🔵 Gemini</button>
+          <button class="preset-btn" id="mdl-grok" onclick="setAiModel('grok')">🔴 Grok</button>
+          <button class="preset-btn" id="mdl-deepseek" onclick="setAiModel('deepseek')">⚫ Deepseek</button>
+        </div>
+
+        <div id="passcodeField" style="margin-top:8px;">
+          <label style="font-size:12px;font-weight:600;color:#64748b;">Passcode (Claude / Grok / Deepseek):</label>
+          <input type="password" id="claudePasscode" placeholder="Enter passcode" style="padding:6px 10px;border:2px solid #e2e8f0;border-radius:8px;font-size:13px;width:200px;">
         </div>
 
         <button class="btn-ai" id="generateAiBtn" onclick="generateWithAI()">
@@ -1865,34 +1872,162 @@ ${cardsJson}
     addCard();
 
     // ========== AI GENERATION ==========
-    
-    let API_KEY = null;
 
-    // Fetch API key from backend on page load
-    async function loadApiKey() {
-      const badge = document.getElementById('apiStatusBadge');
-      try {
-        const response = await fetch('https://davirbek.alwaysdata.net/key', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!response.ok) {
-          throw new Error('Failed to connect');
-        }
-        const data = await response.json();
-        API_KEY = data.key;
-        badge.className = 'api-status-badge connected';
-        badge.innerHTML = '✅ AI Ready - Connected to server';
-        console.log('API Key loaded from server');
-      } catch (error) {
-        console.error('Error fetching API key:', error);
-        badge.className = 'api-status-badge disconnected';
-        badge.innerHTML = '❌ Server unavailable - Try refreshing';
-      }
+    // ===== AI MODEL STATE =====
+    let _aiModel = 'claude';
+    function setAiModel(m) {
+      _aiModel = m;
+      ['claude','openai','gemini','grok','deepseek'].forEach(k => {
+        const b = document.getElementById('mdl-' + k);
+        if (b) { b.style.background = k === m ? '#ede9fe' : ''; b.style.borderColor = k === m ? '#a855f7' : ''; b.style.fontWeight = k === m ? '700' : ''; }
+      });
+      document.getElementById('passcodeField').style.display = ['claude','grok','deepseek'].includes(m) ? '' : 'none';
     }
 
-    // Load API key when page loads
-    loadApiKey();
+    // ===== 5-AI KEY FETCHING =====
+    async function fetchApiKey(model, passcode) {
+      if (['claude','grok','deepseek'].includes(model)) {
+        const res = await fetch('https://davirbek.alwaysdata.net/test-maker-key', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode, model }),
+        });
+        if (!res.ok) throw new Error('Invalid passcode');
+        const data = await res.json(); return data.key || data.apiKey;
+      }
+      const endpoint = model === 'gemini'
+        ? 'https://davirbek.alwaysdata.net/key?model=gemini'
+        : 'https://davirbek.alwaysdata.net/key';
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error('Failed to fetch key');
+      const data = await res.json(); return data.key || data.apiKey;
+    }
+
+    async function callClaudeText(apiKey, system, user) {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 8192, system: system, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Claude API error: ' + res.status);
+      const d = await res.json(); return d.content?.[0]?.text || '';
+    }
+
+    async function callClaudeVision(apiKey, system, user, base64, mime) {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 8192, system: system, messages: [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: mime, data: base64 } }, { type: 'text', text: user }] }] }),
+      });
+      if (!res.ok) throw new Error('Claude Vision error: ' + res.status);
+      const d = await res.json(); return d.content?.[0]?.text || '';
+    }
+
+    async function callOpenAIText(apiKey, system, user) {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'gpt-4o', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('OpenAI error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callOpenAIVision(apiKey, system, user, base64, mime) {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'gpt-4o', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: [{ type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } }, { type: 'text', text: user }] }] }),
+      });
+      if (!res.ok) throw new Error('OpenAI Vision error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callGeminiText(apiKey, system, user) {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ parts: [{ text: user }] }], generationConfig: { maxOutputTokens: 8192 } }),
+      });
+      if (!res.ok) throw new Error('Gemini error: ' + res.status);
+      const d = await res.json(); return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    async function callGeminiVision(apiKey, system, user, base64, mime) {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ parts: [{ inlineData: { mimeType: mime, data: base64 } }, { text: user }] }], generationConfig: { maxOutputTokens: 8192 } }),
+      });
+      if (!res.ok) throw new Error('Gemini Vision error: ' + res.status);
+      const d = await res.json(); return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    async function callGrokText(apiKey, system, user) {
+      const res = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'grok-3', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Grok error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callGrokVision(apiKey, system, user, base64, mime) {
+      const res = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'grok-3', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: [{ type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } }, { type: 'text', text: user }] }] }),
+      });
+      if (!res.ok) throw new Error('Grok Vision error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callDeepseekText(apiKey, system, user) {
+      const res = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'deepseek-chat', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Deepseek error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callDeepseekVision(apiKey, system, user, base64, mime) {
+      const res = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'deepseek-chat', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: [{ type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } }, { type: 'text', text: user }] }] }),
+      });
+      if (!res.ok) throw new Error('Deepseek Vision error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    // Unified text call
+    async function callAIText(system, user) {
+      const passcode = document.getElementById('claudePasscode').value;
+      const key = await fetchApiKey(_aiModel, passcode);
+      if (_aiModel === 'claude') return callClaudeText(key, system, user);
+      if (_aiModel === 'gemini') return callGeminiText(key, system, user);
+      if (_aiModel === 'grok') return callGrokText(key, system, user);
+      if (_aiModel === 'deepseek') return callDeepseekText(key, system, user);
+      return callOpenAIText(key, system, user);
+    }
+
+    // Unified vision call
+    async function callAIVision(system, user, base64, mime) {
+      const passcode = document.getElementById('claudePasscode').value;
+      const key = await fetchApiKey(_aiModel, passcode);
+      if (_aiModel === 'claude') return callClaudeVision(key, system, user, base64, mime);
+      if (_aiModel === 'gemini') return callGeminiVision(key, system, user, base64, mime);
+      if (_aiModel === 'grok') return callGrokVision(key, system, user, base64, mime);
+      if (_aiModel === 'deepseek') return callDeepseekVision(key, system, user, base64, mime);
+      return callOpenAIVision(key, system, user, base64, mime);
+    }
+
+    // ===== INIT =====
+    (function() {
+      const badge = document.getElementById('apiStatusBadge');
+      badge.className = 'api-status-badge connected';
+      badge.innerHTML = '✅ AI Ready — 5 models available';
+    })();
 
     function setPrompt(topic) {
       const cardType = document.getElementById('cardType').value;
@@ -1925,14 +2060,7 @@ ${cardsJson}
     async function generateWithAI() {
       const prompt = document.getElementById('aiPrompt').value.trim();
       const cardCount = parseInt(document.getElementById('aiCardCount').value) || 10;
-      const model = document.getElementById('aiModel').value;
       const cardType = document.getElementById('cardType').value;
-
-      if (!API_KEY) {
-        alert('Server connection failed. Please refresh the page and try again.');
-        loadApiKey(); // Try to reconnect
-        return;
-      }
 
       if (!prompt) {
         alert('Please enter a prompt describing what flashcards you want!');
@@ -1942,7 +2070,7 @@ ${cardsJson}
       const btn = document.getElementById('generateAiBtn');
       btn.disabled = true;
       btn.innerHTML = '⏳ Generating...';
-      showAiStatus('Connecting to OpenAI... This may take 10-30 seconds.', 'loading');
+      showAiStatus('Connecting to AI... This may take 10-30 seconds.', 'loading');
 
       // Build the system prompt based on card type
       const fields = fieldConfigs[cardType];
@@ -1963,35 +2091,11 @@ Rules:
 - No markdown, no code blocks, just pure JSON array`;
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: prompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 4000
-          })
-        });
-
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error?.message || 'API request failed');
-        }
-
-        const data = await response.json();
-        const content = data.choices[0].message.content.trim();
+        const content = await callAIText(systemPrompt, prompt);
 
         // Parse the JSON response
         let cards;
         try {
-          // Try to extract JSON if wrapped in code blocks
           let jsonStr = content;
           if (content.includes('```')) {
             jsonStr = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
@@ -2085,66 +2189,25 @@ Rules:
     }
 
     async function extractTermsFromImage(file) {
-      if (!API_KEY) {
-        showFrontStatus('❌ AI not connected. Please refresh the page.', 'error');
-        return;
-      }
-
       showFrontStatus('🔍 Extracting terms with AI Vision...', 'loading');
 
-      // Convert file to base64
       const base64 = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result.split(',')[1]);
         reader.readAsDataURL(file);
       });
-
       const mimeType = file.type || 'image/png';
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'user',
-                content: [
-                  {
-                    type: 'text',
-                    text: `Extract all vocabulary words, phrases, idioms, or expressions from this image.
+        const userPrompt = `Extract all vocabulary words, phrases, idioms, or expressions from this image.
 Return ONLY the terms/phrases, one per line.
 Do not include definitions or translations - just the terms themselves.
-If there are numbered items, remove the numbers.`
-                  },
-                  {
-                    type: 'image_url',
-                    image_url: {
-                      url: `data:${mimeType};base64,${base64}`
-                    }
-                  }
-                ]
-              }
-            ],
-            max_tokens: 2000
-          })
-        });
+If there are numbered items, remove the numbers.`;
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error?.message || 'Vision API failed');
-        }
+        const extractedText = await callAIVision('You are a vocabulary extraction assistant.', userPrompt, base64, mimeType);
 
-        const data = await response.json();
-        const extractedText = data.choices[0].message.content.trim();
-        
-        document.getElementById('frontInputArea').value = extractedText;
+        document.getElementById('frontInputArea').value = extractedText.trim();
         showFrontStatus(`✅ Extracted terms from image. Click "Add Terms as Cards" to add them.`, 'success');
-
       } catch (error) {
         throw error;
       }
@@ -2329,38 +2392,17 @@ If there are numbered items, remove the numbers.`
     }
 
     async function processImageOrPdf(file) {
-      if (!API_KEY) {
-        showFlipStatus('❌ AI not connected. Please refresh the page.', 'error');
-        return;
-      }
-
       showFlipStatus('🔍 Extracting text with AI Vision...', 'loading');
 
-      // Convert file to base64
       const base64 = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result.split(',')[1]);
         reader.readAsDataURL(file);
       });
-
       const mimeType = file.type || 'image/png';
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'user',
-                content: [
-                  {
-                    type: 'text',
-                    text: `Extract vocabulary/terms from this image. For each term found, provide:
+        const userPrompt = `Extract vocabulary/terms from this image. For each term found, provide:
 - The term/word/phrase
 - English definition
 - Uzbek translation (if visible, otherwise leave empty)
@@ -2368,44 +2410,18 @@ If there are numbered items, remove the numbers.`
 
 Format each line as: term | english definition | uzbek translation | example sentence
 
-Only output the formatted lines, nothing else.`
-                  },
-                  {
-                    type: 'image_url',
-                    image_url: {
-                      url: `data:${mimeType};base64,${base64}`
-                    }
-                  }
-                ]
-              }
-            ],
-            max_tokens: 4000
-          })
-        });
+Only output the formatted lines, nothing else.`;
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error?.message || 'Vision API failed');
-        }
+        const extractedText = await callAIVision('You are a vocabulary extraction assistant.', userPrompt, base64, mimeType);
 
-        const data = await response.json();
-        const extractedText = data.choices[0].message.content.trim();
-        
-        document.getElementById('flipInputArea').value = extractedText;
+        document.getElementById('flipInputArea').value = extractedText.trim();
         showFlipStatus(`✅ Extracted text from image. Review and click "Apply to Cards".`, 'success');
-
       } catch (error) {
         throw error;
       }
     }
 
     async function aiFillFlipSide() {
-      if (!API_KEY) {
-        alert('AI not connected. Please refresh the page.');
-        return;
-      }
-
-      // Collect all terms from cards
       const termKey = getTermKey();
       const terms = [];
       const cardElements = [];
@@ -2448,44 +2464,18 @@ Match the terms exactly as provided. Return ONLY valid JSON, no markdown.`;
       const userPrompt = `Generate definitions for these ${termLabel}s:\n${terms.map((t, i) => `${i+1}. ${t}`).join('\n')}`;
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 4000
-          })
-        });
+        let content = await callAIText(systemPrompt, userPrompt);
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error?.message || 'API request failed');
-        }
-
-        const data = await response.json();
-        let content = data.choices[0].message.content.trim();
-
-        // Parse JSON
         if (content.includes('```')) {
           content = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
         }
         const definitions = JSON.parse(content);
 
-        // Create a map of term -> definition
         const defMap = {};
         definitions.forEach(d => {
           defMap[d.term.toLowerCase()] = d;
         });
 
-        // Fill in the cards
         let filledCount = 0;
         cardElements.forEach((cardEl, idx) => {
           const inputs = cardEl.querySelectorAll('input');

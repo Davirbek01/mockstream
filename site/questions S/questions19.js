@@ -264,9 +264,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 7,
       "part": "Part 3",
-      "badge": "60s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 60,
+      "speakTime": 120,
       "prompt": "Share a time when your curiosity led you to discover or learn something valuable.",
       "audioFile": "questions S/audio/cefr-speaking-mock-19-q7.mp3",
       "hasImages": false,
@@ -307,9 +307,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 8,
       "part": "Part 4",
-      "badge": "90s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 90,
+      "speakTime": 120,
       "prompt": "Single-Use Plastics Should Be Completely Banned",
       "audioFile": "questions S/audio/cefr-speaking-mock-19-q8.mp3",
       "hasImages": false,

@@ -1533,7 +1533,7 @@
               var passcodeInt = parseInt(aiPasscode, 10);
               var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: passcodeInt })
+                body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (resp.ok) {
                 var data = await resp.json();
@@ -1560,7 +1560,7 @@
             var fullCode = new Date().getFullYear() + otp;
             var resp2 = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullCode })
+              body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!resp2.ok) return { valid: false, error: 'Server error. Please try again.' };
             var data2 = await resp2.json();
@@ -1660,6 +1660,52 @@
     document.getElementById('readingAccessModal').addEventListener('click', function(e) {
       if (e.target === this) closeReadingAccessModal();
     });
+  </script>
+  <!-- Supabase dynamic mocks loader -->
+  <script>
+  (async function loadDynamicMocks() {
+    try {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var res = await fetch(
+        SB_URL + '/rest/v1/mock_tests?mock_type=eq.cefr-reading&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+        { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+      );
+      if (!res.ok) return;
+      var mocks = await res.json();
+      if (!mocks || !mocks.length) return;
+
+      var grid = document.getElementById('testsGrid');
+      if (!grid) return;
+
+      var existingCards = grid.querySelectorAll('.test-card-wrap');
+      var nextIndex = existingCards.length + 1;
+      var added = 0;
+
+      mocks.forEach(function(m) {
+        var card = document.createElement('div');
+        card.className = 'test-card-wrap';
+        card.innerHTML = '<div class="test-card-header">'
+          + '<div class="passage-number" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);">\uD83D\uDFE2</div>'
+          + '<div class="passage-info">'
+          + '<div class="passage-label">Test ' + nextIndex + ' <span style="color:#6366f1;font-weight:600;">(Dynamic)</span></div>'
+          + '<div class="passage-title">' + (m.title || 'Mock ' + m.mock_number) + '</div>'
+          + '</div></div>'
+          + '<div class="test-mode-row">'
+          + '<button class="mode-btn mode-full" data-url="CEFR Reading.html?sbmock=' + m.id + '" data-mock-num="' + m.mock_number + '" style="border-color:#6366f1;">'
+          + '\uD83C\uDFAF Full Test'
+          + '<span class="mode-meta">Dynamic</span>'
+          + '</button>'
+          + '</div>';
+        grid.appendChild(card);
+        nextIndex++;
+        added++;
+      });
+      console.log('\uD83C\uDF10 CEFR Reading dynamic mocks: ' + added + ' added');
+    } catch (e) {
+      console.warn('Could not load dynamic CEFR reading mocks:', e);
+    }
+  })();
   </script>
   <script src="chat-bubble.js"></script>
 </body>

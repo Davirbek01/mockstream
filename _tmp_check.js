@@ -1,0 +1,5538 @@
+
+        // ===== IELTS FULL MOCK - CORE STATE =====
+        const state = {
+            candidateName: '',
+            candidatePhoto: null,
+            step: 0,
+            modules: ['LISTENING', 'READING', 'WRITING', 'SPEAKING'],
+            testIds: { listening: '01', reading: '01', writing: '01', speaking: '1' },
+            referenceNumber: '', // Encoded session reference (hides test IDs)
+            currentTestData: null,
+            currentPart: 0,
+            audioPart: 0,
+            preloadedAudio: {},
+            answers: { listening: {}, reading: {}, writing: {}, speaking: {} },
+            results: null,
+            timeRemaining: 0,
+            timerInterval: null,
+            scores: { listening: { c: 0, t: 0 }, reading: { c: 0, t: 0 } },
+            moduleData: { listening: null, reading: null, writing: null, speaking: null },
+            aiResults: { writing: null, speaking: null },
+            aiFailed: { writing: false, speaking: false },
+            aiError: { writing: '', speaking: '' },
+            scaledScores: { l: 0, r: 0, w: 0, s: 0 },
+            overall: { score: 0, band: 0 },
+            examStarted: false,
+            isPremiumVip: false // true = premium VIP (AI scoring), false = regular or passcode entry
+        };
+
+        // Session Recovery init for IELTS full mock
+        if (window.SessionRecovery) {
+          SessionRecovery.init({
+            testType: 'ielts-full-mock',
+            getUserId: function() { return state.candidateName || sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; },
+            getTestId: function() { return state.referenceNumber || ''; },
+            getState: function() {
+              if (!state.examStarted || state.step >= 4) return null;
+              var sd = {
+                step: state.step, candidateName: state.candidateName,
+                testIds: state.testIds, referenceNumber: state.referenceNumber,
+                currentPart: state.currentPart, answers: state.answers,
+                timeRemaining: state.timeRemaining, scores: state.scores,
+                scaledScores: state.scaledScores, isPremiumVip: state.isPremiumVip
+              };
+              if (state.step === 3 && typeof speakingCurrentIdx !== 'undefined') {
+                sd.speakingCurrentQ = speakingCurrentIdx;
+              }
+              return sd;
+            }
+          });
+        }
+
+        // ===== MOBILE FAB LOGIC (IELTS) =====
+        function initMobileFAB() {
+            const mobFab = document.getElementById('mobFab');
+            const mobFabContainer = document.getElementById('mobFabContainer');
+            const mobToolsMenu = document.getElementById('mobToolsMenu');
+            const mobMenuOverlay = document.getElementById('mobMenuOverlay');
+            const mobMenuClose = document.getElementById('mobMenuClose');
+            const menuTimerVal = document.getElementById('menuTimerVal');
+            const fabPosKey = 'mobFabPos_FullMock_IELTS';
+
+            if (!mobFab) return;
+
+            let fabIdleTimer = null;
+            let isDraggingFab = false;
+            let hasMovedFab = false;
+            let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+            function setFabActive() {
+                mobFab.style.opacity = '1';
+                clearTimeout(fabIdleTimer);
+                if (!mobToolsMenu.classList.contains('show')) {
+                    fabIdleTimer = setTimeout(() => {
+                        mobFab.style.opacity = '0.16';
+                    }, 5000);
+                }
+            }
+
+            function applyFabPosition(left, top) {
+                if (!mobFabContainer) return;
+                const maxX = Math.max(0, window.innerWidth - mobFabContainer.offsetWidth);
+                const maxY = Math.max(0, window.innerHeight - mobFabContainer.offsetHeight);
+                const x = Math.min(Math.max(0, left), maxX);
+                const y = Math.min(Math.max(0, top), maxY);
+                mobFabContainer.style.position = 'fixed';
+                mobFabContainer.style.left = x + 'px';
+                mobFabContainer.style.top = y + 'px';
+                mobFabContainer.style.right = 'auto';
+                mobFabContainer.style.bottom = 'auto';
+            }
+
+            function beginFabDrag(clientX, clientY) {
+                if (mobToolsMenu.classList.contains('show') || !mobFabContainer) return;
+                isDraggingFab = true;
+                hasMovedFab = false;
+                setFabActive();
+                const rect = mobFabContainer.getBoundingClientRect();
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+            }
+
+            function moveFabDrag(clientX, clientY) {
+                if (!isDraggingFab) return;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasMovedFab = true;
+                applyFabPosition(initialLeft + dx, initialTop + dy);
+            }
+
+            function endFabDrag() {
+                if (!isDraggingFab || !mobFabContainer) return;
+                isDraggingFab = false;
+                localStorage.setItem(fabPosKey, JSON.stringify({ left: mobFabContainer.offsetLeft, top: mobFabContainer.offsetTop }));
+                setFabActive();
+            }
+
+            // Always start FAB at bottom-right (CSS default)
+            localStorage.removeItem(fabPosKey);
+
+            function toggleMenu(show) {
+                if (show) {
+                    mobToolsMenu.classList.add('show');
+                    mobMenuOverlay.classList.add('show');
+                    mobFab.style.opacity = '1';
+                    clearTimeout(fabIdleTimer);
+                    updateMenuTimer();
+                    updateMenuNav();
+                } else {
+                    mobToolsMenu.classList.remove('show');
+                    mobMenuOverlay.classList.remove('show');
+                    setFabActive();
+                }
+            }
+
+            mobFab.addEventListener('click', () => {
+                if (hasMovedFab) { hasMovedFab = false; return; }
+                toggleMenu(true);
+            });
+            if (mobMenuClose) mobMenuClose.addEventListener('click', () => toggleMenu(false));
+            if (mobMenuOverlay) mobMenuOverlay.addEventListener('click', () => toggleMenu(false));
+
+            const dragTarget = mobFabContainer || mobFab;
+            dragTarget.addEventListener('mousedown', (e) => beginFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mousemove', (e) => moveFabDrag(e.clientX, e.clientY));
+            document.addEventListener('mouseup', endFabDrag);
+            dragTarget.addEventListener('touchstart', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                beginFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                if (!t) return;
+                moveFabDrag(t.clientX, t.clientY);
+            }, { passive: true });
+            document.addEventListener('touchend', endFabDrag, { passive: true });
+
+            // Sync Timer
+            function updateMenuTimer() {
+                const timerVal = document.getElementById('display-timer').textContent;
+                if (menuTimerVal) menuTimerVal.textContent = timerVal;
+            }
+
+            // Sync Navigation
+            function updateMenuNav() {
+                const navList = document.getElementById('mobNavList');
+                if (!navList) return;
+                navList.innerHTML = '';
+
+                const mod = state.modules[state.step];
+                let items = [];
+
+                if (mod === 'WRITING') {
+                    const data = state.currentTestData;
+                    if (data?.tasks) {
+                        const arr = Array.isArray(data.tasks) ? data.tasks : [data.tasks.task1, data.tasks.task2].filter(Boolean);
+                        items = arr.map((t, i) => ({ label: `Task ${i + 1}`, idx: i }));
+                    }
+                } else {
+                    const parts = state.currentTestData?.parts || state.currentTestData?.passages || [];
+                    items = parts.map((p, i) => ({ label: `Part ${i + 1}`, idx: i }));
+                }
+
+                items.forEach(({ label, idx }) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'menu-nav-btn' + (state.currentPart === idx ? ' active' : '');
+                    btn.innerHTML = `<span>${label}</span> <span>${state.currentPart === idx ? 'вњ“' : ''}</span>`;
+                    btn.onclick = () => {
+                        state.currentPart = idx;
+                        if (typeof renderPart === 'function') renderPart();
+                        toggleMenu(false);
+                    };
+                    navList.appendChild(btn);
+                });
+            }
+
+            // Zoom Toggle (calls existing initZoom function's logic if possible)
+            document.getElementById('mobZoomBtn').onclick = () => {
+                const zoomBtn = document.getElementById('btnZoom');
+                if (zoomBtn) zoomBtn.click();
+            };
+
+            // Pause/Resume Toggle
+            window.examPaused = false;
+            const pauseOverlay = document.getElementById('pauseOverlay');
+            const pauseResumeBtn = document.getElementById('pauseResumeBtn');
+
+            function doPause() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = true;
+                if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+                if (mod === 'LISTENING' && audio && !audio.paused) audio.pause();
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingPaused !== 'undefined') speakingPaused = true;
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && !currentSpeakingAudio.paused) currentSpeakingAudio.pause();
+                    if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.pause();
+                    if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && !fmPartIntroAudio.paused) fmPartIntroAudio.pause();
+                }
+                toggleMenu(false);
+                pauseOverlay.classList.add('show');
+            }
+
+            function doResume() {
+                const audio = document.getElementById('main-audio');
+                const mod = state.modules[state.step];
+                window.examPaused = false;
+                startTimer();
+                if (mod === 'LISTENING' && audio && audio.src && audio.paused && audio.currentTime > 0) audio.play().catch(() => {});
+                if (mod === 'SPEAKING') {
+                    if (typeof speakingPaused !== 'undefined') speakingPaused = false;
+                    if (typeof currentSpeakingAudio !== 'undefined' && currentSpeakingAudio && currentSpeakingAudio.paused && currentSpeakingAudio.currentTime > 0) currentSpeakingAudio.play().catch(() => {});
+                    if (window.speechSynthesis && window.speechSynthesis.paused) window.speechSynthesis.resume();
+                    if (typeof fmPartIntroAudio !== 'undefined' && fmPartIntroAudio && fmPartIntroAudio.paused && fmPartIntroAudio.currentTime > 0) fmPartIntroAudio.play().catch(() => {});
+                }
+                pauseOverlay.classList.remove('show');
+            }
+
+            document.getElementById('mobPauseBtn').onclick = () => { doPause(); };
+            document.getElementById('hdrBackBtn').onclick = () => { promptFriendlyLeave(function(){ window.__okToLeave = true; _iframeNav('landing.html?openModal=fullmock'); }); };
+            document.getElementById('hdrPauseBtn').onclick = () => { doPause(); };
+            pauseResumeBtn.onclick = () => { doResume(); };
+
+            // Finish Button вЂ” custom confirm modal
+            const finishOverlay = document.getElementById('finishConfirmOverlay');
+            const finishCancelBtn = document.getElementById('finishCancelBtn');
+            const finishConfirmBtn = document.getElementById('finishConfirmBtn');
+
+            document.getElementById('mobFinishBtn').onclick = () => {
+                toggleMenu(false);
+                finishOverlay.classList.add('show');
+            };
+
+            document.getElementById('hdrFinishBtn').onclick = () => {
+                finishOverlay.classList.add('show');
+            };
+
+            finishCancelBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+            };
+
+            finishConfirmBtn.onclick = () => {
+                finishOverlay.classList.remove('show');
+                if (typeof finishMod === 'function') finishMod();
+            };
+
+            finishOverlay.addEventListener('click', (e) => {
+                if (e.target === finishOverlay) finishOverlay.classList.remove('show');
+            });
+
+            // Update timer display in menu every second if open
+            setInterval(() => {
+                if (mobToolsMenu.classList.contains('show')) {
+                    updateMenuTimer();
+                }
+            }, 1000);
+
+            setFabActive();
+        }
+
+        // Initialize FAB after state is ready
+        setTimeout(initMobileFAB, 1000);
+
+        const moduleContainer = document.getElementById('module-container');
+        const mainAudio = document.getElementById('main-audio');
+        let partCountdownInterval = null;
+
+        // ===== HELPER FUNCTIONS =====
+        // Disabled: universal name input in index.html handles validation
+        function validateAndFormatName(raw) {
+            const clean = raw.trim().replace(/\s+/g, ' ');
+            return { valid: true, name: clean };
+        }
+
+        function showNamePopup(msg) {
+            document.getElementById('name-popup-msg').textContent = msg;
+            document.getElementById('name-popup').style.display = 'flex';
+        }
+
+        function saveAns(mod, q, v, el) {
+            // If user is selecting text (for highlighting), don't toggle the answer
+            const _sel = window.getSelection();
+            if (_sel && !_sel.isCollapsed && _sel.toString().trim().length > 0) return;
+            state.answers[mod][q] = v;
+            if (el) {
+                const parent = el.closest('.question-card') || el.parentElement;
+                parent.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+                el.classList.add('selected');
+            }
+        }
+
+        // ===== Rich-select helpers for matching dropdowns =====
+        function toggleMatchSelect(trigger, event) {
+            if (event) event.stopPropagation();
+            const qId = trigger.getAttribute('data-q');
+            const menu = document.getElementById('rs-menu-' + qId);
+            if (!menu) return;
+            const wasOpen = menu.classList.contains('open');
+            // Close all open menus first
+            document.querySelectorAll('.match-rich-select .rs-menu.open').forEach(m => m.classList.remove('open'));
+            document.querySelectorAll('.match-rich-select .rs-trigger.open').forEach(t => t.classList.remove('open'));
+            if (!wasOpen) {
+                menu.classList.add('open');
+                trigger.classList.add('open');
+            }
+        }
+
+        function selectMatchOption(optEl, mod, qId, value, displayText, groupId, event) {
+            if (event) event.stopPropagation();
+            const wrap = optEl.closest('.match-rich-select');
+            const trigger = wrap.querySelector('.rs-trigger');
+            // Update trigger
+            trigger.textContent = displayText;
+            trigger.setAttribute('data-value', value);
+            trigger.classList.toggle('placeholder', !value);
+            // Mark selected option
+            wrap.querySelectorAll('.rs-option').forEach(o => o.classList.remove('selected'));
+            if (value) optEl.classList.add('selected');
+            // Close menu
+            const menu = document.getElementById('rs-menu-' + qId);
+            if (menu) menu.classList.remove('open');
+            trigger.classList.remove('open');
+            // Save answer and update badges
+            saveAns(mod, qId, value);
+            updateMatchBadges(groupId);
+        }
+
+        // Close all match-rich-select menus on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.match-rich-select')) {
+                document.querySelectorAll('.match-rich-select .rs-menu.open').forEach(m => m.classList.remove('open'));
+                document.querySelectorAll('.match-rich-select .rs-trigger.open').forEach(t => t.classList.remove('open'));
+            }
+        });
+
+        // Handle merged MCQ (Choose TWO / THREE) вЂ” stores answers in either order
+        function handleMergedMcq(cb, mod, qIds) {
+            // qIds is comma-separated, e.g. "L-2-21,L-2-22"
+            const ids = qIds.split(',');
+            const maxPicks = ids.length;
+            const card = cb.closest('.merged-mcq');
+            const boxes = card.querySelectorAll('input[type="checkbox"]');
+            const checked = Array.from(boxes).filter(c => c.checked);
+
+            // Cap selections
+            if (checked.length > maxPicks) { cb.checked = false; return; }
+
+            // Visual update
+            card.querySelectorAll('.option-item').forEach(item => {
+                const c = item.querySelector('input[type="checkbox"]');
+                item.classList.toggle('selected', c && c.checked);
+            });
+
+            // Dim un-checked options when max reached
+            const atMax = card.querySelectorAll('input[type="checkbox"]:checked').length >= maxPicks;
+            card.querySelectorAll('.option-item').forEach(item => {
+                const c = item.querySelector('input[type="checkbox"]');
+                if (atMax && c && !c.checked) {
+                    item.classList.add('disabled-option');
+                } else {
+                    item.classList.remove('disabled-option');
+                }
+            });
+
+            // Store each checked value into the corresponding qId
+            const vals = checked.map(c => c.value);
+            ids.forEach((id, i) => {
+                state.answers[mod][id] = vals[i] || '';
+            });
+        }
+
+        // Handle multi-answer MCQ (checkboxes) for full mock
+        function handleMultiMcqFM(mod, qId, checkbox) {
+            const card = checkbox.closest('.question-card');
+            const checkboxes = card.querySelectorAll('input[type="checkbox"]:checked');
+            const values = Array.from(checkboxes).map(cb => cb.value).sort().join(', ');
+            saveAns(mod, qId, values);
+            card.querySelectorAll('.option-item').forEach(item => {
+                const cb = item.querySelector('input[type="checkbox"]');
+                if (cb && cb.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        // Pick a letter button for matching/map questions
+        function pickLetter(btn, mod, qId, letter, groupId) {
+            const row = btn.closest('.letter-btn-row');
+            const wasActive = btn.classList.contains('active');
+            // Deselect all in this row
+            row.querySelectorAll('.letter-btn').forEach(b => b.classList.remove('active'));
+            if (wasActive) {
+                // Toggle off
+                saveAns(mod, qId, '');
+            } else {
+                btn.classList.add('active');
+                saveAns(mod, qId, letter);
+            }
+            updateMatchBadges(groupId);
+        }
+
+        // Update badges on dropdowns/buttons and top options list
+        function updateMatchBadges(groupId) {
+            const letterCount = {};
+
+            // Count from rich-select triggers
+            const triggers = document.querySelectorAll(`.match-rich-select[data-match-group="${groupId}"] .rs-trigger`);
+            triggers.forEach(trig => {
+                const val = trig.getAttribute('data-value');
+                if (val) letterCount[val] = (letterCount[val] || 0) + 1;
+            });
+
+            // Count from letter buttons (map-labeling)
+            const cards = document.querySelectorAll(`[data-match-group="${groupId}"][data-qid]`);
+            cards.forEach(card => {
+                const activeBtn = card.querySelector('.letter-btn.active');
+                if (activeBtn) {
+                    const ltr = activeBtn.getAttribute('data-letter');
+                    letterCount[ltr] = (letterCount[ltr] || 0) + 1;
+                }
+            });
+
+            const usedLetters = new Set(Object.keys(letterCount));
+
+            // Update rich-select options with checkmarks and dup warnings on triggers
+            const richSelects = document.querySelectorAll(`.match-rich-select[data-match-group="${groupId}"]`);
+            richSelects.forEach(rs => {
+                rs.querySelectorAll('.rs-option').forEach(opt => {
+                    const baseText = opt.getAttribute('data-base-text');
+                    if (!baseText) return;
+                    if (usedLetters.has(opt.getAttribute('data-value'))) {
+                        opt.textContent = `вњ“ ${baseText}`;
+                        opt.classList.add('used');
+                    } else {
+                        opt.textContent = baseText;
+                        opt.classList.remove('used');
+                    }
+                });
+                const trig = rs.querySelector('.rs-trigger');
+                const val = trig ? trig.getAttribute('data-value') : '';
+                if (val && letterCount[val] > 1) {
+                    trig.classList.add('duplicate');
+                } else if (trig) {
+                    trig.classList.remove('duplicate');
+                }
+                const warn = rs.closest('.match-dropdown-wrap')?.querySelector('.dup-warn');
+                if (warn) {
+                    warn.style.display = (val && letterCount[val] > 1) ? 'inline-block' : 'none';
+                }
+            });
+
+            // Update dup badges on letter buttons (map-labeling)
+            cards.forEach(card => {
+                card.querySelectorAll('.letter-btn').forEach(btn => {
+                    const ltr = btn.getAttribute('data-letter');
+                    if (btn.classList.contains('active') && letterCount[ltr] > 1) {
+                        btn.classList.add('dup');
+                    } else {
+                        btn.classList.remove('dup');
+                    }
+                });
+            });
+
+            // Update top options reference list with checkmarks
+            const optBox = document.getElementById(`opts-box-${groupId}`);
+            if (optBox) {
+                optBox.querySelectorAll('p[id^="opts-item-"]').forEach(p => {
+                    const letter = p.id.split('-').pop();
+                    const strong = p.querySelector('strong');
+                    if (!strong) return;
+                    const restText = p.getAttribute('data-orig-text') || p.textContent.replace(/^[вњ“вљ пёЏ!\s]*[A-Z]/, '').replace(/^\s*-\s*/, '');
+                    if (!p.getAttribute('data-orig-text')) p.setAttribute('data-orig-text', restText);
+                    if (usedLetters.has(letter)) {
+                        const isDup = letterCount[letter] > 1;
+                        p.innerHTML = `<span style="color:#16a34a;font-weight:700;">вњ“</span> <strong style="${isDup ? 'color:#f59e0b;' : 'color:#16a34a;'}">${letter}</strong> <span style="${isDup ? 'color:#f59e0b;' : 'color:#16a34a;'}text-decoration:line-through;opacity:0.7;">- ${restText}</span>${isDup ? ' <span style="background:#f59e0b;color:white;font-weight:800;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:4px;">used Г—' + letterCount[letter] + '</span>' : ''}`;
+                    } else {
+                        p.innerHTML = `<strong>${letter}</strong> - ${restText}`;
+                        p.style.opacity = '1';
+                    }
+                });
+            }
+        }
+
+        // ===== MOCK SELECTION SYSTEM =====
+        // Test counts loaded from config file (ielts-mock-config.js)
+        // Update that file when adding new mocks - they will appear automatically
+        const TEST_COUNTS = window.IELTS_MOCK_CONFIG || { listening: 4, reading: 2, writing: 30, speaking: 1 };
+
+        // Populate mock selection dropdowns (called once at page load to avoid blinking)
+        function populateMockSelectors() {
+            const selectors = [
+                { id: 'select-listening', count: TEST_COUNTS.listening, label: 'Listening' },
+                { id: 'select-reading', count: TEST_COUNTS.reading, label: 'Reading' },
+                { id: 'select-writing', count: TEST_COUNTS.writing, label: 'Writing' },
+                { id: 'select-speaking', count: TEST_COUNTS.speaking, label: 'Speaking' }
+            ];
+
+            selectors.forEach(sel => {
+                const dropdown = document.getElementById(sel.id);
+                // Build complete HTML string first to avoid multiple DOM updates
+                let optionsHTML = '<option value="">-- Select or Randomize --</option>';
+                for (let i = 1; i <= sel.count; i++) {
+                    const val = i.toString().padStart(2, '0');
+                    optionsHTML += `<option value="${val}">${sel.label} Test ${val}</option>`;
+                }
+                dropdown.innerHTML = optionsHTML;
+
+                // Add change listener to check if all selected
+                dropdown.addEventListener('change', checkAllSelected);
+            });
+        }
+
+        // Pre-populate dropdowns at page load (while overlay is hidden) to prevent blinking
+        document.addEventListener('DOMContentLoaded', () => {
+            populateMockSelectors();
+        });
+
+        // Check if all mocks are selected
+        function checkAllSelected() {
+            const l = document.getElementById('select-listening').value;
+            const r = document.getElementById('select-reading').value;
+            const w = document.getElementById('select-writing').value;
+            const s = document.getElementById('select-speaking').value;
+
+            const allSelected = l && r && w && s;
+            document.getElementById('confirm-selection-btn').disabled = !allSelected;
+
+            if (allSelected) {
+                // Update reference number preview
+                const refNum = generateEncodedReferenceNumber(l, r, w, s);
+                document.getElementById('selection-reference-number').textContent = refNum;
+                document.getElementById('selection-reference-box').style.display = 'block';
+            } else {
+                document.getElementById('selection-reference-box').style.display = 'none';
+            }
+        }
+
+        // Randomize all mock selections
+        function randomizeAllMocks() {
+            const btn = document.getElementById('randomize-all-btn');
+            const displayBox = document.getElementById('selected-mocks-display');
+
+            // Show loading state
+            btn.innerHTML = '<span style="font-size:20px;">вЏі</span> Randomizing...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            // Hide previous selection display
+            displayBox.style.display = 'none';
+
+            // Reset display values with spinning animation
+            ['listening', 'reading', 'writing', 'speaking'].forEach(mod => {
+                document.getElementById(`display-selected-${mod}`).textContent = '...';
+            });
+
+            // Simulate progress with slot machine effect
+            let spinCount = 0;
+            const spinInterval = setInterval(() => {
+                // Show random numbers spinning in dropdowns
+                document.getElementById('select-listening').value = (Math.floor(Math.random() * TEST_COUNTS.listening) + 1).toString().padStart(2, '0');
+                document.getElementById('select-reading').value = (Math.floor(Math.random() * TEST_COUNTS.reading) + 1).toString().padStart(2, '0');
+                document.getElementById('select-writing').value = (Math.floor(Math.random() * TEST_COUNTS.writing) + 1).toString().padStart(2, '0');
+                document.getElementById('select-speaking').value = (Math.floor(Math.random() * TEST_COUNTS.speaking) + 1).toString().padStart(2, '0');
+                spinCount++;
+
+                if (spinCount >= 10) {
+                    clearInterval(spinInterval);
+
+                    // Final random selection using crypto
+                    function getRandomId(max) {
+                        if (window.crypto && window.crypto.getRandomValues) {
+                            const arr = new Uint32Array(1);
+                            window.crypto.getRandomValues(arr);
+                            return ((arr[0] % max) + 1).toString().padStart(2, '0');
+                        }
+                        return (Math.floor(Math.random() * max) + 1).toString().padStart(2, '0');
+                    }
+
+                    const finalL = getRandomId(TEST_COUNTS.listening);
+                    const finalR = getRandomId(TEST_COUNTS.reading);
+                    const finalW = getRandomId(TEST_COUNTS.writing);
+                    const finalS = getRandomId(TEST_COUNTS.speaking);
+
+                    // Set final values in dropdowns
+                    document.getElementById('select-listening').value = finalL;
+                    document.getElementById('select-reading').value = finalR;
+                    document.getElementById('select-writing').value = finalW;
+                    document.getElementById('select-speaking').value = finalS;
+
+                    // Show selected mocks display with animation
+                    displayBox.style.display = 'block';
+
+                    // Update display values one by one with delay
+                    setTimeout(() => {
+                        document.getElementById('display-selected-listening').textContent = `Test ${finalL}`;
+                    }, 100);
+                    setTimeout(() => {
+                        document.getElementById('display-selected-reading').textContent = `Test ${finalR}`;
+                    }, 200);
+                    setTimeout(() => {
+                        document.getElementById('display-selected-writing').textContent = `Test ${finalW}`;
+                    }, 300);
+                    setTimeout(() => {
+                        document.getElementById('display-selected-speaking').textContent = `Test ${finalS}`;
+                    }, 400);
+
+                    // Trigger check for reference number
+                    checkAllSelected();
+
+                    // Reset button
+                    btn.innerHTML = '<span style="font-size:20px;">рџЋІ</span> Randomize Again';
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                }
+            }, 80);
+        }
+
+        // Generate encoded reference number that hides test IDs within random characters
+        function generateEncodedReferenceNumber(listenId, readId, writeId, speakId) {
+            // Random uppercase letters
+            const randLetter = () => String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+            // Ensure IDs are 2-digit padded strings
+            const L = listenId.toString().padStart(2, '0');
+            const R = readId.toString().padStart(2, '0');
+            const W = writeId.toString().padStart(2, '0');
+            const S = speakId.toString().padStart(2, '0');
+
+            // Build reference: Listening(2) + Random(3) + Reading(2) + Writing(2) + Speaking(2) + Random(2)
+            const ref = L + randLetter() + randLetter() + randLetter() + R + W + S + randLetter() + randLetter();
+            return ref;
+        }
+
+        // Go back to gate from mock selection
+        function goBackToGate() {
+            document.getElementById('mock-selection-overlay').style.display = 'none';
+            document.getElementById('gate').style.display = 'flex';
+            // Reset button state
+            document.getElementById('start-exam-btn').disabled = false;
+            document.getElementById('start-exam-btn').textContent = 'Begin IELTS Mock';
+        }
+
+        // Confirm mock selection and proceed to tutorial
+        async function confirmMockSelection() {
+            state.testIds.listening = document.getElementById('select-listening').value;
+            state.testIds.reading = document.getElementById('select-reading').value;
+            state.testIds.writing = document.getElementById('select-writing').value;
+            // Speaking uses single digit format internally
+            state.testIds.speaking = parseInt(document.getElementById('select-speaking').value).toString();
+
+            // Generate reference number for potential logging
+            state.referenceNumber = generateEncodedReferenceNumber(
+                state.testIds.listening,
+                state.testIds.reading,
+                state.testIds.writing,
+                state.testIds.speaking
+            );
+
+            console.log('=== CONFIRMED IELTS SESSION TESTS ===');
+            console.log('Listening:', state.testIds.listening);
+            console.log('Reading:', state.testIds.reading);
+            console.log('Writing:', state.testIds.writing);
+            console.log('Speaking:', state.testIds.speaking);
+            console.log('Reference:', state.referenceNumber);
+            console.log('=====================================');
+
+            // Hide selection overlay
+            document.getElementById('mock-selection-overlay').style.display = 'none';
+
+            // Show tutorial
+            document.getElementById('tutorial-overlay').style.display = 'flex';
+        }
+
+        // ===== VIP AUTO-BYPASS GATE =====
+        (function checkVipAutoBypass() {
+            const isVip = sessionStorage.getItem('vipSessionAccess') === 'true';
+            if (isVip) {
+                const isPremium = sessionStorage.getItem('vipPremiumAi') === 'true';
+                const passcodeField = document.getElementById('passcode-input');
+                const passcodeLabel = passcodeField?.closest('div')?.querySelector('label');
+                if (passcodeField) {
+                    passcodeField.value = 'VIP-ACCESS';
+                    passcodeField.readOnly = true;
+                    passcodeField.style.background = isPremium ? '#eff6ff' : '#f0fdf4';
+                    passcodeField.style.borderColor = isPremium ? '#93c5fd' : '#86efac';
+                    passcodeField.style.color = isPremium ? '#1e40af' : '#166534';
+                    passcodeField.style.fontFamily = 'inherit';
+                    passcodeField.style.letterSpacing = 'normal';
+                }
+                if (passcodeLabel) {
+                    passcodeLabel.innerHTML = isPremium
+                        ? 'Passcode <span style="background:#dc2626;color:white;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">рџ¤– Premium AI</span>'
+                        : 'Passcode <span style="background:#059669;color:white;padding:2px 8px;border-radius:6px;font-size:11px;margin-left:6px;">в­ђ VIP Access</span>';
+                }
+            }
+        })();
+
+        // ===== START EXAM FLOW =====
+        // Fullscreen toggle (manual only вЂ” no auto-fullscreen)
+        function enterFullscreen() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+        function exitFullscreen() {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+        function toggleExamFullscreen() {
+            try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {
+                if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen();
+                else enterFullscreen();
+            }
+        }
+        function _updateFSBtnIcon(isFS) {
+            var btn = document.getElementById('btnFS');
+            var mobBtn = document.getElementById('mobFSBtn');
+            if (btn) btn.textContent = isFS ? 'вњ•' : 'в›¶';
+            if (mobBtn) mobBtn.querySelector('span').textContent = isFS ? 'Exit FS' : 'Fullscreen';
+        }
+        try {
+            window.top.document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.fullscreenElement));
+            });
+            window.top.document.addEventListener('webkitfullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.webkitFullscreenElement));
+            });
+        } catch(e) {
+            document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(document.fullscreenElement));
+            });
+        }
+
+        document.getElementById('start-exam-btn').onclick = async () => {
+            const rawName = document.getElementById('candidate-name-input').value;
+            const result = validateAndFormatName(rawName);
+            const passcodeInput = document.getElementById('passcode-input');
+            const passcodeError = document.getElementById('passcode-error');
+            const startBtn = document.getElementById('start-exam-btn');
+
+            if (!result.valid) return showNamePopup(result.msg);
+
+            // ===== VIP BYPASS: Skip passcode verification if VIP session is active =====
+            const isVipSession = sessionStorage.getItem('vipSessionAccess') === 'true';
+            if (isVipSession) {
+                state.isPremiumVip = sessionStorage.getItem('vipPremiumAi') === 'true';
+                state.candidateName = result.name;
+                document.getElementById('display-name').textContent = result.name;
+                document.getElementById('gate').style.display = 'none';
+                document.getElementById('mock-selection-overlay').style.display = 'flex';
+                console.log('[VIP] Bypassed IELTS gate. Premium AI:', state.isPremiumVip);
+                return;
+            }
+
+            const passcode = passcodeInput.value.trim().toUpperCase();
+            if (!passcode) {
+                passcodeError.textContent = 'Please enter a passcode.';
+                passcodeError.style.display = 'block';
+                passcodeInput.focus();
+                return;
+            }
+
+            // Show loading state
+            startBtn.disabled = true;
+            startBtn.textContent = 'Verifying...';
+            passcodeError.style.display = 'none';
+
+            try {
+                // 1) Try regular backend (davirbek)
+                //    Requires 12 digits with fillers 4,7,5,3 at positions 1,4,7,10
+                //    Real 8-digit code at positions 0,2,3,5,6,8,9,11 в†’ prepend current year
+                let verified = false;
+                let premium = false;
+
+                if (/^\d{12}$/.test(passcode) &&
+                    passcode[1] === '4' && passcode[4] === '7' &&
+                    passcode[7] === '5' && passcode[10] === '3') {
+                    const rawCode = '' + passcode[0] + passcode[2] + passcode[3] + passcode[5] + passcode[6] + passcode[8] + passcode[9] + passcode[11];
+                    const fullCode = new Date().getFullYear() + rawCode;
+                    const regRes = await fetch('https://davirbek.alwaysdata.net/verify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        cache: 'no-store',
+                        body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+                    });
+
+                    if (regRes.ok) {
+                        const regData = await regRes.json();
+                        if (regData.access || regData.valid) verified = true;
+                    }
+                }
+
+                // 2) If regular failed, try premium backend (admin0709)
+                //    Only if passcode matches obfuscation: 10 digits with fillers 3,9,6,1 at positions 1,4,6,8
+                //    Real 6-digit code sits at positions 0,2,3,5,7,9
+                if (!verified && /^\d{10}$/.test(passcode) &&
+                    passcode[1] === '3' && passcode[4] === '9' &&
+                    passcode[6] === '6' && passcode[8] === '1') {
+                    const premiumCode = '' + passcode[0] + passcode[2] + passcode[3] + passcode[5] + passcode[7] + passcode[9];
+                    const premRes = await fetch('https://admin0709.alwaysdata.net/verify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        cache: 'no-store',
+                        body: JSON.stringify({ passcode: parseInt(premiumCode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+                    });
+
+                    if (premRes.ok) {
+                        const premData = await premRes.json();
+                        if (premData.access || premData.valid) {
+                            verified = true;
+                            premium = true;
+                        }
+                    }
+                }
+
+                if (!verified) {
+                    passcodeError.textContent = 'Invalid or expired passcode. Please try again.';
+                    passcodeError.style.display = 'block';
+                    startBtn.disabled = false;
+                    startBtn.textContent = 'Begin IELTS Mock';
+                    passcodeInput.value = '';
+                    return;
+                }
+
+                // Passcode valid - clear the input so it's not cached
+                passcodeInput.value = '';
+
+                state.isPremiumVip = premium;
+                if (premium) sessionStorage.setItem('vipPremiumAi', 'true');
+                console.log('[IELTS Full Mock] Code verified. Premium AI:', premium);
+
+                // Proceed with exam
+                state.candidateName = result.name;
+                document.getElementById('display-name').textContent = result.name;
+
+                // Dropdowns already populated at page load - just show the overlay
+                // Hide gate, show mock selection overlay
+                document.getElementById('gate').style.display = 'none';
+                document.getElementById('mock-selection-overlay').style.display = 'flex';
+            } catch (error) {
+                console.error('Verification error:', error);
+                passcodeError.textContent = 'Connection error. Please check your internet and try again.';
+                passcodeError.style.display = 'block';
+                startBtn.disabled = false;
+                startBtn.textContent = 'Begin IELTS Mock';
+            }
+        };
+
+        async function confirmTutorialAndStart() {
+            state.examStarted = true;
+            document.getElementById('tutorial-overlay').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+
+            // Test IDs are already set from mock selection, no need to randomize
+            // Support URL override for direct access
+            const p = new URLSearchParams(window.location.search);
+            if (p.get('L')) state.testIds.listening = p.get('L');
+            if (p.get('R')) state.testIds.reading = p.get('R');
+            if (p.get('W')) state.testIds.writing = p.get('W');
+            if (p.get('S')) state.testIds.speaking = p.get('S');
+
+            console.log('IELTS Full Mock - Starting with Test IDs:', state.testIds);
+
+            // Session recovery check
+            if (window.SessionRecovery) {
+              try {
+                var session = await SessionRecovery.check();
+                if (session) {
+                  var choice = await SessionRecovery.prompt(session);
+                  if (choice === 'resume') {
+                    var sd = session.session_data;
+                    state.step = sd.step || 0;
+                    state.testIds = sd.testIds || state.testIds;
+                    state.referenceNumber = sd.referenceNumber || state.referenceNumber;
+                    state.answers = sd.answers || state.answers;
+                    state.scores = sd.scores || state.scores;
+                    state.scaledScores = sd.scaledScores || state.scaledScores;
+                    state.isPremiumVip = sd.isPremiumVip || false;
+                    window._srResumeData = sd;
+                    showIeltsModTutorial(state.step);
+                    SessionRecovery.start();
+                    return;
+                  } else {
+                    await SessionRecovery.clear();
+                  }
+                }
+              } catch(e) { console.warn('Session recovery check failed:', e); }
+            }
+
+            showIeltsModTutorial(0);
+            if (window.SessionRecovery) SessionRecovery.start();
+        }
+
+        // ===== MODULE INTRO TUTORIALS =====
+        const IELTS_MOD_TUTORIAL = [
+            {
+                title: 'Listening Module', icon: 'рџЋ§',
+                pages: [
+                    {
+                        icon: 'рџ“ќ', title: 'Structure & Timing',
+                        desc: `<strong>4 Sections В· 40 Questions В· ~40 minutes</strong>
+                            <div class="imt-grid">
+                                <div>вЂў Section 1: Social conversation</div>
+                                <div>вЂў Section 3: Academic discussion</div>
+                                <div>вЂў Section 2: Monologue (social)</div>
+                                <div>вЂў Section 4: Academic lecture</div>
+                            </div>
+                            Audio plays <strong>once only</strong>. Answer as you listen вЂ” you will not hear it again.`
+                    },
+                    {
+                        icon: 'рџ–ЌпёЏ', title: 'Highlight Feature',
+                        desc: `You can <strong>highlight text</strong> in both the passage and question areas to help you focus:<br><br>
+                            вЂў <strong>Select text</strong> (or double-click a word) to highlight it instantly.<br>
+                            вЂў <span style="background:#90EE90;padding:2px 6px;border-radius:4px;">Green highlight</span> = passage area &nbsp;|&nbsp;
+                              <span style="background:#FFB347;padding:2px 6px;border-radius:4px;">Orange highlight</span> = question area<br>
+                            вЂў <strong>Click a highlight</strong> to remove it.<br><br>
+                            Use highlights to mark key words, instructions, and tricky options.`
+                    },
+                    {
+                        icon: 'вљ пёЏ', title: 'Answering Tips',
+                        desc: `Pay close attention to <strong>word limits</strong> (e.g., "NO MORE THAN TWO WORDS").<br><br>
+                            <strong>Spelling matters</strong> вЂ” incorrect spelling loses marks.<br>
+                            Use the <strong>Part navigation bar</strong> to jump between sections.`
+                    }
+                ]
+            },
+            {
+                title: 'Reading Module', icon: 'рџ“–',
+                pages: [
+                    {
+                        icon: 'вЏ±пёЏ', title: 'Structure & Timing',
+                        desc: `<strong>3 Passages В· 40 Questions В· 60 minutes</strong>
+                            <div class="imt-grid">
+                                <div>вЂў Passage 1: ~13 questions</div>
+                                <div>вЂў Passage 2: ~13 questions</div>
+                                <div style="grid-column:span 2">вЂў Passage 3: ~14 questions (most difficult)</div>
+                            </div>
+                            Question types include: T / F / NG, MCQ, matching, completion, headings, etc.`
+                    },
+                    {
+                        icon: 'рџ–ЌпёЏ', title: 'Highlight Feature',
+                        desc: `<strong>Highlight text</strong> to track important details in the passage and questions:<br><br>
+                            вЂў <strong>Select text</strong> (or double-click a word) to highlight it.<br>
+                            вЂў <span style="background:#90EE90;padding:2px 6px;border-radius:4px;">Green</span> = passage (left side) &nbsp;|&nbsp;
+                              <span style="background:#FFB347;padding:2px 6px;border-radius:4px;">Orange</span> = questions (right side)<br>
+                            вЂў <strong>Click</strong> on a highlight to remove it.<br><br>
+                            Mark keywords in both the passage and questions for faster scanning.`
+                    },
+                    {
+                        icon: 'рџ”Ќ', title: 'Strategy',
+                        desc: `Manage your time вЂ” aim for <strong>~20 minutes per passage</strong>.<br><br>
+                            Don't spend too long on one question. Move on and come back.<br>
+                            Use the <strong>passage navigation bar</strong> at the top to switch passages.`
+                    }
+                ]
+            },
+            {
+                title: 'Writing Module', icon: 'вњЌпёЏ',
+                pages: [
+                    {
+                        icon: 'рџ“„', title: 'Tasks Overview',
+                        desc: `<strong>2 Tasks В· 60 minutes total</strong>
+                            <div class="imt-grid">
+                                <div>вЂў Task 1: Report / Letter</div>
+                                <div>вЂў Min. 150 words</div>
+                                <div>вЂў Task 2: Essay</div>
+                                <div>вЂў Min. 250 words</div>
+                            </div>
+                            Task 2 carries <strong>more weight</strong> вЂ” spend ~40 min on it and ~20 min on Task 1.`
+                    },
+                    {
+                        icon: 'рџ”Ў', title: 'Requirements',
+                        desc: `Write <strong>clear, structured responses</strong> with proper paragraphs.<br><br>
+                            Use the <strong>word counter</strong> on screen to track your progress.<br>
+                            Check spelling and grammar before moving on.`
+                    }
+                ]
+            },
+            {
+                title: 'Speaking Module', icon: 'рџЋ¤',
+                pages: [
+                    {
+                        icon: 'рџ—ЈпёЏ', title: 'Structure',
+                        desc: `<strong>3 Parts В· 17 Questions В· ~15 minutes</strong>
+                            <div class="imt-grid">
+                                <div>вЂў Part 1: Interview (Q1-7)</div>
+                                <div>вЂў Part 2: Cue card + follow-up</div>
+                                <div style="grid-column:span 2">вЂў Part 3: Discussion (Q11-17)</div>
+                            </div>
+                            Each question has a <strong>preparation timer</strong> and a <strong>speaking timer</strong>.`
+                    },
+                    {
+                        icon: 'вЏі', title: 'Procedure',
+                        desc: `The AI examiner will <strong>read each question aloud</strong>.<br><br>
+                            A <span style="color:#ef4444;font-weight:700;">red countdown</span> shows preparation time.
+                            Then a <span style="color:#22c55e;font-weight:700;">green countdown</span> starts вЂ” speak now!<br><br>
+                            Your voice is <strong>automatically recorded</strong>. Speak clearly and use the full time.`
+                    }
+                ]
+            }
+        ];
+
+        let imtStepIdx = 0, imtPageIdx = 0, imtTimer = null, imtProgInterval = null, imtStart = 0;
+        const IMT_AUTO_SEC = 10;
+
+        function showIeltsModTutorial(stepIdx) {
+            imtStepIdx = stepIdx;
+            imtPageIdx = 0;
+            const data = IELTS_MOD_TUTORIAL[stepIdx];
+            if (!data) { startModule(); return; }
+
+            document.getElementById('imt-icon').textContent = data.icon;
+            document.getElementById('imt-title').textContent = data.title;
+            imtRenderPage();
+            document.getElementById('ielts-mod-tut-overlay').style.display = 'flex';
+        }
+
+        function imtRenderPage() {
+            const data = IELTS_MOD_TUTORIAL[imtStepIdx];
+            const pg = data.pages[imtPageIdx];
+            const body = document.getElementById('imt-body');
+            body.innerHTML = `<div class="imt-page active">
+                <div class="imt-page-icon">${pg.icon}</div>
+                <div class="imt-page-title">${pg.title}</div>
+                <div class="imt-page-desc">${pg.desc}</div>
+            </div>`;
+            document.getElementById('imt-step-text').textContent = `Page ${imtPageIdx + 1} of ${data.pages.length}`;
+            document.getElementById('imt-btn-text').textContent = (imtPageIdx < data.pages.length - 1) ? 'Next' : 'Start Module';
+            imtResetTimer();
+        }
+
+        function imtResetTimer() {
+            if (imtTimer) clearTimeout(imtTimer);
+            if (imtProgInterval) clearInterval(imtProgInterval);
+            const fill = document.getElementById('imt-progress');
+            fill.style.width = '0%';
+            imtStart = Date.now();
+            imtProgInterval = setInterval(() => {
+                const pct = Math.min(((Date.now() - imtStart) / (IMT_AUTO_SEC * 1000)) * 100, 100);
+                fill.style.width = pct + '%';
+            }, 80);
+            imtTimer = setTimeout(imtNext, IMT_AUTO_SEC * 1000);
+        }
+
+        function imtNext() {
+            const data = IELTS_MOD_TUTORIAL[imtStepIdx];
+            if (imtPageIdx < data.pages.length - 1) {
+                imtPageIdx++;
+                imtRenderPage();
+            } else {
+                imtFinish();
+            }
+        }
+
+        function imtFinish() {
+            if (imtTimer) clearTimeout(imtTimer);
+            if (imtProgInterval) clearInterval(imtProgInterval);
+            document.getElementById('imt-progress').style.width = '100%';
+            document.getElementById('ielts-mod-tut-overlay').style.display = 'none';
+
+            // If speaking module (step 3), show mic check first
+            if (state.step === 3) {
+                ieltsShowMicCheck();
+                return;
+            }
+            startModule();
+        }
+
+        // ===== IELTS MIC CHECK LOGIC =====
+        let ieltsMicCheckState = {
+            isRecording: false, mediaRecorder: null, audioChunks: [],
+            audioBlob: null, audioUrl: null, audioContext: null,
+            analyser: null, animationFrame: null, timerInterval: null, stream: null
+        };
+
+        function ieltsShowMicCheck() {
+            document.getElementById('ielts-mic-check-overlay').style.display = 'flex';
+            ieltsResetMicCheckUI();
+        }
+
+        function ieltsResetMicCheckUI(isReRecord) {
+            const status = document.getElementById('ielts-mic-check-status');
+            const recordBtn = document.getElementById('ielts-mic-check-record');
+            const playBtn = document.getElementById('ielts-mic-check-play');
+            const continueBtn = document.getElementById('ielts-mic-check-continue');
+            const reRecordBtn = document.getElementById('ielts-mic-check-re-record');
+
+            status.textContent = 'Click "Record" and speak to test';
+            status.className = 'ielts-mic-check-status';
+            recordBtn.style.display = 'flex';
+            recordBtn.classList.remove('recording');
+            recordBtn.innerHTML = '<span>рџ”ґ</span> Record';
+            playBtn.style.display = 'none';
+            continueBtn.style.display = 'none';
+            reRecordBtn.style.display = 'none';
+
+            document.querySelectorAll('.ielts-mic-check-bar').forEach(bar => {
+                bar.style.height = '10px'; bar.style.boxShadow = 'none'; bar.style.opacity = '0.6';
+            });
+
+            if (isReRecord) {
+                if (ieltsMicCheckState.audioUrl) URL.revokeObjectURL(ieltsMicCheckState.audioUrl);
+                ieltsMicCheckState.audioBlob = null;
+                ieltsMicCheckState.audioUrl = null;
+            }
+        }
+
+        async function ieltsToggleMicCheckRecord() {
+            if (ieltsMicCheckState.isRecording) {
+                ieltsStopMicCheckRecording();
+            } else {
+                await ieltsStartMicCheckRecording();
+            }
+        }
+
+        async function ieltsStartMicCheckRecording() {
+            try {
+                ieltsMicCheckState.stream = await fmEnsureMediaStream();
+                if (!ieltsMicCheckState.stream) throw new Error('Could not access microphone');
+
+                ieltsMicCheckState.audioChunks = [];
+                ieltsMicCheckState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                if (ieltsMicCheckState.audioContext.state === 'suspended') {
+                    await ieltsMicCheckState.audioContext.resume();
+                }
+
+                ieltsMicCheckState.analyser = ieltsMicCheckState.audioContext.createAnalyser();
+                const source = ieltsMicCheckState.audioContext.createMediaStreamSource(ieltsMicCheckState.stream);
+                source.connect(ieltsMicCheckState.analyser);
+                ieltsMicCheckState.analyser.fftSize = 64;
+                ieltsMicCheckState.analyser.smoothingTimeConstant = 0.5;
+
+                ieltsUpdateMicCheckVisualizer();
+
+                const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' :
+                    MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '';
+                ieltsMicCheckState.mediaRecorder = new MediaRecorder(ieltsMicCheckState.stream, mimeType ? { mimeType } : {});
+
+                ieltsMicCheckState.mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) ieltsMicCheckState.audioChunks.push(e.data);
+                };
+
+                ieltsMicCheckState.mediaRecorder.onstop = () => {
+                    ieltsMicCheckState.audioBlob = new Blob(ieltsMicCheckState.audioChunks, { type: mimeType || 'audio/webm' });
+                    ieltsMicCheckState.audioUrl = URL.createObjectURL(ieltsMicCheckState.audioBlob);
+
+                    document.getElementById('ielts-mic-check-record').style.display = 'none';
+                    const playBtn = document.getElementById('ielts-mic-check-play');
+                    playBtn.style.display = 'flex';
+                    playBtn.disabled = false;
+
+                    const status = document.getElementById('ielts-mic-check-status');
+                    status.textContent = 'вњ“ Recording complete! Click Play to listen';
+                    status.className = 'ielts-mic-check-status success';
+                };
+
+                ieltsMicCheckState.mediaRecorder.start();
+                ieltsMicCheckState.isRecording = true;
+
+                const recordBtn = document.getElementById('ielts-mic-check-record');
+                recordBtn.classList.add('recording');
+                recordBtn.innerHTML = '<span>вЏ№пёЏ</span> Stop';
+
+                const status = document.getElementById('ielts-mic-check-status');
+                const timerEl = document.getElementById('ielts-mic-check-timer');
+                status.textContent = 'рџ”ґ Recording... Speak now!';
+                status.className = 'ielts-mic-check-status recording';
+
+                let remaining = 15;
+                timerEl.style.display = 'block';
+                timerEl.textContent = remaining + 's';
+
+                ieltsMicCheckState.timerInterval = setInterval(() => {
+                    remaining--;
+                    timerEl.textContent = remaining + 's';
+                    if (remaining <= 0) ieltsStopMicCheckRecording();
+                }, 1000);
+
+                setTimeout(() => {
+                    if (ieltsMicCheckState.isRecording) ieltsStopMicCheckRecording();
+                }, 15500);
+
+            } catch (err) {
+                console.error('IELTS Mic check error:', err);
+                const status = document.getElementById('ielts-mic-check-status');
+                status.textContent = 'вљ пёЏ Microphone access denied. Please allow microphone access.';
+                status.className = 'ielts-mic-check-status error';
+            }
+        }
+
+        function ieltsStopMicCheckRecording() {
+            if (ieltsMicCheckState.mediaRecorder && ieltsMicCheckState.mediaRecorder.state !== 'inactive') {
+                ieltsMicCheckState.mediaRecorder.stop();
+            }
+            if (ieltsMicCheckState.animationFrame) cancelAnimationFrame(ieltsMicCheckState.animationFrame);
+            if (ieltsMicCheckState.timerInterval) { clearInterval(ieltsMicCheckState.timerInterval); ieltsMicCheckState.timerInterval = null; }
+
+            ieltsMicCheckState.isRecording = false;
+            const recordBtn = document.getElementById('ielts-mic-check-record');
+            const timerEl = document.getElementById('ielts-mic-check-timer');
+            recordBtn.classList.remove('recording');
+            recordBtn.innerHTML = '<span>рџ”ґ</span> Record';
+            if (timerEl) timerEl.style.display = 'none';
+
+            document.querySelectorAll('.ielts-mic-check-bar').forEach(bar => { bar.style.height = '10px'; });
+        }
+
+        function ieltsUpdateMicCheckVisualizer() {
+            if (!ieltsMicCheckState.isRecording || !ieltsMicCheckState.analyser) return;
+
+            const bufferLength = ieltsMicCheckState.analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            ieltsMicCheckState.analyser.getByteFrequencyData(dataArray);
+
+            const bars = document.querySelectorAll('.ielts-mic-check-bar');
+            const step = Math.floor(bufferLength / bars.length);
+
+            bars.forEach((bar, i) => {
+                const value = dataArray[i * step];
+                const height = Math.max(10, 10 + (value / 255) * 80);
+                bar.style.height = height + 'px';
+                if (value > 50) {
+                    bar.style.boxShadow = `0 0 ${value / 10}px var(--primary)`;
+                    bar.style.opacity = '1';
+                } else {
+                    bar.style.boxShadow = 'none';
+                    bar.style.opacity = '0.6';
+                }
+            });
+
+            ieltsMicCheckState.animationFrame = requestAnimationFrame(ieltsUpdateMicCheckVisualizer);
+        }
+
+        function ieltsPlayMicCheckAudio() {
+            if (!ieltsMicCheckState.audioUrl) return;
+            const audio = new Audio(ieltsMicCheckState.audioUrl);
+            audio.play();
+
+            const status = document.getElementById('ielts-mic-check-status');
+            status.textContent = 'рџ”Љ Playing...';
+
+            audio.onended = () => {
+                status.textContent = 'вњ“ Mic check complete! Ready to continue.';
+                status.className = 'ielts-mic-check-status success';
+                document.getElementById('ielts-mic-check-play').style.display = 'none';
+                document.getElementById('ielts-mic-check-continue').style.display = 'flex';
+                document.getElementById('ielts-mic-check-re-record').style.display = 'inline-block';
+            };
+        }
+
+        function ieltsCloseMicCheckAndContinue() {
+            if (ieltsMicCheckState.animationFrame) cancelAnimationFrame(ieltsMicCheckState.animationFrame);
+            if (ieltsMicCheckState.audioContext) ieltsMicCheckState.audioContext.close();
+
+            ieltsMicCheckState = {
+                isRecording: false, mediaRecorder: null, audioChunks: [],
+                audioBlob: null, audioUrl: null, audioContext: null,
+                analyser: null, animationFrame: null, timerInterval: null, stream: null
+            };
+
+            document.getElementById('ielts-mic-check-overlay').style.display = 'none';
+
+            // Next: show photo capture if no photo yet, otherwise start module
+            if (!state.candidatePhoto) {
+                document.getElementById('ielts-photo-capture-overlay').style.display = 'flex';
+            } else {
+                startModule();
+            }
+        }
+
+        // ===== IELTS PHOTO CAPTURE LOGIC =====
+        let ieltsCameraStream = null;
+
+        async function ieltsStartCamera() {
+            try {
+                document.getElementById('ielts-photo-main-ui').style.display = 'none';
+                const container = document.getElementById('ielts-camera-preview-container');
+                container.style.display = 'block';
+                ieltsCameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user', width: 640, height: 480 }
+                });
+                document.getElementById('ielts-camera-video').srcObject = ieltsCameraStream;
+            } catch (err) {
+                console.error('Camera access denied:', err);
+                alert('Could not access camera. Please check permissions or try uploading a photo.');
+                document.getElementById('ielts-photo-main-ui').style.display = 'block';
+                document.getElementById('ielts-camera-preview-container').style.display = 'none';
+            }
+        }
+
+        function ieltsStopCamera() {
+            if (ieltsCameraStream) {
+                ieltsCameraStream.getTracks().forEach(track => track.stop());
+                ieltsCameraStream = null;
+            }
+            document.getElementById('ielts-camera-preview-container').style.display = 'none';
+            document.getElementById('ielts-photo-main-ui').style.display = 'block';
+        }
+
+        function ieltsCapturePhoto() {
+            const video = document.getElementById('ielts-camera-video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, 0, 0);
+            state.candidatePhoto = canvas.toDataURL('image/jpeg', 0.8);
+            ieltsShowPhotoPreview(state.candidatePhoto);
+            if (ieltsCameraStream) {
+                ieltsCameraStream.getTracks().forEach(track => track.stop());
+                ieltsCameraStream = null;
+            }
+        }
+
+        function ieltsHandlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                state.candidatePhoto = e.target.result;
+                ieltsShowPhotoPreview(state.candidatePhoto);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function ieltsShowPhotoPreview(src) {
+            document.getElementById('ielts-photo-main-ui').style.display = 'none';
+            document.getElementById('ielts-camera-preview-container').style.display = 'none';
+            const previewContainer = document.getElementById('ielts-photo-preview-container');
+            const previewImg = document.getElementById('ielts-photo-preview-img');
+            previewImg.src = src;
+            previewImg.style.display = 'block';
+            previewContainer.style.display = 'block';
+        }
+
+        function ieltsRetryPhoto() {
+            state.candidatePhoto = null;
+            document.getElementById('ielts-photo-preview-container').style.display = 'none';
+            document.getElementById('ielts-photo-main-ui').style.display = 'block';
+        }
+
+        function ieltsConfirmPhotoAndStart() {
+            _iosUnlockAudio();
+            if (!state.candidatePhoto) { alert('Please add a photo first.'); return; }
+            document.getElementById('ielts-photo-capture-overlay').style.display = 'none';
+            startModule();
+        }
+
+        // ===== MODULE LOADING =====
+        async function startModule() {
+            if (!state.examStartTime) state.examStartTime = new Date();
+            const idx = state.step;
+            document.getElementById('display-module').textContent = state.modules[idx];
+            state.currentPart = 0;
+            state.audioPart = 0;
+
+            // Set body mode class
+            document.body.className = '';
+            if (idx === 0) document.body.classList.add('listening-mode');
+            else if (idx === 1) document.body.classList.add('reading-mode');
+            else if (idx === 2) document.body.classList.add('writing-mode');
+            else if (idx === 3) document.body.classList.add('speaking-mode');
+
+            // Clear previous globals
+            window.IELTS_LISTENING_TEST = window.IELTS_READING_TEST = window.IELTS_WRITING_TEST_DATA = window.SPEAKING_TEST_DATA = null;
+
+            // Update progress dots
+            for (let i = 0; i < 4; i++) {
+                const d = document.getElementById(`dot-${i}`);
+                d.className = 'fm-dot' + (i === idx ? ' active' : (i < idx ? ' completed' : ''));
+            }
+
+            // Load test data script
+            const folders = ['questions IELTS L', 'questions IELTS R', 'questions IELTS W', 'questions IELTS S'];
+            const prefixes = ['ielts-listening-test-', 'ielts-reading-test-', 'ielts-mock-', 'ielts-speaking-mock-'];
+            const testId = [state.testIds.listening, state.testIds.reading, state.testIds.writing, state.testIds.speaking][idx];
+            // Speaking files use format: ielts-speaking-mock-1.js (not 01)
+            const fname = idx === 3 ? prefixes[idx] + parseInt(testId) : prefixes[idx] + testId;
+
+            const s = document.createElement('script');
+            s.src = `${folders[idx]}/${fname}.js`;
+            s.onload = async () => {
+                if (idx === 0) state.currentTestData = window.IELTS_LISTENING_TEST;
+                else if (idx === 1) state.currentTestData = window.IELTS_READING_TEST;
+                else if (idx === 2) state.currentTestData = window.IELTS_WRITING_TEST_DATA;
+                else if (idx === 3) state.currentTestData = window.SPEAKING_TEST_DATA;
+
+                if (!state.currentTestData) {
+                    console.error('Module data not found:', fname);
+                    alert('Error loading test data. Please refresh.');
+                    return;
+                }
+
+                // Preload audio for listening module
+                if (idx === 0 && state.currentTestData.parts) {
+                    await preloadListeningAudio();
+                }
+
+                // Preload TTS for speaking module
+                if (idx === 3 && state.currentTestData.questions) {
+                    await fetchSpeakingTTS(); // Wait for GTTS preloading with progress modal
+                }
+
+                // Set timer based on module
+                const times = { 0: 40, 1: 60, 2: 60, 3: 15 };
+                state.timeRemaining = (state.currentTestData.testInfo?.totalTime || times[idx]) * 60;
+
+                startTimer();
+                renderPart();
+
+                // Session recovery: restore timer + part + answers for current module
+                if (window._srResumeData) {
+                  var rd = window._srResumeData;
+                  if (rd.timeRemaining != null) state.timeRemaining = rd.timeRemaining;
+                  if (state.step !== 3) {
+                    // Non-speaking modules: restore part and answers
+                    if (rd.currentPart != null) { state.currentPart = rd.currentPart; renderPart(); }
+                    var mod = state.modules[state.step].toLowerCase();
+                    if (state.answers[mod] && Object.keys(state.answers[mod]).length > 0) {
+                      SessionRecovery.restoreAnswers(state.answers[mod]);
+                    }
+                  }
+                  // Speaking module resumes from Q0 (audio blobs are in-memory only, lost on close)
+                  window._srResumeData = null;
+                }
+
+                // Show FAB now that test is actually running
+                var fabC = document.getElementById('mobFabContainer');
+                if (fabC) fabC.style.removeProperty('display');
+            };
+            s.onerror = () => alert('Failed to load: ' + fname);
+            document.head.appendChild(s);
+        }
+
+        // Preload all listening audio files
+        async function preloadListeningAudio() {
+            const overlay = document.getElementById('audio-preload-overlay');
+            const progressBar = document.getElementById('preload-progress');
+            const statusText = document.getElementById('preload-status');
+
+            overlay.style.display = 'flex';
+
+            const parts = state.currentTestData.parts;
+            const audioUrls = parts.map(p => p.audioFile).filter(Boolean);
+
+            if (audioUrls.length === 0) {
+                overlay.style.display = 'none';
+                return;
+            }
+
+            state.preloadedAudio = {};
+
+            let loadedCount = 0;
+            for (let i = 0; i < parts.length; i++) {
+                const url = parts[i].audioFile;
+                if (!url) continue;
+                loadedCount++;
+                statusText.textContent = `Loading Section ${loadedCount} of ${audioUrls.length}...`;
+                progressBar.style.width = `${((loadedCount - 1) / audioUrls.length) * 100}%`;
+
+                try {
+                    const audio = new Audio();
+                    audio.preload = 'auto';
+
+                    await new Promise((resolve, reject) => {
+                        audio.oncanplaythrough = resolve;
+                        audio.onerror = reject;
+                        audio.src = url;
+                        audio.load();
+                        // Timeout fallback
+                        setTimeout(resolve, 10000);
+                    });
+
+                    state.preloadedAudio[i] = audio;
+                    console.log(`[Audio] Preloaded Section ${i + 1}`);
+                } catch (e) {
+                    console.warn(`[Audio] Failed to preload Section ${i + 1}:`, e);
+                }
+
+                progressBar.style.width = `${(loadedCount / audioUrls.length) * 100}%`;
+            }
+
+            statusText.textContent = 'Ready! Starting exam...';
+            await new Promise(r => setTimeout(r, 500));
+            overlay.style.display = 'none';
+        }
+
+        // ===== TIMER =====
+        function startTimer() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(() => {
+                state.timeRemaining--;
+                const m = Math.floor(state.timeRemaining / 60);
+                const s = state.timeRemaining % 60;
+                document.getElementById('display-timer').textContent =
+                    `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (state.timeRemaining <= 0) {
+                    clearInterval(state.timerInterval);
+                    finishMod();
+                }
+            }, 1000);
+        }
+
+        // ===== NAVIGATION =====
+        document.getElementById('btn-prev').onclick = () => {
+            if (state.currentPart > 0) {
+                state.currentPart--;
+                renderPart();
+            }
+        };
+
+        document.getElementById('btn-next').onclick = () => {
+            const parts = state.currentTestData?.parts || state.currentTestData?.passages || [];
+            if (state.currentPart < parts.length - 1) {
+                state.currentPart++;
+                renderPart();
+            } else {
+                finishMod();
+            }
+        };
+
+        function updateNav() {
+            const parts = state.currentTestData?.parts || state.currentTestData?.passages || [];
+            const isLast = state.currentPart === parts.length - 1;
+            document.getElementById('btn-prev').style.visibility = state.currentPart === 0 ? 'hidden' : 'visible';
+            document.getElementById('btn-next').textContent = isLast ? 'Complete Module' : 'Next';
+        }
+
+        // Admin time jump logic
+        function showAdminTimeJump() {
+            const overlay = document.getElementById('admin-time-jump-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                document.getElementById('jump-min').focus();
+                document.getElementById('jump-min').select();
+            }
+        }
+
+        function hideAdminTimeJump() {
+            const overlay = document.getElementById('admin-time-jump-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function confirmTimeJump() {
+            const min = parseInt(document.getElementById('jump-min').value) || 0;
+            const sec = parseInt(document.getElementById('jump-sec').value) || 0;
+            state.timeRemaining = (min * 60) + sec;
+
+            // Immediately update display
+            const m2 = Math.floor(state.timeRemaining / 60), s2 = state.timeRemaining % 60;
+            const timerEl = document.getElementById('display-timer');
+            if (timerEl) timerEl.textContent = `${m2.toString().padStart(2, '0')}:${s2.toString().padStart(2, '0')}`;
+
+            hideAdminTimeJump();
+            console.log(`Admin jump: Time set to ${min}:${sec.toString().padStart(2, '0')}`);
+        }
+
+        // Advance speaking question (used by admin skip & speaking dial taps)
+        function adminAdvanceSpeaking() {
+            if (speakingTimerId) { clearInterval(speakingTimerId); speakingTimerId = null; }
+            // Dismiss any active part intro overlay
+            if (fmPartIntroTimerId) { clearInterval(fmPartIntroTimerId); fmPartIntroTimerId = null; }
+            if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
+            const introOverlay = document.getElementById('fm-partIntroOverlay');
+            if (introOverlay) introOverlay.style.display = 'none';
+            stopRecording();
+            stopSpeakingAudio();
+            const allQ = fmQA('.fm-sq');
+            const q = allQ[speakingCurrentIdx];
+            if (q) {
+                const rec = fmQ('.fm-rec', q);
+                const statusEl = fmQ('.fm-status', q);
+                if (rec) rec.style.display = 'none';
+                if (statusEl) statusEl.textContent = 'Skipped';
+                q.classList.add('done');
+                q.removeAttribute('open');
+                q.classList.add('hidden');
+            }
+            speakingAnswered++;
+            const next = allQ[speakingCurrentIdx + 1];
+            if (next) {
+                fmHandleTransition(speakingCurrentIdx, speakingCurrentIdx + 1);
+            } else {
+                finishMod();
+            }
+        }
+
+        function handleAdminSkip() {
+            // Reading (step 1) and Writing (step 2): show time jump popup
+            if (state.step === 1 || state.step === 2) {
+                showAdminTimeJump();
+                return;
+            }
+
+            // Speaking (step 3): skip current question
+            if (state.step === 3) {
+                console.log('Admin skip: Advancing speaking question');
+                adminAdvanceSpeaking();
+                return;
+            }
+
+            // Listening (step 0): skip parts then finish
+            if (partCountdownInterval) {
+                clearInterval(partCountdownInterval);
+                partCountdownInterval = null;
+                const countdown = document.getElementById('part-countdown');
+                if (countdown) countdown.classList.remove('show');
+            }
+            mainAudio.pause();
+
+            const activeIndex = state.audioPart;
+            const parts = state.currentTestData?.parts || [];
+            const totalParts = parts.length;
+
+            if (activeIndex < totalParts - 1) {
+                state.audioPart++;
+                if (state.currentPart === state.audioPart - 1) {
+                    state.currentPart = state.audioPart;
+                }
+                renderPart();
+                console.log('Admin skip: Part', state.audioPart + 1);
+            } else {
+                console.log('Admin skip: Moving to next module');
+                finishMod();
+            }
+        }
+
+        // Admin skip shortcut: Ctrl+Alt+S
+        window.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.altKey && e.key === 's') {
+                e.preventDefault();
+                handleAdminSkip();
+            }
+        });
+
+        // Mobile Admin Shortcut: 5 taps on timer
+        let adminTapCount = 0;
+        let lastAdminTapTime = 0;
+        document.getElementById('display-timer').addEventListener('click', () => {
+            const now = Date.now();
+            if (now - lastAdminTapTime > 2000) {
+                adminTapCount = 0;
+            }
+            adminTapCount++;
+            lastAdminTapTime = now;
+
+            if (adminTapCount >= 5) {
+                adminTapCount = 0;
+                handleAdminSkip();
+            }
+        });
+
+        // Speaking Question Skip: 5 taps on speaking dials
+        let speakingDialTapCount = 0;
+        let lastSpeakingDialTapTime = 0;
+        document.addEventListener('click', (e) => {
+            if (state.step !== 3) return;
+            const dial = e.target.closest('.fm-dial');
+            if (dial) {
+                const now = Date.now();
+                if (now - lastSpeakingDialTapTime > 2000) {
+                    speakingDialTapCount = 0;
+                }
+                speakingDialTapCount++;
+                lastSpeakingDialTapTime = now;
+
+                if (speakingDialTapCount >= 5) {
+                    speakingDialTapCount = 0;
+                    console.log('Mobile shortcut: Skipping speaking question');
+                    adminAdvanceSpeaking();
+                }
+            }
+        });
+
+        // Prevent accidental page close
+        window.addEventListener('beforeunload', e => {
+            if (!window.__okToLeave && state.examStarted && state.step < 4) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        // ===== HOME CONFIRMATION MODAL =====
+        function _navToLanding() {
+            try { if (window.top && window.top !== window && typeof window.top.returnToLanding === 'function') { window.top.returnToLanding(); return; } } catch (e1) { }
+            try { if (window.parent && window.parent !== window && typeof window.parent.returnToLanding === 'function') { window.parent.returnToLanding(); return; } } catch (e2) { }
+            try { if (window.top && window.top !== window) { window.top.postMessage('returnToLanding', '*'); return; } } catch (e3) { }
+            try { window.top.location.href = 'landing.html'; } catch (e4) { window.location.href = 'landing.html'; }
+        }
+
+        function showHomeConfirmModal() {
+            if (document.getElementById('homeConfirmModal')) { document.getElementById('homeConfirmModal').style.display = 'flex'; return; }
+            const html = `
+            <div id="homeConfirmModal" style="display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999999;justify-content:center;align-items:center;backdrop-filter:blur(5px);">
+              <div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);animation:hmPop 0.3s ease-out;">
+                <div style="width:80px;height:80px;background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;box-shadow:0 10px 30px rgba(59,130,246,0.3);">
+                  <span style="font-size:40px;">рџЏ </span>
+                </div>
+                <h2 style="color:#f8fafc;font-size:24px;margin-bottom:15px;font-weight:700;">Return Home?</h2>
+                <p style="color:#94a3b8;font-size:16px;line-height:1.6;margin-bottom:30px;">Are you sure you want to leave the exam results and go back to the home page?</p>
+                <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;">
+                  <button id="hmStayBtn" style="padding:14px 35px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,#0369a1,#075985);color:white;box-shadow:0 4px 15px rgba(3,105,161,0.3);">Stay Here</button>
+                  <button id="hmGoBtn" style="padding:14px 35px;border:2px solid #475569;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.3s;background:transparent;color:#94a3b8;">Go Home</button>
+                </div>
+              </div>
+            </div>
+            <style>@keyframes hmPop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}#hmStayBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(3,105,161,0.4)}#hmGoBtn:hover{background:#334155;border-color:#64748b;color:#e2e8f0}</style>
+          `;
+            document.body.insertAdjacentHTML('beforeend', html);
+            document.getElementById('hmStayBtn').addEventListener('click', function () { document.getElementById('homeConfirmModal').style.display = 'none'; });
+            document.getElementById('hmGoBtn').addEventListener('click', function () { window.__okToLeave = true; _navToLanding(); });
+        }
+
+        // ===== RENDER PART DISPATCHER =====
+        /* Move part-nav-bar into header on mobile (skip for writing вЂ” header is hidden) */
+        function syncMobilePartNav() {
+            const hdr = document.querySelector('.header-content');
+            const mc = document.getElementById('module-container');
+            if (!hdr || !mc) return;
+
+            const isWriting = state.modules[state.step] === 'WRITING';
+
+            if (window.innerWidth <= 768) {
+                if (isWriting) {
+                    // For writing, keep part-nav-bar in module-container (header is hidden)
+                    const bar = hdr.querySelector('.part-nav-bar');
+                    if (bar) mc.insertBefore(bar, mc.firstChild);
+                } else {
+                    // Move bar from module-container into header
+                    const old = hdr.querySelector('.part-nav-bar');
+                    if (old) old.remove();
+                    const bar = mc.querySelector('.part-nav-bar');
+                    if (bar) hdr.insertBefore(bar, hdr.firstChild);
+                }
+            } else {
+                // On desktop, ensure bar is back in module-container
+                const bar = hdr.querySelector('.part-nav-bar');
+                if (bar) {
+                    const first = mc.firstChild;
+                    mc.insertBefore(bar, first);
+                }
+            }
+        }
+        window.addEventListener('resize', syncMobilePartNav);
+
+        function renderPart() {
+            const idx = state.step;
+            if (idx === 0) renderL();
+            else if (idx === 1) renderR();
+            else if (idx === 2) renderW();
+            else if (idx === 3) renderS();
+            updateNav();
+            syncMobilePartNav();
+        }
+
+        function getGapIdsFromFormContent(formContent) {
+            if (!formContent) return [];
+
+            if (Array.isArray(formContent)) {
+                return formContent
+                    .map(item => item && item.gapId)
+                    .filter(Boolean);
+            }
+
+            if (typeof formContent === 'string') {
+                const ids = [];
+                const re = /data-q\s*=\s*["']?([^"'\s>]+)/gi;
+                let m;
+                while ((m = re.exec(formContent)) !== null) {
+                    if (m[1]) ids.push(m[1]);
+                }
+                return ids;
+            }
+
+            return [];
+        }
+
+        function bindListeningFormHtmlInputs(pIdx) {
+            const root = document.getElementById('module-container');
+            if (!root) return;
+
+            const inputs = root.querySelectorAll('.form-html input.gap-input[data-q]');
+            inputs.forEach(input => {
+                const qNum = input.getAttribute('data-q');
+                if (!qNum) return;
+
+                const qId = `L-${pIdx}-${qNum}`;
+                const saved = state.answers.listening[qId];
+                if ((saved || saved === 0) && !input.value) {
+                    input.value = saved;
+                }
+
+                const sync = () => saveAns('listening', qId, input.value);
+                input.addEventListener('input', sync);
+                input.addEventListener('change', sync);
+            });
+        }
+
+        // ===== LISTENING MODULE =====
+        function renderL() {
+            const data = state.currentTestData;
+            if (!data?.parts) return;
+            const pIdx = state.currentPart;
+            const part = data.parts[pIdx];
+
+            document.getElementById('audio-control').style.display = 'block';
+
+            let html = `<div class="part-nav-bar">`;
+            data.parts.forEach((p, i) => {
+                const isCompleted = i < pIdx;
+                const isActive = i === pIdx;
+                const isPlaying = state.audioPart === i;
+                let cls = 'part-nav-btn';
+                if (isActive) cls += ' active';
+                if (isCompleted && !isActive) cls += ' completed';
+                if (isPlaying) cls += ' audio-playing';
+                html += `<button class="${cls}" onclick="jumpToListeningSection(${i})">
+                    ${i + 1}
+                </button>`;
+            });
+            html += `</div>`;
+
+            html += `<div class="questions-area" style="padding:16px;padding-bottom:120px;">`;
+            html += `<h2 style="margin-bottom:8px;color:var(--primary);">${part.title || 'Section ' + (pIdx + 1)}</h2>`;
+            if (part.instruction) {
+                html += `<p style="color:#666;margin-bottom:16px;font-style:italic;font-size:14px;">${part.instruction}</p>`;
+            }
+
+            // Handle gap-fill-form type (Sections 1 & 4)
+            if (part.type === 'gap-fill-form' && part.formContent) {
+                if (part.formTitle) {
+                    html += `<h3 style="color:var(--primary);margin-bottom:16px;">${part.formTitle}</h3>`;
+                }
+                html += `<div class="form-content" style="background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">`;
+                if (Array.isArray(part.formContent)) {
+                    part.formContent.forEach(item => {
+                        if (item.type === 'heading') {
+                            html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
+                        } else if (item.type === 'item') {
+                            html += `<p style="margin:8px 0;line-height:1.6;">вЂў ${item.text}</p>`;
+                        } else if (item.type === 'item-gap') {
+                            const qId = `L-${pIdx}-${item.gapId}`;
+                            const ans = state.answers.listening[qId] || '';
+                            html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+                                <span class="gap-number">${item.gapId}</span>
+                                <span>${item.text}</span>
+                                <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
+                                    onchange="saveAns('listening','${qId}',this.value)" 
+                                    placeholder="..." style="min-width:150px;">
+                                ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
+                            </p>`;
+                        } else if (item.type === 'html') {
+                            html += `<div class="form-html">${item.text}</div>`;
+                        }
+                    });
+                } else if (typeof part.formContent === 'string') {
+                    html += `<div class="form-html">${part.formContent}</div>`;
+                }
+                html += `</div>`;
+            }
+
+            // Handle mixed type with subParts (Sections 2 & 3)
+            if (part.subParts) {
+                part.subParts.forEach(sub => {
+                    if (sub.instruction) {
+                        html += `<p style="color:#666;margin:16px 0 12px;font-style:italic;font-size:14px;">${sub.instruction}</p>`;
+                    }
+
+                    // Gap-fill form inside subParts
+                    if (sub.type === 'gap-fill-form' && sub.formContent) {
+                        if (sub.formTitle) {
+                            html += `<h3 style="color:var(--primary);margin:16px 0 12px;">${sub.formTitle}</h3>`;
+                        }
+                        html += `<div class="form-content" style="background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:16px;">`;
+                        if (Array.isArray(sub.formContent)) {
+                            sub.formContent.forEach(item => {
+                                if (item.type === 'heading') {
+                                    html += `<h4 style="color:var(--primary);margin:16px 0 8px;font-weight:600;">${item.text}</h4>`;
+                                } else if (item.type === 'item' || item.type === 'text') {
+                                    html += `<p style="margin:8px 0;line-height:1.6;">вЂў ${item.text}</p>`;
+                                } else if (item.type === 'item-gap') {
+                                    const qId = `L-${pIdx}-${item.gapId}`;
+                                    const ans = state.answers.listening[qId] || '';
+                                    html += `<p style="margin:12px 0;line-height:1.8;display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+                                        <span class="gap-number">${item.gapId}</span>
+                                        <span>${item.text}</span>
+                                        <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
+                                            onchange="saveAns('listening','${qId}',this.value)" 
+                                            placeholder="..." style="min-width:150px;">
+                                        ${item.gapSuffix ? `<span>${item.gapSuffix}</span>` : ''}
+                                    </p>`;
+                                } else if (item.type === 'html') {
+                                    html += `<div class="form-html">${item.text}</div>`;
+                                }
+                            });
+                        } else if (typeof sub.formContent === 'string') {
+                            html += `<div class="form-html">${sub.formContent}</div>`;
+                        }
+                        html += `</div>`;
+                    }
+
+                    // Table completion inside subParts
+                    if (sub.type === 'table-completion' && sub.rows) {
+                        if (sub.tableTitle) {
+                            html += `<h3 style="color:var(--primary);margin:16px 0 12px;">${sub.tableTitle}</h3>`;
+                        }
+                        html += `<div style="overflow-x:auto;margin-bottom:16px;">`;
+                        html += `<table style="width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">`;
+                        if (sub.headers) {
+                            html += `<thead><tr style="background:var(--primary);color:white;">`;
+                            sub.headers.forEach(h => {
+                                html += `<th style="padding:12px;text-align:left;">${h}</th>`;
+                            });
+                            html += `</tr></thead>`;
+                        }
+                        html += `<tbody>`;
+                        sub.rows.forEach(row => {
+                            html += `<tr style="border-bottom:1px solid #eee;">`;
+                            row.forEach(cell => {
+                                html += `<td style="padding:12px;vertical-align:middle;">`;
+                                if (typeof cell === 'object' && cell.type === 'gap') {
+                                    const qId = `L-${pIdx}-${cell.gapId}`;
+                                    const ans = state.answers.listening[qId] || '';
+                                    html += `<span>${cell.prefix || ''}</span>
+                                        <input type="text" autocomplete="off" class="gap-input" value="${ans}" 
+                                            onchange="saveAns('listening','${qId}',this.value)" 
+                                            placeholder="..." style="min-width:100px;margin:0 4px;">
+                                        <span>${cell.suffix || ''}</span>`;
+                                } else {
+                                    html += cell || '';
+                                }
+                                html += `</td>`;
+                            });
+                            html += `</tr>`;
+                        });
+                        html += `</tbody></table></div>`;
+                    }
+
+                    // MCQ extracts
+                    if (sub.type === 'mcq-extracts' && sub.extracts) {
+                        sub.extracts.forEach(ext => {
+                            if (ext.title) {
+                                html += `<h4 style="color:var(--primary);margin:16px 0 12px;">${ext.title}</h4>`;
+                            }
+                            const qs = ext.questions || [];
+                            let qi = 0;
+                            while (qi < qs.length) {
+                                const q = qs[qi];
+                                // Detect merged group: consecutive identical questions
+                                let numMerged = 1;
+                                while (qi + numMerged < qs.length &&
+                                    qs[qi + numMerged].options && q.options &&
+                                    q.options.length === qs[qi + numMerged].options.length &&
+                                    q.options.every((o, oi) => o.letter === qs[qi + numMerged].options[oi].letter && o.text === qs[qi + numMerged].options[oi].text)) {
+                                    numMerged++;
+                                }
+
+                                if (numMerged > 1) {
+                                    const mergedQs = qs.slice(qi, qi + numMerged);
+                                    const qIds = mergedQs.map(mq => `L-${pIdx}-${mq.id}`).join(',');
+                                    const qText = q.text.replace(/\s*\(Choice\s*\d+\)\s*$/i, '').trim();
+                                    const savedVals = mergedQs.map(mq => state.answers.listening[`L-${pIdx}-${mq.id}`] || '');
+                                    const idLabel = mergedQs.map(mq => mq.id).join(' & ');
+
+                                    html += `<div class="question-card merged-mcq" data-qids="${qIds}">`;
+                                    html += `<span class="merged-mcq-label">Q${idLabel}</span>`;
+                                    html += `<p class="q-number">${qText}</p>`;
+                                    html += `<div class="merged-mcq-hint">Select exactly ${numMerged} answers (accepted in any order)</div>`;
+
+                                    const checkedCount = savedVals.filter(v => v).length;
+                                    q.options.forEach(opt => {
+                                        const isChecked = savedVals.includes(opt.letter);
+                                        const chk = isChecked ? 'checked' : '';
+                                        const sel = isChecked ? 'selected' : '';
+                                        const dim = (!isChecked && checkedCount >= numMerged) ? 'disabled-option' : '';
+                                        html += `<label class="option-item ${sel} ${dim}" style="cursor:pointer;">
+                                            <input type="checkbox" value="${opt.letter}" ${chk}
+                                                onchange="handleMergedMcq(this,'listening','${qIds}')"
+                                                style="margin-right:8px;width:18px;height:18px;accent-color:var(--primary);">
+                                            <span class="opt-letter">${opt.letter}</span>
+                                            <span>${opt.text}</span>
+                                        </label>`;
+                                    });
+                                    html += `</div>`;
+                                    qi += numMerged;
+                                } else {
+                                    // Single MCQ (unchanged)
+                                    const qId = `L-${pIdx}-${q.id}`;
+                                    const ans = state.answers.listening[qId] || '';
+                                    html += `<div class="question-card">`;
+                                    html += `<p class="q-number">Q${q.id}. ${q.text}</p>`;
+                                    q.options?.forEach(opt => {
+                                        const sel = ans === opt.letter ? 'selected' : '';
+                                        html += `<div class="option-item ${sel}" onclick="saveAns('listening','${qId}','${opt.letter}',this)">
+                                            <span class="opt-letter">${opt.letter}</span>
+                                            <span>${opt.text}</span>
+                                        </div>`;
+                                    });
+                                    html += `</div>`;
+                                    qi++;
+                                }
+                            }
+                        });
+                    }
+
+                    // Map labeling - Split view (map left, questions right)
+                    if (sub.type === 'map-labeling') {
+                        const mapGroupId = `map-${pIdx}-${sub.questions?.[0]?.id || 0}`;
+                        const letters = sub.mapLabels || ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                        html += `<div class="map-split-container">`;
+
+                        // Left side: Map image
+                        html += `<div class="map-split-left">`;
+                        if (sub.mapTitle) {
+                            html += `<h4 style="color:var(--primary);margin-bottom:12px;">${sub.mapTitle}</h4>`;
+                        }
+                        if (sub.mapImage) {
+                            html += `<div class="map-image-wrapper" id="mapWrapper-${mapGroupId}">
+                                <img src="${sub.mapImage}" alt="Map" class="map-image" id="mapImg-${mapGroupId}">
+                                <canvas class="map-drawing-canvas disabled" id="mapCanvas-${mapGroupId}"></canvas>
+                            </div>`;
+                            html += `<div class="map-drawing-toolbar">`;
+                            html += `<button class="map-draw-btn preview" onclick="openMapPreview('${mapGroupId}')" title="Full screen preview"><span>рџ”Ќ</span> Enlarge</button>`;
+                            html += `<button class="map-draw-btn" id="penBtn-${mapGroupId}" onclick="toggleMapPen('${mapGroupId}')" title="Draw on map"><span>вњЏпёЏ</span> Pen</button>`;
+                            html += `<button class="map-draw-btn clear" onclick="clearMapCanvas('${mapGroupId}')" title="Clear drawing">рџ—‘пёЏ Clear</button>`;
+                            html += `</div>`;
+                        }
+                        html += `</div>`;
+                        // Init drawing canvas after render
+                        setTimeout(() => initMapDrawingCanvas(mapGroupId), 200);
+
+                        // Partition divider
+                        html += `<div class="map-partition"></div>`;
+
+                        // Right side: Questions
+                        html += `<div class="map-split-right">`;
+                        html += `<h4 style="color:var(--primary);margin-bottom:12px;">Label the map</h4>`;
+                        html += `<p style="color:#666;font-size:13px;margin-bottom:16px;">Choose the correct letter for each question.</p>`;
+                        sub.questions?.forEach(q => {
+                            const qId = `L-${pIdx}-${q.id}`;
+                            const ans = state.answers.listening[qId] || '';
+                            html += `<div class="map-question-item" data-match-group="${mapGroupId}" data-qid="${qId}" style="margin-bottom:14px;">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                                    <span class="gap-number">${q.id}</span>
+                                    <span class="map-question-text">${q.place}</span>
+                                </div>
+                                <div class="letter-btn-row">`;
+                            letters.forEach(letter => {
+                                const isActive = ans === letter ? 'active' : '';
+                                html += `<button type="button" class="letter-btn ${isActive}" data-letter="${letter}"
+                                    onclick="pickLetter(this,'listening','${qId}','${letter}','${mapGroupId}')">
+                                    ${letter}<span class="dup-badge">!</span>
+                                </button>`;
+                            });
+                            html += `</div></div>`;
+                        });
+                        html += `</div>`;
+
+                        html += `</div>`; // Close map-split-container
+                        // Trigger badge update after render for pre-filled answers
+                        setTimeout(() => updateMatchBadges(mapGroupId), 0);
+                    }
+
+                    // Matching speakers
+                    if (sub.type === 'matching-speakers') {
+                        const matchGroupId = `match-${pIdx}-${sub.speakers?.[0]?.id || 0}`;
+                        if (sub.options) {
+                            html += `<div id="opts-box-${matchGroupId}" style="background:#f8f9fa;padding:16px;border-radius:12px;margin:12px 0;">`;
+                            html += `<p style="font-weight:600;margin-bottom:8px;">Options:</p>`;
+                            sub.options.forEach(opt => {
+                                html += `<p id="opts-item-${matchGroupId}-${opt.letter}" style="margin:4px 0;transition:all 0.2s;"><strong>${opt.letter}</strong> - ${opt.text}</p>`;
+                            });
+                            html += `</div>`;
+                        }
+                        sub.speakers?.forEach(sp => {
+                            const qId = `L-${pIdx}-${sp.id}`;
+                            const ans = state.answers.listening[qId] || '';
+                            const ansTxt = ans ? (() => { const m = sub.options?.find(o => o.letter === ans); return m ? `${m.letter} - ${m.text}` : ans; })() : '-- Select --';
+                            html += `<div class="question-card" data-match-group="${matchGroupId}" data-qid="${qId}">
+                                <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
+                                    <span class="gap-number">${sp.id}</span>
+                                    <span style="font-weight:600;">${sp.label}</span>
+                                </div>
+                                <div class="match-dropdown-wrap">
+                                    <div class="match-rich-select" data-match-group="${matchGroupId}">
+                                        <div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${matchGroupId}" onclick="toggleMatchSelect(this, event)">${ansTxt}</div>
+                                        <div class="rs-menu" id="rs-menu-${qId}">
+                                            <div class="rs-option" data-value="" onclick="selectMatchOption(this,'listening','${qId}','','-- Select --','${matchGroupId}',event)">-- Select --</div>`;
+                            sub.options?.forEach(opt => {
+                                const baseText = `${opt.letter} - ${opt.text}`;
+                                html += `<div class="rs-option${ans === opt.letter ? ' selected' : ''}" data-value="${opt.letter}" data-base-text="${baseText.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'listening','${qId}','${opt.letter}',this.getAttribute('data-base-text'),'${matchGroupId}',event)">${baseText}</div>`;
+                            });
+                            html += `</div></div>
+                                    <span class="dup-warn" title="Duplicate selection">!</span>
+                                </div>
+                            </div>`;
+                        });
+                        // Trigger badge update after render for pre-filled answers
+                        setTimeout(() => updateMatchBadges(matchGroupId), 0);
+                    }
+
+                    // Flowchart completion (choose letters from box)
+                    if (sub.type === 'flowchart') {
+                        const flowGroupId = `flow-${pIdx}-${sub.steps?.[0]?.text?.match(/\d+/)?.[0] || 0}`;
+                        if (sub.options) {
+                            html += `<div id="opts-box-${flowGroupId}" style="background:#f8f9fa;padding:16px;border-radius:12px;margin:12px 0;">`;
+                            html += `<p style="font-weight:600;margin-bottom:8px;">Options:</p>`;
+                            sub.options.forEach(opt => {
+                                html += `<p id="opts-item-${flowGroupId}-${opt.letter}" style="margin:4px 0;transition:all 0.2s;"><strong>${opt.letter}</strong> - ${opt.text}</p>`;
+                            });
+                            html += `</div>`;
+                        }
+                        sub.steps?.forEach((step, si) => {
+                            const qMatch = step.text.match(/(\d+)/);
+                            const qNum = qMatch ? parseInt(qMatch[1]) : (26 + si);
+                            const qId = `L-${pIdx}-${qNum}`;
+                            const ans = state.answers.listening[qId] || '';
+                            const ansTxt = ans ? (() => { const m = sub.options?.find(o => o.letter === ans); return m ? `${m.letter} - ${m.text}` : ans; })() : '-- Select --';
+                            const displayText = step.text.replace(/(\d+)/, `<span class="gap-number" style="display:inline;padding:2px 8px;font-size:13px;">$1</span>`);
+                            html += `<div class="question-card" data-match-group="${flowGroupId}" data-qid="${qId}" style="position:relative;">
+                                <p style="line-height:1.8;margin-bottom:8px;">${displayText}</p>
+                                <div class="match-dropdown-wrap">
+                                    <div class="match-rich-select" data-match-group="${flowGroupId}">
+                                        <div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${flowGroupId}" onclick="toggleMatchSelect(this, event)">${ansTxt}</div>
+                                        <div class="rs-menu" id="rs-menu-${qId}">
+                                            <div class="rs-option" data-value="" onclick="selectMatchOption(this,'listening','${qId}','','-- Select --','${flowGroupId}',event)">-- Select --</div>`;
+                            sub.options?.forEach(opt => {
+                                const baseText = `${opt.letter} - ${opt.text}`;
+                                html += `<div class="rs-option${ans === opt.letter ? ' selected' : ''}" data-value="${opt.letter}" data-base-text="${baseText.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'listening','${qId}','${opt.letter}',this.getAttribute('data-base-text'),'${flowGroupId}',event)">${baseText}</div>`;
+                            });
+                            html += `</div></div>
+                                    <span class="dup-warn" title="Duplicate selection">!</span>
+                                </div>`;
+                            if (si < sub.steps.length - 1) {
+                                html += `<div style="text-align:center;color:var(--primary);font-size:24px;margin:4px 0;">в†“</div>`;
+                            }
+                            html += `</div>`;
+                        });
+                        // Trigger badge update after render
+                        setTimeout(() => updateMatchBadges(flowGroupId), 0);
+                    }
+                });
+            }
+
+            // Fallback: Simple questions array
+            if (!part.formContent && !part.subParts && part.questions) {
+                part.questions.forEach((q, i) => {
+                    const qId = `L-${pIdx}-${q.id || i}`;
+                    const ans = state.answers.listening[qId] || '';
+
+                    html += `<div class="question-card">`;
+                    html += `<p class="q-number">Q${q.id || q.number || i + 1}. ${q.text || ''}</p>`;
+
+                    if (q.options) {
+                        q.options.forEach(opt => {
+                            const letter = opt.letter || String.fromCharCode(65 + q.options.indexOf(opt));
+                            const sel = ans === letter ? 'selected' : '';
+                            html += `<div class="option-item ${sel}" onclick="saveAns('listening','${qId}','${letter}',this)">
+                                <span class="opt-letter">${letter}</span>
+                                <span>${opt.text || opt}</span>
+                            </div>`;
+                        });
+                    } else {
+                        html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}" 
+                            onchange="saveAns('listening','${qId}',this.value)" placeholder="Type your answer">`;
+                    }
+                    html += `</div>`;
+                });
+            }
+
+            html += `</div>`;
+            moduleContainer.innerHTML = html;
+            bindListeningFormHtmlInputs(pIdx);
+
+            // For listening module: Audio plays sequentially, independent of which section user is viewing
+            // Only start audio playback on first render (Section 1) or when audio advances
+            if (state.step === 0) {
+                document.getElementById('audio-control').style.display = 'none';
+
+                // Start audio only on initial load (audioPart = 0 and first render)
+                if (state.audioPart === 0 && !mainAudio.src) {
+                    startListeningAudio(0);
+                }
+
+                // Update the nav to show speaker icon on current audio part
+                updatePartNavAudioState();
+            }
+        }
+
+        // Start playing audio for a specific section
+        function startListeningAudio(sectionIndex) {
+            const parts = state.currentTestData?.parts || [];
+            if (sectionIndex >= parts.length) return;
+
+            const part = parts[sectionIndex];
+            if (!part.audioFile) return;
+
+            state.audioPart = sectionIndex;
+
+            // Use preloaded audio if available
+            if (state.preloadedAudio && state.preloadedAudio[sectionIndex]) {
+                mainAudio.src = state.preloadedAudio[sectionIndex].src;
+            } else {
+                mainAudio.src = part.audioFile;
+                mainAudio.load();
+            }
+
+            setTimeout(() => {
+                mainAudio.play().then(() => {
+                    console.log(`[Audio] Playing Section ${sectionIndex + 1}`);
+                    updatePartNavAudioState();
+                }).catch(e => {
+                    console.log('Auto-play blocked, showing controls');
+                    document.getElementById('audio-control').style.display = 'block';
+                });
+            }, 300);
+        }
+
+        // Update part nav to show which section's audio is playing
+        function updatePartNavAudioState() {
+            document.querySelectorAll('.part-nav-btn').forEach((btn, i) => {
+                btn.classList.remove('audio-playing');
+                // Show speaker icon on the section that's currently playing audio
+                if (i === state.audioPart) {
+                    btn.classList.add('audio-playing');
+                }
+            });
+        }
+
+        // Jump to a listening section (view only - doesn't affect audio playback)
+        function jumpToListeningSection(sectionIndex) {
+            state.currentPart = sectionIndex;
+            renderPart();
+            // Audio continues playing from where it was - no interruption
+        }
+
+        // Audio controls (fallback if autoplay blocked)
+        document.getElementById('play-btn').onclick = () => {
+            if (mainAudio.paused) {
+                mainAudio.play();
+                document.getElementById('play-btn').textContent = 'Pause';
+                // Hide controls after user starts playing
+                setTimeout(() => {
+                    document.getElementById('audio-control').style.display = 'none';
+                }, 1000);
+            } else {
+                mainAudio.pause();
+                document.getElementById('play-btn').textContent = 'Play';
+            }
+        };
+
+        mainAudio.addEventListener('timeupdate', () => {
+            const prog = (mainAudio.currentTime / mainAudio.duration) * 100 || 0;
+            document.getElementById('audio-progress').style.width = prog + '%';
+        });
+
+        // Debounce: changing audio.src can re-fire 'ended' in some browsers
+        let lastAutoAdvanceTime = 0;
+        mainAudio.addEventListener('ended', () => {
+            document.getElementById('play-btn').textContent = 'Play';
+
+            const now = Date.now();
+            if (now - lastAutoAdvanceTime < 2000) return;
+
+            // Auto-advance audio to next section (listening module only)
+            if (state.step === 0) {
+                const parts = state.currentTestData?.parts || [];
+                const nextAudioPart = state.audioPart + 1;
+
+                if (nextAudioPart < parts.length) {
+                    lastAutoAdvanceTime = now;
+                    console.log(`[Audio] Section ${state.audioPart + 1} ended. Advancing to Section ${nextAudioPart + 1}`);
+
+                    // Brief pause before next section
+                    setTimeout(() => {
+                        startListeningAudio(nextAudioPart);
+
+                        // Optionally auto-scroll to the section that's now playing
+                        // (User can still be on a different section viewing/answering)
+                        updatePartNavAudioState();
+                    }, 1500);
+                } else {
+                    console.log('[Audio] All sections completed');
+                }
+            }
+        });
+
+        // ===== READING MODULE =====
+        function renderR() {
+            const data = state.currentTestData;
+            if (!data?.passages) return;
+            const pIdx = state.currentPart;
+            const passage = data.passages[pIdx];
+
+            document.getElementById('audio-control').style.display = 'none';
+
+            let html = `<div class="part-nav-bar">`;
+            data.passages.forEach((p, i) => {
+                html += `<button class="part-nav-btn${i === pIdx ? ' active' : ''}" onclick="state.currentPart=${i};renderPart();">
+                    ${i + 1}
+                </button>`;
+            });
+            html += `</div>`;
+
+            // Split layout
+            html += `<div class="split-container" id="reading-split">`;
+
+            // Left: passage text
+            html += `<div class="split-left" id="split-left">`;
+
+            // Passage header (IELTS format)
+            if (passage.passageHeader) {
+                html += `<div style="margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--primary);">`;
+                html += `<h2 style="margin-bottom:8px;color:var(--primary);font-size:18px;">${passage.passageHeader.title || 'READING PASSAGE ' + (pIdx + 1)}</h2>`;
+                if (passage.passageHeader.instruction) {
+                    html += `<p style="color:#666;font-size:14px;line-height:1.5;">${passage.passageHeader.instruction}</p>`;
+                }
+                html += `</div>`;
+            }
+
+            // Title
+            html += `<h3 style="margin-bottom:16px;color:#333;font-size:20px;font-weight:600;">${passage.title || 'Passage ' + (pIdx + 1)}</h3>`;
+            if (passage.subtitle) html += `<p style="color:#666;margin-bottom:16px;font-style:italic;">${passage.subtitle}</p>`;
+
+            // IELTS format: passage HTML content
+            if (passage.passage) {
+                let passageHtml = passage.passage;
+                passageHtml = passageHtml.replace(/<p>([A-Z])\n/g, '<p><span class="para-label-badge">$1</span>');
+                passageHtml = passageHtml.replace(/<p><strong>([A-Z])<\/strong><\/p>\s*<p>/g, '<p><span class="para-label-badge">$1</span>');
+                html += `<div class="passage-content" style="line-height:1.9;text-align:justify;user-select:text;">${passageHtml}</div>`;
+            } else if (passage.paragraphs) {
+                passage.paragraphs.forEach((para, i) => {
+                    const label = para.label || String.fromCharCode(65 + i);
+                    html += `<div class="para-block" id="para-${label}">
+                        <span class="para-label">${label}</span>
+                        <p>${para.text || para}</p>
+                    </div>`;
+                });
+            } else if (passage.text) {
+                html += `<p style="line-height:1.8;">${passage.text}</p>`;
+            }
+            html += `</div>`;
+
+            // Draggable divider
+            html += `<div class="split-dragger" id="split-dragger"></div>`;
+
+            // Right: questions
+            html += `<div class="split-right" id="split-right">`;
+            if (passage.questionSections) {
+                passage.questionSections.forEach((sec, secIdx) => {
+                    html += `<div class="question-section" style="margin-bottom:24px;">`;
+
+                    const type = sec.type || '';
+
+                    // Section title & instruction
+                    if (sec.title) {
+                        html += `<h3 style="color:var(--primary);margin-bottom:8px;font-size:16px;font-weight:600;">${sec.title}</h3>`;
+                    }
+                    if (sec.instruction) {
+                        html += `<div style="color:#555;margin-bottom:16px;font-size:14px;line-height:1.6;background:#f8f9fa;padding:12px;border-radius:8px;border-left:3px solid var(--primary);">${sec.instruction}</div>`;
+                    }
+                    if (sec.subInstruction) {
+                        html += `<div style="color:#555;margin-bottom:16px;font-size:13px;font-style:italic;line-height:1.5;">${sec.subInstruction}</div>`;
+                    }
+
+                    // ===== Pre-question boxes (options/headings/features) =====
+                    if (type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                        const isSummaryWithOptions = sec.boxTitle && sec.featuresList && sec.featuresList.length > 0;
+                        if (isSummaryWithOptions) {
+                            html += `<div class="options-box" style="background:#fff8f0;border:2px solid #f0d9b5;border-radius:12px;padding:16px;margin-bottom:20px;">`;
+                            html += `<p style="font-weight:700;color:#8b4513;margin-bottom:12px;font-size:15px;text-align:center;">${sec.boxTitle}</p>`;
+                            html += `<div style="display:flex;flex-wrap:wrap;gap:10px 25px;">`;
+                            sec.featuresList.forEach(opt => {
+                                html += `<div style="min-width:120px;padding:6px 10px;background:white;border-radius:6px;font-size:14px;border:1px solid #e8d5c4;"><strong>${opt.charAt(0)}</strong> ${opt.substring(2)}</div>`;
+                            });
+                            html += `</div></div>`;
+                        } else {
+                            if (sec.featuresList && sec.featuresList.length > 0) {
+                                html += `<div class="options-box" style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:16px;margin-bottom:20px;">`;
+                                html += `<p style="font-weight:700;margin-bottom:12px;font-size:15px;">Options:</p>`;
+                                html += `<div style="display:flex;flex-wrap:wrap;gap:8px;">`;
+                                sec.featuresList.forEach(f => {
+                                    html += `<span style="padding:4px 10px;background:white;border-radius:6px;font-size:14px;border:1px solid #dee2e6;margin-right:4px;">${f}</span>`;
+                                });
+                                html += `</div></div>`;
+                            }
+                        }
+                        if (sec.headingsList && sec.headingsList.length > 0) {
+                            html += `<div class="headings-box" style="background:#f0f7ff;border:2px solid #b5d4f0;border-radius:12px;padding:16px;margin-bottom:20px;">`;
+                            html += `<p style="font-weight:700;color:#1e5a8a;margin-bottom:12px;font-size:15px;">List of Headings</p>`;
+                            html += `<div style="display:flex;flex-direction:column;gap:6px;">`;
+                            sec.headingsList.forEach((h, hi) => {
+                                const numeral = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'][hi] || (hi + 1);
+                                html += `<div style="padding:6px 10px;background:white;border-radius:6px;font-size:14px;border:1px solid #d5e4f0;"><strong>${numeral}</strong> &nbsp; ${h}</div>`;
+                            });
+                            html += `</div></div>`;
+                        }
+                    }
+
+                    if (type === 'list-selection') {
+                        if (sec.featuresList && sec.featuresList.length > 0) {
+                            const _grp = `rmatch-${pIdx}-${secIdx}`;
+                            html += `<div id="opts-box-${_grp}" class="options-box" style="background:#fff8f0;border:2px solid #f0d9b5;border-radius:12px;padding:16px;margin-bottom:20px;">`;
+                            if (sec.boxTitle) {
+                                html += `<p style="font-weight:700;color:#8b4513;margin-bottom:12px;font-size:15px;text-align:center;">${sec.boxTitle}</p>`;
+                            }
+                            html += `<div style="display:flex;flex-wrap:wrap;gap:10px 25px;">`;
+                            sec.featuresList.forEach(opt => {
+                                html += `<div data-opt-letter="${opt.charAt(0)}" style="min-width:120px;padding:6px 10px;background:white;border-radius:6px;font-size:14px;border:1px solid #e8d5c4;"><strong>${opt.charAt(0)}</strong> ${opt.substring(2)}</div>`;
+                            });
+                            html += `</div></div>`;
+                        }
+                    }
+
+                    // ===== Render questions by type =====
+                    // Helper: detect merged MCQ groups (reading options are plain strings)
+                    const _rqs = sec.questions || [];
+                    const _rSameOptions = (a, b) => {
+                        if (!a?.options || !b?.options || a.options.length !== b.options.length) return false;
+                        return a.options.every((o, oi) => o === b.options[oi]);
+                    };
+                    let _ri = 0;
+                    while (_ri < _rqs.length) {
+                        const q = _rqs[_ri];
+                        const qNum = q.id || q.number || (_ri + 1);
+                        const qId = `R-${pIdx}-${secIdx}-${qNum}`;
+                        const ans = state.answers.reading[qId] || '';
+
+                        // Check if this starts a merged group (same options, type mcq)
+                        let mergedGroup = [q];
+                        if (type === 'mcq' && q.options && q.options.length > 0) {
+                            let _gj = _ri + 1;
+                            while (_gj < _rqs.length && _rSameOptions(q, _rqs[_gj])) {
+                                mergedGroup.push(_rqs[_gj]);
+                                _gj++;
+                            }
+                        }
+
+                        if (mergedGroup.length >= 2) {
+                            const lastQ = mergedGroup[mergedGroup.length - 1];
+                            const qNum2 = lastQ.id || lastQ.number || (_ri + mergedGroup.length);
+                            const mergedIdsArr = mergedGroup.map((gq, gidx) => {
+                                const gNum = gq.id || gq.number || (_ri + gidx + 1);
+                                return `R-${pIdx}-${secIdx}-${gNum}`;
+                            });
+                            const mergedIds = mergedIdsArr.join(',');
+                            const savedVals = mergedIdsArr.map(id => state.answers.reading[id] || '').filter(Boolean);
+                            // Use main question text, strip "(First answer)" etc.
+                            const qText = (q.text || '').replace(/\s*\((First|Second|Choice\s*\d+)\s*answer\)\s*$/i, '').replace(/\s*\(Choice\s*\d+\)\s*$/i, '').trim();
+                            html += `<div class="question-card merged-mcq" data-qids="${mergedIds}">`;
+                            html += `<span class="merged-mcq-label">Q${qNum} & ${qNum2}</span>`;
+                            html += `<p class="q-number">${qText}</p>`;
+                            html += `<div class="merged-mcq-hint">Select exactly ${mergedGroup.length} answers (accepted in any order)</div>`;
+                            const checkedCount = savedVals.filter(v => v).length;
+                            q.options.forEach((opt, oi) => {
+                                const letter = String.fromCharCode(65 + oi);
+                                const isChecked = savedVals.includes(letter);
+                                const chk = isChecked ? 'checked' : '';
+                                const sel = isChecked ? 'selected' : '';
+                                const dim = (!isChecked && checkedCount >= mergedGroup.length) ? 'disabled-option' : '';
+                                html += `<label class="option-item ${sel} ${dim}" style="cursor:pointer;">
+                                    <input type="checkbox" value="${letter}" ${chk}
+                                        onchange="handleMergedMcq(this,'reading','${mergedIds}')"
+                                        style="margin-right:8px;width:18px;height:18px;accent-color:var(--primary);">
+                                    <span class="opt-letter">${letter}</span>
+                                    <span>${opt}</span>
+                                </label>`;
+                            });
+                            html += `</div>`;
+                            _ri += mergedGroup.length;
+                            continue;
+                        }
+
+                        html += `<div class="question-card">`;
+
+                        if (type === 'tfng' || type === 'ynng' || sec.typeName?.includes('True') || sec.typeName?.includes('Yes')) {
+                            // ---- TRUE/FALSE/NOT GIVEN or YES/NO/NOT GIVEN ----
+                            const opts = ['TRUE', 'FALSE', 'NOT GIVEN'];
+                            if (type === 'ynng' || sec.typeName?.includes('Yes')) { opts[0] = 'YES'; opts[1] = 'NO'; }
+                            html += `<p class="q-number"><strong>Q${qNum}.</strong> ${q.text || ''}</p>`;
+                            opts.forEach(opt => {
+                                const sel = ans === opt ? 'selected' : '';
+                                html += `<div class="option-item ${sel}" onclick="saveAns('reading','${qId}','${opt}',this)">${opt}</div>`;
+                            });
+
+                        } else if (type === 'mcq') {
+                            // ---- Multiple choice (single answer) ----
+                            html += `<p class="q-number"><strong>Q${qNum}.</strong> ${q.text || ''}</p>`;
+                            if (q.options && q.options.length > 0) {
+                                q.options.forEach((opt, oi) => {
+                                    const letter = String.fromCharCode(65 + oi);
+                                    const sel = ans === letter ? 'selected' : '';
+                                    html += `<div class="option-item ${sel}" onclick="saveAns('reading','${qId}','${letter}',this)">
+                                        <span class="opt-letter">${letter}</span>
+                                        <span>${opt}</span>
+                                    </div>`;
+                                });
+                            }
+
+                        } else if (type === 'mcq-multi') {
+                            // ---- Multiple choice (multiple answers - checkboxes) ----
+                            html += `<p class="q-number"><strong>Q${qNum}.</strong> ${q.text || ''}</p>`;
+                            if (q.options && q.options.length > 0) {
+                                const ansArr = ans ? ans.split(',').map(s => s.trim()) : [];
+                                q.options.forEach((opt, oi) => {
+                                    const letter = String.fromCharCode(65 + oi);
+                                    const checked = ansArr.includes(letter) ? 'checked' : '';
+                                    const sel = ansArr.includes(letter) ? 'selected' : '';
+                                    html += `<label class="option-item ${sel}" style="cursor:pointer;">
+                                        <input type="checkbox" value="${letter}" ${checked}
+                                            onchange="handleMultiMcqFM('reading','${qId}',this)"
+                                            style="margin-right:8px;width:18px;height:18px;accent-color:var(--primary);">
+                                        <span class="opt-letter">${letter}</span>
+                                        <span>${opt}</span>
+                                    </label>`;
+                                });
+                            }
+
+                        } else if (type === 'matching-info' || type === 'matching-headings' || type === 'matching-features' || type === 'matching-sentence-endings') {
+                            // ---- Matching types - dropdown selection ----
+                            html += `<p class="q-number"><strong>Q${qNum}.</strong> ${q.text || ''}</p>`;
+                            const readMatchGroup = `rmatch-${pIdx}-${secIdx}`;
+                            const _isFeatMatch = type === 'matching-features';
+                            const _isHeadings = type === 'matching-headings';
+
+                            html += `<div class="match-dropdown-wrap" data-match-group="${readMatchGroup}" data-qid="${qId}">`;
+                            html += `<div class="match-rich-select" data-match-group="${readMatchGroup}">`;
+                            let _trigText = 'Select...';
+                            let _optionsHtml = `<div class="rs-option" data-value="" onclick="selectMatchOption(this,'reading','${qId}','','Select...','${readMatchGroup}',event)">Select...</div>`;
+
+                            if (_isHeadings && sec.headingsList && sec.headingsList.length > 0) {
+                                const _romNums = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'];
+                                sec.headingsList.forEach((h, hi) => {
+                                    const val = _romNums[hi] || String(hi + 1);
+                                    const baseText = `${val}. ${h}`;
+                                    if (ans === val) _trigText = baseText;
+                                    _optionsHtml += `<div class="rs-option${ans === val ? ' selected' : ''}" data-value="${val}" data-base-text="${val}" onclick="selectMatchOption(this,'reading','${qId}','${val}',this.textContent,'${readMatchGroup}',event)">${baseText}</div>`;
+                                });
+                            } else {
+                                const options = sec.featuresList || ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                                options.forEach(opt => {
+                                    const letter = opt.split(' ')[0];
+                                    const dText = _isFeatMatch ? opt : letter;
+                                    if (ans === letter) _trigText = dText;
+                                    _optionsHtml += `<div class="rs-option${ans === letter ? ' selected' : ''}" data-value="${letter}" data-base-text="${dText}" onclick="selectMatchOption(this,'reading','${qId}','${letter}','${dText.replace(/'/g, "\\'").replace(/"/g, '&quot;')}','${readMatchGroup}',event)">${dText}</div>`;
+                                });
+                            }
+                            html += `<div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${readMatchGroup}" onclick="toggleMatchSelect(this, event)">${_trigText}</div>`;
+                            html += `<div class="rs-menu" id="rs-menu-${qId}">${_optionsHtml}</div>`;
+                            html += `</div>`;
+                            html += `</div>`;
+
+                        } else if (type === 'list-selection') {
+                            // ---- List selection with dropdown (inline or standalone) ----
+                            let qText = q.text || q.statement || '';
+                            const hasInput = qText.includes('{INPUT}');
+                            const _lsGrp = `rmatch-${pIdx}-${secIdx}`;
+
+                            const _ansTxt = ans ? (() => { const m = (sec.featuresList || []).find(o => o.charAt(0) === ans); return m || ans; })() : '...';
+                            let _selH = `<div class="match-rich-select inline-rs" data-match-group="${_lsGrp}">`;
+                            _selH += `<div class="rs-trigger${ans ? '' : ' placeholder'}" data-q="${qId}" data-value="${ans}" data-group="${_lsGrp}" onclick="toggleMatchSelect(this, event)">${_ansTxt}</div>`;
+                            _selH += `<div class="rs-menu" id="rs-menu-${qId}">`;
+                            _selH += `<div class="rs-option" data-value="" onclick="selectMatchOption(this,'reading','${qId}','','...','${_lsGrp}',event)">...</div>`;
+                            (sec.featuresList || []).forEach(o => {
+                                const _lt = o.charAt(0);
+                                _selH += `<div class="rs-option${ans === _lt ? ' selected' : ''}" data-value="${_lt}" data-base-text="${o.replace(/"/g, '&quot;')}" onclick="selectMatchOption(this,'reading','${qId}','${_lt}',this.getAttribute('data-base-text'),'${_lsGrp}',event)">${o}</div>`;
+                            });
+                            _selH += `</div></div>`;
+
+                            if (hasInput) {
+                                qText = qText.replace('{INPUT}', _selH);
+                                html += `<p class="q-number">${qText}</p>`;
+                            } else {
+                                html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText} ${_selH}</p>`;
+                            }
+
+                        } else if (type === 'completion' || type === 'short-answer' || type === 'diagram-label') {
+                            // ---- Text input questions (completion, short-answer, diagram-label) ----
+                            let qText = q.text || '';
+                            // Strip embedded duplicate question number before {INPUT}
+                            qText = qText.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
+                            const hasInput = qText.includes('{INPUT}') || /[\._ вЂ¦]{3,}/.test(qText);
+                            const inputHtml = `<input type="text" autocomplete="off" class="fill-input inline-input" value="${ans}"
+                                onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="...">`;
+                            const inlineGapHtml = `<span class="inline-gap-with-number"><span class="gap-number-badge">${qNum}</span>${inputHtml}</span>`;
+
+                            if (hasInput) {
+                                qText = qText.replace(/\{INPUT\}|[\._ вЂ¦]{3,}/, inlineGapHtml);
+                                html += `<p class="q-number">${qText}</p>`;
+                            } else {
+                                html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText}</p>`;
+                                html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}"
+                                    onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="Type your answer">`;
+                            }
+
+                        } else {
+                            // ---- Default / fallback: detect from question content ----
+                            let qText = q.text || q.statement || '';
+                            const hasInput = qText.includes('{INPUT}');
+
+                            if (hasInput) {
+                                const inputHtml = `<input type="text" autocomplete="off" class="fill-input inline-input" value="${ans}"
+                                    onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="...">`;
+                                const inlineGapHtml = `<span class="inline-gap-with-number"><span class="gap-number-badge">${qNum}</span>${inputHtml}</span>`;
+                                qText = qText.replace('{INPUT}', inlineGapHtml);
+                                html += `<p class="q-number">${qText}</p>`;
+                            } else if (q.options && q.options.length > 0) {
+                                html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText}</p>`;
+                                q.options.forEach((opt, oi) => {
+                                    const letter = String.fromCharCode(65 + oi);
+                                    const sel = ans === letter ? 'selected' : '';
+                                    html += `<div class="option-item ${sel}" onclick="saveAns('reading','${qId}','${letter}',this)">
+                                        <span class="opt-letter">${letter}</span>
+                                        <span>${opt}</span>
+                                    </div>`;
+                                });
+                            } else {
+                                html += `<p class="q-number"><strong>Q${qNum}.</strong> ${qText}</p>`;
+                                html += `<input type="text" autocomplete="off" class="fill-input" value="${ans}"
+                                    onchange="saveAns('reading','${qId}',this.value)" oninput="saveAns('reading','${qId}',this.value)" placeholder="Type your answer">`;
+                            }
+                        }
+
+                        html += `</div>`;
+                        _ri++;
+                    }
+                    html += `</div>`;
+                });
+            }
+            html += `</div></div>`;
+
+            moduleContainer.innerHTML = html;
+
+            // Trigger badge updates for reading matching dropdowns
+            document.querySelectorAll('.match-rich-select[data-match-group^="rmatch-"]').forEach(rs => {
+                const grp = rs.getAttribute('data-match-group');
+                if (grp) setTimeout(() => updateMatchBadges(grp), 0);
+            });
+
+            // Initialize dragger
+            initSplitDragger();
+            // Text highlighting is handled globally вЂ” no per-render init needed
+        }
+
+        // ===== WRITING MODULE =====
+        function renderW() {
+            const data = state.currentTestData;
+            if (!data?.tasks) return;
+
+            // Convert tasks object to array if needed
+            let tasksArray = Array.isArray(data.tasks) ? data.tasks : [data.tasks.task1, data.tasks.task2].filter(Boolean);
+
+            const tIdx = state.currentPart;
+            const task = tasksArray[tIdx];
+            if (!task) return;
+
+            document.getElementById('audio-control').style.display = 'none';
+
+            let html = `<div class="part-nav-bar">`;
+            tasksArray.forEach((t, i) => {
+                html += `<button class="part-nav-btn${i === tIdx ? ' active' : ''}" onclick="state.currentPart=${i};renderPart();">
+                    Task ${i + 1}
+                </button>`;
+            });
+            html += `</div>`;
+
+            // Split layout
+            html += `<div class="split-container" id="writing-split">`;
+
+            // Left: task prompt
+            html += `<div class="split-left" id="split-left">`;
+            html += `<h2 style="color:var(--primary);margin-bottom:16px;">${task.title || 'Task ' + (tIdx + 1)}</h2>`;
+
+            // If there's a chart image
+            if (task.chartImageUrl) {
+                html += `<div style="margin-bottom:16px;text-align:center;">
+                    <img src="${task.chartImageUrl}" alt="Task ${tIdx + 1} Chart" style="max-width:100%;border-radius:12px;border:1px solid #ddd;">
+                </div>`;
+            }
+
+            html += `<div class="task-prompt" style="background:#f8f9fa;padding:16px;border-radius:12px;line-height:1.7;">`;
+            html += `<p style="font-size:16px;color:#333;">${task.prompt || task.question || ''}</p>`;
+            if (task.instruction) {
+                html += `<p style="margin-top:12px;font-style:italic;color:#555;font-size:14px;">${task.instruction}</p>`;
+            }
+            html += `</div>`;
+
+            const goal = task.wordGoal || (tIdx === 0 ? 150 : 250);
+            const timeRec = task.timeMinutes || (tIdx === 0 ? 20 : 40);
+            html += `<div style="margin-top:16px;display:flex;gap:20px;flex-wrap:wrap;">`;
+            html += `<p style="color:#666;font-size:14px;">рџ“ќ <strong>${goal}+ words</strong></p>`;
+            html += `<p style="color:#666;font-size:14px;">вЏ±пёЏ <strong>${timeRec} minutes</strong></p>`;
+            html += `</div>`;
+            html += `</div>`;
+
+            // Draggable divider
+            html += `<div class="split-dragger" id="split-dragger"></div>`;
+
+            // Right: text area
+            const wId = `W-${tIdx}`;
+            const saved = state.answers.writing[wId] || '';
+            const wordCount = saved.trim() ? saved.trim().split(/\s+/).length : 0;
+            const pct = Math.min(100, (wordCount / goal) * 100);
+
+            html += `<div class="split-right" id="split-right">`;
+            html += `<div class="task-container">`;
+            html += `<textarea id="writing-area-${tIdx}" class="writing-textarea" placeholder="Write your response here..." 
+                oninput="handleWritingInput(${tIdx},${goal})">${saved}</textarea>`;
+
+            html += `<div class="word-count-bar">
+                <span id="word-count-${tIdx}">${wordCount} words</span>
+                <div class="goal-bar">
+                    <div class="goal-fill" id="goal-fill-${tIdx}" style="width:${pct}%;"></div>
+                </div>
+                <span>Goal: ${goal}</span>
+            </div>`;
+            html += `</div></div></div>`;
+
+            moduleContainer.innerHTML = html;
+
+            // Initialize dragger
+            initSplitDragger();
+        }
+
+        function handleWritingInput(tIdx, goal) {
+            const ta = document.getElementById(`writing-area-${tIdx}`);
+            const txt = ta.value;
+            const wId = `W-${tIdx}`;
+            state.answers.writing[wId] = txt;
+
+            const wc = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+            document.getElementById(`word-count-${tIdx}`).textContent = wc + ' words';
+
+            const pct = Math.min(100, (wc / goal) * 100);
+            const fill = document.getElementById(`goal-fill-${tIdx}`);
+            fill.style.width = pct + '%';
+            fill.style.background = wc >= goal ? 'var(--success)' : 'var(--primary)';
+        }
+
+        // ===== SPLIT DRAGGER FUNCTIONALITY =====
+        function initSplitDragger() {
+            const dragger = document.getElementById('split-dragger');
+            const container = dragger?.parentElement;
+            const leftPane = document.getElementById('split-left');
+            const rightPane = document.getElementById('split-right');
+
+            if (!dragger || !container || !leftPane) return;
+
+            let isDragging = false;
+            let startPos = 0;
+            let startWidth = 0;
+
+            function getIsMobile() { return window.innerWidth <= 900; }
+
+            function startDrag(e) {
+                isDragging = true;
+                dragger.classList.add('dragging');
+                container.classList.add('resizing');
+
+                if (getIsMobile()) {
+                    startPos = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                    startWidth = leftPane.offsetHeight;
+                } else {
+                    startPos = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    startWidth = leftPane.offsetWidth;
+                }
+
+                e.preventDefault();
+            }
+
+            function doDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+
+                let currentPos, delta, newSize, containerSize, minSize, maxSize;
+
+                if (getIsMobile()) {
+                    currentPos = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                    delta = currentPos - startPos;
+                    containerSize = container.offsetHeight;
+                    minSize = containerSize * 0.2;
+                    maxSize = containerSize * 0.8;
+                    newSize = Math.min(maxSize, Math.max(minSize, startWidth + delta));
+                    leftPane.style.setProperty('height', newSize + 'px', 'important');
+                    leftPane.style.setProperty('max-height', 'none', 'important');
+                    leftPane.style.setProperty('min-height', '0', 'important');
+                } else {
+                    currentPos = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    delta = currentPos - startPos;
+                    containerSize = container.offsetWidth;
+                    minSize = containerSize * 0.2;
+                    maxSize = containerSize * 0.8;
+                    newSize = Math.min(maxSize, Math.max(minSize, startWidth + delta));
+                    leftPane.style.width = newSize + 'px';
+                    leftPane.style.minWidth = 'auto';
+                    leftPane.style.maxWidth = 'none';
+                }
+            }
+
+            function stopDrag() {
+                if (!isDragging) return;
+                isDragging = false;
+                dragger.classList.remove('dragging');
+                container.classList.remove('resizing');
+            }
+
+            // Mouse events
+            dragger.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', doDrag);
+            document.addEventListener('mouseup', stopDrag);
+
+            // Touch events for mobile
+            dragger.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('touchmove', doDrag, { passive: false });
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        // ===== GLOBAL HIGHLIGHT FUNCTIONALITY (Listening + Reading) =====
+        (function initGlobalHighlight() {
+            function applyHighlight(className) {
+                const sel = window.getSelection();
+                if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+                const range = sel.getRangeAt(0);
+                if (!range) return;
+                const span = document.createElement('span');
+                span.className = className;
+                try {
+                    range.surroundContents(span);
+                } catch (e) {
+                    // Complex selection across elements вЂ” extract and wrap
+                    try {
+                        const fragment = range.extractContents();
+                        span.appendChild(fragment);
+                        range.insertNode(span);
+                    } catch (e2) {
+                        console.warn('Could not highlight selection', e2);
+                    }
+                }
+                sel.removeAllRanges();
+            }
+
+            function removeHighlight(el) {
+                const parent = el.parentNode;
+                while (el.firstChild) parent.insertBefore(el.firstChild, el);
+                parent.removeChild(el);
+                parent.normalize();
+            }
+
+            function handleHighlightEvent(e) {
+                const tag = e.target.tagName;
+                // Don't interfere with form controls
+                if (['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA'].includes(tag)) return;
+                if (e.target.closest('.match-dropdown-wrap') || e.target.closest('.match-rich-select')) return;
+                if (e.target.closest('.letter-btn') || e.target.closest('.map-draw-btn')) return;
+
+                // Click on existing highlight to remove it
+                if (e.target.classList?.contains('highlight-passage') ||
+                    e.target.classList?.contains('highlight-question')) {
+                    removeHighlight(e.target);
+                    return;
+                }
+
+                // Only highlight within module-container (Listening or Reading)
+                const moduleContainer = document.getElementById('module-container');
+                if (!moduleContainer) return;
+
+                // Check we're in listening or reading mode
+                const step = state.step;
+                if (step !== 0 && step !== 1) return; // 0=Listening, 1=Reading
+
+                const sel = window.getSelection();
+                if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+                const range = sel.getRangeAt(0);
+                let node = range.commonAncestorContainer;
+                if (node.nodeType === 3) node = node.parentNode;
+
+                // Must be within module container
+                if (!moduleContainer.contains(node)) return;
+
+                if (step === 1) {
+                    // Reading: green for passage (split-left), orange for questions (split-right)
+                    const inPassage = node.closest('#split-left');
+                    const inQuestion = node.closest('#split-right');
+                    if (inPassage) applyHighlight('highlight-passage');
+                    else if (inQuestion) applyHighlight('highlight-question');
+                } else {
+                    // Listening: green for all question text
+                    applyHighlight('highlight-passage');
+                }
+            }
+
+            // Use event delegation on document вЂ” works regardless of DOM re-renders
+            document.addEventListener('mouseup', (e) => {
+                // Small delay to let browser finalize selection
+                setTimeout(() => handleHighlightEvent(e), 10);
+            });
+            document.addEventListener('touchend', (e) => {
+                setTimeout(() => handleHighlightEvent(e), 10);
+            });
+
+            // Double-click/tap for quick word highlighting (PC)
+            document.addEventListener('dblclick', (e) => {
+                if (['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA'].includes(e.target.tagName)) return;
+                // Delay so browser completes word selection first
+                setTimeout(() => handleHighlightEvent(e), 50);
+            });
+
+            // Long-press for mobile highlighting
+            let longPressTimer = null;
+            let longPressTarget = null;
+            document.addEventListener('touchstart', (e) => {
+                if (['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA'].includes(e.target.tagName)) return;
+                if (e.target.closest('.option-item') || e.target.closest('.match-dropdown-wrap') || e.target.closest('.match-rich-select')) return;
+                if (e.target.closest('.letter-btn') || e.target.closest('.map-draw-btn')) return;
+                longPressTarget = e.target;
+                longPressTimer = setTimeout(() => {
+                    // After long-press, the browser should have created a selection
+                    handleHighlightEvent(e);
+                    longPressTimer = null;
+                }, 600);
+            }, { passive: true });
+            document.addEventListener('touchmove', () => {
+                if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+            }, { passive: true });
+            document.addEventListener('touchend', () => {
+                if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+            }, { passive: true });
+        })();
+
+        // ===== MAP DRAWING FUNCTIONALITY =====
+        const mapDrawingState = {};
+
+        function initMapDrawingCanvas(groupId) {
+            const canvas = document.getElementById('mapCanvas-' + groupId);
+            const img = document.getElementById('mapImg-' + groupId);
+            if (!canvas || !img) return;
+
+            const ctx = canvas.getContext('2d');
+
+            function applyCtxStyle() {
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.strokeStyle = '#ef4444';
+            }
+
+            function doResize() {
+                canvas.width = img.offsetWidth;
+                canvas.height = img.offsetHeight;
+                // Re-apply styles after resize (canvas reset clears context state)
+                applyCtxStyle();
+            }
+
+            if (img.complete && img.offsetWidth > 0) doResize();
+            else img.onload = doResize;
+
+            applyCtxStyle();
+            mapDrawingState[groupId] = { canvas, ctx, isPenEnabled: false, isDrawing: false, lastX: 0, lastY: 0 };
+        }
+
+        function toggleMapPen(groupId) {
+            const ds = mapDrawingState[groupId];
+            if (!ds) return;
+            ds.isPenEnabled = !ds.isPenEnabled;
+            const btn = document.getElementById('penBtn-' + groupId);
+            if (btn) btn.classList.toggle('active', ds.isPenEnabled);
+            ds.canvas.classList.toggle('disabled', !ds.isPenEnabled);
+        }
+
+        function clearMapCanvas(groupId) {
+            const ds = mapDrawingState[groupId];
+            if (!ds) return;
+            ds.ctx.clearRect(0, 0, ds.canvas.width, ds.canvas.height);
+        }
+
+        function openMapPreview(groupId) {
+            const img = document.getElementById('mapImg-' + groupId);
+            const overlay = document.getElementById('mapPreviewOverlay');
+            const previewImg = document.getElementById('mapPreviewImg');
+            if (!img || !overlay || !previewImg) return;
+            previewImg.src = img.src;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMapPreview() {
+            const overlay = document.getElementById('mapPreviewOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Global mouse/touch drawing handlers (delegate to active canvas)
+        document.addEventListener('mousedown', function (e) {
+            for (const gid in mapDrawingState) {
+                const ds = mapDrawingState[gid];
+                if (!ds.isPenEnabled || !ds.canvas.contains(e.target)) continue;
+                ds.isDrawing = true;
+                const rect = ds.canvas.getBoundingClientRect();
+                ds.lastX = e.clientX - rect.left;
+                ds.lastY = e.clientY - rect.top;
+            }
+        });
+        document.addEventListener('mousemove', function (e) {
+            for (const gid in mapDrawingState) {
+                const ds = mapDrawingState[gid];
+                if (!ds.isDrawing || !ds.isPenEnabled) continue;
+                const rect = ds.canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                ds.ctx.beginPath();
+                ds.ctx.moveTo(ds.lastX, ds.lastY);
+                ds.ctx.lineTo(x, y);
+                ds.ctx.stroke();
+                ds.lastX = x;
+                ds.lastY = y;
+            }
+        });
+        document.addEventListener('mouseup', function () {
+            for (const gid in mapDrawingState) mapDrawingState[gid].isDrawing = false;
+        });
+        document.addEventListener('touchstart', function (e) {
+            for (const gid in mapDrawingState) {
+                const ds = mapDrawingState[gid];
+                if (!ds.isPenEnabled || !ds.canvas.contains(e.target)) continue;
+                e.preventDefault();
+                ds.isDrawing = true;
+                const rect = ds.canvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                ds.lastX = touch.clientX - rect.left;
+                ds.lastY = touch.clientY - rect.top;
+            }
+        }, { passive: false });
+        document.addEventListener('touchmove', function (e) {
+            for (const gid in mapDrawingState) {
+                const ds = mapDrawingState[gid];
+                if (!ds.isDrawing || !ds.isPenEnabled) continue;
+                e.preventDefault();
+                const rect = ds.canvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                ds.ctx.beginPath();
+                ds.ctx.moveTo(ds.lastX, ds.lastY);
+                ds.ctx.lineTo(x, y);
+                ds.ctx.stroke();
+                ds.lastX = x;
+                ds.lastY = y;
+            }
+        }, { passive: false });
+        document.addEventListener('touchend', function () {
+            for (const gid in mapDrawingState) mapDrawingState[gid].isDrawing = false;
+        });
+
+        // ===== SPEAKING MODULE =====
+        let ttsUtterance = null;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let speakingTimerId = null;
+        let speakingMode = null; // 'prep' or 'speak'
+        let speakingRemaining = 0;
+        let speakingTotal = 0;
+        let speakingCurrentIdx = 0;
+        let speakingAnswered = 0;
+        let speakingPaused = false;
+
+        // TTS Cache for batch server audio
+        let gttsAudioCache = {};
+        let isGTTSPreloading = false;
+        let gttsPreloadComplete = false;
+        let currentSpeakingAudio = null;
+        let currentSpeakingResolve = null;
+
+        // iOS audio unlock: create a persistent audio element and prime it on user gesture
+        window._iosAudioEl = null;
+        function _iosUnlockAudio() {
+            if (window._iosAudioEl) return;
+            var a = new Audio();
+            a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+            a.volume = 0;
+            a.play().then(function() { a.pause(); }).catch(function() {});
+            window._iosAudioEl = a;
+        }
+
+        // Audio context for beeps
+        let fmAudioCtx = null;
+        function fmEnsureAudio() { if (!fmAudioCtx) { try { fmAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { } } }
+        function fmBeep(freq = 880, duration = 0.12, vol = 0.08) {
+            if (!fmAudioCtx) return;
+            const o = fmAudioCtx.createOscillator(), g = fmAudioCtx.createGain();
+            o.frequency.value = freq; g.gain.value = vol; o.connect(g); g.connect(fmAudioCtx.destination);
+            o.start(); setTimeout(() => { o.stop(); }, Math.max(10, duration * 1000));
+        }
+
+        // Helper to query inside a parent element
+        function fmQ(sel, par) { return (par || document).querySelector(sel); }
+        function fmQA(sel, par) { return Array.from((par || document).querySelectorAll(sel)); }
+
+        // Set dial percentage
+        function fmSetDial(dial, remaining, total) {
+            if (!dial) return;
+            const pct = total > 0 ? (remaining / total) * 100 : 0;
+            dial.style.setProperty('--pct', pct);
+            const timeEl = fmQ('.fm-time', dial);
+            if (timeEl) {
+                const m = Math.floor(remaining / 60);
+                const s = remaining % 60;
+                timeEl.textContent = m > 0 ? `${m}:${s.toString().padStart(2, '0')}` : `${s}s`;
+            }
+        }
+
+        // Part intro card system
+        const fmPartIntroConfigs = {
+            part1: {
+                badge: '1', title: 'Part One', subtitle: 'Introduction & Interview',
+                desc: 'In this part, the examiner will ask you general questions about yourself, your daily life, interests, and familiar topics. Please answer each question as fully as you can.',
+                bg: 'linear-gradient(135deg,#1e40af 0%,#3b82f6 50%,#60a5fa 100%)',
+                badgeBg: 'linear-gradient(135deg,#1d4ed8,#2563eb)',
+                accent: '#3b82f6', divider: '#60a5fa', timerColor: '#93c5fd', icon: 'рџЋ¤',
+                audio: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20one.mp3'
+            },
+            part2: {
+                badge: '2', title: 'Part Two', subtitle: 'Individual Long Turn',
+                desc: 'You will be given a topic card with prompts. You have one minute to prepare, then speak for one to two minutes on the topic.',
+                bg: 'linear-gradient(135deg,#b45309 0%,#f59e0b 50%,#fbbf24 100%)',
+                badgeBg: 'linear-gradient(135deg,#d97706,#f59e0b)',
+                accent: '#f59e0b', divider: '#fbbf24', timerColor: '#fde68a', icon: 'рџ“‹',
+                audio: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20two.mp3'
+            },
+            part2FollowUp: {
+                badge: '?', title: 'Follow-up Questions', subtitle: 'Part Two вЂ” Continued',
+                desc: 'Now I would like to ask you one or two further questions related to the topic you have just spoken about.',
+                bg: 'linear-gradient(135deg,#991b1b 0%,#dc2626 50%,#f87171 100%)',
+                badgeBg: 'linear-gradient(135deg,#b91c1c,#ef4444)',
+                accent: '#ef4444', divider: '#f87171', timerColor: '#fca5a5', icon: 'рџ’¬',
+                audio: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20two%20follow-up.mp3'
+            },
+            part3: {
+                badge: '3', title: 'Part Three', subtitle: 'Two-way Discussion',
+                desc: 'In this final part, you will be asked broader discussion-based questions on abstract themes related to the Part Two topic.',
+                bg: 'linear-gradient(135deg,#166534 0%,#16a34a 50%,#4ade80 100%)',
+                badgeBg: 'linear-gradient(135deg,#15803d,#22c55e)',
+                accent: '#22c55e', divider: '#4ade80', timerColor: '#86efac', icon: 'рџЊЌ',
+                audio: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20three.mp3'
+            }
+        };
+
+        let fmPartIntroTimerId = null;
+        let fmPartIntroAudio = null;
+
+        function fmShowPartIntro(configKey, onDone) {
+            const cfg = fmPartIntroConfigs[configKey];
+            if (!cfg) { onDone && onDone(); return; }
+
+            const overlay = document.getElementById('fm-partIntroOverlay');
+            const card = document.getElementById('fm-partIntroCard');
+            const badge = document.getElementById('fm-partIntroBadge');
+            const title = document.getElementById('fm-partIntroTitle');
+            const subtitle = document.getElementById('fm-partIntroSubtitle');
+            const desc = document.getElementById('fm-partIntroDesc');
+            const accent = document.getElementById('fm-partIntroAccent');
+            const divider = document.getElementById('fm-partIntroDivider');
+            const timerBar = document.getElementById('fm-partIntroTimer');
+            const skipBtn = document.getElementById('fm-partIntroSkipBtn');
+
+            card.style.background = cfg.bg;
+            card.style.color = 'white';
+            badge.style.background = cfg.badgeBg;
+            badge.textContent = cfg.icon;
+            title.textContent = cfg.title;
+            subtitle.textContent = cfg.subtitle;
+            desc.textContent = cfg.desc;
+            accent.style.background = 'white';
+            divider.style.background = cfg.divider;
+            timerBar.style.background = cfg.timerColor;
+            timerBar.style.width = '100%';
+
+            card.style.animation = 'none';
+            void card.offsetWidth;
+            card.style.animation = 'fmPartIntroSlideUp 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both';
+            overlay.style.display = 'flex';
+
+            if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
+            let dismissed = false;
+
+            function dismiss() {
+                if (dismissed) return;
+                dismissed = true;
+                if (fmPartIntroTimerId) { clearInterval(fmPartIntroTimerId); fmPartIntroTimerId = null; }
+                if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
+                skipBtn.onclick = null;
+                overlay.style.opacity = '0';
+                overlay.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    overlay.style.opacity = '';
+                    overlay.style.transition = '';
+                    onDone && onDone();
+                }, 300);
+            }
+
+            skipBtn.onclick = dismiss;
+
+            if (cfg.audio) {
+                const audio = new Audio(cfg.audio);
+                audio.volume = 1.0;
+                fmPartIntroAudio = audio;
+
+                audio.addEventListener('loadedmetadata', () => {
+                    const duration = audio.duration * 1000;
+                    const startTime = Date.now();
+                    if (fmPartIntroTimerId) clearInterval(fmPartIntroTimerId);
+                    fmPartIntroTimerId = setInterval(() => {
+                        const elapsed = Date.now() - startTime;
+                        const pct = Math.max(0, 1 - elapsed / duration) * 100;
+                        timerBar.style.width = pct + '%';
+                    }, 50);
+                });
+
+                audio.onended = () => { fmPartIntroAudio = null; dismiss(); };
+                audio.onerror = () => {
+                    fmPartIntroAudio = null;
+                    const fallback = 6000, start = Date.now();
+                    if (fmPartIntroTimerId) clearInterval(fmPartIntroTimerId);
+                    fmPartIntroTimerId = setInterval(() => {
+                        const el = Date.now() - start;
+                        timerBar.style.width = Math.max(0, 1 - el / fallback) * 100 + '%';
+                        if (el >= fallback) dismiss();
+                    }, 50);
+                };
+                audio.play().catch(() => {
+                    fmPartIntroAudio = null;
+                    const fallback = 6000, start = Date.now();
+                    if (fmPartIntroTimerId) clearInterval(fmPartIntroTimerId);
+                    fmPartIntroTimerId = setInterval(() => {
+                        const el = Date.now() - start;
+                        timerBar.style.width = Math.max(0, 1 - el / fallback) * 100 + '%';
+                        if (el >= fallback) dismiss();
+                    }, 50);
+                });
+            } else {
+                const fallback = 6000, start = Date.now();
+                fmPartIntroTimerId = setInterval(() => {
+                    const el = Date.now() - start;
+                    timerBar.style.width = Math.max(0, 1 - el / fallback) * 100 + '%';
+                    if (el >= fallback) dismiss();
+                }, 50);
+            }
+        }
+
+        // Update part indicator (1/2/3 dots)
+        function fmUpdatePartIndicator(qIndex) {
+            const steps = fmQA('.fm-part-step');
+            const connectors = fmQA('.fm-part-connector');
+            let currentPart = 1;
+            if (qIndex >= 0 && qIndex <= 6) currentPart = 1;
+            else if (qIndex >= 7 && qIndex <= 9) currentPart = 2;
+            else if (qIndex >= 10) currentPart = 3;
+
+            steps.forEach((s, idx) => {
+                const pn = idx + 1;
+                s.classList.remove('active', 'completed');
+                if (pn < currentPart) s.classList.add('completed');
+                else if (pn === currentPart) s.classList.add('active');
+            });
+            connectors.forEach((c, idx) => {
+                c.classList.remove('completed');
+                if (idx + 1 < currentPart) c.classList.add('completed');
+            });
+        }
+
+        // ---- renderS: builds all questions as <details> elements and starts the automated flow ----
+        function renderS() {
+            const data = state.currentTestData;
+            if (!data?.questions) return;
+
+            fmEnsureAudio();
+            document.getElementById('audio-control').style.display = 'none';
+
+            const qs = data.questions;
+            speakingAnswered = 0;
+
+            // Part indicator
+            let html = `<div class="fm-part-indicator">
+                <div class="fm-part-step active">1</div>
+                <div class="fm-part-connector"></div>
+                <div class="fm-part-step">2</div>
+                <div class="fm-part-connector"></div>
+                <div class="fm-part-step">3</div>
+            </div>`;
+
+            // Generate all question cards
+            qs.forEach((q, i) => {
+                const prepSec = q.prepTime || 5;
+                const speakSec = q.speakTime || 30;
+                const prompt = q.prompt || q.text || q.question || '';
+                const partLabel = q.part || 'Part 1';
+                const badge = q.badge || '30s';
+
+                html += `<details class="fm-sq hidden locked" data-prep="${prepSec}" data-speak="${speakSec}" data-idx="${i}">
+                    <summary>
+                        <span style="background:var(--primary);color:white;padding:3px 10px;border-radius:6px;font-size:12px;margin-right:6px;">${partLabel}</span>
+                        Q${q.number || i + 1} вЂ” ${q.topic || partLabel}
+                        <span style="margin-left:auto;font-size:12px;opacity:0.7;">${badge}</span>
+                    </summary>
+                    <div class="fm-sq-body">
+                        <p class="fm-prompt">${prompt}</p>`;
+
+                // Part 2 cue card bullet points
+                if (q.bulletPoints && q.bulletPoints.length) {
+                    html += `<div class="fm-bullets"><p>You should say:</p><ul>`;
+                    q.bulletPoints.forEach(bp => { html += `<li>${bp}</li>`; });
+                    html += `</ul></div>`;
+                }
+
+                // Dial row
+                html += `<div class="fm-dialrow">
+                    <div class="fm-dial-ctr">
+                        <div class="fm-dial prep"><span class="fm-time">${prepSec}s</span><small>Prepare</small></div>
+                        <div class="fm-dial-label prep-label">Preparation</div>
+                    </div>
+                    <div class="fm-dial-ctr inactive">
+                        <div class="fm-dial speak"><span class="fm-time">${speakSec > 59 ? Math.floor(speakSec / 60) + ':' + String(speakSec % 60).padStart(2, '0') : speakSec + 's'}</span><small>Speak</small></div>
+                        <div class="fm-dial-label speak-label">Speaking</div>
+                    </div>
+                </div>`;
+
+                // REC widget
+                html += `<div class="fm-rec">
+                    <div class="fm-rec-tag"><span class="fm-dot"></span> REC</div>
+                    <div class="fm-bars">${'<i></i>'.repeat(10)}</div>
+                </div>`;
+
+                // Status
+                html += `<div class="fm-status">Waiting...</div>`;
+
+                html += `</div></details>`;
+            });
+
+            moduleContainer.innerHTML = html;
+
+            // Initialize all dials
+            fmQA('.fm-sq').forEach(det => {
+                const prepSec = Number(det.dataset.prep || 0);
+                const speakSec = Number(det.dataset.speak || 0);
+                fmSetDial(fmQ('.fm-dial.prep', det), prepSec, prepSec);
+                fmSetDial(fmQ('.fm-dial.speak', det), speakSec, speakSec);
+            });
+
+            // Start the automated flow
+            fmRunQuestion(0);
+        }
+
+        // Run a single question in the automated flow
+        function fmRunQuestion(i) {
+            const allQ = fmQA('.fm-sq');
+            if (i >= allQ.length) {
+                // All questions done - finish speaking module
+                finishMod();
+                return;
+            }
+
+            const q = allQ[i];
+            if (!q || q.dataset.started) return;
+            q.dataset.started = '1';
+            speakingCurrentIdx = i;
+
+            // Show only current question
+            allQ.forEach((det, idx) => {
+                if (idx === i) {
+                    det.classList.remove('hidden', 'locked');
+                    det.removeAttribute('open');
+                } else {
+                    det.classList.add('hidden');
+                }
+            });
+
+            q.setAttribute('open', '');
+            q.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            fmUpdatePartIndicator(i);
+
+            const questionData = state.currentTestData?.questions?.[i] || null;
+            const promptText = questionData?.prompt || fmQ('.fm-prompt', q)?.innerText?.trim() || '';
+
+            // For Q1 (first question), show Part 1 intro first
+            if (i === 0) {
+                fmShowPartIntro('part1', () => {
+                    speakText(promptText, i).then(() => {
+                        fmStartTimers(i);
+                    });
+                });
+                return;
+            }
+
+            // For all other questions, just read and start timers
+            speakText(promptText, i).then(() => {
+                fmStartTimers(i);
+            });
+        }
+
+        // Handle transitions between parts
+        function fmHandleTransition(fromIdx, toIdx) {
+            // Part 1 в†’ Part 2 (index 6 в†’ 7)
+            if (fromIdx === 6 && toIdx === 7) {
+                fmShowPartIntro('part2', () => { fmRunQuestion(toIdx); });
+                return;
+            }
+            // Part 2 cue card в†’ follow-up (index 7 в†’ 8)
+            if (fromIdx === 7 && toIdx === 8) {
+                fmShowPartIntro('part2FollowUp', () => { fmRunQuestion(toIdx); });
+                return;
+            }
+            // Part 2 end в†’ Part 3 (index 9 в†’ 10)
+            if (fromIdx === 9 && toIdx === 10) {
+                fmShowPartIntro('part3', () => { fmRunQuestion(toIdx); });
+                return;
+            }
+            // Default: just run next
+            fmRunQuestion(toIdx);
+        }
+
+        // Timer engine: prep countdown в†’ speak countdown with recording
+        function fmStartTimers(i) {
+            const allQ = fmQA('.fm-sq');
+            const q = allQ[i];
+            if (!q) return;
+
+            const prepSec = Number(q.dataset.prep || 5);
+            const speakSec = Number(q.dataset.speak || 30);
+            const prepDial = fmQ('.fm-dial.prep', q);
+            const speakDial = fmQ('.fm-dial.speak', q);
+            const rec = fmQ('.fm-rec', q);
+            const prepCtr = prepDial?.closest('.fm-dial-ctr');
+            const speakCtr = speakDial?.closest('.fm-dial-ctr');
+            const statusEl = fmQ('.fm-status', q);
+
+            // Reset state
+            if (prepCtr) prepCtr.classList.remove('inactive');
+            if (speakCtr) speakCtr.classList.add('inactive');
+            if (rec) rec.style.display = 'none';
+
+            speakingMode = 'prep';
+            speakingRemaining = prepSec;
+            speakingTotal = prepSec;
+            fmSetDial(prepDial, speakingRemaining, speakingTotal);
+            fmSetDial(speakDial, speakSec, speakSec);
+            if (statusEl) statusEl.textContent = 'PrepareвЂ¦';
+
+            if (speakingTimerId) clearInterval(speakingTimerId);
+            speakingTimerId = setInterval(() => {
+                if (speakingPaused) return;
+                speakingRemaining = Math.max(0, speakingRemaining - 1);
+
+                if (speakingMode === 'prep') {
+                    fmSetDial(prepDial, speakingRemaining, speakingTotal);
+                    // Beep last 3 seconds of prep
+                    if (speakingRemaining <= 3 && speakingRemaining > 0) fmBeep(880, 0.11, 0.08);
+                } else {
+                    fmSetDial(speakDial, speakingRemaining, speakingTotal);
+                    // Red color for last 3 seconds of speaking
+                    if (speakingRemaining <= 3 && speakingRemaining > 0) {
+                        speakDial.classList.add('soon-end');
+                    } else {
+                        speakDial.classList.remove('soon-end');
+                    }
+                }
+
+                if (speakingRemaining === 0) {
+                    if (speakingMode === 'prep') {
+                        // Switch to speak mode
+                        fmBeep(1200, 0.14, 0.1);
+                        if (prepCtr) prepCtr.classList.add('inactive');
+                        if (speakCtr) speakCtr.classList.remove('inactive');
+                        if (rec) rec.style.display = 'flex';
+                        speakingMode = 'speak';
+                        speakingRemaining = speakSec;
+                        speakingTotal = speakSec;
+                        if (statusEl) statusEl.textContent = 'Speak nowвЂ¦';
+                        startRecording(i);
+                    } else {
+                        // Speak time ended
+                        clearInterval(speakingTimerId);
+                        speakingTimerId = null;
+                        if (rec) rec.style.display = 'none';
+                        speakDial.classList.remove('soon-end');
+                        if (statusEl) statusEl.textContent = 'Completed вњ“';
+                        stopRecording();
+
+                        q.classList.add('done');
+                        q.removeAttribute('open');
+                        q.classList.add('hidden');
+
+                        speakingAnswered++;
+
+                        const next = allQ[i + 1];
+                        if (next) {
+                            fmHandleTransition(i, i + 1);
+                        } else {
+                            // All done
+                            finishMod();
+                        }
+                    }
+                }
+            }, 1000);
+        }
+
+        // Play cached audio from batch TTS
+        function speakText(text, questionIndex = null) {
+            return new Promise(async (resolve) => {
+                try {
+                    const questions = state.currentTestData?.questions || [];
+                    let question = null;
+
+                    if (Number.isInteger(questionIndex) && questionIndex >= 0 && questionIndex < questions.length) {
+                        question = questions[questionIndex];
+                    }
+
+                    // Always try pre-recorded question audio first.
+                    if (question?.audioFile) {
+                        const played = await playAudioFile(question.audioFile);
+                        if (played) {
+                            resolve();
+                            return;
+                        }
+                        console.warn('[Audio] Pre-recorded question playback failed, using fallback');
+                    }
+
+                    let cacheKey = null;
+                    if (question) {
+                        cacheKey = `q${questionIndex + 1}`;
+                    } else {
+                        for (let i = 0; i < questions.length; i++) {
+                            const q = questions[i];
+                            const qText = q.prompt || q.text || q.question || '';
+                            if (qText === text) {
+                                cacheKey = `q${i + 1}`;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Wait briefly for GTTS if it's still loading (first question safety)
+                    if (cacheKey && !gttsAudioCache[cacheKey] && isGTTSPreloading) {
+                        console.log('[TTS] Audio not ready yet, waiting briefly...');
+                        let waitAttempts = 0;
+                        while (!gttsAudioCache[cacheKey] && waitAttempts < 10) {
+                            await new Promise(r => setTimeout(r, 250));
+                            waitAttempts++;
+                        }
+                    }
+
+                    if (cacheKey && gttsAudioCache[cacheKey]) {
+                        console.log('[TTS] Playing from cache:', cacheKey);
+                        const audioUrl = URL.createObjectURL(gttsAudioCache[cacheKey]);
+                        await playAudioFile(audioUrl);
+                        URL.revokeObjectURL(audioUrl);
+                        resolve(); return;
+                    }
+                    console.warn('[TTS] No cache found, using browser fallback');
+                    await speakWithBrowser(text);
+                    resolve();
+                } catch (err) {
+                    console.error('[TTS] Error:', err);
+                    await speakWithBrowser(text);
+                    resolve();
+                }
+            });
+        }
+
+        function speakWithBrowser(text) {
+            return new Promise((resolve) => {
+                if (!window.speechSynthesis) return resolve();
+                window.speechSynthesis.cancel();
+                const ut = new SpeechSynthesisUtterance(text);
+                ut.lang = 'en-US';
+                ut.rate = 0.9;
+                ut.onend = resolve;
+                ut.onerror = resolve;
+                window.speechSynthesis.speak(ut);
+                setTimeout(resolve, 15000);
+            });
+        }
+
+        function playAudioFile(url) {
+            return new Promise((resolve) => {
+                stopSpeakingAudio();
+                const audio = window._iosAudioEl || new Audio();
+                audio.src = url;
+                audio.volume = 1.0;
+                currentSpeakingAudio = audio;
+                currentSpeakingResolve = resolve;
+                audio.onended = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(true); };
+                audio.onerror = () => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(false); };
+                audio.play().catch(() => { currentSpeakingAudio = null; currentSpeakingResolve = null; resolve(false); });
+            });
+        }
+
+        function stopSpeakingAudio() {
+            if (currentSpeakingAudio) { currentSpeakingAudio.pause(); currentSpeakingAudio.currentTime = 0; currentSpeakingAudio = null; }
+            if (currentSpeakingResolve) { currentSpeakingResolve(); currentSpeakingResolve = null; }
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+        }
+
+        async function fetchSpeakingTTS() {
+            // Prevent double preloading
+            if (gttsPreloadComplete || isGTTSPreloading) {
+                console.log('рџ”„ Audio preload already complete or in progress, skipping...');
+                return true;
+            }
+
+            const questions = state.currentTestData?.questions || [];
+            const withAudio = questions.filter(q => q.audioFile);
+            const totalItems = withAudio.length;
+            if (totalItems === 0) return true;
+
+            console.log(`[Audio] Preloading ${totalItems} pre-recorded question audio files...`);
+
+            const modal = document.getElementById('audioPreloadModal');
+            const progressText = document.getElementById('preloadProgress');
+            const progressBar = document.getElementById('preloadProgressBar');
+            const statusText = document.getElementById('preloadStatus');
+
+            // Show loading modal
+            modal.style.display = 'flex';
+            isGTTSPreloading = true;
+            statusText.textContent = 'Loading question audio...';
+            progressText.textContent = `0 / ${totalItems}`;
+            progressBar.style.width = '0%';
+
+            try {
+                let loaded = 0;
+
+                for (let idx = 0; idx < questions.length; idx++) {
+                    const q = questions[idx];
+                    if (!q.audioFile) continue;
+                    try {
+                        const resp = await fetch(q.audioFile);
+                        if (resp.ok) {
+                            gttsAudioCache[`q${idx + 1}`] = await resp.blob();
+                            loaded++;
+                            const pct = Math.round((loaded / totalItems) * 100);
+                            progressText.textContent = `${loaded} / ${totalItems}`;
+                            progressBar.style.width = `${pct}%`;
+                            statusText.textContent = `рџЋµ Loaded Q${idx + 1}`;
+                            console.log(`вњ… Audio cached: q${idx + 1}`);
+                        }
+                    } catch (e) {
+                        console.warn(`вљ пёЏ Failed to preload Q${idx + 1}:`, e);
+                    }
+                }
+
+                progressBar.style.width = '100%';
+                statusText.textContent = `вњ… All ${loaded} audio files ready!`;
+
+                // Short delay to show completion
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                modal.style.display = 'none';
+                isGTTSPreloading = false;
+                gttsPreloadComplete = true;
+
+                console.log(`вњ… Audio preloading complete! Cached ${loaded} files`, Object.keys(gttsAudioCache));
+                return true;
+            } catch (error) {
+                console.error('Audio preloading failed:', error);
+                statusText.textContent = 'вљ пёЏ Audio preload failed, using browser voice';
+
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                modal.style.display = 'none';
+                isGTTSPreloading = false;
+
+                return false;
+            }
+        }
+
+        // Get supported MIME type for MediaRecorder
+        function fmGetSupportedMimeType() {
+            const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/mpeg'];
+            for (const t of types) { if (MediaRecorder.isTypeSupported(t)) return t; }
+            return '';
+        }
+
+        let fmMediaStream = null;
+        async function fmEnsureMediaStream() {
+            if (fmMediaStream && fmMediaStream.active) return fmMediaStream;
+            try {
+                fmMediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                return fmMediaStream;
+            } catch (e) {
+                console.error('[Mic] Access denied:', e);
+                return null;
+            }
+        }
+
+        async function startRecording(qIdx) {
+            audioChunks = [];
+            const stream = await fmEnsureMediaStream();
+            if (!stream) return;
+            try {
+                const mimeType = fmGetSupportedMimeType();
+                const options = mimeType ? { mimeType } : {};
+                mediaRecorder = new MediaRecorder(stream, options);
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
+                    state.answers.speaking[`S-${qIdx}`] = blob;
+                };
+                mediaRecorder.start();
+            } catch (err) {
+                console.warn('Recording error:', err);
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+
+        // Teacher skip shortcut for speaking (Ctrl+Shift+Alt+F)
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.shiftKey && e.altKey && e.key.toLowerCase() === 'f') {
+                e.preventDefault();
+                if (state.step === 3) {
+                    adminAdvanceSpeaking();
+                }
+            }
+        });
+
+
+        // ===== MODULE FINISH & BREAK =====
+        function finishMod() {
+            // Guard against double-calls (especially speaking module has multiple end triggers)
+            if (state._finishingMod) return;
+            state._finishingMod = true;
+
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            if (speakingTimerId) { clearInterval(speakingTimerId); speakingTimerId = null; }
+            mainAudio.pause();
+            stopSpeakingAudio();
+            stopRecording();
+            if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
+            if (fmPartIntroTimerId) { clearInterval(fmPartIntroTimerId); fmPartIntroTimerId = null; }
+            document.getElementById('fm-partIntroOverlay').style.display = 'none';
+            if (fmMediaStream) { fmMediaStream.getTracks().forEach(t => t.stop()); fmMediaStream = null; }
+
+            // Store module data for scoring
+            if (state.step < state.modules.length) {
+                const modName = state.modules[state.step].toLowerCase();
+                state.moduleData[modName] = state.currentTestData;
+            }
+
+            // Score Listening/Reading immediately
+            if (state.step === 0) scoreListening();
+            if (state.step === 1) scoreReading();
+
+            state.step++;
+            state._finishingMod = false; // Reset guard for next module
+
+            if (state.step < 4) {
+                showBreak();
+            } else {
+                showResults();
+            }
+        }
+
+        function showBreak() {
+            const breakDiv = document.getElementById('break-overlay');
+            const nextMod = state.modules[state.step];
+            document.getElementById('break-msg').innerHTML = `
+                <strong>${state.modules[state.step - 1]}</strong> module complete!<br><br>
+                Next up: <strong>${nextMod}</strong>
+            `;
+            breakDiv.style.display = 'flex';
+        }
+
+        document.getElementById('break-continue-btn').onclick = () => {
+            document.getElementById('break-overlay').style.display = 'none';
+            showIeltsModTutorial(state.step);
+        };
+
+        // ===== SCORING FUNCTIONS =====
+
+        // British в†” American spelling variant pairs (shared by listening & reading scoring)
+        const SPELLING_PAIRS = [
+          ['colour','color'],['favourite','favorite'],['honour','honor'],['humour','humor'],['labour','labor'],['neighbour','neighbor'],['behaviour','behavior'],['favour','favor'],['flavour','flavor'],['harbour','harbor'],['rumour','rumor'],['savour','savor'],['vapour','vapor'],['vigour','vigor'],['valour','valor'],['armour','armor'],['clamour','clamor'],['glamour','glamor'],['odour','odor'],['tumour','tumor'],['rancour','rancor'],['splendour','splendor'],['candour','candor'],
+          ['centre','center'],['metre','meter'],['litre','liter'],['theatre','theater'],['fibre','fiber'],['lustre','luster'],['sombre','somber'],['spectre','specter'],['calibre','caliber'],['sabre','saber'],['manoeuvre','maneuver'],['reconnoitre','reconnoiter'],['meagre','meager'],['ochre','ocher'],['sepulchre','sepulcher'],['titre','titer'],['goitre','goiter'],['mitre','miter'],['nitre','niter'],['louvre','louver'],
+          ['organise','organize'],['realise','realize'],['recognise','recognize'],['analyse','analyze'],['paralyse','paralyze'],['catalyse','catalyze'],['summarise','summarize'],['memorise','memorize'],['apologise','apologize'],['criticise','criticize'],['emphasise','emphasize'],['specialise','specialize'],['utilise','utilize'],['harmonise','harmonize'],['normalise','normalize'],['stabilise','stabilize'],['minimise','minimize'],['maximise','maximize'],['prioritise','prioritize'],['authorise','authorize'],['capitalise','capitalize'],['characterise','characterize'],['civilise','civilize'],['colonise','colonize'],['commercialise','commercialize'],['customise','customize'],['digitalise','digitalize'],['equalise','equalize'],['fertilise','fertilize'],['finalise','finalize'],['globalise','globalize'],['idealise','idealize'],['immunise','immunize'],['industrialise','industrialize'],['initialise','initialize'],['legalise','legalize'],['liberalise','liberalize'],['localise','localize'],['materialise','materialize'],['mechanise','mechanize'],['mineralise','mineralize'],['modernise','modernize'],['monopolise','monopolize'],['nationalise','nationalize'],['neutralise','neutralize'],['optimise','optimize'],['personalise','personalize'],['polarise','polarize'],['privatise','privatize'],['publicise','publicize'],['rationalise','rationalize'],['revitalise','revitalize'],['revolutionise','revolutionize'],['symbolise','symbolize'],['sympathise','sympathize'],['terrorise','terrorize'],['trivialise','trivialize'],['visualise','visualize'],['vocalise','vocalize'],
+          ['defence','defense'],['offence','offense'],['licence','license'],['pretence','pretense'],
+          ['travelling','traveling'],['traveller','traveler'],['cancelled','canceled'],['cancelling','canceling'],['channelled','channeled'],['counsellor','counselor'],['counselling','counseling'],['fuelled','fueled'],['fuelling','fueling'],['jewellery','jewelry'],['labelled','labeled'],['labelling','labeling'],['levelled','leveled'],['levelling','leveling'],['marshalled','marshaled'],['marvellous','marvelous'],['modelled','modeled'],['modelling','modeling'],['panelled','paneled'],['quarrelled','quarreled'],['revelled','reveled'],['rivalled','rivaled'],['signalled','signaled'],['signalling','signaling'],['travelled','traveled'],['woollen','woolen'],['enrolment','enrollment'],['fulfilment','fulfillment'],['instalment','installment'],['skilful','skillful'],['wilful','willful'],['distil','distill'],['enthral','enthrall'],['fulfil','fulfill'],['instil','instill'],['enrol','enroll'],
+          ['aeroplane','airplane'],['aluminium','aluminum'],['annexe','annex'],['axe','ax'],['catalogue','catalog'],['cheque','check'],['cosy','cozy'],['dialogue','dialog'],['doughnut','donut'],['draught','draft'],['enquiry','inquiry'],['grey','gray'],['kerb','curb'],['mould','mold'],['moult','molt'],['moustache','mustache'],['pyjamas','pajamas'],['plough','plow'],['programme','program'],['sceptic','skeptic'],['storey','story'],['sulphur','sulfur'],['tyre','tire'],['waggon','wagon'],['ageing','aging'],['judgement','judgment'],['acknowledgement','acknowledgment']
+        ];
+        const _spellingMapUpper = {};
+        SPELLING_PAIRS.forEach(pair => {
+          pair.forEach((w, i) => {
+            const wu = w.toUpperCase();
+            if (!_spellingMapUpper[wu]) _spellingMapUpper[wu] = [];
+            pair.forEach((v, j) => { if (i !== j && _spellingMapUpper[wu].indexOf(v.toUpperCase()) === -1) _spellingMapUpper[wu].push(v.toUpperCase()); });
+          });
+          pair.forEach((w, i) => {
+            const ws = w.toUpperCase() + 'S';
+            if (!_spellingMapUpper[ws]) _spellingMapUpper[ws] = [];
+            pair.forEach((v, j) => { if (i !== j && _spellingMapUpper[ws].indexOf(v.toUpperCase() + 'S') === -1) _spellingMapUpper[ws].push(v.toUpperCase() + 'S'); });
+          });
+        });
+        function getSpellingVariantsUpper(word) {
+          if (!word) return [];
+          return _spellingMapUpper[word.toUpperCase()] || [];
+        }
+
+        function scoreListening() {
+            const data = state.moduleData.listening;
+            if (!data?.parts) return;
+
+            // --- Normalisation helpers (match standalone listening page) ---
+            function normL(s) {
+                if (!s && s !== 0) return '';
+                let t = String(s).trim().toUpperCase();
+                t = t.replace(/[\u2018\u2019\u201C\u201D]/g, '');
+                t = t.replace(/[^A-Z0-9\s\-]/g, '');
+                t = t.replace(/\s+/g, ' ');
+                t = t.replace(/\b(\d+)\s*(?:ST|ND|RD|TH)\b/g, '$1');
+                t = t.trim();
+                return t;
+            }
+            const moL = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+            function cdL(n) { const p = n.split(' '); if (p.length === 2) { let hM = -1, hN = -1; for (let i = 0; i < 2; i++) { if (moL.indexOf(p[i]) !== -1) hM = i; if (/^\d+$/.test(p[i])) hN = i; } if (hM !== -1 && hN !== -1) return p[hN] + ' ' + p[hM]; } return null; }
+            const nwL = { '0': 'ZERO', '1': 'ONE', '2': 'TWO', '3': 'THREE', '4': 'FOUR', '5': 'FIVE', '6': 'SIX', '7': 'SEVEN', '8': 'EIGHT', '9': 'NINE', '10': 'TEN', '11': 'ELEVEN', '12': 'TWELVE', '13': 'THIRTEEN', '14': 'FOURTEEN', '15': 'FIFTEEN', '16': 'SIXTEEN', '17': 'SEVENTEEN', '18': 'EIGHTEEN', '19': 'NINETEEN', '20': 'TWENTY' };
+            const owL = { 'FIRST': '1', 'SECOND': '2', 'THIRD': '3', 'FOURTH': '4', 'FIFTH': '5', 'SIXTH': '6', 'SEVENTH': '7', 'EIGHTH': '8', 'NINTH': '9', 'TENTH': '10', 'ELEVENTH': '11', 'TWELFTH': '12', 'THIRTEENTH': '13', 'FOURTEENTH': '14', 'FIFTEENTH': '15', 'SIXTEENTH': '16', 'SEVENTEENTH': '17', 'EIGHTEENTH': '18', 'NINETEENTH': '19', 'TWENTIETH': '20' };
+            function eqL(a) {
+                const x = normL(a), res = [x];
+                const cd = cdL(x); if (cd && res.indexOf(cd) === -1) res.push(cd);
+                const d = x.match(/^\d+$/); if (d) { const w = nwL[d[0]]; if (w && res.indexOf(w) === -1) res.push(w); }
+                for (const k in nwL) { if (nwL[k] === x && res.indexOf(k) === -1) res.push(k); }
+                if (owL[x] && res.indexOf(owL[x]) === -1) res.push(owL[x]);
+                for (const o in owL) { if (owL[o] === x && res.indexOf(o) === -1) res.push(o); }
+                const sv = getSpellingVariantsUpper(x);
+                for (let si = 0; si < sv.length; si++) { if (res.indexOf(sv[si]) === -1) res.push(sv[si]); }
+                return res;
+            }
+            function isEqL(u, c) { const ue = eqL(u), ce = eqL(c); return ue.some(v => ce.indexOf(v) !== -1); }
+            // --- End normalisation helpers ---
+
+            let correct = 0, total = 0;
+            data.parts.forEach((part, pIdx) => {
+                const answers = part.answers || {};
+
+                // Collect all question IDs from this part
+                let questionIds = [];
+
+                // From formContent (gap-fill)
+                if (part.formContent) {
+                    questionIds.push(...getGapIdsFromFormContent(part.formContent));
+                }
+
+                // From subParts (mixed sections)
+                if (part.subParts) {
+                    part.subParts.forEach(sub => {
+                        // Gap-fill form inside subParts
+                        if (sub.formContent) {
+                            questionIds.push(...getGapIdsFromFormContent(sub.formContent));
+                        }
+                        // Table completion inside subParts
+                        if (sub.rows) {
+                            sub.rows.forEach(row => {
+                                row.forEach(cell => {
+                                    if (typeof cell === 'object' && cell.gapId) {
+                                        questionIds.push(cell.gapId);
+                                    }
+                                });
+                            });
+                        }
+                        // MCQ extracts
+                        if (sub.extracts) {
+                            sub.extracts.forEach(ext => {
+                                ext.questions?.forEach(q => questionIds.push(q.id));
+                            });
+                        }
+                        if (sub.questions) {
+                            sub.questions.forEach(q => questionIds.push(q.id));
+                        }
+                        if (sub.speakers) {
+                            sub.speakers.forEach(sp => questionIds.push(sp.id));
+                        }
+                    });
+                }
+
+                // From simple questions array
+                if (part.questions) {
+                    part.questions.forEach(q => {
+                        if (q.id) questionIds.push(q.id);
+                    });
+                }
+
+                // Build set of merged-pair IDs for either-order scoring
+                const mergedPairs = [];
+                const mergedSet = new Set();
+                for (let mi = 0; mi < questionIds.length - 1; mi++) {
+                    const a = questionIds[mi], b = questionIds[mi + 1];
+                    const ca = answers[a], cb = answers[b];
+                    if (Array.isArray(ca) && Array.isArray(cb) && ca.length === cb.length &&
+                        ca.every((v, vi) => v === cb[vi])) {
+                        mergedPairs.push([a, b]);
+                        mergedSet.add(a); mergedSet.add(b);
+                        mi++; // skip next
+                    }
+                }
+
+                // Score merged pairs (either order)
+                mergedPairs.forEach(([id1, id2]) => {
+                    const key1 = `L-${pIdx}-${id1}`;
+                    const key2 = `L-${pIdx}-${id2}`;
+                    const u1 = (state.answers.listening[key1] || '').toString();
+                    const u2 = (state.answers.listening[key2] || '').toString();
+                    const correctArr = (answers[id1] || []);
+                    total += 2;
+                    if (normL(u1) && correctArr.some(a => isEqL(u1, a.toString()))) correct++;
+                    if (normL(u2) && correctArr.some(a => isEqL(u2, a.toString()))) correct++;
+                });
+
+                // Score remaining (non-merged) questions
+                questionIds.forEach(qId => {
+                    if (mergedSet.has(qId)) return;
+                    const stateKey = `L-${pIdx}-${qId}`;
+                    const userAns = (state.answers.listening[stateKey] || '').toString();
+                    let correctAns = answers[qId];
+
+                    total++;
+
+                    if (Array.isArray(correctAns)) {
+                        if (correctAns.some(a => isEqL(userAns, a.toString()))) correct++;
+                    } else if (correctAns) {
+                        if (isEqL(userAns, correctAns.toString())) correct++;
+                    }
+                });
+            });
+
+            state.scores.listening = { c: correct, t: total || 40 };
+            state.scaledScores.l = rawToBand(correct, total || 40);
+        }
+
+        function scoreReading() {
+            const data = state.moduleData.reading;
+            if (!data?.passages) return;
+
+            // --- Normalisation helpers (match standalone reading page) ---
+            function normalizeForCompare(s) {
+                if (!s && s !== 0) return '';
+                let t = String(s).trim().toUpperCase();
+                t = t.replace(/[\u2018\u2019\u201C\u201D]/g, '');
+                t = t.replace(/[^A-Z0-9\s\-]/g, '');
+                t = t.replace(/\s+/g, ' ');
+                t = t.replace(/\b(\d+)\s*(?:ST|ND|RD|TH)\b/g, '$1');
+                t = t.trim();
+                return t;
+            }
+            const monthNames = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+            function canonicalDate(norm) {
+                const parts = norm.split(' ');
+                if (parts.length === 2) {
+                    let hM = -1, hN = -1;
+                    for (let pi = 0; pi < 2; pi++) {
+                        if (monthNames.indexOf(parts[pi]) !== -1) hM = pi;
+                        if (/^\d+$/.test(parts[pi])) hN = pi;
+                    }
+                    if (hM !== -1 && hN !== -1) return parts[hN] + ' ' + parts[hM];
+                }
+                return null;
+            }
+            const numberWords = {
+                '0': 'ZERO', '1': 'ONE', '2': 'TWO', '3': 'THREE', '4': 'FOUR', '5': 'FIVE', '6': 'SIX', '7': 'SEVEN', '8': 'EIGHT', '9': 'NINE', '10': 'TEN',
+                '11': 'ELEVEN', '12': 'TWELVE', '13': 'THIRTEEN', '14': 'FOURTEEN', '15': 'FIFTEEN', '16': 'SIXTEEN', '17': 'SEVENTEEN', '18': 'EIGHTEEN', '19': 'NINETEEN', '20': 'TWENTY'
+            };
+            const ordinalWords = {
+                'FIRST': '1', 'SECOND': '2', 'THIRD': '3', 'FOURTH': '4', 'FIFTH': '5', 'SIXTH': '6', 'SEVENTH': '7', 'EIGHTH': '8', 'NINTH': '9', 'TENTH': '10',
+                'ELEVENTH': '11', 'TWELFTH': '12', 'THIRTEENTH': '13', 'FOURTEENTH': '14', 'FIFTEENTH': '15', 'SIXTEENTH': '16', 'SEVENTEENTH': '17', 'EIGHTEENTH': '18', 'NINETEENTH': '19', 'TWENTIETH': '20'
+            };
+            function equivalents(a) {
+                const x = normalizeForCompare(a);
+                const res = [x];
+                const cd = canonicalDate(x);
+                if (cd && res.indexOf(cd) === -1) res.push(cd);
+                const digits = x.match(/^\d+$/);
+                if (digits) { const w = numberWords[digits[0]]; if (w && res.indexOf(w) === -1) res.push(w); }
+                for (const k in numberWords) { if (numberWords[k] === x && res.indexOf(k) === -1) res.push(k); }
+                if (ordinalWords[x] && res.indexOf(ordinalWords[x]) === -1) res.push(ordinalWords[x]);
+                for (const ow in ordinalWords) { if (ordinalWords[ow] === x && res.indexOf(ow) === -1) res.push(ow); }
+                const sv = getSpellingVariantsUpper(x);
+                for (let si = 0; si < sv.length; si++) { if (res.indexOf(sv[si]) === -1) res.push(sv[si]); }
+                return res;
+            }
+            function isEquivalent(userStr, correctStr) {
+                const uEq = equivalents(userStr);
+                const cEq = equivalents(correctStr);
+                return uEq.some(v => cEq.indexOf(v) !== -1);
+            }
+            // --- End normalisation helpers ---
+
+            let correct = 0, total = 0;
+            data.passages.forEach((passage, pIdx) => {
+                const correctAnswers = passage.correctAnswers || {};
+
+                passage.questionSections?.forEach((sec, secIdx) => {
+                    const rqs = sec.questions || [];
+                    // Detect merged pairs for either-order scoring
+                    const rMergedPairs = [];
+                    const rMergedSet = new Set();
+                    for (let mi = 0; mi < rqs.length - 1; mi++) {
+                        const a = rqs[mi], b = rqs[mi + 1];
+                        if (a.options && b.options && a.options.length === b.options.length &&
+                            a.options.every((o, oi) => o === b.options[oi])) {
+                            rMergedPairs.push([mi, mi + 1]);
+                            rMergedSet.add(mi); rMergedSet.add(mi + 1);
+                            mi++;
+                        }
+                    }
+
+                    // Score merged pairs (either order)
+                    rMergedPairs.forEach(([idx1, idx2]) => {
+                        const q1 = rqs[idx1], q2 = rqs[idx2];
+                        const qNum1 = q1.id || q1.number || (idx1 + 1);
+                        const qNum2 = q2.id || q2.number || (idx2 + 1);
+                        const qId1 = `R-${pIdx}-${secIdx}-${qNum1}`;
+                        const qId2 = `R-${pIdx}-${secIdx}-${qNum2}`;
+                        const u1 = normalizeForCompare(state.answers.reading[qId1] || '');
+                        const u2 = normalizeForCompare(state.answers.reading[qId2] || '');
+                        const ca1 = correctAnswers['q' + qNum1] || correctAnswers[qNum1] || [];
+                        const correctArr = (Array.isArray(ca1) ? ca1 : [ca1]).map(v => normalizeForCompare(v));
+                        total += 2;
+                        if (u1 && correctArr.indexOf(u1) !== -1) correct++;
+                        if (u2 && correctArr.indexOf(u2) !== -1) correct++;
+                    });
+
+                    // Score remaining (non-merged) questions
+                    rqs.forEach((q, i) => {
+                        if (rMergedSet.has(i)) return;
+                        const qNum = q.id || q.number || (i + 1);
+                        const qId = `R-${pIdx}-${secIdx}-${qNum}`;
+                        const userAns = (state.answers.reading[qId] || '').toString();
+
+                        const correctArr = correctAnswers['q' + qNum] || correctAnswers[qNum] || [];
+                        const correctVals = Array.isArray(correctArr) ? correctArr : [correctArr];
+
+                        total++;
+                        const userNorm = normalizeForCompare(userAns);
+                        if (userNorm && correctVals.some(cv => isEquivalent(userAns, cv.toString()))) {
+                            correct++;
+                        }
+                    });
+                });
+            });
+
+            state.scores.reading = { c: correct, t: total || 40 };
+            state.scaledScores.r = rawToBand(correct, total || 40);
+        }
+
+        function rawToBand(correct, total) {
+            const pct = (correct / total) * 100;
+            if (pct >= 95) return 9;
+            if (pct >= 87.5) return 8.5;
+            if (pct >= 80) return 8;
+            if (pct >= 72.5) return 7.5;
+            if (pct >= 65) return 7;
+            if (pct >= 57.5) return 6.5;
+            if (pct >= 50) return 6;
+            if (pct >= 42.5) return 5.5;
+            if (pct >= 35) return 5;
+            if (pct >= 27.5) return 4.5;
+            if (pct >= 20) return 4;
+            if (pct >= 15) return 3.5;
+            if (pct >= 10) return 3;
+            return 2.5;
+        }
+
+        // ===== AI GRADING =====
+        let GEMINI_KEY = null;
+        async function getGeminiKey() {
+          try {
+            const response = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            GEMINI_KEY = data.key;
+          } catch (e) {
+            console.error('Failed to fetch Gemini key:', e);
+          }
+        }
+
+        // Supabase scoring prompt loader
+        var _scoringPromptsCache = null;
+        var _scoringPromptsCacheTime = 0;
+        async function _loadScoringPrompts() {
+          if (_scoringPromptsCache && Date.now() - _scoringPromptsCacheTime < 300000) return _scoringPromptsCache;
+          try {
+            var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=like.scoring_*&select=key,value', {
+              headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+            });
+            if (!r.ok) throw new Error(r.status);
+            var rows = await r.json();
+            _scoringPromptsCache = {};
+            rows.forEach(function(x) { _scoringPromptsCache[x.key] = x.value; });
+            _scoringPromptsCacheTime = Date.now();
+          } catch(e) { console.warn('[ScoringPrompts] load failed:', e.message); }
+          return _scoringPromptsCache || {};
+        }
+
+        var _OPENAI_KEY = null;
+        var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+        async function _fetchProviderKey(m) {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+          if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+        }
+
+        async function _callScoringAI(systemText, userPrompt, opts) {
+          var cp = await _loadScoringPrompts();
+          var provider = cp['scoring_ai_provider'] || 'gemini';
+          if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+          opts = opts || {};
+          if (provider === 'openai') {
+            if (!_OPENAI_KEY) {
+              var kr = await fetch('https://davirbek.alwaysdata.net/key', { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+              var kd = await kr.json();
+              _OPENAI_KEY = kd.key;
+            }
+            if (!_OPENAI_KEY) throw new Error('No OpenAI API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            messages.push({ role: 'user', content: userPrompt });
+            var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _OPENAI_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'claude') {
+            if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+            if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+            var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+            if (systemText) cBody.system = systemText;
+            if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+            var r = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+              body: JSON.stringify(cBody)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.content[0].text;
+          } else if (provider === 'grok') {
+            if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+            if (!_GROK_KEY) throw new Error('No Grok API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            messages.push({ role: 'user', content: userPrompt });
+            var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.x.ai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'deepseek') {
+            if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+            if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            messages.push({ role: 'user', content: userPrompt });
+            var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.deepseek.com/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else {
+            if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+            if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+            var gBody = {
+              contents: [{ parts: [{ text: userPrompt }] }],
+              generationConfig: { temperature: opts.temperature || 0.3 }
+            };
+            if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+            if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+            if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+            var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(gBody)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+            return j.candidates[0].content.parts[0].text;
+          }
+        }
+
+        async function gradeWritingWithAI() {
+            const data = state.moduleData.writing;
+            if (!data?.tasks) {
+                state.aiFailed.writing = true;
+                state.aiError.writing = 'No writing data available.';
+                return { band: 5, feedback: 'Unable to grade.' };
+            }
+
+            let prompt = `You are a STRICT but FAIR expert IELTS Writing examiner. Grade the following IELTS Writing responses using the official IELTS band descriptors (Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy).
+
+рџ§‘вЂЌрџЏ« SCORING PHILOSOPHY:
+- Score HONESTLY based on what you see. Each criterion MUST be scored INDEPENDENTLY.
+- DIFFERENTIATE between criteria вЂ” it is extremely rare for all 4 scores to be identical. A student with good ideas but poor grammar should get higher TA/CC but lower GRA.
+- IGNORE minor slips: missing commas/full stops, accidental capitalization, spacing, obvious typos where meaning is clear.
+- PENALIZE: systematic grammar errors (subject-verb agreement, tense errors, article misuse), limited vocabulary range, poor task achievement, lack of coherence.
+- GRA CALIBRATION: Count the grammar errors. 5+ systematic errors in a task = max GRA 5.5. 3-4 systematic errors = max GRA 6.0. Only give GRA 6.5+ if grammar is mostly accurate with occasional errors.
+- LR CALIBRATION: Repetitive vocabulary or lack of less common words = max LR 5.5-6.0. Some less common items with occasional errors = 6.0-6.5.
+- TA CALIBRATION: Addresses all parts of the task clearly = 6.0-7.0. Partially addresses = 5.0-5.5.
+- CC CALIBRATION: Clear overall progression with some lapses = 6.0-6.5. Mechanical linking = 5.5.
+
+рџљ« ANTI-BOILERPLATE RULE:
+- Every feedback point MUST quote a SPECIFIC error from the student's text and show the CORRECTED version.
+- NEVER include generic advice like 'Improve article usage' or 'Vary sentence structure' without citing the exact sentence.
+- NEVER say 'Consider rephrasing' without showing the actual improved version.
+- Format: "wrong text" в†’ "correct text" (explanation).
+
+`;
+            // IELTS writing data stores tasks as object {task1:{...}, task2:{...}}, convert to array
+            const tasksArr = Array.isArray(data.tasks) ? data.tasks : Object.values(data.tasks);
+            tasksArr.forEach((task, i) => {
+                const wId = `W-${i}`;
+                const response = state.answers.writing[wId] || '[No response]';
+                prompt += `--- TASK ${i + 1} ---
+Prompt: ${task.prompt || task.question}
+Word Goal: ${task.wordGoal || (i === 0 ? 150 : 250)}
+Response:
+${response}
+
+`;
+            });
+
+            prompt += `
+Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria вЂ” identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 вЂ” NOT half bands):
+{
+  "task1": { "band": 5.75, "ta": 6, "cc": 6, "lr": 5, "gra": 6, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' в†’ 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
+  "task2": { "band": 5.75, "ta": 6, "cc": 6, "lr": 6, "gra": 5, "feedback": "MAX 3 bullet points in PLAIN ENGLISH. Format: 'exact wrong words' в†’ 'correction' (brief explanation). No annotation tags like [SPELL:]. Only flag words that are genuinely wrong." },
+  "overall": { "band": 6.0, "summary": "Overall summary with specific strengths and 1-2 key areas to improve" }
+}`;
+
+
+            try {
+                var _cpW = await _loadScoringPrompts();
+                var _sysW = _cpW['scoring_ielts_writing_full_system'] || '';
+                const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, jsonMode: true });
+                if (!txt) throw new Error('Empty response from AI');
+
+                // Sanitize control characters that break JSON.parse
+                const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
+                const match = cleanTxt.match(/\{[\s\S]*\}/);
+                if (match) {
+                    const parsed = JSON.parse(match[0]);
+
+                    // Validate that we got actual scores (not 0 or missing)
+                    const overallBand = parsed.overall?.band;
+                    if (typeof overallBand !== 'number' || overallBand < 1 || overallBand > 9) {
+                        throw new Error('AI returned invalid scores. Please retry.');
+                    }
+
+                    state.aiResults.writing = parsed;
+                    state.aiFailed.writing = false;
+                    state.aiError.writing = '';
+
+                    // FLAT-SCORE BREAKER for writing criteria
+                    function breakFlat(ta, cc, lr, gra) {
+                      ta = Math.round(ta || 5); cc = Math.round(cc || 5); lr = Math.round(lr || 5); gra = Math.round(gra || 5);
+                      if (ta === cc && cc === lr && lr === gra && ta > 1) {
+                        console.warn('[Flat-score breaker] All criteria identical (' + ta + '). Adjusting.');
+                        return { ta, cc, lr: Math.max(1, lr - 1), gra: Math.max(1, gra - 1) };
+                      }
+                      return { ta, cc, lr, gra };
+                    }
+                    if (parsed.task1) {
+                      const t1f = breakFlat(parsed.task1.ta, parsed.task1.cc, parsed.task1.lr, parsed.task1.gra);
+                      parsed.task1.ta = t1f.ta; parsed.task1.cc = t1f.cc; parsed.task1.lr = t1f.lr; parsed.task1.gra = t1f.gra;
+                      parsed.task1.band = Math.round(((t1f.ta + t1f.cc + t1f.lr + t1f.gra) / 4) * 2) / 2;
+                    }
+                    if (parsed.task2) {
+                      const t2f = breakFlat(parsed.task2.ta, parsed.task2.cc, parsed.task2.lr, parsed.task2.gra);
+                      parsed.task2.ta = t2f.ta; parsed.task2.cc = t2f.cc; parsed.task2.lr = t2f.lr; parsed.task2.gra = t2f.gra;
+                      parsed.task2.band = Math.round(((t2f.ta + t2f.cc + t2f.lr + t2f.gra) / 4) * 2) / 2;
+                    }
+
+                    const rawBand = parsed.overall?.band || 5;
+                    const _wBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    state.scaledScores.w = Math.min(9, rawBand + _wBoost);
+                    return parsed;
+                } else {
+                    throw new Error('Could not parse AI response');
+                }
+            } catch (e) {
+                console.error('AI Writing grade error:', e);
+                state.aiFailed.writing = true;
+                state.aiError.writing = e.message || 'Network error. Check your connection.';
+            }
+            state.scaledScores.w = 5;
+            return { overall: { band: 5, summary: 'Grading unavailable.' } };
+        }
+
+        async function gradeSpeakingWithAI() {
+            const data = state.moduleData.speaking;
+            if (!data) {
+                state.aiFailed.speaking = true;
+                state.aiError.speaking = 'No speaking data available.';
+                return { band: 6.5, feedback: 'Unable to grade.' };
+            }
+
+            // Collect speaking answers
+            let speakingResponses = [];
+            Object.keys(state.answers.speaking).forEach(key => {
+                const answer = state.answers.speaking[key];
+                if (answer) speakingResponses.push({ question: key, answer });
+            });
+
+            if (speakingResponses.length === 0) {
+                state.aiFailed.speaking = true;
+                state.aiError.speaking = 'No speaking responses found.';
+                state.scaledScores.s = 5;
+                return { band: 5, feedback: 'No responses to grade.' };
+            }
+
+            let prompt = `You are an IELTS Speaking examiner. Grade the following IELTS Speaking responses using the official IELTS band descriptors (Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation approximated from text).
+
+CRITICAL: Score each criterion INDEPENDENTLY вЂ” it is extremely rare for all 4 scores to be identical. A student may be fluent but have weak grammar, or have good vocabulary but poor coherence. DIFFERENTIATE the scores based on actual evidence.
+
+`;
+            speakingResponses.forEach((item, i) => {
+                prompt += `--- Response ${i + 1} (${item.question}) ---
+${item.answer}
+
+`;
+            });
+
+            prompt += `
+Provide your assessment in this exact JSON format (NOTE: scores MUST vary across criteria вЂ” identical scores across all 4 is almost never correct. CRITERION SCORES must be WHOLE NUMBERS like 5, 6, 7 вЂ” NOT half bands):
+{
+  "fluency": 7,
+  "lexical": 6,
+  "grammar": 5,
+  "pronunciation": 6,
+  "overall": { "band": 6.0, "summary": "Brief overall summary of speaking performance" }
+}`;
+
+            try {
+                var _cpS = await _loadScoringPrompts();
+                var _sysS = _cpS['scoring_ielts_speaking_full_system'] || '';
+                const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3 });
+                if (!txt) throw new Error('Empty response from AI');
+
+                // Sanitize control characters that break JSON.parse
+                const cleanTxt = txt.replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, ' ');
+                const match = cleanTxt.match(/\{[\s\S]*\}/);
+                if (match) {
+                    const parsed = JSON.parse(match[0]);
+
+                    // Validate that we got actual scores (not 0 or missing)
+                    const overallBand = parsed.overall?.band;
+                    if (typeof overallBand !== 'number' || overallBand < 1 || overallBand > 9) {
+                        throw new Error('AI returned invalid scores. Please retry.');
+                    }
+
+                    state.aiResults.speaking = parsed;
+                    state.aiFailed.speaking = false;
+                    state.aiError.speaking = '';
+                    const rawBand = parsed.overall?.band || 6.5;
+                    const _sBoost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
+                    state.scaledScores.s = Math.min(9, rawBand + _sBoost);
+                    return parsed;
+                } else {
+                    throw new Error('Could not parse AI response');
+                }
+            } catch (e) {
+                console.error('AI Speaking grade error:', e);
+                state.aiFailed.speaking = true;
+                state.aiError.speaking = e.message || 'Network error. Check your connection.';
+            }
+            state.scaledScores.s = 6.5;
+            return { overall: { band: 6.5, summary: 'Grading unavailable.' } };
+        }
+
+        // Retry functions for AI grading
+        async function retryWritingAI() {
+            const btn = document.getElementById('retryWritingBtn');
+            const section = document.getElementById('writingRetrySection');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'вЏі Retrying...';
+            }
+            try {
+                await gradeWritingWithAI();
+                if (!state.aiFailed.writing) {
+                    // Success - recalculate overall and re-render
+                    const { l, r, w, s } = state.scaledScores;
+                    const avg = (l + r + w + s) / 4;
+                    state.overall.band = Math.round(avg * 2) / 2;
+                    renderResultsUI();
+                } else {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = 'рџ”„ Retry Writing AI';
+                    }
+                    const errEl = document.getElementById('writingRetryError');
+                    if (errEl) errEl.textContent = state.aiError.writing;
+                }
+            } catch (e) {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = 'рџ”„ Retry Writing AI';
+                }
+            }
+        }
+
+        async function retrySpeakingAI() {
+            const btn = document.getElementById('retrySpeakingBtn');
+            const section = document.getElementById('speakingRetrySection');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'вЏі Retrying...';
+            }
+            try {
+                await gradeSpeakingWithAI();
+                if (!state.aiFailed.speaking) {
+                    // Success - recalculate overall and re-render
+                    const { l, r, w, s } = state.scaledScores;
+                    const avg = (l + r + w + s) / 4;
+                    state.overall.band = Math.round(avg * 2) / 2;
+                    renderResultsUI();
+                } else {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = 'рџ”„ Retry Speaking AI';
+                    }
+                    const errEl = document.getElementById('speakingRetryError');
+                    if (errEl) errEl.textContent = state.aiError.speaking;
+                }
+            } catch (e) {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = 'рџ”„ Retry Speaking AI';
+                }
+            }
+        }
+
+        // ===== RESULTS DISPLAY =====
+        async function showResults() {
+            // Clear session recovery when exam is fully complete
+            if (window.SessionRecovery) SessionRecovery.clear();
+            document.getElementById('break-overlay').style.display = 'none';
+            document.getElementById('app').style.display = 'none';
+            const resultsDiv = document.getElementById('results-overlay');
+            resultsDiv.style.display = 'flex';
+
+            if (state.isPremiumVip) {
+                // Center-level AI overrides for Full Mock
+                const _fmAi = (window._centerConfig && window._centerConfig.fullMockAi) || {};
+                const _canAiW = _fmAi.ielts_writing !== 'regular';
+                const _canAiS = _fmAi.ielts_speaking !== 'regular';
+                state._adminWritingAiOff = !_canAiW;
+                state._adminSpeakingAiOff = !_canAiS;
+
+                // Show loading only for premium (AI grading takes time)
+                const _loadParts = [];
+                if (_canAiW) _loadParts.push('Writing');
+                if (_canAiS) _loadParts.push('Speaking');
+                if (_loadParts.length) {
+                    document.getElementById('results-content').innerHTML = `
+                        <div style="text-align:center;padding:40px;">
+                            <div class="loader"></div>
+                            <p style="margin-top:20px;">AI is grading your ${_loadParts.join(' & ')}...</p>
+                        </div>
+                    `;
+                }
+
+                // PREMIUM: Grade writing and speaking with AI (respecting center controls)
+                if (_canAiW) {
+                    try {
+                        await gradeWritingWithAI();
+                    } catch (aiErr) {
+                        console.error('[Results] gradeWritingWithAI failed:', aiErr);
+                        state.scaledScores.w = 0;
+                    }
+                } else {
+                    state.scaledScores.w = 0;
+                }
+                if (_canAiS) {
+                    try {
+                        await gradeSpeakingWithAI();
+                    } catch (aiErr) {
+                        console.error('[Results] gradeSpeakingWithAI failed:', aiErr);
+                        state.scaledScores.s = 0;
+                    }
+                } else {
+                    state.scaledScores.s = 0;
+                }
+
+                // Calculate overall from skills that have AI scoring
+                const _avail = [state.scaledScores.l, state.scaledScores.r];
+                if (_canAiW) _avail.push(state.scaledScores.w);
+                if (_canAiS) _avail.push(state.scaledScores.s);
+                const avg = _avail.reduce((a, b) => a + b, 0) / _avail.length;
+                state.overall.band = Math.round(avg * 2) / 2; // Round to nearest 0.5
+
+                renderResultsUI();
+                // Send to Telegram (awaited like CEFR version)
+                await sendIeltsFullMockToTelegram();
+            } else {
+                // REGULAR: No AI scoring for writing/speaking - show premium badge
+                // L & R are already scored from finishMod()
+                state.scaledScores.w = 0;
+                state.scaledScores.s = 0;
+
+                // Calculate overall from L+R only
+                const { l, r } = state.scaledScores;
+                const avg = (l + r) / 2;
+                state.overall.band = Math.round(avg * 2) / 2;
+
+                renderResultsUI();
+                // Send to Telegram (awaited like CEFR version)
+                await sendIeltsFullMockToTelegram();
+            }
+        }
+
+        function renderResultsUI() {
+            const { l, r, w, s } = state.scaledScores;
+            const overall = state.overall.band;
+
+            let html = `
+                <div style="text-align:center;margin-bottom:24px;">
+                    <h2 style="color:var(--primary);margin-bottom:8px;">IELTS Full Mock Results</h2>
+                    <p style="color:#666;">${state.candidateName}</p>
+                </div>
+
+                <div class="overall-score" style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:32px;border-radius:20px;text-align:center;margin-bottom:24px;">
+                    <p style="font-size:14px;opacity:0.9;margin-bottom:8px;">Overall Band Score${(!state.isPremiumVip || state._adminWritingAiOff || state._adminSpeakingAiOff) ? ' (' + ['L','R',(!state._adminWritingAiOff && state.isPremiumVip ? 'W' : ''),(!state._adminSpeakingAiOff && state.isPremiumVip ? 'S' : '')].filter(Boolean).join('+') + ')' : ''}</p>
+                    <p style="font-size:64px;font-weight:bold;">${overall.toFixed(1)}</p>
+                    <p style="font-size:16px;opacity:0.9;">${getBandDesc(overall)}</p>
+                </div>
+
+                <div class="scores-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;">
+                    ${renderScoreCard('Listening', l, state.scores.listening)}
+                    ${renderScoreCard('Reading', r, state.scores.reading)}
+                    ${(state.isPremiumVip && !state._adminWritingAiOff) ? renderScoreCard('Writing', w, null) : state._adminWritingAiOff ? renderAdminRestrictedCard('Writing') : renderPremiumBadgeCard('Writing')}
+                    ${(state.isPremiumVip && !state._adminSpeakingAiOff) ? renderScoreCard('Speaking', s, null) : state._adminSpeakingAiOff ? renderAdminRestrictedCard('Speaking') : renderPremiumBadgeCard('Speaking')}
+                </div>
+            `;
+
+            if (state.isPremiumVip) {
+                // Writing feedback or retry section (only if AI was not admin-restricted)
+                if (!state._adminWritingAiOff) {
+                if (state.aiFailed.writing) {
+                    html += `
+                    <div id="writingRetrySection" style="background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:16px;margin-bottom:16px;">
+                        <h4 style="color:#dc2626;margin:0 0 12px;font-size:16px;">вљ пёЏ Writing AI Scoring Failed</h4>
+                        <p id="writingRetryError" style="color:#991b1b;font-size:13px;margin-bottom:12px;">${state.aiError.writing || 'Network error. Please check your connection.'}</p>
+                        <button id="retryWritingBtn" onclick="retryWritingAI()" style="padding:10px 24px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">рџ”„ Retry Writing AI</button>
+                    </div>`;
+                } else if (state.aiResults.writing) {
+                    const wr = state.aiResults.writing;
+                    html += `<div style="background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;padding:16px;margin-bottom:16px;">
+                        <h4 style="color:#166534;margin:0 0 12px;font-size:16px;">вњ… Writing Feedback</h4>
+                        <p style="line-height:1.6;color:#15803d;">${wr.overall?.summary || 'Grading complete.'}</p>
+                    </div>`;
+                }
+                }
+
+                // Speaking feedback or retry section (only if AI was not admin-restricted)
+                if (!state._adminSpeakingAiOff) {
+                if (state.aiFailed.speaking) {
+                    html += `
+                    <div id="speakingRetrySection" style="background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:16px;margin-bottom:24px;">
+                        <h4 style="color:#dc2626;margin:0 0 12px;font-size:16px;">вљ пёЏ Speaking AI Scoring Failed</h4>
+                        <p id="speakingRetryError" style="color:#991b1b;font-size:13px;margin-bottom:12px;">${state.aiError.speaking || 'Network error. Please check your connection.'}</p>
+                        <button id="retrySpeakingBtn" onclick="retrySpeakingAI()" style="padding:10px 24px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">рџ”„ Retry Speaking AI</button>
+                    </div>`;
+                } else if (state.aiResults.speaking) {
+                    const sp = state.aiResults.speaking;
+                    html += `<div style="background:#eff6ff;border:2px solid #3b82f6;border-radius:12px;padding:16px;margin-bottom:24px;">
+                        <h4 style="color:#1e40af;margin:0 0 12px;font-size:16px;">вњ… Speaking Feedback</h4>
+                        <p style="line-height:1.6;color:#1d4ed8;">${sp.overall?.summary || 'Grading complete.'}</p>
+                    </div>`;
+                }
+                }
+            }
+
+            html += `
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button class="start-btn" onclick="generateCertificate()" style="width:auto;padding:12px 24px;">
+                        рџ“„ Download Certificate
+                    </button>
+                    <button class="start-btn" onclick="showHomeConfirmModal()" style="width:auto;padding:12px 24px;background:#666;">
+                        в†ђ Back to Home
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('results-content').innerHTML = html;
+        }
+
+        function renderScoreCard(name, band, rawData) {
+            let details = '';
+            if (rawData) {
+                details = `<p style="font-size:12px;color:#666;">${rawData.c}/${rawData.t} correct</p>`;
+            }
+            return `
+                <div style="background:white;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color:#666;font-size:14px;margin-bottom:4px;">${name}</p>
+                    <p style="font-size:32px;font-weight:bold;color:var(--primary);">${band.toFixed(1)}</p>
+                    ${details}
+                </div>
+            `;
+        }
+
+        function renderPremiumBadgeCard(name) {
+            return `
+                <div style="background:white;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color:#666;font-size:14px;margin-bottom:8px;">${name}</p>
+                    <div style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;">
+                        <span>в­ђ</span> Premium Feature
+                    </div>
+                    <p style="font-size:10px;color:#999;margin-top:6px;">AI scoring requires Premium VIP code</p>
+                </div>
+            `;
+        }
+
+        function renderAdminRestrictedCard(name) {
+            return `
+                <div style="background:white;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color:#666;font-size:14px;margin-bottom:8px;">${name}</p>
+                    <div style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#64748b,#475569);color:white;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;">
+                        <span>рџ“Љ</span> Standard Mode
+                    </div>
+                    <p style="font-size:10px;color:#999;margin-top:6px;">AI Analysis managed by center admin</p>
+                </div>
+            `;
+        }
+
+        function getBandDesc(band) {
+            if (band >= 9) return 'Expert User';
+            if (band >= 8) return 'Very Good User';
+            if (band >= 7) return 'Good User';
+            if (band >= 6) return 'Competent User';
+            if (band >= 5) return 'Modest User';
+            if (band >= 4) return 'Limited User';
+            return 'Extremely Limited User';
+        }
+
+        // ===== CERTIFICATE GENERATION =====
+        function bandToCEFR(band) {
+            if (band >= 8.5) return 'C2';
+            if (band >= 7) return 'C1';
+            if (band >= 5.5) return 'B2';
+            if (band >= 4) return 'B1';
+            if (band >= 2.5) return 'A2';
+            return 'A1';
+        }
+
+        async function generateCertificate(returnBlob = false) {
+            const { l, r, w, s } = state.scaledScores;
+            const overall = state.overall.band;
+            const cefrLevel = bandToCEFR(overall);
+
+            try {
+                let certContainer = document.getElementById('ielts-cert-container');
+                if (!certContainer) {
+                    certContainer = document.createElement('div');
+                    certContainer.id = 'ielts-cert-container';
+                    certContainer.style.position = 'absolute';
+                    certContainer.style.left = '-9999px';
+                    certContainer.style.top = '0';
+                    document.body.appendChild(certContainer);
+                }
+
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '/').toUpperCase();
+                const refNum = state.referenceNumber || (Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6)).toUpperCase();
+                const candidateNum = String(Math.floor(100000 + Math.random() * 900000));
+                const formNum = `${String(now.getFullYear()).slice(-2)}UZ${candidateNum}XMSD${String(Math.floor(100 + Math.random() * 900))}A`;
+
+                const nameParts = state.candidateName.trim().split(/\s+/);
+                const surname = (nameParts[0] || '').toUpperCase();
+                const firstName = nameParts.slice(1).map(n => n.toUpperCase()).join(' ') || '';
+
+                const wScore = state.isPremiumVip ? w.toFixed(1) : 'N/A';
+                const sScore = state.isPremiumVip ? s.toFixed(1) : 'N/A';
+                const wFontSize = state.isPremiumVip ? '28px' : '16px';
+                const sFontSize = state.isPremiumVip ? '28px' : '16px';
+
+                certContainer.innerHTML = `
+                    <div id="ielts-cert-target" style="width:800px;min-height:1130px;background:white;position:relative;font-family:Arial,Helvetica,sans-serif;color:#000;box-sizing:border-box;padding:0;">
+
+                        <!-- IELTS Header Bar -->
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 40px 15px;border-bottom:3px solid #000;">
+                            <div style="font-size:48px;font-weight:900;letter-spacing:1px;font-family:Arial Black,Arial,sans-serif;">IELTS<span style="font-size:20px;vertical-align:super;">в„ў</span></div>
+                            <div style="text-align:right;">
+                                <div style="font-size:20px;font-weight:700;border:2px solid #000;padding:4px 20px;display:inline-block;">ACADEMIC</div>
+                            </div>
+                        </div>
+
+                        <!-- Test Report Form Title -->
+                        <div style="padding:8px 40px;display:flex;justify-content:space-between;align-items:center;">
+                            <div style="font-size:16px;font-weight:700;">Test Report Form</div>
+                            <div style="font-size:9px;color:#666;max-width:500px;line-height:1.4;">
+                                <strong>NOTE</strong> вЂ” This is a mock examination result and does not represent an official IELTS score.
+                                It is generated by ${(window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream'} for practice purposes only.
+                            </div>
+                        </div>
+
+                        <!-- Centre / Date / Candidate Number Row -->
+                        <div style="display:flex;padding:8px 40px;gap:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
+                            <div style="flex:1;display:flex;align-items:center;gap:8px;">
+                                <span style="font-size:11px;font-weight:700;white-space:nowrap;">Centre Number</span>
+                                <span style="font-size:13px;border:1px solid #999;padding:4px 16px;background:#f9f9f9;font-weight:600;">MS001</span>
+                            </div>
+                            <div style="flex:1;display:flex;align-items:center;gap:8px;justify-content:center;">
+                                <span style="font-size:11px;font-weight:700;">Date</span>
+                                <span style="font-size:13px;border:1px solid #999;padding:4px 16px;background:#f9f9f9;font-weight:600;">${dateStr}</span>
+                            </div>
+                            <div style="flex:1;display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+                                <span style="font-size:11px;font-weight:700;white-space:nowrap;">Candidate Number</span>
+                                <span style="font-size:13px;border:1px solid #999;padding:4px 16px;background:#f9f9f9;font-weight:600;">${candidateNum}</span>
+                            </div>
+                        </div>
+
+                        <!-- Candidate Details Section -->
+                        <div style="padding:15px 40px 10px;">
+                            <div style="font-size:14px;font-weight:800;margin-bottom:12px;">Candidate Details</div>
+                            <div style="display:flex;gap:25px;">
+                                <div style="flex:1;">
+                                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                                        <tr style="border-bottom:1px solid #ddd;">
+                                            <td style="padding:10px 8px;font-weight:700;width:140px;color:#333;">Family Name</td>
+                                            <td style="padding:10px 8px;font-weight:600;border:1px solid #ddd;border-top:0;border-bottom:1px solid #ddd;background:#fafafa;">${surname}</td>
+                                        </tr>
+                                        <tr style="border-bottom:1px solid #ddd;">
+                                            <td style="padding:10px 8px;font-weight:700;color:#333;">First Name(s)</td>
+                                            <td style="padding:10px 8px;font-weight:600;border:1px solid #ddd;border-top:0;border-bottom:1px solid #ddd;background:#fafafa;">${firstName}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:10px 8px;font-weight:700;color:#333;">Candidate ID</td>
+                                            <td style="padding:10px 8px;font-weight:600;border:1px solid #ddd;border-top:0;background:#fafafa;">${refNum}</td>
+                                        </tr>
+                                    </table>
+
+                                    <div style="margin-top:12px;border-top:2px solid #000;padding-top:10px;">
+                                        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                                            <tr style="border-bottom:1px solid #ddd;">
+                                                <td style="padding:8px;font-weight:700;width:140px;color:#333;">Date of Test</td>
+                                                <td style="padding:8px;font-weight:600;border:1px solid #ddd;background:#fafafa;">${dateStr}</td>
+                                                <td style="padding:8px;font-weight:700;color:#333;width:100px;text-align:center;">Scheme Code</td>
+                                                <td style="padding:8px;font-weight:600;border:1px solid #ddd;background:#fafafa;text-align:center;">Mock Candidate</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="width:130px;height:165px;border:2px solid #999;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">
+                                    ${state.candidatePhoto ?
+                        `<img src="${state.candidatePhoto}" style="width:100%;height:100%;object-fit:cover;">` :
+                        `<div style="text-align:center;color:#bbb;font-size:10px;font-weight:600;">CANDIDATE<br>PHOTO</div>`
+                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Test Results Section -->
+                        <div style="padding:15px 40px;border-top:2px solid #000;margin-top:10px;">
+                            <div style="font-size:14px;font-weight:800;margin-bottom:15px;">Test Results</div>
+                            <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;">
+                                <!-- Listening -->
+                                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:140px;">
+                                    <span style="font-size:13px;font-weight:700;">Listening</span>
+                                    <div style="width:50px;height:42px;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;">${l.toFixed(1)}</div>
+                                </div>
+                                <!-- Reading -->
+                                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:130px;">
+                                    <span style="font-size:13px;font-weight:700;">Reading</span>
+                                    <div style="width:50px;height:42px;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;">${r.toFixed(1)}</div>
+                                </div>
+                                <!-- Writing -->
+                                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:130px;">
+                                    <span style="font-size:13px;font-weight:700;">Writing</span>
+                                    <div style="width:50px;height:42px;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:${wFontSize};font-weight:900;">${wScore}</div>
+                                </div>
+                                <!-- Speaking -->
+                                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:130px;">
+                                    <span style="font-size:13px;font-weight:700;">Speaking</span>
+                                    <div style="width:50px;height:42px;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:${sFontSize};font-weight:900;">${sScore}</div>
+                                </div>
+                                <!-- Overall Band Score -->
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <div style="text-align:center;font-size:11px;font-weight:700;line-height:1.3;">Overall<br>Band<br>Score</div>
+                                    <div style="width:55px;height:48px;border:3px solid #000;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;">${overall.toFixed(1)}</div>
+                                </div>
+                                <!-- CEFR Level -->
+                                <div style="display:flex;align-items:center;gap:8px;margin-left:15px;">
+                                    <div style="text-align:center;font-size:11px;font-weight:700;line-height:1.3;">CEFR<br>Level</div>
+                                    <div style="width:45px;height:42px;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;">${cefrLevel}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Administrator Comments -->
+                        <div style="padding:15px 40px;border-top:2px solid #000;margin-top:10px;">
+                            <div style="font-size:12px;font-weight:800;margin-bottom:8px;">Administrator Comments</div>
+                            <div style="display:flex;gap:20px;align-items:flex-start;">
+                                <div style="flex:1;min-height:80px;border:1px solid #ccc;padding:10px;font-size:11px;color:#666;line-height:1.6;">
+                                    This is a mock test result generated by ${(window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream'} for IELTS preparation purposes.
+                                    ${!state.isPremiumVip ? 'Writing and Speaking scores are not available (Regular VIP entry вЂ” no AI scoring).' : ''}
+                                </div>
+                                <div style="text-align:center;">
+                                    <div style="font-size:10px;font-weight:600;color:#555;margin-bottom:8px;">Validation stamp</div>
+                                    <div style="width:100px;height:100px;border:2px solid #cc0000;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;">
+                                        <div style="font-size:28px;font-weight:900;color:#cc0000;font-family:Arial Black,sans-serif;">IELTS</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date / Form Number Row -->
+                        <div style="padding:15px 40px;border-top:2px solid #000;margin-top:10px;display:flex;justify-content:space-between;align-items:center;">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span style="font-size:12px;font-weight:700;">Date</span>
+                                <span style="font-size:13px;border:1px solid #999;padding:5px 20px;background:#fafafa;font-weight:600;">${dateStr}</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span style="font-size:11px;font-weight:700;white-space:nowrap;">Test Report<br>Form Number</span>
+                                <span style="font-size:13px;border:1px solid #999;padding:5px 20px;background:#fafafa;font-weight:600;">${formNum}</span>
+                            </div>
+                        </div>
+
+                        <!-- Footer Logos -->
+                        <div style="padding:20px 40px 25px;border-top:1px solid #ccc;margin-top:15px;display:flex;justify-content:center;align-items:center;gap:40px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+                                    <div style="width:10px;height:10px;border-radius:50%;background:#cc0000;"></div>
+                                    <div style="width:10px;height:10px;border-radius:50%;background:#00247d;"></div>
+                                    <div style="width:10px;height:10px;border-radius:50%;background:#cf142b;"></div>
+                                    <div style="width:10px;height:10px;border-radius:50%;background:#00247d;"></div>
+                                </div>
+                                <span style="font-size:13px;font-weight:800;color:#00247d;line-height:1.1;">BRITISH<br>COUNCIL</span>
+                            </div>
+                            <div style="font-size:24px;font-weight:900;color:#00247d;font-style:italic;font-family:Georgia,serif;">
+                                <span style="color:#cc0000;">:</span>idp
+                            </div>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <div style="width:28px;height:28px;background:#cc0000;border-radius:3px;display:flex;align-items:center;justify-content:center;">
+                                    <div style="width:18px;height:18px;border:2px solid white;border-radius:50%;"></div>
+                                </div>
+                                <span style="font-size:11px;font-weight:700;color:#333;line-height:1.2;">Cambridge<br>Assessment<br><span style="font-weight:800;">English</span></span>
+                            </div>
+                        </div>
+
+                        <!-- QR Code -->
+                        <div style="text-align:center;padding-bottom:20px;">
+                            <div id="ielts-cert-qrcode" style="width:80px;height:80px;margin:0 auto 5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;"></div>
+                            <div style="font-size:8px;color:#999;font-weight:600;">${(window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream'}</div>
+                        </div>
+                    </div>
+                `;
+
+                // Generate QR code
+                const qrEl = document.getElementById('ielts-cert-qrcode');
+                qrEl.innerHTML = '';
+                await new Promise(r => setTimeout(r, 100));
+
+                new QRCode(qrEl, {
+                    text: (window.SITE_CONFIG && window.SITE_CONFIG.telegramUrl) || 'https://t.me/mock_stream',
+                    width: 72, height: 72,
+                    colorDark: "#000000", colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                await new Promise(r => setTimeout(r, 2000));
+
+                const canvas = await html2canvas(document.getElementById('ielts-cert-target'), {
+                    scale: 2, useCORS: true, logging: false,
+                    backgroundColor: '#ffffff', allowTaint: true
+                });
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                if (returnBlob) {
+                    return pdf.output('blob');
+                } else {
+                    pdf.save(`IELTS_TRF_${state.candidateName.replace(/\s+/g, '_')}.pdf`);
+                }
+            } catch (err) {
+                console.error('[Certificate] Generation Error:', err);
+                if (returnBlob) return null;
+                throw err;
+            }
+        }
+
+        // ===== TELEGRAM SUBMISSION =====
+        let ieltsTelegramSent = false;
+
+        // Listening Report HTML
+        function ieltsGenerateListeningReportHTML(name, date, time) {
+            const sl = state.scores.listening;
+            const data = state.moduleData.listening;
+            const pct = sl.t > 0 ? Math.round((sl.c / sl.t) * 100) : 0;
+            const wrong = sl.t - sl.c;
+            const band = state.scaledScores.l ? state.scaledScores.l.toFixed(1) : 'вЂ”';
+
+            // Simplified matching for display (score already computed accurately)
+            function matchAns(userStr, correctVal) {
+                if (!userStr) return false;
+                var ua = String(userStr).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                var arr = Array.isArray(correctVal) ? correctVal : [correctVal];
+                return arr.some(function(c) {
+                    var cv = String(c).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                    if (ua === cv) return true;
+                    try { var sv = getSpellingVariantsUpper(ua); if (sv.indexOf(cv) !== -1) return true; } catch(e) {}
+                    try { var cv2 = getSpellingVariantsUpper(cv); if (cv2.indexOf(ua) !== -1) return true; } catch(e) {}
+                    return false;
+                });
+            }
+
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+
+            if (data && data.parts) {
+                data.parts.forEach((part, pIdx) => {
+                    const answers = part.answers || {};
+                    let questionIds = [];
+
+                    if (part.formContent) questionIds.push(...getGapIdsFromFormContent(part.formContent));
+                    if (part.subParts) part.subParts.forEach(sub => {
+                        if (sub.formContent) questionIds.push(...getGapIdsFromFormContent(sub.formContent));
+                        if (sub.rows) sub.rows.forEach(row => row.forEach(cell => { if (typeof cell === 'object' && cell.gapId) questionIds.push(cell.gapId); }));
+                        if (sub.extracts) sub.extracts.forEach(ext => { if (ext.questions) ext.questions.forEach(q => questionIds.push(q.id)); });
+                        if (sub.questions) sub.questions.forEach(q => questionIds.push(q.id));
+                        if (sub.speakers) sub.speakers.forEach(sp => questionIds.push(sp.id));
+                    });
+                    if (part.questions) part.questions.forEach(q => { if (q.id) questionIds.push(q.id); });
+
+                    let pc = 0, pt = 0;
+                    questionIds.forEach(qId => {
+                        pt++;
+                        const stateKey = 'L-' + pIdx + '-' + qId;
+                        const userAns = (state.answers.listening[stateKey] || '').toString().trim();
+                        const correctVal = answers[qId];
+                        const isCorrect = matchAns(userAns, correctVal);
+                        if (isCorrect) pc++;
+
+                        const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : (correctVal || '');
+                        const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                        const statusIcon = !userAns ? 'вЂ”' : isCorrect ? 'вњ“' : 'вњ—';
+                        const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+
+                        answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qId + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">вЂ”</span>') + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                            '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td></tr>';
+
+                        detailsHTML += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                            '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qId + '</span>' +
+                            '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? 'вњ“ Correct' : 'вњ— Wrong') + '</span></div>' +
+                            '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                            '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                            (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                            '</div></div>';
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + (part.title || 'Section ' + (pIdx + 1)) + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#dc2626;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+                });
+            }
+
+            return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Listening Report - ' + name + '</title>' +
+'<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;color:#1e293b;}' +
+'.header{background:linear-gradient(135deg,#dc2626,#991b1b);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}' +
+'.header h1{margin:0 0 10px;font-size:28px;}' +
+'details{margin-bottom:16px;}details>summary{cursor:pointer;user-select:none;font-weight:700;font-size:16px;padding:14px 18px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);list-style:none;}' +
+'details>summary::-webkit-details-marker{display:none;}details[open]>summary{border-radius:12px 12px 0 0;}' +
+'details>.content{background:white;padding:16px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}' +
+'@media print{.no-print{display:none !important;}}</style></head><body>' +
+'<div class="header"><h1>рџЋ§ IELTS Listening Report</h1><p>' + name + ' | ' + date + ' ' + time + '</p></div>' +
+'<div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">' +
+'<div style="font-size:48px;font-weight:800;color:#dc2626;">' + sl.c + ' / ' + sl.t + '</div>' +
+'<div style="font-size:16px;color:#64748b;margin:4px 0 8px;">Score: ' + pct + '%</div>' +
+'<div style="font-size:28px;font-weight:800;color:#dc2626;">Band ' + band + '</div></div>' +
+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">' +
+'<div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;"><div style="font-size:24px;font-weight:800;color:#16a34a;">' + sl.c + '</div><div style="font-size:12px;color:#16a34a;font-weight:600;">вњ“ Correct</div></div>' +
+'<div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;"><div style="font-size:24px;font-weight:800;color:#dc2626;">' + wrong + '</div><div style="font-size:12px;color:#dc2626;font-weight:600;">вњ— Incorrect</div></div>' +
+'<div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;"><div style="font-size:24px;font-weight:800;color:#0284c7;">' + sl.t + '</div><div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div></div></div>' +
+(partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : '') +
+'<details><summary>рџ“‹ Answer Summary</summary><div class="content">' +
+'<table style="width:100%;border-collapse:collapse;"><tr style="background:#f1f5f9;">' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>' +
+'<th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th></tr>' +
+answerRowsHTML + '</table></div></details>' +
+'<details><summary>рџ“ќ Detailed Questions & Answers</summary><div class="content">' + detailsHTML + '</div></details>' +
+'<div style="text-align:center;margin-top:24px;" class="no-print">' +
+'<button onclick="window.print()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">рџ“„ Save as PDF</button></div></body></html>';
+        }
+
+        // Reading Report HTML
+        function ieltsGenerateReadingReportHTML(name, date, time) {
+            const sr = state.scores.reading;
+            const data = state.moduleData.reading;
+            const pct = sr.t > 0 ? Math.round((sr.c / sr.t) * 100) : 0;
+            const wrong = sr.t - sr.c;
+            const band = state.scaledScores.r ? state.scaledScores.r.toFixed(1) : 'вЂ”';
+
+            function matchAns(userStr, correctVal) {
+                if (!userStr) return false;
+                var ua = String(userStr).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                var arr = Array.isArray(correctVal) ? correctVal : [correctVal];
+                return arr.some(function(c) {
+                    var cv = String(c).trim().toUpperCase().replace(/[\u2018\u2019\u201C\u201D]/g, '').replace(/[^A-Z0-9\\s\\-]/g, '').replace(/\\s+/g, ' ').trim();
+                    if (ua === cv) return true;
+                    try { var sv = getSpellingVariantsUpper(ua); if (sv.indexOf(cv) !== -1) return true; } catch(e) {}
+                    try { var cv2 = getSpellingVariantsUpper(cv); if (cv2.indexOf(ua) !== -1) return true; } catch(e) {}
+                    return false;
+                });
+            }
+
+            let partResultsHTML = '';
+            let answerRowsHTML = '';
+            let detailsHTML = '';
+
+            if (data && data.passages) {
+                data.passages.forEach((passage, pIdx) => {
+                    const correctAnswers = passage.correctAnswers || {};
+                    let pc = 0, pt = 0;
+                    let passageDetails = '';
+
+                    (passage.questionSections || []).forEach((sec, secIdx) => {
+                        const rqs = sec.questions || [];
+                        rqs.forEach((q, i) => {
+                            pt++;
+                            const qNum = q.id || q.number || (i + 1);
+                            const qId = 'R-' + pIdx + '-' + secIdx + '-' + qNum;
+                            const userAns = (state.answers.reading[qId] || '').toString().trim();
+                            const correctVal = correctAnswers['q' + qNum] || correctAnswers[qNum] || '';
+                            const isCorrect = matchAns(userAns, correctVal);
+                            if (isCorrect) pc++;
+
+                            const correctDisplay = Array.isArray(correctVal) ? correctVal.join(' / ') : (correctVal || '');
+                            const rowColor = !userAns ? '#f9fafb' : isCorrect ? '#f0fdf4' : '#fef2f2';
+                            const statusIcon = !userAns ? 'вЂ”' : isCorrect ? 'вњ“' : 'вњ—';
+                            const statusColor = !userAns ? '#9ca3af' : isCorrect ? '#16a34a' : '#dc2626';
+
+                            answerRowsHTML += '<tr style="background:' + rowColor + ';">' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:600;">' + qNum + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">' + (userAns || '<span style="color:#9ca3af;">вЂ”</span>') + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;color:#16a34a;font-weight:600;">' + correctDisplay + '</td>' +
+                                '<td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;color:' + statusColor + ';font-weight:700;">' + statusIcon + '</td></tr>';
+
+                            let questionText = q.text || q.statement || q.question || q.prompt || '';
+                            passageDetails += '<div style="background:white;border:1px solid ' + (isCorrect ? '#86efac' : '#fecaca') + ';border-radius:8px;padding:10px 12px;margin-bottom:6px;">' +
+                                '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
+                                '<span style="background:' + (isCorrect ? '#dcfce7' : '#fee2e2') + ';color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;">Q' + qNum + '</span>' +
+                                '<span style="color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';font-weight:600;font-size:13px;">' + (isCorrect ? 'вњ“ Correct' : 'вњ— Wrong') + '</span></div>' +
+                                (questionText ? '<div style="color:#374151;font-size:13px;line-height:1.5;margin-bottom:6px;padding:6px 8px;background:#f8fafc;border-radius:6px;border-left:3px solid #cbd5e1;">' + questionText + '</div>' : '') +
+                                '<div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;">' +
+                                '<div><span style="color:#6b7280;">Your answer:</span> <span style="font-weight:600;color:' + (isCorrect ? '#16a34a' : '#dc2626') + ';">' + (userAns || '(Empty)') + '</span></div>' +
+                                (!isCorrect ? '<div><span style="color:#6b7280;">Correct:</span> <span style="font-weight:600;color:#16a34a;">' + correctDisplay + '</span></div>' : '') +
+                                '</div></div>';
+                        });
+                    });
+
+                    const partPct = pt > 0 ? Math.round((pc / pt) * 100) : 0;
+                    const passageTitle = passage.title || 'Passage ' + (pIdx + 1);
+                    partResultsHTML += '<div style="background:white;padding:14px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);">' +
+                        '<div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:4px;">' + passageTitle + '</div>' +
+                        '<div style="font-size:22px;font-weight:800;color:#2563eb;">' + pc + '/' + pt + '</div>' +
+                        '<div style="font-size:11px;color:#94a3b8;">' + partPct + '%</div></div>';
+
+                    detailsHTML += '<div style="margin-bottom:16px;"><div style="background:#2563eb15;padding:10px 14px;border-radius:8px 8px 0 0;border:1px solid #e2e8f0;border-bottom:none;">' +
+                        '<span style="font-weight:700;color:#2563eb;">' + passageTitle + '</span></div>' +
+                        '<div style="border:1px solid #e2e8f0;border-radius:0 0 8px 8px;padding:10px;">' + passageDetails + '</div></div>';
+                });
+            }
+
+            return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Reading Report - ' + name + '</title>' +
+'<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;color:#1e293b;}' +
+'.header{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}' +
+'.header h1{margin:0 0 10px;font-size:28px;}' +
+'details{margin-bottom:16px;}details>summary{cursor:pointer;user-select:none;font-weight:700;font-size:16px;padding:14px 18px;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);list-style:none;}' +
+'details>summary::-webkit-details-marker{display:none;}details[open]>summary{border-radius:12px 12px 0 0;}' +
+'details>.content{background:white;padding:16px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}' +
+'@media print{.no-print{display:none !important;}}</style></head><body>' +
+'<div class="header"><h1>рџ“– IELTS Reading Report</h1><p>' + name + ' | ' + date + ' ' + time + '</p></div>' +
+'<div style="background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:20px;">' +
+'<div style="font-size:48px;font-weight:800;color:#2563eb;">' + sr.c + ' / ' + sr.t + '</div>' +
+'<div style="font-size:16px;color:#64748b;margin:4px 0 8px;">Score: ' + pct + '%</div>' +
+'<div style="font-size:28px;font-weight:800;color:#2563eb;">Band ' + band + '</div></div>' +
+'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">' +
+'<div style="background:#f0fdf4;padding:14px;border-radius:10px;text-align:center;border:1px solid #bbf7d0;"><div style="font-size:24px;font-weight:800;color:#16a34a;">' + sr.c + '</div><div style="font-size:12px;color:#16a34a;font-weight:600;">вњ“ Correct</div></div>' +
+'<div style="background:#fef2f2;padding:14px;border-radius:10px;text-align:center;border:1px solid #fecaca;"><div style="font-size:24px;font-weight:800;color:#dc2626;">' + wrong + '</div><div style="font-size:12px;color:#dc2626;font-weight:600;">вњ— Incorrect</div></div>' +
+'<div style="background:#f0f9ff;padding:14px;border-radius:10px;text-align:center;border:1px solid #bae6fd;"><div style="font-size:24px;font-weight:800;color:#0284c7;">' + sr.t + '</div><div style="font-size:12px;color:#0284c7;font-weight:600;">Total Questions</div></div></div>' +
+(partResultsHTML ? '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px;">' + partResultsHTML + '</div>' : '') +
+'<details><summary>рџ“‹ Answer Summary</summary><div class="content">' +
+'<table style="width:100%;border-collapse:collapse;"><tr style="background:#f1f5f9;">' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">#</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Your Answer</th>' +
+'<th style="padding:8px 12px;text-align:left;font-size:13px;border-bottom:2px solid #e2e8f0;">Correct Answer</th>' +
+'<th style="padding:8px 12px;text-align:center;font-size:13px;border-bottom:2px solid #e2e8f0;">Result</th></tr>' +
+answerRowsHTML + '</table></div></details>' +
+'<details><summary>рџ“ќ Detailed Questions & Answers</summary><div class="content">' + detailsHTML + '</div></details>' +
+'<div style="text-align:center;margin-top:24px;" class="no-print">' +
+'<button onclick="window.print()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">рџ“„ Save as PDF</button></div></body></html>';
+        }
+
+        // Writing Report HTML (works for both premium and regular)
+        function ieltsGenerateWritingReportHTML(name, date, time) {
+            const data = state.moduleData.writing;
+            const isPrem = state.isPremiumVip;
+            const aiResult = state.aiResults.writing;
+
+            let tasksHTML = '';
+            // IELTS writing data stores tasks as object {task1:{...}, task2:{...}}, convert to array
+            const tasksArr = data?.tasks ? (Array.isArray(data.tasks) ? data.tasks : Object.values(data.tasks)) : [];
+            if (tasksArr.length) {
+                tasksArr.forEach((task, i) => {
+                    const wId = `W-${i}`;
+                    const response = state.answers.writing[wId] || '[No response]';
+                    const wordCount = response.trim() ? response.trim().split(/\s+/).length : 0;
+                    const goal = task.wordGoal || (i === 0 ? 150 : 250);
+                    const taskLabel = i === 0 ? 'Task 1' : 'Task 2';
+                    const prompt = task.prompt || task.question || '';
+
+                    let aiSection = '';
+                    if (isPrem && aiResult) {
+                        const band = aiResult[`task${i + 1}_band`] || aiResult[`task${i + 1}`]?.band || '';
+                        const feedback = aiResult[`task${i + 1}_feedback`] || aiResult[`task${i + 1}`]?.feedback || '';
+                        if (band) aiSection += `<div style="background:#dcfce7;padding:12px;border-radius:8px;margin-top:12px;"><strong>Band:</strong> ${band}</div>`;
+                        if (feedback) aiSection += `<div style="background:#eff6ff;padding:12px;border-radius:8px;margin-top:8px;line-height:1.6;"><strong>Feedback:</strong> ${feedback}</div>`;
+                    }
+
+                    tasksHTML += `
+                    <div class="task-section">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h3 style="margin:0;color:#7c3aed;">${taskLabel}</h3>
+                            <span class="word-count ${wordCount >= goal ? 'ok' : wordCount >= goal - 20 ? 'warn' : 'under'}">${wordCount} words (goal: ${goal})</span>
+                        </div>
+                        ${prompt ? `<div class="prompt-box"><div style="font-weight:600;color:#7c3aed;font-size:13px;margin-bottom:6px;">рџ“‹ Task Prompt</div><div style="color:#374151;line-height:1.6;white-space:pre-wrap;">${prompt}</div></div>` : ''}
+                        <div class="response-box" contenteditable="false">${response.replace(/\n/g, '<br>')}</div>
+                        ${aiSection}
+                    </div>`;
+                });
+            }
+
+            const bandDisplay = isPrem && state.scaledScores.w ? `<div class="score">${state.scaledScores.w.toFixed(1)}</div><p>Band Score</p>` : `<div class="score" style="font-size:24px;">Candidate Work</div><p>Submitted for teacher review</p>`;
+
+            return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Writing Report - ${name}</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;}
+.header{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}
+.header h1{margin:0 0 10px;font-size:28px;}
+.score-card{background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:24px;}
+.score{font-size:48px;font-weight:800;color:#7c3aed;}
+.task-section{background:white;padding:20px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+.prompt-box{background:#ede9fe;padding:14px;border-radius:8px;margin-bottom:12px;border-left:4px solid #7c3aed;}
+.response-box{background:#f8fafc;padding:16px;border-radius:8px;white-space:pre-wrap;line-height:1.8;border:2px solid #e2e8f0;min-height:60px;cursor:text;user-select:text;}
+.response-box::selection{background:#fef08a;}
+.word-count{font-size:13px;padding:4px 10px;border-radius:6px;}
+.word-count.ok{background:#dcfce7;color:#16a34a;}.word-count.warn{background:#fef3c7;color:#d97706;}.word-count.under{background:#fee2e2;color:#dc2626;}
+/* Highlight functionality for teacher review */
+mark.hl-yellow{background-color:#fef08a !important;padding:1px 2px;border-radius:2px;}
+mark.hl-green{background-color:#bbf7d0 !important;padding:1px 2px;border-radius:2px;}
+mark.hl-red{background-color:#fecaca !important;padding:1px 2px;border-radius:2px;}
+.hl-toolbar{position:sticky;top:0;background:white;padding:12px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:16px;display:flex;gap:8px;align-items:center;z-index:10;flex-wrap:wrap;}
+.hl-btn{padding:6px 14px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;background:white;transition:all 0.2s;}
+.hl-btn:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.print-btn{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin:24px auto;}
+.print-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,0.4);}
+@media print{.hl-toolbar,.print-btn{display:none !important;}}
+</style></head><body>
+<div class="header"><h1>вњЌпёЏ IELTS Writing Report</h1><p>${name} | ${date} ${time}</p></div>
+<div class="score-card">${bandDisplay}</div>
+<div class="hl-toolbar">
+    <span style="font-size:12px;font-weight:700;color:#64748b;">рџ–ЌпёЏ Highlight:</span>
+    <button class="hl-btn" style="border-color:#fef08a;background:#fefce8;" onclick="applyHL('hl-yellow')">Yellow</button>
+    <button class="hl-btn" style="border-color:#bbf7d0;background:#f0fdf4;" onclick="applyHL('hl-green')">Green</button>
+    <button class="hl-btn" style="border-color:#fecaca;background:#fef2f2;" onclick="applyHL('hl-red')">Red</button>
+    <button class="hl-btn" onclick="removeHL()">вњ• Remove</button>
+</div>
+${tasksHTML}
+<div style="text-align:center;"><button class="print-btn" onclick="window.print()">рџ“„ Save as PDF</button></div>
+<scr' + 'ipt>
+function applyHL(cls){var s=window.getSelection();if(!s.rangeCount||s.isCollapsed)return;var r=s.getRangeAt(0);try{var m=document.createElement("mark");m.className=cls;r.surroundContents(m);}catch(e){var f=r.extractContents();var m2=document.createElement("mark");m2.className=cls;m2.appendChild(f);r.insertNode(m2);}s.removeAllRanges();}
+function removeHL(){var s=window.getSelection();if(!s.rangeCount||s.isCollapsed)return;var n=s.anchorNode;if(n.nodeType===3)n=n.parentNode;if(n.tagName==="MARK"){var p=n.parentNode;while(n.firstChild)p.insertBefore(n.firstChild,n);p.removeChild(n);}s.removeAllRanges();}
+<\/scr' + 'ipt></body></html>`;
+        }
+
+        // Speaking Report HTML (works for both premium and regular)
+        function ieltsGenerateSpeakingReportHTML(name, date, time) {
+            const data = state.moduleData.speaking;
+            const isPrem = state.isPremiumVip;
+            const aiResult = state.aiResults.speaking;
+            const questions = data?.questions || [];
+
+            let questionsHTML = '';
+            questions.forEach((q, i) => {
+                const partLabel = q.part || `Part ${Math.ceil((i + 1) / 3)}`;
+                const topic = q.topic ? `<span style="color:#64748b;font-size:12px;"> вЂ” ${q.topic}</span>` : '';
+
+                let aiSection = '';
+                if (isPrem && aiResult) {
+                    // Check for per-question feedback if available
+                    const qFeedback = aiResult['q' + q.number + '_feedback'] || '';
+                    if (qFeedback) aiSection = `<div style="background:#eff6ff;padding:10px;border-radius:8px;margin-top:8px;font-size:13px;line-height:1.6;"><strong>Feedback:</strong> ${qFeedback}</div>`;
+                }
+
+                questionsHTML += `
+                <div style="background:white;padding:16px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <span style="font-size:13px;font-weight:700;color:#dc2626;">${partLabel}${topic}</span>
+                        <span style="font-size:12px;color:#94a3b8;">Q${q.number || i + 1}</span>
+                    </div>
+                    <p style="font-size:15px;font-weight:600;color:#1e293b;margin:0 0 8px;line-height:1.5;">${q.prompt || q.question || ''}</p>
+                    <div style="margin-top:8px;"><audio controls style="width:100%;"><source src="S-${i}.webm" type="audio/webm"></audio></div>
+                    ${aiSection}
+                </div>`;
+            });
+
+            const bandDisplay = isPrem && state.scaledScores.s ? `<div style="font-size:48px;font-weight:800;color:#dc2626;">${state.scaledScores.s.toFixed(1)}</div><p>Band Score</p>` : `<div style="font-size:24px;font-weight:800;color:#dc2626;">Candidate Recordings</div><p>Submitted for teacher review</p>`;
+
+            return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Speaking Report - ${name}</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;background:#f9fafb;}
+.header{background:linear-gradient(135deg,#dc2626,#991b1b);color:white;padding:30px;border-radius:16px;text-align:center;margin-bottom:24px;}
+.header h1{margin:0 0 10px;font-size:28px;}
+.score-card{background:white;padding:24px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;margin-bottom:24px;}
+@media print{.print-btn{display:none !important;}}
+</style></head><body>
+<div class="header"><h1>рџЋ¤ IELTS Speaking Report</h1><p>${name} | ${date} ${time}</p></div>
+<div class="score-card">${bandDisplay}</div>
+<h3 style="color:#1e293b;">Questions & Responses</h3>
+${questionsHTML}
+<div style="text-align:center;margin-top:24px;"><button class="print-btn" onclick="window.print()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;">рџ“„ Save as PDF</button></div>
+</body></html>`;
+        }
+
+        // ===== TELEGRAM SUBMISSION (matching CEFR full-mock pattern) =====
+        async function sendIeltsFullMockToTelegram() {
+            // Prevent duplicate sends
+            if (ieltsTelegramSent) {
+                console.log('[Telegram] Already sent successfully, skipping duplicate send.');
+                return;
+            }
+
+            const MAX_RETRIES = 2;
+            const RETRY_DELAY = 5000; // 5 seconds between retries
+
+            for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+                try {
+                    console.log(`[Telegram] Starting IELTS full mock submission (attempt ${attempt}/${MAX_RETRIES})...`);
+
+                    // Wait for JSZip
+                    if (!window.JSZip) {
+                        console.log('[Telegram] Waiting for JSZip...');
+                        await new Promise(r => setTimeout(r, 2000));
+                    }
+                    if (!window.JSZip) {
+                        console.error('[Telegram] JSZip not available');
+                        return;
+                    }
+
+                    const zip = new JSZip();
+                    const candidateName = state.candidateName || 'Candidate';
+                    const now = new Date();
+                    const reportDateStr = now.toLocaleDateString();
+                    const timeStr = now.toLocaleTimeString();
+
+                    // 1. LISTENING REPORT HTML
+                    zip.file('01_Listening_Report.html', ieltsGenerateListeningReportHTML(candidateName, reportDateStr, timeStr));
+
+                    // 2. READING REPORT HTML
+                    zip.file('02_Reading_Report.html', ieltsGenerateReadingReportHTML(candidateName, reportDateStr, timeStr));
+
+                    // 3. WRITING REPORT HTML (always вЂ” premium has AI feedback, regular has raw work for teacher)
+                    zip.file('03_Writing_Report.html', ieltsGenerateWritingReportHTML(candidateName, reportDateStr, timeStr));
+
+                    // 4. CERTIFICATE PDF (with 15s timeout to prevent html2canvas hangs)
+                    try {
+                        console.log('[Telegram] Generating certificate for ZIP...');
+                        const certPromise = generateCertificate(true);
+                        const certTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Certificate generation timed out after 15s')), 15000));
+                        const certBlob = await Promise.race([certPromise, certTimeout]);
+                        if (certBlob) {
+                            zip.file('00_IELTS_Certificate.pdf', certBlob);
+                        }
+                    } catch (ce) {
+                        console.error('[Telegram] Certificate generation failed for ZIP:', ce);
+                    }
+
+                    // 5. SPEAKING PACKAGE (ZIP with report + audio)
+                    const speakingZip = new JSZip();
+                    speakingZip.file('Speaking_Report.html', ieltsGenerateSpeakingReportHTML(candidateName, reportDateStr, timeStr));
+
+                    // Add audio recordings from state
+                    const speakingAnswers = state.answers.speaking || {};
+                    Object.entries(speakingAnswers).forEach(([key, blob]) => {
+                        if (blob instanceof Blob) {
+                            speakingZip.file(`${key}.webm`, blob);
+                        }
+                    });
+
+                    const speakingZipBlob = await speakingZip.generateAsync({ type: 'blob' });
+                    zip.file('04_Speaking_Package.zip', speakingZipBlob);
+
+                    // Generate main ZIP
+                    const mainZipBlob = await zip.generateAsync({ type: 'blob' });
+
+                    // Prepare FormData
+                    const fd = new FormData();
+                    const safeName = candidateName.replace(/[^a-zA-Z0-9]/g, '_');
+                    const pd = (n) => String(n).padStart(2, '0');
+                    const dateTag = `${pd(now.getDate())}_${pd(now.getMonth() + 1)}_${String(now.getFullYear()).slice(-2)}`;
+                    fd.append('file', new File([mainZipBlob], `IELTS_FullMock_${safeName}_${dateTag}.zip`, { type: 'application/zip' }));
+
+                    // Caption with test info
+                    const CENTER_ID = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+                    const lScore = state.scaledScores?.l || 0;
+                    const rScore = state.scaledScores?.r || 0;
+                    const wScore = state.scaledScores?.w || 0;
+                    const sScore = state.scaledScores?.s || 0;
+                    const hasAi = state.isPremiumVip;
+                    const overall = state.overall?.band || 0;
+                    const bandDesc = getBandDesc(overall);
+
+                    // Get selected mock numbers
+                    const lMock = String(state.testIds?.listening || '01').padStart(2, '0');
+                    const rMock = String(state.testIds?.reading || '01').padStart(2, '0');
+                    const wMock = String(state.testIds?.writing || '01').padStart(2, '0');
+                    const sMock = String(state.testIds?.speaking || '01').padStart(2, '0');
+
+                    // Date parts for hashtags
+                    const d = pd(now.getDate());
+                    const m = pd(now.getMonth() + 1);
+                    const y = now.getFullYear();
+                    const yy = String(y).slice(-2);
+
+                    // Format start and finish times
+                    const startTime = state.examStartTime || now;
+                    const finishTime = now;
+                    state.examFinishTime = finishTime;
+
+                    const formatTime = (date) => `${pd(date.getHours())}:${pd(date.getMinutes())}:${pd(date.getSeconds())}`;
+                    const startStr = formatTime(startTime);
+                    const finishStr = formatTime(finishTime);
+
+                    // Calculate used time
+                    const usedMs = finishTime - startTime;
+                    const usedHours = Math.floor(usedMs / 3600000);
+                    const usedMins = Math.floor((usedMs % 3600000) / 60000);
+                    const usedSecs = Math.floor((usedMs % 60000) / 1000);
+                    const usedTimeStr = usedHours > 0 ? `${usedHours}h ${pd(usedMins)}m ${pd(usedSecs)}s` : `${usedMins}m ${pd(usedSecs)}s`;
+
+                    const dateStr = `${pd(now.getDate())}.${pd(now.getMonth() + 1)}.${now.getFullYear()}`;
+                    const caption = `рџ“‹ IELTS FULL MOCK RESULTS\nрџ‘¤ Candidate: #${safeName}\n${!hasAi ? 'в­ђ Entry: Regular VIP (no AI scoring)\n' : 'рџ¤– Entry: Premium AI VIP\n'}\nрџ“Љ BAND SCORES:\nрџЋЇ Overall: ${overall.toFixed(1)} (${bandDesc})\nрџЋ§ Listening: ${lScore.toFixed(1)}\nрџ“– Reading: ${rScore.toFixed(1)}\nвњЌпёЏ Writing: ${hasAi ? wScore.toFixed(1) : 'N/A (Premium)'}\nрџЋ¤ Speaking: ${hasAi ? sScore.toFixed(1) : 'N/A (Premium)'}\n\nрџ“Ѓ Mock Details:\nрџЋ§ Listening: ${lMock}\nрџ“– Reading: ${rMock}\nвњЌпёЏ Writing: ${wMock}\nрџЋ¤ Speaking: ${sMock}\n\nвЏ±пёЏ Time:\nрџ“… ${dateStr}\nрџџў Start: ${startStr}\nрџ”ґ Finish: ${finishStr}\nвЏі Used: ${usedTimeStr}\n\nрџЏ›пёЏ Center: #${CENTER_ID}\nрџ“Љ #${CENTER_ID}_${d}_${m}_${yy}\nрџ“Љ #${CENTER_ID}_${m}_${yy}\nрџ“Љ #${CENTER_ID}_${y}\nOverall:\nрџ“Љ #all_${d}_${m}_${yy}\nрџ“Љ #all_${m}_${yy}\nрџ“Љ #all_${y}\nIELTS Mock: #Band_${String(overall.toFixed(1)).replace('.', '_')}`;
+                    fd.append('caption', caption);
+
+                    // Send to Supabase first (get result link for caption)
+                    var finalCaption = caption;
+                    if (window.sendToSupabase) {
+                      try {
+                        var sbResult = await window.sendToSupabase({
+                          studentName: candidateName,
+                          examType: 'ielts',
+                          skill: 'full-mock',
+                          score: overall.toFixed(1) + '/9.0',
+                          level: 'Band ' + overall.toFixed(1),
+                          mockNumber: 'Full Mock',
+                          file: mainZipBlob,
+                          fileType: 'zip',
+                          caption: caption,
+                          metadata: { l: lScore, r: rScore, w: wScore, s: sScore, hasAi: hasAi, bandDesc: bandDesc }
+                        });
+                        if (sbResult) finalCaption = window.appendResultLink(caption, sbResult.viewUrl);
+                      } catch (e) { console.warn('[Supabase] skipped:', e); }
+                    }
+
+                    fd.set('caption', finalCaption);
+
+                    // Send to backend with extended timeout
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 seconds
+
+                    const resp = await fetch('https://davirbek.alwaysdata.net/send-full-mock', {
+                        method: 'POST',
+                        body: fd,
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (resp.ok) {
+                        console.log('[Telegram] вњ… IELTS full mock results sent successfully');
+                        ieltsTelegramSent = true; // Mark as sent to prevent duplicates
+
+                        // Send to routing backend
+                        if (window.sendToRoutingBackend) {
+                            await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: fd.get('file') });
+                        }
+                        if (window.msProgress) window.msProgress.success('вњ… Results saved successfully!');
+                        return; // Success - exit function
+                    } else {
+                        throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+                    }
+                } catch (err) {
+                    console.error(`[Telegram] вќЊ Attempt ${attempt}/${MAX_RETRIES} failed:`, err.message);
+
+                    if (attempt < MAX_RETRIES) {
+                        console.log(`[Telegram] Retrying in ${RETRY_DELAY / 1000} seconds...`);
+                        await new Promise(r => setTimeout(r, RETRY_DELAY));
+                    } else {
+                        console.error('[Telegram] вќЊ All retry attempts exhausted. Results NOT sent.');
+                        // Silent failure - candidates should not know about Telegram
+                        if (window.msProgress) window.msProgress.hide();
+                    }
+                }
+            }
+        }
+
+        // ===== ZOOM MAGNIFIER =====
+        (function initZoom() {
+            const zoomBtn = document.getElementById('btnZoom');
+            if (!zoomBtn) return;
+
+            const zoomLevels = [1, 1.15, 1.3, 1.45];
+            let zoomIndex = 0;
+
+            const zoomStyle = document.createElement('style');
+            zoomStyle.textContent = `
+                #module-container.zoom-1 { zoom: 1.15; }
+                #module-container.zoom-2 { zoom: 1.3; }
+                #module-container.zoom-3 { zoom: 1.45; }
+                #module-container.zoom-1 img,
+                #module-container.zoom-2 img,
+                #module-container.zoom-3 img {
+                    zoom: 1;
+                    max-width: 100%;
+                }
+                #module-container.zoom-1 > .part-nav-bar { zoom: ${1 / 1.15}; }
+                #module-container.zoom-2 > .part-nav-bar { zoom: ${1 / 1.3}; }
+                #module-container.zoom-3 > .part-nav-bar { zoom: ${1 / 1.45}; }
+            `;
+            document.head.appendChild(zoomStyle);
+
+            zoomBtn.addEventListener('click', function () {
+                const mc = document.getElementById('module-container');
+                if (!mc) return;
+
+                mc.classList.remove('zoom-1', 'zoom-2', 'zoom-3');
+                zoomIndex = (zoomIndex + 1) % zoomLevels.length;
+
+                if (zoomIndex > 0) {
+                    mc.classList.add('zoom-' + zoomIndex);
+                }
+
+                let badge = zoomBtn.querySelector('.zoom-level');
+                if (zoomIndex === 0) {
+                    if (badge) badge.remove();
+                    zoomBtn.title = 'Zoom In';
+                } else {
+                    if (!badge) {
+                        badge = document.createElement('span');
+                        badge.className = 'zoom-level';
+                        zoomBtn.appendChild(badge);
+                    }
+                    badge.textContent = zoomIndex;
+                    zoomBtn.title = Math.round(zoomLevels[zoomIndex] * 100) + '%';
+                }
+            });
+        })();
+
+        // ===== INIT =====
+        document.getElementById('gate').style.display = 'flex';
+    

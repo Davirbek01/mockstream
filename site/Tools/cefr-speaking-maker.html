@@ -1,0 +1,4018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speaking Test Maker</title>
+  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --brand: #6366f1;
+      --brand2: #4f46e5;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --ring: #e2e8f0;
+      --success: #059669;
+      --danger: #dc2626;
+      --warn: #d97706;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ===== MODE SELECTION POPUP ===== */
+    .mode-popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mode-popup {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .mode-popup h2 { font-size: 24px; margin-bottom: 8px; }
+    .mode-popup p { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .mode-popup-cards { display: flex; gap: 16px; justify-content: center; }
+    .mode-popup-card {
+      flex: 1;
+      padding: 28px 20px;
+      border: 3px solid var(--ring);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+    .mode-popup-card:hover { border-color: var(--brand); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(99,102,241,0.15); }
+    .mode-popup-card .mp-icon { font-size: 40px; margin-bottom: 12px; }
+    .mode-popup-card .mp-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .mode-popup-card .mp-desc { font-size: 12px; color: var(--muted); }
+    .mode-popup-card.ielts:hover { border-color: #dc2626; }
+    .mode-popup-card.ielts:hover { box-shadow: 0 8px 24px rgba(220,38,38,0.15); }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-left h1 { font-size: 20px; font-weight: 700; }
+    .header-left .badge {
+      background: rgba(255,255,255,0.2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .header-right { display: flex; gap: 8px; align-items: center; }
+
+    .btn {
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-save { background: #10b981; color: white; }
+    .btn-publish { background: var(--brand); color: white; }
+    .btn-preview { background: #0ea5e9; color: white; }
+    .btn-back { background: rgba(255,255,255,0.15); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-outline {
+      background: transparent;
+      color: var(--brand);
+      border: 2px solid var(--brand);
+    }
+
+    /* ===== LAYOUT ===== */
+    .layout {
+      display: flex;
+      height: calc(100vh - 56px);
+    }
+
+    /* Sidebar nav */
+    .sidebar {
+      width: 240px;
+      background: var(--card);
+      border-right: 1px solid var(--ring);
+      overflow-y: auto;
+      flex-shrink: 0;
+      padding: 16px 0;
+    }
+    .sidebar-section {
+      padding: 6px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: #f1f5f9; }
+    .sidebar-item.active {
+      background: #ede9fe;
+      color: var(--brand);
+      border-left-color: var(--brand);
+      font-weight: 600;
+    }
+    .sidebar-item .icon { font-size: 16px; width: 22px; text-align: center; }
+    .sidebar-item .dot {
+      width: 8px; height: 8px; border-radius: 50%; margin-left: auto;
+    }
+    .dot-green { background: var(--success); }
+    .dot-orange { background: var(--warn); }
+    .dot-empty { border: 2px solid var(--ring); }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px;
+    }
+
+    /* ===== MODE TOGGLE ===== */
+    .mode-toggle {
+      display: flex;
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+      max-width: 400px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--muted);
+    }
+    .mode-btn.active {
+      background: var(--brand);
+      color: white;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+    }
+
+    /* ===== SECTIONS & CARDS ===== */
+    .section-panel { display: none; }
+    .section-panel.active { display: block; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--brand);
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid var(--ring);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: var(--bg);
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .field-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Question cards */
+    .q-card {
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .q-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--ring);
+      transition: background 0.15s;
+    }
+    .q-card-header:hover { background: #f1f5f9; }
+    .q-card-header .q-title {
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-card-header .q-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .q-badge-p1 { background: #dbeafe; color: #1d4ed8; }
+    .q-badge-p2 { background: #fef3c7; color: #92400e; }
+    .q-badge-p2followup { background: #fed7aa; color: #9a3412; }
+    .q-badge-p3 { background: #fce7f3; color: #9d174d; }
+    .q-card-header .arrow { transition: transform 0.2s; font-size: 12px; color: var(--muted); }
+    .q-card-header.open .arrow { transform: rotate(180deg); }
+    .q-card-body { padding: 18px; display: none; }
+    .q-card-body.open { display: block; }
+
+    /* Tabs inside question */
+    .q-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--ring);
+    }
+    .q-tab {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.15s;
+    }
+    .q-tab:hover { color: var(--ink); }
+    .q-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .q-tab-panel { display: none; }
+    .q-tab-panel.active { display: block; }
+
+    /* Auto mode */
+    .ai-model-option { background: var(--card); }
+    .ai-model-option:has(input:checked) { border-color: var(--brand) !important; background: #ede9fe; }
+    .ai-model-option[data-model="openai"]:has(input:checked) { border-color: #10a37f !important; background: #e6f9f1; }
+    .ai-model-option[data-model="gemini"]:has(input:checked) { border-color: #4285f4 !important; background: #e8f0fe; }
+
+    .upload-zone {
+      border: 2px dashed var(--ring);
+      border-radius: 14px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafbfc;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--brand);
+      background: #ede9fe;
+    }
+    .upload-zone .icon { font-size: 48px; margin-bottom: 12px; }
+    .upload-zone .title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .upload-zone .hint { font-size: 13px; color: var(--muted); }
+
+    .processing-status {
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+      display: none;
+    }
+    .processing-status.active { display: block; }
+    .progress-bar {
+      height: 6px;
+      background: var(--ring);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand), #8b5cf6);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-success { background: var(--success); }
+    .toast-error { background: var(--danger); }
+    .toast-info { background: var(--brand); }
+
+    /* Preview Panel */
+    .preview-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .preview-overlay.visible { display: flex; }
+
+    /* ── Full-screen test preview ── */
+    .pv-wrap {
+      background: #f5f7fa;
+      border-radius: 16px;
+      width: 96%;
+      max-width: 700px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    /* Top bar */
+    .pv-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: #116a60; color: #fff;
+      border-radius: 16px 16px 0 0;
+      font-size: 13px; font-weight: 600;
+    }
+    .pv-topbar .pv-chip { background: rgba(255,255,255,.18); padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+    .pv-topbar .pv-close { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; padding: 2px 8px; }
+    /* Part indicator */
+    .pv-parts { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 10px 16px 6px; }
+    .pv-part-dot {
+      width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+      font-size: 11px; font-weight: 700; border: 2px solid #cfe1dd; color: #5a6a75; background: #fff;
+      transition: all .3s;
+    }
+    .pv-part-dot.active { background: #116a60; color: #fff; border-color: #116a60; transform: scale(1.1); }
+    .pv-part-dot.done { background: #059669; color: #fff; border-color: #059669; }
+    .pv-part-conn { width: 16px; height: 2px; background: #cfe1dd; }
+    /* Question body */
+    .pv-body { padding: 12px 16px 16px; flex: 1; }
+    .pv-qlabel { font-size: 12px; font-weight: 700; color: #116a60; margin-bottom: 8px; }
+    .pv-prompt {
+      font-size: clamp(15px,2.2vw,18px); font-weight: 600; line-height: 1.5;
+      color: #0e141b; margin-bottom: 14px;
+    }
+    /* Dials */
+    .pv-dials { display: flex; gap: 16px; justify-content: center; align-items: flex-start; margin-bottom: 14px; }
+    .pv-dial-box { text-align: center; }
+    .pv-dial-box.inactive { opacity: 0.3; filter: grayscale(1); }
+    .pv-dial {
+      --pct: 0; --clr: #e53935; --trk: #e8ecef;
+      width: 96px; height: 96px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #fff 55%, transparent 56%),
+        conic-gradient(var(--clr) calc(var(--pct)*1%), var(--trk) 0);
+      border: 4px solid #86b3aa; display: grid; place-items: center;
+    }
+    .pv-dial .pv-time { font-size: 18px; font-weight: 700; color: #0e141b; }
+    .pv-dial .pv-dlabel { font-size: 9px; color: #5a6a75; }
+    .pv-dial-title { font-size: 11px; font-weight: 600; margin-top: 4px; color: #5a6a75; }
+    .pv-dial.speak { --clr: #f6c000; }
+    /* Audio player */
+    .pv-audio { margin-bottom: 12px; }
+    .pv-audio audio { width: 100%; height: 36px; border-radius: 8px; }
+    /* Images */
+    .pv-images { display: flex; gap: 8px; margin-bottom: 12px; }
+    .pv-images img { flex: 1; max-height: 140px; object-fit: cover; border-radius: 8px; border: 2px solid #cfe1dd; cursor: pointer; }
+    /* Bullets */
+    .pv-bullets {
+      background: #e6f0ee; border-left: 4px solid #116a60; padding: 12px 14px;
+      border-radius: 8px; margin-bottom: 12px;
+    }
+    .pv-bullets li { margin-bottom: 6px; position: relative; padding-left: 20px; list-style: none; font-size: 14px; line-height: 1.5; }
+    .pv-bullets li::before { content: '•'; position: absolute; left: 0; color: #116a60; font-weight: 900; }
+    /* Debate points */
+    .pv-debate { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .pv-debate-box { padding: 8px; border-radius: 8px; border: 2px solid; }
+    .pv-debate-box.for { border-color: #059669; }
+    .pv-debate-box.against { border-color: #dc2626; }
+    .pv-debate-box .pv-dtag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-weight: 900; font-size: 10px; color: #fff; margin-bottom: 4px; }
+    .pv-debate-box.for .pv-dtag { background: #059669; }
+    .pv-debate-box.against .pv-dtag { background: #dc2626; }
+    .pv-debate-box ul { margin: 0; padding-left: 14px; font-size: 12px; line-height: 1.5; }
+    .pv-debate-box li { margin-bottom: 2px; }
+    /* Nav buttons */
+    .pv-nav { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid #e8ecef; }
+    .pv-nav button {
+      flex: 1; padding: 10px; border: none; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;
+      transition: background .2s;
+    }
+    .pv-nav .pv-prev { background: #e8ecef; color: #333; }
+    .pv-nav .pv-prev:hover { background: #d1d5db; }
+    .pv-nav .pv-next { background: #116a60; color: #fff; }
+    .pv-nav .pv-next:hover { background: #0e5a51; }
+    .pv-nav button:disabled { opacity: .35; cursor: default; }
+    /* Finish section inside preview */
+    .pv-finish { padding: 20px 16px; text-align: center; }
+    .pv-finish h3 { font-size: 18px; margin-bottom: 12px; }
+    .pv-finish .pv-fbtn {
+      display: block; width: 100%; padding: 12px; border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; margin-bottom: 8px;
+      transition: opacity .2s;
+    }
+    .pv-finish .pv-fbtn:hover { opacity: .85; }
+    /* Samples / Vocab sub-panels */
+    .pv-subpanel {
+      position: absolute; inset: 0; background: #f5f7fa; z-index: 2;
+      overflow-y: auto; display: none; border-radius: 16px;
+    }
+    .pv-subpanel.visible { display: block; }
+    .pv-subpanel-header {
+      position: sticky; top: 0; background: #116a60; color: #fff;
+      padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+      font-weight: 700; font-size: 15px; z-index: 3; border-radius: 16px 16px 0 0;
+    }
+    .pv-subpanel-header button { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+    .pv-subpanel-body { padding: 16px; }
+    /* Sample card */
+    .pv-sample-card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid #e8ecef; }
+    .pv-sample-card .pv-sq { font-weight: 700; color: #116a60; font-size: 13px; margin-bottom: 4px; }
+    .pv-sample-card .pv-sp { font-size: 14px; color: #333; margin-bottom: 8px; }
+    .pv-sample-card .pv-sl { font-size: 12px; font-weight: 600; margin-top: 6px; padding: 2px 0; }
+    .pv-sample-card .pv-st { font-size: 13px; line-height: 1.5; color: #555; white-space: pre-wrap; }
+    .pv-level-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+    .pv-level-tab {
+      padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+      border: 2px solid #cfe1dd; background: #fff; color: #333; transition: all .2s;
+    }
+    .pv-level-tab.active { background: #116a60; color: #fff; border-color: #116a60; }
+    /* Vocab section */
+    .pv-vocab-section { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid #e8ecef; }
+    .pv-vocab-section h4 { font-size: 13px; margin: 0 0 6px; }
+    .pv-vocab-section ul { margin: 0; padding-left: 16px; font-size: 13px; line-height: 1.6; }
+
+    /* Token colors in preview samples */
+    .pv-token { padding: 2px 4px; border-radius: 3px; font-weight: 600; cursor: pointer; border-bottom: 2px solid rgba(0,0,0,.15); transition: background .2s; }
+    .pv-token.adv { background: rgba(245,158,11,.15); color: #92400e; border-color: #f59e0b; }
+    .pv-token.colloc { background: rgba(59,130,246,.15); color: #1e40af; border-color: #3b82f6; }
+    .pv-token.phrasal { background: rgba(16,185,129,.15); color: #065f46; border-color: #10b981; }
+    .pv-token.idiom { background: rgba(168,85,247,.15); color: #6b21a8; border-color: #a855f7; }
+    .pv-token.proverb { background: rgba(236,72,153,.15); color: #9f1239; border-color: #ec4899; }
+    .pv-token:hover { filter: brightness(.92); }
+    /* Token tooltip */
+    .pv-tooltip {
+      position: fixed; z-index: 10000; background: #1e293b; color: #f8fafc;
+      border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 600;
+      max-width: 300px; pointer-events: none; opacity: 0; transform: translateY(6px);
+      transition: opacity .2s, transform .2s; box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    .pv-tooltip.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .pv-tooltip .tt-uz { color: #fbbf24; display: block; font-size: 14px; }
+    .pv-tooltip .tt-type { color: #94a3b8; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; display: block; }
+    .pv-tooltip::before { content:''; position: absolute; top: -6px; left: var(--arrow-pos,50%); transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid #1e293b; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .field-row { grid-template-columns: 1fr; }
+      .field-row-3 { grid-template-columns: 1fr; }
+      .main { padding: 16px; }
+    }
+    @keyframes annPreviewSlide {
+      from { opacity:0; transform:translateY(30px) scale(.92); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== MODE SELECTION POPUP ===== -->
+<div class="mode-popup-overlay" id="modePopup">
+  <div class="mode-popup">
+    <h2>🎙️ Speaking Test Maker</h2>
+    <p>Select the exam type you want to create a mock for</p>
+    <div class="mode-popup-cards">
+      <div class="mode-popup-card cefr" onclick="initExamMode('cefr')">
+        <div class="mp-icon">📘</div>
+        <div class="mp-title">CEFR</div>
+        <div class="mp-desc">8 questions · A1–B2 levels<br>Parts 1, 2, 3</div>
+      </div>
+      <div class="mode-popup-card ielts" onclick="initExamMode('ielts')">
+        <div class="mp-icon">📕</div>
+        <div class="mp-title">IELTS</div>
+        <div class="mp-desc">17 questions · Band 5–9<br>Parts 1, 2, 2 Follow-up, 3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-left">
+    <button class="btn btn-back" onclick="window.location.href='../landing.html'">← Back</button>
+    <h1>🛠️ Test Maker</h1>
+    <span class="badge" id="examTypeBadge">Speaking</span>
+    <span class="badge" id="mockNumBadge" style="background:rgba(16,185,129,0.3)">New Mock</span>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-preview" onclick="openPreview()">👁 Preview</button>
+    <button class="btn btn-save" id="saveDraftBtn" onclick="saveMock('draft')">💾 Save Draft</button>
+    <button class="btn btn-publish" id="publishBtn" onclick="saveMock('published')">🚀 Publish</button>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">Input Mode</div>
+    <div class="sidebar-item active" onclick="switchMode('manual')" id="sideManual">
+      <span class="icon">✏️</span> Manual Entry
+    </div>
+    <div class="sidebar-item" onclick="switchMode('auto')" id="sideAuto">
+      <span class="icon">🤖</span> Auto (AI)
+    </div>
+
+    <div class="sidebar-section">Sections</div>
+    <div class="sidebar-item active" onclick="showSection('images')" data-sec="images">
+      <span class="icon">🖼️</span> Images
+      <span class="dot dot-empty" id="dot-images"></span>
+    </div>
+    <div class="sidebar-item" onclick="showSection('questions')" data-sec="questions">
+      <span class="icon">❓</span> <span id="sideQuestionsLabel">Questions (8)</span>
+      <span class="dot dot-empty" id="dot-questions"></span>
+    </div>
+    <div class="sidebar-item" onclick="showSection('announcements')" data-sec="announcements" id="sideAnnouncements" style="display:none;">
+      <span class="icon">📢</span> Announcements
+      <span class="dot dot-empty" id="dot-announcements"></span>
+    </div>
+    <div class="sidebar-item" onclick="showSection('tokens')" data-sec="tokens">
+      <span class="icon">📚</span> Token Translations
+      <span class="dot dot-empty" id="dot-tokens"></span>
+    </div>
+
+    <div class="sidebar-section" style="display:flex;align-items:center;justify-content:space-between;padding-right:12px;">
+      Saved Mocks
+      <button onclick="openMockManager()" title="Manage Mocks" style="background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;">⚙️</button>
+    </div>
+    <div id="savedMocksList" style="padding: 4px 12px;">
+      <div style="font-size:12px;color:var(--muted);padding:8px 4px;">Loading...</div>
+    </div>
+    <div style="padding:6px 12px 12px;">
+      <button onclick="createNewMock()" style="width:100%;padding:7px 0;border:2px dashed var(--border);border-radius:8px;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--primary);display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;" onmouseover="this.style.borderColor='var(--primary)';this.style.background='rgba(99,102,241,.06)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='none'">
+        <span style="font-size:15px;line-height:1;">+</span> New Mock
+      </button>
+    </div>
+  </div>
+
+  <!-- Mock Manager Overlay -->
+  <div id="mockManagerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:var(--card);border-radius:16px;width:90%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 48px rgba(0,0,0,.2);" onclick="event.stopPropagation()">
+      <div style="padding:20px 24px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <h3 style="font-size:18px;margin:0;">⚙️ Mock Manager</h3>
+        <button onclick="closeMockManager()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;">✕</button>
+      </div>
+      <div id="mockManagerList" style="padding:16px 24px;overflow-y:auto;flex:1;"></div>
+      <div style="padding:12px 24px 16px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn" onclick="closeMockManager()" style="padding:8px 16px;font-size:13px;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main" id="mainContent">
+
+    <!-- MODE TOGGLE (top of main) -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeManualBtn" onclick="switchMode('manual')">✏️ Manual</button>
+      <button class="mode-btn" id="modeAutoBtn" onclick="switchMode('auto')">🤖 Auto (AI)</button>
+    </div>
+
+    <!-- ============ MANUAL MODE ============ -->
+    <div id="manualMode">
+
+      <!-- Hidden mock number input -->
+      <input type="hidden" id="mockNumber">
+
+      <!-- IMAGES SECTION -->
+      <div class="section-panel active" id="sec-images">
+        <div class="card">
+          <h3>🖼️ Test Images (Q4–Q7)</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+            These 2 images are shown during Questions 4, 5, 6 (Part 1) and Question 7 (Part 2).
+          </p>
+          <div class="field-row">
+            <div class="field">
+              <label>Image 1 URL</label>
+              <input type="url" id="img1" placeholder="https://storage.googleapis.com/...">
+              <div class="field-hint">GCS or any public image URL</div>
+            </div>
+            <div class="field">
+              <label>Image 1 Alt Text</label>
+              <input type="text" id="img1Alt" placeholder="e.g. Festival event">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Image 2 URL</label>
+              <input type="url" id="img2" placeholder="https://storage.googleapis.com/...">
+            </div>
+            <div class="field">
+              <label>Image 2 Alt Text</label>
+              <input type="text" id="img2Alt" placeholder="e.g. Museum visit">
+            </div>
+          </div>
+          <!-- Image previews -->
+          <div style="display:flex;gap:12px;margin-top:12px;">
+            <div style="flex:1;text-align:center;">
+              <img id="img1Preview" style="max-width:100%;max-height:180px;border-radius:8px;display:none;border:2px solid var(--ring);">
+              <div id="img1Placeholder" style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>
+            </div>
+            <div style="flex:1;text-align:center;">
+              <img id="img2Preview" style="max-width:100%;max-height:180px;border-radius:8px;display:none;border:2px solid var(--ring);">
+              <div id="img2Placeholder" style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS SECTION -->
+      <div class="section-panel" id="sec-questions">
+        <div class="card" style="background:transparent;border:none;box-shadow:none;padding:0;">
+          <h3>❓ <span id="questionsHeading">Questions (8 total)</span></h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;" id="questionsSubtext">
+            Part 1: Q1–Q6 (30s each) · Part 2: Q7 (2 min monologue) · Part 3: Q8 (2 min discussion)
+          </p>
+          <div id="questionsContainer"></div>
+        </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS SECTION (IELTS only) -->
+      <div class="section-panel" id="sec-announcements">
+        <div class="card">
+          <h3>📢 Examiner Announcements</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Transition scripts read by the examiner between parts.</p>
+
+          <!-- Mode Toggle -->
+          <div style="display:flex;gap:0;margin-bottom:20px;background:#f1f5f9;border-radius:12px;padding:4px;">
+            <button type="button" id="annModeDefault" class="ann-mode-btn ann-mode-active" onclick="setAnnMode('default')" style="flex:1;padding:10px 16px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;background:white;color:#1e293b;box-shadow:0 1px 3px rgba(0,0,0,.1);">
+              📁 Default
+            </button>
+            <button type="button" id="annModeCreate" class="ann-mode-btn" onclick="setAnnMode('create')" style="flex:1;padding:10px 16px;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;background:transparent;color:#64748b;">
+              🎙️ Create New
+            </button>
+          </div>
+
+          <!-- DEFAULT MODE -->
+          <div id="annDefaultPanel">
+            <!-- Original preset -->
+            <div id="annPresetOriginal" class="ann-preset-card ann-preset-selected" onclick="selectAnnPreset('__original__')" style="border:2px solid #6ee7b7;border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,#ecfdf5,#d1fae5);">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <span style="font-size:22px;">📁</span>
+                <div style="flex:1;">
+                  <div style="font-weight:700;font-size:14px;color:#065f46;">Original (Pre-recorded)</div>
+                  <div style="font-size:12px;color:#047857;">Standard GCS intro audio used across all existing mocks</div>
+                </div>
+                <span id="annCheckOriginal" style="font-size:20px;">✅</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 1','beforePart1','__original__')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#1e40af;border:1px solid #bfdbfe;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 1</span>
+                <span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 2','beforePart2','__original__')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#b45309;border:1px solid #fde68a;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 2</span>
+                <span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Follow-up','beforePart2FollowUp','__original__')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#991b1b;border:1px solid #fca5a5;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Follow-up</span>
+                <span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 3','beforePart3','__original__')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#166534;border:1px solid #86efac;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 3</span>
+              </div>
+            </div>
+
+            <!-- Saved presets rendered here -->
+            <div id="annPresetsList"></div>
+
+            <div style="margin-top:8px;text-align:center;font-size:12px;color:var(--muted);">
+              Create custom announcements in <strong>Create New</strong> tab and save as preset to reuse here.
+            </div>
+          </div>
+
+          <!-- Announcement Preview Overlay -->
+          <div id="annPreviewOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;" onclick="dismissAnnPreview()">
+            <div id="annPreviewCard" onclick="event.stopPropagation()" style="background:white;border-radius:20px;padding:28px 32px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:annPreviewSlide .35s cubic-bezier(.34,1.56,.64,1) both;text-align:center;">
+              <div style="font-size:36px;margin-bottom:8px;" id="annPreviewIcon">🔊</div>
+              <div style="font-weight:800;font-size:18px;color:#1e293b;margin-bottom:4px;" id="annPreviewTitle">Part 1</div>
+              <div style="font-size:13px;color:#64748b;margin-bottom:16px;" id="annPreviewSub">Now playing...</div>
+              <div id="annPreviewTextBox" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px;font-size:13px;color:#334155;line-height:1.6;text-align:left;max-height:180px;overflow-y:auto;margin-bottom:16px;display:none;"></div>
+              <div style="width:100%;height:4px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:16px;">
+                <div id="annPreviewTimerBar" style="height:100%;background:linear-gradient(90deg,#7c3aed,#a855f7);width:100%;transition:width .1s linear;border-radius:4px;"></div>
+              </div>
+              <button onclick="dismissAnnPreview()" style="padding:8px 28px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;font-weight:700;font-size:13px;color:#475569;cursor:pointer;">⏹ Stop</button>
+            </div>
+          </div>
+
+          <!-- CREATE NEW MODE -->
+          <div id="annCreatePanel" style="display:none;">
+            <div style="margin-bottom:16px;">
+              <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Preset Name</label>
+              <input type="text" id="annPresetName" placeholder="e.g. Female British Formal" style="width:100%;padding:10px 12px;border:2px solid var(--ring);border-radius:10px;font-size:14px;font-weight:600;box-sizing:border-box;">
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:16px;align-items:end;">
+              <div style="flex:1;">
+                <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Voice</label>
+                <select id="annTtsVoice" style="width:100%;padding:10px 12px;border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;">
+                  <option value="Kore" selected>Kore (Female, warm)</option>
+                  <option value="Aoede">Aoede (Female, bright)</option>
+                  <option value="Leda">Leda (Female, calm)</option>
+                  <option value="Puck">Puck (Male, casual)</option>
+                  <option value="Charon">Charon (Male, deep)</option>
+                  <option value="Orus">Orus (Male, clear)</option>
+                </select>
+              </div>
+              <button type="button" id="annGenerateBtn" onclick="generateAnnouncementAudio()" style="padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">
+                🔊 Generate Audio
+              </button>
+            </div>
+            <div id="annTtsStatus" style="display:none;margin-bottom:16px;padding:12px;border-radius:10px;font-size:13px;font-weight:600;"></div>
+
+            <div class="field">
+              <label>Before Part 1</label>
+              <textarea id="ann-beforePart1" placeholder="Good morning. My name is... This is the speaking component of the IELTS exam."></textarea>
+              <audio id="annAudio-beforePart1" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+            <div class="field">
+              <label>Before Part 2</label>
+              <textarea id="ann-beforePart2" placeholder="Now I'm going to give you a topic..."></textarea>
+              <audio id="annAudio-beforePart2" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+            <div class="field">
+              <label>After Part 2 Prep</label>
+              <textarea id="ann-afterPart2Prep" placeholder="Alright, your preparation time is over..."></textarea>
+              <audio id="annAudio-afterPart2Prep" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+            <div class="field">
+              <label>Before Part 2 Follow-up</label>
+              <textarea id="ann-beforePart2FollowUp" placeholder="Thank you. I have a couple of follow-up questions..."></textarea>
+              <audio id="annAudio-beforePart2FollowUp" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+            <div class="field">
+              <label>Before Part 3</label>
+              <textarea id="ann-beforePart3" placeholder="Now let's move on to Part 3..."></textarea>
+              <audio id="annAudio-beforePart3" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+            <div class="field">
+              <label>After Exam</label>
+              <textarea id="ann-afterExam" placeholder="Thank you very much. That is the end of the speaking test."></textarea>
+              <audio id="annAudio-afterExam" controls style="display:none;width:100%;margin-top:6px;height:36px;"></audio>
+            </div>
+
+            <!-- Save as Preset button -->
+            <div id="annSavePresetWrap" style="margin-top:16px;padding-top:16px;border-top:2px dashed #e2e8f0;text-align:center;">
+              <button type="button" onclick="saveAnnPreset()" style="padding:10px 24px;background:linear-gradient(135deg,#059669,#10b981);color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">
+                💾 Save as Preset
+              </button>
+              <div style="font-size:12px;color:var(--muted);margin-top:6px;">Save these announcements for reuse in future mocks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOKEN TRANSLATIONS SECTION -->
+      <div class="section-panel" id="sec-tokens">
+        <div class="card">
+          <h3>📚 Token Translations</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+            Map English phrases to Uzbek translations with type tags. These power the inline vocabulary highlights.
+          </p>
+          <div id="tokensList"></div>
+          <button class="btn btn-outline" onclick="addTokenRow()" style="margin-top:12px;">+ Add Token</button>
+          <div style="margin-top:16px;">
+            <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;">BULK PASTE (JSON)</label>
+            <textarea id="tokensBulk" placeholder='{"Honestly": {"uz": "Rostini aytsam", "type": "adv"}, ...}' style="width:100%;padding:10px;border:2px solid var(--ring);border-radius:8px;font-size:12px;font-family:monospace;min-height:80px;background:var(--bg);"></textarea>
+            <button class="btn btn-outline" onclick="importTokensBulk()" style="margin-top:8px;">Import JSON</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /manualMode -->
+
+    <!-- ============ AUTO MODE ============ -->
+    <div id="autoMode" style="display:none;">
+
+      <!-- AI Config Card -->
+      <div class="card">
+        <h3>🤖 AI-Powered Mock Builder</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">
+          Build your mock in 4 steps. Each step has its own AI model selector — pick the best AI for each task.
+        </p>
+
+        <div class="field" id="passcodeField">
+          <label>Passcode</label>
+          <input type="password" id="claudePasscode" placeholder="Enter passcode" value="">
+          <div class="field-hint">Required when any step uses Claude / Grok / Deepseek</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Extract Questions -->
+      <div class="card" id="step1Card">
+        <h3>📋 Step 1: Extract Questions</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          Upload test images. AI will extract question prompts, bullet points, and debate points.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step1Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step1Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step1Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step1Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step1Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="icon">📄</div>
+          <div class="title">Drop files, click to upload, or paste (Ctrl+V)</div>
+          <div class="hint">Supports: Images (PNG, JPG) — screenshots paste directly!</div>
+          <input type="file" id="fileInput" style="display:none" accept=".png,.jpg,.jpeg"
+                 onchange="handleFileUpload(event)" multiple>
+        </div>
+        <div id="uploadedFiles" style="margin-top:12px;"></div>
+
+        <div class="processing-status" id="step1Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step1Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step1Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step1Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step1Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step1Btn" onclick="runStep1()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;" disabled>
+          📋 Extract Questions from Images
+        </button>
+
+        <div id="step1Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Questions extracted!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step1Summary"></span>
+        </div>
+      </div>
+
+      <!-- Image URLs (for CEFR Q4-Q7) -->
+      <div class="card" id="autoImagesCard">
+        <h3>🖼️ Test Images (Q4–Q7)</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          Paste image URLs for Questions 4–7. These are the 2 images shown during the test.
+        </p>
+        <div class="field-row">
+          <div class="field">
+            <label>Image 1 URL</label>
+            <input type="url" id="autoImg1" placeholder="https://storage.googleapis.com/...">
+          </div>
+          <div class="field">
+            <label>Alt Text</label>
+            <input type="text" id="autoImg1Alt" placeholder="e.g. Festival event">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Image 2 URL</label>
+            <input type="url" id="autoImg2" placeholder="https://storage.googleapis.com/...">
+          </div>
+          <div class="field">
+            <label>Alt Text</label>
+            <input type="text" id="autoImg2Alt" placeholder="e.g. Museum visit">
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:12px;">
+          <div style="flex:1;text-align:center;">
+            <img id="autoImg1Preview" style="max-width:100%;max-height:180px;border-radius:8px;display:none;border:2px solid var(--ring);">
+            <div id="autoImg1Placeholder" style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>
+          </div>
+          <div style="flex:1;text-align:center;">
+            <img id="autoImg2Preview" style="max-width:100%;max-height:180px;border-radius:8px;display:none;border:2px solid var(--ring);">
+            <div id="autoImg2Placeholder" style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Generate Samples -->
+      <div class="card" id="step2Card" style="opacity:0.5;pointer-events:none;">
+        <h3>📝 Step 2: Generate Leveled Samples</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          AI generates sample answers at each level + Uzbek translations for every question.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step2Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step2Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step2Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step2Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step2Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="processing-status" id="step2Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step2Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step2Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step2Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step2Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step2Btn" onclick="runStep2()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;">
+          📝 Generate Samples
+        </button>
+
+        <div id="step2Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Samples generated!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step2Summary"></span>
+        </div>
+      </div>
+
+      <!-- STEP 3: Generate Vocabulary -->
+      <div class="card" id="step3Card" style="opacity:0.5;pointer-events:none;">
+        <h3>📚 Step 3: Generate Vocabulary & Tokens</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          AI generates topic vocabulary per question + token translations for inline highlights.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step3Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step3Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step3Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step3Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step3Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="processing-status" id="step3Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step3Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step3Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step3Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step3Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step3Btn" onclick="runStep3()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;">
+          📚 Generate Vocabulary & Tokens
+        </button>
+
+        <div id="step3Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Vocabulary generated!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step3Summary"></span>
+        </div>
+      </div>
+
+      <!-- STEP 4: Generate Question Audio (Gemini TTS) -->
+      <div class="card" id="step4Card" style="opacity:0.5;pointer-events:none;">
+        <h3>🔊 Step 4: Generate Question Audio</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          Uses Gemini TTS to generate natural examiner audio for each question. Audio is converted to MP3 and uploaded to Supabase on publish.
+        </p>
+
+        <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-end;">
+          <div style="flex:0 0 auto;">
+            <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+            <div style="display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid #4285f4;background:#e8f0fe;font-size:13px;font-weight:500;">
+              <span>🔵 Gemini</span>
+              <span style="font-size:11px;color:var(--muted);margin-left:4px;">(TTS only)</span>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block;">VOICE</label>
+            <select id="ttsVoice" style="width:100%;padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;">
+              <option value="Kore" selected>Kore (Female, warm)</option>
+              <option value="Aoede">Aoede (Female, bright)</option>
+              <option value="Leda">Leda (Female, calm)</option>
+              <option value="Puck">Puck (Male, casual)</option>
+              <option value="Charon">Charon (Male, deep)</option>
+              <option value="Orus">Orus (Male, clear)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="processing-status" id="step4Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step4Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step4Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step4Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step4Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step4Btn" onclick="runStep4()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;">
+          🔊 Generate Audio for All Questions
+        </button>
+
+        <div id="step4Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Audio generated!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step4Summary"></span>
+        </div>
+        <div id="step4AudioPreviews" style="display:none;margin-top:12px;"></div>
+      </div>
+
+      <!-- Final: Switch to Manual -->
+      <div class="card" id="stepFinalCard" style="display:none;">
+        <h3>🎉 All Steps Complete!</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          All data has been loaded into the Manual Editor. Switch to review, fine-tune, and publish.
+        </p>
+        <button class="btn btn-save" onclick="goToManualEditor()" style="width:100%;justify-content:center;padding:14px;">
+          ✏️ Go to Manual Editor
+        </button>
+      </div>
+
+    </div><!-- /autoMode -->
+
+  </div><!-- /main -->
+</div>
+
+<!-- Preview Overlay -->
+<div class="preview-overlay" id="previewOverlay" onclick="closePreview()">
+  <div class="pv-wrap" onclick="event.stopPropagation()" style="position:relative;">
+    <!-- Sub-panels (samples / vocab) rendered on top -->
+    <div class="pv-subpanel" id="pvSamplesPanel">
+      <div class="pv-subpanel-header"><span>📚 Sample Answers</span><button onclick="closePvSubpanel('pvSamplesPanel')">✕</button></div>
+      <div class="pv-subpanel-body" id="pvSamplesBody"></div>
+    </div>
+    <div class="pv-subpanel" id="pvVocabPanel">
+      <div class="pv-subpanel-header"><span>📖 Topic Vocabulary</span><button onclick="closePvSubpanel('pvVocabPanel')">✕</button></div>
+      <div class="pv-subpanel-body" id="pvVocabBody"></div>
+    </div>
+
+    <!-- Top bar -->
+    <div class="pv-topbar">
+      <span id="pvTitle">CEFR Speaking</span>
+      <span class="pv-chip" id="pvProgress">Q1 / 8</span>
+      <button class="pv-close" onclick="closePreview()">✕</button>
+    </div>
+
+    <!-- Part indicator -->
+    <div class="pv-parts" id="pvParts"></div>
+
+    <!-- Question content (swapped per question) -->
+    <div class="pv-body" id="pvBody"></div>
+
+    <!-- Navigation -->
+    <div class="pv-nav" id="pvNav">
+      <button class="pv-prev" id="pvPrev" onclick="pvGo(-1)">← Previous</button>
+      <button class="pv-next" id="pvNext" onclick="pvGo(1)">Next →</button>
+    </div>
+
+    <!-- Finish panel (shown after last question) -->
+    <div class="pv-finish" id="pvFinish" style="display:none;">
+      <h3>🎉 Test Preview Complete</h3>
+      <p style="font-size:13px;color:#5a6a75;margin-bottom:16px;">Review all sections of this mock below</p>
+      <button class="pv-fbtn" style="background:#16a34a;" onclick="openPvSamples()">📚 See Samples</button>
+      <button class="pv-fbtn" style="background:#2563eb;" onclick="openPvVocab()">📖 Topic Vocabulary</button>
+      <button class="pv-fbtn" style="background:#64748b;" onclick="pvGoToQ(0)">← Back to Questions</button>
+      <button class="pv-fbtn" style="background:#374151;" onclick="closePreview()">✕ Close Preview</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================================
+// CONFIG
+// ============================================================================
+const SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+const TABLE = 'mock_tests';
+
+// Dynamic based on user choice
+let MOCK_TYPE = ''; // 'cefr-speaking' or 'ielts-speaking'
+let EXAM_MODE = ''; // 'cefr' or 'ielts'
+let Q_TEMPLATE = [];
+
+const CEFR_Q_TEMPLATE = [
+  { number: 1, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false },
+  { number: 2, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false },
+  { number: 3, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false },
+  { number: 4, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: true },
+  { number: 5, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: true },
+  { number: 6, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: true },
+  { number: 7, part: 'Part 2', badge: '2:00', prepTime: 60, speakTime: 120, hasImages: true },
+  { number: 8, part: 'Part 3', badge: '2:00', prepTime: 60, speakTime: 120, hasImages: false },
+];
+
+const IELTS_Q_TEMPLATE = [
+  { number: 1, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 2, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 3, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 4, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 5, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 6, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 7, part: 'Part 1', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false, hasTopic: true },
+  { number: 8, part: 'Part 2', badge: '2:00', prepTime: 60, speakTime: 120, hasImages: false },
+  { number: 9, part: 'Part 2 Follow-up', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false },
+  { number: 10, part: 'Part 2 Follow-up', badge: '30s', prepTime: 5, speakTime: 30, hasImages: false },
+  { number: 11, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 12, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 13, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 14, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 15, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 16, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+  { number: 17, part: 'Part 3', badge: '45s', prepTime: 5, speakTime: 45, hasImages: false },
+];
+
+const TOKEN_TYPES = ['adv', 'colloc', 'phrasal', 'idiom', 'proverb'];
+
+// Sample level keys per exam type
+function getSampleKeys() {
+  if (EXAM_MODE === 'ielts') return ['Band5', 'Band6', 'Band7', 'Band8', 'Band9'];
+  return ['A1', 'A2', 'B1', 'B2'];
+}
+
+function getSampleLabels() {
+  if (EXAM_MODE === 'ielts') return ['Band 5', 'Band 6', 'Band 7', 'Band 8', 'Band 9'];
+  return ['A1', 'A2', 'B1', 'B2'];
+}
+
+function getTopSampleLabel() {
+  return EXAM_MODE === 'ielts' ? 'Sample Answer (Band 9 level)' : 'Sample Answer (C1 level)';
+}
+
+// ============================================================================
+// STATE
+// ============================================================================
+let currentMode = 'manual'; // 'manual' | 'auto'
+let currentSection = 'images';
+let uploadedFiles = [];
+let tokensData = {};
+let editingMockId = null;
+
+// ============================================================================
+// EXAM MODE INIT
+// ============================================================================
+function initExamMode(mode) {
+  EXAM_MODE = mode;
+  MOCK_TYPE = mode + '-speaking';
+  Q_TEMPLATE = mode === 'ielts' ? IELTS_Q_TEMPLATE : CEFR_Q_TEMPLATE;
+
+  // Close popup
+  document.getElementById('modePopup').style.display = 'none';
+
+  // Update header badge
+  document.getElementById('examTypeBadge').textContent = (mode === 'ielts' ? 'IELTS' : 'CEFR') + ' Speaking';
+
+  // Update sidebar
+  const qCount = Q_TEMPLATE.length;
+  document.getElementById('sideQuestionsLabel').textContent = `Questions (${qCount})`;
+
+  // Show/hide announcements sidebar & images section
+  document.getElementById('sideAnnouncements').style.display = mode === 'ielts' ? 'flex' : 'none';
+
+  // Update questions heading & subtext
+  document.getElementById('questionsHeading').textContent = `Questions (${qCount} total)`;
+  if (mode === 'ielts') {
+    document.getElementById('questionsSubtext').textContent =
+      'Part 1: Q1–Q7 (30s) · Part 2: Q8 cue card (2 min) · Part 2 Follow-up: Q9–Q10 (30s) · Part 3: Q11–Q17 (45s)';
+  } else {
+    document.getElementById('questionsSubtext').textContent =
+      'Part 1: Q1–Q6 (30s each) · Part 2: Q7 (2 min monologue) · Part 3: Q8 (2 min discussion)';
+  }
+
+  // Update images section title for IELTS (no images needed)
+  if (mode === 'ielts') {
+    document.querySelectorAll('[data-sec="images"]').forEach(el => el.style.display = 'none');
+    document.getElementById('sec-images').classList.remove('active');
+    document.getElementById('autoImagesCard').style.display = 'none';
+    showSection('questions');
+  } else {
+    document.querySelectorAll('[data-sec="images"]').forEach(el => el.style.display = '');
+    document.getElementById('autoImagesCard').style.display = '';
+  }
+
+  // Build UI
+  buildQuestionCards();
+  addTokenRow();
+  loadSavedMocks();
+  suggestNextMockNumber();
+  setupImagePreviews();
+  setupDragDrop();
+  setupModelSelector();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Show mode popup on load
+  document.getElementById('modePopup').style.display = 'flex';
+});
+
+// ============================================================================
+// SIDEBAR NAVIGATION
+// ============================================================================
+function showSection(sec) {
+  currentSection = sec;
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('sec-' + sec);
+  if (panel) panel.classList.add('active');
+
+  document.querySelectorAll('.sidebar-item[data-sec]').forEach(item => {
+    item.classList.toggle('active', item.dataset.sec === sec);
+  });
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('manualMode').style.display = mode === 'manual' ? 'block' : 'none';
+  document.getElementById('autoMode').style.display = mode === 'auto' ? 'block' : 'none';
+  document.getElementById('modeManualBtn').classList.toggle('active', mode === 'manual');
+  document.getElementById('modeAutoBtn').classList.toggle('active', mode === 'auto');
+  document.getElementById('sideManual').classList.toggle('active', mode === 'manual');
+  document.getElementById('sideAuto').classList.toggle('active', mode === 'auto');
+}
+
+// ============================================================================
+// BUILD QUESTION CARDS
+// ============================================================================
+function buildQuestionCards() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+
+  const sampleKeys = getSampleKeys();
+  const sampleLabels = getSampleLabels();
+  const topLabel = getTopSampleLabel();
+
+  Q_TEMPLATE.forEach((qt, idx) => {
+    const qNum = qt.number;
+    const partNorm = qt.part.replace(/\s+/g, '').toLowerCase();
+    const partClass = qt.part === 'Part 2 Follow-up' ? 'p2followup'
+      : partNorm.startsWith('part1') ? 'p1'
+      : partNorm.startsWith('part2') ? 'p2' : 'p3';
+
+    let extraFields = '';
+
+    // Topic field for IELTS Part 1
+    let topicField = '';
+    if (qt.hasTopic) {
+      topicField = `
+            <div class="field">
+              <label>Topic</label>
+              <input type="text" id="q${qNum}-topic" placeholder="e.g. Hometown, Studies, Work">
+            </div>`;
+    }
+
+    // Part 2 (cue card): bullet points
+    if (qt.part === 'Part 2') {
+      extraFields = `
+        <div class="q-tab-panel" data-qtab="extra-${qNum}">
+          <div class="field">
+            <label>Bullet Points (one per line)</label>
+            <textarea id="q${qNum}-bullets" placeholder="Describe an achievement...
+How did this success influence...
+How does the definition of success vary..."></textarea>
+            <div class="field-hint">Cue card prompts for Part 2 monologue</div>
+          </div>
+        </div>`;
+    }
+
+    // Part 3: debate points (CEFR only)
+    if (qt.part === 'Part 3' && EXAM_MODE === 'cefr') {
+      extraFields = `
+        <div class="q-tab-panel" data-qtab="extra-${qNum}">
+          <div class="field">
+            <label>FOR Points (one per line)</label>
+            <textarea id="q${qNum}-for" placeholder="Higher taxes can reduce inequality..."></textarea>
+          </div>
+          <div class="field">
+            <label>AGAINST Points (one per line)</label>
+            <textarea id="q${qNum}-against" placeholder="High taxes may discourage investment..."></textarea>
+          </div>
+        </div>`;
+    }
+
+    const hasExtra = qt.part === 'Part 2' || (qt.part === 'Part 3' && EXAM_MODE === 'cefr');
+
+    // Build sample fields dynamically
+    const sampleRows = [];
+    for (let i = 0; i < sampleKeys.length; i += 2) {
+      const pair = sampleKeys.slice(i, i + 2);
+      const labelPair = sampleLabels.slice(i, i + 2);
+      sampleRows.push(`<div class="field-row">` +
+        pair.map((k, j) => `
+              <div class="field">
+                <label>Sample ${labelPair[j]}</label>
+                <textarea id="q${qNum}-sample${k}" style="min-height:60px;"></textarea>
+              </div>`).join('') +
+        `</div>`);
+    }
+
+    // Build uzbek sample fields dynamically
+    const uzRows = [];
+    for (let i = 0; i < sampleKeys.length; i += 2) {
+      const pair = sampleKeys.slice(i, i + 2);
+      const labelPair = sampleLabels.slice(i, i + 2);
+      uzRows.push(`<div class="field-row">` +
+        pair.map((k, j) => `
+              <div class="field">
+                <label>Uzbek ${labelPair[j]}</label>
+                <textarea id="q${qNum}-uz${k}" style="min-height:60px;"></textarea>
+              </div>`).join('') +
+        `</div>`);
+    }
+
+    const html = `
+      <div class="q-card" id="qcard-${qNum}">
+        <div class="q-card-header" onclick="toggleQCard(${qNum})">
+          <div class="q-title">
+            <span class="q-badge q-badge-${partClass}">${qt.part}</span>
+            Q${qNum} — <span id="q${qNum}-preview-text" style="font-weight:400;color:var(--muted);font-size:13px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">(empty)</span>
+          </div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="q-card-body" id="qbody-${qNum}">
+          <div class="q-tabs">
+            <div class="q-tab active" onclick="showQTab(${qNum},'prompt')">Prompt</div>
+            <div class="q-tab" onclick="showQTab(${qNum},'samples')">Samples</div>
+            <div class="q-tab" onclick="showQTab(${qNum},'uzbek')">Uzbek</div>
+            <div class="q-tab" onclick="showQTab(${qNum},'vocab')">Vocabulary</div>
+            ${hasExtra ? `<div class="q-tab" onclick="showQTab(${qNum},'extra')">Extra</div>` : ''}
+          </div>
+
+          <!-- Prompt tab -->
+          <div class="q-tab-panel active" data-qtab="prompt-${qNum}">
+            ${topicField}
+            <div class="field">
+              <label>Question Prompt</label>
+              <textarea id="q${qNum}-prompt" placeholder="e.g. Do you have many books at home?"
+                        oninput="updateQPreview(${qNum})">${''}</textarea>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Audio File URL</label>
+                <input type="url" id="q${qNum}-audio" placeholder="${EXAM_MODE === 'ielts' ? 'questions IELTS S/audio/...' : 'questions S/audio/...'}">
+              </div>
+              <div class="field">
+                <label>Has Images</label>
+                <select id="q${qNum}-hasImages">
+                  <option value="false" ${!qt.hasImages ? 'selected' : ''}>No</option>
+                  <option value="true" ${qt.hasImages ? 'selected' : ''}>Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Samples tab -->
+          <div class="q-tab-panel" data-qtab="samples-${qNum}">
+            <div class="field">
+              <label>${topLabel}</label>
+              <textarea id="q${qNum}-sample" placeholder="Full sample answer with HTML markup..."></textarea>
+            </div>
+            ${sampleRows.join('\n')}
+          </div>
+
+          <!-- Uzbek tab -->
+          <div class="q-tab-panel" data-qtab="uzbek-${qNum}">
+            <div class="field">
+              <label>Uzbek Sample Answer</label>
+              <textarea id="q${qNum}-uzSample" style="min-height:60px;"></textarea>
+            </div>
+            ${uzRows.join('\n')}
+          </div>
+
+          <!-- Vocabulary tab -->
+          <div class="q-tab-panel" data-qtab="vocab-${qNum}">
+            <div class="field">
+              <label>Vocabulary Title</label>
+              <input type="text" id="q${qNum}-vocabTitle" placeholder="Q${qNum} - Topic related vocabulary">
+            </div>
+            <div class="field">
+              <label>Sentence Starters (one per line, use " — " to separate EN/UZ)</label>
+              <textarea id="q${qNum}-starters" style="min-height:80px;" placeholder='"Honestly speaking, I..." — "Rostini aytsam..."'></textarea>
+            </div>
+            <div class="field">
+              <label>Phrases (one per line, HTML allowed)</label>
+              <textarea id="q${qNum}-phrases" style="min-height:80px;" placeholder='<strong>extensive collection</strong> - "keng kolleksiya"'></textarea>
+            </div>
+            <div class="field">
+              <label>Idioms (one per line, HTML allowed)</label>
+              <textarea id="q${qNum}-idioms" style="min-height:80px;" placeholder='<strong>bookworm</strong> - "kitobxon"'></textarea>
+            </div>
+          </div>
+
+          <!-- Extra tab (Part 2/3 only) -->
+          ${extraFields}
+        </div>
+      </div>`;
+
+    container.insertAdjacentHTML('beforeend', html);
+  });
+}
+
+function toggleQCard(qNum) {
+  const body = document.getElementById('qbody-' + qNum);
+  const header = body.previousElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+}
+
+function showQTab(qNum, tab) {
+  const card = document.getElementById('qcard-' + qNum);
+  card.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+  card.querySelectorAll('.q-tab-panel').forEach(p => p.classList.remove('active'));
+
+  // Find the clicked tab button
+  const tabs = card.querySelectorAll('.q-tab');
+  tabs.forEach(t => {
+    if (t.textContent.trim().toLowerCase().startsWith(tab.substring(0, 4))) {
+      t.classList.add('active');
+    }
+  });
+
+  const panel = card.querySelector(`[data-qtab="${tab}-${qNum}"]`);
+  if (panel) panel.classList.add('active');
+}
+
+function updateQPreview(qNum) {
+  const text = document.getElementById(`q${qNum}-prompt`)?.value?.trim() || '(empty)';
+  const el = document.getElementById(`q${qNum}-preview-text`);
+  if (el) el.textContent = text.substring(0, 60) + (text.length > 60 ? '...' : '');
+}
+
+// ============================================================================
+// TOKEN TRANSLATIONS
+// ============================================================================
+let tokenRowCount = 0;
+
+function addTokenRow(phrase = '', uz = '', type = 'colloc') {
+  tokenRowCount++;
+  const id = tokenRowCount;
+  const html = `
+    <div class="field-row-3" id="token-row-${id}" style="margin-bottom:8px;align-items:end;">
+      <div class="field" style="margin-bottom:0;">
+        ${id === 1 ? '<label>English Phrase</label>' : ''}
+        <input type="text" class="token-en" value="${escHtml(phrase)}" placeholder="e.g. Honestly">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        ${id === 1 ? '<label>Uzbek Translation</label>' : ''}
+        <input type="text" class="token-uz" value="${escHtml(uz)}" placeholder="e.g. Rostini aytsam">
+      </div>
+      <div style="display:flex;gap:6px;align-items:end;">
+        <div class="field" style="margin-bottom:0;flex:1;">
+          ${id === 1 ? '<label>Type</label>' : ''}
+          <select class="token-type" style="width:100%;padding:10px 8px;border:2px solid var(--ring);border-radius:8px;font-size:13px;background:var(--bg);">
+            ${TOKEN_TYPES.map(t => `<option value="${t}" ${t === type ? 'selected' : ''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <button onclick="document.getElementById('token-row-${id}').remove()" style="background:var(--danger);color:white;border:none;width:34px;height:38px;border-radius:8px;cursor:pointer;font-size:14px;">✕</button>
+      </div>
+    </div>`;
+  document.getElementById('tokensList').insertAdjacentHTML('beforeend', html);
+}
+
+function importTokensBulk() {
+  try {
+    const json = JSON.parse(document.getElementById('tokensBulk').value);
+    document.getElementById('tokensList').innerHTML = '';
+    tokenRowCount = 0;
+    for (const [phrase, data] of Object.entries(json)) {
+      addTokenRow(phrase, data.uz || '', data.type || 'colloc');
+    }
+    showToast('Imported ' + Object.keys(json).length + ' tokens', 'success');
+  } catch (e) {
+    showToast('Invalid JSON format', 'error');
+  }
+}
+
+function collectTokens() {
+  const tokens = {};
+  document.querySelectorAll('[id^="token-row-"]').forEach(row => {
+    const en = row.querySelector('.token-en')?.value?.trim();
+    const uz = row.querySelector('.token-uz')?.value?.trim();
+    const type = row.querySelector('.token-type')?.value || 'colloc';
+    if (en && uz) tokens[en] = { uz, type };
+  });
+  return tokens;
+}
+
+// ============================================================================
+// IMAGE PREVIEWS
+// ============================================================================
+function setupImagePreviews() {
+  // Manual mode image previews
+  ['img1', 'img2'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function () {
+      const url = this.value.trim();
+      const preview = document.getElementById(id + 'Preview');
+      const placeholder = document.getElementById(id + 'Placeholder');
+      if (url) {
+        preview.src = url;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+        preview.onerror = () => { preview.style.display = 'none'; placeholder.style.display = 'block'; };
+      } else {
+        preview.style.display = 'none';
+        placeholder.style.display = 'block';
+      }
+    });
+  });
+  // Auto mode image previews
+  ['autoImg1', 'autoImg2'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function () {
+      const url = this.value.trim();
+      const preview = document.getElementById(id + 'Preview');
+      const placeholder = document.getElementById(id + 'Placeholder');
+      if (url) {
+        preview.src = url;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+        preview.onerror = () => { preview.style.display = 'none'; placeholder.style.display = 'block'; };
+      } else {
+        preview.style.display = 'none';
+        placeholder.style.display = 'block';
+      }
+    });
+  });
+}
+
+// ============================================================================
+// COLLECT ALL FORM DATA → SPEAKING_TEST_DATA
+// ============================================================================
+function collectFormData() {
+  const val = id => document.getElementById(id)?.value?.trim() || '';
+  const lines = id => (document.getElementById(id)?.value || '').split('\n').map(l => l.trim()).filter(Boolean);
+
+  const settings = {
+    logoUrl: '',
+    logoWording: '',
+    telegramChannel: '',
+    testIdentifier: '',
+    heading1: '',
+    heading2: '',
+  };
+
+  const images = {
+    img1: val('img1'),
+    img2: val('img2'),
+    img1Alt: val('img1Alt'),
+    img2Alt: val('img2Alt'),
+  };
+
+  const sampleKeys = getSampleKeys();
+
+  const questions = Q_TEMPLATE.map(qt => {
+    const q = qt.number;
+    const obj = {
+      number: qt.number,
+      part: qt.part,
+      badge: qt.badge,
+      prepTime: qt.prepTime,
+      speakTime: qt.speakTime,
+      prompt: val(`q${q}-prompt`),
+      audioFile: val(`q${q}-audio`),
+      hasImages: document.getElementById(`q${q}-hasImages`)?.value === 'true',
+      sampleAnswer: val(`q${q}-sample`),
+      uzSampleAnswer: val(`q${q}-uzSample`),
+      vocabulary: {
+        title: val(`q${q}-vocabTitle`),
+        sentenceStarters: lines(`q${q}-starters`),
+        phrases: lines(`q${q}-phrases`),
+        idioms: lines(`q${q}-idioms`),
+      },
+    };
+
+    // Dynamic sample levels
+    sampleKeys.forEach(k => {
+      obj['sample' + k] = val(`q${q}-sample${k}`);
+      obj['uzSample' + k] = val(`q${q}-uz${k}`);
+    });
+
+    // IELTS topic field
+    if (qt.hasTopic) {
+      obj.topic = val(`q${q}-topic`);
+    }
+
+    // Part 2: bullet points
+    if (qt.part === 'Part 2') {
+      obj.bulletPoints = lines(`q${q}-bullets`);
+    }
+
+    // Part 3: debate points (CEFR only)
+    if (qt.part === 'Part 3' && EXAM_MODE === 'cefr') {
+      obj.debatePoints = {
+        for: lines(`q${q}-for`),
+        against: lines(`q${q}-against`),
+      };
+    }
+
+    return obj;
+  });
+
+  const tokenTranslations = collectTokens();
+
+  const result = { settings, images, questions, tokenTranslations };
+
+  // Add announcements for IELTS
+  if (EXAM_MODE === 'ielts') {
+    if (_annMode === 'default' && _selectedPresetId !== '__original__') {
+      // Using a saved custom preset
+      const preset = getSelectedPresetData();
+      if (preset) {
+        result.announcements = {
+          mode: 'custom',
+          presetId: preset.id,
+          presetName: preset.name,
+          beforePart1: preset.texts?.beforePart1 || '',
+          beforePart2: preset.texts?.beforePart2 || '',
+          afterPart2Prep: preset.texts?.afterPart2Prep || '',
+          beforePart2FollowUp: preset.texts?.beforePart2FollowUp || '',
+          beforePart3: preset.texts?.beforePart3 || '',
+          afterExam: preset.texts?.afterExam || '',
+          announcementAudios: preset.audioUrls || {},
+        };
+      } else {
+        result.announcements = { mode: 'default' };
+      }
+    } else if (_annMode === 'create') {
+      result.announcements = {
+        mode: 'custom',
+        beforePart1: val('ann-beforePart1'),
+        beforePart2: val('ann-beforePart2'),
+        afterPart2Prep: val('ann-afterPart2Prep'),
+        beforePart2FollowUp: val('ann-beforePart2FollowUp'),
+        beforePart3: val('ann-beforePart3'),
+        afterExam: val('ann-afterExam'),
+      };
+    } else {
+      // Original default
+      result.announcements = { mode: 'default' };
+    }
+  }
+
+  return result;
+}
+
+// ============================================================================
+// POPULATE FORM FROM DATA (for editing existing mocks)
+// ============================================================================
+function populateForm(data) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+  const setLines = (id, arr) => { const el = document.getElementById(id); if (el) el.value = (arr || []).join('\n'); };
+
+  // Settings removed — pulled from site config JS files
+
+  // Images
+  if (data.images) {
+    set('img1', data.images.img1);
+    set('img2', data.images.img2);
+    set('img1Alt', data.images.img1Alt);
+    set('img2Alt', data.images.img2Alt);
+    ['img1', 'img2'].forEach(id => document.getElementById(id)?.dispatchEvent(new Event('input')));
+  }
+
+  // Announcements (IELTS)
+  if (data.announcements && EXAM_MODE === 'ielts') {
+    // Restore mode & preset
+    if (data.announcements.mode === 'custom') {
+      // Check if this was from a saved preset
+      if (data.announcements.presetId) {
+        _selectedPresetId = data.announcements.presetId;
+        setAnnMode('default');
+      } else {
+        setAnnMode('create');
+        set('ann-beforePart1', data.announcements.beforePart1);
+        set('ann-beforePart2', data.announcements.beforePart2);
+        set('ann-afterPart2Prep', data.announcements.afterPart2Prep);
+        set('ann-beforePart2FollowUp', data.announcements.beforePart2FollowUp);
+        set('ann-beforePart3', data.announcements.beforePart3);
+        set('ann-afterExam', data.announcements.afterExam);
+        // Restore audio previews if available
+        if (data.announcements.announcementAudios) {
+          Object.entries(data.announcements.announcementAudios).forEach(([k, url]) => {
+            const audioEl = document.getElementById('annAudio-' + k);
+            if (audioEl && url) { audioEl.src = url; audioEl.style.display = ''; }
+          });
+        }
+      }
+    } else {
+      _selectedPresetId = '__original__';
+      setAnnMode('default');
+    }
+    renderAnnPresets();
+  }
+
+  const sampleKeys = getSampleKeys();
+
+  // Questions
+  if (data.questions) {
+    data.questions.forEach(q => {
+      const n = q.number;
+      set(`q${n}-prompt`, q.prompt);
+      set(`q${n}-audio`, q.audioFile);
+      if (document.getElementById(`q${n}-hasImages`)) {
+        document.getElementById(`q${n}-hasImages`).value = q.hasImages ? 'true' : 'false';
+      }
+      set(`q${n}-sample`, q.sampleAnswer);
+      set(`q${n}-uzSample`, q.uzSampleAnswer);
+
+      // Dynamic sample levels
+      sampleKeys.forEach(k => {
+        set(`q${n}-sample${k}`, q['sample' + k]);
+        set(`q${n}-uz${k}`, q['uzSample' + k]);
+      });
+
+      // Topic (IELTS Part 1)
+      if (q.topic) set(`q${n}-topic`, q.topic);
+
+      set(`q${n}-vocabTitle`, q.vocabulary?.title);
+      setLines(`q${n}-starters`, q.vocabulary?.sentenceStarters);
+      setLines(`q${n}-phrases`, q.vocabulary?.phrases);
+      setLines(`q${n}-idioms`, q.vocabulary?.idioms);
+
+      if (q.bulletPoints) setLines(`q${n}-bullets`, q.bulletPoints);
+      if (q.debatePoints) {
+        setLines(`q${n}-for`, q.debatePoints.for);
+        setLines(`q${n}-against`, q.debatePoints.against);
+      }
+
+      updateQPreview(n);
+    });
+  }
+
+  // Token translations
+  if (data.tokenTranslations) {
+    document.getElementById('tokensList').innerHTML = '';
+    tokenRowCount = 0;
+    for (const [phrase, info] of Object.entries(data.tokenTranslations)) {
+      addTokenRow(phrase, info.uz || '', info.type || 'colloc');
+    }
+  }
+}
+
+// ============================================================================
+// SUPABASE API HELPERS
+// ============================================================================
+async function sbFetch(path, options = {}) {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`;
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': options.prefer || 'return=representation',
+    ...options.headers,
+  };
+  const res = await fetch(url, { ...options, headers });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Supabase error ${res.status}: ${text}`);
+  }
+  return res.json();
+}
+
+// ============================================================================
+// SAVE MOCK (Draft or Published)
+// ============================================================================
+async function saveMock(status) {
+  const mockNum = parseInt(document.getElementById('mockNumber').value);
+  if (!mockNum || mockNum < 1) {
+    showToast('Please enter a valid mock number', 'error');
+    return;
+  }
+
+  const mockData = collectFormData();
+
+  // Validate at least Q1 prompt exists
+  if (!mockData.questions[0].prompt) {
+    showToast('Please enter at least Q1 prompt', 'error');
+    showSection('questions');
+    return;
+  }
+
+  const btn = status === 'published' ? document.getElementById('publishBtn') : document.getElementById('saveDraftBtn');
+  const origText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Saving...';
+
+  try {
+    // Upload TTS audio files to Supabase Storage if any were generated
+    if (window._step4Audios && Object.keys(window._step4Audios).length > 0) {
+      btn.innerHTML = '⏳ Uploading audio...';
+      const audioUrls = await uploadAudioFiles(mockNum);
+      // Set audio URLs in mockData
+      for (const [qIdx, url] of Object.entries(audioUrls)) {
+        const qi = parseInt(qIdx) - 1;
+        if (mockData.questions[qi]) {
+          mockData.questions[qi].audioFile = url;
+        }
+        // Also update the form field
+        const audioEl = document.getElementById(`q${qIdx}-audio`);
+        if (audioEl) audioEl.value = url;
+      }
+      if (Object.keys(audioUrls).length > 0) {
+        console.log(`🔊 Uploaded ${Object.keys(audioUrls).length} audio files`);
+      }
+      btn.innerHTML = '⏳ Saving...';
+    }
+
+    // Upload announcement audio files if any were generated (Create New mode)
+    if (window._annAudios && Object.keys(window._annAudios).length > 0 && _annMode === 'create') {
+      btn.innerHTML = '⏳ Uploading announcement audio...';
+      const annUrls = await uploadAnnouncementAudios(mockNum);
+      if (mockData.announcements) {
+        mockData.announcements.announcementAudios = { ...(mockData.announcements.announcementAudios || {}), ...annUrls };
+      }
+      if (Object.keys(annUrls).length > 0) {
+        console.log(`📢 Uploaded ${Object.keys(annUrls).length} announcement audio files`);
+        // Update preset audio URLs so future mocks can reuse them
+        updatePresetAudioUrls(annUrls);
+        // Also update audio player src in Create panel to use permanent URLs
+        Object.entries(annUrls).forEach(([k, url]) => {
+          const audioEl = document.getElementById('annAudio-' + k);
+          if (audioEl) { audioEl.src = url; }
+        });
+      }
+      btn.innerHTML = '⏳ Saving...';
+    }
+
+    const payload = {
+      mock_type: MOCK_TYPE,
+      mock_number: mockNum,
+      title: `Mock ${String(mockNum).padStart(2, '0')}`,
+      status: status,
+      mock_data: mockData,
+    };
+
+    if (editingMockId) {
+      // UPDATE existing
+      await sbFetch(`${TABLE}?id=eq.${editingMockId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      });
+    } else {
+      // INSERT (upsert on mock_type + mock_number)
+      await sbFetch(TABLE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+      });
+    }
+
+    showToast(`Mock ${mockNum} ${status === 'published' ? 'published' : 'saved as draft'} ✅`, 'success');
+    loadSavedMocks();
+  } catch (err) {
+    console.error('Save error:', err);
+    showToast('Save failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origText;
+  }
+}
+
+// ============================================================================
+// LOAD SAVED MOCKS LIST
+// ============================================================================
+let _allMocks = [];
+async function loadSavedMocks() {
+  try {
+    const mocks = await sbFetch(
+      `${TABLE}?mock_type=eq.${MOCK_TYPE}&select=id,mock_number,title,status,updated_at&order=mock_number.asc`,
+      { method: 'GET', prefer: 'count=exact' }
+    );
+    _allMocks = mocks || [];
+
+    const container = document.getElementById('savedMocksList');
+    if (!mocks || mocks.length === 0) {
+      container.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px 4px;">No saved mocks yet</div>';
+      return;
+    }
+
+    container.innerHTML = mocks.map(m => `
+      <div class="sidebar-item" style="padding:6px 12px;font-size:12px;display:flex;align-items:center;gap:6px;">
+        <span style="cursor:pointer;flex:1;display:flex;align-items:center;gap:6px;" onclick="loadMock(${m.id}, ${m.mock_number})">
+          <span>${m.status === 'published' ? '🟢' : '🟡'}</span>
+          <span>${escHtml(m.title)}</span>
+        </span>
+        <button onclick="event.stopPropagation();deleteMock(${m.id},'${escHtml(m.title)}')" title="Delete" style="background:none;border:none;cursor:pointer;font-size:11px;padding:2px;opacity:.5;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">🗑️</button>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Load mocks error:', err);
+    document.getElementById('savedMocksList').innerHTML =
+      '<div style="font-size:12px;color:var(--danger);padding:8px 4px;">Failed to load</div>';
+  }
+}
+
+// ============================================================================
+// MOCK MANAGER (Overlay)
+// ============================================================================
+function openMockManager() {
+  const overlay = document.getElementById('mockManagerOverlay');
+  overlay.style.display = 'flex';
+  overlay.onclick = (e) => { if (e.target === overlay) closeMockManager(); };
+  renderMockManagerList();
+}
+
+function closeMockManager() {
+  document.getElementById('mockManagerOverlay').style.display = 'none';
+}
+
+function renderMockManagerList() {
+  const list = document.getElementById('mockManagerList');
+  if (!_allMocks.length) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:32px;">No saved mocks yet</div>';
+    return;
+  }
+  list.innerHTML = _allMocks.map(m => {
+    const date = m.updated_at ? new Date(m.updated_at).toLocaleDateString() : '';
+    return `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">
+      <div style="font-size:20px;">${m.status === 'published' ? '🟢' : '🟡'}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${escHtml(m.title)}</div>
+        <div style="font-size:11px;color:var(--muted);">${m.status} · ${date}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="loadMock(${m.id},${m.mock_number});closeMockManager()" title="Edit"
+          style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">✏️ Edit</button>
+        <button onclick="toggleMockStatus(${m.id},'${m.status}')" title="Toggle status"
+          style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">${m.status === 'published' ? '📥 Unpublish' : '🚀 Publish'}</button>
+        <button onclick="duplicateMock(${m.id})" title="Duplicate"
+          style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">📋 Clone</button>
+        <button onclick="deleteMock(${m.id},'${escHtml(m.title)}')" title="Delete"
+          style="padding:6px 10px;border:1px solid #fecaca;border-radius:6px;background:#fef2f2;cursor:pointer;font-size:12px;color:#dc2626;">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function deleteMock(id, title) {
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+    if (editingMockId === id) editingMockId = null;
+    showToast(`Deleted ${title}`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Delete error:', err);
+    showToast('Delete failed: ' + err.message, 'error');
+  }
+}
+
+async function toggleMockStatus(id, currentStatus) {
+  const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: newStatus }),
+    });
+    showToast(`Status changed to ${newStatus}`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Toggle status error:', err);
+    showToast('Status change failed: ' + err.message, 'error');
+  }
+}
+
+async function duplicateMock(id) {
+  try {
+    const rows = await sbFetch(`${TABLE}?id=eq.${id}&select=*`, { method: 'GET' });
+    if (!rows?.length) { showToast('Mock not found', 'error'); return; }
+    const src = rows[0];
+
+    // Find next available mock number
+    const maxNum = _allMocks.reduce((max, m) => Math.max(max, m.mock_number), 0);
+    const newNum = maxNum + 1;
+
+    await sbFetch(TABLE, {
+      method: 'POST',
+      body: JSON.stringify({
+        mock_type: src.mock_type,
+        mock_number: newNum,
+        title: `Mock ${String(newNum).padStart(2, '0')}`,
+        status: 'draft',
+        mock_data: src.mock_data,
+      }),
+    });
+    showToast(`Cloned as Mock ${newNum} (draft)`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Duplicate error:', err);
+    showToast('Clone failed: ' + err.message, 'error');
+  }
+}
+
+// ============================================================================
+// LOAD A SPECIFIC MOCK FOR EDITING
+// ============================================================================
+async function loadMock(id, mockNum) {
+  try {
+    const rows = await sbFetch(`${TABLE}?id=eq.${id}&select=*`, { method: 'GET' });
+    if (!rows || rows.length === 0) {
+      showToast('Mock not found', 'error');
+      return;
+    }
+
+    const mock = rows[0];
+    editingMockId = mock.id;
+    document.getElementById('mockNumber').value = mock.mock_number;
+    document.getElementById('mockNumBadge').textContent = `Mock ${mock.mock_number}`;
+
+    populateForm(mock.mock_data);
+    switchMode('manual');
+    showSection('images');
+    showToast(`Loaded Mock ${mock.mock_number}`, 'info');
+  } catch (err) {
+    console.error('Load mock error:', err);
+    showToast('Failed to load mock', 'error');
+  }
+}
+
+// ============================================================================
+// SUGGEST NEXT MOCK NUMBER
+// ============================================================================
+async function suggestNextMockNumber() {
+  try {
+    const mocks = await sbFetch(
+      `${TABLE}?mock_type=eq.${MOCK_TYPE}&select=mock_number&order=mock_number.desc&limit=1`,
+      { method: 'GET' }
+    );
+    // CEFR static mocks go up to 65, IELTS static mocks go up to 66
+    const staticMax = EXAM_MODE === 'ielts' ? 66 : 65;
+    const lastDb = mocks && mocks.length > 0 ? mocks[0].mock_number : staticMax;
+    const next = Math.max(lastDb + 1, staticMax + 1);
+    document.getElementById('mockNumber').value = next;
+    document.getElementById('mockNumBadge').textContent = `Mock ${next} (new)`;
+  } catch {
+    const fallback = EXAM_MODE === 'ielts' ? 67 : 66;
+    document.getElementById('mockNumber').value = fallback;
+  }
+}
+
+function createNewMock() {
+  // Clear the current mock ID so saving creates a new record
+  window._currentMockId = null;
+  // Reset all form fields
+  const qCount = EXAM_MODE === 'ielts' ? 17 : 8;
+  const sKeys = getSampleKeys();
+  for (let n = 1; n <= qCount; n++) {
+    const fields = [
+      `q${n}-prompt`, `q${n}-topic`, `q${n}-bullets`, `q${n}-debateFor`, `q${n}-debateAgainst`,
+      `q${n}-sample`, `q${n}-uzSample`,
+      `q${n}-vocabTitle`, `q${n}-starters`, `q${n}-phrases`, `q${n}-idioms`
+    ];
+    sKeys.forEach(k => { fields.push(`q${n}-sample${k}`, `q${n}-uzSample${k}`); });
+    fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    const prev = document.getElementById(`q${n}-preview`);
+    if (prev) prev.textContent = '';
+  }
+  // Clear images
+  ['imageUrl1', 'imageUrl2'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const imgPrev = document.getElementById('imagePreview');
+  if (imgPrev) imgPrev.innerHTML = '';
+  // Clear tokens
+  const tokensList = document.getElementById('tokensList');
+  if (tokensList) { tokensList.innerHTML = ''; tokenRowCount = 0; }
+  // Clear announcements
+  ['ann-beforePart1','ann-beforePart2','ann-afterPart2Prep','ann-beforePart2FollowUp','ann-beforePart3','ann-afterExam'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  // Reset announcement mode & audio + preset selection
+  window._selectedPresetId = '__original__';
+  if (typeof setAnnMode === 'function') setAnnMode('default');
+  if (typeof renderAnnPresets === 'function') renderAnnPresets();
+  window._annAudios = {};
+  ANN_KEYS.forEach(k => {
+    const a = document.getElementById('annAudio-' + k);
+    if (a) { a.src = ''; a.style.display = 'none'; }
+  });
+  // Reset dots
+  document.querySelectorAll('.dot').forEach(d => { d.className = 'dot dot-empty'; });
+  // Assign next mock number
+  suggestNextMockNumber();
+  // Navigate to first relevant section
+  showSection(EXAM_MODE === 'ielts' ? 'questions' : 'images');
+  showToast('Ready to create a new mock', 'success');
+}
+
+// ============================================================================
+// PREVIEW
+// ============================================================================
+// ── Preview state ──
+let pvData = null;
+let pvIndex = 0;       // current question index (0-based)
+let pvFinished = false; // showing finish panel
+
+function openPreview() {
+  pvData = collectFormData();
+  pvIndex = 0;
+  pvFinished = false;
+  const total = pvData.questions.length;
+  const mockNum = document.getElementById('mockNumber').value || '??';
+
+  document.getElementById('pvTitle').textContent =
+    `${EXAM_MODE === 'ielts' ? 'IELTS' : 'CEFR'} Speaking · Mock ${mockNum}`;
+
+  // Build part indicator dots
+  buildPvParts();
+  pvRenderQuestion();
+
+  document.getElementById('previewOverlay').classList.add('visible');
+}
+
+function closePreview() {
+  document.getElementById('previewOverlay').classList.remove('visible');
+  // Stop any playing audio
+  document.querySelectorAll('#pvBody audio').forEach(a => { a.pause(); a.currentTime = 0; });
+}
+
+function buildPvParts() {
+  const partsEl = document.getElementById('pvParts');
+  // Collect unique parts in order
+  const parts = [];
+  const seen = new Set();
+  pvData.questions.forEach(q => {
+    const key = q.part;
+    if (!seen.has(key)) { seen.add(key); parts.push(key); }
+  });
+  let html = '';
+  parts.forEach((p, i) => {
+    if (i > 0) html += '<div class="pv-part-conn"></div>';
+    const label = p.replace('Part ', '');
+    html += `<div class="pv-part-dot" data-pvpart="${p}">${label}</div>`;
+  });
+  partsEl.innerHTML = html;
+}
+
+function pvUpdateParts(currentPart) {
+  const dots = document.querySelectorAll('.pv-part-dot');
+  let foundCurrent = false;
+  dots.forEach(d => {
+    const p = d.dataset.pvpart;
+    if (p === currentPart) { d.className = 'pv-part-dot active'; foundCurrent = true; }
+    else if (!foundCurrent) { d.className = 'pv-part-dot done'; }
+    else { d.className = 'pv-part-dot'; }
+  });
+}
+
+function pvRenderQuestion() {
+  const total = pvData.questions.length;
+  const q = pvData.questions[pvIndex];
+  const tmpl = Q_TEMPLATE.find(t => t.number === q.number) || {};
+
+  // Show question panels, hide finish
+  document.getElementById('pvBody').style.display = 'block';
+  document.getElementById('pvNav').style.display = 'flex';
+  document.getElementById('pvFinish').style.display = 'none';
+  pvFinished = false;
+
+  // Progress chip
+  document.getElementById('pvProgress').textContent = `Q${pvIndex + 1} / ${total}`;
+
+  // Part indicator
+  pvUpdateParts(q.part);
+
+  // Build question HTML
+  let html = '';
+
+  // Part + Question label
+  html += `<div class="pv-qlabel">${q.part} — Question ${q.number} · ${q.badge}</div>`;
+
+  // For Q7 with bullet points (CEFR), show all points in one card (prompt bold + bullets)
+  if (EXAM_MODE === 'cefr' && q.number === 7 && q.bulletPoints?.length) {
+    html += `<div class="pv-bullets"><ul>`;
+    html += `<li>${escHtml(q.prompt)}</li>`;
+    q.bulletPoints.forEach(b => { html += `<li>${escHtml(b)}</li>`; });
+    html += `</ul></div>`;
+  }
+  // For Q8 with debate points (CEFR), show statement + for/against
+  else if (EXAM_MODE === 'cefr' && q.number === 8 && q.debatePoints) {
+    html += `<div style="font-weight:700;font-size:clamp(16px,2.2vw,20px);margin-bottom:12px;color:#116a60;text-align:center;">${escHtml(q.prompt)}</div>`;
+  }
+  // For IELTS Q8 with bullets
+  else if (EXAM_MODE === 'ielts' && q.number === 8 && q.bulletPoints?.length) {
+    html += `<div class="pv-prompt">${escHtml(q.prompt)}</div>`;
+    html += `<div class="pv-bullets"><ul>`;
+    q.bulletPoints.forEach(b => { html += `<li>${escHtml(b)}</li>`; });
+    html += `</ul></div>`;
+  }
+  else {
+    html += `<div class="pv-prompt">${escHtml(q.prompt) || '<em style="color:#999;">No prompt</em>'}</div>`;
+  }
+
+  // Timer dials
+  const prepSecs = tmpl.prepTime || 5;
+  const speakSecs = tmpl.speakTime || 30;
+  const fmtTime = s => String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  html += `<div class="pv-dials">
+    <div class="pv-dial-box">
+      <div class="pv-dial" style="--pct:0;--clr:#e53935;">
+        <div style="text-align:center;"><div class="pv-time">${fmtTime(prepSecs)}</div><div class="pv-dlabel">prep</div></div>
+      </div>
+      <div class="pv-dial-title">Get Ready</div>
+    </div>
+    <div class="pv-dial-box inactive">
+      <div class="pv-dial speak" style="--pct:0;--clr:#f6c000;">
+        <div style="text-align:center;"><div class="pv-time">${fmtTime(speakSecs)}</div><div class="pv-dlabel">speak</div></div>
+      </div>
+      <div class="pv-dial-title">Speak Now</div>
+    </div>
+  </div>`;
+
+  // Audio player (if TTS was generated or saved URL exists)
+  const hasBlob = window._step4Audios && window._step4Audios[q.number];
+  const audioUrl = q.audioFile && q.audioFile.startsWith('http') ? q.audioFile : '';
+  if (hasBlob || audioUrl) {
+    const src = hasBlob ? URL.createObjectURL(window._step4Audios[q.number]) : escHtml(audioUrl);
+    html += `<div class="pv-audio">
+      <audio src="${src}" style="width:100%;height:36px;border-radius:8px;" controls></audio>
+    </div>`;
+  } else {
+    html += `<div style="text-align:center;font-size:12px;color:#999;padding:6px 0;">No audio generated yet</div>`;
+  }
+
+  // Images (CEFR Q4-Q7 or any question with hasImages)
+  if (q.hasImages && (pvData.images.img1 || pvData.images.img2)) {
+    html += `<div class="pv-images">`;
+    if (pvData.images.img1) html += `<img src="${escHtml(pvData.images.img1)}" alt="${escHtml(pvData.images.img1Alt || '')}">`;
+    if (pvData.images.img2) html += `<img src="${escHtml(pvData.images.img2)}" alt="${escHtml(pvData.images.img2Alt || '')}">`;
+    html += `</div>`;
+  }
+
+  // Debate points (CEFR Q8)
+  if (EXAM_MODE === 'cefr' && q.number === 8 && q.debatePoints) {
+    const forPts = q.debatePoints.for || [];
+    const agaPts = q.debatePoints.against || [];
+    if (forPts.length || agaPts.length) {
+      html += `<div class="pv-debate">`;
+      html += `<div class="pv-debate-box for"><span class="pv-dtag">FOR</span><ul>`;
+      forPts.forEach(p => { html += `<li>${escHtml(p)}</li>`; });
+      html += `</ul></div>`;
+      html += `<div class="pv-debate-box against"><span class="pv-dtag">AGAINST</span><ul>`;
+      agaPts.forEach(p => { html += `<li>${escHtml(p)}</li>`; });
+      html += `</ul></div></div>`;
+    }
+  }
+
+  // IELTS topic
+  if (q.topic) {
+    html += `<div style="font-size:12px;color:#5a6a75;background:#f0f4f8;padding:6px 10px;border-radius:6px;margin-top:4px;">Topic: <strong>${escHtml(q.topic)}</strong></div>`;
+  }
+
+  document.getElementById('pvBody').innerHTML = html;
+
+  // Auto-play audio for this question
+  setTimeout(() => {
+    const audio = document.querySelector('#pvBody .pv-audio audio');
+    if (audio) audio.play().catch(() => {});
+  }, 100);
+
+  // Nav button states
+  document.getElementById('pvPrev').disabled = (pvIndex === 0);
+  document.getElementById('pvNext').textContent = (pvIndex === total - 1) ? 'Finish →' : 'Next →';
+}
+
+function pvGo(dir) {
+  if (pvFinished && dir === -1) {
+    // From finish panel, go back to last question
+    pvRenderQuestion();
+    return;
+  }
+  const total = pvData.questions.length;
+  const next = pvIndex + dir;
+  if (next < 0) return;
+  if (next >= total) {
+    // Show finish panel
+    pvShowFinish();
+    return;
+  }
+  pvIndex = next;
+  pvRenderQuestion();
+}
+
+function pvGoToQ(idx) {
+  pvIndex = idx;
+  pvRenderQuestion();
+}
+
+function pvShowFinish() {
+  pvFinished = true;
+  document.getElementById('pvBody').style.display = 'none';
+  document.getElementById('pvNav').style.display = 'none';
+  document.getElementById('pvFinish').style.display = 'block';
+  document.getElementById('pvProgress').textContent = 'Done';
+  // Mark all part dots as done
+  document.querySelectorAll('.pv-part-dot').forEach(d => d.className = 'pv-part-dot done');
+}
+
+// ── Samples sub-panel ──
+function openPvSamples() {
+  const body = document.getElementById('pvSamplesBody');
+  const keys = getSampleKeys();
+  const labels = getSampleLabels();
+  let html = '';
+
+  const topKey = EXAM_MODE === 'ielts' ? 'Band9' : 'C1';
+  const topLabel = EXAM_MODE === 'ielts' ? 'Band 9' : 'C1';
+
+  // Level tabs + translate toggle
+  html += `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">`;
+  html += `<div class="pv-level-tabs" style="margin-bottom:0;">`;
+  html += `<div class="pv-level-tab active" onclick="pvSwitchLevel('top', this)">${topLabel}</div>`;
+  keys.forEach((k, i) => {
+    html += `<div class="pv-level-tab" onclick="pvSwitchLevel('${k}', this)">${labels[i]}</div>`;
+  });
+  html += `</div>`;
+  html += `<button id="pvTranslateBtn" onclick="pvToggleTranslate()" style="padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid #2563eb;background:#fff;color:#2563eb;white-space:nowrap;transition:all .2s;">🇺🇿 Translate</button>`;
+  html += `</div>`;
+
+  pvData.questions.forEach(q => {
+    html += `<div class="pv-sample-card">`;
+    html += `<div class="pv-sq">Q${q.number} — ${q.part}</div>`;
+    html += `<div class="pv-sp">${escHtml(q.prompt)}</div>`;
+    // Top-level sample (C1 / Band 9) — shown by default
+    if (q.sampleAnswer) {
+      html += `<div class="pv-st pv-level-text" data-level="top" style="display:block;">`;
+      html += `<div class="pv-sl" style="color:#116a60;">${topLabel} Sample:</div>`;
+      html += `<div class="pv-en-text">${stripTokenTags(q.sampleAnswer)}</div>`;
+      if (q.uzSampleAnswer) {
+        html += `<div class="pv-uz-text" style="display:none;margin-top:8px;padding:10px;background:#eff6ff;border-left:3px solid #2563eb;border-radius:6px;font-size:13px;line-height:1.6;color:#1e40af;">${escHtml(q.uzSampleAnswer)}</div>`;
+      }
+      html += `</div>`;
+    }
+    // Per-level samples — hidden by default
+    keys.forEach((k, i) => {
+      const val = q['sample' + k] || '';
+      if (val) {
+        html += `<div class="pv-st pv-level-text" data-level="${k}" style="display:none;">`;
+        html += `<div class="pv-sl" style="color:#7c3aed;">${labels[i]}:</div>`;
+        html += `<div class="pv-en-text">${stripTokenTags(val)}</div>`;
+        const uzVal = q['uzSample' + k] || '';
+        if (uzVal) {
+          html += `<div class="pv-uz-text" style="display:none;margin-top:8px;padding:10px;background:#eff6ff;border-left:3px solid #2563eb;border-radius:6px;font-size:13px;line-height:1.6;color:#1e40af;">${escHtml(uzVal)}</div>`;
+        }
+        html += `</div>`;
+      }
+    });
+    html += `</div>`;
+  });
+
+  body.innerHTML = html;
+  document.getElementById('pvSamplesPanel').classList.add('visible');
+  // Attach token tooltips after DOM is ready
+  setTimeout(() => initPvTokenTooltips(), 50);
+}
+
+function pvSwitchLevel(level, tabEl) {
+  // Hide any lingering tooltip
+  if (_pvTooltip) _pvTooltip.classList.remove('visible');
+  document.querySelectorAll('.pv-level-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.querySelectorAll('.pv-level-text').forEach(el => {
+    el.style.display = el.dataset.level === level ? 'block' : 'none';
+  });
+}
+
+let pvTranslateOn = false;
+function pvToggleTranslate() {
+  pvTranslateOn = !pvTranslateOn;
+  const btn = document.getElementById('pvTranslateBtn');
+  if (pvTranslateOn) {
+    btn.style.background = '#2563eb';
+    btn.style.color = '#fff';
+    btn.textContent = '🇺🇿 Hide Translation';
+  } else {
+    btn.style.background = '#fff';
+    btn.style.color = '#2563eb';
+    btn.textContent = '🇺🇿 Translate';
+  }
+  document.querySelectorAll('#pvSamplesBody .pv-uz-text').forEach(el => {
+    el.style.display = pvTranslateOn ? 'block' : 'none';
+  });
+}
+
+// ── Vocabulary sub-panel ──
+function openPvVocab() {
+  const body = document.getElementById('pvVocabBody');
+  let html = '';
+
+  pvData.questions.forEach(q => {
+    const v = q.vocabulary;
+    if (!v || (!v.sentenceStarters?.length && !v.phrases?.length && !v.idioms?.length)) return;
+
+    html += `<div class="pv-vocab-section">`;
+    html += `<div style="font-weight:700;color:#116a60;font-size:14px;margin-bottom:8px;border-left:3px solid #116a60;padding-left:10px;">Q${q.number} — ${escHtml(q.prompt).substring(0, 60)}${q.prompt.length > 60 ? '...' : ''}</div>`;
+
+    if (v.sentenceStarters?.length) {
+      html += `<h4 style="color:#7c3aed;">🎯 Sentence Starters</h4><ul>`;
+      v.sentenceStarters.forEach(s => { html += `<li>${escHtml(s)}</li>`; });
+      html += `</ul>`;
+    }
+    if (v.phrases?.length) {
+      html += `<h4 style="color:#059669;">💬 Useful Phrases</h4><ul>`;
+      v.phrases.forEach(s => { html += `<li>${safeVocabHtml(s)}</li>`; });
+      html += `</ul>`;
+    }
+    if (v.idioms?.length) {
+      html += `<h4 style="color:#2563eb;">🔄 Idioms / Proverbs</h4><ul>`;
+      v.idioms.forEach(s => { html += `<li>${safeVocabHtml(s)}</li>`; });
+      html += `</ul>`;
+    }
+    html += `</div>`;
+  });
+
+  // Token translations
+  const tokens = pvData.tokenTranslations;
+  const tokenEntries = Object.entries(tokens);
+  if (tokenEntries.length) {
+    html += `<div class="pv-vocab-section">`;
+    html += `<div style="font-weight:700;color:#116a60;font-size:14px;margin-bottom:8px;border-left:3px solid #116a60;padding-left:10px;">📚 Token Translations (${tokenEntries.length})</div>`;
+    html += `<ul>`;
+    tokenEntries.forEach(([en, obj]) => {
+      const typeLabel = obj.type || 'phrase';
+      html += `<li><strong>${escHtml(en)}</strong> — ${escHtml(obj.uz)} <span style="font-size:10px;color:#999;background:#f0f0f0;padding:1px 5px;border-radius:4px;">${typeLabel}</span></li>`;
+    });
+    html += `</ul></div>`;
+  }
+
+  if (!html) html = '<p style="color:#999;text-align:center;padding:20px;">No vocabulary data yet. Run Step 3 first.</p>';
+
+  body.innerHTML = html;
+  document.getElementById('pvVocabPanel').classList.add('visible');
+}
+
+function closePvSubpanel(id) {
+  document.getElementById(id).classList.remove('visible');
+  if (_pvTooltip) _pvTooltip.classList.remove('visible');
+}
+
+function pvPlayAudio(btn) {
+  const audio = btn.parentElement.querySelector('audio');
+  if (!audio) return;
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '⏸';
+    audio.onended = () => { btn.textContent = '▶'; };
+    audio.onpause = () => { btn.textContent = '▶'; };
+  } else {
+    audio.pause();
+    btn.textContent = '▶';
+  }
+}
+
+// Convert sample text with <span class="ml-token TYPE">text</span> into safe styled HTML with token tooltips
+function stripTokenTags(str) {
+  if (!str) return '';
+  // Build lookup from tokenTranslations
+  const lookup = {};
+  if (pvData && pvData.tokenTranslations) {
+    for (const [en, val] of Object.entries(pvData.tokenTranslations)) {
+      lookup[en.toLowerCase().replace(/^"|"$/g, '').trim()] = val;
+    }
+  }
+  const parts = [];
+  let last = 0;
+  const re = /<span\s+class="ml-token\s+(\w+)">(.*?)<\/span>/gi;
+  let m;
+  while ((m = re.exec(str)) !== null) {
+    if (m.index > last) parts.push(escHtml(str.slice(last, m.index)));
+    const type = m[1];
+    const text = m[2];
+    const key = text.toLowerCase().replace(/^"|"$/g, '').replace(/,\s*$/, '').trim();
+    // Try several lookup variants: exact, trimmed, without trailing 's', without leading 'to '
+    const match = lookup[key] || lookup[text.toLowerCase().trim()]
+      || lookup[key.replace(/s$/, '')] || lookup[key.replace(/^to\s+/, '')];
+    const uz = match ? escHtml(match.uz) : '';
+    const uzType = match ? escHtml(match.type || type) : escHtml(type);
+    // Always add data-uz-type so tooltip shows at least the type label
+    parts.push(`<span class="pv-token ${escHtml(type)}"${uz ? ` data-uz="${uz}"` : ''} data-uz-type="${uzType}">${escHtml(text)}</span>`);
+    last = m.index + m[0].length;
+  }
+  if (last < str.length) parts.push(escHtml(str.slice(last)));
+  return parts.join('');
+}
+
+function getTokenStyle(type) {
+  const styles = {
+    adv: 'color:#92400e;font-weight:600;background:rgba(245,158,11,.15);padding:2px 4px;border-radius:3px;',
+    colloc: 'color:#1e40af;font-weight:600;background:rgba(59,130,246,.15);padding:2px 4px;border-radius:3px;',
+    phrasal: 'color:#065f46;font-weight:600;background:rgba(16,185,129,.15);padding:2px 4px;border-radius:3px;',
+    idiom: 'color:#6b21a8;font-weight:600;background:rgba(168,85,247,.15);padding:2px 4px;border-radius:3px;',
+    proverb: 'color:#9f1239;font-weight:600;background:rgba(236,72,153,.15);padding:2px 4px;border-radius:3px;',
+  };
+  return styles[type] || 'font-weight:600;';
+}
+
+// Token tooltip
+let _pvTooltip = null;
+function initPvTokenTooltips() {
+  if (!_pvTooltip) {
+    _pvTooltip = document.createElement('div');
+    _pvTooltip.className = 'pv-tooltip';
+    document.body.appendChild(_pvTooltip);
+    // Dismiss on click outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.pv-token[data-uz]') && !e.target.closest('.pv-tooltip')) {
+        _pvTooltip.classList.remove('visible');
+      }
+    });
+    // Dismiss on scroll inside sub-panel
+    document.getElementById('pvSamplesPanel')?.addEventListener('scroll', () => {
+      _pvTooltip.classList.remove('visible');
+    });
+  }
+  // Attach click handlers ONLY to tokens that have an Uzbek translation
+  document.querySelectorAll('#pvSamplesBody .pv-token[data-uz]').forEach(span => {
+    span.style.cursor = 'pointer';
+    span.onclick = (e) => {
+      e.stopPropagation();
+      const uz = span.dataset.uz;
+      const uzType = span.dataset.uzType || '';
+      const typeLabels = { adv:'Adverbial', colloc:'Collocation', phrasal:'Phrasal verb', idiom:'Idiom', proverb:'Proverb' };
+      _pvTooltip.innerHTML = `<span class="tt-uz">${escHtml(uz)}</span><span class="tt-type">${typeLabels[uzType] || uzType.toUpperCase()}</span>`;
+      _pvTooltip.classList.add('visible');
+      const rect = span.getBoundingClientRect();
+      const ttWidth = _pvTooltip.offsetWidth;
+      let left = rect.left + (rect.width / 2) - (ttWidth / 2);
+      left = Math.max(8, Math.min(left, window.innerWidth - ttWidth - 8));
+      _pvTooltip.style.left = left + 'px';
+      _pvTooltip.style.top = (rect.bottom + 8) + 'px';
+      _pvTooltip.style.setProperty('--arrow-pos', (rect.left + rect.width / 2 - left) + 'px');
+    };
+  });
+}
+
+// ============================================================================
+// AUTO MODE — FILE UPLOAD
+// ============================================================================
+function setupDragDrop() {
+  const zone = document.getElementById('uploadZone');
+  ['dragenter', 'dragover'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+  });
+  zone.addEventListener('drop', e => {
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  });
+
+  // Paste support (Ctrl+V anywhere on the page)
+  document.addEventListener('paste', e => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    const imageFiles = [];
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        if (file) {
+          // Give pasted screenshots a readable name
+          const ext = file.type === 'image/png' ? 'png' : 'jpg';
+          const named = new File([file], `screenshot_${Date.now()}.${ext}`, { type: file.type });
+          imageFiles.push(named);
+        }
+      }
+    }
+    if (imageFiles.length > 0) {
+      e.preventDefault();
+      // Append to existing uploads instead of replacing
+      const merged = [...uploadedFiles, ...imageFiles];
+      handleFiles(merged);
+      showToast(`Pasted ${imageFiles.length} image(s)`, 'success');
+      // Flash the upload zone
+      zone.classList.add('drag-over');
+      setTimeout(() => zone.classList.remove('drag-over'), 400);
+    }
+  });
+}
+
+function handleFileUpload(event) {
+  const files = Array.from(event.target.files);
+  handleFiles(files);
+}
+
+function handleFiles(files) {
+  uploadedFiles = files;
+  const container = document.getElementById('uploadedFiles');
+  container.innerHTML = files.map(f => `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+      <span>📎</span>
+      <span style="font-size:13px;font-weight:500;">${escHtml(f.name)}</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:auto;">${(f.size / 1024).toFixed(1)} KB</span>
+    </div>
+  `).join('');
+  const s1 = document.getElementById('step1Btn');
+  if (s1) s1.disabled = files.length === 0;
+}
+
+// ============================================================================
+// AUTO MODE HELPERS
+// ============================================================================
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function getSelectedModel() {
+  return document.querySelector('input[name="aiModel"]:checked')?.value || 'claude';
+}
+function getStepModel(step) {
+  return document.querySelector(`input[name="step${step}Model"]:checked`)?.value || 'claude';
+}
+
+// ============================================================================
+// STEP-BASED AI PROMPTS
+// ============================================================================
+function getStep1Prompt() {
+  if (EXAM_MODE === 'ielts') {
+    return {
+      system: `You extract IELTS Speaking questions from test images. Output ONLY valid JSON (no markdown, no code fences).
+Return: { "questions": [ { "number": 1, "part": "Part 1", "topic": "Hometown", "prompt": "..." }, ... ] }
+- 17 questions: Q1-7 (Part 1, each with "topic"), Q8 (Part 2 cue card with "bulletPoints": [...]), Q9-10 (Part 2 Follow-up), Q11-17 (Part 3)
+- Also include "announcements": { "beforePart1": "...", "beforePart2": "...", "afterPart2Prep": "...", "beforePart2FollowUp": "...", "beforePart3": "...", "afterExam": "..." }
+- Extract EXACT prompts from images. If a question is not visible, create an appropriate one matching the theme.`,
+      user: 'Extract all 17 IELTS Speaking questions from these images. Return JSON with questions array and announcements object.'
+    };
+  }
+  return {
+    system: `You extract CEFR Speaking questions from test images. Output ONLY valid JSON (no markdown, no code fences).
+Return: { "questions": [ { "number": 1, "part": "Part 1", "prompt": "..." }, ... ] }
+- 8 questions: Q1-3 (Part 1, no images), Q4-6 (Part 1, with images), Q7 (Part 2, add "bulletPoints": [...]), Q8 (Part 3, add "debatePoints": { "for": [...], "against": [...] })
+- Extract EXACT prompts from images. If not visible, create appropriate ones matching the theme.`,
+    user: 'Extract all 8 CEFR Speaking questions from these images. Return JSON with questions array, including bulletPoints for Q7 and debatePoints for Q8.'
+  };
+}
+
+function getStep2Prompt(questions) {
+  const sKeys = getSampleKeys();
+  const sLabels = getSampleLabels();
+  const levelDesc = EXAM_MODE === 'ielts'
+    ? 'Band 5 (basic), Band 6 (competent), Band 7 (good), Band 8 (very good), Band 9 (expert)'
+    : 'A1 (beginner), A2 (elementary), B1 (intermediate), B2 (upper-intermediate)';
+  const topLevel = EXAM_MODE === 'ielts' ? 'Band 9' : 'B2+';
+
+  const qList = questions.map(q =>
+    `Q${q.number} (${q.part}): "${q.prompt}"`
+  ).join('\n');
+
+  const sampleFields = sKeys.map((k, i) => `"sample${k}": "${sLabels[i]} level answer"`).join(', ');
+  const uzFields = sKeys.map((k, i) => `"uzSample${k}": "Uzbek ${sLabels[i]}"`).join(', ');
+
+  return {
+    system: `You generate leveled sample answers for speaking test questions. Output ONLY valid JSON (no markdown, no code fences).
+Return: { "samples": [ { "number": 1, "sampleAnswer": "top-level answer (${topLevel})", ${sampleFields}, "uzSampleAnswer": "Uzbek translation of top answer", ${uzFields} }, ... ] }
+Levels: ${levelDesc}
+- Each sample must be a natural, realistic spoken answer at the appropriate level.
+- sampleAnswer should be ${topLevel} level.
+- Uzbek translations must be accurate.
+- Use HTML <span class="ml-token TYPE">word</span> markup for key vocabulary (TYPE: adv, colloc, phrasal, idiom, proverb).
+- Apply ml-token markup in ALL sample levels, not just the top level. sampleAnswer (${topLevel}) should have the most tokens (8-12 per answer). B2/Band7-8 answers should have moderate tokens (4-7). B1/Band5-6 and lower should have fewer tokens (2-4) using simpler vocabulary. Even A1-A2 can highlight 1-2 basic collocations or phrases.`,
+    user: `Generate leveled sample answers for these questions:\n${qList}\n\nReturn JSON with "samples" array. Each item needs: number, sampleAnswer, ${sKeys.map(k => 'sample' + k).join(', ')}, uzSampleAnswer, ${sKeys.map(k => 'uzSample' + k).join(', ')}. IMPORTANT: Include <span class="ml-token TYPE"> markup in ALL sample levels, with more tokens at higher levels and fewer at lower levels.`
+  };
+}
+
+// Build questions array with sample data from form fields (for Step 3 token extraction)
+function collectQuestionsWithSamples() {
+  const qCount = EXAM_MODE === 'ielts' ? 17 : 8;
+  const sKeys = getSampleKeys();
+  const questions = [];
+  for (let n = 1; n <= qCount; n++) {
+    const el = document.getElementById(`q${n}-prompt`);
+    if (!el) continue;
+    const q = {
+      number: n,
+      part: document.getElementById(`q${n}-part`)?.value || `Part ${n <= 3 ? 1 : n <= 6 ? 1 : n <= 7 ? 2 : 3}`,
+      prompt: el.value || '',
+      sampleAnswer: document.getElementById(`q${n}-sample`)?.value || ''
+    };
+    sKeys.forEach(k => {
+      q['sample' + k] = document.getElementById(`q${n}-sample${k}`)?.value || '';
+    });
+    questions.push(q);
+  }
+  return questions;
+}
+
+function getStep3Prompt(questions) {
+  const qList = questions.map(q =>
+    `Q${q.number} (${q.part}): "${q.prompt}"`
+  ).join('\n');
+
+  // Extract all annotated tokens from sample answers to ensure translations cover them
+  const tokenSet = new Set();
+  const sKeys = getSampleKeys();
+  questions.forEach(q => {
+    const allSamples = [q.sampleAnswer || '', ...(sKeys.map(k => q['sample' + k] || ''))];
+    allSamples.forEach(s => {
+      const re = /<span\s+class="ml-token\s+\w+">(.*?)<\/span>/gi;
+      let m;
+      while ((m = re.exec(s)) !== null) {
+        tokenSet.add(m[1].trim());
+      }
+    });
+  });
+  const tokenList = [...tokenSet];
+  const tokenHint = tokenList.length > 0
+    ? `\n\nIMPORTANT: The sample answers contain these annotated tokens that MUST ALL have Uzbek translations in tokenTranslations:\n${tokenList.map(t => `- "${t}"`).join('\n')}`
+    : '';
+
+  return {
+    system: `You generate topic vocabulary and token translations for speaking test questions. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  "vocabulary": [ { "number": 1, "title": "Q1 - Topic vocabulary", "sentenceStarters": ["starter1 — Uzbek", ...], "phrases": ["<strong>phrase</strong> - \\"translation\\"", ...], "idioms": ["<strong>idiom</strong> - \\"translation\\"", ...] }, ... ],
+  "tokenTranslations": { "English word": { "uz": "Uzbek translation", "type": "colloc" }, ... }
+}
+- vocabulary: 3-5 sentence starters, 4-6 phrases, 2-4 idioms per question
+- tokenTranslations: MUST include Uzbek translations for EVERY annotated token from the sample answers. The key must match the token text exactly (case-sensitive). type must be one of: adv, colloc, phrasal, idiom, proverb`,
+    user: `Generate vocabulary sections and token translations for these questions:\n${qList}${tokenHint}\n\nReturn JSON with "vocabulary" array (per question) and "tokenTranslations" object. Every annotated token MUST have a matching entry in tokenTranslations.`
+  };
+}
+
+// ============================================================================
+// STEP 1: EXTRACT QUESTIONS
+// ============================================================================
+async function runStep1() {
+  if (uploadedFiles.length === 0) {
+    showToast('Please upload test images first', 'error');
+    return;
+  }
+
+  const model = getStepModel(1);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step1Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Extracting...';
+  const status = document.getElementById('step1Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(1, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    updateStepStatus(1, '📸', 'Reading images...', '', 25);
+    const imageBlocks = [];
+    for (const file of uploadedFiles) {
+      const base64 = await fileToBase64(file);
+      imageBlocks.push({ data: base64, mediaType: file.type || 'image/png' });
+    }
+
+    const prompts = getStep1Prompt();
+    updateStepStatus(1, '🧠', 'AI extracting questions...', 'This takes 15-30 seconds', 50);
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, imageBlocks);
+    updateStepStatus(1, '📋', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+
+    // Store questions and populate form
+    window._step1Data = result;
+    const questions = result.questions || [];
+
+    // Populate prompts in manual editor
+    questions.forEach(q => {
+      const n = q.number;
+      const el = document.getElementById(`q${n}-prompt`);
+      if (el) { el.value = q.prompt || ''; updateQPreview(n); }
+      if (q.topic) { const t = document.getElementById(`q${n}-topic`); if (t) t.value = q.topic; }
+      if (q.bulletPoints) {
+        const b = document.getElementById(`q${n}-bullets`);
+        if (b) b.value = q.bulletPoints.join('\n');
+      }
+      if (q.debatePoints) {
+        const f = document.getElementById(`q${n}-for`);
+        const a = document.getElementById(`q${n}-against`);
+        if (f) f.value = (q.debatePoints.for || []).join('\n');
+        if (a) a.value = (q.debatePoints.against || []).join('\n');
+      }
+    });
+
+    // Populate announcements (IELTS)
+    if (result.announcements && EXAM_MODE === 'ielts') {
+      const ann = result.announcements;
+      ['beforePart1','beforePart2','afterPart2Prep','beforePart2FollowUp','beforePart3','afterExam'].forEach(k => {
+        const el = document.getElementById('ann-' + k);
+        if (el && ann[k]) el.value = ann[k];
+      });
+    }
+
+    // Inject image URLs
+    const setImg = (autoId, manualId) => {
+      const v = document.getElementById(autoId)?.value?.trim();
+      if (v) { const el = document.getElementById(manualId); if (el) { el.value = v; el.dispatchEvent(new Event('input')); } }
+    };
+    setImg('autoImg1', 'img1'); setImg('autoImg2', 'img2');
+    setImg('autoImg1Alt', 'img1Alt'); setImg('autoImg2Alt', 'img2Alt');
+
+    updateStepStatus(1, '✅', 'Done!', `${questions.length} questions extracted`, 100);
+    document.getElementById('step1Done').style.display = 'block';
+    document.getElementById('step1Summary').textContent = `${questions.length} questions loaded into editor`;
+
+    // Unlock step 2
+    document.getElementById('step2Card').style.opacity = '1';
+    document.getElementById('step2Card').style.pointerEvents = 'auto';
+
+    showToast(`Step 1 complete — ${questions.length} questions extracted!`, 'success');
+  } catch (err) {
+    console.error('Step 1 error:', err);
+    updateStepStatus(1, '❌', 'Failed', err.message, 100);
+    showToast('Step 1 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📋 Extract Questions from Images';
+  }
+}
+
+// ============================================================================
+// STEP 2: GENERATE SAMPLES
+// ============================================================================
+async function runStep2() {
+  if (!window._step1Data?.questions?.length) {
+    showToast('Run Step 1 first to extract questions', 'error');
+    return;
+  }
+
+  const model = getStepModel(2);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step2Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating...';
+  const status = document.getElementById('step2Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(2, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    const prompts = getStep2Prompt(window._step1Data.questions);
+    updateStepStatus(2, '🧠', 'AI generating samples...', 'This takes 30-60 seconds', 30);
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, []);
+    updateStepStatus(2, '📝', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+    const samples = result.samples || [];
+    const sampleKeys = getSampleKeys();
+
+    // Populate samples in manual editor
+    samples.forEach(s => {
+      const n = s.number;
+      const el = document.getElementById(`q${n}-sample`);
+      if (el) el.value = s.sampleAnswer || '';
+      const uzEl = document.getElementById(`q${n}-uzSample`);
+      if (uzEl) uzEl.value = s.uzSampleAnswer || '';
+
+      sampleKeys.forEach(k => {
+        const sEl = document.getElementById(`q${n}-sample${k}`);
+        if (sEl) sEl.value = s['sample' + k] || '';
+        const uEl = document.getElementById(`q${n}-uz${k}`);
+        if (uEl) uEl.value = s['uzSample' + k] || '';
+      });
+    });
+
+    updateStepStatus(2, '✅', 'Done!', `${samples.length} questions with samples`, 100);
+    document.getElementById('step2Done').style.display = 'block';
+    document.getElementById('step2Summary').textContent = `${samples.length} sets of leveled samples generated`;
+
+    // Unlock step 3
+    document.getElementById('step3Card').style.opacity = '1';
+    document.getElementById('step3Card').style.pointerEvents = 'auto';
+
+    showToast(`Step 2 complete — samples generated!`, 'success');
+  } catch (err) {
+    console.error('Step 2 error:', err);
+    updateStepStatus(2, '❌', 'Failed', err.message, 100);
+    showToast('Step 2 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📝 Generate Samples';
+  }
+}
+
+// ============================================================================
+// STEP 3: GENERATE VOCABULARY
+// ============================================================================
+async function runStep3() {
+  if (!window._step1Data?.questions?.length) {
+    showToast('Run Step 1 first to extract questions', 'error');
+    return;
+  }
+
+  const model = getStepModel(3);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step3Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating...';
+  const status = document.getElementById('step3Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(3, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    const prompts = getStep3Prompt(collectQuestionsWithSamples());
+    updateStepStatus(3, '🧠', 'AI generating vocabulary...', 'This takes 20-40 seconds', 30);
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, []);
+    updateStepStatus(3, '📚', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+
+    // Populate vocabulary in manual editor
+    const vocabItems = result.vocabulary || [];
+    vocabItems.forEach(v => {
+      const n = v.number;
+      const titleEl = document.getElementById(`q${n}-vocabTitle`);
+      if (titleEl) titleEl.value = v.title || '';
+      const sEl = document.getElementById(`q${n}-starters`);
+      if (sEl) sEl.value = (v.sentenceStarters || []).join('\n');
+      const pEl = document.getElementById(`q${n}-phrases`);
+      if (pEl) pEl.value = (v.phrases || []).join('\n');
+      const iEl = document.getElementById(`q${n}-idioms`);
+      if (iEl) iEl.value = (v.idioms || []).join('\n');
+    });
+
+    // Populate token translations
+    if (result.tokenTranslations) {
+      document.getElementById('tokensList').innerHTML = '';
+      tokenRowCount = 0;
+      for (const [phrase, info] of Object.entries(result.tokenTranslations)) {
+        addTokenRow(phrase, info.uz || '', info.type || 'colloc');
+      }
+    }
+
+    const tokenCount = result.tokenTranslations ? Object.keys(result.tokenTranslations).length : 0;
+    updateStepStatus(3, '✅', 'Done!', `${vocabItems.length} vocab sets + ${tokenCount} tokens`, 100);
+    document.getElementById('step3Done').style.display = 'block';
+    document.getElementById('step3Summary').textContent = `${vocabItems.length} vocab sets + ${tokenCount} tokens`;
+
+    // Unlock step 4
+    document.getElementById('step4Card').style.opacity = '1';
+    document.getElementById('step4Card').style.pointerEvents = 'auto';
+    // Also show final card (user can skip Step 4 if they want)
+    document.getElementById('stepFinalCard').style.display = 'block';
+
+    showToast(`Step 3 complete — vocabulary generated!`, 'success');
+  } catch (err) {
+    console.error('Step 3 error:', err);
+    updateStepStatus(3, '❌', 'Failed', err.message, 100);
+    showToast('Step 3 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📚 Generate Vocabulary & Tokens';
+  }
+}
+
+// ============================================================================
+// SHARED AI HELPERS
+// ============================================================================
+function updateStepStatus(step, icon, title, detail, progress) {
+  document.getElementById(`step${step}Icon`).textContent = icon;
+  document.getElementById(`step${step}Title`).textContent = title;
+  document.getElementById(`step${step}Detail`).textContent = detail;
+  document.getElementById(`step${step}Progress`).style.width = progress + '%';
+}
+
+function parseAIJson(rawText) {
+  let cleaned = rawText.trim();
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch (e1) {
+    const firstBrace = cleaned.indexOf('{');
+    const lastBrace = cleaned.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        return JSON.parse(cleaned.substring(firstBrace, lastBrace + 1));
+      } catch (e2) {
+        console.error('Raw AI response (first 500):', cleaned.substring(0, 500));
+        console.error('Raw AI response (last 500):', cleaned.substring(cleaned.length - 500));
+        throw new Error('AI returned invalid JSON. Check console. Try again or switch model.');
+      }
+    }
+    throw new Error('AI response has no JSON. Check console.');
+  }
+}
+
+async function callAI(model, apiKey, systemPrompt, userMsg, imageBlocks) {
+  if (model === 'claude') return callClaude(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'openai') return callOpenAI(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'gemini') return callGemini(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'grok') return callGrok(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'deepseek') return callDeepseek(apiKey, imageBlocks, systemPrompt, userMsg);
+  throw new Error('Unknown model: ' + model);
+}
+
+// ============================================================================
+// STEP 4: GENERATE QUESTION AUDIO (Gemini TTS → MP3)
+// ============================================================================
+window._step4Audios = {}; // { questionNumber: Blob (MP3) }
+
+function buildTTSScript(questionNumber) {
+  const n = questionNumber;
+  const prompt = document.getElementById(`q${n}-prompt`)?.value?.trim() || '';
+  const tmpl = Q_TEMPLATE.find(t => t.number === n);
+
+  if (EXAM_MODE === 'cefr') {
+    // Q7 (Part 2): prompt + all bullet points + "You have one minute to prepare."
+    if (n === 7) {
+      const bulletsEl = document.getElementById(`q${n}-bullets`);
+      const bullets = bulletsEl ? bulletsEl.value.split('\n').map(s => s.trim()).filter(Boolean) : [];
+      if (bullets.length) {
+        const bulletText = bullets.join('. ');
+        const isDuplicate = bullets[0] && prompt && bullets[0].includes(prompt);
+        return isDuplicate
+          ? `${bulletText}. You have one minute to prepare.`
+          : `${prompt}. ${bulletText}. You have one minute to prepare.`;
+      }
+      return `${prompt}. You have one minute to prepare.`;
+    }
+    // Q8 (Part 3): prompt + "Discuss both sides and give your opinion. You have one minute to prepare."
+    if (n === 8) {
+      return `${prompt}. Discuss both sides and give your opinion. You have one minute to prepare.`;
+    }
+    // Q1-Q6: just the prompt
+    return prompt;
+  }
+
+  if (EXAM_MODE === 'ielts') {
+    // Q8 (Part 2 cue card): prompt + bullets + "You have one minute to prepare."
+    if (n === 8) {
+      const bulletsEl = document.getElementById(`q${n}-bullets`);
+      const bullets = bulletsEl ? bulletsEl.value.split('\n').map(s => s.trim()).filter(Boolean) : [];
+      if (bullets.length) {
+        const bulletText = bullets.join('. ');
+        return `${prompt}. ${bulletText}. You have one minute to prepare.`;
+      }
+      return `${prompt}. You have one minute to prepare.`;
+    }
+    // All other IELTS questions: just the prompt
+    return prompt;
+  }
+
+  return prompt;
+}
+
+async function runStep4() {
+  const questions = window._step1Data?.questions;
+  if (!questions?.length) {
+    showToast('Run Step 1 first to extract questions', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('step4Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating audio...';
+  const status = document.getElementById('step4Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(4, '🔑', 'Fetching Gemini key...', '', 5);
+    const apiKey = await fetchApiKey('gemini');
+    const voice = document.getElementById('ttsVoice').value;
+    const total = questions.length;
+    window._step4Audios = {};
+    let done = 0;
+
+    for (const q of questions) {
+      const n = q.number;
+      const ttsText = buildTTSScript(n);
+      updateStepStatus(4, '🔊', `Generating Q${n}/${total}...`, `"${ttsText.substring(0, 60)}..."`, Math.round(5 + (done / total) * 80));
+
+      try {
+        const pcmBase64 = await callGeminiTTS(apiKey, ttsText, voice);
+        const mp3Blob = pcmToMp3(pcmBase64, 24000);
+        window._step4Audios[n] = mp3Blob;
+
+        // Set audioFile placeholder in manual editor
+        const audioEl = document.getElementById(`q${n}-audio`);
+        if (audioEl) audioEl.value = `[TTS-generated, will upload on publish]`;
+      } catch (ttsErr) {
+        console.warn(`TTS failed for Q${n}:`, ttsErr);
+        // Continue with other questions
+      }
+      done++;
+    }
+
+    const generated = Object.keys(window._step4Audios).length;
+    const totalSize = Object.values(window._step4Audios).reduce((s, b) => s + b.size, 0);
+    const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+
+    updateStepStatus(4, '✅', 'Done!', `${generated}/${total} audios (${sizeMB} MB total)`, 100);
+    document.getElementById('step4Done').style.display = 'block';
+    document.getElementById('step4Summary').textContent = `${generated} audio files (${sizeMB} MB)`;
+
+    // Show audio previews
+    const previewsEl = document.getElementById('step4AudioPreviews');
+    previewsEl.style.display = 'block';
+    previewsEl.innerHTML = '<div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;">PREVIEW GENERATED AUDIO</div>' +
+      Object.entries(window._step4Audios).map(([num, blob]) => {
+        const url = URL.createObjectURL(blob);
+        return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;padding:6px 10px;background:var(--bg);border-radius:8px;">
+          <span style="font-weight:600;font-size:12px;min-width:28px;">Q${num}</span>
+          <audio controls src="${url}" style="height:32px;flex:1;"></audio>
+          <span style="font-size:11px;color:var(--muted);">${(blob.size / 1024).toFixed(0)}KB</span>
+        </div>`;
+      }).join('');
+
+    showToast(`Step 4 complete — ${generated} audio files generated!`, 'success');
+  } catch (err) {
+    console.error('Step 4 error:', err);
+    updateStepStatus(4, '❌', 'Failed', err.message, 100);
+    showToast('Step 4 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🔊 Generate Audio for All Questions';
+  }
+}
+
+async function callGeminiTTS(apiKey, text, voiceName) {
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ text: `Read this speaking test question aloud in a clear, professional British English examiner voice:\n\n${text}` }]
+        }],
+        generationConfig: {
+          responseModalities: ['AUDIO'],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName }
+            }
+          }
+        }
+      })
+    }
+  );
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Gemini TTS error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  const audioPart = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+  if (!audioPart?.data) throw new Error('No audio data in Gemini response');
+  return audioPart.data; // base64 PCM L16 at 24kHz
+}
+
+function pcmToMp3(base64Pcm, sampleRate) {
+  // Decode base64 to raw bytes
+  const raw = atob(base64Pcm);
+  const bytes = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+
+  // Convert to Int16Array (PCM L16 = 16-bit signed, little-endian)
+  const samples = new Int16Array(bytes.buffer);
+
+  // Encode to MP3 using lamejs
+  const encoder = new lamejs.Mp3Encoder(1, sampleRate, 128); // mono, 128kbps
+  const blockSize = 1152;
+  const mp3Chunks = [];
+
+  for (let i = 0; i < samples.length; i += blockSize) {
+    const chunk = samples.subarray(i, Math.min(i + blockSize, samples.length));
+    const mp3buf = encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) mp3Chunks.push(mp3buf);
+  }
+
+  const end = encoder.flush();
+  if (end.length > 0) mp3Chunks.push(end);
+
+  return new Blob(mp3Chunks, { type: 'audio/mpeg' });
+}
+
+// ============================================================================
+// ANNOUNCEMENT MODE & TTS GENERATION + PRESETS
+// ============================================================================
+let _annMode = 'default';
+let _selectedPresetId = '__original__';
+window._annAudios = {}; // key → Blob
+
+const ANN_PRESETS_KEY = 'ms_ann_presets';
+
+function getAnnPresets() {
+  try { return JSON.parse(localStorage.getItem(ANN_PRESETS_KEY) || '[]'); }
+  catch { return []; }
+}
+function saveAnnPresets(presets) {
+  localStorage.setItem(ANN_PRESETS_KEY, JSON.stringify(presets));
+}
+
+function setAnnMode(mode) {
+  _annMode = mode;
+  document.getElementById('annDefaultPanel').style.display = mode === 'default' ? '' : 'none';
+  document.getElementById('annCreatePanel').style.display = mode === 'create' ? '' : 'none';
+  const defBtn = document.getElementById('annModeDefault');
+  const creBtn = document.getElementById('annModeCreate');
+  if (mode === 'default') {
+    defBtn.style.background = 'white'; defBtn.style.color = '#1e293b'; defBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
+    creBtn.style.background = 'transparent'; creBtn.style.color = '#64748b'; creBtn.style.boxShadow = 'none';
+    renderAnnPresets();
+  } else {
+    creBtn.style.background = 'white'; creBtn.style.color = '#1e293b'; creBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
+    defBtn.style.background = 'transparent'; defBtn.style.color = '#64748b'; defBtn.style.boxShadow = 'none';
+  }
+}
+
+function selectAnnPreset(id) {
+  _selectedPresetId = id;
+  // Reset create-mode state when switching to a preset
+  _annMode = 'default';
+  window._annAudios = {};
+  renderAnnPresets();
+}
+
+function renderAnnPresets() {
+  const list = document.getElementById('annPresetsList');
+  const presets = getAnnPresets();
+
+  // Update original card
+  const origCard = document.getElementById('annPresetOriginal');
+  const origCheck = document.getElementById('annCheckOriginal');
+  if (_selectedPresetId === '__original__') {
+    origCard.style.borderColor = '#6ee7b7'; origCard.style.background = 'linear-gradient(135deg,#ecfdf5,#d1fae5)';
+    origCheck.textContent = '✅';
+  } else {
+    origCard.style.borderColor = '#e2e8f0'; origCard.style.background = '#f8fafc';
+    origCheck.textContent = '';
+  }
+
+  // Render saved presets
+  list.innerHTML = '';
+  presets.forEach((p, i) => {
+    const sel = _selectedPresetId === p.id;
+    const card = document.createElement('div');
+    card.style.cssText = `border:2px solid ${sel ? '#a78bfa' : '#e2e8f0'};border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s;background:${sel ? 'linear-gradient(135deg,#f5f3ff,#ede9fe)' : '#f8fafc'};position:relative;`;
+    card.onclick = () => selectAnnPreset(p.id);
+
+    const voice = p.voice || 'Unknown';
+    const date = p.date ? new Date(p.date).toLocaleDateString() : '';
+    const annCount = ANN_KEYS.filter(k => p.texts?.[k]).length;
+
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:20px;">🎙️</span>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:14px;color:#1e293b;">${_escHtml(p.name)}</div>
+          <div style="font-size:12px;color:#64748b;">Voice: ${_escHtml(voice)} · ${annCount} announcements · ${date}</div>
+        </div>
+        <span style="font-size:18px;">${sel ? '✅' : ''}</span>
+        <button onclick="event.stopPropagation();deleteAnnPreset(${i})" title="Delete preset" style="background:none;border:none;cursor:pointer;font-size:16px;padding:4px;opacity:.5;">🗑️</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        ${p.texts?.beforePart1 ? `<span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 1','beforePart1','${p.id}')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#1e40af;border:1px solid #bfdbfe;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 1</span>` : ''}
+        ${p.texts?.beforePart2 ? `<span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 2','beforePart2','${p.id}')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#b45309;border:1px solid #fde68a;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 2</span>` : ''}
+        ${p.texts?.beforePart2FollowUp ? `<span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Follow-up','beforePart2FollowUp','${p.id}')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#991b1b;border:1px solid #fca5a5;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Follow-up</span>` : ''}
+        ${p.texts?.beforePart3 ? `<span class="ann-tag-play" onclick="event.stopPropagation();previewAnnouncement('Part 3','beforePart3','${p.id}')" style="background:white;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;color:#166534;border:1px solid #86efac;cursor:pointer;transition:transform .15s;" onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform=''">▶ Part 3</span>` : ''}
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// ============================================================================
+// ANNOUNCEMENT PREVIEW PLAYBACK
+// ============================================================================
+const _originalAnnAudioUrls = {
+  beforePart1: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20one.mp3',
+  beforePart2: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20two.mp3',
+  beforePart2FollowUp: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20two%20follow-up.mp3',
+  beforePart3: 'https://storage.googleapis.com/mockstream-listening-audio/IELTS%20Speaking%20audios/Part%20three.mp3',
+};
+
+const _annPartIcons = {
+  beforePart1: '🎤', beforePart2: '📋', beforePart2FollowUp: '💬', beforePart3: '🌍',
+  afterPart2Prep: '⏱️', afterExam: '👋'
+};
+
+let _annPreviewAudio = null;
+let _annPreviewTimerId = null;
+
+function previewAnnouncement(label, annKey, presetId) {
+  // Stop any existing preview
+  dismissAnnPreview(true);
+
+  const overlay = document.getElementById('annPreviewOverlay');
+  const titleEl = document.getElementById('annPreviewTitle');
+  const iconEl = document.getElementById('annPreviewIcon');
+  const subEl = document.getElementById('annPreviewSub');
+  const textBox = document.getElementById('annPreviewTextBox');
+  const timerBar = document.getElementById('annPreviewTimerBar');
+
+  titleEl.textContent = label;
+  iconEl.textContent = _annPartIcons[annKey] || '🔊';
+  timerBar.style.width = '100%';
+
+  let audioUrl = null;
+  let text = '';
+
+  if (presetId === '__original__') {
+    // Original pre-recorded
+    audioUrl = _originalAnnAudioUrls[annKey];
+    text = '';
+  } else {
+    // Saved preset
+    const presets = getAnnPresets();
+    const preset = presets.find(p => p.id === presetId);
+    if (preset) {
+      text = preset.texts?.[annKey] || '';
+      audioUrl = preset.audioUrls?.[annKey] || null;
+    }
+  }
+
+  // Show text if available
+  if (text) {
+    textBox.textContent = text;
+    textBox.style.display = '';
+  } else {
+    textBox.style.display = 'none';
+  }
+
+  overlay.style.display = 'flex';
+
+  // Re-trigger animation
+  const card = document.getElementById('annPreviewCard');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'annPreviewSlide .35s cubic-bezier(.34,1.56,.64,1) both';
+
+  if (audioUrl) {
+    subEl.textContent = '🔊 Now playing...';
+    const audio = new Audio(audioUrl);
+    audio.volume = 1.0;
+    _annPreviewAudio = audio;
+
+    audio.addEventListener('loadedmetadata', () => {
+      const duration = audio.duration * 1000;
+      const startTime = Date.now();
+      if (_annPreviewTimerId) clearInterval(_annPreviewTimerId);
+      _annPreviewTimerId = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const pct = Math.max(0, 1 - elapsed / duration) * 100;
+        timerBar.style.width = pct + '%';
+      }, 50);
+    });
+
+    audio.onended = () => {
+      _annPreviewAudio = null;
+      if (_annPreviewTimerId) { clearInterval(_annPreviewTimerId); _annPreviewTimerId = null; }
+      timerBar.style.width = '0%';
+      subEl.textContent = '✅ Finished';
+      setTimeout(() => dismissAnnPreview(), 800);
+    };
+
+    audio.onerror = () => {
+      _annPreviewAudio = null;
+      subEl.textContent = '⚠️ Audio unavailable';
+      setTimeout(() => dismissAnnPreview(), 1500);
+    };
+
+    audio.play().catch(() => {
+      subEl.textContent = '⚠️ Could not play audio';
+    });
+  } else if (text) {
+    subEl.textContent = '📝 Text preview (no audio generated yet)';
+    timerBar.style.width = '0%';
+  } else {
+    subEl.textContent = '⚠️ No audio or text available';
+    timerBar.style.width = '0%';
+  }
+}
+
+function dismissAnnPreview(silent) {
+  if (_annPreviewAudio) {
+    _annPreviewAudio.pause();
+    _annPreviewAudio = null;
+  }
+  if (_annPreviewTimerId) {
+    clearInterval(_annPreviewTimerId);
+    _annPreviewTimerId = null;
+  }
+  const overlay = document.getElementById('annPreviewOverlay');
+  if (!silent && overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity .25s ease';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }, 250);
+  } else if (overlay) {
+    overlay.style.display = 'none';
+  }
+}
+
+function _escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function saveAnnPreset() {
+  const name = document.getElementById('annPresetName').value.trim();
+  if (!name) { alert('Please enter a preset name.'); return; }
+
+  const texts = {};
+  const audioUrls = {};
+  ANN_KEYS.forEach(k => {
+    const v = document.getElementById('ann-' + k)?.value?.trim();
+    if (v) texts[k] = v;
+    // If audio was already published (has an http URL), capture it
+    const audioEl = document.getElementById('annAudio-' + k);
+    if (audioEl && audioEl.src && audioEl.src.startsWith('http') && !audioEl.src.startsWith('blob:')) {
+      audioUrls[k] = audioEl.src;
+    }
+  });
+
+  if (Object.keys(texts).length === 0) {
+    alert('Please type at least one announcement text.');
+    return;
+  }
+
+  const presets = getAnnPresets();
+  const preset = {
+    id: 'preset_' + Date.now(),
+    name: name,
+    voice: document.getElementById('annTtsVoice').value,
+    date: new Date().toISOString(),
+    texts: texts,
+    audioUrls: Object.keys(audioUrls).length > 0 ? audioUrls : null,
+  };
+  presets.push(preset);
+  saveAnnPresets(presets);
+
+  _selectedPresetId = preset.id;
+  showAnnStatus(`Preset "${name}" saved! Switch to Default tab to use it.`, 'success');
+  renderAnnPresets();
+}
+
+function deleteAnnPreset(index) {
+  if (!confirm('Delete this preset?')) return;
+  const presets = getAnnPresets();
+  const removed = presets.splice(index, 1);
+  if (removed[0] && _selectedPresetId === removed[0].id) {
+    _selectedPresetId = '__original__';
+  }
+  saveAnnPresets(presets);
+  renderAnnPresets();
+}
+
+// When selecting a saved preset, update the mock data to use its audio URLs
+function getSelectedPresetData() {
+  if (_selectedPresetId === '__original__') return null;
+  const presets = getAnnPresets();
+  return presets.find(p => p.id === _selectedPresetId) || null;
+}
+
+// Update preset's audio URLs after publish (so future uses have the URLs)
+function updatePresetAudioUrls(annUrls) {
+  if (!_selectedPresetId || _selectedPresetId === '__original__') return;
+  const presets = getAnnPresets();
+  const p = presets.find(p => p.id === _selectedPresetId);
+  if (p) {
+    p.audioUrls = { ...(p.audioUrls || {}), ...annUrls };
+    saveAnnPresets(presets);
+  }
+}
+
+// Render presets on page load
+setTimeout(() => renderAnnPresets(), 100);
+
+const ANN_KEYS = ['beforePart1','beforePart2','afterPart2Prep','beforePart2FollowUp','beforePart3','afterExam'];
+const ANN_LABELS = { beforePart1:'Before Part 1', beforePart2:'Before Part 2', afterPart2Prep:'After Part 2 Prep', beforePart2FollowUp:'Before Part 2 Follow-up', beforePart3:'Before Part 3', afterExam:'After Exam' };
+
+function showAnnStatus(msg, type) {
+  const el = document.getElementById('annTtsStatus');
+  el.style.display = '';
+  if (type === 'loading') {
+    el.style.background = '#eff6ff'; el.style.color = '#1d4ed8'; el.style.border = '2px solid #93c5fd';
+    el.innerHTML = '<span class="spinner"></span> ' + msg;
+  } else if (type === 'success') {
+    el.style.background = '#ecfdf5'; el.style.color = '#065f46'; el.style.border = '2px solid #6ee7b7';
+    el.innerHTML = '✅ ' + msg;
+  } else {
+    el.style.background = '#fef2f2'; el.style.color = '#991b1b'; el.style.border = '2px solid #fca5a5';
+    el.innerHTML = '❌ ' + msg;
+  }
+}
+
+async function generateAnnouncementAudio() {
+  // Collect texts
+  const texts = {};
+  ANN_KEYS.forEach(k => {
+    const v = document.getElementById('ann-' + k)?.value?.trim();
+    if (v) texts[k] = v;
+  });
+  const keys = Object.keys(texts);
+  if (keys.length === 0) {
+    showAnnStatus('Please type at least one announcement text first.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('annGenerateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating...';
+  window._annAudios = {};
+
+  try {
+    showAnnStatus('Fetching Gemini key...', 'loading');
+    const apiKey = await fetchApiKey('gemini');
+    const voice = document.getElementById('annTtsVoice').value;
+    let done = 0;
+
+    for (const k of keys) {
+      showAnnStatus(`Generating ${ANN_LABELS[k]} (${done + 1}/${keys.length})...`, 'loading');
+      const pcmBase64 = await callGeminiTTS(apiKey, texts[k], voice);
+      const mp3Blob = pcmToMp3(pcmBase64, 24000);
+      window._annAudios[k] = mp3Blob;
+
+      // Show audio preview
+      const audioEl = document.getElementById('annAudio-' + k);
+      if (audioEl) {
+        audioEl.src = URL.createObjectURL(mp3Blob);
+        audioEl.style.display = '';
+      }
+      done++;
+    }
+
+    showAnnStatus(`Generated audio for ${done} announcement(s)!`, 'success');
+  } catch (e) {
+    console.error('Announcement TTS error:', e);
+    showAnnStatus('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🔊 Generate Audio';
+  }
+}
+
+async function uploadAnnouncementAudios(mockNumber) {
+  const audios = window._annAudios;
+  if (!audios || Object.keys(audios).length === 0) return {};
+
+  const urls = {};
+  const bucket = 'mock-audio';
+
+  for (const [key, blob] of Object.entries(audios)) {
+    const path = `${MOCK_TYPE}/mock${String(mockNumber).padStart(2, '0')}_ann_${key}.mp3`;
+    try {
+      const resp = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'audio/mpeg',
+            'x-upsert': 'true',
+          },
+          body: blob,
+        }
+      );
+      if (!resp.ok) {
+        console.warn(`Upload failed for ann ${key}:`, await resp.text());
+        continue;
+      }
+      urls[key] = `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
+    } catch (e) {
+      console.warn(`Upload error ann ${key}:`, e);
+    }
+  }
+  return urls;
+}
+
+// ============================================================================
+// AUDIO UPLOAD TO SUPABASE STORAGE (called during publish)
+// ============================================================================
+async function uploadAudioFiles(mockNumber) {
+  const audios = window._step4Audios;
+  if (!audios || Object.keys(audios).length === 0) return {};
+
+  const urls = {};
+  const bucket = 'mock-audio';
+
+  for (const [qNum, blob] of Object.entries(audios)) {
+    const path = `${MOCK_TYPE}/mock${String(mockNumber).padStart(2, '0')}_q${qNum}.mp3`;
+    try {
+      // Upload to Supabase Storage
+      const resp = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'audio/mpeg',
+            'x-upsert': 'true',
+          },
+          body: blob,
+        }
+      );
+      if (!resp.ok) {
+        const errText = await resp.text();
+        console.warn(`Upload failed for Q${qNum}:`, errText);
+        continue;
+      }
+      // Build public URL
+      urls[qNum] = `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
+    } catch (e) {
+      console.warn(`Upload error Q${qNum}:`, e);
+    }
+  }
+  return urls;
+}
+
+async function fetchApiKey(model, passcode) {
+  if (['claude','grok','deepseek'].includes(model)) {
+    const resp = await fetch('https://davirbek.alwaysdata.net/test-maker-key', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode, model }),
+    });
+    if (!resp.ok) throw new Error('Invalid passcode or server error');
+    const data = await resp.json();
+    return data.key;
+  } else if (model === 'openai') {
+    const resp = await fetch('https://davirbek.alwaysdata.net/key', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!resp.ok) throw new Error('Failed to fetch OpenAI key');
+    const data = await resp.json();
+    return data.key;
+  } else if (model === 'gemini') {
+    const resp = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!resp.ok) throw new Error('Failed to fetch Gemini key');
+    const data = await resp.json();
+    return data.key;
+  }
+}
+
+async function callClaude(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const content = [];
+  imageBlocks.forEach(b => content.push({
+    type: 'image',
+    source: { type: 'base64', media_type: b.mediaType, data: b.data },
+  }));
+  content.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 32000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content }],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Claude API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.content?.[0]?.text || '';
+}
+
+async function callOpenAI(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`OpenAI API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callGemini(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({ inlineData: { mimeType: b.mediaType, data: b.data } }));
+  parts.push({ text: userMsg });
+  const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      contents: [{ parts }],
+      generationConfig: { maxOutputTokens: 32000 },
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Gemini API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function callGrok(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.x.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'grok-3',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Grok API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callDeepseek(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Deepseek API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+function goToManualEditor() {
+  switchMode('manual');
+  showSection('questions');
+  showToast('All steps loaded into manual editor — review & publish!', 'success');
+}
+
+function setupModelSelector() {
+  // Show/hide passcode field when any step uses Claude
+  function updatePasscodeVisibility() {
+    const anyNeedPasscode = [1, 2, 3].some(s => ['claude','grok','deepseek'].includes(getStepModel(s)));
+    document.getElementById('passcodeField').style.display = anyNeedPasscode ? 'block' : 'none';
+  }
+  document.querySelectorAll('input[name="step1Model"], input[name="step2Model"], input[name="step3Model"]').forEach(radio => {
+    radio.addEventListener('change', updatePasscodeVisibility);
+  });
+  updatePasscodeVisibility();
+}
+
+// ============================================================================
+// UTILITIES
+// ============================================================================
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+// Allow only <strong> tags, escape everything else
+function safeVocabHtml(str) {
+  if (!str) return '';
+  return escHtml(str)
+    .replace(/&lt;strong&gt;/g, '<strong>')
+    .replace(/&lt;\/strong&gt;/g, '</strong>');
+}
+
+function showToast(msg, type = 'info') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast toast-' + type + ' show';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+}
+
+// ============================================================================
+// SECTION COMPLETION DOTS (visual feedback)
+// ============================================================================
+function updateDots() {
+  // Settings: check if mock number filled
+  const mockNum = document.getElementById('mockNumber')?.value;
+  setDot('settings', mockNum ? 'green' : 'empty');
+
+  // Images: check if at least img1 filled
+  const img1 = document.getElementById('img1')?.value?.trim();
+  setDot('images', img1 ? 'green' : 'empty');
+
+  // Questions: check if Q1 prompt filled
+  const q1 = document.getElementById('q1-prompt')?.value?.trim();
+  setDot('questions', q1 ? 'green' : 'empty');
+
+  // Tokens: check if any tokens exist
+  const hasTokens = document.querySelectorAll('[id^="token-row-"]').length > 1 ||
+                    document.querySelector('.token-en')?.value?.trim();
+  setDot('tokens', hasTokens ? 'green' : 'empty');
+
+  // Announcements (IELTS only)
+  if (EXAM_MODE === 'ielts') {
+    const ann = document.getElementById('ann-beforePart1')?.value?.trim();
+    setDot('announcements', ann ? 'green' : 'empty');
+  }
+}
+
+function setDot(section, state) {
+  const dot = document.getElementById('dot-' + section);
+  if (!dot) return;
+  dot.className = 'dot';
+  dot.classList.add(state === 'green' ? 'dot-green' : state === 'orange' ? 'dot-orange' : 'dot-empty');
+}
+
+// Update dots periodically
+setInterval(updateDots, 2000);
+</script>
+
+</body>
+</html>

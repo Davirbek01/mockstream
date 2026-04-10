@@ -3940,6 +3940,10 @@
                     <i>⏸️</i>
                     <span>Pause</span>
                 </button>
+                <button class="tool-btn" id="mobFSBtn" onclick="toggleExamFullscreen()">
+                    <i style="font-style:normal;font-size:20px;">⛶</i>
+                    <span>Fullscreen</span>
+                </button>
                 <button class="tool-btn" style="border-color:#dc2626; color:#dc2626;" id="mobFinishBtn">
                     <i>🏁</i>
                     <span>Finish</span>
@@ -4202,6 +4206,9 @@
                 </button>
                 <button class="zoom-btn" id="btnZoom" title="Zoom In">
                     🔍
+                </button>
+                <button class="zoom-btn" id="btnFS" title="Toggle Fullscreen" onclick="toggleExamFullscreen()">
+                    ⛶
                 </button>
             </div>
         </header>
@@ -5218,16 +5225,44 @@
         })();
 
         // ===== START EXAM FLOW =====
-        // Re-enter fullscreen if the landing page was in fullscreen
+        // Fullscreen toggle (manual only — no auto-fullscreen)
         function enterFullscreen() {
             var elem = document.documentElement;
             if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
             else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
             else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
         }
+        function exitFullscreen() {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+        function toggleExamFullscreen() {
+            try { window.top.postMessage('toggleFullscreen', '*'); } catch(e) {
+                if (document.fullscreenElement || document.webkitFullscreenElement) exitFullscreen();
+                else enterFullscreen();
+            }
+        }
+        function _updateFSBtnIcon(isFS) {
+            var btn = document.getElementById('btnFS');
+            var mobBtn = document.getElementById('mobFSBtn');
+            if (btn) btn.textContent = isFS ? '✕' : '⛶';
+            if (mobBtn) mobBtn.querySelector('span').textContent = isFS ? 'Exit FS' : 'Fullscreen';
+        }
+        try {
+            window.top.document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.fullscreenElement));
+            });
+            window.top.document.addEventListener('webkitfullscreenchange', function() {
+                _updateFSBtnIcon(!!(window.top.document.webkitFullscreenElement));
+            });
+        } catch(e) {
+            document.addEventListener('fullscreenchange', function() {
+                _updateFSBtnIcon(!!(document.fullscreenElement));
+            });
+        }
 
         document.getElementById('start-exam-btn').onclick = async () => {
-            enterFullscreen();
             const rawName = document.getElementById('candidate-name-input').value;
             const result = validateAndFormatName(rawName);
             const passcodeInput = document.getElementById('passcode-input');
@@ -5277,7 +5312,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         cache: 'no-store',
-                        body: JSON.stringify({ code: fullCode })
+                        body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
                     });
 
                     if (regRes.ok) {
@@ -5297,7 +5332,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         cache: 'no-store',
-                        body: JSON.stringify({ passcode: parseInt(premiumCode, 10) })
+                        body: JSON.stringify({ passcode: parseInt(premiumCode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
                     });
 
                     if (premRes.ok) {
@@ -8605,9 +8640,16 @@
         }
 
         var _OPENAI_KEY = null;
+        var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+        async function _fetchProviderKey(m) {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+          if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+        }
+
         async function _callScoringAI(systemText, userPrompt, opts) {
           var cp = await _loadScoringPrompts();
           var provider = cp['scoring_ai_provider'] || 'gemini';
+          if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
           opts = opts || {};
           if (provider === 'openai') {
             if (!_OPENAI_KEY) {
@@ -8625,6 +8667,57 @@
             var r = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _OPENAI_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'claude') {
+            if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+            if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+            var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+            if (systemText) cBody.system = systemText;
+            if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+            var r = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+              body: JSON.stringify(cBody)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.content[0].text;
+          } else if (provider === 'grok') {
+            if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+            if (!_GROK_KEY) throw new Error('No Grok API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            messages.push({ role: 'user', content: userPrompt });
+            var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.x.ai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error('AI API error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            return j.choices[0].message.content;
+          } else if (provider === 'deepseek') {
+            if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+            if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            messages.push({ role: 'user', content: userPrompt });
+            var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.deepseek.com/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
               body: JSON.stringify(body)
             });
             if (!r.ok) throw new Error('AI API error: ' + r.status);
@@ -8916,30 +9009,53 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             resultsDiv.style.display = 'flex';
 
             if (state.isPremiumVip) {
+                // Center-level AI overrides for Full Mock
+                const _fmAi = (window._centerConfig && window._centerConfig.fullMockAi) || {};
+                const _canAiW = _fmAi.ielts_writing !== 'regular';
+                const _canAiS = _fmAi.ielts_speaking !== 'regular';
+                state._adminWritingAiOff = !_canAiW;
+                state._adminSpeakingAiOff = !_canAiS;
+
                 // Show loading only for premium (AI grading takes time)
-                document.getElementById('results-content').innerHTML = `
-                    <div style="text-align:center;padding:40px;">
-                        <div class="loader"></div>
-                        <p style="margin-top:20px;">AI is grading your Writing & Speaking...</p>
-                    </div>
-                `;
-                // PREMIUM: Grade writing and speaking with AI
-                try {
-                    await gradeWritingWithAI();
-                } catch (aiErr) {
-                    console.error('[Results] gradeWritingWithAI failed:', aiErr);
+                const _loadParts = [];
+                if (_canAiW) _loadParts.push('Writing');
+                if (_canAiS) _loadParts.push('Speaking');
+                if (_loadParts.length) {
+                    document.getElementById('results-content').innerHTML = `
+                        <div style="text-align:center;padding:40px;">
+                            <div class="loader"></div>
+                            <p style="margin-top:20px;">AI is grading your ${_loadParts.join(' & ')}...</p>
+                        </div>
+                    `;
+                }
+
+                // PREMIUM: Grade writing and speaking with AI (respecting center controls)
+                if (_canAiW) {
+                    try {
+                        await gradeWritingWithAI();
+                    } catch (aiErr) {
+                        console.error('[Results] gradeWritingWithAI failed:', aiErr);
+                        state.scaledScores.w = 0;
+                    }
+                } else {
                     state.scaledScores.w = 0;
                 }
-                try {
-                    await gradeSpeakingWithAI();
-                } catch (aiErr) {
-                    console.error('[Results] gradeSpeakingWithAI failed:', aiErr);
+                if (_canAiS) {
+                    try {
+                        await gradeSpeakingWithAI();
+                    } catch (aiErr) {
+                        console.error('[Results] gradeSpeakingWithAI failed:', aiErr);
+                        state.scaledScores.s = 0;
+                    }
+                } else {
                     state.scaledScores.s = 0;
                 }
 
-                // Calculate overall from all 4 skills
-                const { l, r, w, s } = state.scaledScores;
-                const avg = (l + r + w + s) / 4;
+                // Calculate overall from skills that have AI scoring
+                const _avail = [state.scaledScores.l, state.scaledScores.r];
+                if (_canAiW) _avail.push(state.scaledScores.w);
+                if (_canAiS) _avail.push(state.scaledScores.s);
+                const avg = _avail.reduce((a, b) => a + b, 0) / _avail.length;
                 state.overall.band = Math.round(avg * 2) / 2; // Round to nearest 0.5
 
                 renderResultsUI();
@@ -8973,7 +9089,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 </div>
 
                 <div class="overall-score" style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:32px;border-radius:20px;text-align:center;margin-bottom:24px;">
-                    <p style="font-size:14px;opacity:0.9;margin-bottom:8px;">Overall Band Score${!state.isPremiumVip ? ' (L+R only)' : ''}</p>
+                    <p style="font-size:14px;opacity:0.9;margin-bottom:8px;">Overall Band Score${(!state.isPremiumVip || state._adminWritingAiOff || state._adminSpeakingAiOff) ? ' (' + ['L','R',(!state._adminWritingAiOff && state.isPremiumVip ? 'W' : ''),(!state._adminSpeakingAiOff && state.isPremiumVip ? 'S' : '')].filter(Boolean).join('+') + ')' : ''}</p>
                     <p style="font-size:64px;font-weight:bold;">${overall.toFixed(1)}</p>
                     <p style="font-size:16px;opacity:0.9;">${getBandDesc(overall)}</p>
                 </div>
@@ -8981,13 +9097,14 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                 <div class="scores-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;">
                     ${renderScoreCard('Listening', l, state.scores.listening)}
                     ${renderScoreCard('Reading', r, state.scores.reading)}
-                    ${state.isPremiumVip ? renderScoreCard('Writing', w, null) : renderPremiumBadgeCard('Writing')}
-                    ${state.isPremiumVip ? renderScoreCard('Speaking', s, null) : renderPremiumBadgeCard('Speaking')}
+                    ${(state.isPremiumVip && !state._adminWritingAiOff) ? renderScoreCard('Writing', w, null) : state._adminWritingAiOff ? renderAdminRestrictedCard('Writing') : renderPremiumBadgeCard('Writing')}
+                    ${(state.isPremiumVip && !state._adminSpeakingAiOff) ? renderScoreCard('Speaking', s, null) : state._adminSpeakingAiOff ? renderAdminRestrictedCard('Speaking') : renderPremiumBadgeCard('Speaking')}
                 </div>
             `;
 
             if (state.isPremiumVip) {
-                // Writing feedback or retry section
+                // Writing feedback or retry section (only if AI was not admin-restricted)
+                if (!state._adminWritingAiOff) {
                 if (state.aiFailed.writing) {
                     html += `
                     <div id="writingRetrySection" style="background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:16px;margin-bottom:16px;">
@@ -9002,8 +9119,10 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                         <p style="line-height:1.6;color:#15803d;">${wr.overall?.summary || 'Grading complete.'}</p>
                     </div>`;
                 }
+                }
 
-                // Speaking feedback or retry section
+                // Speaking feedback or retry section (only if AI was not admin-restricted)
+                if (!state._adminSpeakingAiOff) {
                 if (state.aiFailed.speaking) {
                     html += `
                     <div id="speakingRetrySection" style="background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:16px;margin-bottom:24px;">
@@ -9017,6 +9136,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                         <h4 style="color:#1e40af;margin:0 0 12px;font-size:16px;">✅ Speaking Feedback</h4>
                         <p style="line-height:1.6;color:#1d4ed8;">${sp.overall?.summary || 'Grading complete.'}</p>
                     </div>`;
+                }
                 }
             }
 
@@ -9056,6 +9176,18 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
                         <span>⭐</span> Premium Feature
                     </div>
                     <p style="font-size:10px;color:#999;margin-top:6px;">AI scoring requires Premium VIP code</p>
+                </div>
+            `;
+        }
+
+        function renderAdminRestrictedCard(name) {
+            return `
+                <div style="background:white;padding:20px;border-radius:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color:#666;font-size:14px;margin-bottom:8px;">${name}</p>
+                    <div style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#64748b,#475569);color:white;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;">
+                        <span>📊</span> Standard Mode
+                    </div>
+                    <p style="font-size:10px;color:#999;margin-top:6px;">AI Analysis managed by center admin</p>
                 </div>
             `;
         }

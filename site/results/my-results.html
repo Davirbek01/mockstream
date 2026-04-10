@@ -1015,6 +1015,7 @@
         var skillLabel = capitalize(r.skill || '');
         var skillClass = 'badge-' + (r.skill || 'speaking');
         var isPractice = (r.metadata && r.metadata.is_practice) || (r.mock_number && r.mock_number.indexOf('Practice') === 0);
+        var isWritingPlus = (r.metadata && r.metadata.is_writing_plus) || (r.mock_number && r.mock_number.indexOf('Writing Plus') !== -1);
         var hasAI = r.metadata && (r.metadata.hasAi || r.metadata.fc || r.metadata.p11 || r.metadata.t1_band || r.metadata.raw_score);
 
         var scoreDisplay = r.score || '—';
@@ -1051,6 +1052,7 @@
           + '<span class="date-text">' + dateStr + '</span>'
           + '<span class="badge ' + examClass + '">' + examLabel + '</span>'
           + '<span class="badge ' + skillClass + '">' + escapeHtml(skillLabel) + '</span>'
+          + (isWritingPlus ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:11px;font-weight:900;margin-left:3px;vertical-align:middle;line-height:1;">+</span>' : '')
           + (isPractice ? '<span class="badge badge-practice">Practice</span>' : '')
           + (hasAI ? '<span class="badge badge-ai">AI ✓</span>' : '')
           + (r.mock_number ? '<span class="mock-label">' + escapeHtml(r.mock_number) + '</span>' : '')

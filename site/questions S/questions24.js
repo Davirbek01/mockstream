@@ -252,9 +252,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 7,
       "part": "Part 3",
-      "badge": "60s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 60,
+      "speakTime": 120,
       "prompt": "Describe someone whose job you find interesting.",
       "audioFile": "questions S/audio/cefr-speaking-mock-24-q7.mp3",
       "hasImages": false,
@@ -295,9 +295,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 8,
       "part": "Part 4",
-      "badge": "90s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 90,
+      "speakTime": 120,
       "prompt": "Working From Home Is Better Than Working in an Office",
       "audioFile": "questions S/audio/cefr-speaking-mock-24-q8.mp3",
       "hasImages": false,

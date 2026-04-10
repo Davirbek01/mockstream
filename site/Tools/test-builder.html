@@ -795,6 +795,20 @@
           </select>
         </div>
 
+        <div class="ai-options" style="margin-top:8px;">
+          <label>AI Model:</label>
+          <button class="preset-btn" id="mdl-claude" onclick="setAiModel('claude')" style="background:#ede9fe;border-color:#a855f7;font-weight:700;">🟣 Claude</button>
+          <button class="preset-btn" id="mdl-openai" onclick="setAiModel('openai')">🟢 GPT-4o</button>
+          <button class="preset-btn" id="mdl-gemini" onclick="setAiModel('gemini')">🔵 Gemini</button>
+          <button class="preset-btn" id="mdl-grok" onclick="setAiModel('grok')">🔴 Grok</button>
+          <button class="preset-btn" id="mdl-deepseek" onclick="setAiModel('deepseek')">⚫ Deepseek</button>
+        </div>
+
+        <div id="passcodeField" style="margin-top:8px;">
+          <label style="font-size:12px;font-weight:600;color:#64748b;">Passcode (Claude / Grok / Deepseek):</label>
+          <input type="password" id="claudePasscode" placeholder="Enter passcode" style="padding:6px 10px;border:2px solid #e2e8f0;border-radius:8px;font-size:13px;width:200px;">
+        </div>
+
         <button class="btn-ai" id="generateAiBtn" onclick="generateWithAI()">
           🤖 Generate with AI
         </button>
@@ -1226,29 +1240,101 @@ ${questions.map(q => {
     }
 
     // ========== AI GENERATION ==========
-    
-    let API_KEY = null;
 
-    async function loadApiKey() {
-      const badge = document.getElementById('apiStatusBadge');
-      try {
-        const response = await fetch('https://davirbek.alwaysdata.net/key', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!response.ok) throw new Error('Failed to connect');
-        const data = await response.json();
-        API_KEY = data.key;
-        badge.className = 'api-status-badge connected';
-        badge.innerHTML = '✅ AI Ready - Connected to server';
-      } catch (error) {
-        console.error('Error fetching API key:', error);
-        badge.className = 'api-status-badge disconnected';
-        badge.innerHTML = '❌ Server unavailable - Try refreshing';
-      }
+    // ===== AI MODEL STATE =====
+    let _aiModel = 'claude';
+    function setAiModel(m) {
+      _aiModel = m;
+      ['claude','openai','gemini','grok','deepseek'].forEach(k => {
+        const b = document.getElementById('mdl-' + k);
+        if (b) { b.style.background = k === m ? '#ede9fe' : ''; b.style.borderColor = k === m ? '#a855f7' : ''; b.style.fontWeight = k === m ? '700' : ''; }
+      });
+      document.getElementById('passcodeField').style.display = ['claude','grok','deepseek'].includes(m) ? '' : 'none';
     }
 
-    loadApiKey();
+    // ===== 3-AI KEY FETCHING =====
+    async function fetchApiKey(model, passcode) {
+      if (['claude','grok','deepseek'].includes(model)) {
+        const res = await fetch('https://davirbek.alwaysdata.net/test-maker-key', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode, model }),
+        });
+        if (!res.ok) throw new Error('Invalid passcode');
+        const data = await res.json(); return data.key || data.apiKey;
+      }
+      const endpoint = model === 'gemini'
+        ? 'https://davirbek.alwaysdata.net/key?model=gemini'
+        : 'https://davirbek.alwaysdata.net/key';
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error('Failed to fetch key');
+      const data = await res.json(); return data.key || data.apiKey;
+    }
+
+    async function callClaudeText(apiKey, system, user) {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 8192, system: system, messages: [{ role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Claude API error: ' + res.status);
+      const d = await res.json(); return d.content?.[0]?.text || '';
+    }
+
+    async function callOpenAIText(apiKey, system, user) {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'gpt-4o', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('OpenAI error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callGeminiText(apiKey, system, user) {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ parts: [{ text: user }] }], generationConfig: { maxOutputTokens: 8192 } }),
+      });
+      if (!res.ok) throw new Error('Gemini error: ' + res.status);
+      const d = await res.json(); return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    async function callGrokText(apiKey, system, user) {
+      const res = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'grok-3', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Grok error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callDeepseekText(apiKey, system, user) {
+      const res = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model: 'deepseek-chat', max_tokens: 8192, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      });
+      if (!res.ok) throw new Error('Deepseek error: ' + res.status);
+      const d = await res.json(); return d.choices?.[0]?.message?.content || '';
+    }
+
+    async function callAIText(system, user) {
+      const passcode = document.getElementById('claudePasscode').value;
+      const key = await fetchApiKey(_aiModel, passcode);
+      if (_aiModel === 'claude') return callClaudeText(key, system, user);
+      if (_aiModel === 'gemini') return callGeminiText(key, system, user);
+      if (_aiModel === 'grok') return callGrokText(key, system, user);
+      if (_aiModel === 'deepseek') return callDeepseekText(key, system, user);
+      return callOpenAIText(key, system, user);
+    }
+
+    // ===== INIT =====
+    (function() {
+      const badge = document.getElementById('apiStatusBadge');
+      badge.className = 'api-status-badge connected';
+      badge.innerHTML = '✅ AI Ready — 5 models available';
+    })();
 
     function setPrompt(topic) {
       const count = document.getElementById('aiQuestionCount').value;
@@ -1303,12 +1389,6 @@ ${questions.map(q => {
     }
 
     async function generateWithAI() {
-      if (!API_KEY) {
-        alert('Server connection failed. Please refresh the page.');
-        loadApiKey();
-        return;
-      }
-
       const prompt = document.getElementById('aiPrompt').value.trim();
       const questionCount = parseInt(document.getElementById('aiQuestionCount').value) || 10;
       const questionType = document.getElementById('aiQuestionType').value;
@@ -1350,32 +1430,8 @@ Rules:
 - Return ONLY valid JSON array, no markdown or code blocks`;
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: prompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 4000
-          })
-        });
+        let content = await callAIText(systemPrompt, prompt);
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error?.message || 'API request failed');
-        }
-
-        const data = await response.json();
-        let content = data.choices[0].message.content.trim();
-
-        // Parse JSON
         if (content.includes('```')) {
           content = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
         }

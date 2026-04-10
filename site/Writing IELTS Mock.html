@@ -64,6 +64,7 @@
       const autoMode = urlParams.get('auto');
       const testParam = urlParams.get('test');
       const taskParam = urlParams.get('task');
+      const sbMockParam = urlParams.get('sbmock');   // Supabase dynamic mock ID
 
       // Practice mode: ?task=t1 or ?task=t2
       if (taskParam) {
@@ -130,6 +131,23 @@
               break;
             }
           }
+        }
+
+        // ── Supabase dynamic mock via ?sbmock= ──
+        if (sbMockParam) {
+          var sbValue = 'supabase:' + sbMockParam;
+          var opt = selector.querySelector('option[value="' + sbValue + '"]');
+          if (!opt) {
+            opt = document.createElement('option');
+            opt.value = sbValue;
+            opt.textContent = '🟢 Dynamic Mock';
+            opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+            selector.appendChild(opt);
+          }
+          selector.value = sbValue;
+          found = true;
+          window._lastSelectedIeltsMock = { value: sbValue, text: opt.textContent };
+          console.log('[Auto-Proceed IELTS Writing] Selected Supabase mock:', sbValue);
         }
 
         if (!found && !selector.value) {
@@ -3836,6 +3854,34 @@
     // Function to dynamically load a new question file
     window.loadNewIELTSQuestions = function (scriptSrc) {
       return new Promise((resolve, reject) => {
+        // ── Supabase dynamic mock ──
+        if (scriptSrc.startsWith('supabase:')) {
+          const mockId = scriptSrc.replace('supabase:', '');
+          console.log('🌐 Loading IELTS Writing from Supabase, id=' + mockId);
+          const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+          const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(mockId) + '&select=mock_data', {
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          })
+          .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
+          .then(function(rows) {
+            if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
+            window.IELTS_WRITING_TEST_DATA = rows[0].mock_data;
+            console.log('✅ Loaded IELTS Writing from Supabase');
+            if (window.loadIELTSTestData()) {
+              resolve();
+            } else {
+              reject(new Error('Failed to parse Supabase test data'));
+            }
+          })
+          .catch(function(err) {
+            console.error('❌ Supabase load failed:', err);
+            reject(err);
+          });
+          return;
+        }
+        // ── End Supabase dynamic mock ──
+
         // Remove old script if exists
         const oldScript = document.querySelector('script[data-ielts-questions]');
         if (oldScript) {
@@ -5942,7 +5988,8 @@
       // Clear session recovery on submit
       if (window.SessionRecovery) SessionRecovery.clear();
 
-      const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
 
       // ═══════ PRACTICE MODE FINISH ═══════
       if (window._practiceMode) {
@@ -6491,7 +6538,8 @@
 
     // Show AI Checker button as teaser for regular (non-premium) users
     (function () {
-      const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
       if (!isPremiumEntry) {
         const aiBtn = document.getElementById('aiCheckerBtn');
         if (aiBtn) {
@@ -9623,9 +9671,16 @@ function printWritingAiModal() {
       return _scoringPromptsCache || {};
     }
 
+    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+    async function _fetchProviderKey(m) {
+      var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+      if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+    }
+
     async function _callScoringAI(systemText, userPrompt, opts) {
       var cp = await _loadScoringPrompts();
       var provider = cp['scoring_ai_provider'] || 'gemini';
+      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
       opts = opts || {};
       if (provider === 'openai') {
         if (!WRITING_API_KEY) { try { await getWritingApiKey(); } catch(e){} }
@@ -9639,6 +9694,57 @@ function printWritingAiModal() {
         var r = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + WRITING_API_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'claude') {
+        if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+        if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
+        var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: userPrompt }] };
+        if (systemText) cBody.system = systemText;
+        if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
+        var r = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+          body: JSON.stringify(cBody)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.content[0].text;
+      } else if (provider === 'grok') {
+        if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
+        if (!_GROK_KEY) throw new Error('No Grok API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        return j.choices[0].message.content;
+      } else if (provider === 'deepseek') {
+        if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
+        if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.deepseek.com/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
           body: JSON.stringify(body)
         });
         if (!r.ok) throw new Error('AI API error: ' + r.status);
@@ -10388,7 +10494,8 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
         }
 
         // Check if this is a premium entry (auto AI scoring)
-        const isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+        if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
 
         if (isPremiumEntry) {
           // PREMIUM: Check if already auto-submitted via Finish button
@@ -11689,6 +11796,51 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
 });
 </script>
 <script src="chat-bubble.js"></script>
+<!-- Supabase dynamic mocks loader -->
+<script>
+(async function loadDynamicMocks() {
+  try {
+    const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    const res = await fetch(
+      SB_URL + '/rest/v1/mock_tests?mock_type=eq.ielts-writing&status=eq.published&select=id,mock_number,title&order=mock_number.asc',
+      { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+    );
+    if (!res.ok) return;
+    const mocks = await res.json();
+    if (!mocks || !mocks.length) return;
+
+    const selector = document.getElementById('mockSelector');
+    if (!selector) return;
+
+    let upgraded = 0, added = 0;
+    mocks.forEach(function(m) {
+      const num = String(m.mock_number).padStart(2, '0');
+      // Try to find a hardcoded option with matching mock number
+      const existing = selector.querySelector('option[value="questions IELTS W/ielts-mock-' + num + '.js"]');
+      if (existing) {
+        // Upgrade: change value to supabase, update text & style
+        existing.value = 'supabase:' + m.id;
+        existing.textContent = '🟢 ' + m.title;
+        existing.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+        existing.removeAttribute('data-coming-soon');
+        upgraded++;
+      } else {
+        // New mock not in hardcoded list — append
+        var opt = document.createElement('option');
+        opt.value = 'supabase:' + m.id;
+        opt.textContent = '🟢 ' + m.title;
+        opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+        selector.appendChild(opt);
+        added++;
+      }
+    });
+    console.log('🌐 IELTS Writing Supabase mocks: ' + upgraded + ' upgraded, ' + added + ' new');
+  } catch (e) {
+    console.warn('Could not load dynamic IELTS writing mocks:', e);
+  }
+})();
+</script>
 </body>
 
 </html>

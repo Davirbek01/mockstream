@@ -27,7 +27,13 @@
   var SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
   // Public viewer URL — auto-detected from current domain
-  var VIEWER_BASE = window.location.origin + '/results/view.html';
+  // When running from file://, fall back to the configured siteDomain
+  var _origin = window.location.origin;
+  if (!_origin || _origin === 'null' || _origin === 'file://') {
+    var _dom = (window.SITE_CONFIG && window.SITE_CONFIG.siteDomain) || 'mockstream.site';
+    _origin = 'https://' + _dom;
+  }
+  var VIEWER_BASE = _origin + '/results/view.html';
 
   // ─── GLOBAL PROGRESS OVERLAY ──────────────────────────────────────────────
   // Auto-injects a floating progress bar visible during background operations.

@@ -1,0 +1,454 @@
+/*  ============================================================
+    RESPONSIVE SCALING — shared across the entire Mock Stream platform
+    ============================================================
+    Uses clamp(MIN, PREFERRED, MAX) so every UI element scales
+    fluidly on ANY screen — phones, tablets, laptops, desktops.
+
+    How it works:
+    • MAX  = existing desktop size → large screens look identical
+    • PREFERRED (vw-based) = scales proportionally to viewport
+    • MIN  = lower bound so nothing becomes too tiny on small phones
+
+    On a 13" MacBook (1280px+) the preferred value exceeds MAX,
+    so clamp caps it → no visual change from current desktop.
+    On a tablet (768–1024px) same thing → desktop sizes, plenty of room.
+    On a phone (320–500px) the preferred value drops between MIN–MAX
+    → elements shrink proportionally, staying in their position.
+
+    Breakpoint set to 1200px so the rules are active on every
+    screen below full-width desktop. Above 1200px the page's own
+    desktop CSS applies (which already works fine).
+    ============================================================ */
+
+/* ─── THIN / INVISIBLE SCROLLBARS (all devices) ─── */
+/* Webkit (Chrome, Safari, Edge, Opera, most mobile browsers) */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+
+/* ─── HEADER (test pages: sticky gradient bar) ─── */
+@media (max-width: 1200px) {
+  .header {
+    padding: clamp(4px, 1.2vw, 10px) clamp(6px, 2vw, 16px) !important;
+  }
+
+  .header-content {
+    padding: 0 clamp(4px, 1.5vw, 12px) !important;
+    gap: clamp(4px, 1.5vw, 10px) !important;
+  }
+
+  .header-left {
+    gap: clamp(4px, 1.5vw, 10px) !important;
+    min-width: 0;
+  }
+
+  .header-right {
+    gap: clamp(4px, 1.2vw, 8px) !important;
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-size: clamp(12px, 3.5vw, 18px) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+}
+
+/* ─── LOGO (only inside headers, not the welcome screen splash logo) ─── */
+@media (max-width: 1200px) {
+  .header .logo {
+    width: clamp(26px, 7vw, 40px) !important;
+    height: clamp(26px, 7vw, 40px) !important;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── MOCK NUMBER BADGE ─── */
+@media (max-width: 1200px) {
+  .mock-number {
+    padding: clamp(2px, 0.8vw, 6px) clamp(6px, 2vw, 14px) !important;
+    font-size: clamp(11px, 3vw, 15px) !important;
+    border-radius: clamp(4px, 1.5vw, 8px) !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── BACK BUTTON ─── */
+@media (max-width: 1200px) {
+  .back-btn {
+    width: clamp(28px, 8vw, 40px) !important;
+    height: clamp(28px, 8vw, 40px) !important;
+    font-size: clamp(14px, 4vw, 20px) !important;
+    border-radius: clamp(8px, 2vw, 12px) !important;
+    flex-shrink: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ─── ZOOM / MAGNIFIER BUTTON ─── */
+@media (max-width: 1200px) {
+  .zoom-btn {
+    width: clamp(28px, 8vw, 40px) !important;
+    height: clamp(28px, 8vw, 40px) !important;
+    font-size: clamp(13px, 3.5vw, 18px) !important;
+    border-radius: clamp(6px, 2vw, 12px) !important;
+    flex-shrink: 0;
+  }
+
+  .zoom-btn .zoom-level {
+    width: clamp(12px, 3.5vw, 16px) !important;
+    height: clamp(12px, 3.5vw, 16px) !important;
+    font-size: clamp(7px, 2vw, 9px) !important;
+  }
+}
+
+/* ─── TIMER ─── */
+@media (max-width: 1200px) {
+  .timer-box {
+    padding: 0 clamp(6px, 2vw, 14px) !important;
+    height: clamp(30px, 8.5vw, 40px) !important;
+    border-radius: clamp(6px, 2vw, 12px) !important;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  .timer-value {
+    font-size: clamp(13px, 3.8vw, 20px) !important;
+    white-space: nowrap;
+  }
+
+  .timer-label {
+    font-size: clamp(7px, 2vw, 10px) !important;
+  }
+}
+
+/* ─── MOBILE PART DOTS (numbered circles in header) ─── */
+@media (max-width: 1200px) {
+  .mobile-part-nav {
+    gap: clamp(3px, 1vw, 6px) !important;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .mobile-part-dot {
+    width: clamp(22px, 6.5vw, 30px) !important;
+    height: clamp(22px, 6.5vw, 30px) !important;
+    font-size: clamp(10px, 2.8vw, 13px) !important;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── PART BUTTONS (pill / tab style) ─── */
+@media (max-width: 1200px) {
+  .part-btn {
+    padding: clamp(5px, 1.5vw, 10px) clamp(10px, 3vw, 20px) !important;
+    font-size: clamp(11px, 3vw, 15px) !important;
+    border-radius: clamp(14px, 4vw, 25px) !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .part-nav-inner {
+    gap: clamp(4px, 1.5vw, 10px) !important;
+    padding: clamp(2px, 0.8vw, 4px) clamp(6px, 2vw, 16px) !important;
+  }
+}
+
+/* ─── PART NAV BAR (ielts-full-mock & full-mock tabs) ─── */
+@media (max-width: 1200px) {
+  .part-nav-bar {
+    padding: clamp(3px, 1vw, 6px) !important;
+    border-radius: clamp(8px, 2.5vw, 16px) !important;
+  }
+
+  .part-nav-btn {
+    padding: clamp(6px, 2vw, 14px) clamp(8px, 2.5vw, 24px) !important;
+    font-size: clamp(11px, 3vw, 15px) !important;
+    border-radius: clamp(6px, 2vw, 12px) !important;
+  }
+}
+
+/* ─── AUDIO PLAYER BAR ─── */
+@media (max-width: 1200px) {
+  .audio-player-bar {
+    padding: clamp(4px, 1.2vw, 8px) clamp(6px, 2vw, 14px) !important;
+    gap: clamp(4px, 1.2vw, 8px) !important;
+  }
+
+  .play-pause-btn,
+  .mob-play-btn {
+    width: clamp(28px, 8vw, 40px) !important;
+    height: clamp(28px, 8vw, 40px) !important;
+    font-size: clamp(12px, 3.5vw, 16px) !important;
+    flex-shrink: 0;
+  }
+
+  .audio-time,
+  .mob-current-time,
+  .mob-duration {
+    font-size: clamp(10px, 2.8vw, 13px) !important;
+    min-width: clamp(28px, 8vw, 42px) !important;
+  }
+
+  .speed-btn,
+  .mob-speed-btn {
+    padding: clamp(2px, 0.6vw, 4px) clamp(4px, 1.5vw, 8px) !important;
+    font-size: clamp(10px, 2.8vw, 13px) !important;
+    border-radius: clamp(10px, 3vw, 18px) !important;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .volume-btn,
+  .mob-volume-btn {
+    font-size: clamp(14px, 4vw, 20px) !important;
+    flex-shrink: 0;
+  }
+
+  .volume-slider,
+  .mob-volume-slider {
+    width: clamp(30px, 10vw, 60px) !important;
+  }
+
+  .volume-control {
+    flex-shrink: 0;
+    gap: clamp(2px, 0.8vw, 6px) !important;
+  }
+
+  .audio-progress,
+  .mob-progress-bar {
+    height: clamp(4px, 1.2vw, 8px) !important;
+  }
+
+  .audio-progress-container {
+    gap: clamp(4px, 1.2vw, 8px) !important;
+    min-width: 0;
+  }
+}
+
+/* ─── ARTICLES IN-HEADER AUDIO (compact pill player) ─── */
+@media (max-width: 1200px) {
+  .audio-control-btn {
+    width: clamp(20px, 5.5vw, 28px) !important;
+    height: clamp(20px, 5.5vw, 28px) !important;
+    font-size: clamp(10px, 2.8vw, 14px) !important;
+    flex-shrink: 0;
+  }
+
+  .audio-control-btn.play-pause {
+    width: clamp(24px, 7vw, 32px) !important;
+    height: clamp(24px, 7vw, 32px) !important;
+  }
+}
+
+/* ─── NAV BUTTONS (Prev / Next / Submit) ─── */
+@media (max-width: 1200px) {
+  .nav-btn {
+    padding: clamp(8px, 2.5vw, 14px) clamp(10px, 3vw, 20px) !important;
+    font-size: clamp(12px, 3.2vw, 15px) !important;
+    border-radius: clamp(8px, 2.5vw, 14px) !important;
+  }
+}
+
+/* ─── LANDING PAGE — skill cards & full-mock card ─── */
+@media (max-width: 1200px) {
+  .full-mock-card {
+    padding: clamp(10px, 3vw, 20px) clamp(12px, 3.5vw, 28px) !important;
+    border-radius: clamp(14px, 4.5vw, 24px) !important;
+  }
+
+  .skill-selection-card {
+    padding: clamp(14px, 4vw, 24px) clamp(8px, 2.5vw, 18px) !important;
+    border-radius: clamp(14px, 4.5vw, 24px) !important;
+  }
+
+  .icon-box {
+    width: clamp(40px, 12vw, 56px) !important;
+    height: clamp(40px, 12vw, 56px) !important;
+    border-radius: clamp(8px, 2.5vw, 12px) !important;
+    font-size: clamp(20px, 6vw, 28px) !important;
+  }
+}
+
+/* ─── LANDING PAGE — learning tools cards ─── */
+@media (max-width: 1200px) {
+  .learning-tool-card {
+    padding: clamp(6px, 2vw, 14px) !important;
+    border-radius: clamp(12px, 4vw, 20px) !important;
+    gap: clamp(6px, 2vw, 12px) !important;
+  }
+
+  .tool-icon-wrapper {
+    width: clamp(30px, 9vw, 44px) !important;
+    height: clamp(30px, 9vw, 44px) !important;
+    border-radius: clamp(6px, 2vw, 10px) !important;
+  }
+}
+
+/* ─── LANDING PAGE — hamburger & sidebar ─── */
+@media (max-width: 1200px) {
+  .hamburger-menu {
+    width: clamp(34px, 10vw, 48px) !important;
+    height: clamp(34px, 10vw, 48px) !important;
+  }
+
+  .hamburger-menu .bar {
+    height: clamp(2px, 0.6vw, 3px) !important;
+  }
+
+  .sidebar-menu {
+    width: clamp(220px, 65vw, 300px) !important;
+    padding: clamp(16px, 5vw, 30px) clamp(12px, 4vw, 20px) !important;
+  }
+
+  .sidebar-menu a,
+  .sidebar-menu .sidebar-link {
+    padding: clamp(8px, 2.5vw, 12px) clamp(10px, 3vw, 15px) !important;
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+  }
+
+  .skill-btn {
+    padding: clamp(8px, 2.5vw, 12px) clamp(6px, 1.8vw, 8px) !important;
+    border-radius: clamp(6px, 2vw, 10px) !important;
+    font-size: clamp(11px, 3vw, 14px) !important;
+  }
+
+  .sidebar-action-btn {
+    padding: clamp(10px, 3vw, 14px) clamp(10px, 3vw, 16px) !important;
+    border-radius: clamp(8px, 2.5vw, 12px) !important;
+    font-size: clamp(12px, 3.2vw, 14px) !important;
+  }
+}
+
+/* ─── MOCKS LISTING — test cards ─── */
+@media (max-width: 1200px) {
+  .test-card {
+    padding: clamp(14px, 4.5vw, 24px) !important;
+    border-radius: clamp(12px, 4vw, 20px) !important;
+    gap: clamp(12px, 3.5vw, 20px) !important;
+  }
+
+  .test-icon {
+    width: clamp(48px, 14vw, 70px) !important;
+    height: clamp(48px, 14vw, 70px) !important;
+    border-radius: clamp(10px, 3vw, 16px) !important;
+    font-size: clamp(22px, 6.5vw, 32px) !important;
+  }
+}
+
+/* ─── MOCKS LISTING — header card (non-sticky) ─── */
+@media (max-width: 1200px) {
+  .header-card,
+  .mock-header {
+    padding: clamp(16px, 5vw, 30px) clamp(12px, 4vw, 20px) !important;
+    border-radius: clamp(12px, 4vw, 24px) !important;
+    margin-bottom: clamp(20px, 6vw, 40px) !important;
+  }
+
+  .header-logo {
+    width: clamp(45px, 14vw, 70px) !important;
+    height: clamp(45px, 14vw, 70px) !important;
+  }
+}
+
+/* ─── FLASHCARDS ─── */
+@media (max-width: 1200px) {
+  .flashcard-header .logo {
+    width: clamp(24px, 7vw, 36px) !important;
+    height: clamp(24px, 7vw, 36px) !important;
+  }
+}
+
+/* ─── EXTRACT / SECTION BOXES (test content) ─── */
+@media (max-width: 1200px) {
+  .extract-box,
+  .section-box {
+    border-radius: clamp(8px, 2.5vw, 14px) !important;
+    margin-bottom: clamp(10px, 3vw, 18px) !important;
+  }
+
+  .extract-header,
+  .section-header {
+    padding: clamp(8px, 2.5vw, 14px) clamp(10px, 3vw, 16px) !important;
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+  }
+
+  .extract-questions,
+  .section-questions {
+    padding: clamp(10px, 3vw, 16px) clamp(8px, 2.5vw, 14px) !important;
+  }
+}
+
+/* ─── MOBILE FLOATING SUBMIT ─── */
+@media (max-width: 1200px) {
+  .mobile-floating-submit {
+    padding: clamp(10px, 3vw, 16px) clamp(16px, 5vw, 28px) !important;
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+    border-radius: clamp(20px, 6vw, 30px) !important;
+  }
+}
+
+/* ─── PC SUBMIT BUTTON (full-mock / ielts-full-mock) ─── */
+@media (max-width: 1200px) {
+  .pc-only-submit,
+  .submit-all-btn {
+    padding: clamp(10px, 3vw, 16px) clamp(16px, 5vw, 28px) !important;
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+    border-radius: clamp(8px, 2.5vw, 14px) !important;
+  }
+}
+
+/* ─── DOWNLOAD / PDF BUTTON ─── */
+@media (max-width: 1200px) {
+  .download-btn {
+    padding: clamp(6px, 2vw, 10px) clamp(10px, 3vw, 16px) !important;
+    font-size: clamp(11px, 3vw, 14px) !important;
+    border-radius: clamp(8px, 2.5vw, 12px) !important;
+    flex-shrink: 0;
+  }
+
+  .download-btn svg {
+    width: clamp(12px, 3.5vw, 16px) !important;
+    height: clamp(12px, 3.5vw, 16px) !important;
+  }
+}
+
+/* ─── SPEAKING IELTS BOOKING — form elements ─── */
+@media (max-width: 1200px) {
+  .submit-btn {
+    padding: clamp(12px, 3.5vw, 18px) clamp(16px, 5vw, 28px) !important;
+    font-size: clamp(14px, 3.8vw, 17px) !important;
+    border-radius: clamp(8px, 2.5vw, 14px) !important;
+  }
+}
+
+/* ─── GENERAL: prevent any flex child from overflowing ─── */
+@media (max-width: 1200px) {
+  .header-content,
+  .header-left,
+  .header-right,
+  .part-nav-inner,
+  .mobile-part-nav,
+  .custom-audio-player {
+    flex-wrap: nowrap !important;
+    overflow: hidden;
+  }
+
+  /* Ensure progress bars can shrink */
+  .audio-progress-container {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
+}

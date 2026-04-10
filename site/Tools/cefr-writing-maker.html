@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing Test Maker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --brand: #6366f1;
+      --brand2: #4f46e5;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --ring: #e2e8f0;
+      --success: #059669;
+      --danger: #dc2626;
+      --warn: #d97706;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ===== MODE SELECTION POPUP ===== */
+    .mode-popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mode-popup {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .mode-popup h2 { font-size: 24px; margin-bottom: 8px; }
+    .mode-popup p { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .mode-popup-cards { display: flex; gap: 16px; justify-content: center; }
+    .mode-popup-card {
+      flex: 1;
+      padding: 28px 20px;
+      border: 3px solid var(--ring);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+    .mode-popup-card:hover { border-color: var(--brand); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(99,102,241,0.15); }
+    .mode-popup-card .mp-icon { font-size: 40px; margin-bottom: 12px; }
+    .mode-popup-card .mp-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .mode-popup-card .mp-desc { font-size: 12px; color: var(--muted); }
+    .mode-popup-card.ielts:hover { border-color: #dc2626; box-shadow: 0 8px 24px rgba(220,38,38,0.15); }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-left h1 { font-size: 20px; font-weight: 700; }
+    .header-left .badge {
+      background: rgba(255,255,255,0.2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .header-right { display: flex; gap: 8px; align-items: center; }
+
+    .btn {
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-save { background: #10b981; color: white; }
+    .btn-publish { background: var(--brand); color: white; }
+    .btn-preview { background: #0ea5e9; color: white; }
+    .btn-back { background: rgba(255,255,255,0.15); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-outline {
+      background: transparent;
+      color: var(--brand);
+      border: 2px solid var(--brand);
+    }
+
+    /* ===== LAYOUT ===== */
+    .layout {
+      display: flex;
+      height: calc(100vh - 56px);
+    }
+
+    /* Sidebar nav */
+    .sidebar {
+      width: 240px;
+      background: var(--card);
+      border-right: 1px solid var(--ring);
+      overflow-y: auto;
+      flex-shrink: 0;
+      padding: 16px 0;
+    }
+    .sidebar-section {
+      padding: 6px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      transition: all 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: #f1f5f9; }
+    .sidebar-item.active {
+      background: #ede9fe;
+      color: var(--brand);
+      border-left-color: var(--brand);
+      font-weight: 600;
+    }
+    .sidebar-item .icon { font-size: 16px; width: 22px; text-align: center; }
+    .sidebar-item .dot {
+      width: 8px; height: 8px; border-radius: 50%; margin-left: auto;
+    }
+    .dot-green { background: var(--success); }
+    .dot-orange { background: var(--warn); }
+    .dot-empty { border: 2px solid var(--ring); }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px;
+    }
+
+    /* ===== MODE TOGGLE ===== */
+    .mode-toggle {
+      display: flex;
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+      max-width: 400px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--muted);
+    }
+    .mode-btn.active {
+      background: var(--brand);
+      color: white;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+    }
+
+    /* ===== SECTIONS & CARDS ===== */
+    .section-panel { display: none; }
+    .section-panel.active { display: block; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--brand);
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid var(--ring);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: var(--bg);
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+    .field textarea { min-height: 80px; resize: vertical; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .field-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Task cards */
+    .q-card {
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .q-card-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--ring);
+      transition: background 0.15s;
+    }
+    .q-card-header:hover { background: #f1f5f9; }
+    .q-card-header .q-title {
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-card-header .q-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .q-badge-t11 { background: #dbeafe; color: #1d4ed8; }
+    .q-badge-t12 { background: #fef3c7; color: #92400e; }
+    .q-badge-t2 { background: #fce7f3; color: #9d174d; }
+    .q-badge-task1 { background: #dbeafe; color: #1d4ed8; }
+    .q-badge-task2 { background: #fce7f3; color: #9d174d; }
+    .q-card-header .arrow { transition: transform 0.2s; font-size: 12px; color: var(--muted); }
+    .q-card-header.open .arrow { transform: rotate(180deg); }
+    .q-card-body { padding: 18px; display: none; }
+    .q-card-body.open { display: block; }
+
+    /* Tabs inside task */
+    .q-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--ring);
+    }
+    .q-tab {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.15s;
+    }
+    .q-tab:hover { color: var(--ink); }
+    .q-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+    .q-tab-panel { display: none; }
+    .q-tab-panel.active { display: block; }
+
+    /* Auto mode */
+    .ai-model-option { background: var(--card); }
+    .ai-model-option:has(input:checked) { border-color: var(--brand) !important; background: #ede9fe; }
+    .ai-model-option[data-model="openai"]:has(input:checked) { border-color: #10a37f !important; background: #e6f9f1; }
+    .ai-model-option[data-model="gemini"]:has(input:checked) { border-color: #4285f4 !important; background: #e8f0fe; }
+
+    .upload-zone {
+      border: 2px dashed var(--ring);
+      border-radius: 14px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafbfc;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--brand);
+      background: #ede9fe;
+    }
+    .upload-zone .icon { font-size: 48px; margin-bottom: 12px; }
+    .upload-zone .title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .upload-zone .hint { font-size: 13px; color: var(--muted); }
+
+    .processing-status {
+      background: var(--card);
+      border: 2px solid var(--ring);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 16px;
+      display: none;
+    }
+    .processing-status.active { display: block; }
+    .progress-bar {
+      height: 6px;
+      background: var(--ring);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand), #8b5cf6);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-success { background: var(--success); }
+    .toast-error { background: var(--danger); }
+    .toast-info { background: var(--brand); }
+
+    /* Preview Panel */
+    .preview-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .preview-overlay.visible { display: flex; }
+
+    .pv-wrap {
+      background: #f5f7fa;
+      border-radius: 16px;
+      width: 96%;
+      max-width: 750px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .pv-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: #4f46e5; color: #fff;
+      border-radius: 16px 16px 0 0;
+      font-size: 13px; font-weight: 600;
+    }
+    .pv-topbar .pv-chip { background: rgba(255,255,255,.18); padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+    .pv-topbar .pv-close { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; padding: 2px 8px; }
+
+    .pv-body { padding: 16px; flex: 1; }
+
+    .pv-task-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid #e8ecef;
+    }
+    .pv-task-label { font-size: 12px; font-weight: 700; color: #4f46e5; margin-bottom: 6px; text-transform: uppercase; }
+    .pv-task-target { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .pv-task-prompt { font-size: 15px; line-height: 1.6; color: #0e141b; white-space: pre-line; }
+    .pv-scenario-box {
+      background: #fef3c7; padding: 16px; border-radius: 10px; border-left: 4px solid #f59e0b;
+      margin-bottom: 16px; white-space: pre-line; font-size: 14px; line-height: 1.6; color: #78350f;
+    }
+    .pv-scenario-box h4 { color: #92400e; margin-bottom: 8px; font-size: 15px; }
+    .pv-context-box {
+      background: #eff6ff; padding: 14px; border-radius: 10px; border-left: 4px solid #3b82f6;
+      margin-bottom: 12px; font-size: 14px; line-height: 1.6; color: #1e40af;
+    }
+    .pv-chart-img { max-width: 100%; border-radius: 10px; border: 2px solid #e8ecef; margin: 12px 0; }
+    .pv-instruction { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 8px; }
+
+    /* Samples inside preview */
+    .pv-samples-section { margin-top: 16px; }
+    .pv-level-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+    .pv-level-tab {
+      padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+      border: 2px solid #cfe1dd; background: #fff; color: #333; transition: all .2s;
+    }
+    .pv-level-tab.active { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+
+    .pv-sample-card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid #e8ecef; }
+    .pv-sample-card .pv-sq { font-weight: 700; color: #4f46e5; font-size: 13px; margin-bottom: 4px; }
+    .pv-sample-card .pv-st { font-size: 13px; line-height: 1.6; color: #555; white-space: pre-wrap; }
+
+    /* Token colors in preview samples */
+    .pv-token { padding: 2px 4px; border-radius: 3px; font-weight: 600; cursor: pointer; border-bottom: 2px solid rgba(0,0,0,.15); transition: background .2s; }
+    .pv-token.adv { background: rgba(245,158,11,.15); color: #92400e; border-color: #f59e0b; }
+    .pv-token.colloc { background: rgba(59,130,246,.15); color: #1e40af; border-color: #3b82f6; }
+    .pv-token.phrasal { background: rgba(16,185,129,.15); color: #065f46; border-color: #10b981; }
+    .pv-token.idiom { background: rgba(168,85,247,.15); color: #6b21a8; border-color: #a855f7; }
+    .pv-token.academic { background: rgba(236,72,153,.15); color: #9f1239; border-color: #ec4899; }
+    .pv-token.linking { background: rgba(14,165,233,.15); color: #0c4a6e; border-color: #0ea5e9; }
+    .pv-token:hover { filter: brightness(.92); }
+
+    .pv-tooltip {
+      position: fixed; z-index: 10000; background: #1e293b; color: #f8fafc;
+      border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 600;
+      max-width: 300px; pointer-events: none; opacity: 0; transform: translateY(6px);
+      transition: opacity .2s, transform .2s; box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+    .pv-tooltip.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .pv-tooltip .tt-uz { color: #fbbf24; display: block; font-size: 14px; }
+    .pv-tooltip .tt-type { color: #94a3b8; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; display: block; }
+    .pv-tooltip::before { content:''; position: absolute; top: -6px; left: var(--arrow-pos,50%); transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid #1e293b; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .field-row { grid-template-columns: 1fr; }
+      .field-row-3 { grid-template-columns: 1fr; }
+      .main { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== MODE SELECTION POPUP ===== -->
+<div class="mode-popup-overlay" id="modePopup">
+  <div class="mode-popup">
+    <h2>✍️ Writing Test Maker</h2>
+    <p>Select the exam type you want to create a mock for</p>
+    <div class="mode-popup-cards">
+      <div class="mode-popup-card cefr" onclick="initExamMode('cefr')">
+        <div class="mp-icon">📘</div>
+        <div class="mp-title">CEFR</div>
+        <div class="mp-desc">3 tasks · A1–B2 levels<br>Part 1 (1.1 + 1.2) + Part 2</div>
+      </div>
+      <div class="mode-popup-card ielts" onclick="initExamMode('ielts')">
+        <div class="mp-icon">📕</div>
+        <div class="mp-title">IELTS</div>
+        <div class="mp-desc">2 tasks · Band 5–9<br>Task 1 (chart) + Task 2 (essay)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="header-left">
+    <button class="btn btn-back" onclick="window.location.href='../landing.html'">← Back</button>
+    <h1>🛠️ Test Maker</h1>
+    <span class="badge" id="examTypeBadge">Writing</span>
+    <span class="badge" id="mockNumBadge" style="background:rgba(16,185,129,0.3)">New Mock</span>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-preview" onclick="openPreview()">👁 Preview</button>
+    <button class="btn btn-save" id="saveDraftBtn" onclick="saveMock('draft')">💾 Save Draft</button>
+    <button class="btn btn-publish" id="publishBtn" onclick="saveMock('published')">🚀 Publish</button>
+  </div>
+</div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">Input Mode</div>
+    <div class="sidebar-item active" onclick="switchMode('manual')" id="sideManual">
+      <span class="icon">✏️</span> Manual Entry
+    </div>
+    <div class="sidebar-item" onclick="switchMode('auto')" id="sideAuto">
+      <span class="icon">🤖</span> Auto (AI)
+    </div>
+
+    <div class="sidebar-section">Sections</div>
+    <div class="sidebar-item active" onclick="showSection('tasks')" data-sec="tasks">
+      <span class="icon">📝</span> <span id="sideTasksLabel">Tasks</span>
+      <span class="dot dot-empty" id="dot-tasks"></span>
+    </div>
+    <div class="sidebar-item" onclick="showSection('tokens')" data-sec="tokens">
+      <span class="icon">📚</span> Token Translations
+      <span class="dot dot-empty" id="dot-tokens"></span>
+    </div>
+
+    <div class="sidebar-section" style="display:flex;align-items:center;justify-content:space-between;padding-right:12px;">
+      Saved Mocks
+      <button onclick="openMockManager()" title="Manage Mocks" style="background:none;border:none;cursor:pointer;font-size:14px;padding:2px 4px;">⚙️</button>
+    </div>
+    <div id="savedMocksList" style="padding: 4px 12px;">
+      <div style="font-size:12px;color:var(--muted);padding:8px 4px;">Loading...</div>
+    </div>
+    <div style="padding:6px 12px 12px;">
+      <button onclick="createNewMock()" style="width:100%;padding:7px 0;border:2px dashed var(--ring);border-radius:8px;background:none;cursor:pointer;font-size:12px;font-weight:600;color:var(--brand);display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;" onmouseover="this.style.borderColor='var(--brand)';this.style.background='rgba(99,102,241,.06)'" onmouseout="this.style.borderColor='var(--ring)';this.style.background='none'">
+        <span style="font-size:15px;line-height:1;">+</span> New Mock
+      </button>
+    </div>
+  </div>
+
+  <!-- Mock Manager Overlay -->
+  <div id="mockManagerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:var(--card);border-radius:16px;width:90%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 48px rgba(0,0,0,.2);" onclick="event.stopPropagation()">
+      <div style="padding:20px 24px 12px;border-bottom:1px solid var(--ring);display:flex;align-items:center;justify-content:space-between;">
+        <h3 style="font-size:18px;margin:0;">⚙️ Mock Manager</h3>
+        <button onclick="closeMockManager()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;">✕</button>
+      </div>
+      <div id="mockManagerList" style="padding:16px 24px;overflow-y:auto;flex:1;"></div>
+      <div style="padding:12px 24px 16px;border-top:1px solid var(--ring);display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn" onclick="closeMockManager()" style="padding:8px 16px;font-size:13px;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main" id="mainContent">
+
+    <!-- MODE TOGGLE (top of main) -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeManualBtn" onclick="switchMode('manual')">✏️ Manual</button>
+      <button class="mode-btn" id="modeAutoBtn" onclick="switchMode('auto')">🤖 Auto (AI)</button>
+    </div>
+
+    <!-- ============ MANUAL MODE ============ -->
+    <div id="manualMode">
+
+      <!-- Hidden mock number input -->
+      <input type="hidden" id="mockNumber">
+
+      <!-- TASKS SECTION -->
+      <div class="section-panel active" id="sec-tasks">
+        <div class="card" style="background:transparent;border:none;box-shadow:none;padding:0;">
+          <h3>📝 <span id="tasksHeading">Writing Tasks</span></h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;" id="tasksSubtext"></p>
+          <div id="tasksContainer"></div>
+        </div>
+      </div>
+
+      <!-- TOKEN TRANSLATIONS SECTION -->
+      <div class="section-panel" id="sec-tokens">
+        <div class="card">
+          <h3>📚 Token Translations</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+            Map English phrases to Uzbek translations with type tags. These power the inline vocabulary highlights in sample answers.
+          </p>
+          <div id="tokensList"></div>
+          <button class="btn btn-outline" onclick="addTokenRow()" style="margin-top:12px;">+ Add Token</button>
+          <div style="margin-top:16px;">
+            <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px;">BULK PASTE (JSON)</label>
+            <textarea id="tokensBulk" placeholder='{"phrase": {"uz": "tarjima", "type": "colloc"}, ...}' style="width:100%;padding:10px;border:2px solid var(--ring);border-radius:8px;font-size:12px;font-family:monospace;min-height:80px;background:var(--bg);"></textarea>
+            <button class="btn btn-outline" onclick="importTokensBulk()" style="margin-top:8px;">Import JSON</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /manualMode -->
+
+    <!-- ============ AUTO MODE ============ -->
+    <div id="autoMode" style="display:none;">
+
+      <!-- AI Config Card -->
+      <div class="card">
+        <h3>🤖 AI-Powered Writing Mock Builder</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">
+          Build your writing mock in steps. Each step has its own AI model selector.
+        </p>
+
+        <div class="field" id="passcodeField">
+          <label>Passcode</label>
+          <input type="password" id="claudePasscode" placeholder="Enter passcode" value="">
+          <div class="field-hint">Required when any step uses Claude / Grok / Deepseek</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Extract Tasks -->
+      <div class="card" id="step1Card">
+        <h3>📋 Step 1: Extract Writing Tasks</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          Upload test images. AI will extract task prompts, scenarios, and instructions.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step1Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step1Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step1Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step1Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step1Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="icon">📄</div>
+          <div class="title">Drop files, click to upload, or paste (Ctrl+V)</div>
+          <div class="hint">Supports: Images (PNG, JPG) — screenshots paste directly!</div>
+          <input type="file" id="fileInput" style="display:none" accept=".png,.jpg,.jpeg"
+                 onchange="handleFileUpload(event)" multiple>
+        </div>
+        <div id="uploadedFiles" style="margin-top:12px;"></div>
+
+        <div class="processing-status" id="step1Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step1Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step1Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step1Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step1Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step1Btn" onclick="runStep1()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;" disabled>
+          📋 Extract Tasks from Images
+        </button>
+
+        <div id="step1Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Tasks extracted!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step1Summary"></span>
+        </div>
+      </div>
+
+      <!-- IELTS: Chart Image URL -->
+      <div class="card" id="autoChartCard" style="display:none;">
+        <h3>📊 Task 1 Chart Image</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          Paste the public URL for the Task 1 chart/graph image.
+        </p>
+        <div class="field">
+          <label>Chart Image URL</label>
+          <input type="url" id="autoChartUrl" placeholder="https://i.ibb.co/...">
+        </div>
+        <div id="autoChartPreview" style="text-align:center;margin-top:8px;">
+          <div style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Generate Samples -->
+      <div class="card" id="step2Card" style="opacity:0.5;pointer-events:none;">
+        <h3>📝 Step 2: Generate Leveled Samples</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          AI generates sample answers at each level + Uzbek translations for every task.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step2Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step2Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step2Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step2Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step2Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="processing-status" id="step2Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step2Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step2Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step2Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step2Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step2Btn" onclick="runStep2()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;">
+          📝 Generate Samples
+        </button>
+
+        <div id="step2Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Samples generated!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step2Summary"></span>
+        </div>
+      </div>
+
+      <!-- STEP 3: Generate Vocabulary & Tokens -->
+      <div class="card" id="step3Card" style="opacity:0.5;pointer-events:none;">
+        <h3>📚 Step 3: Generate Vocabulary & Tokens</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          AI generates topic vocabulary per task + token translations for inline highlights.
+        </p>
+
+        <div style="margin-bottom:14px;">
+          <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="claude">
+              <input type="radio" name="step3Model" value="claude" checked style="display:none;">
+              <span>🟣 Claude</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="openai">
+              <input type="radio" name="step3Model" value="openai" style="display:none;">
+              <span>🟢 GPT-4o</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="gemini">
+              <input type="radio" name="step3Model" value="gemini" style="display:none;">
+              <span>🔵 Gemini</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="grok">
+              <input type="radio" name="step3Model" value="grok" style="display:none;">
+              <span>🔴 Grok</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid var(--ring);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s;" class="ai-model-option" data-model="deepseek">
+              <input type="radio" name="step3Model" value="deepseek" style="display:none;">
+              <span>⚫ Deepseek</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="processing-status" id="step3Status">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;" id="step3Icon">⏳</span>
+            <div>
+              <div style="font-weight:600;font-size:14px;" id="step3Title">Processing...</div>
+              <div style="font-size:12px;color:var(--muted);" id="step3Detail"></div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="step3Progress"></div></div>
+        </div>
+
+        <button class="btn btn-publish" id="step3Btn" onclick="runStep3()"
+                style="margin-top:16px;width:100%;justify-content:center;padding:14px;">
+          📚 Generate Vocabulary & Tokens
+        </button>
+
+        <div id="step3Done" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border:2px solid #10b981;border-radius:10px;">
+          <span style="font-weight:600;color:#059669;">✅ Vocabulary generated!</span>
+          <span style="font-size:13px;color:var(--muted);margin-left:8px;" id="step3Summary"></span>
+        </div>
+      </div>
+
+      <!-- Final: Switch to Manual -->
+      <div class="card" id="stepFinalCard" style="display:none;">
+        <h3>🎉 All Steps Complete!</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          All data has been loaded into the Manual Editor. Switch to review, fine-tune, and publish.
+        </p>
+        <button class="btn btn-save" onclick="goToManualEditor()" style="width:100%;justify-content:center;padding:14px;">
+          ✏️ Go to Manual Editor
+        </button>
+      </div>
+
+    </div><!-- /autoMode -->
+
+  </div><!-- /main -->
+</div>
+
+<!-- Preview Overlay -->
+<div class="preview-overlay" id="previewOverlay" onclick="closePreview()">
+  <div class="pv-wrap" onclick="event.stopPropagation()">
+    <div class="pv-topbar">
+      <span id="pvTitle">Writing Mock</span>
+      <span class="pv-chip" id="pvProgress">Preview</span>
+      <button class="pv-close" onclick="closePreview()">✕</button>
+    </div>
+    <div class="pv-body" id="pvBody"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================================
+// CONFIG
+// ============================================================================
+const SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+const TABLE = 'mock_tests';
+
+let MOCK_TYPE = ''; // 'cefr-writing' or 'ielts-writing'
+let EXAM_MODE = ''; // 'cefr' or 'ielts'
+
+const TOKEN_TYPES = ['adv', 'colloc', 'phrasal', 'idiom', 'academic', 'linking'];
+
+// CEFR: 3 tasks structure
+const CEFR_TASKS = [
+  { id: 't11', label: 'Task 1.1', badge: 't11', target: '50–70 words', part: 'Part 1', hasContext: true, hasScenario: true },
+  { id: 't12', label: 'Task 1.2', badge: 't12', target: '120–150 words', part: 'Part 1', hasContext: false, hasScenario: false },
+  { id: 't2',  label: 'Task 2',   badge: 't2',  target: '180–200 words', part: 'Part 2', hasContext: false, hasScenario: false },
+];
+
+// IELTS: 2 tasks structure
+const IELTS_TASKS = [
+  { id: 'task1', label: 'Task 1', badge: 'task1', target: '150+ words (20 min)', part: 'Task 1', hasChart: true },
+  { id: 'task2', label: 'Task 2', badge: 'task2', target: '250+ words (40 min)', part: 'Task 2', hasChart: false },
+];
+
+function getTaskTemplate() {
+  return EXAM_MODE === 'ielts' ? IELTS_TASKS : CEFR_TASKS;
+}
+
+function getSampleKeys() {
+  return EXAM_MODE === 'ielts'
+    ? ['Band5', 'Band6', 'Band7', 'Band8', 'Band9']
+    : ['A1', 'A2', 'B1', 'B2'];
+}
+
+function getSampleLabels() {
+  return EXAM_MODE === 'ielts'
+    ? ['Band 5', 'Band 6', 'Band 7', 'Band 8', 'Band 9']
+    : ['A1', 'A2', 'B1', 'B2'];
+}
+
+function getTopSampleLabel() {
+  return EXAM_MODE === 'ielts' ? 'Sample Answer (Band 9 level)' : 'Sample Answer (B2+ level)';
+}
+
+// ============================================================================
+// STATE
+// ============================================================================
+let currentMode = 'manual';
+let currentSection = 'tasks';
+let uploadedFiles = [];
+let tokensData = {};
+let editingMockId = null;
+
+// ============================================================================
+// EXAM MODE INIT
+// ============================================================================
+function initExamMode(mode) {
+  EXAM_MODE = mode;
+  MOCK_TYPE = mode + '-writing';
+
+  document.getElementById('modePopup').style.display = 'none';
+  document.getElementById('examTypeBadge').textContent = (mode === 'ielts' ? 'IELTS' : 'CEFR') + ' Writing';
+
+  const tasks = getTaskTemplate();
+  document.getElementById('sideTasksLabel').textContent = `Tasks (${tasks.length})`;
+
+  if (mode === 'cefr') {
+    document.getElementById('tasksHeading').textContent = 'Writing Tasks (3 total)';
+    document.getElementById('tasksSubtext').textContent =
+      'Part 1: Task 1.1 (50–70 words) + Task 1.2 (120–150 words) · Part 2: Task 2 (180–200 words)';
+  } else {
+    document.getElementById('tasksHeading').textContent = 'Writing Tasks (2 total)';
+    document.getElementById('tasksSubtext').textContent =
+      'Task 1: Describe a chart/graph (150+ words, 20 min) · Task 2: Essay (250+ words, 40 min)';
+    document.getElementById('autoChartCard').style.display = 'block';
+  }
+
+  buildTaskCards();
+  addTokenRow();
+  loadSavedMocks();
+  suggestNextMockNumber();
+  setupDragDrop();
+  setupModelSelector();
+  setupAutoChartPreview();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('modePopup').style.display = 'flex';
+});
+
+// ============================================================================
+// SIDEBAR NAVIGATION
+// ============================================================================
+function showSection(sec) {
+  currentSection = sec;
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('sec-' + sec);
+  if (panel) panel.classList.add('active');
+
+  document.querySelectorAll('.sidebar-item[data-sec]').forEach(item => {
+    item.classList.toggle('active', item.dataset.sec === sec);
+  });
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('manualMode').style.display = mode === 'manual' ? 'block' : 'none';
+  document.getElementById('autoMode').style.display = mode === 'auto' ? 'block' : 'none';
+  document.getElementById('modeManualBtn').classList.toggle('active', mode === 'manual');
+  document.getElementById('modeAutoBtn').classList.toggle('active', mode === 'auto');
+  document.getElementById('sideManual').classList.toggle('active', mode === 'manual');
+  document.getElementById('sideAuto').classList.toggle('active', mode === 'auto');
+}
+
+// ============================================================================
+// BUILD TASK CARDS
+// ============================================================================
+function buildTaskCards() {
+  const container = document.getElementById('tasksContainer');
+  container.innerHTML = '';
+
+  const tasks = getTaskTemplate();
+  const sampleKeys = getSampleKeys();
+  const sampleLabels = getSampleLabels();
+  const topLabel = getTopSampleLabel();
+
+  // CEFR: Add shared context + scenario fields at top
+  if (EXAM_MODE === 'cefr') {
+    container.insertAdjacentHTML('beforeend', `
+      <div class="q-card" id="tcard-context">
+        <div class="q-card-header" onclick="toggleQCard('context')">
+          <div class="q-title">
+            <span class="q-badge q-badge-t11">Part 1</span>
+            Context & Scenario
+          </div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="q-card-body open" id="qbody-context">
+          <div class="field">
+            <label>Part 1 Context</label>
+            <textarea id="p1-context" placeholder="You are a member of the Music Club at your university..."></textarea>
+            <div class="field-hint">The introductory context shared by Task 1.1 and Task 1.2</div>
+          </div>
+          <div class="field">
+            <label>Part 1 Scenario (Email / Letter)</label>
+            <textarea id="p1-scenario" placeholder="Dear Member,\nWe are pleased to announce..." style="min-height:120px;"></textarea>
+            <div class="field-hint">The email or letter that candidates read before answering</div>
+          </div>
+        </div>
+      </div>
+    `);
+  }
+
+  tasks.forEach(task => {
+    const tid = task.id;
+    const badgeClass = 'q-badge-' + task.badge;
+
+    // Build sample fields
+    const sampleRows = [];
+    for (let i = 0; i < sampleKeys.length; i += 2) {
+      const pair = sampleKeys.slice(i, i + 2);
+      const labelPair = sampleLabels.slice(i, i + 2);
+      sampleRows.push(`<div class="field-row">` +
+        pair.map((k, j) => `
+              <div class="field">
+                <label>Sample ${labelPair[j]}</label>
+                <textarea id="${tid}-sample${k}" style="min-height:80px;"></textarea>
+              </div>`).join('') +
+        `</div>`);
+    }
+
+    // Build uzbek sample fields
+    const uzRows = [];
+    for (let i = 0; i < sampleKeys.length; i += 2) {
+      const pair = sampleKeys.slice(i, i + 2);
+      const labelPair = sampleLabels.slice(i, i + 2);
+      uzRows.push(`<div class="field-row">` +
+        pair.map((k, j) => `
+              <div class="field">
+                <label>Uzbek ${labelPair[j]}</label>
+                <textarea id="${tid}-uz${k}" style="min-height:80px;"></textarea>
+              </div>`).join('') +
+        `</div>`);
+    }
+
+    // IELTS-specific fields
+    let ieltsExtraFields = '';
+    if (EXAM_MODE === 'ielts') {
+      if (task.hasChart) {
+        ieltsExtraFields = `
+          <div class="field">
+            <label>Chart Image URL</label>
+            <input type="url" id="${tid}-chartUrl" placeholder="https://i.ibb.co/...">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Chart Type</label>
+              <select id="${tid}-chartType">
+                <option value="line_graph">Line Graph</option>
+                <option value="bar_chart">Bar Chart</option>
+                <option value="pie_chart">Pie Chart</option>
+                <option value="table">Table</option>
+                <option value="map">Map / Process</option>
+                <option value="mixed">Mixed / Multiple</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Word Goal</label>
+              <input type="number" id="${tid}-wordGoal" value="150" min="100">
+            </div>
+          </div>
+          <div class="field">
+            <label>Instruction</label>
+            <textarea id="${tid}-instruction" placeholder="Summarise the information by selecting and reporting the main features..." style="min-height:60px;"></textarea>
+          </div>
+          <div id="${tid}-chartPreview" style="text-align:center;margin-bottom:12px;">
+            <div style="padding:20px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No chart image</div>
+          </div>`;
+      } else {
+        ieltsExtraFields = `
+          <div class="field-row">
+            <div class="field">
+              <label>Word Goal</label>
+              <input type="number" id="${tid}-wordGoal" value="250" min="150">
+            </div>
+            <div class="field">
+              <label>Time (minutes)</label>
+              <input type="number" id="${tid}-timeMinutes" value="40" min="10">
+            </div>
+          </div>
+          <div class="field">
+            <label>Instruction</label>
+            <textarea id="${tid}-instruction" placeholder="Write about the following topic..." style="min-height:60px;"></textarea>
+          </div>`;
+      }
+    }
+
+    // Vocabulary tab content
+    const vocabHtml = EXAM_MODE === 'cefr' ? `
+      <div class="field">
+        <label>Vocabulary Items (JSON array: [{en, uz}])</label>
+        <textarea id="${tid}-vocab" style="min-height:100px;" placeholder='[{"en": "phrase", "uz": "tarjima"}, ...]'></textarea>
+        <div class="field-hint">English-Uzbek vocabulary for this task</div>
+      </div>
+    ` : `
+      <div class="field">
+        <label>Vocabulary Items (JSON array: [{word, meaning}])</label>
+        <textarea id="${tid}-vocab" style="min-height:100px;" placeholder='[{"word": "fluctuate", "meaning": "to change frequently"}, ...]'></textarea>
+        <div class="field-hint">Key vocabulary for this task</div>
+      </div>
+    `;
+
+    const html = `
+      <div class="q-card" id="tcard-${tid}">
+        <div class="q-card-header" onclick="toggleQCard('${tid}')">
+          <div class="q-title">
+            <span class="q-badge ${badgeClass}">${task.part}</span>
+            ${task.label} — <span id="${tid}-preview-text" style="font-weight:400;color:var(--muted);font-size:13px;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">(empty)</span>
+          </div>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="q-card-body" id="qbody-${tid}">
+          <div class="q-tabs">
+            <div class="q-tab active" onclick="showQTab('${tid}','prompt')">Prompt</div>
+            <div class="q-tab" onclick="showQTab('${tid}','samples')">Samples</div>
+            <div class="q-tab" onclick="showQTab('${tid}','uzbek')">Uzbek</div>
+            <div class="q-tab" onclick="showQTab('${tid}','vocab')">Vocabulary</div>
+          </div>
+
+          <!-- Prompt tab -->
+          <div class="q-tab-panel active" data-qtab="prompt-${tid}">
+            ${ieltsExtraFields}
+            <div class="field">
+              <label>${task.label} Prompt</label>
+              <textarea id="${tid}-prompt" placeholder="Write the task prompt here..."
+                        oninput="updateTaskPreview('${tid}')" style="min-height:100px;"></textarea>
+              <div class="field-hint">Target: ${task.target}</div>
+            </div>
+          </div>
+
+          <!-- Samples tab -->
+          <div class="q-tab-panel" data-qtab="samples-${tid}">
+            <div class="field">
+              <label>${topLabel}</label>
+              <textarea id="${tid}-sample" placeholder="Full sample answer with HTML markup..." style="min-height:120px;"></textarea>
+            </div>
+            ${sampleRows.join('\n')}
+          </div>
+
+          <!-- Uzbek tab -->
+          <div class="q-tab-panel" data-qtab="uzbek-${tid}">
+            <div class="field">
+              <label>Uzbek Sample Answer (top level)</label>
+              <textarea id="${tid}-uzSample" style="min-height:80px;"></textarea>
+            </div>
+            ${uzRows.join('\n')}
+          </div>
+
+          <!-- Vocabulary tab -->
+          <div class="q-tab-panel" data-qtab="vocab-${tid}">
+            ${vocabHtml}
+          </div>
+        </div>
+      </div>`;
+
+    container.insertAdjacentHTML('beforeend', html);
+  });
+
+  // Setup chart image preview for IELTS
+  if (EXAM_MODE === 'ielts') {
+    setupChartPreviews();
+  }
+}
+
+function toggleQCard(id) {
+  const body = document.getElementById('qbody-' + id);
+  const header = body.previousElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+}
+
+function showQTab(taskId, tab) {
+  const card = document.getElementById('tcard-' + taskId);
+  card.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+  card.querySelectorAll('.q-tab-panel').forEach(p => p.classList.remove('active'));
+
+  const tabs = card.querySelectorAll('.q-tab');
+  tabs.forEach(t => {
+    if (t.textContent.trim().toLowerCase().startsWith(tab.substring(0, 4))) {
+      t.classList.add('active');
+    }
+  });
+
+  const panel = card.querySelector(`[data-qtab="${tab}-${taskId}"]`);
+  if (panel) panel.classList.add('active');
+}
+
+function updateTaskPreview(tid) {
+  const text = document.getElementById(`${tid}-prompt`)?.value?.trim() || '(empty)';
+  const el = document.getElementById(`${tid}-preview-text`);
+  if (el) el.textContent = text.substring(0, 60) + (text.length > 60 ? '...' : '');
+}
+
+function setupChartPreviews() {
+  const chartInput = document.getElementById('task1-chartUrl');
+  if (!chartInput) return;
+  chartInput.addEventListener('input', function () {
+    const url = this.value.trim();
+    const preview = document.getElementById('task1-chartPreview');
+    if (url) {
+      preview.innerHTML = `<img src="${escHtml(url)}" style="max-width:100%;max-height:200px;border-radius:8px;border:2px solid var(--ring);" onerror="this.outerHTML='<div style=\\'padding:20px;background:#fef2f2;border-radius:8px;color:#dc2626;font-size:12px;\\'>Failed to load image</div>'">`;
+    } else {
+      preview.innerHTML = '<div style="padding:20px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No chart image</div>';
+    }
+  });
+}
+
+function setupAutoChartPreview() {
+  const input = document.getElementById('autoChartUrl');
+  if (!input) return;
+  input.addEventListener('input', function () {
+    const url = this.value.trim();
+    const preview = document.getElementById('autoChartPreview');
+    if (url) {
+      preview.innerHTML = `<img src="${escHtml(url)}" style="max-width:100%;max-height:200px;border-radius:8px;border:2px solid var(--ring);" onerror="this.outerHTML='<div style=\\'padding:20px;background:#fef2f2;border-radius:8px;color:#dc2626;font-size:12px;\\'>Failed to load image</div>'">`;
+    } else {
+      preview.innerHTML = '<div style="padding:30px;background:var(--bg);border-radius:8px;color:var(--muted);font-size:12px;">No image</div>';
+    }
+  });
+}
+
+// ============================================================================
+// TOKEN TRANSLATIONS
+// ============================================================================
+let tokenRowCount = 0;
+
+function addTokenRow(phrase = '', uz = '', type = 'colloc') {
+  tokenRowCount++;
+  const id = tokenRowCount;
+  const html = `
+    <div class="field-row-3" id="token-row-${id}" style="margin-bottom:8px;align-items:end;">
+      <div class="field" style="margin-bottom:0;">
+        ${id === 1 ? '<label>English Phrase</label>' : ''}
+        <input type="text" class="token-en" value="${escHtml(phrase)}" placeholder="e.g. Furthermore">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        ${id === 1 ? '<label>Uzbek Translation</label>' : ''}
+        <input type="text" class="token-uz" value="${escHtml(uz)}" placeholder="e.g. Bundan tashqari">
+      </div>
+      <div style="display:flex;gap:6px;align-items:end;">
+        <div class="field" style="margin-bottom:0;flex:1;">
+          ${id === 1 ? '<label>Type</label>' : ''}
+          <select class="token-type" style="width:100%;padding:10px 8px;border:2px solid var(--ring);border-radius:8px;font-size:13px;background:var(--bg);">
+            ${TOKEN_TYPES.map(t => `<option value="${t}" ${t === type ? 'selected' : ''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <button onclick="document.getElementById('token-row-${id}').remove()" style="background:var(--danger);color:white;border:none;width:34px;height:38px;border-radius:8px;cursor:pointer;font-size:14px;">✕</button>
+      </div>
+    </div>`;
+  document.getElementById('tokensList').insertAdjacentHTML('beforeend', html);
+}
+
+function importTokensBulk() {
+  try {
+    const json = JSON.parse(document.getElementById('tokensBulk').value);
+    document.getElementById('tokensList').innerHTML = '';
+    tokenRowCount = 0;
+    for (const [phrase, data] of Object.entries(json)) {
+      addTokenRow(phrase, data.uz || '', data.type || 'colloc');
+    }
+    showToast('Imported ' + Object.keys(json).length + ' tokens', 'success');
+  } catch (e) {
+    showToast('Invalid JSON format', 'error');
+  }
+}
+
+function collectTokens() {
+  const tokens = {};
+  document.querySelectorAll('[id^="token-row-"]').forEach(row => {
+    const en = row.querySelector('.token-en')?.value?.trim();
+    const uz = row.querySelector('.token-uz')?.value?.trim();
+    const type = row.querySelector('.token-type')?.value || 'colloc';
+    if (en && uz) tokens[en] = { uz, type };
+  });
+  return tokens;
+}
+
+// ============================================================================
+// COLLECT ALL FORM DATA
+// ============================================================================
+function collectFormData() {
+  const val = id => document.getElementById(id)?.value?.trim() || '';
+  const sampleKeys = getSampleKeys();
+
+  if (EXAM_MODE === 'cefr') {
+    const tasks = {};
+    tasks.p1_context = val('p1-context');
+    tasks.p1_scenario = val('p1-scenario');
+
+    CEFR_TASKS.forEach(task => {
+      const tid = task.id;
+      const obj = {
+        title: task.label,
+        target: task.target,
+        prompt: val(`${tid}-prompt`),
+        sample: val(`${tid}-sample`),
+        uzSample: val(`${tid}-uzSample`),
+      };
+      sampleKeys.forEach(k => {
+        obj['sample' + k] = val(`${tid}-sample${k}`);
+        obj['uzSample' + k] = val(`${tid}-uz${k}`);
+      });
+      tasks[tid] = obj;
+    });
+
+    const vocabulary = {};
+    CEFR_TASKS.forEach(task => {
+      const tid = task.id;
+      const vocabKey = tid === 't11' ? 'task11' : tid === 't12' ? 'task12' : 'task2';
+      try {
+        vocabulary[vocabKey] = JSON.parse(val(`${tid}-vocab`) || '[]');
+      } catch { vocabulary[vocabKey] = []; }
+    });
+
+    return {
+      settings: {
+        logoUrl: '',
+        logoWording: 'Mock Stream',
+        testIdentifier: 'mock_stream',
+        heading1: '',
+        heading2: '',
+        examTitle: 'Writing exam',
+      },
+      tasks,
+      vocabulary,
+      tokenTranslations: collectTokens(),
+    };
+  } else {
+    // IELTS
+    const tasks = {};
+    IELTS_TASKS.forEach(task => {
+      const tid = task.id;
+      const obj = {
+        title: task.label,
+        wordGoal: parseInt(val(`${tid}-wordGoal`)) || (task.hasChart ? 150 : 250),
+        timeMinutes: task.hasChart ? 20 : (parseInt(val(`${tid}-timeMinutes`)) || 40),
+        prompt: val(`${tid}-prompt`),
+        instruction: val(`${tid}-instruction`),
+        sampleAnswer: val(`${tid}-sample`),
+      };
+      if (task.hasChart) {
+        obj.chartImageUrl = val(`${tid}-chartUrl`);
+        obj.chartType = val(`${tid}-chartType`);
+      }
+      sampleKeys.forEach(k => {
+        obj['sample' + k] = val(`${tid}-sample${k}`);
+        obj['uzSample' + k] = val(`${tid}-uz${k}`);
+      });
+      tasks[tid] = obj;
+    });
+
+    const vocabulary = {};
+    IELTS_TASKS.forEach(task => {
+      try {
+        vocabulary[task.id] = JSON.parse(val(`${task.id}-vocab`) || '[]');
+      } catch { vocabulary[task.id] = []; }
+    });
+
+    return {
+      settings: {
+        logoUrl: '',
+        logoWording: 'Mock Stream',
+        testIdentifier: '',
+        moduleTitle: 'Academic Writing Module',
+        timeInfo: '⏱ Total time: 60 minutes | Task 1: 20 min (150 words) | Task 2: 40 min (250 words)',
+      },
+      tasks,
+      vocabulary,
+      tokenTranslations: collectTokens(),
+    };
+  }
+}
+
+// ============================================================================
+// POPULATE FORM FROM DATA
+// ============================================================================
+function populateForm(data) {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+  const sampleKeys = getSampleKeys();
+
+  if (EXAM_MODE === 'cefr') {
+    set('p1-context', data.tasks?.p1_context);
+    set('p1-scenario', data.tasks?.p1_scenario);
+
+    CEFR_TASKS.forEach(task => {
+      const tid = task.id;
+      const t = data.tasks?.[tid];
+      if (!t) return;
+      set(`${tid}-prompt`, t.prompt);
+      set(`${tid}-sample`, t.sample);
+      set(`${tid}-uzSample`, t.uzSample);
+      sampleKeys.forEach(k => {
+        set(`${tid}-sample${k}`, t['sample' + k]);
+        set(`${tid}-uz${k}`, t['uzSample' + k]);
+      });
+      updateTaskPreview(tid);
+    });
+
+    // Vocabulary
+    if (data.vocabulary) {
+      const vocabMap = { task11: 't11', task12: 't12', task2: 't2' };
+      for (const [vocabKey, tid] of Object.entries(vocabMap)) {
+        if (data.vocabulary[vocabKey]) {
+          set(`${tid}-vocab`, JSON.stringify(data.vocabulary[vocabKey], null, 2));
+        }
+      }
+    }
+  } else {
+    // IELTS
+    IELTS_TASKS.forEach(task => {
+      const tid = task.id;
+      const t = data.tasks?.[tid];
+      if (!t) return;
+      set(`${tid}-prompt`, t.prompt);
+      set(`${tid}-instruction`, t.instruction);
+      set(`${tid}-sample`, t.sampleAnswer || t.sample);
+      set(`${tid}-wordGoal`, t.wordGoal);
+      if (t.timeMinutes) set(`${tid}-timeMinutes`, t.timeMinutes);
+      if (task.hasChart) {
+        set(`${tid}-chartUrl`, t.chartImageUrl);
+        set(`${tid}-chartType`, t.chartType);
+        // Trigger chart preview
+        document.getElementById(`${tid}-chartUrl`)?.dispatchEvent(new Event('input'));
+      }
+      sampleKeys.forEach(k => {
+        set(`${tid}-sample${k}`, t['sample' + k]);
+        set(`${tid}-uz${k}`, t['uzSample' + k]);
+      });
+      updateTaskPreview(tid);
+    });
+
+    // Vocabulary
+    if (data.vocabulary) {
+      IELTS_TASKS.forEach(task => {
+        if (data.vocabulary[task.id]) {
+          set(`${task.id}-vocab`, JSON.stringify(data.vocabulary[task.id], null, 2));
+        }
+      });
+    }
+  }
+
+  // Token translations
+  if (data.tokenTranslations) {
+    document.getElementById('tokensList').innerHTML = '';
+    tokenRowCount = 0;
+    for (const [phrase, info] of Object.entries(data.tokenTranslations)) {
+      addTokenRow(phrase, info.uz || '', info.type || 'colloc');
+    }
+  }
+}
+
+// ============================================================================
+// SUPABASE API HELPERS
+// ============================================================================
+async function sbFetch(path, options = {}) {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`;
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': options.prefer || 'return=representation',
+    ...options.headers,
+  };
+  const res = await fetch(url, { ...options, headers });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Supabase error ${res.status}: ${text}`);
+  }
+  return res.json();
+}
+
+// ============================================================================
+// SAVE MOCK (Draft or Published)
+// ============================================================================
+async function saveMock(status) {
+  const mockNum = parseInt(document.getElementById('mockNumber').value);
+  if (!mockNum || mockNum < 1) {
+    showToast('Please enter a valid mock number', 'error');
+    return;
+  }
+
+  const mockData = collectFormData();
+
+  // Validate at least one task prompt exists
+  const tasks = getTaskTemplate();
+  const firstTid = tasks[0].id;
+  const firstPrompt = EXAM_MODE === 'cefr' ? mockData.tasks[firstTid]?.prompt : mockData.tasks[firstTid]?.prompt;
+  if (!firstPrompt) {
+    showToast('Please enter at least the first task prompt', 'error');
+    showSection('tasks');
+    return;
+  }
+
+  const btn = status === 'published' ? document.getElementById('publishBtn') : document.getElementById('saveDraftBtn');
+  const origText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Saving...';
+
+  try {
+    const payload = {
+      mock_type: MOCK_TYPE,
+      mock_number: mockNum,
+      title: `Mock ${String(mockNum).padStart(2, '0')}`,
+      status: status,
+      mock_data: mockData,
+    };
+
+    if (editingMockId) {
+      await sbFetch(`${TABLE}?id=eq.${editingMockId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload),
+      });
+    } else {
+      await sbFetch(TABLE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Prefer': 'resolution=merge-duplicates,return=representation' },
+      });
+    }
+
+    showToast(`Mock ${mockNum} ${status === 'published' ? 'published' : 'saved as draft'} ✅`, 'success');
+    loadSavedMocks();
+  } catch (err) {
+    console.error('Save error:', err);
+    showToast('Save failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origText;
+  }
+}
+
+// ============================================================================
+// LOAD SAVED MOCKS LIST
+// ============================================================================
+let _allMocks = [];
+async function loadSavedMocks() {
+  try {
+    const mocks = await sbFetch(
+      `${TABLE}?mock_type=eq.${MOCK_TYPE}&select=id,mock_number,title,status,updated_at&order=mock_number.asc`,
+      { method: 'GET', prefer: 'count=exact' }
+    );
+    _allMocks = mocks || [];
+
+    const container = document.getElementById('savedMocksList');
+    if (!mocks || mocks.length === 0) {
+      container.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px 4px;">No saved mocks yet</div>';
+      return;
+    }
+
+    container.innerHTML = mocks.map(m => `
+      <div class="sidebar-item" style="padding:6px 12px;font-size:12px;display:flex;align-items:center;gap:6px;">
+        <span style="cursor:pointer;flex:1;display:flex;align-items:center;gap:6px;" onclick="loadMock(${m.id}, ${m.mock_number})">
+          <span>${m.status === 'published' ? '🟢' : '🟡'}</span>
+          <span>${escHtml(m.title)}</span>
+        </span>
+        <button onclick="event.stopPropagation();deleteMock(${m.id},'${escHtml(m.title)}')" title="Delete" style="background:none;border:none;cursor:pointer;font-size:11px;padding:2px;opacity:.5;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">🗑️</button>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Load mocks error:', err);
+    document.getElementById('savedMocksList').innerHTML =
+      '<div style="font-size:12px;color:var(--danger);padding:8px 4px;">Failed to load</div>';
+  }
+}
+
+// ============================================================================
+// MOCK MANAGER
+// ============================================================================
+function openMockManager() {
+  const overlay = document.getElementById('mockManagerOverlay');
+  overlay.style.display = 'flex';
+  overlay.onclick = (e) => { if (e.target === overlay) closeMockManager(); };
+  renderMockManagerList();
+}
+
+function closeMockManager() {
+  document.getElementById('mockManagerOverlay').style.display = 'none';
+}
+
+function renderMockManagerList() {
+  const list = document.getElementById('mockManagerList');
+  if (!_allMocks.length) {
+    list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:32px;">No saved mocks yet</div>';
+    return;
+  }
+  list.innerHTML = _allMocks.map(m => {
+    const date = m.updated_at ? new Date(m.updated_at).toLocaleDateString() : '';
+    return `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--ring);border-radius:10px;margin-bottom:8px;">
+      <div style="font-size:20px;">${m.status === 'published' ? '🟢' : '🟡'}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:14px;">${escHtml(m.title)}</div>
+        <div style="font-size:11px;color:var(--muted);">${m.status} · ${date}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button onclick="loadMock(${m.id},${m.mock_number});closeMockManager()" title="Edit"
+          style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">✏️ Edit</button>
+        <button onclick="toggleMockStatus(${m.id},'${m.status}')" title="Toggle status"
+          style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">${m.status === 'published' ? '📥 Unpublish' : '🚀 Publish'}</button>
+        <button onclick="duplicateMock(${m.id})" title="Duplicate"
+          style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;background:var(--bg);cursor:pointer;font-size:12px;">📋 Clone</button>
+        <button onclick="deleteMock(${m.id},'${escHtml(m.title)}')" title="Delete"
+          style="padding:6px 10px;border:1px solid #fecaca;border-radius:6px;background:#fef2f2;cursor:pointer;font-size:12px;color:#dc2626;">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function deleteMock(id, title) {
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+    if (editingMockId === id) editingMockId = null;
+    showToast(`Deleted ${title}`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Delete error:', err);
+    showToast('Delete failed: ' + err.message, 'error');
+  }
+}
+
+async function toggleMockStatus(id, currentStatus) {
+  const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: newStatus }),
+    });
+    showToast(`Status changed to ${newStatus}`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Toggle status error:', err);
+    showToast('Status change failed: ' + err.message, 'error');
+  }
+}
+
+async function duplicateMock(id) {
+  try {
+    const rows = await sbFetch(`${TABLE}?id=eq.${id}&select=*`, { method: 'GET' });
+    if (!rows?.length) { showToast('Mock not found', 'error'); return; }
+    const src = rows[0];
+    const maxNum = _allMocks.reduce((max, m) => Math.max(max, m.mock_number), 0);
+    const newNum = maxNum + 1;
+
+    await sbFetch(TABLE, {
+      method: 'POST',
+      body: JSON.stringify({
+        mock_type: src.mock_type,
+        mock_number: newNum,
+        title: `Mock ${String(newNum).padStart(2, '0')}`,
+        status: 'draft',
+        mock_data: src.mock_data,
+      }),
+    });
+    showToast(`Cloned as Mock ${newNum} (draft)`, 'success');
+    await loadSavedMocks();
+    renderMockManagerList();
+  } catch (err) {
+    console.error('Duplicate error:', err);
+    showToast('Clone failed: ' + err.message, 'error');
+  }
+}
+
+// ============================================================================
+// LOAD A SPECIFIC MOCK FOR EDITING
+// ============================================================================
+async function loadMock(id, mockNum) {
+  try {
+    const rows = await sbFetch(`${TABLE}?id=eq.${id}&select=*`, { method: 'GET' });
+    if (!rows || rows.length === 0) {
+      showToast('Mock not found', 'error');
+      return;
+    }
+
+    const mock = rows[0];
+    editingMockId = mock.id;
+    document.getElementById('mockNumber').value = mock.mock_number;
+    document.getElementById('mockNumBadge').textContent = `Mock ${mock.mock_number}`;
+
+    populateForm(mock.mock_data);
+    switchMode('manual');
+    showSection('tasks');
+    showToast(`Loaded Mock ${mock.mock_number}`, 'info');
+  } catch (err) {
+    console.error('Load mock error:', err);
+    showToast('Failed to load mock', 'error');
+  }
+}
+
+// ============================================================================
+// SUGGEST NEXT MOCK NUMBER
+// ============================================================================
+async function suggestNextMockNumber() {
+  try {
+    const mocks = await sbFetch(
+      `${TABLE}?mock_type=eq.${MOCK_TYPE}&select=mock_number&order=mock_number.desc&limit=1`,
+      { method: 'GET' }
+    );
+    // CEFR writing static mocks go up to 100, IELTS writing static mocks go up to 30
+    const staticMax = EXAM_MODE === 'ielts' ? 30 : 100;
+    const lastDb = mocks && mocks.length > 0 ? mocks[0].mock_number : staticMax;
+    const next = Math.max(lastDb + 1, staticMax + 1);
+    document.getElementById('mockNumber').value = next;
+    document.getElementById('mockNumBadge').textContent = `Mock ${next} (new)`;
+  } catch {
+    const fallback = EXAM_MODE === 'ielts' ? 31 : 101;
+    document.getElementById('mockNumber').value = fallback;
+  }
+}
+
+function createNewMock() {
+  editingMockId = null;
+  const tasks = getTaskTemplate();
+  const sKeys = getSampleKeys();
+
+  // Clear context/scenario (CEFR)
+  ['p1-context', 'p1-scenario'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+
+  // Clear task fields
+  tasks.forEach(task => {
+    const tid = task.id;
+    const fields = [
+      `${tid}-prompt`, `${tid}-instruction`, `${tid}-sample`, `${tid}-uzSample`,
+      `${tid}-vocab`, `${tid}-chartUrl`, `${tid}-chartType`, `${tid}-wordGoal`, `${tid}-timeMinutes`
+    ];
+    sKeys.forEach(k => { fields.push(`${tid}-sample${k}`, `${tid}-uz${k}`); });
+    fields.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    updateTaskPreview(tid);
+  });
+
+  // Clear tokens
+  const tokensList = document.getElementById('tokensList');
+  if (tokensList) { tokensList.innerHTML = ''; tokenRowCount = 0; }
+
+  document.querySelectorAll('.dot').forEach(d => { d.className = 'dot dot-empty'; });
+  suggestNextMockNumber();
+  showSection('tasks');
+  showToast('Ready to create a new mock', 'success');
+}
+
+// ============================================================================
+// PREVIEW
+// ============================================================================
+function openPreview() {
+  const data = collectFormData();
+  const mockNum = document.getElementById('mockNumber').value || '??';
+
+  document.getElementById('pvTitle').textContent =
+    `${EXAM_MODE === 'ielts' ? 'IELTS' : 'CEFR'} Writing · Mock ${mockNum}`;
+
+  let html = '';
+
+  if (EXAM_MODE === 'cefr') {
+    // Context
+    if (data.tasks.p1_context) {
+      html += `<div class="pv-context-box">${escHtml(data.tasks.p1_context)}</div>`;
+    }
+    // Scenario
+    if (data.tasks.p1_scenario) {
+      html += `<div class="pv-scenario-box"><h4>📧 Scenario</h4>${escHtml(data.tasks.p1_scenario)}</div>`;
+    }
+    // Tasks
+    CEFR_TASKS.forEach(task => {
+      const t = data.tasks[task.id];
+      if (!t) return;
+      html += `<div class="pv-task-block">
+        <div class="pv-task-label">${escHtml(task.label)}</div>
+        <div class="pv-task-target">${escHtml(task.target)}</div>
+        <div class="pv-task-prompt">${escHtml(t.prompt) || '<em style="color:#999;">No prompt</em>'}</div>
+      </div>`;
+    });
+
+    // Samples section
+    html += buildPreviewSamples(data, CEFR_TASKS);
+
+  } else {
+    // IELTS
+    IELTS_TASKS.forEach(task => {
+      const t = data.tasks[task.id];
+      if (!t) return;
+      html += `<div class="pv-task-block">
+        <div class="pv-task-label">${escHtml(task.label)} · ${t.wordGoal || '?'} words · ${t.timeMinutes || '?'} min</div>
+        <div class="pv-task-prompt">${escHtml(t.prompt) || '<em style="color:#999;">No prompt</em>'}</div>`;
+      if (t.instruction) {
+        html += `<div class="pv-instruction">${escHtml(t.instruction)}</div>`;
+      }
+      if (t.chartImageUrl) {
+        html += `<img class="pv-chart-img" src="${escHtml(t.chartImageUrl)}" onerror="this.style.display='none'">`;
+      }
+      html += `</div>`;
+    });
+
+    html += buildPreviewSamples(data, IELTS_TASKS);
+  }
+
+  document.getElementById('pvBody').innerHTML = html;
+  document.getElementById('previewOverlay').classList.add('visible');
+  setTimeout(() => initPvTokenTooltips(), 50);
+}
+
+function buildPreviewSamples(data, taskList) {
+  const sampleKeys = getSampleKeys();
+  const sampleLabels = getSampleLabels();
+  const topKey = EXAM_MODE === 'ielts' ? 'Band9' : 'B2';
+  const topKeyLabel = EXAM_MODE === 'ielts' ? 'Band 9' : 'B2+';
+
+  let html = '<div class="pv-samples-section">';
+  html += '<div style="font-weight:700;font-size:15px;color:#4f46e5;margin-bottom:10px;">📚 Sample Answers</div>';
+
+  // Level tabs
+  html += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">';
+  html += '<div class="pv-level-tabs" style="margin-bottom:0;">';
+  html += `<div class="pv-level-tab active" onclick="pvSwitchLevel('top', this)">Top (${topKeyLabel})</div>`;
+  sampleKeys.forEach((k, i) => {
+    html += `<div class="pv-level-tab" onclick="pvSwitchLevel('${k}', this)">${sampleLabels[i]}</div>`;
+  });
+  html += '</div>';
+  html += `<button id="pvTranslateBtn" onclick="pvToggleTranslate()" style="padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid #2563eb;background:#fff;color:#2563eb;white-space:nowrap;transition:all .2s;">🇺🇿 Translate</button>`;
+  html += '</div>';
+
+  taskList.forEach(task => {
+    const t = data.tasks[task.id];
+    if (!t) return;
+    const sampleTop = EXAM_MODE === 'ielts' ? (t.sampleAnswer || t.sample) : t.sample;
+    const uzTop = t.uzSample || '';
+
+    html += '<div class="pv-sample-card">';
+    html += `<div class="pv-sq">${escHtml(task.label)}</div>`;
+
+    if (sampleTop) {
+      html += `<div class="pv-st pv-level-text" data-level="top" style="display:block;">`;
+      html += `<div class="pv-en-text">${stripTokenTags(sampleTop)}</div>`;
+      if (uzTop) {
+        html += `<div class="pv-uz-text" style="display:none;margin-top:8px;padding:10px;background:#eff6ff;border-left:3px solid #2563eb;border-radius:6px;font-size:13px;line-height:1.6;color:#1e40af;">${escHtml(uzTop)}</div>`;
+      }
+      html += '</div>';
+    }
+
+    sampleKeys.forEach((k, i) => {
+      const val = t['sample' + k] || '';
+      if (val) {
+        html += `<div class="pv-st pv-level-text" data-level="${k}" style="display:none;">`;
+        html += `<div style="font-weight:600;color:#7c3aed;font-size:12px;margin-bottom:4px;">${sampleLabels[i]}:</div>`;
+        html += `<div class="pv-en-text">${stripTokenTags(val)}</div>`;
+        const uzVal = t['uzSample' + k] || '';
+        if (uzVal) {
+          html += `<div class="pv-uz-text" style="display:none;margin-top:8px;padding:10px;background:#eff6ff;border-left:3px solid #2563eb;border-radius:6px;font-size:13px;line-height:1.6;color:#1e40af;">${escHtml(uzVal)}</div>`;
+        }
+        html += '</div>';
+      }
+    });
+
+    html += '</div>';
+  });
+
+  html += '</div>';
+  return html;
+}
+
+function closePreview() {
+  document.getElementById('previewOverlay').classList.remove('visible');
+}
+
+function pvSwitchLevel(level, tabEl) {
+  if (_pvTooltip) _pvTooltip.classList.remove('visible');
+  document.querySelectorAll('.pv-level-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.querySelectorAll('.pv-level-text').forEach(el => {
+    el.style.display = el.dataset.level === level ? 'block' : 'none';
+  });
+}
+
+let pvTranslateOn = false;
+function pvToggleTranslate() {
+  pvTranslateOn = !pvTranslateOn;
+  const btn = document.getElementById('pvTranslateBtn');
+  if (pvTranslateOn) {
+    btn.style.background = '#2563eb';
+    btn.style.color = '#fff';
+    btn.textContent = '🇺🇿 Hide Translation';
+  } else {
+    btn.style.background = '#fff';
+    btn.style.color = '#2563eb';
+    btn.textContent = '🇺🇿 Translate';
+  }
+  document.querySelectorAll('#pvBody .pv-uz-text').forEach(el => {
+    el.style.display = pvTranslateOn ? 'block' : 'none';
+  });
+}
+
+function stripTokenTags(str) {
+  if (!str) return '';
+  const tokens = collectTokens();
+  const lookup = {};
+  for (const [en, val] of Object.entries(tokens)) {
+    lookup[en.toLowerCase().replace(/^"|"$/g, '').trim()] = val;
+  }
+  const parts = [];
+  let last = 0;
+  const re = /<span\s+class="ml-token\s+(\w+)">(.*?)<\/span>/gi;
+  let m;
+  while ((m = re.exec(str)) !== null) {
+    if (m.index > last) parts.push(escHtml(str.slice(last, m.index)));
+    const type = m[1];
+    const text = m[2];
+    const key = text.toLowerCase().replace(/^"|"$/g, '').replace(/,\s*$/, '').trim();
+    const match = lookup[key] || lookup[text.toLowerCase().trim()]
+      || lookup[key.replace(/s$/, '')] || lookup[key.replace(/^to\s+/, '')];
+    const uz = match ? escHtml(match.uz) : '';
+    const uzType = match ? escHtml(match.type || type) : escHtml(type);
+    parts.push(`<span class="pv-token ${escHtml(type)}"${uz ? ` data-uz="${uz}"` : ''} data-uz-type="${uzType}">${escHtml(text)}</span>`);
+    last = m.index + m[0].length;
+  }
+  if (last < str.length) parts.push(escHtml(str.slice(last)));
+  return parts.join('');
+}
+
+let _pvTooltip = null;
+function initPvTokenTooltips() {
+  if (!_pvTooltip) {
+    _pvTooltip = document.createElement('div');
+    _pvTooltip.className = 'pv-tooltip';
+    document.body.appendChild(_pvTooltip);
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.pv-token[data-uz]') && !e.target.closest('.pv-tooltip')) {
+        _pvTooltip.classList.remove('visible');
+      }
+    });
+  }
+  document.querySelectorAll('#pvBody .pv-token[data-uz]').forEach(span => {
+    span.style.cursor = 'pointer';
+    span.onclick = (e) => {
+      e.stopPropagation();
+      const uz = span.dataset.uz;
+      const uzType = span.dataset.uzType || '';
+      const typeLabels = { adv:'Adverbial', colloc:'Collocation', phrasal:'Phrasal verb', idiom:'Idiom', academic:'Academic', linking:'Linking' };
+      _pvTooltip.innerHTML = `<span class="tt-uz">${escHtml(uz)}</span><span class="tt-type">${typeLabels[uzType] || uzType.toUpperCase()}</span>`;
+      _pvTooltip.classList.add('visible');
+      const rect = span.getBoundingClientRect();
+      const ttWidth = _pvTooltip.offsetWidth;
+      let left = rect.left + (rect.width / 2) - (ttWidth / 2);
+      left = Math.max(8, Math.min(left, window.innerWidth - ttWidth - 8));
+      _pvTooltip.style.left = left + 'px';
+      _pvTooltip.style.top = (rect.bottom + 8) + 'px';
+      _pvTooltip.style.setProperty('--arrow-pos', (rect.left + rect.width / 2 - left) + 'px');
+    };
+  });
+}
+
+// ============================================================================
+// AUTO MODE — FILE UPLOAD
+// ============================================================================
+function setupDragDrop() {
+  const zone = document.getElementById('uploadZone');
+  ['dragenter', 'dragover'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+  });
+  zone.addEventListener('drop', e => {
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  });
+
+  document.addEventListener('paste', e => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    const imageFiles = [];
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        if (file) {
+          const ext = file.type === 'image/png' ? 'png' : 'jpg';
+          const named = new File([file], `screenshot_${Date.now()}.${ext}`, { type: file.type });
+          imageFiles.push(named);
+        }
+      }
+    }
+    if (imageFiles.length > 0) {
+      e.preventDefault();
+      const merged = [...uploadedFiles, ...imageFiles];
+      handleFiles(merged);
+      showToast(`Pasted ${imageFiles.length} image(s)`, 'success');
+      zone.classList.add('drag-over');
+      setTimeout(() => zone.classList.remove('drag-over'), 400);
+    }
+  });
+}
+
+function handleFileUpload(event) {
+  const files = Array.from(event.target.files);
+  handleFiles(files);
+}
+
+function handleFiles(files) {
+  uploadedFiles = files;
+  const container = document.getElementById('uploadedFiles');
+  container.innerHTML = files.map(f => `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+      <span>📎</span>
+      <span style="font-size:13px;font-weight:500;">${escHtml(f.name)}</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:auto;">${(f.size / 1024).toFixed(1)} KB</span>
+    </div>
+  `).join('');
+  const s1 = document.getElementById('step1Btn');
+  if (s1) s1.disabled = files.length === 0;
+}
+
+// ============================================================================
+// AUTO MODE HELPERS
+// ============================================================================
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function getSelectedModel() {
+  return document.querySelector('input[name="aiModel"]:checked')?.value || 'claude';
+}
+function getStepModel(step) {
+  return document.querySelector(`input[name="step${step}Model"]:checked`)?.value || 'claude';
+}
+
+// ============================================================================
+// STEP-BASED AI PROMPTS
+// ============================================================================
+function getStep1Prompt() {
+  if (EXAM_MODE === 'ielts') {
+    return {
+      system: `You extract IELTS Academic Writing tasks from test images. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  "tasks": {
+    "task1": { "prompt": "The chart below shows...", "instruction": "Summarise the information...", "chartType": "line_graph|bar_chart|pie_chart|table|map|mixed" },
+    "task2": { "prompt": "Some people believe...", "instruction": "Discuss both views and give your own opinion..." }
+  }
+}
+- Extract EXACT task prompts and instructions from images.
+- chartType must be one of: line_graph, bar_chart, pie_chart, table, map, mixed.
+- If a task is not visible, create an appropriate one matching the theme.`,
+      user: 'Extract IELTS Academic Writing Task 1 and Task 2 from these test images. Return JSON with tasks object.'
+    };
+  }
+  return {
+    system: `You extract CEFR Writing tasks from test images. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  "tasks": {
+    "p1_context": "You are a member of...",
+    "p1_scenario": "Dear Member,\\n...",
+    "t11": { "prompt": "Write a letter to your friend..." },
+    "t12": { "prompt": "Write a formal letter to..." },
+    "t2": { "prompt": "Write an essay discussing..." }
+  }
+}
+- Part 1 has a shared context and scenario (email/letter), then Task 1.1 (50-70 words, informal) and Task 1.2 (120-150 words, formal).
+- Part 2 has Task 2 (180-200 words, essay).
+- Extract EXACT prompts from images. If not visible, create appropriate ones.`,
+    user: 'Extract all CEFR Writing tasks from these images. Return JSON with tasks object including p1_context, p1_scenario, t11, t12, t2.'
+  };
+}
+
+function getStep2Prompt(tasksData) {
+  const sKeys = getSampleKeys();
+  const sLabels = getSampleLabels();
+  const levelDesc = EXAM_MODE === 'ielts'
+    ? 'Band 5 (basic), Band 6 (competent), Band 7 (good), Band 8 (very good), Band 9 (expert)'
+    : 'A1 (beginner), A2 (elementary), B1 (intermediate), B2 (upper-intermediate)';
+  const topLevel = EXAM_MODE === 'ielts' ? 'Band 9' : 'B2+';
+
+  if (EXAM_MODE === 'ielts') {
+    const task1Prompt = tasksData.task1?.prompt || '';
+    const task2Prompt = tasksData.task2?.prompt || '';
+    const chartUrl = document.getElementById('autoChartUrl')?.value?.trim() || document.getElementById('task1-chartUrl')?.value?.trim() || '';
+
+    const sampleFields = sKeys.map((k, i) => `"sample${k}": "${sLabels[i]} level answer"`).join(', ');
+    const uzFields = sKeys.map((k, i) => `"uzSample${k}": "Uzbek ${sLabels[i]}"`).join(', ');
+
+    return {
+      system: `You generate leveled sample answers for IELTS Academic Writing tasks. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  "task1": { "sampleAnswer": "top (${topLevel}) sample", ${sampleFields}, "uzSampleAnswer": "Uzbek of top", ${uzFields} },
+  "task2": { "sampleAnswer": "top (${topLevel}) sample", ${sampleFields}, "uzSampleAnswer": "Uzbek of top", ${uzFields} }
+}
+Levels: ${levelDesc}
+- Task 1: data description (150+ words at top level). If a chart URL is provided, describe the data shown.
+- Task 2: essay (250+ words at top level).
+- Use HTML <span class="ml-token TYPE">word</span> markup for key vocabulary in ALL levels (TYPE: academic, colloc, phrasal, idiom, linking).
+- Higher levels: 10-15 tokens. Mid levels: 5-8 tokens. Lower levels: 2-4 tokens.
+- Uzbek translations must be accurate.`,
+      user: `Generate leveled samples for:\nTask 1: "${task1Prompt}"${chartUrl ? `\nChart: ${chartUrl}` : ''}\nTask 2: "${task2Prompt}"\n\nReturn JSON with task1 and task2 objects.`
+    };
+  } else {
+    const t11Prompt = tasksData.t11?.prompt || '';
+    const t12Prompt = tasksData.t12?.prompt || '';
+    const t2Prompt = tasksData.t2?.prompt || '';
+    const context = tasksData.p1_context || '';
+
+    const sampleFields = sKeys.map((k, i) => `"sample${k}": "${sLabels[i]} level answer"`).join(', ');
+    const uzFields = sKeys.map((k, i) => `"uzSample${k}": "Uzbek ${sLabels[i]}"`).join(', ');
+
+    return {
+      system: `You generate leveled sample answers for CEFR Writing tasks. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  "t11": { "sample": "top (${topLevel}) sample", ${sampleFields}, "uzSample": "Uzbek of top", ${uzFields} },
+  "t12": { "sample": "top (${topLevel}) sample", ${sampleFields}, "uzSample": "Uzbek of top", ${uzFields} },
+  "t2":  { "sample": "top (${topLevel}) sample", ${sampleFields}, "uzSample": "Uzbek of top", ${uzFields} }
+}
+Levels: ${levelDesc}
+- Task 1.1: informal text (50-70 words at top level).
+- Task 1.2: formal text (120-150 words at top level).
+- Task 2: essay (180-200 words at top level).
+- Use HTML <span class="ml-token TYPE">word</span> markup for key vocabulary in ALL levels (TYPE: academic, colloc, phrasal, idiom, linking).
+- Higher levels: 8-12 tokens. Mid levels: 4-6 tokens. Lower levels: 1-3 tokens.
+- Uzbek translations must be accurate.`,
+      user: `Generate leveled samples for:\nContext: "${context}"\nTask 1.1: "${t11Prompt}"\nTask 1.2: "${t12Prompt}"\nTask 2: "${t2Prompt}"\n\nReturn JSON with t11, t12, t2 objects.`
+    };
+  }
+}
+
+function getStep3Prompt(tasksData) {
+  const taskList = EXAM_MODE === 'ielts'
+    ? `Task 1: "${tasksData.task1?.prompt || ''}"\nTask 2: "${tasksData.task2?.prompt || ''}"`
+    : `Task 1.1: "${tasksData.t11?.prompt || ''}"\nTask 1.2: "${tasksData.t12?.prompt || ''}"\nTask 2: "${tasksData.t2?.prompt || ''}"`;
+
+  // Extract annotated tokens from samples
+  const tokenSet = new Set();
+  const sKeys = getSampleKeys();
+  const taskIds = EXAM_MODE === 'ielts' ? ['task1', 'task2'] : ['t11', 't12', 't2'];
+  taskIds.forEach(tid => {
+    const el = document.getElementById(`${tid}-sample`);
+    const allSamples = [el?.value || ''];
+    sKeys.forEach(k => {
+      const sEl = document.getElementById(`${tid}-sample${k}`);
+      if (sEl) allSamples.push(sEl.value || '');
+    });
+    allSamples.forEach(s => {
+      const re = /<span\s+class="ml-token\s+\w+">(.*?)<\/span>/gi;
+      let m;
+      while ((m = re.exec(s)) !== null) {
+        tokenSet.add(m[1].trim());
+      }
+    });
+  });
+  const tokenList = [...tokenSet];
+  const tokenHint = tokenList.length > 0
+    ? `\n\nIMPORTANT: These annotated tokens MUST ALL have Uzbek translations in tokenTranslations:\n${tokenList.map(t => `- "${t}"`).join('\n')}`
+    : '';
+
+  const vocabFormat = EXAM_MODE === 'ielts'
+    ? '"vocabulary": { "task1": [{"word": "...", "meaning": "..."}], "task2": [...] }'
+    : '"vocabulary": { "task11": [{"en": "...", "uz": "..."}], "task12": [...], "task2": [...] }';
+
+  return {
+    system: `You generate topic vocabulary and token translations for writing test tasks. Output ONLY valid JSON (no markdown, no code fences).
+Return: {
+  ${vocabFormat},
+  "tokenTranslations": { "English phrase": { "uz": "Uzbek translation", "type": "colloc|academic|phrasal|idiom|linking" }, ... }
+}
+- vocabulary: 10-15 items per task
+- tokenTranslations: MUST include Uzbek translations for EVERY annotated token from the sample answers. type must be one of: adv, colloc, phrasal, idiom, academic, linking`,
+    user: `Generate vocabulary and token translations for:\n${taskList}${tokenHint}\n\nReturn JSON with "vocabulary" and "tokenTranslations".`
+  };
+}
+
+// ============================================================================
+// STEP 1: EXTRACT TASKS
+// ============================================================================
+async function runStep1() {
+  if (uploadedFiles.length === 0) {
+    showToast('Please upload test images first', 'error');
+    return;
+  }
+
+  const model = getStepModel(1);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step1Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Extracting...';
+  const status = document.getElementById('step1Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(1, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    updateStepStatus(1, '📸', 'Reading images...', '', 25);
+    const imageBlocks = [];
+    for (const file of uploadedFiles) {
+      const base64 = await fileToBase64(file);
+      imageBlocks.push({ data: base64, mediaType: file.type || 'image/png' });
+    }
+
+    const prompts = getStep1Prompt();
+    updateStepStatus(1, '🧠', 'AI extracting tasks...', 'This takes 15-30 seconds', 50);
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, imageBlocks);
+    updateStepStatus(1, '📋', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+    window._step1Data = result;
+
+    // Populate form fields
+    if (EXAM_MODE === 'cefr') {
+      const tasks = result.tasks || {};
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      set('p1-context', tasks.p1_context);
+      set('p1-scenario', tasks.p1_scenario);
+      set('t11-prompt', tasks.t11?.prompt);
+      set('t12-prompt', tasks.t12?.prompt);
+      set('t2-prompt', tasks.t2?.prompt);
+      ['t11', 't12', 't2'].forEach(tid => updateTaskPreview(tid));
+    } else {
+      const tasks = result.tasks || {};
+      const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      set('task1-prompt', tasks.task1?.prompt);
+      set('task1-instruction', tasks.task1?.instruction);
+      if (tasks.task1?.chartType) set('task1-chartType', tasks.task1.chartType);
+      set('task2-prompt', tasks.task2?.prompt);
+      set('task2-instruction', tasks.task2?.instruction);
+      // Copy chart URL from auto field
+      const autoChart = document.getElementById('autoChartUrl')?.value?.trim();
+      if (autoChart) {
+        const el = document.getElementById('task1-chartUrl');
+        if (el) { el.value = autoChart; el.dispatchEvent(new Event('input')); }
+      }
+      ['task1', 'task2'].forEach(tid => updateTaskPreview(tid));
+    }
+
+    const taskCount = EXAM_MODE === 'ielts' ? 2 : 3;
+    updateStepStatus(1, '✅', 'Done!', `${taskCount} tasks extracted`, 100);
+    document.getElementById('step1Done').style.display = 'block';
+    document.getElementById('step1Summary').textContent = `${taskCount} tasks loaded into editor`;
+
+    // Unlock step 2
+    document.getElementById('step2Card').style.opacity = '1';
+    document.getElementById('step2Card').style.pointerEvents = 'auto';
+
+    showToast(`Step 1 complete — tasks extracted!`, 'success');
+  } catch (err) {
+    console.error('Step 1 error:', err);
+    updateStepStatus(1, '❌', 'Failed', err.message, 100);
+    showToast('Step 1 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📋 Extract Tasks from Images';
+  }
+}
+
+// ============================================================================
+// STEP 2: GENERATE SAMPLES
+// ============================================================================
+async function runStep2() {
+  if (!window._step1Data?.tasks) {
+    showToast('Run Step 1 first to extract tasks', 'error');
+    return;
+  }
+
+  const model = getStepModel(2);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step2Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating...';
+  const status = document.getElementById('step2Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(2, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    const prompts = getStep2Prompt(window._step1Data.tasks);
+    updateStepStatus(2, '🧠', 'AI generating samples...', 'This takes 30-60 seconds', 30);
+
+    // For IELTS Task 1 with chart, include chart image
+    let imageBlocks = [];
+    if (EXAM_MODE === 'ielts') {
+      const chartUrl = document.getElementById('autoChartUrl')?.value?.trim() || document.getElementById('task1-chartUrl')?.value?.trim();
+      if (chartUrl) {
+        // Include chart URL in the user message (AI can access URLs)
+      }
+    }
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, imageBlocks);
+    updateStepStatus(2, '📝', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+    const sampleKeys = getSampleKeys();
+
+    // Populate samples
+    if (EXAM_MODE === 'cefr') {
+      ['t11', 't12', 't2'].forEach(tid => {
+        const s = result[tid];
+        if (!s) return;
+        const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+        set(`${tid}-sample`, s.sample);
+        set(`${tid}-uzSample`, s.uzSample);
+        sampleKeys.forEach(k => {
+          set(`${tid}-sample${k}`, s['sample' + k]);
+          set(`${tid}-uz${k}`, s['uzSample' + k]);
+        });
+      });
+    } else {
+      ['task1', 'task2'].forEach(tid => {
+        const s = result[tid];
+        if (!s) return;
+        const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+        set(`${tid}-sample`, s.sampleAnswer || s.sample);
+        sampleKeys.forEach(k => {
+          set(`${tid}-sample${k}`, s['sample' + k]);
+          set(`${tid}-uz${k}`, s['uzSample' + k]);
+        });
+      });
+    }
+
+    const taskCount = EXAM_MODE === 'ielts' ? 2 : 3;
+    updateStepStatus(2, '✅', 'Done!', `${taskCount} tasks with samples`, 100);
+    document.getElementById('step2Done').style.display = 'block';
+    document.getElementById('step2Summary').textContent = `${taskCount} sets of leveled samples generated`;
+
+    document.getElementById('step3Card').style.opacity = '1';
+    document.getElementById('step3Card').style.pointerEvents = 'auto';
+
+    showToast(`Step 2 complete — samples generated!`, 'success');
+  } catch (err) {
+    console.error('Step 2 error:', err);
+    updateStepStatus(2, '❌', 'Failed', err.message, 100);
+    showToast('Step 2 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📝 Generate Samples';
+  }
+}
+
+// ============================================================================
+// STEP 3: GENERATE VOCABULARY
+// ============================================================================
+async function runStep3() {
+  if (!window._step1Data?.tasks) {
+    showToast('Run Step 1 first to extract tasks', 'error');
+    return;
+  }
+
+  const model = getStepModel(3);
+  const passcode = document.getElementById('claudePasscode').value.trim();
+  if (model === 'claude' && !passcode) { showToast('Enter passcode for Claude', 'error'); return; }
+
+  const btn = document.getElementById('step3Btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating...';
+  const status = document.getElementById('step3Status');
+  status.classList.add('active');
+
+  try {
+    updateStepStatus(3, '🔑', 'Fetching API key...', '', 10);
+    const apiKey = await fetchApiKey(model, passcode);
+
+    const prompts = getStep3Prompt(window._step1Data.tasks);
+    updateStepStatus(3, '🧠', 'AI generating vocabulary...', 'This takes 20-40 seconds', 30);
+
+    const rawText = await callAI(model, apiKey, prompts.system, prompts.user, []);
+    updateStepStatus(3, '📚', 'Parsing response...', '', 90);
+
+    const result = parseAIJson(rawText);
+
+    // Populate vocabulary
+    if (result.vocabulary) {
+      if (EXAM_MODE === 'cefr') {
+        const vocabMap = { task11: 't11', task12: 't12', task2: 't2' };
+        for (const [vocabKey, tid] of Object.entries(vocabMap)) {
+          if (result.vocabulary[vocabKey]) {
+            const el = document.getElementById(`${tid}-vocab`);
+            if (el) el.value = JSON.stringify(result.vocabulary[vocabKey], null, 2);
+          }
+        }
+      } else {
+        IELTS_TASKS.forEach(task => {
+          if (result.vocabulary[task.id]) {
+            const el = document.getElementById(`${task.id}-vocab`);
+            if (el) el.value = JSON.stringify(result.vocabulary[task.id], null, 2);
+          }
+        });
+      }
+    }
+
+    // Populate token translations
+    if (result.tokenTranslations) {
+      document.getElementById('tokensList').innerHTML = '';
+      tokenRowCount = 0;
+      for (const [phrase, info] of Object.entries(result.tokenTranslations)) {
+        addTokenRow(phrase, info.uz || '', info.type || 'colloc');
+      }
+    }
+
+    const tokenCount = result.tokenTranslations ? Object.keys(result.tokenTranslations).length : 0;
+    updateStepStatus(3, '✅', 'Done!', `Vocabulary + ${tokenCount} tokens`, 100);
+    document.getElementById('step3Done').style.display = 'block';
+    document.getElementById('step3Summary').textContent = `Vocabulary + ${tokenCount} tokens`;
+
+    document.getElementById('stepFinalCard').style.display = 'block';
+
+    showToast(`Step 3 complete — vocabulary generated!`, 'success');
+  } catch (err) {
+    console.error('Step 3 error:', err);
+    updateStepStatus(3, '❌', 'Failed', err.message, 100);
+    showToast('Step 3 failed: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📚 Generate Vocabulary & Tokens';
+  }
+}
+
+// ============================================================================
+// SHARED AI HELPERS
+// ============================================================================
+function updateStepStatus(step, icon, title, detail, progress) {
+  document.getElementById(`step${step}Icon`).textContent = icon;
+  document.getElementById(`step${step}Title`).textContent = title;
+  document.getElementById(`step${step}Detail`).textContent = detail;
+  document.getElementById(`step${step}Progress`).style.width = progress + '%';
+}
+
+function parseAIJson(rawText) {
+  let cleaned = rawText.trim();
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+
+  try {
+    return JSON.parse(cleaned);
+  } catch (e1) {
+    const firstBrace = cleaned.indexOf('{');
+    const lastBrace = cleaned.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        return JSON.parse(cleaned.substring(firstBrace, lastBrace + 1));
+      } catch (e2) {
+        console.error('Raw AI response (first 500):', cleaned.substring(0, 500));
+        console.error('Raw AI response (last 500):', cleaned.substring(cleaned.length - 500));
+        throw new Error('AI returned invalid JSON. Check console. Try again or switch model.');
+      }
+    }
+    throw new Error('AI response has no JSON. Check console.');
+  }
+}
+
+async function callAI(model, apiKey, systemPrompt, userMsg, imageBlocks) {
+  if (model === 'claude') return callClaude(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'openai') return callOpenAI(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'gemini') return callGemini(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'grok') return callGrok(apiKey, imageBlocks, systemPrompt, userMsg);
+  if (model === 'deepseek') return callDeepseek(apiKey, imageBlocks, systemPrompt, userMsg);
+  throw new Error('Unknown model: ' + model);
+}
+
+async function fetchApiKey(model, passcode) {
+  if (['claude','grok','deepseek'].includes(model)) {
+    const resp = await fetch('https://davirbek.alwaysdata.net/test-maker-key', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode, model }),
+    });
+    if (!resp.ok) throw new Error('Invalid passcode or server error');
+    const data = await resp.json();
+    return data.key;
+  } else if (model === 'openai') {
+    const resp = await fetch('https://davirbek.alwaysdata.net/key', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!resp.ok) throw new Error('Failed to fetch OpenAI key');
+    const data = await resp.json();
+    return data.key;
+  } else if (model === 'gemini') {
+    const resp = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!resp.ok) throw new Error('Failed to fetch Gemini key');
+    const data = await resp.json();
+    return data.key;
+  }
+}
+
+async function callClaude(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const content = [];
+  imageBlocks.forEach(b => content.push({
+    type: 'image',
+    source: { type: 'base64', media_type: b.mediaType, data: b.data },
+  }));
+  content.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 32000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content }],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Claude API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.content?.[0]?.text || '';
+}
+
+async function callOpenAI(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`OpenAI API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callGemini(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({ inlineData: { mimeType: b.mediaType, data: b.data } }));
+  parts.push({ text: userMsg });
+  const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      contents: [{ parts }],
+      generationConfig: { maxOutputTokens: 32000 },
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Gemini API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function callGrok(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.x.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'grok-3',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Grok API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callDeepseek(apiKey, imageBlocks, systemPrompt, userMsg) {
+  const parts = [];
+  imageBlocks.forEach(b => parts.push({
+    type: 'image_url',
+    image_url: { url: `data:${b.mediaType};base64,${b.data}` },
+  }));
+  parts.push({ type: 'text', text: userMsg });
+  const resp = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      max_tokens: 16384,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: parts },
+      ],
+    }),
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error(`Deepseek API error ${resp.status}: ${errBody.slice(0, 200)}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+function goToManualEditor() {
+  switchMode('manual');
+  showSection('tasks');
+  showToast('All steps loaded into manual editor — review & publish!', 'success');
+}
+
+function setupModelSelector() {
+  function updatePasscodeVisibility() {
+    const anyNeedPasscode = [1, 2, 3].some(s => ['claude','grok','deepseek'].includes(getStepModel(s)));
+    document.getElementById('passcodeField').style.display = anyNeedPasscode ? 'block' : 'none';
+  }
+  document.querySelectorAll('input[name="step1Model"], input[name="step2Model"], input[name="step3Model"]').forEach(radio => {
+    radio.addEventListener('change', updatePasscodeVisibility);
+  });
+  updatePasscodeVisibility();
+}
+
+// ============================================================================
+// UTILITIES
+// ============================================================================
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function showToast(msg, type = 'info') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast toast-' + type + ' show';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+}
+
+// ============================================================================
+// SECTION COMPLETION DOTS
+// ============================================================================
+function updateDots() {
+  const tasks = getTaskTemplate();
+  const firstTid = tasks[0]?.id;
+  const q1 = document.getElementById(`${firstTid}-prompt`)?.value?.trim();
+  setDot('tasks', q1 ? 'green' : 'empty');
+
+  const hasTokens = document.querySelectorAll('[id^="token-row-"]').length > 1 ||
+                    document.querySelector('.token-en')?.value?.trim();
+  setDot('tokens', hasTokens ? 'green' : 'empty');
+}
+
+function setDot(section, state) {
+  const dot = document.getElementById('dot-' + section);
+  if (!dot) return;
+  dot.className = 'dot';
+  dot.classList.add(state === 'green' ? 'dot-green' : state === 'orange' ? 'dot-orange' : 'dot-empty');
+}
+
+setInterval(updateDots, 2000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Builder — Generate Article JS Files</title>
+  <style>
+    :root {
+      --bg1: #667eea;
+      --bg2: #764ba2;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --accent: #667eea;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 {
+      color: #fff; font-size: 2.5rem; font-weight: 800;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 8px;
+    }
+    .header p { color: rgba(255,255,255,0.85); font-size: 1.1rem; }
+    .header .back-link {
+      display: inline-block; color: rgba(255,255,255,0.8); font-size: 13px;
+      text-decoration: none; margin-bottom: 12px;
+    }
+    .header .back-link:hover { color: white; }
+
+    .main-card {
+      background: var(--card); border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15); padding: 32px; margin-bottom: 24px;
+    }
+
+    .section-title {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+      font-size: 1.25rem; font-weight: 700; color: var(--text);
+    }
+    .section-num {
+      background: var(--accent); color: white; width: 28px; height: 28px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label { font-size: 12px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-input, .form-select, .form-textarea {
+      padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 10px;
+      font-size: 14px; font-family: inherit; transition: all 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+    .form-textarea { min-height: 120px; resize: vertical; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #5558e6; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #059669; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-outline { background: white; border: 2px solid #e2e8f0; color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+    .ai-section {
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff); border: 2px solid #e9d5ff;
+      border-radius: 14px; padding: 20px; margin-bottom: 20px;
+    }
+    .ai-title { font-size: 16px; font-weight: 700; color: #6d28d9; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .ai-status { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-left: auto; }
+    .ai-status.connected { background: #d1fae5; color: #065f46; }
+    .ai-status.loading { background: #fef3c7; color: #92400e; }
+    .ai-status.disconnected { background: #fecaca; color: #991b1b; }
+
+    .ai-model-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .ai-model-btn {
+      padding: 8px 16px; border: 2px solid #e2e8f0; border-radius: 8px;
+      background: white; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s;
+    }
+    .ai-model-btn.active { border-color: var(--accent); background: #ede9fe; color: #5b21b6; }
+
+    .preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .preset-btn {
+      padding: 6px 14px; border: 1px solid #d8b4fe; border-radius: 20px;
+      background: white; font-size: 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .preset-btn:hover { background: #f3e8ff; border-color: #a855f7; }
+
+    .progress-bar {
+      height: 6px; background: #e2e8f0; border-radius: 3px; margin-top: 10px; overflow: hidden; display: none;
+    }
+    .progress-bar.active { display: block; }
+    .progress-bar .fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; width: 0%; }
+
+    .code-output {
+      background: #1e293b; border-radius: 12px; padding: 20px; position: relative;
+      max-height: 400px; overflow: auto; display: none; margin-top: 16px;
+    }
+    .code-output.visible { display: block; }
+    .code-output pre { color: #e2e8f0; font-size: 13px; white-space: pre-wrap; word-break: break-word; font-family: 'Fira Code', 'Consolas', monospace; }
+    .code-output .code-topbar {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      padding-bottom: 10px; border-bottom: 1px solid #334155;
+    }
+    .code-output .filename { color: #94a3b8; font-size: 12px; font-weight: 600; }
+    .code-output .folder-hint { color: #64748b; font-size: 11px; margin-left: auto; }
+    .code-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+    .level-tab-row { display: flex; gap: 4px; margin-bottom: 16px; }
+    .level-tab {
+      padding: 8px 20px; border: 2px solid #e2e8f0; border-radius: 8px;
+      cursor: pointer; font-size: 13px; font-weight: 600; background: white; transition: all 0.2s;
+    }
+    .level-tab.active { border-color: var(--accent); background: #ede9fe; color: #5b21b6; }
+    .level-panel { display: none; }
+    .level-panel.active { display: block; }
+
+    .vocab-entry {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 14px; margin-bottom: 10px; position: relative;
+    }
+    .vocab-entry .vocab-num {
+      position: absolute; top: -8px; left: 12px; background: var(--accent); color: white;
+      font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+    }
+    .vocab-entry .remove-vocab {
+      position: absolute; top: 8px; right: 8px; background: none; border: none;
+      font-size: 16px; cursor: pointer; color: var(--danger); opacity: 0.5;
+    }
+    .vocab-entry .remove-vocab:hover { opacity: 1; }
+    .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 600; color: white; z-index: 99999;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+
+    .divider { height: 1px; background: #e2e8f0; margin: 24px 0; }
+
+    @media (max-width: 700px) {
+      body { padding: 12px; }
+      .main-card { padding: 18px; }
+      .form-grid, .form-grid.three-col { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <a href="../landing.html" class="back-link">← Back to Dashboard</a>
+    <h1>📰 Article Builder</h1>
+    <p>Generate article JS files with CEFR-leveled passages, translations, and vocabulary</p>
+  </div>
+
+  <!-- ===== SECTION 1: SETTINGS ===== -->
+  <div class="main-card">
+    <div class="section-title"><span class="section-num">1</span> Article Settings</div>
+    <div class="form-grid three-col">
+      <div class="form-group">
+        <label class="form-label">Article Number</label>
+        <input class="form-input" id="articleNumber" type="number" min="1" value="221" placeholder="e.g. 221">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Title</label>
+        <input class="form-input" id="articleTitle" placeholder="e.g. Green Packaging">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Base Level</label>
+        <select class="form-select" id="baseLevel">
+          <option value="B2" selected>B2 (default base)</option>
+          <option value="B1">B1</option>
+          <option value="C1">C1</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AI SECTION ===== -->
+  <div class="main-card">
+    <div class="ai-section">
+      <div class="ai-title">🤖 AI Article Generator <span class="ai-status loading" id="aiStatus">Loading...</span></div>
+
+      <div class="form-group" id="passcodeField" style="margin-bottom:12px;">
+        <label class="form-label">Passcode (required when any step uses Claude / Grok / Deepseek)</label>
+        <input class="form-input" type="password" id="claudePasscode" placeholder="Enter passcode">
+      </div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label class="form-label">Topic / Prompt</label>
+        <textarea class="form-textarea" id="aiPrompt" rows="3" placeholder="Describe the article to generate, e.g.: Write about the benefits of urban gardening for city residents."></textarea>
+      </div>
+
+      <div class="preset-row">
+        <button class="preset-btn" onclick="usePreset('health')">🏥 Health</button>
+        <button class="preset-btn" onclick="usePreset('tech')">💻 Technology</button>
+        <button class="preset-btn" onclick="usePreset('environment')">🌿 Environment</button>
+        <button class="preset-btn" onclick="usePreset('culture')">🎭 Culture</button>
+        <button class="preset-btn" onclick="usePreset('education')">📚 Education</button>
+        <button class="preset-btn" onclick="usePreset('travel')">✈️ Travel</button>
+        <button class="preset-btn" onclick="usePreset('science')">🔬 Science</button>
+        <button class="preset-btn" onclick="usePreset('business')">💼 Business</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Step 1: Generate Full Article -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px;">🚀 Generate Full Article</div>
+        <div class="ai-model-row">
+          <button class="ai-model-btn active" data-group="generate" data-model="claude" onclick="setStepModel('generate','claude',this)">🟣 Claude</button>
+          <button class="ai-model-btn" data-group="generate" data-model="openai" onclick="setStepModel('generate','openai',this)">🟢 GPT-4o</button>
+          <button class="ai-model-btn" data-group="generate" data-model="gemini" onclick="setStepModel('generate','gemini',this)">🔵 Gemini</button>
+          <button class="ai-model-btn" data-group="generate" data-model="grok" onclick="setStepModel('generate','grok',this)">🔴 Grok</button>
+          <button class="ai-model-btn" data-group="generate" data-model="deepseek" onclick="setStepModel('generate','deepseek',this)">⚫ Deepseek</button>
+        </div>
+        <button class="btn btn-primary" id="generateBtn" onclick="generateArticle()" style="width:100%;">🚀 Generate Full Article</button>
+      </div>
+
+      <!-- Step 2: Fill Vocabulary -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px;">📖 Fill Vocabulary Only</div>
+        <div class="ai-model-row">
+          <button class="ai-model-btn active" data-group="vocab" data-model="claude" onclick="setStepModel('vocab','claude',this)">🟣 Claude</button>
+          <button class="ai-model-btn" data-group="vocab" data-model="openai" onclick="setStepModel('vocab','openai',this)">🟢 GPT-4o</button>
+          <button class="ai-model-btn" data-group="vocab" data-model="gemini" onclick="setStepModel('vocab','gemini',this)">🔵 Gemini</button>
+          <button class="ai-model-btn" data-group="vocab" data-model="grok" onclick="setStepModel('vocab','grok',this)">🔴 Grok</button>
+          <button class="ai-model-btn" data-group="vocab" data-model="deepseek" onclick="setStepModel('vocab','deepseek',this)">⚫ Deepseek</button>
+        </div>
+        <button class="btn btn-outline" id="fillVocabBtn" onclick="fillVocabAI()" style="width:100%;">📖 AI Fill Vocabulary Only</button>
+      </div>
+
+      <!-- Step 3: Translate All -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px;">🇺🇿 Translate All</div>
+        <div class="ai-model-row">
+          <button class="ai-model-btn active" data-group="translate" data-model="claude" onclick="setStepModel('translate','claude',this)">🟣 Claude</button>
+          <button class="ai-model-btn" data-group="translate" data-model="openai" onclick="setStepModel('translate','openai',this)">🟢 GPT-4o</button>
+          <button class="ai-model-btn" data-group="translate" data-model="gemini" onclick="setStepModel('translate','gemini',this)">🔵 Gemini</button>
+          <button class="ai-model-btn" data-group="translate" data-model="grok" onclick="setStepModel('translate','grok',this)">🔴 Grok</button>
+          <button class="ai-model-btn" data-group="translate" data-model="deepseek" onclick="setStepModel('translate','deepseek',this)">⚫ Deepseek</button>
+        </div>
+        <button class="btn btn-outline" id="translateBtn" onclick="translateAI()" style="width:100%;">🇺🇿 AI Translate All</button>
+      </div>
+
+      <!-- Step 4: Generate Levels -->
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:6px;">📊 Generate B1/B2/C1 Levels</div>
+        <div class="ai-model-row">
+          <button class="ai-model-btn active" data-group="levels" data-model="claude" onclick="setStepModel('levels','claude',this)">🟣 Claude</button>
+          <button class="ai-model-btn" data-group="levels" data-model="openai" onclick="setStepModel('levels','openai',this)">🟢 GPT-4o</button>
+          <button class="ai-model-btn" data-group="levels" data-model="gemini" onclick="setStepModel('levels','gemini',this)">🔵 Gemini</button>
+          <button class="ai-model-btn" data-group="levels" data-model="grok" onclick="setStepModel('levels','grok',this)">🔴 Grok</button>
+          <button class="ai-model-btn" data-group="levels" data-model="deepseek" onclick="setStepModel('levels','deepseek',this)">⚫ Deepseek</button>
+        </div>
+        <button class="btn btn-outline" id="levelBtn" onclick="generateLevelsAI()" style="width:100%;">📊 AI Generate B1/B2/C1 Levels</button>
+      </div>
+
+      <div class="progress-bar" id="aiProgress"><div class="fill" id="aiFill"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2: CONTENT ===== -->
+  <div class="main-card">
+    <div class="section-title"><span class="section-num">2</span> Article Content</div>
+
+    <div class="level-tab-row">
+      <button class="level-tab active" onclick="switchLevel('base', this)">📝 Original</button>
+      <button class="level-tab" onclick="switchLevel('B1', this)">🟢 B1</button>
+      <button class="level-tab" onclick="switchLevel('B2', this)">🔵 B2</button>
+      <button class="level-tab" onclick="switchLevel('C1', this)">🟣 C1</button>
+    </div>
+
+    <!-- Original/Base -->
+    <div class="level-panel active" id="panel-base">
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">Passage (HTML — use &lt;strong&gt; for vocabulary words)</label>
+        <textarea class="form-textarea" id="passage" rows="10" placeholder="<p>Enter the original article passage...</p>"></textarea>
+      </div>
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">Translation (Uzbek HTML)</label>
+        <textarea class="form-textarea" id="translation" rows="6" placeholder="<p>O'zbek tiliga tarjima...</p>"></textarea>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Vocabulary</label>
+        <div id="vocabContainer"></div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn btn-outline" onclick="addVocab('base')">+ Add Word</button>
+          <button class="btn btn-outline" onclick="addVocab('base', 5)">+ Add 5</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- B1 Panel -->
+    <div class="level-panel" id="panel-B1">
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">B1 Passage</label>
+        <textarea class="form-textarea" id="passageB1" rows="10" placeholder="Simplified B1-level version..."></textarea>
+      </div>
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">B1 Translation (Uzbek)</label>
+        <textarea class="form-textarea" id="translationB1" rows="6" placeholder="B1 tarjima..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">B1 Vocabulary</label>
+        <div id="vocabContainerB1"></div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn btn-outline" onclick="addVocab('B1')">+ Add Word</button>
+          <button class="btn btn-outline" onclick="addVocab('B1', 5)">+ Add 5</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- B2 Panel -->
+    <div class="level-panel" id="panel-B2">
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">B2 Passage</label>
+        <textarea class="form-textarea" id="passageB2" rows="10" placeholder="B2-level version..."></textarea>
+      </div>
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">B2 Translation (Uzbek)</label>
+        <textarea class="form-textarea" id="translationB2" rows="6" placeholder="B2 tarjima..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">B2 Vocabulary</label>
+        <div id="vocabContainerB2"></div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn btn-outline" onclick="addVocab('B2')">+ Add Word</button>
+          <button class="btn btn-outline" onclick="addVocab('B2', 5)">+ Add 5</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- C1 Panel -->
+    <div class="level-panel" id="panel-C1">
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">C1 Passage</label>
+        <textarea class="form-textarea" id="passageC1" rows="10" placeholder="Advanced C1-level version..."></textarea>
+      </div>
+      <div class="form-group full" style="margin-bottom:14px;">
+        <label class="form-label">C1 Translation (Uzbek)</label>
+        <textarea class="form-textarea" id="translationC1" rows="6" placeholder="C1 tarjima..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">C1 Vocabulary</label>
+        <div id="vocabContainerC1"></div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn btn-outline" onclick="addVocab('C1')">+ Add Word</button>
+          <button class="btn btn-outline" onclick="addVocab('C1', 5)">+ Add 5</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3: OUTPUT ===== -->
+  <div class="main-card">
+    <div class="section-title"><span class="section-num">3</span> Generated Code</div>
+    <div class="btn-row">
+      <button class="btn btn-success" onclick="generateCode()">⚡ Generate JS Code</button>
+      <button class="btn btn-outline" onclick="saveDraft()">💾 Save Draft</button>
+      <button class="btn btn-outline" onclick="loadDraft()">📂 Load Draft</button>
+      <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All</button>
+    </div>
+
+    <div class="code-output" id="codeOutput">
+      <div class="code-topbar">
+        <span class="filename" id="codeFilename">article-221.js</span>
+        <span class="folder-hint">📁 questions Articles/</span>
+      </div>
+      <pre id="codeContent"></pre>
+      <div class="code-actions">
+        <button class="btn btn-primary" onclick="copyCode()">📋 Copy Code</button>
+        <button class="btn btn-success" onclick="downloadCode()">💾 Download JS File</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../telegram-compat.js"></script>
+<script>
+// ============================================================================
+// STATE
+// ============================================================================
+let apiKey = null;
+let aiModel = 'claude';
+let generatedCode = '';
+const _stepModels = { generate: 'claude', vocab: 'claude', translate: 'claude', levels: 'claude' };
+
+const PRESETS = {
+  health: 'Write an informative article about a current health topic (e.g., mental health awareness, nutrition trends, exercise science). Include practical tips and scientific facts.',
+  tech: 'Write an article about a recent technology trend (e.g., AI, cybersecurity, blockchain, IoT). Explain how it works and its impact on daily life.',
+  environment: 'Write an article about an environmental issue (e.g., ocean pollution, renewable energy, deforestation). Include facts, consequences, and possible solutions.',
+  culture: 'Write an article about cultural traditions or arts from around the world. Explore their significance and how they are changing in modern times.',
+  education: 'Write an article about modern education methods, challenges, or innovations (e.g., online learning, gamification, language learning strategies).',
+  travel: 'Write an article about a unique travel destination or travel tip. Include cultural insights and practical information for travelers.',
+  science: 'Write an article about a fascinating scientific discovery or concept (e.g., space exploration, genetics, climate science). Make it accessible to general readers.',
+  business: 'Write an article about entrepreneurship, startups, or business strategies. Include real-world examples and actionable advice.'
+};
+
+// ============================================================================
+// INIT
+// ============================================================================
+(function init() {
+  document.getElementById('aiStatus').textContent = 'Ready';
+  document.getElementById('aiStatus').className = 'ai-status connected';
+})();
+
+// ============================================================================
+// AI MODEL SELECTOR
+// ============================================================================
+function setModel(model, btn) {
+  aiModel = model;
+  document.querySelectorAll('.ai-model-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('passcodeField').style.display = model === 'claude' ? '' : 'none';
+}
+
+function setStepModel(group, model, btn) {
+  _stepModels[group] = model;
+  document.querySelectorAll(`.ai-model-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Show passcode if any step uses Claude, Grok or Deepseek
+  const anyNeedPasscode = Object.values(_stepModels).some(m => ['claude','grok','deepseek'].includes(m));
+  document.getElementById('passcodeField').style.display = anyNeedPasscode ? '' : 'none';
+}
+
+function getStepModel(group) {
+  return _stepModels[group] || 'claude';
+}
+
+// ============================================================================
+// LEVEL TABS
+// ============================================================================
+function switchLevel(level, btn) {
+  document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.level-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`panel-${level}`).classList.add('active');
+}
+
+// ============================================================================
+// VOCABULARY MANAGEMENT
+// ============================================================================
+let vocabCounters = { base: 0, B1: 0, B2: 0, C1: 0 };
+
+function addVocab(level, count) {
+  count = count || 1;
+  const container = level === 'base' ? document.getElementById('vocabContainer') : document.getElementById(`vocabContainer${level}`);
+  for (let i = 0; i < count; i++) {
+    vocabCounters[level]++;
+    const n = vocabCounters[level];
+    const id = `${level}_vocab_${n}`;
+    const div = document.createElement('div');
+    div.className = 'vocab-entry';
+    div.id = id;
+    div.innerHTML = `
+      <span class="vocab-num">${n}</span>
+      <button class="remove-vocab" onclick="this.parentElement.remove()">✕</button>
+      <div class="form-group" style="margin-bottom:8px;">
+        <label class="form-label">Word / Phrase</label>
+        <input class="form-input" data-field="word" placeholder="e.g. sustainable">
+      </div>
+      <div class="vocab-grid">
+        <div class="form-group">
+          <label class="form-label">Definition (English)</label>
+          <input class="form-input" data-field="definition" placeholder="Able to be maintained long-term">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Uzbek Translation</label>
+          <input class="form-input" data-field="uzbek" placeholder="Barqaror; uzoq muddatli">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Example Sentence</label>
+          <input class="form-input" data-field="example" placeholder="Sustainable farming protects the soil.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Example (Uzbek)</label>
+          <input class="form-input" data-field="exampleUzbek" placeholder="Barqaror dehqonchilik tuproqni himoya qiladi.">
+        </div>
+      </div>`;
+    container.appendChild(div);
+  }
+}
+
+function collectVocab(level) {
+  const container = level === 'base' ? document.getElementById('vocabContainer') : document.getElementById(`vocabContainer${level}`);
+  const vocab = {};
+  container.querySelectorAll('.vocab-entry').forEach(entry => {
+    const word = entry.querySelector('[data-field="word"]').value.trim();
+    if (!word) return;
+    vocab[word] = {
+      definition: entry.querySelector('[data-field="definition"]').value.trim(),
+      uzbek: entry.querySelector('[data-field="uzbek"]').value.trim(),
+      example: entry.querySelector('[data-field="example"]').value.trim(),
+      exampleUzbek: entry.querySelector('[data-field="exampleUzbek"]').value.trim(),
+    };
+  });
+  return vocab;
+}
+
+function populateVocab(level, vocab) {
+  const container = level === 'base' ? document.getElementById('vocabContainer') : document.getElementById(`vocabContainer${level}`);
+  container.innerHTML = '';
+  vocabCounters[level] = 0;
+  if (!vocab || typeof vocab !== 'object') return;
+  for (const [word, data] of Object.entries(vocab)) {
+    addVocab(level, 1);
+    const entry = container.lastElementChild;
+    entry.querySelector('[data-field="word"]').value = word;
+    entry.querySelector('[data-field="definition"]').value = data.definition || '';
+    entry.querySelector('[data-field="uzbek"]').value = data.uzbek || '';
+    entry.querySelector('[data-field="example"]').value = data.example || '';
+    entry.querySelector('[data-field="exampleUzbek"]').value = data.exampleUzbek || '';
+  }
+}
+
+// ============================================================================
+// PRESETS
+// ============================================================================
+function usePreset(key) {
+  document.getElementById('aiPrompt').value = PRESETS[key] || '';
+}
+
+// ============================================================================
+// API KEY FETCHING
+// ============================================================================
+async function fetchApiKey(model, passcode) {
+  if (['claude','grok','deepseek'].includes(model)) {
+    const res = await fetch('https://davirbek.alwaysdata.net/test-maker-key', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode, model }),
+    });
+    if (!res.ok) throw new Error('Invalid passcode');
+    const data = await res.json(); return data.key || data.apiKey;
+  }
+  const endpoint = model === 'gemini'
+    ? 'https://davirbek.alwaysdata.net/key?model=gemini'
+    : 'https://davirbek.alwaysdata.net/key';
+  const res = await fetch(endpoint);
+  if (!res.ok) throw new Error('Failed to fetch key');
+  const data = await res.json(); return data.key || data.apiKey;
+}
+
+// ============================================================================
+// AI CALL — supports Claude, OpenAI, Gemini
+// ============================================================================
+async function callAI(systemPrompt, userMessage, progressId, model) {
+  if (!model) model = aiModel;
+  if (progressId) showProgress(progressId, 10);
+
+  try {
+    const passcode = document.getElementById('claudePasscode').value;
+    const key = await fetchApiKey(model, passcode);
+    if (progressId) showProgress(progressId, 30);
+
+    let result;
+    if (model === 'claude') {
+      result = await callClaude(key, systemPrompt, userMessage);
+    } else if (model === 'gemini') {
+      result = await callGemini(key, systemPrompt, userMessage);
+    } else if (model === 'grok') {
+      result = await callGrok(key, systemPrompt, userMessage);
+    } else if (model === 'deepseek') {
+      result = await callDeepseek(key, systemPrompt, userMessage);
+    } else {
+      result = await callOpenAI(key, systemPrompt, userMessage);
+    }
+
+    if (progressId) showProgress(progressId, 100);
+    return result;
+  } catch (err) {
+    showToast('AI call failed: ' + err.message, 'error');
+    return null;
+  }
+}
+
+async function callClaude(apiKey, systemPrompt, userMsg) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', 'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514', max_tokens: 16384,
+      system: systemPrompt, messages: [{ role: 'user', content: userMsg }],
+    }),
+  });
+  if (!res.ok) throw new Error('Claude API error: ' + res.status);
+  const data = await res.json();
+  return data.content?.[0]?.text || '';
+}
+
+async function callOpenAI(apiKey, systemPrompt, userMsg) {
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'gpt-4o', max_tokens: 16384,
+      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }],
+    }),
+  });
+  if (!res.ok) throw new Error('OpenAI API error: ' + res.status);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callGemini(apiKey, systemPrompt, userMsg) {
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      contents: [{ parts: [{ text: userMsg }] }],
+      generationConfig: { maxOutputTokens: 16384 },
+    }),
+  });
+  if (!res.ok) throw new Error('Gemini API error: ' + res.status);
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+async function callGrok(apiKey, systemPrompt, userMsg) {
+  const res = await fetch('https://api.x.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'grok-3', max_tokens: 16384,
+      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }],
+    }),
+  });
+  if (!res.ok) throw new Error('Grok API error: ' + res.status);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+async function callDeepseek(apiKey, systemPrompt, userMsg) {
+  const res = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'deepseek-chat', max_tokens: 16384,
+      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMsg }],
+    }),
+  });
+  if (!res.ok) throw new Error('Deepseek API error: ' + res.status);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content || '';
+}
+
+function parseJSON(text) {
+  const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  return JSON.parse(cleaned);
+}
+
+// ============================================================================
+// AI: GENERATE FULL ARTICLE
+// ============================================================================
+async function generateArticle() {
+  const prompt = document.getElementById('aiPrompt').value.trim();
+  if (!prompt) { showToast('Enter a topic/prompt first', 'error'); return; }
+
+  const title = document.getElementById('articleTitle').value.trim();
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true; btn.textContent = '⏳ Generating...';
+
+  const systemPrompt = `You are an expert article writer for English learners. Generate a complete article data object matching this exact JSON schema:
+
+{
+  "title": "Article Title",
+  "passage": "<p>HTML passage with <strong>key vocabulary words</strong> marked in bold...</p>",
+  "translation": "<p>Full Uzbek translation matching the passage structure...</p>",
+  "vocabulary": {
+    "word1": { "definition": "English definition", "uzbek": "Uzbek translation", "example": "Example sentence using the word.", "exampleUzbek": "O'zbek tilidagi misol." },
+    ...
+  },
+  "passageB1": "<p>Simplified B1-level version with <strong>vocabulary</strong>...</p>",
+  "translationB1": "<p>B1 Uzbek translation...</p>",
+  "vocabularyB1": { ... },
+  "passageB2": "<p>B2-level version with <strong>vocabulary</strong>...</p>",
+  "translationB2": "<p>B2 Uzbek translation...</p>",
+  "vocabularyB2": { ... },
+  "passageC1": "<p>Advanced C1-level version with <strong>vocabulary</strong>...</p>",
+  "translationC1": "<p>C1 Uzbek translation...</p>",
+  "vocabularyC1": { ... }
+}
+
+RULES:
+- Original passage: B2 level, 250-350 words, 3-5 paragraphs in <p> tags
+- B1: simpler vocabulary and shorter sentences, 200-280 words
+- B2: the same as original (can be slightly different wording)
+- C1: more sophisticated vocabulary and complex sentences, 300-400 words
+- Each level MUST have 8-12 vocabulary words marked with <strong>
+- Translations must be natural Uzbek, not word-by-word
+- Vocabulary: 8-12 entries per level with all 4 fields filled
+- Return ONLY valid JSON, no markdown fences`;
+
+  const userMsg = `${title ? `Article title: "${title}". ` : ''}Topic: ${prompt}`;
+
+  const result = await callAI(systemPrompt, userMsg, 'ai', getStepModel('generate'));
+  btn.disabled = false; btn.textContent = '🚀 Generate Full Article';
+
+  if (!result) return;
+  try {
+    const data = parseJSON(result);
+    populateFromData(data);
+    showToast('✅ Article generated!', 'success');
+  } catch (err) { showToast('Failed to parse AI output: ' + err.message, 'error'); console.error(result); }
+}
+
+// ============================================================================
+// AI: FILL VOCABULARY
+// ============================================================================
+async function fillVocabAI() {
+  const passage = document.getElementById('passage').value.trim();
+  if (!passage) { showToast('Enter a passage first', 'error'); return; }
+
+  const btn = document.getElementById('fillVocabBtn');
+  btn.disabled = true; btn.textContent = '⏳ Analyzing...';
+
+  const result = await callAI(
+    `You are a vocabulary extraction expert. Given an English article passage, identify 8-12 key vocabulary words that are important for English learners. Return JSON: { "word1": { "definition": "...", "uzbek": "...", "example": "...", "exampleUzbek": "..." }, ... }. Return ONLY JSON.`,
+    `Extract vocabulary from this passage:\n\n${passage}`,
+    'ai',
+    getStepModel('vocab')
+  );
+
+  btn.disabled = false; btn.textContent = '📖 AI Fill Vocabulary Only';
+  if (!result) return;
+  try {
+    const vocab = parseJSON(result);
+    populateVocab('base', vocab);
+    showToast('✅ Vocabulary filled!', 'success');
+  } catch (err) { showToast('Parse error: ' + err.message, 'error'); }
+}
+
+// ============================================================================
+// AI: TRANSLATE ALL
+// ============================================================================
+async function translateAI() {
+  const passage = document.getElementById('passage').value.trim();
+  const passageB1 = document.getElementById('passageB1').value.trim();
+  const passageB2 = document.getElementById('passageB2').value.trim();
+  const passageC1 = document.getElementById('passageC1').value.trim();
+
+  if (!passage) { showToast('Enter at least the original passage', 'error'); return; }
+
+  const btn = document.getElementById('translateBtn');
+  btn.disabled = true; btn.textContent = '⏳ Translating...';
+
+  const result = await callAI(
+    `You are a professional English-Uzbek translator. Translate all provided passages into natural Uzbek. Preserve the HTML <p> tags. Return JSON: { "translation": "<p>...</p>", "translationB1": "<p>...</p>", "translationB2": "<p>...</p>", "translationC1": "<p>...</p>" }. Only include keys for passages that were provided (non-empty). Return ONLY JSON.`,
+    `Translate these passages to Uzbek:\n\nOriginal:\n${passage}\n\n${passageB1 ? `B1:\n${passageB1}\n\n` : ''}${passageB2 ? `B2:\n${passageB2}\n\n` : ''}${passageC1 ? `C1:\n${passageC1}` : ''}`,
+    'ai',
+    getStepModel('translate')
+  );
+
+  btn.disabled = false; btn.textContent = '🇺🇿 AI Translate All';
+  if (!result) return;
+  try {
+    const data = parseJSON(result);
+    if (data.translation) document.getElementById('translation').value = data.translation;
+    if (data.translationB1) document.getElementById('translationB1').value = data.translationB1;
+    if (data.translationB2) document.getElementById('translationB2').value = data.translationB2;
+    if (data.translationC1) document.getElementById('translationC1').value = data.translationC1;
+    showToast('✅ Translations generated!', 'success');
+  } catch (err) { showToast('Parse error: ' + err.message, 'error'); }
+}
+
+// ============================================================================
+// AI: GENERATE CEFR LEVELS
+// ============================================================================
+async function generateLevelsAI() {
+  const passage = document.getElementById('passage').value.trim();
+  if (!passage) { showToast('Enter the original passage first', 'error'); return; }
+
+  const btn = document.getElementById('levelBtn');
+  btn.disabled = true; btn.textContent = '⏳ Generating levels...';
+
+  const result = await callAI(
+    `You are a CEFR level adaptation expert. Given an original English article, create 3 CEFR-leveled versions:
+- B1: Simpler vocabulary, shorter sentences, 200-280 words
+- B2: Intermediate level, clear but varied vocabulary, 250-350 words
+- C1: Academic/advanced vocabulary, complex sentences, 300-400 words
+
+Each version must preserve the core topic but adapt complexity. Mark 8-12 key vocabulary words with <strong> tags. Use <p> tags for paragraphs.
+
+Return JSON:
+{
+  "passageB1": "<p>...</p>",
+  "vocabularyB1": { "word": { "definition":"...","uzbek":"...","example":"...","exampleUzbek":"..." }, ... },
+  "passageB2": "<p>...</p>",
+  "vocabularyB2": { ... },
+  "passageC1": "<p>...</p>",
+  "vocabularyC1": { ... }
+}
+Return ONLY JSON.`,
+    `Original passage:\n\n${passage}`,
+    'ai',
+    getStepModel('levels')
+  );
+
+  btn.disabled = false; btn.textContent = '📊 AI Generate B1/B2/C1 Levels';
+  if (!result) return;
+  try {
+    const data = parseJSON(result);
+    if (data.passageB1) document.getElementById('passageB1').value = data.passageB1;
+    if (data.passageB2) document.getElementById('passageB2').value = data.passageB2;
+    if (data.passageC1) document.getElementById('passageC1').value = data.passageC1;
+    if (data.vocabularyB1) populateVocab('B1', data.vocabularyB1);
+    if (data.vocabularyB2) populateVocab('B2', data.vocabularyB2);
+    if (data.vocabularyC1) populateVocab('C1', data.vocabularyC1);
+    showToast('✅ CEFR levels generated!', 'success');
+  } catch (err) { showToast('Parse error: ' + err.message, 'error'); }
+}
+
+// ============================================================================
+// POPULATE FROM DATA
+// ============================================================================
+function populateFromData(data) {
+  if (data.title) document.getElementById('articleTitle').value = data.title;
+  if (data.passage) document.getElementById('passage').value = data.passage;
+  if (data.translation) document.getElementById('translation').value = data.translation;
+  if (data.vocabulary) populateVocab('base', data.vocabulary);
+  if (data.passageB1) document.getElementById('passageB1').value = data.passageB1;
+  if (data.translationB1) document.getElementById('translationB1').value = data.translationB1;
+  if (data.vocabularyB1) populateVocab('B1', data.vocabularyB1);
+  if (data.passageB2) document.getElementById('passageB2').value = data.passageB2;
+  if (data.translationB2) document.getElementById('translationB2').value = data.translationB2;
+  if (data.vocabularyB2) populateVocab('B2', data.vocabularyB2);
+  if (data.passageC1) document.getElementById('passageC1').value = data.passageC1;
+  if (data.translationC1) document.getElementById('translationC1').value = data.translationC1;
+  if (data.vocabularyC1) populateVocab('C1', data.vocabularyC1);
+}
+
+// ============================================================================
+// GENERATE CODE OUTPUT
+// ============================================================================
+function generateCode() {
+  const title = document.getElementById('articleTitle').value.trim();
+  if (!title) { showToast('Enter an article title', 'error'); return; }
+
+  const articleData = {
+    title: title,
+    passage: document.getElementById('passage').value.trim(),
+    translation: document.getElementById('translation').value.trim(),
+    vocabulary: collectVocab('base'),
+    passageB1: document.getElementById('passageB1').value.trim(),
+    translationB1: document.getElementById('translationB1').value.trim(),
+    vocabularyB1: collectVocab('B1'),
+    passageB2: document.getElementById('passageB2').value.trim(),
+    translationB2: document.getElementById('translationB2').value.trim(),
+    vocabularyB2: collectVocab('B2'),
+    passageC1: document.getElementById('passageC1').value.trim(),
+    translationC1: document.getElementById('translationC1').value.trim(),
+    vocabularyC1: collectVocab('C1'),
+  };
+
+  const num = document.getElementById('articleNumber').value.trim();
+  const padded = num.padStart(2, '0');
+  const filename = `article-${padded}.js`;
+
+  generatedCode = `window.ARTICLE_DATA = ${JSON.stringify(articleData, null, 2)};`;
+
+  document.getElementById('codeFilename').textContent = filename;
+  document.getElementById('codeContent').textContent = generatedCode;
+  document.getElementById('codeOutput').classList.add('visible');
+  showToast('✅ Code generated!', 'success');
+}
+
+// ============================================================================
+// COPY & DOWNLOAD
+// ============================================================================
+function copyCode() {
+  if (!generatedCode) return;
+  navigator.clipboard.writeText(generatedCode).then(
+    () => showToast('📋 Copied!', 'success'),
+    () => showToast('Copy failed', 'error')
+  );
+}
+
+function downloadCode() {
+  if (!generatedCode) return;
+  const num = document.getElementById('articleNumber').value.trim().padStart(2, '0');
+  const blob = new Blob([generatedCode], { type: 'application/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `article-${num}.js`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ============================================================================
+// DRAFT SAVE/LOAD
+// ============================================================================
+function saveDraft() {
+  const data = {
+    articleNumber: document.getElementById('articleNumber').value,
+    articleTitle: document.getElementById('articleTitle').value,
+    baseLevel: document.getElementById('baseLevel').value,
+    passage: document.getElementById('passage').value,
+    translation: document.getElementById('translation').value,
+    vocabulary: collectVocab('base'),
+    passageB1: document.getElementById('passageB1').value,
+    translationB1: document.getElementById('translationB1').value,
+    vocabularyB1: collectVocab('B1'),
+    passageB2: document.getElementById('passageB2').value,
+    translationB2: document.getElementById('translationB2').value,
+    vocabularyB2: collectVocab('B2'),
+    passageC1: document.getElementById('passageC1').value,
+    translationC1: document.getElementById('translationC1').value,
+    vocabularyC1: collectVocab('C1'),
+  };
+  localStorage.setItem('articleBuilderDraft', JSON.stringify(data));
+  showToast('💾 Draft saved!', 'success');
+}
+
+function loadDraft() {
+  const raw = localStorage.getItem('articleBuilderDraft');
+  if (!raw) { showToast('No draft found', 'error'); return; }
+  try {
+    const data = JSON.parse(raw);
+    document.getElementById('articleNumber').value = data.articleNumber || '';
+    document.getElementById('articleTitle').value = data.articleTitle || '';
+    document.getElementById('baseLevel').value = data.baseLevel || 'B2';
+    document.getElementById('passage').value = data.passage || '';
+    document.getElementById('translation').value = data.translation || '';
+    if (data.vocabulary) populateVocab('base', data.vocabulary);
+    document.getElementById('passageB1').value = data.passageB1 || '';
+    document.getElementById('translationB1').value = data.translationB1 || '';
+    if (data.vocabularyB1) populateVocab('B1', data.vocabularyB1);
+    document.getElementById('passageB2').value = data.passageB2 || '';
+    document.getElementById('translationB2').value = data.translationB2 || '';
+    if (data.vocabularyB2) populateVocab('B2', data.vocabularyB2);
+    document.getElementById('passageC1').value = data.passageC1 || '';
+    document.getElementById('translationC1').value = data.translationC1 || '';
+    if (data.vocabularyC1) populateVocab('C1', data.vocabularyC1);
+    showToast('📂 Draft loaded!', 'success');
+  } catch { showToast('Failed to load draft', 'error'); }
+}
+
+function clearAll() {
+  if (!confirm('Clear all fields?')) return;
+  ['passage', 'translation', 'passageB1', 'translationB1', 'passageB2', 'translationB2', 'passageC1', 'translationC1'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('articleTitle').value = '';
+  ['base', 'B1', 'B2', 'C1'].forEach(level => {
+    const c = level === 'base' ? document.getElementById('vocabContainer') : document.getElementById(`vocabContainer${level}`);
+    c.innerHTML = '';
+    vocabCounters[level] = 0;
+  });
+  document.getElementById('codeOutput').classList.remove('visible');
+  showToast('All cleared', 'success');
+}
+
+// ============================================================================
+// PROGRESS & TOAST
+// ============================================================================
+function showProgress(id, pct) {
+  const bar = document.getElementById(id + 'Progress');
+  const fill = document.getElementById(id + 'Fill');
+  if (bar) bar.classList.add('active');
+  if (fill) fill.style.width = pct + '%';
+  if (pct >= 100) setTimeout(() => { if (bar) bar.classList.remove('active'); }, 600);
+}
+
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast ' + type + ' show';
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// Auto-save warning
+window.addEventListener('beforeunload', function(e) {
+  const hasContent = document.getElementById('passage').value.trim() || document.getElementById('articleTitle').value.trim();
+  if (hasContent) { e.preventDefault(); e.returnValue = ''; }
+});
+</script>
+</body>
+</html>

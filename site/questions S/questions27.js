@@ -252,9 +252,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 7,
       "part": "Part 2",
-      "badge": "60s",
-      "prepTime": 15,
-      "speakTime": 60,
+      "badge": "2:00",
+      "prepTime": 60,
+      "speakTime": 120,
       "prompt": "Education and Teachers",
       "audioFile": "questions S/audio/cefr-speaking-mock-27-q7.mp3",
       "bulletPoints": [
@@ -295,9 +295,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 8,
       "part": "Part 4",
-      "badge": "90s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 90,
+      "speakTime": 120,
       "prompt": "Should laptops be allowed in classrooms?",
       "audioFile": "questions S/audio/cefr-speaking-mock-27-q8.mp3",
       "hasImages": false,

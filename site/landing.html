@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="site-config/site-config.js"></script>
+  <script src="site-config/center-guard.js"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -2266,7 +2267,7 @@
       border-radius: 16px;
       padding: 28px;
       width: 90%;
-      max-width: 380px;
+      max-width: 440px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       transform: scale(0.9);
       transition: transform 0.3s ease;
@@ -2451,6 +2452,44 @@
     .testmaker-type-btn.writing-btn:hover {
       border-color: rgba(16, 185, 129, 0.6);
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(5, 150, 105, 0.06));
+    }
+
+    .testmaker-section-divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 18px 0 12px; font-size: 11px; font-weight: 700;
+      color: var(--text-light, #64748b); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .testmaker-section-divider::before, .testmaker-section-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--ring, #e2e8f0);
+    }
+
+    .testmaker-type-picker.three-col {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .testmaker-type-btn.tests-btn {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(217, 119, 6, 0.02));
+    }
+    .testmaker-type-btn.tests-btn:hover {
+      border-color: rgba(245, 158, 11, 0.6);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(217, 119, 6, 0.06));
+    }
+    .testmaker-type-btn.flashcards-btn {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(79, 70, 229, 0.02));
+    }
+    .testmaker-type-btn.flashcards-btn:hover {
+      border-color: rgba(99, 102, 241, 0.6);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(79, 70, 229, 0.06));
+    }
+    .testmaker-type-btn.articles-btn {
+      border-color: rgba(236, 72, 153, 0.3);
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.06), rgba(219, 39, 119, 0.02));
+    }
+    .testmaker-type-btn.articles-btn:hover {
+      border-color: rgba(236, 72, 153, 0.6);
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.14), rgba(219, 39, 119, 0.06));
     }
 
     /* ===== ENHANCED SUBMENU STYLES ===== */
@@ -5139,14 +5178,14 @@
 
     .writing-options {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .writing-option-btn {
       flex: 1;
-      min-width: 140px;
+      min-width: 0;
       padding: 20px 16px;
       border: 2px solid var(--ring);
       border-radius: 14px;
@@ -5192,6 +5231,18 @@
 
     .writing-option-btn.cefr:hover .option-title {
       color: var(--brand);
+    }
+
+    @media (max-width: 480px) {
+      .writing-modal { padding: 20px; }
+      .writing-modal h3 { font-size: 20px; margin-bottom: 4px; }
+      .writing-modal p { margin-bottom: 16px; }
+      .writing-options { gap: 8px; }
+      .writing-option-btn { padding: 14px 8px; border-radius: 12px; }
+      .writing-option-btn .option-icon { font-size: 28px; margin-bottom: 6px; }
+      .writing-option-btn .option-icon img { width: 28px !important; height: 28px !important; }
+      .writing-option-btn .option-title { font-size: 15px; }
+      .writing-option-btn .option-desc { font-size: 11px; }
     }
 
     /* Speaking Options Modal */
@@ -6326,6 +6377,12 @@
           <a href="javascript:void(0)" onclick="openRegisteredUsersPanel(); toggleSidebar();" class="skill-btn" id="registeredUsersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>👥</span> Registered Users
           </a>
+          <a href="javascript:void(0)" onclick="openWritingPlusPanel(); toggleSidebar();" class="skill-btn" id="writingPlusMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+            <span>✏️</span> Writing Plus
+          </a>
+          <a href="javascript:void(0)" onclick="openCentersPanel(); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+            <span>🏢</span> Centers Management
+          </a>
         </div>
       </li>
 
@@ -6764,6 +6821,14 @@
           <span class="option-desc">Practice Platform</span>
         </button>
       </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:2px solid var(--ring,#e2e8f0)">
+        <button class="writing-option-btn" id="writingPlusBtn" onclick="selectWritingType('plus')" style="width:100%;background:linear-gradient(135deg,#f0fdfa,#e0f2fe);border:2px solid #0d9488;position:relative;overflow:hidden">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">PLUS</span>
+          <span class="option-icon">✨</span>
+          <span class="option-title" style="color:#0d9488">Writing Plus</span>
+          <span class="option-desc">Use your own task prompts</span>
+        </button>
+      </div>
       <button class="modal-close-btn" onclick="closeWritingModal()">Cancel</button>
     </div>
   </div>
@@ -7115,24 +7180,43 @@
         <p>Select which type of mock test to build</p>
         <div class="testmaker-type-picker">
           <a href="javascript:void(0)" class="testmaker-type-btn reading-btn"
-            onclick="selectBuilder('Tools/Reading%20Mock%20Builder.html')">
+            onclick="selectBuilder('Tools/cefr-reading-maker.html')">
             <span class="type-icon">📖</span>
             <span class="type-label">Reading</span>
           </a>
           <a href="javascript:void(0)" class="testmaker-type-btn listening-btn"
-            onclick="selectBuilder('Tools/Listening%20Mock%20Builder.html')">
+            onclick="selectBuilder('Tools/cefr-listening-maker.html')">
             <span class="type-icon">🎧</span>
             <span class="type-label">Listening</span>
           </a>
           <a href="javascript:void(0)" class="testmaker-type-btn speaking-btn"
-            onclick="selectBuilder('Tools/speaking-test-builder.html')">
+            onclick="selectBuilder('Tools/cefr-speaking-maker.html')">
             <span class="type-icon">🎤</span>
             <span class="type-label">Speaking</span>
           </a>
           <a href="javascript:void(0)" class="testmaker-type-btn writing-btn"
-            onclick="selectBuilder('Tools/writing-test-builder.html')">
+            onclick="selectBuilder('Tools/cefr-writing-maker.html')">
             <span class="type-icon">✍️</span>
             <span class="type-label">Writing</span>
+          </a>
+        </div>
+
+        <div class="testmaker-section-divider">Learning Tools</div>
+        <div class="testmaker-type-picker three-col">
+          <a href="javascript:void(0)" class="testmaker-type-btn tests-btn"
+            onclick="selectBuilder('Tools/test-builder.html')">
+            <span class="type-icon">📝</span>
+            <span class="type-label">Tests</span>
+          </a>
+          <a href="javascript:void(0)" class="testmaker-type-btn flashcards-btn"
+            onclick="selectBuilder('Tools/flashcard-builder.html')">
+            <span class="type-icon">🃏</span>
+            <span class="type-label">Flashcards</span>
+          </a>
+          <a href="javascript:void(0)" class="testmaker-type-btn articles-btn"
+            onclick="selectBuilder('Tools/article-builder.html')">
+            <span class="type-icon">📰</span>
+            <span class="type-label">Articles</span>
           </a>
         </div>
         <button class="close-btn" onclick="closeTestMakerModal()">Cancel</button>
@@ -8035,7 +8119,7 @@
             try {
               const response = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (response.ok) {
                 const data = await response.json();
@@ -8056,7 +8140,7 @@
             const fullPasscode = new Date().getFullYear() + otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode })
+              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
@@ -8252,7 +8336,7 @@
             try {
               const response = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (response.ok) {
                 const data = await response.json();
@@ -8273,7 +8357,7 @@
             const fullPasscode = new Date().getFullYear() + otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode })
+              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
@@ -8702,7 +8786,7 @@
             try {
               const response = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (response.ok) {
                 const data = await response.json();
@@ -8729,7 +8813,7 @@
             const fullPasscode = new Date().getFullYear() + otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode })
+              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
@@ -9015,7 +9099,7 @@
             try {
               const response = await fetch('https://admin0709.alwaysdata.net/verify', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) })
+                body: JSON.stringify({ passcode: parseInt(aiPasscode, 10) , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
               });
               if (response.ok) {
                 const data = await response.json();
@@ -9042,7 +9126,7 @@
             const fullPasscode = new Date().getFullYear() + otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode })
+              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
@@ -9325,9 +9409,18 @@
           var ruItem = document.getElementById('registeredUsersMenuItem');
           var spItem = document.getElementById('systemPromptsMenuItem');
           var tmItem = document.getElementById('testMakerMenuItem2');
+          var wpItem = document.getElementById('writingPlusMenuItem');
+          var cmItem = document.getElementById('centersMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
+          if (wpItem) { wpItem.style.display = ''; wpItem.classList.add('admin-revealed'); }
+          if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
+          sessionStorage.setItem('ms_admin_unlocked', '1');
+        }
+        // Auto-restore if previously unlocked this session
+        if (sessionStorage.getItem('ms_admin_unlocked') === '1') {
+          _revealAdminItems();
         }
         // Keyboard shortcut: Ctrl+Shift+Alt+K
         document.addEventListener('keydown', function _adminShortcut(e) {
@@ -10749,6 +10842,55 @@
       }
     ];
 
+    // ── Append dynamic mocks from Supabase ──
+    (async function loadDynamicSpeakingMocks() {
+      try {
+        const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const res = await fetch(
+          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
+          { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+        );
+        if (!res.ok) return;
+        const mocks = await res.json();
+        if (!mocks || !mocks.length) return;
+        mocks.forEach(m => {
+          const num = m.mock_number;
+          const padded = String(num).padStart(2, '0');
+          // Upgrade existing entry if it points to a static .js file
+          const idx = cefrSpeakingTests.findIndex(t => t.file === `questions S/questions${num}.js`);
+          if (idx !== -1) {
+            cefrSpeakingTests[idx].file = 'supabase:' + m.id;
+            cefrSpeakingTests[idx].name = m.title;
+            cefrSpeakingTests[idx].icon = '🟢';
+            cefrSpeakingTests[idx].dynamic = true;
+          } else if (!cefrSpeakingTests.some(t => t.name === m.title)) {
+            cefrSpeakingTests.push({
+              file: 'supabase:' + m.id,
+              name: m.title,
+              icon: '🟢',
+              dynamic: true
+            });
+          }
+          // Also upgrade category modal array
+          const mockName = `CEFR Speaking Mock ${padded}`;
+          const cIdx = cefrSpeakingMocks.findIndex(t => t.name === mockName);
+          if (cIdx !== -1) {
+            cefrSpeakingMocks[cIdx].file = `Speaking Mocks.html?sbmock=${m.id}&auto=1`;
+            cefrSpeakingMocks[cIdx].icon = '🟢';
+          } else {
+            cefrSpeakingMocks.push({
+              file: `Speaking Mocks.html?sbmock=${m.id}&auto=1`,
+              name: m.title,
+              icon: '🟢',
+              actionText: 'Start'
+            });
+          }
+        });
+        console.log(`🌐 Added ${mocks.length} dynamic speaking mocks to landing`);
+      } catch (e) { console.warn('Dynamic mocks load failed:', e); }
+    })();
+
     const ieltsSpeakingTests = [];
     for (let i = 1; i <= 66; i++) {
       ieltsSpeakingTests.push({
@@ -10793,6 +10935,10 @@
       { file: 'CEFR Listening.html?test=cefr-listening-test-26', name: 'CEFR Listening Test 26', icon: '🎧', actionText: 'Take Test' },
       { file: 'CEFR Listening.html?test=cefr-listening-test-27', name: 'CEFR Listening Test 27', icon: '🎧', actionText: 'Take Test' },
       { file: 'CEFR Listening.html?test=cefr-listening-test-28', name: 'CEFR Listening Test 28', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-29', name: 'CEFR Listening Test 29', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-30', name: 'CEFR Listening Test 30', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-31', name: 'CEFR Listening Test 31', icon: '🎧', actionText: 'Take Test' },
+      { file: 'CEFR Listening.html?test=cefr-listening-test-32', name: 'CEFR Listening Test 32', icon: '🎧', actionText: 'Take Test' },
     ];
 
     const ieltsListeningTests = [
@@ -11578,8 +11724,13 @@
             const baseName = item.file.replace('.js', '');
             pageUrl = `flashcards.html?topic=${baseName}`;
           } else if (category === 'cefr-speaking') {
-            const mockNum = (item.name.match(/\d+/) || ['01'])[0].padStart(2, '0');
-            pageUrl = `Speaking Mocks.html?test=cefr-speaking-mock-${mockNum}&auto=1`;
+            if (item.dynamic && item.file.startsWith('supabase:')) {
+              const sbId = item.file.replace('supabase:', '');
+              pageUrl = `Speaking Mocks.html?sbmock=${sbId}&auto=1`;
+            } else {
+              const mockNum = (item.name.match(/\d+/) || ['01'])[0].padStart(2, '0');
+              pageUrl = `Speaking Mocks.html?test=cefr-speaking-mock-${mockNum}&auto=1`;
+            }
           } else if (category === 'ielts-speaking') {
             const mockNum = (item.name.match(/\d+/) || ['01'])[0].padStart(2, '0');
             pageUrl = `IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-${mockNum}&auto=1`;
@@ -12210,7 +12361,9 @@
 
     function selectWritingType(type) {
       closeWritingModal();
-      if (type === 'ielts') {
+      if (type === 'plus') {
+        loadMock('Writing Plus.html', 'writing');
+      } else if (type === 'ielts') {
         openWritingCategoryModal('ielts-writing');
       } else {
         openWritingCategoryModal('cefr-writing');
@@ -12520,7 +12673,7 @@
             validate: true,
             timestamp: Date.now(),
             source: 'speaking-pdf-download'
-          })
+          , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) {
@@ -13287,7 +13440,7 @@
         const response = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: enteredCode, type: 'bsb', validate: true, timestamp: Date.now(), source: 'lr-pdf-download' })
+          body: JSON.stringify({ passcode: enteredCode, type: 'bsb', validate: true, timestamp: Date.now(), source: 'lr-pdf-download' , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
         if (!response.ok) throw new Error('Server error');
         const data = await response.json();
@@ -14523,7 +14676,7 @@
             validate: true,
             timestamp: Date.now(),
             source: 'writing-pdf-download'
-          })
+          , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) throw new Error('Server error');
@@ -15516,11 +15669,14 @@
           vipBadge.textContent = 'Active';
           vipBadge.className = 'vip-sidebar-badge active';
         }
-        // Hide input, show "active" message
+        // Hide input, show "active" message + logout
         if (vipBody) {
           const isPremium = sessionStorage.getItem('vipPremiumAi') === 'true';
-          vipBody.innerHTML = '<div style="text-align:center;padding:4px 0;font-size:12px;font-weight:700;color:#047857;">' +
-            (isPremium ? '🤖 Premium AI Active' : '🔓 All Mocks Unlocked') +
+          vipBody.innerHTML = '<div style="text-align:center;padding:4px 0;">' +
+            '<div style="font-size:12px;font-weight:700;color:#047857;margin-bottom:6px;">' +
+              (isPremium ? '🤖 Premium AI Active' : '🔓 All Mocks Unlocked') +
+            '</div>' +
+            '<button onclick="logoutVip()" style="background:none;border:1px solid #d1d5db;color:#6b7280;padding:3px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:500;transition:all 0.2s;" onmouseover="this.style.borderColor=\'#ef4444\';this.style.color=\'#ef4444\'" onmouseout="this.style.borderColor=\'#d1d5db\';this.style.color=\'#6b7280\'">Sign Out</button>' +
             '</div>';
         }
       }
@@ -15530,6 +15686,49 @@
       if (readingBuilderMenuItem) {
         readingBuilderMenuItem.classList.add('unlocked');
       }
+    }
+
+    function logoutVip() {
+      // Clear VIP session data
+      sessionStorage.removeItem(SUPER_ACCESS_KEY);
+      sessionStorage.removeItem('vipPremiumAi');
+
+      // Reset sidebar VIP card to input state
+      const vipCard = document.getElementById('vipSidebarCard');
+      const vipBadge = document.getElementById('vipSidebarBadge');
+      const vipBody = document.getElementById('vipSidebarBody');
+      const vipIcon = document.querySelector('.vip-sidebar-icon');
+
+      if (vipCard) vipCard.classList.remove('unlocked');
+      if (vipIcon) vipIcon.textContent = '⭐';
+      if (vipBadge) {
+        vipBadge.textContent = '';
+        vipBadge.className = 'vip-sidebar-badge';
+      }
+      if (vipBody) {
+        vipBody.innerHTML =
+          '<div class="vip-sidebar-tabs" id="vipSidebarTabs">' +
+            '<button class="vip-sidebar-tab active" onclick="switchVipTab(\'code\')">🔑 Code</button>' +
+            '<button class="vip-sidebar-tab" onclick="switchVipTab(\'email\')">📧 Email</button>' +
+          '</div>' +
+          '<div class="vip-sidebar-pane active" id="vipPaneCode">' +
+            '<div class="vip-sidebar-input-row">' +
+              '<input type="text" id="vipSidebarInput" placeholder="Enter VIP code" autocomplete="off" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\\D/g,\'\')">' +
+              '<button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="vip-sidebar-pane" id="vipPaneEmail">' +
+            '<div class="vip-sidebar-input-row">' +
+              '<input type="email" id="vipEmailInput" placeholder="your@email.com" autocomplete="email">' +
+              '<button id="vipEmailBtn" onclick="validateVipFromEmail()">→</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="vip-sidebar-status" id="vipSidebarStatus"></div>';
+      }
+
+      // Reset Reading Builder menu item
+      const readingBuilderMenuItem = document.getElementById('readingBuilderMenuItem');
+      if (readingBuilderMenuItem) readingBuilderMenuItem.classList.remove('unlocked');
     }
 
     // Sidebar VIP input validation
@@ -15562,10 +15761,12 @@
 
       // FIRST: Try admin0709 backend (premium AI codes)
       try {
+        const _siteIdVip = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        const _centerVip = _siteIdVip === 'mock_stream' ? 'mockstream' : _siteIdVip;
         const response = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: passcodeInt })
+          body: JSON.stringify({ passcode: passcodeInt, center: _centerVip })
         });
         if (response.ok) {
           const data = await response.json();
@@ -15581,7 +15782,7 @@
           const response = await fetch('https://davirbek.alwaysdata.net/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({ code: code , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
           });
           if (response.ok) {
             const data = await response.json();
@@ -15968,6 +16169,295 @@
       sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
     }
 
+    // ===== WRITING PLUS PANEL =====
+    var _wpAdminUnlocked = false;
+
+    function _showWpPasscode() {
+      var existing = document.getElementById('wpPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('wpPasscodeInput').value = ''; document.getElementById('wpPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'wpPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeWpPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view Writing Plus submissions</p>' +
+        '<input type="password" id="wpPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyWpPasscode()">' +
+        '<div id="wpPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="wpPasscodeBtn" onclick="_verifyWpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#0d9488,#115e59);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeWpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('wpPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeWpPasscode() {
+      var el = document.getElementById('wpPasscodeOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _verifyWpPasscode() {
+      var input = document.getElementById('wpPasscodeInput');
+      var error = document.getElementById('wpPasscodeError');
+      var btn = document.getElementById('wpPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'writing-plus', center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'') })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _wpAdminUnlocked = true;
+          _closeWpPasscode();
+          openWritingPlusPanel();
+        } else { throw new Error('Invalid'); }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = ''; input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
+    function _ensureWpOverlay() {
+      if (document.getElementById('wpOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'wpOverlay';
+      div.className = 'ru-overlay';
+      div.onclick = function(e) { if (e.target === div) closeWritingPlusPanel(); };
+      div.innerHTML = '<div class="ru-panel" style="max-width:800px;">' +
+        '<div class="ru-header" style="background:linear-gradient(135deg,#0d9488,#115e59);"><h3 style="color:#fff;">✏️ Writing Plus Submissions</h3><button class="ru-close" onclick="closeWritingPlusPanel()">&times;</button></div>' +
+        '<div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+          '<input class="ru-search" id="wpSearch" type="text" placeholder="Search by name..." style="margin:0;flex:1;" oninput="_filterWpList()">' +
+          '<select id="wpStatusFilter" onchange="_filterWpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<button onclick="_loadWpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#0d9488,#115e59);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
+        '</div>' +
+        '<div id="wpStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
+        '<div class="ru-list" id="wpList" style="padding:8px 16px;"><div class="ru-empty">Loading...</div></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    var _wpData = [];
+
+    async function openWritingPlusPanel() {
+      if (!_wpAdminUnlocked) { _showWpPasscode(); return; }
+      _ensureWpOverlay();
+      document.getElementById('wpOverlay').classList.add('active');
+      document.getElementById('wpList').innerHTML = '<div class="ru-empty">Loading...</div>';
+      document.getElementById('wpSearch').value = '';
+      document.getElementById('wpStatusFilter').value = '';
+      document.getElementById('wpStats').textContent = '';
+      await _loadWpData();
+    }
+
+    function closeWritingPlusPanel() {
+      var el = document.getElementById('wpOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _loadWpData() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var listEl = document.getElementById('wpList');
+      var statsEl = document.getElementById('wpStats');
+      listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        _wpData = await r.json();
+        statsEl.textContent = _wpData.length + ' submission' + (_wpData.length !== 1 ? 's' : '') + ' found';
+        _renderWpList(_wpData);
+      } catch (e) {
+        listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
+        _wpData = [];
+      }
+    }
+
+    function _filterWpList() {
+      var q = (document.getElementById('wpSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('wpStatusFilter').value;
+      var filtered = _wpData.filter(function(row) {
+        if (status && row.status !== status) return false;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      });
+      _renderWpList(filtered);
+    }
+
+    function _renderWpList(rows) {
+      var listEl = document.getElementById('wpList');
+      if (!rows.length) { listEl.innerHTML = '<div class="ru-empty">No submissions found</div>'; return; }
+      var statusColors = { pending: '#f59e0b', approved: '#10b981', draft: '#6366f1', deleted: '#ef4444' };
+      listEl.innerHTML = rows.map(function(row) {
+        var sc = statusColors[row.status] || '#64748b';
+        var tasks = row.tasks || [];
+        var scores = row.scores || [];
+        var fmt = (row.exam_format || '').toUpperCase();
+        var date = new Date(row.created_at);
+        var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
+        var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        // Try to get AI scores from scores array
+        var aiResult = (scores[0] && scores[0].aiResult) || null;
+        var scoreDisplay = '-';
+        if (aiResult && aiResult.certificate_score !== undefined) {
+          scoreDisplay = aiResult.certificate_score + '/75 · ' + (aiResult.cefr_level || '');
+        } else if (scores.length) {
+          var avg = scores.reduce(function(s,x){ return s + (x.score||0); }, 0) / scores.length;
+          scoreDisplay = avg.toFixed(1);
+        }
+        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#0d9488\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+              '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
+              '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              tasks.map(function(t) {
+                return '<span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + ((t.label || t.id) + '').replace(/</g,'&lt;') + '</span>';
+              }).join('') +
+              '<span style="background:#f0fdfa;color:#0d9488;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">' + scoreDisplay + '</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<button onclick="_viewWpDetail(\'' + row.id + '\')" style="background:#0d9488;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
+              (row.status !== 'approved' ? '<button onclick="_updateWpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'draft' ? '<button onclick="_updateWpStatus(\'' + row.id + '\',\'draft\')" style="background:#6366f1;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">📌</button>' : '') +
+              (row.status !== 'deleted' ? '<button onclick="_updateWpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function _updateWpStatus(id, status) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        if (r.ok) await _loadWpData();
+      } catch(e) { console.warn('WP status update failed:', e); }
+    }
+
+    async function _viewWpDetail(id) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        var rows = await r.json();
+        if (!rows.length) return;
+        var row = rows[0];
+        var tasks = row.tasks || [];
+        var scores = row.scores || [];
+        var aiResult = (scores[0] && scores[0].aiResult) || null;
+        var esc = function(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+
+        var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
+        html += '<h3 style="color:#0d9488;margin:0;">' + esc(row.student_name || 'Unknown') + '</h3>';
+        html += '<span style="font-size:12px;color:#64748b;">' + (row.exam_format || '').toUpperCase() + ' · ' + (row.exam_mode || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '</div>';
+
+        // AI Scores grid
+        if (aiResult && aiResult.raw_score !== undefined) {
+          html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">';
+          html += '<div style="background:linear-gradient(135deg,#116a60,#0d9488);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Raw Score</div><div style="font-size:22px;font-weight:800;">' + (aiResult.raw_score||0) + '/16</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#3b82f6,#2563eb);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Certificate</div><div style="font-size:22px;font-weight:800;">' + (aiResult.certificate_score||0) + '/75</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">CEFR</div><div style="font-size:22px;font-weight:800;">' + esc(aiResult.cefr_level||'N/A') + '</div></div>';
+          html += '</div>';
+        }
+
+        // Per-task details
+        var taskColors = [{ border:'#f59e0b', bg:'#fef3c7', dark:'#92400e' }, { border:'#3b82f6', bg:'#dbeafe', dark:'#1e40af' }, { border:'#8b5cf6', bg:'#ede9fe', dark:'#5b21b6' }];
+        tasks.forEach(function(t, i) {
+          var tc = taskColors[i] || taskColors[0];
+          var aiKey = i === 0 ? 't11' : i === 1 ? 't12' : 't2';
+          var taskScore = aiResult ? aiResult[aiKey + '_score'] : null;
+          var maxScore = i < 2 ? 5 : 6;
+          var relevance = aiResult ? aiResult[aiKey + '_relevance'] : null;
+          var feedback = aiResult ? aiResult[aiKey + '_feedback'] : null;
+          var corrected = aiResult ? aiResult[aiKey + '_corrected'] : null;
+          var sample = aiResult ? aiResult[aiKey + '_sample'] : null;
+
+          html += '<div style="border:2px solid ' + tc.border + ';border-radius:10px;overflow:hidden;margin-bottom:12px;">';
+          html += '<div style="background:' + tc.bg + ';padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">';
+          html += '<strong style="color:' + tc.dark + ';font-size:14px;">📝 ' + esc(t.label || t.id) + '</strong>';
+          html += '<div style="display:flex;align-items:center;gap:8px;">';
+          if (taskScore !== null && taskScore !== undefined) html += '<span style="font-weight:700;font-size:15px;color:' + tc.dark + ';">' + taskScore + '/' + maxScore + '</span>';
+          if (relevance) html += '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:' + (relevance === 'ON-TOPIC' ? '#dcfce7;color:#166534' : '#fee2e2;color:#991b1b') + ';font-weight:700;">' + esc(relevance) + '</span>';
+          html += '</div></div>';
+          html += '<div style="padding:12px 14px;background:#fff;">';
+
+          // Prompt
+          html += '<div style="margin-bottom:8px;"><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">PROMPT:</div><div style="background:#f8fafc;padding:8px 10px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;max-height:120px;overflow-y:auto;border:1px solid #e5e7eb;">' + esc(t.prompt || '-') + '</div></div>';
+
+          // Graph
+          if (t.graph_url) html += '<div style="margin-bottom:8px;"><img src="' + t.graph_url + '" style="max-width:100%;border-radius:8px;border:1px solid #e5e7eb;" alt="Graph"></div>';
+
+          // Answer
+          html += '<div style="margin-bottom:8px;"><div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">ANSWER:</div><div style="background:#fff;padding:10px;border:1.5px solid #e5e7eb;border-radius:6px;font-size:13px;line-height:1.7;white-space:pre-wrap;max-height:200px;overflow-y:auto;font-family:\'Times New Roman\',serif;">' + esc(t.answer || '-') + '</div></div>';
+
+          // Corrected text
+          if (corrected) {
+            html += '<div style="margin-bottom:8px;"><div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:4px;">CORRECTED TEXT:</div><div style="background:' + tc.bg + ';padding:10px;border-radius:6px;font-size:12px;line-height:1.8;white-space:pre-wrap;max-height:200px;overflow-y:auto;">' + esc(corrected) + '</div></div>';
+          }
+
+          // Feedback
+          if (feedback) {
+            html += '<div style="margin-bottom:8px;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:6px;padding:10px;"><div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:4px;">📌 EXAMINER NOTE:</div><div style="font-size:12px;line-height:1.6;color:#333;">' + esc(feedback) + '</div></div>';
+          }
+
+          // Sample answer
+          if (sample) {
+            html += '<details style="border:1.5px solid #10b981;border-radius:6px;overflow:hidden;"><summary style="background:#ecfdf5;padding:8px 12px;cursor:pointer;font-weight:700;color:#065f46;font-size:11px;">📖 Sample Answer</summary><div style="padding:10px 12px;background:#f0fdf4;font-size:12px;color:#064e3b;line-height:1.6;white-space:pre-wrap;">' + esc(sample) + '</div></details>';
+          }
+
+          html += '</div></div>';
+        });
+
+        // Overall feedback
+        if (aiResult && aiResult.overall_feedback) {
+          html += '<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #22c55e;border-radius:10px;padding:14px;margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:6px;">📊 OVERALL ASSESSMENT:</div><div style="font-size:13px;color:#15803d;line-height:1.6;">' + esc(aiResult.overall_feedback) + '</div></div>';
+        }
+
+        // Raw feedback fallback
+        if (!aiResult && scores[0] && scores[0].rawFeedback) {
+          html += '<div style="background:#f8fafc;border:1.5px solid #e5e7eb;border-radius:10px;padding:14px;white-space:pre-wrap;font-size:13px;line-height:1.7;">' + esc(scores[0].rawFeedback) + '</div>';
+        }
+
+        html += '<div style="text-align:right;margin-top:16px;"><button onclick="this.closest(\'.admin-modal-overlay\').remove()" style="background:#64748b;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Close</button></div>';
+
+        // Show overlay
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10200;display:flex;align-items:center;justify-content:center;padding:20px;';
+        overlay.className = 'admin-modal-overlay';
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:24px;max-width:750px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2);';
+        card.innerHTML = html;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      } catch(e) { console.warn('WP view failed:', e); }
+    }
+
     // ===== REGISTERED USERS PANEL =====
     var _ruData = [];
 
@@ -16009,7 +16499,7 @@
         var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'registered-users' })
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'registered-users' , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
         if (!resp.ok) throw new Error('Server error');
         var data = await resp.json();
@@ -16768,6 +17258,7 @@
       var btn = document.getElementById('helpCenterSendBtn');
       var text = (input.value || '').trim();
       if (!text) return;
+      if (localStorage.getItem('ms_hc_text_enabled') === 'false') { alert('Text messages are currently disabled by the admin.'); return; }
 
       // Auto-route to correct category based on message content
       var detectedCat = _detectHcCategory(text);
@@ -17223,7 +17714,7 @@
         const response = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: passcodeInt })
+          body: JSON.stringify({ passcode: passcodeInt , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (response.ok) {
@@ -17243,7 +17734,7 @@
           const response = await fetch('https://davirbek.alwaysdata.net/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({ code: code , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
           });
 
           if (response.ok) {
@@ -17389,7 +17880,7 @@
         var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'system-prompts' })
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'system-prompts' , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
         if (!resp.ok) throw new Error('Server error');
         var data = await resp.json();
@@ -17522,10 +18013,13 @@
     // ===== TEST MAKER MODAL LOGIC =====
     var _pendingBuilderUrl = '';
     var _builderNameMap = {
-      'Tools/Reading%20Mock%20Builder.html': 'Reading Builder',
-      'Tools/Listening%20Mock%20Builder.html': 'Listening Builder',
-      'Tools/speaking-test-builder.html': 'Speaking Builder',
-      'Tools/writing-test-builder.html': 'Writing Builder'
+      'Tools/cefr-reading-maker.html': 'Reading Test Maker',
+      'Tools/cefr-listening-maker.html': 'Listening Test Maker',
+      'Tools/cefr-speaking-maker.html': 'Speaking Test Maker',
+      'Tools/cefr-writing-maker.html': 'Writing Test Maker',
+      'Tools/test-builder.html': 'Grammar & Vocab Test Builder',
+      'Tools/flashcard-builder.html': 'Flashcard Builder',
+      'Tools/article-builder.html': 'Article Builder'
     };
 
     function openTestMakerModal() {
@@ -17594,7 +18088,7 @@
             validate: true,
             timestamp: Date.now(),
             source: 'test-maker'
-          })
+          , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
         });
 
         if (!response.ok) throw new Error('Server error');
@@ -17890,6 +18384,509 @@
     });
   })();
   </script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- CENTERS MANAGEMENT                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <script>
+  (function() {
+    var CM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var CM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    var CM_CENTERS = [
+      { id: 'mock_stream', name: 'Mock Stream',        logo: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
+      { id: 'bek',         name: 'Bekzods Multilevel',  logo: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
+      { id: 'global',      name: 'Global Education LC', logo: 'https://i.ibb.co/Xrzrh7x6/image.png' },
+      { id: 'niners',      name: 'Niners Academy',      logo: 'https://i.ibb.co/39jVLp1w/image.png' },
+      { id: 'muzaffars',   name: 'Muzaffars English',   logo: 'https://i.ibb.co/gMQ80dNn/image.png' }
+    ];
+
+    var CM_MOCKS = [
+      { key: 'cefr_speaking',  label: 'CEFR Speaking' },
+      { key: 'ielts_speaking', label: 'IELTS Speaking' },
+      { key: 'cefr_writing',   label: 'CEFR Writing' },
+      { key: 'ielts_writing',  label: 'IELTS Writing' },
+      { key: 'cefr_listening', label: 'CEFR Listening' },
+      { key: 'ielts_listening',label: 'IELTS Listening' },
+      { key: 'cefr_reading',   label: 'CEFR Reading' },
+      { key: 'ielts_reading',  label: 'IELTS Reading' },
+      { key: 'cefr_full_mock', label: 'CEFR Full Mock' },
+      { key: 'ielts_full_mock',label: 'IELTS Full Mock' }
+    ];
+
+    // Default config for a new center
+    function _cmDefaultConfig() {
+      var mocks = {};
+      CM_MOCKS.forEach(function(m) { mocks[m.key] = 'premium'; });
+      return {
+        active: true, locked: false, mocks: mocks,
+        // Branding
+        brandColor: '', welcomeMessage: '', hidePoweredBy: false,
+        // AI & Scoring
+        scoreBoost: 1, aiProvider: 'default', maxAiCallsDay: 0,
+        // Full Mock AI sub-controls
+        fullMockAi: {
+          cefr_speaking: 'premium', cefr_writing: 'premium',
+          ielts_speaking: 'premium', ielts_writing: 'premium'
+        },
+        // Features
+        helpCenter: true, certificates: true, telegramNotifs: true,
+        flashcards: true, articles: true, leaderboard: true, writingPlus: true,
+        // Scheduling
+        operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
+        examScheduleMode: false, examScheduleDate: '',
+        maintenanceMode: false,
+        // Analytics
+        resultsVisible: true, exportPermission: true, dataIsolation: false,
+        // Limits
+        maxAttemptsPerStudent: 0, dailyMockLimit: 0
+      };
+    }
+
+    // Merge saved config with defaults (so new fields get defaults)
+    function _cmMergeDefaults(saved) {
+      var def = _cmDefaultConfig();
+      for (var k in def) {
+        if (saved[k] === undefined) saved[k] = def[k];
+      }
+      if (!saved.mocks) saved.mocks = def.mocks;
+      else {
+        for (var mk in def.mocks) {
+          if (saved.mocks[mk] === undefined) saved.mocks[mk] = def.mocks[mk];
+        }
+      }
+      if (!saved.fullMockAi) saved.fullMockAi = def.fullMockAi;
+      else {
+        for (var fk in def.fullMockAi) {
+          if (saved.fullMockAi[fk] === undefined) saved.fullMockAi[fk] = def.fullMockAi[fk];
+        }
+      }
+      return saved;
+    }
+
+    var _cmConfigs = {};
+    var _cmExpandedSections = {};
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function _cmSectionHeader(centerId, sectionKey, icon, title) {
+      var expanded = !!(_cmExpandedSections[centerId + '_' + sectionKey]);
+      return '<div onclick="_cmToggleSection(\'' + centerId + '\',\'' + sectionKey + '\')" style="display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;user-select:none;border-top:1px solid var(--ring,#e5e7eb);background:var(--surface-alt,#f9fafb);">' +
+        '<span style="font-size:13px;">' + icon + '</span>' +
+        '<span style="flex:1;font-size:13px;font-weight:600;">' + title + '</span>' +
+        '<span style="font-size:11px;color:#888;transition:transform .2s;' + (expanded ? 'transform:rotate(180deg);' : '') + '">▼</span>' +
+      '</div>';
+    }
+
+    function _cmToggleInput(centerId, prop, label, checked) {
+      return '<label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;user-select:none;">' +
+        '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.checked)" style="accent-color:#7c3aed;width:15px;height:15px;">' +
+        '<span style="font-size:12px;">' + label + '</span>' +
+      '</label>';
+    }
+
+    function _cmNumberInput(centerId, prop, label, value, placeholder) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<input type="number" min="0" value="' + (value || 0) + '" placeholder="' + (placeholder || '0 = unlimited') + '" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',parseInt(this.value)||0)" style="width:90px;padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
+        '<span style="font-size:10px;color:#888;">' + (placeholder || '0 = unlimited') + '</span>' +
+      '</div>';
+    }
+
+    function _cmTextInput(centerId, prop, label, value, placeholder) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<input type="text" value="' + _cmEsc(value || '') + '" placeholder="' + (placeholder || '') + '" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="flex:1;padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
+      '</div>';
+    }
+
+    function _cmTimeInput(centerId, prop, label, value) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<input type="time" value="' + (value || '') + '" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
+      '</div>';
+    }
+
+    function _cmSelectInput(centerId, prop, label, value, options) {
+      var s = '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<select onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;">';
+      options.forEach(function(o) {
+        s += '<option value="' + o.val + '"' + (value === o.val ? ' selected' : '') + '>' + o.label + '</option>';
+      });
+      s += '</select></div>';
+      return s;
+    }
+
+    function _cmEsc(str) { return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    // ── Overlay ─────────────────────────────────────────────────────────────
+    function _cmEnsureOverlay() {
+      if (document.getElementById('cmOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'cmOverlay';
+      div.className = 'ru-overlay';
+      div.onclick = function(e) { if (e.target === div) closeCentersPanel(); };
+
+      var html = '<div class="ru-panel" style="max-width:900px;max-height:90vh;">' +
+        '<div class="ru-header" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">' +
+          '<h3 style="color:#fff;">🏢 Centers Management</h3>' +
+          '<button class="ru-close" style="color:#fff;" onclick="closeCentersPanel()">&times;</button>' +
+        '</div>' +
+        '<div id="cmBody" style="flex:1;overflow-y:auto;padding:16px;">' +
+          '<div style="text-align:center;padding:40px;color:#888;">Loading...</div>' +
+        '</div>' +
+      '</div>';
+
+      div.innerHTML = html;
+      document.body.appendChild(div);
+    }
+
+    // ── Render ──────────────────────────────────────────────────────────────
+    function _cmRenderBody() {
+      var body = document.getElementById('cmBody');
+      if (!body) return;
+      var h = '';
+
+      CM_CENTERS.forEach(function(center) {
+        var cfg = _cmConfigs[center.id] || _cmDefaultConfig();
+        _cmConfigs[center.id] = cfg;
+
+        var isActive = cfg.active !== false;
+        var isLocked = cfg.locked !== false;
+        var cid = center.id;
+
+        h += '<div class="cm-card" id="cmCard_' + cid + '" style="border:1px solid var(--ring,#e5e7eb);border-radius:12px;margin-bottom:16px;overflow:hidden;' + (!isActive ? 'opacity:0.55;' : '') + '">';
+
+        // ─── Header row ───
+        h += '<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--surface-alt,#f9fafb);border-bottom:1px solid var(--ring,#e5e7eb);">';
+        h += '<img src="' + center.logo + '" style="width:36px;height:36px;border-radius:8px;object-fit:contain;background:#fff;border:1px solid #e5e7eb;" onerror="this.style.display=\'none\'">';
+        h += '<div style="flex:1;"><strong style="font-size:14px;">' + center.name + '</strong>';
+        if (cfg.maintenanceMode) h += ' <span style="background:#f59e0b;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">🔧 MAINTENANCE</span>';
+        h += '<br><span style="font-size:11px;color:#888;">' + cid + '</span></div>';
+
+        // Active toggle
+        h += '<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;user-select:none;">';
+        h += '<span style="color:' + (isActive ? '#10b981' : '#ef4444') + ';font-weight:600;">' + (isActive ? 'Active' : 'Inactive') + '</span>';
+        h += '<input type="checkbox" ' + (isActive ? 'checked' : '') + ' onchange="_cmToggle(\'' + cid + '\',\'active\',this.checked)" style="accent-color:#7c3aed;width:16px;height:16px;">';
+        h += '</label>';
+
+        // Lock toggle
+        h += '<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;user-select:none;margin-left:8px;">';
+        h += '<span>' + (isLocked ? '🔒' : '🔓') + '</span>';
+        h += '<input type="checkbox" ' + (isLocked ? 'checked' : '') + ' onchange="_cmToggle(\'' + cid + '\',\'locked\',this.checked)" style="accent-color:#f59e0b;width:16px;height:16px;">';
+        h += '</label>';
+
+        h += '</div>'; // end header
+
+        if (isActive) {
+
+          // ═══════════════ MOCK ACCESS ═══════════════
+          h += _cmSectionHeader(cid, 'mocks', '🎯', 'Mock Access');
+          if (_cmExpandedSections[cid + '_mocks']) {
+            h += '<div style="padding:12px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">';
+            CM_MOCKS.forEach(function(mock) {
+              var val = (cfg.mocks && cfg.mocks[mock.key]) || 'premium';
+              var bgColor = val === 'premium' ? '#7c3aed' : val === 'regular' ? '#0d9488' : '#dc2626';
+              var isFullMock = mock.key === 'cefr_full_mock' || mock.key === 'ielts_full_mock';
+              var prefix = mock.key === 'cefr_full_mock' ? 'cefr' : 'ielts';
+              h += '<div style="' + (isFullMock ? 'grid-column:1/-1;' : '') + 'padding:8px 10px;border-radius:8px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);">';
+              h += '<div style="display:flex;align-items:center;justify-content:space-between;">';
+              h += '<span style="font-size:12px;font-weight:500;">' + mock.label + '</span>';
+              h += '<select onchange="_cmSetMock(\'' + cid + '\',\'' + mock.key + '\',this.value)" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid ' + bgColor + ';color:' + bgColor + ';background:#fff;font-weight:600;cursor:pointer;">';
+              h += '<option value="premium"' + (val === 'premium' ? ' selected' : '') + '>⭐ Premium</option>';
+              h += '<option value="regular"' + (val === 'regular' ? ' selected' : '') + '>📗 Regular</option>';
+              h += '<option value="disabled"' + (val === 'disabled' ? ' selected' : '') + '>🚫 Disabled</option>';
+              h += '</select>';
+              h += '</div>';
+              if (isFullMock && val !== 'disabled') {
+                var fmAi = cfg.fullMockAi || {};
+                h += '<div style="margin-top:6px;padding-top:6px;border-top:1px dashed #e5e7eb;display:flex;gap:10px;flex-wrap:wrap;">';
+                h += '<div style="font-size:10px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;width:100%;">AI Scoring Controls</div>';
+                var aiSubs = [
+                  { key: prefix + '_speaking', label: '🎙️ Speaking AI' },
+                  { key: prefix + '_writing',  label: '✍️ Writing AI' }
+                ];
+                aiSubs.forEach(function(sub) {
+                  var sv = fmAi[sub.key] || 'premium';
+                  var sc = sv === 'premium' ? '#7c3aed' : '#0d9488';
+                  h += '<div style="display:flex;align-items:center;justify-content:space-between;flex:1;min-width:140px;padding:4px 8px;border-radius:6px;background:#f8fafc;">';
+                  h += '<span style="font-size:11px;color:#64748b;">' + sub.label + '</span>';
+                  h += '<select onchange="_cmSetFullMockAi(\'' + cid + '\',\'' + sub.key + '\',this.value)" style="font-size:10px;padding:3px 6px;border-radius:5px;border:1px solid ' + sc + ';color:' + sc + ';background:#fff;font-weight:600;cursor:pointer;">';
+                  h += '<option value="premium"' + (sv === 'premium' ? ' selected' : '') + '>⭐ AI Enabled</option>';
+                  h += '<option value="regular"' + (sv === 'regular' ? ' selected' : '') + '>📊 Standard</option>';
+                  h += '</select>';
+                  h += '</div>';
+                });
+                h += '</div>';
+              }
+              h += '</div>';
+            });
+            h += '</div>';
+          }
+
+          // ═══════════════ BRANDING & IDENTITY ═══════════════
+          h += _cmSectionHeader(cid, 'branding', '🎨', 'Branding & Identity');
+          if (_cmExpandedSections[cid + '_branding']) {
+            h += '<div style="padding:10px 16px;">';
+            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+              '<span style="font-size:12px;min-width:140px;">Brand Color</span>' +
+              '<input type="color" value="' + (cfg.brandColor || '#7c3aed') + '" onchange="_cmSetProp(\'' + cid + '\',\'brandColor\',this.value)" style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
+              '<span style="font-size:11px;color:#888;">' + (cfg.brandColor || 'default') + '</span>' +
+            '</div>';
+            h += _cmTextInput(cid, 'welcomeMessage', 'Welcome Message', cfg.welcomeMessage, 'Shown on landing page');
+            h += _cmToggleInput(cid, 'hidePoweredBy', 'Hide "Powered by Mock Stream"', cfg.hidePoweredBy);
+            h += '</div>';
+          }
+
+          // ═══════════════ AI & SCORING ═══════════════
+          h += _cmSectionHeader(cid, 'ai', '🤖', 'AI & Scoring');
+          if (_cmExpandedSections[cid + '_ai']) {
+            h += '<div style="padding:10px 16px;">';
+            h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
+            h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
+              { val: 'default', label: 'Default' },
+              { val: 'gemini', label: 'Gemini' },
+              { val: 'openai', label: 'OpenAI' },
+              { val: 'claude', label: 'Claude' },
+              { val: 'grok', label: 'Grok' },
+              { val: 'deepseek', label: 'DeepSeek' }
+            ]);
+            h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
+            h += '</div>';
+          }
+
+          // ═══════════════ FEATURES TOGGLE ═══════════════
+          h += _cmSectionHeader(cid, 'features', '⚙️', 'Features Toggle');
+          if (_cmExpandedSections[cid + '_features']) {
+            h += '<div style="padding:10px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 16px;">';
+            h += _cmToggleInput(cid, 'helpCenter', '💬 Help Center', cfg.helpCenter !== false);
+            h += _cmToggleInput(cid, 'certificates', '📜 Certificates', cfg.certificates !== false);
+            h += _cmToggleInput(cid, 'telegramNotifs', '📱 Telegram Notifications', cfg.telegramNotifs !== false);
+            h += _cmToggleInput(cid, 'flashcards', '🃏 Flashcards', cfg.flashcards !== false);
+            h += _cmToggleInput(cid, 'articles', '📰 Articles', cfg.articles !== false);
+            h += _cmToggleInput(cid, 'leaderboard', '🏆 Leaderboard', cfg.leaderboard !== false);
+            h += _cmToggleInput(cid, 'writingPlus', '✏️ Writing Plus', cfg.writingPlus !== false);
+            h += '</div>';
+          }
+
+          // ═══════════════ SCHEDULING & AVAILABILITY ═══════════════
+          h += _cmSectionHeader(cid, 'schedule', '📅', 'Scheduling & Availability');
+          if (_cmExpandedSections[cid + '_schedule']) {
+            h += '<div style="padding:10px 16px;">';
+            h += _cmToggleInput(cid, 'maintenanceMode', '🔧 Maintenance Mode', cfg.maintenanceMode);
+            h += '<div style="border-top:1px solid var(--ring,#e5e7eb);margin:8px 0;"></div>';
+            h += _cmToggleInput(cid, 'operatingHoursEnabled', '⏰ Restrict Operating Hours', cfg.operatingHoursEnabled);
+            if (cfg.operatingHoursEnabled) {
+              h += '<div style="display:flex;gap:12px;padding-left:24px;">';
+              h += _cmTimeInput(cid, 'operatingHoursStart', 'From', cfg.operatingHoursStart || '09:00');
+              h += _cmTimeInput(cid, 'operatingHoursEnd', 'To', cfg.operatingHoursEnd || '18:00');
+              h += '</div>';
+            }
+            h += '<div style="border-top:1px solid var(--ring,#e5e7eb);margin:8px 0;"></div>';
+            h += _cmToggleInput(cid, 'examScheduleMode', '🗓️ Exam Schedule Mode', cfg.examScheduleMode);
+            if (cfg.examScheduleMode) {
+              h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0 6px 24px;">' +
+                '<span style="font-size:12px;min-width:140px;">Unlock Date/Time</span>' +
+                '<input type="datetime-local" value="' + (cfg.examScheduleDate || '') + '" onchange="_cmSetProp(\'' + cid + '\',\'examScheduleDate\',this.value)" style="padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
+              '</div>';
+            }
+            h += '</div>';
+          }
+
+          // ═══════════════ ANALYTICS & REPORTING ═══════════════
+          h += _cmSectionHeader(cid, 'analytics', '📊', 'Analytics & Reporting');
+          if (_cmExpandedSections[cid + '_analytics']) {
+            h += '<div style="padding:10px 16px;">';
+            h += _cmToggleInput(cid, 'resultsVisible', '👁️ Results Visible in Admin Dashboard', cfg.resultsVisible !== false);
+            h += _cmToggleInput(cid, 'exportPermission', '📤 Allow Data Export', cfg.exportPermission !== false);
+            h += _cmToggleInput(cid, 'dataIsolation', '🔐 Student Data Isolation', cfg.dataIsolation);
+            h += '</div>';
+          }
+
+          // ═══════════════ LIMITS & QUOTAS ═══════════════
+          h += _cmSectionHeader(cid, 'limits', '📏', 'Limits & Quotas');
+          if (_cmExpandedSections[cid + '_limits']) {
+            h += '<div style="padding:10px 16px;">';
+            h += _cmNumberInput(cid, 'maxAttemptsPerStudent', 'Max Attempts/Student', cfg.maxAttemptsPerStudent, '0 = unlimited');
+            h += _cmNumberInput(cid, 'dailyMockLimit', 'Daily Mock Limit', cfg.dailyMockLimit, '0 = unlimited');
+            h += '</div>';
+          }
+
+        } // end if active
+
+        h += '</div>'; // end card
+      });
+
+      // Save + status
+      h += '<div style="display:flex;justify-content:center;gap:12px;padding:8px 0 4px;">';
+      h += '<button onclick="_cmSaveAll()" style="padding:10px 28px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 14px rgba(124,58,237,0.3);">💾 Save All Centers</button>';
+      h += '</div>';
+      h += '<div id="cmStatus" style="text-align:center;font-size:12px;margin-top:8px;min-height:18px;"></div>';
+
+      body.innerHTML = h;
+    }
+
+    // ── Auto-save (debounced per center) ────────────────────────────────────
+    var _cmAutoSaveTimers = {};
+    function _cmAutoSave(centerId) {
+      if (_cmAutoSaveTimers[centerId]) clearTimeout(_cmAutoSaveTimers[centerId]);
+      // Show saving indicator
+      var status = document.getElementById('cmStatus');
+      if (status) status.innerHTML = '<span style="color:#7c3aed;font-size:12px;">⏳ Auto-saving ' + centerId + '...</span>';
+      _cmAutoSaveTimers[centerId] = setTimeout(async function() {
+        try {
+          var key = 'center_config_' + centerId;
+          var val = JSON.stringify(_cmConfigs[centerId] || _cmDefaultConfig());
+          var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+            method: 'PATCH',
+            headers: {
+              'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
+              'Content-Type': 'application/json', 'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({ value: val, updated_at: new Date().toISOString() })
+          });
+          var data = await res.json();
+          if (!data || data.length === 0) {
+            await fetch(CM_SB_URL + '/rest/v1/site_settings', {
+              method: 'POST',
+              headers: {
+                'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
+                'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({ key: key, value: val })
+            });
+          }
+          if (status) status.innerHTML = '<span style="color:#10b981;font-size:12px;">✓ ' + centerId + ' saved</span>';
+          setTimeout(function() { if (status) status.textContent = ''; }, 2000);
+        } catch(e) {
+          if (status) status.innerHTML = '<span style="color:#dc2626;font-size:12px;">⚠ Save error: ' + e.message + '</span>';
+        }
+      }, 800); // 800ms debounce
+    }
+
+    // ── Actions ──────────────────────────────────────────────────────────────
+    window._cmToggleSection = function(centerId, section) {
+      var key = centerId + '_' + section;
+      _cmExpandedSections[key] = !_cmExpandedSections[key];
+      _cmRenderBody();
+    };
+
+    window._cmToggle = function(centerId, prop, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      _cmConfigs[centerId][prop] = val;
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
+    window._cmSetProp = function(centerId, prop, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      _cmConfigs[centerId][prop] = val;
+      // Re-render only for toggles that show/hide sub-fields
+      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode') {
+        _cmRenderBody();
+      }
+      _cmAutoSave(centerId);
+    };
+
+    window._cmSetMock = function(centerId, mockKey, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].mocks) _cmConfigs[centerId].mocks = {};
+      _cmConfigs[centerId].mocks[mockKey] = val;
+      // Re-render all cards so sub-controls appear/disappear properly
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
+    window._cmSetFullMockAi = function(centerId, subKey, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].fullMockAi) _cmConfigs[centerId].fullMockAi = {};
+      _cmConfigs[centerId].fullMockAi[subKey] = val;
+      var card = document.getElementById('cmCard_' + centerId);
+      if (card) {
+        card.querySelectorAll('select').forEach(function(sel) {
+          var v = sel.value;
+          var c = v === 'premium' ? '#7c3aed' : v === 'regular' ? '#0d9488' : '#dc2626';
+          sel.style.borderColor = c;
+          sel.style.color = c;
+        });
+      }
+      _cmAutoSave(centerId);
+    };
+
+    // ── Load / Save ─────────────────────────────────────────────────────────
+    async function _cmLoadAll() {
+      try {
+        var keys = CM_CENTERS.map(function(c) { return 'center_config_' + c.id; });
+        var filter = 'key=in.(' + keys.map(encodeURIComponent).join(',') + ')';
+        var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?' + filter + '&select=key,value', {
+          headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }
+        });
+        var rows = await res.json();
+        if (Array.isArray(rows)) {
+          rows.forEach(function(row) {
+            var cid = row.key.replace('center_config_', '');
+            try { _cmConfigs[cid] = _cmMergeDefaults(JSON.parse(row.value)); } catch(e) {}
+          });
+        }
+      } catch(e) {
+        console.error('Centers load error:', e);
+      }
+      CM_CENTERS.forEach(function(c) {
+        if (!_cmConfigs[c.id]) _cmConfigs[c.id] = _cmDefaultConfig();
+      });
+    }
+
+    window._cmSaveAll = async function() {
+      var status = document.getElementById('cmStatus');
+      if (status) status.innerHTML = '<span style="color:#7c3aed;">Saving...</span>';
+      try {
+        for (var i = 0; i < CM_CENTERS.length; i++) {
+          var cid = CM_CENTERS[i].id;
+          var key = 'center_config_' + cid;
+          var val = JSON.stringify(_cmConfigs[cid] || _cmDefaultConfig());
+          var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+            method: 'PATCH',
+            headers: {
+              'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
+              'Content-Type': 'application/json', 'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({ value: val, updated_at: new Date().toISOString() })
+          });
+          var data = await res.json();
+          if (!data || data.length === 0) {
+            await fetch(CM_SB_URL + '/rest/v1/site_settings', {
+              method: 'POST',
+              headers: {
+                'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
+                'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({ key: key, value: val })
+            });
+          }
+        }
+        if (status) status.innerHTML = '<span style="color:#10b981;">✓ All centers saved successfully!</span>';
+        setTimeout(function() { if (status) status.textContent = ''; }, 3000);
+      } catch(e) {
+        if (status) status.innerHTML = '<span style="color:#dc2626;">Error: ' + e.message + '</span>';
+      }
+    };
+
+    // ── Open / Close ────────────────────────────────────────────────────────
+    window.openCentersPanel = async function() {
+      _cmEnsureOverlay();
+      document.getElementById('cmOverlay').classList.add('active');
+      document.getElementById('cmBody').innerHTML = '<div style="text-align:center;padding:40px;color:#888;">Loading...</div>';
+      await _cmLoadAll();
+      _cmRenderBody();
+    };
+
+    window.closeCentersPanel = function() {
+      var el = document.getElementById('cmOverlay');
+      if (el) el.classList.remove('active');
+    };
+  })();
+  </script>
+
 </body>
 
 </html>

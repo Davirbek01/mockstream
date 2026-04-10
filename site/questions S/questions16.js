@@ -264,9 +264,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 7,
       "part": "Part 3",
-      "badge": "60s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 60,
+      "speakTime": 120,
       "prompt": "Tell me about something you did in your life that was a success.",
       "audioFile": "questions S/audio/cefr-speaking-mock-16-q7.mp3",
       "hasImages": false,
@@ -307,9 +307,9 @@ window.SPEAKING_TEST_DATA = {
     {
       "number": 8,
       "part": "Part 4",
-      "badge": "90s",
+      "badge": "2:00",
       "prepTime": 60,
-      "speakTime": 90,
+      "speakTime": 120,
       "prompt": "Books Are Better than Movies for Storytelling",
       "audioFile": "questions S/audio/cefr-speaking-mock-16-q8.mp3",
       "hasImages": false,

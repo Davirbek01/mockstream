@@ -1776,6 +1776,10 @@
           <!-- Toggles -->
           <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsTextEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
               <input type="checkbox" id="settingsVoiceEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
               <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
             </label>
@@ -2087,15 +2091,14 @@
 
       try {
         var adminUrl = (window.SITE_CONFIG && window.SITE_CONFIG.adminBackendUrl) || 'https://admin0709.alwaysdata.net';
+        var siteId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        var centerForBackend = siteId === 'mock_stream' ? 'mockstream' : siteId;
         var response = await fetch(adminUrl + '/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             passcode: enteredCode,
-            type: 'bsb',
-            validate: true,
-            timestamp: Date.now(),
-            source: 'results-dashboard'
+            center: centerForBackend
           })
         });
 
@@ -2428,6 +2431,10 @@
         var skillLabel = (r.skill || '—');
         skillLabel = skillLabel.charAt(0).toUpperCase() + skillLabel.slice(1);
 
+        // Writing Plus badge
+        var isWritingPlus = (r.metadata && r.metadata.is_writing_plus) || (r.mock_number && r.mock_number.indexOf('Writing Plus') !== -1);
+        var wpBadge = isWritingPlus ? '<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:11px;font-weight:900;margin-left:3px;vertical-align:middle;line-height:1;">+</span>' : '';
+
         // Practice badge
         var isPractice = (r.metadata && r.metadata.is_practice) || (r.mock_number && r.mock_number.indexOf('Practice') === 0);
         var practiceBadge = isPractice ? '<span class="badge badge-practice">Practice</span>' : '';
@@ -2443,7 +2450,7 @@
           '<td><strong><a class="student-link" onclick="showStudentTrack(\'' + escapeHtml((r.student_name || '').replace(/'/g, "\\'")) + '\')">' + escapeHtml(r.student_name || '—') + '</a></strong></td>' +
           '<td><span class="center-badge"><span class="center-dot" style="background:' + centerColor + '"></span>' + escapeHtml(centerName) + '</span></td>' +
           '<td><span class="badge ' + examClass + '">' + examLabel + '</span></td>' +
-          '<td><span class="badge ' + skillClass + '">' + escapeHtml(skillLabel) + '</span>' + practiceBadge + '</td>' +
+          '<td><span class="badge ' + skillClass + '">' + escapeHtml(skillLabel) + '</span>' + wpBadge + practiceBadge + '</td>' +
           '<td><span class="score-display">' + escapeHtml(String(r.score || '—')) + '</span></td>' +
           '<td style="font-size:12px;white-space:nowrap;">' + devLabel + '</td>';
           var hasReport = r.report_path && r.report_path.length > 0;
@@ -4131,6 +4138,7 @@
         }
 
         // Voice & Attachment settings
+        document.getElementById('settingsTextEnabled').checked = map.hc_text_enabled !== 'false';
         document.getElementById('settingsVoiceEnabled').checked = map.hc_voice_enabled !== 'false';
         document.getElementById('settingsImageEnabled').checked = map.hc_image_enabled !== 'false';
         document.getElementById('settingsPdfEnabled').checked = map.hc_pdf_enabled !== 'false';
@@ -4407,6 +4415,7 @@
       var statusEl = document.getElementById('voiceAttachStatus');
       statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
       try {
+        var textEnabled = document.getElementById('settingsTextEnabled').checked;
         var voiceEnabled = document.getElementById('settingsVoiceEnabled').checked;
         var imageEnabled = document.getElementById('settingsImageEnabled').checked;
         var pdfEnabled = document.getElementById('settingsPdfEnabled').checked;
@@ -4415,6 +4424,7 @@
         var maxAiInlineMb = parseInt(document.getElementById('settingsMaxAiInlineMb').value) || 8;
         var maxVoiceSec = parseInt(document.getElementById('settingsMaxVoiceSec').value) || 120;
 
+        await upsertSetting('hc_text_enabled', String(textEnabled));
         await upsertSetting('hc_voice_enabled', String(voiceEnabled));
         await upsertSetting('hc_image_enabled', String(imageEnabled));
         await upsertSetting('hc_pdf_enabled', String(pdfEnabled));
@@ -4424,6 +4434,7 @@
         await upsertSetting('hc_max_voice_sec', String(maxVoiceSec));
 
         // Update localStorage cache for chat clients
+        localStorage.setItem('ms_hc_text_enabled', String(textEnabled));
         localStorage.setItem('ms_hc_voice_enabled', String(voiceEnabled));
         localStorage.setItem('ms_hc_image_enabled', String(imageEnabled));
         localStorage.setItem('ms_hc_pdf_enabled', String(pdfEnabled));
@@ -4439,6 +4450,7 @@
     }
 
     function resetVoiceAttachSettings() {
+      document.getElementById('settingsTextEnabled').checked = true;
       document.getElementById('settingsVoiceEnabled').checked = true;
       document.getElementById('settingsImageEnabled').checked = true;
       document.getElementById('settingsPdfEnabled').checked = true;

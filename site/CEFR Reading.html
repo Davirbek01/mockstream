@@ -2692,6 +2692,26 @@
 
     // ===== LOAD TEST =====
     function loadTest() {
+      // ── Supabase dynamic mock ──
+      var sbMockId = urlParams.get('sbmock');
+      if (sbMockId) {
+        console.log('🌐 Loading CEFR Reading from Supabase, id=' + sbMockId);
+        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        fetch(SB_URL + '/rest/v1/mock_tests?id=eq.' + encodeURIComponent(sbMockId) + '&select=mock_data', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        })
+        .then(function(r) { if (!r.ok) throw new Error('Supabase ' + r.status); return r.json(); })
+        .then(function(rows) {
+          if (!rows || !rows.length || !rows[0].mock_data) throw new Error('Empty response');
+          window.CEFR_READING_TEST = rows[0].mock_data;
+          TEST_DATA = window.CEFR_READING_TEST;
+          initTest();
+        })
+        .catch(function(err) { console.error('❌ Supabase load failed:', err); showError('Failed to load test from Supabase'); });
+        return;
+      }
+      // ── End Supabase ──
       const script = document.createElement('script');
       script.src = 'questions CEFR R/' + testFile + '.js';
       script.onload = () => {
