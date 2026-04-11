@@ -883,7 +883,6 @@
 
       var _isPremiumListen = sessionStorage.getItem('listeningPremiumEntry') === 'true';
       if (!_isPremiumListen) {
-        try { var _tk = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); _tk[testFile] = true; localStorage.setItem('takenListeningMocks', JSON.stringify(_tk)); } catch(e) {}
       }
       let resultsHtml = '';
       TEST_DATA.parts.forEach((part, partIndex) => {

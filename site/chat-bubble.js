@@ -33,6 +33,11 @@
   var HC_IMAGE_ENABLED = true;
   var HC_PDF_ENABLED = true;
   var MAX_VOICE_SEC = 120;
+  var HC_COMMUNITY_ENABLED = true;
+  var HC_COMMUNITY_TEXT_ENABLED = true;
+  var HC_COMMUNITY_VOICE_ENABLED = true;
+  var HC_COMMUNITY_IMAGE_ENABLED = true;
+  var HC_COMMUNITY_PDF_ENABLED = true;
 
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
@@ -53,10 +58,21 @@
     if (pm) MAX_PDF_MB = parseInt(pm) || 100;
     if (am) MAX_AI_INLINE_MB = parseInt(am) || 8;
     if (vs) MAX_VOICE_SEC = parseInt(vs) || 120;
+    // Community settings from localStorage
+    var ce = localStorage.getItem('ms_hc_community_enabled');
+    var ct = localStorage.getItem('ms_hc_community_text_enabled');
+    var cv = localStorage.getItem('ms_hc_community_voice_enabled');
+    var ci = localStorage.getItem('ms_hc_community_image_enabled');
+    var cpdf = localStorage.getItem('ms_hc_community_pdf_enabled');
+    if (ce !== null) HC_COMMUNITY_ENABLED = ce !== 'false';
+    if (ct !== null) HC_COMMUNITY_TEXT_ENABLED = ct !== 'false';
+    if (cv !== null) HC_COMMUNITY_VOICE_ENABLED = cv !== 'false';
+    if (ci !== null) HC_COMMUNITY_IMAGE_ENABLED = ci !== 'false';
+    if (cpdf !== null) HC_COMMUNITY_PDF_ENABLED = cpdf !== 'false';
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
@@ -70,6 +86,11 @@
         if ('hc_max_image_mb' in map) { MAX_IMAGE_MB = parseInt(map.hc_max_image_mb) || 50; localStorage.setItem('ms_hc_max_image_mb', map.hc_max_image_mb); }
         if ('hc_max_pdf_mb' in map) { MAX_PDF_MB = parseInt(map.hc_max_pdf_mb) || 100; localStorage.setItem('ms_hc_max_pdf_mb', map.hc_max_pdf_mb); }
         if ('hc_max_ai_inline_mb' in map) { MAX_AI_INLINE_MB = parseInt(map.hc_max_ai_inline_mb) || 8; localStorage.setItem('ms_hc_max_ai_inline_mb', map.hc_max_ai_inline_mb); }
+        if ('hc_community_enabled' in map) { HC_COMMUNITY_ENABLED = map.hc_community_enabled !== 'false'; localStorage.setItem('ms_hc_community_enabled', map.hc_community_enabled); }
+        if ('hc_community_text_enabled' in map) { HC_COMMUNITY_TEXT_ENABLED = map.hc_community_text_enabled !== 'false'; localStorage.setItem('ms_hc_community_text_enabled', map.hc_community_text_enabled); }
+        if ('hc_community_voice_enabled' in map) { HC_COMMUNITY_VOICE_ENABLED = map.hc_community_voice_enabled !== 'false'; localStorage.setItem('ms_hc_community_voice_enabled', map.hc_community_voice_enabled); }
+        if ('hc_community_image_enabled' in map) { HC_COMMUNITY_IMAGE_ENABLED = map.hc_community_image_enabled !== 'false'; localStorage.setItem('ms_hc_community_image_enabled', map.hc_community_image_enabled); }
+        if ('hc_community_pdf_enabled' in map) { HC_COMMUNITY_PDF_ENABLED = map.hc_community_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_community_pdf_enabled', map.hc_community_pdf_enabled); }
         applyHcSettingsVisibility();
       }).catch(function () {});
     } catch (e) {}
@@ -98,6 +119,13 @@
       if (lVoice) lVoice.style.display = HC_VOICE_ENABLED ? '' : 'none';
       if (lInput) lInput.style.display = HC_TEXT_ENABLED ? '' : 'none';
       if (lSend) lSend.style.display = HC_TEXT_ENABLED ? '' : 'none';
+    }
+    // Community tab button visibility
+    var communityBtn = document.querySelector('.cb-cat-btn[data-cat="community"]');
+    if (communityBtn) communityBtn.style.display = HC_COMMUNITY_ENABLED ? '' : 'none';
+    // If community is hidden and currently active, switch to support
+    if (!HC_COMMUNITY_ENABLED && currentCategory === 'community') {
+      switchCategory('support');
     }
   }
 
@@ -137,6 +165,135 @@
   var isSending = false;
   var pollTimer = null;
   var _geminiKey = null;
+  var _globalMsg = null; // { text, sent_at }
+
+  // ─── COMMUNITY STATE ──────────────────────────────────────────────────────
+  var _communityMessages = [];      // [{id, content, sender_name, device_id, role, parent_id, created_at}]
+  var _communityLastPoll = 0;
+  var _communityReplyTo = null;     // message id being replied to
+  var _communityLoaded = false;
+  var _communityLastSeenId = 0;  // highest community message ID the user has seen
+
+  // ─── REALTIME STATE ───────────────────────────────────────────────────────
+  var _sbClient = null;            // Supabase JS client (loaded dynamically)
+  var _realtimeChannel = null;     // Realtime channel for community_messages
+  var _typingChannel = null;       // Broadcast channel for typing indicators
+  var _typingUsers = {};           // { deviceId: { name, timestamp } }
+  var _typingTimer = null;         // debounce timer for sending typing events
+  var _typingDisplayTimer = null;  // interval to clean up stale typing indicators
+  var _communityJumpSeenId = 0;  // highest reply-to-me ID acknowledged via jump bar
+
+  // Load from localStorage
+  try { _communityLastSeenId = parseInt(localStorage.getItem('ms_community_last_seen_id')) || 0; } catch(e) {}
+  try { _communityJumpSeenId = parseInt(localStorage.getItem('ms_community_jump_seen_id')) || 0; } catch(e) {}
+
+  // Count unread community messages (all messages with id > lastSeenId, excluding own)
+  function _getCommunityUnreadCount() {
+    var myDevice = getDeviceId();
+    var count = 0;
+    _communityMessages.forEach(function(m) {
+      if (m.id > _communityLastSeenId && m.device_id !== myDevice) count++;
+    });
+    return count;
+  }
+
+  // Update the badge on the Community tab button
+  function _updateCommunityBadge() {
+    var unseen = _getCommunityUnreadCount();
+    // Tab badge
+    var btn = document.querySelector('.cb-cat-btn[data-cat="community"]');
+    if (btn) {
+      var badge = btn.querySelector('.cb-comm-badge');
+      if (unseen > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'cb-comm-badge';
+          btn.appendChild(badge);
+        }
+        badge.textContent = unseen > 99 ? '99+' : unseen;
+        badge.style.display = '';
+      } else if (badge) {
+        badge.style.display = 'none';
+      }
+    }
+    // Also update the main FAB badge (combines support + community)
+    updateBadge();
+  }
+
+  // Mark all community messages as seen (called when viewing community tab)
+  function _markCommunityAllSeen() {
+    if (!_communityMessages.length) return;
+    var maxId = 0;
+    _communityMessages.forEach(function(m) { if (m.id > maxId) maxId = m.id; });
+    if (maxId > _communityLastSeenId) {
+      _communityLastSeenId = maxId;
+      try { localStorage.setItem('ms_community_last_seen_id', String(maxId)); } catch(e) {}
+    }
+    _updateCommunityBadge();
+  }
+
+  // Show/hide the "@" jump bar above input when there are replies to my messages
+  function _updateCommunityJumpBar(myDevice) {
+    var bar = document.getElementById('cb-comm-jump-bar');
+    if (!bar) return;
+
+    // Find my root message IDs
+    var myMsgIds = {};
+    _communityMessages.forEach(function(m) { if (m.device_id === myDevice && !m.parent_id) myMsgIds[m.id] = true; });
+
+    // Collect only UNSEEN replies to my messages (from others)
+    var unseenReplies = [];
+    _communityMessages.forEach(function(m) {
+      if (m.parent_id && myMsgIds[m.parent_id] && m.device_id !== myDevice && m.id > _communityJumpSeenId) {
+        unseenReplies.push(m);
+      }
+    });
+
+    if (!unseenReplies.length) {
+      bar.style.display = 'none';
+      return;
+    }
+
+    // Get the latest unseen reply-to-me
+    var latest = unseenReplies[unseenReplies.length - 1];
+    var name = latest.sender_name || 'Someone';
+    var count = unseenReplies.length;
+
+    bar.style.display = 'flex';
+    bar.innerHTML =
+      '<span class="cb-jump-icon">@</span>' +
+      '<span class="cb-jump-text">' + (count === 1
+        ? escapeHtml(name) + ' replied to you'
+        : count + ' new replies to your messages') +
+      ' ↓</span>';
+
+    bar.onclick = function() {
+      // Mark all current replies-to-me as seen
+      var maxReplyId = 0;
+      unseenReplies.forEach(function(r) { if (r.id > maxReplyId) maxReplyId = r.id; });
+      if (maxReplyId > _communityJumpSeenId) {
+        _communityJumpSeenId = maxReplyId;
+        try { localStorage.setItem('ms_community_jump_seen_id', String(maxReplyId)); } catch(e) {}
+      }
+      // Hide the jump bar immediately
+      bar.style.display = 'none';
+      // Scroll to the latest reply
+      var list = document.getElementById('cb-messages');
+      if (!list) return;
+      var target = list.querySelector('.cb-comm-msg[data-msg-id="' + latest.id + '"]');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Flash highlight
+        target.style.transition = 'box-shadow .2s';
+        target.style.boxShadow = 'inset 0 0 0 2px rgba(139,92,246,.7), 0 0 12px rgba(139,92,246,.3)';
+        target.style.borderRadius = '14px';
+        setTimeout(function() {
+          target.style.boxShadow = '';
+          if (!target.classList.contains('cb-comm-reply-to-me')) target.style.borderRadius = '';
+        }, 1500);
+      }
+    };
+  }
 
   // ─── LOCAL PERSISTENCE ────────────────────────────────────────────────────
   function loadLocal() {
@@ -542,6 +699,84 @@
     });
   }
 
+  // ─── POLL FOR GLOBAL ANNOUNCEMENT ─────────────────────────────────────────
+  function _getSeenAnnouncement() {
+    try { return localStorage.getItem('ms_global_msg_seen') || ''; } catch(e) { return ''; }
+  }
+  function _markAnnouncementSeen() {
+    if (_globalMsg && _globalMsg.sent_at) {
+      try { localStorage.setItem('ms_global_msg_seen', _globalMsg.sent_at); } catch(e) {}
+    }
+  }
+  function _hasUnseenAnnouncement() {
+    return _globalMsg && _globalMsg.text && _globalMsg.sent_at && _globalMsg.sent_at !== _getSeenAnnouncement();
+  }
+
+  async function pollGlobalMessage() {
+    try {
+      var resp = await sbFetch('/rest/v1/site_settings?key=eq.global_message&select=value');
+      var rows = await resp.json();
+      if (rows && rows.length && rows[0].value) {
+        var parsed = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+        if (parsed && parsed.text) {
+          var oldSentAt = _globalMsg ? _globalMsg.sent_at : null;
+          _globalMsg = parsed;
+          // New announcement the user hasn't seen yet
+          if (_hasUnseenAnnouncement() && parsed.sent_at !== oldSentAt) {
+            if (isOpen) {
+              renderMessages();
+              _markAnnouncementSeen();
+            } else {
+              showGlobalToast(parsed.text);
+              updateBadge();
+            }
+          }
+          return;
+        }
+      }
+      _globalMsg = null;
+      if (isOpen) renderMessages();
+    } catch (e) {}
+  }
+
+  function updateGlobalBanner() {
+    var banner = document.getElementById('cb-global-banner');
+    if (!banner) return;
+    if (_globalMsg && _globalMsg.text) {
+      banner.innerHTML = '<div class="cb-global-announce">' +
+        '<div class="cb-global-announce-icon">📢</div>' +
+        '<div class="cb-global-announce-body">' +
+        '<div class="cb-global-announce-label">Announcement</div>' +
+        '<div class="cb-global-announce-text">' + escapeHtml(_globalMsg.text) + '</div>' +
+        '</div></div>';
+      banner.style.display = '';
+    } else {
+      banner.innerHTML = '';
+      banner.style.display = 'none';
+    }
+  }
+
+  function showGlobalToast(text) {
+    var existing = document.getElementById('cb-toast-global');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'cb-toast-global';
+    toast.style.cssText = 'position:fixed;bottom:90px;left:24px;z-index:99999;animation:cb-slideIn .3s ease';
+    toast.innerHTML = '<div class="cb-toast-inner" style="border-left-color:#f59e0b;cursor:pointer">' +
+      '<span class="cb-toast-icon">📢</span>' +
+      '<div class="cb-toast-body"><div class="cb-toast-title" style="color:#d97706">Announcement</div>' +
+      '<div class="cb-toast-text">' + escapeHtml(text) + '</div></div>' +
+      '<button class="cb-toast-close" onclick="this.closest(\&#39;#cb-toast-global\&#39;).remove()">✕</button></div>';
+    toast.querySelector('.cb-toast-inner').addEventListener('click', function(e) {
+      if (e.target.closest('.cb-toast-close')) return;
+      toast.remove();
+      openBubble();
+    });
+    document.body.appendChild(toast);
+    setTimeout(function () { if (toast.parentNode) toast.classList.add('cb-toast-hide'); }, 10000);
+    setTimeout(function () { if (toast.parentNode) toast.remove(); }, 10500);
+  }
+
   // ─── POLL FOR ADMIN REPLIES ───────────────────────────────────────────────
   async function pollAdminReplies() {
     var gotNew = false;
@@ -590,6 +825,9 @@
       var adminMsgs = (messages[c] || []).filter(function (m) { return m.role === 'admin'; });
       if (adminMsgs.length > (lastSeenAdmin[c] || 0)) count += adminMsgs.length - (lastSeenAdmin[c] || 0);
     });
+    if (_hasUnseenAnnouncement()) count += 1;
+    // Include community unread in FAB badge
+    count += _getCommunityUnreadCount();
     return count;
   }
 
@@ -606,6 +844,7 @@
     ['support', 'premium', 'partner'].forEach(function (c) {
       lastSeenAdmin[c] = (messages[c] || []).filter(function (m) { return m.role === 'admin'; }).length;
     });
+    _markAnnouncementSeen();
     saveLocal();
     updateBadge();
   }
@@ -671,7 +910,12 @@
       partner: '🤝 Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.'
     };
     var welcomeHtml = welcomes[currentCategory] || welcomes.support;
-    var html = '<div class="cb-msg cb-msg-ai"><div class="cb-msg-text">' + welcomeHtml + '</div></div>';
+    var html = '';
+
+    // Update pinned global announcement banner (outside scrollable area)
+    updateGlobalBanner();
+
+    html += '<div class="cb-msg cb-msg-ai"><div class="cb-msg-text">' + welcomeHtml + '</div></div>';
 
     msgs.forEach(function (m) {
       var cls = m.role === 'user' ? 'cb-msg-user' : (m.role === 'admin' ? 'cb-msg-admin' : 'cb-msg-ai');
@@ -815,6 +1059,12 @@
     var input = document.getElementById('cb-input');
     var text = (input.value || '').trim();
     if (!text) return;
+
+    // Community mode — different path
+    if (currentCategory === 'community') {
+      return sendCommunityMessage(text);
+    }
+
     if (!HC_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
     isSending = true;
     input.disabled = true;
@@ -1144,13 +1394,47 @@
 
   function switchCategory(cat) {
     currentCategory = cat;
+    _communityReplyTo = null;
     var overlay = document.getElementById('cb-overlay');
     if (overlay) {
       overlay.querySelectorAll('.cb-cat-btn').forEach(function (b) {
         b.classList.toggle('active', b.dataset.cat === cat);
       });
     }
-    renderMessages();
+    // Show/hide input bar elements based on tab
+    var inputBar = overlay && overlay.querySelector('.cb-input-bar');
+    var attachBtn = overlay && overlay.querySelector('.cb-attach-btn');
+    var voiceBtn = document.getElementById('cb-voice-btn');
+    var replyBanner = document.getElementById('cb-reply-banner');
+    if (cat === 'community') {
+      // Community: show/hide based on community-specific toggles
+      if (attachBtn) attachBtn.style.display = (HC_COMMUNITY_IMAGE_ENABLED || HC_COMMUNITY_PDF_ENABLED) ? '' : 'none';
+      if (voiceBtn) voiceBtn.style.display = HC_COMMUNITY_VOICE_ENABLED ? '' : 'none';
+      if (replyBanner) replyBanner.style.display = 'none';
+      _renderTypingIndicator();
+      var input = document.getElementById('cb-input');
+      var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+      if (HC_COMMUNITY_TEXT_ENABLED) {
+        if (input) { input.style.display = ''; input.placeholder = 'Write to the community...'; }
+        if (sendBtn) sendBtn.style.display = '';
+      } else {
+        if (input) input.style.display = 'none';
+        if (sendBtn) sendBtn.style.display = 'none';
+      }
+      if (!_communityLoaded) loadCommunityMessages();
+      renderCommunityMessages();
+    } else {
+      // Restore normal visibility
+      applyHcSettingsVisibility();
+      var input = document.getElementById('cb-input');
+      if (input) input.placeholder = 'Type your message...';
+      if (replyBanner) replyBanner.style.display = 'none';
+      var jumpBar = document.getElementById('cb-comm-jump-bar');
+      if (jumpBar) jumpBar.style.display = 'none';
+      var typingBar = document.getElementById('cb-typing-bar');
+      if (typingBar) typingBar.style.display = 'none';
+      renderMessages();
+    }
   }
 
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────
@@ -1212,6 +1496,8 @@
       #cb-overlay .cb-hc-close{position:absolute;top:10px;right:10px;z-index:3;background:rgba(0,0,0,0.35);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
       #cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.55)}
       #cb-overlay .cb-hc-tabs{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid #e5e7eb;flex-shrink:0;overflow-x:auto}
+      #cb-global-banner{flex-shrink:0;padding:0}
+      #cb-global-banner .cb-global-announce{margin:10px 14px 0;border-radius:12px}
       #cb-overlay .cb-cat-btn{padding:6px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#1e293b;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s ease}
       #cb-overlay .cb-cat-btn:hover{border-color:#2563eb;color:#2563eb}
       #cb-overlay .cb-cat-btn.active{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;border-color:transparent}
@@ -1319,10 +1605,58 @@
       .cb-attach-btn.cb-cancel{background:#e2e8f0;color:#334155}
       .cb-attach-btn.cb-continue{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff}
 
+      /* ── Global Announcement Banner ── */
+      .cb-global-announce{display:flex;gap:10px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid #f59e0b;margin-bottom:4px;align-items:flex-start}
+      .cb-global-announce-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+      .cb-global-announce-body{flex:1;min-width:0}
+      .cb-global-announce-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#92400e;margin-bottom:2px}
+      .cb-global-announce-text{font-size:13px;line-height:1.45;color:#78350f;word-break:break-word}
+      [data-theme="dark"] .cb-global-announce{background:linear-gradient(135deg,#451a03,#78350f);border-color:#d97706}
+      [data-theme="dark"] .cb-global-announce-label{color:#fbbf24}
+      [data-theme="dark"] .cb-global-announce-text{color:#fde68a}
+      @media(prefers-color-scheme:dark){.cb-global-announce{background:linear-gradient(135deg,#451a03,#78350f);border-color:#d97706}.cb-global-announce-label{color:#fbbf24}.cb-global-announce-text{color:#fde68a}}
+
       /* ── Animations ── */
       @keyframes cb-bounce{to{transform:translateY(-4px)}}
       @keyframes cb-pulse{0%,100%{opacity:1}50%{opacity:.7}}
       @keyframes cb-slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+      /* ── Community Chat ── */
+      .cb-comm-msg{display:flex;flex-direction:column;max-width:88%;animation:cbHcFadeIn .15s ease}
+      .cb-comm-mine{align-self:flex-end}
+      .cb-comm-other,.cb-comm-admin{align-self:flex-start}
+      .cb-comm-reply-quote{background:rgba(99,102,241,.08);border-left:3px solid #818cf8;border-radius:0 8px 8px 0;padding:4px 10px;margin-bottom:3px;cursor:pointer;transition:background .15s;max-width:100%}
+      .cb-comm-reply-quote:hover{background:rgba(99,102,241,.14)}
+      .cb-comm-reply-quote-name{font-size:10px;font-weight:700;color:#6366f1;line-height:1.3}
+      .cb-comm-reply-quote-text{font-size:11px;color:#64748b;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+      .cb-comm-mine .cb-comm-reply-quote{background:rgba(255,255,255,.15);border-left-color:rgba(255,255,255,.5)}
+      .cb-comm-mine .cb-comm-reply-quote-name{color:rgba(255,255,255,.85)}
+      .cb-comm-mine .cb-comm-reply-quote-text{color:rgba(255,255,255,.7)}
+      .cb-comm-name{font-size:11px;font-weight:700;color:#6366f1;margin-bottom:2px}
+      .cb-comm-name-admin{color:#059669}
+      .cb-comm-text{padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.5;word-break:break-word}
+      .cb-comm-mine .cb-comm-text{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border-bottom-right-radius:4px}
+      .cb-comm-other .cb-comm-text{background:#f1f5f9;color:#1e293b;border-bottom-left-radius:4px}
+      .cb-comm-admin .cb-comm-text{background:linear-gradient(135deg,#059669,#10b981);color:#fff;border-bottom-left-radius:4px}
+      .cb-comm-footer{display:flex;align-items:center;gap:8px;margin-top:3px}
+      .cb-comm-time{font-size:10px;color:#94a3b8}
+      .cb-comm-reply-btn{background:none;border:none;font-size:10px;color:#6366f1;cursor:pointer;padding:0;font-weight:600;opacity:.7;transition:opacity .15s}
+      .cb-comm-reply-btn:hover{opacity:1}
+      .cb-comm-reply-to-me{box-shadow:inset 0 0 0 1.5px rgba(139,92,246,.35);border-radius:16px;padding:4px}
+      #cb-comm-jump-bar{display:none;align-items:center;justify-content:center;gap:6px;padding:7px 14px;background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.10));border-top:1px solid rgba(139,92,246,.2);cursor:pointer;flex-shrink:0;transition:background .15s}
+      #cb-comm-jump-bar:hover{background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(99,102,241,.18))}
+      #cb-comm-jump-bar .cb-jump-icon{font-size:14px;width:22px;height:22px;border-radius:50%;background:rgba(139,92,246,.18);display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-weight:700}
+      #cb-comm-jump-bar .cb-jump-text{font-size:12px;font-weight:600;color:#7c3aed}
+      .cb-comm-badge{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;line-height:16px;text-align:center;font-size:9px;font-weight:800;color:#fff;background:#ef4444;border-radius:10px;padding:0 4px;box-sizing:border-box;animation:cb-pulse 1.5s infinite}
+      .cb-cat-btn{position:relative}
+      #cb-typing-bar{display:none;align-items:center;gap:8px;padding:6px 16px;flex-shrink:0;min-height:24px}
+      .cb-typing-text{font-size:11px;color:#6366f1;font-weight:600;font-style:italic}
+      .cb-typing-dots{display:inline-flex;gap:3px;align-items:center}
+      .cb-typing-dots span{width:5px;height:5px;border-radius:50%;background:#818cf8;animation:cb-typingBounce 1.2s infinite ease-in-out}
+      .cb-typing-dots span:nth-child(2){animation-delay:.2s}
+      .cb-typing-dots span:nth-child(3){animation-delay:.4s}
+      @keyframes cb-typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+      #cb-reply-banner{display:none;align-items:center;padding:6px 14px;background:#f1f5f9;border-bottom:1px solid #e5e7eb;flex-shrink:0;gap:8px}
 
       /* ── Dark Mode (overlay) ── */
       @media(prefers-color-scheme:dark){
@@ -1338,6 +1672,12 @@
         #cb-overlay .cb-hc-close{background:rgba(0,0,0,0.5);color:#fff}#cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.7)}
         .cb-toast-inner{background:#1e293b;border-left-color:#10b981}
         .cb-toast-text{color:#cbd5e1}
+        #cb-comm-jump-bar{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(99,102,241,.12));border-top-color:rgba(167,139,250,.25)}
+        #cb-comm-jump-bar:hover{background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(99,102,241,.20))}
+        #cb-comm-jump-bar .cb-jump-icon{background:rgba(167,139,250,.2);color:#a78bfa}
+        #cb-comm-jump-bar .cb-jump-text{color:#a78bfa}
+        .cb-typing-text{color:#a78bfa}
+        .cb-typing-dots span{background:#a78bfa}
       }
       [data-theme="dark"] #cb-overlay .cb-hc-container{background:#1e293b;border-color:rgba(255,255,255,.1)}
       [data-theme="dark"] #cb-overlay .cb-hc-tabs{border-color:rgba(255,255,255,.1)}
@@ -1355,6 +1695,21 @@
       [data-theme="dark"] .cb-attach-confirm-title{color:#f1f5f9}
       [data-theme="dark"] .cb-attach-confirm-text p{color:#cbd5e1}
       [data-theme="dark"] .cb-attach-btn.cb-cancel{background:#334155;color:#e2e8f0}
+      [data-theme="dark"] .cb-comm-other .cb-comm-text{background:rgba(255,255,255,.1);color:#e2e8f0}
+      [data-theme="dark"] .cb-comm-name{color:#818cf8}
+      [data-theme="dark"] .cb-comm-reply-quote{background:rgba(167,139,250,.1);border-left-color:#a78bfa}
+      [data-theme="dark"] .cb-comm-reply-quote:hover{background:rgba(167,139,250,.18)}
+      [data-theme="dark"] .cb-comm-reply-quote-name{color:#a78bfa}
+      [data-theme="dark"] .cb-comm-reply-quote-text{color:#94a3b8}
+      [data-theme="dark"] .cb-comm-reply-btn{color:#818cf8}
+      [data-theme="dark"] .cb-comm-reply-to-me{box-shadow:inset 0 0 0 1.5px rgba(167,139,250,.4)}
+      [data-theme="dark"] .cb-typing-text{color:#a78bfa}
+      [data-theme="dark"] .cb-typing-dots span{background:#a78bfa}
+      [data-theme="dark"] #cb-comm-jump-bar{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(99,102,241,.12));border-top-color:rgba(167,139,250,.25)}
+      [data-theme="dark"] #cb-comm-jump-bar:hover{background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(99,102,241,.20))}
+      [data-theme="dark"] #cb-comm-jump-bar .cb-jump-icon{background:rgba(167,139,250,.2);color:#a78bfa}
+      [data-theme="dark"] #cb-comm-jump-bar .cb-jump-text{color:#a78bfa}
+      [data-theme="dark"] #cb-reply-banner{background:#1e293b;border-color:rgba(255,255,255,.1)}
 
       /* ── Mobile (overlay) ── */
       @media(max-width:480px){
@@ -1402,10 +1757,15 @@
           '</div>' +
           '<div class="cb-hc-tabs">' +
             '<button class="cb-cat-btn active" data-cat="support">💬 Support</button>' +
-            '<button class="cb-cat-btn" data-cat="premium">👑 Premium</button>' +
-            '<button class="cb-cat-btn" data-cat="partner">🤝 Partnership</button>' +
+            '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
+            '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
+            '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
           '</div>' +
+          '<div id="cb-global-banner"></div>' +
+          '<div id="cb-typing-bar" style="display:none;"></div>' +
+          '<div id="cb-reply-banner" style="display:none;"></div>' +
           '<div id="cb-messages"></div>' +
+          '<div id="cb-comm-jump-bar" style="display:none;"></div>' +
           '<div class="cb-input-bar">' +
             '<button class="cb-attach-btn" title="Attach file">📎</button>' +
             '<input type="text" id="cb-input" placeholder="Type your message..." autocomplete="off">' +
@@ -1459,6 +1819,9 @@
 
     // Load admin settings (async, applies visibility when ready)
     loadHcSettings();
+
+    // Pre-load community messages for badge (don't wait for tab switch)
+    setTimeout(function() { if (!_communityLoaded) loadCommunityMessages(); }, 2000);
   }
 
   // ─── ENHANCE LANDING PAGE HELP CENTER ─────────────────────────────────────
@@ -1921,6 +2284,385 @@
     }, FADE_DELAY);
   }
 
+  // ─── COMMUNITY CHAT ──────────────────────────────────────────────────────
+  // Public community chat: anyone sends, anyone replies, threaded view
+  // Uses Supabase table: community_messages
+  // Columns: id, content, sender_name, device_id, center, role, parent_id, created_at
+
+  async function loadCommunityMessages() {
+    try {
+      var center = getCenter();
+      var resp = await sbFetch('/rest/v1/community_messages?center=eq.' + encodeURIComponent(center) + '&order=created_at.asc&limit=200&select=id,content,sender_name,device_id,role,parent_id,created_at');
+      var data = await resp.json();
+      if (Array.isArray(data)) {
+        _communityMessages = data;
+        _communityLoaded = true;
+        _communityLastPoll = Date.now();
+        if (currentCategory === 'community') renderCommunityMessages();
+        else _updateCommunityBadge();
+      }
+    } catch (e) { console.warn('[Community] Load error:', e); }
+  }
+
+  async function pollCommunityMessages() {
+    if (!_communityLoaded) return;
+    if (Date.now() - _communityLastPoll < 15000) return; // throttle 15s
+    await loadCommunityMessages();
+  }
+
+  function _buildThreadTree(msgs) {
+    var byId = {};
+    var roots = [];
+    msgs.forEach(function (m) {
+      m.replies = [];
+      byId[m.id] = m;
+    });
+    msgs.forEach(function (m) {
+      if (m.parent_id && byId[m.parent_id]) {
+        byId[m.parent_id].replies.push(m);
+      } else {
+        roots.push(m);
+      }
+    });
+    return roots;
+  }
+
+  function renderCommunityMessages() {
+    var list = document.getElementById('cb-messages');
+    if (!list) return;
+
+    if (!_communityMessages.length) {
+      list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:60px;">🌍 Welcome to the community!<br><span style="font-size:12px;">Be the first to start a conversation.</span></div>';
+      return;
+    }
+
+    // Build ID lookup for parent references
+    var byId = {};
+    _communityMessages.forEach(function(m) { byId[m.id] = m; });
+
+    var myDevice = getDeviceId();
+    var html = '';
+
+    // Flat chronological: render every message in order
+    _communityMessages.forEach(function (m) {
+      var isReply = !!m.parent_id;
+      var parentMsg = isReply ? (byId[m.parent_id] || null) : null;
+      html += _renderCommunityMsg(m, myDevice, isReply, parentMsg);
+    });
+
+    list.innerHTML = html;
+    list.scrollTop = list.scrollHeight;
+
+    // Mark all community messages as seen when viewing
+    _markCommunityAllSeen();
+
+    // Show jump bar if there are replies to my messages
+    _updateCommunityJumpBar(myDevice);
+
+    // Bind reply buttons
+    list.querySelectorAll('.cb-comm-reply-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        _setCommunityReplyTo(btn.dataset.msgId, btn.dataset.msgName);
+      });
+    });
+
+    // Bind quote previews — tap to scroll to original message
+    list.querySelectorAll('.cb-comm-reply-quote[data-scroll-to]').forEach(function (q) {
+      q.addEventListener('click', function () {
+        var targetId = q.dataset.scrollTo;
+        var target = list.querySelector('.cb-comm-msg[data-msg-id="' + targetId + '"]');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.style.transition = 'background .2s';
+          target.style.background = 'rgba(99,102,241,.1)';
+          setTimeout(function () { target.style.background = ''; }, 1200);
+        }
+      });
+    });
+  }
+
+  function _renderCommunityMsg(m, myDevice, isReply, parentMsg) {
+    var isMine = m.device_id === myDevice;
+    var isAdmin = m.role === 'admin';
+    var cls = isMine ? 'cb-comm-mine' : (isAdmin ? 'cb-comm-admin' : 'cb-comm-other');
+    // Is this reply to one of MY messages?
+    var isReplyToMe = isReply && parentMsg && parentMsg.device_id === myDevice && !isMine;
+    var time = '';
+    try {
+      var d = new Date(m.created_at);
+      var now = new Date();
+      var isToday = d.toDateString() === now.toDateString();
+      time = isToday
+        ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        : d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {}
+
+    var nameHtml = '';
+    if (!isMine) {
+      var displayName = escapeHtml(m.sender_name || 'Anonymous');
+      if (isAdmin) {
+        nameHtml = '<div class="cb-comm-name cb-comm-name-admin">🛡️ ' + displayName + ' <span style="font-size:9px;background:rgba(5,150,105,.15);color:#059669;padding:1px 6px;border-radius:8px;font-weight:700;">ADMIN</span></div>';
+      } else {
+        nameHtml = '<div class="cb-comm-name">' + displayName + '</div>';
+      }
+    }
+
+    var replyBtn = '';
+    if (!isReply) {
+      replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
+    }
+
+    // Quote preview for replies
+    var quoteHtml = '';
+    if (isReply && parentMsg) {
+      var quoteName = parentMsg.device_id === myDevice ? 'You' : escapeHtml(parentMsg.sender_name || 'Anonymous');
+      var quoteSnippet = escapeHtml((parentMsg.content || '').substring(0, 60));
+      if ((parentMsg.content || '').length > 60) quoteSnippet += '…';
+      quoteHtml = '<div class="cb-comm-reply-quote" data-scroll-to="' + parentMsg.id + '">' +
+        '<div class="cb-comm-reply-quote-name">' + quoteName + '</div>' +
+        '<div class="cb-comm-reply-quote-text">' + quoteSnippet + '</div>' +
+      '</div>';
+    }
+
+    var extraClass = (isReplyToMe ? ' cb-comm-reply-to-me' : '');
+
+    return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
+      nameHtml +
+      quoteHtml +
+      '<div class="cb-comm-text">' + formatMsgText(m.content || '') + '</div>' +
+      '<div class="cb-comm-footer">' +
+        '<span class="cb-comm-time">' + time + '</span>' +
+        replyBtn +
+      '</div>' +
+    '</div>';
+  }
+
+  function _setCommunityReplyTo(msgId, senderName) {
+    _communityReplyTo = msgId;
+    var banner = document.getElementById('cb-reply-banner');
+    if (banner) {
+      banner.style.display = 'flex';
+      banner.innerHTML =
+        '<div style="flex:1;font-size:12px;color:#64748b;">↩ Replying to <strong>' + escapeHtml(senderName) + '</strong></div>' +
+        '<button id="cb-reply-cancel" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:2px 6px;">✕</button>';
+      banner.querySelector('#cb-reply-cancel').addEventListener('click', _cancelCommunityReply);
+    }
+    var input = document.getElementById('cb-input');
+    if (input) { input.placeholder = 'Reply to ' + senderName + '...'; input.focus(); }
+  }
+
+  function _cancelCommunityReply() {
+    _communityReplyTo = null;
+    var banner = document.getElementById('cb-reply-banner');
+    if (banner) banner.style.display = 'none';
+    var input = document.getElementById('cb-input');
+    if (input) input.placeholder = 'Write to the community...';
+  }
+
+  async function sendCommunityMessage(text) {
+    isSending = true;
+    var input = document.getElementById('cb-input');
+    if (input) { input.value = ''; input.disabled = true; }
+
+    var body = {
+      content: text,
+      sender_name: getSenderName(),
+      device_id: getDeviceId(),
+      center: getCenter(),
+      role: 'user',
+      parent_id: _communityReplyTo || null
+    };
+
+    try {
+      var resp = await sbFetch('/rest/v1/community_messages', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=representation' },
+        body: JSON.stringify(body)
+      });
+      var rows = await resp.json();
+      if (Array.isArray(rows) && rows.length) {
+        _communityMessages.push(rows[0]);
+      } else if (rows && rows.id) {
+        _communityMessages.push(rows);
+      }
+      _cancelCommunityReply();
+      renderCommunityMessages();
+    } catch (e) {
+      console.warn('[Community] Send error:', e);
+    }
+
+    isSending = false;
+    if (input) { input.disabled = false; input.focus(); }
+  }
+
+  // ─── SUPABASE REALTIME ────────────────────────────────────────────────────
+
+  function _loadSupabaseClient(cb) {
+    if (window.supabase) { cb(); return; }
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    s.onload = cb;
+    s.onerror = function () { console.warn('[Community] Could not load Supabase Realtime'); };
+    document.head.appendChild(s);
+  }
+
+  function _initRealtime() {
+    _loadSupabaseClient(function () {
+      try {
+        _sbClient = window.supabase.createClient(SB_URL, SB_KEY);
+        _subscribeToMessages();
+        _subscribeToTyping();
+      } catch (e) { console.warn('[Community] Realtime init error:', e); }
+    });
+  }
+
+  function _subscribeToMessages() {
+    if (!_sbClient) return;
+    var center = getCenter();
+    _realtimeChannel = _sbClient.channel('community-' + center)
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'community_messages', filter: 'center=eq.' + center },
+        function (payload) {
+          var msg = payload.new;
+          if (!msg || !msg.id) return;
+          // Avoid duplicates
+          var exists = false;
+          for (var i = 0; i < _communityMessages.length; i++) {
+            if (_communityMessages[i].id === msg.id) { exists = true; break; }
+          }
+          if (!exists) {
+            _communityMessages.push(msg);
+            _communityLoaded = true;
+            if (currentCategory === 'community') {
+              // Append without full re-render for performance
+              _appendCommunityMsg(msg);
+              _markCommunityAllSeen();
+              _updateCommunityJumpBar(getDeviceId());
+            } else {
+              _updateCommunityBadge();
+            }
+          }
+          // Clear typing indicator for this sender
+          if (msg.device_id && _typingUsers[msg.device_id]) {
+            delete _typingUsers[msg.device_id];
+            _renderTypingIndicator();
+          }
+        })
+      .subscribe();
+  }
+
+  // Append a single new message to the bottom without full re-render
+  function _appendCommunityMsg(msg) {
+    var list = document.getElementById('cb-messages');
+    if (!list) return;
+    // Remove the "Welcome" placeholder if present
+    var placeholder = list.querySelector('div[style*="text-align:center"]');
+    if (placeholder && _communityMessages.length === 1) list.innerHTML = '';
+
+    var myDevice = getDeviceId();
+    var byId = {};
+    _communityMessages.forEach(function(m) { byId[m.id] = m; });
+    var isReply = !!msg.parent_id;
+    var parentMsg = isReply ? (byId[msg.parent_id] || null) : null;
+    var html = _renderCommunityMsg(msg, myDevice, isReply, parentMsg);
+
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    var el = wrapper.firstChild;
+    list.appendChild(el);
+
+    // Bind reply button
+    var btn = el.querySelector('.cb-comm-reply-btn');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        _setCommunityReplyTo(btn.dataset.msgId, btn.dataset.msgName);
+      });
+    }
+    // Bind quote click
+    var q = el.querySelector('.cb-comm-reply-quote[data-scroll-to]');
+    if (q) {
+      q.addEventListener('click', function () {
+        var target = list.querySelector('.cb-comm-msg[data-msg-id="' + q.dataset.scrollTo + '"]');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.style.transition = 'background .2s';
+          target.style.background = 'rgba(99,102,241,.1)';
+          setTimeout(function () { target.style.background = ''; }, 1200);
+        }
+      });
+    }
+
+    // Auto-scroll to bottom
+    list.scrollTop = list.scrollHeight;
+  }
+
+  // ─── TYPING INDICATORS ───────────────────────────────────────────────────
+
+  function _subscribeToTyping() {
+    if (!_sbClient) return;
+    var center = getCenter();
+    _typingChannel = _sbClient.channel('typing-' + center);
+    _typingChannel.on('broadcast', { event: 'typing' }, function (payload) {
+      var data = payload.payload;
+      if (!data || data.device_id === getDeviceId()) return;
+      _typingUsers[data.device_id] = { name: data.name, ts: Date.now() };
+      _renderTypingIndicator();
+    });
+    _typingChannel.subscribe();
+
+    // Clean up stale typing indicators every 2s
+    _typingDisplayTimer = setInterval(function () {
+      var now = Date.now();
+      var changed = false;
+      Object.keys(_typingUsers).forEach(function (k) {
+        if (now - _typingUsers[k].ts > 4000) { delete _typingUsers[k]; changed = true; }
+      });
+      if (changed) _renderTypingIndicator();
+    }, 2000);
+  }
+
+  function _broadcastTyping() {
+    if (!_typingChannel || currentCategory !== 'community') return;
+    _typingChannel.send({
+      type: 'broadcast',
+      event: 'typing',
+      payload: { device_id: getDeviceId(), name: getSenderName() }
+    });
+  }
+
+  function _onCommunityInput() {
+    if (currentCategory !== 'community') return;
+    if (_typingTimer) clearTimeout(_typingTimer);
+    _broadcastTyping();
+    _typingTimer = setTimeout(function () { _typingTimer = null; }, 2500);
+  }
+
+  function _renderTypingIndicator() {
+    var bar = document.getElementById('cb-typing-bar');
+    if (!bar) return;
+    if (currentCategory !== 'community') { bar.style.display = 'none'; return; }
+
+    var names = [];
+    Object.keys(_typingUsers).forEach(function (k) {
+      names.push(_typingUsers[k].name || 'Someone');
+    });
+
+    if (!names.length) {
+      bar.style.display = 'none';
+      return;
+    }
+
+    var text = '';
+    if (names.length === 1) text = names[0] + ' is typing';
+    else if (names.length === 2) text = names[0] + ' and ' + names[1] + ' are typing';
+    else text = names[0] + ' and ' + (names.length - 1) + ' others are typing';
+
+    bar.style.display = 'flex';
+    bar.innerHTML =
+      '<span class="cb-typing-dots"><span></span><span></span><span></span></span>' +
+      '<span class="cb-typing-text">' + escapeHtml(text) + '</span>';
+  }
+
   // ─── INIT ─────────────────────────────────────────────────────────────────
   function init() {
     loadLocal();
@@ -1929,9 +2671,19 @@
     buildDOM();
     updateBadge();
 
-    // Start polling
+    // Start polling (fallback — Realtime handles community messages when available)
+    pollGlobalMessage();
     pollAdminReplies();
-    pollTimer = setInterval(pollAdminReplies, POLL_INTERVAL);
+    pollTimer = setInterval(function() { pollAdminReplies(); pollGlobalMessage(); pollCommunityMessages(); }, POLL_INTERVAL);
+
+    // Initialize Supabase Realtime for community
+    _initRealtime();
+
+    // Bind typing indicator to input
+    setTimeout(function () {
+      var input = document.getElementById('cb-input');
+      if (input) input.addEventListener('input', _onCommunityInput);
+    }, 500);
 
     // Also persist candidate name to localStorage for cross-session identity
     var fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME');

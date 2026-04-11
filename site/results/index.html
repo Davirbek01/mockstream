@@ -1072,6 +1072,36 @@
       justify-content: center;
     }
     .premium-overlay.show { display: flex; }
+
+    /* Center Hub styles */
+    .ch-label { display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px; }
+    .ch-input { width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;font-family:inherit; }
+    .ch-input:focus { border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,0.12); }
+    .ch-input-sm { padding:6px 8px;font-size:12px; }
+    .ch-toggle { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer; }
+    .ch-toggle input { width:16px;height:16px;accent-color:#dc2626;cursor:pointer; }
+    .ch-mock-row { display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0; }
+    .ch-mock-row span { font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap; }
+    .ch-card { background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;transition:all .2s; }
+    .ch-card:hover { border-color:#dc2626;box-shadow:0 4px 12px rgba(220,38,38,0.08); }
+    .ch-card-logo { width:44px;height:44px;border-radius:10px;object-fit:cover;background:var(--bg);border:1px solid var(--border); }
+    .ch-card-info { flex:1;min-width:0; }
+    .ch-card-name { font-weight:700;font-size:14px;color:var(--ink); }
+    .ch-card-id { font-size:11px;color:var(--muted);font-family:monospace; }
+    .ch-card-badges { display:flex;gap:4px;margin-top:4px;flex-wrap:wrap; }
+    .ch-badge { font-size:10px;padding:2px 8px;border-radius:6px;font-weight:600; }
+    .ch-badge-active { background:#dcfce7;color:#166534; }
+    .ch-badge-locked { background:#fef3c7;color:#92400e; }
+    .ch-badge-inactive { background:#fee2e2;color:#991b1b; }
+    .ch-badge-maintenance { background:#e0e7ff;color:#3730a3; }
+    .ch-card-actions { display:flex;gap:6px;flex-shrink:0; }
+    .ch-card-btn { padding:6px 12px;border:none;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s; }
+    @keyframes chSlideUp { from { opacity:0;transform:translateY(30px) scale(.95); } to { opacity:1;transform:translateY(0) scale(1); } }
+    @keyframes chPulse { 0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.4); } 50% { box-shadow:0 0 0 6px rgba(245,158,11,0); } }
+    #chSwitchOverlay.show { display:flex !important; }
+    #chSwitchCancel:hover { background:#f3f4f6;border-color:#d1d5db; }
+    #chSwitchOk:hover { filter:brightness(1.08);box-shadow:0 6px 16px rgba(5,150,105,0.4); }
+
     .premium-container {
       width: 100%;
       max-width: 720px;
@@ -1511,7 +1541,10 @@
         <button class="topbar-btn" onclick="openPremiumPanel()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white;font-weight:700;">👑 Premium</button>
         <button class="topbar-btn main-site-only" onclick="openMessagesPanel()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;font-weight:700;">💬 Messages <span id="unreadBadge" style="display:none;background:#ef4444;color:white;border-radius:50%;padding:1px 6px;font-size:11px;margin-left:4px;"></span></button>
         <button class="topbar-btn main-site-only" onclick="openSettingsPanel()" style="background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:700;">⚙️ Settings</button>
+        <button class="topbar-btn main-site-only" onclick="openCenterHub()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:700;">🏢 Centers</button>
         <button class="topbar-btn main-site-only" onclick="openStoragePanel()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:700;">💾 Storage</button>
+        <button class="topbar-btn main-site-only" onclick="openCommunityPanel()" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:white;font-weight:700;">🌍 Community</button>
+        <button class="topbar-btn" id="returnMainBtn" style="display:none;background:linear-gradient(135deg,#f59e0b,#dc2626);color:white;font-weight:700;animation:chPulse 2s infinite;" onclick="returnToMainSite()">🏠 Return to Mock Stream</button>
         <button class="topbar-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
         <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
         <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
@@ -1689,6 +1722,25 @@
         <button class="viewer-close" onclick="closeMessagesPanel()">✕</button>
       </div>
       <div class="premium-body" id="messagesBody">
+        <!-- Global Announcement -->
+        <div style="background:linear-gradient(135deg,#fef3c7,#fff7ed);border:2px solid #f59e0b;border-radius:14px;padding:16px;margin-bottom:16px;position:relative;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:20px;">📢</span>
+            <span style="font-weight:700;font-size:14px;color:#92400e;">Global Announcement</span>
+            <span style="font-size:11px;color:#b45309;background:#fde68a;padding:2px 8px;border-radius:6px;font-weight:600;">Reaches ALL users</span>
+          </div>
+          <div id="globalMsgCurrentWrap" style="display:none;margin-bottom:10px;">
+            <div style="background:#fff;border:1.5px solid #fbbf24;border-radius:10px;padding:12px;font-size:13px;color:#78350f;line-height:1.5;" id="globalMsgCurrent"></div>
+            <div style="font-size:11px;color:#b45309;margin-top:4px;" id="globalMsgDate"></div>
+          </div>
+          <textarea id="globalMsgInput" rows="2" placeholder="Type an announcement message for ALL users..." style="width:100%;padding:10px 12px;border:1.5px solid #fbbf24;border-radius:10px;font-size:13px;background:#fffbeb;color:#78350f;outline:none;resize:vertical;font-family:inherit;line-height:1.5;box-sizing:border-box;"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+            <button onclick="sendGlobalMessage()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;font-weight:700;cursor:pointer;font-size:13px;">📢 Send Announcement</button>
+            <button onclick="clearGlobalMessage()" style="padding:8px 18px;border:none;border-radius:10px;background:#fef2f2;color:#dc2626;font-weight:600;cursor:pointer;font-size:13px;border:1.5px solid #fca5a5;">🗑️ Clear</button>
+          </div>
+          <div id="globalMsgStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
         <div class="center-tabs" id="centerTabs">
           <button class="center-tab active" data-center="" onclick="switchCenterTab(this)">🌐 All</button>
           <button class="center-tab" data-center="mock_stream" onclick="switchCenterTab(this)">🏠 Mock Stream</button>
@@ -1821,6 +1873,41 @@
           <div id="voiceAttachStatus" style="font-size:12px;margin-top:6px;"></div>
         </div>
 
+        <!-- Community Settings -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🌍 Community Chat</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Community tab. Changes apply immediately.</p>
+
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsCommunityEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🌍 Community tab visible</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsCommunityTextEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsCommunityVoiceEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsCommunityImageEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsCommunityPdfEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
+            </label>
+          </div>
+
+          <div style="display:flex;gap:8px;">
+            <button onclick="saveCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+            <button onclick="resetCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+          </div>
+          <div id="communitySettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
         <!-- Test AI Section -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🧪 Test AI</label>
@@ -1847,6 +1934,46 @@
           <div style="display:flex;gap:12px;margin-top:8px;">
             <button onclick="clearTestAiChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🗑️ Clear Chat</button>
           </div>
+        </div>
+
+        <!-- Data Management -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🗄️ Data Management</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Clear stored messages from Supabase to save space. This is irreversible.</p>
+
+          <!-- Center Selector -->
+          <div style="margin-bottom:12px;">
+            <label style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;display:block;">Select Center:</label>
+            <select id="dataMgmtCenterSelect" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;outline:none;">
+              <option value="mock_stream">🏠 Mock Stream</option>
+              <option value="bek">📚 Bekzods Multilevel</option>
+              <option value="global">🌐 Global Education LC</option>
+              <option value="niners">🏫 Niners Academy</option>
+              <option value="muzaffars">🗣️ Muzaffars English</option>
+              <option value="__all__">⚠️ ALL Centers</option>
+            </select>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Clear Support Messages -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--ink);">💬 Support Messages</div>
+                <div style="font-size:11px;color:var(--muted);" id="supportMsgCount">All Help Center conversations (Support, Premium, Partnership)</div>
+              </div>
+              <button onclick="clearAllSupportMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+            </div>
+
+            <!-- Clear Community Messages -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--ink);">🌍 Community Messages</div>
+                <div style="font-size:11px;color:var(--muted);" id="communityMsgCount">All public community chat messages and replies</div>
+              </div>
+              <button onclick="clearAllCommunityMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+            </div>
+          </div>
+          <div id="dataMgmtStatus" style="font-size:12px;margin-top:8px;"></div>
         </div>
       </div>
     </div>
@@ -1920,6 +2047,229 @@
           <div id="cleanupStatus" style="font-size:12px;margin-top:6px;"></div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMMUNITY PANEL OVERLAY ===== -->
+  <div class="premium-overlay" id="communityOverlay">
+    <div class="premium-container" style="max-width:800px;">
+      <div class="premium-header" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">
+        <h3>🌍 Community Messages</h3>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button onclick="refreshCommunityMessages()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;">🔄 Refresh</button>
+          <button class="viewer-close" onclick="closeCommunityPanel()">✕</button>
+        </div>
+      </div>
+      <div class="premium-body" style="padding:0;">
+
+        <!-- Message list -->
+        <div id="communityMsgList" style="padding:16px;max-height:420px;overflow-y:auto;">
+          <div style="text-align:center;color:var(--muted);padding:40px;">Loading community messages...</div>
+        </div>
+
+        <!-- Admin reply bar -->
+        <div id="communityReplyBar" style="display:none;padding:10px 16px;background:var(--surface);border-top:1px solid var(--border);">
+          <div id="communityReplyInfo" style="font-size:12px;color:var(--muted);margin-bottom:6px;"></div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="communityReplyInput" placeholder="Reply as admin..." style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);">
+            <button onclick="sendCommunityAdminReply()" style="padding:10px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:700;cursor:pointer;font-size:13px;">🛡️ Send</button>
+            <button onclick="cancelCommunityReply()" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:13px;">Cancel</button>
+          </div>
+          <div id="communityReplyStatus" style="font-size:11px;margin-top:4px;"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CENTER HUB OVERLAY ===== -->
+  <div class="premium-overlay" id="centerHubOverlay">
+    <div class="premium-container" style="max-width:860px;">
+      <div class="premium-header" style="background:linear-gradient(135deg,#dc2626,#b91c1c);">
+        <h3>🏢 Center Hub</h3>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button onclick="showAddCenterForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;">+ Add Center</button>
+          <button class="viewer-close" onclick="closeCenterHub()">✕</button>
+        </div>
+      </div>
+      <div class="premium-body" id="centerHubBody">
+
+        <!-- Active center indicator -->
+        <div id="chActiveBanner" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #22c55e;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:28px;" id="chActiveIcon">🟢</span>
+          <div style="flex:1;">
+            <div style="font-weight:700;font-size:15px;color:#166534;" id="chActiveName">Mock Stream</div>
+            <div style="font-size:12px;color:#15803d;" id="chActiveId">mock_stream — current active center</div>
+          </div>
+        </div>
+
+        <!-- Center cards list -->
+        <div id="chCentersList" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="text-align:center;color:var(--muted);padding:40px 0;">Loading centers...</div>
+        </div>
+
+        <!-- Add/Edit Center Form (hidden by default) -->
+        <div id="chFormSection" style="display:none;margin-top:20px;border:2px solid var(--border);border-radius:14px;overflow:hidden;">
+          <div id="chFormHeader" style="background:linear-gradient(135deg,#dc2626,#991b1b);padding:14px 18px;color:white;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;">
+            <span id="chFormTitle">Add New Center</span>
+            <button onclick="hideAddCenterForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;">✕</button>
+          </div>
+          <div style="padding:18px;background:var(--surface);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <!-- Brand Identity -->
+              <div>
+                <label class="ch-label">Brand Name *</label>
+                <input type="text" id="chBrandName" class="ch-input" placeholder="e.g., My Academy">
+              </div>
+              <div>
+                <label class="ch-label">Test Identifier (slug) *</label>
+                <input type="text" id="chTestId" class="ch-input" placeholder="e.g., my_academy" pattern="[a-z0-9_]+" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')">
+              </div>
+              <div>
+                <label class="ch-label">Logo URL</label>
+                <input type="url" id="chLogoUrl" class="ch-input" placeholder="https://...">
+              </div>
+              <div>
+                <label class="ch-label">Heading Line 1</label>
+                <input type="text" id="chHeading1" class="ch-input" placeholder="Main heading text">
+              </div>
+              <div>
+                <label class="ch-label">Heading Line 2</label>
+                <input type="text" id="chHeading2" class="ch-input" placeholder="Sub heading text">
+              </div>
+              <div>
+                <label class="ch-label">Site Domain</label>
+                <input type="text" id="chSiteDomain" class="ch-input" placeholder="e.g., myacademy.site" value="mockstream.site">
+              </div>
+
+              <!-- Telegram -->
+              <div>
+                <label class="ch-label">Telegram Channel</label>
+                <input type="text" id="chTgChannel" class="ch-input" placeholder="@channel_name">
+              </div>
+              <div>
+                <label class="ch-label">Telegram URL</label>
+                <input type="url" id="chTgUrl" class="ch-input" placeholder="https://t.me/channel">
+              </div>
+              <div>
+                <label class="ch-label">IELTS Telegram Channel</label>
+                <input type="text" id="chIeltsTg" class="ch-input" placeholder="@ielts_channel">
+              </div>
+              <div>
+                <label class="ch-label">Admin Telegram</label>
+                <input type="text" id="chAdminTg" class="ch-input" placeholder="https://t.me/admin">
+              </div>
+
+              <!-- Certificate -->
+              <div>
+                <label class="ch-label">Director Name</label>
+                <input type="text" id="chDirName" class="ch-input" placeholder="D. KHASANOV">
+              </div>
+              <div>
+                <label class="ch-label">Director Full Name</label>
+                <input type="text" id="chDirFull" class="ch-input" placeholder="Davirbek Khasanov">
+              </div>
+              <div>
+                <label class="ch-label">Director Title</label>
+                <input type="text" id="chDirTitle" class="ch-input" placeholder="Direktor | Director">
+              </div>
+              <div>
+                <label class="ch-label">CEO Title</label>
+                <input type="text" id="chCeoTitle" class="ch-input" placeholder="CEO of My Academy">
+              </div>
+
+              <!-- Access & Boost -->
+              <div>
+                <label class="ch-label">Access Policy</label>
+                <select id="chAccess" class="ch-input">
+                  <option value="default">Default (need OTP)</option>
+                  <option value="regular">Regular (free access, no AI)</option>
+                  <option value="premium">Premium (free access + AI)</option>
+                </select>
+              </div>
+              <div>
+                <label class="ch-label">Score Boost (0–3)</label>
+                <input type="number" id="chScoreBoost" class="ch-input" value="1" min="0" max="3">
+              </div>
+            </div>
+
+            <!-- Center Guard Config toggles -->
+            <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border);">
+              <div style="font-weight:700;font-size:13px;color:var(--ink);margin-bottom:10px;">⚙️ Center Guard Settings (Supabase)</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <label class="ch-toggle"><input type="checkbox" id="chActive" checked> Active</label>
+                <label class="ch-toggle"><input type="checkbox" id="chHelpCenter" checked> Help Center</label>
+                <label class="ch-toggle"><input type="checkbox" id="chCerts" checked> Certificates</label>
+                <label class="ch-toggle"><input type="checkbox" id="chFlashcards" checked> Flashcards</label>
+                <label class="ch-toggle"><input type="checkbox" id="chArticles" checked> Articles</label>
+                <label class="ch-toggle"><input type="checkbox" id="chTelegramNotifs" checked> Telegram Notifications</label>
+                <label class="ch-toggle"><input type="checkbox" id="chLeaderboard" checked> Leaderboard</label>
+                <label class="ch-toggle"><input type="checkbox" id="chWritingPlus" checked> Writing Plus</label>
+                <label class="ch-toggle"><input type="checkbox" id="chHidePowered"> Hide "Powered By"</label>
+                <label class="ch-toggle"><input type="checkbox" id="chMaintenance"> Maintenance Mode</label>
+              </div>
+            </div>
+
+            <!-- Mock Access Grid -->
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+              <div style="font-weight:700;font-size:13px;color:var(--ink);margin-bottom:10px;">📝 Mock Access Levels</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="chMockGrid">
+                <div class="ch-mock-row"><span>CEFR Speaking</span><select id="chMock_cefr_speaking" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>IELTS Speaking</span><select id="chMock_ielts_speaking" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>CEFR Writing</span><select id="chMock_cefr_writing" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>IELTS Writing</span><select id="chMock_ielts_writing" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>CEFR Reading</span><select id="chMock_cefr_reading" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>IELTS Reading</span><select id="chMock_ielts_reading" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>CEFR Listening</span><select id="chMock_cefr_listening" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>IELTS Listening</span><select id="chMock_ielts_listening" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>CEFR Full Mock</span><select id="chMock_cefr_full_mock" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+                <div class="ch-mock-row"><span>IELTS Full Mock</span><select id="chMock_ielts_full_mock" class="ch-input ch-input-sm"><option value="default">Default</option><option value="regular">Regular</option><option value="premium">Premium</option><option value="disabled">Disabled</option></select></div>
+              </div>
+            </div>
+
+            <!-- Brand Color & Welcome Message -->
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div>
+                <label class="ch-label">Brand Color</label>
+                <input type="color" id="chBrandColor" class="ch-input" value="#7c3aed" style="height:38px;padding:4px;">
+              </div>
+              <div>
+                <label class="ch-label">Welcome Message</label>
+                <input type="text" id="chWelcomeMsg" class="ch-input" placeholder="Custom welcome text...">
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button onclick="saveCenterConfig()" style="padding:10px 24px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:white;font-weight:700;cursor:pointer;font-size:13px;">💾 Save Center</button>
+              <button onclick="downloadSiteConfig()" style="padding:10px 24px;border:none;border-radius:10px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;font-weight:700;cursor:pointer;font-size:13px;">📥 Download Site Config Bundle</button>
+              <button onclick="hideAddCenterForm()" style="padding:10px 24px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;font-size:13px;">Cancel</button>
+            </div>
+            <div id="chFormStatus" style="font-size:12px;margin-top:8px;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CENTER SWITCH CONFIRM MODAL ===== -->
+  <div id="chSwitchOverlay" onclick="if(event.target===this)this.classList.remove('show')" style="display:none;position:fixed;inset:0;z-index:100001;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:18px;max-width:380px;width:92%;box-shadow:0 25px 60px rgba(0,0,0,0.3);overflow:hidden;animation:chSlideUp .25s ease;">
+      <div style="background:linear-gradient(135deg,#059669,#047857);padding:20px 24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:4px;">🔄</div>
+        <div style="color:white;font-weight:800;font-size:16px;">Switch Center</div>
+      </div>
+      <div style="padding:24px;text-align:center;">
+        <img id="chSwitchLogo" src="" style="width:56px;height:56px;border-radius:14px;object-fit:contain;margin-bottom:10px;border:2px solid #e5e7eb;">
+        <div id="chSwitchName" style="font-size:18px;font-weight:800;color:#0e141b;margin-bottom:2px;"></div>
+        <div id="chSwitchId" style="font-size:12px;color:#6b7280;font-family:monospace;margin-bottom:16px;"></div>
+        <div style="font-size:13px;color:#374151;line-height:1.5;">This will reload the landing page with this center's branding and configuration.</div>
+      </div>
+      <div style="padding:0 24px 20px;display:flex;gap:10px;">
+        <button id="chSwitchCancel" style="flex:1;padding:12px;border:2px solid #e5e7eb;background:white;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;color:#374151;transition:all .15s;">Cancel</button>
+        <button id="chSwitchOk" style="flex:1;padding:12px;border:none;background:linear-gradient(135deg,#059669,#047857);color:white;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(5,150,105,0.3);transition:all .15s;">Switch Now</button>
       </div>
     </div>
   </div>
@@ -3551,7 +3901,97 @@
         var roleSelect = document.getElementById('premiumRoleSelect');
         if (roleSelect) roleSelect.style.display = 'none';
       }
+
+      // Show "Return to Mock Stream" button if admin has switched center
+      var switchedCenter;
+      try { switchedCenter = localStorage.getItem('ms_active_center'); } catch(e) {}
+      if (switchedCenter && switchedCenter !== 'mock_stream') {
+        var retBtn = document.getElementById('returnMainBtn');
+        if (retBtn) retBtn.style.display = '';
+      }
     });
+
+    function returnToMainSite() {
+      try {
+        localStorage.removeItem('ms_active_center');
+        // Clear any cached center configs
+        for (var i = localStorage.length - 1; i >= 0; i--) {
+          var k = localStorage.key(i);
+          if (k && k.startsWith('ms_center_cfg_')) localStorage.removeItem(k);
+        }
+      } catch(e) {}
+      window.location.href = '../landing.html';
+    }
+
+    // ====================================================================
+    // GLOBAL ANNOUNCEMENT
+    // ====================================================================
+    async function loadGlobalMessage() {
+      try {
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.global_message&select=value,updated_at', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var rows = await r.json();
+        var wrap = document.getElementById('globalMsgCurrentWrap');
+        if (rows && rows.length && rows[0].value) {
+          var data = JSON.parse(rows[0].value);
+          document.getElementById('globalMsgCurrent').textContent = data.text || '';
+          document.getElementById('globalMsgDate').textContent = 'Sent: ' + new Date(data.sent_at || rows[0].updated_at).toLocaleString();
+          wrap.style.display = 'block';
+          document.getElementById('globalMsgInput').value = '';
+        } else {
+          wrap.style.display = 'none';
+        }
+      } catch(e) { console.warn('Load global msg error:', e); }
+    }
+
+    async function sendGlobalMessage() {
+      var text = document.getElementById('globalMsgInput').value.trim();
+      if (!text) { alert('Please type a message.'); return; }
+
+      var statusEl = document.getElementById('globalMsgStatus');
+      statusEl.innerHTML = '<span style="color:#d97706;">⏳ Sending...</span>';
+
+      try {
+        var payload = JSON.stringify({ text: text, sent_at: new Date().toISOString() });
+        // Upsert into site_settings
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings', {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates'
+          },
+          body: JSON.stringify({ key: 'global_message', value: payload, updated_at: new Date().toISOString() })
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Announcement sent to all users!</span>';
+        loadGlobalMessage();
+        setTimeout(function() { statusEl.textContent = ''; }, 4000);
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function clearGlobalMessage() {
+      if (!confirm('Clear the current global announcement?')) return;
+      var statusEl = document.getElementById('globalMsgStatus');
+      try {
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.global_message', {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ value: '', updated_at: new Date().toISOString() })
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Announcement cleared.</span>';
+        document.getElementById('globalMsgCurrentWrap').style.display = 'none';
+        setTimeout(function() { statusEl.textContent = ''; }, 3000);
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
+    }
 
     // ====================================================================
     // MESSAGES INBOX
@@ -3560,6 +4000,7 @@
 
     function openMessagesPanel() {
       document.getElementById('messagesOverlay').classList.add('show');
+      loadGlobalMessage();
       loadConversations();
     }
 
@@ -4147,6 +4588,13 @@
         document.getElementById('settingsMaxAiInlineMb').value = map.hc_max_ai_inline_mb || '8';
         document.getElementById('settingsMaxVoiceSec').value = map.hc_max_voice_sec || '120';
 
+        // Community settings
+        document.getElementById('settingsCommunityEnabled').checked = map.hc_community_enabled !== 'false';
+        document.getElementById('settingsCommunityTextEnabled').checked = map.hc_community_text_enabled !== 'false';
+        document.getElementById('settingsCommunityVoiceEnabled').checked = map.hc_community_voice_enabled !== 'false';
+        document.getElementById('settingsCommunityImageEnabled').checked = map.hc_community_image_enabled !== 'false';
+        document.getElementById('settingsCommunityPdfEnabled').checked = map.hc_community_pdf_enabled !== 'false';
+
         // Prompt files (multi-file: image, PDF, audio)
         if (map.ai_prompt_files) {
           try { _promptFiles = JSON.parse(map.ai_prompt_files); } catch(e) { _promptFiles = []; }
@@ -4461,6 +4909,44 @@
       document.getElementById('voiceAttachStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
     }
 
+    // ── Community Settings ──────────────────────────────────────────────────
+    async function saveCommunitySettings() {
+      var statusEl = document.getElementById('communitySettingsStatus');
+      statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var communityEnabled = document.getElementById('settingsCommunityEnabled').checked;
+        var textEnabled = document.getElementById('settingsCommunityTextEnabled').checked;
+        var voiceEnabled = document.getElementById('settingsCommunityVoiceEnabled').checked;
+        var imageEnabled = document.getElementById('settingsCommunityImageEnabled').checked;
+        var pdfEnabled = document.getElementById('settingsCommunityPdfEnabled').checked;
+
+        await upsertSetting('hc_community_enabled', String(communityEnabled));
+        await upsertSetting('hc_community_text_enabled', String(textEnabled));
+        await upsertSetting('hc_community_voice_enabled', String(voiceEnabled));
+        await upsertSetting('hc_community_image_enabled', String(imageEnabled));
+        await upsertSetting('hc_community_pdf_enabled', String(pdfEnabled));
+
+        localStorage.setItem('ms_hc_community_enabled', String(communityEnabled));
+        localStorage.setItem('ms_hc_community_text_enabled', String(textEnabled));
+        localStorage.setItem('ms_hc_community_voice_enabled', String(voiceEnabled));
+        localStorage.setItem('ms_hc_community_image_enabled', String(imageEnabled));
+        localStorage.setItem('ms_hc_community_pdf_enabled', String(pdfEnabled));
+
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Community settings saved</span>';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save settings</span>';
+      }
+    }
+
+    function resetCommunitySettings() {
+      document.getElementById('settingsCommunityEnabled').checked = true;
+      document.getElementById('settingsCommunityTextEnabled').checked = true;
+      document.getElementById('settingsCommunityVoiceEnabled').checked = true;
+      document.getElementById('settingsCommunityImageEnabled').checked = true;
+      document.getElementById('settingsCommunityPdfEnabled').checked = true;
+      document.getElementById('communitySettingsStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
+    }
+
     // ====================================================================
     // TEST AI — send text/voice/image/pdf to Gemini from settings
     // ====================================================================
@@ -4509,6 +4995,58 @@
       _testAiHistory = [];
       var chat = document.getElementById('testAiChat');
       if (chat) chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>';
+    }
+
+    // ── Data Management ─────────────────────────────────────────────────────
+    var _dataMgmtCenterNames = { mock_stream: 'Mock Stream', bek: 'Bekzods Multilevel', global: 'Global Education LC', niners: 'Niners Academy', muzaffars: 'Muzaffars English' };
+
+    function _getDataMgmtCenter() {
+      var sel = document.getElementById('dataMgmtCenterSelect');
+      return sel ? sel.value : 'mock_stream';
+    }
+
+    async function clearAllSupportMessages() {
+      var center = _getDataMgmtCenter();
+      var isAll = center === '__all__';
+      var label = isAll ? 'ALL CENTERS' : ('"' + (_dataMgmtCenterNames[center] || center) + '"');
+      if (!confirm('⚠️ Delete ALL support messages for ' + label + '?\n\nThis includes all Support, Premium, and Partnership conversations from all users.\n\nThis action cannot be undone.')) return;
+      var status = document.getElementById('dataMgmtStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Deleting support messages...</span>';
+      try {
+        var url = SUPABASE_URL + '/rest/v1/support_messages';
+        if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
+        else url += '?id=gt.0'; // match all rows
+        var resp = await fetch(url, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">✅ All support messages for ' + label + ' cleared successfully.</span>';
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function clearAllCommunityMessages() {
+      var center = _getDataMgmtCenter();
+      var isAll = center === '__all__';
+      var label = isAll ? 'ALL CENTERS' : ('"' + (_dataMgmtCenterNames[center] || center) + '"');
+      if (!confirm('⚠️ Delete ALL community messages for ' + label + '?\n\nThis removes every message and reply from all participants.\n\nThis action cannot be undone.')) return;
+      var status = document.getElementById('dataMgmtStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Deleting community messages...</span>';
+      try {
+        var url = SUPABASE_URL + '/rest/v1/community_messages';
+        if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
+        else url += '?id=gt.0'; // match all rows
+        var resp = await fetch(url, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">✅ All community messages for ' + label + ' cleared successfully.</span>';
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
     }
 
     // File attachment
@@ -4726,6 +5264,179 @@
     }
 
     // ====================================================================
+    // COMMUNITY ADMIN PANEL
+    // ====================================================================
+    var _commAdminMsgs = [];
+    var _commAdminReplyTo = null; // {id, sender_name, parent_id}
+
+    function openCommunityPanel() {
+      document.getElementById('communityOverlay').classList.add('show');
+      loadCommunityAdmin();
+    }
+    function closeCommunityPanel() {
+      document.getElementById('communityOverlay').classList.remove('show');
+      _commAdminReplyTo = null;
+    }
+
+    async function loadCommunityAdmin() {
+      var list = document.getElementById('communityMsgList');
+      list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;">⏳ Loading...</div>';
+      try {
+        var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages?center=eq.' + encodeURIComponent(center) + '&order=created_at.asc&limit=500&select=id,content,sender_name,device_id,role,parent_id,created_at', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        _commAdminMsgs = await resp.json();
+        if (!Array.isArray(_commAdminMsgs)) _commAdminMsgs = [];
+        renderCommunityAdmin();
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;color:#dc2626;padding:40px;">Failed to load: ' + e.message + '</div>';
+      }
+    }
+
+    function refreshCommunityMessages() { loadCommunityAdmin(); }
+
+    function renderCommunityAdmin() {
+      var list = document.getElementById('communityMsgList');
+      if (!_commAdminMsgs.length) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;">No community messages yet.</div>';
+        return;
+      }
+
+      // Build thread tree
+      var byId = {};
+      var roots = [];
+      _commAdminMsgs.forEach(function(m) { m._replies = []; byId[m.id] = m; });
+      _commAdminMsgs.forEach(function(m) {
+        if (m.parent_id && byId[m.parent_id]) byId[m.parent_id]._replies.push(m);
+        else roots.push(m);
+      });
+
+      var html = '';
+      roots.forEach(function(m) {
+        html += _renderAdminCommMsg(m, false);
+        if (m._replies && m._replies.length) {
+          m._replies.forEach(function(r) { html += _renderAdminCommMsg(r, true); });
+        }
+      });
+      list.innerHTML = html;
+      list.scrollTop = list.scrollHeight;
+    }
+
+    function _renderAdminCommMsg(m, isReply) {
+      var isAdmin = m.role === 'admin';
+      var time = '';
+      try {
+        var d = new Date(m.created_at);
+        time = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      } catch(e) {}
+
+      var name = _escHtml(m.sender_name || 'Anonymous');
+      var badge = isAdmin ? ' <span style="font-size:10px;background:#dcfce7;color:#059669;padding:1px 6px;border-radius:6px;font-weight:700;">ADMIN</span>' : '';
+      var bgColor = isAdmin ? 'rgba(5,150,105,.06)' : (isReply ? 'rgba(99,102,241,.04)' : 'var(--surface)');
+      var borderLeft = isReply ? 'border-left:3px solid ' + (isAdmin ? '#10b981' : '#c7d2fe') + ';' : '';
+
+      return '<div style="padding:10px 14px;' + borderLeft + (isReply ? 'margin-left:24px;' : '') + 'background:' + bgColor + ';border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background=\'rgba(99,102,241,.08)\'" onmouseleave="this.style.background=\'' + bgColor + '\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+          '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#6366f1') + ';">' + name + badge + '</div>' +
+          '<div style="font-size:10px;color:var(--muted);">' + time + '</div>' +
+        '</div>' +
+        '<div style="font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:6px;">' + _escHtml(m.content || '') + '</div>' +
+        '<div style="display:flex;gap:8px;">' +
+          '<button onclick="replyCommunityMsg(' + m.id + ',\'' + _escHtml(name).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#6366f1;font-size:11px;font-weight:600;cursor:pointer;padding:0;">↩ Reply</button>' +
+          '<button onclick="deleteCommunityMsg(' + m.id + ')" style="background:none;border:none;color:#dc2626;font-size:11px;font-weight:600;cursor:pointer;padding:0;">🗑 Delete</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function replyCommunityMsg(msgId, senderName) {
+      _commAdminReplyTo = msgId;
+      var bar = document.getElementById('communityReplyBar');
+      bar.style.display = '';
+      document.getElementById('communityReplyInfo').innerHTML = '↩ Replying to <strong>' + senderName + '</strong> (as 🛡️ Admin)';
+      document.getElementById('communityReplyInput').value = '';
+      document.getElementById('communityReplyStatus').innerHTML = '';
+      document.getElementById('communityReplyInput').focus();
+    }
+
+    function cancelCommunityReply() {
+      _commAdminReplyTo = null;
+      document.getElementById('communityReplyBar').style.display = 'none';
+    }
+
+    async function sendCommunityAdminReply() {
+      var input = document.getElementById('communityReplyInput');
+      var text = (input.value || '').trim();
+      if (!text) return;
+      var status = document.getElementById('communityReplyStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Sending...</span>';
+
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var body = {
+        content: text,
+        sender_name: 'Admin',
+        device_id: 'admin_dashboard',
+        center: center,
+        role: 'admin',
+        parent_id: _commAdminReplyTo || null
+      };
+
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages', {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">✅ Sent!</span>';
+        input.value = '';
+        cancelCommunityReply();
+        await loadCommunityAdmin();
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function deleteCommunityMsg(msgId) {
+      if (!confirm('Delete this community message and its replies?')) return;
+      try {
+        // Delete replies first
+        await fetch(SUPABASE_URL + '/rest/v1/community_messages?parent_id=eq.' + msgId, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        // Delete the message itself
+        await fetch(SUPABASE_URL + '/rest/v1/community_messages?id=eq.' + msgId, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        await loadCommunityAdmin();
+      } catch (e) {
+        alert('Failed to delete: ' + e.message);
+      }
+    }
+
+    // Add Escape key handler for community panel
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('communityOverlay').classList.contains('show')) {
+        closeCommunityPanel();
+      }
+    });
+
+    // Enter key for community reply input
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'communityReplyInput') {
+        e.preventDefault();
+        sendCommunityAdminReply();
+      }
+    });
+
+    // ====================================================================
     // STORAGE & CLEANUP PANEL
     // ====================================================================
     function openStoragePanel() {
@@ -4822,6 +5533,668 @@
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save cleanup settings</span>';
       }
     }
+
+    // ====================================================================
+    // CENTER HUB
+    // ====================================================================
+    var _chCenters = []; // Array of { testId, brandName, logoUrl, config, guardConfig }
+    var _chEditingId = null; // null = add mode, string = editing testId
+    var _chCurrentCenter = ''; // testId of active center (from SITE_CONFIG)
+
+    // Known centers (from site-config.js files on disk)
+    var CH_KNOWN_CENTERS = [
+      { testId: 'mock_stream', brandName: 'Mock Stream', logoUrl: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
+      { testId: 'bek', brandName: 'Bekzods Multilevel', logoUrl: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
+      { testId: 'global', brandName: 'Global Education LC', logoUrl: 'https://i.ibb.co/Xrzrh7x6/image.png' },
+      { testId: 'niners', brandName: 'Niners Academy', logoUrl: 'https://i.ibb.co/39jVLp1w/image.png' },
+      { testId: 'muzaffars', brandName: 'Muzaffars English', logoUrl: 'https://i.ibb.co/gMQ80dNn/image.png' }
+    ];
+
+    function openCenterHub() {
+      document.getElementById('centerHubOverlay').classList.add('show');
+      loadCenterHub();
+    }
+    function closeCenterHub() {
+      document.getElementById('centerHubOverlay').classList.remove('show');
+    }
+
+    async function loadCenterHub() {
+      // Detect current center
+      try {
+        var sc = window.parent.SITE_CONFIG || window.SITE_CONFIG;
+        _chCurrentCenter = (sc && sc.testIdentifier) || 'mock_stream';
+      } catch(e) { _chCurrentCenter = 'mock_stream'; }
+
+      // Update active banner
+      var activeName = CENTER_NAMES[_chCurrentCenter] || _chCurrentCenter;
+      document.getElementById('chActiveName').textContent = activeName;
+      document.getElementById('chActiveId').textContent = _chCurrentCenter + ' — current active center';
+
+      // Fetch all center configs from Supabase (keys starting with center_config_)
+      var list = document.getElementById('chCentersList');
+      list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px 0;">Loading...</div>';
+
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=like.center_config_*&select=key,value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var rows = await resp.json();
+
+        // Also fetch center_site_config_ entries (the full site-config data)
+        var resp2 = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=like.center_site_config_*&select=key,value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var siteRows = await resp2.json();
+        var siteMap = {};
+        (siteRows || []).forEach(function(r) {
+          var id = r.key.replace('center_site_config_', '');
+          try { siteMap[id] = typeof r.value === 'string' ? JSON.parse(r.value) : r.value; } catch(e) {}
+        });
+
+        // Build centers list: merge known + Supabase
+        var guardMap = {};
+        (rows || []).forEach(function(r) {
+          var id = r.key.replace('center_config_', '');
+          try { guardMap[id] = typeof r.value === 'string' ? JSON.parse(r.value) : r.value; } catch(e) {}
+        });
+
+        // Merge known centers + any new ones from Supabase
+        var seen = {};
+        _chCenters = [];
+        CH_KNOWN_CENTERS.forEach(function(c) {
+          seen[c.testId] = true;
+          var sc = siteMap[c.testId] || {};
+          _chCenters.push({
+            testId: c.testId,
+            brandName: sc.brandName || c.brandName,
+            logoUrl: sc.logoUrl || c.logoUrl,
+            config: sc,
+            guardConfig: guardMap[c.testId] || null
+          });
+        });
+        // Add Supabase-only centers not in known list
+        for (var gid in guardMap) {
+          if (!seen[gid]) {
+            var sc2 = siteMap[gid] || {};
+            _chCenters.push({
+              testId: gid,
+              brandName: sc2.brandName || CENTER_NAMES[gid] || gid,
+              logoUrl: sc2.logoUrl || '',
+              config: sc2,
+              guardConfig: guardMap[gid]
+            });
+          }
+        }
+        for (var sid in siteMap) {
+          if (!seen[sid] && !guardMap[sid]) {
+            _chCenters.push({
+              testId: sid,
+              brandName: siteMap[sid].brandName || sid,
+              logoUrl: siteMap[sid].logoUrl || '',
+              config: siteMap[sid],
+              guardConfig: null
+            });
+          }
+        }
+
+        renderCenterCards();
+      } catch(e) {
+        list.innerHTML = '<div style="text-align:center;color:#dc2626;padding:20px;">Failed to load centers: ' + e.message + '</div>';
+      }
+    }
+
+    function renderCenterCards() {
+      var list = document.getElementById('chCentersList');
+      if (!_chCenters.length) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;">No centers found. Click "+ Add Center" to create one.</div>';
+        return;
+      }
+      var html = '';
+      _chCenters.forEach(function(c) {
+        var gc = c.guardConfig || {};
+        var isActive = gc.active !== false;
+        var isMaint = gc.maintenanceMode === true;
+        var isLocked = gc.locked === true;
+        var isCurrent = c.testId === _chCurrentCenter;
+        var color = CENTER_COLORS[c.testId] || '#6b7280';
+
+        var badges = '';
+        if (isCurrent) badges += '<span class="ch-badge" style="background:' + color + '22;color:' + color + ';">📍 Current</span>';
+        if (!isActive) badges += '<span class="ch-badge ch-badge-inactive">⛔ Inactive</span>';
+        else if (isMaint) badges += '<span class="ch-badge ch-badge-maintenance">🔧 Maintenance</span>';
+        else if (isLocked) badges += '<span class="ch-badge ch-badge-locked">🔒 Locked</span>';
+        else badges += '<span class="ch-badge ch-badge-active">✅ Active</span>';
+
+        var logoHtml = c.logoUrl
+          ? '<img class="ch-card-logo" src="' + _escHtml(c.logoUrl) + '" onerror="this.style.display=\'none\'">'
+          : '<div class="ch-card-logo" style="display:flex;align-items:center;justify-content:center;font-size:20px;background:' + color + '22;color:' + color + ';">🏢</div>';
+
+        html += '<div class="ch-card" style="' + (isCurrent ? 'border-color:' + color + ';box-shadow:0 0 0 2px ' + color + '22;' : '') + '">' +
+          logoHtml +
+          '<div class="ch-card-info">' +
+            '<div class="ch-card-name">' + _escHtml(c.brandName) + '</div>' +
+            '<div class="ch-card-id">' + _escHtml(c.testId) + '</div>' +
+            '<div class="ch-card-badges">' + badges + '</div>' +
+          '</div>' +
+          '<div class="ch-card-actions">' +
+            '<button class="ch-card-btn" style="background:#dbeafe;color:#1d4ed8;" onclick="editCenter(\'' + _escHtml(c.testId) + '\')">✏️ Edit</button>' +
+            '<button class="ch-card-btn" style="background:#f3e8ff;color:#7c3aed;" onclick="downloadSiteConfigFor(\'' + _escHtml(c.testId) + '\')">📥</button>' +
+            (!isCurrent && _chCurrentCenter === 'mock_stream' ? '<button class="ch-card-btn" style="background:#dcfce7;color:#166534;" onclick="switchCenter(\'' + _escHtml(c.testId) + '\')">🔄 Switch</button>' : '') +
+          '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    }
+
+    function _escHtml(s) {
+      if (!s) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function showAddCenterForm() {
+      _chEditingId = null;
+      document.getElementById('chFormTitle').textContent = '➕ Add New Center';
+      // Clear all form fields
+      ['chBrandName','chTestId','chLogoUrl','chHeading1','chHeading2','chTgChannel','chTgUrl','chIeltsTg','chAdminTg','chDirName','chDirFull','chDirTitle','chCeoTitle','chWelcomeMsg'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.value = '';
+      });
+      document.getElementById('chSiteDomain').value = 'mockstream.site';
+      document.getElementById('chAccess').value = 'default';
+      document.getElementById('chScoreBoost').value = '1';
+      document.getElementById('chBrandColor').value = '#7c3aed';
+      document.getElementById('chTestId').readOnly = false;
+      // Reset toggles
+      ['chActive','chHelpCenter','chCerts','chFlashcards','chArticles','chTelegramNotifs','chLeaderboard','chWritingPlus'].forEach(function(id) {
+        document.getElementById(id).checked = true;
+      });
+      ['chHidePowered','chMaintenance'].forEach(function(id) {
+        document.getElementById(id).checked = false;
+      });
+      // Reset mock levels
+      var mockKeys = ['cefr_speaking','ielts_speaking','cefr_writing','ielts_writing','cefr_reading','ielts_reading','cefr_listening','ielts_listening','cefr_full_mock','ielts_full_mock'];
+      mockKeys.forEach(function(k) {
+        var el = document.getElementById('chMock_' + k);
+        if (el) el.value = 'default';
+      });
+      document.getElementById('chFormStatus').innerHTML = '';
+      document.getElementById('chFormSection').style.display = '';
+      document.getElementById('chFormSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function hideAddCenterForm() {
+      document.getElementById('chFormSection').style.display = 'none';
+      _chEditingId = null;
+    }
+
+    function editCenter(testId) {
+      _chEditingId = testId;
+      var c = _chCenters.find(function(x) { return x.testId === testId; });
+      if (!c) return;
+      document.getElementById('chFormTitle').textContent = '✏️ Edit — ' + (c.brandName || testId);
+
+      var sc = c.config || {};
+      var gc = c.guardConfig || {};
+
+      document.getElementById('chBrandName').value = sc.brandName || c.brandName || '';
+      document.getElementById('chTestId').value = testId;
+      document.getElementById('chTestId').readOnly = true; // can't change slug for existing
+      document.getElementById('chLogoUrl').value = sc.logoUrl || c.logoUrl || '';
+      document.getElementById('chHeading1').value = sc.heading1 || '';
+      document.getElementById('chHeading2').value = sc.heading2 || '';
+      document.getElementById('chSiteDomain').value = sc.siteDomain || 'mockstream.site';
+      document.getElementById('chTgChannel').value = sc.telegramChannel || '';
+      document.getElementById('chTgUrl').value = sc.telegramUrl || '';
+      document.getElementById('chIeltsTg').value = sc.ieltsTelegramChannel || '';
+      document.getElementById('chAdminTg').value = sc.adminTelegram || '';
+      document.getElementById('chDirName').value = sc.directorName || '';
+      document.getElementById('chDirFull').value = sc.directorFullName || '';
+      document.getElementById('chDirTitle').value = sc.directorTitle || '';
+      document.getElementById('chCeoTitle').value = sc.ceoTitle || '';
+      document.getElementById('chAccess').value = sc.access || 'default';
+      document.getElementById('chScoreBoost').value = typeof sc.scoreBoost === 'number' ? sc.scoreBoost : 1;
+      document.getElementById('chBrandColor').value = gc.brandColor || '#7c3aed';
+      document.getElementById('chWelcomeMsg').value = gc.welcomeMessage || '';
+
+      // Toggles
+      document.getElementById('chActive').checked = gc.active !== false;
+      document.getElementById('chHelpCenter').checked = gc.helpCenter !== false;
+      document.getElementById('chCerts').checked = gc.certificates !== false;
+      document.getElementById('chFlashcards').checked = gc.flashcards !== false;
+      document.getElementById('chArticles').checked = gc.articles !== false;
+      document.getElementById('chTelegramNotifs').checked = gc.telegramNotifs !== false;
+      document.getElementById('chLeaderboard').checked = gc.leaderboard !== false;
+      document.getElementById('chWritingPlus').checked = gc.writingPlus !== false;
+      document.getElementById('chHidePowered').checked = gc.hidePoweredBy === true;
+      document.getElementById('chMaintenance').checked = gc.maintenanceMode === true;
+
+      // Mock levels
+      var mocks = gc.mocks || {};
+      var mockKeys = ['cefr_speaking','ielts_speaking','cefr_writing','ielts_writing','cefr_reading','ielts_reading','cefr_listening','ielts_listening','cefr_full_mock','ielts_full_mock'];
+      mockKeys.forEach(function(k) {
+        var el = document.getElementById('chMock_' + k);
+        if (el) el.value = mocks[k] || 'default';
+      });
+
+      document.getElementById('chFormStatus').innerHTML = '';
+      document.getElementById('chFormSection').style.display = '';
+      document.getElementById('chFormSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function _readFormSiteConfig() {
+      return {
+        brandName: document.getElementById('chBrandName').value.trim(),
+        testIdentifier: document.getElementById('chTestId').value.trim(),
+        logoUrl: document.getElementById('chLogoUrl').value.trim(),
+        heading1: document.getElementById('chHeading1').value.trim(),
+        heading2: document.getElementById('chHeading2').value.trim(),
+        siteDomain: document.getElementById('chSiteDomain').value.trim() || 'mockstream.site',
+        telegramChannel: document.getElementById('chTgChannel').value.trim(),
+        telegramUrl: document.getElementById('chTgUrl').value.trim(),
+        ieltsTelegramChannel: document.getElementById('chIeltsTg').value.trim(),
+        adminTelegram: document.getElementById('chAdminTg').value.trim(),
+        directorName: document.getElementById('chDirName').value.trim(),
+        directorFullName: document.getElementById('chDirFull').value.trim(),
+        directorTitle: document.getElementById('chDirTitle').value.trim(),
+        ceoTitle: document.getElementById('chCeoTitle').value.trim(),
+        access: document.getElementById('chAccess').value,
+        scoreBoost: parseInt(document.getElementById('chScoreBoost').value, 10) || 0,
+        backendUrl: 'https://davirbek.alwaysdata.net',
+        adminBackendUrl: 'https://admin0709.alwaysdata.net',
+        routingBackendUrl: 'https://u-se-r.alwaysdata.net'
+      };
+    }
+
+    function _readFormGuardConfig() {
+      var mockKeys = ['cefr_speaking','ielts_speaking','cefr_writing','ielts_writing','cefr_reading','ielts_reading','cefr_listening','ielts_listening','cefr_full_mock','ielts_full_mock'];
+      var mocks = {};
+      mockKeys.forEach(function(k) {
+        var v = document.getElementById('chMock_' + k).value;
+        if (v && v !== 'default') mocks[k] = v;
+      });
+      return {
+        active: document.getElementById('chActive').checked,
+        maintenanceMode: document.getElementById('chMaintenance').checked,
+        helpCenter: document.getElementById('chHelpCenter').checked,
+        certificates: document.getElementById('chCerts').checked,
+        flashcards: document.getElementById('chFlashcards').checked,
+        articles: document.getElementById('chArticles').checked,
+        telegramNotifs: document.getElementById('chTelegramNotifs').checked,
+        leaderboard: document.getElementById('chLeaderboard').checked,
+        writingPlus: document.getElementById('chWritingPlus').checked,
+        hidePoweredBy: document.getElementById('chHidePowered').checked,
+        brandColor: document.getElementById('chBrandColor').value || '#7c3aed',
+        welcomeMessage: document.getElementById('chWelcomeMsg').value.trim(),
+        scoreBoost: parseInt(document.getElementById('chScoreBoost').value, 10) || 0,
+        mocks: mocks
+      };
+    }
+
+    async function saveCenterConfig() {
+      var status = document.getElementById('chFormStatus');
+      var sc = _readFormSiteConfig();
+      var gc = _readFormGuardConfig();
+
+      if (!sc.brandName || !sc.testIdentifier) {
+        status.innerHTML = '<span style="color:#dc2626;">Brand Name and Test Identifier are required.</span>';
+        return;
+      }
+      if (!_chEditingId && _chCenters.some(function(c) { return c.testId === sc.testIdentifier; })) {
+        status.innerHTML = '<span style="color:#dc2626;">A center with identifier "' + _escHtml(sc.testIdentifier) + '" already exists.</span>';
+        return;
+      }
+
+      var testId = _chEditingId || sc.testIdentifier;
+      status.innerHTML = '<span style="color:var(--muted);">Saving to Supabase...</span>';
+
+      try {
+        // Save site config
+        await upsertSetting('center_site_config_' + testId, JSON.stringify(sc));
+        // Save center guard config
+        await upsertSetting('center_config_' + testId, JSON.stringify(gc));
+        // Update CENTER_NAMES & CENTER_COLORS
+        if (!CENTER_NAMES[testId]) CENTER_NAMES[testId] = sc.brandName;
+        if (!CENTER_COLORS[testId]) CENTER_COLORS[testId] = gc.brandColor || '#6b7280';
+
+        // Update localStorage cache for center switching
+        try { localStorage.setItem('ms_center_cfg_' + testId, JSON.stringify(sc)); } catch(e) {}
+
+        status.innerHTML = '<span style="color:#059669;">✅ Center "' + _escHtml(sc.brandName) + '" saved successfully!</span>';
+        await loadCenterHub();
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + _escHtml(e.message) + '</span>';
+      }
+    }
+
+    function _buildSiteConfigJS(sc) {
+      var testId = sc.testIdentifier || 'my_center';
+      var brand = sc.brandName || 'My Center';
+      var esc = function(s) { return (s || '').replace(/\\/g, '\\\\').replace(/'/g,"\\'"); };
+      var js = '';
+      js += '// ============================================================================\n';
+      js += '// SITE CONFIG — ' + brand + '\n';
+      js += '// ============================================================================\n';
+      js += '// Auto-generated by Mock Stream Center Hub on ' + new Date().toISOString().slice(0,10) + '\n';
+      js += '// Deploy this file as: site-config/site-config.js\n';
+      js += '// ============================================================================\n\n';
+      js += 'window.SITE_CONFIG = {\n';
+      js += "  pwaFolder:            'site-config',\n";
+      js += "  brandName:            '" + esc(brand) + "',\n";
+      js += "  testIdentifier:       '" + esc(testId) + "',\n";
+      js += "  logoUrl:              '" + esc(sc.logoUrl) + "',\n";
+      js += "  heading1:             '" + esc(sc.heading1) + "',\n";
+      js += "  heading2:             '" + esc(sc.heading2) + "',\n";
+      js += "  telegramChannel:      '" + esc(sc.telegramChannel) + "',\n";
+      js += "  telegramUrl:          '" + esc(sc.telegramUrl) + "',\n";
+      js += "  ieltsTelegramChannel: '" + esc(sc.ieltsTelegramChannel) + "',\n";
+      js += "  adminTelegram:        '" + esc(sc.adminTelegram) + "',\n";
+      js += "  directorName:         '" + esc(sc.directorName) + "',\n";
+      js += "  directorFullName:     '" + esc(sc.directorFullName) + "',\n";
+      js += "  directorTitle:        '" + esc(sc.directorTitle) + "',\n";
+      js += "  ceoTitle:             '" + esc(sc.ceoTitle) + "',\n";
+      js += "  siteDomain:           '" + esc(sc.siteDomain || 'mockstream.site') + "',\n";
+      js += "  backendUrl:           '" + esc(sc.backendUrl || 'https://davirbek.alwaysdata.net') + "',\n";
+      js += "  adminBackendUrl:      '" + esc(sc.adminBackendUrl || 'https://admin0709.alwaysdata.net') + "',\n";
+      js += "  routingBackendUrl:    '" + esc(sc.routingBackendUrl || 'https://u-se-r.alwaysdata.net') + "',\n";
+      js += "  access:               '" + esc(sc.access || 'default') + "',\n";
+      js += '  scoreBoost:           ' + (sc.scoreBoost || 0) + ',\n';
+      js += '};\n\n';
+
+      // Add routing backend helper
+      js += '// Routing backend helper\n';
+      js += 'window.sendToRoutingBackend = function sendToRoutingBackend(opts) {\n';
+      js += '  try {\n';
+      js += '    var cfg = window.SITE_CONFIG || {};\n';
+      js += "    var base = (cfg.routingBackendUrl || '').replace(/\\/+$/, '');\n";
+      js += '    if (!base) return;\n';
+      js += '    var MAX_RETRIES = 2;\n';
+      js += '    var RETRY_DELAYS = [0, 5000];\n';
+      js += '    function attempt(n) {\n';
+      js += '      var body = new FormData();\n';
+      js += "      body.append('testIdentifier', cfg.testIdentifier || '');\n";
+      js += "      body.append('skill', opts.skill || '');\n";
+      js += "      if (opts.text) body.append('text', opts.text);\n";
+      js += "      if (opts.caption) body.append('caption', opts.caption);\n";
+      js += "      if (opts.file) body.append('file', opts.file);\n";
+      js += "      fetch(base + '/send-result', { method: 'POST', body: body })\n";
+      js += '        .then(function(r) { return r.json(); })\n';
+      js += '        .then(function(d) {\n';
+      js += "          if (!d.ok && n < MAX_RETRIES - 1) setTimeout(function() { attempt(n + 1); }, RETRY_DELAYS[n + 1]);\n";
+      js += '        })\n';
+      js += '        .catch(function() {\n';
+      js += '          if (n < MAX_RETRIES - 1) setTimeout(function() { attempt(n + 1); }, RETRY_DELAYS[n + 1]);\n';
+      js += '        });\n';
+      js += '    }\n';
+      js += '    attempt(0);\n';
+      js += '  } catch(e) {}\n';
+      js += '};\n\n';
+
+      // Legacy globals
+      js += '// Legacy globals\n';
+      js += 'window._siteLogoUrl = window.SITE_CONFIG.logoUrl;\n';
+      js += 'window._siteLogoWording = window.SITE_CONFIG.brandName;\n';
+      js += 'window._siteTestId = window.SITE_CONFIG.testIdentifier;\n';
+      js += 'window._siteTelegramChannel = window.SITE_CONFIG.telegramChannel;\n\n';
+
+      // VIP access
+      js += '// VIP Access Policy\n';
+      js += "(function() {\n";
+      js += "  var mode = (window.SITE_CONFIG.access || 'default').toLowerCase();\n";
+      js += "  if (mode === 'premium' || mode === 'regular') {\n";
+      js += "    try {\n";
+      js += "      sessionStorage.setItem('vipSessionAccess', 'true');\n";
+      js += "      if (mode === 'premium') sessionStorage.setItem('vipPremiumAi', 'true');\n";
+      js += "      else sessionStorage.removeItem('vipPremiumAi');\n";
+      js += '    } catch(e) {}\n';
+      js += '  }\n';
+      js += '})();\n\n';
+
+      // Center Guard loader
+      js += '// Center Guard auto-loader\n';
+      js += "(function() {\n";
+      js += "  var scripts = document.getElementsByTagName('script');\n";
+      js += '  var me = scripts[scripts.length - 1];\n';
+      js += "  var basePath = me.src ? me.src.substring(0, me.src.lastIndexOf('/') + 1) : 'site-config/';\n";
+      js += "  var s = document.createElement('script');\n";
+      js += "  s.src = basePath + 'center-guard.js';\n";
+      js += '  me.parentNode.insertBefore(s, me.nextSibling);\n';
+      js += '})();\n\n';
+
+      // Center Switching override
+      js += '// Center Switching — override config if admin switched to a different center\n';
+      js += '(function() {\n';
+      js += '  var activeCenter;\n';
+      js += "  try { activeCenter = localStorage.getItem('ms_active_center'); } catch(e) {}\n";
+      js += '  if (!activeCenter || activeCenter === window.SITE_CONFIG.testIdentifier) return;\n';
+      js += "  var cacheKey = 'ms_center_cfg_' + activeCenter;\n";
+      js += '  var cached;\n';
+      js += '  try { cached = localStorage.getItem(cacheKey); } catch(e) {}\n';
+      js += '  if (cached) {\n';
+      js += '    try {\n';
+      js += '      var sc = JSON.parse(cached);\n';
+      js += '      Object.assign(window.SITE_CONFIG, sc);\n';
+      js += '      window._siteLogoUrl         = sc.logoUrl          || window._siteLogoUrl;\n';
+      js += '      window._siteLogoWording     = sc.brandName         || window._siteLogoWording;\n';
+      js += '      window._siteTestId          = sc.testIdentifier    || window._siteTestId;\n';
+      js += '      window._siteTelegramChannel = sc.telegramChannel   || window._siteTelegramChannel;\n';
+      js += "      var mode = (sc.access || 'default').toLowerCase();\n";
+      js += "      if (mode === 'premium' || mode === 'regular') {\n";
+      js += '        try {\n';
+      js += "          sessionStorage.setItem('vipSessionAccess', 'true');\n";
+      js += "          if (mode === 'premium') sessionStorage.setItem('vipPremiumAi', 'true');\n";
+      js += "          else sessionStorage.removeItem('vipPremiumAi');\n";
+      js += '        } catch(e) {}\n';
+      js += '      }\n';
+      js += '    } catch(e) {}\n';
+      js += '  }\n';
+      js += "  var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';\n";
+      js += "  var SB_KEY = '" + esc(SUPABASE_ANON_KEY) + "';\n";
+      js += "  fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_' + encodeURIComponent(activeCenter) + '&select=value', {\n";
+      js += "    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }\n";
+      js += '  })\n';
+      js += '  .then(function(r) { return r.json(); })\n';
+      js += '  .then(function(rows) {\n';
+      js += '    if (rows && rows.length && rows[0].value) {\n';
+      js += "      var sc2 = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;\n";
+      js += '      try { localStorage.setItem(cacheKey, JSON.stringify(sc2)); } catch(e) {}\n';
+      js += '    }\n';
+      js += '  })\n';
+      js += '  .catch(function() {});\n';
+      js += '})();\n';
+
+      return js;
+    }
+
+    function downloadSiteConfig() {
+      var sc = _readFormSiteConfig();
+      if (!sc.brandName || !sc.testIdentifier) {
+        document.getElementById('chFormStatus').innerHTML = '<span style="color:#dc2626;">Fill Brand Name and Test Identifier first.</span>';
+        return;
+      }
+      _downloadConfigFile(sc);
+    }
+
+    function downloadSiteConfigFor(testId) {
+      var c = _chCenters.find(function(x) { return x.testId === testId; });
+      if (!c) return;
+      // Merge known defaults with saved config
+      var known = CH_KNOWN_CENTERS.find(function(k) { return k.testId === testId; });
+      var sc = Object.assign({}, {
+        brandName: (known && known.brandName) || testId,
+        testIdentifier: testId,
+        logoUrl: (known && known.logoUrl) || '',
+        backendUrl: 'https://davirbek.alwaysdata.net',
+        adminBackendUrl: 'https://admin0709.alwaysdata.net',
+        routingBackendUrl: 'https://u-se-r.alwaysdata.net',
+        access: 'default',
+        scoreBoost: 1,
+        siteDomain: 'mockstream.site'
+      }, c.config || {});
+      _downloadConfigFile(sc);
+    }
+
+    // ── Embedded shared file content (base64) for offline ZIP generation ──
+    var _EMBEDDED_CG_B64 = 'Ly8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KLy8gQ0VOVEVSIEdVQVJEIOKAlCBFbmZvcmNlbWVudCBsYXllciBmb3IgQ2VudGVycyBNYW5hZ2VtZW50DQovLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQovLyBMb2FkZWQgYXV0b21hdGljYWxseSBieSBzaXRlLWNvbmZpZy5qcyBvbiBldmVyeSBwYWdlLg0KLy8gUmVhZHMgY2VudGVyIGNvbmZpZyBmcm9tIFN1cGFiYXNlIChjYWNoZWQgaW4gbG9jYWxTdG9yYWdlIGZvciA1IG1pbikNCi8vIGFuZCBlbmZvcmNlczogYWN0aXZlL2xvY2tlZC9tYWludGVuYW5jZSwgYnJhbmRpbmcsIGZlYXR1cmUgdG9nZ2xlcywNCi8vIG9wZXJhdGluZyBob3VycywgbW9jayBhY2Nlc3MsIHNjb3JlIGJvb3N0LCBsaW1pdHMsIGV0Yy4NCi8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg0KKGZ1bmN0aW9uICgpIHsNCiAgJ3VzZSBzdHJpY3QnOw0KDQogIHZhciBDR19TQl9VUkwgPSAnaHR0cHM6Ly96a255dWtrYnRiY3Fndmtnamt0Yi5zdXBhYmFzZS5jbyc7DQogIHZhciBDR19TQl9LRVkgPSAnc2JfcHVibGlzaGFibGVfU1JMdlJ0UkhVNTJGbGlMeEE2Z1lhUV9JLXY1TENrMic7DQogIHZhciBDR19DQUNIRV9UVEwgPSA1ICogNjAgKiAxMDAwOyAvLyA1IG1pbnV0ZXMNCg0KICB2YXIgY2ZnID0gd2luZG93LlNJVEVfQ09ORklHOw0KICBpZiAoIWNmZyB8fCAhY2ZnLnRlc3RJZGVudGlmaWVyKSByZXR1cm47DQogIHZhciB0ZXN0SWQgPSBjZmcudGVzdElkZW50aWZpZXI7DQoNCiAgLy8g4pSA4pSAIEJsb2NraW5nIE92ZXJsYXkgSGVscGVyIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICBmdW5jdGlvbiBfY2dCbG9ja1NjcmVlbihpY29uLCB0aXRsZSwgc3VidGl0bGUsIGNvbG9yKSB7DQogICAgdmFyIGV4aXN0aW5nID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NnQmxvY2tPdmVybGF5Jyk7DQogICAgaWYgKGV4aXN0aW5nKSBleGlzdGluZy5yZW1vdmUoKTsNCiAgICB2YXIgZGl2ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7DQogICAgZGl2LmlkID0gJ2NnQmxvY2tPdmVybGF5JzsNCiAgICBkaXYuc3R5bGUuY3NzVGV4dCA9ICdwb3NpdGlvbjpmaXhlZDtpbnNldDowO3otaW5kZXg6OTk5OTk5O2Rpc3BsYXk6ZmxleDtmbGV4LWRpcmVjdGlvbjpjb2x1bW47YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW50ZXI7YmFja2dyb3VuZDojZmZmO2NvbG9yOiMzMzM7Zm9udC1mYW1pbHk6LWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsc2Fucy1zZXJpZjt0ZXh0LWFsaWduOmNlbnRlcjtwYWRkaW5nOjI0cHg7JzsNCiAgICBkaXYuaW5uZXJIVE1MID0NCiAgICAgICc8ZGl2IHN0eWxlPSJmb250LXNpemU6NjRweDttYXJnaW4tYm90dG9tOjE2cHg7Ij4nICsgaWNvbiArICc8L2Rpdj4nICsNCiAgICAgICc8aDEgc3R5bGU9ImZvbnQtc2l6ZToyMnB4O2ZvbnQtd2VpZ2h0OjcwMDttYXJnaW46MCAwIDhweDtjb2xvcjonICsgKGNvbG9yIHx8ICcjMzMzJykgKyAnOyI+JyArIHRpdGxlICsgJzwvaDE+JyArDQogICAgICAnPHAgc3R5bGU9ImZvbnQtc2l6ZToxNHB4O2NvbG9yOiM2NjY7bWF4LXdpZHRoOjQwMHB4O21hcmdpbjowOyI+JyArIHN1YnRpdGxlICsgJzwvcD4nICsNCiAgICAgICc8ZGl2IHN0eWxlPSJtYXJnaW4tdG9wOjI0cHg7Zm9udC1zaXplOjEycHg7Y29sb3I6I2FhYTsiPklmIHlvdSBiZWxpZXZlIHRoaXMgaXMgYW4gZXJyb3IsIGNvbnRhY3QgdGhlIGFkbWluaXN0cmF0b3IuPC9kaXY+JzsNCiAgICAoZG9jdW1lbnQuYm9keSB8fCBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQpLmFwcGVuZENoaWxkKGRpdik7DQogICAgLy8gUHJldmVudCBpbnRlcmFjdGlvbiB3aXRoIHBhZ2UgYmVoaW5kDQogICAgZG9jdW1lbnQuYm9keS5zdHlsZS5vdmVyZmxvdyA9ICdoaWRkZW4nOw0KICB9DQoNCiAgZnVuY3Rpb24gX2NnUmVtb3ZlQmxvY2soKSB7DQogICAgdmFyIGVsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NnQmxvY2tPdmVybGF5Jyk7DQogICAgaWYgKGVsKSBlbC5yZW1vdmUoKTsNCiAgICBkb2N1bWVudC5ib2R5LnN0eWxlLm92ZXJmbG93ID0gJyc7DQogIH0NCg0KICAvLyDilIDilIAgRGV0ZWN0IGN1cnJlbnQgbW9jayBwYWdlIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICBmdW5jdGlvbiBfY2dEZXRlY3RNb2NrS2V5KCkgew0KICAgIHZhciBwYXRoID0gbG9jYXRpb24ucGF0aG5hbWUudG9Mb3dlckNhc2UoKTsNCiAgICB2YXIgbWFwID0gew0KICAgICAgJ3NwZWFraW5nIG1vY2tzJzogICAgICAgJ2NlZnJfc3BlYWtpbmcnLA0KICAgICAgJ3NwZWFraW5nIGllbHRzJzogICAgICAgJ2llbHRzX3NwZWFraW5nJywNCiAgICAgICdpZWx0cyBzcGVha2luZyc6ICAgICAgICdpZWx0c19zcGVha2luZycsDQogICAgICAnd3JpdGluZyBtb2Nrcyc6ICAgICAgICAnY2Vmcl93cml0aW5nJywNCiAgICAgICd3cml0aW5nIGllbHRzJzogICAgICAgICdpZWx0c193cml0aW5nJywNCiAgICAgICdjZWZyIGxpc3RlbmluZyBtb2Nrcyc6ICdjZWZyX2xpc3RlbmluZycsDQogICAgICAnY2VmciBsaXN0ZW5pbmcnOiAgICAgICAnY2Vmcl9saXN0ZW5pbmcnLA0KICAgICAgJ2llbHRzIGxpc3RlbmluZyBtb2Nrcyc6J2llbHRzX2xpc3RlbmluZycsDQogICAgICAnaWVsdHMgbGlzdGVuaW5nJzogICAgICAnaWVsdHNfbGlzdGVuaW5nJywNCiAgICAgICdjZWZyIHJlYWRpbmcgbW9ja3MnOiAgICdjZWZyX3JlYWRpbmcnLA0KICAgICAgJ2NlZnIgcmVhZGluZyc6ICAgICAgICAgJ2NlZnJfcmVhZGluZycsDQogICAgICAnaWVsdHMgcmVhZGluZyBtb2Nrcyc6ICAnaWVsdHNfcmVhZGluZycsDQogICAgICAnaWVsdHMgcmVhZGluZyc6ICAgICAgICAnaWVsdHNfcmVhZGluZycsDQogICAgICAnZnVsbC1tb2NrJzogICAgICAgICAgICAnY2Vmcl9mdWxsX21vY2snLA0KICAgICAgJ2llbHRzLWZ1bGwtbW9jayc6ICAgICAgJ2llbHRzX2Z1bGxfbW9jaycNCiAgICB9Ow0KICAgIGZvciAodmFyIGtleSBpbiBtYXApIHsNCiAgICAgIGlmIChwYXRoLmluZGV4T2Yoa2V5LnJlcGxhY2UoLyAvZywgJyUyMCcpKSAhPT0gLTEgfHwgcGF0aC5pbmRleE9mKGtleS5yZXBsYWNlKC8gL2csICctJykpICE9PSAtMSB8fCBwYXRoLmluZGV4T2Yoa2V5KSAhPT0gLTEpIHsNCiAgICAgICAgcmV0dXJuIG1hcFtrZXldOw0KICAgICAgfQ0KICAgIH0NCiAgICByZXR1cm4gbnVsbDsNCiAgfQ0KDQogIC8vIOKUgOKUgCBDYWNoZSBIZWxwZXJzIChwZXItY2VudGVyIHRvIGF2b2lkIGNyb3NzLXNpdGUgY29sbGlzaW9ucykg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogIHZhciBDR19DQUNIRV9LRVkgPSAnY2dfY2NfJyArIHRlc3RJZDsNCiAgdmFyIENHX0NBQ0hFX1RTX0tFWSA9ICdjZ19jY190c18nICsgdGVzdElkOw0KDQogIGZ1bmN0aW9uIF9jZ0dldENhY2hlZCgpIHsNCiAgICB0cnkgew0KICAgICAgdmFyIHRzID0gcGFyc2VJbnQobG9jYWxTdG9yYWdlLmdldEl0ZW0oQ0dfQ0FDSEVfVFNfS0VZKSB8fCAnMCcsIDEwKTsNCiAgICAgIGlmIChEYXRlLm5vdygpIC0gdHMgPCBDR19DQUNIRV9UVEwpIHsNCiAgICAgICAgdmFyIHJhdyA9IGxvY2FsU3RvcmFnZS5nZXRJdGVtKENHX0NBQ0hFX0tFWSk7DQogICAgICAgIGlmIChyYXcpIHJldHVybiBKU09OLnBhcnNlKHJhdyk7DQogICAgICB9DQogICAgfSBjYXRjaCAoZSkge30NCiAgICByZXR1cm4gbnVsbDsNCiAgfQ0KDQogIGZ1bmN0aW9uIF9jZ1NldENhY2hlKGRhdGEpIHsNCiAgICB0cnkgew0KICAgICAgbG9jYWxTdG9yYWdlLnNldEl0ZW0oQ0dfQ0FDSEVfS0VZLCBKU09OLnN0cmluZ2lmeShkYXRhKSk7DQogICAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbShDR19DQUNIRV9UU19LRVksIFN0cmluZyhEYXRlLm5vdygpKSk7DQogICAgfSBjYXRjaCAoZSkge30NCiAgfQ0KDQogIC8vIOKUgOKUgCBGZXRjaCBmcm9tIFN1cGFiYXNlIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICBmdW5jdGlvbiBfY2dGZXRjaENvbmZpZygpIHsNCiAgICB2YXIga2V5ID0gJ2NlbnRlcl9jb25maWdfJyArIHRlc3RJZDsNCiAgICByZXR1cm4gZmV0Y2goQ0dfU0JfVVJMICsgJy9yZXN0L3YxL3NpdGVfc2V0dGluZ3M/a2V5PWVxLicgKyBlbmNvZGVVUklDb21wb25lbnQoa2V5KSArICcmc2VsZWN0PXZhbHVlJywgew0KICAgICAgaGVhZGVyczogeyAnYXBpa2V5JzogQ0dfU0JfS0VZLCAnQXV0aG9yaXphdGlvbic6ICdCZWFyZXIgJyArIENHX1NCX0tFWSB9DQogICAgfSkNCiAgICAgIC50aGVuKGZ1bmN0aW9uIChyKSB7IHJldHVybiByLmpzb24oKTsgfSkNCiAgICAgIC50aGVuKGZ1bmN0aW9uIChyb3dzKSB7DQogICAgICAgIGlmIChBcnJheS5pc0FycmF5KHJvd3MpICYmIHJvd3MubGVuZ3RoID4gMCAmJiByb3dzWzBdLnZhbHVlKSB7DQogICAgICAgICAgdmFyIHBhcnNlZCA9IEpTT04ucGFyc2Uocm93c1swXS52YWx1ZSk7DQogICAgICAgICAgX2NnU2V0Q2FjaGUocGFyc2VkKTsNCiAgICAgICAgICByZXR1cm4gcGFyc2VkOw0KICAgICAgICB9DQogICAgICAgIHJldHVybiBudWxsOw0KICAgICAgfSkNCiAgICAgIC5jYXRjaChmdW5jdGlvbiAoZSkgew0KICAgICAgICBjb25zb2xlLndhcm4oJ1tDZW50ZXJHdWFyZF0gRmV0Y2ggZXJyb3I6JywgZSk7DQogICAgICAgIHJldHVybiBudWxsOw0KICAgICAgfSk7DQogIH0NCg0KICAvLyDilIDilIAgQXBwbHkgRW5mb3JjZW1lbnQg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogIGZ1bmN0aW9uIF9jZ0VuZm9yY2UoY2MpIHsNCiAgICBpZiAoIWNjKSByZXR1cm47DQoNCiAgICAvLyBTdG9yZSBmb3Igb3RoZXIgc2NyaXB0cyB0byByZWFkDQogICAgd2luZG93Ll9jZW50ZXJDb25maWcgPSBjYzsNCg0KICAgIC8vIOKUgOKUgOKUgCAxLiBBQ1RJVkUgQ0hFQ0sg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogICAgaWYgKGNjLmFjdGl2ZSA9PT0gZmFsc2UpIHsNCiAgICAgIF9jZ0Jsb2NrU2NyZWVuKCfwn5qrJywgJ0NlbnRlciBEZWFjdGl2YXRlZCcsICdUaGlzIGxlYXJuaW5nIGNlbnRlciBpcyBjdXJyZW50bHkgZGVhY3RpdmF0ZWQuIEFjY2VzcyB0byBhbGwgZXhhbXMgYW5kIGZlYXR1cmVzIGhhcyBiZWVuIHN1c3BlbmRlZC4nLCAnI2RjMjYyNicpOw0KICAgICAgcmV0dXJuOyAvLyBObyBmdXJ0aGVyIGVuZm9yY2VtZW50IG5lZWRlZA0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCAyLiBNQUlOVEVOQU5DRSBNT0RFIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIGlmIChjYy5tYWludGVuYW5jZU1vZGUgPT09IHRydWUpIHsNCiAgICAgIF9jZ0Jsb2NrU2NyZWVuKCfwn5SnJywgJ1VuZGVyIE1haW50ZW5hbmNlJywgJ1dlIGFyZSBwZXJmb3JtaW5nIHNjaGVkdWxlZCBtYWludGVuYW5jZS4gUGxlYXNlIGNoZWNrIGJhY2sgc2hvcnRseS4nLCAnI2Y1OWUwYicpOw0KICAgICAgcmV0dXJuOw0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCAzLiBMT0NLRUQg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogICAgaWYgKGNjLmxvY2tlZCA9PT0gdHJ1ZSkgew0KICAgICAgX2NnQmxvY2tTY3JlZW4oJ/CflJInLCAnQ2VudGVyIExvY2tlZCcsICdUaGlzIGxlYXJuaW5nIGNlbnRlciBpcyB0ZW1wb3JhcmlseSBsb2NrZWQuIFBsZWFzZSBjb250YWN0IHRoZSBhZG1pbmlzdHJhdG9yIHRvIHVubG9jayBhY2Nlc3MuJywgJyM3YzNhZWQnKTsNCiAgICAgIHJldHVybjsNCiAgICB9DQoNCiAgICAvLyDilIDilIDilIAgNC4gT1BFUkFUSU5HIEhPVVJTIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIGlmIChjYy5vcGVyYXRpbmdIb3Vyc0VuYWJsZWQpIHsNCiAgICAgIHZhciBub3cgPSBuZXcgRGF0ZSgpOw0KICAgICAgdmFyIGhobW0gPSAoJzAnICsgbm93LmdldEhvdXJzKCkpLnNsaWNlKC0yKSArICc6JyArICgnMCcgKyBub3cuZ2V0TWludXRlcygpKS5zbGljZSgtMik7DQogICAgICB2YXIgc3RhcnQgPSBjYy5vcGVyYXRpbmdIb3Vyc1N0YXJ0IHx8ICcwOTowMCc7DQogICAgICB2YXIgZW5kID0gY2Mub3BlcmF0aW5nSG91cnNFbmQgfHwgJzE4OjAwJzsNCiAgICAgIGlmIChoaG1tIDwgc3RhcnQgfHwgaGhtbSA+PSBlbmQpIHsNCiAgICAgICAgX2NnQmxvY2tTY3JlZW4oJ+KPsCcsICdPdXRzaWRlIE9wZXJhdGluZyBIb3VycycsICdUaGlzIGNlbnRlciBpcyBhdmFpbGFibGUgZnJvbSAnICsgc3RhcnQgKyAnIHRvICcgKyBlbmQgKyAnLiBQbGVhc2UgY29tZSBiYWNrIGR1cmluZyBvcGVyYXRpbmcgaG91cnMuJywgJyM2MzY2ZjEnKTsNCiAgICAgICAgcmV0dXJuOw0KICAgICAgfQ0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCA1LiBFWEFNIFNDSEVEVUxFIE1PREUg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogICAgaWYgKGNjLmV4YW1TY2hlZHVsZU1vZGUgJiYgY2MuZXhhbVNjaGVkdWxlRGF0ZSkgew0KICAgICAgdmFyIHNjaGVkdWxlZCA9IG5ldyBEYXRlKGNjLmV4YW1TY2hlZHVsZURhdGUpOw0KICAgICAgaWYgKCFpc05hTihzY2hlZHVsZWQuZ2V0VGltZSgpKSAmJiBEYXRlLm5vdygpIDwgc2NoZWR1bGVkLmdldFRpbWUoKSkgew0KICAgICAgICB2YXIgZGF0ZVN0ciA9IHNjaGVkdWxlZC50b0xvY2FsZURhdGVTdHJpbmcoKSArICcgJyArIHNjaGVkdWxlZC50b0xvY2FsZVRpbWVTdHJpbmcoW10sIHsgaG91cjogJzItZGlnaXQnLCBtaW51dGU6ICcyLWRpZ2l0JyB9KTsNCiAgICAgICAgX2NnQmxvY2tTY3JlZW4oJ/Cfl5PvuI8nLCAnRXhhbSBOb3QgWWV0IEF2YWlsYWJsZScsICdNb2NrcyB3aWxsIHVubG9jayBvbjogJyArIGRhdGVTdHIsICcjMGQ5NDg4Jyk7DQogICAgICAgIHJldHVybjsNCiAgICAgIH0NCiAgICB9DQoNCiAgICAvLyDilIDilIDilIAgNi4gTU9DSyBBQ0NFU1MgKHBhZ2UtbGV2ZWwgYmxvY2spIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIHZhciBtb2NrS2V5ID0gX2NnRGV0ZWN0TW9ja0tleSgpOw0KICAgIGlmIChtb2NrS2V5ICYmIGNjLm1vY2tzICYmIGNjLm1vY2tzW21vY2tLZXldID09PSAnZGlzYWJsZWQnKSB7DQogICAgICBfY2dCbG9ja1NjcmVlbign8J+aqycsICdNb2NrIE5vdCBBdmFpbGFibGUnLCAnVGhpcyBleGFtIHR5cGUgaXMgbm90IGF2YWlsYWJsZSBhdCB5b3VyIGNlbnRlci4nLCAnI2RjMjYyNicpOw0KICAgICAgcmV0dXJuOw0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCA3LiBNT0NLIEFDQ0VTUyBMRVZFTCAob3ZlcnJpZGUgYWNjZXNzKSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgICAvLyBJbmRpdmlkdWFsIG1vY2sgY29kZXMgYnlwYXNzIGNlbnRlciBzZXR0aW5ncyBlbnRpcmVseQ0KICAgIHZhciBfaGFzSW5kaXZpZHVhbENvZGUgPSBmYWxzZTsNCiAgICB0cnkgeyBfaGFzSW5kaXZpZHVhbENvZGUgPSAhIXNlc3Npb25TdG9yYWdlLmdldEl0ZW0oJ3NwZWFraW5nSW5kaXZpZHVhbENvZGUnKTsgfSBjYXRjaCAoZSkge30NCiAgICBpZiAobW9ja0tleSAmJiBjYy5tb2NrcyAmJiAhX2hhc0luZGl2aWR1YWxDb2RlKSB7DQogICAgICB2YXIgbHZsID0gY2MubW9ja3NbbW9ja0tleV07DQogICAgICBpZiAobHZsID09PSAncmVndWxhcicpIHsNCiAgICAgICAgLy8gR3JhbnQgYWNjZXNzIGJ1dCB3aXRob3V0IHByZW1pdW0gQUkNCiAgICAgICAgdHJ5IHsNCiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5zZXRJdGVtKCd2aXBTZXNzaW9uQWNjZXNzJywgJ3RydWUnKTsNCiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCd2aXBQcmVtaXVtQWknKTsNCiAgICAgICAgICAvLyBBbHNvIHJlbW92ZSBtb2NrLXNwZWNpZmljIHByZW1pdW0gZmxhZ3Mgc2V0IGJ5IFVSTCBwYXJhbXMgb3IgbGFuZGluZyBwYWdlDQogICAgICAgICAgaWYgKG1vY2tLZXkuaW5kZXhPZignc3BlYWtpbmcnKSAhPT0gLTEpIHNlc3Npb25TdG9yYWdlLnJlbW92ZUl0ZW0oJ3NwZWFraW5nUHJlbWl1bUVudHJ5Jyk7DQogICAgICAgICAgaWYgKG1vY2tLZXkuaW5kZXhPZignd3JpdGluZycpICE9PSAtMSkgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbSgnd3JpdGluZ1ByZW1pdW1FbnRyeScpOw0KICAgICAgICB9IGNhdGNoIChlKSB7fQ0KICAgICAgfSBlbHNlIGlmIChsdmwgPT09ICdwcmVtaXVtJykgew0KICAgICAgICB0cnkgew0KICAgICAgICAgIHNlc3Npb25TdG9yYWdlLnNldEl0ZW0oJ3ZpcFNlc3Npb25BY2Nlc3MnLCAndHJ1ZScpOw0KICAgICAgICAgIHNlc3Npb25TdG9yYWdlLnNldEl0ZW0oJ3ZpcFByZW1pdW1BaScsICd0cnVlJyk7DQogICAgICAgIH0gY2F0Y2ggKGUpIHt9DQogICAgICB9DQogICAgfQ0KDQogICAgLy8g4pSA4pSA4pSAIDguIFNDT1JFIEJPT1NUIE9WRVJSSURFIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIGlmICh0eXBlb2YgY2Muc2NvcmVCb29zdCA9PT0gJ251bWJlcicgJiYgd2luZG93LlNJVEVfQ09ORklHKSB7DQogICAgICB3aW5kb3cuU0lURV9DT05GSUcuc2NvcmVCb29zdCA9IGNjLnNjb3JlQm9vc3Q7DQogICAgfQ0KDQogICAgLy8gUmVtb3ZlIGFueSBzdGFsZSBibG9jayBvdmVybGF5DQogICAgX2NnUmVtb3ZlQmxvY2soKTsNCg0KICAgIC8vIOKUgOKUgOKUgCBET00tZGVwZW5kZW50IGVuZm9yY2VtZW50ICh3YWl0IGZvciBET00pIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIF9jZ1doZW5SZWFkeShmdW5jdGlvbiAoKSB7DQogICAgICBfY2dBcHBseVZpc3VhbFNldHRpbmdzKGNjKTsNCiAgICB9KTsNCiAgfQ0KDQogIC8vIOKUgOKUgCBXYWl0IGZvciBET00g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogIGZ1bmN0aW9uIF9jZ1doZW5SZWFkeShmbikgew0KICAgIGlmIChkb2N1bWVudC5yZWFkeVN0YXRlID09PSAnbG9hZGluZycpIHsNCiAgICAgIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ0RPTUNvbnRlbnRMb2FkZWQnLCBmbik7DQogICAgfSBlbHNlIHsNCiAgICAgIGZuKCk7DQogICAgfQ0KICB9DQoNCiAgLy8g4pSA4pSAIFZpc3VhbCAvIEZlYXR1cmUgRW5mb3JjZW1lbnQg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogIGZ1bmN0aW9uIF9jZ0FwcGx5VmlzdWFsU2V0dGluZ3MoY2MpIHsNCg0KICAgIC8vIOKUgOKUgOKUgCBCUkFORCBDT0xPUiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgICBpZiAoY2MuYnJhbmRDb2xvciAmJiBjYy5icmFuZENvbG9yICE9PSAnIzdjM2FlZCcgJiYgY2MuYnJhbmRDb2xvciAhPT0gJycpIHsNCiAgICAgIHZhciBjID0gY2MuYnJhbmRDb2xvcjsNCiAgICAgIC8vIE92ZXJyaWRlIGhlYWRlciBncmFkaWVudA0KICAgICAgdmFyIGhlYWRlciA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJy5oZWFkZXInKTsNCiAgICAgIGlmIChoZWFkZXIpIGhlYWRlci5zdHlsZS5iYWNrZ3JvdW5kID0gJ2xpbmVhci1ncmFkaWVudCgxMzVkZWcsICcgKyBjICsgJywgJyArIF9jZ0RhcmtlbihjLCAzMCkgKyAnKSc7DQogICAgICAvLyBPdmVycmlkZSBDU1MgdmFyaWFibGVzIGZvciBidXR0b25zIGFuZCBhY2NlbnRzDQogICAgICB2YXIgc3R5bGUgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzdHlsZScpOw0KICAgICAgc3R5bGUudGV4dENvbnRlbnQgPQ0KICAgICAgICAnLnNraWxsLWJ0bjpob3ZlciwgLnNraWxsLWJ0bi5hY3RpdmUgeyBib3JkZXItY29sb3I6ICcgKyBjICsgJyAhaW1wb3J0YW50OyB9JyArDQogICAgICAgICcuY2FyZC1idG4geyBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCAnICsgYyArICcsICcgKyBfY2dEYXJrZW4oYywgMjApICsgJykgIWltcG9ydGFudDsgfScgKw0KICAgICAgICAnLmZ1bGwtbW9jay1jYXJkIHsgYm9yZGVyLWNvbG9yOiAnICsgYyArICczMyAhaW1wb3J0YW50OyB9JyArDQogICAgICAgICcuZnVsbC1tb2NrLWNhcmQ6aG92ZXIgeyBib3JkZXItY29sb3I6ICcgKyBjICsgJyAhaW1wb3J0YW50OyBib3gtc2hhZG93OiAwIDhweCAzMHB4ICcgKyBjICsgJzIyICFpbXBvcnRhbnQ7IH0nOw0KICAgICAgZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChzdHlsZSk7DQogICAgfQ0KDQogICAgLy8g4pSA4pSA4pSAIFdFTENPTUUgTUVTU0FHRSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgICBpZiAoY2Mud2VsY29tZU1lc3NhZ2UpIHsNCiAgICAgIHZhciBoMiA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJy53ZWxjb21lLXNlY3Rpb24gaDInKTsNCiAgICAgIGlmIChoMikgaDIudGV4dENvbnRlbnQgPSBjYy53ZWxjb21lTWVzc2FnZTsNCiAgICB9DQoNCiAgICAvLyDilIDilIDilIAgSElERSBQT1dFUkVEIEJZIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIGlmIChjYy5oaWRlUG93ZXJlZEJ5KSB7DQogICAgICB2YXIgZm9vdGVyRWxzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLmZvb3RlciwgZm9vdGVyJyk7DQogICAgICBmb290ZXJFbHMuZm9yRWFjaChmdW5jdGlvbiAoZWwpIHsNCiAgICAgICAgdmFyIHRleHQgPSBlbC50ZXh0Q29udGVudCB8fCAnJzsNCiAgICAgICAgaWYgKHRleHQudG9Mb3dlckNhc2UoKS5pbmRleE9mKCdtb2NrIHN0cmVhbScpICE9PSAtMSB8fCB0ZXh0LnRvTG93ZXJDYXNlKCkuaW5kZXhPZigncG93ZXJlZCcpICE9PSAtMSkgew0KICAgICAgICAgIGVsLnF1ZXJ5U2VsZWN0b3JBbGwoJ3NwYW4sIHAsIGRpdiwgYScpLmZvckVhY2goZnVuY3Rpb24gKHN1Yikgew0KICAgICAgICAgICAgaWYgKChzdWIudGV4dENvbnRlbnQgfHwgJycpLnRvTG93ZXJDYXNlKCkuaW5kZXhPZigncG93ZXJlZCcpICE9PSAtMSB8fA0KICAgICAgICAgICAgICAgIChzdWIudGV4dENvbnRlbnQgfHwgJycpLnRvTG93ZXJDYXNlKCkuaW5kZXhPZignbW9jayBzdHJlYW0nKSAhPT0gLTEpIHsNCiAgICAgICAgICAgICAgc3ViLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7DQogICAgICAgICAgICB9DQogICAgICAgICAgfSk7DQogICAgICAgIH0NCiAgICAgIH0pOw0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCBGRUFUVVJFIFRPR0dMRVMg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSADQogICAgLy8gSGVscCBDZW50ZXINCiAgICBpZiAoY2MuaGVscENlbnRlciA9PT0gZmFsc2UpIHsNCiAgICAgIF9jZ0hpZGVBbGwoJyNjaGF0QnViYmxlLCAjY2hhdEJ1YmJsZUJ0biwgLmhlbHBjZW50ZXItb3ZlcmxheSwgLmNoYXQtYnViYmxlLCBbb25jbGljayo9Im9wZW5IZWxwQ2VudGVyIl0nKTsNCiAgICB9DQoNCiAgICAvLyBDZXJ0aWZpY2F0ZXMgKGhpZGUgY2VydC9QREYgYnV0dG9ucykNCiAgICBpZiAoY2MuY2VydGlmaWNhdGVzID09PSBmYWxzZSkgew0KICAgICAgX2NnSGlkZUFsbCgnLm1vZGFsLXBkZi1idG4sICNjYXRlZ29yeU1vZGFsUGRmQnRuLCBbb25jbGljayo9InZlcmlmeVNwZWFraW5nIl0sIFtvbmNsaWNrKj0iZG93bmxvYWRDZXJ0aWZpY2F0ZSJdLCBbb25jbGljayo9ImdlbmVyYXRlQ2VydGlmaWNhdGUiXScpOw0KICAgIH0NCg0KICAgIC8vIEZsYXNoY2FyZHMNCiAgICBpZiAoY2MuZmxhc2hjYXJkcyA9PT0gZmFsc2UpIHsNCiAgICAgIF9jZ0hpZGVBbGwoJy5sZWFybmluZy10b29sLWJ0bi5mbGFzaGNhcmRzLCBbb25jbGljayo9ImZsYXNoY2FyZHMiXScpOw0KICAgICAgLy8gQWxzbyBoaWRlIGZsYXNoY2FyZHMgY2FyZCBpbiBtYWluIGNvbnRlbnQNCiAgICAgIHZhciBmY2FyZHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcubGVhcm5pbmctdG9vbC1jYXJkJyk7DQogICAgICBmY2FyZHMuZm9yRWFjaChmdW5jdGlvbiAoZWwpIHsgaWYgKChlbC50ZXh0Q29udGVudCB8fCAnJykuaW5kZXhPZignRmxhc2hjYXJkcycpICE9PSAtMSkgZWwuc3R5bGUuZGlzcGxheSA9ICdub25lJzsgfSk7DQogICAgfQ0KDQogICAgLy8gQXJ0aWNsZXMNCiAgICBpZiAoY2MuYXJ0aWNsZXMgPT09IGZhbHNlKSB7DQogICAgICBfY2dIaWRlQWxsKCcubGVhcm5pbmctdG9vbC1idG4uYXJ0aWNsZXMsIFtvbmNsaWNrKj0iYXJ0aWNsZXMiXScpOw0KICAgICAgdmFyIGFjYXJkcyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5sZWFybmluZy10b29sLWNhcmQnKTsNCiAgICAgIGFjYXJkcy5mb3JFYWNoKGZ1bmN0aW9uIChlbCkgeyBpZiAoKGVsLnRleHRDb250ZW50IHx8ICcnKS5pbmRleE9mKCdBcnRpY2xlcycpICE9PSAtMSkgZWwuc3R5bGUuZGlzcGxheSA9ICdub25lJzsgfSk7DQogICAgfQ0KDQogICAgLy8gVGVsZWdyYW0gTm90aWZpY2F0aW9ucyAoZGlzYWJsZSByZXN1bHQgZm9yd2FyZGluZykNCiAgICBpZiAoY2MudGVsZWdyYW1Ob3RpZnMgPT09IGZhbHNlKSB7DQogICAgICB3aW5kb3cuc2VuZFRvUm91dGluZ0JhY2tlbmQgPSBmdW5jdGlvbiAoKSB7IC8qIGRpc2FibGVkIGJ5IGNlbnRlciBjb25maWcgKi8gfTsNCiAgICB9DQoNCiAgICAvLyBMZWFkZXJib2FyZA0KICAgIGlmIChjYy5sZWFkZXJib2FyZCA9PT0gZmFsc2UpIHsNCiAgICAgIF9jZ0hpZGVBbGwoJyNmdWxsTW9ja1Byb2dyZXNzLCAuZnVsbC1tb2NrLXByb2dyZXNzLWNvbnRhaW5lciwgW29uY2xpY2sqPSJsZWFkZXJib2FyZCJdLCAubGVhZGVyYm9hcmQnKTsNCiAgICB9DQoNCiAgICAvLyBXcml0aW5nIFBsdXMNCiAgICBpZiAoY2Mud3JpdGluZ1BsdXMgPT09IGZhbHNlKSB7DQogICAgICB2YXIgd3BCdG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnd3JpdGluZ1BsdXNCdG4nKTsNCiAgICAgIGlmICh3cEJ0bikgew0KICAgICAgICB3cEJ0bi5kaXNhYmxlZCA9IHRydWU7DQogICAgICAgIHdwQnRuLnN0eWxlLmNzc1RleHQgPSAnd2lkdGg6MTAwJTtvcGFjaXR5OjAuNDU7cG9pbnRlci1ldmVudHM6bm9uZTtiYWNrZ3JvdW5kOiNmM2Y0ZjYgIWltcG9ydGFudDtib3JkZXI6MnB4IHNvbGlkICNkMWQ1ZGIgIWltcG9ydGFudDtwb3NpdGlvbjpyZWxhdGl2ZTtvdmVyZmxvdzpoaWRkZW47JzsNCiAgICAgICAgd3BCdG4ucXVlcnlTZWxlY3RvcignLm9wdGlvbi10aXRsZScpLnN0eWxlLmNvbG9yID0gJyM5Y2EzYWYnOw0KICAgICAgICB3cEJ0bi5xdWVyeVNlbGVjdG9yKCcub3B0aW9uLWRlc2MnKS50ZXh0Q29udGVudCA9ICdEZWFjdGl2YXRlZCc7DQogICAgICAgIHdwQnRuLnF1ZXJ5U2VsZWN0b3IoJy5vcHRpb24tZGVzYycpLnN0eWxlLmNvbG9yID0gJyNlZjQ0NDQnOw0KICAgICAgICB2YXIgYmFkZ2UgPSB3cEJ0bi5xdWVyeVNlbGVjdG9yKCdzcGFuW3N0eWxlKj0iYmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQiXScpOw0KICAgICAgICBpZiAoYmFkZ2UpIHsgYmFkZ2Uuc3R5bGUuYmFja2dyb3VuZCA9ICcjOWNhM2FmJzsgYmFkZ2UudGV4dENvbnRlbnQgPSAnT0ZGJzsgfQ0KICAgICAgfQ0KICAgICAgLy8gQWxzbyBoaWRlIGFkbWluIHNpZGViYXIgaXRlbQ0KICAgICAgdmFyIHdwTWVudSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd3cml0aW5nUGx1c01lbnVJdGVtJyk7DQogICAgICBpZiAod3BNZW51KSB7IHdwTWVudS5zdHlsZS5vcGFjaXR5ID0gJzAuNDUnOyB3cE1lbnUuc3R5bGUucG9pbnRlckV2ZW50cyA9ICdub25lJzsgfQ0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCBNT0NLIEFDQ0VTUyAoaGlkZSBkaXNhYmxlZCBtb2NrcyBmcm9tIGxhbmRpbmcgcGFnZSBjYXJkcykg4pSA4pSA4pSA4pSA4pSA4pSADQogICAgaWYgKGNjLm1vY2tzKSB7DQogICAgICB2YXIgbW9ja0NhcmRNYXAgPSB7DQogICAgICAgICdjZWZyX3NwZWFraW5nJzogJ1NwZWFraW5nJywNCiAgICAgICAgJ2llbHRzX3NwZWFraW5nJzogJ0lFTFRTIFNwZWFraW5nJywNCiAgICAgICAgJ2NlZnJfd3JpdGluZyc6ICdXcml0aW5nJywNCiAgICAgICAgJ2llbHRzX3dyaXRpbmcnOiAnSUVMVFMgV3JpdGluZycsDQogICAgICAgICdjZWZyX2xpc3RlbmluZyc6ICdMaXN0ZW5pbmcnLA0KICAgICAgICAnaWVsdHNfbGlzdGVuaW5nJzogJ0lFTFRTIExpc3RlbmluZycsDQogICAgICAgICdjZWZyX3JlYWRpbmcnOiAnUmVhZGluZycsDQogICAgICAgICdpZWx0c19yZWFkaW5nJzogJ0lFTFRTIFJlYWRpbmcnLA0KICAgICAgICAnY2Vmcl9mdWxsX21vY2snOiAnRnVsbCBNb2NrJywNCiAgICAgICAgJ2llbHRzX2Z1bGxfbW9jayc6ICdJRUxUUyBGdWxsIE1vY2snDQogICAgICB9Ow0KICAgICAgZm9yICh2YXIgbWsgaW4gY2MubW9ja3MpIHsNCiAgICAgICAgaWYgKGNjLm1vY2tzW21rXSA9PT0gJ2Rpc2FibGVkJyAmJiBtb2NrQ2FyZE1hcFtta10pIHsNCiAgICAgICAgICAvLyBGaW5kIGFuZCBiYWRnZSBkaXNhYmxlZCBtb2NrIGJ1dHRvbnMvbGlua3MgaW4gc2lkZWJhcg0KICAgICAgICAgIHZhciBhbGxCdG5zID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnNraWxsLWJ0biwgLmV4YW0tY2FyZCwgLmNhcmQtYnRuJyk7DQogICAgICAgICAgYWxsQnRucy5mb3JFYWNoKGZ1bmN0aW9uIChidG4pIHsNCiAgICAgICAgICAgIHZhciB0eHQgPSAoYnRuLnRleHRDb250ZW50IHx8ICcnKS50b0xvd2VyQ2FzZSgpOw0KICAgICAgICAgICAgdmFyIGNhcmROYW1lID0gbW9ja0NhcmRNYXBbbWtdLnRvTG93ZXJDYXNlKCk7DQogICAgICAgICAgICBpZiAodHh0LmluZGV4T2YoY2FyZE5hbWUpICE9PSAtMSkgew0KICAgICAgICAgICAgICBidG4uc3R5bGUub3BhY2l0eSA9ICcwLjQnOw0KICAgICAgICAgICAgICBidG4uc3R5bGUucG9pbnRlckV2ZW50cyA9ICdub25lJzsNCiAgICAgICAgICAgICAgYnRuLnRpdGxlID0gJ1RoaXMgbW9jayBpcyBub3QgYXZhaWxhYmxlIGF0IHlvdXIgY2VudGVyJzsNCiAgICAgICAgICAgIH0NCiAgICAgICAgICB9KTsNCiAgICAgICAgfQ0KICAgICAgfQ0KICAgIH0NCg0KICAgIC8vIOKUgOKUgOKUgCBMSU1JVFMgKGRhaWx5IG1vY2sgbGltaXQgJiBtYXggYXR0ZW1wdHMpIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICAgIGlmIChjYy5kYWlseU1vY2tMaW1pdCAmJiBjYy5kYWlseU1vY2tMaW1pdCA+IDApIHsNCiAgICAgIHZhciB0b2RheSA9IG5ldyBEYXRlKCkudG9JU09TdHJpbmcoKS5zbGljZSgwLCAxMCk7DQogICAgICB2YXIgZGxLZXkgPSAnY2dfZGFpbHlfJyArIHRlc3RJZCArICdfJyArIHRvZGF5Ow0KICAgICAgdmFyIGRhaWx5Q291bnQgPSBwYXJzZUludChsb2NhbFN0b3JhZ2UuZ2V0SXRlbShkbEtleSkgfHwgJzAnLCAxMCk7DQogICAgICB3aW5kb3cuX2NnRGFpbHlNb2NrQ291bnQgPSBkYWlseUNvdW50Ow0KICAgICAgd2luZG93Ll9jZ0RhaWx5TW9ja0xpbWl0ID0gY2MuZGFpbHlNb2NrTGltaXQ7DQogICAgICAvLyBFeHBvc2UgZm9yIG1vY2sgcGFnZXMgdG8gY2FsbCBfY2dJbmNyZW1lbnREYWlseSgpIGFmdGVyIHN0YXJ0aW5nIGEgbW9jaw0KICAgIH0NCg0KICAgIGlmIChjYy5tYXhBdHRlbXB0c1BlclN0dWRlbnQgJiYgY2MubWF4QXR0ZW1wdHNQZXJTdHVkZW50ID4gMCkgew0KICAgICAgd2luZG93Ll9jZ01heEF0dGVtcHRzID0gY2MubWF4QXR0ZW1wdHNQZXJTdHVkZW50Ow0KICAgICAgLy8gRXhwb3NlIGZvciBtb2NrIHBhZ2VzIHRvIGNoZWNrIGJlZm9yZSBzdGFydGluZw0KICAgIH0NCiAgfQ0KDQogIC8vIOKUgOKUgCBVdGlsaXR5OiBIaWRlIGFsbCBlbGVtZW50cyBtYXRjaGluZyBhIHNlbGVjdG9yIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICBmdW5jdGlvbiBfY2dIaWRlQWxsKHNlbGVjdG9yKSB7DQogICAgdHJ5IHsNCiAgICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoc2VsZWN0b3IpLmZvckVhY2goZnVuY3Rpb24gKGVsKSB7DQogICAgICAgIGVsLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7DQogICAgICB9KTsNCiAgICB9IGNhdGNoIChlKSB7fQ0KICB9DQoNCiAgLy8g4pSA4pSAIFV0aWxpdHk6IERhcmtlbiBhIGhleCBjb2xvciDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgZnVuY3Rpb24gX2NnRGFya2VuKGhleCwgYW1vdW50KSB7DQogICAgaGV4ID0gaGV4LnJlcGxhY2UoJyMnLCAnJyk7DQogICAgdmFyIHIgPSBNYXRoLm1heCgwLCBwYXJzZUludChoZXguc3Vic3RyaW5nKDAsIDIpLCAxNikgLSBhbW91bnQpOw0KICAgIHZhciBnID0gTWF0aC5tYXgoMCwgcGFyc2VJbnQoaGV4LnN1YnN0cmluZygyLCA0KSwgMTYpIC0gYW1vdW50KTsNCiAgICB2YXIgYiA9IE1hdGgubWF4KDAsIHBhcnNlSW50KGhleC5zdWJzdHJpbmcoNCwgNiksIDE2KSAtIGFtb3VudCk7DQogICAgcmV0dXJuICcjJyArICgnMCcgKyByLnRvU3RyaW5nKDE2KSkuc2xpY2UoLTIpICsgKCcwJyArIGcudG9TdHJpbmcoMTYpKS5zbGljZSgtMikgKyAoJzAnICsgYi50b1N0cmluZygxNikpLnNsaWNlKC0yKTsNCiAgfQ0KDQogIC8vIOKUgOKUgCBFeHBvc2UgaGVscGVycyBmb3IgbW9jayBwYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgd2luZG93Ll9jZ0luY3JlbWVudERhaWx5ID0gZnVuY3Rpb24gKCkgew0KICAgIGlmICghd2luZG93Ll9jZ0RhaWx5TW9ja0xpbWl0KSByZXR1cm4gdHJ1ZTsNCiAgICB2YXIgdG9kYXkgPSBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCkuc2xpY2UoMCwgMTApOw0KICAgIHZhciBkbEtleSA9ICdjZ19kYWlseV8nICsgdGVzdElkICsgJ18nICsgdG9kYXk7DQogICAgdmFyIGNvdW50ID0gcGFyc2VJbnQobG9jYWxTdG9yYWdlLmdldEl0ZW0oZGxLZXkpIHx8ICcwJywgMTApICsgMTsNCiAgICBpZiAoY291bnQgPiB3aW5kb3cuX2NnRGFpbHlNb2NrTGltaXQpIHsNCiAgICAgIGFsZXJ0KCdEYWlseSBtb2NrIGxpbWl0IHJlYWNoZWQgKCcgKyB3aW5kb3cuX2NnRGFpbHlNb2NrTGltaXQgKyAnIG1vY2tzL2RheSkuIFBsZWFzZSB0cnkgYWdhaW4gdG9tb3Jyb3cuJyk7DQogICAgICByZXR1cm4gZmFsc2U7DQogICAgfQ0KICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKGRsS2V5LCBTdHJpbmcoY291bnQpKTsNCiAgICByZXR1cm4gdHJ1ZTsNCiAgfTsNCg0KICB3aW5kb3cuX2NnQ2hlY2tBdHRlbXB0cyA9IGZ1bmN0aW9uIChtb2NrS2V5KSB7DQogICAgaWYgKCF3aW5kb3cuX2NnTWF4QXR0ZW1wdHMpIHJldHVybiB0cnVlOw0KICAgIHZhciBuYW1lID0gJyc7DQogICAgdHJ5IHsgbmFtZSA9IHNlc3Npb25TdG9yYWdlLmdldEl0ZW0oJ3N0dWRlbnROYW1lJykgfHwgbG9jYWxTdG9yYWdlLmdldEl0ZW0oJ21zX3N0dWRlbnRfbmFtZScpIHx8ICd1bmtub3duJzsgfSBjYXRjaCAoZSkge30NCiAgICB2YXIgYUtleSA9ICdjZ19hdHRlbXB0c18nICsgdGVzdElkICsgJ18nICsgbmFtZSArICdfJyArIChtb2NrS2V5IHx8ICdnZW5lcmFsJyk7DQogICAgdmFyIGNvdW50ID0gcGFyc2VJbnQobG9jYWxTdG9yYWdlLmdldEl0ZW0oYUtleSkgfHwgJzAnLCAxMCk7DQogICAgaWYgKGNvdW50ID49IHdpbmRvdy5fY2dNYXhBdHRlbXB0cykgew0KICAgICAgYWxlcnQoJ01heGltdW0gYXR0ZW1wdHMgcmVhY2hlZCAoJyArIHdpbmRvdy5fY2dNYXhBdHRlbXB0cyArICcpIGZvciB0aGlzIG1vY2suIFBsZWFzZSBjb250YWN0IHRoZSBhZG1pbmlzdHJhdG9yLicpOw0KICAgICAgcmV0dXJuIGZhbHNlOw0KICAgIH0NCiAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbShhS2V5LCBTdHJpbmcoY291bnQgKyAxKSk7DQogICAgcmV0dXJuIHRydWU7DQogIH07DQoNCiAgLy8g4pSA4pSAIEFwcGx5IGFjY2VzcyBvdmVycmlkZXMgaW1tZWRpYXRlbHkgKGJlZm9yZSBET00gcmVhZHkpIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KICBmdW5jdGlvbiBfY2dBcHBseUFjY2Vzc05vdyhjYykgew0KICAgIGlmICghY2MpIHJldHVybjsNCiAgICB3aW5kb3cuX2NlbnRlckNvbmZpZyA9IGNjOw0KICAgIHZhciBtb2NrS2V5ID0gX2NnRGV0ZWN0TW9ja0tleSgpOw0KICAgIGlmIChtb2NrS2V5ICYmIGNjLm1vY2tzKSB7DQogICAgICB2YXIgbHZsID0gY2MubW9ja3NbbW9ja0tleV07DQogICAgICBpZiAobHZsID09PSAncmVndWxhcicpIHsNCiAgICAgICAgdHJ5IHsNCiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5zZXRJdGVtKCd2aXBTZXNzaW9uQWNjZXNzJywgJ3RydWUnKTsNCiAgICAgICAgICBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCd2aXBQcmVtaXVtQWknKTsNCiAgICAgICAgICBpZiAobW9ja0tleS5pbmRleE9mKCdzcGVha2luZycpICE9PSAtMSkgc2Vzc2lvblN0b3JhZ2UucmVtb3ZlSXRlbSgnc3BlYWtpbmdQcmVtaXVtRW50cnknKTsNCiAgICAgICAgICBpZiAobW9ja0tleS5pbmRleE9mKCd3cml0aW5nJykgIT09IC0xKSBzZXNzaW9uU3RvcmFnZS5yZW1vdmVJdGVtKCd3cml0aW5nUHJlbWl1bUVudHJ5Jyk7DQogICAgICAgIH0gY2F0Y2ggKGUpIHt9DQogICAgICB9IGVsc2UgaWYgKGx2bCA9PT0gJ3ByZW1pdW0nKSB7DQogICAgICAgIHRyeSB7DQogICAgICAgICAgc2Vzc2lvblN0b3JhZ2Uuc2V0SXRlbSgndmlwU2Vzc2lvbkFjY2VzcycsICd0cnVlJyk7DQogICAgICAgICAgc2Vzc2lvblN0b3JhZ2Uuc2V0SXRlbSgndmlwUHJlbWl1bUFpJywgJ3RydWUnKTsNCiAgICAgICAgfSBjYXRjaCAoZSkge30NCiAgICAgIH0gZWxzZSBpZiAobHZsID09PSAnZGlzYWJsZWQnKSB7DQogICAgICAgIC8vIFdpbGwgYmUgZnVsbHkgYmxvY2tlZCBvbmNlIERPTSBpcyByZWFkeQ0KICAgICAgfQ0KICAgIH0NCiAgfQ0KDQogIC8vIOKUgOKUgCBNYWluOiBMb2FkIGNvbmZpZyBhbmQgZW5mb3JjZSDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCiAgLy8gU3RlcCAxOiBBcHBseSBmcm9tIGNhY2hlIGltbWVkaWF0ZWx5IChub24tYmxvY2tpbmcpDQogIHZhciBjYWNoZWQgPSBfY2dHZXRDYWNoZWQoKTsNCiAgaWYgKGNhY2hlZCkgew0KICAgIC8vIEltbWVkaWF0ZWx5IGFwcGx5IGFjY2VzcyBvdmVycmlkZSBmcm9tIGNhY2hlIChiZWZvcmUgaW5saW5lIHNjcmlwdHMgcnVuKQ0KICAgIF9jZ0FwcGx5QWNjZXNzTm93KGNhY2hlZCk7DQogICAgLy8gRnVsbCBlbmZvcmNlbWVudCAoYmxvY2tpbmcgb3ZlcmxheXMsIHZpc3VhbCBzZXR0aW5ncykgYXQgRE9NIHJlYWR5DQogICAgX2NnV2hlblJlYWR5KGZ1bmN0aW9uICgpIHsgX2NnRW5mb3JjZShjYWNoZWQpOyB9KTsNCiAgfQ0KDQogIC8vIFN0ZXAgMjogRmV0Y2ggZnJlc2ggY29uZmlnIGZyb20gU3VwYWJhc2UgKGluIGJhY2tncm91bmQpDQogIF9jZ0ZldGNoQ29uZmlnKCkudGhlbihmdW5jdGlvbiAoZnJlc2gpIHsNCiAgICBpZiAoZnJlc2gpIHsNCiAgICAgIC8vIEFsd2F5cyBhcHBseSBhY2Nlc3Mgb3ZlcnJpZGUgaW1tZWRpYXRlbHkgZnJvbSBmcmVzaCBjb25maWcNCiAgICAgIF9jZ0FwcGx5QWNjZXNzTm93KGZyZXNoKTsNCiAgICAgIC8vIElmIGNhY2hlIHdhcyBzdGFsZSBvciBtaXNzaW5nLCBkbyBmdWxsIGVuZm9yY2VtZW50IG5vdw0KICAgICAgaWYgKCFjYWNoZWQpIHsNCiAgICAgICAgX2NnRW5mb3JjZShmcmVzaCk7DQogICAgICB9IGVsc2Ugew0KICAgICAgICAvLyBJZiBmcmVzaCBkaWZmZXJzIGZyb20gY2FjaGUsIHJlLWVuZm9yY2UNCiAgICAgICAgaWYgKEpTT04uc3RyaW5naWZ5KGZyZXNoKSAhPT0gSlNPTi5zdHJpbmdpZnkoY2FjaGVkKSkgew0KICAgICAgICAgIF9jZ0VuZm9yY2UoZnJlc2gpOw0KICAgICAgICB9DQogICAgICB9DQogICAgfQ0KICB9KTsNCg0KfSkoKTsNCg==';
+    var _EMBEDDED_CSS_B64 = 'LyogID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KICAgIFJFU1BPTlNJVkUgU0NBTElORyDigJQgc2hhcmVkIGFjcm9zcyB0aGUgZW50aXJlIE1vY2sgU3RyZWFtIHBsYXRmb3JtDQogICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQogICAgVXNlcyBjbGFtcChNSU4sIFBSRUZFUlJFRCwgTUFYKSBzbyBldmVyeSBVSSBlbGVtZW50IHNjYWxlcw0KICAgIGZsdWlkbHkgb24gQU5ZIHNjcmVlbiDigJQgcGhvbmVzLCB0YWJsZXRzLCBsYXB0b3BzLCBkZXNrdG9wcy4NCg0KICAgIEhvdyBpdCB3b3JrczoNCiAgICDigKIgTUFYICA9IGV4aXN0aW5nIGRlc2t0b3Agc2l6ZSDihpIgbGFyZ2Ugc2NyZWVucyBsb29rIGlkZW50aWNhbA0KICAgIOKAoiBQUkVGRVJSRUQgKHZ3LWJhc2VkKSA9IHNjYWxlcyBwcm9wb3J0aW9uYWxseSB0byB2aWV3cG9ydA0KICAgIOKAoiBNSU4gID0gbG93ZXIgYm91bmQgc28gbm90aGluZyBiZWNvbWVzIHRvbyB0aW55IG9uIHNtYWxsIHBob25lcw0KDQogICAgT24gYSAxMyIgTWFjQm9vayAoMTI4MHB4KykgdGhlIHByZWZlcnJlZCB2YWx1ZSBleGNlZWRzIE1BWCwNCiAgICBzbyBjbGFtcCBjYXBzIGl0IOKGkiBubyB2aXN1YWwgY2hhbmdlIGZyb20gY3VycmVudCBkZXNrdG9wLg0KICAgIE9uIGEgdGFibGV0ICg3NjjigJMxMDI0cHgpIHNhbWUgdGhpbmcg4oaSIGRlc2t0b3Agc2l6ZXMsIHBsZW50eSBvZiByb29tLg0KICAgIE9uIGEgcGhvbmUgKDMyMOKAkzUwMHB4KSB0aGUgcHJlZmVycmVkIHZhbHVlIGRyb3BzIGJldHdlZW4gTUlO4oCTTUFYDQogICAg4oaSIGVsZW1lbnRzIHNocmluayBwcm9wb3J0aW9uYWxseSwgc3RheWluZyBpbiB0aGVpciBwb3NpdGlvbi4NCg0KICAgIEJyZWFrcG9pbnQgc2V0IHRvIDEyMDBweCBzbyB0aGUgcnVsZXMgYXJlIGFjdGl2ZSBvbiBldmVyeQ0KICAgIHNjcmVlbiBiZWxvdyBmdWxsLXdpZHRoIGRlc2t0b3AuIEFib3ZlIDEyMDBweCB0aGUgcGFnZSdzIG93bg0KICAgIGRlc2t0b3AgQ1NTIGFwcGxpZXMgKHdoaWNoIGFscmVhZHkgd29ya3MgZmluZSkuDQogICAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ICovDQoNCi8qIOKUgOKUgOKUgCBUSElOIC8gSU5WSVNJQkxFIFNDUk9MTEJBUlMgKGFsbCBkZXZpY2VzKSDilIDilIDilIAgKi8NCi8qIFdlYmtpdCAoQ2hyb21lLCBTYWZhcmksIEVkZ2UsIE9wZXJhLCBtb3N0IG1vYmlsZSBicm93c2VycykgKi8NCjo6LXdlYmtpdC1zY3JvbGxiYXIgeyB3aWR0aDogNHB4OyBoZWlnaHQ6IDRweDsgfQ0KOjotd2Via2l0LXNjcm9sbGJhci10cmFjayB7IGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OyB9DQo6Oi13ZWJraXQtc2Nyb2xsYmFyLXRodW1iIHsgYmFja2dyb3VuZDogcmdiYSgwLDAsMCwwLjEyKTsgYm9yZGVyLXJhZGl1czogNHB4OyB9DQo6Oi13ZWJraXQtc2Nyb2xsYmFyLXRodW1iOmhvdmVyIHsgYmFja2dyb3VuZDogcmdiYSgwLDAsMCwwLjI1KTsgfQ0KDQovKiBGaXJlZm94ICovDQoqIHsNCiAgc2Nyb2xsYmFyLXdpZHRoOiB0aGluOw0KICBzY3JvbGxiYXItY29sb3I6IHJnYmEoMCwwLDAsMC4xMikgdHJhbnNwYXJlbnQ7DQp9DQoNCi8qIOKUgOKUgOKUgCBIRUFERVIgKHRlc3QgcGFnZXM6IHN0aWNreSBncmFkaWVudCBiYXIpIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAuaGVhZGVyIHsNCiAgICBwYWRkaW5nOiBjbGFtcCg0cHgsIDEuMnZ3LCAxMHB4KSBjbGFtcCg2cHgsIDJ2dywgMTZweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5oZWFkZXItY29udGVudCB7DQogICAgcGFkZGluZzogMCBjbGFtcCg0cHgsIDEuNXZ3LCAxMnB4KSAhaW1wb3J0YW50Ow0KICAgIGdhcDogY2xhbXAoNHB4LCAxLjV2dywgMTBweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5oZWFkZXItbGVmdCB7DQogICAgZ2FwOiBjbGFtcCg0cHgsIDEuNXZ3LCAxMHB4KSAhaW1wb3J0YW50Ow0KICAgIG1pbi13aWR0aDogMDsNCiAgfQ0KDQogIC5oZWFkZXItcmlnaHQgew0KICAgIGdhcDogY2xhbXAoNHB4LCAxLjJ2dywgOHB4KSAhaW1wb3J0YW50Ow0KICAgIGZsZXgtc2hyaW5rOiAwOw0KICB9DQoNCiAgLmhlYWRlci10aXRsZSB7DQogICAgZm9udC1zaXplOiBjbGFtcCgxMnB4LCAzLjV2dywgMThweCkgIWltcG9ydGFudDsNCiAgICB3aGl0ZS1zcGFjZTogbm93cmFwOw0KICAgIG92ZXJmbG93OiBoaWRkZW47DQogICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7DQogICAgbWluLXdpZHRoOiAwOw0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBMT0dPIChvbmx5IGluc2lkZSBoZWFkZXJzLCBub3QgdGhlIHdlbGNvbWUgc2NyZWVuIHNwbGFzaCBsb2dvKSDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLmhlYWRlciAubG9nbyB7DQogICAgd2lkdGg6IGNsYW1wKDI2cHgsIDd2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDI2cHgsIDd2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBmbGV4LXNocmluazogMDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgTU9DSyBOVU1CRVIgQkFER0Ug4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5tb2NrLW51bWJlciB7DQogICAgcGFkZGluZzogY2xhbXAoMnB4LCAwLjh2dywgNnB4KSBjbGFtcCg2cHgsIDJ2dywgMTRweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDExcHgsIDN2dywgMTVweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg0cHgsIDEuNXZ3LCA4cHgpICFpbXBvcnRhbnQ7DQogICAgd2hpdGUtc3BhY2U6IG5vd3JhcDsNCiAgICBmbGV4LXNocmluazogMDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgQkFDSyBCVVRUT04g4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5iYWNrLWJ0biB7DQogICAgd2lkdGg6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDE0cHgsIDR2dywgMjBweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg4cHgsIDJ2dywgMTJweCkgIWltcG9ydGFudDsNCiAgICBmbGV4LXNocmluazogMDsNCiAgICBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7DQogICAgYWxpZ24taXRlbXM6IGNlbnRlcjsNCiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgWk9PTSAvIE1BR05JRklFUiBCVVRUT04g4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC56b29tLWJ0biB7DQogICAgd2lkdGg6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDEzcHgsIDMuNXZ3LCAxOHB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDZweCwgMnZ3LCAxMnB4KSAhaW1wb3J0YW50Ow0KICAgIGZsZXgtc2hyaW5rOiAwOw0KICB9DQoNCiAgLnpvb20tYnRuIC56b29tLWxldmVsIHsNCiAgICB3aWR0aDogY2xhbXAoMTJweCwgMy41dncsIDE2cHgpICFpbXBvcnRhbnQ7DQogICAgaGVpZ2h0OiBjbGFtcCgxMnB4LCAzLjV2dywgMTZweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDdweCwgMnZ3LCA5cHgpICFpbXBvcnRhbnQ7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIFRJTUVSIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAudGltZXItYm94IHsNCiAgICBwYWRkaW5nOiAwIGNsYW1wKDZweCwgMnZ3LCAxNHB4KSAhaW1wb3J0YW50Ow0KICAgIGhlaWdodDogY2xhbXAoMzBweCwgOC41dncsIDQwcHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoNnB4LCAydncsIDEycHgpICFpbXBvcnRhbnQ7DQogICAgZmxleC1zaHJpbms6IDA7DQogICAgbWluLXdpZHRoOiAwOw0KICB9DQoNCiAgLnRpbWVyLXZhbHVlIHsNCiAgICBmb250LXNpemU6IGNsYW1wKDEzcHgsIDMuOHZ3LCAyMHB4KSAhaW1wb3J0YW50Ow0KICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7DQogIH0NCg0KICAudGltZXItbGFiZWwgew0KICAgIGZvbnQtc2l6ZTogY2xhbXAoN3B4LCAydncsIDEwcHgpICFpbXBvcnRhbnQ7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIE1PQklMRSBQQVJUIERPVFMgKG51bWJlcmVkIGNpcmNsZXMgaW4gaGVhZGVyKSDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLm1vYmlsZS1wYXJ0LW5hdiB7DQogICAgZ2FwOiBjbGFtcCgzcHgsIDF2dywgNnB4KSAhaW1wb3J0YW50Ow0KICAgIGZsZXgtc2hyaW5rOiAxOw0KICAgIG1pbi13aWR0aDogMDsNCiAgfQ0KDQogIC5tb2JpbGUtcGFydC1kb3Qgew0KICAgIHdpZHRoOiBjbGFtcCgyMnB4LCA2LjV2dywgMzBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDIycHgsIDYuNXZ3LCAzMHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTBweCwgMi44dncsIDEzcHgpICFpbXBvcnRhbnQ7DQogICAgZmxleC1zaHJpbms6IDA7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIFBBUlQgQlVUVE9OUyAocGlsbCAvIHRhYiBzdHlsZSkg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5wYXJ0LWJ0biB7DQogICAgcGFkZGluZzogY2xhbXAoNXB4LCAxLjV2dywgMTBweCkgY2xhbXAoMTBweCwgM3Z3LCAyMHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTFweCwgM3Z3LCAxNXB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDE0cHgsIDR2dywgMjVweCkgIWltcG9ydGFudDsNCiAgICB3aGl0ZS1zcGFjZTogbm93cmFwOw0KICAgIGZsZXgtc2hyaW5rOiAwOw0KICB9DQoNCiAgLnBhcnQtbmF2LWlubmVyIHsNCiAgICBnYXA6IGNsYW1wKDRweCwgMS41dncsIDEwcHgpICFpbXBvcnRhbnQ7DQogICAgcGFkZGluZzogY2xhbXAoMnB4LCAwLjh2dywgNHB4KSBjbGFtcCg2cHgsIDJ2dywgMTZweCkgIWltcG9ydGFudDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgUEFSVCBOQVYgQkFSIChpZWx0cy1mdWxsLW1vY2sgJiBmdWxsLW1vY2sgdGFicykg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5wYXJ0LW5hdi1iYXIgew0KICAgIHBhZGRpbmc6IGNsYW1wKDNweCwgMXZ3LCA2cHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoOHB4LCAyLjV2dywgMTZweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5wYXJ0LW5hdi1idG4gew0KICAgIHBhZGRpbmc6IGNsYW1wKDZweCwgMnZ3LCAxNHB4KSBjbGFtcCg4cHgsIDIuNXZ3LCAyNHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTFweCwgM3Z3LCAxNXB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDZweCwgMnZ3LCAxMnB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBBVURJTyBQTEFZRVIgQkFSIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAuYXVkaW8tcGxheWVyLWJhciB7DQogICAgcGFkZGluZzogY2xhbXAoNHB4LCAxLjJ2dywgOHB4KSBjbGFtcCg2cHgsIDJ2dywgMTRweCkgIWltcG9ydGFudDsNCiAgICBnYXA6IGNsYW1wKDRweCwgMS4ydncsIDhweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5wbGF5LXBhdXNlLWJ0biwNCiAgLm1vYi1wbGF5LWJ0biB7DQogICAgd2lkdGg6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDI4cHgsIDh2dywgNDBweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDEycHgsIDMuNXZ3LCAxNnB4KSAhaW1wb3J0YW50Ow0KICAgIGZsZXgtc2hyaW5rOiAwOw0KICB9DQoNCiAgLmF1ZGlvLXRpbWUsDQogIC5tb2ItY3VycmVudC10aW1lLA0KICAubW9iLWR1cmF0aW9uIHsNCiAgICBmb250LXNpemU6IGNsYW1wKDEwcHgsIDIuOHZ3LCAxM3B4KSAhaW1wb3J0YW50Ow0KICAgIG1pbi13aWR0aDogY2xhbXAoMjhweCwgOHZ3LCA0MnB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLnNwZWVkLWJ0biwNCiAgLm1vYi1zcGVlZC1idG4gew0KICAgIHBhZGRpbmc6IGNsYW1wKDJweCwgMC42dncsIDRweCkgY2xhbXAoNHB4LCAxLjV2dywgOHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTBweCwgMi44dncsIDEzcHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoMTBweCwgM3Z3LCAxOHB4KSAhaW1wb3J0YW50Ow0KICAgIGZsZXgtc2hyaW5rOiAwOw0KICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7DQogIH0NCg0KICAudm9sdW1lLWJ0biwNCiAgLm1vYi12b2x1bWUtYnRuIHsNCiAgICBmb250LXNpemU6IGNsYW1wKDE0cHgsIDR2dywgMjBweCkgIWltcG9ydGFudDsNCiAgICBmbGV4LXNocmluazogMDsNCiAgfQ0KDQogIC52b2x1bWUtc2xpZGVyLA0KICAubW9iLXZvbHVtZS1zbGlkZXIgew0KICAgIHdpZHRoOiBjbGFtcCgzMHB4LCAxMHZ3LCA2MHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLnZvbHVtZS1jb250cm9sIHsNCiAgICBmbGV4LXNocmluazogMDsNCiAgICBnYXA6IGNsYW1wKDJweCwgMC44dncsIDZweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5hdWRpby1wcm9ncmVzcywNCiAgLm1vYi1wcm9ncmVzcy1iYXIgew0KICAgIGhlaWdodDogY2xhbXAoNHB4LCAxLjJ2dywgOHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLmF1ZGlvLXByb2dyZXNzLWNvbnRhaW5lciB7DQogICAgZ2FwOiBjbGFtcCg0cHgsIDEuMnZ3LCA4cHgpICFpbXBvcnRhbnQ7DQogICAgbWluLXdpZHRoOiAwOw0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBBUlRJQ0xFUyBJTi1IRUFERVIgQVVESU8gKGNvbXBhY3QgcGlsbCBwbGF5ZXIpIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAuYXVkaW8tY29udHJvbC1idG4gew0KICAgIHdpZHRoOiBjbGFtcCgyMHB4LCA1LjV2dywgMjhweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDIwcHgsIDUuNXZ3LCAyOHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTBweCwgMi44dncsIDE0cHgpICFpbXBvcnRhbnQ7DQogICAgZmxleC1zaHJpbms6IDA7DQogIH0NCg0KICAuYXVkaW8tY29udHJvbC1idG4ucGxheS1wYXVzZSB7DQogICAgd2lkdGg6IGNsYW1wKDI0cHgsIDd2dywgMzJweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDI0cHgsIDd2dywgMzJweCkgIWltcG9ydGFudDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgTkFWIEJVVFRPTlMgKFByZXYgLyBOZXh0IC8gU3VibWl0KSDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLm5hdi1idG4gew0KICAgIHBhZGRpbmc6IGNsYW1wKDhweCwgMi41dncsIDE0cHgpIGNsYW1wKDEwcHgsIDN2dywgMjBweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDEycHgsIDMuMnZ3LCAxNXB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDhweCwgMi41dncsIDE0cHgpICFpbXBvcnRhbnQ7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIExBTkRJTkcgUEFHRSDigJQgc2tpbGwgY2FyZHMgJiBmdWxsLW1vY2sgY2FyZCDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLmZ1bGwtbW9jay1jYXJkIHsNCiAgICBwYWRkaW5nOiBjbGFtcCgxMHB4LCAzdncsIDIwcHgpIGNsYW1wKDEycHgsIDMuNXZ3LCAyOHB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDE0cHgsIDQuNXZ3LCAyNHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLnNraWxsLXNlbGVjdGlvbi1jYXJkIHsNCiAgICBwYWRkaW5nOiBjbGFtcCgxNHB4LCA0dncsIDI0cHgpIGNsYW1wKDhweCwgMi41dncsIDE4cHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoMTRweCwgNC41dncsIDI0cHgpICFpbXBvcnRhbnQ7DQogIH0NCg0KICAuaWNvbi1ib3ggew0KICAgIHdpZHRoOiBjbGFtcCg0MHB4LCAxMnZ3LCA1NnB4KSAhaW1wb3J0YW50Ow0KICAgIGhlaWdodDogY2xhbXAoNDBweCwgMTJ2dywgNTZweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg4cHgsIDIuNXZ3LCAxMnB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMjBweCwgNnZ3LCAyOHB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBMQU5ESU5HIFBBR0Ug4oCUIGxlYXJuaW5nIHRvb2xzIGNhcmRzIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAubGVhcm5pbmctdG9vbC1jYXJkIHsNCiAgICBwYWRkaW5nOiBjbGFtcCg2cHgsIDJ2dywgMTRweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCgxMnB4LCA0dncsIDIwcHgpICFpbXBvcnRhbnQ7DQogICAgZ2FwOiBjbGFtcCg2cHgsIDJ2dywgMTJweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC50b29sLWljb24td3JhcHBlciB7DQogICAgd2lkdGg6IGNsYW1wKDMwcHgsIDl2dywgNDRweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDMwcHgsIDl2dywgNDRweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg2cHgsIDJ2dywgMTBweCkgIWltcG9ydGFudDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgTEFORElORyBQQUdFIOKAlCBoYW1idXJnZXIgJiBzaWRlYmFyIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAuaGFtYnVyZ2VyLW1lbnUgew0KICAgIHdpZHRoOiBjbGFtcCgzNHB4LCAxMHZ3LCA0OHB4KSAhaW1wb3J0YW50Ow0KICAgIGhlaWdodDogY2xhbXAoMzRweCwgMTB2dywgNDhweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5oYW1idXJnZXItbWVudSAuYmFyIHsNCiAgICBoZWlnaHQ6IGNsYW1wKDJweCwgMC42dncsIDNweCkgIWltcG9ydGFudDsNCiAgfQ0KDQogIC5zaWRlYmFyLW1lbnUgew0KICAgIHdpZHRoOiBjbGFtcCgyMjBweCwgNjV2dywgMzAwcHgpICFpbXBvcnRhbnQ7DQogICAgcGFkZGluZzogY2xhbXAoMTZweCwgNXZ3LCAzMHB4KSBjbGFtcCgxMnB4LCA0dncsIDIwcHgpICFpbXBvcnRhbnQ7DQogIH0NCg0KICAuc2lkZWJhci1tZW51IGEsDQogIC5zaWRlYmFyLW1lbnUgLnNpZGViYXItbGluayB7DQogICAgcGFkZGluZzogY2xhbXAoOHB4LCAyLjV2dywgMTJweCkgY2xhbXAoMTBweCwgM3Z3LCAxNXB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTNweCwgMy41dncsIDE2cHgpICFpbXBvcnRhbnQ7DQogIH0NCg0KICAuc2tpbGwtYnRuIHsNCiAgICBwYWRkaW5nOiBjbGFtcCg4cHgsIDIuNXZ3LCAxMnB4KSBjbGFtcCg2cHgsIDEuOHZ3LCA4cHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoNnB4LCAydncsIDEwcHgpICFpbXBvcnRhbnQ7DQogICAgZm9udC1zaXplOiBjbGFtcCgxMXB4LCAzdncsIDE0cHgpICFpbXBvcnRhbnQ7DQogIH0NCg0KICAuc2lkZWJhci1hY3Rpb24tYnRuIHsNCiAgICBwYWRkaW5nOiBjbGFtcCgxMHB4LCAzdncsIDE0cHgpIGNsYW1wKDEwcHgsIDN2dywgMTZweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg4cHgsIDIuNXZ3LCAxMnB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTJweCwgMy4ydncsIDE0cHgpICFpbXBvcnRhbnQ7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIE1PQ0tTIExJU1RJTkcg4oCUIHRlc3QgY2FyZHMg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC50ZXN0LWNhcmQgew0KICAgIHBhZGRpbmc6IGNsYW1wKDE0cHgsIDQuNXZ3LCAyNHB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDEycHgsIDR2dywgMjBweCkgIWltcG9ydGFudDsNCiAgICBnYXA6IGNsYW1wKDEycHgsIDMuNXZ3LCAyMHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLnRlc3QtaWNvbiB7DQogICAgd2lkdGg6IGNsYW1wKDQ4cHgsIDE0dncsIDcwcHgpICFpbXBvcnRhbnQ7DQogICAgaGVpZ2h0OiBjbGFtcCg0OHB4LCAxNHZ3LCA3MHB4KSAhaW1wb3J0YW50Ow0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDEwcHgsIDN2dywgMTZweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDIycHgsIDYuNXZ3LCAzMnB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBNT0NLUyBMSVNUSU5HIOKAlCBoZWFkZXIgY2FyZCAobm9uLXN0aWNreSkg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5oZWFkZXItY2FyZCwNCiAgLm1vY2staGVhZGVyIHsNCiAgICBwYWRkaW5nOiBjbGFtcCgxNnB4LCA1dncsIDMwcHgpIGNsYW1wKDEycHgsIDR2dywgMjBweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCgxMnB4LCA0dncsIDI0cHgpICFpbXBvcnRhbnQ7DQogICAgbWFyZ2luLWJvdHRvbTogY2xhbXAoMjBweCwgNnZ3LCA0MHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLmhlYWRlci1sb2dvIHsNCiAgICB3aWR0aDogY2xhbXAoNDVweCwgMTR2dywgNzBweCkgIWltcG9ydGFudDsNCiAgICBoZWlnaHQ6IGNsYW1wKDQ1cHgsIDE0dncsIDcwcHgpICFpbXBvcnRhbnQ7DQogIH0NCn0NCg0KLyog4pSA4pSA4pSAIEZMQVNIQ0FSRFMg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5mbGFzaGNhcmQtaGVhZGVyIC5sb2dvIHsNCiAgICB3aWR0aDogY2xhbXAoMjRweCwgN3Z3LCAzNnB4KSAhaW1wb3J0YW50Ow0KICAgIGhlaWdodDogY2xhbXAoMjRweCwgN3Z3LCAzNnB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBFWFRSQUNUIC8gU0VDVElPTiBCT1hFUyAodGVzdCBjb250ZW50KSDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLmV4dHJhY3QtYm94LA0KICAuc2VjdGlvbi1ib3ggew0KICAgIGJvcmRlci1yYWRpdXM6IGNsYW1wKDhweCwgMi41dncsIDE0cHgpICFpbXBvcnRhbnQ7DQogICAgbWFyZ2luLWJvdHRvbTogY2xhbXAoMTBweCwgM3Z3LCAxOHB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLmV4dHJhY3QtaGVhZGVyLA0KICAuc2VjdGlvbi1oZWFkZXIgew0KICAgIHBhZGRpbmc6IGNsYW1wKDhweCwgMi41dncsIDE0cHgpIGNsYW1wKDEwcHgsIDN2dywgMTZweCkgIWltcG9ydGFudDsNCiAgICBmb250LXNpemU6IGNsYW1wKDEzcHgsIDMuNXZ3LCAxNnB4KSAhaW1wb3J0YW50Ow0KICB9DQoNCiAgLmV4dHJhY3QtcXVlc3Rpb25zLA0KICAuc2VjdGlvbi1xdWVzdGlvbnMgew0KICAgIHBhZGRpbmc6IGNsYW1wKDEwcHgsIDN2dywgMTZweCkgY2xhbXAoOHB4LCAyLjV2dywgMTRweCkgIWltcG9ydGFudDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgTU9CSUxFIEZMT0FUSU5HIFNVQk1JVCDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLm1vYmlsZS1mbG9hdGluZy1zdWJtaXQgew0KICAgIHBhZGRpbmc6IGNsYW1wKDEwcHgsIDN2dywgMTZweCkgY2xhbXAoMTZweCwgNXZ3LCAyOHB4KSAhaW1wb3J0YW50Ow0KICAgIGZvbnQtc2l6ZTogY2xhbXAoMTNweCwgMy41dncsIDE2cHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoMjBweCwgNnZ3LCAzMHB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBQQyBTVUJNSVQgQlVUVE9OIChmdWxsLW1vY2sgLyBpZWx0cy1mdWxsLW1vY2spIOKUgOKUgOKUgCAqLw0KQG1lZGlhIChtYXgtd2lkdGg6IDEyMDBweCkgew0KICAucGMtb25seS1zdWJtaXQsDQogIC5zdWJtaXQtYWxsLWJ0biB7DQogICAgcGFkZGluZzogY2xhbXAoMTBweCwgM3Z3LCAxNnB4KSBjbGFtcCgxNnB4LCA1dncsIDI4cHgpICFpbXBvcnRhbnQ7DQogICAgZm9udC1zaXplOiBjbGFtcCgxM3B4LCAzLjV2dywgMTZweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg4cHgsIDIuNXZ3LCAxNHB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBET1dOTE9BRCAvIFBERiBCVVRUT04g4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5kb3dubG9hZC1idG4gew0KICAgIHBhZGRpbmc6IGNsYW1wKDZweCwgMnZ3LCAxMHB4KSBjbGFtcCgxMHB4LCAzdncsIDE2cHgpICFpbXBvcnRhbnQ7DQogICAgZm9udC1zaXplOiBjbGFtcCgxMXB4LCAzdncsIDE0cHgpICFpbXBvcnRhbnQ7DQogICAgYm9yZGVyLXJhZGl1czogY2xhbXAoOHB4LCAyLjV2dywgMTJweCkgIWltcG9ydGFudDsNCiAgICBmbGV4LXNocmluazogMDsNCiAgfQ0KDQogIC5kb3dubG9hZC1idG4gc3ZnIHsNCiAgICB3aWR0aDogY2xhbXAoMTJweCwgMy41dncsIDE2cHgpICFpbXBvcnRhbnQ7DQogICAgaGVpZ2h0OiBjbGFtcCgxMnB4LCAzLjV2dywgMTZweCkgIWltcG9ydGFudDsNCiAgfQ0KfQ0KDQovKiDilIDilIDilIAgU1BFQUtJTkcgSUVMVFMgQk9PS0lORyDigJQgZm9ybSBlbGVtZW50cyDilIDilIDilIAgKi8NCkBtZWRpYSAobWF4LXdpZHRoOiAxMjAwcHgpIHsNCiAgLnN1Ym1pdC1idG4gew0KICAgIHBhZGRpbmc6IGNsYW1wKDEycHgsIDMuNXZ3LCAxOHB4KSBjbGFtcCgxNnB4LCA1dncsIDI4cHgpICFpbXBvcnRhbnQ7DQogICAgZm9udC1zaXplOiBjbGFtcCgxNHB4LCAzLjh2dywgMTdweCkgIWltcG9ydGFudDsNCiAgICBib3JkZXItcmFkaXVzOiBjbGFtcCg4cHgsIDIuNXZ3LCAxNHB4KSAhaW1wb3J0YW50Ow0KICB9DQp9DQoNCi8qIOKUgOKUgOKUgCBHRU5FUkFMOiBwcmV2ZW50IGFueSBmbGV4IGNoaWxkIGZyb20gb3ZlcmZsb3dpbmcg4pSA4pSA4pSAICovDQpAbWVkaWEgKG1heC13aWR0aDogMTIwMHB4KSB7DQogIC5oZWFkZXItY29udGVudCwNCiAgLmhlYWRlci1sZWZ0LA0KICAuaGVhZGVyLXJpZ2h0LA0KICAucGFydC1uYXYtaW5uZXIsDQogIC5tb2JpbGUtcGFydC1uYXYsDQogIC5jdXN0b20tYXVkaW8tcGxheWVyIHsNCiAgICBmbGV4LXdyYXA6IG5vd3JhcCAhaW1wb3J0YW50Ow0KICAgIG92ZXJmbG93OiBoaWRkZW47DQogIH0NCg0KICAvKiBFbnN1cmUgcHJvZ3Jlc3MgYmFycyBjYW4gc2hyaW5rICovDQogIC5hdWRpby1wcm9ncmVzcy1jb250YWluZXIgew0KICAgIGZsZXg6IDEgMSAwICFpbXBvcnRhbnQ7DQogICAgbWluLXdpZHRoOiAwICFpbXBvcnRhbnQ7DQogIH0NCn0NCg==';
+
+    function _buildManifestJSON(brandName) {
+      return JSON.stringify({
+        name: brandName + ' – IELTS & CEFR Practice',
+        short_name: brandName,
+        description: 'Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment.',
+        start_url: '../index.html',
+        scope: '../',
+        display: 'standalone',
+        orientation: 'any',
+        background_color: '#0f172a',
+        theme_color: '#0d9488',
+        categories: ['education'],
+        icons: [
+          { src: 'icons/icon-72.png',  sizes: '72x72',   type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-96.png',  sizes: '96x96',   type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-128.png', sizes: '128x128', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-144.png', sizes: '144x144', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'maskable' },
+          { src: 'icons/icon-384.png', sizes: '384x384', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+        ]
+      }, null, 2);
+    }
+
+    async function _downloadConfigFile(sc) {
+      var js = _buildSiteConfigJS(sc);
+      var brandName = sc.brandName || 'My Center';
+
+      // If JSZip not available, fall back to single JS download
+      if (typeof JSZip === 'undefined') {
+        var blob = new Blob([js], { type: 'application/javascript' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'site-config.js';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+        return;
+      }
+
+      // Show status
+      var statusEl = document.getElementById('chFormStatus');
+      if (statusEl) statusEl.innerHTML = '<span style="color:#2563eb;">⏳ Generating site-config bundle…</span>';
+
+      try {
+        var zip = new JSZip();
+
+        // 1. site-config.js (generated)
+        zip.file('site-config.js', js);
+
+        // 2. manifest.json (customized)
+        zip.file('manifest.json', _buildManifestJSON(brandName));
+
+        // 3. center-guard.js and responsive-scaling.css from embedded base64
+        // Use Uint8Array to preserve UTF-8 (atob returns Latin-1 which mangles multi-byte chars)
+        function _b64ToUint8(b64) {
+          var bin = atob(b64);
+          var arr = new Uint8Array(bin.length);
+          for (var j = 0; j < bin.length; j++) arr[j] = bin.charCodeAt(j);
+          return arr;
+        }
+        zip.file('center-guard.js', _b64ToUint8(_EMBEDDED_CG_B64));
+        zip.file('responsive-scaling.css', _b64ToUint8(_EMBEDDED_CSS_B64));
+
+        // 4. Generate icon files via canvas
+        var iconSizes = [72, 96, 128, 144, 192, 384, 512];
+        var iconFolder = zip.folder('icons');
+        var brandColor = (sc.brandColor && sc.brandColor !== '#7c3aed') ? sc.brandColor : '#0d9488';
+        var initial = (brandName.charAt(0) || 'M').toUpperCase();
+
+        for (var i = 0; i < iconSizes.length; i++) {
+          var size = iconSizes[i];
+          var canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          var ctx = canvas.getContext('2d');
+          // Background gradient
+          var grad = ctx.createLinearGradient(0, 0, size, size);
+          grad.addColorStop(0, brandColor);
+          grad.addColorStop(1, '#0f172a');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.roundRect(0, 0, size, size, size * 0.15);
+          ctx.fill();
+          // Letter
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold ' + Math.round(size * 0.5) + 'px -apple-system, BlinkMacSystemFont, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(initial, size / 2, size / 2 + size * 0.03);
+          // Convert to blob and add to zip
+          var dataUrl = canvas.toDataURL('image/png');
+          var b64Data = dataUrl.split(',')[1];
+          iconFolder.file('icon-' + size + '.png', b64Data, { base64: true });
+        }
+
+        // 5. Generate ZIP and download
+        var zipBlob = await zip.generateAsync({ type: 'blob' });
+        var folderName = (brandName || 'site-config').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(zipBlob);
+        a.download = folderName + '-site-config.zip';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+        if (statusEl) statusEl.innerHTML = '<span style="color:#059669;">✅ Bundle downloaded!</span>';
+      } catch (err) {
+        console.error('Site config bundle error:', err);
+        if (statusEl) statusEl.innerHTML = '<span style="color:#dc2626;">❌ Bundle failed: ' + err.message + '. Downloading JS only.</span>';
+        // Fallback: download just the JS
+        var blob = new Blob([js], { type: 'application/javascript' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'site-config.js';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 100);
+      }
+    }
+
+    function switchCenter(testId) {
+      var center = _chCenters.find(function(c) { return c.testId === testId; });
+      var name = (center && center.brandName) || CENTER_NAMES[testId] || testId;
+      var logo = (center && center.logoUrl) || '';
+      _showSwitchConfirm(testId, name, logo);
+    }
+
+    function _showSwitchConfirm(testId, name, logoUrl) {
+      var overlay = document.getElementById('chSwitchOverlay');
+      document.getElementById('chSwitchLogo').src = logoUrl || '';
+      document.getElementById('chSwitchLogo').style.display = logoUrl ? '' : 'none';
+      document.getElementById('chSwitchName').textContent = name;
+      document.getElementById('chSwitchId').textContent = testId;
+      overlay.classList.add('show');
+
+      document.getElementById('chSwitchOk').onclick = function() {
+        overlay.classList.remove('show');
+        try { localStorage.setItem('ms_active_center', testId); } catch(e) {}
+        var center = _chCenters.find(function(c) { return c.testId === testId; });
+        if (center && center.siteConfig) {
+          try { localStorage.setItem('ms_center_cfg_' + testId, JSON.stringify(center.siteConfig)); } catch(e) {}
+        }
+        window.location.href = '../landing.html?center=' + encodeURIComponent(testId);
+      };
+      document.getElementById('chSwitchCancel').onclick = function() {
+        overlay.classList.remove('show');
+      };
+    }
+
+    // Escape key for center hub + switch confirm
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var switchOv = document.getElementById('chSwitchOverlay');
+        if (switchOv.classList.contains('show')) { switchOv.classList.remove('show'); return; }
+        if (document.getElementById('centerHubOverlay').classList.contains('show')) { closeCenterHub(); }
+      }
+    });
   </script>
 
 </body>

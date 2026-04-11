@@ -167,7 +167,10 @@
     }
 
     // ─── 7. MOCK ACCESS LEVEL (override access) ────────────────────────
-    if (mockKey && cc.mocks) {
+    // Individual mock codes bypass center settings entirely
+    var _hasIndividualCode = false;
+    try { _hasIndividualCode = !!sessionStorage.getItem('speakingIndividualCode'); } catch (e) {}
+    if (mockKey && cc.mocks && !_hasIndividualCode) {
       var lvl = cc.mocks[mockKey];
       if (lvl === 'regular') {
         // Grant access but without premium AI

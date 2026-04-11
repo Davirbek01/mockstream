@@ -789,8 +789,15 @@
               <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Preset Name</label>
               <input type="text" id="annPresetName" placeholder="e.g. Female British Formal" style="width:100%;padding:10px 12px;border:2px solid var(--ring);border-radius:10px;font-size:14px;font-weight:600;box-sizing:border-box;">
             </div>
-            <div style="display:flex;gap:12px;margin-bottom:16px;align-items:end;">
-              <div style="flex:1;">
+            <div style="display:flex;gap:12px;margin-bottom:16px;align-items:end;flex-wrap:wrap;">
+              <div style="flex:0 0 auto;">
+                <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:block;">AI Model</label>
+                <div style="display:flex;gap:6px;">
+                  <button type="button" id="annTtsModelGemini" onclick="setAnnTtsModel('gemini')" style="padding:6px 12px;border-radius:8px;border:2px solid #4285f4;background:#e8f0fe;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;">🔵 Gemini</button>
+                  <button type="button" id="annTtsModelOpenai" onclick="setAnnTtsModel('openai')" style="padding:6px 12px;border-radius:8px;border:2px solid var(--ring,#e5e7eb);background:transparent;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted);">🟢 OpenAI</button>
+                </div>
+              </div>
+              <div style="flex:1;" id="annVoiceGeminiWrap">
                 <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Voice</label>
                 <select id="annTtsVoice" style="width:100%;padding:10px 12px;border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;">
                   <option value="Kore" selected>Kore (Female, warm)</option>
@@ -799,6 +806,17 @@
                   <option value="Puck">Puck (Male, casual)</option>
                   <option value="Charon">Charon (Male, deep)</option>
                   <option value="Orus">Orus (Male, clear)</option>
+                </select>
+              </div>
+              <div style="flex:1;display:none;" id="annVoiceOpenaiWrap">
+                <label style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Voice</label>
+                <select id="annTtsVoiceOpenai" style="width:100%;padding:10px 12px;border:2px solid var(--ring);border-radius:10px;font-size:13px;font-weight:600;">
+                  <option value="alloy">Alloy (Neutral)</option>
+                  <option value="echo">Echo (Male)</option>
+                  <option value="fable">Fable (Male, British)</option>
+                  <option value="onyx">Onyx (Male, deep)</option>
+                  <option value="nova" selected>Nova (Female, warm)</option>
+                  <option value="shimmer">Shimmer (Female, bright)</option>
                 </select>
               </div>
               <button type="button" id="annGenerateBtn" onclick="generateAnnouncementAudio()" style="padding:10px 20px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">
@@ -1101,18 +1119,18 @@
       <div class="card" id="step4Card" style="opacity:0.5;pointer-events:none;">
         <h3>🔊 Step 4: Generate Question Audio</h3>
         <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
-          Uses Gemini TTS to generate natural examiner audio for each question. Audio is converted to MP3 and uploaded to Supabase on publish.
+          Uses AI TTS to generate natural examiner audio for each question. Audio is converted to MP3 and uploaded to Supabase on publish.
         </p>
 
-        <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-end;">
+        <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-end;flex-wrap:wrap;">
           <div style="flex:0 0 auto;">
             <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block;">AI Model</label>
-            <div style="display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:2px solid #4285f4;background:#e8f0fe;font-size:13px;font-weight:500;">
-              <span>🔵 Gemini</span>
-              <span style="font-size:11px;color:var(--muted);margin-left:4px;">(TTS only)</span>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="ai-model-btn active" id="ttsModelGemini" onclick="setTtsModel('gemini')" style="padding:7px 13px;border-radius:8px;border:2px solid #4285f4;background:#e8f0fe;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;">🔵 Gemini</button>
+              <button type="button" class="ai-model-btn" id="ttsModelOpenai" onclick="setTtsModel('openai')" style="padding:7px 13px;border-radius:8px;border:2px solid var(--ring,#e5e7eb);background:transparent;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted);">🟢 OpenAI</button>
             </div>
           </div>
-          <div style="flex:1;">
+          <div style="flex:1;" id="ttsVoiceGeminiWrap">
             <label style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block;">VOICE</label>
             <select id="ttsVoice" style="width:100%;padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;">
               <option value="Kore" selected>Kore (Female, warm)</option>
@@ -1121,6 +1139,17 @@
               <option value="Puck">Puck (Male, casual)</option>
               <option value="Charon">Charon (Male, deep)</option>
               <option value="Orus">Orus (Male, clear)</option>
+            </select>
+          </div>
+          <div style="flex:1;display:none;" id="ttsVoiceOpenaiWrap">
+            <label style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;display:block;">VOICE</label>
+            <select id="ttsVoiceOpenai" style="width:100%;padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;">
+              <option value="alloy" selected>Alloy (Neutral)</option>
+              <option value="echo">Echo (Male)</option>
+              <option value="fable">Fable (Male, British)</option>
+              <option value="onyx">Onyx (Male, deep)</option>
+              <option value="nova">Nova (Female, warm)</option>
+              <option value="shimmer">Shimmer (Female, bright)</option>
             </select>
           </div>
         </div>
@@ -3196,6 +3225,24 @@ function buildTTSScript(questionNumber) {
   return prompt;
 }
 
+var _ttsModel = 'gemini';
+function setTtsModel(m) {
+  _ttsModel = m;
+  var gBtn = document.getElementById('ttsModelGemini');
+  var oBtn = document.getElementById('ttsModelOpenai');
+  var gWrap = document.getElementById('ttsVoiceGeminiWrap');
+  var oWrap = document.getElementById('ttsVoiceOpenaiWrap');
+  if (m === 'gemini') {
+    gBtn.style.borderColor = '#4285f4'; gBtn.style.background = '#e8f0fe'; gBtn.style.color = '';
+    oBtn.style.borderColor = 'var(--ring,#e5e7eb)'; oBtn.style.background = 'transparent'; oBtn.style.color = 'var(--muted)';
+    gWrap.style.display = ''; oWrap.style.display = 'none';
+  } else {
+    oBtn.style.borderColor = '#10b981'; oBtn.style.background = '#ecfdf5'; oBtn.style.color = '';
+    gBtn.style.borderColor = 'var(--ring,#e5e7eb)'; gBtn.style.background = 'transparent'; gBtn.style.color = 'var(--muted)';
+    gWrap.style.display = 'none'; oWrap.style.display = '';
+  }
+}
+
 async function runStep4() {
   const questions = window._step1Data?.questions;
   if (!questions?.length) {
@@ -3210,9 +3257,10 @@ async function runStep4() {
   status.classList.add('active');
 
   try {
-    updateStepStatus(4, '🔑', 'Fetching Gemini key...', '', 5);
-    const apiKey = await fetchApiKey('gemini');
-    const voice = document.getElementById('ttsVoice').value;
+    const model = _ttsModel || 'gemini';
+    updateStepStatus(4, '🔑', `Fetching ${model === 'openai' ? 'OpenAI' : 'Gemini'} key...`, '', 5);
+    const apiKey = await fetchApiKey(model);
+    const voice = model === 'openai' ? document.getElementById('ttsVoiceOpenai').value : document.getElementById('ttsVoice').value;
     const total = questions.length;
     window._step4Audios = {};
     let done = 0;
@@ -3223,8 +3271,13 @@ async function runStep4() {
       updateStepStatus(4, '🔊', `Generating Q${n}/${total}...`, `"${ttsText.substring(0, 60)}..."`, Math.round(5 + (done / total) * 80));
 
       try {
-        const pcmBase64 = await callGeminiTTS(apiKey, ttsText, voice);
-        const mp3Blob = pcmToMp3(pcmBase64, 24000);
+        var mp3Blob;
+        if (model === 'openai') {
+          mp3Blob = await callOpenAITTS(apiKey, ttsText, voice);
+        } else {
+          const pcmBase64 = await callGeminiTTS(apiKey, ttsText, voice);
+          mp3Blob = pcmToMp3(pcmBase64, 24000);
+        }
         window._step4Audios[n] = mp3Blob;
 
         // Set audioFile placeholder in manual editor
@@ -3298,6 +3351,27 @@ async function callGeminiTTS(apiKey, text, voiceName) {
   const audioPart = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
   if (!audioPart?.data) throw new Error('No audio data in Gemini response');
   return audioPart.data; // base64 PCM L16 at 24kHz
+}
+
+async function callOpenAITTS(apiKey, text, voice) {
+  const resp = await fetch('https://api.openai.com/v1/audio/speech', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + apiKey,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'tts-1',
+      input: text,
+      voice: voice || 'nova',
+      response_format: 'mp3'
+    })
+  });
+  if (!resp.ok) {
+    const errBody = await resp.text();
+    throw new Error('OpenAI TTS error ' + resp.status + ': ' + errBody.slice(0, 200));
+  }
+  return await resp.blob(); // already MP3
 }
 
 function pcmToMp3(base64Pcm, sampleRate) {
@@ -3637,6 +3711,24 @@ function showAnnStatus(msg, type) {
   }
 }
 
+var _annTtsModel = 'gemini';
+function setAnnTtsModel(m) {
+  _annTtsModel = m;
+  var gBtn = document.getElementById('annTtsModelGemini');
+  var oBtn = document.getElementById('annTtsModelOpenai');
+  var gWrap = document.getElementById('annVoiceGeminiWrap');
+  var oWrap = document.getElementById('annVoiceOpenaiWrap');
+  if (m === 'gemini') {
+    gBtn.style.borderColor = '#4285f4'; gBtn.style.background = '#e8f0fe'; gBtn.style.color = '';
+    oBtn.style.borderColor = 'var(--ring,#e5e7eb)'; oBtn.style.background = 'transparent'; oBtn.style.color = 'var(--muted)';
+    gWrap.style.display = ''; oWrap.style.display = 'none';
+  } else {
+    oBtn.style.borderColor = '#10b981'; oBtn.style.background = '#ecfdf5'; oBtn.style.color = '';
+    gBtn.style.borderColor = 'var(--ring,#e5e7eb)'; gBtn.style.background = 'transparent'; gBtn.style.color = 'var(--muted)';
+    gWrap.style.display = 'none'; oWrap.style.display = '';
+  }
+}
+
 async function generateAnnouncementAudio() {
   // Collect texts
   const texts = {};
@@ -3656,15 +3748,21 @@ async function generateAnnouncementAudio() {
   window._annAudios = {};
 
   try {
-    showAnnStatus('Fetching Gemini key...', 'loading');
-    const apiKey = await fetchApiKey('gemini');
-    const voice = document.getElementById('annTtsVoice').value;
+    const model = _annTtsModel || 'gemini';
+    showAnnStatus('Fetching ' + (model === 'openai' ? 'OpenAI' : 'Gemini') + ' key...', 'loading');
+    const apiKey = await fetchApiKey(model);
+    const voice = model === 'openai' ? document.getElementById('annTtsVoiceOpenai').value : document.getElementById('annTtsVoice').value;
     let done = 0;
 
     for (const k of keys) {
       showAnnStatus(`Generating ${ANN_LABELS[k]} (${done + 1}/${keys.length})...`, 'loading');
-      const pcmBase64 = await callGeminiTTS(apiKey, texts[k], voice);
-      const mp3Blob = pcmToMp3(pcmBase64, 24000);
+      var mp3Blob;
+      if (model === 'openai') {
+        mp3Blob = await callOpenAITTS(apiKey, texts[k], voice);
+      } else {
+        const pcmBase64 = await callGeminiTTS(apiKey, texts[k], voice);
+        mp3Blob = pcmToMp3(pcmBase64, 24000);
+      }
       window._annAudios[k] = mp3Blob;
 
       // Show audio preview

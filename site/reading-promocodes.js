@@ -107,9 +107,10 @@ window.READING_MOCK_PROMOCODES = {
   "99": { fillers: [6, 3, 8, 3] }
 };
 
-// Build obfuscated 12-digit code from 8-digit OTP and fillers
-// Filler positions: 1, 4, 7, 10 -> Real OTP at: 0, 2, 3, 5, 6, 8, 9, 11
-window.buildReadingRegularCode = function(raw8, fillers) {
+// Build obfuscated 12-digit code from OTP and fillers
+// Pads/trims to 8 digits. Filler positions: 1, 4, 7, 10
+window.buildReadingRegularCode = function(rawOtp, fillers) {
+  var raw8 = String(rawOtp).padEnd(8, '0').substring(0, 8);
   return '' + raw8[0] + fillers[0] + raw8[1] + raw8[2] + fillers[1] + raw8[3] + raw8[4] + fillers[2] + raw8[5] + raw8[6] + fillers[3] + raw8[7];
 };
 

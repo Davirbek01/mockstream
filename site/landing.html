@@ -15,7 +15,74 @@
   <title>Mock Stream</title>
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config (swap this script to change brand/skin) -->
-  <script src="site-config/site-config.js"></script>
+  <script>
+    // Center switching: ?center=xxx or localStorage.ms_active_center
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var centerParam = params.get('center');
+      if (centerParam) {
+        try { localStorage.setItem('ms_active_center', centerParam); } catch(e) {}
+      }
+      var activeCenter = centerParam || '';
+      if (!activeCenter) {
+        try { activeCenter = localStorage.getItem('ms_active_center') || ''; } catch(e) {}
+      }
+      // Map testId to folder names
+      var folderMap = {
+        'mock_stream': 'site-config',
+        'bek':         'site-config/2. bekzods multilevel',
+        'global':      'site-config/3. global education',
+        'niners':      'site-config/4. niners academy',
+        'muzaffars':   'site-config/5. muzaffars english'
+      };
+      var folder = folderMap[activeCenter];
+      if (folder) {
+        document.write('<script src="' + folder + '/site-config.js"><\/script>');
+        // Also update manifest & CSS links
+        var manifestLink = document.querySelector('link[rel="manifest"]');
+        if (manifestLink) manifestLink.href = folder + '/manifest.json';
+        var cssLink = document.querySelector('link[href*="responsive-scaling"]');
+        if (cssLink) cssLink.href = folder + '/responsive-scaling.css';
+      } else if (activeCenter) {
+        // Unknown center — may be a new center created via Center Hub.
+        // Load default site-config.js, then override from Supabase
+        document.write('<script src="site-config/site-config.js"><\/script>');
+        window._chPendingCenter = activeCenter;
+      } else {
+        document.write('<script src="site-config/site-config.js"><\/script>');
+      }
+    })();
+  </script>
+  <script>
+    // For dynamically-loaded centers (new centers created via Center Hub),
+    // fetch their config from Supabase and override SITE_CONFIG
+    (function() {
+      if (!window._chPendingCenter) return;
+      var testId = window._chPendingCenter;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_' + encodeURIComponent(testId) + '&select=value', {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        if (rows && rows.length && rows[0].value) {
+          var sc = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+          window.SITE_CONFIG = Object.assign(window.SITE_CONFIG || {}, sc);
+          // Re-seed legacy globals
+          window._siteLogoUrl = sc.logoUrl || window._siteLogoUrl;
+          window._siteLogoWording = sc.brandName || window._siteLogoWording;
+          window._siteTestId = sc.testIdentifier || window._siteTestId;
+          window._siteTelegramChannel = sc.telegramChannel || window._siteTelegramChannel;
+          // Update page title & favicon
+          if (sc.brandName) document.title = sc.brandName;
+          var fav = document.getElementById('site-favicon');
+          if (fav && sc.logoUrl) fav.href = sc.logoUrl;
+        }
+      })
+      .catch(function() {});
+    })();
+  </script>
   <script src="site-config/center-guard.js"></script>
   <script>
     if (window.SITE_CONFIG) {
@@ -2161,10 +2228,11 @@
     .sysprompt-provider-row {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       padding: 10px 20px;
       border-bottom: 1px solid var(--ring);
       flex-shrink: 0;
+      flex-wrap: wrap;
     }
     .sysprompt-provider-row span {
       font-size: 13px;
@@ -2172,12 +2240,12 @@
       color: var(--foreground);
     }
     .sysprompt-provider-btn {
-      padding: 6px 16px;
+      padding: 5px 12px;
       border: 2px solid var(--ring);
       border-radius: 8px;
       background: transparent;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -6368,19 +6436,35 @@
           <a href="results/index.html" onclick="toggleSidebar();" class="skill-btn" style="margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="resultsDashboardMenuItem">
             <span>📊</span> Results Dashboard
           </a>
-          <a href="javascript:void(0)" onclick="openSystemPromptsPanel(); toggleSidebar();" class="skill-btn" id="systemPromptsMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openSystemPromptsPanel(); }); toggleSidebar();" class="skill-btn" id="systemPromptsMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>📝</span> System Prompts
           </a>
-          <a href="javascript:void(0)" onclick="openTestMakerModal(); toggleSidebar();" class="skill-btn" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="testMakerMenuItem2">
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openTestMakerModal(); }); toggleSidebar();" class="skill-btn" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="testMakerMenuItem2">
             <span>🛠️</span> Test Maker
           </a>
-          <a href="javascript:void(0)" onclick="openRegisteredUsersPanel(); toggleSidebar();" class="skill-btn" id="registeredUsersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openRegisteredUsersPanel(); }); toggleSidebar();" class="skill-btn" id="registeredUsersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>👥</span> Registered Users
           </a>
-          <a href="javascript:void(0)" onclick="openWritingPlusPanel(); toggleSidebar();" class="skill-btn" id="writingPlusMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
-            <span>✏️</span> Writing Plus
-          </a>
-          <a href="javascript:void(0)" onclick="openCentersPanel(); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
+          <div id="plusSubmenu" style="display:none;margin:4px 0;">
+            <a href="javascript:void(0)" onclick="document.getElementById('plusSubmenuItems').style.display=document.getElementById('plusSubmenuItems').style.display==='none'?'block':'none'" class="skill-btn" style="margin:0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(239,68,68,0.06));border:1.5px solid rgba(245,158,11,0.3);">
+              <span>✨</span> Plus Features <span id="plusSubmenuArrow" style="margin-left:auto;font-size:10px;transition:transform .2s">▼</span>
+            </a>
+            <div id="plusSubmenuItems" style="display:none;padding-left:16px;">
+              <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openWritingPlusPanel(); }); toggleSidebar();" class="skill-btn" id="writingPlusMenuItem" style="margin:2px 0;padding:8px 12px;font-size:12px;justify-content:flex-start;gap:8px;">
+                <span>✏️</span> Writing Plus
+              </a>
+              <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openSpeakingPlusPanel(); }); toggleSidebar();" class="skill-btn" id="speakingPlusMenuItem" style="margin:2px 0;padding:8px 12px;font-size:12px;justify-content:flex-start;gap:8px;">
+                <span>🎤</span> Speaking Plus
+              </a>
+              <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openReadingPlusPanel(); }); toggleSidebar();" class="skill-btn" id="readingPlusMenuItem" style="margin:2px 0;padding:8px 12px;font-size:12px;justify-content:flex-start;gap:8px;">
+                <span>📖</span> Reading Plus
+              </a>
+              <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openListeningPlusPanel(); }); toggleSidebar();" class="skill-btn" id="listeningPlusMenuItem" style="margin:2px 0;padding:8px 12px;font-size:12px;justify-content:flex-start;gap:8px;">
+                <span>🎧</span> Listening Plus
+              </a>
+            </div>
+          </div>
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openCentersPanel(); }); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>🏢</span> Centers Management
           </a>
         </div>
@@ -6851,6 +6935,14 @@
           <span class="option-desc">Practice Platform</span>
         </button>
       </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:2px solid var(--ring,#e2e8f0)">
+        <button class="listening-option-btn" id="listeningPlusBtn" onclick="selectListeningType('plus')" style="width:100%;background:linear-gradient(135deg,#f0fdfa,#e0f2fe);border:2px solid #116a60;position:relative;overflow:hidden">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">PLUS</span>
+          <span class="option-icon">✨</span>
+          <span class="option-title" style="color:#116a60">Listening Plus</span>
+          <span class="option-desc">Create custom listening exams</span>
+        </button>
+      </div>
       <button class="modal-close-btn" onclick="closeListeningModal()">Cancel</button>
     </div>
   </div>
@@ -6873,11 +6965,17 @@
           <span class="option-desc">Practice Platform</span>
         </button>
       </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:2px solid var(--ring,#e2e8f0)">
+        <button class="reading-option-btn" id="readingPlusBtn" onclick="selectReadingType('plus')" style="width:100%;background:linear-gradient(135deg,#f0fdfa,#e0f2fe);border:2px solid #116a60;position:relative;overflow:hidden">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">PLUS</span>
+          <span class="option-icon">✨</span>
+          <span class="option-title" style="color:#116a60">Reading Plus</span>
+          <span class="option-desc">Create custom reading exams</span>
+        </button>
+      </div>
       <button class="modal-close-btn" onclick="closeReadingModal()">Cancel</button>
     </div>
   </div>
-
-  <!-- Full Mock Options Modal -->
   <div class="fullmock-modal-overlay" id="fullMockModal" onclick="closeFullMockModal(event)">
     <div class="fullmock-modal" onclick="event.stopPropagation()">
       <h3>🏆 Full Mock Exam</h3>
@@ -6913,6 +7011,14 @@
             style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
           <span class="option-title">CEFR</span>
           <span class="option-desc">Practice Platform</span>
+        </button>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:2px solid var(--ring,#e2e8f0)">
+        <button class="speaking-option-btn" id="speakingPlusBtn" onclick="selectSpeakingType('plus')" style="width:100%;background:linear-gradient(135deg,#f0fdfa,#e0f2fe);border:2px solid #116a60;position:relative;overflow:hidden">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">PLUS</span>
+          <span class="option-icon">✨</span>
+          <span class="option-title" style="color:#116a60">Speaking Plus</span>
+          <span class="option-desc">Use your own question materials</span>
         </button>
       </div>
       <button class="modal-close-btn" onclick="closeSpeakingModal()">Cancel</button>
@@ -7038,8 +7144,11 @@
       </div>
       <div class="sysprompt-provider-row">
         <span>AI Provider:</span>
-        <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini AI</button>
+        <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
         <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
+        <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')">⚡ Grok</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')">🔵 DeepSeek</button>
       </div>
       <div class="sysprompt-tabs" id="sysPromptTabs">
         <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
@@ -8125,6 +8234,7 @@
                 const data = await response.json();
                 if (data.access || data.valid) {
                   sessionStorage.setItem('speakingPremiumEntry', 'true');
+                  sessionStorage.setItem('speakingIndividualCode', 'premium');
                   sessionStorage.setItem('speakingAiPasscode', aiPasscode);
                   return { valid: true, premiumEntry: true };
                 }
@@ -8137,15 +8247,16 @@
         if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractSpeakingRegularOTP) {
           const otp = window.extractSpeakingRegularOTP(cleanInput, mockNumber);
           if (otp) {
-            const fullPasscode = new Date().getFullYear() + otp;
+            const rawOtp = otp.replace(/0+$/, '') || otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+              body: JSON.stringify({ code: rawOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
             if (data.access || data.valid) {
               sessionStorage.setItem('speakingPremiumEntry', 'false');
+              sessionStorage.setItem('speakingIndividualCode', 'regular');
               return { valid: true, premiumEntry: false };
             }
             return { valid: false, error: 'Invalid or expired passcode.' };
@@ -8172,7 +8283,7 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isSpeakingMockTaken(pageUrl) {
-      try { var id = _extractSpeakingTestId(pageUrl); if (!id) return false; var t = JSON.parse(localStorage.getItem('takenSpeakingMocks') || '{}'); return !!t[id]; } catch(e) { return false; }
+      return false;
     }
     function _showSpeakingTakenAlert() {
       var ov = document.createElement('div');
@@ -8199,6 +8310,7 @@
       if (window.isSuperAccessUnlocked()) {
         const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
         sessionStorage.setItem('speakingPremiumEntry', isVipAi ? 'true' : 'false');
+        sessionStorage.removeItem('speakingIndividualCode');
         if (!isVipAi && _isSpeakingMockTaken(pageUrl)) { _showSpeakingTakenAlert(); return; }
         sessionStorage.setItem('speakingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
         sessionStorage.setItem('speakingCodeValidated', 'true');
@@ -8210,6 +8322,21 @@
         sessionStorage.setItem('speakingCodeValidated', 'true');
         _launchSpeakingMock(pageUrl, category);
         return;
+      }
+
+      // Center access bypass (Global or Skill)
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.speaking) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('speakingPremiumEntry', _caPrem ? 'true' : 'false');
+          sessionStorage.removeItem('speakingIndividualCode');
+          if (!_caPrem && _isSpeakingMockTaken(pageUrl)) { _showSpeakingTakenAlert(); return; }
+          sessionStorage.setItem('speakingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('speakingCodeValidated', 'true');
+          _launchSpeakingMock(pageUrl, category);
+          return;
+        }
       }
 
       // Check if code required
@@ -8354,10 +8481,10 @@
         if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractWritingRegularOTP) {
           const otp = window.extractWritingRegularOTP(cleanInput, mockNumber);
           if (otp) {
-            const fullPasscode = new Date().getFullYear() + otp;
+            const rawOtp = otp.replace(/0+$/, '') || otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+              body: JSON.stringify({ code: rawOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
@@ -8622,7 +8749,7 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isWritingMockTaken(pageUrl) {
-      try { var id = _extractWritingTestId(pageUrl); if (!id) return false; var t = JSON.parse(localStorage.getItem('takenWritingMocks') || '{}'); return !!t[id]; } catch(e) { return false; }
+      return false;
     }
     function _showWritingTakenAlert() {
       var ov = document.createElement('div');
@@ -8660,6 +8787,20 @@
         sessionStorage.setItem('writingCodeValidated', 'true');
         _launchWritingMock(pageUrl, category);
         return;
+      }
+
+      // Center access bypass (Global or Skill)
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.writing) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('writingPremiumEntry', _caPrem ? 'true' : 'false');
+          if (!_caPrem && _isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
+          sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('writingCodeValidated', 'true');
+          _launchWritingMock(pageUrl, category);
+          return;
+        }
       }
 
       // Check if code required
@@ -8802,24 +8943,16 @@
 
         // Check regular codes (12 all-digit, fillers at positions 1,4,7,10)
         if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractReadingRegularOTP) {
-          // One-time use: check if this regular code was already used for this mock
-          let usedCodes = {}; try { usedCodes = JSON.parse(localStorage.getItem('usedReadingRegularCodes') || '{}'); } catch (e) { }
-          const mockKey = String(mockNumber).padStart(2, '0');
-          if (usedCodes[mockKey] === cleanInput) {
-            return { valid: false, error: 'This regular code has already been used for this mock. Please use a premium code.' };
-          }
           const otp = window.extractReadingRegularOTP(cleanInput, mockNumber);
           if (otp) {
-            const fullPasscode = new Date().getFullYear() + otp;
+            const rawOtp = otp.replace(/0+$/, '') || otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+              body: JSON.stringify({ code: rawOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
             if (data.access || data.valid) {
-              usedCodes[mockKey] = cleanInput;
-              localStorage.setItem('usedReadingRegularCodes', JSON.stringify(usedCodes));
               sessionStorage.setItem('readingPremiumEntry', 'false');
               return { valid: true, premiumEntry: false };
             }
@@ -8935,7 +9068,7 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isReadingMockTaken(pageUrl) {
-      try { var id = _extractReadingTestId(pageUrl); if (!id) return false; var t = JSON.parse(localStorage.getItem('takenReadingMocks') || '{}'); return !!t[id]; } catch(e) { return false; }
+      return false;
     }
     function _showReadingTakenAlert() {
       var ov = document.createElement('div');
@@ -8973,6 +9106,20 @@
         sessionStorage.setItem('readingCodeValidated', 'true');
         _loadReadingMockOrShowMode(pageUrl, category);
         return;
+      }
+
+      // Center access bypass (Global or Skill)
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.reading) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('readingPremiumEntry', _caPrem ? 'true' : 'false');
+          if (!_caPrem && _isReadingMockTaken(pageUrl)) { _showReadingTakenAlert(); return; }
+          sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('readingCodeValidated', 'true');
+          _loadReadingMockOrShowMode(pageUrl, category);
+          return;
+        }
       }
 
       // Check if code required
@@ -9115,24 +9262,16 @@
 
         // Check regular codes (12 all-digit, fillers at positions 1,4,7,10)
         if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractListeningRegularOTP) {
-          // One-time use: check if this regular code was already used for this mock
-          let usedCodes = {}; try { usedCodes = JSON.parse(localStorage.getItem('usedListeningRegularCodes') || '{}'); } catch (e) { }
-          const mockKey = String(mockNumber).padStart(2, '0');
-          if (usedCodes[mockKey] === cleanInput) {
-            return { valid: false, error: 'This regular code has already been used for this mock. Please use a premium code.' };
-          }
           const otp = window.extractListeningRegularOTP(cleanInput, mockNumber);
           if (otp) {
-            const fullPasscode = new Date().getFullYear() + otp;
+            const rawOtp = otp.replace(/0+$/, '') || otp;
             const response = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullPasscode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+              body: JSON.stringify({ code: rawOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!response.ok) return { valid: false, error: 'Server error. Please try again.' };
             const data = await response.json();
             if (data.access || data.valid) {
-              usedCodes[mockKey] = cleanInput;
-              localStorage.setItem('usedListeningRegularCodes', JSON.stringify(usedCodes));
               sessionStorage.setItem('listeningPremiumEntry', 'false');
               return { valid: true, premiumEntry: false };
             }
@@ -9160,7 +9299,7 @@
       return m ? m[1] : null;
     }
     function _isListeningMockTaken(pageUrl) {
-      try { var id = _extractListeningTestId(pageUrl); if (!id) return false; var t = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); return !!t[id]; } catch(e) { return false; }
+      return false;
     }
     function _showListeningTakenAlert() {
       var ov = document.createElement('div');
@@ -9288,6 +9427,20 @@
         return;
       }
 
+      // Center access bypass (Global or Skill)
+      if (window._centerAccess) {
+        var _caLevel = window._centerAccess.globalAccess !== 'off' ? window._centerAccess.globalAccess : (window._centerAccess.skillAccess && window._centerAccess.skillAccess.listening) || 'off';
+        if (_caLevel !== 'off') {
+          var _caPrem = _caLevel === 'premium';
+          sessionStorage.setItem('listeningPremiumEntry', _caPrem ? 'true' : 'false');
+          if (!_caPrem && _isListeningMockTaken(pageUrl)) { _showListeningTakenAlert(); return; }
+          sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
+          sessionStorage.setItem('listeningCodeValidated', 'true');
+          _loadListeningMockOrShowMode(pageUrl, category);
+          return;
+        }
+      }
+
       // Check if code required
       if (!window.landingListeningMockRequiresPromocode(mockNumber)) {
         sessionStorage.setItem('listeningPremiumEntry', 'false');
@@ -9409,12 +9562,12 @@
           var ruItem = document.getElementById('registeredUsersMenuItem');
           var spItem = document.getElementById('systemPromptsMenuItem');
           var tmItem = document.getElementById('testMakerMenuItem2');
-          var wpItem = document.getElementById('writingPlusMenuItem');
+          var plusMenu = document.getElementById('plusSubmenu');
           var cmItem = document.getElementById('centersMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
-          if (wpItem) { wpItem.style.display = ''; wpItem.classList.add('admin-revealed'); }
+          if (plusMenu) { plusMenu.style.display = ''; plusMenu.classList.add('admin-revealed'); }
           if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
@@ -9580,6 +9733,9 @@
         localStorage.setItem('CANDIDATE_FIRSTNAME', parts.slice(1).join(' '));
       }
       _updateSidebarNameDisplay(newName);
+
+      // Notify parent (index.html) to update registration inputs
+      try { window.parent.postMessage({ type: 'nameChanged', surname: parts[0] || '', firstname: parts.length >= 2 ? parts.slice(1).join(' ') : '' }, '*'); } catch(e) {}
 
       // Merge results in Supabase if name changed
       if (oldName && oldName !== newName) {
@@ -12385,7 +12541,9 @@
 
     function selectListeningType(type) {
       closeListeningModal();
-      if (type === 'ielts') {
+      if (type === 'plus') {
+        loadMock('Listening Plus.html', 'listening');
+      } else if (type === 'ielts') {
         openCategoryModal('ielts-listening');
       } else {
         openCategoryModal('cefr-listening');
@@ -12406,7 +12564,9 @@
 
     function selectReadingType(type) {
       closeReadingModal();
-      if (type === 'ielts') {
+      if (type === 'plus') {
+        loadMock('Reading Plus.html', 'reading');
+      } else if (type === 'ielts') {
         openCategoryModal('ielts-reading');
       } else {
         openCategoryModal('cefr-reading');
@@ -12454,7 +12614,9 @@
 
     function selectSpeakingType(type) {
       closeSpeakingModal();
-      if (type === 'ielts') {
+      if (type === 'plus') {
+        loadMock('Speaking Plus.html', 'speaking');
+      } else if (type === 'ielts') {
         openSpeakingCategoryModal('ielts-speaking');
       } else {
         openSpeakingCategoryModal('cefr-speaking');
@@ -16169,6 +16331,80 @@
       sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
     }
 
+    // ===== SHARED ADMIN GATE (all Site Management features) =====
+    var _siteAdminUnlocked = false;
+    var _siteAdminPendingAction = null;
+
+    function _requireAdminAccess(callback) {
+      if (_siteAdminUnlocked) { callback(); return; }
+      _siteAdminPendingAction = callback;
+      _showSiteAdminPasscode();
+    }
+
+    function _showSiteAdminPasscode() {
+      var existing = document.getElementById('siteAdminPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('siteAdminPasscodeInput').value = ''; document.getElementById('siteAdminPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'siteAdminPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeSiteAdminPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to access site management</p>' +
+        '<input type="password" id="siteAdminPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySiteAdminPasscode()">' +
+        '<div id="siteAdminPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="siteAdminPasscodeBtn" onclick="_verifySiteAdminPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#d97706,#b45309);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeSiteAdminPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('siteAdminPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeSiteAdminPasscode() {
+      var el = document.getElementById('siteAdminPasscodeOverlay');
+      if (el) el.classList.remove('active');
+      _siteAdminPendingAction = null;
+    }
+
+    async function _verifySiteAdminPasscode() {
+      var input = document.getElementById('siteAdminPasscodeInput');
+      var error = document.getElementById('siteAdminPasscodeError');
+      var btn = document.getElementById('siteAdminPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'site-admin', center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'') })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _siteAdminUnlocked = true;
+          _wpAdminUnlocked = true;
+          _spAdminUnlocked = true;
+          _ruAdminUnlocked = true;
+          var fn = _siteAdminPendingAction;
+          _siteAdminPendingAction = null;
+          _closeSiteAdminPasscode();
+          if (fn) fn();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = '';
+        input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
     // ===== WRITING PLUS PANEL =====
     var _wpAdminUnlocked = false;
 
@@ -16249,7 +16485,7 @@
     var _wpData = [];
 
     async function openWritingPlusPanel() {
-      if (!_wpAdminUnlocked) { _showWpPasscode(); return; }
+      if (!_wpAdminUnlocked && !_siteAdminUnlocked) { _showWpPasscode(); return; }
       _ensureWpOverlay();
       document.getElementById('wpOverlay').classList.add('active');
       document.getElementById('wpList').innerHTML = '<div class="ru-empty">Loading...</div>';
@@ -16458,6 +16694,652 @@
       } catch(e) { console.warn('WP view failed:', e); }
     }
 
+    // ===== SPEAKING PLUS ADMIN PANEL =====
+    var _spAdminUnlocked = false;
+
+    function _showSpPasscode() {
+      var existing = document.getElementById('spPasscodeOverlay');
+      if (existing) { existing.classList.add('active'); document.getElementById('spPasscodeInput').value = ''; document.getElementById('spPasscodeInput').focus(); return; }
+      var div = document.createElement('div');
+      div.id = 'spPasscodeOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10150';
+      div.onclick = function(e) { if (e.target === div) _closeSpPasscode(); };
+      div.innerHTML = '<div style="background:var(--surface,#fff);border-radius:16px;padding:28px 24px;width:90vw;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view Speaking Plus submissions</p>' +
+        '<input type="password" id="spPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
+        '<div id="spPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="spPasscodeBtn" onclick="_verifySpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button onclick="_closeSpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      setTimeout(function() { div.classList.add('active'); document.getElementById('spPasscodeInput').focus(); }, 10);
+    }
+
+    function _closeSpPasscode() {
+      var el = document.getElementById('spPasscodeOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _verifySpPasscode() {
+      var input = document.getElementById('spPasscodeInput');
+      var error = document.getElementById('spPasscodeError');
+      var btn = document.getElementById('spPasscodeBtn');
+      var code = (input.value || '').trim();
+      if (!code) { error.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      error.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'speaking-plus', center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'') })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _spAdminUnlocked = true;
+          _closeSpPasscode();
+          openSpeakingPlusPanel();
+        } else { throw new Error('Invalid'); }
+      } catch (e) {
+        error.textContent = '❌ Incorrect passcode';
+        input.value = ''; input.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
+
+    function _ensureSpOverlay() {
+      if (document.getElementById('spOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'spOverlay';
+      div.className = 'ru-overlay';
+      div.onclick = function(e) { if (e.target === div) closeSpeakingPlusPanel(); };
+      div.innerHTML = '<div class="ru-panel" style="max-width:800px;">' +
+        '<div class="ru-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);"><h3 style="color:#fff;">🎤 Speaking Plus Submissions</h3><button class="ru-close" onclick="closeSpeakingPlusPanel()">&times;</button></div>' +
+        '<div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+          '<input class="ru-search" id="spSearch" type="text" placeholder="Search by name..." style="margin:0;flex:1;" oninput="_filterSpList()">' +
+          '<select id="spStatusFilter" onchange="_filterSpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<button onclick="_loadSpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
+        '</div>' +
+        '<div id="spStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
+        '<div class="ru-list" id="spList" style="padding:8px 16px;"><div class="ru-empty">Loading...</div></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    var _spData = [];
+
+    async function openSpeakingPlusPanel() {
+      if (!_spAdminUnlocked && !_siteAdminUnlocked) { _showSpPasscode(); return; }
+      _ensureSpOverlay();
+      document.getElementById('spOverlay').classList.add('active');
+      document.getElementById('spList').innerHTML = '<div class="ru-empty">Loading...</div>';
+      document.getElementById('spSearch').value = '';
+      document.getElementById('spStatusFilter').value = '';
+      document.getElementById('spStats').textContent = '';
+      await _loadSpData();
+    }
+
+    function closeSpeakingPlusPanel() {
+      var el = document.getElementById('spOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _loadSpData() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var listEl = document.getElementById('spList');
+      var statsEl = document.getElementById('spStats');
+      listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        _spData = await r.json();
+        statsEl.textContent = _spData.length + ' submission' + (_spData.length !== 1 ? 's' : '') + ' found';
+        _renderSpList(_spData);
+      } catch (e) {
+        listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
+        _spData = [];
+      }
+    }
+
+    function _filterSpList() {
+      var q = (document.getElementById('spSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('spStatusFilter').value;
+      var filtered = _spData.filter(function(row) {
+        if (status && row.status !== status) return false;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      });
+      _renderSpList(filtered);
+    }
+
+    function _renderSpList(rows) {
+      var listEl = document.getElementById('spList');
+      if (!rows.length) { listEl.innerHTML = '<div class="ru-empty">No submissions found</div>'; return; }
+      var statusColors = { pending: '#f59e0b', approved: '#10b981', draft: '#6366f1', deleted: '#ef4444' };
+      listEl.innerHTML = rows.map(function(row) {
+        var sc = statusColors[row.status] || '#64748b';
+        var qs = row.questions || [];
+        var ai = row.ai_result || {};
+        var fmt = (row.exam_format || '').toUpperCase();
+        var mode = (row.exam_mode || '');
+        var date = new Date(row.created_at);
+        var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
+        var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+
+        // Score display
+        var scoreDisplay = '-';
+        if (fmt === 'CEFR' && ai.certificate_score !== undefined) {
+          scoreDisplay = ai.certificate_score + '/75 · ' + (ai.cefr_level || '');
+        } else if (fmt === 'IELTS' && ai.band_score !== undefined) {
+          scoreDisplay = 'Band ' + ai.band_score;
+        }
+
+        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#7c3aed\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+              '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
+              '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + fmt + '</span>' +
+              '<span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + mode + '</span>' +
+              '<span style="background:#f0fdf4;color:#166534;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + qs.length + ' Qs</span>' +
+              '<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">' + scoreDisplay + '</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<button onclick="_viewSpDetail(\'' + row.id + '\')" style="background:#7c3aed;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
+              (row.status !== 'approved' ? '<button onclick="_updateSpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'draft' ? '<button onclick="_updateSpStatus(\'' + row.id + '\',\'draft\')" style="background:#6366f1;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">📌</button>' : '') +
+              (row.status !== 'deleted' ? '<button onclick="_updateSpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function _updateSpStatus(id, status) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        if (r.ok) await _loadSpData();
+      } catch(e) { console.warn('SP status update failed:', e); }
+    }
+
+    async function _viewSpDetail(id) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        var rows = await r.json();
+        if (!rows.length) return;
+        var row = rows[0];
+        var qs = row.questions || [];
+        var ai = row.ai_result || {};
+        var raw = row.raw_feedback || '';
+        var esc = function(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+        var fmt = (row.exam_format || '').toUpperCase();
+
+        var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
+        html += '<h3 style="color:#7c3aed;margin:0;">🎤 ' + esc(row.student_name || 'Unknown') + '</h3>';
+        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + (row.exam_mode || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '</div>';
+
+        // Score cards
+        if (fmt === 'CEFR' && ai.certificate_score !== undefined) {
+          html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">';
+          html += '<div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Certificate</div><div style="font-size:22px;font-weight:800;">' + (ai.certificate_score||0) + '/75</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#3b82f6,#2563eb);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">CEFR Level</div><div style="font-size:22px;font-weight:800;">' + esc(ai.cefr_level||'N/A') + '</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Raw Score</div><div style="font-size:22px;font-weight:800;">' + (ai.overall_score||0) + '/21</div></div>';
+          html += '</div>';
+          if (ai.part_scores) {
+            html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">';
+            Object.keys(ai.part_scores).forEach(function(k) {
+              html += '<span style="background:#ede9fe;color:#6d28d9;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700;">' + esc(k) + ': ' + ai.part_scores[k] + '</span>';
+            });
+            html += '</div>';
+          }
+        } else if (fmt === 'IELTS' && ai.band_score !== undefined) {
+          html += '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;">';
+          html += '<div style="background:linear-gradient(135deg,#dc2626,#b91c1c);padding:12px 8px;border-radius:10px;text-align:center;color:white;"><div style="font-size:10px;opacity:0.85;">Band</div><div style="font-size:20px;font-weight:800;">' + ai.band_score + '</div></div>';
+          if (ai.fluency_score) html += '<div style="background:#fee2e2;padding:12px 8px;border-radius:10px;text-align:center;"><div style="font-size:9px;color:#991b1b;">Fluency</div><div style="font-size:18px;font-weight:800;color:#dc2626;">' + ai.fluency_score + '</div></div>';
+          if (ai.lexical_score) html += '<div style="background:#fee2e2;padding:12px 8px;border-radius:10px;text-align:center;"><div style="font-size:9px;color:#991b1b;">Lexical</div><div style="font-size:18px;font-weight:800;color:#dc2626;">' + ai.lexical_score + '</div></div>';
+          if (ai.grammar_score) html += '<div style="background:#fee2e2;padding:12px 8px;border-radius:10px;text-align:center;"><div style="font-size:9px;color:#991b1b;">Grammar</div><div style="font-size:18px;font-weight:800;color:#dc2626;">' + ai.grammar_score + '</div></div>';
+          if (ai.pronunciation_score) html += '<div style="background:#fee2e2;padding:12px 8px;border-radius:10px;text-align:center;"><div style="font-size:9px;color:#991b1b;">Pronunciation</div><div style="font-size:18px;font-weight:800;color:#dc2626;">' + ai.pronunciation_score + '</div></div>';
+          html += '</div>';
+        }
+
+        // Questions list
+        html += '<h4 style="color:#7c3aed;margin-bottom:10px;">📋 Questions</h4>';
+        var partColors = ['#f59e0b', '#3b82f6', '#8b5cf6', '#10b981'];
+        qs.forEach(function(q, i) {
+          var pc = partColors[i % partColors.length];
+          html += '<div style="border:1.5px solid #e5e7eb;border-left:4px solid ' + pc + ';border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#fafafa;">';
+          html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">';
+          html += '<span style="font-weight:700;font-size:13px;color:#333;">Q' + q.qNum + ' · ' + esc(q.partLabel) + '</span>';
+          html += '<span style="font-size:11px;color:#64748b;">' + q.prepSec + 's prep / ' + q.speakSec + 's speak</span>';
+          html += '</div>';
+          html += '<div style="font-size:13px;line-height:1.6;color:#555;white-space:pre-wrap;">' + esc(q.text) + '</div>';
+          if (q.isCueCard) html += '<span style="display:inline-block;margin-top:4px;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;">CUE CARD</span>';
+          html += '</div>';
+        });
+
+        // Feedback
+        if (ai.feedback) {
+          html += '<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:14px;margin-top:12px;"><div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:6px;">📝 Feedback</div><div style="font-size:13px;color:#15803d;line-height:1.6;white-space:pre-wrap;">' + esc(ai.feedback) + '</div></div>';
+        }
+        if (ai.strengths && ai.strengths.length) {
+          html += '<div style="margin-top:10px;"><div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">💪 Strengths</div>';
+          ai.strengths.forEach(function(s) { html += '<div style="font-size:12px;color:#333;padding:2px 0;">✅ ' + esc(s) + '</div>'; });
+          html += '</div>';
+        }
+        if (ai.improvements && ai.improvements.length) {
+          html += '<div style="margin-top:10px;"><div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:4px;">🎯 Areas to Improve</div>';
+          ai.improvements.forEach(function(s) { html += '<div style="font-size:12px;color:#333;padding:2px 0;">📌 ' + esc(s) + '</div>'; });
+          html += '</div>';
+        }
+
+        // Raw feedback fallback
+        if (!ai.certificate_score && !ai.band_score && raw) {
+          html += '<div style="background:#f8fafc;border:1.5px solid #e5e7eb;border-radius:10px;padding:14px;margin-top:12px;white-space:pre-wrap;font-size:13px;line-height:1.7;">' + esc(raw) + '</div>';
+        }
+
+        html += '<div style="text-align:right;margin-top:16px;"><button onclick="this.closest(\'.admin-modal-overlay\').remove()" style="background:#64748b;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Close</button></div>';
+
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10200;display:flex;align-items:center;justify-content:center;padding:20px;';
+        overlay.className = 'admin-modal-overlay';
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:24px;max-width:750px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2);';
+        card.innerHTML = html;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      } catch(e) { console.warn('SP view failed:', e); }
+    }
+
+    // ===== READING PLUS ADMIN PANEL =====
+    var _rpData = [];
+
+    function _ensureRpOverlay() {
+      if (document.getElementById('rpOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'rpOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10100';
+      div.innerHTML =
+        '<div class="ru-panel" style="max-width:800px;">' +
+        '<div class="ru-header" style="background:linear-gradient(135deg,#116a60,#0b4d44);"><h3 style="color:#fff;">📖 Reading Plus Submissions</h3><button class="ru-close" onclick="closeReadingPlusPanel()">&times;</button></div>' +
+        '<div style="padding:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+          '<input type="text" id="rpSearch" placeholder="🔍 Search by name..." style="flex:1;min-width:150px;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;" oninput="_filterRpList()">' +
+          '<select id="rpStatusFilter" onchange="_filterRpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<span id="rpStats" style="font-size:12px;color:#64748b;"></span>' +
+        '</div>' +
+        '<div id="rpList" style="padding:0 16px 16px;max-height:65vh;overflow-y:auto;"></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    async function openReadingPlusPanel() {
+      _ensureRpOverlay();
+      document.getElementById('rpOverlay').classList.add('active');
+      document.getElementById('rpList').innerHTML = '<div class="ru-empty">Loading...</div>';
+      document.getElementById('rpSearch').value = '';
+      document.getElementById('rpStatusFilter').value = '';
+      document.getElementById('rpStats').textContent = '';
+      await _loadRpData();
+    }
+
+    function closeReadingPlusPanel() {
+      var el = document.getElementById('rpOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _loadRpData() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var listEl = document.getElementById('rpList');
+      var statsEl = document.getElementById('rpStats');
+      listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+        var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        _rpData = await r.json();
+        statsEl.textContent = _rpData.length + ' submission' + (_rpData.length !== 1 ? 's' : '') + ' found';
+        _renderRpList(_rpData);
+      } catch (e) {
+        listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
+        _rpData = [];
+      }
+    }
+
+    function _filterRpList() {
+      var q = (document.getElementById('rpSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('rpStatusFilter').value;
+      var filtered = _rpData.filter(function(row) {
+        if (status && row.status !== status) return false;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      });
+      _renderRpList(filtered);
+    }
+
+    function _renderRpList(rows) {
+      var listEl = document.getElementById('rpList');
+      if (!rows.length) { listEl.innerHTML = '<div class="ru-empty">No submissions found</div>'; return; }
+      var statusColors = { pending: '#f59e0b', approved: '#10b981', draft: '#6366f1', deleted: '#ef4444' };
+      listEl.innerHTML = rows.map(function(row) {
+        var sc = statusColors[row.status] || '#64748b';
+        var ai = row.ai_result || {};
+        var fmt = (row.exam_format || '').toUpperCase();
+        var date = new Date(row.created_at);
+        var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
+        var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var scoreDisplay = ai.correct !== undefined ? (ai.correct + '/' + ai.total + ' (' + Math.round(ai.correct/ai.total*100) + '%)') : '-';
+
+        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+              '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
+              '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<span style="background:#e6f0ee;color:#116a60;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + fmt + '</span>' +
+              '<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">' + scoreDisplay + '</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<button onclick="_viewRpDetail(\'' + row.id + '\')" style="background:#116a60;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
+              (row.status !== 'approved' ? '<button onclick="_updateRpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'deleted' ? '<button onclick="_updateRpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function _updateRpStatus(id, status) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        if (r.ok) await _loadRpData();
+      } catch(e) { console.warn('RP status update failed:', e); }
+    }
+
+    async function _viewRpDetail(id) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + id, {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        var rows = await r.json();
+        if (!rows.length) return;
+        var row = rows[0];
+        var ai = row.ai_result || {};
+        var qs = row.questions || {};
+        var esc = function(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+        var fmt = (row.exam_format || '').toUpperCase();
+
+        var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
+        html += '<h3 style="color:#116a60;margin:0;">📖 ' + esc(row.student_name || 'Unknown') + '</h3>';
+        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '</div>';
+
+        // Score summary
+        if (ai.correct !== undefined) {
+          html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">';
+          html += '<div style="background:linear-gradient(135deg,#10b981,#059669);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Correct</div><div style="font-size:22px;font-weight:800;">' + ai.correct + '</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Incorrect</div><div style="font-size:22px;font-weight:800;">' + ai.incorrect + '</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Unanswered</div><div style="font-size:22px;font-weight:800;">' + ai.unanswered + '</div></div>';
+          html += '</div>';
+          html += '<div style="text-align:center;margin-bottom:16px;"><span style="background:#e6f0ee;padding:6px 16px;border-radius:8px;font-weight:700;color:#116a60;font-size:15px;">' + Math.round(ai.correct/ai.total*100) + '% (' + ai.correct + '/' + ai.total + ')</span></div>';
+        }
+
+        // Part breakdown
+        if (ai.partResults && ai.partResults.length) {
+          html += '<h4 style="color:#116a60;margin-bottom:8px;">📝 Part Breakdown</h4>';
+          ai.partResults.forEach(function(pr) {
+            html += '<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #e5e7eb;font-size:13px;"><span>' + esc(pr.label) + '</span><span style="font-weight:700;color:' + (pr.correct===pr.total?'#10b981':'#333') + '">' + pr.correct + '/' + pr.total + '</span></div>';
+          });
+        }
+
+        // Passages info
+        var partIds = Object.keys(qs);
+        if (partIds.length) {
+          html += '<h4 style="color:#116a60;margin:16px 0 8px;">📄 Passages</h4>';
+          partIds.forEach(function(pid) {
+            var pd = qs[pid];
+            html += '<div style="border:1.5px solid #e5e7eb;border-left:4px solid #116a60;border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#fafafa;">';
+            html += '<strong style="font-size:13px;color:#116a60;">' + esc(pd.passageTitle || pid) + '</strong>';
+            if (pd.passage) html += '<p style="font-size:12px;color:#64748b;margin-top:4px;line-height:1.5;">' + esc(pd.passage.substring(0,200)) + (pd.passage.length>200?'...':'') + '</p>';
+            html += '</div>';
+          });
+        }
+
+        html += '<div style="text-align:right;margin-top:16px;"><button onclick="this.closest(\'.admin-modal-overlay\').remove()" style="background:#64748b;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Close</button></div>';
+
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10200;display:flex;align-items:center;justify-content:center;padding:20px;';
+        overlay.className = 'admin-modal-overlay';
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2);';
+        card.innerHTML = html;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      } catch(e) { console.warn('RP view failed:', e); }
+    }
+
+    // ===== LISTENING PLUS ADMIN PANEL =====
+    var _lpData = [];
+
+    function _ensureLpOverlay() {
+      if (document.getElementById('lpOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'lpOverlay';
+      div.className = 'ru-overlay';
+      div.style.zIndex = '10100';
+      div.onclick = function(e) { if (e.target === div) closeListeningPlusPanel(); };
+      div.innerHTML =
+        '<div class="ru-panel" style="max-width:800px;">' +
+        '<div class="ru-header" style="background:linear-gradient(135deg,#116a60,#0b4d44);"><h3 style="color:#fff;">🎧 Listening Plus Submissions</h3><button class="ru-close" onclick="closeListeningPlusPanel()">&times;</button></div>' +
+        '<div style="padding:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+          '<input type="text" id="lpSearch" placeholder="🔍 Search by name..." style="flex:1;min-width:150px;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;" oninput="_filterLpList()">' +
+          '<select id="lpStatusFilter" onchange="_filterLpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<span id="lpStats" style="font-size:12px;color:#64748b;"></span>' +
+        '</div>' +
+        '<div id="lpList" style="padding:0 16px 16px;max-height:65vh;overflow-y:auto;"></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    async function openListeningPlusPanel() {
+      _ensureLpOverlay();
+      document.getElementById('lpOverlay').classList.add('active');
+      document.getElementById('lpList').innerHTML = '<div class="ru-empty">Loading...</div>';
+      document.getElementById('lpSearch').value = '';
+      document.getElementById('lpStatusFilter').value = '';
+      document.getElementById('lpStats').textContent = '';
+      await _loadLpData();
+    }
+
+    function closeListeningPlusPanel() {
+      var el = document.getElementById('lpOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function _loadLpData() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var listEl = document.getElementById('lpList');
+      var statsEl = document.getElementById('lpStats');
+      listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
+      try {
+        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+        var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        _lpData = await r.json();
+        statsEl.textContent = _lpData.length + ' submission' + (_lpData.length !== 1 ? 's' : '') + ' found';
+        _renderLpList(_lpData);
+      } catch (e) {
+        listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
+        _lpData = [];
+      }
+    }
+
+    function _filterLpList() {
+      var q = (document.getElementById('lpSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('lpStatusFilter').value;
+      var filtered = _lpData.filter(function(row) {
+        if (status && row.status !== status) return false;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      });
+      _renderLpList(filtered);
+    }
+
+    function _renderLpList(rows) {
+      var listEl = document.getElementById('lpList');
+      if (!rows.length) { listEl.innerHTML = '<div class="ru-empty">No submissions found</div>'; return; }
+      var statusColors = { pending: '#f59e0b', approved: '#10b981', draft: '#6366f1', deleted: '#ef4444' };
+      listEl.innerHTML = rows.map(function(row) {
+        var sc = statusColors[row.status] || '#64748b';
+        var ai = row.ai_result || {};
+        var fmt = (row.exam_format || '').toUpperCase();
+        var date = new Date(row.created_at);
+        var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
+        var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var scoreDisplay = ai.correct !== undefined ? (ai.correct + '/' + ai.total + ' (' + Math.round(ai.correct/ai.total*100) + '%)') : '-';
+
+        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+              '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
+              '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+            '</div>' +
+            '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<span style="background:#e6f0ee;color:#116a60;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;">' + fmt + '</span>' +
+              '<span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;">' + scoreDisplay + '</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+              '<button onclick="_viewLpDetail(\'' + row.id + '\')" style="background:#116a60;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
+              (row.status !== 'approved' ? '<button onclick="_updateLpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'deleted' ? '<button onclick="_updateLpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function _updateLpStatus(id, status) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status })
+        });
+        if (r.ok) await _loadLpData();
+      } catch(e) { console.warn('LP status update failed:', e); }
+    }
+
+    async function _viewLpDetail(id) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + id, {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        var rows = await r.json();
+        if (!rows.length) return;
+        var row = rows[0];
+        var ai = row.ai_result || {};
+        var qs = row.questions || {};
+        var esc = function(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+        var fmt = (row.exam_format || '').toUpperCase();
+
+        var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
+        html += '<h3 style="color:#116a60;margin:0;">🎧 ' + esc(row.student_name || 'Unknown') + '</h3>';
+        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '</div>';
+
+        if (ai.correct !== undefined) {
+          html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">';
+          html += '<div style="background:linear-gradient(135deg,#10b981,#059669);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Correct</div><div style="font-size:22px;font-weight:800;">' + ai.correct + '</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Incorrect</div><div style="font-size:22px;font-weight:800;">' + ai.incorrect + '</div></div>';
+          html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:14px;border-radius:10px;text-align:center;color:white;"><div style="font-size:12px;opacity:0.85;">Unanswered</div><div style="font-size:22px;font-weight:800;">' + ai.unanswered + '</div></div>';
+          html += '</div>';
+          html += '<div style="text-align:center;margin-bottom:16px;"><span style="background:#e6f0ee;padding:6px 16px;border-radius:8px;font-weight:700;color:#116a60;font-size:15px;">' + Math.round(ai.correct/ai.total*100) + '% (' + ai.correct + '/' + ai.total + ')</span></div>';
+        }
+
+        if (ai.partResults && ai.partResults.length) {
+          html += '<h4 style="color:#116a60;margin-bottom:8px;">📝 Part Breakdown</h4>';
+          ai.partResults.forEach(function(pr) {
+            html += '<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #e5e7eb;font-size:13px;"><span>' + esc(pr.label) + '</span><span style="font-weight:700;color:' + (pr.correct===pr.total?'#10b981':'#333') + '">' + pr.correct + '/' + pr.total + '</span></div>';
+          });
+        }
+
+        var partIds = Object.keys(qs);
+        if (partIds.length) {
+          html += '<h4 style="color:#116a60;margin:16px 0 8px;">📋 Question Data</h4>';
+          partIds.forEach(function(pid) {
+            var pd = qs[pid];
+            html += '<div style="border:1.5px solid #e5e7eb;border-left:4px solid #116a60;border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#fafafa;">';
+            html += '<strong style="font-size:13px;color:#116a60;">' + esc(pid) + '</strong>';
+            if (pd.questions && pd.questions.type) html += '<span style="margin-left:8px;font-size:11px;color:#64748b;">(' + esc(pd.questions.type) + ')</span>';
+            html += '</div>';
+          });
+        }
+
+        html += '<div style="text-align:right;margin-top:16px;"><button onclick="this.closest(\'.admin-modal-overlay\').remove()" style="background:#64748b;color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Close</button></div>';
+
+        var overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10200;display:flex;align-items:center;justify-content:center;padding:20px;';
+        overlay.className = 'admin-modal-overlay';
+        overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:24px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2);';
+        card.innerHTML = html;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+      } catch(e) { console.warn('LP view failed:', e); }
+    }
+
     // ===== REGISTERED USERS PANEL =====
     var _ruData = [];
 
@@ -16538,7 +17420,7 @@
 
     async function openRegisteredUsersPanel() {
       // Require admin passcode
-      if (!_ruAdminUnlocked) {
+      if (!_ruAdminUnlocked && !_siteAdminUnlocked) {
         _showRuPasscode();
         return;
       }
@@ -17024,6 +17906,7 @@
 
     // Per-category chat state: { support: {convId, messages}, premium: {convId, messages}, partner: {convId, messages} }
     var _hcChatsByCategory = { support: { convId: null, messages: [] }, premium: { convId: null, messages: [] }, partner: { convId: null, messages: [] } };
+    var _hcGlobalMsg = null; // { text, sent_at }
 
     function openHelpCenter() {
       var overlay = document.getElementById('helpCenterOverlay');
@@ -17102,7 +17985,19 @@
         partner: '\uD83E\uDD1D Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.'
       };
       var welcomeHtml = welcomes[helpCenterCategory] || welcomes.support;
-      var html = '<div class="hc-msg ai"><div class="hc-msg-bubble">' + welcomeHtml + '</div></div>';
+      var html = '';
+
+      // Pinned global announcement banner
+      if (_hcGlobalMsg && _hcGlobalMsg.text) {
+        html += '<div style="display:flex;gap:10px;padding:10px 14px;border-radius:14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid #f59e0b;margin-bottom:8px;align-items:flex-start">' +
+          '<div style="font-size:20px;flex-shrink:0;margin-top:1px">📢</div>' +
+          '<div style="flex:1;min-width:0">' +
+          '<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#92400e;margin-bottom:2px">Announcement</div>' +
+          '<div style="font-size:13px;line-height:1.45;color:#78350f;word-break:break-word">' + escapeHtml(_hcGlobalMsg.text) + '</div>' +
+          '</div></div>';
+      }
+
+      html += '<div class="hc-msg ai"><div class="hc-msg-bubble">' + welcomeHtml + '</div></div>';
       helpCenterMessages.forEach(function(m) {
         var cls = m.role === 'user' ? 'user' : (m.role === 'admin' ? 'admin' : 'ai');
         var sender = m.role === 'admin' ? '<div class="hc-msg-sender">\uD83D\uDEE1\uFE0F Admin</div>' : '';
@@ -17581,6 +18476,35 @@
       var isOpen = cbOverlay && cbOverlay.classList.contains('active');
       var gotNewReply = false;
 
+      // Poll global message
+      try {
+        var gmResp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.global_message&select=value', {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        });
+        var gmRows = await gmResp.json();
+        if (gmRows && gmRows.length && gmRows[0].value) {
+          var parsed = typeof gmRows[0].value === 'string' ? JSON.parse(gmRows[0].value) : gmRows[0].value;
+          if (parsed && parsed.text) {
+            var oldSentAt = _hcGlobalMsg ? _hcGlobalMsg.sent_at : null;
+            _hcGlobalMsg = parsed;
+            var seenAt = '';
+            try { seenAt = localStorage.getItem('ms_global_msg_seen') || ''; } catch(e2) {}
+            var isUnseen = parsed.sent_at && parsed.sent_at !== seenAt;
+            if (isUnseen && parsed.sent_at !== oldSentAt) {
+              if (isOpen) {
+                renderHelpCenterMessages();
+                try { localStorage.setItem('ms_global_msg_seen', parsed.sent_at); } catch(e2) {}
+              }
+              // toast is handled by chat-bubble.js on landing page
+            }
+          } else {
+            if (_hcGlobalMsg) { _hcGlobalMsg = null; if (isOpen) renderHelpCenterMessages(); }
+          }
+        } else {
+          if (_hcGlobalMsg) { _hcGlobalMsg = null; if (isOpen) renderHelpCenterMessages(); }
+        }
+      } catch(e) {}
+
       // Load chats from localStorage if not yet loaded
       if (!_hcChatsByCategory.support.convId && !_hcChatsByCategory.premium.convId && !_hcChatsByCategory.partner.convId) {
         loadAllCategoryChats();
@@ -17796,10 +18720,11 @@
 
     // Check super access status on page load
     if (!checkSuperAccessStatus()) {
-      // Not unlocked via session — try auto-login from saved email
+      // Not unlocked via session — pre-fill saved email but don't auto-activate
       var savedVipEmail = localStorage.getItem('ms_vip_email');
       if (savedVipEmail) {
-        autoValidateVipEmail(savedVipEmail);
+        var _emailInput = document.getElementById('vipEmailInput');
+        if (_emailInput) _emailInput.value = savedVipEmail;
       }
     }
 
@@ -17827,6 +18752,9 @@
       _spCurrentProvider = p;
       document.getElementById('spProviderGemini').classList.toggle('active', p === 'gemini');
       document.getElementById('spProviderOpenai').classList.toggle('active', p === 'openai');
+      document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
+      document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
+      document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
     }
 
     // Tab switching
@@ -17901,7 +18829,7 @@
     }
 
     function openSystemPromptsPanel() {
-      if (!_spAdminUnlocked) {
+      if (!_spAdminUnlocked && !_siteAdminUnlocked) {
         _showSpPasscode();
         return;
       }
@@ -18431,7 +19359,7 @@
         },
         // Features
         helpCenter: true, certificates: true, telegramNotifs: true,
-        flashcards: true, articles: true, leaderboard: true, writingPlus: true,
+        flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true,
         // Scheduling
         operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
         examScheduleMode: false, examScheduleDate: '',
@@ -18439,7 +19367,13 @@
         // Analytics
         resultsVisible: true, exportPermission: true, dataIsolation: false,
         // Limits
-        maxAttemptsPerStudent: 0, dailyMockLimit: 0
+        maxAttemptsPerStudent: 0, dailyMockLimit: 0,
+        // Global Access: 'off' (codes required), 'premium', or 'regular'
+        globalAccess: 'off',
+        // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
+        skillAccess: {
+          speaking: 'off', writing: 'off', listening: 'off', reading: 'off', full_mock: 'off'
+        }
       };
     }
 
@@ -18459,6 +19393,12 @@
       else {
         for (var fk in def.fullMockAi) {
           if (saved.fullMockAi[fk] === undefined) saved.fullMockAi[fk] = def.fullMockAi[fk];
+        }
+      }
+      if (!saved.skillAccess) saved.skillAccess = def.skillAccess;
+      else {
+        for (var sk in def.skillAccess) {
+          if (saved.skillAccess[sk] === undefined) saved.skillAccess[sk] = def.skillAccess[sk];
         }
       }
       return saved;
@@ -18595,7 +19535,7 @@
               h += '<select onchange="_cmSetMock(\'' + cid + '\',\'' + mock.key + '\',this.value)" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid ' + bgColor + ';color:' + bgColor + ';background:#fff;font-weight:600;cursor:pointer;">';
               h += '<option value="premium"' + (val === 'premium' ? ' selected' : '') + '>⭐ Premium</option>';
               h += '<option value="regular"' + (val === 'regular' ? ' selected' : '') + '>📗 Regular</option>';
-              h += '<option value="disabled"' + (val === 'disabled' ? ' selected' : '') + '>🚫 Disabled</option>';
+              h += '<option value="disabled"' + (val === 'disabled' ? ' selected' : '') + '>🚫 Deactivated</option>';
               h += '</select>';
               h += '</div>';
               if (isFullMock && val !== 'disabled') {
@@ -18621,6 +19561,64 @@
               }
               h += '</div>';
             });
+            h += '</div>';
+          }
+
+          // ═══════════════ GLOBAL ACCESS ═══════════════
+          h += _cmSectionHeader(cid, 'globalAccess', '🌐', 'Global Access');
+          if (_cmExpandedSections[cid + '_globalAccess']) {
+            var ga = cfg.globalAccess || 'off';
+            h += '<div style="padding:12px 16px;">';
+            h += '<p style="font-size:11px;color:#64748b;margin:0 0 10px;">When enabled, <strong>all mocks</strong> are accessible without any code, VIP, or email — everyone gets in.</p>';
+            h += '<div style="display:flex;gap:8px;">';
+            var gaOpts = [
+              { val: 'off', label: '🔒 Off (Codes Required)', color: '#64748b' },
+              { val: 'premium', label: '⭐ Premium (Open + AI)', color: '#7c3aed' },
+              { val: 'regular', label: '📗 Regular (Open, No AI)', color: '#0d9488' }
+            ];
+            gaOpts.forEach(function(opt) {
+              var sel = ga === opt.val;
+              h += '<button onclick="_cmSetGlobalAccess(\'' + cid + '\',\'' + opt.val + '\')" style="flex:1;padding:10px 8px;border-radius:10px;border:2px solid ' + (sel ? opt.color : '#e5e7eb') + ';background:' + (sel ? opt.color + '12' : '#fff') + ';cursor:pointer;text-align:center;transition:all .15s;">';
+              h += '<div style="font-size:13px;font-weight:700;color:' + (sel ? opt.color : '#333') + ';">' + opt.label + '</div>';
+              h += '</button>';
+            });
+            h += '</div>';
+            h += '</div>';
+          }
+
+          // ═══════════════ SKILL ACCESS ═══════════════
+          h += _cmSectionHeader(cid, 'skillAccess', '🎯', 'Skill Access (Per-Skill Open Access)');
+          if (_cmExpandedSections[cid + '_skillAccess']) {
+            var sa = cfg.skillAccess || {};
+            var ga2 = cfg.globalAccess || 'off';
+            h += '<div style="padding:12px 16px;">';
+            if (ga2 !== 'off') {
+              h += '<div style="background:#fef3c7;border:1.5px solid #f59e0b;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#92400e;font-weight:600;">⚠️ Global Access is ON — it overrides these per-skill settings.</div>';
+            }
+            h += '<p style="font-size:11px;color:#64748b;margin:0 0 10px;">Open access for individual skills. When a skill is set to Premium or Regular, <strong>no code/email is needed</strong> for that skill.</p>';
+            h += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">';
+            var skills = [
+              { key: 'speaking', label: '🎤 Speaking', icon: '🎤' },
+              { key: 'writing', label: '✍️ Writing', icon: '✍️' },
+              { key: 'listening', label: '🎧 Listening', icon: '🎧' },
+              { key: 'reading', label: '📖 Reading', icon: '📖' },
+              { key: 'full_mock', label: '🏆 Full Mock', icon: '🏆' }
+            ];
+            skills.forEach(function(skill) {
+              var sv = sa[skill.key] || 'off';
+              var bgColor = sv === 'premium' ? '#7c3aed' : sv === 'regular' ? '#0d9488' : '#64748b';
+              h += '<div style="padding:8px 10px;border-radius:8px;border:1px solid var(--ring,#e5e7eb);background:var(--surface,#fff);">';
+              h += '<div style="display:flex;align-items:center;justify-content:space-between;">';
+              h += '<span style="font-size:12px;font-weight:500;">' + skill.label + '</span>';
+              h += '<select onchange="_cmSetSkillAccess(\'' + cid + '\',\'' + skill.key + '\',this.value)" style="font-size:11px;padding:4px 8px;border-radius:6px;border:1px solid ' + bgColor + ';color:' + bgColor + ';background:#fff;font-weight:600;cursor:pointer;">';
+              h += '<option value="off"' + (sv === 'off' ? ' selected' : '') + '>🔒 Off</option>';
+              h += '<option value="premium"' + (sv === 'premium' ? ' selected' : '') + '>⭐ Premium</option>';
+              h += '<option value="regular"' + (sv === 'regular' ? ' selected' : '') + '>📗 Regular</option>';
+              h += '</select>';
+              h += '</div>';
+              h += '</div>';
+            });
+            h += '</div>';
             h += '</div>';
           }
 
@@ -18666,6 +19664,9 @@
             h += _cmToggleInput(cid, 'articles', '📰 Articles', cfg.articles !== false);
             h += _cmToggleInput(cid, 'leaderboard', '🏆 Leaderboard', cfg.leaderboard !== false);
             h += _cmToggleInput(cid, 'writingPlus', '✏️ Writing Plus', cfg.writingPlus !== false);
+            h += _cmToggleInput(cid, 'speakingPlus', '🎤 Speaking Plus', cfg.speakingPlus !== false);
+            h += _cmToggleInput(cid, 'readingPlus', '📖 Reading Plus', cfg.readingPlus !== false);
+            h += _cmToggleInput(cid, 'listeningPlus', '🎧 Listening Plus', cfg.listeningPlus !== false);
             h += '</div>';
           }
 
@@ -18801,16 +19802,35 @@
       if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
       if (!_cmConfigs[centerId].fullMockAi) _cmConfigs[centerId].fullMockAi = {};
       _cmConfigs[centerId].fullMockAi[subKey] = val;
-      var card = document.getElementById('cmCard_' + centerId);
-      if (card) {
-        card.querySelectorAll('select').forEach(function(sel) {
-          var v = sel.value;
-          var c = v === 'premium' ? '#7c3aed' : v === 'regular' ? '#0d9488' : '#dc2626';
-          sel.style.borderColor = c;
-          sel.style.color = c;
-        });
-      }
       _cmAutoSave(centerId);
+    };
+
+    window._cmSetGlobalAccess = function(centerId, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      _cmConfigs[centerId].globalAccess = val;
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+      // Live-update window._centerAccess if this is the current site
+      var curSite = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      if (centerId === curSite) {
+        if (!window._centerAccess) window._centerAccess = { globalAccess: 'off', skillAccess: {} };
+        window._centerAccess.globalAccess = val;
+      }
+    };
+
+    window._cmSetSkillAccess = function(centerId, skill, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].skillAccess) _cmConfigs[centerId].skillAccess = {};
+      _cmConfigs[centerId].skillAccess[skill] = val;
+      _cmRenderBody();
+      _cmAutoSave(centerId);
+      // Live-update window._centerAccess if this is the current site
+      var curSite = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      if (centerId === curSite) {
+        if (!window._centerAccess) window._centerAccess = { globalAccess: 'off', skillAccess: {} };
+        if (!window._centerAccess.skillAccess) window._centerAccess.skillAccess = {};
+        window._centerAccess.skillAccess[skill] = val;
+      }
     };
 
     // ── Load / Save ─────────────────────────────────────────────────────────
@@ -18884,6 +19904,122 @@
       var el = document.getElementById('cmOverlay');
       if (el) el.classList.remove('active');
     };
+  })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Center Config Enforcement — greys out deactivated mocks & features   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <script>
+  (async function _enforceCenterConfig() {
+    var siteId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+    var sbUrl = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var sbKey = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    // ── Helper: grey-out a button and add OFF badge + Deactivated label ───
+    function _deactivateBtn(btn) {
+      if (!btn) return;
+      btn.style.opacity = '0.45';
+      btn.style.pointerEvents = 'none';
+      btn.style.filter = 'grayscale(80%)';
+      btn.style.position = 'relative';
+      // OFF badge
+      var badge = document.createElement('span');
+      badge.textContent = 'OFF';
+      badge.style.cssText = 'position:absolute;top:6px;right:8px;background:#9ca3af;color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;z-index:2';
+      btn.appendChild(badge);
+      // Deactivated sub-label
+      var lbl = document.createElement('span');
+      lbl.textContent = 'Deactivated';
+      lbl.style.cssText = 'display:block;color:#ef4444;font-size:12px;font-weight:500;margin-top:4px';
+      btn.appendChild(lbl);
+    }
+
+    // ── Helper: grey-out a skill card on the landing grid ─────────────────
+    function _deactivateCard(card) {
+      if (!card) return;
+      card.style.opacity = '0.4';
+      card.style.pointerEvents = 'none';
+      card.style.filter = 'grayscale(80%)';
+      card.style.position = 'relative';
+      var badge = document.createElement('div');
+      badge.textContent = 'OFF';
+      badge.style.cssText = 'position:absolute;top:8px;right:8px;background:#9ca3af;color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;z-index:2';
+      card.appendChild(badge);
+    }
+
+    try {
+      var key = 'center_config_' + siteId;
+      var res = await fetch(sbUrl + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key) + '&select=value', {
+        headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+      });
+      var rows = await res.json();
+      if (!Array.isArray(rows) || !rows.length) return;
+      var cfg;
+      try { cfg = JSON.parse(rows[0].value); } catch(e) { return; }
+      if (!cfg) return;
+
+      // Expose access config so handleXxxMockClick functions can bypass codes
+      window._centerAccess = {
+        globalAccess: cfg.globalAccess || 'off',
+        skillAccess: cfg.skillAccess || {}
+      };
+
+      var mocks = cfg.mocks || {};
+
+      // ── Grey-out deactivated modal buttons ──────────────────────────────
+      var mockBtnMap = {
+        cefr_speaking:   '#speakingModal .speaking-option-btn.cefr',
+        ielts_speaking:  '#speakingModal .speaking-option-btn.ielts',
+        cefr_writing:    '#writingModal .writing-option-btn.cefr',
+        ielts_writing:   '#writingModal .writing-option-btn.ielts',
+        cefr_listening:  '#listeningModal .listening-option-btn.cefr',
+        ielts_listening: '#listeningModal .listening-option-btn.ielts',
+        cefr_reading:    '#readingModal .reading-option-btn.cefr',
+        ielts_reading:   '#readingModal .reading-option-btn.ielts',
+        cefr_full_mock:  '#fullMockModal .fullmock-option-btn.cefr',
+        ielts_full_mock: '#fullMockModal .fullmock-option-btn.ielts'
+      };
+
+      Object.keys(mockBtnMap).forEach(function(mk) {
+        if (mocks[mk] === 'disabled') {
+          _deactivateBtn(document.querySelector(mockBtnMap[mk]));
+        }
+      });
+
+      // ── Grey-out Plus buttons if feature is off ─────────────────────────
+      if (cfg.writingPlus === false) {
+        _deactivateBtn(document.getElementById('writingPlusBtn'));
+        var wpSidebar = document.getElementById('writingPlusMenuItem');
+        if (wpSidebar) { wpSidebar.style.opacity = '0.4'; wpSidebar.style.pointerEvents = 'none'; wpSidebar.style.filter = 'grayscale(80%)'; }
+      }
+      if (cfg.speakingPlus === false) {
+        _deactivateBtn(document.getElementById('speakingPlusBtn'));
+        var spSidebar = document.getElementById('speakingPlusMenuItem');
+        if (spSidebar) { spSidebar.style.opacity = '0.4'; spSidebar.style.pointerEvents = 'none'; spSidebar.style.filter = 'grayscale(80%)'; }
+      }
+      if (cfg.readingPlus === false) {
+        _deactivateBtn(document.getElementById('readingPlusBtn'));
+        var rpSidebar = document.getElementById('readingPlusMenuItem');
+        if (rpSidebar) { rpSidebar.style.opacity = '0.4'; rpSidebar.style.pointerEvents = 'none'; rpSidebar.style.filter = 'grayscale(80%)'; }
+      }
+
+      // ── Grey-out entire skill card if ALL variants are deactivated ──────
+      var speakingAllOff  = mocks.cefr_speaking === 'disabled' && mocks.ielts_speaking === 'disabled' && cfg.speakingPlus === false;
+      var writingAllOff   = mocks.cefr_writing === 'disabled'  && mocks.ielts_writing === 'disabled'  && cfg.writingPlus === false;
+      var listeningAllOff = mocks.cefr_listening === 'disabled' && mocks.ielts_listening === 'disabled';
+      var readingAllOff   = mocks.cefr_reading === 'disabled'   && mocks.ielts_reading === 'disabled' && cfg.readingPlus === false;
+      var fullMockAllOff  = mocks.cefr_full_mock === 'disabled' && mocks.ielts_full_mock === 'disabled';
+
+      if (speakingAllOff)  _deactivateCard(document.querySelector('.speaking-card'));
+      if (writingAllOff)   _deactivateCard(document.querySelector('.writing-card'));
+      if (listeningAllOff) _deactivateCard(document.querySelector('.listening-card'));
+      if (readingAllOff)   _deactivateCard(document.querySelector('.reading-card'));
+      if (fullMockAllOff)  _deactivateCard(document.querySelector('.full-mock-card'));
+
+    } catch(e) {
+      console.error('Center config enforcement error:', e);
+    }
   })();
   </script>
 

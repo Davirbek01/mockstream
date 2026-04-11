@@ -5171,6 +5171,9 @@
       return score;
     }
 
+    /* Processing spinner overlay — prevents premature tab close */
+    (function(){var o=document.createElement('div');o.id='processingOverlay';o.style.cssText='display:none;position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;gap:18px;';o.innerHTML='<div style="width:56px;height:56px;border:5px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:_procSpin .7s linear infinite"></div><p style="color:#fff;font-size:18px;font-weight:700;margin:0;text-align:center">Submitting your results\u2026</p><p style="color:#f87171;font-size:14px;font-weight:700;margin:0;text-align:center;animation:_procPulse 1.5s ease-in-out infinite">\u26A0\uFE0F Do NOT close this window</p>';var s=document.createElement('style');s.textContent='@keyframes _procSpin{to{transform:rotate(360deg)}}@keyframes _procPulse{0%,100%{opacity:1}50%{opacity:.4}}';document.head.appendChild(s);document.body.appendChild(o);window._showProcessing=function(){o.style.display='flex';};window._hideProcessing=function(){o.style.display='none';};window.addEventListener('beforeunload',function(e){if(o.style.display==='flex'){e.preventDefault();e.returnValue='';}});})();
+
     let hasSubmitted = false;
 
     function submitTest() {
@@ -5232,7 +5235,6 @@
 
       var _isPremiumListen = sessionStorage.getItem('listeningPremiumEntry') === 'true';
       if (!_isPremiumListen) {
-        try { var _tk = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); _tk[testFile] = true; localStorage.setItem('takenListeningMocks', JSON.stringify(_tk)); } catch(e) {}
       }
       let resultsHtml = '';
       _submitParts.forEach((part, partIndex) => {
@@ -5308,9 +5310,12 @@
           '</div>';
       });
       document.getElementById('resultsBody').innerHTML = resultsHtml;
-      document.getElementById('resultsModal').classList.add('active');
-      if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
-      if (typeof resetFabIdle === 'function') resetFabIdle();
+      var _regListening = !(sessionStorage.getItem('listeningPremiumEntry') === 'true');
+      if (!_regListening) {
+        document.getElementById('resultsModal').classList.add('active');
+        if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
+        if (typeof resetFabIdle === 'function') resetFabIdle();
+      }
 
       // Grey-out Review/TryAgain/Transcripts for regular (non-premium) codes
       (function () {
@@ -5335,8 +5340,16 @@
         }
       })();
 
-      // Auto-submit results to backend
-      sendResultsToBackend(score);
+      // Auto-submit results to backend (with processing spinner for regular entries)
+      if (_regListening && window._showProcessing) window._showProcessing();
+      sendResultsToBackend(score).finally(function() {
+        if (window._hideProcessing) window._hideProcessing();
+        if (_regListening) {
+          document.getElementById('resultsModal').classList.add('active');
+          if (typeof window._clUpdateFabBack === 'function') window._clUpdateFabBack();
+          if (typeof resetFabIdle === 'function') resetFabIdle();
+        }
+      });
     }
 
     // Toggle part answers dropdown

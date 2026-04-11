@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <title>Speaking Plus</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <script src="site-config/site-config.js"></script>
+  <script src="supabase-send.js"></script>
+  <script>
+    (function(){
+      function goBack(){
+        try{if(window.top!==window&&typeof window.top.returnToLanding==='function'){window.top.returnToLanding();return;}}catch(e){}
+        try{if(window.parent!==window&&typeof window.parent.returnToLanding==='function'){window.parent.returnToLanding();return;}}catch(e){}
+        try{if(window.top!==window){window.top.postMessage('returnToLanding','*');return;}}catch(e){}
+        window.location.href='landing.html';
+      }
+      window.goBack=goBack;window.goToLanding=goBack;
+    })();
+  </script>
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --brand:#116a60; --brand-weak:#e6f0ee; --brand-strong:#0b4d44;
+      --ink:#0e141b; --muted:#5a6a75; --bg:#f3f9f7; --card:#ffffff;
+      --ring:#cfe1dd; --ring-strong:#86b3aa; --red:#e53935; --amber:#f6c000;
+      --topH:48px;
+    }
+    [data-theme="dark"]{
+      --brand:#5fd6c1; --brand-weak:#11302b; --brand-strong:#5fd6c1;
+      --ink:#e6f1ef; --muted:#a8b5b2; --bg:#0c1312; --card:#101716;
+      --ring:#1b302c; --ring-strong:#23423b;
+    }
+    html.ielts-mode { --brand:#dc2626; --brand-weak:#fee2e2; --brand-strong:#b91c1c; --bg:#fef2f2; --ring:#fecaca; --ring-strong:#f87171; }
+    html.ielts-mode[data-theme="dark"]{ --brand:#f87171; --brand-weak:#450a0a; --brand-strong:#f87171; --bg:#1c0a0a; --card:#1a0f0f; --ring:#4a1515; --ring-strong:#6b2020; --ink:#fef2f2; --muted:#d4a5a5; }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+
+    /* ===== WIZARD ===== */
+    .wizard-overlay{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+    .wizard-overlay.hidden{display:none}
+    .wizard-card{background:var(--card);border-radius:20px;padding:32px;max-width:600px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.12);border:2px solid var(--ring)}
+    .wizard-card h2{font-size:22px;color:var(--brand);margin-bottom:4px}
+    .wizard-card p{color:var(--muted);font-size:14px;margin-bottom:20px}
+    .wizard-step{display:none}.wizard-step.active{display:block}
+    .wizard-back{background:none;border:2px solid var(--ring-strong);color:var(--brand);padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;margin-bottom:16px;display:inline-flex;align-items:center;gap:6px}
+    .wizard-back:hover{background:var(--brand-weak)}
+    .opt-grid{display:grid;gap:12px}.opt-grid.two-col{grid-template-columns:1fr 1fr}
+    .opt-btn{background:var(--card);border:2px solid var(--ring);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+    .opt-btn:hover{border-color:var(--brand);background:var(--brand-weak);transform:translateY(-2px)}
+    .opt-btn .opt-icon{font-size:32px;display:block;margin-bottom:8px}
+    .opt-btn .opt-title{font-size:16px;font-weight:700;color:var(--ink);display:block}
+    .opt-btn .opt-desc{font-size:12px;color:var(--muted);display:block;margin-top:4px}
+
+    /* ===== ENTRY PHASE ===== */
+    .entry-overlay{position:fixed;inset:0;background:var(--bg);z-index:900;display:none;flex-direction:column;overflow:hidden}
+    .entry-overlay.active{display:flex}
+    .entry-top{background:var(--card);border-bottom:2px solid var(--ring);padding:10px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .entry-top .back-btn{background:none;border:2px solid var(--ring-strong);color:var(--brand);padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px}
+    .entry-top .entry-title{font-weight:700;color:var(--brand);font-size:15px;flex:1}
+    .entry-top .start-btn{background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;opacity:.5;pointer-events:none;transition:all .2s}
+    .entry-top .start-btn.ready{opacity:1;pointer-events:auto}
+    .entry-body{flex:1;overflow-y:auto;padding:16px;max-width:800px;margin:0 auto;width:100%}
+    .entry-part{margin-bottom:24px}
+    .entry-part h3{font-size:16px;color:var(--brand);margin-bottom:12px;padding:6px 12px;background:var(--brand-weak);border-radius:8px;display:inline-block}
+    .eq-card{background:var(--card);border:2px solid var(--ring);border-radius:12px;padding:16px;margin-bottom:12px;transition:all .3s}
+    .eq-card.done{border-color:var(--brand);background:var(--brand-weak)}
+    .eq-card .eq-label{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+    .eq-card .eq-label .eq-badge{font-size:11px;background:var(--ring);color:var(--muted);padding:2px 8px;border-radius:6px}
+    .eq-card.done .eq-label .eq-badge{background:var(--brand);color:#fff}
+    .eq-card textarea{width:100%;min-height:60px;padding:10px;border:2px solid var(--ring);border-radius:8px;font-family:inherit;font-size:14px;resize:vertical;background:var(--bg);color:var(--ink);line-height:1.5}
+    .eq-card textarea:focus{outline:none;border-color:var(--brand)}
+    .eq-card .eq-imgs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .eq-card .eq-img-preview{position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:2px solid var(--ring)}
+    .eq-card .eq-img-preview img{width:100%;height:100%;object-fit:cover}
+    .eq-card .eq-img-preview .rm-img{position:absolute;top:2px;right:2px;background:#e53935;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+    .eq-card .eq-actions{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+    .eq-card .eq-upload-btn{background:var(--brand-weak);border:1px solid var(--ring-strong);color:var(--brand);padding:6px 12px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+    .eq-card .eq-done-btn{background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:6px 16px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer}
+    .eq-card .eq-done-btn:disabled{opacity:.5;cursor:not-allowed}
+    .eq-card .eq-edit-btn{background:var(--brand-weak);border:1px solid var(--ring-strong);color:var(--brand);padding:5px 12px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer;display:none}
+    .eq-card.done textarea{display:none}
+    .eq-card.done .eq-actions .eq-upload-btn{display:none}
+    .eq-card.done .eq-actions .eq-done-btn{display:none}
+    .eq-card.done .eq-edit-btn{display:inline-flex}
+    .eq-card .eq-locked-text{display:none;font-size:14px;color:var(--ink);line-height:1.6;white-space:pre-wrap;padding:8px 12px;background:#fffbeb;border:2px solid #f59e0b;border-radius:8px}
+    .eq-card.done .eq-locked-text{display:block}
+    .eq-bullets textarea{min-height:80px}
+
+    /* ===== EXAM INTERFACE ===== */
+    .exam-overlay{position:fixed;inset:0;z-index:800;display:none;flex-direction:column;background:var(--bg);overflow:hidden}
+    .exam-overlay.active{display:flex}
+    .top{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:6px 12px;background:var(--card);border-bottom:2px solid var(--ring);height:var(--topH);flex-shrink:0}
+    .top .back-btn{background:none;border:2px solid var(--ring-strong);color:var(--brand);padding:5px 12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px}
+    .top .exam-title{font-weight:700;color:var(--brand);font-size:14px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .top .score-chip{display:flex;align-items:center;gap:4px;background:var(--brand-weak);padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700;color:var(--brand)}
+    .top .pause-btn,.top .fs-btn{background:var(--brand-weak);border:1px solid var(--ring-strong);color:var(--brand);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+
+    /* Part indicator */
+    .part-indicator{display:flex;gap:8px;justify-content:center;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--ring);flex-shrink:0}
+    .part-step{width:32px;height:32px;border-radius:50%;border:2px solid var(--ring);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);transition:all .3s}
+    .part-step.active{border-color:var(--brand);background:var(--brand);color:#fff}
+    .part-step.done{border-color:var(--brand);color:var(--brand)}
+
+    /* Sidebar / question area */
+    .layout{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:0}
+    .q{border:2px solid var(--ring);border-radius:14px;background:var(--card);overflow:hidden;transition:border-color .3s}
+    .q[open]{border-color:var(--brand)}
+    .q.hidden{display:none}
+    .q summary{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;list-style:none;color:var(--ink)}
+    .q summary::-webkit-details-marker{display:none}
+    .q .badge{font-size:11px;background:var(--brand-weak);color:var(--brand);padding:2px 8px;border-radius:6px}
+    .q-body{padding:12px 14px}
+    .q-head{margin-bottom:12px}
+    .prompt{font-size:15px;line-height:1.6;color:var(--ink)}
+    .prompt img{max-width:100%;border-radius:8px;margin:8px 0;border:2px solid var(--ring)}
+    .cue-card{background:#ecfdf5;border:3px solid #10b981;border-radius:12px;padding:18px 22px;margin:8px 0;font-style:italic;font-size:15px;line-height:1.9}
+    html.ielts-mode .cue-card{background:#fef2f2;border-color:#ef4444}
+    [data-theme="dark"] .cue-card{background:#11302b;border-color:#34d399}
+    html.ielts-mode[data-theme="dark"] .cue-card{background:#450a0a;border-color:#f87171}
+    .cue-card ul{list-style:disc;padding-left:22px;margin:0}
+    .cue-card li{margin:4px 0}
+    .gallery{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+    @media(min-width:700px){.gallery{grid-template-columns:1fr 1fr}}
+    .gallery img{width:100%;height:240px;object-fit:cover;border-radius:8px;border:2px solid var(--ring)}
+
+    /* Dials */
+    .dialrow{display:flex;gap:16px;justify-content:center;margin:12px 0}
+    .dial-container{text-align:center;transition:opacity .3s}
+    .dial-container.inactive{opacity:.3}
+    .dial{width:90px;height:90px;border-radius:50%;border:4px solid var(--ring);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .5s}
+    .dial.prep{border-color:var(--amber)}
+    .dial.speak{border-color:var(--brand)}
+    .dial.speak.soon-end{border-color:var(--red);animation:pulse .5s infinite alternate}
+    @keyframes pulse{to{box-shadow:0 0 12px var(--red)}}
+    .dial .time{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
+    .dial small{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:600}
+
+    /* REC indicator */
+    .rec{display:none;text-align:center;margin:8px 0}
+    .rec.active{display:block}
+    .rec-tag{display:inline-flex;align-items:center;gap:6px;background:#fee2e2;padding:4px 12px;border-radius:8px}
+    .rec-tag .dot{width:8px;height:8px;background:var(--red);border-radius:50%;animation:blink 1s infinite}
+    @keyframes blink{50%{opacity:.3}}
+    .rec-tag span{font-size:12px;font-weight:700;color:var(--red)}
+    .bars{display:flex;gap:2px;justify-content:center;margin-top:6px;height:24px;align-items:flex-end}
+    .bars i{display:block;width:3px;background:var(--brand);border-radius:2px;animation:bar .6s ease-in-out infinite alternate}
+    .bars i:nth-child(2){animation-delay:.1s}.bars i:nth-child(3){animation-delay:.2s}.bars i:nth-child(4){animation-delay:.3s}
+    .bars i:nth-child(5){animation-delay:.15s}.bars i:nth-child(6){animation-delay:.25s}.bars i:nth-child(7){animation-delay:.35s}
+    .bars i:nth-child(8){animation-delay:.05s}.bars i:nth-child(9){animation-delay:.2s}.bars i:nth-child(10){animation-delay:.3s}
+    .bars i:nth-child(11){animation-delay:.1s}.bars i:nth-child(12){animation-delay:.25s}
+    @keyframes bar{from{height:4px}to{height:20px}}
+
+    /* Status badge */
+    .status{text-align:center;margin:8px 0;font-size:12px;font-weight:700;padding:4px 12px;border-radius:8px;display:inline-block}
+    .status.prep-status{background:#fef3c7;color:#92400e}.status.speak-status{background:#dcfce7;color:#166534}.status.done-status{background:var(--brand-weak);color:var(--brand)}
+
+    /* Pause overlay */
+    .pause-overlay{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center}
+    .pause-overlay.active{display:flex}
+    .pause-box{background:var(--card);border-radius:20px;padding:32px;text-align:center;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .pause-box h2{color:var(--brand);margin-bottom:8px}.pause-box p{color:var(--muted);font-size:13px;margin-bottom:20px}
+    .pause-box button{background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer}
+
+    /* Mic check modal */
+    .mic-modal{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center}
+    .mic-modal.active{display:flex}
+    .mic-box{background:var(--card);border-radius:20px;padding:28px;text-align:center;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .mic-circle{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;font-size:36px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;cursor:pointer;transition:transform .2s}
+    .mic-circle:hover{transform:scale(1.1)}
+    .mic-circle.recording{background:linear-gradient(135deg,var(--red),#b91c1c);animation:pulse .5s infinite alternate}
+
+    /* AI Scoring overlay */
+    .scoring-overlay{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center}
+    .scoring-overlay.active{display:flex}
+    .scoring-box{background:var(--card);border-radius:16px;max-width:420px;width:92%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .scoring-header{background:linear-gradient(135deg,var(--brand),var(--brand-strong));padding:18px 20px;border-radius:16px 16px 0 0;display:flex;align-items:center;gap:10px}
+    .scoring-header h3{margin:0;color:#fff;font-size:17px;font-weight:800}
+    .scoring-body{padding:24px 20px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner-ring{width:48px;height:48px;border:3px solid var(--ring);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+
+    /* Results overlay */
+    .results-overlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+    .results-overlay.active{display:flex}
+    .results-card{background:var(--card);border-radius:16px;padding:28px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+    .results-card h2{color:var(--brand);margin-bottom:16px;font-size:20px}
+    .score-grid{display:grid;gap:12px;margin-bottom:20px}
+    .score-item{background:var(--bg);border:2px solid var(--ring);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px}
+    .score-item .score-num{background:var(--brand);color:#fff;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+    .score-item .score-info h4{font-size:14px;color:var(--ink)}.score-item .score-info p{font-size:12px;color:var(--muted);margin-top:2px}
+    .feedback-section{margin-top:16px}.feedback-section h3{font-size:15px;color:var(--brand);margin-bottom:8px}
+    .feedback-box{background:var(--bg);border:2px solid var(--ring);border-radius:10px;padding:14px;font-size:14px;line-height:1.6;color:var(--ink);white-space:pre-wrap}
+
+    /* FAB (mobile) */
+    .fab-container{display:none}
+    @media(max-width:768px){
+      .fab-container{display:block}
+      .fab{position:fixed;right:20px;bottom:20px;width:56px;height:56px;background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 15px rgba(0,0,0,.3);cursor:pointer;z-index:2000;transition:transform .3s}
+      .fab.open{transform:rotate(45deg)}
+      .fab-menu{position:fixed;right:20px;bottom:86px;width:min(280px,85vw);background:var(--card);border:1px solid var(--ring-strong);border-radius:16px;padding:16px;display:none;flex-direction:column;gap:10px;z-index:1999;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+      .fab-menu.open{display:flex}
+      .fab-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:1998}
+      .fab-menu-overlay.open{display:block}
+      .fab-action{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--brand-weak);border:1px solid var(--ring);border-radius:10px;cursor:pointer;font-weight:600;font-size:13px;color:var(--brand);transition:all .2s}
+      .fab-action:hover{background:var(--brand);color:#fff}
+      .fab-action.danger{background:#fee2e2;color:#dc2626;border-color:#fca5a5}
+    }
+
+    /* Confirm overlay */
+    .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;visibility:hidden;transition:all .3s}
+    .confirm-overlay.active{opacity:1;visibility:visible}
+    .confirm-box{background:#fff;border-radius:20px;padding:32px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);transform:scale(.8) translateY(20px);transition:transform .3s}
+    .confirm-overlay.active .confirm-box{transform:scale(1) translateY(0)}
+    .confirm-icon{width:80px;height:80px;background:linear-gradient(135deg,#fde2e2,#fee2e2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px}
+    .confirm-title{font-size:22px;font-weight:700;color:#1e293b;margin-bottom:12px}
+    .confirm-message{color:#64748b;font-size:13px;line-height:1.6;margin-bottom:24px}
+    .confirm-buttons{display:flex;gap:12px}
+    .confirm-btn{flex:1;padding:14px 20px;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+    .confirm-btn.cancel{background:#f1f5f9;color:#1e293b}.confirm-btn.exit{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff}
+
+    /* GTTS preload modal */
+    .preload-modal{position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center}
+    .preload-modal.active{display:flex}
+    .preload-box{background:var(--card);border-radius:16px;padding:28px;text-align:center;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .progress-bar{height:8px;background:var(--ring);border-radius:4px;overflow:hidden;margin:16px 0}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-strong));width:0%;transition:width .3s;border-radius:4px}
+
+    @media(max-width:500px){
+      .wizard-card{padding:20px}.opt-grid.two-col{grid-template-columns:1fr 1fr}
+      .entry-body{padding:12px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== EXIT CONFIRM ===== -->
+<div class="confirm-overlay" id="confirmExit">
+  <div class="confirm-box">
+    <div class="confirm-icon">🚪</div>
+    <div class="confirm-title">Exit Speaking?</div>
+    <div class="confirm-message">Are you sure you want to leave? Your progress will <strong>not be saved</strong>.</div>
+    <div class="confirm-buttons">
+      <button class="confirm-btn cancel" onclick="document.getElementById('confirmExit').classList.remove('active')">Cancel</button>
+      <button class="confirm-btn exit" onclick="goBack()">Exit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WIZARD ===== -->
+<div class="wizard-overlay" id="wizardOverlay">
+  <div class="wizard-card">
+    <div class="wizard-step active" id="wStep1">
+      <button class="wizard-back" onclick="goBack()">← Back</button>
+      <h2>🎤 Speaking Plus</h2>
+      <p>Practice speaking with your own question materials</p>
+      <div class="opt-grid two-col">
+        <div class="opt-btn" onclick="selectFormat('cefr')">
+          <span class="opt-icon"><img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ" style="width:40px;height:40px;border-radius:50%;border:2px solid #e2e8f0"></span>
+          <span class="opt-title">CEFR</span>
+          <span class="opt-desc">8 questions · 4 parts</span>
+        </div>
+        <div class="opt-btn" onclick="selectFormat('ielts')">
+          <span class="opt-icon">🌍</span>
+          <span class="opt-title">IELTS</span>
+          <span class="opt-desc">Up to 17 questions · 3 parts</span>
+        </div>
+      </div>
+    </div>
+    <div class="wizard-step" id="wStep2">
+      <button class="wizard-back" onclick="goToWizStep(1)">← Back</button>
+      <h2 id="wStep2Title">Select Mode</h2>
+      <p>How would you like to practice?</p>
+      <div class="opt-grid two-col">
+        <div class="opt-btn" onclick="selectMode('full')">
+          <span class="opt-icon">📋</span>
+          <span class="opt-title">Full Mock</span>
+          <span class="opt-desc">All parts with timer</span>
+        </div>
+        <div class="opt-btn" onclick="selectMode('practice')">
+          <span class="opt-icon">🎯</span>
+          <span class="opt-title">Part Practice</span>
+          <span class="opt-desc">Practice a single part</span>
+        </div>
+      </div>
+    </div>
+    <div class="wizard-step" id="wStep3">
+      <button class="wizard-back" onclick="goToWizStep(2)">← Back</button>
+      <h2>Which part?</h2>
+      <p>Select the part you want to practice</p>
+      <div class="opt-grid" id="partPickerGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUESTION ENTRY PHASE ===== -->
+<div class="entry-overlay" id="entryOverlay">
+  <div class="entry-top">
+    <button class="back-btn" onclick="showConfirmBack()">← Back</button>
+    <span class="entry-title" id="entryTitle">CEFR Speaking Plus</span>
+    <button class="start-btn" id="startExamBtn" onclick="launchExam()">▶ Start Exam</button>
+  </div>
+  <div class="entry-body" id="entryBody"></div>
+</div>
+
+<!-- ===== EXAM INTERFACE ===== -->
+<div class="exam-overlay" id="examOverlay">
+  <div class="top">
+    <button class="back-btn" onclick="showConfirmBack()">← Back</button>
+    <span class="exam-title" id="examTitle">Speaking Plus</span>
+    <span class="score-chip"><span id="scoreDone">0</span>/<span id="scoreTotal">8</span></span>
+    <button class="pause-btn" onclick="togglePause()" title="Pause">⏸</button>
+    <button class="fs-btn" onclick="toggleFS()" title="Fullscreen">⛶</button>
+  </div>
+  <div class="part-indicator" id="partIndicator"></div>
+  <div class="layout" id="examLayout"></div>
+
+  <!-- FAB mobile -->
+  <div class="fab-container">
+    <div class="fab-menu-overlay" id="fabMenuOverlay" onclick="toggleFab()"></div>
+    <div class="fab-menu" id="fabMenu">
+      <div class="fab-action" onclick="togglePause();toggleFab()">⏸ Pause Exam</div>
+      <div class="fab-action" onclick="skipQuestion();toggleFab()">⏭ Skip Question</div>
+      <div class="fab-action" onclick="toggleFS();toggleFab()">⛶ Fullscreen</div>
+      <div class="fab-action danger" onclick="showConfirmBack();toggleFab()">🚪 Exit Exam</div>
+    </div>
+    <div class="fab" id="fab" onclick="toggleFab()">＋</div>
+  </div>
+</div>
+
+<!-- ===== PAUSE OVERLAY ===== -->
+<div class="pause-overlay" id="pauseOverlay">
+  <div class="pause-box">
+    <h2>⏸ Exam Paused</h2>
+    <p>Take your time. Click Resume when ready.</p>
+    <button onclick="togglePause()">▶ Resume</button>
+  </div>
+</div>
+
+<!-- ===== MIC CHECK ===== -->
+<div class="mic-modal" id="micModal">
+  <div class="mic-box">
+    <h3 style="color:var(--brand);margin-bottom:4px">🎤 Microphone Check</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Tap the mic to test your microphone</p>
+    <div class="mic-circle" id="micTestBtn" onclick="doMicTest()">🎤</div>
+    <p id="micStatus" style="font-size:13px;color:var(--muted);margin:12px 0">Tap to record</p>
+    <audio id="micPlayback" controls style="display:none;width:100%;margin:8px 0"></audio>
+    <button style="background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:10px 28px;border-radius:10px;font-weight:700;cursor:pointer;margin-top:12px" onclick="closeMicCheck()">✓ Sounds Good — Start</button>
+  </div>
+</div>
+
+<!-- ===== GTTS PRELOAD ===== -->
+<div class="preload-modal" id="preloadModal">
+  <div class="preload-box">
+    <div class="spinner-ring"></div>
+    <h3 style="color:var(--ink);margin-bottom:4px">Preparing Audio...</h3>
+    <p style="color:var(--muted);font-size:13px" id="preloadStatus">Generating question audio</p>
+    <div class="progress-bar"><div class="progress-fill" id="preloadBar"></div></div>
+    <p style="font-size:12px;color:var(--muted)" id="preloadCount">0/0</p>
+  </div>
+</div>
+
+<!-- ===== AI SCORING OVERLAY ===== -->
+<div class="scoring-overlay" id="scoringOverlay">
+  <div class="scoring-box">
+    <div class="scoring-header"><span style="font-size:28px">📊</span><h3>AI Speaking Evaluation</h3></div>
+    <div class="scoring-body" id="scoringBody">
+      <div class="spinner-ring"></div>
+      <h4 style="text-align:center;color:var(--ink);font-size:15px;margin:0 0 4px">👑 Premium AI Scoring</h4>
+      <p style="text-align:center;color:var(--muted);font-size:12px" id="scoringMsg">Analyzing your responses...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RESULTS OVERLAY ===== -->
+<div class="results-overlay" id="resultsOverlay">
+  <div class="results-card" id="resultsCard"></div>
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+var CEFR_PARTS = [
+  { id:'p11', label:'Part 1.1', desc:'Introduction (3 questions)', count:3, prep:5, speak:30 },
+  { id:'p12', label:'Part 1.2', desc:'Picture description (3 questions)', count:3, prep:[10,5,5], speak:[45,30,30], hasImages:true },
+  { id:'p2',  label:'Part 2',   desc:'Long turn (1 question)', count:1, prep:60, speak:120, isCueCard:true },
+  { id:'p3',  label:'Part 3',   desc:'Discussion (1 question)', count:1, prep:60, speak:120 }
+];
+var IELTS_PARTS = [
+  { id:'p1', label:'Part 1', desc:'Introduction & Interview (4-7 questions)', count:7, prep:5, speak:30 },
+  { id:'p2', label:'Part 2', desc:'Long turn with cue card (1-3 questions)', count:3, prep:[60,5,5], speak:[120,30,30], isCueCard:true },
+  { id:'p3', label:'Part 3', desc:'Discussion (4-7 questions)', count:7, prep:10, speak:45 }
+];
+
+var examFormat = ''; // 'cefr' or 'ielts'
+var examMode = ''; // 'full' or 'practice'
+var practicePart = ''; // part id if practice mode
+var questions = []; // { qNum, partId, partLabel, text, images:[], prepSec, speakSec }
+var currentQ = 0;
+var timerInterval = null;
+var _spStartedAt = null;
+var isPaused = false;
+var mediaStream = null;
+var mediaRecorder = null;
+var audioChunks = [];
+var audioCtx = null;
+var gttsCache = {}; // qNum → Blob
+
+// IndexedDB for audio storage
+var DB_NAME = 'SpeakingPlusDB';
+var DB_STORE = 'audio';
+function openDB(){return new Promise(function(ok,fail){var r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=function(e){e.target.result.createObjectStore(DB_STORE)};r.onsuccess=function(e){ok(e.target.result)};r.onerror=function(e){fail(e.target.error)}})}
+function saveAudioToDB(key,blob){return openDB().then(function(db){return new Promise(function(ok,fail){var tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(blob,key);tx.oncomplete=ok;tx.onerror=function(){fail(tx.error)}})})}
+function getAudioFromDB(key){return openDB().then(function(db){return new Promise(function(ok){var tx=db.transaction(DB_STORE,'readonly');var r=tx.objectStore(DB_STORE).get(key);r.onsuccess=function(){ok(r.result||null)};r.onerror=function(){ok(null)}})})}
+
+// ===== THEME =====
+var html = document.documentElement;
+var savedTheme = localStorage.getItem('bbma_theme');
+if (savedTheme) html.setAttribute('data-theme', savedTheme);
+function toggleTheme(){var d=html.getAttribute('data-theme')==='dark';html.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('bbma_theme',d?'light':'dark')}
+
+// ===== WIZARD =====
+function goToWizStep(n){
+  document.querySelectorAll('.wizard-step').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('wStep'+n).classList.add('active');
+  if(n===1){html.classList.remove('ielts-mode')}
+}
+
+function selectFormat(fmt){
+  examFormat = fmt;
+  if(fmt==='ielts'){html.classList.add('ielts-mode')}else{html.classList.remove('ielts-mode')}
+  document.getElementById('wStep2Title').textContent = (fmt==='cefr'?'CEFR':'IELTS') + ' Speaking Plus';
+  goToWizStep(2);
+}
+
+function selectMode(mode){
+  examMode = mode;
+  if(mode==='full'){
+    buildQuestions();
+    openEntryPhase();
+  } else {
+    // Show part picker
+    var parts = examFormat==='cefr'? CEFR_PARTS : IELTS_PARTS;
+    var grid = document.getElementById('partPickerGrid');
+    grid.innerHTML = '';
+    parts.forEach(function(p){
+      grid.innerHTML += '<div class="opt-btn" onclick="selectPracticePart(\''+p.id+'\')"><span class="opt-icon">🎯</span><span class="opt-title">'+p.label+'</span><span class="opt-desc">'+p.desc+'</span></div>';
+    });
+    goToWizStep(3);
+  }
+}
+
+function selectPracticePart(pid){
+  practicePart = pid;
+  buildQuestions();
+  openEntryPhase();
+}
+
+// ===== BUILD QUESTIONS =====
+function buildQuestions(){
+  questions = [];
+  var parts = examFormat==='cefr'? CEFR_PARTS : IELTS_PARTS;
+  var qNum = 1;
+  parts.forEach(function(part){
+    if(examMode==='practice' && part.id !== practicePart) return;
+    for(var i=0; i<part.count; i++){
+      var prepSec = Array.isArray(part.prep) ? part.prep[i] : part.prep;
+      var speakSec = Array.isArray(part.speak) ? part.speak[i] : part.speak;
+      questions.push({
+        qNum: qNum,
+        partId: part.id,
+        partLabel: part.label,
+        text: '',
+        images: [],
+        prepSec: prepSec,
+        speakSec: speakSec,
+        hasImages: !!part.hasImages && i===0,
+        sharedImages: !!part.hasImages && i>0,
+        isCueCard: !!part.isCueCard && i===0,
+        done: false
+      });
+      qNum++;
+    }
+  });
+}
+
+// ===== ENTRY PHASE =====
+function openEntryPhase(){
+  document.getElementById('wizardOverlay').classList.add('hidden');
+  var title = (examFormat==='cefr'?'CEFR':'IELTS') + ' Speaking Plus' + (examMode==='practice'?' — '+questions[0].partLabel:'');
+  document.getElementById('entryTitle').textContent = title;
+  renderEntryQuestions();
+  document.getElementById('entryOverlay').classList.add('active');
+}
+
+function renderEntryQuestions(){
+  var body = document.getElementById('entryBody');
+  var h = '';
+  var lastPart = '';
+  questions.forEach(function(q, idx){
+    if(q.partLabel !== lastPart){
+      lastPart = q.partLabel;
+      h += '<div class="entry-part"><h3>'+q.partLabel+'</h3></div>';
+    }
+    var prepLabel = q.prepSec + 's prep / ' + q.speakSec + 's speak';
+    h += '<div class="eq-card" id="eqCard'+idx+'">';
+    h += '<div class="eq-label"><span>Question '+q.qNum+' · '+q.partLabel+'</span><span class="eq-badge" id="eqBadge'+idx+'">'+prepLabel+'</span></div>';
+    h += '<textarea id="eqText'+idx+'" placeholder="Type your question here..." oninput="onEntryInput('+idx+')"></textarea>';
+    h += '<div class="eq-locked-text" id="eqLocked'+idx+'"></div>';
+    if(q.hasImages){
+      h += '<div class="eq-imgs" id="eqImgs'+idx+'"></div>';
+      h += '<input type="file" accept="image/*" multiple id="eqFileInput'+idx+'" style="display:none" onchange="onEntryImageUpload('+idx+',this)">';
+    }
+    if(q.sharedImages){
+      var srcQ = questions.find(function(x){return x.partId===q.partId&&x.hasImages});
+      h += '<div class="eq-imgs" id="eqImgs'+idx+'" style="pointer-events:none;opacity:.7"></div>';
+      h += '<div style="font-size:11px;color:var(--muted);margin-top:4px">📷 Images shared from Question '+(srcQ?srcQ.qNum:'')+'</div>';
+    }
+    h += '<div class="eq-actions">';
+    if(q.hasImages) h += '<button class="eq-upload-btn" onclick="document.getElementById(\'eqFileInput'+idx+'\').click()">📷 Add Image</button>';
+    h += '<button class="eq-done-btn" id="eqDoneBtn'+idx+'" onclick="markEntryDone('+idx+')" disabled>✓ Done</button>';
+    h += '<button class="eq-edit-btn" id="eqEditBtn'+idx+'" onclick="editEntry('+idx+')">✏️ Edit</button>';
+    h += '</div></div>';
+  });
+  body.innerHTML = h;
+}
+
+function onEntryInput(idx){
+  var text = document.getElementById('eqText'+idx).value.trim();
+  document.getElementById('eqDoneBtn'+idx).disabled = !text;
+}
+
+function onEntryImageUpload(idx, input){
+  var files = input.files;
+  if(!files.length) return;
+  for(var i=0;i<files.length;i++){
+    (function(file){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        questions[idx].images.push(e.target.result);
+        // Auto-share images to sibling questions in same part
+        _syncSharedImages(idx);
+        renderEntryImages(idx);
+      };
+      reader.readAsDataURL(file);
+    })(files[i]);
+  }
+  input.value = '';
+}
+
+function _syncSharedImages(srcIdx){
+  var srcQ = questions[srcIdx];
+  if(!srcQ.hasImages) return;
+  questions.forEach(function(q, i){
+    if(i!==srcIdx && q.partId===srcQ.partId && q.sharedImages){
+      q.images = srcQ.images.slice();
+      renderEntryImages(i);
+    }
+  });
+}
+
+function renderEntryImages(idx){
+  var container = document.getElementById('eqImgs'+idx);
+  if(!container) return;
+  container.innerHTML = questions[idx].images.map(function(src,i){
+    return '<div class="eq-img-preview"><img src="'+src+'"><button class="rm-img" onclick="removeEntryImage('+idx+','+i+')">✕</button></div>';
+  }).join('');
+}
+
+function removeEntryImage(idx, imgIdx){
+  questions[idx].images.splice(imgIdx, 1);
+  _syncSharedImages(idx);
+  renderEntryImages(idx);
+}
+
+function markEntryDone(idx){
+  var text = document.getElementById('eqText'+idx).value.trim();
+  if(!text) return;
+  questions[idx].text = text;
+  questions[idx].done = true;
+  var card = document.getElementById('eqCard'+idx);
+  card.classList.add('done');
+  document.getElementById('eqLocked'+idx).textContent = text;
+  document.getElementById('eqBadge'+idx).textContent = '✓ Ready';
+  checkAllDone();
+}
+
+function editEntry(idx){
+  questions[idx].done = false;
+  var card = document.getElementById('eqCard'+idx);
+  card.classList.remove('done');
+  document.getElementById('eqBadge'+idx).textContent = questions[idx].prepSec+'s prep / '+questions[idx].speakSec+'s speak';
+  document.getElementById('eqDoneBtn'+idx).disabled = false;
+  checkAllDone();
+}
+
+function checkAllDone(){
+  var allDone = questions.every(function(q){return q.done});
+  var btn = document.getElementById('startExamBtn');
+  if(allDone){btn.classList.add('ready')}else{btn.classList.remove('ready')}
+}
+
+function showConfirmBack(){
+  document.getElementById('confirmExit').classList.add('active');
+}
+
+// ===== LAUNCH EXAM =====
+async function launchExam(){
+  if(!questions.every(function(q){return q.done})) return;
+  // Hide entry
+  document.getElementById('entryOverlay').classList.remove('active');
+
+  // Build exam UI
+  buildExamUI();
+
+  // Show exam
+  document.getElementById('examOverlay').classList.add('active');
+
+  // Preload GTTS audio
+  await preloadGTTS();
+
+  // Show mic check
+  document.getElementById('micModal').classList.add('active');
+}
+
+function buildExamUI(){
+  var title = (examFormat==='cefr'?'CEFR':'IELTS') + ' Speaking Plus';
+  document.getElementById('examTitle').textContent = title;
+  document.getElementById('scoreTotal').textContent = questions.length;
+  document.getElementById('scoreDone').textContent = '0';
+
+  // Part indicator
+  var parts = [];
+  var seenParts = {};
+  questions.forEach(function(q){
+    if(!seenParts[q.partId]){seenParts[q.partId]=true;parts.push({id:q.partId,label:q.partLabel})}
+  });
+  var piH = '';
+  parts.forEach(function(p,i){
+    var shortLabel = p.label.replace('Part ','');
+    piH += '<div class="part-step" data-part="'+p.id+'" id="partStep_'+p.id+'">'+shortLabel+'</div>';
+  });
+  document.getElementById('partIndicator').innerHTML = piH;
+  if(parts.length) document.getElementById('partStep_'+parts[0].id).classList.add('active');
+
+  // Questions
+  var layoutH = '';
+  questions.forEach(function(q, idx){
+    var imgH = '';
+    if(q.images.length){
+      imgH = '<div class="gallery'+(q.images.length>1?' two':'')+'">';
+      q.images.forEach(function(src){imgH+='<img src="'+src+'">'});
+      imgH += '</div>';
+    }
+    layoutH += '<details class="q hidden" data-prep="'+q.prepSec+'" data-speak="'+q.speakSec+'" data-qnum="'+q.qNum+'" data-part="'+q.partId+'">';
+    layoutH += '<summary><span>Question '+q.qNum+' · '+q.partLabel+'</span><span class="badge">'+q.speakSec+'s</span></summary>';
+    layoutH += '<div class="q-body"><div class="q-head">';
+    if(q.isCueCard){
+      var lines = q.text.split('\n').filter(function(l){return l.trim()});
+      layoutH += '<div class="cue-card"><ul>';
+      lines.forEach(function(line){layoutH += '<li>'+line.trim()+'</li>'});
+      layoutH += '</ul></div>';
+    } else {
+      layoutH += '<div class="prompt">'+q.text+'</div>';
+    }
+    layoutH += imgH;
+    layoutH += '</div>';
+    // Status
+    layoutH += '<div class="status prep-status" id="qStatus'+idx+'" style="display:none">Prepare...</div>';
+    // Dials
+    layoutH += '<div class="dialrow">';
+    layoutH += '<div class="dial-container" id="qPrepDC'+idx+'" onclick="_adminTapPrep()"><div class="dial prep"><div class="time" id="qPrepTime'+idx+'">'+fmtTime(q.prepSec)+'</div><small>prep</small></div></div>';
+    layoutH += '<div class="dial-container inactive" id="qSpeakDC'+idx+'" onclick="_adminTapSpeak()"><div class="dial speak" id="qSpeakDial'+idx+'"><div class="time" id="qSpeakTime'+idx+'">'+fmtTime(q.speakSec)+'</div><small>speak</small></div></div>';
+    layoutH += '</div>';
+    // REC
+    layoutH += '<div class="rec" id="qRec'+idx+'"><div class="rec-tag"><span class="dot"></span><span>REC</span></div><div class="bars">';
+    for(var b=0;b<12;b++) layoutH+='<i></i>';
+    layoutH += '</div></div>';
+    layoutH += '</div></details>';
+  });
+  document.getElementById('examLayout').innerHTML = layoutH;
+}
+
+function fmtTime(s){
+  var m=Math.floor(s/60),sc=s%60;
+  return String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');
+}
+
+// ===== GTTS PRELOAD =====
+async function preloadGTTS(){
+  var modal = document.getElementById('preloadModal');
+  var bar = document.getElementById('preloadBar');
+  var countEl = document.getElementById('preloadCount');
+  var statusEl = document.getElementById('preloadStatus');
+
+  // Build batch request
+  var requestBody = {};
+  questions.forEach(function(q){
+    requestBody['q'+q.qNum] = _buildSpeakText(q);
+  });
+
+  var total = Object.keys(requestBody).length;
+  modal.classList.add('active');
+  statusEl.textContent = 'Connecting to TTS server...';
+  countEl.textContent = '0 / ' + total;
+  bar.style.width = '5%';
+
+  try {
+    statusEl.textContent = 'Generating audio files...';
+    bar.style.width = '20%';
+    var response = await fetch('https://english-server-p7y6.onrender.com/tts/audio', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(requestBody)
+    });
+    if(!response.ok) throw new Error('TTS server error: '+response.status);
+
+    statusEl.textContent = 'Downloading audio...';
+    bar.style.width = '50%';
+    var zipBlob = await response.blob();
+
+    // Load JSZip
+    if(typeof JSZip==='undefined'){
+      await new Promise(function(ok,fail){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';s.onload=ok;s.onerror=fail;document.head.appendChild(s)});
+    }
+
+    statusEl.textContent = 'Extracting audio files...';
+    bar.style.width = '70%';
+    var zip = await JSZip.loadAsync(zipBlob);
+    var loaded = 0;
+    var entries = Object.entries(zip.files);
+    for(var i=0;i<entries.length;i++){
+      var fn = entries[i][0], entry = entries[i][1];
+      if(fn.endsWith('.mp3')){
+        var key = fn.replace('.mp3','');
+        gttsCache[key] = await entry.async('blob');
+        loaded++;
+        var pct = 70 + Math.round((loaded/total)*30);
+        bar.style.width = pct+'%';
+        countEl.textContent = loaded + ' / ' + total;
+        statusEl.textContent = 'Extracted: ' + key;
+      }
+    }
+    bar.style.width = '100%';
+    statusEl.textContent = 'All '+loaded+' audio files ready!';
+    await new Promise(function(ok){setTimeout(ok,600)});
+  } catch(err){
+    console.error('GTTS preload failed:', err);
+    statusEl.textContent = '⚠️ TTS unavailable, using browser voice';
+    await new Promise(function(ok){setTimeout(ok,1500)});
+  }
+  modal.classList.remove('active');
+}
+
+// ===== MIC CHECK =====
+var micTestStream = null;
+var micTestRecorder = null;
+var micTestChunks = [];
+var micTestRecording = false;
+
+async function doMicTest(){
+  var btn = document.getElementById('micTestBtn');
+  var status = document.getElementById('micStatus');
+  var playback = document.getElementById('micPlayback');
+
+  if(micTestRecording){
+    // Stop
+    micTestRecording = false;
+    btn.classList.remove('recording');
+    if(micTestRecorder && micTestRecorder.state!=='inactive') micTestRecorder.stop();
+    status.textContent = 'Listen to your recording:';
+    return;
+  }
+
+  try {
+    micTestStream = await navigator.mediaDevices.getUserMedia({audio:true});
+    micTestRecording = true;
+    btn.classList.add('recording');
+    status.textContent = 'Recording... Tap again to stop';
+    micTestChunks = [];
+    var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'';
+    micTestRecorder = new MediaRecorder(micTestStream, mimeType?{mimeType}:{});
+    micTestRecorder.ondataavailable = function(e){if(e.data.size>0)micTestChunks.push(e.data)};
+    micTestRecorder.onstop = function(){
+      var blob = new Blob(micTestChunks,{type:mimeType||'audio/webm'});
+      playback.src = URL.createObjectURL(blob);
+      playback.style.display = '';
+    };
+    micTestRecorder.start();
+    // Auto stop after 5s
+    setTimeout(function(){if(micTestRecording)doMicTest()},5000);
+  } catch(e){
+    status.textContent = '❌ Microphone blocked. Check permissions.';
+  }
+}
+
+function closeMicCheck(){
+  document.getElementById('micModal').classList.remove('active');
+  if(micTestStream){micTestStream.getTracks().forEach(function(t){t.stop()});micTestStream=null}
+  // Start exam
+  startExam();
+}
+
+// ===== EXAM FLOW =====
+function startExam(){
+  currentQ = 0;
+  _spStartedAt = Date.now();
+  ensureAudio();
+  runQuestion(0);
+}
+
+async function ensureMediaStream(){
+  if(mediaStream) return mediaStream;
+  try{
+    mediaStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    console.error('Mic access failed:', e);
+    alert('Please allow microphone access.');
+    return null;
+  }
+  return mediaStream;
+}
+
+function ensureAudio(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}}
+function beep(freq,dur,vol){if(!audioCtx)return;var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq||880;g.gain.value=vol||0.08;o.connect(g);g.connect(audioCtx.destination);o.start();setTimeout(function(){o.stop()},Math.max(10,(dur||0.12)*1000))}
+
+function runQuestion(idx){
+  if(idx>=questions.length){finishExam();return}
+  currentQ = idx;
+  var allQ = document.querySelectorAll('.q');
+  allQ.forEach(function(q,i){
+    if(i===idx){q.classList.remove('hidden');q.setAttribute('open','')}
+    else{q.classList.add('hidden');q.removeAttribute('open')}
+  });
+  allQ[idx].scrollIntoView({behavior:'smooth',block:'start'});
+
+  // Update counter
+  document.getElementById('scoreDone').textContent = idx+1;
+
+  // Update part indicator
+  var partId = questions[idx].partId;
+  document.querySelectorAll('.part-step').forEach(function(s){
+    s.classList.remove('active');
+    if(s.dataset.part===partId) s.classList.add('active');
+  });
+
+  // Speak the question
+  var q = questions[idx];
+  var speakText = _buildSpeakText(q);
+
+  speakQuestion(q.qNum, speakText, function(){
+    startTimers(idx);
+  });
+}
+
+function _buildSpeakText(q){
+  if(q.isCueCard){
+    // Part 2 cue card: read all bullet points + prep instruction
+    var lines = q.text.split('\n').filter(function(l){return l.trim()});
+    return lines.join('. ') + '. You have one minute to prepare.';
+  }
+  // All other questions: just the question text
+  return q.text;
+}
+
+function speakQuestion(qNum, text, onend){
+  var cacheKey = 'q'+qNum;
+  if(gttsCache[cacheKey]){
+    var url = URL.createObjectURL(gttsCache[cacheKey]);
+    var audio = new Audio(url);
+    audio.volume = 1.0;
+    audio.onended = function(){URL.revokeObjectURL(url);onend&&onend()};
+    audio.onerror = function(){URL.revokeObjectURL(url);speakBrowser(text,onend)};
+    audio.play().catch(function(){speakBrowser(text,onend)});
+  } else {
+    speakBrowser(text, onend);
+  }
+}
+
+function speakBrowser(text, onend){
+  if(!window.speechSynthesis){onend&&onend();return}
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.rate = 0.9; u.pitch = 1; u.volume = 1;
+  var done = false;
+  function finish(){if(!done){done=true;clearTimeout(safetyTimer);onend&&onend()}}
+  // Safety timer: if onend doesn't fire within text length estimate + 10s, force continue
+  var estimatedMs = Math.max(5000, text.length * 80 + 3000);
+  var safetyTimer = setTimeout(finish, estimatedMs);
+  // Try to find English voice
+  var voices = window.speechSynthesis.getVoices();
+  var eng = voices.find(function(v){return v.lang.startsWith('en')});
+  if(eng) u.voice = eng;
+  u.onend = function(){finish()};
+  u.onerror = function(){finish()};
+  window.speechSynthesis.speak(u);
+  // Chrome bug: speechSynthesis pauses after 15s on long utterances
+  var keepAlive = setInterval(function(){if(done){clearInterval(keepAlive);return}window.speechSynthesis.pause();window.speechSynthesis.resume()},10000);
+}
+
+// ===== TIMERS =====
+function startTimers(idx){
+  var q = questions[idx];
+  var prepSec = q.prepSec;
+  var speakSec = q.speakSec;
+  var prepTimeEl = document.getElementById('qPrepTime'+idx);
+  var speakTimeEl = document.getElementById('qSpeakTime'+idx);
+  var prepDC = document.getElementById('qPrepDC'+idx);
+  var speakDC = document.getElementById('qSpeakDC'+idx);
+  var speakDial = document.getElementById('qSpeakDial'+idx);
+  var recEl = document.getElementById('qRec'+idx);
+  var statusEl = document.getElementById('qStatus'+idx);
+
+  var remainPrep = prepSec;
+  var mode = 'prep';
+
+  statusEl.style.display = '';
+  statusEl.className = 'status prep-status';
+  statusEl.textContent = 'Prepare...';
+  prepDC.classList.remove('inactive');
+  speakDC.classList.add('inactive');
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(function(){
+    if(isPaused) return;
+    if(mode==='prep'){
+      remainPrep--;
+      if(remainPrep<=3 && remainPrep>0) beep(880,0.12,0.08);
+      if(remainPrep<=0){
+        prepTimeEl.textContent = '00:00';
+        mode = 'speak';
+        var remainSpeak = speakSec;
+
+        statusEl.className = 'status speak-status';
+        statusEl.textContent = 'Speak now!';
+        prepDC.classList.add('inactive');
+        speakDC.classList.remove('inactive');
+        recEl.classList.add('active');
+
+        // Start recording
+        startRecording(idx);
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(function(){
+          if(isPaused) return;
+          remainSpeak--;
+          speakTimeEl.textContent = fmtTime(remainSpeak);
+          if(remainSpeak<=3 && remainSpeak>0){
+            speakDial.classList.add('soon-end');
+            beep(440,0.1,0.06);
+          }
+          if(remainSpeak<=0){
+            clearInterval(timerInterval);
+            stopRecording(idx);
+            recEl.classList.remove('active');
+            statusEl.className = 'status done-status';
+            statusEl.textContent = '✓ Complete';
+            speakDial.classList.remove('soon-end');
+            // Mark part step done if last Q in part
+            var nextQ = questions[idx+1];
+            if(!nextQ || nextQ.partId !== q.partId){
+              var ps = document.getElementById('partStep_'+q.partId);
+              if(ps){ps.classList.remove('active');ps.classList.add('done')}
+            }
+            // Next question after short delay
+            setTimeout(function(){runQuestion(idx+1)},1200);
+          }
+        },1000);
+      } else {
+        prepTimeEl.textContent = fmtTime(remainPrep);
+      }
+    }
+  },1000);
+}
+
+function startRecording(idx){
+  audioChunks = [];
+  ensureMediaStream().then(function(stream){
+    if(!stream) return;
+    try{
+      var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'';
+      mediaRecorder = new MediaRecorder(stream, mimeType?{mimeType}:{});
+      mediaRecorder.ondataavailable = function(e){if(e.data.size>0)audioChunks.push(e.data)};
+      mediaRecorder.onstop = function(){
+        var blob = new Blob(audioChunks,{type:mimeType||'audio/webm'});
+        var key = 'sp_audio_q'+(idx+1);
+        saveAudioToDB(key, blob).catch(function(e){console.warn('Save audio failed:',e)});
+      };
+      mediaRecorder.start();
+    }catch(e){console.error('Recording error:',e)}
+  });
+}
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state!=='inactive'){
+    mediaRecorder.stop();
+  }
+}
+
+function skipQuestion(){
+  clearInterval(timerInterval);
+  stopRecording();
+  var recEl = document.getElementById('qRec'+currentQ);
+  if(recEl) recEl.classList.remove('active');
+  runQuestion(currentQ+1);
+}
+
+function goBackQuestion(){
+  if(currentQ<=0) return;
+  clearInterval(timerInterval);
+  stopRecording();
+  var recEl = document.getElementById('qRec'+currentQ);
+  if(recEl) recEl.classList.remove('active');
+  runQuestion(currentQ-1);
+}
+
+// Admin 5-tap shortcuts
+var _tapSpeakCount=0,_tapSpeakTimer=null;
+function _adminTapSpeak(){
+  _tapSpeakCount++;
+  clearTimeout(_tapSpeakTimer);
+  _tapSpeakTimer=setTimeout(function(){_tapSpeakCount=0},1200);
+  if(_tapSpeakCount>=5){_tapSpeakCount=0;skipQuestion()}
+}
+var _tapPrepCount=0,_tapPrepTimer=null;
+function _adminTapPrep(){
+  _tapPrepCount++;
+  clearTimeout(_tapPrepTimer);
+  _tapPrepTimer=setTimeout(function(){_tapPrepCount=0},1200);
+  if(_tapPrepCount>=5){_tapPrepCount=0;goBackQuestion()}
+}
+
+// ===== PAUSE =====
+function togglePause(){
+  isPaused = !isPaused;
+  document.getElementById('pauseOverlay').classList.toggle('active', isPaused);
+}
+
+// ===== FULLSCREEN (iframe-safe via postMessage) =====
+function toggleFS(){
+  try{window.top.postMessage('toggleFullscreen','*')}catch(e){}
+}
+
+// ===== FAB =====
+function toggleFab(){
+  var fab = document.getElementById('fab');
+  var menu = document.getElementById('fabMenu');
+  var overlay = document.getElementById('fabMenuOverlay');
+  var isOpen = fab.classList.contains('open');
+  fab.classList.toggle('open');
+  menu.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// ===== FINISH EXAM =====
+async function finishExam(){
+  clearInterval(timerInterval);
+  if(mediaStream){mediaStream.getTracks().forEach(function(t){t.stop()});mediaStream=null}
+
+  // Show scoring overlay
+  document.getElementById('scoringOverlay').classList.add('active');
+
+  try {
+    // Collect transcriptions (we don't have them since audio is raw)
+    // Build prompt from questions + note that audio was recorded but not transcribed
+    var scoringData = questions.map(function(q, idx){
+      return 'Question '+q.qNum+' ('+q.partLabel+', prep:'+q.prepSec+'s, speak:'+q.speakSec+'s):\n'+q.text;
+    }).join('\n\n');
+
+    var systemPrompt;
+    var cp = await _loadScoringPrompts();
+
+    if(examFormat === 'cefr'){
+      systemPrompt = cp['scoring_cefr_speaking_system'] || 'You are a CEFR Speaking exam assessor. Score the candidate based on their speaking performance. Score each part and give an overall CEFR level assessment. Return JSON with: overall_score (0-21 raw), certificate_score (0-75), cefr_level (A1-C2), part_scores (object with part labels as keys and scores as values), feedback (detailed text feedback), strengths (array), improvements (array).';
+    } else {
+      systemPrompt = cp['scoring_ielts_speaking_system'] || 'You are an IELTS Speaking exam assessor. Score the candidate based on their speaking performance. Return JSON with: band_score (0-9 with 0.5 increments), part_scores (object with Part 1/2/3 keys and scores), fluency_score (0-9), lexical_score (0-9), grammar_score (0-9), pronunciation_score (0-9), feedback (detailed text), strengths (array), improvements (array).';
+    }
+
+    var userPrompt = (examFormat==='cefr'
+      ? (cp['scoring_cefr_speaking_prompt'] || 'Assess this CEFR speaking exam. The candidate answered the following questions (audio was recorded but transcription is not available — provide your best assessment based on the question structure and difficulty):\n\n')
+      : (cp['scoring_ielts_speaking_prompt'] || 'Assess this IELTS speaking exam. The candidate answered the following questions (audio was recorded but transcription is not available — provide your best assessment based on the question structure):\n\n')
+    ) + scoringData + '\n\nNote: This is a Speaking Plus session where the candidate used their own custom questions. Audio recordings exist but cannot be transcribed here. Please provide a fair assessment framework and sample scoring based on question difficulty and structure. Return valid JSON.';
+
+    document.getElementById('scoringMsg').textContent = 'AI is analyzing...';
+    var result = await _callScoringAI(systemPrompt, userPrompt, {
+      maxTokens: 4096,
+      temperature: 0.3,
+      jsonMode: true
+    });
+
+    document.getElementById('scoringOverlay').classList.remove('active');
+
+    // Parse and display results
+    var parsedResult = null;
+    try {
+      parsedResult = JSON.parse(result);
+      showResults(parsedResult);
+    } catch(e){
+      showResultsRaw(result);
+    }
+
+    // Save submission to Supabase
+    _saveSpSubmission(parsedResult, result);
+
+    // Send to Telegram
+    _sendSpToTelegram(parsedResult);
+
+  } catch(err){
+    console.error('Scoring error:', err);
+    document.getElementById('scoringOverlay').classList.remove('active');
+    alert('Scoring failed: ' + err.message);
+  }
+}
+
+// ===== SCORING AI (multi-provider) =====
+var _SP_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+var _SP_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+var _scoringPromptsCache = null;
+var _scoringPromptsCacheTime = 0;
+async function _loadScoringPrompts(){
+  if(_scoringPromptsCache && Date.now()-_scoringPromptsCacheTime<300000) return _scoringPromptsCache;
+  try{
+    var r = await fetch(_SP_SB_URL+'/rest/v1/site_settings?key=like.scoring_*&select=key,value',{
+      headers:{'apikey':_SP_SB_KEY,'Authorization':'Bearer '+_SP_SB_KEY}
+    });
+    if(!r.ok) throw new Error(r.status);
+    var rows = await r.json();
+    _scoringPromptsCache = {};
+    rows.forEach(function(x){_scoringPromptsCache[x.key]=x.value});
+    _scoringPromptsCacheTime = Date.now();
+  }catch(e){console.warn('[ScoringPrompts] load failed:',e.message)}
+  return _scoringPromptsCache||{};
+}
+
+var API_KEY=null, GEMINI_KEY=null, _CLAUDE_KEY=null, _GROK_KEY=null, _DEEPSEEK_KEY=null;
+async function _fetchKey(model){
+  var r=await fetch('https://davirbek.alwaysdata.net/key?model='+model,{method:'GET',headers:{'Content-Type':'application/json'}});
+  if(!r.ok)throw new Error('Failed to fetch '+model+' key');var d=await r.json();return d.key;
+}
+async function _getOpenAIKey(){
+  var r=await fetch('https://davirbek.alwaysdata.net/key',{method:'GET',headers:{'Content-Type':'application/json'}});
+  if(!r.ok)throw new Error('Failed to fetch OpenAI key');var d=await r.json();API_KEY=d.key;return d.key;
+}
+
+async function _callScoringAI(systemText, userPrompt, opts){
+  var cp = await _loadScoringPrompts();
+  var provider = cp['scoring_ai_provider'] || 'gemini';
+  if(window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider!=='default') provider=window._centerConfig.aiProvider;
+  console.log('%c[AI Scoring] Provider: '+provider.toUpperCase(),'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
+  // Badge
+  (function(p){var d=document.getElementById('_aiProviderBadge');if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)}d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000)})(provider);
+  document.querySelectorAll('#scoringMsg').forEach(function(s){s.textContent='Analyzing with '+provider.charAt(0).toUpperCase()+provider.slice(1)+' AI...'});
+  opts=opts||{};
+
+  if(provider==='openai'){
+    if(!API_KEY){try{await _getOpenAIKey()}catch(e){}}
+    if(!API_KEY) throw new Error('No OpenAI key');
+    var messages=[];
+    if(systemText) messages.push({role:'system',content:systemText});
+    messages.push({role:'user',content:userPrompt});
+    var body={model:'gpt-4o-mini',messages:messages,temperature:opts.temperature||0.3};
+    if(opts.maxTokens) body.max_tokens=opts.maxTokens;
+    if(opts.jsonMode) body.response_format={type:'json_object'};
+    var r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+API_KEY},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error('AI API error: '+r.status);
+    var j=await r.json();return j.choices[0].message.content;
+  } else if(provider==='claude'){
+    if(!_CLAUDE_KEY){try{_CLAUDE_KEY=await _fetchKey('claude')}catch(e){}}
+    if(!_CLAUDE_KEY) throw new Error('No Claude key');
+    var cBody={model:'claude-sonnet-4-20250514',max_tokens:opts.maxTokens||8192,messages:[{role:'user',content:userPrompt}]};
+    if(systemText) cBody.system=systemText;
+    if(opts.temperature!==undefined) cBody.temperature=opts.temperature;
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':_CLAUDE_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(cBody)});
+    if(!r.ok) throw new Error('AI API error: '+r.status);var j=await r.json();return j.content[0].text;
+  } else if(provider==='grok'){
+    if(!_GROK_KEY){try{_GROK_KEY=await _fetchKey('grok')}catch(e){}}
+    if(!_GROK_KEY) throw new Error('No Grok key');
+    var messages=[];
+    if(systemText) messages.push({role:'system',content:systemText});
+    messages.push({role:'user',content:userPrompt});
+    var body={model:'grok-3-mini',messages:messages,temperature:opts.temperature||0.3};
+    if(opts.maxTokens) body.max_tokens=opts.maxTokens;
+    if(opts.jsonMode) body.response_format={type:'json_object'};
+    var r=await fetch('https://api.x.ai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_GROK_KEY},body:JSON.stringify(body)});
+    if(!r.ok){var _e=await r.text().catch(function(){return''});throw new Error('AI API error: '+r.status+' '+_e.slice(0,200))}
+    var j=await r.json();return j.choices[0].message.content;
+  } else if(provider==='deepseek'){
+    if(!_DEEPSEEK_KEY){try{_DEEPSEEK_KEY=await _fetchKey('deepseek')}catch(e){}}
+    if(!_DEEPSEEK_KEY) throw new Error('No DeepSeek key');
+    var messages=[];
+    if(systemText) messages.push({role:'system',content:systemText});
+    var uMsg=userPrompt;
+    if(opts.jsonMode) uMsg+='\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+    messages.push({role:'user',content:uMsg});
+    var body={model:'deepseek-chat',messages:messages,temperature:opts.temperature||0.3};
+    if(opts.maxTokens) body.max_tokens=Math.min(opts.maxTokens,8192);
+    var r=await fetch('https://api.deepseek.com/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+_DEEPSEEK_KEY},body:JSON.stringify(body)});
+    if(!r.ok){var _e=await r.text().catch(function(){return''});throw new Error('AI API error: '+r.status+' '+_e.slice(0,200))}
+    var j=await r.json();var _ds=j.choices[0].message.content;var _dm=_ds.match(/```(?:json)?\s*([\s\S]*?)```/);if(_dm)_ds=_dm[1].trim();return _ds;
+  } else {
+    // Gemini (default)
+    if(!GEMINI_KEY){try{GEMINI_KEY=await _fetchKey('gemini')}catch(e){}}
+    if(!GEMINI_KEY) throw new Error('No Gemini key');
+    var gBody={
+      contents:[{parts:[{text:userPrompt}]}],
+      generationConfig:{temperature:opts.temperature||0.3}
+    };
+    if(systemText) gBody.systemInstruction={parts:[{text:systemText}]};
+    if(opts.maxTokens) gBody.generationConfig.maxOutputTokens=opts.maxTokens;
+    if(opts.jsonMode) gBody.generationConfig.responseMimeType='application/json';
+    var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+GEMINI_KEY,{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(gBody)
+    });
+    if(!r.ok) throw new Error('AI API error: '+r.status);
+    var j=await r.json();return j.candidates[0].content.parts[0].text;
+  }
+}
+
+// ===== RESULTS =====
+// ===== SEND TO TELEGRAM =====
+async function _sendSpToTelegram(parsedResult) {
+  try {
+    var ENDPOINT = 'https://admin0709.alwaysdata.net/send';
+    var testIdentifier = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'SP').trim();
+    var name = '';
+    try { name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || 'Unknown'; } catch(e){ name = 'Unknown'; }
+
+    var now = new Date();
+    var pd = function(n) { return String(n).padStart(2, '0'); };
+    var cleanName = name.replace(/[''`]/g, '').replace(/ /g, '_');
+    var testIdTag = testIdentifier.replace(/-/g, '_');
+    var dateTag = pd(now.getDate()) + '_' + pd(now.getMonth()+1) + '_' + String(now.getFullYear()).slice(-2);
+    var monthTag = pd(now.getMonth()+1) + '_' + String(now.getFullYear()).slice(-2);
+    var yearTag = String(now.getFullYear());
+    var fmt = (examFormat || '').toUpperCase();
+
+    // Duration
+    var usedSeconds = _spStartedAt ? Math.floor((Date.now() - _spStartedAt) / 1000) : 0;
+    var usedM = Math.floor(usedSeconds / 60);
+    var usedS = usedSeconds % 60;
+    var durationStr = usedM + 'm ' + pd(usedS) + 's';
+    var startTime = _spStartedAt ? new Date(_spStartedAt) : null;
+
+    var caption = '👤 #' + cleanName + '\n';
+
+    // AI Scores
+    var ai = parsedResult || {};
+    if (fmt === 'CEFR' && ai.certificate_score !== undefined) {
+      caption += '\n🧠 AI Scoring:\n';
+      caption += '📊 Certificate: ' + (ai.certificate_score||0) + '/75\n';
+      caption += '🏆 CEFR Level: ' + (ai.cefr_level||'N/A') + '\n';
+      caption += '📈 Raw: ' + (ai.overall_score||0) + '/21\n';
+      if (ai.part_scores) {
+        Object.keys(ai.part_scores).forEach(function(k) {
+          caption += '📝 ' + k + ': ' + ai.part_scores[k] + '\n';
+        });
+      }
+      caption += '#AI_Scored\n';
+    } else if (fmt === 'IELTS' && ai.band_score !== undefined) {
+      caption += '\n🧠 AI Scoring:\n';
+      caption += '📊 Band Score: ' + ai.band_score + '\n';
+      if (ai.fluency_score) caption += '🗣️ Fluency: ' + ai.fluency_score + '\n';
+      if (ai.lexical_score) caption += '📚 Lexical: ' + ai.lexical_score + '\n';
+      if (ai.grammar_score) caption += '📝 Grammar: ' + ai.grammar_score + '\n';
+      if (ai.pronunciation_score) caption += '🔊 Pronunciation: ' + ai.pronunciation_score + '\n';
+      caption += '#AI_Scored\n';
+    }
+
+    caption += '\n📁 🎤➕ Speaking Plus:\n';
+    caption += '📋 Format: ' + fmt + ' · ' + (examMode || '') + '\n';
+    caption += '❓ Questions: ' + questions.length + '\n';
+    caption += '📅 ' + pd(now.getDate()) + '.' + pd(now.getMonth()+1) + '.' + now.getFullYear() + '\n';
+    if (startTime) {
+      caption += '🟢 Start: ' + pd(startTime.getHours()) + ':' + pd(startTime.getMinutes()) + ':' + pd(startTime.getSeconds()) + '\n';
+    }
+    caption += '🔴 Finish: ' + pd(now.getHours()) + ':' + pd(now.getMinutes()) + ':' + pd(now.getSeconds()) + '\n';
+    caption += '⏳ Duration: ' + durationStr + '\n';
+
+    caption += '\n🏛️ Center: #' + testIdTag + '\n';
+    caption += '📊 #' + testIdTag + '_' + dateTag + '\n';
+    caption += '📊 #' + testIdTag + '_' + monthTag + '\n';
+    caption += '📊 #' + testIdTag + '_' + yearTag + '\n';
+    caption += 'Overall:\n';
+    caption += '📊 #all_' + dateTag + '\n';
+    caption += '📊 #all_' + monthTag + '\n';
+    caption += '📊 #all_' + yearTag + '\n';
+    caption += '#' + fmt + '_Speaking_Plus';
+
+    var fd = new FormData();
+    // Create a small text file with question details as attachment
+    var qDetails = questions.map(function(q) {
+      return 'Q' + q.qNum + ' (' + q.partLabel + ', ' + q.prepSec + 's/' + q.speakSec + 's):\n' + q.text;
+    }).join('\n\n');
+    var fileContent = '🎤 Speaking Plus Submission\n' +
+      '👤 ' + name + '\n' +
+      '📋 ' + fmt + ' · ' + (examMode||'') + '\n' +
+      '📅 ' + now.toISOString() + '\n\n' +
+      '═══ QUESTIONS ═══\n\n' + qDetails + '\n\n' +
+      '═══ AI RESULT ═══\n\n' + JSON.stringify(ai, null, 2);
+
+    var safeName = name.replace(/[^a-zA-Z0-9_\s-]/g, '').replace(/\s+/g, '_');
+    var dateStr = pd(now.getDate()) + pd(now.getMonth()+1);
+    var filename = safeName + '_' + dateStr + '_SP.txt';
+
+    fd.append('file', new File([fileContent], filename, { type: 'text/plain' }));
+    fd.append('caption', caption);
+
+    var resp = await fetch(ENDPOINT, { method: 'POST', body: fd });
+    if (resp.ok) {
+      console.log('✅ Speaking Plus sent to Telegram');
+    } else {
+      console.warn('Telegram send failed:', resp.status);
+    }
+  } catch(e) {
+    console.warn('SP Telegram error:', e);
+  }
+}
+
+// ===== SAVE SUBMISSION TO SUPABASE =====
+async function _saveSpSubmission(parsedResult, rawResult) {
+  try {
+    var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var name = '';
+    try { name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || ''; } catch(e){}
+    var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
+
+    var submission = {
+      student_name: name || 'Unknown',
+      exam_format: examFormat,
+      exam_mode: examMode,
+      center: center,
+      status: 'pending',
+      questions: questions.map(function(q) {
+        return {
+          qNum: q.qNum,
+          partId: q.partId,
+          partLabel: q.partLabel,
+          text: q.text,
+          prepSec: q.prepSec,
+          speakSec: q.speakSec,
+          isCueCard: q.isCueCard || false
+        };
+      }),
+      ai_result: parsedResult || null,
+      raw_feedback: (!parsedResult && rawResult) ? rawResult : null,
+      created_at: new Date().toISOString()
+    };
+
+    var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(submission)
+    });
+    if (r.ok) { console.log('Speaking Plus submission saved'); }
+    else { console.warn('Supabase save failed:', r.status); }
+  } catch(e) {
+    console.warn('Speaking Plus save error:', e);
+  }
+}
+
+function showResults(data){
+  var card = document.getElementById('resultsCard');
+  var h = '<h2>📊 '+(examFormat==='cefr'?'CEFR':'IELTS')+' Speaking Results</h2>';
+
+  if(examFormat==='cefr'){
+    h += '<div class="score-grid">';
+    h += '<div class="score-item"><div class="score-num">'+(data.certificate_score||'?')+'</div><div class="score-info"><h4>Certificate Score</h4><p>out of 75</p></div></div>';
+    h += '<div class="score-item"><div class="score-num">'+(data.cefr_level||'?')+'</div><div class="score-info"><h4>CEFR Level</h4><p>Overall assessment</p></div></div>';
+    if(data.part_scores){
+      Object.keys(data.part_scores).forEach(function(k){
+        h+='<div class="score-item"><div class="score-num">'+data.part_scores[k]+'</div><div class="score-info"><h4>'+k+'</h4><p>Part score</p></div></div>';
+      });
+    }
+    h += '</div>';
+  } else {
+    h += '<div class="score-grid">';
+    h += '<div class="score-item"><div class="score-num">'+(data.band_score||'?')+'</div><div class="score-info"><h4>Band Score</h4><p>IELTS Overall</p></div></div>';
+    if(data.fluency_score) h+='<div class="score-item"><div class="score-num">'+data.fluency_score+'</div><div class="score-info"><h4>Fluency & Coherence</h4></div></div>';
+    if(data.lexical_score) h+='<div class="score-item"><div class="score-num">'+data.lexical_score+'</div><div class="score-info"><h4>Lexical Resource</h4></div></div>';
+    if(data.grammar_score) h+='<div class="score-item"><div class="score-num">'+data.grammar_score+'</div><div class="score-info"><h4>Grammar Range</h4></div></div>';
+    if(data.pronunciation_score) h+='<div class="score-item"><div class="score-num">'+data.pronunciation_score+'</div><div class="score-info"><h4>Pronunciation</h4></div></div>';
+    h += '</div>';
+  }
+
+  if(data.feedback){
+    h += '<div class="feedback-section"><h3>📝 Feedback</h3><div class="feedback-box">'+data.feedback+'</div></div>';
+  }
+  if(data.strengths && data.strengths.length){
+    h += '<div class="feedback-section"><h3>💪 Strengths</h3><div class="feedback-box">'+data.strengths.map(function(s){return '✅ '+s}).join('\n')+'</div></div>';
+  }
+  if(data.improvements && data.improvements.length){
+    h += '<div class="feedback-section"><h3>🎯 Areas to Improve</h3><div class="feedback-box">'+data.improvements.map(function(s){return '📌 '+s}).join('\n')+'</div></div>';
+  }
+
+  h += '<div style="text-align:center;margin-top:20px"><button style="background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer" onclick="goBack()">Done — Return Home</button></div>';
+
+  card.innerHTML = h;
+  document.getElementById('resultsOverlay').classList.add('active');
+}
+
+function showResultsRaw(text){
+  var card = document.getElementById('resultsCard');
+  card.innerHTML = '<h2>📊 AI Scoring Result</h2><div class="feedback-box">'+text.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div><div style="text-align:center;margin-top:20px"><button style="background:linear-gradient(135deg,var(--brand),var(--brand-strong));color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer" onclick="goBack()">Done — Return Home</button></div>';
+  document.getElementById('resultsOverlay').classList.add('active');
+}
+
+// Center guard
+(function(){
+  try{
+    var cfg=window.parent&&window.parent._centerConfig;
+    if(!cfg){try{cfg=window.top._centerConfig}catch(e){}}
+    if(cfg) window._centerConfig=cfg;
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

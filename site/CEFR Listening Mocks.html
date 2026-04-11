@@ -1318,19 +1318,16 @@
           }
         }
         if (cleanInput.length === 12 && /^\d{12}$/.test(cleanInput) && window.extractListeningRegularOTP) {
-          var usedCodes = {}; try { usedCodes = JSON.parse(localStorage.getItem('usedListeningRegularCodes') || '{}'); } catch(e) {}
-          var mockKey = String(mockNumber).padStart(2, '0');
-          if (usedCodes[mockKey] === cleanInput) { return { valid: false, error: 'This regular code has already been used for this mock. Please use a premium code.' }; }
           var otp = window.extractListeningRegularOTP(cleanInput, mockNumber);
           if (otp) {
-            var fullCode = new Date().getFullYear() + otp;
+            var rawOtp = otp.replace(/0+$/, '') || otp;
             var resp2 = await fetch('https://davirbek.alwaysdata.net/verify', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: fullCode , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
+              body: JSON.stringify({ code: rawOtp , center: ((window.SITE_CONFIG&&window.SITE_CONFIG.testIdentifier)||'mock_stream').replace(/_/g,'')})
             });
             if (!resp2.ok) return { valid: false, error: 'Server error. Please try again.' };
             var data2 = await resp2.json();
-            if (data2.access || data2.valid) { usedCodes[mockKey] = cleanInput; localStorage.setItem('usedListeningRegularCodes', JSON.stringify(usedCodes)); sessionStorage.setItem('listeningPremiumEntry', 'false'); return { valid: true, premiumEntry: false }; }
+            if (data2.access || data2.valid) { sessionStorage.setItem('listeningPremiumEntry', 'false'); return { valid: true, premiumEntry: false }; }
             else return { valid: false, error: 'Invalid or expired code.' };
           }
         }
@@ -1338,7 +1335,7 @@
       } catch (err) { return { valid: false, error: 'Connection error. Please check your internet.' }; }
     };
     function _isMockTaken(mockNum) {
-      try { var t = JSON.parse(localStorage.getItem('takenListeningMocks') || '{}'); return !!t['cefr-listening-test-' + String(mockNum).padStart(2,'0')]; } catch(e) { return false; }
+      return false;
     }
     function _showTakenAlert() {
       var ov = document.createElement('div');

@@ -4619,6 +4619,9 @@
                 return 2.0;
             }
 
+            /* Processing spinner overlay — prevents premature tab close */
+            (function(){var o=document.createElement('div');o.id='processingOverlay';o.style.cssText='display:none;position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;gap:18px;';o.innerHTML='<div style="width:56px;height:56px;border:5px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:_procSpin .7s linear infinite"></div><p style="color:#fff;font-size:18px;font-weight:700;margin:0;text-align:center">Submitting your results\u2026</p><p style="color:#f87171;font-size:14px;font-weight:700;margin:0;text-align:center;animation:_procPulse 1.5s ease-in-out infinite">\u26A0\uFE0F Do NOT close this window</p>';var s=document.createElement('style');s.textContent='@keyframes _procSpin{to{transform:rotate(360deg)}}@keyframes _procPulse{0%,100%{opacity:1}50%{opacity:.4}}';document.head.appendChild(s);document.body.appendChild(o);window._showProcessing=function(){o.style.display='flex';};window._hideProcessing=function(){o.style.display='none';};window.addEventListener('beforeunload',function(e){if(o.style.display==='flex'){e.preventDefault();e.returnValue='';}});})();
+
             // Flag to prevent multiple submissions
             var hasSubmitted = false;
 
@@ -5357,8 +5360,18 @@
                 });
                 document.getElementById('irPartsBreakdown').innerHTML = partsHtml;
 
-                // Auto-send results to Telegram
-                sendResultsToBackend(score, total);
+                // Auto-send results to Telegram (with processing spinner for regular entries)
+                var _regIr = !(sessionStorage.getItem('readingPremiumEntry') === 'true');
+                if (_regIr && window._showProcessing) window._showProcessing();
+                sendResultsToBackend(score, total).finally(function() {
+                    if (window._hideProcessing) window._hideProcessing();
+                    if (_regIr) {
+                        var rm = document.getElementById('resultModal');
+                        if (rm) { rm.classList.remove('minimized'); rm.classList.add('show'); }
+                        if (typeof window._irUpdateFabBack === 'function') window._irUpdateFabBack();
+                        if (typeof resetFabIdle === 'function') resetFabIdle();
+                    }
+                });
 
                 // Disable submit buttons to prevent re-submission
                 var allSubmitBtns = document.querySelectorAll('.btnSubmit, .btn-submit');
@@ -5372,15 +5385,16 @@
                 var resultModal = document.getElementById('resultModal');
                 if (resultModal) {
                     resultModal.classList.remove('minimized');
-                    resultModal.classList.add('show');
-                    if (typeof window._irUpdateFabBack === 'function') window._irUpdateFabBack();
-                    if (typeof resetFabIdle === 'function') resetFabIdle();
+                    if (!_regIr) {
+                        resultModal.classList.add('show');
+                        if (typeof window._irUpdateFabBack === 'function') window._irUpdateFabBack();
+                        if (typeof resetFabIdle === 'function') resetFabIdle();
+                    }
 
                     // Hide Review/TryAgain for regular (non-premium) codes
                     (function() {
                         var isPremium = sessionStorage.getItem('readingPremiumEntry') === 'true';
                         if (!isPremium) {
-                            try { var _tf = (new URLSearchParams(window.location.search)).get('test') || ''; var _tk = JSON.parse(localStorage.getItem('takenReadingMocks') || '{}'); _tk[_tf.replace(/\.js$/,'')] = true; localStorage.setItem('takenReadingMocks', JSON.stringify(_tk)); } catch(e) {}
                         }
                         var reviewBtn = document.getElementById('btnShowSolutions');
                         var tryAgainBtn = document.getElementById('btnTryAgain');
@@ -6623,7 +6637,7 @@
                         }
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
-                            var selectHtml = '<input type="text" readonly id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" aria-label="Answer ' + q.id + '">';
+                            var selectHtml = '<input type="text" readonly autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" aria-label="Answer ' + q.id + '">';
                             // Replace {INPUT} with dropdown, or append at end if no {INPUT}
                             var text = q.text;
                             if (text.indexOf('{INPUT}') !== -1) {
@@ -6654,7 +6668,7 @@
                                     (group.questionIds || []).forEach(function (qid) {
                                         var q = (section.questions || []).find(function (x) { return Number(x.id) === Number(qid); });
                                         if (!q) return;
-                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span><input type="text" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '"></span>';
+                                        var inputHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span><input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '"></span>';
                                         var text = q.text.replace(new RegExp('\\b' + q.id + '\\s+(?=\\{INPUT\\})'), '');
                                         text = text.replace(/\{INPUT\}|[\._…]{3,}/, inputHtml);
                                         if (text.indexOf('inline-gap-with-number') === -1) {
@@ -6672,7 +6686,7 @@
                             html += '<div style="text-align:center; font-weight:700; margin-bottom:8px;">' + section.boxTitle + '</div>';
                             html += '<ul style="margin:0; padding-left:18px;">';
                             section.questions.forEach(function (q) {
-                                var inputHtml = '<input type="text" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
@@ -6692,7 +6706,7 @@
                         } else {
                             section.questions.forEach(function (q) {
                                 html += '<div class="question-container" id="q' + q.id + '-container">';
-                                var inputHtml = '<input type="text" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var inputHtml = '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
                                 var hasGapToken = /\{INPUT\}|[\._…]{3,}/.test(q.text);
                                 var inlineGapHtml = '<span class="inline-gap-with-number"><span class="gap-number-badge">' + q.id + '</span>' + inputHtml + '</span>';
                                 // Strip embedded duplicate question number before {INPUT}
@@ -6745,7 +6759,7 @@
                                 var text = q.text.replace(/\{INPUT\}/g, function() {
                                     var qId = inputIdx === 0 ? q.id : section.questions[idx + inputIdx].id;
                                     inputIdx++;
-                                    return '<input type="text" readonly id="q' + qId + '" name="q' + qId + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qId + '">';
+                                    return '<input type="text" readonly autocomplete="off" id="q' + qId + '" name="q' + qId + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + qId + '">';
                                 });
                                 skipNext = inputCount - 1;
                                 html += '<p>' + text + '</p></div>';
@@ -6753,7 +6767,7 @@
                                 // Skip standalone "(second answer...)" questions — already embedded above
                                 html += '<p style="display:none"></p></div>';
                             } else {
-                                var selectHtml = '<input type="text" readonly id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
+                                var selectHtml = '<input type="text" readonly autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver readonly-slot" placeholder="Tap to fill" onchange="gtb(this)" aria-label="Answer ' + q.id + '">';
                                 var text = q.text.replace(/\{INPUT\}/g, selectHtml);
                                 html += '<p>' + text + '</p></div>';
                             }
@@ -6763,7 +6777,7 @@
                         section.questions.forEach(function (q) {
                             html += '<div class="question-container" id="q' + q.id + '-container">';
                             html += '<p><b>' + q.id + ' </b> ' + q.text + ' ';
-                            html += '<input type="text" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
+                            html += '<input type="text" autocomplete="off" id="q' + q.id + '" name="q' + q.id + '" class="compact-input interactive-receiver" placeholder="" oninput="gtb(this)" aria-label="Answer ' + q.id + '">';
                             html += '</p></div>';
                         });
                     }

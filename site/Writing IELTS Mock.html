@@ -2949,7 +2949,7 @@
           <div class="ai-step-icon"
             style="width:20px;height:20px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:10px;">
             2</div>
-          <span>Connecting to Gemini AI...</span>
+          <span>Connecting to AI...</span>
         </div>
         <div id="aiStep3" class="ai-progress-step"
           style="display:flex;align-items:center;gap:10px;padding:6px 0;color:#9ca3af;font-size:13px;">
@@ -5988,6 +5988,11 @@
       // Clear session recovery on submit
       if (window.SessionRecovery) SessionRecovery.clear();
 
+      /* Processing spinner overlay — prevents premature tab close */
+      if (!document.getElementById('processingOverlay')) {
+        (function(){var o=document.createElement('div');o.id='processingOverlay';o.style.cssText='display:none;position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;gap:18px;';o.innerHTML='<div style="width:56px;height:56px;border:5px solid rgba(255,255,255,0.15);border-top-color:#fff;border-radius:50%;animation:_procSpin .7s linear infinite"></div><p style="color:#fff;font-size:18px;font-weight:700;margin:0;text-align:center">Submitting your results\u2026</p><p style="color:#f87171;font-size:14px;font-weight:700;margin:0;text-align:center;animation:_procPulse 1.5s ease-in-out infinite">\u26A0\uFE0F Do NOT close this window</p>';var s=document.createElement('style');s.textContent='@keyframes _procSpin{to{transform:rotate(360deg)}}@keyframes _procPulse{0%,100%{opacity:1}50%{opacity:.4}}';document.head.appendChild(s);document.body.appendChild(o);window._showProcessing=function(){o.style.display='flex';};window._hideProcessing=function(){o.style.display='none';};window.addEventListener('beforeunload',function(e){if(o.style.display==='flex'){e.preventDefault();e.returnValue='';}});})();
+      }
+
       let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
       if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
 
@@ -6316,12 +6321,18 @@
         const loadingStatus = document.getElementById('loadingStatus');
         const submissionStatus = document.getElementById('submissionStatus');
 
-        // Show finish overlay with loading indicator for silent auto-submit
-        if (!window.ieltsAlreadySubmitted) {
-          loadingStatus.style.display = 'block';
-          submissionStatus.style.display = 'none';
+        // For regular entries with pending submission, show processing spinner
+        var _regIeltsW = !isPremiumEntry && !window.ieltsAlreadySubmitted;
+        if (_regIeltsW && window._showProcessing) {
+          window._showProcessing();
+        } else {
+          // Show finish overlay with loading indicator for silent auto-submit
+          if (!window.ieltsAlreadySubmitted) {
+            loadingStatus.style.display = 'block';
+            submissionStatus.style.display = 'none';
+          }
+          document.getElementById('finish').classList.add('show');
         }
-        document.getElementById('finish').classList.add('show');
 
         // Mark finish as done, convert button to Results re-opener
         window._finishDone = true;
@@ -6331,7 +6342,6 @@
 
         // Single-take: mark this writing mock as taken for non-premium users
         if (!isPremiumEntry) {
-          try { var _tf = (new URLSearchParams(window.location.search)).get('test') || ''; var _tk = JSON.parse(localStorage.getItem('takenWritingMocks') || '{}'); _tk[_tf.replace(/\.js$/,'')] = true; localStorage.setItem('takenWritingMocks', JSON.stringify(_tk)); } catch(e) {}
         }
 
         // Silent auto-submit for regular codes (no AI)
@@ -6354,6 +6364,11 @@
           } catch (sendErr) {
             console.error('[Finish-Regular] Silent auto-send failed:', sendErr);
             loadingStatus.style.display = 'none';
+          }
+          // Hide processing spinner and show finish overlay
+          if (window._hideProcessing) window._hideProcessing();
+          if (_regIeltsW) {
+            document.getElementById('finish').classList.add('show');
           }
         }
       }
@@ -9681,6 +9696,9 @@ function printWritingAiModal() {
       var cp = await _loadScoringPrompts();
       var provider = cp['scoring_ai_provider'] || 'gemini';
       if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
+      (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
+      document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
       opts = opts || {};
       if (provider === 'openai') {
         if (!WRITING_API_KEY) { try { await getWritingApiKey(); } catch(e){} }
@@ -9729,7 +9747,7 @@ function printWritingAiModal() {
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
           body: JSON.stringify(body)
         });
-        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Grok] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
         return j.choices[0].message.content;
@@ -9739,18 +9757,18 @@ function printWritingAiModal() {
         var messages = [];
         if (systemText) messages.push({ role: 'system', content: systemText });
         messages.push({ role: 'user', content: userPrompt });
+        if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
         var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
-        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
-        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 8192);
         var r = await fetch('https://api.deepseek.com/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
           body: JSON.stringify(body)
         });
-        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[DeepSeek] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
-        return j.choices[0].message.content;
+        var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
       } else {
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
