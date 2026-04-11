@@ -1695,11 +1695,6 @@
           </select>
           <select id="premiumCenterSelect">
             <option value="">All Centers</option>
-            <option value="mock_stream">Mock Stream</option>
-            <option value="bek">Bekzods Multilevel</option>
-            <option value="global">Global Education</option>
-            <option value="niners">Niners Academy</option>
-            <option value="muzaffars">Muzaffars English</option>
           </select>
           <button class="premium-add-btn" id="premiumAddBtn" onclick="addPremiumEmail()">+ Add</button>
         </div>
@@ -1743,11 +1738,6 @@
 
         <div class="center-tabs" id="centerTabs">
           <button class="center-tab active" data-center="" onclick="switchCenterTab(this)">🌐 All</button>
-          <button class="center-tab" data-center="mock_stream" onclick="switchCenterTab(this)">🏠 Mock Stream</button>
-          <button class="center-tab" data-center="bek" onclick="switchCenterTab(this)">📘 Bekzods Multilevel</button>
-          <button class="center-tab" data-center="global" onclick="switchCenterTab(this)">🌍 Global Education</button>
-          <button class="center-tab" data-center="niners" onclick="switchCenterTab(this)">9️⃣ Niners Academy</button>
-          <button class="center-tab" data-center="muzaffars" onclick="switchCenterTab(this)">🎓 Muzaffars English</button>
           <button class="center-tab" data-center="__favs__" onclick="switchCenterTab(this)">⭐ Favorites</button>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
@@ -1945,11 +1935,7 @@
           <div style="margin-bottom:12px;">
             <label style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;display:block;">Select Center:</label>
             <select id="dataMgmtCenterSelect" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;outline:none;">
-              <option value="mock_stream">🏠 Mock Stream</option>
-              <option value="bek">📚 Bekzods Multilevel</option>
-              <option value="global">🌐 Global Education LC</option>
-              <option value="niners">🏫 Niners Academy</option>
-              <option value="muzaffars">🗣️ Muzaffars English</option>
+              <option value="mock_stream">Mock Stream</option>
               <option value="__all__">⚠️ ALL Centers</option>
             </select>
           </div>
@@ -2299,20 +2285,151 @@
     var PAGE_SIZE = 25;
 
     var CENTER_COLORS = {
-      mock_stream: '#10b981',
-      bek: '#8b5cf6',
-      global: '#3b82f6',
-      niners: '#f59e0b',
-      muzaffars: '#ec4899'
+      mock_stream: '#10b981'
     };
 
     var CENTER_NAMES = {
-      mock_stream: 'Mock Stream',
-      bek: 'Bekzods Multilevel',
-      global: 'Global Education',
-      niners: 'Niners Academy',
-      muzaffars: 'Muzaffars English'
+      mock_stream: 'Mock Stream'
     };
+
+    // Dynamically load all centers from Supabase and rebuild UI
+    async function _loadDynamicCenters() {
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=like.center_site_config_*&select=key,value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (!resp.ok) return;
+        var rows = await resp.json();
+        var _siteConfigs = {};
+        (rows || []).forEach(function(r) {
+          var id = r.key.replace('center_site_config_', '');
+          try {
+            var cfg = typeof r.value === 'string' ? JSON.parse(r.value) : r.value;
+            _siteConfigs[id] = cfg;
+            if (cfg.brandName) CENTER_NAMES[id] = cfg.brandName;
+            if (cfg.brandColor) CENTER_COLORS[id] = cfg.brandColor;
+          } catch(e) {}
+        });
+        // Also fetch guard configs for brandColor fallback
+        var resp2 = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=like.center_config_*&select=key,value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (resp2.ok) {
+          var gRows = await resp2.json();
+          (gRows || []).forEach(function(r) {
+            var id = r.key.replace('center_config_', '');
+            try {
+              var gc = typeof r.value === 'string' ? JSON.parse(r.value) : r.value;
+              if (!CENTER_NAMES[id] && gc.brandName) CENTER_NAMES[id] = gc.brandName;
+              if (!CENTER_COLORS[id] && gc.brandColor) CENTER_COLORS[id] = gc.brandColor;
+            } catch(e) {}
+          });
+        }
+        // Update CH_KNOWN_CENTERS from dynamically loaded data
+        var seen = {};
+        CH_KNOWN_CENTERS.forEach(function(c) { seen[c.testId] = true; });
+        Object.keys(CENTER_NAMES).forEach(function(id) {
+          if (!seen[id]) {
+            var sc = _siteConfigs[id] || {};
+            CH_KNOWN_CENTERS.push({
+              testId: id,
+              brandName: CENTER_NAMES[id],
+              logoUrl: sc.logoUrl || ''
+            });
+          }
+        });
+        // Rebuild all center UI elements
+        _rebuildCenterUI();
+      } catch(e) { console.warn('[Centers] Dynamic load failed:', e); }
+    }
+
+    function _rebuildCenterUI() {
+      // 1. Results filter dropdown
+      var centerSelect = document.getElementById('filterCenter');
+      if (centerSelect && !centerSelect.disabled) {
+        var curVal = centerSelect.value;
+        centerSelect.innerHTML = '<option value="">All Centers</option>';
+        Object.keys(CENTER_NAMES).forEach(function(key) {
+          var opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = CENTER_NAMES[key];
+          centerSelect.appendChild(opt);
+        });
+        if (curVal) centerSelect.value = curVal;
+      }
+
+      // 2. Premium center dropdown
+      var premSelect = document.getElementById('premiumCenterSelect');
+      if (premSelect) {
+        var pVal = premSelect.value;
+        premSelect.innerHTML = '<option value="">All Centers</option>';
+        Object.keys(CENTER_NAMES).forEach(function(key) {
+          var opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = CENTER_NAMES[key];
+          premSelect.appendChild(opt);
+        });
+        if (pVal) premSelect.value = pVal;
+      }
+
+      // 3. Messages center tabs
+      var tabsContainer = document.getElementById('centerTabs');
+      if (tabsContainer) {
+        var activeCenter = '';
+        var activeBtn = tabsContainer.querySelector('.center-tab.active');
+        if (activeBtn) activeCenter = activeBtn.getAttribute('data-center') || '';
+        tabsContainer.innerHTML = '';
+        // "All" tab
+        var allBtn = document.createElement('button');
+        allBtn.className = 'center-tab' + (activeCenter === '' ? ' active' : '');
+        allBtn.setAttribute('data-center', '');
+        allBtn.onclick = function() { switchCenterTab(this); };
+        allBtn.textContent = '\uD83C\uDF10 All';
+        tabsContainer.appendChild(allBtn);
+        // Center tabs
+        Object.keys(CENTER_NAMES).forEach(function(key) {
+          var btn = document.createElement('button');
+          btn.className = 'center-tab' + (activeCenter === key ? ' active' : '');
+          btn.setAttribute('data-center', key);
+          btn.onclick = function() { switchCenterTab(this); };
+          var color = CENTER_COLORS[key] || '#6b7280';
+          btn.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + color + ';margin-right:4px;vertical-align:middle;"></span> ' + CENTER_NAMES[key];
+          tabsContainer.appendChild(btn);
+        });
+        // Favorites tab
+        var favBtn = document.createElement('button');
+        favBtn.className = 'center-tab' + (activeCenter === '__favs__' ? ' active' : '');
+        favBtn.setAttribute('data-center', '__favs__');
+        favBtn.onclick = function() { switchCenterTab(this); };
+        favBtn.textContent = '\u2B50 Favorites';
+        tabsContainer.appendChild(favBtn);
+      }
+
+      // 4. Data management center selector
+      var dataSel = document.getElementById('dataMgmtCenterSelect');
+      if (dataSel) {
+        var dVal = dataSel.value;
+        dataSel.innerHTML = '';
+        Object.keys(CENTER_NAMES).forEach(function(key) {
+          var opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = CENTER_NAMES[key];
+          dataSel.appendChild(opt);
+        });
+        var allOpt = document.createElement('option');
+        allOpt.value = '__all__';
+        allOpt.textContent = '\u26A0\uFE0F ALL Centers';
+        dataSel.appendChild(allOpt);
+        if (dVal) dataSel.value = dVal;
+      }
+
+      // 5. Update _dataMgmtCenterNames
+      if (typeof _dataMgmtCenterNames !== 'undefined') {
+        Object.keys(CENTER_NAMES).forEach(function(key) {
+          if (!_dataMgmtCenterNames[key]) _dataMgmtCenterNames[key] = CENTER_NAMES[key];
+        });
+      }
+    }
 
     // ====================================================================
     // STATE
@@ -2550,6 +2667,7 @@
     function unlockDashboard() {
       document.getElementById('authGate').style.display = 'none';
       document.getElementById('dashboard').classList.add('show');
+      _loadDynamicCenters(); // Populate centers from Supabase
       loadResults();
       // Check for unread messages (admin notification)
       checkUnreadMessages();
@@ -4998,7 +5116,7 @@
     }
 
     // ── Data Management ─────────────────────────────────────────────────────
-    var _dataMgmtCenterNames = { mock_stream: 'Mock Stream', bek: 'Bekzods Multilevel', global: 'Global Education LC', niners: 'Niners Academy', muzaffars: 'Muzaffars English' };
+    var _dataMgmtCenterNames = { mock_stream: 'Mock Stream' };
 
     function _getDataMgmtCenter() {
       var sel = document.getElementById('dataMgmtCenterSelect');
@@ -5541,13 +5659,9 @@
     var _chEditingId = null; // null = add mode, string = editing testId
     var _chCurrentCenter = ''; // testId of active center (from SITE_CONFIG)
 
-    // Known centers (from site-config.js files on disk)
+    // Known centers — populated dynamically from Supabase via _loadDynamicCenters()
     var CH_KNOWN_CENTERS = [
-      { testId: 'mock_stream', brandName: 'Mock Stream', logoUrl: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
-      { testId: 'bek', brandName: 'Bekzods Multilevel', logoUrl: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
-      { testId: 'global', brandName: 'Global Education LC', logoUrl: 'https://i.ibb.co/Xrzrh7x6/image.png' },
-      { testId: 'niners', brandName: 'Niners Academy', logoUrl: 'https://i.ibb.co/39jVLp1w/image.png' },
-      { testId: 'muzaffars', brandName: 'Muzaffars English', logoUrl: 'https://i.ibb.co/gMQ80dNn/image.png' }
+      { testId: 'mock_stream', brandName: 'Mock Stream', logoUrl: 'https://i.ibb.co/WN0XY5Lv/logo.png' }
     ];
 
     function openCenterHub() {
@@ -5852,11 +5966,14 @@
         // Save center guard config
         await upsertSetting('center_config_' + testId, JSON.stringify(gc));
         // Update CENTER_NAMES & CENTER_COLORS
-        if (!CENTER_NAMES[testId]) CENTER_NAMES[testId] = sc.brandName;
-        if (!CENTER_COLORS[testId]) CENTER_COLORS[testId] = gc.brandColor || '#6b7280';
+        CENTER_NAMES[testId] = sc.brandName;
+        CENTER_COLORS[testId] = gc.brandColor || '#6b7280';
 
         // Update localStorage cache for center switching
         try { localStorage.setItem('ms_center_cfg_' + testId, JSON.stringify(sc)); } catch(e) {}
+
+        // Rebuild all center dropdowns/tabs dynamically
+        _rebuildCenterUI();
 
         status.innerHTML = '<span style="color:#059669;">✅ Center "' + _escHtml(sc.brandName) + '" saved successfully!</span>';
         await loadCenterHub();
