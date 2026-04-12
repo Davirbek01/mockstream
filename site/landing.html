@@ -19836,9 +19836,8 @@
     // ── Load / Save ─────────────────────────────────────────────────────────
     async function _cmLoadAll() {
       try {
-        var keys = CM_CENTERS.map(function(c) { return 'center_config_' + c.id; });
-        var filter = 'key=in.(' + keys.map(encodeURIComponent).join(',') + ')';
-        var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?' + filter + '&select=key,value', {
+        // Fetch ALL center_config_* entries (not just known ones)
+        var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.center_config_*&select=key,value', {
           headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }
         });
         var rows = await res.json();
@@ -19847,6 +19846,44 @@
             var cid = row.key.replace('center_config_', '');
             try { _cmConfigs[cid] = _cmMergeDefaults(JSON.parse(row.value)); } catch(e) {}
           });
+        }
+        // Also fetch center_site_config_* for brandName / logo of dynamic centers
+        var res2 = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=like.center_site_config_*&select=key,value', {
+          headers: { 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY }
+        });
+        var siteRows = await res2.json();
+        var siteMap = {};
+        if (Array.isArray(siteRows)) {
+          siteRows.forEach(function(r) {
+            var id = r.key.replace('center_site_config_', '');
+            try { siteMap[id] = typeof r.value === 'string' ? JSON.parse(r.value) : r.value; } catch(e) {}
+          });
+        }
+        // Extend CM_CENTERS with any Supabase-only centers not already in the hardcoded list
+        var seen = {};
+        CM_CENTERS.forEach(function(c) { seen[c.id] = true; });
+        // From guard configs
+        for (var cid in _cmConfigs) {
+          if (!seen[cid]) {
+            var sc = siteMap[cid] || {};
+            CM_CENTERS.push({
+              id: cid,
+              name: sc.brandName || _cmConfigs[cid].brandName || cid.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
+              logo: sc.logoUrl || ''
+            });
+            seen[cid] = true;
+          }
+        }
+        // From site configs (centers that only have site config, no guard config yet)
+        for (var sid in siteMap) {
+          if (!seen[sid]) {
+            CM_CENTERS.push({
+              id: sid,
+              name: siteMap[sid].brandName || sid.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }),
+              logo: siteMap[sid].logoUrl || ''
+            });
+            seen[sid] = true;
+          }
         }
       } catch(e) {
         console.error('Centers load error:', e);
