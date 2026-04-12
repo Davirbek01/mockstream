@@ -286,22 +286,25 @@
       _cgHideAll('#fullMockProgress, .full-mock-progress-container, [onclick*="leaderboard"], .leaderboard');
     }
 
-    // Writing Plus
-    if (cc.writingPlus === false) {
-      var wpBtn = document.getElementById('writingPlusBtn');
-      if (wpBtn) {
-        wpBtn.disabled = true;
-        wpBtn.style.cssText = 'width:100%;opacity:0.45;pointer-events:none;background:#f3f4f6 !important;border:2px solid #d1d5db !important;position:relative;overflow:hidden;';
-        wpBtn.querySelector('.option-title').style.color = '#9ca3af';
-        wpBtn.querySelector('.option-desc').textContent = 'Deactivated';
-        wpBtn.querySelector('.option-desc').style.color = '#ef4444';
-        var badge = wpBtn.querySelector('span[style*="background:linear-gradient"]');
+    // Plus feature deactivation helper
+    function _cgDeactivatePlus(btnId, menuId) {
+      var btn = document.getElementById(btnId);
+      if (btn && !btn._cgDeactivated) {
+        btn._cgDeactivated = true;
+        btn.disabled = true;
+        btn.style.cssText = 'width:100%;opacity:0.45;pointer-events:none;background:#f3f4f6 !important;border:2px solid #d1d5db !important;position:relative;overflow:hidden;';
+        var title = btn.querySelector('.option-title'); if (title) title.style.color = '#9ca3af';
+        var desc = btn.querySelector('.option-desc'); if (desc) { desc.textContent = 'Deactivated'; desc.style.color = '#ef4444'; }
+        var badge = btn.querySelector('span[style*="background:linear-gradient"]');
         if (badge) { badge.style.background = '#9ca3af'; badge.textContent = 'OFF'; }
       }
-      // Also hide admin sidebar item
-      var wpMenu = document.getElementById('writingPlusMenuItem');
-      if (wpMenu) { wpMenu.style.opacity = '0.45'; wpMenu.style.pointerEvents = 'none'; }
+      var menu = document.getElementById(menuId);
+      if (menu) { menu.style.opacity = '0.45'; menu.style.pointerEvents = 'none'; }
     }
+    if (cc.writingPlus === false) _cgDeactivatePlus('writingPlusBtn', 'writingPlusMenuItem');
+    if (cc.speakingPlus === false) _cgDeactivatePlus('speakingPlusBtn', 'speakingPlusMenuItem');
+    if (cc.readingPlus === false) _cgDeactivatePlus('readingPlusBtn', 'readingPlusMenuItem');
+    if (cc.listeningPlus === false) _cgDeactivatePlus('listeningPlusBtn', 'listeningPlusMenuItem');
 
     // ─── MOCK ACCESS (hide disabled mocks from landing page cards) ──────
     if (cc.mocks) {

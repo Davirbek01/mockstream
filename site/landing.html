@@ -19359,7 +19359,7 @@
         },
         // Features
         helpCenter: true, certificates: true, telegramNotifs: true,
-        flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true,
+        flashcards: true, articles: true, leaderboard: true, writingPlus: true, speakingPlus: true, readingPlus: true, listeningPlus: true,
         // Scheduling
         operatingHoursEnabled: false, operatingHoursStart: '09:00', operatingHoursEnd: '18:00',
         examScheduleMode: false, examScheduleDate: '',
@@ -19955,7 +19955,8 @@
 
     // ── Helper: grey-out a button and add OFF badge + Deactivated label ───
     function _deactivateBtn(btn) {
-      if (!btn) return;
+      if (!btn || btn._deactivated) return;
+      btn._deactivated = true;
       btn.style.opacity = '0.45';
       btn.style.pointerEvents = 'none';
       btn.style.filter = 'grayscale(80%)';
@@ -20040,11 +20041,16 @@
         var rpSidebar = document.getElementById('readingPlusMenuItem');
         if (rpSidebar) { rpSidebar.style.opacity = '0.4'; rpSidebar.style.pointerEvents = 'none'; rpSidebar.style.filter = 'grayscale(80%)'; }
       }
+      if (cfg.listeningPlus === false) {
+        _deactivateBtn(document.getElementById('listeningPlusBtn'));
+        var lpSidebar = document.getElementById('listeningPlusMenuItem');
+        if (lpSidebar) { lpSidebar.style.opacity = '0.4'; lpSidebar.style.pointerEvents = 'none'; lpSidebar.style.filter = 'grayscale(80%)'; }
+      }
 
       // ── Grey-out entire skill card if ALL variants are deactivated ──────
       var speakingAllOff  = mocks.cefr_speaking === 'disabled' && mocks.ielts_speaking === 'disabled' && cfg.speakingPlus === false;
       var writingAllOff   = mocks.cefr_writing === 'disabled'  && mocks.ielts_writing === 'disabled'  && cfg.writingPlus === false;
-      var listeningAllOff = mocks.cefr_listening === 'disabled' && mocks.ielts_listening === 'disabled';
+      var listeningAllOff = mocks.cefr_listening === 'disabled' && mocks.ielts_listening === 'disabled' && cfg.listeningPlus === false;
       var readingAllOff   = mocks.cefr_reading === 'disabled'   && mocks.ielts_reading === 'disabled' && cfg.readingPlus === false;
       var fullMockAllOff  = mocks.cefr_full_mock === 'disabled' && mocks.ielts_full_mock === 'disabled';
 
