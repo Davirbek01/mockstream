@@ -2328,7 +2328,10 @@
             var id = r.key.replace('center_config_', '');
             try {
               var gc = typeof r.value === 'string' ? JSON.parse(r.value) : r.value;
-              if (!CENTER_NAMES[id] && gc.brandName) CENTER_NAMES[id] = gc.brandName;
+              // Ensure every center_config entry gets a name (use brandName, or prettify the ID)
+              if (!CENTER_NAMES[id]) {
+                CENTER_NAMES[id] = gc.brandName || id.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+              }
               if (!CENTER_COLORS[id] && gc.brandColor) CENTER_COLORS[id] = gc.brandColor;
             } catch(e) {}
           });
