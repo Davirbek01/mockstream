@@ -19955,7 +19955,7 @@
 
     // ── Helper: grey-out a button and add OFF badge + Deactivated label ───
     function _deactivateBtn(btn) {
-      if (!btn || btn._deactivated) return;
+      if (!btn || btn._deactivated || btn._cgDeactivated) return;
       btn._deactivated = true;
       btn.style.opacity = '0.45';
       btn.style.pointerEvents = 'none';
@@ -19968,7 +19968,7 @@
       btn.appendChild(badge);
       // Deactivated sub-label
       var lbl = document.createElement('span');
-      lbl.textContent = 'Deactivated';
+      lbl.textContent = 'Use your exam materials';
       lbl.style.cssText = 'display:block;color:#ef4444;font-size:12px;font-weight:500;margin-top:4px';
       btn.appendChild(lbl);
     }

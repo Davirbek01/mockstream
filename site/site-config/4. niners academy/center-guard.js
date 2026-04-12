@@ -294,7 +294,7 @@
         btn.disabled = true;
         btn.style.cssText = 'width:100%;opacity:0.45;pointer-events:none;background:#f3f4f6 !important;border:2px solid #d1d5db !important;position:relative;overflow:hidden;';
         var title = btn.querySelector('.option-title'); if (title) title.style.color = '#9ca3af';
-        var desc = btn.querySelector('.option-desc'); if (desc) { desc.textContent = 'Deactivated'; desc.style.color = '#ef4444'; }
+        var desc = btn.querySelector('.option-desc'); if (desc) { desc.textContent = 'Use your exam materials'; desc.style.color = '#ef4444'; }
         var badge = btn.querySelector('span[style*="background:linear-gradient"]');
         if (badge) { badge.style.background = '#9ca3af'; badge.textContent = 'OFF'; }
       }
