@@ -2285,11 +2285,19 @@
     var PAGE_SIZE = 25;
 
     var CENTER_COLORS = {
-      mock_stream: '#10b981'
+      mock_stream: '#10b981',
+      bek: '#8b5cf6',
+      global: '#3b82f6',
+      niners: '#f59e0b',
+      muzaffars: '#ec4899'
     };
 
     var CENTER_NAMES = {
-      mock_stream: 'Mock Stream'
+      mock_stream: 'Mock Stream',
+      bek: 'Bekzods Multilevel',
+      global: 'Global Education',
+      niners: 'Niners Academy',
+      muzaffars: 'Muzaffars English'
     };
 
     // Dynamically load all centers from Supabase and rebuild UI
@@ -5116,7 +5124,7 @@
     }
 
     // ── Data Management ─────────────────────────────────────────────────────
-    var _dataMgmtCenterNames = { mock_stream: 'Mock Stream' };
+    var _dataMgmtCenterNames = { mock_stream: 'Mock Stream', bek: 'Bekzods Multilevel', global: 'Global Education LC', niners: 'Niners Academy', muzaffars: 'Muzaffars English' };
 
     function _getDataMgmtCenter() {
       var sel = document.getElementById('dataMgmtCenterSelect');
@@ -5659,9 +5667,13 @@
     var _chEditingId = null; // null = add mode, string = editing testId
     var _chCurrentCenter = ''; // testId of active center (from SITE_CONFIG)
 
-    // Known centers — populated dynamically from Supabase via _loadDynamicCenters()
+    // Known centers — baseline defaults, extended dynamically from Supabase via _loadDynamicCenters()
     var CH_KNOWN_CENTERS = [
-      { testId: 'mock_stream', brandName: 'Mock Stream', logoUrl: 'https://i.ibb.co/WN0XY5Lv/logo.png' }
+      { testId: 'mock_stream', brandName: 'Mock Stream', logoUrl: 'https://i.ibb.co/WN0XY5Lv/logo.png' },
+      { testId: 'bek', brandName: 'Bekzods Multilevel', logoUrl: 'https://storage.googleapis.com/mockstream-listening-audio/LOGOS/BEK.png' },
+      { testId: 'global', brandName: 'Global Education LC', logoUrl: 'https://i.ibb.co/Xrzrh7x6/image.png' },
+      { testId: 'niners', brandName: 'Niners Academy', logoUrl: 'https://i.ibb.co/39jVLp1w/image.png' },
+      { testId: 'muzaffars', brandName: 'Muzaffars English', logoUrl: 'https://i.ibb.co/gMQ80dNn/image.png' }
     ];
 
     function openCenterHub() {
