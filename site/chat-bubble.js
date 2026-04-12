@@ -174,6 +174,28 @@
   var _communityLoaded = false;
   var _communityLastSeenId = 0;  // highest community message ID the user has seen
 
+  // ─── ADMIN ROLE CACHE ──────────────────────────────────────────────────────
+  var _communityUserRole = null;    // null = unchecked, 'user', 'admin', 'super_admin'
+  var _communityRoleChecked = false;
+
+  async function _checkCommunityRole() {
+    if (_communityRoleChecked) return _communityUserRole || 'user';
+    _communityRoleChecked = true;
+    var email = localStorage.getItem('ms_admin_email') || localStorage.getItem('ms_vip_email') || '';
+    if (!email) { _communityUserRole = 'user'; return 'user'; }
+    try {
+      var resp = await sbFetch('/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email) + '&active=eq.true&role=eq.admin&select=email,role,center');
+      var rows = await resp.json();
+      if (Array.isArray(rows) && rows.length) {
+        var row = rows[0];
+        _communityUserRole = (!row.center || row.center === '') ? 'super_admin' : 'admin';
+      } else {
+        _communityUserRole = 'user';
+      }
+    } catch(e) { _communityUserRole = 'user'; }
+    return _communityUserRole;
+  }
+
   // ─── REALTIME STATE ───────────────────────────────────────────────────────
   var _sbClient = null;            // Supabase JS client (loaded dynamically)
   var _realtimeChannel = null;     // Realtime channel for community_messages
@@ -2291,8 +2313,7 @@
 
   async function loadCommunityMessages() {
     try {
-      var center = getCenter();
-      var resp = await sbFetch('/rest/v1/community_messages?center=eq.' + encodeURIComponent(center) + '&order=created_at.asc&limit=200&select=id,content,sender_name,device_id,role,parent_id,created_at');
+      var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at');
       var data = await resp.json();
       if (Array.isArray(data)) {
         _communityMessages = data;
@@ -2383,7 +2404,8 @@
 
   function _renderCommunityMsg(m, myDevice, isReply, parentMsg) {
     var isMine = m.device_id === myDevice;
-    var isAdmin = m.role === 'admin';
+    var isAdmin = m.role === 'admin' || m.role === 'super_admin';
+    var isSuperAdmin = m.role === 'super_admin';
     var cls = isMine ? 'cb-comm-mine' : (isAdmin ? 'cb-comm-admin' : 'cb-comm-other');
     // Is this reply to one of MY messages?
     var isReplyToMe = isReply && parentMsg && parentMsg.device_id === myDevice && !isMine;
@@ -2401,10 +2423,20 @@
     if (!isMine) {
       var displayName = escapeHtml(m.sender_name || 'Anonymous');
       if (isAdmin) {
-        nameHtml = '<div class="cb-comm-name cb-comm-name-admin">🛡️ ' + displayName + ' <span style="font-size:9px;background:rgba(5,150,105,.15);color:#059669;padding:1px 6px;border-radius:8px;font-weight:700;">ADMIN</span></div>';
+        var badgeLabel = isSuperAdmin ? '⚡ SUPER ADMIN' : 'ADMIN';
+        var badgeIcon = isSuperAdmin ? '⚡' : '🛡️';
+        var badgeBg = isSuperAdmin ? 'rgba(124,58,237,.15)' : 'rgba(5,150,105,.15)';
+        var badgeColor = isSuperAdmin ? '#7c3aed' : '#059669';
+        nameHtml = '<div class="cb-comm-name cb-comm-name-admin">' + badgeIcon + ' ' + displayName + ' <span style="font-size:9px;background:' + badgeBg + ';color:' + badgeColor + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel + '</span></div>';
       } else {
         nameHtml = '<div class="cb-comm-name">' + displayName + '</div>';
       }
+    } else if (isMine && isAdmin) {
+      // Show admin badge on own messages too
+      var badgeLabel2 = isSuperAdmin ? '⚡ SUPER ADMIN' : 'ADMIN';
+      var badgeBg2 = isSuperAdmin ? 'rgba(124,58,237,.15)' : 'rgba(5,150,105,.15)';
+      var badgeColor2 = isSuperAdmin ? '#7c3aed' : '#059669';
+      nameHtml = '<div class="cb-comm-name" style="text-align:right;"><span style="font-size:9px;background:' + badgeBg2 + ';color:' + badgeColor2 + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel2 + '</span></div>';
     }
 
     var replyBtn = '';
@@ -2464,12 +2496,13 @@
     var input = document.getElementById('cb-input');
     if (input) { input.value = ''; input.disabled = true; }
 
+    var myRole = await _checkCommunityRole();
     var body = {
       content: text,
       sender_name: getSenderName(),
       device_id: getDeviceId(),
       center: getCenter(),
-      role: 'user',
+      role: myRole === 'super_admin' ? 'super_admin' : (myRole === 'admin' ? 'admin' : 'user'),
       parent_id: _communityReplyTo || null
     };
 
@@ -2518,10 +2551,9 @@
 
   function _subscribeToMessages() {
     if (!_sbClient) return;
-    var center = getCenter();
-    _realtimeChannel = _sbClient.channel('community-' + center)
+    _realtimeChannel = _sbClient.channel('community-global')
       .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'community_messages', filter: 'center=eq.' + center },
+        { event: 'INSERT', schema: 'public', table: 'community_messages' },
         function (payload) {
           var msg = payload.new;
           if (!msg || !msg.id) return;
@@ -2600,8 +2632,7 @@
 
   function _subscribeToTyping() {
     if (!_sbClient) return;
-    var center = getCenter();
-    _typingChannel = _sbClient.channel('typing-' + center);
+    _typingChannel = _sbClient.channel('typing-global');
     _typingChannel.on('broadcast', { event: 'typing' }, function (payload) {
       var data = payload.payload;
       if (!data || data.device_id === getDeviceId()) return;
@@ -2678,6 +2709,9 @@
 
     // Initialize Supabase Realtime for community
     _initRealtime();
+
+    // Pre-check admin role for community messages
+    _checkCommunityRole();
 
     // Bind typing indicator to input
     setTimeout(function () {

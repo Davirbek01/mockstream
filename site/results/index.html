@@ -5411,8 +5411,7 @@
       var list = document.getElementById('communityMsgList');
       list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;">⏳ Loading...</div>';
       try {
-        var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages?center=eq.' + encodeURIComponent(center) + '&order=created_at.asc&limit=500&select=id,content,sender_name,device_id,role,parent_id,created_at', {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages?order=created_at.asc&limit=500&select=id,content,sender_name,device_id,center,role,parent_id,created_at', {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
         });
         _commAdminMsgs = await resp.json();
@@ -5453,7 +5452,8 @@
     }
 
     function _renderAdminCommMsg(m, isReply) {
-      var isAdmin = m.role === 'admin';
+      var isAdmin = m.role === 'admin' || m.role === 'super_admin';
+      var isSuperAdmin = m.role === 'super_admin';
       var time = '';
       try {
         var d = new Date(m.created_at);
@@ -5461,13 +5461,15 @@
       } catch(e) {}
 
       var name = _escHtml(m.sender_name || 'Anonymous');
-      var badge = isAdmin ? ' <span style="font-size:10px;background:#dcfce7;color:#059669;padding:1px 6px;border-radius:6px;font-weight:700;">ADMIN</span>' : '';
+      var badge = isSuperAdmin ? ' <span style="font-size:10px;background:#f3e8ff;color:#7c3aed;padding:1px 6px;border-radius:6px;font-weight:700;">⚡ SUPER ADMIN</span>'
+                 : isAdmin ? ' <span style="font-size:10px;background:#dcfce7;color:#059669;padding:1px 6px;border-radius:6px;font-weight:700;">ADMIN</span>' : '';
+      var centerBadge = m.center ? ' <span style="font-size:9px;background:rgba(99,102,241,.1);color:#6366f1;padding:1px 5px;border-radius:4px;margin-left:4px;">' + _escHtml(m.center) + '</span>' : '';
       var bgColor = isAdmin ? 'rgba(5,150,105,.06)' : (isReply ? 'rgba(99,102,241,.04)' : 'var(--surface)');
       var borderLeft = isReply ? 'border-left:3px solid ' + (isAdmin ? '#10b981' : '#c7d2fe') + ';' : '';
 
       return '<div style="padding:10px 14px;' + borderLeft + (isReply ? 'margin-left:24px;' : '') + 'background:' + bgColor + ';border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background=\'rgba(99,102,241,.08)\'" onmouseleave="this.style.background=\'' + bgColor + '\'">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
-          '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#6366f1') + ';">' + name + badge + '</div>' +
+          '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#6366f1') + ';">' + name + badge + centerBadge + '</div>' +
           '<div style="font-size:10px;color:var(--muted);">' + time + '</div>' +
         '</div>' +
         '<div style="font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:6px;">' + _escHtml(m.content || '') + '</div>' +
@@ -5501,12 +5503,26 @@
       status.innerHTML = '<span style="color:var(--muted);">Sending...</span>';
 
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      // Detect if this admin is a super admin (no center restriction)
+      var adminEmail = localStorage.getItem('ms_admin_email') || '';
+      var adminRole = 'admin';
+      if (adminEmail) {
+        try {
+          var roleResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(adminEmail) + '&active=eq.true&role=eq.admin&select=center', {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+          });
+          var roleRows = await roleResp.json();
+          if (Array.isArray(roleRows) && roleRows.length && (!roleRows[0].center || roleRows[0].center === '')) {
+            adminRole = 'super_admin';
+          }
+        } catch(e) {}
+      }
       var body = {
         content: text,
-        sender_name: 'Admin',
+        sender_name: adminEmail || 'Admin',
         device_id: 'admin_dashboard',
         center: center,
-        role: 'admin',
+        role: adminRole,
         parent_id: _commAdminReplyTo || null
       };
 
