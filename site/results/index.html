@@ -4628,10 +4628,15 @@
       e.stopPropagation();
       if (!confirm('Delete this entire conversation? This cannot be undone.')) return;
       try {
-        await fetch(SUPABASE_URL + '/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(convId), {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(convId), {
           method: 'DELETE',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
         });
+        var deleted = await resp.json();
+        if (!deleted || !deleted.length) {
+          alert('Delete failed: 0 rows removed. Check Supabase RLS DELETE policy on support_messages.');
+          return;
+        }
         document.querySelectorAll('.conv-card').forEach(function(card) {
           var oc = card.getAttribute('onclick') || '';
           if (oc.indexOf(convId) !== -1) card.remove();
@@ -5794,10 +5799,15 @@
         else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        status.innerHTML = '<span style="color:#059669;">✅ All support messages for ' + label + ' cleared successfully.</span>';
+        var deleted = await resp.json();
+        if (!deleted || !deleted.length) {
+          status.innerHTML = '<span style="color:#f59e0b;">⚠️ No messages were deleted. Check Supabase RLS policies — a DELETE policy for anon may be missing on support_messages.</span>';
+        } else {
+          status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' support messages for ' + label + '.</span>';
+        }
         if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
         // Refresh Messages panel if open
         if (typeof loadConversations === 'function') loadConversations();
@@ -5820,10 +5830,15 @@
         else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        status.innerHTML = '<span style="color:#059669;">✅ All community messages for ' + label + ' cleared successfully.</span>';
+        var deleted = await resp.json();
+        if (!deleted || !deleted.length) {
+          status.innerHTML = '<span style="color:#f59e0b;">⚠️ No messages were deleted. Check Supabase RLS DELETE policy on community_messages.</span>';
+        } else {
+          status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' community messages for ' + label + '.</span>';
+        }
         if (typeof window._hcClearCommunity === 'function') window._hcClearCommunity();
         // Refresh Messages panel community list if open
         if (typeof loadCommunityAdmin === 'function') loadCommunityAdmin();
