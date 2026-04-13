@@ -1186,18 +1186,80 @@
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
     var acceptParts = [];
-    if (HC_IMAGE_ENABLED) acceptParts.push('image/*');
-    if (HC_PDF_ENABLED) acceptParts.push('application/pdf');
-    fileInput.accept = acceptParts.join(',') || 'image/*,application/pdf';
+    var imgOn, pdfOn;
+    if (currentCategory === 'community') {
+      imgOn = HC_COMMUNITY_IMAGE_ENABLED; pdfOn = HC_COMMUNITY_PDF_ENABLED;
+    } else if (currentCategory === 'dictionary') {
+      imgOn = HC_DICT_IMAGE; pdfOn = false;
+    } else {
+      imgOn = HC_IMAGE_ENABLED; pdfOn = HC_PDF_ENABLED;
+    }
+    if (imgOn) acceptParts.push('image/*');
+    if (pdfOn) acceptParts.push('application/pdf');
+    if (!acceptParts.length) { alert('File attachments are currently disabled by the admin.'); return; }
+    fileInput.accept = acceptParts.join(',');
     fileInput.onchange = async function () {
       var file = fileInput.files[0];
       if (!file) return;
       var validation = validateAttachmentFile(file);
       if (!validation.ok) { alert(validation.message); return; }
-      if (!(await confirmAttachmentAiUsage(file, validation.type))) return;
 
       var type = validation.type;
       var prefix = type === 'image' ? 'img' : 'doc';
+
+      // ─── Dictionary tab: extract text from image via AI, then look up ───
+      if (currentCategory === 'dictionary') {
+        _dictHistory.push({ role: 'user', html: '<div style="color:#64748b;font-size:12px;">📎 <em>' + escapeHtml(file.name) + '</em></div>' });
+        _dictHistory.push({ role: 'ai', html: '<div style="color:#64748b;font-size:12px;font-style:italic;">⏳ Reading image…</div>' });
+        _renderDictionary();
+        try {
+          var b64 = await blobToBase64(file);
+          var mimeType = file.type || 'image/jpeg';
+          var key = await _fetchAiKey('gemini');
+          if (!key) throw new Error('No API key');
+          var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [
+                { inline_data: { mime_type: mimeType, data: b64 } },
+                { text: 'Extract the single English or Uzbek word or short phrase shown in this image. Reply with ONLY the word or phrase, nothing else.' }
+              ]}]
+            })
+          });
+          var j = await r.json();
+          var extracted = '';
+          if (j.candidates && j.candidates[0]) extracted = j.candidates[0].content.parts[0].text.trim();
+          _dictHistory.pop(); _dictHistory.pop();
+          _renderDictionary();
+          if (extracted) {
+            _sendDictLookup(extracted);
+          } else {
+            _dictHistory.push({ role: 'ai', html: '<div style="color:#ef4444;font-size:12px;">⚠️ Could not read any word from the image.</div>' });
+            _renderDictionary();
+          }
+        } catch (e) {
+          _dictHistory.pop(); _dictHistory.pop();
+          _dictHistory.push({ role: 'ai', html: '<div style="color:#ef4444;font-size:12px;">⚠️ Failed to process image.</div>' });
+          _renderDictionary();
+        }
+        return;
+      }
+
+      // ─── Community tab: upload file and send as community message ───
+      if (currentCategory === 'community') {
+        var url = await uploadToStorage(file, prefix);
+        if (url) {
+          await sendCommunityMessage('', { url: url, type: type, name: file.name });
+        } else {
+          alert('Upload failed. Please try again.');
+        }
+        return;
+      }
+
+      // ─── Support/Premium/Partner: existing AI-powered flow ───
+      if (!(await confirmAttachmentAiUsage(file, type))) return;
+
       var aiAttachmentPayload = null;
       try { aiAttachmentPayload = await buildGeminiAttachmentPayload(file, type); } catch (e) {}
 
@@ -1268,7 +1330,8 @@
 
   async function startVoiceRecord() {
     if (isRecording) return;
-    if (!HC_VOICE_ENABLED) { alert('Voice messages are currently disabled by the admin.'); return; }
+    var voiceOn = currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
+    if (!voiceOn) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
       voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
@@ -1290,12 +1353,64 @@
       var blob = new Blob(voiceChunks, { type: mime || 'audio/webm' });
       if (blob.size < 1000) return;
 
+      var file = new File([blob], 'voice_' + Date.now() + '.webm', { type: mime || 'audio/webm' });
       var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // ─── Dictionary tab: transcribe voice and look up the word ───
+      if (currentCategory === 'dictionary') {
+        _dictHistory.push({ role: 'user', html: '<div style="color:#64748b;font-size:12px;">🎤 <em>Voice message</em></div>' });
+        _dictHistory.push({ role: 'ai', html: '<div style="color:#64748b;font-size:12px;font-style:italic;">⏳ Transcribing…</div>' });
+        _renderDictionary();
+        try {
+          var b64 = await blobToBase64(blob);
+          var mimeType = blob.type || 'audio/webm';
+          var key = await _fetchAiKey('gemini');
+          if (!key) throw new Error('No API key');
+          var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [
+                { inline_data: { mime_type: mimeType, data: b64 } },
+                { text: 'The user said a single English or Uzbek word or short phrase. Transcribe ONLY the word or phrase they said, nothing else. No punctuation, no quotes.' }
+              ]}]
+            })
+          });
+          var j = await r.json();
+          var transcribed = '';
+          if (j.candidates && j.candidates[0]) transcribed = j.candidates[0].content.parts[0].text.trim();
+          _dictHistory.pop(); _dictHistory.pop();
+          _renderDictionary();
+          if (transcribed) {
+            _sendDictLookup(transcribed);
+          } else {
+            _dictHistory.push({ role: 'ai', html: '<div style="color:#ef4444;font-size:12px;">⚠️ Could not understand the voice message.</div>' });
+            _renderDictionary();
+          }
+        } catch (e) {
+          _dictHistory.pop(); _dictHistory.pop();
+          _dictHistory.push({ role: 'ai', html: '<div style="color:#ef4444;font-size:12px;">⚠️ Failed to transcribe voice.</div>' });
+          _renderDictionary();
+        }
+        return;
+      }
+
+      // ─── Community tab: upload voice and send as community message ───
+      if (currentCategory === 'community') {
+        var url = await uploadToStorage(file, 'voice');
+        if (url) {
+          await sendCommunityMessage('', { url: url, type: 'voice', name: file.name });
+        } else {
+          alert('Voice upload failed. Please try again.');
+        }
+        return;
+      }
+
+      // ─── Support/Premium/Partner: existing AI-powered flow ───
       var pendingMsg = { role: 'user', text: '', time: timeStr, _loading: 'Sending voice…' };
       messages[currentCategory].push(pendingMsg);
       renderMessages();
 
-      var file = new File([blob], 'voice_' + Date.now() + '.webm', { type: mime || 'audio/webm' });
       var url = await uploadToStorage(file, 'voice');
       messages[currentCategory].pop();
 
@@ -2667,7 +2782,7 @@
 
   async function loadCommunityMessages() {
     try {
-      var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at');
+      var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at,attachment_url,attachment_type,attachment_name');
       var data = await resp.json();
       if (Array.isArray(data)) {
         _communityMessages = data;
@@ -2754,6 +2869,8 @@
         }
       });
     });
+    // Init voice players for community voice messages
+    initVoicePlayers(list);
   }
 
   function _renderCommunityMsg(m, myDevice, isReply, parentMsg) {
@@ -2812,10 +2929,23 @@
 
     var extraClass = (isReplyToMe ? ' cb-comm-reply-to-me' : '');
 
+    // Render attachment if present
+    var attachHtml = '';
+    if (m.attachment_url) {
+      if (m.attachment_type === 'voice') {
+        attachHtml = buildVoiceMsgHtml(m.attachment_url);
+      } else if (m.attachment_type === 'image') {
+        attachHtml = '<img src="' + escapeHtml(m.attachment_url) + '" style="max-width:100%;border-radius:10px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)" alt="Image">';
+      } else if (m.attachment_type === 'pdf') {
+        attachHtml = '<a href="' + escapeHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:6px 10px;font-size:12px;color:#2563eb;text-decoration:none;margin-bottom:4px;">📄 ' + escapeHtml(m.attachment_name || 'Document.pdf') + '</a>';
+      }
+    }
+
     return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
       nameHtml +
       quoteHtml +
-      '<div class="cb-comm-text">' + formatMsgText(m.content || '') + '</div>' +
+      attachHtml +
+      (m.content ? '<div class="cb-comm-text">' + formatMsgText(m.content) + '</div>' : '') +
       '<div class="cb-comm-footer">' +
         '<span class="cb-comm-time">' + time + '</span>' +
         replyBtn +
@@ -2845,20 +2975,25 @@
     if (input) input.placeholder = 'Write to the community...';
   }
 
-  async function sendCommunityMessage(text) {
+  async function sendCommunityMessage(text, attachment) {
     isSending = true;
     var input = document.getElementById('cb-input');
     if (input) { input.value = ''; input.disabled = true; }
 
     var myRole = await _checkCommunityRole();
     var body = {
-      content: text,
+      content: text || '',
       sender_name: getSenderName(),
       device_id: getDeviceId(),
       center: getCenter(),
       role: myRole === 'super_admin' ? 'super_admin' : (myRole === 'admin' ? 'admin' : 'user'),
       parent_id: _communityReplyTo || null
     };
+    if (attachment) {
+      body.attachment_url = attachment.url;
+      body.attachment_type = attachment.type || null;
+      body.attachment_name = attachment.name || null;
+    }
 
     try {
       var resp = await sbFetch('/rest/v1/community_messages', {
