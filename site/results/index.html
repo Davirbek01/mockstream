@@ -1800,28 +1800,6 @@
           .settings-section-divider { border-top:1px solid var(--border); margin:18px 0; }
         </style>
 
-        <!-- AI Model for Help Center -->
-        <div class="settings-accordion" id="accAiModel">
-          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(109,40,217,.08),rgba(124,58,237,.05));" onclick="toggleAccordion('accAiModel')">
-            <h4 style="color:#6d28d9;"><span>🤖</span> AI Model for Help Center</h4>
-            <span class="settings-accordion-arrow" style="color:#6d28d9;">▾</span>
-          </div>
-          <div class="settings-accordion-body">
-            <p style="font-size:12px;color:var(--muted);margin-bottom:10px;margin-top:4px;">Choose which AI model powers the Support chat and Dictionary tab.</p>
-            <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
-              <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
-              <option value="openai">🧠 OpenAI GPT-4o Mini</option>
-              <option value="claude">🟣 Claude Sonnet 4</option>
-              <option value="deepseek">🔵 DeepSeek Chat</option>
-              <option value="grok">⚡ Grok 3 Mini</option>
-            </select>
-            <div style="display:flex;gap:8px;">
-              <button onclick="saveHcAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
-            </div>
-            <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
-          </div>
-        </div>
-
         <!-- ═══════════════ 1. SUPPORT TAB ═══════════════ -->
         <div class="settings-accordion open" id="accSupport">
           <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(5,150,105,.08),rgba(4,120,87,.05));" onclick="toggleAccordion('accSupport')">
@@ -1851,6 +1829,25 @@
                 <button onclick="resetAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Default</button>
               </div>
               <div id="aiPromptStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <div class="settings-section-divider"></div>
+
+            <!-- AI Model for Support -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🤖 AI Model</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Choose which AI model powers the Support chat.</p>
+              <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
+                <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
+                <option value="openai">🧠 OpenAI GPT-4o Mini</option>
+                <option value="claude">🟣 Claude Sonnet 4</option>
+                <option value="deepseek">🔵 DeepSeek Chat</option>
+                <option value="grok">⚡ Grok 3 Mini</option>
+              </select>
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveHcAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
+              </div>
+              <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
             </div>
 
             <div class="settings-section-divider"></div>
@@ -1970,6 +1967,25 @@
                 <button onclick="resetDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
               </div>
               <div id="dictSettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <div class="settings-section-divider"></div>
+
+            <!-- AI Model for Dictionary -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🤖 AI Model</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Choose which AI model powers the Dictionary lookups.</p>
+              <select id="settingsDictAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
+                <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
+                <option value="openai">🧠 OpenAI GPT-4o Mini</option>
+                <option value="claude">🟣 Claude Sonnet 4</option>
+                <option value="deepseek">🔵 DeepSeek Chat</option>
+                <option value="grok">⚡ Grok 3 Mini</option>
+              </select>
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveDictAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
+              </div>
+              <div id="dictAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
             </div>
 
             <div class="settings-section-divider"></div>
@@ -4876,9 +4892,13 @@
         document.getElementById('settingsCommunityImageEnabled').checked = map.hc_community_image_enabled !== 'false';
         document.getElementById('settingsCommunityPdfEnabled').checked = map.hc_community_pdf_enabled !== 'false';
 
-        // AI Model for Help Center
+        // AI Model for Support
         if (map.hc_ai_model) {
           document.getElementById('settingsHcAiModel').value = map.hc_ai_model;
+        }
+        // AI Model for Dictionary
+        if (map.hc_dict_ai_model) {
+          document.getElementById('settingsDictAiModel').value = map.hc_dict_ai_model;
         }
 
         // Dictionary settings
@@ -5249,8 +5269,21 @@
         await upsertSetting('hc_ai_model', model);
         localStorage.setItem('ms_hc_ai_model', model);
         _testAiKey = null;
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Support AI model saved: ' + model.toUpperCase() + '</span>';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
+      }
+    }
+
+    async function saveDictAiModel() {
+      var statusEl = document.getElementById('dictAiModelStatus');
+      statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var model = document.getElementById('settingsDictAiModel').value;
+        await upsertSetting('hc_dict_ai_model', model);
+        localStorage.setItem('ms_hc_dict_ai_model', model);
         _testDictKey = null;
-        statusEl.innerHTML = '<span style="color:#059669;">✅ AI model saved: ' + model.toUpperCase() + '</span>';
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Dictionary AI model saved: ' + model.toUpperCase() + '</span>';
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
       }
@@ -5419,8 +5452,8 @@
       if (chat) { chat.appendChild(loadingDiv); chat.scrollTop = chat.scrollHeight; }
 
       try {
-        // Get AI model from selector
-        var model = (document.getElementById('settingsHcAiModel') || {}).value || 'gemini';
+        // Get AI model from Dictionary selector
+        var model = (document.getElementById('settingsDictAiModel') || {}).value || 'gemini';
         if (!_testDictKey) {
           var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + encodeURIComponent(model));
           var d = await r.json();

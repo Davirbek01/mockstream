@@ -43,6 +43,7 @@
   var HC_DICT_VOICE = false;
   var HC_DICT_IMAGE = false;
   var HC_AI_MODEL = 'gemini';
+  var HC_DICT_AI_MODEL = 'gemini';
 
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
@@ -81,15 +82,17 @@
     var dv = localStorage.getItem('ms_hc_dict_voice');
     var di = localStorage.getItem('ms_hc_dict_image');
     var aim = localStorage.getItem('ms_hc_ai_model');
+    var daim = localStorage.getItem('ms_hc_dict_ai_model');
     if (de !== null) HC_DICT_ENABLED = de !== 'false';
     if (dt !== null) HC_DICT_TEXT = dt !== 'false';
     if (dv !== null) HC_DICT_VOICE = dv === 'true';
     if (di !== null) HC_DICT_IMAGE = di === 'true';
     if (aim) HC_AI_MODEL = aim;
+    if (daim) HC_DICT_AI_MODEL = daim;
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model,hc_dict_ai_model)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
@@ -116,6 +119,7 @@
         if ('hc_dict_voice' in map) { HC_DICT_VOICE = map.hc_dict_voice === 'true'; localStorage.setItem('ms_hc_dict_voice', map.hc_dict_voice); }
         if ('hc_dict_image' in map) { HC_DICT_IMAGE = map.hc_dict_image === 'true'; localStorage.setItem('ms_hc_dict_image', map.hc_dict_image); }
         if ('hc_ai_model' in map) { HC_AI_MODEL = map.hc_ai_model; localStorage.setItem('ms_hc_ai_model', map.hc_ai_model); }
+        if ('hc_dict_ai_model' in map) { HC_DICT_AI_MODEL = map.hc_dict_ai_model; localStorage.setItem('ms_hc_dict_ai_model', map.hc_dict_ai_model); }
         applyHcSettingsVisibility();
       }).catch(function () {});
     } catch (e) {}
@@ -1598,7 +1602,7 @@
   }
 
   async function _callDictAI(prompt) {
-    var model = HC_AI_MODEL || 'gemini';
+    var model = HC_DICT_AI_MODEL || 'gemini';
     var key = await _fetchAiKey(model);
     if (!key) throw new Error('No API key for ' + model);
 
