@@ -2119,9 +2119,9 @@
       .cb-comm-reply-quote:hover{background:rgba(99,102,241,.18)}
       .cb-comm-reply-quote-name{font-size:11px;font-weight:700;color:#6366f1;line-height:1.4}
       .cb-comm-reply-quote-text{font-size:12px;color:#475569;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
-      .cb-comm-mine .cb-comm-reply-quote{background:rgba(255,255,255,.18);border-left-color:rgba(255,255,255,.7)}
-      .cb-comm-mine .cb-comm-reply-quote-name{color:rgba(255,255,255,.95)}
-      .cb-comm-mine .cb-comm-reply-quote-text{color:rgba(255,255,255,.8)}
+      .cb-comm-mine .cb-comm-reply-quote{background:rgba(37,99,235,.1);border-left-color:#3b82f6}
+      .cb-comm-mine .cb-comm-reply-quote-name{color:#2563eb}
+      .cb-comm-mine .cb-comm-reply-quote-text{color:#475569}
       .cb-comm-name{font-size:11px;font-weight:700;color:#6366f1;margin-bottom:2px}
       .cb-comm-name-admin{color:#059669}
       .cb-comm-text{padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.5;word-break:break-word}
