@@ -2238,15 +2238,15 @@
               </div>
               <div id="storageBucketBreakdown" style="display:flex;gap:8px;margin-top:8px;font-size:11px;color:var(--muted);flex-wrap:wrap;"></div>
               <!-- Supabase billing row -->
-              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
-                <span style="font-size:12px;color:var(--muted);white-space:nowrap;">Supabase Billing:</span>
-                <span id="billingStorageDisplay" style="font-size:12px;font-weight:600;color:#f59e0b;cursor:pointer;" title="Click to update" onclick="document.getElementById('billingStorageEdit').style.display='';this.style.display='none'"></span>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap;">
+                <span style="font-size:12px;color:var(--muted);white-space:nowrap;">💳 Supabase Billing:</span>
+                <span id="billingStorageDisplay" style="font-size:12px;font-weight:600;color:#f59e0b;cursor:pointer;" title="Click to recalibrate from Supabase dashboard" onclick="openBillingEdit()"></span>
                 <span id="billingStorageEdit" style="display:none;">
                   <input type="number" id="billingStorageInput" step="0.001" min="0" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--surface);color:var(--ink);" placeholder="GB">
                   <button onclick="saveBillingStorage()" style="padding:3px 8px;border:none;border-radius:6px;background:#f59e0b;color:white;font-size:11px;font-weight:600;cursor:pointer;">Save</button>
                   <button onclick="document.getElementById('billingStorageEdit').style.display='none';document.getElementById('billingStorageDisplay').style.display=''" style="padding:3px 8px;border:none;border-radius:6px;background:var(--border);color:var(--ink);font-size:11px;cursor:pointer;">Cancel</button>
                 </span>
-                <span style="font-size:11px;color:var(--muted);">(from dashboard)</span>
+                <span id="billingStorageHint" style="font-size:11px;color:var(--muted);"></span>
               </div>
             </div>
             <!-- Database bar -->
@@ -6493,7 +6493,8 @@
         document.getElementById('storageStatsContent').style.display = '';
 
         // Load billing storage from site_settings
-        loadBillingStorage();
+        _lastMetadataGB = totalBytes / (1024*1024*1024);
+        loadBillingStorage(_lastMetadataGB);
       } catch(e) {
         document.getElementById('storageStatsLoading').innerHTML = '<span style="color:#dc2626;">⚠️ Could not load storage stats. Make sure the <code>get_storage_stats</code> function is deployed in Supabase.</span>';
       }
@@ -6503,34 +6504,72 @@
       loadStorageStats();
     }
 
-    async function loadBillingStorage() {
+    var _lastMetadataGB = 0;
+
+    function openBillingEdit() {
+      document.getElementById('billingStorageEdit').style.display = '';
+      document.getElementById('billingStorageDisplay').style.display = 'none';
+    }
+
+    async function loadBillingStorage(metadataGB) {
       try {
-        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.billing_storage_gb&select=value', {
+        // Fetch both billing_storage_gb and billing_ratio from site_settings
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=in.(billing_storage_gb,billing_ratio)&select=key,value', {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
         });
         var rows = await r.json();
+        var map = {};
+        rows.forEach(function(row) { map[row.key] = row.value; });
+
         var el = document.getElementById('billingStorageDisplay');
-        if (rows.length && rows[0].value) {
-          el.textContent = parseFloat(rows[0].value).toFixed(3) + ' GB';
+        var hintEl = document.getElementById('billingStorageHint');
+        var ratio = map.billing_ratio ? parseFloat(map.billing_ratio) : 0;
+        var lastManual = map.billing_storage_gb ? parseFloat(map.billing_storage_gb) : 0;
+
+        if (ratio > 0 && metadataGB > 0) {
+          // Auto-estimate using saved ratio
+          var estimated = (metadataGB * ratio).toFixed(3);
+          el.textContent = '~' + estimated + ' GB';
+          hintEl.textContent = '(estimated ×' + ratio.toFixed(2) + ' — click to recalibrate)';
+        } else if (lastManual > 0) {
+          el.textContent = lastManual.toFixed(3) + ' GB';
+          hintEl.textContent = '(manual — click to recalibrate)';
         } else {
           el.textContent = 'not set ✏️';
+          hintEl.textContent = '(enter value from Supabase dashboard to calibrate)';
         }
       } catch(e) {}
     }
 
     async function saveBillingStorage() {
       var val = document.getElementById('billingStorageInput').value;
-      if (!val || isNaN(val)) return;
+      if (!val || isNaN(val) || parseFloat(val) <= 0) return;
+      var billingGB = parseFloat(val);
       try {
-        // Upsert into site_settings
+        // Save the billing value
         await fetch(SUPABASE_URL + '/rest/v1/site_settings', {
           method: 'POST',
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' },
-          body: JSON.stringify({ key: 'billing_storage_gb', value: val })
+          body: JSON.stringify({ key: 'billing_storage_gb', value: String(billingGB) })
         });
+        // Calculate and save the compression ratio
+        if (_lastMetadataGB > 0) {
+          var ratio = billingGB / _lastMetadataGB;
+          await fetch(SUPABASE_URL + '/rest/v1/site_settings', {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' },
+            body: JSON.stringify({ key: 'billing_ratio', value: String(ratio.toFixed(6)) })
+          });
+        }
         document.getElementById('billingStorageEdit').style.display = 'none';
         document.getElementById('billingStorageDisplay').style.display = '';
-        document.getElementById('billingStorageDisplay').textContent = parseFloat(val).toFixed(3) + ' GB';
+        document.getElementById('billingStorageDisplay').textContent = '~' + billingGB.toFixed(3) + ' GB';
+        var hintEl = document.getElementById('billingStorageHint');
+        if (_lastMetadataGB > 0) {
+          hintEl.textContent = '(calibrated ×' + (billingGB / _lastMetadataGB).toFixed(2) + ' — click to recalibrate)';
+        } else {
+          hintEl.textContent = '(manual — click to recalibrate)';
+        }
       } catch(e) { alert('Failed to save'); }
     }
 
