@@ -1479,7 +1479,13 @@
       if (jumpBar) jumpBar.style.display = 'none';
       var typingBar = document.getElementById('cb-typing-bar');
       if (typingBar) typingBar.style.display = 'none';
-      _renderDictionary();
+      // Load from Supabase then render
+      if (!_dictLoaded) {
+        _renderDictionary(); // show welcome while loading
+        _loadDictFromSupabase().then(function() { _renderDictionary(); });
+      } else {
+        _renderDictionary();
+      }
     } else {
       // Restore normal visibility
       applyHcSettingsVisibility();
@@ -1495,22 +1501,52 @@
   }
 
   // ─── DICTIONARY TAB ──────────────────────────────────────────────────────
-  var _dictHistory = []; // { role:'user'|'ai', html:string }
+  var _dictHistory = []; // { role:'user'|'ai', text/html, id? }
   var _dictSending = false;
   var _dictApiKeys = {}; // cached keys per model
+  var _dictLoaded = false; // whether we've loaded from Supabase
 
-  // Load dictionary history from localStorage
-  try {
-    var _savedDict = JSON.parse(localStorage.getItem('ms_dict_history') || '[]');
-    if (Array.isArray(_savedDict)) _dictHistory = _savedDict;
-  } catch(e) {}
+  function _getDeviceId() {
+    var id = localStorage.getItem('ms_device_id');
+    if (!id) { id = 'dev_' + Math.random().toString(36).substr(2, 12); localStorage.setItem('ms_device_id', id); }
+    return id;
+  }
 
-  function _saveDictHistory() {
-    try {
-      // Keep last 40 entries (20 lookups = 20 user + 20 ai)
-      var trimmed = _dictHistory.slice(-40);
-      localStorage.setItem('ms_dict_history', JSON.stringify(trimmed));
-    } catch(e) {}
+  // Save a single lookup to Supabase
+  function _saveDictToSupabase(input, direction, english, uzbek, definition, example_en, example_uz, cardHtml) {
+    sbFetch('/rest/v1/dict_lookups', {
+      method: 'POST',
+      headers: { 'Prefer': 'return=representation' },
+      body: JSON.stringify({
+        input: input,
+        direction: direction,
+        english: english,
+        uzbek: uzbek,
+        definition: definition || '',
+        example_en: example_en || '',
+        example_uz: example_uz || '',
+        card_html: cardHtml,
+        device_id: _getDeviceId()
+      })
+    }).catch(function(e) { console.warn('[Dict] Save to Supabase failed:', e); });
+  }
+
+  // Load dictionary history from Supabase
+  function _loadDictFromSupabase() {
+    if (_dictLoaded) return Promise.resolve();
+    return sbFetch('/rest/v1/dict_lookups?device_id=eq.' + encodeURIComponent(_getDeviceId()) + '&order=created_at.asc&limit=40&select=id,input,card_html,created_at')
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        _dictHistory = [];
+        rows.forEach(function(row) {
+          _dictHistory.push({ role: 'user', text: row.input });
+          _dictHistory.push({ role: 'ai', html: row.card_html, sbId: row.id });
+        });
+        _dictLoaded = true;
+      }).catch(function(e) {
+        console.warn('[Dict] Load from Supabase failed:', e);
+        _dictLoaded = true;
+      });
   }
 
   function _renderDictionary() {
@@ -1686,25 +1722,54 @@
 
       // Replace typing indicator
       _dictHistory[_dictHistory.length - 1] = { role: 'ai', html: html };
+      // Save to Supabase
+      _saveDictToSupabase(text, data.direction || 'en2uz', data.english, data.uzbek, data.definition, data.example_en, data.example_uz, html);
     } catch(e) {
       console.warn('[Dict] AI lookup failed:', e);
       _dictHistory[_dictHistory.length - 1] = { role: 'ai', html: '<div style="color:#dc2626;font-size:13px;padding:8px 12px;background:#fef2f2;border-radius:10px;">❌ Could not translate. Please try again.</div>' };
     }
 
-    _saveDictHistory();
     _renderDictionary();
     _dictSending = false;
     if (input) input.disabled = false;
     if (input) input.focus();
   }
 
+  var GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
+  var _dictGttsCache = {};
   function _dictSpeak(word) {
-    if ('speechSynthesis' in window) {
-      var u = new SpeechSynthesisUtterance(word);
-      u.lang = 'en-US'; u.rate = 0.9;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
+    // Check cache first
+    if (_dictGttsCache[word]) {
+      _playDictBlob(_dictGttsCache[word]);
+      return;
     }
+    // Fetch from GTTS server (same as flashcards)
+    fetch(GTTS_SERVER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phrase: word })
+    }).then(function(r) {
+      if (!r.ok) throw new Error('GTTS server error');
+      return r.blob();
+    }).then(function(blob) {
+      _dictGttsCache[word] = blob;
+      _playDictBlob(blob);
+    }).catch(function() {
+      // Fallback to browser speech
+      if ('speechSynthesis' in window) {
+        var u = new SpeechSynthesisUtterance(word);
+        u.lang = 'en-US'; u.rate = 0.9;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+    });
+  }
+  function _playDictBlob(blob) {
+    var url = URL.createObjectURL(blob);
+    var a = new Audio(url);
+    a.onended = function() { URL.revokeObjectURL(url); };
+    a.onerror = function() { URL.revokeObjectURL(url); };
+    a.play().catch(function() { URL.revokeObjectURL(url); });
   }
 
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────

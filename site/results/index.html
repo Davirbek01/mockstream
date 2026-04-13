@@ -1895,6 +1895,17 @@
             <button onclick="resetDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
           </div>
           <div id="dictSettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+
+          <!-- Dictionary History Management -->
+          <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
+            <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🗑️ Dictionary Lookup History</label>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Delete all saved dictionary lookups from Supabase to free up space. This action cannot be undone.</p>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button onclick="deleteDictHistory()" style="padding:8px 16px;border:none;border-radius:8px;background:#dc2626;color:white;font-weight:600;cursor:pointer;font-size:12px;">🗑️ Delete All History</button>
+              <span id="dictHistoryCount" style="font-size:12px;color:var(--muted);"></span>
+            </div>
+            <div id="dictHistoryStatus" style="font-size:12px;margin-top:6px;"></div>
+          </div>
         </div>
 
         <!-- Community Settings -->
@@ -4765,6 +4776,7 @@
 
         // Dictionary settings
         document.getElementById('settingsDictEnabled').checked = map.hc_dict_enabled !== 'false';
+        loadDictHistoryCount();
 
         // Prompt files (multi-file: image, PDF, audio)
         if (map.ai_prompt_files) {
@@ -5149,6 +5161,38 @@
     function resetDictSettings() {
       document.getElementById('settingsDictEnabled').checked = true;
       document.getElementById('dictSettingsStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
+    }
+
+    // Count dictionary history entries
+    async function loadDictHistoryCount() {
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/dict_lookups?select=id', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'count=exact' }
+        });
+        var count = r.headers.get('content-range');
+        var total = count ? count.split('/')[1] : '0';
+        var el = document.getElementById('dictHistoryCount');
+        if (el) el.textContent = total + ' lookups stored';
+      } catch(e) {}
+    }
+
+    // Delete all dictionary history
+    async function deleteDictHistory() {
+      var statusEl = document.getElementById('dictHistoryStatus');
+      if (!confirm('⚠️ Delete ALL dictionary lookup history? This cannot be undone.')) return;
+      statusEl.innerHTML = '<span style="color:var(--muted);">Deleting...</span>';
+      try {
+        var r = await fetch(SB_URL + '/rest/v1/dict_lookups?id=not.is.null', {
+          method: 'DELETE',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+        });
+        var deleted = await r.json();
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' lookups</span>';
+        var countEl = document.getElementById('dictHistoryCount');
+        if (countEl) countEl.textContent = '0 lookups stored';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to delete</span>';
+      }
     }
 
     // ====================================================================
