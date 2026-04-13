@@ -16508,6 +16508,14 @@
           '<select id="wpStatusFilter" onchange="_filterWpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
           '<select id="wpCenterFilter" onchange="_filterWpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Centers</option></select>' +
           '<button onclick="_loadWpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#0d9488,#115e59);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
+          '<button onclick="_wpToggleDeleteMode()" id="wpDeleteModeBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🗑️ Delete</button>' +
+        '</div>' +
+        '<div id="wpBulkBar" style="display:none;padding:8px 16px;background:#fef2f2;border-bottom:1px solid #fca5a5;display:none;align-items:center;gap:8px;">' +
+          '<button onclick="_wpSelectAll()" style="padding:6px 12px;border:1.5px solid #ef4444;border-radius:6px;background:#fff;color:#ef4444;font-weight:600;font-size:12px;cursor:pointer;">☑️ Select All</button>' +
+          '<button onclick="_wpDeselectAll()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">Deselect All</button>' +
+          '<span id="wpSelectedCount" style="font-size:12px;color:#ef4444;font-weight:600;">0 selected</span>' +
+          '<button onclick="_wpDeleteSelected()" id="wpDeleteSelBtn" style="margin-left:auto;padding:6px 14px;border:none;border-radius:6px;background:#ef4444;color:#fff;font-weight:700;font-size:12px;cursor:pointer;opacity:0.5;pointer-events:none;">🗑️ Delete Selected</button>' +
+          '<button onclick="_wpToggleDeleteMode()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">✕ Cancel</button>' +
         '</div>' +
         '<div id="wpStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
         '<div class="ru-list" id="wpList" style="padding:8px 16px;"><div class="ru-empty">Loading...</div></div>' +
@@ -16516,6 +16524,8 @@
     }
 
     var _wpData = [];
+    var _wpDeleteMode = false;
+    var _wpSelected = {};
 
     async function openWritingPlusPanel() {
       if (!_wpAdminUnlocked && !_siteAdminUnlocked) { _showWpPasscode(); return; }
@@ -16570,6 +16580,73 @@
       _renderWpList(filtered);
     }
 
+    function _wpToggleDeleteMode() {
+      _wpDeleteMode = !_wpDeleteMode;
+      _wpSelected = {};
+      var bar = document.getElementById('wpBulkBar');
+      var btn = document.getElementById('wpDeleteModeBtn');
+      if (_wpDeleteMode) {
+        bar.style.display = 'flex';
+        btn.style.background = '#64748b'; btn.textContent = '✕ Cancel';
+      } else {
+        bar.style.display = 'none';
+        btn.style.background = '#ef4444'; btn.textContent = '🗑️ Delete';
+      }
+      _wpUpdateSelectedCount();
+      _filterWpList();
+    }
+    function _wpToggleSelect(id) {
+      if (_wpSelected[id]) delete _wpSelected[id]; else _wpSelected[id] = true;
+      var cb = document.getElementById('wpCb_' + id);
+      if (cb) cb.checked = !!_wpSelected[id];
+      _wpUpdateSelectedCount();
+    }
+    function _wpSelectAll() {
+      var q = (document.getElementById('wpSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('wpStatusFilter').value;
+      var center = document.getElementById('wpCenterFilter') ? document.getElementById('wpCenterFilter').value : '';
+      _wpData.forEach(function(row) {
+        if (status && row.status !== status) return;
+        if (center && row.center !== center) return;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return;
+        _wpSelected[row.id] = true;
+      });
+      _wpUpdateSelectedCount();
+      _filterWpList();
+    }
+    function _wpDeselectAll() {
+      _wpSelected = {};
+      _wpUpdateSelectedCount();
+      _filterWpList();
+    }
+    function _wpUpdateSelectedCount() {
+      var cnt = Object.keys(_wpSelected).length;
+      var el = document.getElementById('wpSelectedCount');
+      var btn = document.getElementById('wpDeleteSelBtn');
+      if (el) el.textContent = cnt + ' selected';
+      if (btn) { btn.style.opacity = cnt > 0 ? '1' : '0.5'; btn.style.pointerEvents = cnt > 0 ? 'auto' : 'none'; }
+    }
+    async function _wpDeleteSelected() {
+      var ids = Object.keys(_wpSelected);
+      if (!ids.length) return;
+      if (!confirm('Permanently delete ' + ids.length + ' submission(s)? This cannot be undone.')) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var btn = document.getElementById('wpDeleteSelBtn');
+      btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none';
+      try {
+        for (var i = 0; i < ids.length; i++) {
+          await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          });
+        }
+      } catch(e) { console.warn('WP bulk delete error:', e); }
+      _wpSelected = {};
+      _wpToggleDeleteMode();
+      await _loadWpData();
+    }
+
     function _renderWpList(rows) {
       var listEl = document.getElementById('wpList');
       if (!rows.length) { listEl.innerHTML = '<div class="ru-empty">No submissions found</div>'; return; }
@@ -16592,9 +16669,10 @@
           var avg = scores.reduce(function(s,x){ return s + (x.score||0); }, 0) / scores.length;
           scoreDisplay = avg.toFixed(1);
         }
-        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#0d9488\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+        var cbHtml = _wpDeleteMode ? '<input type="checkbox" id="wpCb_' + row.id + '" ' + (_wpSelected[row.id] ? 'checked' : '') + ' onclick="_wpToggleSelect(\'' + row.id + '\')" style="width:18px;height:18px;cursor:pointer;accent-color:#ef4444;flex-shrink:0;">' : '';
+        return '<div style="border:1.5px solid ' + (_wpDeleteMode && _wpSelected[row.id] ? '#ef4444' : '#e5e7eb') + ';border-radius:12px;padding:14px;margin-bottom:10px;background:' + (_wpDeleteMode && _wpSelected[row.id] ? '#fef2f2' : '#fafafa') + ';transition:all 0.15s ease;cursor:' + (_wpDeleteMode ? 'pointer' : 'default') + ';" ' + (_wpDeleteMode ? 'onclick="_wpToggleSelect(\'' + row.id + '\')"' : 'onmouseenter="this.style.borderColor=\'#0d9488\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'"') + '>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' + cbHtml +
               '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
               '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
               '<span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + centerLabel + '</span>' +
