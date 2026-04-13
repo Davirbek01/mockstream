@@ -5994,7 +5994,7 @@
       }
 
       let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
+      if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
 
       // ═══════ PRACTICE MODE FINISH ═══════
       if (window._practiceMode) {
@@ -6554,11 +6554,12 @@
     // Show AI Checker button as teaser for regular (non-premium) users
     (function () {
       let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
+      if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
       if (!isPremiumEntry) {
         const aiBtn = document.getElementById('aiCheckerBtn');
         if (aiBtn) {
           aiBtn.style.display = 'block';
+          aiBtn.disabled = true;
           aiBtn.style.background = '#cbd5e1';
           aiBtn.style.color = '#64748b';
           aiBtn.style.boxShadow = 'none';
@@ -6570,8 +6571,12 @@
       }
     })();
 
-    // AI Checker button handler — teaser for regular users
+    // AI Checker button handler — teaser for regular users, blocked when center says regular
     document.getElementById('aiCheckerBtn').addEventListener('click', () => {
+      // Block click entirely if center says regular and user is not VIP premium email
+      if (window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') {
+        if (!(window._isVipPremiumEmail && window._isVipPremiumEmail())) return;
+      }
       // Show teaser popup for AI Score
       const overlay = document.createElement('div');
       overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);z-index:10001;display:flex;align-items:center;justify-content:center;';
@@ -10513,7 +10518,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (Criteria scores MUST be whole numbers �
 
         // Check if this is a premium entry (auto AI scoring)
         let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-        if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
+        if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_writing === 'regular') isPremiumEntry = false;
 
         if (isPremiumEntry) {
           // PREMIUM: Check if already auto-submitted via Finish button

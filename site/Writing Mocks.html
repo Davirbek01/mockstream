@@ -13659,7 +13659,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       btn.disabled = true;
 
       var isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
+      if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
       var score = null;
       var aiResult = null;
 
@@ -13970,7 +13970,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
 
       // Check if this is a premium entry (auto AI scoring)
       let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
+      if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
 
       let submissionSuccess = false;
       let errorMessage = '';
@@ -15153,11 +15153,12 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
     // Show AI Checker button as teaser for regular (non-premium) users
     (function () {
       let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
+      if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
       if (!isPremiumEntry) {
         const aiBtn = document.getElementById('aiCheckerBtn');
         if (aiBtn) {
           aiBtn.style.display = 'block';
+          aiBtn.disabled = true;
           aiBtn.style.background = '#cbd5e1';
           aiBtn.style.color = '#64748b';
           aiBtn.style.boxShadow = 'none';
@@ -15174,7 +15175,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
     // AI Checker functionality - Show beautiful passcode modal instead of prompt
     document.getElementById('aiCheckerBtn').addEventListener('click', async () => {
       let isPrem = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
-      if (isPrem && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPrem = false;
+      if (isPrem && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPrem = false;
       if (!isPrem) return;
 
       const aiBtn = document.getElementById('aiCheckerBtn');

@@ -16268,8 +16268,9 @@
             sessionStorage.removeItem('vipPremiumAi');
           }
 
-          // Remember email for auto-login next time
+          // Remember email and tier for auto-login and center-guard checks
           localStorage.setItem('ms_vip_email', email);
+          localStorage.setItem('ms_vip_tier', match.tier || 'standard');
 
           // If admin role, store for dashboard auto-login too
           if (match.role === 'admin') {
@@ -16343,6 +16344,7 @@
           if (match.tier === 'premium') {
             sessionStorage.setItem('vipPremiumAi', 'true');
           }
+          localStorage.setItem('ms_vip_tier', match.tier || 'standard');
           if (match.role === 'admin') {
             localStorage.setItem('ms_admin_email', email);
           }
@@ -16350,6 +16352,7 @@
         } else {
           // Email no longer valid — clear saved email
           localStorage.removeItem('ms_vip_email');
+          localStorage.removeItem('ms_vip_tier');
         }
       } catch (e) {
         console.log('[VIP Auto] Silent check failed:', e);

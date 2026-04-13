@@ -169,8 +169,10 @@
     // ─── 7. MOCK ACCESS LEVEL (override access) ────────────────────────
     if (mockKey && cc.mocks) {
       var lvl = cc.mocks[mockKey];
-      if (lvl === 'regular') {
-        // Grant access but without premium AI
+      var _isVipPremiumEmail = false;
+      try { _isVipPremiumEmail = localStorage.getItem('ms_vip_tier') === 'premium'; } catch(e){}
+      if (lvl === 'regular' && !_isVipPremiumEmail) {
+        // Grant access but without premium AI (VIP premium emails are excluded)
         try {
           sessionStorage.setItem('vipSessionAccess', 'true');
           sessionStorage.removeItem('vipPremiumAi');
@@ -403,7 +405,9 @@
     var mockKey = _cgDetectMockKey();
     if (mockKey && cc.mocks) {
       var lvl = cc.mocks[mockKey];
-      if (lvl === 'regular') {
+      var _isVipPremiumEmail = false;
+      try { _isVipPremiumEmail = localStorage.getItem('ms_vip_tier') === 'premium'; } catch(e){}
+      if (lvl === 'regular' && !_isVipPremiumEmail) {
         try {
           sessionStorage.setItem('vipSessionAccess', 'true');
           sessionStorage.removeItem('vipPremiumAi');
@@ -447,5 +451,11 @@
       }
     }
   });
+
+  // ── Global helper: Check if current user is a VIP premium email ───────────
+  // Used by mock pages to exclude VIP premium email users from 'regular' downgrades
+  window._isVipPremiumEmail = function () {
+    try { return localStorage.getItem('ms_vip_tier') === 'premium'; } catch (e) { return false; }
+  };
 
 })();

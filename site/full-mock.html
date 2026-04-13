@@ -9451,8 +9451,9 @@ Respond ONLY in JSON format:
             // ===== PREMIUM vs REGULAR VIP LOGIC =====
             // Center-level AI overrides for Full Mock
             const _fmAi = (window._centerConfig && window._centerConfig.fullMockAi) || {};
-            const _aiWritingOn = _fmAi.cefr_writing !== 'regular';
-            const _aiSpeakingOn = _fmAi.cefr_speaking !== 'regular';
+            const _fmVipExclude = window._isVipPremiumEmail && window._isVipPremiumEmail();
+            const _aiWritingOn = _fmVipExclude || _fmAi.cefr_writing !== 'regular';
+            const _aiSpeakingOn = _fmVipExclude || _fmAi.cefr_speaking !== 'regular';
 
             if (state.isPremiumVip) {
                 // PREMIUM: Run AI analysis for Writing & Speaking (respecting center AI controls)

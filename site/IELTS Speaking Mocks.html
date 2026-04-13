@@ -9324,7 +9324,7 @@
         // Individual code takes absolute priority over center/VIP settings
         var _indCode = sessionStorage.getItem('speakingIndividualCode');
         var _isPrem = _indCode ? (_indCode === 'premium') : (sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true');
-        if (!_indCode && _isPrem && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') _isPrem = false;
+        if (!_indCode && _isPrem && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') _isPrem = false;
         if (!_isPrem) {
         }
 
@@ -10148,7 +10148,7 @@ ${qJsonLines}
           // ===== AUTO IELTS AI ANALYSIS (individual code bypasses center settings) =====
           let _indCode2 = sessionStorage.getItem('speakingIndividualCode');
           let isPremiumEntry = _indCode2 ? (_indCode2 === 'premium') : (sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true');
-          if (!_indCode2 && isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
+          if (!_indCode2 && isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
           let ieltsAiResult = null;
 
           if (isPremiumEntry) {
@@ -11141,7 +11141,7 @@ ${questionsContent}
       (function () {
         let _indCode3 = sessionStorage.getItem('speakingIndividualCode');
         let isPremiumEntry = _indCode3 ? (_indCode3 === 'premium') : (sessionStorage.getItem('speakingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true');
-        if (!_indCode3 && isPremiumEntry && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
+        if (!_indCode3 && isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') isPremiumEntry = false;
         const aiBtn = document.getElementById('aiScoreBtn');
         if (aiBtn) {
           if (isPremiumEntry) {
@@ -11166,6 +11166,11 @@ ${questionsContent}
 
       document.addEventListener('click', async e => {
         if (e.target && e.target.id === 'aiScoreBtn') {
+          // Block if center config says regular and user is not a VIP premium email
+          if (window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.ielts_speaking === 'regular') {
+            var _vipTier = ''; try { _vipTier = localStorage.getItem('ms_vip_tier') || ''; } catch(ex){}
+            if (_vipTier !== 'premium') return;
+          }
           const modal = $('#aiScoreModal');
           modal.classList.add('show');
           modal.setAttribute('aria-hidden', 'false');
