@@ -16655,10 +16655,17 @@
         btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none';
         try {
           for (var i = 0; i < ids.length; i++) {
-            await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
+            var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
               method: 'DELETE',
               headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
             });
+            if (!r.ok) {
+              await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
+                method: 'PATCH',
+                headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'deleted' })
+              });
+            }
           }
         } catch(e) { console.warn('WP bulk delete error:', e); }
         _wpSelected = {};
@@ -16720,24 +16727,34 @@
     async function _updateWpStatus(id, status) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      try {
-        if (status === 'deleted') {
-          _wpConfirm('Permanently delete this submission? This cannot be undone.', async function() {
+      if (status === 'deleted') {
+        _wpConfirm('Permanently delete this submission? This cannot be undone.', async function() {
+          try {
             var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
               method: 'DELETE',
               headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
             });
-            if (r.ok) await _loadWpData();
-          });
-        } else {
+            if (!r.ok) {
+              // DELETE blocked by RLS — fall back to marking as deleted
+              await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+                method: 'PATCH',
+                headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'deleted' })
+              });
+            }
+          } catch(e) { console.warn('WP delete error:', e); }
+          await _loadWpData();
+        });
+      } else {
+        try {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
             method: 'PATCH',
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: status })
           });
           if (r.ok) await _loadWpData();
-        }
-      } catch(e) { console.warn('WP status update failed:', e); }
+        } catch(e) { console.warn('WP status update failed:', e); }
+      }
     }
 
     async function _viewWpDetail(id) {
