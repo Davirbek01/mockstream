@@ -1551,7 +1551,14 @@
       if (window.closeHelpCenter) window.closeHelpCenter();
     } else {
       var overlay = document.getElementById('cb-overlay');
-      if (overlay) overlay.classList.remove('active');
+      if (overlay) {
+        overlay.classList.remove('active');
+        // Reset keyboard-adjust inline styles
+        overlay.style.top = '';
+        overlay.style.height = '';
+        var container = overlay.querySelector('.cb-hc-container');
+        if (container) container.style.maxHeight = '';
+      }
     }
   }
 
@@ -1980,7 +1987,7 @@
       #cb-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);justify-content:center;align-items:center;animation:cbHcFadeIn .25s ease}
       #cb-overlay.active{display:flex}
       @keyframes cbHcFadeIn{from{opacity:0}to{opacity:1}}
-      #cb-overlay .cb-hc-container{position:relative;width:420px;max-width:95vw;height:600px;max-height:90vh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.3);border:1px solid #e5e7eb;animation:cbHcSlideUp .3s ease}
+      #cb-overlay .cb-hc-container{position:relative;width:420px;max-width:95vw;height:600px;max-height:90vh;max-height:90dvh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.3);border:1px solid #e5e7eb;animation:cbHcSlideUp .3s ease}
       @keyframes cbHcSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
       #cb-overlay .cb-hc-header{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;padding:16px 20px;display:flex;align-items:center;flex-shrink:0}
       #cb-overlay .cb-hc-close{position:absolute;top:10px;right:10px;z-index:3;background:rgba(0,0,0,0.35);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
@@ -2206,7 +2213,7 @@
 
       /* ── Mobile (overlay) ── */
       @media(max-width:480px){
-        #cb-overlay .cb-hc-container{width:92vw;max-width:360px;height:auto;max-height:75vh;border-radius:16px}
+        #cb-overlay .cb-hc-container{width:92vw;max-width:360px;height:auto;max-height:75vh;max-height:75dvh;border-radius:16px}
         #cb-toast{left:12px;right:12px;bottom:84px}.cb-toast-inner{max-width:100%}
         #cb-fab.open{display:none}
       }
@@ -2726,6 +2733,29 @@
     fab.addEventListener('touchstart', pointerDown, { passive: false });
     document.addEventListener('touchmove', pointerMove, { passive: false });
     document.addEventListener('touchend', pointerUp);
+
+    // ── Mobile keyboard fix: adjust overlay when virtual keyboard opens ──
+    if (window.visualViewport) {
+      var _vvTimer = null;
+      window.visualViewport.addEventListener('resize', function () {
+        clearTimeout(_vvTimer);
+        _vvTimer = setTimeout(function () {
+          var ov = document.getElementById('cb-overlay');
+          if (!ov || !ov.classList.contains('active')) return;
+          var container = ov.querySelector('.cb-hc-container');
+          if (!container) return;
+          var vvH = window.visualViewport.height;
+          container.style.maxHeight = (vvH * 0.92) + 'px';
+        }, 50);
+      });
+      window.visualViewport.addEventListener('scroll', function () {
+        var ov = document.getElementById('cb-overlay');
+        if (!ov || !ov.classList.contains('active')) return;
+        // Keep overlay aligned to visual viewport
+        ov.style.top = window.visualViewport.offsetTop + 'px';
+        ov.style.height = window.visualViewport.height + 'px';
+      });
+    }
   }
 
   function saveFabPosition(x, y) {
