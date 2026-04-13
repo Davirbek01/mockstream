@@ -1602,13 +1602,14 @@
       var prompt = 'You are a concise English-to-Uzbek dictionary assistant. The user typed: "' + text + '"\n\n' +
         'Respond with EXACTLY this JSON format (no markdown, no extra text, ONLY raw JSON):\n' +
         '{\n' +
-        '  "word": "the English word/phrase",\n' +
+        '  "word": "the CORRECT English word/phrase (fix any spelling mistakes)",\n' +
+        '  "misspelled": true or false (whether the user misspelled the word),\n' +
         '  "uzbek": "Uzbek translation",\n' +
         '  "definition": "Brief Uzbek definition/explanation if the word is complex, otherwise empty string",\n' +
         '  "example_en": "One natural example sentence in English using this word",\n' +
         '  "example_uz": "Uzbek translation of the example sentence"\n' +
         '}\n\n' +
-        'Rules:\n- uzbek: the MAIN Uzbek translation, concise\n- definition: a SHORT Uzbek explanation in parentheses format (only if the word is abstract/complex, otherwise "")\n- example_en: a natural, useful example sentence\n- example_uz: accurate Uzbek translation of the example\n- Respond ONLY with the JSON object, nothing else';
+        'Rules:\n- If the user misspelled a word (e.g. "recieve" instead of "receive", "definately" instead of "definitely"), auto-correct it. Set "word" to the CORRECT spelling and "misspelled" to true\n- If the spelling is already correct, set "misspelled" to false\n- uzbek: the MAIN Uzbek translation, concise\n- definition: a SHORT Uzbek explanation in parentheses format (only if the word is abstract/complex, otherwise "")\n- example_en: a natural, useful example sentence\n- example_uz: accurate Uzbek translation of the example\n- Respond ONLY with the JSON object, nothing else';
 
       var raw = await _callDictAI(prompt);
       // Parse JSON from response (strip markdown fences if any)
@@ -1619,6 +1620,10 @@
 
       // Build beautiful dictionary card HTML
       var html = '<div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:16px;max-width:100%;">';
+      // Misspelling notice
+      if (data.misspelled) {
+        html += '<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:11px;color:#92400e;text-align:center;">✏️ Did you mean: <strong>' + _escDict(data.word) + '</strong>?</div>';
+      }
       // Word header with audio button
       html += '<div style="text-align:center;margin-bottom:10px;">';
       html += '<div style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:-0.5px;">' + _escDict(data.word) + '</div>';
