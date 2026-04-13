@@ -2280,7 +2280,7 @@
         <!-- Manual Deletion -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);">🗑️ Manual Deletion</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Delete report files (ZIP/HTML) from Supabase Storage for a specific date range. The database records (scores, stats) are kept — only the downloadable files are removed.</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Delete report files (ZIP/HTML) from Supabase Storage for a specific date range.</p>
 
           <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
             <div style="flex:1;min-width:140px;">
@@ -2303,9 +2303,15 @@
               </select>
             </div>
           </div>
+          <div style="margin-bottom:10px;">
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);cursor:pointer;">
+              <input type="checkbox" id="manualDeleteRecords" style="width:16px;height:16px;accent-color:#dc2626;cursor:pointer;">
+              <span>Also delete database records <span style="color:var(--muted);">(removes from Total Results count)</span></span>
+            </label>
+          </div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <button onclick="previewManualDelete()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;font-weight:600;cursor:pointer;">🔍 Preview Files</button>
-            <button onclick="executeManualDelete()" id="manualDeleteBtn" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;display:none;">🗑️ Delete Files</button>
+            <button onclick="previewManualDelete()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;font-weight:600;cursor:pointer;">🔍 Preview</button>
+            <button onclick="executeManualDelete()" id="manualDeleteBtn" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;display:none;">🗑️ Delete</button>
           </div>
           <div id="manualDeleteStatus" style="font-size:12px;margin-top:8px;"></div>
           <div id="manualDeletePreview" style="display:none;margin-top:10px;max-height:200px;overflow-y:auto;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:12px;"></div>
@@ -6623,7 +6629,13 @@
         ? (totalBytes / (1024*1024*1024)).toFixed(2) + ' GB'
         : (totalBytes / (1024*1024)).toFixed(1) + ' MB';
 
-      var ok = await customConfirm('Delete ' + count + ' Files', 'Permanently delete <b>' + count + ' report file' + (count !== 1 ? 's' : '') + '</b> (' + sizeStr + ')?<br><br>This removes the downloadable ZIP/HTML files from storage. Database records (scores, stats) are kept.<br><br><span style="color:#dc2626;font-weight:700;">This cannot be undone.</span>');
+      var alsoDeleteRecords = document.getElementById('manualDeleteRecords').checked;
+      var confirmMsg = 'Permanently delete <b>' + count + ' report file' + (count !== 1 ? 's' : '') + '</b> (' + sizeStr + ')?' +
+        (alsoDeleteRecords
+          ? '<br><br><span style="color:#dc2626;font-weight:700;">⚠️ This will also DELETE the database records — scores and stats will be permanently removed from Total Results.</span>'
+          : '<br><br>Only the downloadable ZIP/HTML files are removed. Database records (scores, stats) are kept.') +
+        '<br><br><span style="color:#dc2626;font-weight:700;">This cannot be undone.</span>';
+      var ok = await customConfirm(alsoDeleteRecords ? 'Delete Files + Records' : 'Delete ' + count + ' Files', confirmMsg);
       if (!ok) return;
 
       var statusEl = document.getElementById('manualDeleteStatus');
@@ -6665,28 +6677,52 @@
         statusEl.innerHTML = '<span style="color:var(--muted);">🗑️ Deleting ' + Math.min(i + BATCH, allPaths.length) + ' / ' + count + ' files...</span>';
       }
 
-      // Also clear report_path in the results table for deleted files
-      try {
-        var fileNames = _manualDeleteFiles.map(function(f) { return f.path; });
-        // Update results rows where report_path matches any deleted file
-        for (var j = 0; j < fileNames.length; j += 100) {
-          var pathBatch = fileNames.slice(j, j + 100);
-          var inFilter = pathBatch.map(function(p) { return '"' + p + '"'; }).join(',');
-          await fetch(SUPABASE_URL + '/rest/v1/results?report_path=in.(' + encodeURIComponent(inFilter) + ')', {
-            method: 'PATCH',
-            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ report_path: null })
+      // Handle database records
+      var dbDeleted = 0;
+      if (alsoDeleteRecords) {
+        // DELETE database records matching the date range and center
+        statusEl.innerHTML = '<span style="color:var(--muted);">🗃️ Deleting database records...</span>';
+        try {
+          var from = document.getElementById('manualDeleteFrom').value;
+          var to = document.getElementById('manualDeleteTo').value;
+          var center = document.getElementById('manualDeleteCenter').value;
+          var delUrl = SUPABASE_URL + '/rest/v1/results?created_at=gte.' + encodeURIComponent(from + 'T00:00:00') + '&created_at=lte.' + encodeURIComponent(to + 'T23:59:59');
+          if (center !== '__all__') delUrl += '&center=eq.' + encodeURIComponent(center);
+          var dbResp = await fetch(delUrl, {
+            method: 'DELETE',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }
           });
-        }
-      } catch(e) { /* non-critical */ }
+          if (dbResp.ok) {
+            var dbResult = await dbResp.json();
+            dbDeleted = Array.isArray(dbResult) ? dbResult.length : 0;
+          }
+        } catch(e) { /* non-critical */ }
+      } else {
+        // Just clear report_path in the results table for deleted files
+        try {
+          var fileNames = _manualDeleteFiles.map(function(f) { return f.path; });
+          for (var j = 0; j < fileNames.length; j += 100) {
+            var pathBatch = fileNames.slice(j, j + 100);
+            var inFilter = pathBatch.map(function(p) { return '"' + p + '"'; }).join(',');
+            await fetch(SUPABASE_URL + '/rest/v1/results?report_path=in.(' + encodeURIComponent(inFilter) + ')', {
+              method: 'PATCH',
+              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ report_path: null })
+            });
+          }
+        } catch(e) { /* non-critical */ }
+      }
 
       _manualDeleteFiles = [];
       document.getElementById('manualDeletePreview').style.display = 'none';
 
+      var summaryParts = [];
+      summaryParts.push(deleted + ' file' + (deleted !== 1 ? 's' : '') + ' (' + sizeStr + ' freed)');
+      if (alsoDeleteRecords) summaryParts.push(dbDeleted + ' database record' + (dbDeleted !== 1 ? 's' : '') + ' removed');
       if (failed === 0) {
-        statusEl.innerHTML = '<span style="color:#059669;font-weight:600;">✅ Successfully deleted ' + deleted + ' files (' + sizeStr + ' freed).</span>';
+        statusEl.innerHTML = '<span style="color:#059669;font-weight:600;">✅ ' + summaryParts.join(', ') + '.</span>';
       } else {
-        statusEl.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ Deleted ' + deleted + ' files, ' + failed + ' failed.</span>';
+        statusEl.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ ' + summaryParts.join(', ') + '. ' + failed + ' file' + (failed !== 1 ? 's' : '') + ' failed.</span>';
       }
 
       // Refresh storage stats
