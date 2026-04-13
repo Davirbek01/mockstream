@@ -39,6 +39,9 @@
   var HC_COMMUNITY_IMAGE_ENABLED = true;
   var HC_COMMUNITY_PDF_ENABLED = true;
   var HC_DICT_ENABLED = true;
+  var HC_DICT_TEXT = true;
+  var HC_DICT_VOICE = false;
+  var HC_DICT_IMAGE = false;
   var HC_AI_MODEL = 'gemini';
 
   // Load admin-configured settings from localStorage (cached) or Supabase
@@ -74,13 +77,19 @@
 
     // Dictionary & AI model settings from localStorage
     var de = localStorage.getItem('ms_hc_dict_enabled');
+    var dt = localStorage.getItem('ms_hc_dict_text');
+    var dv = localStorage.getItem('ms_hc_dict_voice');
+    var di = localStorage.getItem('ms_hc_dict_image');
     var aim = localStorage.getItem('ms_hc_ai_model');
     if (de !== null) HC_DICT_ENABLED = de !== 'false';
+    if (dt !== null) HC_DICT_TEXT = dt !== 'false';
+    if (dv !== null) HC_DICT_VOICE = dv === 'true';
+    if (di !== null) HC_DICT_IMAGE = di === 'true';
     if (aim) HC_AI_MODEL = aim;
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_ai_model)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
@@ -100,6 +109,12 @@
         if ('hc_community_image_enabled' in map) { HC_COMMUNITY_IMAGE_ENABLED = map.hc_community_image_enabled !== 'false'; localStorage.setItem('ms_hc_community_image_enabled', map.hc_community_image_enabled); }
         if ('hc_community_pdf_enabled' in map) { HC_COMMUNITY_PDF_ENABLED = map.hc_community_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_community_pdf_enabled', map.hc_community_pdf_enabled); }
         if ('hc_dict_enabled' in map) { HC_DICT_ENABLED = map.hc_dict_enabled !== 'false'; localStorage.setItem('ms_hc_dict_enabled', map.hc_dict_enabled); }
+        if ('hc_dict_text' in map) { HC_DICT_TEXT = map.hc_dict_text !== 'false'; localStorage.setItem('ms_hc_dict_text', map.hc_dict_text); }
+        if ('hc_dict_voice' in map) { HC_DICT_VOICE = map.hc_dict_voice === 'true'; localStorage.setItem('ms_hc_dict_voice', map.hc_dict_voice); }
+        if ('hc_dict_image' in map) { HC_DICT_IMAGE = map.hc_dict_image === 'true'; localStorage.setItem('ms_hc_dict_image', map.hc_dict_image); }
+        if ('hc_dict_text' in map) { HC_DICT_TEXT = map.hc_dict_text !== 'false'; localStorage.setItem('ms_hc_dict_text', map.hc_dict_text); }
+        if ('hc_dict_voice' in map) { HC_DICT_VOICE = map.hc_dict_voice === 'true'; localStorage.setItem('ms_hc_dict_voice', map.hc_dict_voice); }
+        if ('hc_dict_image' in map) { HC_DICT_IMAGE = map.hc_dict_image === 'true'; localStorage.setItem('ms_hc_dict_image', map.hc_dict_image); }
         if ('hc_ai_model' in map) { HC_AI_MODEL = map.hc_ai_model; localStorage.setItem('ms_hc_ai_model', map.hc_ai_model); }
         applyHcSettingsVisibility();
       }).catch(function () {});
@@ -1467,14 +1482,14 @@
       if (!_communityLoaded) loadCommunityMessages();
       renderCommunityMessages();
     } else if (cat === 'dictionary') {
-      // Dictionary: hide attach/voice, show text + send only
-      if (attachBtn) attachBtn.style.display = 'none';
-      if (voiceBtn) voiceBtn.style.display = 'none';
+      // Dictionary: show/hide inputs based on admin settings
+      if (attachBtn) attachBtn.style.display = HC_DICT_IMAGE ? '' : 'none';
+      if (voiceBtn) voiceBtn.style.display = HC_DICT_VOICE ? '' : 'none';
       if (replyBanner) replyBanner.style.display = 'none';
       var input = document.getElementById('cb-input');
       var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
-      if (input) { input.style.display = ''; input.placeholder = 'Type a word in English or Uzbek...'; }
-      if (sendBtn) sendBtn.style.display = '';
+      if (input) { input.style.display = HC_DICT_TEXT ? '' : 'none'; input.placeholder = 'Type a word in English or Uzbek...'; }
+      if (sendBtn) sendBtn.style.display = HC_DICT_TEXT ? '' : 'none';
       var jumpBar = document.getElementById('cb-comm-jump-bar');
       if (jumpBar) jumpBar.style.display = 'none';
       var typingBar = document.getElementById('cb-typing-bar');

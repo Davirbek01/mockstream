@@ -1883,11 +1883,23 @@
         <!-- Dictionary Settings -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">📖 Dictionary Tab</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control the Dictionary tab in the Help Center chat bubble. Users type an English word/phrase and get Uzbek translation + example sentences.</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control the Dictionary tab in the Help Center chat bubble. Users can look up words in English ⇄ Uzbek.</p>
           <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
               <input type="checkbox" id="settingsDictEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
               <span style="font-size:13px;color:var(--ink);font-weight:600;">📖 Dictionary tab visible</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsDictTextEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsDictVoiceEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsDictImageEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
             </label>
           </div>
           <div style="display:flex;gap:8px;">
@@ -4776,6 +4788,9 @@
 
         // Dictionary settings
         document.getElementById('settingsDictEnabled').checked = map.hc_dict_enabled !== 'false';
+        document.getElementById('settingsDictTextEnabled').checked = map.hc_dict_text !== 'false';
+        document.getElementById('settingsDictVoiceEnabled').checked = map.hc_dict_voice === 'true';
+        document.getElementById('settingsDictImageEnabled').checked = map.hc_dict_image === 'true';
         loadDictHistoryCount();
 
         // Prompt files (multi-file: image, PDF, audio)
@@ -5150,8 +5165,17 @@
       statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
       try {
         var dictEnabled = document.getElementById('settingsDictEnabled').checked;
+        var dictText = document.getElementById('settingsDictTextEnabled').checked;
+        var dictVoice = document.getElementById('settingsDictVoiceEnabled').checked;
+        var dictImage = document.getElementById('settingsDictImageEnabled').checked;
         await upsertSetting('hc_dict_enabled', String(dictEnabled));
+        await upsertSetting('hc_dict_text', String(dictText));
+        await upsertSetting('hc_dict_voice', String(dictVoice));
+        await upsertSetting('hc_dict_image', String(dictImage));
         localStorage.setItem('ms_hc_dict_enabled', String(dictEnabled));
+        localStorage.setItem('ms_hc_dict_text', String(dictText));
+        localStorage.setItem('ms_hc_dict_voice', String(dictVoice));
+        localStorage.setItem('ms_hc_dict_image', String(dictImage));
         statusEl.innerHTML = '<span style="color:#059669;">✅ Dictionary settings saved</span>';
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
@@ -5160,6 +5184,9 @@
 
     function resetDictSettings() {
       document.getElementById('settingsDictEnabled').checked = true;
+      document.getElementById('settingsDictTextEnabled').checked = true;
+      document.getElementById('settingsDictVoiceEnabled').checked = false;
+      document.getElementById('settingsDictImageEnabled').checked = false;
       document.getElementById('dictSettingsStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
     }
 
