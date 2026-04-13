@@ -16660,9 +16660,10 @@
         for (var i = 0; i < ids.length; i++) {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
             method: 'DELETE',
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
           });
-          if (!r.ok) {
+          var deleted = r.ok ? await r.json() : [];
+          if (!deleted.length) {
             await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
               method: 'PATCH',
               headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
@@ -16735,9 +16736,10 @@
         try {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
             method: 'DELETE',
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
           });
-          if (!r.ok) {
+          var deleted = r.ok ? await r.json() : [];
+          if (!deleted.length) {
             await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
               method: 'PATCH',
               headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
