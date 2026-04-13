@@ -1794,6 +1794,24 @@
   // Expose to global scope for onclick in card HTML
   window._dictSpeak = _dictSpeak;
 
+  // ─── CLEAR DATA (called from settings panel) ─────────────────────────────
+  window._hcClearSupport = function() {
+    messages = { support: [], premium: [], partner: [] };
+    lastSeenAdmin = { support: 0, premium: 0, partner: 0 };
+    saveLocal();
+    if (currentCategory === 'support' || currentCategory === 'premium' || currentCategory === 'partner') renderMessages();
+  };
+  window._hcClearCommunity = function() {
+    _communityMessages = [];
+    _communityLoaded = false;
+    if (currentCategory === 'community') renderCommunityMessages();
+  };
+  window._hcClearDictionary = function() {
+    _dictHistory = [];
+    _dictLoaded = false;
+    if (currentCategory === 'dictionary') _renderDictionary();
+  };
+
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────
   // If the landing page Help Center also has messages, merge them
   function syncFromLandingHC() {

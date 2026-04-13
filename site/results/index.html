@@ -5362,6 +5362,7 @@
         statusEl.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' lookups</span>';
         var countEl = document.getElementById('dictHistoryCount');
         if (countEl) countEl.textContent = '0 lookups stored';
+        if (typeof window._hcClearDictionary === 'function') window._hcClearDictionary();
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to delete</span>';
       }
@@ -5681,6 +5682,7 @@
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">✅ All support messages for ' + label + ' cleared successfully.</span>';
+        if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
       }
@@ -5704,6 +5706,7 @@
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">✅ All community messages for ' + label + ' cleared successfully.</span>';
+        if (typeof window._hcClearCommunity === 'function') window._hcClearCommunity();
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
       }
