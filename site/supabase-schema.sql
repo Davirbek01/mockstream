@@ -204,12 +204,24 @@ DECLARE
   v_total_bytes BIGINT;
   v_file_count  INT;
   v_db_bytes    BIGINT;
+  v_reports_bytes BIGINT;
+  v_reports_count INT;
+  v_attachments_bytes BIGINT;
+  v_attachments_count INT;
 BEGIN
-  -- Count files and total size in storage.objects (reports bucket)
+  -- Count files and total size in ALL storage buckets
   SELECT COALESCE(COUNT(*), 0), COALESCE(SUM((metadata->>'size')::BIGINT), 0)
-  INTO v_file_count, v_total_bytes
+  INTO v_reports_count, v_reports_bytes
   FROM storage.objects
-  WHERE bucket_id = 'reports';
+  WHERE bucket_id = 'reports' AND metadata IS NOT NULL;
+
+  SELECT COALESCE(COUNT(*), 0), COALESCE(SUM((metadata->>'size')::BIGINT), 0)
+  INTO v_attachments_count, v_attachments_bytes
+  FROM storage.objects
+  WHERE bucket_id = 'chat-attachments' AND metadata IS NOT NULL;
+
+  v_file_count := v_reports_count + v_attachments_count;
+  v_total_bytes := v_reports_bytes + v_attachments_bytes;
 
   -- Get database size
   SELECT pg_database_size(current_database()) INTO v_db_bytes;
@@ -217,7 +229,11 @@ BEGIN
   result := json_build_object(
     'file_count', v_file_count,
     'total_bytes', v_total_bytes,
-    'db_size_bytes', v_db_bytes
+    'db_size_bytes', v_db_bytes,
+    'reports_bytes', v_reports_bytes,
+    'reports_count', v_reports_count,
+    'attachments_bytes', v_attachments_bytes,
+    'attachments_count', v_attachments_count
   );
   RETURN result;
 END;

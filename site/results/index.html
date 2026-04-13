@@ -2223,9 +2223,10 @@
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:12px;color:var(--ink);">📊 Storage Usage</label>
           <div id="storageStatsLoading" style="color:var(--muted);font-size:13px;">Loading storage info...</div>
           <div id="storageStatsContent" style="display:none;">
+            <!-- Storage bar -->
             <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:12px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-weight:600;color:var(--ink);font-size:14px;">Report Files</span>
+                <span style="font-weight:600;color:var(--ink);font-size:14px;">📦 Storage</span>
                 <span id="storageUsedText" style="font-weight:700;color:#6366f1;font-size:14px;"></span>
               </div>
               <div style="background:var(--border);border-radius:8px;height:10px;overflow:hidden;">
@@ -2233,17 +2234,22 @@
               </div>
               <div style="display:flex;justify-content:space-between;margin-top:6px;">
                 <span id="storageFileCount" style="font-size:12px;color:var(--muted);"></span>
-                <span style="font-size:12px;color:var(--muted);">100 GB limit (Pro)</span>
+                <span style="font-size:12px;color:var(--muted);">100 GB pool (Pro)</span>
               </div>
+              <div id="storageBucketBreakdown" style="display:flex;gap:8px;margin-top:8px;font-size:11px;color:var(--muted);"></div>
             </div>
-            <div style="display:flex;gap:12px;">
-              <div style="flex:1;background:var(--bg);border-radius:10px;padding:12px;border:1px solid var(--border);text-align:center;">
-                <div style="font-size:20px;font-weight:700;color:#6366f1;" id="storageDbSize">—</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:2px;">Database Used</div>
+            <!-- Database bar -->
+            <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-weight:600;color:var(--ink);font-size:14px;">🗄️ Database</span>
+                <span id="storageDbText" style="font-weight:700;color:#059669;font-size:14px;"></span>
               </div>
-              <div style="flex:1;background:var(--bg);border-radius:10px;padding:12px;border:1px solid var(--border);text-align:center;">
-                <div style="font-size:20px;font-weight:700;color:#059669;" id="storageDbLimit">8 GB</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:2px;">Database Limit</div>
+              <div style="background:var(--border);border-radius:8px;height:10px;overflow:hidden;">
+                <div id="dbBar" style="height:100%;border-radius:8px;background:linear-gradient(90deg,#059669,#10b981);transition:width 0.5s;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                <span id="storageDbSize" style="font-size:12px;color:var(--muted);"></span>
+                <span style="font-size:12px;color:var(--muted);">8 GB pool (Pro)</span>
               </div>
             </div>
           </div>
@@ -6440,18 +6446,37 @@
         var totalBytes = data.total_bytes || 0;
         var fileCount = data.file_count || 0;
         var dbSizeBytes = data.db_size_bytes || 0;
+        var reportsBytes = data.reports_bytes || totalBytes;
+        var reportsCount = data.reports_count || fileCount;
+        var attachmentsBytes = data.attachments_bytes || 0;
+        var attachmentsCount = data.attachments_count || 0;
 
-        // Format sizes
+        // Storage bar — /100 GB pool
+        var STORAGE_LIMIT = 100 * 1024 * 1024 * 1024; // 100 GB
         var storageGB = (totalBytes / (1024*1024*1024)).toFixed(3);
         var storageMB = (totalBytes / (1024*1024)).toFixed(1);
-        var dbMB = (dbSizeBytes / (1024*1024)).toFixed(1);
-        var pct = Math.min((totalBytes / (100*1024*1024*1024)) * 100, 100).toFixed(2);
-
+        var storagePct = Math.min((totalBytes / STORAGE_LIMIT) * 100, 100).toFixed(2);
         var displaySize = totalBytes > 1024*1024*1024 ? storageGB + ' GB' : storageMB + ' MB';
         document.getElementById('storageUsedText').textContent = displaySize + ' / 100 GB';
-        document.getElementById('storageBar').style.width = pct + '%';
-        document.getElementById('storageFileCount').textContent = fileCount + ' report file' + (fileCount !== 1 ? 's' : '');
-        document.getElementById('storageDbSize').textContent = dbMB + ' MB';
+        document.getElementById('storageBar').style.width = storagePct + '%';
+        document.getElementById('storageFileCount').textContent = fileCount.toLocaleString() + ' files total';
+
+        // Bucket breakdown
+        var fmtBytes = function(b) { return b > 1024*1024*1024 ? (b/(1024*1024*1024)).toFixed(2)+' GB' : (b/(1024*1024)).toFixed(1)+' MB'; };
+        var breakdownEl = document.getElementById('storageBucketBreakdown');
+        breakdownEl.innerHTML =
+          '<span>\ud83d\udce4 Reports: ' + reportsCount.toLocaleString() + ' files (' + fmtBytes(reportsBytes) + ')</span>' +
+          (attachmentsCount > 0 ? '<span>\ud83d\udcce Attachments: ' + attachmentsCount.toLocaleString() + ' files (' + fmtBytes(attachmentsBytes) + ')</span>' : '');
+
+        // Database bar — /8 GB pool
+        var DB_LIMIT = 8 * 1024 * 1024 * 1024; // 8 GB
+        var dbMB = (dbSizeBytes / (1024*1024)).toFixed(1);
+        var dbGB = (dbSizeBytes / (1024*1024*1024)).toFixed(3);
+        var dbPct = Math.min((dbSizeBytes / DB_LIMIT) * 100, 100).toFixed(2);
+        var dbDisplay = dbSizeBytes > 1024*1024*1024 ? dbGB + ' GB' : dbMB + ' MB';
+        document.getElementById('storageDbText').textContent = dbDisplay + ' / 8 GB';
+        document.getElementById('dbBar').style.width = dbPct + '%';
+        document.getElementById('storageDbSize').textContent = dbPct + '% used';
 
         document.getElementById('storageStatsLoading').style.display = 'none';
         document.getElementById('storageStatsContent').style.display = '';
