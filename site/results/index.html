@@ -1786,88 +1786,25 @@
         <button class="viewer-close" onclick="closeSettingsPanel()">✕</button>
       </div>
       <div class="premium-body" id="settingsBody">
-        <!-- AI System Prompt -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);">🤖 AI System Prompt</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Customize how Mock Stream AI responds to students in the Help Center chat.</p>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">🔑 The Gemini API key is loaded securely from your backend proxy — no need to enter it here.</p>
-          <textarea id="settingsAiPrompt" rows="8" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;resize:vertical;font-family:inherit;line-height:1.5;box-sizing:border-box;" placeholder="You are Mock Stream AI..."></textarea>
 
-          <!-- Prompt File Attachments (Image, PDF, Audio — multiple allowed) -->
-          <div style="margin-top:10px;margin-bottom:6px;">
-            <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">📎 Attach images, PDFs, or voice/audio files as extra context for Gemini (FAQ, rules, diagrams, course info, spoken instructions, etc.)</label>
-            <div id="promptFilesList" style="margin-bottom:8px;"></div>
-            <button onclick="pickPromptFile()" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">📎 Choose Image, PDF, or Audio</button>
-            <button id="promptVoiceRecordBtn" onclick="togglePromptVoiceRecord()" title="Click to record voice prompt" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;margin-left:4px;">🎤 Record Voice</button>
-            <span id="promptVoiceTimer" style="font-size:11px;color:#ef4444;font-weight:600;margin-left:6px;display:none;">⏺ 0:00</span>
-            <span style="font-size:11px;color:var(--muted);margin-left:8px;">Max 20 MB each — Gemini reads/listens to all with every conversation.</span>
-          </div>
+        <!-- Accordion styles -->
+        <style>
+          .settings-accordion { margin-bottom:10px; border:1.5px solid var(--border); border-radius:14px; overflow:hidden; }
+          .settings-accordion-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; cursor:pointer; user-select:none; transition:background .15s; }
+          .settings-accordion-header:hover { filter:brightness(1.05); }
+          .settings-accordion-header h4 { margin:0; font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px; }
+          .settings-accordion-arrow { font-size:18px; transition:transform .25s ease; }
+          .settings-accordion-body { max-height:0; overflow:hidden; transition:max-height .35s ease, padding .25s ease; padding:0 18px; }
+          .settings-accordion.open .settings-accordion-body { max-height:5000px; padding:0 18px 18px; }
+          .settings-accordion.open .settings-accordion-arrow { transform:rotate(180deg); }
+          .settings-section-divider { border-top:1px solid var(--border); margin:18px 0; }
+        </style>
 
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button onclick="saveAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Prompt</button>
-            <button onclick="resetAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Default</button>
-          </div>
-          <div id="aiPromptStatus" style="font-size:12px;margin-top:6px;"></div>
-        </div>
-
-        <!-- Voice & Attachments Settings -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🎙️ Voice & Attachments</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Help Center chat. Changes apply immediately.</p>
-
-          <!-- Toggles -->
-          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsTextEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsVoiceEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsImageEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsPdfEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
-            </label>
-          </div>
-
-          <!-- Size limits -->
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
-            <div style="flex:1;min-width:100px;">
-              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max image size (MB)</label>
-              <input type="number" id="settingsMaxImageMb" value="50" min="1" max="100" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
-            </div>
-            <div style="flex:1;min-width:100px;">
-              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max PDF size (MB)</label>
-              <input type="number" id="settingsMaxPdfMb" value="100" min="1" max="200" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
-            </div>
-            <div style="flex:1;min-width:100px;">
-              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">AI inline limit (MB)</label>
-              <input type="number" id="settingsMaxAiInlineMb" value="8" min="1" max="20" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
-            </div>
-            <div style="flex:1;min-width:100px;">
-              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max voice duration (sec)</label>
-              <input type="number" id="settingsMaxVoiceSec" value="120" min="5" max="600" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
-            </div>
-          </div>
-          <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Files above the AI inline limit are still uploaded but Gemini receives metadata only (saves tokens). Below that limit, Gemini reads the full content. Voice recording auto-stops at the configured duration.</p>
-
-          <div style="display:flex;gap:8px;">
-            <button onclick="saveVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
-            <button onclick="resetVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
-          </div>
-          <div id="voiceAttachStatus" style="font-size:12px;margin-top:6px;"></div>
-        </div>
-
-        <!-- AI Model Selector -->
-        <div style="margin-bottom:24px;">
+        <!-- AI Model Selector (shared — always visible at top) -->
+        <div style="margin-bottom:14px;padding:14px 18px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🤖 AI Model for Help Center</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Choose which AI model powers the Support chat and Dictionary tab. All 5 providers are available via your backend proxy.</p>
-          <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:12px;">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Choose which AI model powers the Support chat and Dictionary tab.</p>
+          <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
             <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
             <option value="openai">🧠 OpenAI GPT-4o Mini</option>
             <option value="claude">🟣 Claude Sonnet 4</option>
@@ -1875,149 +1812,301 @@
             <option value="grok">⚡ Grok 3 Mini</option>
           </select>
           <div style="display:flex;gap:8px;">
-            <button onclick="saveHcAiModel()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;">💾 Save Model</button>
+            <button onclick="saveHcAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
           </div>
           <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
         </div>
 
-        <!-- Dictionary Settings -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">📖 Dictionary Tab</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control the Dictionary tab in the Help Center chat bubble. Users can look up words in English ⇄ Uzbek.</p>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsDictEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">📖 Dictionary tab visible</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsDictTextEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsDictVoiceEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsDictImageEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
-            </label>
+        <!-- ═══════════════ 1. SUPPORT TAB ═══════════════ -->
+        <div class="settings-accordion open" id="accSupport">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(5,150,105,.08),rgba(4,120,87,.05));" onclick="toggleAccordion('accSupport')">
+            <h4 style="color:#059669;"><span>💬</span> Support Tab</h4>
+            <span class="settings-accordion-arrow" style="color:#059669;">▾</span>
           </div>
-          <div style="display:flex;gap:8px;">
-            <button onclick="saveDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
-            <button onclick="resetDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
-          </div>
-          <div id="dictSettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+          <div class="settings-accordion-body">
 
-          <!-- Dictionary History Management -->
-          <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);">
-            <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🗑️ Dictionary Lookup History</label>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Delete all saved dictionary lookups from Supabase to free up space. This action cannot be undone.</p>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <button onclick="deleteDictHistory()" style="padding:8px 16px;border:none;border-radius:8px;background:#dc2626;color:white;font-weight:600;cursor:pointer;font-size:12px;">🗑️ Delete All History</button>
-              <span id="dictHistoryCount" style="font-size:12px;color:var(--muted);"></span>
-            </div>
-            <div id="dictHistoryStatus" style="font-size:12px;margin-top:6px;"></div>
-          </div>
-        </div>
+            <!-- AI System Prompt -->
+            <div style="margin-bottom:18px;margin-top:4px;">
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink);">🤖 AI System Prompt</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Customize how Mock Stream AI responds to students.</p>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">🔑 The API key is loaded securely from your backend proxy.</p>
+              <textarea id="settingsAiPrompt" rows="6" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;resize:vertical;font-family:inherit;line-height:1.5;box-sizing:border-box;" placeholder="You are Mock Stream AI..."></textarea>
 
-        <!-- Community Settings -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🌍 Community Chat</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Community tab. Changes apply immediately.</p>
-
-          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsCommunityEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🌍 Community tab visible</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsCommunityTextEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsCommunityVoiceEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsCommunityImageEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
-            </label>
-            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="settingsCommunityPdfEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
-              <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
-            </label>
-          </div>
-
-          <div style="display:flex;gap:8px;">
-            <button onclick="saveCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
-            <button onclick="resetCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
-          </div>
-          <div id="communitySettingsStatus" style="font-size:12px;margin-top:6px;"></div>
-        </div>
-
-        <!-- Test AI Section -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🧪 Test AI</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Send text, voice, images, or PDFs to Gemini using your current system prompt. Test before going live.</p>
-
-          <!-- Test chat output -->
-          <div id="testAiChat" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:80px;max-height:300px;overflow-y:auto;margin-bottom:10px;font-size:13px;line-height:1.5;color:var(--ink);">
-            <div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>
-          </div>
-
-          <!-- Attachment preview -->
-          <div id="testAiAttachPreview" style="display:none;margin-bottom:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);align-items:center;">
-            <span id="testAiAttachName"></span>
-            <button onclick="clearTestAiAttach()" style="margin-left:8px;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;font-weight:700;">✕</button>
-          </div>
-
-          <!-- Input bar -->
-          <div style="display:flex;gap:6px;align-items:center;">
-            <button onclick="testAiPickFile()" title="Attach image or PDF" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">📎</button>
-            <input type="text" id="testAiInput" placeholder="Type a test message..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendTestAiMsg();}">
-            <button id="testAiVoiceBtn" onmousedown="startTestAiVoice()" onmouseup="stopTestAiVoice()" ontouchstart="startTestAiVoice()" ontouchend="stopTestAiVoice()" title="Hold to record voice" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">🎤</button>
-            <button onclick="sendTestAiMsg()" title="Send" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:linear-gradient(135deg,#059669,#047857);color:white;transition:all .2s;">➤</button>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:8px;">
-            <button onclick="clearTestAiChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🗑️ Clear Chat</button>
-          </div>
-        </div>
-
-        <!-- Data Management -->
-        <div style="margin-bottom:24px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🗄️ Data Management</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Clear stored messages from Supabase to save space. This is irreversible.</p>
-
-          <!-- Center Selector -->
-          <div style="margin-bottom:12px;">
-            <label style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;display:block;">Select Center:</label>
-            <select id="dataMgmtCenterSelect" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;outline:none;">
-              <option value="mock_stream">Mock Stream</option>
-              <option value="__all__">⚠️ ALL Centers</option>
-            </select>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <!-- Clear Support Messages -->
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
-              <div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink);">💬 Support Messages</div>
-                <div style="font-size:11px;color:var(--muted);" id="supportMsgCount">All Help Center conversations (Support, Premium, Partnership)</div>
+              <div style="margin-top:10px;margin-bottom:6px;">
+                <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;">📎 Attach images, PDFs, or voice/audio files as extra context for Gemini</label>
+                <div id="promptFilesList" style="margin-bottom:8px;"></div>
+                <button onclick="pickPromptFile()" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">📎 Choose Image, PDF, or Audio</button>
+                <button id="promptVoiceRecordBtn" onclick="togglePromptVoiceRecord()" title="Click to record voice prompt" style="padding:8px 16px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;margin-left:4px;">🎤 Record Voice</button>
+                <span id="promptVoiceTimer" style="font-size:11px;color:#ef4444;font-weight:600;margin-left:6px;display:none;">⏺ 0:00</span>
+                <span style="font-size:11px;color:var(--muted);margin-left:8px;">Max 20 MB each</span>
               </div>
-              <button onclick="clearAllSupportMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+
+              <div style="display:flex;gap:8px;margin-top:8px;">
+                <button onclick="saveAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Prompt</button>
+                <button onclick="resetAiPrompt()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Default</button>
+              </div>
+              <div id="aiPromptStatus" style="font-size:12px;margin-top:6px;"></div>
             </div>
 
-            <!-- Clear Community Messages -->
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
-              <div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink);">🌍 Community Messages</div>
-                <div style="font-size:11px;color:var(--muted);" id="communityMsgCount">All public community chat messages and replies</div>
+            <div class="settings-section-divider"></div>
+
+            <!-- Voice & Attachments Settings -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🎙️ Voice & Attachments</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Support chat.</p>
+
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsTextEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsVoiceEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsImageEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsPdfEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
+                </label>
               </div>
-              <button onclick="clearAllCommunityMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+
+              <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+                <div style="flex:1;min-width:100px;">
+                  <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max image size (MB)</label>
+                  <input type="number" id="settingsMaxImageMb" value="50" min="1" max="100" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+                </div>
+                <div style="flex:1;min-width:100px;">
+                  <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max PDF size (MB)</label>
+                  <input type="number" id="settingsMaxPdfMb" value="100" min="1" max="200" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+                </div>
+                <div style="flex:1;min-width:100px;">
+                  <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">AI inline limit (MB)</label>
+                  <input type="number" id="settingsMaxAiInlineMb" value="8" min="1" max="20" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+                </div>
+                <div style="flex:1;min-width:100px;">
+                  <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px;">Max voice duration (sec)</label>
+                  <input type="number" id="settingsMaxVoiceSec" value="120" min="5" max="600" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;">
+                </div>
+              </div>
+              <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Files above the AI inline limit are still uploaded but Gemini receives metadata only (saves tokens).</p>
+
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+                <button onclick="resetVoiceAttachSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+              </div>
+              <div id="voiceAttachStatus" style="font-size:12px;margin-top:6px;"></div>
             </div>
+
+            <div class="settings-section-divider"></div>
+
+            <!-- Test AI (Support) -->
+            <div>
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🧪 Test Support AI</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Send text, voice, images, or PDFs to test your AI prompt before going live.</p>
+
+              <div id="testAiChat" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:80px;max-height:250px;overflow-y:auto;margin-bottom:10px;font-size:13px;line-height:1.5;color:var(--ink);">
+                <div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>
+              </div>
+
+              <div id="testAiAttachPreview" style="display:none;margin-bottom:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);align-items:center;">
+                <span id="testAiAttachName"></span>
+                <button onclick="clearTestAiAttach()" style="margin-left:8px;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;font-weight:700;">✕</button>
+              </div>
+
+              <div style="display:flex;gap:6px;align-items:center;">
+                <button onclick="testAiPickFile()" title="Attach image or PDF" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">📎</button>
+                <input type="text" id="testAiInput" placeholder="Type a test message..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendTestAiMsg();}">
+                <button id="testAiVoiceBtn" onmousedown="startTestAiVoice()" onmouseup="stopTestAiVoice()" ontouchstart="startTestAiVoice()" ontouchend="stopTestAiVoice()" title="Hold to record voice" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--border);color:var(--muted);transition:all .2s;">🎤</button>
+                <button onclick="sendTestAiMsg()" title="Send" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:linear-gradient(135deg,#059669,#047857);color:white;transition:all .2s;">➤</button>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;">
+                <button onclick="clearTestAiChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🗑️ Clear Chat</button>
+              </div>
+            </div>
+
           </div>
-          <div id="dataMgmtStatus" style="font-size:12px;margin-top:8px;"></div>
         </div>
+
+        <!-- ═══════════════ 2. DICTIONARY TAB ═══════════════ -->
+        <div class="settings-accordion" id="accDictionary">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(185,28,28,.05));" onclick="toggleAccordion('accDictionary')">
+            <h4 style="color:#dc2626;"><span>📖</span> Dictionary Tab</h4>
+            <span class="settings-accordion-arrow" style="color:#dc2626;">▾</span>
+          </div>
+          <div class="settings-accordion-body">
+
+            <!-- Dictionary visibility & input toggles -->
+            <div style="margin-bottom:18px;margin-top:4px;">
+              <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control the Dictionary tab in the Help Center. Users can look up words in English ⇄ Uzbek.</p>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsDictEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">📖 Dictionary tab visible</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsDictTextEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsDictVoiceEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsDictImageEnabled" style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
+                </label>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+                <button onclick="resetDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+              </div>
+              <div id="dictSettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <div class="settings-section-divider"></div>
+
+            <!-- Test Dictionary AI -->
+            <div>
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">🧪 Test Dictionary</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Type a word in English or Uzbek to test the dictionary AI lookup.</p>
+
+              <div id="testDictChat" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:80px;max-height:250px;overflow-y:auto;margin-bottom:10px;font-size:13px;line-height:1.5;color:var(--ink);">
+                <div style="color:var(--muted);font-style:italic;">Type a word to test the dictionary…</div>
+              </div>
+
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="testDictInput" placeholder="Type a word in English or Uzbek..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendTestDictMsg();}">
+                <button onclick="sendTestDictMsg()" title="Look up" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;transition:all .2s;">➤</button>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;">
+                <button onclick="clearTestDictChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🗑️ Clear</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ═══════════════ 3. COMMUNITY TAB ═══════════════ -->
+        <div class="settings-accordion" id="accCommunity">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(124,58,237,.05));" onclick="toggleAccordion('accCommunity')">
+            <h4 style="color:#8b5cf6;"><span>🌍</span> Community Tab</h4>
+            <span class="settings-accordion-arrow" style="color:#8b5cf6;">▾</span>
+          </div>
+          <div class="settings-accordion-body">
+
+            <!-- Community visibility & toggles -->
+            <div style="margin-bottom:18px;margin-top:4px;">
+              <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control what users can send in the Community tab. Changes apply immediately.</p>
+
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsCommunityEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🌍 Community tab visible</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsCommunityTextEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsCommunityVoiceEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🎤 Voice messages</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsCommunityImageEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">🖼️ Image attachments</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsCommunityPdfEnabled" checked style="width:18px;height:18px;accent-color:#8b5cf6;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">📄 PDF attachments</span>
+                </label>
+              </div>
+
+              <div style="display:flex;gap:8px;">
+                <button onclick="saveCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+                <button onclick="resetCommunitySettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+              </div>
+              <div id="communitySettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <div class="settings-section-divider"></div>
+
+            <!-- Admin Reply to Community -->
+            <div>
+              <label style="display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:var(--ink);">💬 Admin Reply</label>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Send a message as <strong>Admin</strong> in the Community chat. Visible to all users.</p>
+
+              <div id="testCommunityChat" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:80px;max-height:250px;overflow-y:auto;margin-bottom:10px;font-size:13px;line-height:1.5;color:var(--ink);">
+                <div style="color:var(--muted);font-style:italic;">Recent community messages will appear here…</div>
+              </div>
+
+              <div style="display:flex;gap:6px;align-items:center;">
+                <input type="text" id="testCommunityInput" placeholder="Type an admin message..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAdminCommunityMsg();}">
+                <button onclick="sendAdminCommunityMsg()" title="Send" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;transition:all .2s;">➤</button>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:8px;">
+                <button onclick="loadAdminCommunityChat()" style="padding:6px 14px;border:none;border-radius:8px;background:var(--border);color:var(--ink);font-size:12px;font-weight:600;cursor:pointer;">🔄 Refresh</button>
+              </div>
+              <div id="adminCommunityStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ═══════════════ 4. DATA MANAGEMENT ═══════════════ -->
+        <div class="settings-accordion" id="accData">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(185,28,28,.05));" onclick="toggleAccordion('accData')">
+            <h4 style="color:#dc2626;"><span>🗄️</span> Data Management</h4>
+            <span class="settings-accordion-arrow" style="color:#dc2626;">▾</span>
+          </div>
+          <div class="settings-accordion-body">
+            <p style="font-size:12px;color:var(--muted);margin-bottom:14px;margin-top:4px;">Clear stored data from Supabase. All actions are irreversible.</p>
+
+            <!-- Center Selector -->
+            <div style="margin-bottom:12px;">
+              <label style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;display:block;">Select Center:</label>
+              <select id="dataMgmtCenterSelect" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;outline:none;">
+                <option value="mock_stream">Mock Stream</option>
+                <option value="__all__">⚠️ ALL Centers</option>
+              </select>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <!-- Support Messages -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--ink);">💬 Support Messages</div>
+                  <div style="font-size:11px;color:var(--muted);" id="supportMsgCount">All Help Center conversations (Support, Premium, Partnership)</div>
+                </div>
+                <button onclick="clearAllSupportMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+              </div>
+
+              <!-- Community Messages -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--ink);">🌍 Community Messages</div>
+                  <div style="font-size:11px;color:var(--muted);" id="communityMsgCount">All public community chat messages and replies</div>
+                </div>
+                <button onclick="clearAllCommunityMessages()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+              </div>
+
+              <!-- Dictionary Lookups -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--ink);">📖 Dictionary Lookups</div>
+                  <div style="font-size:11px;color:var(--muted);" id="dictHistoryCount">All saved dictionary lookup history</div>
+                </div>
+                <button onclick="deleteDictHistory()" style="padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🗑️ Clear All</button>
+              </div>
+            </div>
+            <div id="dataMgmtStatus" style="font-size:12px;margin-top:8px;"></div>
+            <div id="dictHistoryStatus" style="font-size:12px;margin-top:4px;"></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -4742,6 +4831,7 @@
     function openSettingsPanel() {
       document.getElementById('settingsOverlay').classList.add('show');
       loadSettings();
+      loadAdminCommunityChat();
     }
 
     function closeSettingsPanel() {
@@ -5153,6 +5243,8 @@
         var model = document.getElementById('settingsHcAiModel').value;
         await upsertSetting('hc_ai_model', model);
         localStorage.setItem('ms_hc_ai_model', model);
+        _testAiKey = null;
+        _testDictKey = null;
         statusEl.innerHTML = '<span style="color:#059669;">✅ AI model saved: ' + model.toUpperCase() + '</span>';
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
@@ -5270,6 +5362,214 @@
       _testAiHistory = [];
       var chat = document.getElementById('testAiChat');
       if (chat) chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">Send a message to test your AI prompt…</div>';
+    }
+
+    // ── Accordion toggle ──────────────────────────────────────────────────
+    function toggleAccordion(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('open');
+    }
+
+    // ── Test Dictionary AI ──────────────────────────────────────────────────
+    var _testDictHistory = [];
+    var _testDictKey = null;
+
+    function appendTestDictMsg(role, html) {
+      var chat = document.getElementById('testDictChat');
+      if (!chat) return;
+      if (_testDictHistory.length === 0) chat.innerHTML = '';
+      var color = role === 'user' ? '#059669' : '#dc2626';
+      var label = role === 'user' ? '🧑 You' : '📖 Dictionary';
+      var align = role === 'user' ? 'right' : 'left';
+      var bg = role === 'user' ? 'rgba(5,150,105,.08)' : 'rgba(220,38,38,.06)';
+      var div = document.createElement('div');
+      div.style.cssText = 'margin-bottom:8px;text-align:' + align;
+      div.innerHTML = '<div style="display:inline-block;max-width:90%;text-align:left;background:' + bg + ';border-radius:12px;padding:8px 12px;">' +
+        '<div style="font-size:11px;font-weight:700;color:' + color + ';margin-bottom:2px;">' + label + '</div>' +
+        '<div style="font-size:13px;color:var(--ink);line-height:1.45;word-break:break-word;">' + html + '</div>' +
+        '</div>';
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      _testDictHistory.push({ role: role, html: html });
+    }
+
+    function clearTestDictChat() {
+      _testDictHistory = [];
+      var chat = document.getElementById('testDictChat');
+      if (chat) chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">Type a word to test the dictionary…</div>';
+    }
+
+    async function sendTestDictMsg() {
+      var input = document.getElementById('testDictInput');
+      var text = (input ? input.value.trim() : '');
+      if (!text) return;
+      if (input) input.value = '';
+      appendTestDictMsg('user', _escTestHtml(text));
+
+      // Show loading
+      var chat = document.getElementById('testDictChat');
+      var loadingDiv = document.createElement('div');
+      loadingDiv.style.cssText = 'margin-bottom:8px;text-align:left;';
+      loadingDiv.innerHTML = '<div style="display:inline-block;background:rgba(220,38,38,.06);border-radius:12px;padding:8px 12px;"><div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:2px;">📖 Dictionary</div><div style="font-size:13px;color:var(--muted);">Looking up…</div></div>';
+      if (chat) { chat.appendChild(loadingDiv); chat.scrollTop = chat.scrollHeight; }
+
+      try {
+        // Get AI model from selector
+        var model = (document.getElementById('settingsHcAiModel') || {}).value || 'gemini';
+        if (!_testDictKey) {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + encodeURIComponent(model));
+          var d = await r.json();
+          _testDictKey = d.key;
+        }
+        if (!_testDictKey) throw new Error('No API key');
+
+        var prompt = 'You are a bilingual English⇄Uzbek dictionary assistant. The user typed: "' + text + '"\n\n' +
+          'First, detect the language of the input:\n' +
+          '- If the input is in English, translate English → Uzbek\n' +
+          '- If the input is in Uzbek, translate Uzbek → English\n\n' +
+          'Respond with EXACTLY this JSON format (no markdown, no extra text, ONLY raw JSON):\n' +
+          '{\n  "direction": "en2uz" or "uz2en",\n  "word": "the CORRECT input word/phrase",\n  "misspelled": true or false,\n' +
+          '  "english": "the English word/phrase",\n  "uzbek": "the Uzbek translation",\n' +
+          '  "definition": "Brief explanation in the TARGET language",\n' +
+          '  "example_en": "One example sentence in English",\n  "example_uz": "Uzbek translation of the example"\n}\n\n' +
+          'Rules:\n- For idioms, use culturally equivalent idiom in the target language.\n- Respond ONLY with JSON.';
+
+        var reply;
+        if (model === 'gemini') {
+          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + _testDictKey, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2 } })
+          });
+          var gd = await gr.json();
+          reply = (gd.candidates && gd.candidates[0]) ? gd.candidates[0].content.parts[0].text : '';
+        } else if (model === 'openai') {
+          var or = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _testDictKey },
+            body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+          });
+          var od = await or.json(); reply = od.choices[0].message.content;
+        } else if (model === 'claude') {
+          var cr = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': _testDictKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+            body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+          });
+          var cd = await cr.json(); reply = cd.content[0].text;
+        } else if (model === 'grok') {
+          var xr = await fetch('https://api.x.ai/v1/chat/completions', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _testDictKey },
+            body: JSON.stringify({ model: 'grok-3-mini', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+          });
+          var xd = await xr.json(); reply = xd.choices[0].message.content;
+        } else {
+          var dr = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _testDictKey },
+            body: JSON.stringify({ model: 'deepseek-chat', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+          });
+          var dd = await dr.json(); reply = dd.choices[0].message.content;
+        }
+
+        if (loadingDiv.parentNode) loadingDiv.remove();
+
+        // Parse JSON and render card
+        var cleaned = reply.trim();
+        var fenceMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/);
+        if (fenceMatch) cleaned = fenceMatch[1].trim();
+        var data = JSON.parse(cleaned);
+        var isUz2En = data.direction === 'uz2en';
+        var headWord = _escTestHtml(isUz2En ? data.uzbek : data.english);
+        var transWord = _escTestHtml(isUz2En ? data.english : data.uzbek);
+        var cardHtml = '<div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:14px;max-width:100%;">';
+        cardHtml += '<div style="text-align:center;margin-bottom:6px;"><span style="font-size:10px;font-weight:600;color:#fff;background:' + (isUz2En ? '#059669' : '#2563eb') + ';padding:2px 8px;border-radius:10px;">' + (isUz2En ? 'UZ → EN' : 'EN → UZ') + '</span></div>';
+        if (data.misspelled) cardHtml += '<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:5px 8px;margin-bottom:8px;font-size:11px;color:#92400e;text-align:center;">✏️ Did you mean: <strong>' + _escTestHtml(data.word) + '</strong>?</div>';
+        cardHtml += '<div style="text-align:center;margin-bottom:8px;"><div style="font-size:18px;font-weight:800;color:#1e293b;">' + headWord + '</div></div>';
+        cardHtml += '<div style="text-align:center;margin-bottom:6px;"><span style="font-size:15px;font-weight:700;color:#dc2626;font-style:italic;">' + transWord + '</span>';
+        if (data.definition) cardHtml += '<br><span style="font-size:11px;color:#64748b;font-style:italic;">(' + _escTestHtml(data.definition) + ')</span>';
+        cardHtml += '</div>';
+        cardHtml += '<div style="background:#eef2ff;border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:8px 10px;margin-top:8px;">';
+        cardHtml += '<div style="font-size:12px;font-weight:700;color:#1e293b;line-height:1.4;">' + _escTestHtml(data.example_en) + '</div>';
+        cardHtml += '<div style="font-size:12px;color:#dc2626;font-style:italic;line-height:1.4;margin-top:2px;">' + _escTestHtml(data.example_uz) + '</div>';
+        cardHtml += '</div></div>';
+        appendTestDictMsg('ai', cardHtml);
+      } catch (e) {
+        if (loadingDiv.parentNode) loadingDiv.remove();
+        appendTestDictMsg('ai', '❌ Error: ' + _escTestHtml(e.message || 'Unknown error'));
+      }
+    }
+
+    // ── Community Admin Reply ──────────────────────────────────────────────
+    var _adminCommunityMsgs = [];
+
+    async function loadAdminCommunityChat() {
+      var chat = document.getElementById('testCommunityChat');
+      if (!chat) return;
+      chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">Loading messages…</div>';
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages?order=created_at.desc&limit=20&select=id,content,sender_name,role,created_at', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        _adminCommunityMsgs = await resp.json();
+        if (!Array.isArray(_adminCommunityMsgs)) _adminCommunityMsgs = [];
+        _adminCommunityMsgs.reverse(); // oldest first
+        _renderAdminCommunityChat();
+      } catch (e) {
+        chat.innerHTML = '<div style="color:#dc2626;">Failed to load: ' + e.message + '</div>';
+      }
+    }
+
+    function _renderAdminCommunityChat() {
+      var chat = document.getElementById('testCommunityChat');
+      if (!chat) return;
+      if (!_adminCommunityMsgs.length) {
+        chat.innerHTML = '<div style="color:var(--muted);font-style:italic;">No community messages yet.</div>';
+        return;
+      }
+      var html = '';
+      _adminCommunityMsgs.forEach(function(m) {
+        var isAdmin = m.role === 'admin';
+        var align = isAdmin ? 'right' : 'left';
+        var bg = isAdmin ? 'rgba(139,92,246,.08)' : 'rgba(5,150,105,.08)';
+        var color = isAdmin ? '#8b5cf6' : '#059669';
+        var label = isAdmin ? '👑 Admin' : ('🧑 ' + _escTestHtml(m.sender_name || 'User'));
+        html += '<div style="margin-bottom:6px;text-align:' + align + ';">';
+        html += '<div style="display:inline-block;max-width:85%;text-align:left;background:' + bg + ';border-radius:12px;padding:6px 10px;">';
+        html += '<div style="font-size:10px;font-weight:700;color:' + color + ';margin-bottom:1px;">' + label + '</div>';
+        html += '<div style="font-size:12px;color:var(--ink);line-height:1.4;word-break:break-word;">' + _escTestHtml(m.content || '') + '</div>';
+        html += '</div></div>';
+      });
+      chat.innerHTML = html;
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function sendAdminCommunityMsg() {
+      var input = document.getElementById('testCommunityInput');
+      var text = (input ? input.value.trim() : '');
+      if (!text) return;
+      if (input) input.value = '';
+      var status = document.getElementById('adminCommunityStatus');
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/community_messages', {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            content: text,
+            sender_name: 'Admin',
+            role: 'admin',
+            device_id: 'admin-dashboard',
+            center: 'mock_stream'
+          })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        if (status) status.innerHTML = '<span style="color:#059669;">✅ Message sent</span>';
+        setTimeout(function() { if (status) status.innerHTML = ''; }, 3000);
+        loadAdminCommunityChat();
+      } catch (e) {
+        if (status) status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
     }
 
     // ── Data Management ─────────────────────────────────────────────────────
