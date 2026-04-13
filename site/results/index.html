@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Results Dashboard — Mock Stream</title>
+  <script src="../center-id.js"></script>
   <script src="../site-config/site-config.js"></script>
   <style>
     :root {
@@ -2783,8 +2784,8 @@
 
       // Populate center filter
       var centerSelect = document.getElementById('filterCenter');
-      var lockedCenter = window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier && window.SITE_CONFIG.testIdentifier !== 'mock_stream'
-        ? window.SITE_CONFIG.testIdentifier : null;
+      var _cid = window.__CENTER_ID || 'mock_stream';
+      var lockedCenter = _cid !== 'mock_stream' ? _cid : null;
 
       if (lockedCenter) {
         // Clone site: lock to own center only
@@ -3032,8 +3033,8 @@
         }
 
         // Clone sites: pre-filter to own center only
-        var lockedCenter = window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier && window.SITE_CONFIG.testIdentifier !== 'mock_stream'
-          ? window.SITE_CONFIG.testIdentifier : null;
+        var _cid2 = window.__CENTER_ID || 'mock_stream';
+        var lockedCenter = _cid2 !== 'mock_stream' ? _cid2 : null;
         if (lockedCenter) {
           allResults = allResults.filter(function (r) { return r.center === lockedCenter; });
         }
@@ -3715,8 +3716,8 @@
       listEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
 
       // Detect if this is a clone site
-      var premiumLockedCenter = window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier && window.SITE_CONFIG.testIdentifier !== 'mock_stream'
-        ? window.SITE_CONFIG.testIdentifier : null;
+      var _cid3 = window.__CENTER_ID || 'mock_stream';
+      var premiumLockedCenter = _cid3 !== 'mock_stream' ? _cid3 : null;
 
       // Lock center dropdown on clone sites
       var centerSelect = document.getElementById('premiumCenterSelect');
@@ -4296,7 +4297,7 @@
     // HIDE BUTTONS ON CLONE SITES (Messages & Settings only on main site)
     // ====================================================================
     document.addEventListener('DOMContentLoaded', function() {
-      var isClone = window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier && window.SITE_CONFIG.testIdentifier !== 'mock_stream';
+      var isClone = (window.__CENTER_ID || 'mock_stream') !== 'mock_stream';
       if (isClone) {
         var btns = document.querySelectorAll('.main-site-only');
         btns.forEach(function(b) { b.style.display = 'none'; });
