@@ -2893,6 +2893,14 @@
         : d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } catch (e) {}
 
+    // Center badge
+    var _centerLabels = { mock_stream: 'Mock Stream', bek: 'Bekzods Multilevel', global: 'Global Education LC', niners: 'Niners Academy', muzaffars: "Muzaffars English" };
+    var centerBadge = '';
+    if (m.center) {
+      var cLabel = _centerLabels[m.center] || m.center;
+      centerBadge = ' <span style="font-size:9px;background:rgba(239,68,68,.1);color:#dc2626;padding:1px 5px;border-radius:6px;font-weight:600;">' + escapeHtml(cLabel) + '</span>';
+    }
+
     var nameHtml = '';
     if (!isMine) {
       var displayName = escapeHtml(m.sender_name || 'Anonymous');
@@ -2901,16 +2909,21 @@
         var badgeIcon = isSuperAdmin ? '⚡' : '🛡️';
         var badgeBg = isSuperAdmin ? 'rgba(124,58,237,.15)' : 'rgba(5,150,105,.15)';
         var badgeColor = isSuperAdmin ? '#7c3aed' : '#059669';
-        nameHtml = '<div class="cb-comm-name cb-comm-name-admin">' + badgeIcon + ' ' + displayName + ' <span style="font-size:9px;background:' + badgeBg + ';color:' + badgeColor + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel + '</span></div>';
+        nameHtml = '<div class="cb-comm-name cb-comm-name-admin">' + badgeIcon + ' ' + displayName + ' <span style="font-size:9px;background:' + badgeBg + ';color:' + badgeColor + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel + '</span>' + centerBadge + '</div>';
       } else {
-        nameHtml = '<div class="cb-comm-name">' + displayName + '</div>';
+        nameHtml = '<div class="cb-comm-name">' + displayName + centerBadge + '</div>';
       }
     } else if (isMine && isAdmin) {
       // Show admin badge on own messages too
       var badgeLabel2 = isSuperAdmin ? '⚡ SUPER ADMIN' : 'ADMIN';
       var badgeBg2 = isSuperAdmin ? 'rgba(124,58,237,.15)' : 'rgba(5,150,105,.15)';
       var badgeColor2 = isSuperAdmin ? '#7c3aed' : '#059669';
-      nameHtml = '<div class="cb-comm-name" style="text-align:right;"><span style="font-size:9px;background:' + badgeBg2 + ';color:' + badgeColor2 + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel2 + '</span></div>';
+      nameHtml = '<div class="cb-comm-name" style="text-align:right;"><span style="font-size:9px;background:' + badgeBg2 + ';color:' + badgeColor2 + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel2 + '</span>' + centerBadge + '</div>';
+    } else if (isMine) {
+      // Regular user's own messages — show center badge on the right
+      if (centerBadge) {
+        nameHtml = '<div class="cb-comm-name" style="text-align:right;">' + centerBadge + '</div>';
+      }
     }
 
     var replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
