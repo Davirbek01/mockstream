@@ -1863,6 +1863,40 @@
           <div id="voiceAttachStatus" style="font-size:12px;margin-top:6px;"></div>
         </div>
 
+        <!-- AI Model Selector -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🤖 AI Model for Help Center</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Choose which AI model powers the Support chat and Dictionary tab. All 5 providers are available via your backend proxy.</p>
+          <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:12px;">
+            <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
+            <option value="openai">🧠 OpenAI GPT-4o Mini</option>
+            <option value="claude">🟣 Claude Sonnet 4</option>
+            <option value="deepseek">🔵 DeepSeek Chat</option>
+            <option value="grok">⚡ Grok 3 Mini</option>
+          </select>
+          <div style="display:flex;gap:8px;">
+            <button onclick="saveHcAiModel()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;">💾 Save Model</button>
+          </div>
+          <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
+        <!-- Dictionary Settings -->
+        <div style="margin-bottom:24px;">
+          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">📖 Dictionary Tab</label>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Control the Dictionary tab in the Help Center chat bubble. Users type an English word/phrase and get Uzbek translation + example sentences.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="settingsDictEnabled" checked style="width:18px;height:18px;accent-color:#dc2626;cursor:pointer;">
+              <span style="font-size:13px;color:var(--ink);font-weight:600;">📖 Dictionary tab visible</span>
+            </label>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button onclick="saveDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:600;cursor:pointer;">💾 Save Settings</button>
+            <button onclick="resetDictSettings()" style="padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;">↻ Reset Defaults</button>
+          </div>
+          <div id="dictSettingsStatus" style="font-size:12px;margin-top:6px;"></div>
+        </div>
+
         <!-- Community Settings -->
         <div style="margin-bottom:24px;">
           <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🌍 Community Chat</label>
@@ -4724,6 +4758,14 @@
         document.getElementById('settingsCommunityImageEnabled').checked = map.hc_community_image_enabled !== 'false';
         document.getElementById('settingsCommunityPdfEnabled').checked = map.hc_community_pdf_enabled !== 'false';
 
+        // AI Model for Help Center
+        if (map.hc_ai_model) {
+          document.getElementById('settingsHcAiModel').value = map.hc_ai_model;
+        }
+
+        // Dictionary settings
+        document.getElementById('settingsDictEnabled').checked = map.hc_dict_enabled !== 'false';
+
         // Prompt files (multi-file: image, PDF, audio)
         if (map.ai_prompt_files) {
           try { _promptFiles = JSON.parse(map.ai_prompt_files); } catch(e) { _promptFiles = []; }
@@ -5074,6 +5116,39 @@
       document.getElementById('settingsCommunityImageEnabled').checked = true;
       document.getElementById('settingsCommunityPdfEnabled').checked = true;
       document.getElementById('communitySettingsStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
+    }
+
+    // ── AI Model Settings ───────────────────────────────────────────────────
+    async function saveHcAiModel() {
+      var statusEl = document.getElementById('hcAiModelStatus');
+      statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var model = document.getElementById('settingsHcAiModel').value;
+        await upsertSetting('hc_ai_model', model);
+        localStorage.setItem('ms_hc_ai_model', model);
+        statusEl.innerHTML = '<span style="color:#059669;">✅ AI model saved: ' + model.toUpperCase() + '</span>';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
+      }
+    }
+
+    // ── Dictionary Settings ─────────────────────────────────────────────────
+    async function saveDictSettings() {
+      var statusEl = document.getElementById('dictSettingsStatus');
+      statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+      try {
+        var dictEnabled = document.getElementById('settingsDictEnabled').checked;
+        await upsertSetting('hc_dict_enabled', String(dictEnabled));
+        localStorage.setItem('ms_hc_dict_enabled', String(dictEnabled));
+        statusEl.innerHTML = '<span style="color:#059669;">✅ Dictionary settings saved</span>';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to save</span>';
+      }
+    }
+
+    function resetDictSettings() {
+      document.getElementById('settingsDictEnabled').checked = true;
+      document.getElementById('dictSettingsStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
     }
 
     // ====================================================================

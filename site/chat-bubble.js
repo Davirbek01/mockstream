@@ -38,6 +38,8 @@
   var HC_COMMUNITY_VOICE_ENABLED = true;
   var HC_COMMUNITY_IMAGE_ENABLED = true;
   var HC_COMMUNITY_PDF_ENABLED = true;
+  var HC_DICT_ENABLED = true;
+  var HC_AI_MODEL = 'gemini';
 
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
@@ -70,9 +72,15 @@
     if (ci !== null) HC_COMMUNITY_IMAGE_ENABLED = ci !== 'false';
     if (cpdf !== null) HC_COMMUNITY_PDF_ENABLED = cpdf !== 'false';
 
+    // Dictionary & AI model settings from localStorage
+    var de = localStorage.getItem('ms_hc_dict_enabled');
+    var aim = localStorage.getItem('ms_hc_ai_model');
+    if (de !== null) HC_DICT_ENABLED = de !== 'false';
+    if (aim) HC_AI_MODEL = aim;
+
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_ai_model)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
@@ -91,6 +99,8 @@
         if ('hc_community_voice_enabled' in map) { HC_COMMUNITY_VOICE_ENABLED = map.hc_community_voice_enabled !== 'false'; localStorage.setItem('ms_hc_community_voice_enabled', map.hc_community_voice_enabled); }
         if ('hc_community_image_enabled' in map) { HC_COMMUNITY_IMAGE_ENABLED = map.hc_community_image_enabled !== 'false'; localStorage.setItem('ms_hc_community_image_enabled', map.hc_community_image_enabled); }
         if ('hc_community_pdf_enabled' in map) { HC_COMMUNITY_PDF_ENABLED = map.hc_community_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_community_pdf_enabled', map.hc_community_pdf_enabled); }
+        if ('hc_dict_enabled' in map) { HC_DICT_ENABLED = map.hc_dict_enabled !== 'false'; localStorage.setItem('ms_hc_dict_enabled', map.hc_dict_enabled); }
+        if ('hc_ai_model' in map) { HC_AI_MODEL = map.hc_ai_model; localStorage.setItem('ms_hc_ai_model', map.hc_ai_model); }
         applyHcSettingsVisibility();
       }).catch(function () {});
     } catch (e) {}
@@ -125,6 +135,12 @@
     if (communityBtn) communityBtn.style.display = HC_COMMUNITY_ENABLED ? '' : 'none';
     // If community is hidden and currently active, switch to support
     if (!HC_COMMUNITY_ENABLED && currentCategory === 'community') {
+      switchCategory('support');
+    }
+    // Dictionary tab button visibility
+    var dictBtn = document.querySelector('.cb-cat-btn[data-cat="dictionary"]');
+    if (dictBtn) dictBtn.style.display = HC_DICT_ENABLED ? '' : 'none';
+    if (!HC_DICT_ENABLED && currentCategory === 'dictionary') {
       switchCategory('support');
     }
   }
@@ -1087,6 +1103,11 @@
       return sendCommunityMessage(text);
     }
 
+    // Dictionary mode — different path
+    if (currentCategory === 'dictionary') {
+      return _sendDictLookup(text);
+    }
+
     if (!HC_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
     isSending = true;
     input.disabled = true;
@@ -1445,6 +1466,20 @@
       }
       if (!_communityLoaded) loadCommunityMessages();
       renderCommunityMessages();
+    } else if (cat === 'dictionary') {
+      // Dictionary: hide attach/voice, show text + send only
+      if (attachBtn) attachBtn.style.display = 'none';
+      if (voiceBtn) voiceBtn.style.display = 'none';
+      if (replyBanner) replyBanner.style.display = 'none';
+      var input = document.getElementById('cb-input');
+      var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+      if (input) { input.style.display = ''; input.placeholder = 'Type an English word or phrase...'; }
+      if (sendBtn) sendBtn.style.display = '';
+      var jumpBar = document.getElementById('cb-comm-jump-bar');
+      if (jumpBar) jumpBar.style.display = 'none';
+      var typingBar = document.getElementById('cb-typing-bar');
+      if (typingBar) typingBar.style.display = 'none';
+      _renderDictionary();
     } else {
       // Restore normal visibility
       applyHcSettingsVisibility();
@@ -1456,6 +1491,173 @@
       var typingBar = document.getElementById('cb-typing-bar');
       if (typingBar) typingBar.style.display = 'none';
       renderMessages();
+    }
+  }
+
+  // ─── DICTIONARY TAB ──────────────────────────────────────────────────────
+  var _dictHistory = []; // { role:'user'|'ai', html:string }
+  var _dictSending = false;
+  var _dictApiKeys = {}; // cached keys per model
+
+  function _renderDictionary() {
+    var el = document.getElementById('cb-messages');
+    if (!el) return;
+    if (!_dictHistory.length) {
+      el.innerHTML = '<div style="padding:16px;text-align:center;">' +
+        '<div style="font-size:32px;margin-bottom:8px;">📖</div>' +
+        '<div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px;">English → Uzbek Dictionary</div>' +
+        '<div style="font-size:12px;color:#64748b;line-height:1.5;">Type an English word or phrase below.<br>Get instant Uzbek translation with examples.</div>' +
+        '</div>';
+      return;
+    }
+    el.innerHTML = _dictHistory.map(function(item) {
+      if (item.role === 'user') {
+        return '<div style="text-align:right;margin:8px 12px;"><span style="display:inline-block;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:8px 14px;border-radius:16px 16px 4px 16px;font-size:13px;font-weight:600;max-width:80%;">' + _escDict(item.text) + '</span></div>';
+      }
+      return '<div style="margin:8px 12px;">' + item.html + '</div>';
+    }).join('');
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function _escDict(s) { return (s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  async function _fetchAiKey(model) {
+    if (_dictApiKeys[model]) return _dictApiKeys[model];
+    if (model === 'gemini' && _geminiKey) { _dictApiKeys.gemini = _geminiKey; return _geminiKey; }
+    try {
+      var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + model);
+      var d = await r.json();
+      if (d.key) { _dictApiKeys[model] = d.key; return d.key; }
+    } catch(e) {}
+    return null;
+  }
+
+  async function _callDictAI(prompt) {
+    var model = HC_AI_MODEL || 'gemini';
+    var key = await _fetchAiKey(model);
+    if (!key) throw new Error('No API key for ' + model);
+
+    if (model === 'gemini') {
+      var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.2 }
+        })
+      });
+      var j = await r.json();
+      if (j.candidates && j.candidates[0]) return j.candidates[0].content.parts[0].text;
+      throw new Error('No response');
+    } else if (model === 'openai') {
+      var r = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+      });
+      var j = await r.json();
+      return j.choices[0].message.content;
+    } else if (model === 'claude') {
+      var r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+      });
+      var j = await r.json();
+      return j.content[0].text;
+    } else if (model === 'grok') {
+      var r = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: 'grok-3-mini', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+      });
+      var j = await r.json();
+      return j.choices[0].message.content;
+    } else if (model === 'deepseek') {
+      var r = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: 'deepseek-chat', messages: [{ role: 'user', content: prompt }], temperature: 0.2 })
+      });
+      var j = await r.json();
+      return j.choices[0].message.content;
+    }
+    throw new Error('Unknown model: ' + model);
+  }
+
+  async function _sendDictLookup(text) {
+    if (_dictSending) return;
+    _dictSending = true;
+    var input = document.getElementById('cb-input');
+    if (input) { input.value = ''; input.disabled = true; }
+
+    _dictHistory.push({ role: 'user', text: text });
+    _renderDictionary();
+
+    // Show typing indicator
+    _dictHistory.push({ role: 'ai', html: '<div style="color:#64748b;font-size:12px;font-style:italic;">⏳ Looking up...</div>' });
+    _renderDictionary();
+
+    try {
+      var prompt = 'You are a concise English-to-Uzbek dictionary assistant. The user typed: "' + text + '"\n\n' +
+        'Respond with EXACTLY this JSON format (no markdown, no extra text, ONLY raw JSON):\n' +
+        '{\n' +
+        '  "word": "the English word/phrase",\n' +
+        '  "uzbek": "Uzbek translation",\n' +
+        '  "definition": "Brief Uzbek definition/explanation if the word is complex, otherwise empty string",\n' +
+        '  "example_en": "One natural example sentence in English using this word",\n' +
+        '  "example_uz": "Uzbek translation of the example sentence"\n' +
+        '}\n\n' +
+        'Rules:\n- uzbek: the MAIN Uzbek translation, concise\n- definition: a SHORT Uzbek explanation in parentheses format (only if the word is abstract/complex, otherwise "")\n- example_en: a natural, useful example sentence\n- example_uz: accurate Uzbek translation of the example\n- Respond ONLY with the JSON object, nothing else';
+
+      var raw = await _callDictAI(prompt);
+      // Parse JSON from response (strip markdown fences if any)
+      var cleaned = raw.trim();
+      var fenceMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fenceMatch) cleaned = fenceMatch[1].trim();
+      var data = JSON.parse(cleaned);
+
+      // Build beautiful dictionary card HTML
+      var html = '<div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:16px;max-width:100%;">';
+      // Word header with audio button
+      html += '<div style="text-align:center;margin-bottom:10px;">';
+      html += '<div style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:-0.5px;">' + _escDict(data.word) + '</div>';
+      html += '<button onclick="_dictSpeak(\'' + _escDict(data.word).replace(/'/g, "\\'") + '\')" style="margin-top:4px;width:32px;height:32px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;" title="Listen">🔊</button>';
+      html += '</div>';
+      // Uzbek translation
+      html += '<div style="text-align:center;margin-bottom:6px;">';
+      html += '<span style="font-size:16px;font-weight:700;color:#dc2626;font-style:italic;">' + _escDict(data.uzbek) + '</span>';
+      if (data.definition) {
+        html += '<br><span style="font-size:12px;color:#64748b;font-style:italic;">(' + _escDict(data.definition) + ')</span>';
+      }
+      html += '</div>';
+      // Example sentence
+      html += '<div style="background:#eef2ff;border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:10px 12px;margin-top:10px;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#1e293b;line-height:1.5;">' + _escDict(data.example_en) + '</div>';
+      html += '<div style="font-size:13px;color:#dc2626;font-style:italic;line-height:1.5;margin-top:2px;border-left:2px solid #dc2626;padding-left:8px;">' + _escDict(data.example_uz) + '</div>';
+      html += '</div>';
+      html += '</div>';
+
+      // Replace typing indicator
+      _dictHistory[_dictHistory.length - 1] = { role: 'ai', html: html };
+    } catch(e) {
+      console.warn('[Dict] AI lookup failed:', e);
+      _dictHistory[_dictHistory.length - 1] = { role: 'ai', html: '<div style="color:#dc2626;font-size:13px;padding:8px 12px;background:#fef2f2;border-radius:10px;">❌ Could not translate. Please try again.</div>' };
+    }
+
+    _renderDictionary();
+    _dictSending = false;
+    if (input) input.disabled = false;
+    if (input) input.focus();
+  }
+
+  function _dictSpeak(word) {
+    if ('speechSynthesis' in window) {
+      var u = new SpeechSynthesisUtterance(word);
+      u.lang = 'en-US';
+      u.rate = 0.9;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
     }
   }
 
@@ -1517,10 +1719,10 @@
       #cb-overlay .cb-hc-header{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;padding:16px 20px;display:flex;align-items:center;flex-shrink:0}
       #cb-overlay .cb-hc-close{position:absolute;top:10px;right:10px;z-index:3;background:rgba(0,0,0,0.35);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
       #cb-overlay .cb-hc-close:hover{background:rgba(0,0,0,0.55)}
-      #cb-overlay .cb-hc-tabs{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid #e5e7eb;flex-shrink:0;overflow-x:auto}
+      #cb-overlay .cb-hc-tabs{display:flex;gap:5px;padding:8px 12px;border-bottom:1px solid #e5e7eb;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
       #cb-global-banner{flex-shrink:0;padding:0}
       #cb-global-banner .cb-global-announce{margin:10px 14px 0;border-radius:12px}
-      #cb-overlay .cb-cat-btn{padding:6px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#1e293b;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s ease}
+      #cb-overlay .cb-cat-btn{padding:5px 10px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#1e293b;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s ease}
       #cb-overlay .cb-cat-btn:hover{border-color:#2563eb;color:#2563eb}
       #cb-overlay .cb-cat-btn.active{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:#fff;border-color:transparent}
       #cb-overlay #cb-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -1782,6 +1984,7 @@
             '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
             '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
+            '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
           '<div id="cb-typing-bar" style="display:none;"></div>' +
