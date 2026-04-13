@@ -16506,6 +16506,7 @@
         '<div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--ring,#e5e7eb);">' +
           '<input class="ru-search" id="wpSearch" type="text" placeholder="Search by name..." style="margin:0;flex:1;" oninput="_filterWpList()">' +
           '<select id="wpStatusFilter" onchange="_filterWpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<select id="wpCenterFilter" onchange="_filterWpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Centers</option></select>' +
           '<button onclick="_loadWpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#0d9488,#115e59);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
         '</div>' +
         '<div id="wpStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
@@ -16539,13 +16540,16 @@
       var statsEl = document.getElementById('wpStats');
       listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
       try {
-        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
-        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?order=created_at.desc&limit=200', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         _wpData = await r.json();
         statsEl.textContent = _wpData.length + ' submission' + (_wpData.length !== 1 ? 's' : '') + ' found';
+        // Populate center filter
+        var centers = []; _wpData.forEach(function(row) { if (row.center && centers.indexOf(row.center) === -1) centers.push(row.center); });
+        var cSel = document.getElementById('wpCenterFilter');
+        if (cSel) { var cv = cSel.value; cSel.innerHTML = '<option value="">All Centers</option>' + centers.sort().map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join(''); cSel.value = cv; }
         _renderWpList(_wpData);
       } catch (e) {
         listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
@@ -16556,8 +16560,10 @@
     function _filterWpList() {
       var q = (document.getElementById('wpSearch').value || '').toLowerCase().trim();
       var status = document.getElementById('wpStatusFilter').value;
+      var center = document.getElementById('wpCenterFilter') ? document.getElementById('wpCenterFilter').value : '';
       var filtered = _wpData.filter(function(row) {
         if (status && row.status !== status) return false;
+        if (center && row.center !== center) return false;
         if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
         return true;
       });
@@ -16576,6 +16582,7 @@
         var date = new Date(row.created_at);
         var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
         var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var centerLabel = (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim();
         // Try to get AI scores from scores array
         var aiResult = (scores[0] && scores[0].aiResult) || null;
         var scoreDisplay = '-';
@@ -16590,6 +16597,7 @@
             '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
               '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
               '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+              '<span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + centerLabel + '</span>' +
             '</div>' +
             '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
           '</div>' +
@@ -16641,7 +16649,7 @@
 
         var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
         html += '<h3 style="color:#0d9488;margin:0;">' + esc(row.student_name || 'Unknown') + '</h3>';
-        html += '<span style="font-size:12px;color:#64748b;">' + (row.exam_format || '').toUpperCase() + ' · ' + (row.exam_mode || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '<span style="font-size:12px;color:#64748b;">' + (row.exam_format || '').toUpperCase() + ' · ' + (row.exam_mode || '') + ' · ' + (row.center || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
         html += '</div>';
 
         // AI Scores grid
