@@ -16930,8 +16930,17 @@
         '<div class="ru-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);"><h3 style="color:#fff;">🎤 Speaking Plus Submissions</h3><button class="ru-close" onclick="closeSpeakingPlusPanel()">&times;</button></div>' +
         '<div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--ring,#e5e7eb);">' +
           '<input class="ru-search" id="spSearch" type="text" placeholder="Search by name..." style="margin:0;flex:1;" oninput="_filterSpList()">' +
-          '<select id="spStatusFilter" onchange="_filterSpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<select id="spStatusFilter" onchange="_filterSpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option></select>' +
+          '<select id="spCenterFilter" onchange="_filterSpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Centers</option></select>' +
           '<button onclick="_loadSpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
+          '<button onclick="_spToggleDeleteMode()" id="spDeleteModeBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🗑️ Delete</button>' +
+        '</div>' +
+        '<div id="spBulkBar" style="display:none;padding:8px 16px;background:#fef2f2;border-bottom:1px solid #fca5a5;align-items:center;gap:8px;">' +
+          '<button onclick="_spSelectAll()" style="padding:6px 12px;border:1.5px solid #ef4444;border-radius:6px;background:#fff;color:#ef4444;font-weight:600;font-size:12px;cursor:pointer;">☑️ Select All</button>' +
+          '<button onclick="_spDeselectAll()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">Deselect All</button>' +
+          '<span id="spSelectedCount" style="font-size:12px;color:#ef4444;font-weight:600;">0 selected</span>' +
+          '<button onclick="_spDeleteSelected()" id="spDeleteSelBtn" style="margin-left:auto;padding:6px 14px;border:none;border-radius:6px;background:#ef4444;color:#fff;font-weight:700;font-size:12px;cursor:pointer;opacity:0.5;pointer-events:none;">🗑️ Delete Selected</button>' +
+          '<button onclick="_spToggleDeleteMode()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">✕ Cancel</button>' +
         '</div>' +
         '<div id="spStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
         '<div class="ru-list" id="spList" style="padding:8px 16px;"><div class="ru-empty">Loading...</div></div>' +
@@ -16940,6 +16949,8 @@
     }
 
     var _spData = [];
+    var _spDeleteMode = false;
+    var _spSelected = {};
 
     async function openSpeakingPlusPanel() {
       if (!_spAdminUnlocked && !_siteAdminUnlocked) { _showSpPasscode(); return; }
@@ -16949,6 +16960,8 @@
       document.getElementById('spSearch').value = '';
       document.getElementById('spStatusFilter').value = '';
       document.getElementById('spStats').textContent = '';
+      _spDeleteMode = false; _spSelected = {};
+      var bb = document.getElementById('spBulkBar'); if (bb) bb.style.display = 'none';
       await _loadSpData();
     }
 
@@ -16964,13 +16977,15 @@
       var statsEl = document.getElementById('spStats');
       listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
       try {
-        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
-        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?status=neq.deleted&order=created_at.desc&limit=200', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         _spData = await r.json();
         statsEl.textContent = _spData.length + ' submission' + (_spData.length !== 1 ? 's' : '') + ' found';
+        var centers = []; _spData.forEach(function(row) { if (row.center && centers.indexOf(row.center) === -1) centers.push(row.center); });
+        var cSel = document.getElementById('spCenterFilter');
+        if (cSel) { var cv = cSel.value; cSel.innerHTML = '<option value="">All Centers</option>' + centers.sort().map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join(''); cSel.value = cv; }
         _renderSpList(_spData);
       } catch (e) {
         listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
@@ -16981,12 +16996,71 @@
     function _filterSpList() {
       var q = (document.getElementById('spSearch').value || '').toLowerCase().trim();
       var status = document.getElementById('spStatusFilter').value;
+      var center = (document.getElementById('spCenterFilter') || {}).value || '';
       var filtered = _spData.filter(function(row) {
         if (status && row.status !== status) return false;
+        if (center && row.center !== center) return false;
         if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
         return true;
       });
       _renderSpList(filtered);
+    }
+
+    function _spToggleDeleteMode() {
+      _spDeleteMode = !_spDeleteMode; _spSelected = {};
+      var bb = document.getElementById('spBulkBar');
+      if (bb) bb.style.display = _spDeleteMode ? 'flex' : 'none';
+      _spUpdateSelectedCount();
+      _filterSpList();
+    }
+    function _spToggleSelect(id) {
+      if (_spSelected[id]) delete _spSelected[id]; else _spSelected[id] = true;
+      _spUpdateSelectedCount();
+      _filterSpList();
+    }
+    function _spSelectAll() {
+      _spData.forEach(function(r) { _spSelected[r.id] = true; });
+      _spUpdateSelectedCount(); _filterSpList();
+    }
+    function _spDeselectAll() {
+      _spSelected = {}; _spUpdateSelectedCount(); _filterSpList();
+    }
+    function _spUpdateSelectedCount() {
+      var cnt = Object.keys(_spSelected).length;
+      var el = document.getElementById('spSelectedCount');
+      var btn = document.getElementById('spDeleteSelBtn');
+      if (el) el.textContent = cnt + ' selected';
+      if (btn) { btn.style.opacity = cnt > 0 ? '1' : '0.5'; btn.style.pointerEvents = cnt > 0 ? 'auto' : 'none'; }
+    }
+
+    async function _spDeleteSelected() {
+      var ids = Object.keys(_spSelected);
+      if (!ids.length) return;
+      var confirmed = await _wpConfirm('Permanently delete <strong>' + ids.length + ' submission' + (ids.length !== 1 ? 's' : '') + '</strong>? This cannot be undone.');
+      if (!confirmed) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var btn = document.getElementById('spDeleteSelBtn');
+      if (btn) { btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none'; }
+      try {
+        for (var i = 0; i < ids.length; i++) {
+          var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + ids[i], {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var deleted = r.ok ? await r.json() : [];
+          if (!deleted.length) {
+            await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + ids[i], {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+        }
+      } catch(e) { console.warn('SP bulk delete error:', e); }
+      _spSelected = {};
+      _spToggleDeleteMode();
+      await _loadSpData();
     }
 
     function _renderSpList(rows) {
@@ -17002,6 +17076,7 @@
         var date = new Date(row.created_at);
         var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
         var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var centerLabel = (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim();
 
         // Score display
         var scoreDisplay = '-';
@@ -17011,11 +17086,13 @@
           scoreDisplay = 'Band ' + ai.band_score;
         }
 
-        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#7c3aed\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+        var cbHtml = _spDeleteMode ? '<input type="checkbox" ' + (_spSelected[row.id] ? 'checked' : '') + ' onclick="_spToggleSelect(\'' + row.id + '\')" style="width:18px;height:18px;cursor:pointer;accent-color:#ef4444;flex-shrink:0;">' : '';
+        return '<div style="border:1.5px solid ' + (_spDeleteMode && _spSelected[row.id] ? '#ef4444' : '#e5e7eb') + ';border-radius:12px;padding:14px;margin-bottom:10px;background:' + (_spDeleteMode && _spSelected[row.id] ? '#fef2f2' : '#fafafa') + ';transition:all 0.15s ease;cursor:' + (_spDeleteMode ? 'pointer' : 'default') + ';" ' + (_spDeleteMode ? 'onclick="_spToggleSelect(\'' + row.id + '\')"' : 'onmouseenter="this.style.borderColor=\'#7c3aed\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'"') + '>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' + cbHtml +
               '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
               '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+              '<span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + centerLabel + '</span>' +
             '</div>' +
             '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
           '</div>' +
@@ -17040,14 +17117,34 @@
     async function _updateSpStatus(id, status) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-      try {
-        var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
-          method: 'PATCH',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: status })
-        });
-        if (r.ok) await _loadSpData();
-      } catch(e) { console.warn('SP status update failed:', e); }
+      if (status === 'deleted') {
+        var confirmed = await _wpConfirm('Permanently delete this submission? This cannot be undone.');
+        if (!confirmed) return;
+        try {
+          var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var deleted = r.ok ? await r.json() : [];
+          if (!deleted.length) {
+            await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+        } catch(e) { console.warn('SP delete error:', e); }
+        await _loadSpData();
+      } else {
+        try {
+          var r = await fetch(SB_URL + '/rest/v1/speaking_plus_submissions?id=eq.' + id, {
+            method: 'PATCH',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+          });
+          if (r.ok) await _loadSpData();
+        } catch(e) { console.warn('SP status update failed:', e); }
+      }
     }
 
     async function _viewSpDetail(id) {
@@ -17068,7 +17165,7 @@
 
         var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
         html += '<h3 style="color:#7c3aed;margin:0;">🎤 ' + esc(row.student_name || 'Unknown') + '</h3>';
-        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + (row.exam_mode || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + (row.exam_mode || '') + ' · ' + (row.center || '') + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
         html += '</div>';
 
         // Score cards
@@ -17146,6 +17243,8 @@
 
     // ===== READING PLUS ADMIN PANEL =====
     var _rpData = [];
+    var _rpDeleteMode = false;
+    var _rpSelected = {};
 
     function _ensureRpOverlay() {
       if (document.getElementById('rpOverlay')) return;
@@ -17156,12 +17255,22 @@
       div.innerHTML =
         '<div class="ru-panel" style="max-width:800px;">' +
         '<div class="ru-header" style="background:linear-gradient(135deg,#116a60,#0b4d44);"><h3 style="color:#fff;">📖 Reading Plus Submissions</h3><button class="ru-close" onclick="closeReadingPlusPanel()">&times;</button></div>' +
-        '<div style="padding:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
-          '<input type="text" id="rpSearch" placeholder="🔍 Search by name..." style="flex:1;min-width:150px;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;" oninput="_filterRpList()">' +
-          '<select id="rpStatusFilter" onchange="_filterRpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
-          '<span id="rpStats" style="font-size:12px;color:#64748b;"></span>' +
+        '<div style="padding:12px 16px;display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+          '<input type="text" id="rpSearch" placeholder="Search by name..." style="flex:1;min-width:120px;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;outline:none;" oninput="_filterRpList()">' +
+          '<select id="rpStatusFilter" onchange="_filterRpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option></select>' +
+          '<select id="rpCenterFilter" onchange="_filterRpList()" style="padding:8px 12px;border:1px solid var(--ring,#e5e7eb);border-radius:8px;font-size:13px;background:var(--surface,#fff);color:var(--ink,#333);cursor:pointer;"><option value="">All Centers</option></select>' +
+          '<button onclick="_loadRpData()" style="padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#116a60,#0b4d44);color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🔄 Refresh</button>' +
+          '<button onclick="_rpToggleDeleteMode()" id="rpDeleteModeBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap;">🗑️ Delete</button>' +
         '</div>' +
-        '<div id="rpList" style="padding:0 16px 16px;max-height:65vh;overflow-y:auto;"></div>' +
+        '<div id="rpBulkBar" style="display:none;padding:8px 16px;background:#fef2f2;border-bottom:1px solid #fca5a5;align-items:center;gap:8px;">' +
+          '<button onclick="_rpSelectAll()" style="padding:6px 12px;border:1.5px solid #ef4444;border-radius:6px;background:#fff;color:#ef4444;font-weight:600;font-size:12px;cursor:pointer;">☑️ Select All</button>' +
+          '<button onclick="_rpDeselectAll()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">Deselect All</button>' +
+          '<span id="rpSelectedCount" style="font-size:12px;color:#ef4444;font-weight:600;">0 selected</span>' +
+          '<button onclick="_rpDeleteSelected()" id="rpDeleteSelBtn" style="margin-left:auto;padding:6px 14px;border:none;border-radius:6px;background:#ef4444;color:#fff;font-weight:700;font-size:12px;cursor:pointer;opacity:0.5;pointer-events:none;">🗑️ Delete Selected</button>' +
+          '<button onclick="_rpToggleDeleteMode()" style="padding:6px 12px;border:1.5px solid #64748b;border-radius:6px;background:#fff;color:#64748b;font-weight:600;font-size:12px;cursor:pointer;">✕ Cancel</button>' +
+        '</div>' +
+        '<div id="rpStats" style="padding:8px 16px;font-size:12px;color:#64748b;"></div>' +
+        '<div id="rpList" style="padding:8px 16px;max-height:65vh;overflow-y:auto;"></div>' +
         '</div>';
       document.body.appendChild(div);
     }
@@ -17173,6 +17282,8 @@
       document.getElementById('rpSearch').value = '';
       document.getElementById('rpStatusFilter').value = '';
       document.getElementById('rpStats').textContent = '';
+      _rpDeleteMode = false; _rpSelected = {};
+      var bb = document.getElementById('rpBulkBar'); if (bb) bb.style.display = 'none';
       await _loadRpData();
     }
 
@@ -17188,13 +17299,15 @@
       var statsEl = document.getElementById('rpStats');
       listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
       try {
-        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
-        var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+        var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?status=neq.deleted&order=created_at.desc&limit=200', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         _rpData = await r.json();
         statsEl.textContent = _rpData.length + ' submission' + (_rpData.length !== 1 ? 's' : '') + ' found';
+        var centers = []; _rpData.forEach(function(row) { if (row.center && centers.indexOf(row.center) === -1) centers.push(row.center); });
+        var cSel = document.getElementById('rpCenterFilter');
+        if (cSel) { var cv = cSel.value; cSel.innerHTML = '<option value="">All Centers</option>' + centers.sort().map(function(c) { return '<option value="' + c + '">' + c + '</option>'; }).join(''); cSel.value = cv; }
         _renderRpList(_rpData);
       } catch (e) {
         listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
@@ -17205,12 +17318,61 @@
     function _filterRpList() {
       var q = (document.getElementById('rpSearch').value || '').toLowerCase().trim();
       var status = document.getElementById('rpStatusFilter').value;
+      var center = (document.getElementById('rpCenterFilter') || {}).value || '';
       var filtered = _rpData.filter(function(row) {
         if (status && row.status !== status) return false;
+        if (center && row.center !== center) return false;
         if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
         return true;
       });
       _renderRpList(filtered);
+    }
+
+    function _rpToggleDeleteMode() {
+      _rpDeleteMode = !_rpDeleteMode; _rpSelected = {};
+      var bb = document.getElementById('rpBulkBar');
+      if (bb) bb.style.display = _rpDeleteMode ? 'flex' : 'none';
+      _rpUpdateSelectedCount();
+      _filterRpList();
+    }
+    function _rpToggleSelect(id) {
+      if (_rpSelected[id]) delete _rpSelected[id]; else _rpSelected[id] = true;
+      _rpUpdateSelectedCount(); _filterRpList();
+    }
+    function _rpSelectAll() { _rpData.forEach(function(r) { _rpSelected[r.id] = true; }); _rpUpdateSelectedCount(); _filterRpList(); }
+    function _rpDeselectAll() { _rpSelected = {}; _rpUpdateSelectedCount(); _filterRpList(); }
+    function _rpUpdateSelectedCount() {
+      var cnt = Object.keys(_rpSelected).length;
+      var el = document.getElementById('rpSelectedCount');
+      var btn = document.getElementById('rpDeleteSelBtn');
+      if (el) el.textContent = cnt + ' selected';
+      if (btn) { btn.style.opacity = cnt > 0 ? '1' : '0.5'; btn.style.pointerEvents = cnt > 0 ? 'auto' : 'none'; }
+    }
+
+    async function _rpDeleteSelected() {
+      var ids = Object.keys(_rpSelected);
+      if (!ids.length) return;
+      var confirmed = await _wpConfirm('Permanently delete <strong>' + ids.length + ' submission' + (ids.length !== 1 ? 's' : '') + '</strong>? This cannot be undone.');
+      if (!confirmed) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var btn = document.getElementById('rpDeleteSelBtn');
+      if (btn) { btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none'; }
+      try {
+        for (var i = 0; i < ids.length; i++) {
+          var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + ids[i], {
+            method: 'DELETE', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var deleted = r.ok ? await r.json() : [];
+          if (!deleted.length) {
+            await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + ids[i], {
+              method: 'PATCH', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+        }
+      } catch(e) { console.warn('RP bulk delete error:', e); }
+      _rpSelected = {}; _rpToggleDeleteMode(); await _loadRpData();
     }
 
     function _renderRpList(rows) {
@@ -17224,13 +17386,16 @@
         var date = new Date(row.created_at);
         var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
         var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var centerLabel = (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim();
         var scoreDisplay = ai.correct !== undefined ? (ai.correct + '/' + ai.total + ' (' + Math.round(ai.correct/ai.total*100) + '%)') : '-';
+        var cbHtml = _rpDeleteMode ? '<input type="checkbox" ' + (_rpSelected[row.id] ? 'checked' : '') + ' onclick="_rpToggleSelect(\'' + row.id + '\')" style="width:18px;height:18px;cursor:pointer;accent-color:#ef4444;flex-shrink:0;">' : '';
 
-        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+        return '<div style="border:1.5px solid ' + (_rpDeleteMode && _rpSelected[row.id] ? '#ef4444' : '#e5e7eb') + ';border-radius:12px;padding:14px;margin-bottom:10px;background:' + (_rpDeleteMode && _rpSelected[row.id] ? '#fef2f2' : '#fafafa') + ';transition:all 0.15s ease;cursor:' + (_rpDeleteMode ? 'pointer' : 'default') + ';" ' + (_rpDeleteMode ? 'onclick="_rpToggleSelect(\'' + row.id + '\')"' : 'onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'"') + '>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' + cbHtml +
               '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
               '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+              '<span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + centerLabel + '</span>' +
             '</div>' +
             '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
           '</div>' +
@@ -17242,6 +17407,7 @@
             '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
               '<button onclick="_viewRpDetail(\'' + row.id + '\')" style="background:#116a60;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
               (row.status !== 'approved' ? '<button onclick="_updateRpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'draft' ? '<button onclick="_updateRpStatus(\'' + row.id + '\',\'draft\')" style="background:#6366f1;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">📌</button>' : '') +
               (row.status !== 'deleted' ? '<button onclick="_updateRpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
             '</div>' +
           '</div>' +
@@ -17253,6 +17419,25 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
+        if (status === 'deleted') {
+          var ok = await _wpConfirm('Permanently delete this Reading Plus submission?');
+          if (!ok) return;
+          var dr = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + id, {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var dj = [];
+          try { dj = await dr.json(); } catch(e) {}
+          if (!dj || !dj.length) {
+            await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + id, {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+          await _loadRpData();
+          return;
+        }
         var r = await fetch(SB_URL + '/rest/v1/reading_plus_submissions?id=eq.' + id, {
           method: 'PATCH',
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
@@ -17279,7 +17464,7 @@
 
         var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
         html += '<h3 style="color:#116a60;margin:0;">📖 ' + esc(row.student_name || 'Unknown') + '</h3>';
-        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '<div style="display:flex;align-items:center;gap:8px;"><span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim() + '</span><span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span></div>';
         html += '</div>';
 
         // Score summary
@@ -17329,6 +17514,8 @@
 
     // ===== LISTENING PLUS ADMIN PANEL =====
     var _lpData = [];
+    var _lpDeleteMode = false;
+    var _lpSelected = {};
 
     function _ensureLpOverlay() {
       if (document.getElementById('lpOverlay')) return;
@@ -17342,8 +17529,17 @@
         '<div class="ru-header" style="background:linear-gradient(135deg,#116a60,#0b4d44);"><h3 style="color:#fff;">🎧 Listening Plus Submissions</h3><button class="ru-close" onclick="closeListeningPlusPanel()">&times;</button></div>' +
         '<div style="padding:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
           '<input type="text" id="lpSearch" placeholder="🔍 Search by name..." style="flex:1;min-width:150px;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;" oninput="_filterLpList()">' +
-          '<select id="lpStatusFilter" onchange="_filterLpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="deleted">Deleted</option></select>' +
+          '<select id="lpStatusFilter" onchange="_filterLpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="draft">Draft</option></select>' +
+          '<select id="lpCenterFilter" onchange="_filterLpList()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;outline:none;"><option value="">All Centers</option></select>' +
+          '<button onclick="_loadLpData()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;background:#fff;cursor:pointer;">🔄</button>' +
+          '<button id="lpDeleteModeBtn" onclick="_lpToggleDeleteMode()" style="padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;background:#fff;cursor:pointer;">🗑️ Delete</button>' +
           '<span id="lpStats" style="font-size:12px;color:#64748b;"></span>' +
+        '</div>' +
+        '<div id="lpBulkBar" style="display:none;padding:8px 16px;background:#fef2f2;border-bottom:1px solid #fecaca;gap:8px;align-items:center;flex-wrap:wrap;">' +
+          '<button onclick="_lpSelectAll()" style="padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;background:#fff;cursor:pointer;">Select All</button>' +
+          '<button onclick="_lpDeselectAll()" style="padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;background:#fff;cursor:pointer;">Deselect All</button>' +
+          '<button id="lpDeleteSelectedBtn" onclick="_lpDeleteSelected()" style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;background:#ef4444;color:#fff;cursor:pointer;font-weight:600;">Delete Selected (0)</button>' +
+          '<button onclick="_lpToggleDeleteMode()" style="padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;background:#fff;cursor:pointer;">Cancel</button>' +
         '</div>' +
         '<div id="lpList" style="padding:0 16px 16px;max-height:65vh;overflow-y:auto;"></div>' +
         '</div>';
@@ -17352,11 +17548,17 @@
 
     async function openListeningPlusPanel() {
       _ensureLpOverlay();
+      _lpDeleteMode = false;
+      _lpSelected = {};
       document.getElementById('lpOverlay').classList.add('active');
       document.getElementById('lpList').innerHTML = '<div class="ru-empty">Loading...</div>';
       document.getElementById('lpSearch').value = '';
       document.getElementById('lpStatusFilter').value = '';
+      document.getElementById('lpCenterFilter').value = '';
       document.getElementById('lpStats').textContent = '';
+      document.getElementById('lpBulkBar').style.display = 'none';
+      var dmb = document.getElementById('lpDeleteModeBtn');
+      if (dmb) { dmb.style.background = '#fff'; dmb.style.color = '#333'; }
       await _loadLpData();
     }
 
@@ -17372,14 +17574,20 @@
       var statsEl = document.getElementById('lpStats');
       listEl.innerHTML = '<div class="ru-empty">⏳ Loading...</div>';
       try {
-        var center = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '');
-        var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?center=eq.' + encodeURIComponent(center) + '&order=created_at.desc&limit=100', {
+        var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?status=neq.deleted&order=created_at.desc&limit=200', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
         });
         if (!r.ok) throw new Error('HTTP ' + r.status);
         _lpData = await r.json();
         statsEl.textContent = _lpData.length + ' submission' + (_lpData.length !== 1 ? 's' : '') + ' found';
-        _renderLpList(_lpData);
+        var centerSel = document.getElementById('lpCenterFilter');
+        if (centerSel) {
+          var prev = centerSel.value;
+          var cs = {}; _lpData.forEach(function(r) { if (r.center) cs[r.center] = true; });
+          centerSel.innerHTML = '<option value="">All Centers</option>' + Object.keys(cs).sort().map(function(c) { return '<option value="' + c + '">' + c.replace(/([A-Z])/g,' $1').trim() + '</option>'; }).join('');
+          centerSel.value = prev;
+        }
+        _filterLpList();
       } catch (e) {
         listEl.innerHTML = '<div class="ru-empty">❌ Failed to load: ' + e.message + '</div>';
         _lpData = [];
@@ -17389,12 +17597,87 @@
     function _filterLpList() {
       var q = (document.getElementById('lpSearch').value || '').toLowerCase().trim();
       var status = document.getElementById('lpStatusFilter').value;
+      var center = document.getElementById('lpCenterFilter') ? document.getElementById('lpCenterFilter').value : '';
       var filtered = _lpData.filter(function(row) {
         if (status && row.status !== status) return false;
+        if (center && row.center !== center) return false;
         if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) return false;
         return true;
       });
       _renderLpList(filtered);
+    }
+
+    function _lpToggleDeleteMode() {
+      _lpDeleteMode = !_lpDeleteMode;
+      _lpSelected = {};
+      var bar = document.getElementById('lpBulkBar');
+      var btn = document.getElementById('lpDeleteModeBtn');
+      if (bar) bar.style.display = _lpDeleteMode ? 'flex' : 'none';
+      if (btn) { btn.style.background = _lpDeleteMode ? '#ef4444' : '#fff'; btn.style.color = _lpDeleteMode ? '#fff' : '#333'; }
+      _lpUpdateSelectedCount();
+      _filterLpList();
+    }
+
+    function _lpToggleSelect(id) {
+      if (_lpSelected[id]) delete _lpSelected[id]; else _lpSelected[id] = true;
+      _lpUpdateSelectedCount();
+      _filterLpList();
+    }
+
+    function _lpSelectAll() {
+      var q = (document.getElementById('lpSearch').value || '').toLowerCase().trim();
+      var status = document.getElementById('lpStatusFilter').value;
+      var center = document.getElementById('lpCenterFilter') ? document.getElementById('lpCenterFilter').value : '';
+      _lpData.forEach(function(row) {
+        var match = true;
+        if (status && row.status !== status) match = false;
+        if (center && row.center !== center) match = false;
+        if (q && (row.student_name || '').toLowerCase().indexOf(q) === -1) match = false;
+        if (match) _lpSelected[row.id] = true;
+      });
+      _lpUpdateSelectedCount();
+      _filterLpList();
+    }
+
+    function _lpDeselectAll() {
+      _lpSelected = {};
+      _lpUpdateSelectedCount();
+      _filterLpList();
+    }
+
+    function _lpUpdateSelectedCount() {
+      var count = Object.keys(_lpSelected).length;
+      var btn = document.getElementById('lpDeleteSelectedBtn');
+      if (btn) btn.textContent = 'Delete Selected (' + count + ')';
+    }
+
+    async function _lpDeleteSelected() {
+      var ids = Object.keys(_lpSelected);
+      if (!ids.length) return;
+      var ok = await _wpConfirm('Permanently delete ' + ids.length + ' Listening Plus submission' + (ids.length > 1 ? 's' : '') + '?');
+      if (!ok) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      for (var i = 0; i < ids.length; i++) {
+        try {
+          var dr = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + ids[i], {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var dj = [];
+          try { dj = await dr.json(); } catch(e) {}
+          if (!dj || !dj.length) {
+            await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + ids[i], {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+        } catch(e) { console.warn('LP bulk delete failed for', ids[i], e); }
+      }
+      _lpSelected = {};
+      _lpUpdateSelectedCount();
+      await _loadLpData();
     }
 
     function _renderLpList(rows) {
@@ -17408,13 +17691,16 @@
         var date = new Date(row.created_at);
         var dateStr = String(date.getDate()).padStart(2,'0') + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + date.getFullYear();
         var timeStr = String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        var centerLabel = (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim();
         var scoreDisplay = ai.correct !== undefined ? (ai.correct + '/' + ai.total + ' (' + Math.round(ai.correct/ai.total*100) + '%)') : '-';
+        var cbHtml = _lpDeleteMode ? '<input type="checkbox" ' + (_lpSelected[row.id] ? 'checked' : '') + ' onclick="_lpToggleSelect(\'' + row.id + '\')" style="width:18px;height:18px;cursor:pointer;accent-color:#ef4444;flex-shrink:0;">' : '';
 
-        return '<div style="border:1.5px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:10px;background:#fafafa;transition:all 0.15s ease;" onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'">' +
+        return '<div style="border:1.5px solid ' + (_lpDeleteMode && _lpSelected[row.id] ? '#ef4444' : '#e5e7eb') + ';border-radius:12px;padding:14px;margin-bottom:10px;background:' + (_lpDeleteMode && _lpSelected[row.id] ? '#fef2f2' : '#fafafa') + ';transition:all 0.15s ease;cursor:' + (_lpDeleteMode ? 'pointer' : 'default') + ';" ' + (_lpDeleteMode ? 'onclick="_lpToggleSelect(\'' + row.id + '\')"' : 'onmouseenter="this.style.borderColor=\'#116a60\'" onmouseleave="this.style.borderColor=\'#e5e7eb\'"') + '>' +
           '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">' +
-            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' +
+            '<div style="display:flex;align-items:center;gap:8px;min-width:0;">' + cbHtml +
               '<strong style="font-size:14px;">' + (row.student_name || 'Unknown').replace(/</g,'&lt;') + '</strong>' +
               '<span style="background:' + sc + ';color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">' + (row.status || 'pending') + '</span>' +
+              '<span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + centerLabel + '</span>' +
             '</div>' +
             '<div style="font-size:12px;color:#64748b;">' + dateStr + ' ' + timeStr + '</div>' +
           '</div>' +
@@ -17426,6 +17712,7 @@
             '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
               '<button onclick="_viewLpDetail(\'' + row.id + '\')" style="background:#116a60;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">👁️ View</button>' +
               (row.status !== 'approved' ? '<button onclick="_updateLpStatus(\'' + row.id + '\',\'approved\')" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">✅</button>' : '') +
+              (row.status !== 'draft' ? '<button onclick="_updateLpStatus(\'' + row.id + '\',\'draft\')" style="background:#6366f1;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">📌</button>' : '') +
               (row.status !== 'deleted' ? '<button onclick="_updateLpStatus(\'' + row.id + '\',\'deleted\')" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🗑️</button>' : '') +
             '</div>' +
           '</div>' +
@@ -17437,6 +17724,25 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
+        if (status === 'deleted') {
+          var ok = await _wpConfirm('Permanently delete this Listening Plus submission?');
+          if (!ok) return;
+          var dr = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + id, {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=representation' }
+          });
+          var dj = [];
+          try { dj = await dr.json(); } catch(e) {}
+          if (!dj || !dj.length) {
+            await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + id, {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
+            });
+          }
+          await _loadLpData();
+          return;
+        }
         var r = await fetch(SB_URL + '/rest/v1/listening_plus_submissions?id=eq.' + id, {
           method: 'PATCH',
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
@@ -17463,7 +17769,7 @@
 
         var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">';
         html += '<h3 style="color:#116a60;margin:0;">🎧 ' + esc(row.student_name || 'Unknown') + '</h3>';
-        html += '<span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span>';
+        html += '<div style="display:flex;align-items:center;gap:8px;"><span style="background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">' + (row.center || 'unknown').replace(/([A-Z])/g,' $1').trim() + '</span><span style="font-size:12px;color:#64748b;">' + fmt + ' · ' + new Date(row.created_at).toLocaleDateString() + '</span></div>';
         html += '</div>';
 
         if (ai.correct !== undefined) {
