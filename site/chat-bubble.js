@@ -1521,11 +1521,42 @@
   }
 
   // ─── OPEN / CLOSE BUBBLE ──────────────────────────────────────────────────
+  // Track whether we exited fullscreen so we can restore it
+  var _wasFullscreen = false;
+
+  function _exitFullscreenForChat() {
+    try {
+      var doc = window.top ? window.top.document : document;
+      var fsEl = doc.fullscreenElement || doc.webkitFullscreenElement;
+      if (fsEl) {
+        _wasFullscreen = true;
+        if (doc.exitFullscreen) doc.exitFullscreen().catch(function(){});
+        else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+      } else {
+        _wasFullscreen = false;
+      }
+    } catch (e) { _wasFullscreen = false; }
+  }
+
+  function _restoreFullscreen() {
+    if (!_wasFullscreen) return;
+    _wasFullscreen = false;
+    try {
+      var doc = window.top ? window.top.document : document;
+      var elem = doc.documentElement;
+      if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+    } catch (e) {}
+  }
+
   function openBubble() {
     isOpen = true;
     var btn = document.getElementById('cb-fab');
     if (btn) { btn.classList.add('open'); btn.classList.remove('cb-faded'); }
     if (_fadeTimer) clearTimeout(_fadeTimer);
+
+    // Exit fullscreen so mobile keyboard can resize viewport properly
+    _exitFullscreenForChat();
 
     if (_isLanding) {
       // On landing page, open the existing Help Center overlay
@@ -1567,6 +1598,9 @@
         if (container) { container.style.maxHeight = ''; container.style.marginBottom = ''; }
       }
     }
+
+    // Re-enter fullscreen if we exited it for the chat
+    _restoreFullscreen();
   }
 
   function toggleBubble() {
