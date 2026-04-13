@@ -16701,12 +16701,21 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
-        var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
-          method: 'PATCH',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: status })
-        });
-        if (r.ok) await _loadWpData();
+        if (status === 'deleted') {
+          if (!confirm('Permanently delete this submission? This cannot be undone.')) return;
+          var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          });
+          if (r.ok) await _loadWpData();
+        } else {
+          var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+            method: 'PATCH',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+          });
+          if (r.ok) await _loadWpData();
+        }
       } catch(e) { console.warn('WP status update failed:', e); }
     }
 
