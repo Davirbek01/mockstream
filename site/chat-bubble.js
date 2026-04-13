@@ -1659,8 +1659,8 @@
         '  "word": "the CORRECT input word/phrase (fix any spelling mistakes)",\n' +
         '  "misspelled": true or false,\n' +
         '  "english": "the English word/phrase",\n' +
-        '  "uzbek": "the Uzbek translation",\n' +
-        '  "definition": "Brief explanation in the TARGET language (Uzbek if en2uz, English if uz2en), or empty string",\n' +
+        '  "uzbek": "the Uzbek translation/equivalent",\n' +
+        '  "definition": "Brief explanation in the TARGET language, or empty string",\n' +
         '  "example_en": "One natural example sentence in English",\n' +
         '  "example_uz": "Uzbek translation of the example sentence"\n' +
         '}\n\n' +
@@ -1670,7 +1670,8 @@
         '- misspelled: true if you corrected a spelling mistake, false otherwise\n' +
         '- english: always the English word/phrase\n' +
         '- uzbek: always the Uzbek word/phrase\n' +
-        '- definition: a SHORT explanation in the target language (only if the word is abstract/complex, otherwise "")\n' +
+        '- IDIOMS & PROVERBS: For idioms, proverbs, and figurative expressions, ALWAYS provide the culturally equivalent idiom/proverb in the target language, NOT a literal translation. Examples: "when pigs fly" → "tuyaning dumi yerga tekkanda", "break the ice" → "muzni eritmoq", "piece of cake" → "qo\'lning kiri bilan". If no exact equivalent exists, give the closest Uzbek/English idiom with similar meaning.\n' +
+        '- definition: a SHORT explanation of the meaning in the target language (especially useful for idioms to clarify the shared meaning)\n' +
         '- example_en & example_uz: matching example sentences in both languages\n' +
         '- Respond ONLY with the JSON object, nothing else';
 
