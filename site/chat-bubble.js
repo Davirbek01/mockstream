@@ -1473,7 +1473,7 @@
       if (replyBanner) replyBanner.style.display = 'none';
       var input = document.getElementById('cb-input');
       var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
-      if (input) { input.style.display = ''; input.placeholder = 'Type an English word or phrase...'; }
+      if (input) { input.style.display = ''; input.placeholder = 'Type a word in English or Uzbek...'; }
       if (sendBtn) sendBtn.style.display = '';
       var jumpBar = document.getElementById('cb-comm-jump-bar');
       if (jumpBar) jumpBar.style.display = 'none';
@@ -1505,8 +1505,8 @@
     if (!_dictHistory.length) {
       el.innerHTML = '<div style="padding:16px;text-align:center;">' +
         '<div style="font-size:32px;margin-bottom:8px;">📖</div>' +
-        '<div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px;">English → Uzbek Dictionary</div>' +
-        '<div style="font-size:12px;color:#64748b;line-height:1.5;">Type an English word or phrase below.<br>Get instant Uzbek translation with examples.</div>' +
+        '<div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px;">English ⇄ Uzbek Dictionary</div>' +
+        '<div style="font-size:12px;color:#64748b;line-height:1.5;">Type a word in English or Uzbek.<br>Get instant translation with examples.</div>' +
         '</div>';
       return;
     }
@@ -1599,17 +1599,30 @@
     _renderDictionary();
 
     try {
-      var prompt = 'You are a concise English-to-Uzbek dictionary assistant. The user typed: "' + text + '"\n\n' +
+      var prompt = 'You are a bilingual English⇄Uzbek dictionary assistant. The user typed: "' + text + '"\n\n' +
+        'First, detect the language of the input:\n' +
+        '- If the input is in English (or looks like an English word/phrase), translate English → Uzbek\n' +
+        '- If the input is in Uzbek (or looks like an Uzbek word/phrase), translate Uzbek → English\n\n' +
         'Respond with EXACTLY this JSON format (no markdown, no extra text, ONLY raw JSON):\n' +
         '{\n' +
-        '  "word": "the CORRECT English word/phrase (fix any spelling mistakes)",\n' +
-        '  "misspelled": true or false (whether the user misspelled the word),\n' +
-        '  "uzbek": "Uzbek translation",\n' +
-        '  "definition": "Brief Uzbek definition/explanation if the word is complex, otherwise empty string",\n' +
-        '  "example_en": "One natural example sentence in English using this word",\n' +
+        '  "direction": "en2uz" or "uz2en",\n' +
+        '  "word": "the CORRECT input word/phrase (fix any spelling mistakes)",\n' +
+        '  "misspelled": true or false,\n' +
+        '  "english": "the English word/phrase",\n' +
+        '  "uzbek": "the Uzbek translation",\n' +
+        '  "definition": "Brief explanation in the TARGET language (Uzbek if en2uz, English if uz2en), or empty string",\n' +
+        '  "example_en": "One natural example sentence in English",\n' +
         '  "example_uz": "Uzbek translation of the example sentence"\n' +
         '}\n\n' +
-        'Rules:\n- If the user misspelled a word (e.g. "recieve" instead of "receive", "definately" instead of "definitely"), auto-correct it. Set "word" to the CORRECT spelling and "misspelled" to true\n- If the spelling is already correct, set "misspelled" to false\n- uzbek: the MAIN Uzbek translation, concise\n- definition: a SHORT Uzbek explanation in parentheses format (only if the word is abstract/complex, otherwise "")\n- example_en: a natural, useful example sentence\n- example_uz: accurate Uzbek translation of the example\n- Respond ONLY with the JSON object, nothing else';
+        'Rules:\n' +
+        '- direction: "en2uz" if user typed English, "uz2en" if user typed Uzbek\n' +
+        '- word: the corrected version of what the user typed (in the SAME language they typed)\n' +
+        '- misspelled: true if you corrected a spelling mistake, false otherwise\n' +
+        '- english: always the English word/phrase\n' +
+        '- uzbek: always the Uzbek word/phrase\n' +
+        '- definition: a SHORT explanation in the target language (only if the word is abstract/complex, otherwise "")\n' +
+        '- example_en & example_uz: matching example sentences in both languages\n' +
+        '- Respond ONLY with the JSON object, nothing else';
 
       var raw = await _callDictAI(prompt);
       // Parse JSON from response (strip markdown fences if any)
@@ -1618,20 +1631,34 @@
       if (fenceMatch) cleaned = fenceMatch[1].trim();
       var data = JSON.parse(cleaned);
 
+      var isUz2En = data.direction === 'uz2en';
+      var headWord = isUz2En ? _escDict(data.uzbek) : _escDict(data.english);
+      var transWord = isUz2En ? _escDict(data.english) : _escDict(data.uzbek);
+      var speakWord = _escDict(data.english);
+
       // Build beautiful dictionary card HTML
       var html = '<div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:16px;max-width:100%;">';
+      // Direction badge
+      html += '<div style="text-align:center;margin-bottom:8px;"><span style="font-size:10px;font-weight:600;color:#fff;background:' + (isUz2En ? '#059669' : '#2563eb') + ';padding:2px 8px;border-radius:10px;letter-spacing:0.5px;">' + (isUz2En ? 'UZ → EN' : 'EN → UZ') + '</span></div>';
       // Misspelling notice
       if (data.misspelled) {
         html += '<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:11px;color:#92400e;text-align:center;">✏️ Did you mean: <strong>' + _escDict(data.word) + '</strong>?</div>';
       }
-      // Word header with audio button
+      // Head word (what user typed, corrected)
       html += '<div style="text-align:center;margin-bottom:10px;">';
-      html += '<div style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:-0.5px;">' + _escDict(data.word) + '</div>';
-      html += '<button onclick="_dictSpeak(\'' + _escDict(data.word).replace(/'/g, "\\'") + '\')" style="margin-top:4px;width:32px;height:32px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;" title="Listen">🔊</button>';
+      html += '<div style="font-size:20px;font-weight:800;color:#1e293b;letter-spacing:-0.5px;">' + headWord + '</div>';
+      // TTS button only for English word
+      if (!isUz2En) {
+        html += '<button onclick="_dictSpeak(\'' + speakWord.replace(/'/g, "\\'") + '\')" style="margin-top:4px;width:32px;height:32px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;cursor:pointer;font-size:14px;display:inline-flex;align-items:center;justify-content:center;" title="Listen">🔊</button>';
+      }
       html += '</div>';
-      // Uzbek translation
+      // Translation
       html += '<div style="text-align:center;margin-bottom:6px;">';
-      html += '<span style="font-size:16px;font-weight:700;color:#dc2626;font-style:italic;">' + _escDict(data.uzbek) + '</span>';
+      html += '<span style="font-size:16px;font-weight:700;color:#dc2626;font-style:italic;">' + transWord + '</span>';
+      // TTS button next to English translation (for uz2en)
+      if (isUz2En) {
+        html += ' <button onclick="_dictSpeak(\'' + speakWord.replace(/'/g, "\\'") + '\')" style="width:26px;height:26px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;" title="Listen">🔊</button>';
+      }
       if (data.definition) {
         html += '<br><span style="font-size:12px;color:#64748b;font-style:italic;">(' + _escDict(data.definition) + ')</span>';
       }
