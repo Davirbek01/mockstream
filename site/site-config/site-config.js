@@ -75,6 +75,24 @@ window.SITE_CONFIG = {
           var fav = document.getElementById('site-favicon');
           if (fav) fav.href = window.SITE_CONFIG.logoUrl;
         } catch (e) {}
+        // Update splash/welcome screen elements (index.html)
+        try {
+          var bl = document.getElementById('brandTitle');
+          if (bl) bl.textContent = window.SITE_CONFIG.brandName;
+          var lo = document.getElementById('logo');
+          if (lo) lo.src = window.SITE_CONFIG.logoUrl;
+          var fc = document.getElementById('footerCopyright');
+          if (fc) fc.innerHTML = '&copy; ' + new Date().getFullYear() + ' ' + window.SITE_CONFIG.brandName + '. All rights reserved.';
+        } catch (e) {}
+        // Update welcome logo/header elements (landing.html)
+        try {
+          var wl = document.getElementById('welcomeLogo');
+          if (wl) wl.src = window.SITE_CONFIG.logoUrl;
+          var ht = document.getElementById('headerTitle');
+          if (ht) ht.textContent = window.SITE_CONFIG.brandName + ' Exams';
+          var hl = document.getElementById('headerLogo');
+          if (hl) hl.src = window.SITE_CONFIG.logoUrl;
+        } catch (e) {}
         // Cache for next page load
         try {
           localStorage.setItem(cacheKey, JSON.stringify(sc));
