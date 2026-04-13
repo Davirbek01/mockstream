@@ -5417,6 +5417,8 @@
         var countEl = document.getElementById('dictHistoryCount');
         if (countEl) countEl.textContent = '0 lookups stored';
         if (typeof window._hcClearDictionary === 'function') window._hcClearDictionary();
+        // Refresh Messages panel dictionary section if open
+        if (typeof loadDictAdmin === 'function') loadDictAdmin();
       } catch(e) {
         statusEl.innerHTML = '<span style="color:#dc2626;">❌ Failed to delete</span>';
       }
@@ -5797,6 +5799,8 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">✅ All support messages for ' + label + ' cleared successfully.</span>';
         if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
+        // Refresh Messages panel if open
+        if (typeof loadConversations === 'function') loadConversations();
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
       }
@@ -5821,6 +5825,8 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">✅ All community messages for ' + label + ' cleared successfully.</span>';
         if (typeof window._hcClearCommunity === 'function') window._hcClearCommunity();
+        // Refresh Messages panel community list if open
+        if (typeof loadCommunityAdmin === 'function') loadCommunityAdmin();
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
       }
