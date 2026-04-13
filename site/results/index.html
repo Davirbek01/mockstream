@@ -5413,12 +5413,29 @@
       if (!ok) return;
       statusEl.innerHTML = '<span style="color:var(--muted);">Deleting...</span>';
       try {
+        // First check if any rows exist
+        var countResp = await fetch(SUPABASE_URL + '/rest/v1/dict_lookups?select=id&limit=1', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var countData = await countResp.json();
+        if (!countData || !countData.length) {
+          statusEl.innerHTML = '<span style="color:#059669;">✅ No dictionary history to delete — already empty.</span>';
+          var countEl0 = document.getElementById('dictHistoryCount');
+          if (countEl0) countEl0.textContent = '0 lookups stored';
+          if (typeof window._hcClearDictionary === 'function') window._hcClearDictionary();
+          if (typeof loadDictAdmin === 'function') loadDictAdmin();
+          return;
+        }
         var r = await fetch(SUPABASE_URL + '/rest/v1/dict_lookups?id=not.is.null', {
           method: 'DELETE',
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
         });
         var deleted = await r.json();
-        statusEl.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' lookups</span>';
+        if (!deleted || !deleted.length) {
+          statusEl.innerHTML = '<span style="color:#f59e0b;">⚠️ Rows exist but none were deleted. Check Supabase RLS DELETE policy on dict_lookups.</span>';
+        } else {
+          statusEl.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' lookups</span>';
+        }
         var countEl = document.getElementById('dictHistoryCount');
         if (countEl) countEl.textContent = '0 lookups stored';
         if (typeof window._hcClearDictionary === 'function') window._hcClearDictionary();
@@ -5785,6 +5802,28 @@
       return sel ? sel.value : 'mock_stream';
     }
 
+    // Clear support messages from localStorage (chat-bubble.js is not loaded on results page)
+    function _clearSupportLocalStorage() {
+      try {
+        var raw = localStorage.getItem('ms_chat_bubble');
+        if (raw) {
+          var d = JSON.parse(raw);
+          if (d && d.messages) {
+            d.messages.support = [];
+            d.messages.premium = [];
+            d.messages.partner = [];
+          }
+          if (d && d.lastSeenAdmin) {
+            d.lastSeenAdmin.support = 0;
+            d.lastSeenAdmin.premium = 0;
+            d.lastSeenAdmin.partner = 0;
+          }
+          localStorage.setItem('ms_chat_bubble', JSON.stringify(d));
+        }
+        localStorage.removeItem('ms_helpcenter_chats');
+      } catch(e) {}
+    }
+
     async function clearAllSupportMessages() {
       var center = _getDataMgmtCenter();
       var isAll = center === '__all__';
@@ -5794,6 +5833,21 @@
       var status = document.getElementById('dataMgmtStatus');
       status.innerHTML = '<span style="color:var(--muted);">Deleting support messages...</span>';
       try {
+        // First check if any rows exist
+        var countUrl = SUPABASE_URL + '/rest/v1/support_messages?select=id&limit=1';
+        if (!isAll) countUrl += '&center=eq.' + encodeURIComponent(center);
+        var countResp = await fetch(countUrl, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var countData = await countResp.json();
+        if (!countData || !countData.length) {
+          status.innerHTML = '<span style="color:#059669;">✅ No support messages to delete — already empty.</span>';
+          // Still clear localStorage cache in case it has stale data
+          _clearSupportLocalStorage();
+          if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
+          if (typeof loadConversations === 'function') loadConversations();
+          return;
+        }
         var url = SUPABASE_URL + '/rest/v1/support_messages';
         if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
         else url += '?id=not.is.null';
@@ -5804,10 +5858,12 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         var deleted = await resp.json();
         if (!deleted || !deleted.length) {
-          status.innerHTML = '<span style="color:#f59e0b;">⚠️ No messages were deleted. Check Supabase RLS policies — a DELETE policy for anon may be missing on support_messages.</span>';
+          status.innerHTML = '<span style="color:#f59e0b;">⚠️ Rows exist but none were deleted. Check Supabase RLS — a DELETE policy for anon may be missing on support_messages.</span>';
         } else {
           status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' support messages for ' + label + '.</span>';
         }
+        // Clear chat bubble localStorage directly (chat-bubble.js is not loaded on this page)
+        _clearSupportLocalStorage();
         if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
         // Refresh Messages panel if open
         if (typeof loadConversations === 'function') loadConversations();
@@ -5825,6 +5881,19 @@
       var status = document.getElementById('dataMgmtStatus');
       status.innerHTML = '<span style="color:var(--muted);">Deleting community messages...</span>';
       try {
+        // First check if any rows exist
+        var countUrl = SUPABASE_URL + '/rest/v1/community_messages?select=id&limit=1';
+        if (!isAll) countUrl += '&center=eq.' + encodeURIComponent(center);
+        var countResp = await fetch(countUrl, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var countData = await countResp.json();
+        if (!countData || !countData.length) {
+          status.innerHTML = '<span style="color:#059669;">✅ No community messages to delete — already empty.</span>';
+          if (typeof window._hcClearCommunity === 'function') window._hcClearCommunity();
+          if (typeof loadCommunityAdmin === 'function') loadCommunityAdmin();
+          return;
+        }
         var url = SUPABASE_URL + '/rest/v1/community_messages';
         if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
         else url += '?id=not.is.null';
@@ -5835,7 +5904,7 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         var deleted = await resp.json();
         if (!deleted || !deleted.length) {
-          status.innerHTML = '<span style="color:#f59e0b;">⚠️ No messages were deleted. Check Supabase RLS DELETE policy on community_messages.</span>';
+          status.innerHTML = '<span style="color:#f59e0b;">⚠️ Rows exist but none were deleted. Check Supabase RLS DELETE policy on community_messages.</span>';
         } else {
           status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' community messages for ' + label + '.</span>';
         }
