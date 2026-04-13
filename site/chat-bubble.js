@@ -1771,6 +1771,8 @@
     a.onerror = function() { URL.revokeObjectURL(url); };
     a.play().catch(function() { URL.revokeObjectURL(url); });
   }
+  // Expose to global scope for onclick in card HTML
+  window._dictSpeak = _dictSpeak;
 
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────
   // If the landing page Help Center also has messages, merge them
