@@ -1533,7 +1533,14 @@
     } else {
       // On other pages, open our overlay
       var overlay = document.getElementById('cb-overlay');
-      if (overlay) overlay.classList.add('active');
+      if (overlay) {
+        overlay.classList.add('active', 'cb-kb-closed');
+        // Reset any leftover keyboard-adjust styles
+        overlay.style.top = '';
+        overlay.style.height = '';
+        var container = overlay.querySelector('.cb-hc-container');
+        if (container) { container.style.maxHeight = ''; container.style.marginBottom = ''; }
+      }
       markSeen();
       renderMessages();
       var input = document.getElementById('cb-input');
@@ -1552,12 +1559,12 @@
     } else {
       var overlay = document.getElementById('cb-overlay');
       if (overlay) {
-        overlay.classList.remove('active');
+        overlay.classList.remove('active', 'cb-kb-closed');
         // Reset keyboard-adjust inline styles
         overlay.style.top = '';
         overlay.style.height = '';
         var container = overlay.querySelector('.cb-hc-container');
-        if (container) container.style.maxHeight = '';
+        if (container) { container.style.maxHeight = ''; container.style.marginBottom = ''; }
       }
     }
   }
@@ -1984,8 +1991,9 @@
       #cb-badge:not(:empty){display:flex}
 
       /* ── Centered Help-Center Overlay (non-landing pages) ── */
-      #cb-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);justify-content:center;align-items:center;animation:cbHcFadeIn .25s ease}
+      #cb-overlay{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);justify-content:center;align-items:flex-end;animation:cbHcFadeIn .25s ease}
       #cb-overlay.active{display:flex}
+      #cb-overlay.cb-kb-closed{align-items:center}
       @keyframes cbHcFadeIn{from{opacity:0}to{opacity:1}}
       #cb-overlay .cb-hc-container{position:relative;width:420px;max-width:95vw;height:600px;max-height:90vh;max-height:90dvh;background:#fff;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.3);border:1px solid #e5e7eb;animation:cbHcSlideUp .3s ease}
       @keyframes cbHcSlideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -2735,27 +2743,75 @@
     document.addEventListener('touchend', pointerUp);
 
     // ── Mobile keyboard fix: adjust overlay when virtual keyboard opens ──
-    if (window.visualViewport) {
-      var _vvTimer = null;
-      window.visualViewport.addEventListener('resize', function () {
-        clearTimeout(_vvTimer);
-        _vvTimer = setTimeout(function () {
-          var ov = document.getElementById('cb-overlay');
-          if (!ov || !ov.classList.contains('active')) return;
-          var container = ov.querySelector('.cb-hc-container');
-          if (!container) return;
-          var vvH = window.visualViewport.height;
-          container.style.maxHeight = (vvH * 0.92) + 'px';
-        }, 50);
-      });
-      window.visualViewport.addEventListener('scroll', function () {
+    // Works in both normal mode and fullscreen iframe mode
+    (function () {
+      var initialHeight = window.innerHeight;
+      var kbOpen = false;
+
+      function adjustForKeyboard() {
         var ov = document.getElementById('cb-overlay');
         if (!ov || !ov.classList.contains('active')) return;
-        // Keep overlay aligned to visual viewport
-        ov.style.top = window.visualViewport.offsetTop + 'px';
-        ov.style.height = window.visualViewport.height + 'px';
+        var container = ov.querySelector('.cb-hc-container');
+        if (!container) return;
+
+        // Detect available height: prefer visualViewport, fall back to innerHeight
+        var availH = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+        var heightRatio = availH / initialHeight;
+
+        if (heightRatio < 0.75) {
+          // Keyboard is open — shrink container to fit visible area
+          kbOpen = true;
+          ov.classList.remove('cb-kb-closed');
+          container.style.maxHeight = (availH - 12) + 'px';
+          container.style.marginBottom = '0';
+          // Scroll input into view
+          var input = document.getElementById('cb-input');
+          if (input && document.activeElement === input) {
+            setTimeout(function () { input.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 100);
+          }
+        } else {
+          // Keyboard closed — reset
+          kbOpen = false;
+          ov.classList.add('cb-kb-closed');
+          container.style.maxHeight = '';
+          container.style.marginBottom = '';
+          ov.style.top = '';
+          ov.style.height = '';
+        }
+      }
+
+      // visualViewport resize (works in some browsers/contexts)
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', adjustForKeyboard);
+        window.visualViewport.addEventListener('scroll', function () {
+          var ov = document.getElementById('cb-overlay');
+          if (!ov || !ov.classList.contains('active') || !kbOpen) return;
+          ov.style.top = window.visualViewport.offsetTop + 'px';
+          ov.style.height = window.visualViewport.height + 'px';
+        });
+      }
+
+      // window resize fallback (works in fullscreen iframes where visualViewport may not fire)
+      window.addEventListener('resize', function () {
+        // Update initial height when keyboard is definitely closed (e.g. orientation change)
+        if (window.innerHeight > initialHeight) initialHeight = window.innerHeight;
+        adjustForKeyboard();
       });
-    }
+
+      // Focus/blur on input — extra safety net
+      document.addEventListener('focusin', function (e) {
+        if (e.target && e.target.id === 'cb-input') {
+          // On some devices resize fires late; retry after a delay
+          setTimeout(adjustForKeyboard, 300);
+          setTimeout(adjustForKeyboard, 600);
+        }
+      });
+      document.addEventListener('focusout', function (e) {
+        if (e.target && e.target.id === 'cb-input') {
+          setTimeout(adjustForKeyboard, 300);
+        }
+      });
+    })();
   }
 
   function saveFabPosition(x, y) {
