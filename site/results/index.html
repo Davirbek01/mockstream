@@ -1800,21 +1800,26 @@
           .settings-section-divider { border-top:1px solid var(--border); margin:18px 0; }
         </style>
 
-        <!-- AI Model Selector (shared — always visible at top) -->
-        <div style="margin-bottom:14px;padding:14px 18px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;">
-          <label style="display:block;font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink);">🤖 AI Model for Help Center</label>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Choose which AI model powers the Support chat and Dictionary tab.</p>
-          <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
-            <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
-            <option value="openai">🧠 OpenAI GPT-4o Mini</option>
-            <option value="claude">🟣 Claude Sonnet 4</option>
-            <option value="deepseek">🔵 DeepSeek Chat</option>
-            <option value="grok">⚡ Grok 3 Mini</option>
-          </select>
-          <div style="display:flex;gap:8px;">
-            <button onclick="saveHcAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
+        <!-- AI Model for Help Center -->
+        <div class="settings-accordion" id="accAiModel">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(109,40,217,.08),rgba(124,58,237,.05));" onclick="toggleAccordion('accAiModel')">
+            <h4 style="color:#6d28d9;"><span>🤖</span> AI Model for Help Center</h4>
+            <span class="settings-accordion-arrow" style="color:#6d28d9;">▾</span>
           </div>
-          <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
+          <div class="settings-accordion-body">
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px;margin-top:4px;">Choose which AI model powers the Support chat and Dictionary tab.</p>
+            <select id="settingsHcAiModel" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;margin-bottom:10px;">
+              <option value="gemini">✨ Gemini 2.0 Flash (Default)</option>
+              <option value="openai">🧠 OpenAI GPT-4o Mini</option>
+              <option value="claude">🟣 Claude Sonnet 4</option>
+              <option value="deepseek">🔵 DeepSeek Chat</option>
+              <option value="grok">⚡ Grok 3 Mini</option>
+            </select>
+            <div style="display:flex;gap:8px;">
+              <button onclick="saveHcAiModel()" style="padding:8px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#6d28d9,#7c3aed);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Model</button>
+            </div>
+            <div id="hcAiModelStatus" style="font-size:12px;margin-top:6px;"></div>
+          </div>
         </div>
 
         <!-- ═══════════════ 1. SUPPORT TAB ═══════════════ -->
