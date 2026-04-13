@@ -14,62 +14,9 @@
   <link rel="apple-touch-icon" href="site-config/icons/icon-192.png" />
   <title>Mock Stream</title>
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
-  <!-- Site Config (swap this script to change brand/skin) -->
-  <script>
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      var centerParam = params.get('center');
-      if (centerParam) {
-        try { localStorage.setItem('ms_active_center', centerParam); } catch(e) {}
-      }
-      var activeCenter = centerParam || '';
-      if (!activeCenter) {
-        try { activeCenter = localStorage.getItem('ms_active_center') || ''; } catch(e) {}
-      }
-      var folderMap = {
-        'mock_stream': 'site-config',
-        'bek':         'site-config/2. bekzods multilevel',
-        'global':      'site-config/3. global education',
-        'niners':      'site-config/4. niners academy',
-        'muzaffars':   'site-config/5. muzaffars english'
-      };
-      var folder = folderMap[activeCenter];
-      if (folder) {
-        document.write('<script src="' + folder + '/site-config.js"><\/script>');
-      } else if (activeCenter) {
-        document.write('<script src="site-config/site-config.js"><\/script>');
-        window._chPendingCenter = activeCenter;
-      } else {
-        document.write('<script src="site-config/site-config.js"><\/script>');
-      }
-    })();
-  </script>
-  <script>
-    if (window._chPendingCenter) {
-      (function() {
-        var testId = window._chPendingCenter;
-        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-        fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_' + encodeURIComponent(testId) + '&select=value', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(rows) {
-          if (rows && rows.length && rows[0].value) {
-            var sc = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
-            window.SITE_CONFIG = Object.assign(window.SITE_CONFIG || {}, sc);
-            window._siteLogoUrl = sc.logoUrl || window._siteLogoUrl;
-            window._siteLogoWording = sc.brandName || window._siteLogoWording;
-            window._siteTestId = sc.testIdentifier || window._siteTestId;
-            if (sc.brandName) document.title = sc.brandName;
-            var fav = document.getElementById('site-favicon');
-            if (fav && sc.logoUrl) fav.href = sc.logoUrl;
-          }
-        })
-        .catch(function() {});
-      })();
-    }
-  </script>
+  <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;

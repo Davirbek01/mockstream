@@ -1,49 +1,90 @@
 // ============================================================================
-// SITE CONFIG — Mock Stream
+// SITE CONFIG — Dynamic (Supabase-backed)
 // ============================================================================
-// Single source of truth for all branding, URLs, and identity settings.
-// Load this file via <script src="site config/mock stream/site-config.js">
-// BEFORE any other scripts so window.SITE_CONFIG is available everywhere.
+// Reads center identity from center-id.js (window.__CENTER_ID).
+// Loads config from localStorage cache (instant), refreshes from Supabase
+// in the background. Falls back to hardcoded Mock Stream defaults.
 // ============================================================================
 
+// ─── Defaults (Mock Stream) — used until cache/fetch populates ──────────────
 window.SITE_CONFIG = {
-
-  // ─── PWA / Clone folder ─────────────────────────────────────────────────────
-  pwaFolder:        'site-config/1. mock stream',
-
-  // ─── Brand Identity ────────────────────────────────────────────────────────
-  brandName:        'Mock Stream',
-  testIdentifier:   'mock_stream',
-  logoUrl:          'https://i.ibb.co/WN0XY5Lv/logo.png',
-  heading1:         'Bilim va malakalarni baholash agentligi',
-  heading2:         'Chet tilini bilish darajasi',
-
-  // ─── Telegram ──────────────────────────────────────────────────────────────
+  pwaFolder:            'site-config',
+  brandName:            'Mock Stream',
+  testIdentifier:       'mock_stream',
+  logoUrl:              'https://i.ibb.co/WN0XY5Lv/logo.png',
+  heading1:             'Bilim va malakalarni baholash agentligi',
+  heading2:             'Chet tilini bilish darajasi',
   telegramChannel:      '@mock_stream',
   telegramUrl:          'https://t.me/mock_stream',
   ieltsTelegramChannel: '@ieltsmockstream',
   adminTelegram:        'https://t.me/mrkhasanoff3',
-
-  // ─── Certificate / PDF ─────────────────────────────────────────────────────
-  directorName:     'D. KHASANOV',
-  directorFullName: 'Davirbek Khasanov',
-  directorTitle:    'Direktor | Director',
-  ceoTitle:         'CEO of Mock Stream Inc.',
-  siteDomain:       'mockstream.site',
-
-  // ─── Backend ───────────────────────────────────────────────────────────────
-  backendUrl:         'https://davirbek.alwaysdata.net',
-  adminBackendUrl:    'https://admin0709.alwaysdata.net',
-  routingBackendUrl:  'https://u-se-r.alwaysdata.net',
-
- 
-  access:             'default',
-
-  // ─── AI Score Boost (temporary) ────────────────────────────────────────────
-  // Gemini tends to score strictly. Set a number (0-3) to add to AI-graded
-  // speaking & writing scores. 0 = no boost. Affects CEFR & IELTS mocks.
-  scoreBoost:         1,
+  directorName:         'D. KHASANOV',
+  directorFullName:     'Davirbek Khasanov',
+  directorTitle:        'Direktor | Director',
+  ceoTitle:             'CEO of Mock Stream Inc.',
+  siteDomain:           'mockstream.site',
+  backendUrl:           'https://davirbek.alwaysdata.net',
+  adminBackendUrl:      'https://admin0709.alwaysdata.net',
+  routingBackendUrl:    'https://u-se-r.alwaysdata.net',
+  access:               'default',
+  scoreBoost:           1,
 };
+
+// ─── Load from localStorage cache (synchronous — instant) ───────────────────
+(function () {
+  var centerId = window.__CENTER_ID || 'mock_stream';
+  // Also store it for other code that needs the active center
+  try { localStorage.setItem('ms_active_center', centerId); } catch (e) {}
+
+  var cacheKey = 'ms_sc_' + centerId;
+  var tsKey = 'ms_sc_ts_' + centerId;
+  var CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+  // Try to load from cache
+  try {
+    var cached = localStorage.getItem(cacheKey);
+    var cachedTs = parseInt(localStorage.getItem(tsKey) || '0', 10);
+    if (cached && (Date.now() - cachedTs < CACHE_TTL)) {
+      var sc = JSON.parse(cached);
+      window.SITE_CONFIG = Object.assign(window.SITE_CONFIG, sc);
+    }
+  } catch (e) {}
+
+  // Background refresh from Supabase
+  var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+  try {
+    fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_site_config_' +
+      encodeURIComponent(centerId) + '&select=value', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (rows) {
+      if (rows && rows.length && rows[0].value) {
+        var sc = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+        // Update SITE_CONFIG in place (keeps reference alive for all code)
+        Object.assign(window.SITE_CONFIG, sc);
+        // Update legacy globals
+        window._siteLogoUrl = window.SITE_CONFIG.logoUrl;
+        window._siteLogoWording = window.SITE_CONFIG.brandName;
+        window._siteTestId = window.SITE_CONFIG.testIdentifier;
+        window._siteTelegramChannel = window.SITE_CONFIG.telegramChannel;
+        // Update page title & favicon
+        try { document.title = window.SITE_CONFIG.brandName; } catch (e) {}
+        try {
+          var fav = document.getElementById('site-favicon');
+          if (fav) fav.href = window.SITE_CONFIG.logoUrl;
+        } catch (e) {}
+        // Cache for next page load
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify(sc));
+          localStorage.setItem(tsKey, String(Date.now()));
+        } catch (e) {}
+      }
+    })
+    .catch(function () {});
+  } catch (e) {}
+})();
 
 // ─── Routing backend — helper with retry for reliability ────────────────────
 window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
