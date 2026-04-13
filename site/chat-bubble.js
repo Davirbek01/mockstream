@@ -296,12 +296,12 @@
 
     // Find my root message IDs
     var myMsgIds = {};
-    _communityMessages.forEach(function(m) { if (m.device_id === myDevice && !m.parent_id) myMsgIds[m.id] = true; });
+    _communityMessages.forEach(function(m) { if (m.device_id === myDevice && !m.parent_id) myMsgIds[String(m.id)] = true; });
 
     // Collect only UNSEEN replies to my messages (from others)
     var unseenReplies = [];
     _communityMessages.forEach(function(m) {
-      if (m.parent_id && myMsgIds[m.parent_id] && m.device_id !== myDevice && m.id > _communityJumpSeenId) {
+      if (m.parent_id && myMsgIds[String(m.parent_id)] && m.device_id !== myDevice && m.id > _communityJumpSeenId) {
         unseenReplies.push(m);
       }
     });
@@ -2115,19 +2115,22 @@
       .cb-comm-msg{display:flex;flex-direction:column;max-width:88%;animation:cbHcFadeIn .15s ease}
       .cb-comm-mine{align-self:flex-end}
       .cb-comm-other,.cb-comm-admin{align-self:flex-start}
-      .cb-comm-reply-quote{background:rgba(99,102,241,.08);border-left:3px solid #818cf8;border-radius:0 8px 8px 0;padding:4px 10px;margin-bottom:3px;cursor:pointer;transition:background .15s;max-width:100%}
-      .cb-comm-reply-quote:hover{background:rgba(99,102,241,.14)}
-      .cb-comm-reply-quote-name{font-size:10px;font-weight:700;color:#6366f1;line-height:1.3}
-      .cb-comm-reply-quote-text{font-size:11px;color:#64748b;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
-      .cb-comm-mine .cb-comm-reply-quote{background:rgba(255,255,255,.15);border-left-color:rgba(255,255,255,.5)}
-      .cb-comm-mine .cb-comm-reply-quote-name{color:rgba(255,255,255,.85)}
-      .cb-comm-mine .cb-comm-reply-quote-text{color:rgba(255,255,255,.7)}
+      .cb-comm-reply-quote{background:rgba(99,102,241,.1);border-left:3px solid #6366f1;border-radius:0 8px 8px 0;padding:6px 10px;margin-bottom:4px;cursor:pointer;transition:background .15s;max-width:100%}
+      .cb-comm-reply-quote:hover{background:rgba(99,102,241,.18)}
+      .cb-comm-reply-quote-name{font-size:11px;font-weight:700;color:#6366f1;line-height:1.4}
+      .cb-comm-reply-quote-text{font-size:12px;color:#475569;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+      .cb-comm-mine .cb-comm-reply-quote{background:rgba(255,255,255,.18);border-left-color:rgba(255,255,255,.7)}
+      .cb-comm-mine .cb-comm-reply-quote-name{color:rgba(255,255,255,.95)}
+      .cb-comm-mine .cb-comm-reply-quote-text{color:rgba(255,255,255,.8)}
       .cb-comm-name{font-size:11px;font-weight:700;color:#6366f1;margin-bottom:2px}
       .cb-comm-name-admin{color:#059669}
       .cb-comm-text{padding:8px 12px;border-radius:14px;font-size:13px;line-height:1.5;word-break:break-word}
       .cb-comm-mine .cb-comm-text{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border-bottom-right-radius:4px}
       .cb-comm-other .cb-comm-text{background:#f1f5f9;color:#1e293b;border-bottom-left-radius:4px}
       .cb-comm-admin .cb-comm-text{background:linear-gradient(135deg,#059669,#10b981);color:#fff;border-bottom-left-radius:4px}
+      .cb-comm-admin .cb-comm-reply-quote{background:rgba(255,255,255,.18);border-left-color:rgba(255,255,255,.7)}
+      .cb-comm-admin .cb-comm-reply-quote-name{color:rgba(255,255,255,.95)}
+      .cb-comm-admin .cb-comm-reply-quote-text{color:rgba(255,255,255,.8)}
       .cb-comm-footer{display:flex;align-items:center;gap:8px;margin-top:3px}
       .cb-comm-time{font-size:10px;color:#94a3b8}
       .cb-comm-reply-btn{background:none;border:none;font-size:10px;color:#6366f1;cursor:pointer;padding:0;font-weight:600;opacity:.7;transition:opacity .15s}
@@ -2826,9 +2829,9 @@
       return;
     }
 
-    // Build ID lookup for parent references
+    // Build ID lookup for parent references (use String keys for type safety)
     var byId = {};
-    _communityMessages.forEach(function(m) { byId[m.id] = m; });
+    _communityMessages.forEach(function(m) { byId[String(m.id)] = m; });
 
     var myDevice = getDeviceId();
     var html = '';
@@ -2836,7 +2839,7 @@
     // Flat chronological: render every message in order
     _communityMessages.forEach(function (m) {
       var isReply = !!m.parent_id;
-      var parentMsg = isReply ? (byId[m.parent_id] || null) : null;
+      var parentMsg = isReply ? (byId[String(m.parent_id)] || null) : null;
       html += _renderCommunityMsg(m, myDevice, isReply, parentMsg);
     });
 
@@ -2910,21 +2913,25 @@
       nameHtml = '<div class="cb-comm-name" style="text-align:right;"><span style="font-size:9px;background:' + badgeBg2 + ';color:' + badgeColor2 + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel2 + '</span></div>';
     }
 
-    var replyBtn = '';
-    if (!isReply) {
-      replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
-    }
+    var replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
 
     // Quote preview for replies
     var quoteHtml = '';
-    if (isReply && parentMsg) {
-      var quoteName = parentMsg.device_id === myDevice ? 'You' : escapeHtml(parentMsg.sender_name || 'Anonymous');
-      var quoteSnippet = escapeHtml((parentMsg.content || '').substring(0, 60));
-      if ((parentMsg.content || '').length > 60) quoteSnippet += '…';
-      quoteHtml = '<div class="cb-comm-reply-quote" data-scroll-to="' + parentMsg.id + '">' +
-        '<div class="cb-comm-reply-quote-name">' + quoteName + '</div>' +
-        '<div class="cb-comm-reply-quote-text">' + quoteSnippet + '</div>' +
-      '</div>';
+    if (isReply) {
+      if (parentMsg) {
+        var quoteName = parentMsg.device_id === myDevice ? 'You' : escapeHtml(parentMsg.sender_name || 'Anonymous');
+        var quoteSnippet = escapeHtml((parentMsg.content || '').substring(0, 80));
+        if ((parentMsg.content || '').length > 80) quoteSnippet += '…';
+        quoteHtml = '<div class="cb-comm-reply-quote" data-scroll-to="' + parentMsg.id + '">' +
+          '<div class="cb-comm-reply-quote-name">' + quoteName + '</div>' +
+          '<div class="cb-comm-reply-quote-text">' + quoteSnippet + '</div>' +
+        '</div>';
+      } else {
+        quoteHtml = '<div class="cb-comm-reply-quote">' +
+          '<div class="cb-comm-reply-quote-name">Reply</div>' +
+          '<div class="cb-comm-reply-quote-text" style="font-style:italic;">Original message</div>' +
+        '</div>';
+      }
     }
 
     var extraClass = (isReplyToMe ? ' cb-comm-reply-to-me' : '');
@@ -3082,9 +3089,9 @@
 
     var myDevice = getDeviceId();
     var byId = {};
-    _communityMessages.forEach(function(m) { byId[m.id] = m; });
+    _communityMessages.forEach(function(m) { byId[String(m.id)] = m; });
     var isReply = !!msg.parent_id;
-    var parentMsg = isReply ? (byId[msg.parent_id] || null) : null;
+    var parentMsg = isReply ? (byId[String(msg.parent_id)] || null) : null;
     var html = _renderCommunityMsg(msg, myDevice, isReply, parentMsg);
 
     var wrapper = document.createElement('div');
