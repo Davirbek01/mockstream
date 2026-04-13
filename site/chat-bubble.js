@@ -1499,6 +1499,20 @@
   var _dictSending = false;
   var _dictApiKeys = {}; // cached keys per model
 
+  // Load dictionary history from localStorage
+  try {
+    var _savedDict = JSON.parse(localStorage.getItem('ms_dict_history') || '[]');
+    if (Array.isArray(_savedDict)) _dictHistory = _savedDict;
+  } catch(e) {}
+
+  function _saveDictHistory() {
+    try {
+      // Keep last 40 entries (20 lookups = 20 user + 20 ai)
+      var trimmed = _dictHistory.slice(-40);
+      localStorage.setItem('ms_dict_history', JSON.stringify(trimmed));
+    } catch(e) {}
+  }
+
   function _renderDictionary() {
     var el = document.getElementById('cb-messages');
     if (!el) return;
@@ -1677,26 +1691,20 @@
       _dictHistory[_dictHistory.length - 1] = { role: 'ai', html: '<div style="color:#dc2626;font-size:13px;padding:8px 12px;background:#fef2f2;border-radius:10px;">❌ Could not translate. Please try again.</div>' };
     }
 
+    _saveDictHistory();
     _renderDictionary();
     _dictSending = false;
     if (input) input.disabled = false;
     if (input) input.focus();
   }
 
-  var _dictAudio = null;
   function _dictSpeak(word) {
-    if (_dictAudio) { _dictAudio.pause(); _dictAudio = null; }
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(word) + '&tl=en&client=tw-ob';
-    _dictAudio = new Audio(url);
-    _dictAudio.play().catch(function() {
-      // Fallback to browser speech if gTTS blocked
-      if ('speechSynthesis' in window) {
-        var u = new SpeechSynthesisUtterance(word);
-        u.lang = 'en-US'; u.rate = 0.9;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(u);
-      }
-    });
+    if ('speechSynthesis' in window) {
+      var u = new SpeechSynthesisUtterance(word);
+      u.lang = 'en-US'; u.rate = 0.9;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    }
   }
 
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────
