@@ -1798,6 +1798,20 @@
           .settings-accordion.open .settings-accordion-body { max-height:5000px; padding:0 18px 18px; }
           .settings-accordion.open .settings-accordion-arrow { transform:rotate(180deg); }
           .settings-section-divider { border-top:1px solid var(--border); margin:18px 0; }
+
+          /* Custom confirm modal */
+          .custom-confirm-overlay { position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s ease; }
+          .custom-confirm-overlay.visible { opacity:1; }
+          .custom-confirm-box { background:var(--bg,#fff); border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.25); max-width:420px; width:90%; padding:0; overflow:hidden; transform:scale(.92); transition:transform .2s ease; }
+          .custom-confirm-overlay.visible .custom-confirm-box { transform:scale(1); }
+          .custom-confirm-title { padding:18px 22px 14px; font-size:16px; font-weight:700; color:var(--ink,#1e293b); border-bottom:1px solid var(--border,#e2e8f0); display:flex; align-items:center; gap:8px; }
+          .custom-confirm-body { padding:16px 22px; font-size:13px; color:var(--muted,#64748b); line-height:1.6; }
+          .custom-confirm-actions { display:flex; justify-content:flex-end; gap:10px; padding:14px 22px 18px; }
+          .custom-confirm-btn { padding:10px 24px; border:none; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; transition:all .15s; }
+          .custom-confirm-btn.cancel { background:var(--border,#e2e8f0); color:var(--ink,#1e293b); }
+          .custom-confirm-btn.cancel:hover { background:#cbd5e1; }
+          .custom-confirm-btn.danger { background:linear-gradient(135deg,#dc2626,#b91c1c); color:#fff; }
+          .custom-confirm-btn.danger:hover { filter:brightness(1.1); }
         </style>
 
         <!-- ═══════════════ 1. SUPPORT TAB ═══════════════ -->
@@ -5336,7 +5350,8 @@
     // Delete all dictionary history
     async function deleteDictHistory() {
       var statusEl = document.getElementById('dictHistoryStatus');
-      if (!confirm('⚠️ Delete ALL dictionary lookup history? This cannot be undone.')) return;
+      var ok = await customConfirm('Delete Dictionary History', 'Delete <b>ALL</b> dictionary lookup history?<br><br><span style="color:#dc2626;font-weight:700;">This action cannot be undone.</span>');
+      if (!ok) return;
       statusEl.innerHTML = '<span style="color:var(--muted);">Deleting...</span>';
       try {
         var r = await fetch(SB_URL + '/rest/v1/dict_lookups?id=not.is.null', {
@@ -5403,6 +5418,33 @@
     }
 
     // ── Accordion toggle ──────────────────────────────────────────────────
+    // ── Custom Confirm Dialog ────────────────────────────────────────────
+    function customConfirm(title, body) {
+      return new Promise(function(resolve) {
+        var overlay = document.createElement('div');
+        overlay.className = 'custom-confirm-overlay';
+        overlay.innerHTML =
+          '<div class="custom-confirm-box">' +
+            '<div class="custom-confirm-title">⚠️ ' + title + '</div>' +
+            '<div class="custom-confirm-body">' + body + '</div>' +
+            '<div class="custom-confirm-actions">' +
+              '<button class="custom-confirm-btn cancel" id="_ccCancel">Cancel</button>' +
+              '<button class="custom-confirm-btn danger" id="_ccOk">Delete</button>' +
+            '</div>' +
+          '</div>';
+        document.body.appendChild(overlay);
+        requestAnimationFrame(function(){ overlay.classList.add('visible'); });
+        function close(result) {
+          overlay.classList.remove('visible');
+          setTimeout(function(){ overlay.remove(); }, 200);
+          resolve(result);
+        }
+        overlay.querySelector('#_ccOk').onclick = function(){ close(true); };
+        overlay.querySelector('#_ccCancel').onclick = function(){ close(false); };
+        overlay.addEventListener('click', function(e){ if(e.target === overlay) close(false); });
+      });
+    }
+
     function toggleAccordion(id) {
       var el = document.getElementById(id);
       if (!el) return;
@@ -5625,13 +5667,14 @@
       var center = _getDataMgmtCenter();
       var isAll = center === '__all__';
       var label = isAll ? 'ALL CENTERS' : ('"' + (_dataMgmtCenterNames[center] || center) + '"');
-      if (!confirm('⚠️ Delete ALL support messages for ' + label + '?\n\nThis includes all Support, Premium, and Partnership conversations from all users.\n\nThis action cannot be undone.')) return;
+      var ok = await customConfirm('Delete Support Messages', 'Delete <b>ALL</b> support messages for <b>' + label + '</b>?<br><br>This includes all Support, Premium, and Partnership conversations from all users.<br><br><span style="color:#dc2626;font-weight:700;">This action cannot be undone.</span>');
+      if (!ok) return;
       var status = document.getElementById('dataMgmtStatus');
       status.innerHTML = '<span style="color:var(--muted);">Deleting support messages...</span>';
       try {
         var url = SUPABASE_URL + '/rest/v1/support_messages';
         if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
-        else url += '?id=gt.0'; // match all rows
+        else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
@@ -5647,13 +5690,14 @@
       var center = _getDataMgmtCenter();
       var isAll = center === '__all__';
       var label = isAll ? 'ALL CENTERS' : ('"' + (_dataMgmtCenterNames[center] || center) + '"');
-      if (!confirm('⚠️ Delete ALL community messages for ' + label + '?\n\nThis removes every message and reply from all participants.\n\nThis action cannot be undone.')) return;
+      var ok = await customConfirm('Delete Community Messages', 'Delete <b>ALL</b> community messages for <b>' + label + '</b>?<br><br>This removes every message and reply from all participants.<br><br><span style="color:#dc2626;font-weight:700;">This action cannot be undone.</span>');
+      if (!ok) return;
       var status = document.getElementById('dataMgmtStatus');
       status.innerHTML = '<span style="color:var(--muted);">Deleting community messages...</span>';
       try {
         var url = SUPABASE_URL + '/rest/v1/community_messages';
         if (!isAll) url += '?center=eq.' + encodeURIComponent(center);
-        else url += '?id=gt.0'; // match all rows
+        else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
