@@ -2236,7 +2236,18 @@
                 <span id="storageFileCount" style="font-size:12px;color:var(--muted);"></span>
                 <span style="font-size:12px;color:var(--muted);">100 GB pool (Pro)</span>
               </div>
-              <div id="storageBucketBreakdown" style="display:flex;gap:8px;margin-top:8px;font-size:11px;color:var(--muted);"></div>
+              <div id="storageBucketBreakdown" style="display:flex;gap:8px;margin-top:8px;font-size:11px;color:var(--muted);flex-wrap:wrap;"></div>
+              <!-- Supabase billing row -->
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+                <span style="font-size:12px;color:var(--muted);white-space:nowrap;">Supabase Billing:</span>
+                <span id="billingStorageDisplay" style="font-size:12px;font-weight:600;color:#f59e0b;cursor:pointer;" title="Click to update" onclick="document.getElementById('billingStorageEdit').style.display='';this.style.display='none'"></span>
+                <span id="billingStorageEdit" style="display:none;">
+                  <input type="number" id="billingStorageInput" step="0.001" min="0" style="width:70px;padding:3px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--surface);color:var(--ink);" placeholder="GB">
+                  <button onclick="saveBillingStorage()" style="padding:3px 8px;border:none;border-radius:6px;background:#f59e0b;color:white;font-size:11px;font-weight:600;cursor:pointer;">Save</button>
+                  <button onclick="document.getElementById('billingStorageEdit').style.display='none';document.getElementById('billingStorageDisplay').style.display=''" style="padding:3px 8px;border:none;border-radius:6px;background:var(--border);color:var(--ink);font-size:11px;cursor:pointer;">Cancel</button>
+                </span>
+                <span style="font-size:11px;color:var(--muted);">(from dashboard)</span>
+              </div>
             </div>
             <!-- Database bar -->
             <div style="background:var(--bg);border-radius:12px;padding:16px;border:1px solid var(--border);">
@@ -6480,6 +6491,9 @@
 
         document.getElementById('storageStatsLoading').style.display = 'none';
         document.getElementById('storageStatsContent').style.display = '';
+
+        // Load billing storage from site_settings
+        loadBillingStorage();
       } catch(e) {
         document.getElementById('storageStatsLoading').innerHTML = '<span style="color:#dc2626;">⚠️ Could not load storage stats. Make sure the <code>get_storage_stats</code> function is deployed in Supabase.</span>';
       }
@@ -6487,6 +6501,37 @@
 
     function refreshStorageStats() {
       loadStorageStats();
+    }
+
+    async function loadBillingStorage() {
+      try {
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.billing_storage_gb&select=value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var rows = await r.json();
+        var el = document.getElementById('billingStorageDisplay');
+        if (rows.length && rows[0].value) {
+          el.textContent = parseFloat(rows[0].value).toFixed(3) + ' GB';
+        } else {
+          el.textContent = 'not set ✏️';
+        }
+      } catch(e) {}
+    }
+
+    async function saveBillingStorage() {
+      var val = document.getElementById('billingStorageInput').value;
+      if (!val || isNaN(val)) return;
+      try {
+        // Upsert into site_settings
+        await fetch(SUPABASE_URL + '/rest/v1/site_settings', {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates' },
+          body: JSON.stringify({ key: 'billing_storage_gb', value: val })
+        });
+        document.getElementById('billingStorageEdit').style.display = 'none';
+        document.getElementById('billingStorageDisplay').style.display = '';
+        document.getElementById('billingStorageDisplay').textContent = parseFloat(val).toFixed(3) + ' GB';
+      } catch(e) { alert('Failed to save'); }
     }
 
     async function loadCleanupSettings() {
