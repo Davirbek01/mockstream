@@ -1656,14 +1656,20 @@
     if (input) input.focus();
   }
 
+  var _dictAudio = null;
   function _dictSpeak(word) {
-    if ('speechSynthesis' in window) {
-      var u = new SpeechSynthesisUtterance(word);
-      u.lang = 'en-US';
-      u.rate = 0.9;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(u);
-    }
+    if (_dictAudio) { _dictAudio.pause(); _dictAudio = null; }
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(word) + '&tl=en&client=tw-ob';
+    _dictAudio = new Audio(url);
+    _dictAudio.play().catch(function() {
+      // Fallback to browser speech if gTTS blocked
+      if ('speechSynthesis' in window) {
+        var u = new SpeechSynthesisUtterance(word);
+        u.lang = 'en-US'; u.rate = 0.9;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+    });
   }
 
   // ─── SYNC WITH LANDING PAGE HELP CENTER ───────────────────────────────────
