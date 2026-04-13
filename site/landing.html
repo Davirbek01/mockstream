@@ -16626,52 +16626,54 @@
       if (el) el.textContent = cnt + ' selected';
       if (btn) { btn.style.opacity = cnt > 0 ? '1' : '0.5'; btn.style.pointerEvents = cnt > 0 ? 'auto' : 'none'; }
     }
-    function _wpConfirm(msg, onOk) {
-      var ov = document.createElement('div');
-      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:10300;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn 0.15s ease;';
-      ov.onclick = function(e) { if (e.target === ov) ov.remove(); };
-      var card = document.createElement('div');
-      card.style.cssText = 'background:#fff;border-radius:16px;padding:28px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:slideUp 0.2s ease;';
-      card.innerHTML = '<div style="font-size:40px;margin-bottom:12px;">⚠️</div>' +
-        '<h3 style="margin:0 0 8px;font-size:17px;color:#1e293b;">Are you sure?</h3>' +
-        '<p style="margin:0 0 20px;font-size:14px;color:#64748b;line-height:1.5;">' + msg + '</p>' +
-        '<div style="display:flex;gap:10px;justify-content:center;">' +
-          '<button id="_wpConfirmCancel" style="flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fff;color:#64748b;font-weight:600;font-size:14px;cursor:pointer;">Cancel</button>' +
-          '<button id="_wpConfirmOk" style="flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(239,68,68,0.3);">Delete</button>' +
-        '</div>';
-      ov.appendChild(card);
-      document.body.appendChild(ov);
-      card.querySelector('#_wpConfirmCancel').onclick = function() { ov.remove(); };
-      card.querySelector('#_wpConfirmOk').onclick = function() { ov.remove(); onOk(); };
+    function _wpConfirm(msg) {
+      return new Promise(function(resolve) {
+        var ov = document.createElement('div');
+        ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:10300;display:flex;align-items:center;justify-content:center;padding:20px;';
+        ov.onclick = function(e) { if (e.target === ov) { ov.remove(); resolve(false); } };
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#fff;border-radius:16px;padding:28px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);';
+        card.innerHTML = '<div style="font-size:40px;margin-bottom:12px;">⚠️</div>' +
+          '<h3 style="margin:0 0 8px;font-size:17px;color:#1e293b;">Are you sure?</h3>' +
+          '<p style="margin:0 0 20px;font-size:14px;color:#64748b;line-height:1.5;">' + msg + '</p>' +
+          '<div style="display:flex;gap:10px;justify-content:center;">' +
+            '<button id="_wpConfirmCancel" style="flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fff;color:#64748b;font-weight:600;font-size:14px;cursor:pointer;">Cancel</button>' +
+            '<button id="_wpConfirmOk" style="flex:1;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(239,68,68,0.3);">Delete</button>' +
+          '</div>';
+        ov.appendChild(card);
+        document.body.appendChild(ov);
+        card.querySelector('#_wpConfirmCancel').onclick = function() { ov.remove(); resolve(false); };
+        card.querySelector('#_wpConfirmOk').onclick = function() { ov.remove(); resolve(true); };
+      });
     }
 
     async function _wpDeleteSelected() {
       var ids = Object.keys(_wpSelected);
       if (!ids.length) return;
-      _wpConfirm('Permanently delete <strong>' + ids.length + ' submission' + (ids.length !== 1 ? 's' : '') + '</strong>? This cannot be undone.', async function() {
-        var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-        var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-        var btn = document.getElementById('wpDeleteSelBtn');
-        btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none';
-        try {
-          for (var i = 0; i < ids.length; i++) {
-            var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
-              method: 'DELETE',
-              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      var confirmed = await _wpConfirm('Permanently delete <strong>' + ids.length + ' submission' + (ids.length !== 1 ? 's' : '') + '</strong>? This cannot be undone.');
+      if (!confirmed) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var btn = document.getElementById('wpDeleteSelBtn');
+      if (btn) { btn.textContent = '⏳ Deleting...'; btn.style.pointerEvents = 'none'; }
+      try {
+        for (var i = 0; i < ids.length; i++) {
+          var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          });
+          if (!r.ok) {
+            await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
             });
-            if (!r.ok) {
-              await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + ids[i], {
-                method: 'PATCH',
-                headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'deleted' })
-              });
-            }
           }
-        } catch(e) { console.warn('WP bulk delete error:', e); }
-        _wpSelected = {};
-        _wpToggleDeleteMode();
-        await _loadWpData();
-      });
+        }
+      } catch(e) { console.warn('WP bulk delete error:', e); }
+      _wpSelected = {};
+      _wpToggleDeleteMode();
+      await _loadWpData();
     }
 
     function _renderWpList(rows) {
@@ -16728,23 +16730,22 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       if (status === 'deleted') {
-        _wpConfirm('Permanently delete this submission? This cannot be undone.', async function() {
-          try {
-            var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
-              method: 'DELETE',
-              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        var confirmed = await _wpConfirm('Permanently delete this submission? This cannot be undone.');
+        if (!confirmed) return;
+        try {
+          var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+            method: 'DELETE',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          });
+          if (!r.ok) {
+            await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
+              method: 'PATCH',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'deleted' })
             });
-            if (!r.ok) {
-              // DELETE blocked by RLS — fall back to marking as deleted
-              await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
-                method: 'PATCH',
-                headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'deleted' })
-              });
-            }
-          } catch(e) { console.warn('WP delete error:', e); }
-          await _loadWpData();
-        });
+          }
+        } catch(e) { console.warn('WP delete error:', e); }
+        await _loadWpData();
       } else {
         try {
           var r = await fetch(SB_URL + '/rest/v1/writing_plus_submissions?id=eq.' + id, {
