@@ -3718,6 +3718,55 @@
       return htmlContent;
     }
 
+    // Render PDF pages as images using PDF.js (for mobile/tablet)
+    async function _renderPdfAsHtml(pdfArrayBuffer) {
+      var pdfJsSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      var pdfWorkerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+      // Convert to base64 for embedding
+      var bytes = new Uint8Array(pdfArrayBuffer);
+      var binary = '';
+      for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      var base64 = btoa(binary);
+
+      var htmlParts = [
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+        '<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#1e293b;display:flex;flex-direction:column;align-items:center;padding:12px;gap:12px;min-height:100vh}',
+        'canvas{max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.4)}',
+        '.loading{color:#94a3b8;font-family:system-ui;font-size:15px;text-align:center;padding:40px}.error{color:#f87171;font-family:system-ui;font-size:14px;text-align:center;padding:20px}</style></head><body>',
+        '<div class="loading" id="pdfLoading">Loading certificate...</div>',
+        '<script src="' + pdfJsSrc + '"><\/script>',
+        '<script>',
+        'var b64 = "' + base64 + '";',
+        'var raw = atob(b64);',
+        'var arr = new Uint8Array(raw.length);',
+        'for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);',
+        'pdfjsLib.GlobalWorkerOptions.workerSrc = "' + pdfWorkerSrc + '";',
+        'pdfjsLib.getDocument({data: arr}).promise.then(function(pdf) {',
+        '  document.getElementById("pdfLoading").style.display = "none";',
+        '  var scale = Math.min(2, window.devicePixelRatio || 1.5);',
+        '  function renderPage(num) {',
+        '    if (num > pdf.numPages) return;',
+        '    pdf.getPage(num).then(function(page) {',
+        '      var vp = page.getViewport({scale: scale});',
+        '      var canvas = document.createElement("canvas");',
+        '      canvas.width = vp.width; canvas.height = vp.height;',
+        '      canvas.style.width = "100%";',
+        '      document.body.appendChild(canvas);',
+        '      page.render({canvasContext: canvas.getContext("2d"), viewport: vp}).promise.then(function() { renderPage(num + 1); });',
+        '    });',
+        '  }',
+        '  renderPage(1);',
+        '}).catch(function(e) {',
+        '  document.getElementById("pdfLoading").innerHTML = "<div class=error>Could not load certificate<br>"+e.message+"</div>";',
+        '});',
+        '<\/script></body></html>'
+      ];
+
+      var htmlBlob = new Blob([htmlParts.join('\n')], { type: 'text/html; charset=utf-8' });
+      return URL.createObjectURL(htmlBlob);
+    }
+
     async function renderFullMockTabs(zip, htmlFiles, pdfFiles, nestedZips, reportUrl, result) {
       var iframe = document.getElementById('viewerIframe');
       var tabBar = document.getElementById('viewerTabs');
@@ -3727,12 +3776,21 @@
       var tabs = [];
       var allBlobUrls = [];
 
-      // PDF certificate
+      // PDF certificate — render as image via PDF.js on mobile, embed on desktop
+      var _isMobileDevice = /Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(navigator.userAgent) || window.innerWidth < 900;
       for (var p = 0; p < pdfFiles.length; p++) {
         var pdfBlob = await zip.files[pdfFiles[p]].async('blob');
         var pdfUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
         allBlobUrls.push(pdfUrl);
-        tabs.push({ label: '📜 Certificate', url: pdfUrl, isPdf: true });
+        if (_isMobileDevice) {
+          // Convert PDF to image-based HTML page using PDF.js for mobile
+          var pdfArrayBuf = await zip.files[pdfFiles[p]].async('arraybuffer');
+          var pdfViewerUrl = await _renderPdfAsHtml(pdfArrayBuf);
+          allBlobUrls.push(pdfViewerUrl);
+          tabs.push({ label: '📜 Certificate', url: pdfViewerUrl, isPdf: false, needsUnsandbox: true });
+        } else {
+          tabs.push({ label: '📜 Certificate', url: pdfUrl, isPdf: true });
+        }
       }
 
       // HTML reports
@@ -3786,7 +3844,7 @@
               var btns = tabBar.querySelectorAll('button');
               for (var b = 0; b < btns.length; b++) btns[b].classList.remove('active');
               btn.classList.add('active');
-              if (tab.isPdf) {
+              if (tab.isPdf || tab.needsUnsandbox) {
                 iframe.removeAttribute('sandbox');
               } else {
                 iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-downloads allow-popups');
@@ -3804,7 +3862,7 @@
 
       // Load first tab
       if (tabs.length > 0 && !tabs[0].isDownload) {
-        if (tabs[0].isPdf) {
+        if (tabs[0].isPdf || tabs[0].needsUnsandbox) {
           iframe.removeAttribute('sandbox');
         }
         iframe.src = tabs[0].url;
