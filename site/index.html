@@ -2264,6 +2264,61 @@
 
 <body>
 
+<!-- ===== LANDING PAGE (main domain only) ===== -->
+<script>
+(function() {
+  // Only show landing on main site (mock_stream center) — clones skip
+  var isMain = window.__CENTER_ID === 'mock_stream';
+  var host = location.hostname;
+  // Also match mockstream.site domain
+  var isMainDomain = host.indexOf('mock-stream01') !== -1 || host.indexOf('mockstream.site') !== -1 || host === 'localhost' || host === '127.0.0.1';
+  if (!isMain || !isMainDomain) return;
+  // Check if user already chose (session-based)
+  if (sessionStorage.getItem('ms_landing_choice') === 'site1') return;
+
+  // Create landing overlay
+  var overlay = document.createElement('div');
+  overlay.id = 'msLandingOverlay';
+  overlay.innerHTML = '\
+    <style>\
+      #msLandingOverlay{position:fixed;inset:0;z-index:999999;background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,sans-serif;}\
+      .ms-landing{text-align:center;padding:24px;max-width:600px;width:100%;}\
+      .ms-landing h1{color:#f1f5f9;font-size:clamp(28px,5vw,42px);font-weight:800;margin-bottom:8px;letter-spacing:-0.5px;}\
+      .ms-landing p{color:#94a3b8;font-size:clamp(14px,2.5vw,17px);margin-bottom:40px;}\
+      .ms-landing-cards{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}\
+      .ms-landing-card{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 24px;width:240px;cursor:pointer;transition:all .25s;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:16px;}\
+      .ms-landing-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.3);}\
+      .ms-landing-card img{width:80px;height:80px;border-radius:16px;object-fit:cover;box-shadow:0 8px 20px rgba(0,0,0,0.3);}\
+      .ms-landing-card h3{color:#f1f5f9;font-size:18px;font-weight:700;margin:0;}\
+      .ms-landing-card span{color:#94a3b8;font-size:13px;line-height:1.5;}\
+      .ms-landing-card .ms-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}\
+      .ms-card1 .ms-badge{background:rgba(16,185,129,0.15);color:#34d399;}\
+      .ms-card2 .ms-badge{background:rgba(59,130,246,0.15);color:#60a5fa;}\
+      @media(max-width:520px){.ms-landing-cards{flex-direction:column;align-items:center;}.ms-landing-card{width:100%;max-width:280px;}}\
+    </style>\
+    <div class="ms-landing">\
+      <h1>⚡ Mock Stream</h1>\
+      <p>Choose your practice platform</p>\
+      <div class="ms-landing-cards">\
+        <div class="ms-landing-card ms-card1" onclick="document.getElementById(\'msLandingOverlay\').remove();sessionStorage.setItem(\'ms_landing_choice\',\'site1\')">\
+          <img src="https://i.ibb.co/WN0XY5Lv/logo.png" alt="Mock Stream 1">\
+          <h3>Mock Stream 1</h3>\
+          <span>Classic platform with full IELTS & CEFR mocks</span>\
+          <div class="ms-badge">Original</div>\
+        </div>\
+        <a class="ms-landing-card ms-card2" href="/site2/">\
+          <img src="/site2/logo.jpg" alt="Mock Stream 2">\
+          <h3>Mock Stream 2</h3>\
+          <span>Modern interface with AI-powered feedback</span>\
+          <div class="ms-badge">New</div>\
+        </a>\
+      </div>\
+    </div>';
+  document.body.appendChild(overlay);
+})();
+</script>
+<!-- ===== END LANDING PAGE ===== -->
+
 
   <!-- Hamburger Menu Button -->
   <div class="hamburger-menu" id="hamburgerBtn" onclick="toggleSidebar()">
