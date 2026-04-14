@@ -2942,6 +2942,9 @@
             // Reset cache and state
             dictationGTTSCache = {};
             dictationAudioReady = false;
+            dictationUseBrowserTTS = false;
+            dictationAudioInstances = {};
+            currentBrowserUtterance = null;
 
             // Preload GTTS audio
             const success = await preloadDictationGTTS();
@@ -3091,22 +3094,26 @@
                 return true;
 
             } catch (error) {
-                console.warn('GTTS preloading failed:', error);
+                console.warn('GTTS preloading failed, falling back to browser TTS:', error);
 
-                // Show error state on buttons but still allow viewing
-                document.querySelectorAll('.chunk-audio-btn').forEach(btn => {
+                // Enable buttons with browser TTS fallback
+                dictationAudioReady = false;
+                dictationUseBrowserTTS = true;
+                document.querySelectorAll('.chunk-audio-btn').forEach((btn, index) => {
                     btn.classList.remove('loading');
-                    btn.innerHTML = '<span>❌</span> N/A';
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
+                    btn.innerHTML = '<span>▶️</span> Play';
+                    btn.disabled = false;
                 });
+                updateDictationProgress(100, 'Using browser voice');
 
-                return false;
+                return true;
             }
         }
 
         // Store audio instances per chunk for pause/resume
         let dictationAudioInstances = {};
+        let dictationUseBrowserTTS = false;
+        let currentBrowserUtterance = null;
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
@@ -3119,6 +3126,20 @@
             const btn = document.getElementById(`chunk-play-${index}`);
             const seekFill = document.getElementById(`chunk-seekfill-${index}`);
             const timeDisplay = document.getElementById(`chunk-time-${index}`);
+
+            // Browser TTS pause/resume
+            if (dictationUseBrowserTTS && currentPlayingChunk === index && speechSynthesis.speaking) {
+                if (speechSynthesis.paused) {
+                    speechSynthesis.resume();
+                    btn.innerHTML = '<span>⏸️</span> Pause';
+                    btn.classList.add('playing');
+                } else {
+                    speechSynthesis.pause();
+                    btn.innerHTML = '<span>▶️</span> Play';
+                    btn.classList.remove('playing');
+                }
+                return;
+            }
 
             // If same chunk is currently playing, pause it
             if (currentPlayingChunk === index && currentDictationAudio && !currentDictationAudio.paused) {
@@ -3197,8 +3218,36 @@
                     btn.innerHTML = '<span>▶️</span> Play';
                     btn.classList.remove('playing');
                 });
+            } else if (dictationUseBrowserTTS && 'speechSynthesis' in window) {
+                // Browser TTS fallback
+                console.log(`🔊 Using browser TTS for sentence ${index}`);
+                stopAllDictationAudio();
+
+                const utterance = new SpeechSynthesisUtterance(dictationChunks[index]);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+
+                currentBrowserUtterance = utterance;
+                currentPlayingChunk = index;
+                btn.innerHTML = '<span>⏸️</span> Pause';
+                btn.classList.add('playing');
+
+                utterance.onend = () => {
+                    btn.innerHTML = '<span>▶️</span> Play';
+                    btn.classList.remove('playing');
+                    currentBrowserUtterance = null;
+                    currentPlayingChunk = null;
+                };
+                utterance.onerror = () => {
+                    btn.innerHTML = '<span>▶️</span> Play';
+                    btn.classList.remove('playing');
+                    currentBrowserUtterance = null;
+                    currentPlayingChunk = null;
+                };
+
+                speechSynthesis.speak(utterance);
             } else {
-                console.warn(`⚠️ No GTTS audio for sentence ${index}`);
+                console.warn(`⚠️ No audio available for sentence ${index}`);
             }
         }
 
@@ -3254,6 +3303,10 @@
             if (currentDictationAudio) {
                 currentDictationAudio.pause();
                 currentDictationAudio = null;
+            }
+            if (currentBrowserUtterance) {
+                speechSynthesis.cancel();
+                currentBrowserUtterance = null;
             }
             document.querySelectorAll('.chunk-audio-btn').forEach((btn, idx) => {
                 if (!btn.disabled) {
