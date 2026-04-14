@@ -2255,7 +2255,10 @@
 
       /* ── Mobile (overlay) ── */
       @media(max-width:480px){
-        #cb-overlay .cb-hc-container{width:92vw;max-width:360px;height:auto;max-height:75vh;max-height:75dvh;border-radius:16px}
+        #cb-overlay .cb-hc-container{width:96vw;max-width:none;height:auto;max-height:75vh;max-height:75dvh;border-radius:16px}
+        #cb-overlay .cb-input-bar{gap:5px;padding:10px 10px}
+        #cb-overlay .cb-attach-btn,#cb-overlay .cb-send-btn,#cb-overlay #cb-voice-btn{width:36px;height:36px;font-size:14px}
+        #cb-overlay #cb-input{padding:8px 12px;font-size:13px}
         #cb-toast{left:12px;right:12px;bottom:84px}.cb-toast-inner{max-width:100%}
         #cb-fab.open{display:none}
       }
