@@ -6872,8 +6872,9 @@
       });
 
       var allPaths = _manualDeleteFiles.map(function(f) { return f.path; });
-      // Supabase storage delete accepts array of prefixes
+      // Supabase storage delete: DELETE /object/{bucket} with { prefixes: [...paths] }
       var BATCH = 50;
+      var apiErrors = [];
       for (var i = 0; i < allPaths.length; i += BATCH) {
         var batch = allPaths.slice(i, i + BATCH);
         try {
@@ -6884,12 +6885,20 @@
           });
           if (resp.ok) {
             var result = await resp.json();
-            deleted += Array.isArray(result) ? result.length : batch.length;
+            var batchDeleted = Array.isArray(result) ? result.length : batch.length;
+            deleted += batchDeleted;
+            if (batchDeleted === 0 && batch.length > 0) {
+              apiErrors.push('Batch returned 0 deleted (expected ' + batch.length + ') — check Storage RLS policies allow DELETE for anon role');
+              console.warn('[Storage Delete] Batch returned 0 deleted files. Sent:', batch, 'Response:', result);
+            }
           } else {
             failed += batch.length;
+            try { var errBody = await resp.text(); apiErrors.push('HTTP ' + resp.status + ': ' + errBody.substring(0, 200)); console.error('[Storage Delete] HTTP ' + resp.status, errBody); } catch(e2) {}
           }
         } catch(e) {
           failed += batch.length;
+          apiErrors.push('Network error: ' + e.message);
+          console.error('[Storage Delete] Network error:', e);
         }
         statusEl.innerHTML = '<span style="color:var(--muted);">🗑️ Deleting ' + Math.min(i + BATCH, allPaths.length) + ' / ' + count + ' files...</span>';
       }
@@ -6936,14 +6945,24 @@
       var summaryParts = [];
       summaryParts.push(deleted + ' file' + (deleted !== 1 ? 's' : '') + ' (' + sizeStr + ' freed)');
       if (alsoDeleteRecords) summaryParts.push(dbDeleted + ' database record' + (dbDeleted !== 1 ? 's' : '') + ' removed');
-      if (failed === 0) {
+      if (failed === 0 && deleted >= count) {
         statusEl.innerHTML = '<span style="color:#059669;font-weight:600;">✅ ' + summaryParts.join(', ') + '.</span>';
+      } else if (deleted === 0 && failed === 0) {
+        // API returned OK but 0 files were deleted — likely RLS issue
+        var rlsHint = apiErrors.length ? '<br><span style="font-size:11px;color:#dc2626;">' + apiErrors[0] + '</span>' : '';
+        statusEl.innerHTML = '<span style="color:#dc2626;font-weight:600;">⚠️ Storage API returned success but 0 files were deleted. This usually means the Storage RLS policy does not allow DELETE for the anon key.' + rlsHint + '</span>';
+      } else if (failed > 0) {
+        var errHint = apiErrors.length ? '<br><span style="font-size:11px;color:#dc2626;">' + apiErrors[0] + '</span>' : '';
+        statusEl.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ ' + summaryParts.join(', ') + '. ' + failed + ' file' + (failed !== 1 ? 's' : '') + ' failed.' + errHint + '</span>';
       } else {
-        statusEl.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ ' + summaryParts.join(', ') + '. ' + failed + ' file' + (failed !== 1 ? 's' : '') + ' failed.</span>';
+        // Partial success — some batches returned fewer than expected
+        var partialHint = apiErrors.length ? '<br><span style="font-size:11px;color:#f59e0b;">' + apiErrors[0] + '</span>' : '';
+        statusEl.innerHTML = '<span style="color:#f59e0b;font-weight:600;">⚠️ ' + summaryParts.join(', ') + ' (expected ' + count + ').' + partialHint + '</span>';
       }
 
-      // Refresh storage stats
+      // Refresh storage stats and main dashboard results
       loadStorageStats();
+      if (typeof loadResults === 'function') loadResults();
     }
 
     // ====================================================================
