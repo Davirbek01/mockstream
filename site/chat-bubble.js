@@ -1574,8 +1574,6 @@
       }
       markSeen();
       renderMessages();
-      var input = document.getElementById('cb-input');
-      if (input) setTimeout(function () { input.focus(); }, 200);
     }
   }
 
