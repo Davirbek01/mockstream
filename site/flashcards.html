@@ -646,6 +646,7 @@
     const GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
     let gttsCache = {};
     let gttsCurrentAudio = null;
+    let gttsUtterance = null;
 
     async function speakCurrentCard() {
       const c = CARDS[index % CARDS.length];
@@ -659,6 +660,15 @@
         gttsCurrentAudio.pause();
         gttsCurrentAudio.currentTime = 0;
         gttsCurrentAudio = null;
+        btn.classList.remove('playing', 'loading');
+        btn.innerHTML = '🔊';
+        return;
+      }
+
+      // If browser TTS is playing, stop it
+      if (gttsUtterance && 'speechSynthesis' in window && speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        gttsUtterance = null;
         btn.classList.remove('playing', 'loading');
         btn.innerHTML = '🔊';
         return;
@@ -717,13 +727,46 @@
           playGttsBlob(blob, btn);
         }
       } catch (err) {
-        console.warn('GTTS failed, no fallback:', err);
+        console.warn('GTTS failed, using browser TTS fallback:', err);
         btn.classList.remove('loading');
         btn.innerHTML = '🔊';
+        speakWithBrowserTTS(text, btn);
       }
     }
 
+    function speakWithBrowserTTS(text, btn) {
+      if (!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.9;
+      u.pitch = 1.0;
+      u.volume = 1.0;
+      gttsUtterance = u;
+
+      btn.classList.add('playing');
+      btn.innerHTML = '⏹️';
+
+      u.onend = () => {
+        gttsUtterance = null;
+        btn.classList.remove('playing');
+        btn.innerHTML = '🔊';
+      };
+
+      u.onerror = () => {
+        gttsUtterance = null;
+        btn.classList.remove('playing');
+        btn.innerHTML = '🔊';
+      };
+
+      speechSynthesis.speak(u);
+    }
+
     function playGttsBlob(blob, btn) {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        gttsUtterance = null;
+      }
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       audio.volume = 1.0;
@@ -892,6 +935,10 @@
         gttsCurrentAudio.pause();
         gttsCurrentAudio.currentTime = 0;
         gttsCurrentAudio = null;
+      }
+      if (gttsUtterance && 'speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        gttsUtterance = null;
       }
       const btn = document.getElementById('gttsBtn');
       if (btn) {
