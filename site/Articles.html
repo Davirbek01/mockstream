@@ -2952,6 +2952,8 @@
             // Render the actual dictation UI
             container.innerHTML = '';
 
+            const audioReady = dictationAudioReady || dictationUseBrowserTTS;
+
             dictationChunks.forEach((chunk, index) => {
                 const chunkEl = document.createElement('div');
                 chunkEl.className = 'dictation-chunk';
@@ -2961,8 +2963,8 @@
                         <span class="chunk-number">Sentence ${index + 1}</span>
                     </div>
                     <div class="chunk-audio-controls">
-                        <button class="chunk-audio-btn ${!dictationAudioReady ? 'loading' : ''}" onclick="playDictationChunk(${index})" id="chunk-play-${index}" ${!dictationAudioReady ? 'disabled' : ''}>
-                            <span>▶️</span> ${dictationAudioReady ? 'Play' : '...'}
+                        <button class="chunk-audio-btn ${!audioReady ? 'loading' : ''}" onclick="playDictationChunk(${index})" id="chunk-play-${index}" ${!audioReady ? 'disabled' : ''}>
+                            <span>▶️</span> ${audioReady ? 'Play' : '...'}
                         </button>
                         <div class="chunk-seekbar-container">
                             <div class="chunk-seekbar" id="chunk-seekbar-${index}" 
