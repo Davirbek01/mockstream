@@ -2827,6 +2827,9 @@
     var currentPage = 1;
     var sortField = 'created_at';
     var sortDir = 'desc';
+    var _resultsLoading = false;
+    var _autoRefreshTimer = null;
+    var AUTO_REFRESH_MS = 60000;
 
     // ====================================================================
     // THEME
@@ -3060,7 +3063,20 @@
       // Check for unread messages (admin notification)
       checkUnreadMessages();
       setInterval(checkUnreadMessages, 60000); // Re-check every 60s
+      startResultsAutoRefresh();
     }
+
+    function startResultsAutoRefresh() {
+      if (_autoRefreshTimer) clearInterval(_autoRefreshTimer);
+      _autoRefreshTimer = setInterval(function () {
+        if (document.hidden) return;
+        refreshResults(true);
+      }, AUTO_REFRESH_MS);
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) refreshResults(true);
+    });
 
     // Check for conversations needing admin reply
     async function checkUnreadMessages() {
@@ -3095,6 +3111,8 @@
     // SUPABASE DATA LOADING
     // ====================================================================
     async function loadResults() {
+      if (_resultsLoading) return;
+      _resultsLoading = true;
       var loading = document.getElementById('tableLoading');
       var tableEl = document.getElementById('resultsTable');
       var emptyEl = document.getElementById('emptyState');
@@ -3149,10 +3167,13 @@
         emptyEl.querySelector('p').textContent = 'Failed to load results from Supabase. Check console for details.';
         emptyEl.style.display = 'block';
         updateStats([]);
+      } finally {
+        _resultsLoading = false;
       }
     }
 
-    function refreshResults() {
+    function refreshResults(silent) {
+      if (silent && _resultsLoading) return;
       loadResults();
     }
 
