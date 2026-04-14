@@ -1916,7 +1916,7 @@
     if (input) input.focus();
   }
 
-  var GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
+  var GTTS_SERVER_URL = 'https://davirbek.alwaysdata.net/tts/audio';
   var _dictGttsCache = {};
   function _dictSpeak(word) {
     // Check cache first

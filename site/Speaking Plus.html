@@ -709,7 +709,7 @@ async function preloadGTTS(){
   try {
     statusEl.textContent = 'Generating audio files...';
     bar.style.width = '20%';
-    var response = await fetch('https://english-server-p7y6.onrender.com/tts/audio', {
+    var response = await fetch('https://davirbek.alwaysdata.net/tts/audio', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(requestBody)
