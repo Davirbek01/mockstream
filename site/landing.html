@@ -20178,7 +20178,32 @@
       list.innerHTML = html;
     };
 
+    // ─── Fullscreen exit/restore for mobile keyboard ───
+    var _pmWasFullscreen = false;
+    function _pmExitFullscreen() {
+      try {
+        var doc = window.top ? window.top.document : document;
+        var fsEl = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (fsEl) {
+          _pmWasFullscreen = true;
+          if (doc.exitFullscreen) doc.exitFullscreen().catch(function(){});
+          else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+        } else { _pmWasFullscreen = false; }
+      } catch(e) { _pmWasFullscreen = false; }
+    }
+    function _pmRestoreFullscreen() {
+      if (!_pmWasFullscreen) return;
+      _pmWasFullscreen = false;
+      try {
+        var doc = window.top ? window.top.document : document;
+        var elem = doc.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      } catch(e) {}
+    }
+
     window.openPrivateMessagesPanel = async function() {
+      _pmExitFullscreen();
       _pmEnsureOverlay();
       _pmBindVoice();
       document.getElementById('pmOverlay').classList.add('active');
@@ -20189,6 +20214,7 @@
       var el = document.getElementById('pmOverlay');
       if (el) el.classList.remove('active');
       _pmReplyConvId = null;
+      _pmRestoreFullscreen();
     };
 
     // ─── Unread badge on sidebar button ───
