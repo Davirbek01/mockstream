@@ -401,38 +401,47 @@
       var resp = await fetch(fileUrl);
       if (!resp.ok) throw new Error('Failed to download ZIP: ' + resp.status);
 
-      var contentLength = resp.headers.get('Content-Length');
-      var total = contentLength ? parseInt(contentLength, 10) : 0;
-      var reader = resp.body.getReader();
-      var chunks = [];
-      var received = 0;
+      var zipBuffer;
 
-      while (true) {
-        var readResult = await reader.read();
-        if (readResult.done) break;
-        chunks.push(readResult.value);
-        received += readResult.value.length;
-        if (total) {
-          var pct = Math.min(Math.round((received / total) * 100), 100);
-          progressFill.style.width = pct + '%';
-          progressText.textContent = pct + '% (' + formatBytes(received) + ' / ' + formatBytes(total) + ')';
-        } else {
-          progressText.textContent = formatBytes(received) + ' downloaded';
+      // Some mobile in-app browsers (Telegram) don't support ReadableStream
+      if (resp.body && typeof resp.body.getReader === 'function') {
+        var contentLength = resp.headers.get('Content-Length');
+        var total = contentLength ? parseInt(contentLength, 10) : 0;
+        var reader = resp.body.getReader();
+        var chunks = [];
+        var received = 0;
+
+        while (true) {
+          var readResult = await reader.read();
+          if (readResult.done) break;
+          chunks.push(readResult.value);
+          received += readResult.value.length;
+          if (total) {
+            var pct = Math.min(Math.round((received / total) * 100), 100);
+            progressFill.style.width = pct + '%';
+            progressText.textContent = pct + '% (' + formatBytes(received) + ' / ' + formatBytes(total) + ')';
+          } else {
+            progressText.textContent = formatBytes(received) + ' downloaded';
+          }
         }
-      }
 
-      var zipData = new Uint8Array(received);
-      var pos = 0;
-      for (var i = 0; i < chunks.length; i++) {
-        zipData.set(chunks[i], pos);
-        pos += chunks[i].length;
+        var zipData = new Uint8Array(received);
+        var pos = 0;
+        for (var i = 0; i < chunks.length; i++) {
+          zipData.set(chunks[i], pos);
+          pos += chunks[i].length;
+        }
+        zipBuffer = zipData.buffer;
+      } else {
+        // Fallback: simple arrayBuffer (no progress, but works everywhere)
+        zipBuffer = await resp.arrayBuffer();
       }
 
       progressFill.style.width = '100%';
       loadingText.textContent = 'Extracting report...';
       progressText.textContent = '';
 
-      return await JSZip.loadAsync(zipData.buffer);
+      return await JSZip.loadAsync(zipBuffer);
     }
 
     // ===== EXTRACT AUDIO FROM ZIP & REPLACE SRC =====
