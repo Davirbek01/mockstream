@@ -3064,21 +3064,36 @@
           // Keyboard is open — shrink container to fit visible area
           kbOpen = true;
           ov.classList.remove('cb-kb-closed');
-          container.style.maxHeight = (availH - 12) + 'px';
+          var containerH = Math.min(availH - 12, availH * 0.95);
+          container.style.height = containerH + 'px';
+          container.style.maxHeight = containerH + 'px';
           container.style.marginBottom = '0';
+          // Position overlay to visible viewport
+          if (window.visualViewport) {
+            ov.style.top = window.visualViewport.offsetTop + 'px';
+            ov.style.height = availH + 'px';
+            ov.style.bottom = 'auto';
+          }
           // Scroll input into view
           var input = document.getElementById('cb-input');
           if (input && document.activeElement === input) {
             setTimeout(function () { input.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 100);
           }
+          // Also check PM/SM reply inputs
+          var pmInput = document.getElementById('pmReplyInput');
+          if (pmInput && document.activeElement === pmInput) {
+            setTimeout(function () { pmInput.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 100);
+          }
         } else {
           // Keyboard closed — reset
           kbOpen = false;
           ov.classList.add('cb-kb-closed');
+          container.style.height = '';
           container.style.maxHeight = '';
           container.style.marginBottom = '';
           ov.style.top = '';
           ov.style.height = '';
+          ov.style.bottom = '';
         }
       }
 

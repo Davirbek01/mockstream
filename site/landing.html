@@ -19747,7 +19747,7 @@
     .pm-overlay.active { opacity:1;pointer-events:auto; }
     .pm-panel {
       background:var(--surface,#fff);border-radius:16px;
-      width:94vw;max-width:520px;height:85vh;
+      width:94vw;max-width:520px;height:85vh;height:85dvh;
       display:flex;flex-direction:column;
       box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;
     }
@@ -20322,6 +20322,26 @@
       _pmRestoreFullscreen();
     };
 
+    // ─── Keyboard-aware resize for PM/SM panels ───
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', function() {
+        var vh = window.visualViewport.height;
+        var panels = document.querySelectorAll('.pm-panel, .sm-panel');
+        panels.forEach(function(p) {
+          var overlay = p.closest('.pm-overlay, .sm-overlay');
+          if (!overlay || !overlay.classList.contains('active')) return;
+          p.style.height = Math.min(vh * 0.85, vh - 20) + 'px';
+        });
+      });
+      window.visualViewport.addEventListener('scroll', function() {
+        var overlays = document.querySelectorAll('.pm-overlay.active, .sm-overlay.active');
+        overlays.forEach(function(ov) {
+          ov.style.top = window.visualViewport.offsetTop + 'px';
+          ov.style.height = window.visualViewport.height + 'px';
+        });
+      });
+    }
+
     // ─── Unread badge on sidebar button ───
     async function _pmCheckUnread() {
       try {
@@ -20407,7 +20427,7 @@
     .sm-overlay.active { opacity:1;pointer-events:auto; }
     .sm-panel {
       background:var(--surface,#fff);border-radius:16px;
-      width:94vw;max-width:520px;height:85vh;
+      width:94vw;max-width:520px;height:85vh;height:85dvh;
       display:flex;flex-direction:column;
       box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;
     }
