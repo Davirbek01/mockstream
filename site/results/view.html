@@ -239,6 +239,10 @@
         return;
       }
 
+      // Test blob URL support before loading content
+      _canUseBlobInIframe = await _testBlobSupport();
+      console.log('[Viewer] Blob URL in iframe supported:', _canUseBlobInIframe);
+
       try {
         // 1. Look up the result record to get report_path
         var url = SUPABASE_URL + '/rest/v1/results?id=eq.' + resultId + '&select=report_path,student_name,skill,exam_type';
@@ -484,12 +488,51 @@
       }
     }
 
-    // ===== DETECT TELEGRAM IN-APP BROWSER =====
-    var _isTelegramBrowser = /Telegram/i.test(navigator.userAgent);
+    // ===== DETECT BLOB URL SUPPORT IN IFRAMES =====
+    // Telegram in-app browsers (Android & iOS) can't load blob URLs in iframes.
+    // iOS Safari can't handle large srcdoc. So we test blob support at startup.
+    var _canUseBlobInIframe = null; // null = not tested yet, true/false after test
+
+    function _testBlobSupport() {
+      return new Promise(function (resolve) {
+        try {
+          var testHtml = '<html><body>ok</body></html>';
+          var blob = new Blob([testHtml], { type: 'text/html' });
+          var url = URL.createObjectURL(blob);
+          var f = document.createElement('iframe');
+          f.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
+          f.onload = function () {
+            try {
+              // Check if content actually loaded
+              var ok = f.contentDocument && f.contentDocument.body && f.contentDocument.body.textContent.indexOf('ok') >= 0;
+              resolve(!!ok);
+            } catch (e) {
+              resolve(false);
+            }
+            URL.revokeObjectURL(url);
+            document.body.removeChild(f);
+          };
+          f.onerror = function () {
+            resolve(false);
+            URL.revokeObjectURL(url);
+            try { document.body.removeChild(f); } catch (e) {}
+          };
+          document.body.appendChild(f);
+          f.src = url;
+          // Timeout fallback — if onload doesn't fire in 2s, assume no support
+          setTimeout(function () {
+            if (_canUseBlobInIframe === null) {
+              resolve(false);
+              try { document.body.removeChild(f); } catch (e) {}
+            }
+          }, 2000);
+        } catch (e) {
+          resolve(false);
+        }
+      });
+    }
 
     // ===== HELPER: load content into iframe =====
-    // Telegram in-app browser can't handle blob URLs → use srcdoc
-    // iOS Safari has srcdoc size limits → use blob URLs
     function loadIframeContent(iframe, htmlString, opts) {
       opts = opts || {};
       if (opts.isPdf) {
@@ -500,13 +543,13 @@
         return;
       }
       iframe.removeAttribute('sandbox');
-      if (_isTelegramBrowser) {
-        iframe.removeAttribute('src');
-        iframe.srcdoc = htmlString;
-      } else {
+      if (_canUseBlobInIframe) {
         iframe.removeAttribute('srcdoc');
         var blob = new Blob([htmlString], { type: 'text/html; charset=utf-8' });
         iframe.src = URL.createObjectURL(blob);
+      } else {
+        iframe.removeAttribute('src');
+        iframe.srcdoc = htmlString;
       }
     }
 
