@@ -38,6 +38,11 @@
   var HC_COMMUNITY_VOICE_ENABLED = true;
   var HC_COMMUNITY_IMAGE_ENABLED = true;
   var HC_COMMUNITY_PDF_ENABLED = true;
+  var HC_PRIVATE_ENABLED = true;
+  var HC_PRIVATE_TEXT_ENABLED = true;
+  var HC_PRIVATE_VOICE_ENABLED = true;
+  var HC_PRIVATE_IMAGE_ENABLED = true;
+  var HC_PRIVATE_PDF_ENABLED = true;
   var HC_DICT_ENABLED = true;
   var HC_DICT_TEXT = true;
   var HC_DICT_VOICE = false;
@@ -76,6 +81,18 @@
     if (ci !== null) HC_COMMUNITY_IMAGE_ENABLED = ci !== 'false';
     if (cpdf !== null) HC_COMMUNITY_PDF_ENABLED = cpdf !== 'false';
 
+    // Private settings from localStorage
+    var pe = localStorage.getItem('ms_hc_private_enabled');
+    var pt = localStorage.getItem('ms_hc_private_text_enabled');
+    var pv = localStorage.getItem('ms_hc_private_voice_enabled');
+    var pi = localStorage.getItem('ms_hc_private_image_enabled');
+    var ppdf = localStorage.getItem('ms_hc_private_pdf_enabled');
+    if (pe !== null) HC_PRIVATE_ENABLED = pe !== 'false';
+    if (pt !== null) HC_PRIVATE_TEXT_ENABLED = pt !== 'false';
+    if (pv !== null) HC_PRIVATE_VOICE_ENABLED = pv !== 'false';
+    if (pi !== null) HC_PRIVATE_IMAGE_ENABLED = pi !== 'false';
+    if (ppdf !== null) HC_PRIVATE_PDF_ENABLED = ppdf !== 'false';
+
     // Dictionary & AI model settings from localStorage
     var de = localStorage.getItem('ms_hc_dict_enabled');
     var dt = localStorage.getItem('ms_hc_dict_text');
@@ -92,7 +109,7 @@
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model,hc_dict_ai_model)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_private_enabled,hc_private_text_enabled,hc_private_voice_enabled,hc_private_image_enabled,hc_private_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model,hc_dict_ai_model)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
@@ -111,6 +128,11 @@
         if ('hc_community_voice_enabled' in map) { HC_COMMUNITY_VOICE_ENABLED = map.hc_community_voice_enabled !== 'false'; localStorage.setItem('ms_hc_community_voice_enabled', map.hc_community_voice_enabled); }
         if ('hc_community_image_enabled' in map) { HC_COMMUNITY_IMAGE_ENABLED = map.hc_community_image_enabled !== 'false'; localStorage.setItem('ms_hc_community_image_enabled', map.hc_community_image_enabled); }
         if ('hc_community_pdf_enabled' in map) { HC_COMMUNITY_PDF_ENABLED = map.hc_community_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_community_pdf_enabled', map.hc_community_pdf_enabled); }
+        if ('hc_private_enabled' in map) { HC_PRIVATE_ENABLED = map.hc_private_enabled !== 'false'; localStorage.setItem('ms_hc_private_enabled', map.hc_private_enabled); }
+        if ('hc_private_text_enabled' in map) { HC_PRIVATE_TEXT_ENABLED = map.hc_private_text_enabled !== 'false'; localStorage.setItem('ms_hc_private_text_enabled', map.hc_private_text_enabled); }
+        if ('hc_private_voice_enabled' in map) { HC_PRIVATE_VOICE_ENABLED = map.hc_private_voice_enabled !== 'false'; localStorage.setItem('ms_hc_private_voice_enabled', map.hc_private_voice_enabled); }
+        if ('hc_private_image_enabled' in map) { HC_PRIVATE_IMAGE_ENABLED = map.hc_private_image_enabled !== 'false'; localStorage.setItem('ms_hc_private_image_enabled', map.hc_private_image_enabled); }
+        if ('hc_private_pdf_enabled' in map) { HC_PRIVATE_PDF_ENABLED = map.hc_private_pdf_enabled !== 'false'; localStorage.setItem('ms_hc_private_pdf_enabled', map.hc_private_pdf_enabled); }
         if ('hc_dict_enabled' in map) { HC_DICT_ENABLED = map.hc_dict_enabled !== 'false'; localStorage.setItem('ms_hc_dict_enabled', map.hc_dict_enabled); }
         if ('hc_dict_text' in map) { HC_DICT_TEXT = map.hc_dict_text !== 'false'; localStorage.setItem('ms_hc_dict_text', map.hc_dict_text); }
         if ('hc_dict_voice' in map) { HC_DICT_VOICE = map.hc_dict_voice === 'true'; localStorage.setItem('ms_hc_dict_voice', map.hc_dict_voice); }
@@ -156,6 +178,12 @@
     if (!HC_COMMUNITY_ENABLED && currentCategory === 'community') {
       switchCategory('support');
     }
+    // Private tab button visibility
+    var privateBtn = document.querySelector('.cb-cat-btn[data-cat="private"]');
+    if (privateBtn) privateBtn.style.display = HC_PRIVATE_ENABLED ? '' : 'none';
+    if (!HC_PRIVATE_ENABLED && currentCategory === 'private') {
+      switchCategory('support');
+    }
     // Dictionary tab button visibility
     var dictBtn = document.querySelector('.cb-cat-btn[data-cat="dictionary"]');
     if (dictBtn) dictBtn.style.display = HC_DICT_ENABLED ? '' : 'none';
@@ -194,8 +222,8 @@
 
   // ─── STATE ────────────────────────────────────────────────────────────────
   var currentCategory = 'support';
-  var messages = { support: [], premium: [], partner: [] };
-  var lastSeenAdmin = { support: 0, premium: 0, partner: 0 };
+  var messages = { support: [], premium: [], partner: [], private: [] };
+  var lastSeenAdmin = { support: 0, premium: 0, partner: 0, private: 0 };
   var isOpen = false;
   var isSending = false;
   var pollTimer = null;
@@ -432,13 +460,13 @@
     try {
       // Keep max 50 per category
       var trimmed = {};
-      ['support', 'premium', 'partner'].forEach(function (c) {
+      ['support', 'premium', 'partner', 'private'].forEach(function (c) {
         trimmed[c] = (messages[c] || []).slice(-50);
       });
       localStorage.setItem('ms_chat_bubble', JSON.stringify({ messages: trimmed, lastSeenAdmin: lastSeenAdmin }));
       // Also write to landing page Help Center format for bi-directional sync
       var hcFormat = {};
-      ['support', 'premium', 'partner'].forEach(function (c) {
+      ['support', 'premium', 'partner', 'private'].forEach(function (c) {
         hcFormat[c] = { convId: getConvId(c), messages: trimmed[c] };
       });
       localStorage.setItem('ms_helpcenter_chats', JSON.stringify(hcFormat));
@@ -904,7 +932,7 @@
   // ─── POLL FOR ADMIN REPLIES ───────────────────────────────────────────────
   async function pollAdminReplies() {
     var gotNew = false;
-    var cats = ['support', 'premium', 'partner'];
+    var cats = ['support', 'premium', 'partner', 'private'];
     for (var i = 0; i < cats.length; i++) {
       var cat = cats[i];
       var convId = getConvId(cat);
@@ -945,7 +973,7 @@
   // ─── UNREAD BADGE ─────────────────────────────────────────────────────────
   function getUnreadCount() {
     var count = 0;
-    ['support', 'premium', 'partner'].forEach(function (c) {
+    ['support', 'premium', 'partner', 'private'].forEach(function (c) {
       var adminMsgs = (messages[c] || []).filter(function (m) { return m.role === 'admin'; });
       if (adminMsgs.length > (lastSeenAdmin[c] || 0)) count += adminMsgs.length - (lastSeenAdmin[c] || 0);
     });
@@ -965,7 +993,7 @@
   }
 
   function markSeen() {
-    ['support', 'premium', 'partner'].forEach(function (c) {
+    ['support', 'premium', 'partner', 'private'].forEach(function (c) {
       lastSeenAdmin[c] = (messages[c] || []).filter(function (m) { return m.role === 'admin'; }).length;
     });
     _markAnnouncementSeen();
@@ -977,7 +1005,7 @@
   function showToast() {
     // Find the latest admin message
     var latest = null;
-    ['support', 'premium', 'partner'].forEach(function (c) {
+    ['support', 'premium', 'partner', 'private'].forEach(function (c) {
       var admins = (messages[c] || []).filter(function (m) { return m.role === 'admin'; });
       if (admins.length) {
         var last = admins[admins.length - 1];
@@ -1031,7 +1059,8 @@
     var welcomes = {
       support: '👋 Hi! I\'m <strong>Mock Stream AI</strong>. How can I help you? Describe your issue and I\'ll do my best to assist.',
       premium: '👑 Welcome! Interested in <strong>Premium access</strong>? Tell me a bit about yourself and I\'ll connect you with our team.',
-      partner: '🤝 Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.'
+      partner: '🤝 Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.',
+      private: '💌 Hi! Send a <strong>private message</strong> directly to our admins. They\'ll reply here as soon as possible.'
     };
     var welcomeHtml = welcomes[currentCategory] || welcomes.support;
     var html = '';
@@ -1194,6 +1223,24 @@
       return _sendDictLookup(text);
     }
 
+    // Private mode — save to Supabase, no AI reply
+    if (currentCategory === 'private') {
+      if (!HC_PRIVATE_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
+      isSending = true;
+      input.disabled = true;
+      var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      var userMsg = { role: 'user', text: text, category: 'private', time: timeStr };
+      messages.private.push(userMsg);
+      renderMessages();
+      saveLocal();
+      input.value = '';
+      saveMsg(userMsg);
+      isSending = false;
+      input.disabled = false;
+      input.focus();
+      return;
+    }
+
     if (!HC_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
     isSending = true;
     input.disabled = true;
@@ -1256,6 +1303,8 @@
     var imgOn, pdfOn;
     if (currentCategory === 'community') {
       imgOn = HC_COMMUNITY_IMAGE_ENABLED; pdfOn = HC_COMMUNITY_PDF_ENABLED;
+    } else if (currentCategory === 'private') {
+      imgOn = HC_PRIVATE_IMAGE_ENABLED; pdfOn = HC_PRIVATE_PDF_ENABLED;
     } else if (currentCategory === 'dictionary') {
       imgOn = HC_DICT_IMAGE; pdfOn = false;
     } else {
@@ -1318,6 +1367,25 @@
         var url = await uploadToStorage(file, prefix);
         if (url) {
           await sendCommunityMessage('', { url: url, type: type, name: file.name });
+        } else {
+          alert('Upload failed. Please try again.');
+        }
+        return;
+      }
+
+      // ─── Private tab: upload file and save to support_messages, no AI ───
+      if (currentCategory === 'private') {
+        var pendingMsg = { role: 'user', text: '', category: 'private', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), _loading: 'Uploading ' + file.name + '…' };
+        messages.private.push(pendingMsg);
+        renderMessages();
+        var url = await uploadToStorage(file, prefix);
+        messages.private.pop();
+        if (url) {
+          var msg = { role: 'user', text: '', category: 'private', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), attachment_url: url, attachment_type: type, attachment_name: file.name };
+          messages.private.push(msg);
+          renderMessages();
+          saveLocal();
+          saveMsg(msg);
         } else {
           alert('Upload failed. Please try again.');
         }
@@ -1397,7 +1465,7 @@
 
   async function startVoiceRecord() {
     if (isRecording) return;
-    var voiceOn = currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
+    var voiceOn = currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'private' ? HC_PRIVATE_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
     if (!voiceOn) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
       voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1467,6 +1535,25 @@
         var url = await uploadToStorage(file, 'voice');
         if (url) {
           await sendCommunityMessage('', { url: url, type: 'voice', name: file.name });
+        } else {
+          alert('Voice upload failed. Please try again.');
+        }
+        return;
+      }
+
+      // ─── Private tab: upload voice and save to support_messages, no AI ───
+      if (currentCategory === 'private') {
+        var pendingMsg = { role: 'user', text: '', category: 'private', time: timeStr, _loading: 'Sending voice…' };
+        messages.private.push(pendingMsg);
+        renderMessages();
+        var url = await uploadToStorage(file, 'voice');
+        messages.private.pop();
+        if (url) {
+          var msg = { role: 'user', text: '', category: 'private', time: timeStr, attachment_url: url, attachment_type: 'voice', attachment_name: file.name };
+          messages.private.push(msg);
+          renderMessages();
+          saveLocal();
+          saveMsg(msg);
         } else {
           alert('Voice upload failed. Please try again.');
         }
@@ -1733,6 +1820,25 @@
       } else {
         _renderDictionary();
       }
+    } else if (cat === 'private') {
+      // Private: show/hide based on private-specific toggles
+      if (attachBtn) attachBtn.style.display = (HC_PRIVATE_IMAGE_ENABLED || HC_PRIVATE_PDF_ENABLED) ? '' : 'none';
+      if (voiceBtn) voiceBtn.style.display = HC_PRIVATE_VOICE_ENABLED ? '' : 'none';
+      if (replyBanner) replyBanner.style.display = 'none';
+      var input = document.getElementById('cb-input');
+      var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+      if (HC_PRIVATE_TEXT_ENABLED) {
+        if (input) { input.style.display = ''; input.placeholder = 'Send a private message to admin...'; }
+        if (sendBtn) sendBtn.style.display = '';
+      } else {
+        if (input) input.style.display = 'none';
+        if (sendBtn) sendBtn.style.display = 'none';
+      }
+      var jumpBar = document.getElementById('cb-comm-jump-bar');
+      if (jumpBar) jumpBar.style.display = 'none';
+      var typingBar = document.getElementById('cb-typing-bar');
+      if (typingBar) typingBar.style.display = 'none';
+      renderMessages();
     } else {
       // Restore normal visibility
       applyHcSettingsVisibility();
@@ -2024,10 +2130,10 @@
 
   // ─── CLEAR DATA (called from settings panel) ─────────────────────────────
   window._hcClearSupport = function() {
-    messages = { support: [], premium: [], partner: [] };
-    lastSeenAdmin = { support: 0, premium: 0, partner: 0 };
+    messages = { support: [], premium: [], partner: [], private: [] };
+    lastSeenAdmin = { support: 0, premium: 0, partner: 0, private: 0 };
     saveLocal();
-    if (currentCategory === 'support' || currentCategory === 'premium' || currentCategory === 'partner') renderMessages();
+    if (currentCategory === 'support' || currentCategory === 'premium' || currentCategory === 'partner' || currentCategory === 'private') renderMessages();
   };
   window._hcClearCommunity = function() {
     _communityMessages = [];
@@ -2045,7 +2151,7 @@
   function syncFromLandingHC() {
     try {
       var hc = JSON.parse(localStorage.getItem('ms_helpcenter_chats') || '{}');
-      ['support', 'premium', 'partner'].forEach(function (cat) {
+      ['support', 'premium', 'partner', 'private'].forEach(function (cat) {
         var stored = hc[cat];
         if (stored && stored.messages && stored.messages.length) {
           var existingTexts = new Set((messages[cat] || []).map(function (m) { return m.role + ':' + (m.text || '').substring(0, 50); }));
@@ -2370,6 +2476,7 @@
             '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
             '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
+            '<button class="cb-cat-btn" data-cat="private">💌 Private</button>' +
             '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
