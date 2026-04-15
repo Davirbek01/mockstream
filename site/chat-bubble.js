@@ -323,18 +323,18 @@
     }
   }
 
-  function _startPrivateDM(targetDeviceId, targetName) {
+  function _startPrivateDM(targetDeviceId, targetName, msgContent) {
     // Close chat bubble and open the Private Messages admin panel
     closeBubble();
+    // Store the quoted community message for display in PM panel
+    window._pmDmQuote = { name: targetName, content: msgContent || '' };
     // If openPrivateMessagesPanel exists (landing.html), open it and expand the conversation
     if (typeof window.openPrivateMessagesPanel === 'function') {
       window.openPrivateMessagesPanel().then(function() {
-        // After loading, expand the conversation for this device
+        // After loading, expand the conversation for this device (conversation_id = deviceId_private)
         setTimeout(function() {
           if (typeof window._pmExpandConv === 'function') {
-            window._pmExpandConv(targetDeviceId, targetName);
-            // Focus the reply input
-            setTimeout(function() { var inp = document.getElementById('pmReplyInput'); if (inp) inp.focus(); }, 150);
+            window._pmExpandConv(targetDeviceId + '_private', targetName);
           }
         }, 300);
       });
@@ -3243,7 +3243,7 @@
     // Bind DM buttons (admin only)
     list.querySelectorAll('.cb-comm-dm-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        _startPrivateDM(btn.dataset.deviceId, btn.dataset.senderName);
+        _startPrivateDM(btn.dataset.deviceId, btn.dataset.senderName, btn.dataset.msgContent);
       });
     });
 
@@ -3483,7 +3483,7 @@
     // DM button (admin unlocked only, on non-admin, non-own messages)
     var dmBtn = '';
     if (_communityAdminUnlocked && !isMine && !isAdmin) {
-      dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
+      dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" data-msg-content="' + escapeHtml((m.content || '').substring(0, 200)) + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
     }
 
     return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">' +
@@ -3734,7 +3734,7 @@
     var dmBtnEl = el.querySelector('.cb-comm-dm-btn');
     if (dmBtnEl) {
       dmBtnEl.addEventListener('click', function () {
-        _startPrivateDM(dmBtnEl.dataset.deviceId, dmBtnEl.dataset.senderName);
+        _startPrivateDM(dmBtnEl.dataset.deviceId, dmBtnEl.dataset.senderName, dmBtnEl.dataset.msgContent);
       });
     }
     // Bind quote click
