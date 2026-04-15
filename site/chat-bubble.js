@@ -3125,6 +3125,8 @@
 
   async function loadCommunityMessages() {
     try {
+      // Ensure role is resolved before rendering (block/delete/DM buttons depend on it)
+      await _checkCommunityRole();
       // Fetch blocked users list (super admins need it for block buttons, all users for send check)
       await _fetchBlockedUsers();
       var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at,attachment_url,attachment_type,attachment_name');
@@ -3455,9 +3457,9 @@
       deleteBtn = '<button class="cb-comm-delete-btn" data-msg-id="' + m.id + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#dc2626;padding:0 4px;">🗑</button>';
     }
 
-    // DM button (admin/super_admin only, on non-admin, non-own messages)
+    // DM button (super admin only, on non-admin, non-own messages)
     var dmBtn = '';
-    if ((_communityUserRole === 'admin' || _communityUserRole === 'super_admin') && !isMine && !isAdmin) {
+    if (_communityUserRole === 'super_admin' && !isMine && !isAdmin) {
       dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
     }
 
