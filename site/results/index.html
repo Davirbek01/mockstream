@@ -1929,7 +1929,7 @@
         <!-- ── 3. Dictionary Lookups Accordion ── -->
         <div class="msg-accordion" id="msgAccPrivate">
           <div class="msg-accordion-header" style="background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(219,39,119,.05));" onclick="toggleMsgAccordion('msgAccPrivate')">
-            <h4 style="color:#ec4899;"><span>💌</span> Private Messages</h4>
+            <h4 style="color:#ec4899;"><span>�</span> Private Messages</h4>
             <span class="msg-accordion-arrow" style="color:#ec4899;">▾</span>
           </div>
           <div class="msg-accordion-body">
@@ -2310,7 +2310,7 @@
         <!-- ═══════════════ 3B. PRIVATE TAB ═══════════════ -->
         <div class="settings-accordion" id="accPrivate">
           <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(219,39,119,.05));" onclick="toggleAccordion('accPrivate')">
-            <h4 style="color:#ec4899;"><span>💌</span> Private Tab</h4>
+            <h4 style="color:#ec4899;"><span>�</span> Private Tab</h4>
             <span class="settings-accordion-arrow" style="color:#ec4899;">▾</span>
           </div>
           <div class="settings-accordion-body">
@@ -2321,7 +2321,7 @@
               <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
                 <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
                   <input type="checkbox" id="settingsPrivateEnabled" checked style="width:18px;height:18px;accent-color:#ec4899;cursor:pointer;">
-                  <span style="font-size:13px;color:var(--ink);font-weight:600;">💌 Private tab visible</span>
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">� Private tab visible</span>
                 </label>
                 <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
                   <input type="checkbox" id="settingsPrivateTextEnabled" checked style="width:18px;height:18px;accent-color:#ec4899;cursor:pointer;">
@@ -6792,7 +6792,7 @@
 
         html += '<div style="padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;" onmouseenter="this.style.background=\'rgba(236,72,153,.08)\'" onmouseleave="this.style.background=\'var(--surface)\'" onclick="expandPrivateConv(\'' + _escHtml(conv.convId) + '\')">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-            '<div style="font-size:13px;font-weight:700;color:#ec4899;">💌 ' + name + ' <span style="font-size:10px;color:var(--muted);font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span></div>' +
+            '<div style="font-size:13px;font-weight:700;color:#ec4899;">� ' + name + ' <span style="font-size:10px;color:var(--muted);font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span></div>' +
             '<div style="display:flex;align-items:center;gap:8px;">' +
               '<button onclick="event.stopPropagation();quickPrivateReply(\'' + _escHtml(conv.convId) + '\',\'' + _escHtml(conv.senderName || 'Anonymous').replace(/'/g, "\\'") + '\')" style="background:#ec4899;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">↩ Reply</button>' +
               '<span style="font-size:10px;color:var(--muted);">' + lastTime + '</span>' +
@@ -6810,7 +6810,7 @@
       var list = document.getElementById('privateMsgList');
       var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">' +
         '<button onclick="renderPrivateAdmin()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">← Back</button>' +
-        '<span style="font-size:13px;font-weight:700;color:#ec4899;">💌 ' + _escHtml(conv.senderName || 'Anonymous') + '</span>' +
+        '<span style="font-size:13px;font-weight:700;color:#ec4899;">� ' + _escHtml(conv.senderName || 'Anonymous') + '</span>' +
       '</div>';
       conv.messages.forEach(function(m) {
         var isAdmin = m.role === 'admin';
@@ -6838,7 +6838,7 @@
       _privateAdminReplyConvId = convId;
       var bar = document.getElementById('privateReplyBar');
       bar.style.display = '';
-      document.getElementById('privateReplyInfo').innerHTML = '💌 Replying to <strong>' + _escHtml(conv.senderName || 'Anonymous') + '</strong> (as 🛡️ Admin)';
+      document.getElementById('privateReplyInfo').innerHTML = '� Replying to <strong>' + _escHtml(conv.senderName || 'Anonymous') + '</strong> (as 🛡️ Admin)';
       document.getElementById('privateReplyInput').value = '';
       document.getElementById('privateReplyStatus').innerHTML = '';
     }
@@ -6852,7 +6852,7 @@
       _privateAdminReplyConvId = convId;
       var bar = document.getElementById('privateReplyBar');
       bar.style.display = '';
-      document.getElementById('privateReplyInfo').innerHTML = '💌 Replying to <strong>' + _escHtml(senderName) + '</strong> (as 🛡️ Admin)';
+      document.getElementById('privateReplyInfo').innerHTML = '� Replying to <strong>' + _escHtml(senderName) + '</strong> (as 🛡️ Admin)';
       document.getElementById('privateReplyInput').value = '';
       document.getElementById('privateReplyStatus').innerHTML = '';
       document.getElementById('privateReplyInput').focus();
