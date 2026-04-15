@@ -19797,11 +19797,15 @@
           '<div class="pm-list" id="pmMsgList"><div style="text-align:center;color:#aaa;padding:40px;">Loading...</div></div>' +
           '<div id="pmReplyBar" style="display:none;" class="pm-reply-bar">' +
             '<div id="pmReplyInfo" style="font-size:12px;color:#ec4899;margin-bottom:6px;"></div>' +
-            '<div style="display:flex;gap:8px;">' +
+            '<div id="pmAttachPreview" style="display:none;margin-bottom:6px;padding:8px;background:rgba(236,72,153,0.06);border-radius:8px;font-size:12px;color:#ec4899;display:none;align-items:center;gap:8px;"></div>' +
+            '<div style="display:flex;gap:6px;align-items:center;">' +
+              '<button onclick="_pmPickFile()" title="Attach photo or PDF" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;">&#128206;</button>' +
+              '<button id="pmVoiceBtn" title="Hold to record voice" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;">&#127908;</button>' +
               '<input type="text" id="pmReplyInput" class="pm-reply-input" placeholder="Reply as admin...">' +
               '<button onclick="_pmSendReply()" style="background:#ec4899;color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Send</button>' +
               '<button onclick="_pmCancelReply()" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;">Cancel</button>' +
             '</div>' +
+            '<input type="file" id="pmFileInput" accept="image/*,.pdf" style="display:none;">' +
             '<div id="pmReplyStatus" style="font-size:11px;margin-top:4px;"></div>' +
           '</div>' +
         '</div>';
@@ -19930,13 +19934,144 @@
 
     function _pmCancelReply() {
       _pmReplyConvId = null;
+      _pmPendingFile = null;
+      var preview = document.getElementById('pmAttachPreview');
+      if (preview) preview.style.display = 'none';
       document.getElementById('pmReplyBar').style.display = 'none';
+    }
+
+    // ─── File/Voice attachment state ───
+    var _pmPendingFile = null; // { url, type, name }
+    var _pmVoiceStream = null, _pmVoiceRecorder = null, _pmVoiceChunks = [], _pmRecording = false;
+    var PM_BUCKET = 'chat-attachments';
+
+    async function _pmUploadFile(file, prefix) {
+      var ext = file.name ? file.name.split('.').pop() : 'bin';
+      var path = (prefix || 'admin') + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6) + '.' + ext;
+      var resp = await fetch(PM_SB_URL + '/storage/v1/object/' + PM_BUCKET + '/' + path, {
+        method: 'POST',
+        headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'true' },
+        body: file
+      });
+      if (!resp.ok) throw new Error('Upload failed: ' + resp.status);
+      return PM_SB_URL + '/storage/v1/object/public/' + PM_BUCKET + '/' + path;
+    }
+
+    window._pmPickFile = function() {
+      var fi = document.getElementById('pmFileInput');
+      if (!fi) return;
+      fi.value = '';
+      fi.onchange = async function() {
+        var file = fi.files[0];
+        if (!file) return;
+        var isImage = file.type.startsWith('image/');
+        var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
+        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
+        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        var status = document.getElementById('pmReplyStatus');
+        status.innerHTML = '<span style="color:#888;">Uploading ' + _pmEsc(file.name) + '...</span>';
+        try {
+          var url = await _pmUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
+          _pmPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          var preview = document.getElementById('pmAttachPreview');
+          preview.style.display = 'flex';
+          preview.innerHTML = (isImage ? '&#128247; ' : '&#128196; ') + '<strong>' + _pmEsc(file.name) + '</strong> <button onclick="_pmClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';
+          status.innerHTML = '<span style="color:#059669;">File ready. Type a message or click Send.</span>';
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Upload failed: ' + e.message + '</span>';
+        }
+      };
+      fi.click();
+    };
+
+    window._pmClearAttach = function() {
+      _pmPendingFile = null;
+      var preview = document.getElementById('pmAttachPreview');
+      if (preview) preview.style.display = 'none';
+      document.getElementById('pmReplyStatus').innerHTML = '';
+    };
+
+    // ─── Voice recording (hold-to-record) ───
+    function _pmBindVoice() {
+      var btn = document.getElementById('pmVoiceBtn');
+      if (!btn) return;
+      var holdTimer = null;
+      btn.addEventListener('mousedown', function(e) { e.preventDefault(); _pmStartVoice(); });
+      btn.addEventListener('mouseup', function() { _pmStopVoice(); });
+      btn.addEventListener('mouseleave', function() { if (_pmRecording) _pmStopVoice(); });
+      btn.addEventListener('touchstart', function(e) { e.preventDefault(); _pmStartVoice(); }, { passive: false });
+      btn.addEventListener('touchend', function(e) { e.preventDefault(); _pmStopVoice(); });
+    }
+
+    async function _pmStartVoice() {
+      if (_pmRecording) return;
+      try {
+        _pmVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch(e) { alert('Microphone access denied.'); return; }
+      _pmVoiceChunks = [];
+      var mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+      var mime = null;
+      for (var i = 0; i < mimeTypes.length; i++) {
+        if (MediaRecorder.isTypeSupported(mimeTypes[i])) { mime = mimeTypes[i]; break; }
+      }
+      _pmVoiceRecorder = new MediaRecorder(_pmVoiceStream, mime ? { mimeType: mime } : {});
+      _pmVoiceRecorder.ondataavailable = function(e) { if (e.data.size > 0) _pmVoiceChunks.push(e.data); };
+      _pmVoiceRecorder.onstop = async function() {
+        _pmRecording = false;
+        if (_pmVoiceStream) { _pmVoiceStream.getTracks().forEach(function(t) { t.stop(); }); _pmVoiceStream = null; }
+        var voiceBtn = document.getElementById('pmVoiceBtn');
+        if (voiceBtn) { voiceBtn.style.background = 'none'; voiceBtn.style.color = ''; }
+        if (!_pmVoiceChunks.length || !_pmReplyConvId) return;
+        var blob = new Blob(_pmVoiceChunks, { type: mime || 'audio/webm' });
+        var ext = (mime && mime.indexOf('mp4') > -1) ? 'mp4' : (mime && mime.indexOf('ogg') > -1) ? 'ogg' : 'webm';
+        var file = new File([blob], 'voice.' + ext, { type: blob.type });
+        var status = document.getElementById('pmReplyStatus');
+        status.innerHTML = '<span style="color:#888;">Uploading voice...</span>';
+        try {
+          var url = await _pmUploadFile(file, 'admin_voice');
+          // Send voice message directly
+          var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+          var body = {
+            conversation_id: _pmReplyConvId,
+            role: 'admin',
+            sender_name: adminEmail,
+            content: '',
+            category: 'private',
+            center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+            device_id: 'admin_dashboard',
+            attachment_url: url,
+            attachment_type: 'voice',
+            attachment_name: 'voice.' + ext
+          };
+          var resp = await fetch(PM_SB_URL + '/rest/v1/support_messages', {
+            method: 'POST',
+            headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify(body)
+          });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          status.innerHTML = '<span style="color:#059669;">&#127908; Voice sent!</span>';
+          await _pmLoad();
+          _pmExpandConv(_pmReplyConvId);
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
+        }
+      };
+      _pmVoiceRecorder.start();
+      _pmRecording = true;
+      var voiceBtn = document.getElementById('pmVoiceBtn');
+      if (voiceBtn) { voiceBtn.style.background = '#ef4444'; voiceBtn.style.color = '#fff'; voiceBtn.style.borderColor = '#ef4444'; }
+    }
+
+    function _pmStopVoice() {
+      if (!_pmRecording) return;
+      if (_pmVoiceRecorder && _pmVoiceRecorder.state !== 'inactive') _pmVoiceRecorder.stop();
     }
 
     async function _pmSendReply() {
       var input = document.getElementById('pmReplyInput');
       var text = (input.value || '').trim();
-      if (!text || !_pmReplyConvId) return;
+      if (!text && !_pmPendingFile) return;
+      if (!_pmReplyConvId) return;
       var status = document.getElementById('pmReplyStatus');
       status.innerHTML = '<span style="color:#888;">Sending...</span>';
       var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
@@ -19949,6 +20084,11 @@
         center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
         device_id: 'admin_dashboard'
       };
+      if (_pmPendingFile) {
+        body.attachment_url = _pmPendingFile.url;
+        body.attachment_type = _pmPendingFile.type;
+        body.attachment_name = _pmPendingFile.name;
+      }
       try {
         var resp = await fetch(PM_SB_URL + '/rest/v1/support_messages', {
           method: 'POST',
@@ -19958,6 +20098,9 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">&#9989; Sent!</span>';
         input.value = '';
+        _pmPendingFile = null;
+        var preview = document.getElementById('pmAttachPreview');
+        if (preview) preview.style.display = 'none';
         await _pmLoad();
         _pmExpandConv(_pmReplyConvId);
       } catch (e) {
@@ -20036,6 +20179,7 @@
 
     window.openPrivateMessagesPanel = async function() {
       _pmEnsureOverlay();
+      _pmBindVoice();
       document.getElementById('pmOverlay').classList.add('active');
       await _pmLoad();
     };

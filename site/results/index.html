@@ -1941,11 +1941,15 @@
             </div>
             <div id="privateReplyBar" style="display:none;padding:10px 0;border-top:1px solid var(--border);margin-top:10px;">
               <div id="privateReplyInfo" style="font-size:12px;color:var(--muted);margin-bottom:6px;"></div>
-              <div style="display:flex;gap:8px;">
+              <div id="privateAttachPreview" style="display:none;margin-bottom:6px;padding:8px;background:rgba(236,72,153,0.06);border-radius:8px;font-size:12px;color:#ec4899;align-items:center;gap:8px;"></div>
+              <div style="display:flex;gap:6px;align-items:center;">
+                <button onclick="_privPickFile()" title="Attach photo or PDF" style="background:none;border:1.5px solid var(--border);border-radius:10px;padding:8px 10px;font-size:16px;cursor:pointer;line-height:1;">&#128206;</button>
+                <button id="privVoiceBtn" title="Hold to record voice" style="background:none;border:1.5px solid var(--border);border-radius:10px;padding:8px 10px;font-size:16px;cursor:pointer;line-height:1;">&#127908;</button>
                 <input type="text" id="privateReplyInput" placeholder="Reply as admin..." style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);">
                 <button onclick="sendPrivateAdminReply()" style="padding:10px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;font-weight:700;cursor:pointer;font-size:13px;">🛡️ Send</button>
                 <button onclick="cancelPrivateReply()" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:13px;">Cancel</button>
               </div>
+              <input type="file" id="privFileInput" accept="image/*,.pdf" style="display:none;">
               <div id="privateReplyStatus" style="font-size:11px;margin-top:4px;"></div>
             </div>
           </div>
@@ -6845,7 +6849,134 @@
 
     function cancelPrivateReply() {
       _privateAdminReplyConvId = null;
+      _privPendingFile = null;
+      var preview = document.getElementById('privateAttachPreview');
+      if (preview) preview.style.display = 'none';
       document.getElementById('privateReplyBar').style.display = 'none';
+    }
+
+    // ─── Admin attachment state ───
+    var _privPendingFile = null;
+    var _privVoiceStream = null, _privVoiceRecorder = null, _privVoiceChunks = [], _privRecording = false;
+    var PRIV_BUCKET = 'chat-attachments';
+
+    async function _privUploadFile(file, prefix) {
+      var ext = file.name ? file.name.split('.').pop() : 'bin';
+      var path = (prefix || 'admin') + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6) + '.' + ext;
+      var resp = await fetch(SUPABASE_URL + '/storage/v1/object/' + PRIV_BUCKET + '/' + path, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'true' },
+        body: file
+      });
+      if (!resp.ok) throw new Error('Upload failed: ' + resp.status);
+      return SUPABASE_URL + '/storage/v1/object/public/' + PRIV_BUCKET + '/' + path;
+    }
+
+    function _privPickFile() {
+      var fi = document.getElementById('privFileInput');
+      if (!fi) return;
+      fi.value = '';
+      fi.onchange = async function() {
+        var file = fi.files[0];
+        if (!file) return;
+        var isImage = file.type.startsWith('image/');
+        var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
+        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
+        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        var status = document.getElementById('privateReplyStatus');
+        status.innerHTML = '<span style="color:var(--muted);">Uploading ' + _escHtml(file.name) + '...</span>';
+        try {
+          var url = await _privUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
+          _privPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          var preview = document.getElementById('privateAttachPreview');
+          preview.style.display = 'flex';
+          preview.innerHTML = (isImage ? '📷 ' : '📄 ') + '<strong>' + _escHtml(file.name) + '</strong> <button onclick="_privClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';
+          status.innerHTML = '<span style="color:#059669;">File ready. Type a message or click Send.</span>';
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Upload failed: ' + e.message + '</span>';
+        }
+      };
+      fi.click();
+    }
+
+    function _privClearAttach() {
+      _privPendingFile = null;
+      var preview = document.getElementById('privateAttachPreview');
+      if (preview) preview.style.display = 'none';
+      document.getElementById('privateReplyStatus').innerHTML = '';
+    }
+
+    // ─── Voice recording for results dashboard admin ───
+    (function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var btn = document.getElementById('privVoiceBtn');
+          if (!btn) return;
+          btn.addEventListener('mousedown', function(e) { e.preventDefault(); _privStartVoice(); });
+          btn.addEventListener('mouseup', function() { _privStopVoice(); });
+          btn.addEventListener('mouseleave', function() { if (_privRecording) _privStopVoice(); });
+          btn.addEventListener('touchstart', function(e) { e.preventDefault(); _privStartVoice(); }, { passive: false });
+          btn.addEventListener('touchend', function(e) { e.preventDefault(); _privStopVoice(); });
+        }, 500);
+      });
+    })();
+
+    async function _privStartVoice() {
+      if (_privRecording) return;
+      try {
+        _privVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch(e) { alert('Microphone access denied.'); return; }
+      _privVoiceChunks = [];
+      var mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+      var mime = null;
+      for (var i = 0; i < mimeTypes.length; i++) {
+        if (MediaRecorder.isTypeSupported(mimeTypes[i])) { mime = mimeTypes[i]; break; }
+      }
+      _privVoiceRecorder = new MediaRecorder(_privVoiceStream, mime ? { mimeType: mime } : {});
+      _privVoiceRecorder.ondataavailable = function(e) { if (e.data.size > 0) _privVoiceChunks.push(e.data); };
+      _privVoiceRecorder.onstop = async function() {
+        _privRecording = false;
+        if (_privVoiceStream) { _privVoiceStream.getTracks().forEach(function(t) { t.stop(); }); _privVoiceStream = null; }
+        var voiceBtn = document.getElementById('privVoiceBtn');
+        if (voiceBtn) { voiceBtn.style.background = ''; voiceBtn.style.color = ''; voiceBtn.style.borderColor = ''; }
+        if (!_privVoiceChunks.length || !_privateAdminReplyConvId) return;
+        var blob = new Blob(_privVoiceChunks, { type: mime || 'audio/webm' });
+        var ext = (mime && mime.indexOf('mp4') > -1) ? 'mp4' : (mime && mime.indexOf('ogg') > -1) ? 'ogg' : 'webm';
+        var file = new File([blob], 'voice.' + ext, { type: blob.type });
+        var status = document.getElementById('privateReplyStatus');
+        status.innerHTML = '<span style="color:var(--muted);">Uploading voice...</span>';
+        try {
+          var url = await _privUploadFile(file, 'admin_voice');
+          var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+          var body = {
+            conversation_id: _privateAdminReplyConvId, role: 'admin', sender_name: adminEmail,
+            content: '', category: 'private',
+            center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+            device_id: 'admin_dashboard',
+            attachment_url: url, attachment_type: 'voice', attachment_name: 'voice.' + ext
+          };
+          var resp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify(body)
+          });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          status.innerHTML = '<span style="color:#059669;">🎤 Voice sent!</span>';
+          await loadPrivateAdmin();
+          expandPrivateConv(_privateAdminReplyConvId);
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
+        }
+      };
+      _privVoiceRecorder.start();
+      _privRecording = true;
+      var voiceBtn = document.getElementById('privVoiceBtn');
+      if (voiceBtn) { voiceBtn.style.background = '#ef4444'; voiceBtn.style.color = '#fff'; voiceBtn.style.borderColor = '#ef4444'; }
+    }
+
+    function _privStopVoice() {
+      if (!_privRecording) return;
+      if (_privVoiceRecorder && _privVoiceRecorder.state !== 'inactive') _privVoiceRecorder.stop();
     }
 
     function quickPrivateReply(convId, senderName) {
@@ -6861,7 +6992,8 @@
     async function sendPrivateAdminReply() {
       var input = document.getElementById('privateReplyInput');
       var text = (input.value || '').trim();
-      if (!text || !_privateAdminReplyConvId) return;
+      if (!text && !_privPendingFile) return;
+      if (!_privateAdminReplyConvId) return;
       var status = document.getElementById('privateReplyStatus');
       status.innerHTML = '<span style="color:var(--muted);">Sending...</span>';
 
@@ -6875,6 +7007,11 @@
         center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
         device_id: 'admin_dashboard'
       };
+      if (_privPendingFile) {
+        body.attachment_url = _privPendingFile.url;
+        body.attachment_type = _privPendingFile.type;
+        body.attachment_name = _privPendingFile.name;
+      }
 
       try {
         var resp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
@@ -6890,6 +7027,9 @@
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
         status.innerHTML = '<span style="color:#059669;">✅ Sent!</span>';
         input.value = '';
+        _privPendingFile = null;
+        var preview = document.getElementById('privateAttachPreview');
+        if (preview) preview.style.display = 'none';
         await loadPrivateAdmin();
         expandPrivateConv(_privateAdminReplyConvId);
       } catch (e) {
