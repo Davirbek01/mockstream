@@ -1109,13 +1109,36 @@
         }
       }
 
-      if (m.text) html += '<div class="cb-msg-text">' + formatMsgText(m.text) + '</div>';
+      if (m.text) {
+        var parsed = _parseDmQuote(m.text);
+        if (parsed.quote) {
+          var isAdminMsg = m.role === 'admin';
+          var qBg = isAdminMsg ? 'rgba(255,255,255,.18)' : 'rgba(99,102,241,.12)';
+          var qBorder = isAdminMsg ? 'rgba(255,255,255,.6)' : '#6366f1';
+          var qNameColor = isAdminMsg ? 'rgba(255,255,255,.9)' : '#6366f1';
+          var qTextColor = isAdminMsg ? 'rgba(255,255,255,.75)' : '#475569';
+          html += '<div style="background:' + qBg + ';border-left:3px solid ' + qBorder + ';border-radius:0 8px 8px 0;padding:5px 8px;margin-bottom:4px;font-size:11px;">' +
+            '<div style="font-weight:700;color:' + qNameColor + ';">💬 ' + escapeHtml(parsed.quote.name) + '</div>' +
+            '<div style="color:' + qTextColor + ';overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">' + escapeHtml(parsed.quote.content) + '</div>' +
+          '</div>';
+          if (parsed.text) html += '<div class="cb-msg-text">' + formatMsgText(parsed.text) + '</div>';
+        } else {
+          html += '<div class="cb-msg-text">' + formatMsgText(m.text) + '</div>';
+        }
+      }
       if (m.time) html += '<div class="cb-msg-time">' + m.time + '</div>';
       html += '</div>';
     });
     list.innerHTML = html;
     list.scrollTop = list.scrollHeight;
     initVoicePlayers(list);
+  }
+
+  function _parseDmQuote(text) {
+    if (!text) return { quote: null, text: text || '' };
+    var m = text.match(/^\[dm_quote:([^\]]*)\]([\s\S]*?)\[\/dm_quote\]([\s\S]*)$/);
+    if (!m) return { quote: null, text: text };
+    return { quote: { name: m[1], content: m[2] }, text: m[3] };
   }
 
   function formatMsgText(text) {

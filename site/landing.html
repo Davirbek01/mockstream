@@ -19784,6 +19784,25 @@
       return d.innerHTML;
     }
 
+    function _pmParseQuote(content) {
+      if (!content) return { quote: null, text: content || '' };
+      var m = content.match(/^\[dm_quote:([^\]]*)\]([\s\S]*?)\[\/dm_quote\]([\s\S]*)$/);
+      if (!m) return { quote: null, text: content };
+      return { quote: { name: m[1], content: m[2] }, text: m[3] };
+    }
+
+    function _pmRenderQuoteHtml(parsed, isAdmin) {
+      if (!parsed.quote) return '';
+      var qBg = isAdmin ? 'rgba(255,255,255,.18)' : 'rgba(99,102,241,.12)';
+      var qBorder = isAdmin ? 'rgba(255,255,255,.6)' : '#6366f1';
+      var qNameColor = isAdmin ? 'rgba(255,255,255,.9)' : '#6366f1';
+      var qTextColor = isAdmin ? 'rgba(255,255,255,.75)' : '#475569';
+      return '<div style="background:' + qBg + ';border-left:3px solid ' + qBorder + ';border-radius:0 8px 8px 0;padding:5px 8px;margin-bottom:4px;font-size:11px;">' +
+        '<div style="font-weight:700;color:' + qNameColor + ';">&#128172; ' + _pmEsc(parsed.quote.name) + '</div>' +
+        '<div style="color:' + qTextColor + ';overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">' + _pmEsc(parsed.quote.content) + '</div>' +
+      '</div>';
+    }
+
     function _pmEnsureOverlay() {
       if (document.getElementById('pmOverlay')) return;
       var div = document.createElement('div');
@@ -19921,7 +19940,7 @@
           (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _pmEsc(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
           (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _pmEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">&#128196; ' + _pmEsc(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
           (m.attachment_url && m.attachment_type === 'file' ? '<a href="' + _pmEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">&#128206; ' + _pmEsc(m.attachment_name || 'File') + '</a><br>' : '') +
-          (m.content ? _pmEsc(m.content) : '') +
+          (function() { var p = _pmParseQuote(m.content); return _pmRenderQuoteHtml(p, isAdmin) + (p.text ? _pmEsc(p.text) : ''); })() +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
             '<span style="font-size:10px;color:#888;">' + time + '</span>' +
@@ -20149,6 +20168,18 @@
       var status = document.getElementById('pmReplyStatus');
       status.innerHTML = '<span style="color:#888;">Sending...</span>';
       var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+      // Prepend DM quote if present
+      var dmQuote = document.getElementById('pmDmQuote');
+      if (dmQuote) {
+        var qName = dmQuote.querySelector('[style*="color:#6366f1"]');
+        var qText = dmQuote.querySelector('[style*="color:#475569"]');
+        var quoteName = qName ? qName.textContent.replace(/^💬 Community message from /, '') : '';
+        var quoteContent = qText ? qText.textContent : '';
+        if (quoteContent) {
+          text = '[dm_quote:' + quoteName + ']' + quoteContent + '[/dm_quote]' + text;
+        }
+        dmQuote.remove();
+      }
       var body = {
         conversation_id: _pmReplyConvId,
         role: 'admin',
