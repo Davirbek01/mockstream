@@ -215,7 +215,7 @@
 
   <div id="reportContainer">
     <div class="tab-bar" id="tabBar"></div>
-    <iframe id="reportFrame" sandbox="allow-scripts allow-same-origin allow-downloads allow-popups"></iframe>
+    <iframe id="reportFrame"></iframe>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -271,14 +271,13 @@
         if (reportPath.endsWith('.zip')) {
           await handleZipReport(fileUrl, result);
         } else {
-          // HTML report — fetch and load as blob to ensure correct Content-Type rendering
+          // HTML report — fetch and load via srcdoc for maximum browser compatibility
           var iframe = document.getElementById('reportFrame');
           fetch(fileUrl)
-            .then(function (resp) { return resp.blob(); })
-            .then(function (blob) {
-              var htmlBlob = new Blob([blob], { type: 'text/html; charset=utf-8' });
-              var blobUrl = URL.createObjectURL(htmlBlob);
-              iframe.src = blobUrl;
+            .then(function (resp) { return resp.text(); })
+            .then(function (htmlText) {
+              iframe.removeAttribute('sandbox');
+              iframe.srcdoc = htmlText;
               iframe.onload = function () {
                 showReportContainer();
               };
@@ -290,7 +289,7 @@
               }, 8000);
             })
             .catch(function (err) {
-              console.error('[Viewer] Blob fetch failed:', err);
+              console.error('[Viewer] Fetch failed:', err);
               // Fallback: direct URL
               iframe.src = fileUrl;
               iframe.onload = function () {
@@ -340,8 +339,8 @@
         : 'audio/webm';
     }
 
-    // ===== RENDER PDF AS IMAGES IN MAIN PAGE, THEN EMBED =====
-    async function _renderPdfAsHtml(pdfArrayBuffer) {
+    // ===== RENDER PDF AS IMAGES IN MAIN PAGE, RETURN HTML STRING =====
+    async function _renderPdfAsHtmlString(pdfArrayBuffer) {
       // Set up PDF.js worker
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -359,17 +358,13 @@
         imageDataUrls.push(canvas.toDataURL('image/png'));
       }
 
-      // Build a simple static HTML with embedded images (no external scripts needed)
       var imgTags = imageDataUrls.map(function (dataUrl) {
         return '<img src="' + dataUrl + '" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.4);">';
       }).join('\n');
 
-      var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      return '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#1e293b;display:flex;flex-direction:column;align-items:center;padding:12px;gap:12px;min-height:100vh}</style></head><body>' +
         imgTags + '</body></html>';
-
-      var htmlBlob = new Blob([html], { type: 'text/html; charset=utf-8' });
-      return URL.createObjectURL(htmlBlob);
     }
 
     // ===== ZIP DOWNLOAD WITH PROGRESS =====
@@ -490,6 +485,22 @@
       }
     }
 
+    // ===== HELPER: load content into iframe (srcdoc preferred, blob URL fallback) =====
+    function loadIframeContent(iframe, htmlString, opts) {
+      opts = opts || {};
+      if (opts.isPdf) {
+        // Native PDF embed — needs real URL, only used on desktop
+        iframe.removeAttribute('sandbox');
+        iframe.removeAttribute('srcdoc');
+        iframe.src = opts.url;
+        return;
+      }
+      // Use srcdoc for HTML — works in Telegram in-app browser unlike blob URLs
+      iframe.removeAttribute('sandbox');
+      iframe.removeAttribute('src');
+      iframe.srcdoc = htmlString;
+    }
+
     // ===== FULL MOCK: TABBED VIEWER =====
     async function renderFullMockZip(zip, htmlFiles, pdfFiles, nestedZips, fileUrl, result) {
       var loadingText = document.getElementById('loadingText');
@@ -504,25 +515,23 @@
         if (_isMobileDevice) {
           loadingText.textContent = 'Rendering certificate...';
           var pdfArrayBuf = await zip.files[pdfFiles[p]].async('arraybuffer');
-          var pdfViewerUrl = await _renderPdfAsHtml(pdfArrayBuf);
-          tabs.push({ label: '📜 Certificate', url: pdfViewerUrl });
+          var pdfHtml = await _renderPdfAsHtmlString(pdfArrayBuf);
+          tabs.push({ label: '📜 Certificate', html: pdfHtml });
         } else {
           var pdfBlob = await zip.files[pdfFiles[p]].async('blob');
           var pdfUrl = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
-          tabs.push({ label: '📜 Certificate', url: pdfUrl, isPdf: true });
+          tabs.push({ label: '📜 Certificate', isPdf: true, url: pdfUrl });
         }
       }
 
       // HTML report tabs
       for (var h = 0; h < htmlFiles.length; h++) {
         var htmlContent = await zip.files[htmlFiles[h]].async('text');
-        var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
-        var htmlUrl = URL.createObjectURL(htmlBlob);
         var label = htmlFiles[h].replace(/^\d+_/, '').replace(/\.html$/i, '').replace(/_/g, ' ');
         var emoji = label.toLowerCase().includes('listening') ? '🎧'
           : label.toLowerCase().includes('reading') ? '📖'
           : label.toLowerCase().includes('writing') ? '✍️' : '📄';
-        tabs.push({ label: emoji + ' ' + label, url: htmlUrl });
+        tabs.push({ label: emoji + ' ' + label, html: htmlContent });
       }
 
       // Nested speaking ZIP (extract audio + HTML)
@@ -542,8 +551,7 @@
         if (speakingHtml) {
           var speakingContent = await speakingZip.files[speakingHtml].async('text');
           speakingContent = await extractAudioAndPatch(speakingZip, speakingContent);
-          var speakingBlob = new Blob([speakingContent], { type: 'text/html; charset=utf-8' });
-          tabs.push({ label: '🗣️ Speaking', url: URL.createObjectURL(speakingBlob) });
+          tabs.push({ label: '🗣️ Speaking', html: speakingContent });
         }
       }
 
@@ -572,12 +580,7 @@
               var btns = tabBar.querySelectorAll('button');
               for (var b = 0; b < btns.length; b++) btns[b].classList.remove('active');
               btn.classList.add('active');
-              if (tab.isPdf) {
-                iframe.removeAttribute('sandbox');
-              } else {
-                iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-downloads allow-popups');
-              }
-              iframe.src = tab.url;
+              loadIframeContent(iframe, tab.html, { isPdf: tab.isPdf, url: tab.url });
             };
           }
           if (index === 0) btn.classList.add('active');
@@ -589,10 +592,7 @@
 
       // Load first non-download tab
       if (tabs.length > 0 && !tabs[0].isDownload) {
-        if (tabs[0].isPdf) {
-          iframe.removeAttribute('sandbox');
-        }
-        iframe.src = tabs[0].url;
+        loadIframeContent(iframe, tabs[0].html, { isPdf: tabs[0].isPdf, url: tabs[0].url });
       }
 
       iframe.onload = function () { showReportContainer(); };
@@ -629,8 +629,8 @@
       htmlContent = await extractAudioAndPatch(zip, htmlContent);
 
       var iframe = document.getElementById('reportFrame');
-      var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
-      iframe.src = URL.createObjectURL(htmlBlob);
+      iframe.removeAttribute('sandbox');
+      iframe.srcdoc = htmlContent;
       iframe.onload = function () { showReportContainer(); };
       setTimeout(function () {
         if (document.getElementById('reportContainer').style.display !== 'flex') {
