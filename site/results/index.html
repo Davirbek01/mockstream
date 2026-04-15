@@ -7051,8 +7051,9 @@
           });
           if (!resp.ok) throw new Error('HTTP ' + resp.status);
           status.innerHTML = '<span style="color:#059669;">🎤 Voice sent!</span>';
+          var _savedConvId = _privateAdminReplyConvId;
           await loadPrivateAdmin();
-          expandPrivateConv(_privateAdminReplyConvId);
+          expandPrivateConv(_savedConvId);
         } catch(e) {
           status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
         }
@@ -7118,8 +7119,9 @@
         _privPendingFile = null;
         var preview = document.getElementById('privateAttachPreview');
         if (preview) preview.style.display = 'none';
+        var _savedConvId = _privateAdminReplyConvId;
         await loadPrivateAdmin();
-        expandPrivateConv(_privateAdminReplyConvId);
+        expandPrivateConv(_savedConvId);
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
       }

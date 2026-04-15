@@ -20102,8 +20102,9 @@
           });
           if (!resp.ok) throw new Error('HTTP ' + resp.status);
           status.innerHTML = '<span style="color:#059669;">&#127908; Voice sent!</span>';
+          var _savedConvId = _pmReplyConvId;
           await _pmLoad();
-          _pmExpandConv(_pmReplyConvId);
+          _pmExpandConv(_savedConvId);
         } catch(e) {
           status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
         }
@@ -20152,8 +20153,9 @@
         _pmPendingFile = null;
         var preview = document.getElementById('pmAttachPreview');
         if (preview) preview.style.display = 'none';
+        var _savedConvId = _pmReplyConvId;
         await _pmLoad();
-        _pmExpandConv(_pmReplyConvId);
+        _pmExpandConv(_savedConvId);
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">&#10060; Failed: ' + e.message + '</span>';
       }
@@ -20694,8 +20696,9 @@
           });
           if (!resp.ok) throw new Error('HTTP ' + resp.status);
           status.innerHTML = '<span style="color:#059669;">&#127908; Voice sent!</span>';
+          var _savedConvId = _smReplyConvId;
           await _smLoad();
-          _smExpandConv(_smReplyConvId);
+          _smExpandConv(_savedConvId);
         } catch(e) {
           status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
         }
@@ -20741,8 +20744,9 @@
         _smPendingFile = null;
         var preview = document.getElementById('smAttachPreview');
         if (preview) preview.style.display = 'none';
+        var _savedConvId = _smReplyConvId;
         await _smLoad();
-        _smExpandConv(_smReplyConvId);
+        _smExpandConv(_savedConvId);
       } catch (e) {
         status.innerHTML = '<span style="color:#dc2626;">&#10060; Failed: ' + e.message + '</span>';
       }
