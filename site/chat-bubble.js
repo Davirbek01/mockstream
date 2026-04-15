@@ -208,6 +208,7 @@
   var _communityReplyTo = null;     // message id being replied to
   var _communityLoaded = false;
   var _communityLastSeenId = 0;  // highest community message ID the user has seen
+  var _communityBlockedUsers = [];  // array of blocked device_id strings
 
   // ─── ADMIN ROLE CACHE ──────────────────────────────────────────────────────
   var _communityUserRole = null;    // null = unchecked, 'user', 'admin', 'super_admin'
@@ -229,6 +230,56 @@
       }
     } catch(e) { _communityUserRole = 'user'; }
     return _communityUserRole;
+  }
+
+  // ─── BLOCKED USERS ────────────────────────────────────────────────────────
+  async function _fetchBlockedUsers() {
+    try {
+      var resp = await sbFetch('/rest/v1/site_settings?key=eq.hc_blocked_users&select=value');
+      var rows = await resp.json();
+      if (Array.isArray(rows) && rows.length && rows[0].value) {
+        _communityBlockedUsers = JSON.parse(rows[0].value);
+      }
+    } catch (e) { console.warn('[Community] Failed to load blocked users:', e); }
+  }
+
+  async function _saveBlockedUsers() {
+    try {
+      var val = JSON.stringify(_communityBlockedUsers);
+      var patchResp = await sbFetch('/rest/v1/site_settings?key=eq.hc_blocked_users', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+        body: JSON.stringify({ value: val, updated_at: new Date().toISOString() })
+      });
+      var patchData = await patchResp.json();
+      if (!patchData || patchData.length === 0) {
+        await sbFetch('/rest/v1/site_settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ key: 'hc_blocked_users', value: val })
+        });
+      }
+    } catch (e) { console.warn('[Community] Failed to save blocked users:', e); }
+  }
+
+  async function _toggleBlockUser(deviceId, senderName) {
+    var idx = _communityBlockedUsers.indexOf(deviceId);
+    var action = idx >= 0 ? 'unblock' : 'block';
+    var confirmMsg = action === 'block'
+      ? 'Block "' + senderName + '" from sending messages?'
+      : 'Unblock "' + senderName + '"?';
+    if (!confirm(confirmMsg)) return;
+    if (action === 'block') {
+      _communityBlockedUsers.push(deviceId);
+    } else {
+      _communityBlockedUsers.splice(idx, 1);
+    }
+    await _saveBlockedUsers();
+    renderCommunityMessages();
+  }
+
+  function _isUserBlocked(deviceId) {
+    return _communityBlockedUsers.indexOf(deviceId) >= 0;
   }
 
   // ─── REALTIME STATE ───────────────────────────────────────────────────────
@@ -2906,6 +2957,8 @@
 
   async function loadCommunityMessages() {
     try {
+      // Fetch blocked users list (super admins need it for block buttons, all users for send check)
+      await _fetchBlockedUsers();
       var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at,attachment_url,attachment_type,attachment_name');
       var data = await resp.json();
       if (Array.isArray(data)) {
@@ -2980,6 +3033,13 @@
       });
     });
 
+    // Bind block buttons (super admin only)
+    list.querySelectorAll('.cb-comm-block-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        _toggleBlockUser(btn.dataset.deviceId, btn.dataset.senderName);
+      });
+    });
+
     // Bind quote previews — tap to scroll to original message
     list.querySelectorAll('.cb-comm-reply-quote[data-scroll-to]').forEach(function (q) {
       q.addEventListener('click', function () {
@@ -3022,6 +3082,12 @@
       centerBadge = ' <span style="font-size:9px;background:rgba(239,68,68,.1);color:#dc2626;padding:1px 5px;border-radius:6px;font-weight:600;">' + escapeHtml(cLabel) + '</span>';
     }
 
+    // Blocked badge (visible to super admin)
+    var blockedBadge = '';
+    if (_communityUserRole === 'super_admin' && _isUserBlocked(m.device_id)) {
+      blockedBadge = ' <span style="font-size:9px;background:rgba(220,38,38,.1);color:#dc2626;padding:1px 5px;border-radius:6px;font-weight:700;">🚫 BLOCKED</span>';
+    }
+
     var nameHtml = '';
     if (!isMine) {
       var displayName = escapeHtml(m.sender_name || 'Anonymous');
@@ -3032,7 +3098,7 @@
         var badgeColor = isSuperAdmin ? '#7c3aed' : '#059669';
         nameHtml = '<div class="cb-comm-name cb-comm-name-admin">' + badgeIcon + ' ' + displayName + ' <span style="font-size:9px;background:' + badgeBg + ';color:' + badgeColor + ';padding:1px 6px;border-radius:8px;font-weight:700;">' + badgeLabel + '</span>' + centerBadge + '</div>';
       } else {
-        nameHtml = '<div class="cb-comm-name">' + displayName + centerBadge + '</div>';
+        nameHtml = '<div class="cb-comm-name">' + displayName + blockedBadge + centerBadge + '</div>';
       }
     } else if (isMine && isAdmin) {
       // Show admin badge on own messages too
@@ -3048,6 +3114,13 @@
     }
 
     var replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
+
+    // Block/Unblock button (super admin only, on non-admin users' messages)
+    var blockBtn = '';
+    if (_communityUserRole === 'super_admin' && !isMine && !isAdmin) {
+      var isBlocked = _isUserBlocked(m.device_id);
+      blockBtn = '<button class="cb-comm-block-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:' + (isBlocked ? '#059669' : '#dc2626') + ';padding:0 4px;">' + (isBlocked ? '✅ Unblock' : '🚫 Block') + '</button>';
+    }
 
     // Quote preview for replies
     var quoteHtml = '';
@@ -3090,6 +3163,7 @@
       '<div class="cb-comm-footer">' +
         '<span class="cb-comm-time">' + time + '</span>' +
         replyBtn +
+        blockBtn +
       '</div>' +
     '</div>';
   }
@@ -3117,6 +3191,11 @@
   }
 
   async function sendCommunityMessage(text, attachment) {
+    // Block check
+    if (_isUserBlocked(getDeviceId())) {
+      alert('You have been blocked from sending messages in the community.');
+      return;
+    }
     isSending = true;
     var input = document.getElementById('cb-input');
     if (input) { input.value = ''; input.disabled = true; }
@@ -3238,6 +3317,13 @@
     if (btn) {
       btn.addEventListener('click', function () {
         _setCommunityReplyTo(btn.dataset.msgId, btn.dataset.msgName);
+      });
+    }
+    // Bind block button
+    var blockBtn = el.querySelector('.cb-comm-block-btn');
+    if (blockBtn) {
+      blockBtn.addEventListener('click', function () {
+        _toggleBlockUser(blockBtn.dataset.deviceId, blockBtn.dataset.senderName);
       });
     }
     // Bind quote click
