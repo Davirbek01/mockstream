@@ -19889,9 +19889,14 @@
       list.innerHTML = html;
     }
 
-    window._pmExpandConv = function(convId) {
+    window._pmExpandConv = function(convId, fallbackName) {
       var conv = _pmConvs.find(function(c) { return c.convId === convId; });
-      if (!conv) return;
+      if (!conv) {
+        // No existing conversation — create a placeholder for DM
+        if (!fallbackName) return;
+        conv = { convId: convId, senderName: fallbackName, deviceId: convId, messages: [] };
+        _pmConvs.push(conv);
+      }
       var list = document.getElementById('pmMsgList');
       var html = '<div style="position:sticky;top:0;z-index:2;background:var(--surface,#fff);padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
         '<button onclick="_pmRenderList()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">&#8592; Back</button>' +

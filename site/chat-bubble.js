@@ -324,14 +324,21 @@
   }
 
   function _startPrivateDM(targetDeviceId, targetName) {
-    // Switch to Private tab and send an admin message to this user's private conversation
-    switchCategory('private');
-    // Show a note that we're DMing this user
-    var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    // Set a temporary DM target so the next message goes to this user
-    window._privateDmTarget = { deviceId: targetDeviceId, name: targetName };
-    var input = document.getElementById('cb-input');
-    if (input) { input.placeholder = 'DM to ' + targetName + '...'; input.focus(); }
+    // Close chat bubble and open the Private Messages admin panel
+    closeBubble();
+    // If openPrivateMessagesPanel exists (landing.html), open it and expand the conversation
+    if (typeof window.openPrivateMessagesPanel === 'function') {
+      window.openPrivateMessagesPanel().then(function() {
+        // After loading, expand the conversation for this device
+        setTimeout(function() {
+          if (typeof window._pmExpandConv === 'function') {
+            window._pmExpandConv(targetDeviceId, targetName);
+            // Focus the reply input
+            setTimeout(function() { var inp = document.getElementById('pmReplyInput'); if (inp) inp.focus(); }, 150);
+          }
+        }, 300);
+      });
+    }
   }
 
   function _isUserBlocked(deviceId) {
