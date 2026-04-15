@@ -6436,6 +6436,9 @@
           <a href="javascript:void(0)" onclick="openPrivateMessagesPanel(); toggleSidebar();" class="skill-btn" id="privateMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));border:1.5px solid rgba(236,72,153,0.3);position:relative;">
             <span style="font-size:15px;">&#9993;&#65039;</span> Private Messages <span id="pmUnreadBadge" style="display:none;position:absolute;top:6px;right:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;"></span>
           </a>
+          <a href="javascript:void(0)" onclick="openSupportMessagesPanel(); toggleSidebar();" class="skill-btn" id="supportMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(37,99,235,0.03));border:1.5px solid rgba(37,99,235,0.3);position:relative;">
+            <span style="font-size:15px;">&#128172;</span> Support Messages <span id="smUnreadBadge" style="display:none;position:absolute;top:6px;right:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;"></span>
+          </a>
         </div>
       </li>
 
@@ -9534,12 +9537,14 @@
           var plusMenu = document.getElementById('plusSubmenu');
           var cmItem = document.getElementById('centersMenuItem');
           var pmItem = document.getElementById('privateMessagesMenuItem');
+          var smItem = document.getElementById('supportMessagesMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
           if (plusMenu) { plusMenu.style.display = ''; plusMenu.classList.add('admin-revealed'); }
           if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
           if (pmItem) { pmItem.style.display = ''; pmItem.classList.add('admin-revealed'); }
+          if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session
@@ -20330,6 +20335,513 @@
       if (el) {
         if (el.style.display !== 'none') _pmStartUnreadPolling();
         else _pmObserver.observe(el, { attributes: true, attributeFilter: ['style'] });
+      }
+    });
+  })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SUPPORT MESSAGES ADMIN PANEL (Landing Page)                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <style>
+    .sm-overlay {
+      position:fixed;inset:0;z-index:10100;
+      background:rgba(0,0,0,0.5);display:flex;
+      align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;transition:opacity .25s ease;
+    }
+    .sm-overlay.active { opacity:1;pointer-events:auto; }
+    .sm-panel {
+      background:var(--surface,#fff);border-radius:16px;
+      width:94vw;max-width:520px;max-height:85vh;
+      display:flex;flex-direction:column;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;
+    }
+    .sm-header {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 20px;border-bottom:1px solid var(--ring,#e5e7eb);
+      background:linear-gradient(135deg,#2563eb22,#3b82f622);
+    }
+    .sm-header h3 { margin:0;font-size:16px;font-weight:700;color:#2563eb; }
+    .sm-close { background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink,#333);line-height:1; }
+    .sm-list { flex:1;overflow-y:auto; }
+    .sm-reply-bar {
+      padding:10px 14px;border-top:1px solid var(--ring,#e5e7eb);
+      background:rgba(37,99,235,0.04);
+    }
+    .sm-reply-input {
+      width:100%;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);
+      border-radius:8px;font-size:13px;outline:none;
+      background:var(--surface,#fff);color:var(--ink,#333);
+    }
+    .sm-reply-input:focus { border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,0.15); }
+  </style>
+  <script>
+  (function() {
+    var SM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var SM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _smConvs = [];
+    var _smReplyConvId = null;
+
+    function _smEsc(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function _smEnsureOverlay() {
+      if (document.getElementById('smOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'smOverlay';
+      div.className = 'sm-overlay';
+      div.onclick = function(e) { if (e.target === div) closeSupportMessagesPanel(); };
+      div.innerHTML =
+        '<div class="sm-panel">' +
+          '<div class="sm-header">' +
+            '<h3>&#128172; Support Messages</h3>' +
+            '<div style="display:flex;gap:8px;align-items:center;">' +
+              '<button onclick="_smRefresh()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;">&#128260; Refresh</button>' +
+              '<button class="sm-close" onclick="closeSupportMessagesPanel()">&times;</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="sm-list" id="smMsgList"><div style="text-align:center;color:#aaa;padding:40px;">Loading...</div></div>' +
+          '<div id="smReplyBar" style="display:none;" class="sm-reply-bar">' +
+            '<div id="smReplyInfo" style="font-size:12px;color:#2563eb;margin-bottom:6px;"></div>' +
+            '<div id="smAttachPreview" style="display:none;margin-bottom:6px;padding:8px;background:rgba(37,99,235,0.06);border-radius:8px;font-size:12px;color:#2563eb;align-items:center;gap:8px;"></div>' +
+            '<div style="display:flex;gap:6px;align-items:center;">' +
+              '<button onclick="_smPickFile()" title="Attach photo or PDF" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;">&#128206;</button>' +
+              '<button id="smVoiceBtn" title="Tap to record voice" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;">&#127908;</button>' +
+              '<input type="text" id="smReplyInput" class="sm-reply-input" placeholder="Reply as admin...">' +
+              '<button onclick="_smSendReply()" title="Send" style="background:#2563eb;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10148;</button>' +
+              '<button onclick="_smCancelReply()" title="Cancel" style="background:none;border:1px solid #ddd;border-radius:50%;width:36px;height:36px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#888;">&#10005;</button>' +
+            '</div>' +
+            '<input type="file" id="smFileInput" accept="image/*,.pdf" style="display:none;">' +
+            '<div id="smReplyStatus" style="font-size:11px;margin-top:4px;"></div>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(div);
+      div.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'smReplyInput') {
+          e.preventDefault();
+          _smSendReply();
+        }
+      });
+    }
+
+    async function _smLoad() {
+      var list = document.getElementById('smMsgList');
+      if (!list) return;
+      list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">&#9203; Loading...</div>';
+      try {
+        var resp = await fetch(SM_SB_URL + '/rest/v1/support_messages?category=eq.support&order=created_at.asc&limit=500&select=id,conversation_id,content,sender_name,device_id,role,created_at,attachment_url,attachment_type,attachment_name', {
+          headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY }
+        });
+        var rows = await resp.json();
+        if (!Array.isArray(rows)) rows = [];
+        var grouped = {};
+        rows.forEach(function(m) {
+          if (!grouped[m.conversation_id]) grouped[m.conversation_id] = { convId: m.conversation_id, senderName: '', deviceId: '', messages: [] };
+          grouped[m.conversation_id].messages.push(m);
+          if (m.role === 'user' && m.sender_name) grouped[m.conversation_id].senderName = m.sender_name;
+          if (m.role === 'user' && m.device_id) grouped[m.conversation_id].deviceId = m.device_id;
+        });
+        _smConvs = Object.values(grouped);
+        _smRenderList();
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;color:#dc2626;padding:40px;">Failed: ' + e.message + '</div>';
+      }
+    }
+
+    function _smRenderList() {
+      _smCancelReply();
+      var list = document.getElementById('smMsgList');
+      if (!_smConvs.length) {
+        list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">No support messages yet.</div>';
+        return;
+      }
+      var html = '';
+      _smConvs.forEach(function(conv) {
+        var name = _smEsc(conv.senderName || 'Anonymous');
+        var count = conv.messages.length;
+        var lastMsg = conv.messages[conv.messages.length - 1];
+        var lastTime = '';
+        try {
+          var d = new Date(lastMsg.created_at);
+          lastTime = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var preview = lastMsg.content ? (lastMsg.content.length > 60 ? lastMsg.content.substring(0, 60) + '...' : lastMsg.content) : (lastMsg.attachment_type ? '&#128206; ' + lastMsg.attachment_type : '');
+        var unread = 0;
+        var foundAdmin = false;
+        for (var i = conv.messages.length - 1; i >= 0; i--) {
+          if (conv.messages[i].role === 'admin') { foundAdmin = true; break; }
+          if (conv.messages[i].role === 'user') unread++;
+        }
+        if (!foundAdmin) unread = conv.messages.filter(function(m) { return m.role === 'user'; }).length;
+        var unreadBadge = unread > 0 ? '<span style="background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;">' + unread + '</span>' : '';
+
+        html += '<div style="padding:12px 14px;background:var(--surface,#fff);border-bottom:1px solid var(--ring,#e5e7eb);cursor:pointer;transition:background .15s;" onmouseenter="this.style.background=\'rgba(37,99,235,.08)\'" onmouseleave="this.style.background=\'var(--surface,#fff)\'" onclick="_smExpandConv(\'' + _smEsc(conv.convId) + '\')">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<div style="font-size:13px;font-weight:700;color:#2563eb;">&#128172; ' + name + ' <span style="font-size:10px;color:#888;font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span> ' + unreadBadge + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;">' +
+              '<button onclick="event.stopPropagation();_smQuickReply(\'' + _smEsc(conv.convId) + '\')" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">&#8617; Reply</button>' +
+              '<span style="font-size:10px;color:#888;">' + lastTime + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (lastMsg.role === 'admin' ? '&#128737;&#65039; ' : (lastMsg.role === 'assistant' ? '&#129302; ' : '')) + _smEsc(preview) + '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    }
+
+    window._smExpandConv = function(convId) {
+      var conv = _smConvs.find(function(c) { return c.convId === convId; });
+      if (!conv) return;
+      var list = document.getElementById('smMsgList');
+      var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+        '<button onclick="_smBackToList()" style="background:none;border:none;color:#2563eb;font-size:14px;cursor:pointer;padding:0;">&#8592; Back</button>' +
+        '<span style="font-size:13px;font-weight:700;color:#2563eb;">&#128172; ' + _smEsc(conv.senderName || 'Anonymous') + '</span>' +
+      '</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:6px;padding:12px 10px;">';
+      conv.messages.forEach(function(m) {
+        var isAdmin = m.role === 'admin';
+        var isAI = m.role === 'assistant';
+        var isUser = m.role === 'user';
+        var time = '';
+        try {
+          var d = new Date(m.created_at);
+          time = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var align = isUser ? 'flex-start' : 'flex-end';
+        var bg, color;
+        if (isAdmin) { bg = 'linear-gradient(135deg,#059669,#10b981)'; color = '#fff'; }
+        else if (isAI) { bg = '#e5e7eb'; color = '#1e293b'; align = 'flex-start'; }
+        else { bg = '#e5e7eb'; color = '#1e293b'; }
+        var radius = (isAdmin) ? '16px 16px 4px 16px' : '16px 16px 16px 4px';
+        var roleTag = isAI ? '<div style="font-size:10px;opacity:.6;margin-bottom:2px;">&#129302; AI</div>' : '';
+        html += '<div style="display:flex;flex-direction:column;align-items:' + align + ';align-self:' + align + ';max-width:82%;">' +
+          '<div style="align-self:' + align + ';max-width:100%;">' + roleTag +
+          '<div style="background:' + bg + ';color:' + color + ';padding:8px 12px;border-radius:' + radius + ';font-size:13px;line-height:1.5;word-break:break-word;">' +
+          (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _smEsc(m.attachment_url) + '"></audio>' : '') +
+          (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _smEsc(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
+          (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _smEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#2563eb') + ';text-decoration:none;margin-bottom:4px;">&#128196; ' + _smEsc(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.content ? _smEsc(m.content) : '') +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
+            '<span style="font-size:10px;color:#888;">' + time + '</span>' +
+            '<button onclick="_smDeleteMsg(' + m.id + ',\'' + _smEsc(convId).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#dc2626;font-size:10px;cursor:pointer;padding:0;opacity:.6;">&#128465;</button>' +
+          '</div></div></div>';
+      });
+      html += '</div>';
+      list.innerHTML = html;
+      list.scrollTop = list.scrollHeight;
+      _smReplyConvId = convId;
+      var bar = document.getElementById('smReplyBar');
+      bar.style.display = '';
+      document.getElementById('smReplyInfo').innerHTML = '&#128172; Replying to <strong>' + _smEsc(conv.senderName || 'Anonymous') + '</strong> (as &#128737;&#65039; Admin)';
+      document.getElementById('smReplyInput').value = '';
+      document.getElementById('smReplyStatus').innerHTML = '';
+    };
+
+    window._smQuickReply = function(convId) {
+      _smExpandConv(convId);
+      setTimeout(function() { var inp = document.getElementById('smReplyInput'); if (inp) inp.focus(); }, 100);
+    };
+
+    window._smBackToList = function() { _smRenderList(); };
+
+    function _smCancelReply() {
+      _smReplyConvId = null;
+      _smPendingFile = null;
+      var preview = document.getElementById('smAttachPreview');
+      if (preview) preview.style.display = 'none';
+      var bar = document.getElementById('smReplyBar');
+      if (bar) bar.style.display = 'none';
+    }
+
+    // ─── File/Voice attachment state ───
+    var _smPendingFile = null;
+    var _smVoiceStream = null, _smVoiceRecorder = null, _smVoiceChunks = [], _smRecording = false;
+    var SM_BUCKET = 'chat-attachments';
+
+    async function _smUploadFile(file, prefix) {
+      var ext = file.name ? file.name.split('.').pop() : 'bin';
+      var path = (prefix || 'admin') + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6) + '.' + ext;
+      var resp = await fetch(SM_SB_URL + '/storage/v1/object/' + SM_BUCKET + '/' + path, {
+        method: 'POST',
+        headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'true' },
+        body: file
+      });
+      if (!resp.ok) throw new Error('Upload failed: ' + resp.status);
+      return SM_SB_URL + '/storage/v1/object/public/' + SM_BUCKET + '/' + path;
+    }
+
+    window._smPickFile = function() {
+      var fi = document.getElementById('smFileInput');
+      if (!fi) return;
+      fi.value = '';
+      fi.onchange = async function() {
+        var file = fi.files[0];
+        if (!file) return;
+        var isImage = file.type.startsWith('image/');
+        var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
+        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
+        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        var status = document.getElementById('smReplyStatus');
+        status.innerHTML = '<span style="color:#888;">Uploading ' + _smEsc(file.name) + '...</span>';
+        try {
+          var url = await _smUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
+          _smPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          var preview = document.getElementById('smAttachPreview');
+          preview.style.display = 'flex';
+          preview.innerHTML = (isImage ? '&#128247; ' : '&#128196; ') + '<strong>' + _smEsc(file.name) + '</strong> <button onclick="_smClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';
+          status.innerHTML = '<span style="color:#059669;">File ready. Type a message or click Send.</span>';
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Upload failed: ' + e.message + '</span>';
+        }
+      };
+      fi.click();
+    };
+
+    window._smClearAttach = function() {
+      _smPendingFile = null;
+      var preview = document.getElementById('smAttachPreview');
+      if (preview) preview.style.display = 'none';
+      document.getElementById('smReplyStatus').innerHTML = '';
+    };
+
+    // ─── Voice recording (tap-to-record with overlay) ───
+    var _smRecTimerInt = null;
+
+    function _smFormatDur(s) {
+      var m = Math.floor(s / 60); var ss = s % 60;
+      return (m < 10 ? '0' : '') + m + ':' + (ss < 10 ? '0' : '') + ss;
+    }
+
+    function _smShowRecOverlay() {
+      var existing = document.getElementById('smRecOverlay');
+      if (existing) existing.remove();
+      var ov = document.createElement('div');
+      ov.id = 'smRecOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);animation:smRecFadeIn .25s ease';
+      ov.innerHTML =
+        '<style>@keyframes smRecFadeIn{from{opacity:0}to{opacity:1}}@keyframes smRecPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}</style>' +
+        '<div id="smRecTimer" style="font-size:2rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;margin-bottom:18px;">00:00</div>' +
+        '<button id="smRecStopBtn" style="width:72px;height:72px;border-radius:50%;border:none;background:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center;animation:smRecPulse 1.2s ease-in-out infinite;box-shadow:0 0 24px rgba(239,68,68,.5);">' +
+        '<span style="display:block;width:22px;height:22px;border-radius:4px;background:#fff;"></span></button>' +
+        '<div id="smRecCancelLink" style="margin-top:16px;color:rgba(255,255,255,.8);cursor:pointer;font-size:.9rem;text-decoration:underline;">Cancel</div>';
+      document.body.appendChild(ov);
+      var sec = 0;
+      _smRecTimerInt = setInterval(function() {
+        sec++;
+        var el = document.getElementById('smRecTimer');
+        if (el) el.textContent = _smFormatDur(sec);
+      }, 1000);
+      document.getElementById('smRecStopBtn').onclick = function() { _smStopVoice(); };
+      document.getElementById('smRecCancelLink').onclick = function() { _smVoiceChunks = []; _smStopVoice(); };
+    }
+
+    function _smHideRecOverlay() {
+      if (_smRecTimerInt) { clearInterval(_smRecTimerInt); _smRecTimerInt = null; }
+      var ov = document.getElementById('smRecOverlay');
+      if (ov) ov.remove();
+    }
+
+    function _smBindVoice() {
+      var btn = document.getElementById('smVoiceBtn');
+      if (!btn || btn._smBound) return;
+      btn._smBound = true;
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (_smRecording) { _smStopVoice(); } else { _smStartVoice(); }
+      });
+    }
+
+    async function _smStartVoice() {
+      if (_smRecording) return;
+      try {
+        _smVoiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch(e) { alert('Microphone access denied.'); return; }
+      _smVoiceChunks = [];
+      var mimeTypes = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+      var mime = null;
+      for (var i = 0; i < mimeTypes.length; i++) {
+        if (MediaRecorder.isTypeSupported(mimeTypes[i])) { mime = mimeTypes[i]; break; }
+      }
+      _smVoiceRecorder = new MediaRecorder(_smVoiceStream, mime ? { mimeType: mime } : {});
+      _smVoiceRecorder.ondataavailable = function(e) { if (e.data.size > 0) _smVoiceChunks.push(e.data); };
+      _smVoiceRecorder.onstop = async function() {
+        _smRecording = false;
+        _smHideRecOverlay();
+        if (_smVoiceStream) { _smVoiceStream.getTracks().forEach(function(t) { t.stop(); }); _smVoiceStream = null; }
+        if (!_smVoiceChunks.length || !_smReplyConvId) return;
+        var blob = new Blob(_smVoiceChunks, { type: mime || 'audio/webm' });
+        var ext = (mime && mime.indexOf('mp4') > -1) ? 'mp4' : (mime && mime.indexOf('ogg') > -1) ? 'ogg' : 'webm';
+        var file = new File([blob], 'voice.' + ext, { type: blob.type });
+        var status = document.getElementById('smReplyStatus');
+        status.innerHTML = '<span style="color:#888;">Uploading voice...</span>';
+        try {
+          var url = await _smUploadFile(file, 'admin_voice');
+          var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+          var body = {
+            conversation_id: _smReplyConvId, role: 'admin', sender_name: adminEmail,
+            content: '', category: 'support',
+            center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+            device_id: 'admin_dashboard',
+            attachment_url: url, attachment_type: 'voice', attachment_name: 'voice.' + ext
+          };
+          var resp = await fetch(SM_SB_URL + '/rest/v1/support_messages', {
+            method: 'POST',
+            headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify(body)
+          });
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          status.innerHTML = '<span style="color:#059669;">&#127908; Voice sent!</span>';
+          await _smLoad();
+          _smExpandConv(_smReplyConvId);
+        } catch(e) {
+          status.innerHTML = '<span style="color:#dc2626;">Voice send failed: ' + e.message + '</span>';
+        }
+      };
+      _smVoiceRecorder.start();
+      _smRecording = true;
+      _smShowRecOverlay();
+    }
+
+    function _smStopVoice() {
+      if (!_smRecording) return;
+      if (_smVoiceRecorder && _smVoiceRecorder.state !== 'inactive') _smVoiceRecorder.stop();
+    }
+
+    async function _smSendReply() {
+      var input = document.getElementById('smReplyInput');
+      var text = (input.value || '').trim();
+      if (!text && !_smPendingFile) return;
+      if (!_smReplyConvId) return;
+      var status = document.getElementById('smReplyStatus');
+      status.innerHTML = '<span style="color:#888;">Sending...</span>';
+      var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+      var body = {
+        conversation_id: _smReplyConvId, role: 'admin', sender_name: adminEmail,
+        content: text, category: 'support',
+        center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+        device_id: 'admin_dashboard'
+      };
+      if (_smPendingFile) {
+        body.attachment_url = _smPendingFile.url;
+        body.attachment_type = _smPendingFile.type;
+        body.attachment_name = _smPendingFile.name;
+      }
+      try {
+        var resp = await fetch(SM_SB_URL + '/rest/v1/support_messages', {
+          method: 'POST',
+          headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">&#9989; Sent!</span>';
+        input.value = '';
+        _smPendingFile = null;
+        var preview = document.getElementById('smAttachPreview');
+        if (preview) preview.style.display = 'none';
+        await _smLoad();
+        _smExpandConv(_smReplyConvId);
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">&#10060; Failed: ' + e.message + '</span>';
+      }
+    }
+
+    window._smDeleteMsg = async function(msgId, convId) {
+      if (!confirm('Delete this support message?')) return;
+      try {
+        await fetch(SM_SB_URL + '/rest/v1/support_messages?id=eq.' + msgId, {
+          method: 'DELETE',
+          headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY, 'Prefer': 'return=minimal' }
+        });
+        await _smLoad();
+        if (convId) _smExpandConv(convId);
+      } catch (e) { alert('Failed: ' + e.message); }
+    };
+
+    window._smRefresh = function() { _smLoad(); };
+
+    // ─── Fullscreen exit/restore ───
+    var _smWasFullscreen = false;
+    function _smExitFullscreen() {
+      try {
+        var doc = window.top ? window.top.document : document;
+        var fsEl = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (fsEl) { _smWasFullscreen = true; if (doc.exitFullscreen) doc.exitFullscreen().catch(function(){}); else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen(); }
+        else { _smWasFullscreen = false; }
+      } catch(e) { _smWasFullscreen = false; }
+    }
+    function _smRestoreFullscreen() {
+      if (!_smWasFullscreen) return;
+      _smWasFullscreen = false;
+      try { var doc = window.top ? window.top.document : document; var elem = doc.documentElement; if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){}); else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen(); } catch(e) {}
+    }
+
+    window.openSupportMessagesPanel = async function() {
+      _smExitFullscreen();
+      _smEnsureOverlay();
+      _smBindVoice();
+      document.getElementById('smOverlay').classList.add('active');
+      await _smLoad();
+    };
+
+    window.closeSupportMessagesPanel = function() {
+      var el = document.getElementById('smOverlay');
+      if (el) el.classList.remove('active');
+      _smReplyConvId = null;
+      _smRestoreFullscreen();
+    };
+
+    // ─── Unread badge on sidebar button ───
+    async function _smCheckUnread() {
+      try {
+        var resp = await fetch(SM_SB_URL + '/rest/v1/support_messages?category=eq.support&select=id,conversation_id,role&order=created_at.asc&limit=500', {
+          headers: { 'apikey': SM_SB_KEY, 'Authorization': 'Bearer ' + SM_SB_KEY }
+        });
+        var rows = await resp.json();
+        if (!Array.isArray(rows)) return;
+        var grouped = {};
+        rows.forEach(function(m) {
+          if (!grouped[m.conversation_id]) grouped[m.conversation_id] = [];
+          grouped[m.conversation_id].push(m);
+        });
+        var totalUnread = 0;
+        Object.values(grouped).forEach(function(msgs) {
+          var unread = 0;
+          var foundAdmin = false;
+          for (var i = msgs.length - 1; i >= 0; i--) {
+            if (msgs[i].role === 'admin') { foundAdmin = true; break; }
+            if (msgs[i].role === 'user') unread++;
+          }
+          if (!foundAdmin) unread = msgs.filter(function(m) { return m.role === 'user'; }).length;
+          totalUnread += unread;
+        });
+        var badge = document.getElementById('smUnreadBadge');
+        if (badge) {
+          if (totalUnread > 0) { badge.textContent = totalUnread; badge.style.display = ''; }
+          else { badge.style.display = 'none'; }
+        }
+      } catch(e) {}
+    }
+
+    var _smUnreadInterval = null;
+    function _smStartUnreadPolling() {
+      _smCheckUnread();
+      if (!_smUnreadInterval) _smUnreadInterval = setInterval(_smCheckUnread, 30000);
+    }
+    if (sessionStorage.getItem('ms_admin_unlocked') === '1') _smStartUnreadPolling();
+    var _smObserver = new MutationObserver(function() {
+      var el = document.getElementById('supportMessagesMenuItem');
+      if (el && el.style.display !== 'none') { _smStartUnreadPolling(); _smObserver.disconnect(); }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('supportMessagesMenuItem');
+      if (el) {
+        if (el.style.display !== 'none') _smStartUnreadPolling();
+        else _smObserver.observe(el, { attributes: true, attributeFilter: ['style'] });
       }
     });
   })();
