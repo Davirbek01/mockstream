@@ -19893,7 +19893,7 @@
       var conv = _pmConvs.find(function(c) { return c.convId === convId; });
       if (!conv) return;
       var list = document.getElementById('pmMsgList');
-      var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+      var html = '<div style="position:sticky;top:0;z-index:2;background:var(--surface,#fff);padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
         '<button onclick="_pmRenderList()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">&#8592; Back</button>' +
         '<span style="font-size:13px;font-weight:700;color:#ec4899;">&#9993;&#65039; ' + _pmEsc(conv.senderName || 'Anonymous') + '</span>' +
       '</div>';
@@ -20499,7 +20499,7 @@
       var conv = _smConvs.find(function(c) { return c.convId === convId; });
       if (!conv) return;
       var list = document.getElementById('smMsgList');
-      var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+      var html = '<div style="position:sticky;top:0;z-index:2;background:var(--surface,#fff);padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
         '<button onclick="_smBackToList()" style="background:none;border:none;color:#2563eb;font-size:14px;cursor:pointer;padding:0;">&#8592; Back</button>' +
         '<span style="font-size:13px;font-weight:700;color:#2563eb;">&#128172; ' + _smEsc(conv.senderName || 'Anonymous') + '</span>' +
       '</div>';
