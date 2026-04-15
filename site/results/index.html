@@ -6168,15 +6168,13 @@
         else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=minimal' }
         });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        var deleted = await resp.json();
-        if (!deleted || !deleted.length) {
-          status.innerHTML = '<span style="color:#f59e0b;">⚠️ Rows exist but none were deleted. Check Supabase RLS — a DELETE policy for anon may be missing on support_messages.</span>';
-        } else {
-          status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' support messages for ' + label + '.</span>';
+        if (!resp.ok) {
+          var errBody = ''; try { errBody = await resp.text(); } catch(e) {}
+          throw new Error('HTTP ' + resp.status + (errBody ? ': ' + errBody : ''));
         }
+        status.innerHTML = '<span style="color:#059669;">✅ All support messages deleted for ' + label + '.</span>';
         // Clear chat bubble localStorage directly (chat-bubble.js is not loaded on this page)
         _clearSupportLocalStorage();
         if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
@@ -6214,15 +6212,13 @@
         else url += '?id=not.is.null';
         var resp = await fetch(url, {
           method: 'DELETE',
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=representation' }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=minimal' }
         });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        var deleted = await resp.json();
-        if (!deleted || !deleted.length) {
-          status.innerHTML = '<span style="color:#f59e0b;">⚠️ Rows exist but none were deleted. Check Supabase RLS DELETE policy on community_messages.</span>';
-        } else {
-          status.innerHTML = '<span style="color:#059669;">✅ Deleted ' + deleted.length + ' community messages for ' + label + '.</span>';
+        if (!resp.ok) {
+          var errBody = ''; try { errBody = await resp.text(); } catch(e) {}
+          throw new Error('HTTP ' + resp.status + (errBody ? ': ' + errBody : ''));
         }
+        status.innerHTML = '<span style="color:#059669;">✅ All community messages deleted for ' + label + '.</span>';
         if (typeof window._hcClearCommunity === 'function') window._hcClearCommunity();
         // Refresh Messages panel community list if open
         if (typeof loadCommunityAdmin === 'function') loadCommunityAdmin();

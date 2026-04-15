@@ -278,6 +278,22 @@
     renderCommunityMessages();
   }
 
+  async function _deleteCommunityMsg(msgId) {
+    if (!confirm('Delete this message?')) return;
+    try {
+      var resp = await fetch(SB_URL + '/rest/v1/community_messages?id=eq.' + msgId, {
+        method: 'DELETE',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'return=minimal' }
+      });
+      if (!resp.ok) throw new Error('Delete failed');
+      _communityMessages = _communityMessages.filter(function(m) { return String(m.id) !== String(msgId); });
+      renderCommunityMessages();
+    } catch (e) {
+      console.error('Delete community msg error:', e);
+      alert('Failed to delete message.');
+    }
+  }
+
   function _isUserBlocked(deviceId) {
     return _communityBlockedUsers.indexOf(deviceId) >= 0;
   }
@@ -3040,6 +3056,13 @@
       });
     });
 
+    // Bind delete buttons (super admin only)
+    list.querySelectorAll('.cb-comm-delete-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        _deleteCommunityMsg(btn.dataset.msgId);
+      });
+    });
+
     // Bind quote previews — tap to scroll to original message
     list.querySelectorAll('.cb-comm-reply-quote[data-scroll-to]').forEach(function (q) {
       q.addEventListener('click', function () {
@@ -3155,6 +3178,12 @@
       }
     }
 
+    // Delete button (super admin only)
+    var deleteBtn = '';
+    if (_communityUserRole === 'super_admin') {
+      deleteBtn = '<button class="cb-comm-delete-btn" data-msg-id="' + m.id + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#dc2626;padding:0 4px;">🗑</button>';
+    }
+
     return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
       nameHtml +
       quoteHtml +
@@ -3164,6 +3193,7 @@
         '<span class="cb-comm-time">' + time + '</span>' +
         replyBtn +
         blockBtn +
+        deleteBtn +
       '</div>' +
     '</div>';
   }
@@ -3324,6 +3354,13 @@
     if (blockBtn) {
       blockBtn.addEventListener('click', function () {
         _toggleBlockUser(blockBtn.dataset.deviceId, blockBtn.dataset.senderName);
+      });
+    }
+    // Bind delete button
+    var delBtn = el.querySelector('.cb-comm-delete-btn');
+    if (delBtn) {
+      delBtn.addEventListener('click', function () {
+        _deleteCommunityMsg(delBtn.dataset.msgId);
       });
     }
     // Bind quote click
