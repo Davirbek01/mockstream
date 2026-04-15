@@ -7025,14 +7025,9 @@
       _privStopVoice();
     }
 
-    function quickPrivateReply(convId, senderName) {
-      _privateAdminReplyConvId = convId;
-      var bar = document.getElementById('privateReplyBar');
-      bar.style.display = '';
-      document.getElementById('privateReplyInfo').innerHTML = '✉️ Replying to <strong>' + _escHtml(senderName) + '</strong> (as 🛡️ Admin)';
-      document.getElementById('privateReplyInput').value = '';
-      document.getElementById('privateReplyStatus').innerHTML = '';
-      document.getElementById('privateReplyInput').focus();
+    function quickPrivateReply(convId) {
+      expandPrivateConv(convId);
+      setTimeout(function() { var inp = document.getElementById('privateReplyInput'); if (inp) inp.focus(); }, 100);
     }
 
     async function sendPrivateAdminReply() {
