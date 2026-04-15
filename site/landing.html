@@ -6433,8 +6433,8 @@
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openCentersPanel(); }); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>🏢</span> Centers Management
           </a>
-          <a href="results/index.html#privateMessages" onclick="toggleSidebar();" class="skill-btn" id="privateMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));border:1.5px solid rgba(236,72,153,0.3);">
-            <span>✉️</span> Private Messages
+          <a href="javascript:void(0)" onclick="openPrivateMessagesPanel(); toggleSidebar();" class="skill-btn" id="privateMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));border:1.5px solid rgba(236,72,153,0.3);position:relative;">
+            <span style="font-size:15px;">&#9993;&#65039;</span> Private Messages <span id="pmUnreadBadge" style="display:none;position:absolute;top:6px;right:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;"></span>
           </a>
         </div>
       </li>
@@ -19724,6 +19724,395 @@
           _pushOverlayState();
           return _originals[name].apply(this, arguments);
         };
+      }
+    });
+  })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- PRIVATE MESSAGES ADMIN PANEL (Landing Page)                             -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <style>
+    .pm-overlay {
+      position:fixed;inset:0;z-index:10100;
+      background:rgba(0,0,0,0.5);display:flex;
+      align-items:center;justify-content:center;
+      opacity:0;pointer-events:none;transition:opacity .25s ease;
+    }
+    .pm-overlay.active { opacity:1;pointer-events:auto; }
+    .pm-panel {
+      background:var(--surface,#fff);border-radius:16px;
+      width:94vw;max-width:520px;max-height:85vh;
+      display:flex;flex-direction:column;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;
+    }
+    .pm-header {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 20px;border-bottom:1px solid var(--ring,#e5e7eb);
+      background:linear-gradient(135deg,#ec489922,#f9a8d422);
+    }
+    .pm-header h3 { margin:0;font-size:16px;font-weight:700;color:#ec4899; }
+    .pm-close { background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink,#333);line-height:1; }
+    .pm-list { flex:1;overflow-y:auto; }
+    .pm-reply-bar {
+      padding:10px 14px;border-top:1px solid var(--ring,#e5e7eb);
+      background:rgba(236,72,153,0.04);
+    }
+    .pm-reply-input {
+      width:100%;padding:8px 12px;border:1px solid var(--ring,#e5e7eb);
+      border-radius:8px;font-size:13px;outline:none;
+      background:var(--surface,#fff);color:var(--ink,#333);
+    }
+    .pm-reply-input:focus { border-color:#ec4899;box-shadow:0 0 0 3px rgba(236,72,153,0.15); }
+  </style>
+  <script>
+  (function() {
+    var PM_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var PM_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _pmConvs = [];
+    var _pmReplyConvId = null;
+    var _pmLastAdminReplyIds = {};
+
+    function _pmEsc(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function _pmEnsureOverlay() {
+      if (document.getElementById('pmOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'pmOverlay';
+      div.className = 'pm-overlay';
+      div.onclick = function(e) { if (e.target === div) closePrivateMessagesPanel(); };
+      div.innerHTML =
+        '<div class="pm-panel">' +
+          '<div class="pm-header">' +
+            '<h3>&#9993;&#65039; Private Messages</h3>' +
+            '<div style="display:flex;gap:8px;align-items:center;">' +
+              '<button onclick="_pmRefresh()" style="background:#ec4899;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;">&#128260; Refresh</button>' +
+              '<button class="pm-close" onclick="closePrivateMessagesPanel()">&times;</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="pm-list" id="pmMsgList"><div style="text-align:center;color:#aaa;padding:40px;">Loading...</div></div>' +
+          '<div id="pmReplyBar" style="display:none;" class="pm-reply-bar">' +
+            '<div id="pmReplyInfo" style="font-size:12px;color:#ec4899;margin-bottom:6px;"></div>' +
+            '<div style="display:flex;gap:8px;">' +
+              '<input type="text" id="pmReplyInput" class="pm-reply-input" placeholder="Reply as admin...">' +
+              '<button onclick="_pmSendReply()" style="background:#ec4899;color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Send</button>' +
+              '<button onclick="_pmCancelReply()" style="background:none;border:1px solid #ddd;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;">Cancel</button>' +
+            '</div>' +
+            '<div id="pmReplyStatus" style="font-size:11px;margin-top:4px;"></div>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(div);
+      // Enter key sends reply
+      div.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'pmReplyInput') {
+          e.preventDefault();
+          _pmSendReply();
+        }
+      });
+    }
+
+    async function _pmLoad() {
+      var list = document.getElementById('pmMsgList');
+      if (!list) return;
+      list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">&#9203; Loading...</div>';
+      try {
+        var resp = await fetch(PM_SB_URL + '/rest/v1/support_messages?category=eq.private&order=created_at.asc&limit=500&select=id,conversation_id,content,sender_name,device_id,role,created_at,attachment_url,attachment_type,attachment_name', {
+          headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY }
+        });
+        var rows = await resp.json();
+        if (!Array.isArray(rows)) rows = [];
+        var grouped = {};
+        rows.forEach(function(m) {
+          if (!grouped[m.conversation_id]) grouped[m.conversation_id] = { convId: m.conversation_id, senderName: '', deviceId: '', messages: [] };
+          grouped[m.conversation_id].messages.push(m);
+          if (m.role === 'user' && m.sender_name) grouped[m.conversation_id].senderName = m.sender_name;
+          if (m.role === 'user' && m.device_id) grouped[m.conversation_id].deviceId = m.device_id;
+        });
+        _pmConvs = Object.values(grouped);
+        _pmRenderList();
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;color:#dc2626;padding:40px;">Failed: ' + e.message + '</div>';
+      }
+    }
+
+    function _pmRenderList() {
+      var list = document.getElementById('pmMsgList');
+      if (!_pmConvs.length) {
+        list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">No private messages yet.</div>';
+        return;
+      }
+      var html = '';
+      _pmConvs.forEach(function(conv) {
+        var name = _pmEsc(conv.senderName || 'Anonymous');
+        var count = conv.messages.length;
+        var lastMsg = conv.messages[conv.messages.length - 1];
+        var lastTime = '';
+        try {
+          var d = new Date(lastMsg.created_at);
+          lastTime = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var preview = lastMsg.content ? (lastMsg.content.length > 60 ? lastMsg.content.substring(0, 60) + '...' : lastMsg.content) : (lastMsg.attachment_type ? '&#128206; ' + lastMsg.attachment_type : '');
+        // Count unread (user messages after last admin reply)
+        var unread = 0;
+        var foundAdmin = false;
+        for (var i = conv.messages.length - 1; i >= 0; i--) {
+          if (conv.messages[i].role === 'admin') { foundAdmin = true; break; }
+          if (conv.messages[i].role === 'user') unread++;
+        }
+        if (!foundAdmin) unread = conv.messages.filter(function(m) { return m.role === 'user'; }).length;
+        var unreadBadge = unread > 0 ? '<span style="background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;">' + unread + '</span>' : '';
+
+        html += '<div style="padding:12px 14px;background:var(--surface,#fff);border-bottom:1px solid var(--ring,#e5e7eb);cursor:pointer;transition:background .15s;" onmouseenter="this.style.background=\'rgba(236,72,153,.08)\'" onmouseleave="this.style.background=\'var(--surface,#fff)\'" onclick="_pmExpandConv(\'' + _pmEsc(conv.convId) + '\')">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<div style="font-size:13px;font-weight:700;color:#ec4899;">&#9993;&#65039; ' + name + ' <span style="font-size:10px;color:#888;font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span> ' + unreadBadge + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;">' +
+              '<button onclick="event.stopPropagation();_pmQuickReply(\'' + _pmEsc(conv.convId) + '\',\'' + _pmEsc(conv.senderName || 'Anonymous').replace(/'/g, "\\'") + '\')" style="background:#ec4899;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">&#8617; Reply</button>' +
+              '<span style="font-size:10px;color:#888;">' + lastTime + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (lastMsg.role === 'admin' ? '&#128737;&#65039; ' : '') + _pmEsc(preview) + '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    }
+
+    window._pmExpandConv = function(convId) {
+      var conv = _pmConvs.find(function(c) { return c.convId === convId; });
+      if (!conv) return;
+      var list = document.getElementById('pmMsgList');
+      var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--ring,#e5e7eb);">' +
+        '<button onclick="_pmRenderList()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">&#8592; Back</button>' +
+        '<span style="font-size:13px;font-weight:700;color:#ec4899;">&#9993;&#65039; ' + _pmEsc(conv.senderName || 'Anonymous') + '</span>' +
+      '</div>';
+      conv.messages.forEach(function(m) {
+        var isAdmin = m.role === 'admin';
+        var time = '';
+        try {
+          var d = new Date(m.created_at);
+          time = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var bgColor = isAdmin ? 'rgba(5,150,105,.06)' : 'var(--surface,#fff)';
+        html += '<div style="padding:10px 14px;background:' + bgColor + ';border-bottom:1px solid var(--ring,#e5e7eb);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+            '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#ec4899') + ';">' + (isAdmin ? '&#128737;&#65039; Admin' : _pmEsc(m.sender_name || 'User')) + '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:10px;color:#888;">' + time + '</span>' +
+            '<button onclick="_pmDeleteMsg(' + m.id + ',\'' + _pmEsc(convId).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#dc2626;font-size:10px;cursor:pointer;padding:0;">&#128465;</button></div>' +
+          '</div>' +
+          (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _pmEsc(m.attachment_url) + '"></audio>' : '') +
+          (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _pmEsc(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
+          (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _pmEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(236,72,153,.1);border-radius:6px;padding:4px 8px;font-size:11px;color:#ec4899;text-decoration:none;margin-bottom:4px;">&#128196; ' + _pmEsc(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.content ? '<div style="font-size:13px;color:var(--ink,#333);line-height:1.5;">' + _pmEsc(m.content) + '</div>' : '') +
+        '</div>';
+      });
+      list.innerHTML = html;
+      list.scrollTop = list.scrollHeight;
+      _pmReplyConvId = convId;
+      var bar = document.getElementById('pmReplyBar');
+      bar.style.display = '';
+      document.getElementById('pmReplyInfo').innerHTML = '&#9993;&#65039; Replying to <strong>' + _pmEsc(conv.senderName || 'Anonymous') + '</strong> (as &#128737;&#65039; Admin)';
+      document.getElementById('pmReplyInput').value = '';
+      document.getElementById('pmReplyStatus').innerHTML = '';
+    };
+
+    window._pmQuickReply = function(convId, senderName) {
+      _pmReplyConvId = convId;
+      var bar = document.getElementById('pmReplyBar');
+      bar.style.display = '';
+      document.getElementById('pmReplyInfo').innerHTML = '&#9993;&#65039; Replying to <strong>' + _pmEsc(senderName) + '</strong> (as &#128737;&#65039; Admin)';
+      document.getElementById('pmReplyInput').value = '';
+      document.getElementById('pmReplyStatus').innerHTML = '';
+      document.getElementById('pmReplyInput').focus();
+    };
+
+    function _pmCancelReply() {
+      _pmReplyConvId = null;
+      document.getElementById('pmReplyBar').style.display = 'none';
+    }
+
+    async function _pmSendReply() {
+      var input = document.getElementById('pmReplyInput');
+      var text = (input.value || '').trim();
+      if (!text || !_pmReplyConvId) return;
+      var status = document.getElementById('pmReplyStatus');
+      status.innerHTML = '<span style="color:#888;">Sending...</span>';
+      var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+      var body = {
+        conversation_id: _pmReplyConvId,
+        role: 'admin',
+        sender_name: adminEmail,
+        content: text,
+        category: 'private',
+        center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+        device_id: 'admin_dashboard'
+      };
+      try {
+        var resp = await fetch(PM_SB_URL + '/rest/v1/support_messages', {
+          method: 'POST',
+          headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">&#9989; Sent!</span>';
+        input.value = '';
+        await _pmLoad();
+        _pmExpandConv(_pmReplyConvId);
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">&#10060; Failed: ' + e.message + '</span>';
+      }
+    }
+
+    window._pmDeleteMsg = async function(msgId, convId) {
+      if (!confirm('Delete this private message?')) return;
+      try {
+        await fetch(PM_SB_URL + '/rest/v1/support_messages?id=eq.' + msgId, {
+          method: 'DELETE',
+          headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY, 'Prefer': 'return=minimal' }
+        });
+        await _pmLoad();
+        if (convId) _pmExpandConv(convId);
+      } catch (e) { alert('Failed: ' + e.message); }
+    };
+
+    window._pmRefresh = function() { _pmLoad(); };
+    window._pmRenderList = function() { _pmRenderList_inner(); };
+    // Alias for internal render
+    var _pmRenderList_inner = function() {
+      var list = document.getElementById('pmMsgList');
+      if (!_pmConvs.length) {
+        list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">No private messages yet.</div>';
+        return;
+      }
+      _pmRenderList();
+      _pmCancelReply();
+    };
+    // Override: make _pmRenderList callable from window
+    window._pmRenderList = function() {
+      _pmCancelReply();
+      // Re-render list view
+      var fn = _pmRenderList;
+      // Avoid recursion: directly inline the render
+      var list = document.getElementById('pmMsgList');
+      if (!_pmConvs.length) {
+        list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">No private messages yet.</div>';
+        return;
+      }
+      var html = '';
+      _pmConvs.forEach(function(conv) {
+        var name = _pmEsc(conv.senderName || 'Anonymous');
+        var count = conv.messages.length;
+        var lastMsg = conv.messages[conv.messages.length - 1];
+        var lastTime = '';
+        try {
+          var d = new Date(lastMsg.created_at);
+          lastTime = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var preview = lastMsg.content ? (lastMsg.content.length > 60 ? lastMsg.content.substring(0, 60) + '...' : lastMsg.content) : (lastMsg.attachment_type ? '&#128206; ' + lastMsg.attachment_type : '');
+        var unread = 0;
+        var foundAdmin = false;
+        for (var i = conv.messages.length - 1; i >= 0; i--) {
+          if (conv.messages[i].role === 'admin') { foundAdmin = true; break; }
+          if (conv.messages[i].role === 'user') unread++;
+        }
+        if (!foundAdmin) unread = conv.messages.filter(function(m) { return m.role === 'user'; }).length;
+        var unreadBadge = unread > 0 ? '<span style="background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;">' + unread + '</span>' : '';
+
+        html += '<div style="padding:12px 14px;background:var(--surface,#fff);border-bottom:1px solid var(--ring,#e5e7eb);cursor:pointer;transition:background .15s;" onmouseenter="this.style.background=\'rgba(236,72,153,.08)\'" onmouseleave="this.style.background=\'var(--surface,#fff)\'" onclick="_pmExpandConv(\'' + _pmEsc(conv.convId) + '\')">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<div style="font-size:13px;font-weight:700;color:#ec4899;">&#9993;&#65039; ' + name + ' <span style="font-size:10px;color:#888;font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span> ' + unreadBadge + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;">' +
+              '<button onclick="event.stopPropagation();_pmQuickReply(\'' + _pmEsc(conv.convId) + '\',\'' + _pmEsc(conv.senderName || 'Anonymous').replace(/'/g, "\\'") + '\')" style="background:#ec4899;color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">&#8617; Reply</button>' +
+              '<span style="font-size:10px;color:#888;">' + lastTime + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (lastMsg.role === 'admin' ? '&#128737;&#65039; ' : '') + _pmEsc(preview) + '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    };
+
+    window.openPrivateMessagesPanel = async function() {
+      _pmEnsureOverlay();
+      document.getElementById('pmOverlay').classList.add('active');
+      await _pmLoad();
+    };
+
+    window.closePrivateMessagesPanel = function() {
+      var el = document.getElementById('pmOverlay');
+      if (el) el.classList.remove('active');
+      _pmReplyConvId = null;
+    };
+
+    // ─── Unread badge on sidebar button ───
+    async function _pmCheckUnread() {
+      try {
+        var resp = await fetch(PM_SB_URL + '/rest/v1/support_messages?category=eq.private&select=id,conversation_id,role&order=created_at.asc&limit=500', {
+          headers: { 'apikey': PM_SB_KEY, 'Authorization': 'Bearer ' + PM_SB_KEY }
+        });
+        var rows = await resp.json();
+        if (!Array.isArray(rows)) return;
+        var grouped = {};
+        rows.forEach(function(m) {
+          if (!grouped[m.conversation_id]) grouped[m.conversation_id] = [];
+          grouped[m.conversation_id].push(m);
+        });
+        var totalUnread = 0;
+        Object.values(grouped).forEach(function(msgs) {
+          var unread = 0;
+          var foundAdmin = false;
+          for (var i = msgs.length - 1; i >= 0; i--) {
+            if (msgs[i].role === 'admin') { foundAdmin = true; break; }
+            if (msgs[i].role === 'user') unread++;
+          }
+          if (!foundAdmin) unread = msgs.filter(function(m) { return m.role === 'user'; }).length;
+          totalUnread += unread;
+        });
+        var badge = document.getElementById('pmUnreadBadge');
+        if (badge) {
+          if (totalUnread > 0) {
+            badge.textContent = totalUnread;
+            badge.style.display = '';
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      } catch(e) { /* silent */ }
+    }
+
+    // Check unread on page load (only if admin unlocked) and every 30s
+    var _pmUnreadInterval = null;
+    function _pmStartUnreadPolling() {
+      _pmCheckUnread();
+      if (!_pmUnreadInterval) {
+        _pmUnreadInterval = setInterval(_pmCheckUnread, 30000);
+      }
+    }
+    // Hook into admin reveal — start polling when admin items are shown
+    var _origReveal = window._pmRevealHook;
+    Object.defineProperty(window, '_pmAdminRevealed', {
+      set: function() { _pmStartUnreadPolling(); },
+      get: function() { return !!_pmUnreadInterval; }
+    });
+    // Check on load if admin was already unlocked
+    if (sessionStorage.getItem('ms_admin_unlocked') === '1') {
+      _pmStartUnreadPolling();
+    }
+    // Also observe the sidebar item becoming visible
+    var _pmObserver = new MutationObserver(function() {
+      var el = document.getElementById('privateMessagesMenuItem');
+      if (el && el.style.display !== 'none') {
+        _pmStartUnreadPolling();
+        _pmObserver.disconnect();
+      }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('privateMessagesMenuItem');
+      if (el) {
+        if (el.style.display !== 'none') _pmStartUnreadPolling();
+        else _pmObserver.observe(el, { attributes: true, attributeFilter: ['style'] });
       }
     });
   })();
