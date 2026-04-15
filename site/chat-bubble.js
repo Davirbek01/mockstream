@@ -2375,9 +2375,11 @@
       @keyframes cb-slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
       /* ── Community Chat ── */
-      .cb-comm-msg{display:flex;flex-direction:column;max-width:88%;animation:cbHcFadeIn .15s ease}
+      .cb-comm-msg{display:flex;flex-direction:column;max-width:88%;animation:cbHcFadeIn .15s ease;touch-action:pan-y;-webkit-user-select:none;user-select:none;will-change:transform}
       .cb-comm-mine{align-self:flex-end}
       .cb-comm-other,.cb-comm-admin{align-self:flex-start}
+      .cb-swipe-arrow{position:absolute;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(99,102,241,.2);display:flex;align-items:center;justify-content:center;color:#6366f1;font-size:15px;opacity:0;pointer-events:none;z-index:0;transition:transform .12s,opacity .12s}
+      .cb-swipe-arrow.cb-swipe-ready{background:rgba(99,102,241,.4);color:#4f46e5}
       .cb-comm-reply-quote{background:rgba(99,102,241,.1);border-left:3px solid #6366f1;border-radius:0 8px 8px 0;padding:6px 10px;margin-bottom:4px;cursor:pointer;transition:background .15s;max-width:100%}
       .cb-comm-reply-quote:hover{background:rgba(99,102,241,.18)}
       .cb-comm-reply-quote-name{font-size:11px;font-weight:700;color:#6366f1;line-height:1.4}
@@ -3235,6 +3237,118 @@
     });
     // Init voice players for community voice messages
     initVoicePlayers(list);
+
+    // ── Swipe-to-reply (Telegram style) ──
+    if (!list._swipeInit) {
+      list._swipeInit = true;
+      list.style.position = 'relative';
+      var arrow = document.createElement('div');
+      arrow.className = 'cb-swipe-arrow';
+      arrow.textContent = '↩';
+      list._swipeArrow = arrow;
+      var _sw = null; // swipe state
+
+      list.addEventListener('touchstart', function (e) {
+        var msg = e.target.closest('.cb-comm-msg');
+        if (!msg || !msg.dataset.msgId) return;
+        var t = e.touches[0];
+        _sw = { msg: msg, startX: t.clientX, startY: t.clientY, swiping: false, locked: false, dx: 0 };
+        msg.style.transition = 'none';
+      }, { passive: true });
+
+      list.addEventListener('touchmove', function (e) {
+        if (!_sw) return;
+        var t = e.touches[0];
+        var dx = _sw.startX - t.clientX;
+        var dy = Math.abs(t.clientY - _sw.startY);
+        if (!_sw.locked) {
+          if (dy > 10 && dx < 10) { _sw = null; return; }
+          if (dx > 10) { _sw.locked = true; _sw.swiping = true; }
+          else return;
+        }
+        e.preventDefault();
+        dx = Math.max(0, Math.min(dx, 80));
+        _sw.dx = dx;
+        _sw.msg.style.transform = 'translateX(' + (-dx) + 'px)';
+        var msgRect = _sw.msg.getBoundingClientRect();
+        var listRect = list.getBoundingClientRect();
+        arrow.style.top = (msgRect.top - listRect.top + list.scrollTop + msgRect.height / 2 - 15) + 'px';
+        if (!arrow.parentNode) list.appendChild(arrow);
+        var progress = Math.min(dx / 50, 1);
+        arrow.style.opacity = String(progress);
+        arrow.style.transform = 'scale(' + (0.5 + 0.5 * progress) + ')';
+        if (dx >= 50) { arrow.classList.add('cb-swipe-ready'); } else { arrow.classList.remove('cb-swipe-ready'); }
+        if (dx >= 50 && !_sw._vibrated) { _sw._vibrated = true; try { navigator.vibrate(10); } catch(ex){} }
+      }, { passive: false });
+
+      list.addEventListener('touchend', function () {
+        if (!_sw) return;
+        var st = _sw; _sw = null;
+        st.msg.style.transition = 'transform .2s ease';
+        st.msg.style.transform = '';
+        arrow.style.opacity = '0';
+        arrow.style.transform = 'scale(.5)';
+        arrow.classList.remove('cb-swipe-ready');
+        if (st.dx >= 50 && st.msg.dataset.msgId && st.msg.dataset.msgName) {
+          _setCommunityReplyTo(st.msg.dataset.msgId, st.msg.dataset.msgName);
+        }
+      }, { passive: true });
+
+      list.addEventListener('touchcancel', function () {
+        if (!_sw) return;
+        var st = _sw; _sw = null;
+        st.msg.style.transition = 'transform .2s ease';
+        st.msg.style.transform = '';
+        arrow.style.opacity = '0';
+        arrow.style.transform = 'scale(.5)';
+        arrow.classList.remove('cb-swipe-ready');
+      }, { passive: true });
+
+      // Mouse support for desktop
+      var _mw = null;
+      list.addEventListener('mousedown', function (e) {
+        var msg = e.target.closest('.cb-comm-msg');
+        if (!msg || !msg.dataset.msgId) return;
+        if (e.target.closest('button,a,input,textarea,audio')) return;
+        _mw = { msg: msg, startX: e.clientX, swiping: false, dx: 0 };
+        msg.style.transition = 'none';
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', function (e) {
+        if (!_mw) return;
+        var dx = _mw.startX - e.clientX;
+        if (!_mw.swiping && dx > 6) _mw.swiping = true;
+        if (!_mw.swiping) return;
+        dx = Math.max(0, Math.min(dx, 80));
+        _mw.dx = dx;
+        _mw.msg.style.transform = 'translateX(' + (-dx) + 'px)';
+        var msgRect = _mw.msg.getBoundingClientRect();
+        var listRect = list.getBoundingClientRect();
+        arrow.style.top = (msgRect.top - listRect.top + list.scrollTop + msgRect.height / 2 - 15) + 'px';
+        if (!arrow.parentNode) list.appendChild(arrow);
+        var progress = Math.min(dx / 50, 1);
+        arrow.style.opacity = String(progress);
+        arrow.style.transform = 'scale(' + (0.5 + 0.5 * progress) + ')';
+        if (dx >= 50) { arrow.classList.add('cb-swipe-ready'); } else { arrow.classList.remove('cb-swipe-ready'); }
+      });
+      document.addEventListener('mouseup', function () {
+        if (!_mw) return;
+        var st = _mw; _mw = null;
+        st.msg.style.transition = 'transform .2s ease';
+        st.msg.style.transform = '';
+        arrow.style.opacity = '0';
+        arrow.style.transform = 'scale(.5)';
+        arrow.classList.remove('cb-swipe-ready');
+        if (st.dx >= 50 && st.msg.dataset.msgId && st.msg.dataset.msgName) {
+          _setCommunityReplyTo(st.msg.dataset.msgId, st.msg.dataset.msgName);
+        }
+      });
+    } else {
+      // Re-append the reusable arrow element
+      if (list._swipeArrow && !list.contains(list._swipeArrow)) {
+        list.appendChild(list._swipeArrow);
+      }
+    }
   }
 
   function _renderCommunityMsg(m, myDevice, isReply, parentMsg) {
@@ -3347,7 +3461,7 @@
       dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
     }
 
-    return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
+    return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">' +
       nameHtml +
       quoteHtml +
       attachHtml +
