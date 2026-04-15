@@ -241,6 +241,7 @@
   // ─── ADMIN ROLE CACHE ──────────────────────────────────────────────────────
   var _communityUserRole = null;    // null = unchecked, 'user', 'admin', 'super_admin'
   var _communityRoleChecked = false;
+  var _communityAdminUnlocked = false; // passcode-gated admin features in community
 
   async function _checkCommunityRole() {
     if (_communityRoleChecked) return _communityUserRole || 'user';
@@ -1821,6 +1822,13 @@
         b.classList.toggle('active', b.dataset.cat === cat);
       });
     }
+    // Show/hide admin lock button based on tab
+    var lockBtn = document.getElementById('cb-comm-admin-lock');
+    if (lockBtn) {
+      lockBtn.style.display = (cat === 'community') ? '' : 'none';
+      lockBtn.textContent = _communityAdminUnlocked ? '🔓' : '🔒';
+      lockBtn.style.opacity = _communityAdminUnlocked ? '1' : '.6';
+    }
     // Show/hide input bar elements based on tab
     var inputBar = overlay && overlay.querySelector('.cb-input-bar');
     var attachBtn = overlay && overlay.querySelector('.cb-attach-btn');
@@ -2523,6 +2531,7 @@
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
             '<button class="cb-cat-btn" data-cat="private">✉️ Private</button>' +
             '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
+            '<button id="cb-comm-admin-lock" title="Admin unlock" style="display:none;background:none;border:none;font-size:14px;cursor:pointer;padding:2px 6px;opacity:.6;transition:opacity .15s;">🔒</button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
           '<div id="cb-typing-bar" style="display:none;"></div>' +
@@ -2553,6 +2562,15 @@
       overlay.querySelectorAll('.cb-cat-btn').forEach(function (btn) {
         btn.addEventListener('click', function () { switchCategory(btn.dataset.cat); });
       });
+
+      // Admin lock button for community tab
+      var lockBtn = overlay.querySelector('#cb-comm-admin-lock');
+      if (lockBtn) {
+        lockBtn.addEventListener('click', function () {
+          if (_communityAdminUnlocked) return;
+          _showCommunityAdminPasscode();
+        });
+      }
 
       // Enter key
       overlay.querySelector('#cb-input').addEventListener('keydown', function (e) {
@@ -3125,8 +3143,6 @@
 
   async function loadCommunityMessages() {
     try {
-      // Ensure role is resolved before rendering (block/delete/DM buttons depend on it)
-      await _checkCommunityRole();
       // Fetch blocked users list (super admins need it for block buttons, all users for send check)
       await _fetchBlockedUsers();
       var resp = await sbFetch('/rest/v1/community_messages?order=created_at.asc&limit=200&select=id,content,sender_name,device_id,center,role,parent_id,created_at,attachment_url,attachment_type,attachment_name');
@@ -3378,9 +3394,9 @@
       centerBadge = ' <span style="font-size:9px;background:rgba(239,68,68,.1);color:#dc2626;padding:1px 5px;border-radius:6px;font-weight:600;">' + escapeHtml(cLabel) + '</span>';
     }
 
-    // Blocked badge (visible to super admin)
+    // Blocked badge (visible when admin unlocked)
     var blockedBadge = '';
-    if (_communityUserRole === 'super_admin' && _isUserBlocked(m.device_id)) {
+    if (_communityAdminUnlocked && _isUserBlocked(m.device_id)) {
       blockedBadge = ' <span style="font-size:9px;background:rgba(220,38,38,.1);color:#dc2626;padding:1px 5px;border-radius:6px;font-weight:700;">🚫 BLOCKED</span>';
     }
 
@@ -3411,9 +3427,9 @@
 
     var replyBtn = '<button class="cb-comm-reply-btn" data-msg-id="' + m.id + '" data-msg-name="' + escapeHtml(m.sender_name || 'Anonymous') + '">↩ Reply</button>';
 
-    // Block/Unblock button (super admin only, on non-admin users' messages)
+    // Block/Unblock button (admin unlocked only, on non-admin users' messages)
     var blockBtn = '';
-    if (_communityUserRole === 'super_admin' && !isMine && !isAdmin) {
+    if (_communityAdminUnlocked && !isMine && !isAdmin) {
       var isBlocked = _isUserBlocked(m.device_id);
       blockBtn = '<button class="cb-comm-block-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:' + (isBlocked ? '#059669' : '#dc2626') + ';padding:0 4px;">' + (isBlocked ? '✅ Unblock' : '🚫 Block') + '</button>';
     }
@@ -3451,15 +3467,15 @@
       }
     }
 
-    // Delete button (super admin only)
+    // Delete button (admin unlocked only)
     var deleteBtn = '';
-    if (_communityUserRole === 'super_admin') {
+    if (_communityAdminUnlocked) {
       deleteBtn = '<button class="cb-comm-delete-btn" data-msg-id="' + m.id + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#dc2626;padding:0 4px;">🗑</button>';
     }
 
-    // DM button (super admin only, on non-admin, non-own messages)
+    // DM button (admin unlocked only, on non-admin, non-own messages)
     var dmBtn = '';
-    if (_communityUserRole === 'super_admin' && !isMine && !isAdmin) {
+    if (_communityAdminUnlocked && !isMine && !isAdmin) {
       dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
     }
 
@@ -3490,6 +3506,70 @@
     }
     var input = document.getElementById('cb-input');
     if (input) { input.placeholder = 'Reply to ' + senderName + '...'; input.focus(); }
+  }
+
+  // ─── Community Admin Passcode Popup ─────────────────────────────────────
+  function _showCommunityAdminPasscode() {
+    var existing = document.getElementById('cb-comm-passcode-overlay');
+    if (existing) { existing.style.display = 'flex'; var inp = document.getElementById('cb-comm-passcode-input'); if (inp) { inp.value = ''; inp.focus(); } return; }
+    var div = document.createElement('div');
+    div.id = 'cb-comm-passcode-overlay';
+    div.style.cssText = 'position:fixed;inset:0;z-index:10200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);animation:cbHcFadeIn .15s ease;';
+    div.onclick = function(e) { if (e.target === div) { div.style.display = 'none'; } };
+    div.innerHTML =
+      '<div style="background:#fff;border-radius:16px;padding:28px 24px;width:90vw;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;">' +
+        '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
+        '<h3 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#1e293b;">Admin Access</h3>' +
+        '<p style="margin:0 0 16px;font-size:13px;color:#64748b;">Enter passcode to unlock admin features</p>' +
+        '<input type="password" id="cb-comm-passcode-input" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:15px;text-align:center;outline:none;box-sizing:border-box;">' +
+        '<div id="cb-comm-passcode-error" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
+        '<button id="cb-comm-passcode-btn" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
+        '<button id="cb-comm-passcode-cancel" style="margin-top:8px;background:none;border:none;color:#94a3b8;font-size:13px;cursor:pointer;">Cancel</button>' +
+      '</div>';
+    document.body.appendChild(div);
+
+    var inp = document.getElementById('cb-comm-passcode-input');
+    var errEl = document.getElementById('cb-comm-passcode-error');
+    var btn = document.getElementById('cb-comm-passcode-btn');
+
+    inp.addEventListener('keypress', function(e) { if (e.key === 'Enter') _verifyCommunityPasscode(); });
+    btn.addEventListener('click', _verifyCommunityPasscode);
+    document.getElementById('cb-comm-passcode-cancel').addEventListener('click', function() { div.style.display = 'none'; });
+
+    setTimeout(function() { inp.focus(); }, 50);
+
+    async function _verifyCommunityPasscode() {
+      var code = (inp.value || '').trim();
+      if (!code) { errEl.textContent = '❌ Please enter a passcode'; return; }
+      btn.disabled = true; btn.textContent = '⏳ Verifying...';
+      errEl.textContent = '';
+      try {
+        var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, type: 'bsb', validate: true, timestamp: Date.now(), source: 'community-admin', center: ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream').replace(/_/g, '') })
+        });
+        if (!resp.ok) throw new Error('Server error');
+        var data = await resp.json();
+        if (data.access) {
+          _communityAdminUnlocked = true;
+          div.style.display = 'none';
+          // Update lock icon
+          var lockBtn = document.getElementById('cb-comm-admin-lock');
+          if (lockBtn) { lockBtn.textContent = '🔓'; lockBtn.style.opacity = '1'; }
+          // Re-render to show admin buttons
+          renderCommunityMessages();
+        } else {
+          throw new Error('Invalid');
+        }
+      } catch (e) {
+        errEl.textContent = '❌ Incorrect passcode';
+        inp.value = '';
+        inp.focus();
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    }
   }
 
   function _cancelCommunityReply() {
