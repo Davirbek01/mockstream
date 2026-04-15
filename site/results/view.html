@@ -271,13 +271,12 @@
         if (reportPath.endsWith('.zip')) {
           await handleZipReport(fileUrl, result);
         } else {
-          // HTML report — fetch and load via srcdoc for maximum browser compatibility
+          // HTML report — fetch and load into iframe
           var iframe = document.getElementById('reportFrame');
           fetch(fileUrl)
             .then(function (resp) { return resp.text(); })
             .then(function (htmlText) {
-              iframe.removeAttribute('sandbox');
-              iframe.srcdoc = htmlText;
+              loadIframeContent(iframe, htmlText);
               iframe.onload = function () {
                 showReportContainer();
               };
@@ -485,7 +484,12 @@
       }
     }
 
-    // ===== HELPER: load content into iframe (srcdoc preferred, blob URL fallback) =====
+    // ===== DETECT TELEGRAM IN-APP BROWSER =====
+    var _isTelegramBrowser = /Telegram/i.test(navigator.userAgent);
+
+    // ===== HELPER: load content into iframe =====
+    // Telegram in-app browser can't handle blob URLs → use srcdoc
+    // iOS Safari has srcdoc size limits → use blob URLs
     function loadIframeContent(iframe, htmlString, opts) {
       opts = opts || {};
       if (opts.isPdf) {
@@ -495,10 +499,15 @@
         iframe.src = opts.url;
         return;
       }
-      // Use srcdoc for HTML — works in Telegram in-app browser unlike blob URLs
       iframe.removeAttribute('sandbox');
-      iframe.removeAttribute('src');
-      iframe.srcdoc = htmlString;
+      if (_isTelegramBrowser) {
+        iframe.removeAttribute('src');
+        iframe.srcdoc = htmlString;
+      } else {
+        iframe.removeAttribute('srcdoc');
+        var blob = new Blob([htmlString], { type: 'text/html; charset=utf-8' });
+        iframe.src = URL.createObjectURL(blob);
+      }
     }
 
     // ===== FULL MOCK: TABBED VIEWER =====
@@ -629,8 +638,7 @@
       htmlContent = await extractAudioAndPatch(zip, htmlContent);
 
       var iframe = document.getElementById('reportFrame');
-      iframe.removeAttribute('sandbox');
-      iframe.srcdoc = htmlContent;
+      loadIframeContent(iframe, htmlContent);
       iframe.onload = function () { showReportContainer(); };
       setTimeout(function () {
         if (document.getElementById('reportContainer').style.display !== 'flex') {
