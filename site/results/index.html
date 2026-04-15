@@ -6358,6 +6358,10 @@
         var countData = await countResp.json();
         if (!countData || !countData.length) {
           status.innerHTML = '<span style="color:#059669;">✅ No private messages to delete — already empty.</span>';
+          // Still clear localStorage cache in case it has stale data
+          _clearPrivateLocalStorage();
+          if (typeof window._hcClearPrivate === 'function') window._hcClearPrivate();
+          if (typeof loadPrivateAdmin === 'function') loadPrivateAdmin();
           return;
         }
         var url = SUPABASE_URL + '/rest/v1/support_messages?category=eq.private';
