@@ -6277,6 +6277,23 @@
       } catch(e) {}
     }
 
+    function _clearPrivateLocalStorage() {
+      try {
+        var raw = localStorage.getItem('ms_chat_bubble');
+        if (raw) {
+          var d = JSON.parse(raw);
+          if (d && d.messages) {
+            d.messages.private = [];
+          }
+          if (d && d.lastSeenAdmin) {
+            d.lastSeenAdmin.private = 0;
+          }
+          localStorage.setItem('ms_chat_bubble', JSON.stringify(d));
+        }
+        localStorage.removeItem('ms_helpcenter_chats');
+      } catch(e) {}
+    }
+
     async function clearAllSupportMessages() {
       var center = _getDataMgmtCenter();
       var isAll = center === '__all__';
@@ -6316,6 +6333,7 @@
         // Clear chat bubble localStorage directly (chat-bubble.js is not loaded on this page)
         _clearSupportLocalStorage();
         if (typeof window._hcClearSupport === 'function') window._hcClearSupport();
+        if (typeof window._hcClearPrivate === 'function') window._hcClearPrivate();
         // Refresh Messages panel if open
         if (typeof loadConversations === 'function') loadConversations();
       } catch (e) {
@@ -6353,6 +6371,9 @@
           throw new Error('HTTP ' + resp.status + (errBody ? ': ' + errBody : ''));
         }
         status.innerHTML = '<span style="color:#059669;">✅ All private messages deleted for ' + label + '.</span>';
+        // Clear private messages from local cache
+        _clearPrivateLocalStorage();
+        if (typeof window._hcClearPrivate === 'function') window._hcClearPrivate();
         // Refresh Private Messages panel if open
         if (typeof loadPrivateAdmin === 'function') loadPrivateAdmin();
       } catch (e) {

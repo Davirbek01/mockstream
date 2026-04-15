@@ -2211,14 +2211,28 @@
 
   // ─── CLEAR DATA (called from settings panel) ─────────────────────────────
   window._hcClearSupport = function() {
-    messages = { support: [], premium: [], partner: [], private: [] };
-    lastSeenAdmin = { support: 0, premium: 0, partner: 0, private: 0 };
+    messages.support = [];
+    messages.premium = [];
+    messages.partner = [];
+    lastSeenAdmin.support = 0;
+    lastSeenAdmin.premium = 0;
+    lastSeenAdmin.partner = 0;
     saveLocal();
-    if (currentCategory === 'support' || currentCategory === 'premium' || currentCategory === 'partner' || currentCategory === 'private') renderMessages();
+    if (currentCategory === 'support' || currentCategory === 'premium' || currentCategory === 'partner') renderMessages();
+  };
+  window._hcClearPrivate = function() {
+    messages.private = [];
+    lastSeenAdmin.private = 0;
+    saveLocal();
+    if (currentCategory === 'private') renderMessages();
   };
   window._hcClearCommunity = function() {
     _communityMessages = [];
     _communityLoaded = false;
+    _communityLastSeenId = 0;
+    localStorage.removeItem('ms_community_last_seen_id');
+    localStorage.removeItem('ms_community_jump_seen_id');
+    _updateCommunityBadge();
     if (currentCategory === 'community') renderCommunityMessages();
   };
   window._hcClearDictionary = function() {
