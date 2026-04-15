@@ -2515,6 +2515,7 @@
       overlay.innerHTML =
         '<div class="cb-hc-container">' +
           '<button class="cb-hc-close" title="Close">✕</button>' +
+          '<button id="cb-comm-admin-lock" title="Admin unlock" style="display:none;position:absolute;top:16px;right:48px;background:none;border:none;font-size:18px;cursor:pointer;padding:4px 6px;opacity:.6;transition:opacity .15s;z-index:2;">🔒</button>' +
           '<div class="cb-hc-header">' +
             '<div style="display:flex;align-items:center;gap:10px;">' +
               '<span style="font-size:24px;">🤖</span>' +
@@ -2531,7 +2532,6 @@
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
             '<button class="cb-cat-btn" data-cat="private">✉️ Private</button>' +
             '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
-            '<button id="cb-comm-admin-lock" title="Admin unlock" style="display:none;background:none;border:none;font-size:14px;cursor:pointer;padding:2px 6px;opacity:.6;transition:opacity .15s;">🔒</button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
           '<div id="cb-typing-bar" style="display:none;"></div>' +
