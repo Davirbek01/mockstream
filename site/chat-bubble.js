@@ -322,6 +322,17 @@
     }
   }
 
+  function _startPrivateDM(targetDeviceId, targetName) {
+    // Switch to Private tab and send an admin message to this user's private conversation
+    switchCategory('private');
+    // Show a note that we're DMing this user
+    var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Set a temporary DM target so the next message goes to this user
+    window._privateDmTarget = { deviceId: targetDeviceId, name: targetName };
+    var input = document.getElementById('cb-input');
+    if (input) { input.placeholder = 'DM to ' + targetName + '...'; input.focus(); }
+  }
+
   function _isUserBlocked(deviceId) {
     return _communityBlockedUsers.indexOf(deviceId) >= 0;
   }
@@ -1229,12 +1240,44 @@
       isSending = true;
       input.disabled = true;
       var timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      var userMsg = { role: 'user', text: text, category: 'private', time: timeStr };
-      messages.private.push(userMsg);
-      renderMessages();
-      saveLocal();
-      input.value = '';
-      saveMsg(userMsg);
+
+      // Check if admin is DM-ing a specific user from Community tab
+      var dmTarget = window._privateDmTarget;
+      if (dmTarget) {
+        // Admin sending DM to a specific user
+        var body = {
+          conversation_id: dmTarget.deviceId + '_private',
+          role: 'admin',
+          sender_name: getSenderName(),
+          content: text,
+          category: 'private',
+          center: getCenter(),
+          device_id: 'admin_bubble'
+        };
+        try {
+          await sbFetch('/rest/v1/support_messages', {
+            method: 'POST',
+            headers: { 'Prefer': 'return=minimal' },
+            body: JSON.stringify(body)
+          });
+        } catch (e) { console.warn('[Private DM] Send error:', e); }
+        var adminMsg = { role: 'user', text: '💌 DM to ' + dmTarget.name + ': ' + text, category: 'private', time: timeStr };
+        messages.private.push(adminMsg);
+        renderMessages();
+        saveLocal();
+        input.value = '';
+        window._privateDmTarget = null;
+        if (input) input.placeholder = 'Send a private message to admin...';
+      } else {
+        // Regular user sending private message
+        var userMsg = { role: 'user', text: text, category: 'private', time: timeStr };
+        messages.private.push(userMsg);
+        renderMessages();
+        saveLocal();
+        input.value = '';
+        saveMsg(userMsg);
+      }
+
       isSending = false;
       input.disabled = false;
       input.focus();
@@ -3170,6 +3213,13 @@
       });
     });
 
+    // Bind DM buttons (admin only)
+    list.querySelectorAll('.cb-comm-dm-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        _startPrivateDM(btn.dataset.deviceId, btn.dataset.senderName);
+      });
+    });
+
     // Bind quote previews — tap to scroll to original message
     list.querySelectorAll('.cb-comm-reply-quote[data-scroll-to]').forEach(function (q) {
       q.addEventListener('click', function () {
@@ -3291,6 +3341,12 @@
       deleteBtn = '<button class="cb-comm-delete-btn" data-msg-id="' + m.id + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#dc2626;padding:0 4px;">🗑</button>';
     }
 
+    // DM button (admin/super_admin only, on non-admin, non-own messages)
+    var dmBtn = '';
+    if ((_communityUserRole === 'admin' || _communityUserRole === 'super_admin') && !isMine && !isAdmin) {
+      dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">💌 DM</button>';
+    }
+
     return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
       nameHtml +
       quoteHtml +
@@ -3301,6 +3357,7 @@
         replyBtn +
         blockBtn +
         deleteBtn +
+        dmBtn +
       '</div>' +
     '</div>';
   }
@@ -3468,6 +3525,13 @@
     if (delBtn) {
       delBtn.addEventListener('click', function () {
         _deleteCommunityMsg(delBtn.dataset.msgId);
+      });
+    }
+    // Bind DM button
+    var dmBtnEl = el.querySelector('.cb-comm-dm-btn');
+    if (dmBtnEl) {
+      dmBtnEl.addEventListener('click', function () {
+        _startPrivateDM(dmBtnEl.dataset.deviceId, dmBtnEl.dataset.senderName);
       });
     }
     // Bind quote click
