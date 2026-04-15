@@ -1927,6 +1927,31 @@
         </div>
 
         <!-- ── 3. Dictionary Lookups Accordion ── -->
+        <div class="msg-accordion" id="msgAccPrivate">
+          <div class="msg-accordion-header" style="background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(219,39,119,.05));" onclick="toggleMsgAccordion('msgAccPrivate')">
+            <h4 style="color:#ec4899;"><span>💌</span> Private Messages</h4>
+            <span class="msg-accordion-arrow" style="color:#ec4899;">▾</span>
+          </div>
+          <div class="msg-accordion-body">
+            <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+              <button onclick="loadPrivateAdmin()" style="padding:6px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;font-weight:700;cursor:pointer;font-size:12px;">🔄 Refresh</button>
+            </div>
+            <div id="privateMsgList" style="max-height:420px;overflow-y:auto;">
+              <div style="text-align:center;color:var(--muted);padding:40px;">Click to load private messages...</div>
+            </div>
+            <div id="privateReplyBar" style="display:none;padding:10px 0;border-top:1px solid var(--border);margin-top:10px;">
+              <div id="privateReplyInfo" style="font-size:12px;color:var(--muted);margin-bottom:6px;"></div>
+              <div style="display:flex;gap:8px;">
+                <input type="text" id="privateReplyInput" placeholder="Reply as admin..." style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--surface);color:var(--ink);">
+                <button onclick="sendPrivateAdminReply()" style="padding:10px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;font-weight:700;cursor:pointer;font-size:13px;">🛡️ Send</button>
+                <button onclick="cancelPrivateReply()" style="padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);cursor:pointer;font-size:13px;">Cancel</button>
+              </div>
+              <div id="privateReplyStatus" style="font-size:11px;margin-top:4px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 4. Dictionary Lookups Accordion ── -->
         <div class="msg-accordion" id="msgAccDict">
           <div class="msg-accordion-header" style="background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(185,28,28,.05));" onclick="toggleMsgAccordion('msgAccDict')">
             <h4 style="color:#dc2626;"><span>📖</span> Dictionary Lookups</h4>
@@ -4708,6 +4733,7 @@
         // Auto-load data when opening
         if (id === 'msgAccSupport') { loadGlobalMessage(); loadConversations(); }
         else if (id === 'msgAccCommunity') { loadCommunityAdmin(); }
+        else if (id === 'msgAccPrivate') { loadPrivateAdmin(); }
         else if (id === 'msgAccDict') { loadDictAdmin(); }
       }
     }
@@ -6703,6 +6729,170 @@
       if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'communityReplyInput') {
         e.preventDefault();
         sendCommunityAdminReply();
+      }
+    });
+
+    // ====================================================================
+    // PRIVATE MESSAGES ADMIN PANEL
+    // ====================================================================
+    var _privateAdminConvs = []; // grouped conversations
+    var _privateAdminReplyConvId = null; // conversation_id to reply to
+
+    async function loadPrivateAdmin() {
+      var list = document.getElementById('privateMsgList');
+      list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;">⏳ Loading...</div>';
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/support_messages?category=eq.private&order=created_at.asc&limit=500&select=id,conversation_id,content,sender_name,device_id,role,created_at,attachment_url,attachment_type,attachment_name', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var rows = await resp.json();
+        if (!Array.isArray(rows)) rows = [];
+        // Group by conversation_id
+        var grouped = {};
+        rows.forEach(function(m) {
+          if (!grouped[m.conversation_id]) grouped[m.conversation_id] = { convId: m.conversation_id, senderName: '', deviceId: '', messages: [] };
+          grouped[m.conversation_id].messages.push(m);
+          if (m.role === 'user' && m.sender_name) grouped[m.conversation_id].senderName = m.sender_name;
+          if (m.role === 'user' && m.device_id) grouped[m.conversation_id].deviceId = m.device_id;
+        });
+        _privateAdminConvs = Object.values(grouped);
+        renderPrivateAdmin();
+      } catch (e) {
+        list.innerHTML = '<div style="text-align:center;color:#dc2626;padding:40px;">Failed to load: ' + e.message + '</div>';
+      }
+    }
+
+    function renderPrivateAdmin() {
+      var list = document.getElementById('privateMsgList');
+      if (!_privateAdminConvs.length) {
+        list.innerHTML = '<div style="text-align:center;color:var(--muted);padding:40px;">No private messages yet.</div>';
+        return;
+      }
+      var html = '';
+      _privateAdminConvs.forEach(function(conv) {
+        var name = _escHtml(conv.senderName || 'Anonymous');
+        var count = conv.messages.length;
+        var lastMsg = conv.messages[conv.messages.length - 1];
+        var lastTime = '';
+        try {
+          var d = new Date(lastMsg.created_at);
+          lastTime = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var preview = lastMsg.content ? (lastMsg.content.length > 60 ? lastMsg.content.substring(0, 60) + '…' : lastMsg.content) : (lastMsg.attachment_type ? '📎 ' + (lastMsg.attachment_type) : '');
+
+        html += '<div style="padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;" onmouseenter="this.style.background=\'rgba(236,72,153,.08)\'" onmouseleave="this.style.background=\'var(--surface)\'" onclick="expandPrivateConv(\'' + _escHtml(conv.convId) + '\')">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<div style="font-size:13px;font-weight:700;color:#ec4899;">💌 ' + name + ' <span style="font-size:10px;color:var(--muted);font-weight:400;">(' + count + ' msg' + (count > 1 ? 's' : '') + ')</span></div>' +
+            '<div style="font-size:10px;color:var(--muted);">' + lastTime + '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (lastMsg.role === 'admin' ? '🛡️ ' : '') + _escHtml(preview) + '</div>' +
+        '</div>';
+      });
+      list.innerHTML = html;
+    }
+
+    function expandPrivateConv(convId) {
+      var conv = _privateAdminConvs.find(function(c) { return c.convId === convId; });
+      if (!conv) return;
+      var list = document.getElementById('privateMsgList');
+      var html = '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);">' +
+        '<button onclick="renderPrivateAdmin()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">← Back</button>' +
+        '<span style="font-size:13px;font-weight:700;color:#ec4899;">💌 ' + _escHtml(conv.senderName || 'Anonymous') + '</span>' +
+      '</div>';
+      conv.messages.forEach(function(m) {
+        var isAdmin = m.role === 'admin';
+        var time = '';
+        try {
+          var d = new Date(m.created_at);
+          time = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        } catch(e) {}
+        var bgColor = isAdmin ? 'rgba(5,150,105,.06)' : 'var(--surface)';
+        html += '<div style="padding:10px 14px;background:' + bgColor + ';border-bottom:1px solid var(--border);">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+            '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#ec4899') + ';">' + (isAdmin ? '🛡️ Admin' : _escHtml(m.sender_name || 'User')) + '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:10px;color:var(--muted);">' + time + '</span>' +
+            '<button onclick="deletePrivateMsg(' + m.id + ',\'' + _escHtml(convId).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#dc2626;font-size:10px;cursor:pointer;padding:0;">🗑</button></div>' +
+          '</div>' +
+          (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _escHtml(m.attachment_url) + '"></audio>' : '') +
+          (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _escHtml(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
+          (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _escHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(236,72,153,.1);border-radius:6px;padding:4px 8px;font-size:11px;color:#ec4899;text-decoration:none;margin-bottom:4px;">📄 ' + _escHtml(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.content ? '<div style="font-size:13px;color:var(--ink);line-height:1.5;">' + _escHtml(m.content) + '</div>' : '') +
+        '</div>';
+      });
+      list.innerHTML = html;
+      list.scrollTop = list.scrollHeight;
+      // Show reply bar
+      _privateAdminReplyConvId = convId;
+      var bar = document.getElementById('privateReplyBar');
+      bar.style.display = '';
+      document.getElementById('privateReplyInfo').innerHTML = '💌 Replying to <strong>' + _escHtml(conv.senderName || 'Anonymous') + '</strong> (as 🛡️ Admin)';
+      document.getElementById('privateReplyInput').value = '';
+      document.getElementById('privateReplyStatus').innerHTML = '';
+    }
+
+    function cancelPrivateReply() {
+      _privateAdminReplyConvId = null;
+      document.getElementById('privateReplyBar').style.display = 'none';
+    }
+
+    async function sendPrivateAdminReply() {
+      var input = document.getElementById('privateReplyInput');
+      var text = (input.value || '').trim();
+      if (!text || !_privateAdminReplyConvId) return;
+      var status = document.getElementById('privateReplyStatus');
+      status.innerHTML = '<span style="color:var(--muted);">Sending...</span>';
+
+      var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
+      var body = {
+        conversation_id: _privateAdminReplyConvId,
+        role: 'admin',
+        sender_name: adminEmail,
+        content: text,
+        category: 'private',
+        center: (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
+        device_id: 'admin_dashboard'
+      };
+
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        status.innerHTML = '<span style="color:#059669;">✅ Sent!</span>';
+        input.value = '';
+        await loadPrivateAdmin();
+        expandPrivateConv(_privateAdminReplyConvId);
+      } catch (e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + e.message + '</span>';
+      }
+    }
+
+    async function deletePrivateMsg(msgId, convId) {
+      if (!confirm('Delete this private message?')) return;
+      try {
+        await fetch(SUPABASE_URL + '/rest/v1/support_messages?id=eq.' + msgId, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=minimal' }
+        });
+        await loadPrivateAdmin();
+        if (convId) expandPrivateConv(convId);
+      } catch (e) {
+        alert('Failed to delete: ' + e.message);
+      }
+    }
+
+    // Enter key for private reply input
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'privateReplyInput') {
+        e.preventDefault();
+        sendPrivateAdminReply();
       }
     });
 
