@@ -6816,6 +6816,7 @@
         '<button onclick="renderPrivateAdmin()" style="background:none;border:none;color:#ec4899;font-size:14px;cursor:pointer;padding:0;">← Back</button>' +
         '<span style="font-size:13px;font-weight:700;color:#ec4899;">✉️ ' + _escHtml(conv.senderName || 'Anonymous') + '</span>' +
       '</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:6px;padding:12px 10px;">';
       conv.messages.forEach(function(m) {
         var isAdmin = m.role === 'admin';
         var time = '';
@@ -6823,19 +6824,24 @@
           var d = new Date(m.created_at);
           time = d.toLocaleDateString([], {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
         } catch(e) {}
-        var bgColor = isAdmin ? 'rgba(5,150,105,.06)' : 'var(--surface)';
-        html += '<div style="padding:10px 14px;background:' + bgColor + ';border-bottom:1px solid var(--border);">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
-            '<div style="font-size:12px;font-weight:700;color:' + (isAdmin ? '#059669' : '#ec4899') + ';">' + (isAdmin ? '🛡️ Admin' : _escHtml(m.sender_name || 'User')) + '</div>' +
-            '<div style="display:flex;gap:8px;align-items:center;"><span style="font-size:10px;color:var(--muted);">' + time + '</span>' +
-            '<button onclick="deletePrivateMsg(' + m.id + ',\'' + _escHtml(convId).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#dc2626;font-size:10px;cursor:pointer;padding:0;">🗑</button></div>' +
-          '</div>' +
+        var align = isAdmin ? 'flex-end' : 'flex-start';
+        var bg = isAdmin ? 'linear-gradient(135deg,#059669,#10b981)' : '#e5e7eb';
+        var color = isAdmin ? '#fff' : '#1e293b';
+        var radius = isAdmin ? '16px 16px 4px 16px' : '16px 16px 16px 4px';
+        html += '<div style="display:flex;flex-direction:column;align-items:' + align + ';align-self:' + align + ';max-width:82%;">' +
+          '<div style="align-self:' + align + ';max-width:100%;">' +
+          '<div style="background:' + bg + ';color:' + color + ';padding:8px 12px;border-radius:' + radius + ';font-size:13px;line-height:1.5;word-break:break-word;">' +
           (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _escHtml(m.attachment_url) + '"></audio>' : '') +
           (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _escHtml(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
-          (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _escHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(236,72,153,.1);border-radius:6px;padding:4px 8px;font-size:11px;color:#ec4899;text-decoration:none;margin-bottom:4px;">📄 ' + _escHtml(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
-          (m.content ? '<div style="font-size:13px;color:var(--ink);line-height:1.5;">' + _escHtml(m.content) + '</div>' : '') +
-        '</div>';
+          (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _escHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">📄 ' + _escHtml(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.content ? _escHtml(m.content) : '') +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
+            '<span style="font-size:10px;color:var(--muted);">' + time + '</span>' +
+            '<button onclick="deletePrivateMsg(' + m.id + ',\'' + _escHtml(convId).replace(/'/g, "\\'") + '\')" style="background:none;border:none;color:#dc2626;font-size:10px;cursor:pointer;padding:0;opacity:.6;">🗑</button>' +
+          '</div></div></div>';
       });
+      html += '</div>';
       list.innerHTML = html;
       list.scrollTop = list.scrollHeight;
       // Show reply bar
