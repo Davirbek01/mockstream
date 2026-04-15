@@ -19844,6 +19844,7 @@
     }
 
     function _pmRenderList() {
+      _pmCancelReply();
       var list = document.getElementById('pmMsgList');
       if (!_pmConvs.length) {
         list.innerHTML = '<div style="text-align:center;color:#aaa;padding:40px;">No private messages yet.</div>';
