@@ -4745,6 +4745,16 @@
       loadConversations();
     }
 
+    // Auto-open Private Messages if navigated via #privateMessages hash
+    (function() {
+      if (window.location.hash === '#privateMessages') {
+        window.addEventListener('load', function() {
+          openMessagesPanel();
+          setTimeout(function() { toggleMsgAccordion('msgAccPrivate'); }, 300);
+        });
+      }
+    })();
+
     // Keep these as aliases so existing code still works
     function openCommunityPanel() {
       document.getElementById('messagesOverlay').classList.add('show');

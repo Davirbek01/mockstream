@@ -6433,6 +6433,9 @@
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openCentersPanel(); }); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>🏢</span> Centers Management
           </a>
+          <a href="results/index.html#privateMessages" onclick="toggleSidebar();" class="skill-btn" id="privateMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));border:1.5px solid rgba(236,72,153,0.3);">
+            <span>💌</span> Private Messages
+          </a>
         </div>
       </li>
 
@@ -9530,11 +9533,13 @@
           var tmItem = document.getElementById('testMakerMenuItem2');
           var plusMenu = document.getElementById('plusSubmenu');
           var cmItem = document.getElementById('centersMenuItem');
+          var pmItem = document.getElementById('privateMessagesMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
           if (plusMenu) { plusMenu.style.display = ''; plusMenu.classList.add('admin-revealed'); }
           if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
+          if (pmItem) { pmItem.style.display = ''; pmItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session
