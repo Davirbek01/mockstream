@@ -6906,20 +6906,57 @@
       document.getElementById('privateReplyStatus').innerHTML = '';
     }
 
-    // ─── Voice recording for results dashboard admin ───
-    (function() {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-          var btn = document.getElementById('privVoiceBtn');
-          if (!btn) return;
-          btn.addEventListener('mousedown', function(e) { e.preventDefault(); _privStartVoice(); });
-          btn.addEventListener('mouseup', function() { _privStopVoice(); });
-          btn.addEventListener('mouseleave', function() { if (_privRecording) _privStopVoice(); });
-          btn.addEventListener('touchstart', function(e) { e.preventDefault(); _privStartVoice(); }, { passive: false });
-          btn.addEventListener('touchend', function(e) { e.preventDefault(); _privStopVoice(); });
-        }, 500);
+    // ─── Voice recording overlay helpers (results dashboard) ───
+    var _privRecTimerInt = null;
+
+    function _privFormatDur(s) {
+      var m = Math.floor(s / 60); var ss = s % 60;
+      return (m < 10 ? '0' : '') + m + ':' + (ss < 10 ? '0' : '') + ss;
+    }
+
+    function _privShowRecOverlay() {
+      var existing = document.getElementById('privRecOverlay');
+      if (existing) existing.remove();
+      var ov = document.createElement('div');
+      ov.id = 'privRecOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);animation:privRecFadeIn .25s ease';
+      ov.innerHTML =
+        '<style>' +
+        '@keyframes privRecFadeIn{from{opacity:0}to{opacity:1}}' +
+        '@keyframes privRecPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}' +
+        '</style>' +
+        '<div id="privRecTimer" style="font-size:2rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;margin-bottom:18px;">00:00</div>' +
+        '<button id="privRecStopBtn" style="width:72px;height:72px;border-radius:50%;border:none;background:#ef4444;cursor:pointer;display:flex;align-items:center;justify-content:center;animation:privRecPulse 1.2s ease-in-out infinite;box-shadow:0 0 24px rgba(239,68,68,.5);">' +
+        '<span style="display:block;width:22px;height:22px;border-radius:4px;background:#fff;"></span></button>' +
+        '<div id="privRecCancelLink" style="margin-top:16px;color:rgba(255,255,255,.8);cursor:pointer;font-size:.9rem;text-decoration:underline;">Cancel</div>';
+      document.body.appendChild(ov);
+      var sec = 0;
+      _privRecTimerInt = setInterval(function() {
+        sec++;
+        var el = document.getElementById('privRecTimer');
+        if (el) el.textContent = _privFormatDur(sec);
+      }, 1000);
+      document.getElementById('privRecStopBtn').onclick = function() { _privStopVoice(); };
+      document.getElementById('privRecCancelLink').onclick = function() { _privCancelVoice(); };
+    }
+
+    function _privHideRecOverlay() {
+      if (_privRecTimerInt) { clearInterval(_privRecTimerInt); _privRecTimerInt = null; }
+      var ov = document.getElementById('privRecOverlay');
+      if (ov) ov.remove();
+    }
+
+    // ─── Voice binding: tap-to-record (results dashboard) ───
+    function _privBindVoice() {
+      var btn = document.getElementById('privVoiceBtn');
+      if (!btn || btn._privBound) return;
+      btn._privBound = true;
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (_privRecording) { _privStopVoice(); } else { _privStartVoice(); }
       });
-    })();
+    }
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_privBindVoice, 500); });
 
     async function _privStartVoice() {
       if (_privRecording) return;
@@ -6936,9 +6973,8 @@
       _privVoiceRecorder.ondataavailable = function(e) { if (e.data.size > 0) _privVoiceChunks.push(e.data); };
       _privVoiceRecorder.onstop = async function() {
         _privRecording = false;
+        _privHideRecOverlay();
         if (_privVoiceStream) { _privVoiceStream.getTracks().forEach(function(t) { t.stop(); }); _privVoiceStream = null; }
-        var voiceBtn = document.getElementById('privVoiceBtn');
-        if (voiceBtn) { voiceBtn.style.background = ''; voiceBtn.style.color = ''; voiceBtn.style.borderColor = ''; }
         if (!_privVoiceChunks.length || !_privateAdminReplyConvId) return;
         var blob = new Blob(_privVoiceChunks, { type: mime || 'audio/webm' });
         var ext = (mime && mime.indexOf('mp4') > -1) ? 'mp4' : (mime && mime.indexOf('ogg') > -1) ? 'ogg' : 'webm';
@@ -6970,13 +7006,17 @@
       };
       _privVoiceRecorder.start();
       _privRecording = true;
-      var voiceBtn = document.getElementById('privVoiceBtn');
-      if (voiceBtn) { voiceBtn.style.background = '#ef4444'; voiceBtn.style.color = '#fff'; voiceBtn.style.borderColor = '#ef4444'; }
+      _privShowRecOverlay();
     }
 
     function _privStopVoice() {
       if (!_privRecording) return;
       if (_privVoiceRecorder && _privVoiceRecorder.state !== 'inactive') _privVoiceRecorder.stop();
+    }
+
+    function _privCancelVoice() {
+      _privVoiceChunks = [];
+      _privStopVoice();
     }
 
     function quickPrivateReply(convId, senderName) {

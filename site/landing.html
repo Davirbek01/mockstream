@@ -19992,16 +19992,64 @@
       document.getElementById('pmReplyStatus').innerHTML = '';
     };
 
-    // ─── Voice recording (hold-to-record) ───
+    // ─── Voice recording (tap-to-record with overlay) ───
+    var _pmRecOverlay = null;
+    var _pmRecTimerInterval = null;
+    var _pmRecStartTime = 0;
+    var PM_MAX_VOICE_SEC = 120;
+
     function _pmBindVoice() {
       var btn = document.getElementById('pmVoiceBtn');
-      if (!btn) return;
-      var holdTimer = null;
-      btn.addEventListener('mousedown', function(e) { e.preventDefault(); _pmStartVoice(); });
-      btn.addEventListener('mouseup', function() { _pmStopVoice(); });
-      btn.addEventListener('mouseleave', function() { if (_pmRecording) _pmStopVoice(); });
-      btn.addEventListener('touchstart', function(e) { e.preventDefault(); _pmStartVoice(); }, { passive: false });
-      btn.addEventListener('touchend', function(e) { e.preventDefault(); _pmStopVoice(); });
+      if (!btn || btn._pmBound) return;
+      btn._pmBound = true;
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (_pmRecording) return;
+        _pmStartVoice();
+      });
+    }
+
+    function _pmFormatDur(sec) {
+      var m = Math.floor(sec / 60);
+      var s = Math.floor(sec % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function _pmShowRecOverlay() {
+      _pmHideRecOverlay();
+      var panel = document.querySelector('#pmOverlay .pm-panel');
+      if (!panel) return;
+      _pmRecOverlay = document.createElement('div');
+      _pmRecOverlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:20;border-radius:16px;animation:pmRecFadeIn .15s ease;';
+      _pmRecOverlay.innerHTML =
+        '<style>@keyframes pmRecFadeIn{from{opacity:0}to{opacity:1}} @keyframes pmRecPulse{0%,100%{opacity:1}50%{opacity:.4}}</style>' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<div style="width:10px;height:10px;border-radius:50%;background:#ef4444;animation:pmRecPulse 1s infinite;"></div>' +
+          '<div id="pmRecTimer" style="font-size:22px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;">0:00</div>' +
+        '</div>' +
+        '<div style="font-size:13px;color:rgba(255,255,255,.7);">&#127908; Recording...</div>' +
+        '<button id="pmRecStopBtn" style="width:56px;height:56px;border-radius:50%;border:3px solid #fff;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:8px;transition:transform .15s;">' +
+          '<div style="width:20px;height:20px;border-radius:4px;background:#ef4444;"></div>' +
+        '</button>' +
+        '<div style="font-size:11px;color:rgba(255,255,255,.5);">Tap circle to send</div>' +
+        '<button id="pmRecCancelBtn" style="background:none;border:none;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;text-decoration:underline;margin-top:2px;">Cancel recording</button>';
+      panel.style.position = 'relative';
+      panel.appendChild(_pmRecOverlay);
+      _pmRecOverlay.querySelector('#pmRecStopBtn').addEventListener('click', function() { _pmStopVoice(); });
+      _pmRecOverlay.querySelector('#pmRecCancelBtn').addEventListener('click', function() { _pmVoiceChunks = []; _pmStopVoice(); });
+      _pmRecStartTime = Date.now();
+      _pmRecTimerInterval = setInterval(function() {
+        var elapsed = (Date.now() - _pmRecStartTime) / 1000;
+        var el = document.getElementById('pmRecTimer');
+        if (el) el.textContent = _pmFormatDur(elapsed);
+        if (elapsed >= PM_MAX_VOICE_SEC) _pmStopVoice();
+      }, 200);
+    }
+
+    function _pmHideRecOverlay() {
+      if (_pmRecTimerInterval) { clearInterval(_pmRecTimerInterval); _pmRecTimerInterval = null; }
+      if (_pmRecOverlay && _pmRecOverlay.parentNode) _pmRecOverlay.remove();
+      _pmRecOverlay = null;
     }
 
     async function _pmStartVoice() {
@@ -20019,9 +20067,8 @@
       _pmVoiceRecorder.ondataavailable = function(e) { if (e.data.size > 0) _pmVoiceChunks.push(e.data); };
       _pmVoiceRecorder.onstop = async function() {
         _pmRecording = false;
+        _pmHideRecOverlay();
         if (_pmVoiceStream) { _pmVoiceStream.getTracks().forEach(function(t) { t.stop(); }); _pmVoiceStream = null; }
-        var voiceBtn = document.getElementById('pmVoiceBtn');
-        if (voiceBtn) { voiceBtn.style.background = 'none'; voiceBtn.style.color = ''; }
         if (!_pmVoiceChunks.length || !_pmReplyConvId) return;
         var blob = new Blob(_pmVoiceChunks, { type: mime || 'audio/webm' });
         var ext = (mime && mime.indexOf('mp4') > -1) ? 'mp4' : (mime && mime.indexOf('ogg') > -1) ? 'ogg' : 'webm';
@@ -20030,7 +20077,6 @@
         status.innerHTML = '<span style="color:#888;">Uploading voice...</span>';
         try {
           var url = await _pmUploadFile(file, 'admin_voice');
-          // Send voice message directly
           var adminEmail = localStorage.getItem('ms_admin_email') || 'Admin';
           var body = {
             conversation_id: _pmReplyConvId,
@@ -20059,8 +20105,7 @@
       };
       _pmVoiceRecorder.start();
       _pmRecording = true;
-      var voiceBtn = document.getElementById('pmVoiceBtn');
-      if (voiceBtn) { voiceBtn.style.background = '#ef4444'; voiceBtn.style.color = '#fff'; voiceBtn.style.borderColor = '#ef4444'; }
+      _pmShowRecOverlay();
     }
 
     function _pmStopVoice() {
