@@ -1949,7 +1949,7 @@
                 <button onclick="sendPrivateAdminReply()" title="Send" style="border:none;border-radius:50%;width:38px;height:38px;background:linear-gradient(135deg,#ec4899,#db2777);color:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10148;</button>
                 <button onclick="cancelPrivateReply()" title="Cancel" style="border:1.5px solid var(--border);border-radius:50%;width:38px;height:38px;background:var(--surface);color:var(--muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10005;</button>
               </div>
-              <input type="file" id="privFileInput" accept="image/*,.pdf" style="display:none;">
+              <input type="file" id="privFileInput" style="display:none;">
               <div id="privateReplyStatus" style="font-size:11px;margin-top:4px;"></div>
             </div>
           </div>
@@ -6881,6 +6881,7 @@
           (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _escHtml(m.attachment_url) + '"></audio>' : '') +
           (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _escHtml(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
           (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _escHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">📄 ' + _escHtml(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.attachment_url && m.attachment_type === 'file' ? '<a href="' + _escHtml(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">📎 ' + _escHtml(m.attachment_name || 'File') + '</a><br>' : '') +
           (m.content ? _escHtml(m.content) : '') +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
@@ -6934,13 +6935,13 @@
         if (!file) return;
         var isImage = file.type.startsWith('image/');
         var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
-        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
-        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        if (file.size > 25 * 1024 * 1024) { alert('File too large (max 25MB).'); return; }
         var status = document.getElementById('privateReplyStatus');
         status.innerHTML = '<span style="color:var(--muted);">Uploading ' + _escHtml(file.name) + '...</span>';
+        var attType = isImage ? 'image' : (isPdf ? 'pdf' : 'file');
         try {
           var url = await _privUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
-          _privPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          _privPendingFile = { url: url, type: attType, name: file.name };
           var preview = document.getElementById('privateAttachPreview');
           preview.style.display = 'flex';
           preview.innerHTML = (isImage ? '📷 ' : '📄 ') + '<strong>' + _escHtml(file.name) + '</strong> <button onclick="_privClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';

@@ -19809,7 +19809,7 @@
               '<input type="text" id="pmReplyInput" class="pm-reply-input" placeholder="Reply as admin...">' +
               '<button onclick="_pmSendReply()" title="Send" style="background:#ec4899;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10148;</button>' +
             '</div>' +
-            '<input type="file" id="pmFileInput" accept="image/*,.pdf" style="display:none;">' +
+            '<input type="file" id="pmFileInput" style="display:none;">' +
             '<div id="pmReplyStatus" style="font-size:11px;margin-top:4px;"></div>' +
           '</div>' +
         '</div>';
@@ -19915,6 +19915,7 @@
           (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _pmEsc(m.attachment_url) + '"></audio>' : '') +
           (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _pmEsc(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
           (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _pmEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">&#128196; ' + _pmEsc(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.attachment_url && m.attachment_type === 'file' ? '<a href="' + _pmEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#ec4899') + ';text-decoration:none;margin-bottom:4px;">&#128206; ' + _pmEsc(m.attachment_name || 'File') + '</a><br>' : '') +
           (m.content ? _pmEsc(m.content) : '') +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
@@ -19972,13 +19973,14 @@
         if (!file) return;
         var isImage = file.type.startsWith('image/');
         var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
-        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
-        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        if (file.size > 25 * 1024 * 1024) { alert('File too large (max 25MB).'); return; }
         var status = document.getElementById('pmReplyStatus');
         status.innerHTML = '<span style="color:#888;">Uploading ' + _pmEsc(file.name) + '...</span>';
+        var attType = isImage ? 'image' : (isPdf ? 'pdf' : 'file');
+        var attIcon = isImage ? '&#128247; ' : '&#128196; ';
         try {
           var url = await _pmUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
-          _pmPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          _pmPendingFile = { url: url, type: attType, name: file.name };
           var preview = document.getElementById('pmAttachPreview');
           preview.style.display = 'flex';
           preview.innerHTML = (isImage ? '&#128247; ' : '&#128196; ') + '<strong>' + _pmEsc(file.name) + '</strong> <button onclick="_pmClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';
@@ -20415,7 +20417,7 @@
               '<input type="text" id="smReplyInput" class="sm-reply-input" placeholder="Reply as admin...">' +
               '<button onclick="_smSendReply()" title="Send" style="background:#2563eb;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10148;</button>' +
             '</div>' +
-            '<input type="file" id="smFileInput" accept="image/*,.pdf" style="display:none;">' +
+            '<input type="file" id="smFileInput" style="display:none;">' +
             '<div id="smReplyStatus" style="font-size:11px;margin-top:4px;"></div>' +
           '</div>' +
         '</div>';
@@ -20524,6 +20526,7 @@
           (m.attachment_url && m.attachment_type === 'voice' ? '<audio controls style="max-width:100%;height:36px;margin-bottom:4px;"><source src="' + _smEsc(m.attachment_url) + '"></audio>' : '') +
           (m.attachment_url && m.attachment_type === 'image' ? '<img src="' + _smEsc(m.attachment_url) + '" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="window.open(this.src)">' : '') +
           (m.attachment_url && m.attachment_type === 'pdf' ? '<a href="' + _smEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#2563eb') + ';text-decoration:none;margin-bottom:4px;">&#128196; ' + _smEsc(m.attachment_name || 'Document.pdf') + '</a><br>' : '') +
+          (m.attachment_url && m.attachment_type === 'file' ? '<a href="' + _smEsc(m.attachment_url) + '" target="_blank" style="display:inline-block;background:rgba(255,255,255,.2);border-radius:6px;padding:4px 8px;font-size:11px;color:' + (isAdmin ? '#fff' : '#2563eb') + ';text-decoration:none;margin-bottom:4px;">&#128206; ' + _smEsc(m.attachment_name || 'File') + '</a><br>' : '') +
           (m.content ? _smEsc(m.content) : '') +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:6px;margin-top:2px;">' +
@@ -20584,13 +20587,13 @@
         if (!file) return;
         var isImage = file.type.startsWith('image/');
         var isPdf = file.type === 'application/pdf' || (file.name && file.name.toLowerCase().endsWith('.pdf'));
-        if (!isImage && !isPdf) { alert('Only images and PDFs are allowed.'); return; }
-        if (file.size > 10 * 1024 * 1024) { alert('File too large (max 10MB).'); return; }
+        if (file.size > 25 * 1024 * 1024) { alert('File too large (max 25MB).'); return; }
         var status = document.getElementById('smReplyStatus');
         status.innerHTML = '<span style="color:#888;">Uploading ' + _smEsc(file.name) + '...</span>';
+        var attType = isImage ? 'image' : (isPdf ? 'pdf' : 'file');
         try {
           var url = await _smUploadFile(file, isImage ? 'admin_img' : 'admin_doc');
-          _smPendingFile = { url: url, type: isImage ? 'image' : 'pdf', name: file.name };
+          _smPendingFile = { url: url, type: attType, name: file.name };
           var preview = document.getElementById('smAttachPreview');
           preview.style.display = 'flex';
           preview.innerHTML = (isImage ? '&#128247; ' : '&#128196; ') + '<strong>' + _smEsc(file.name) + '</strong> <button onclick="_smClearAttach()" style="margin-left:auto;background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;">&times;</button>';
