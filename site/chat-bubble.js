@@ -1071,7 +1071,7 @@
       support: '👋 Hi! I\'m <strong>Mock Stream AI</strong>. How can I help you? Describe your issue and I\'ll do my best to assist.',
       premium: '👑 Welcome! Interested in <strong>Premium access</strong>? Tell me a bit about yourself and I\'ll connect you with our team.',
       partner: '🤝 Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.',
-      private: '� Hi! Send a <strong>private message</strong> directly to our admins. They\'ll reply here as soon as possible.'
+      private: '✉️ Hi! Send a <strong>private message</strong> directly to our admins. They\'ll reply here as soon as possible.'
     };
     var welcomeHtml = welcomes[currentCategory] || welcomes.support;
     var html = '';
@@ -1261,7 +1261,7 @@
             body: JSON.stringify(body)
           });
         } catch (e) { console.warn('[Private DM] Send error:', e); }
-        var adminMsg = { role: 'user', text: '� DM to ' + dmTarget.name + ': ' + text, category: 'private', time: timeStr };
+        var adminMsg = { role: 'user', text: '✉️ DM to ' + dmTarget.name + ': ' + text, category: 'private', time: timeStr };
         messages.private.push(adminMsg);
         renderMessages();
         saveLocal();
@@ -2519,7 +2519,7 @@
             '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
             '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
-            '<button class="cb-cat-btn" data-cat="private">� Private</button>' +
+            '<button class="cb-cat-btn" data-cat="private">✉️ Private</button>' +
             '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
@@ -3344,7 +3344,7 @@
     // DM button (admin/super_admin only, on non-admin, non-own messages)
     var dmBtn = '';
     if ((_communityUserRole === 'admin' || _communityUserRole === 'super_admin') && !isMine && !isAdmin) {
-      dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">� DM</button>';
+      dmBtn = '<button class="cb-comm-dm-btn" data-device-id="' + escapeHtml(m.device_id) + '" data-sender-name="' + escapeHtml(m.sender_name || 'Anonymous') + '" style="background:none;border:none;cursor:pointer;font-size:11px;color:#ec4899;padding:0 4px;">✉️ DM</button>';
     }
 
     return '<div class="cb-comm-msg ' + cls + extraClass + '" data-msg-id="' + m.id + '">' +
