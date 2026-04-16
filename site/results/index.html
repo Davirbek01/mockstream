@@ -1570,6 +1570,21 @@
         flex-direction: column;
         gap: 10px;
       }
+
+      .viewer-container {
+        margin: 0;
+        border-radius: 0;
+        max-width: 100%;
+        height: 100%;
+      }
+
+      .viewer-header {
+        padding: 10px 14px;
+      }
+
+      .viewer-header h3 {
+        font-size: 13px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -3951,6 +3966,74 @@
       }
     }
 
+    // Responsive CSS injected into report HTML for mobile support
+    var REPORT_MOBILE_CSS = '<style>' +
+      '.criteria-toggle{display:none}' +
+      '.criteria-toggle-btn{width:100%;padding:12px 16px;background:#fff9e6;border:2px solid #fbbf24;border-radius:10px;font-size:14px;font-weight:700;color:#f59e0b;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}' +
+      '.criteria-toggle-btn:hover{background:#fef3c7}' +
+      '.criteria-toggle-btn .toggle-arrow{transition:transform .3s;font-size:12px}' +
+      '.criteria-toggle-btn.open .toggle-arrow{transform:rotate(180deg)}' +
+      '.criteria-toggle-content{display:none;background:#fff9e6;border:2px solid #fbbf24;border-radius:10px;padding:16px;margin-bottom:16px;max-height:50vh;overflow-y:auto}' +
+      '.criteria-toggle-content.open{display:block}' +
+      '@media(max-width:768px){' +
+        '.section-wrapper{flex-direction:column!important;height:auto!important;gap:0!important}' +
+        '.criteria-column{display:none!important}' +
+        '.questions-column{padding-right:0!important}' +
+        '.criteria-toggle{display:block!important}' +
+        '.question-card{padding:14px}' +
+        '.question-card h3{font-size:1rem}' +
+        '.meta{padding:15px}' +
+        'h1{font-size:1.3rem!important;padding:0 10px}' +
+        '.container{padding:10px}' +
+        '.final-scoring{flex-direction:column;gap:10px}' +
+        '.final-score-item{min-width:auto}' +
+        '.section-divider{margin:24px 0}' +
+      '}' +
+      '</style>';
+
+    // Build collapsible criteria HTML for each part (injected into existing reports)
+    var REPORT_CRITERIA_TOGGLES = {
+      'part1-1': {label:'Part 1.1 Marking Criteria (Q1-Q3)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above A2</td><td>Above the A2 level.</td></tr><tr><td><b>4</b></td><td>Higher A2</td><td>All three on topic: simple grammar with basic errors, sufficient vocabulary, mispronunciations, frequent pausing but meaning clear.</td></tr><tr><td><b>3</b></td><td>Lower A2</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher A1</td><td>At least two on topic: grammar limited to words/phrases, very basic vocabulary.</td></tr><tr><td><b>1</b></td><td>Lower A1</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below A1</td><td>No meaningful language or off-topic.</td></tr>'},
+      'part1-2': {label:'Part 1.2 Marking Criteria (Q4-Q6)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above B1</td><td>Above the B1 level.</td></tr><tr><td><b>4</b></td><td>Higher B1</td><td>All three on topic: simple grammar correct, errors with complex structures, sufficient vocabulary, generally intelligible.</td></tr><tr><td><b>3</b></td><td>Lower B1</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher A2</td><td>At least two on topic: basic mistakes, vocabulary sufficient but inappropriate choices.</td></tr><tr><td><b>1</b></td><td>Lower A2</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below A2</td><td>Below A2 or off-topic.</td></tr>'},
+      'part2':   {label:'Part 2 Marking Criteria (Q7)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above B2</td><td>Above the B2 level.</td></tr><tr><td><b>4</b></td><td>Higher B2</td><td>All on topic: some complex grammar accurate, sufficient vocabulary, intelligible pronunciation.</td></tr><tr><td><b>3</b></td><td>Lower B2</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher B1</td><td>At least two on topic: simple grammar correct, vocabulary limitations.</td></tr><tr><td><b>1</b></td><td>Lower B1</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below B1</td><td>Below B1 or off-topic.</td></tr>'},
+      'part3':   {label:'Part 3 Marking Criteria (Q8)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>6</b></td><td>Above C1</td><td>Above the C1 level.</td></tr><tr><td><b>5</b></td><td>C1</td><td>Clear, complex grammar accurate, range of vocabulary, intelligible pronunciation.</td></tr><tr><td><b>4</b></td><td>Higher B2</td><td>Addresses each section: some complex grammar, sufficient vocabulary.</td></tr><tr><td><b>3</b></td><td>Lower B2</td><td>Only one section addressed.</td></tr><tr><td><b>2</b></td><td>Higher B1</td><td>Cannot construct coherent sustained response.</td></tr><tr><td><b>1</b></td><td>Lower B1</td><td>Reads directly from prompts.</td></tr><tr><td><b>0</b></td><td>Below B1</td><td>Below B1 or off-topic.</td></tr>'}
+    };
+
+    function injectMobileReportCSS(html) {
+      // Inject responsive CSS before </head>
+      if (html.indexOf('criteria-toggle') !== -1) {
+        // Already has mobile criteria — just ensure the CSS is present
+        if (html.indexOf('@media(max-width:768px)') === -1 && html.indexOf('@media (max-width: 768px)') === -1) {
+          html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
+        }
+        return html;
+      }
+      // Add CSS
+      html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
+      // Inject criteria toggles into each questions-column (for old reports without them)
+      var parts = ['part1-1','part1-2','part2','part3'];
+      for (var p = 0; p < parts.length; p++) {
+        var key = parts[p];
+        var info = REPORT_CRITERIA_TOGGLES[key];
+        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">📋 ' + info.label + ' <span class="toggle-arrow">▼</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
+        // Insert at the start of each questions-column
+        var marker = 'data-group="' + key + '"';
+        var qColIdx = html.indexOf(marker);
+        if (qColIdx !== -1) {
+          // Find the questions-column div that contains this group
+          var searchBack = html.lastIndexOf('class="questions-column"', qColIdx);
+          if (searchBack !== -1) {
+            var insertAt = html.indexOf('>', searchBack) + 1;
+            // Only inject if not already present
+            if (html.indexOf(info.label, searchBack) === -1 || html.indexOf(info.label, searchBack) > qColIdx) {
+              html = html.substring(0, insertAt) + toggleHtml + html.substring(insertAt);
+            }
+          }
+        }
+      }
+      return html;
+    }
+
     async function renderSingleZipReport(zip, htmlFiles, audioFiles) {
       var iframe = document.getElementById('viewerIframe');
       var htmlFile = null;
@@ -3969,6 +4052,7 @@
 
       var htmlContent = await zip.file(htmlFile).async('string');
       htmlContent = await extractAudioAndPatchHtml(zip, htmlContent);
+      htmlContent = injectMobileReportCSS(htmlContent);
 
       var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
       var blobUrl = URL.createObjectURL(htmlBlob);

@@ -11235,6 +11235,30 @@ ${questionsContent}
     .score-input-group input:focus { outline: none; border-color: #f97316; }
     
     .section-divider { margin: 40px 0; border: none; border-top: 3px solid #116a60; }
+
+    /* Collapsible criteria toggle (hidden on desktop, shown on mobile) */
+    .criteria-toggle { display: none; }
+    .criteria-toggle-btn { width: 100%; padding: 12px 16px; background: #fff9e6; border: 2px solid #fbbf24; border-radius: 10px; font-size: 14px; font-weight: 700; color: #f59e0b; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .criteria-toggle-btn:hover { background: #fef3c7; }
+    .criteria-toggle-btn .toggle-arrow { transition: transform 0.3s; font-size: 12px; }
+    .criteria-toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+    .criteria-toggle-content { display: none; background: #fff9e6; border: 2px solid #fbbf24; border-radius: 10px; padding: 16px; margin-bottom: 16px; max-height: 50vh; overflow-y: auto; }
+    .criteria-toggle-content.open { display: block; }
+
+    @media (max-width: 768px) {
+      .section-wrapper { flex-direction: column; height: auto; gap: 0; }
+      .criteria-column { display: none; }
+      .questions-column { padding-right: 0; }
+      .criteria-toggle { display: block; }
+      .question-card { padding: 14px; }
+      .question-card h3 { font-size: 1rem; }
+      .meta { padding: 15px; }
+      h1 { font-size: 1.3rem !important; padding: 0 10px; }
+      .container { padding: 10px; }
+      .final-scoring { flex-direction: column; gap: 10px; }
+      .final-score-item { min-width: auto; }
+      .section-divider { margin: 24px 0; }
+    }
   </style>
 </head>
 <body>
@@ -11279,6 +11303,20 @@ ${questionsContent}
       </div>
       
       <div class="questions-column">
+        <div class="criteria-toggle">
+          <button class="criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Part 1.1 Marking Criteria (Q1-Q3) <span class="toggle-arrow">▼</span></button>
+          <div class="criteria-toggle-content">
+            <table class="criteria-table">
+              <tr><th>Score</th><th>Level</th><th>Descriptors</th></tr>
+              <tr><td><strong>5</strong></td><td>Above A2</td><td>Performance is likely to be above the A2 level.</td></tr>
+              <tr><td><strong>4</strong></td><td>Higher A2</td><td>Responses to all three questions are on topic: simple grammar with basic errors, sufficient vocabulary, mispronunciations noticeable, frequent pausing but meaning clear.</td></tr>
+              <tr><td><strong>3</strong></td><td>Lower A2</td><td>Responses to <strong>two</strong> questions are on topic.</td></tr>
+              <tr><td><strong>2</strong></td><td>Higher A1</td><td>At least two responses on topic: grammar limited to words/phrases, very basic vocabulary, pronunciation mostly unintelligible.</td></tr>
+              <tr><td><strong>1</strong></td><td>Lower A1</td><td>Response to <strong>one</strong> question is on topic.</td></tr>
+              <tr><td><strong>0</strong></td><td>Below A1</td><td>No meaningful language or all off-topic.</td></tr>
+            </table>
+          </div>
+        </div>
 ${reportQuestions ? reportQuestions.q1to3 : `
         <div class="question-card">
           <h3>Question 1</h3>
@@ -11365,6 +11403,20 @@ ${reportQuestions ? reportQuestions.q1to3 : `
       </div>
       
       <div class="questions-column">
+        <div class="criteria-toggle">
+          <button class="criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Part 1.2 Marking Criteria (Q4-Q6) <span class="toggle-arrow">▼</span></button>
+          <div class="criteria-toggle-content">
+            <table class="criteria-table">
+              <tr><th>Score</th><th>Level</th><th>Descriptors</th></tr>
+              <tr><td><strong>5</strong></td><td>Above B1</td><td>Performance is likely to be above the B1 level.</td></tr>
+              <tr><td><strong>4</strong></td><td>Higher B1</td><td>All three on topic: simple grammar correct, errors with complex structures, sufficient vocabulary, pronunciation generally intelligible.</td></tr>
+              <tr><td><strong>3</strong></td><td>Lower B1</td><td>Responses to <strong>two</strong> questions are on topic.</td></tr>
+              <tr><td><strong>2</strong></td><td>Higher A2</td><td>At least two on topic: basic mistakes systematically occur, vocabulary sufficient but inappropriate choices, frequent pausing.</td></tr>
+              <tr><td><strong>1</strong></td><td>Lower A2</td><td>Response to <strong>one</strong> question is on topic.</td></tr>
+              <tr><td><strong>0</strong></td><td>Below A2</td><td>Performance below A2 or all off-topic.</td></tr>
+            </table>
+          </div>
+        </div>
 ${reportQuestions ? reportQuestions.q4to6 : `
         <div class="question-card">
           <h3>Question 4</h3>
@@ -11463,9 +11515,21 @@ ${reportQuestions ? reportQuestions.q4to6 : `
       </div>
       
       <div class="questions-column">
+        <div class="criteria-toggle">
+          <button class="criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Part 2 Marking Criteria (Q7) <span class="toggle-arrow">▼</span></button>
+          <div class="criteria-toggle-content">
+            <table class="criteria-table">
+              <tr><th>Score</th><th>Level</th><th>Descriptors</th></tr>
+              <tr><td><strong>5</strong></td><td>Above B2</td><td>Performance is likely to be above the B2 level.</td></tr>
+              <tr><td><strong>4</strong></td><td>Higher B2</td><td>All on topic: some complex grammar accurate, sufficient vocabulary, pronunciation intelligible, limited cohesive devices.</td></tr>
+              <tr><td><strong>3</strong></td><td>Lower B2</td><td>Responses to <strong>two</strong> questions are on topic.</td></tr>
+              <tr><td><strong>2</strong></td><td>Higher B1</td><td>At least two on topic: simple grammar correct, errors with complex structures, vocabulary limitations, occasional pronunciation strain.</td></tr>
+              <tr><td><strong>1</strong></td><td>Lower B1</td><td>Response to <strong>one</strong> question is on topic.</td></tr>
+              <tr><td><strong>0</strong></td><td>Below B1</td><td>Performance below B1 or all off-topic.</td></tr>
+            </table>
+          </div>
+        </div>
 ${reportQuestions ? reportQuestions.q7 : `
-        <div class="question-card">
-          <h3>Question 7</h3>
           <div class="question-text">Discuss the following points:</div>
           <ul style="margin: 15px 0; padding-left: 25px; line-height: 1.8;">
             <li>Can you describe a trip that left a lasting impression on you?</li>
@@ -11541,6 +11605,21 @@ ${reportQuestions ? reportQuestions.q7 : `
       </div>
       
       <div class="questions-column">
+        <div class="criteria-toggle">
+          <button class="criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Part 3 Marking Criteria (Q8) <span class="toggle-arrow">▼</span></button>
+          <div class="criteria-toggle-content">
+            <table class="criteria-table">
+              <tr><th>Score</th><th>Level</th><th>Descriptors</th></tr>
+              <tr><td><strong>6</strong></td><td>Above C1</td><td>Performance is likely to be above the C1 level.</td></tr>
+              <tr><td><strong>5</strong></td><td>C1</td><td>Clear presentation, highlights points, gives reasons for/against, complex grammar accurate, range of vocabulary, intelligible pronunciation.</td></tr>
+              <tr><td><strong>4</strong></td><td>Higher B2</td><td>Addresses points from each section: some complex grammar accurate, sufficient vocabulary, intelligible pronunciation.</td></tr>
+              <tr><td><strong>3</strong></td><td>Lower B2</td><td>Addresses points from <strong>only one</strong> section.</td></tr>
+              <tr><td><strong>2</strong></td><td>Higher B1</td><td>Unable to construct coherent sustained response, dependent on input prompts.</td></tr>
+              <tr><td><strong>1</strong></td><td>Lower B1</td><td>Unable to construct coherent response, reads directly from prompts.</td></tr>
+              <tr><td><strong>0</strong></td><td>Below B1</td><td>Performance below B1 or all off-topic.</td></tr>
+            </table>
+          </div>
+        </div>
 ${reportQuestions ? reportQuestions.q8 : `
         <div class="question-card">
           <h3>Question 8</h3>
