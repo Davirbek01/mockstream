@@ -9943,6 +9943,44 @@ function printWritingAiModal() {
         print-color-adjust: exact !important;
       }
     }
+
+    /* ===== Writing Report Mobile Styles ===== */
+    .writing-criteria-toggle { display: none; }
+    .writing-criteria-toggle-btn {
+      width: 100%; padding: 12px 16px; background: #fff7ed; border: 2px solid #f97316;
+      border-radius: 10px; font-size: 14px; font-weight: 700; color: #ea580c;
+      cursor: pointer; text-align: left; display: flex; align-items: center;
+      justify-content: space-between; margin-top: 12px;
+    }
+    .writing-criteria-toggle-btn:hover { background: #ffedd5; }
+    .writing-criteria-toggle-btn .toggle-arrow { transition: transform .3s; font-size: 12px; }
+    .writing-criteria-toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+    .writing-criteria-toggle-content {
+      display: none; background: #fff7ed; border: 2px solid #f97316;
+      border-radius: 10px; padding: 16px; margin-top: 8px; max-height: 50vh; overflow-y: auto;
+    }
+    .writing-criteria-toggle-content.open { display: block; }
+    .writing-criteria-toggle-content table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .writing-criteria-toggle-content th { background: #fff3e0; padding: 8px; text-align: left; border: 1px solid #fed7aa; }
+    .writing-criteria-toggle-content td { padding: 8px; border: 1px solid #fed7aa; vertical-align: top; }
+    .writing-criteria-toggle-content ul { margin: 4px 0; padding-left: 18px; }
+    .writing-criteria-toggle-content li { margin-bottom: 2px; }
+
+    @media (max-width: 768px) {
+      .task-work-area { grid-template-columns: 1fr !important; }
+      .task-work-right { display: none !important; }
+      .writing-criteria-toggle { display: block !important; }
+      .container { padding: 10px !important; }
+      h1 { font-size: 1.2rem !important; padding: 0 5px; }
+      h2 { font-size: 1.1rem !important; }
+      .meta { padding: 12px !important; font-size: 13px; }
+      .scoring-section { padding: 15px !important; }
+      .score-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .answer-box { padding: 12px !important; }
+      .prompt { padding: 12px !important; font-size: 14px; }
+      .task-scoring { padding: 15px !important; }
+      .font-controller { padding: 6px 10px !important; gap: 6px !important; }
+    }
   </style>
 </head>
 <body>
@@ -9998,6 +10036,12 @@ function printWritingAiModal() {
         <div class="task-score-input">
           <label>Score (out of 5):</label>
           <input type="number" min="0" max="5" step="0.5" placeholder="0-5" class="score-t11">
+        </div>
+      </div>
+      <div class="writing-criteria-toggle">
+        <button class="writing-criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Marking Criteria — Part 1.1 <span class="toggle-arrow">▼</span></button>
+        <div class="writing-criteria-toggle-content">
+          <table><tr><th>Band level</th><th>Description</th></tr><tr><td>5<br>(B2 or above)</td><td>Performance is likely to be above B1 level.</td></tr><tr><td>4<br>(Higher B1)</td><td><strong>Response is on topic:</strong> Addresses most content points, register may not be consistently appropriate, good control of simple grammar, punctuation/spelling mostly accurate, sufficient vocabulary, simple cohesive devices.</td></tr><tr><td>3<br>(Lower B1)</td><td><strong>Response is partially on topic:</strong> Addresses at least one content point, good control of simple grammar, errors with complex structures, sufficient vocabulary.</td></tr><tr><td>2<br>(A2)</td><td><strong>Response may be partially on topic:</strong> Simple grammar with common errors, punctuation/spelling mistakes noticeable, vocabulary not sufficient, may not be cohesive, may be 50% or less required length.</td></tr><tr><td>1<br>(A1 or lower)</td><td>Performance below A2, substantial use of L1, no meaningful language, or completely off-topic.</td></tr><tr><td>0</td><td>No attempt (blank).</td></tr></table>
         </div>
       </div>
     </div>
@@ -10089,6 +10133,12 @@ function printWritingAiModal() {
         <div class="task-score-input">
           <label>Score (out of 5):</label>
           <input type="number" min="0" max="5" step="0.5" placeholder="0-5" class="score-t12">
+        </div>
+      </div>
+      <div class="writing-criteria-toggle">
+        <button class="writing-criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Marking Criteria — Part 1.2 <span class="toggle-arrow">▼</span></button>
+        <div class="writing-criteria-toggle-content">
+          <table><tr><th>Band level</th><th>Description</th></tr><tr><td>5<br>(C1 or higher)</td><td><strong>Response is on topic:</strong> All content points addressed, register consistently appropriate, range of complex grammar accurate, no spelling/punctuation errors, range of vocabulary, range of cohesive devices.</td></tr><tr><td>4<br>(Higher B2)</td><td><strong>Response is on topic:</strong> All content points addressed, register appropriate, some complex grammar accurate, minor punctuation/spelling errors, sufficient vocabulary, limited cohesive devices.</td></tr><tr><td>3<br>(Lower B2)</td><td><strong>Response may be partially on topic:</strong> Most content points addressed, some complex grammar accurate, sufficient vocabulary, limited cohesive devices.</td></tr><tr><td>2<br>(B1)</td><td><strong>Response may be partially on topic:</strong> Some content points addressed, good control of simple grammar, vocabulary sufficient, simple cohesive devices, may be underlength (25-60 words).</td></tr><tr><td>1<br>(A2)</td><td><strong>Response may be partially on topic:</strong> Simple grammar with common errors, vocabulary not sufficient, may not be cohesive, may be underlength (24 words or fewer).</td></tr><tr><td>0</td><td>No meaningful language, substantial use of L1, completely off-topic, or blank.</td></tr></table>
         </div>
       </div>
     </div>
@@ -10205,6 +10255,12 @@ function printWritingAiModal() {
         <div class="task-score-input">
           <label>Score (out of 6):</label>
           <input type="number" min="0" max="6" step="0.5" placeholder="0-6" class="score-t2">
+        </div>
+      </div>
+      <div class="writing-criteria-toggle">
+        <button class="writing-criteria-toggle-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">📋 Marking Criteria — Part 2 <span class="toggle-arrow">▼</span></button>
+        <div class="writing-criteria-toggle-content">
+          <table><tr><th>Band level</th><th>Description</th></tr><tr><td>6<br>(C2)</td><td>Performance is likely to be above C1 level.</td></tr><tr><td>5<br>(C1)</td><td><strong>Response:</strong> Fully addresses question with clear stance, range of complex grammar accurate, range of vocabulary, well-structured with clear paragraphs and linking expressions.</td></tr><tr><td>4<br>(Higher B2)</td><td><strong>Response:</strong> Addresses question clearly, stance evident, some complex grammar accurate, sufficient vocabulary, clear structure with connectors.</td></tr><tr><td>3<br>(Lower B2)</td><td><strong>Response:</strong> Mostly relevant, some complex grammar accurate, sufficient vocabulary, some organization but transitions may be unclear. May be incomplete.</td></tr><tr><td>2<br>(B1)</td><td><strong>Response:</strong> Mostly relevant, good control of simple grammar, vocabulary may lead to misunderstanding, simple cohesive devices, may be underlength (38-90 words).</td></tr><tr><td>1<br>(A2)</td><td><strong>Response:</strong> Limited focus, simple grammar with common errors, vocabulary not sufficient, may not be cohesive, may be underlength (37 words or fewer).</td></tr><tr><td>0</td><td>No meaningful language, substantial use of L1, completely off-topic, or blank.</td></tr></table>
         </div>
       </div>
     </div>

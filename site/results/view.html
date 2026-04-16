@@ -591,6 +591,66 @@
       return html;
     }
 
+    // ===== Writing Report Mobile Injection =====
+    var WRITING_MOBILE_CSS = '<style>' +
+      '.writing-criteria-toggle{display:none}' +
+      '.writing-criteria-toggle-btn{width:100%;padding:12px 16px;background:#fff7ed;border:2px solid #f97316;border-radius:10px;font-size:14px;font-weight:700;color:#ea580c;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-top:12px}' +
+      '.writing-criteria-toggle-btn:hover{background:#ffedd5}' +
+      '.writing-criteria-toggle-btn .toggle-arrow{transition:transform .3s;font-size:12px}' +
+      '.writing-criteria-toggle-btn.open .toggle-arrow{transform:rotate(180deg)}' +
+      '.writing-criteria-toggle-content{display:none;background:#fff7ed;border:2px solid #f97316;border-radius:10px;padding:16px;margin-top:8px;max-height:50vh;overflow-y:auto}' +
+      '.writing-criteria-toggle-content.open{display:block}' +
+      '.writing-criteria-toggle-content table{width:100%;border-collapse:collapse;font-size:13px}' +
+      '.writing-criteria-toggle-content th{background:#fff3e0;padding:8px;text-align:left;border:1px solid #fed7aa}' +
+      '.writing-criteria-toggle-content td{padding:8px;border:1px solid #fed7aa;vertical-align:top}' +
+      '@media(max-width:768px){' +
+        '.task-work-area{grid-template-columns:1fr!important}' +
+        '.task-work-right{display:none!important}' +
+        '.writing-criteria-toggle{display:block!important}' +
+        '.container{padding:10px!important}' +
+        'h1{font-size:1.2rem!important;padding:0 5px}' +
+        'h2{font-size:1.1rem!important}' +
+        '.meta{padding:12px!important;font-size:13px}' +
+        '.scoring-section{padding:15px!important}' +
+        '.score-grid{grid-template-columns:1fr 1fr!important;gap:10px!important}' +
+        '.answer-box{padding:12px!important}' +
+        '.prompt{padding:12px!important;font-size:14px}' +
+        '.task-scoring{padding:15px!important}' +
+        '.font-controller{padding:6px 10px!important;gap:6px!important}' +
+      '}' +
+      '</style>';
+
+    var WRITING_CRITERIA_DATA = {
+      't11': {label:'Marking Criteria \u2014 Part 1.1',rows:'<tr><th>Band level</th><th>Description</th></tr><tr><td>5<br>(B2+)</td><td>Above B1 level.</td></tr><tr><td>4<br>(Higher B1)</td><td>On topic: addresses most content points, good control of simple grammar, sufficient vocabulary, simple cohesive devices.</td></tr><tr><td>3<br>(Lower B1)</td><td>Partially on topic: at least one content point, good control of simple grammar.</td></tr><tr><td>2<br>(A2)</td><td>May be partially on topic: simple grammar with common errors, vocabulary not sufficient, may be 50% or less required length.</td></tr><tr><td>1<br>(A1-)</td><td>Below A2, substantial L1, no meaningful language, or off-topic.</td></tr><tr><td>0</td><td>No attempt.</td></tr>'},
+      't12': {label:'Marking Criteria \u2014 Part 1.2',rows:'<tr><th>Band level</th><th>Description</th></tr><tr><td>5<br>(C1+)</td><td>On topic: all content points, range of complex grammar accurate, range of vocabulary, range of cohesive devices.</td></tr><tr><td>4<br>(Higher B2)</td><td>On topic: all content points, some complex grammar accurate, sufficient vocabulary, limited cohesive devices.</td></tr><tr><td>3<br>(Lower B2)</td><td>Partially on topic: most content points, some complex grammar, sufficient vocabulary.</td></tr><tr><td>2<br>(B1)</td><td>Partially on topic: some content points, good control of simple grammar, may be underlength.</td></tr><tr><td>1<br>(A2)</td><td>Simple grammar with common errors, vocabulary not sufficient, may be underlength.</td></tr><tr><td>0</td><td>No meaningful language or blank.</td></tr>'},
+      't2':  {label:'Marking Criteria \u2014 Part 2',rows:'<tr><th>Band level</th><th>Description</th></tr><tr><td>6<br>(C2)</td><td>Above C1 level.</td></tr><tr><td>5<br>(C1)</td><td>Fully addresses question, range of complex grammar, range of vocabulary, well-structured.</td></tr><tr><td>4<br>(Higher B2)</td><td>Addresses question clearly, some complex grammar, sufficient vocabulary, clear structure.</td></tr><tr><td>3<br>(Lower B2)</td><td>Mostly relevant, some complex grammar, sufficient vocabulary, some organization.</td></tr><tr><td>2<br>(B1)</td><td>Mostly relevant, good control of simple grammar, may be underlength (38-90 words).</td></tr><tr><td>1<br>(A2)</td><td>Limited focus, simple grammar with errors, vocabulary not sufficient, may be underlength.</td></tr><tr><td>0</td><td>No meaningful language or blank.</td></tr>'}
+    };
+
+    var WRITING_REPOSITION_SCRIPT = '<script>document.querySelectorAll(".writing-criteria-toggle").forEach(function(ct){var left=ct.closest(".task-work-left");if(!left)return;var scoring=left.querySelector(".task-scoring");if(scoring){scoring.after(ct);}});<\/script>';
+
+    function injectWritingMobileCSS(html) {
+      if (!html || html.indexOf('task-work-area') === -1) return html;
+      if (html.indexOf('writing-criteria-toggle') !== -1) {
+        if (html.indexOf('writing-criteria-toggle-btn') !== -1 && html.indexOf('.writing-criteria-toggle{') === -1) {
+          html = html.replace('</head>', WRITING_MOBILE_CSS + '</head>');
+        }
+        html = html.replace('</body>', WRITING_REPOSITION_SCRIPT + '</body>');
+        return html;
+      }
+      html = html.replace('</head>', WRITING_MOBILE_CSS + '</head>');
+      var scriptParts = [];
+      var tasks = ['t11','t12','t2'];
+      for (var i = 0; i < tasks.length; i++) {
+        var key = tasks[i];
+        var info = WRITING_CRITERIA_DATA[key];
+        var toggleHtml = '<div class="writing-criteria-toggle"><button class="writing-criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">\ud83d\udccb ' + info.label + ' <span class="toggle-arrow">\u25bc</span></button><div class="writing-criteria-toggle-content"><table>' + info.rows + '</table></div></div>';
+        scriptParts.push('(function(){var el=document.querySelector(\'.score-' + key + '\');if(!el)return;var scoring=el.closest(\'.task-scoring\');if(!scoring)return;var d=document.createElement("div");d.innerHTML=\'' + toggleHtml.replace(/'/g, "\\'") + '\';scoring.after(d.firstChild);})();');
+      }
+      var repoScript = '<script>' + scriptParts.join('') + '<\/script>';
+      html = html.replace('</body>', repoScript + '</body>');
+      return html;
+    }
+
     // ===== HELPER: load content into iframe =====
     function loadIframeContent(iframe, htmlString, opts) {
       opts = opts || {};
@@ -601,6 +661,7 @@
         return;
       }
       htmlString = injectMobileReportCSS(htmlString);
+      htmlString = injectWritingMobileCSS(htmlString);
       iframe.removeAttribute('sandbox');
       if (_canUseBlobInIframe) {
         iframe.removeAttribute('srcdoc');
