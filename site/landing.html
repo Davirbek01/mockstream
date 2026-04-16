@@ -20901,18 +20901,19 @@
   <!-- VIDEO GUIDES MANAGEMENT PANEL                                           -->
   <!-- ═══════════════════════════════════════════════════════════════════════ -->
   <style>
-    #vgPanelOverlay { position:fixed;inset:0;z-index:9999;background:var(--bg,#f8fafc);display:none;flex-direction:column;overflow:hidden; }
+    #vgPanelOverlay { position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;animation:fadeInOverlay .25s ease; }
     #vgPanelOverlay.active { display:flex; }
+    .vg-panel-modal { background:var(--card,#fff);border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,.3);width:94%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;animation:slideUp .3s ease; }
     .vg-panel-header { display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;flex-shrink:0; }
     .vg-panel-header h3 { margin:0;font-size:18px;font-weight:700; }
     .vg-panel-close { width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
     .vg-panel-close:hover { background:rgba(255,255,255,.35); }
     .vg-panel-body { flex:1;overflow-y:auto;padding:16px 20px; }
-    .vg-add-form { background:var(--card,#fff);border:2px solid var(--border,#e2e8f0);border-radius:16px;padding:20px;margin-bottom:20px; }
+    .vg-add-form { background:var(--surface,#f1f5f9);border:1.5px solid var(--border,#e2e8f0);border-radius:16px;padding:18px;margin-bottom:20px; }
     .vg-add-form h4 { margin:0 0 14px;font-size:15px;color:var(--ink,#1e293b); }
     .vg-form-row { margin-bottom:12px; }
     .vg-form-row label { display:block;font-size:12px;font-weight:600;color:var(--muted,#64748b);margin-bottom:4px; }
-    .vg-form-row input, .vg-form-row textarea, .vg-form-row select { width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:13px;background:var(--surface,#f1f5f9);color:var(--ink,#1e293b);outline:none;box-sizing:border-box;font-family:inherit; }
+    .vg-form-row input, .vg-form-row textarea, .vg-form-row select { width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:13px;background:var(--bg,#fff);color:var(--ink,#1e293b);outline:none;box-sizing:border-box;font-family:inherit; }
     .vg-form-row textarea { resize:vertical;min-height:60px;line-height:1.5; }
     .vg-form-row input:focus, .vg-form-row textarea:focus, .vg-form-row select:focus { border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,0.12); }
     .vg-form-actions { display:flex;gap:8px;margin-top:14px; }
@@ -20938,8 +20939,8 @@
     .vg-preview-wrap { margin-top:8px;border-radius:12px;overflow:hidden;border:1.5px solid var(--border,#e2e8f0); }
     .vg-preview-thumb { width:100%;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:#0f172a;position:relative;cursor:pointer; }
     .vg-preview-thumb::after { content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:28px;background:rgba(0,0,0,.5);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
-    .vg-empty { text-align:center;padding:40px 20px;color:var(--muted,#64748b); }
-    .vg-empty span { font-size:48px;display:block;margin-bottom:12px; }
+    .vg-empty { text-align:center;padding:30px 20px;color:var(--muted,#64748b); }
+    .vg-empty span { font-size:40px;display:block;margin-bottom:8px; }
     .vg-section-title { font-size:13px;font-weight:700;color:var(--muted,#64748b);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;display:flex;align-items:center;gap:8px; }
   </style>
   <script>
@@ -20961,7 +20962,9 @@
       if (document.getElementById('vgPanelOverlay')) return;
       var div = document.createElement('div');
       div.id = 'vgPanelOverlay';
+      div.onclick = function(e) { if (e.target === div) closeVideoGuidesPanel(); };
       div.innerHTML =
+        '<div class="vg-panel-modal">' +
         '<div class="vg-panel-header">' +
           '<h3>🎬 Video Guides</h3>' +
           '<button class="vg-panel-close" onclick="closeVideoGuidesPanel()">&times;</button>' +
@@ -21005,6 +21008,7 @@
           '<div id="vgPhoneList"></div>' +
           '<div class="vg-section-title">💻 PC / Mac Videos</div>' +
           '<div id="vgPcList"></div>' +
+        '</div>' +
         '</div>';
       document.body.appendChild(div);
     }
