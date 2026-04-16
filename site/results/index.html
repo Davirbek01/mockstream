@@ -4000,9 +4000,9 @@
     };
 
     function injectMobileReportCSS(html) {
-      // Inject responsive CSS before </head>
+      if (!html || html.indexOf('section-wrapper') === -1) return html;
+      // Already has mobile criteria toggles — just ensure CSS is present
       if (html.indexOf('criteria-toggle') !== -1) {
-        // Already has mobile criteria — just ensure the CSS is present
         if (html.indexOf('@media(max-width:768px)') === -1 && html.indexOf('@media (max-width: 768px)') === -1) {
           html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
         }
@@ -4010,27 +4010,18 @@
       }
       // Add CSS
       html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
-      // Inject criteria toggles into each questions-column (for old reports without them)
+      // Build toggle HTML for each part and inject via a script that runs after DOM load
+      // This places toggles after the scoring section (not at top)
+      var scriptParts = [];
       var parts = ['part1-1','part1-2','part2','part3'];
       for (var p = 0; p < parts.length; p++) {
         var key = parts[p];
         var info = REPORT_CRITERIA_TOGGLES[key];
-        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">📋 ' + info.label + ' <span class="toggle-arrow">▼</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
-        // Insert at the start of each questions-column
-        var marker = 'data-group="' + key + '"';
-        var qColIdx = html.indexOf(marker);
-        if (qColIdx !== -1) {
-          // Find the questions-column div that contains this group
-          var searchBack = html.lastIndexOf('class="questions-column"', qColIdx);
-          if (searchBack !== -1) {
-            var insertAt = html.indexOf('>', searchBack) + 1;
-            // Only inject if not already present
-            if (html.indexOf(info.label, searchBack) === -1 || html.indexOf(info.label, searchBack) > qColIdx) {
-              html = html.substring(0, insertAt) + toggleHtml + html.substring(insertAt);
-            }
-          }
-        }
+        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">\ud83d\udccb ' + info.label + ' <span class="toggle-arrow">\u25bc</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
+        scriptParts.push('(function(){var els=document.querySelectorAll(\'[data-group="' + key + '"]\');if(!els.length)return;var last=els[els.length-1];var wrap=last.parentElement;while(wrap&&!wrap.querySelector("h4"))wrap=wrap.parentElement;if(wrap&&wrap.parentElement){var d=document.createElement("div");d.innerHTML=\'' + toggleHtml.replace(/'/g, "\\'") + '\';wrap.parentElement.insertBefore(d.firstChild,wrap.nextSibling);}})();');
       }
+      var repoScript = '<script>' + scriptParts.join('') + '<\/script>';
+      html = html.replace('</body>', repoScript + '</body>');
       return html;
     }
 

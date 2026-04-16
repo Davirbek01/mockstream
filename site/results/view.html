@@ -573,23 +573,16 @@
         return html;
       }
       html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
+      var scriptParts = [];
       var parts = ['part1-1','part1-2','part2','part3'];
       for (var p = 0; p < parts.length; p++) {
         var key = parts[p];
         var info = REPORT_CRITERIA_TOGGLES[key];
-        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">📋 ' + info.label + ' <span class="toggle-arrow">▼</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
-        var marker = 'data-group="' + key + '"';
-        var qColIdx = html.indexOf(marker);
-        if (qColIdx !== -1) {
-          var searchBack = html.lastIndexOf('class="questions-column"', qColIdx);
-          if (searchBack !== -1) {
-            var insertAt = html.indexOf('>', searchBack) + 1;
-            if (html.indexOf(info.label, searchBack) === -1 || html.indexOf(info.label, searchBack) > qColIdx) {
-              html = html.substring(0, insertAt) + toggleHtml + html.substring(insertAt);
-            }
-          }
-        }
+        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">\ud83d\udccb ' + info.label + ' <span class="toggle-arrow">\u25bc</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
+        scriptParts.push('(function(){var els=document.querySelectorAll(\'[data-group="' + key + '"]\');if(!els.length)return;var last=els[els.length-1];var wrap=last.parentElement;while(wrap&&!wrap.querySelector("h4"))wrap=wrap.parentElement;if(wrap&&wrap.parentElement){var d=document.createElement("div");d.innerHTML=\'' + toggleHtml.replace(/'/g, "\\'") + '\';wrap.parentElement.insertBefore(d.firstChild,wrap.nextSibling);}})();');
       }
+      var repoScript = '<script>' + scriptParts.join('') + '<\/script>';
+      html = html.replace('</body>', repoScript + '</body>');
       return html;
     }
 
