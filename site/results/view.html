@@ -532,16 +532,77 @@
       });
     }
 
+    // ===== MOBILE RESPONSIVE CSS for report HTML =====
+    var REPORT_MOBILE_CSS = '<style>' +
+      '.criteria-toggle{display:none}' +
+      '.criteria-toggle-btn{width:100%;padding:12px 16px;background:#fff9e6;border:2px solid #fbbf24;border-radius:10px;font-size:14px;font-weight:700;color:#f59e0b;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}' +
+      '.criteria-toggle-btn:hover{background:#fef3c7}' +
+      '.criteria-toggle-btn .toggle-arrow{transition:transform .3s;font-size:12px}' +
+      '.criteria-toggle-btn.open .toggle-arrow{transform:rotate(180deg)}' +
+      '.criteria-toggle-content{display:none;background:#fff9e6;border:2px solid #fbbf24;border-radius:10px;padding:16px;margin-bottom:16px;max-height:50vh;overflow-y:auto}' +
+      '.criteria-toggle-content.open{display:block}' +
+      '@media(max-width:768px){' +
+        '.section-wrapper{flex-direction:column!important;height:auto!important;gap:0!important}' +
+        '.criteria-column{display:none!important}' +
+        '.questions-column{padding-right:0!important}' +
+        '.criteria-toggle{display:block!important}' +
+        '.question-card{padding:14px}' +
+        '.question-card h3{font-size:1rem}' +
+        '.meta{padding:15px}' +
+        'h1{font-size:1.3rem!important;padding:0 10px}' +
+        '.container{padding:10px}' +
+        '.final-scoring{flex-direction:column;gap:10px}' +
+        '.final-score-item{min-width:auto}' +
+        '.section-divider{margin:24px 0}' +
+      '}' +
+      '</style>';
+
+    var REPORT_CRITERIA_TOGGLES = {
+      'part1-1': {label:'Part 1.1 Marking Criteria (Q1-Q3)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above A2</td><td>Above the A2 level.</td></tr><tr><td><b>4</b></td><td>Higher A2</td><td>All three on topic: simple grammar with basic errors, sufficient vocabulary, mispronunciations, frequent pausing but meaning clear.</td></tr><tr><td><b>3</b></td><td>Lower A2</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher A1</td><td>At least two on topic: grammar limited to words/phrases, very basic vocabulary.</td></tr><tr><td><b>1</b></td><td>Lower A1</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below A1</td><td>No meaningful language or off-topic.</td></tr>'},
+      'part1-2': {label:'Part 1.2 Marking Criteria (Q4-Q6)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above B1</td><td>Above the B1 level.</td></tr><tr><td><b>4</b></td><td>Higher B1</td><td>All three on topic: simple grammar correct, errors with complex structures, sufficient vocabulary, generally intelligible.</td></tr><tr><td><b>3</b></td><td>Lower B1</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher A2</td><td>At least two on topic: basic mistakes, vocabulary sufficient but inappropriate choices.</td></tr><tr><td><b>1</b></td><td>Lower A2</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below A2</td><td>Below A2 or off-topic.</td></tr>'},
+      'part2':   {label:'Part 2 Marking Criteria (Q7)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>5</b></td><td>Above B2</td><td>Above the B2 level.</td></tr><tr><td><b>4</b></td><td>Higher B2</td><td>All on topic: some complex grammar accurate, sufficient vocabulary, intelligible pronunciation.</td></tr><tr><td><b>3</b></td><td>Lower B2</td><td>Two questions on topic.</td></tr><tr><td><b>2</b></td><td>Higher B1</td><td>At least two on topic: simple grammar correct, vocabulary limitations.</td></tr><tr><td><b>1</b></td><td>Lower B1</td><td>One question on topic.</td></tr><tr><td><b>0</b></td><td>Below B1</td><td>Below B1 or off-topic.</td></tr>'},
+      'part3':   {label:'Part 3 Marking Criteria (Q8)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>6</b></td><td>Above C1</td><td>Above the C1 level.</td></tr><tr><td><b>5</b></td><td>C1</td><td>Clear, complex grammar accurate, range of vocabulary, intelligible pronunciation.</td></tr><tr><td><b>4</b></td><td>Higher B2</td><td>Addresses each section: some complex grammar, sufficient vocabulary.</td></tr><tr><td><b>3</b></td><td>Lower B2</td><td>Only one section addressed.</td></tr><tr><td><b>2</b></td><td>Higher B1</td><td>Cannot construct coherent sustained response.</td></tr><tr><td><b>1</b></td><td>Lower B1</td><td>Reads directly from prompts.</td></tr><tr><td><b>0</b></td><td>Below B1</td><td>Below B1 or off-topic.</td></tr>'}
+    };
+
+    function injectMobileReportCSS(html) {
+      if (!html || html.indexOf('section-wrapper') === -1) return html;
+      if (html.indexOf('criteria-toggle') !== -1) {
+        if (html.indexOf('@media(max-width:768px)') === -1 && html.indexOf('@media (max-width: 768px)') === -1) {
+          html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
+        }
+        return html;
+      }
+      html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
+      var parts = ['part1-1','part1-2','part2','part3'];
+      for (var p = 0; p < parts.length; p++) {
+        var key = parts[p];
+        var info = REPORT_CRITERIA_TOGGLES[key];
+        var toggleHtml = '<div class="criteria-toggle"><button class="criteria-toggle-btn" onclick="this.classList.toggle(\'open\');this.nextElementSibling.classList.toggle(\'open\')">📋 ' + info.label + ' <span class="toggle-arrow">▼</span></button><div class="criteria-toggle-content"><table class="criteria-table">' + info.rows + '</table></div></div>';
+        var marker = 'data-group="' + key + '"';
+        var qColIdx = html.indexOf(marker);
+        if (qColIdx !== -1) {
+          var searchBack = html.lastIndexOf('class="questions-column"', qColIdx);
+          if (searchBack !== -1) {
+            var insertAt = html.indexOf('>', searchBack) + 1;
+            if (html.indexOf(info.label, searchBack) === -1 || html.indexOf(info.label, searchBack) > qColIdx) {
+              html = html.substring(0, insertAt) + toggleHtml + html.substring(insertAt);
+            }
+          }
+        }
+      }
+      return html;
+    }
+
     // ===== HELPER: load content into iframe =====
     function loadIframeContent(iframe, htmlString, opts) {
       opts = opts || {};
       if (opts.isPdf) {
-        // Native PDF embed — needs real URL, only used on desktop
         iframe.removeAttribute('sandbox');
         iframe.removeAttribute('srcdoc');
         iframe.src = opts.url;
         return;
       }
+      htmlString = injectMobileReportCSS(htmlString);
       iframe.removeAttribute('sandbox');
       if (_canUseBlobInIframe) {
         iframe.removeAttribute('srcdoc');
