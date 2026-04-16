@@ -1789,59 +1789,6 @@
     #fsWelcomeBtn:active { transform: scale(0.93); }
     #welcomeScreen.hidden #fsWelcomeBtn { display: none; }
 
-    /* ===== FULLSCREEN SUGGESTION POPUP ===== */
-    .fs-suggest-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s ease;
-    }
-    .fs-suggest-overlay.visible { opacity: 1; pointer-events: auto; }
-    .fs-suggest-overlay.hiding { opacity: 0; pointer-events: none; }
-
-    .fs-suggest-card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 32px 28px 24px;
-      max-width: 360px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-      transform: scale(0.9) translateY(12px);
-      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
-    }
-    .fs-suggest-overlay.visible .fs-suggest-card {
-      transform: scale(1) translateY(0);
-    }
-
-    .fs-suggest-icon { font-size: 44px; margin-bottom: 12px; }
-    .fs-suggest-title { font-size: 18px; font-weight: 700; color: #0e141b; margin-bottom: 6px; }
-    .fs-suggest-text { font-size: 14px; color: #5a6a75; line-height: 1.5; margin-bottom: 24px; }
-    .fs-suggest-btns { display: flex; gap: 10px; }
-
-    .fs-suggest-ok {
-      flex: 1; padding: 12px 0; border: none; border-radius: 12px;
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      color: #fff; font-size: 15px; font-weight: 700; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .fs-suggest-ok:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(249,115,22,0.4); }
-
-    .fs-suggest-skip {
-      flex: 1; padding: 12px 0; border: 2px solid #e2e8f0; border-radius: 12px;
-      background: transparent; color: #5a6a75; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: background 0.15s;
-    }
-    .fs-suggest-skip:hover { background: #f1f5f9; }
-
     /* ===== NAME INPUT OVERLAY ===== */
     .name-overlay {
       position: fixed;
@@ -2861,19 +2808,6 @@
 
   <!-- App iframe (loads landing.html and all other pages) -->
   <iframe id="appFrame" src="about:blank" allow="fullscreen; microphone; camera" allowfullscreen></iframe>
-
-  <!-- Fullscreen Suggestion Popup (lives in parent so click has user-gesture context) -->
-  <div class="fs-suggest-overlay" id="fsSuggestOverlay">
-    <div class="fs-suggest-card">
-      <div class="fs-suggest-icon">🖥️</div>
-      <div class="fs-suggest-title">Go Full Screen?</div>
-      <div class="fs-suggest-text">Full screen gives you a distraction-free exam experience.</div>
-      <div class="fs-suggest-btns">
-        <button class="fs-suggest-ok" id="fsSuggestOk">Let's go!</button>
-        <button class="fs-suggest-skip" id="fsSuggestSkip">Not now</button>
-      </div>
-    </div>
-  </div>
 
   <!-- Admin Passcode Modal -->
   <div class="admin-modal-overlay" id="adminPasscodeModal">
@@ -4515,16 +4449,9 @@
           stream.getTracks().forEach(function(t) { t.stop(); });
           sessionStorage.setItem('microphonePermissionGranted', 'true');
           console.log('[Welcome] Microphone permission granted');
-          // Show fullscreen suggestion right after mic access
-          showFullscreenSuggestion();
         }).catch(function(e) {
           console.warn('[Welcome] Microphone permission denied or unavailable:', e.message);
-          // Still show fullscreen suggestion even if mic denied
-          showFullscreenSuggestion();
         });
-      } else {
-        // Mic already requested in this session, show fullscreen suggestion directly
-        showFullscreenSuggestion();
       }
 
       // Hide name overlay with animation
@@ -4628,50 +4555,6 @@
       }
 
       startLoading();
-    }
-
-    // ===== FULLSCREEN SUGGESTION =====
-    function showFullscreenSuggestion() {
-      var overlay = document.getElementById('fsSuggestOverlay');
-      if (!overlay) return;
-
-      // Skip if already fullscreen
-      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-      if (isFS) {
-        overlay.style.display = 'none';
-        return;
-      }
-
-      // Show with slight delay
-      setTimeout(function () { overlay.classList.add('visible'); }, 300);
-
-      function dismiss() {
-        overlay.classList.remove('visible');
-        overlay.classList.add('hiding');
-        setTimeout(function () { overlay.style.display = 'none'; }, 350);
-      }
-
-      document.getElementById('fsSuggestOk').addEventListener('click', function () {
-        dismiss();
-        var elem = document.documentElement;
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen().then(function() {
-            console.log('[Fullscreen] Entered fullscreen successfully');
-          }).catch(function (err) {
-            console.warn('[Fullscreen] requestFullscreen failed:', err.message || err);
-          });
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-        }
-      });
-
-      document.getElementById('fsSuggestSkip').addEventListener('click', dismiss);
-
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) dismiss();
-      });
     }
 
     // ===== WELCOME SCREEN FULLSCREEN TOGGLE =====
