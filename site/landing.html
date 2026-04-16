@@ -3250,21 +3250,21 @@
       color: var(--brand);
     }
 
-    .videoguide-option-btn.speaking:hover {
-      border-color: #f59e0b;
-      background: #fffbeb;
+    .videoguide-option-btn.phone-device:hover {
+      border-color: #2563eb;
+      background: #eff6ff;
     }
 
-    .videoguide-option-btn.speaking:hover .option-title {
-      color: #d97706;
+    .videoguide-option-btn.phone-device:hover .option-title {
+      color: #2563eb;
     }
 
-    .videoguide-option-btn.writing:hover {
-      border-color: #8b5cf6;
+    .videoguide-option-btn.pc-device:hover {
+      border-color: #7c3aed;
       background: #f5f3ff;
     }
 
-    .videoguide-option-btn.writing:hover .option-title {
+    .videoguide-option-btn.pc-device:hover .option-title {
       color: #7c3aed;
     }
 
@@ -3298,12 +3298,12 @@
       background: rgba(20, 184, 166, 0.1);
     }
 
-    [data-theme="dark"] .videoguide-option-btn.speaking:hover {
-      border-color: #fbbf24;
-      background: rgba(245, 158, 11, 0.1);
+    [data-theme="dark"] .videoguide-option-btn.phone-device:hover {
+      border-color: #60a5fa;
+      background: rgba(37, 99, 235, 0.1);
     }
 
-    [data-theme="dark"] .videoguide-option-btn.writing:hover {
+    [data-theme="dark"] .videoguide-option-btn.pc-device:hover {
       border-color: #a78bfa;
       background: rgba(139, 92, 246, 0.1);
     }
@@ -6439,6 +6439,9 @@
           <a href="javascript:void(0)" onclick="openSupportMessagesPanel(); toggleSidebar();" class="skill-btn" id="supportMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(37,99,235,0.03));border:1.5px solid rgba(37,99,235,0.3);position:relative;">
             <span style="font-size:15px;">&#128172;</span> Support Messages <span id="smUnreadBadge" style="display:none;position:absolute;top:6px;right:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;"></span>
           </a>
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openVideoGuidesPanel(); }); toggleSidebar();" class="skill-btn" id="videoGuidesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(239,68,68,0.03));border:1.5px solid rgba(239,68,68,0.3);position:relative;">
+            <span style="font-size:15px;">🎬</span> Video Guides
+          </a>
         </div>
       </li>
 
@@ -6786,49 +6789,35 @@
   <!-- Video Guide Modal -->
   <div class="videoguide-modal-overlay" id="videoGuideModal" onclick="closeVideoGuideModal(event)">
     <div class="videoguide-modal" onclick="event.stopPropagation()">
-      <!-- Step 1: IELTS or CEFR -->
+      <!-- Step 1: Phone/Tablet or PC/Mac -->
       <div id="videoGuideStep1">
         <h3>🎬 Video Guide</h3>
-        <p>Select your exam format</p>
+        <p>Choose your device type</p>
         <div class="videoguide-options">
-          <button class="videoguide-option-btn ielts" onclick="selectVideoGuideExam('ielts')">
-            <span class="option-icon">🌍</span>
-            <span class="option-title">IELTS</span>
-            <span class="option-desc">International English</span>
+          <button class="videoguide-option-btn phone-device" onclick="selectVideoGuideDevice('phone')">
+            <span class="option-icon">📱</span>
+            <span class="option-title">Phone / Tablet</span>
+            <span class="option-desc">Mobile instructions</span>
           </button>
-          <button class="videoguide-option-btn cefr" onclick="selectVideoGuideExam('cefr')">
-            <img src="https://storage.googleapis.com/mockstream-listening-audio/LOGOS/flag%20UZB.webp" alt="UZ"
-              style="width:32px;height:32px;margin-bottom:10px;object-fit:cover;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.15);border:1px solid #e2e8f0">
-            <span class="option-title">CEFR</span>
-            <span class="option-desc">Practice Platform</span>
+          <button class="videoguide-option-btn pc-device" onclick="selectVideoGuideDevice('pc')">
+            <span class="option-icon">💻</span>
+            <span class="option-title">PC / Mac</span>
+            <span class="option-desc">Desktop instructions</span>
           </button>
         </div>
         <button class="modal-close-btn" onclick="closeVideoGuideModal()">Cancel</button>
       </div>
-      <!-- Step 2: Speaking or Writing -->
+      <!-- Step 2: Video list for selected device -->
       <div id="videoGuideStep2" style="display:none;">
         <h3 id="videoGuideStep2Title">🎬 Video Guide</h3>
-        <p>Select skill type</p>
-        <div class="videoguide-options">
-          <button class="videoguide-option-btn speaking" onclick="selectVideoGuideSkill('speaking')">
-            <span class="option-icon">🎤</span>
-            <span class="option-title">Speaking</span>
-            <span class="option-desc">Mock exam tips</span>
-          </button>
-          <button class="videoguide-option-btn writing" onclick="selectVideoGuideSkill('writing')">
-            <span class="option-icon">✍️</span>
-            <span class="option-title">Writing</span>
-            <span class="option-desc">Essay guide</span>
-          </button>
-        </div>
-        <button class="modal-close-btn" onclick="videoGuideGoBack()">Back</button>
-      </div>
-      <!-- Step 3: Video list -->
-      <div id="videoGuideStep3" style="display:none;">
-        <h3 id="videoGuideStep3Title">🎬 Video Guide</h3>
-        <p id="videoGuideStep3Desc">Select a mock guide</p>
+        <p id="videoGuideStep2Desc">Select a video guide</p>
         <div class="videoguide-list" id="videoGuideList"></div>
-        <button class="modal-close-btn" onclick="videoGuideGoBackToSkill()">Back</button>
+        <div id="videoGuideEmptyMsg" style="display:none;text-align:center;padding:30px 10px;color:var(--muted);">
+          <span style="font-size:40px;display:block;margin-bottom:12px;">📭</span>
+          <p style="font-size:14px;font-weight:600;">No guides available yet</p>
+          <p style="font-size:12px;">Video guides for this device will appear here.</p>
+        </div>
+        <button class="modal-close-btn" onclick="videoGuideGoBackToDevice()">Back</button>
       </div>
     </div>
   </div>
@@ -9538,6 +9527,7 @@
           var cmItem = document.getElementById('centersMenuItem');
           var pmItem = document.getElementById('privateMessagesMenuItem');
           var smItem = document.getElementById('supportMessagesMenuItem');
+          var vgItem = document.getElementById('videoGuidesMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
@@ -9545,6 +9535,7 @@
           if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
           if (pmItem) { pmItem.style.display = ''; pmItem.classList.add('admin-revealed'); }
           if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
+          if (vgItem) { vgItem.style.display = ''; vgItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session
@@ -11561,14 +11552,33 @@
     }
 
     // ===== VIDEO GUIDE MODAL FUNCTIONS =====
-    var _videoGuideExam = '';
+    // ===== VIDEO GUIDE (Dynamic from Supabase) =====
+    var _videoGuideData = []; // loaded from Supabase site_settings key: video_guides
+    var _videoGuideDevice = '';
+
+    // Load video guides from Supabase
+    (function loadVideoGuides() {
+      var SB = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      fetch(SB + '/rest/v1/site_settings?key=eq.video_guides&select=value', {
+        headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (d && d[0] && d[0].value) {
+          try { _videoGuideData = JSON.parse(d[0].value); } catch(e){ _videoGuideData = []; }
+        }
+      }).catch(function(){});
+    })();
+
+    function _extractYouTubeId(url) {
+      if (!url) return '';
+      var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : url; // if already an ID, return as-is
+    }
 
     function openVideoGuideModal() {
-      _videoGuideExam = '';
-      _videoGuideSkill = '';
+      _videoGuideDevice = '';
       document.getElementById('videoGuideStep1').style.display = '';
       document.getElementById('videoGuideStep2').style.display = 'none';
-      document.getElementById('videoGuideStep3').style.display = 'none';
       document.getElementById('videoGuideModal').classList.add('show');
       document.body.style.overflow = 'hidden';
     }
@@ -11579,97 +11589,45 @@
       document.body.style.overflow = '';
     }
 
-    function selectVideoGuideExam(exam) {
-      _videoGuideExam = exam;
+    function selectVideoGuideDevice(device) {
+      _videoGuideDevice = device;
+      var label = device === 'phone' ? '📱 Phone / Tablet' : '💻 PC / Mac';
+      document.getElementById('videoGuideStep2Title').textContent = '🎬 ' + label;
+
+      var videos = _videoGuideData.filter(function(v){ return v.device === device; });
+      var listEl = document.getElementById('videoGuideList');
+      var emptyEl = document.getElementById('videoGuideEmptyMsg');
+      listEl.innerHTML = '';
+
+      if (videos.length === 0) {
+        emptyEl.style.display = '';
+        document.getElementById('videoGuideStep2Desc').textContent = '';
+      } else {
+        emptyEl.style.display = 'none';
+        document.getElementById('videoGuideStep2Desc').textContent = videos.length + ' video guide' + (videos.length > 1 ? 's' : '') + ' available';
+        videos.forEach(function(v) {
+          var vid = _extractYouTubeId(v.youtubeUrl);
+          var item = document.createElement('div');
+          item.className = 'videoguide-list-item';
+          item.onclick = function() {
+            closeVideoGuideModal();
+            openVideoGuidePlayer(vid, v.title);
+          };
+          item.innerHTML =
+            '<div class="vg-thumb" style="background-image:url(https://img.youtube.com/vi/' + vid + '/mqdefault.jpg)"></div>' +
+            '<div class="vg-info"><h4>' + (v.title || 'Video Guide') + '</h4><p>' + (v.desc || '') + '</p></div>' +
+            '<span class="vg-arrow">→</span>';
+          listEl.appendChild(item);
+        });
+      }
+
       document.getElementById('videoGuideStep1').style.display = 'none';
       document.getElementById('videoGuideStep2').style.display = '';
-      var label = exam === 'ielts' ? 'IELTS' : 'CEFR';
-      document.getElementById('videoGuideStep2Title').textContent = '🎬 ' + label + ' Video Guide';
     }
 
-    function videoGuideGoBack() {
+    function videoGuideGoBackToDevice() {
       document.getElementById('videoGuideStep2').style.display = 'none';
       document.getElementById('videoGuideStep1').style.display = '';
-    }
-
-    function selectVideoGuideSkill(skill) {
-      var key = _videoGuideExam + '-' + skill;
-
-      // Video guide map: key -> array of { id, title, desc }
-      var videoGuideMap = {
-        'cefr-speaking': [
-          { id: '_W1zizhx03M', title: 'Speaking Mock 1 Guide', desc: 'Full walkthrough' },
-          { id: 'T7wvJbPNE20', title: 'Speaking Mock 2 Guide', desc: 'Full walkthrough' }
-        ],
-        'cefr-writing': [
-          { id: 'YsU1Z6N6gMY', title: 'Writing Mock 1 Guide', desc: 'Full walkthrough' },
-          { id: 'gs0QtL3QmqI', title: 'Writing Mock 2 Guide', desc: 'Full walkthrough' }
-        ],
-        'ielts-speaking': [
-          { id: '3BaCRHRtARg', title: 'Speaking Mock 1 Guide', desc: 'Full walkthrough' },
-          { id: '1Zs0uPg9Z94', title: 'Speaking Mock 2 Guide', desc: 'Full walkthrough' }
-        ],
-        'ielts-writing': [
-          { id: 'xc0vbz_7xas', title: 'Writing Mock 1 Guide', desc: 'Full walkthrough' },
-          { id: 'HiZo05KgeYY', title: 'Writing Mock 2 Guide', desc: 'Full walkthrough' }
-        ]
-        // 'ielts-writing':  [],
-      };
-
-      var videos = videoGuideMap[key];
-      if (videos && videos.length > 0) {
-        if (videos.length === 1) {
-          // Only one video — play directly
-          closeVideoGuideModal();
-          openVideoGuidePlayer(videos[0].id, videos[0].title);
-        } else {
-          // Multiple videos — show list (Step 3)
-          showVideoGuideList(key, skill, videos);
-        }
-      } else {
-        closeVideoGuideModal();
-        var examLabel = _videoGuideExam === 'ielts' ? 'IELTS' : 'CEFR';
-        var skillLabel = skill.charAt(0).toUpperCase() + skill.slice(1);
-        if (typeof showCustomAlert === 'function') {
-          showCustomAlert(examLabel + ' ' + skillLabel + ' video guide coming soon!');
-        } else {
-          alert(examLabel + ' ' + skillLabel + ' video guide coming soon!');
-        }
-      }
-    }
-
-    var _videoGuideSkill = '';
-
-    function showVideoGuideList(key, skill, videos) {
-      _videoGuideSkill = skill;
-      document.getElementById('videoGuideStep2').style.display = 'none';
-      document.getElementById('videoGuideStep3').style.display = '';
-
-      var examLabel = _videoGuideExam === 'ielts' ? 'IELTS' : 'CEFR';
-      var skillLabel = skill.charAt(0).toUpperCase() + skill.slice(1);
-      document.getElementById('videoGuideStep3Title').textContent = '🎬 ' + examLabel + ' ' + skillLabel;
-      document.getElementById('videoGuideStep3Desc').textContent = videos.length + ' video guide' + (videos.length > 1 ? 's' : '') + ' available';
-
-      var listEl = document.getElementById('videoGuideList');
-      listEl.innerHTML = '';
-      videos.forEach(function (v) {
-        var item = document.createElement('div');
-        item.className = 'videoguide-list-item';
-        item.onclick = function () {
-          closeVideoGuideModal();
-          openVideoGuidePlayer(v.id, v.title);
-        };
-        item.innerHTML =
-          '<div class="vg-thumb" style="background-image:url(https://img.youtube.com/vi/' + v.id + '/mqdefault.jpg)"></div>' +
-          '<div class="vg-info"><h4>' + v.title + '</h4><p>' + (v.desc || '') + '</p></div>' +
-          '<span class="vg-arrow">→</span>';
-        listEl.appendChild(item);
-      });
-    }
-
-    function videoGuideGoBackToSkill() {
-      document.getElementById('videoGuideStep3').style.display = 'none';
-      document.getElementById('videoGuideStep2').style.display = '';
     }
 
     var _currentVideoId = '';
@@ -11683,15 +11641,12 @@
       var fallback = document.getElementById('videoGuideFallback');
       var thumb = document.getElementById('videoGuideThumb');
 
-      // Reset
       wrapper.style.display = 'none';
       fallback.style.display = 'none';
       iframe.src = '';
 
-      // Set thumbnail for fallback (in case embed fails)
       thumb.style.backgroundImage = 'url(https://img.youtube.com/vi/' + videoId + '/maxresdefault.jpg)';
 
-      // Show embedded iframe player
       wrapper.style.display = '';
       iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0';
 
@@ -18443,7 +18398,7 @@
             '<span class="hc-voice-dur" id="' + vpId + '_dur" style="font-size:11px;min-width:28px;text-align:right;color:' + durColor + ';white-space:nowrap;">0:00</span>' +
             '</div>' + time + '</div></div>';
         } else {
-          html += '<div class="hc-msg ' + cls + '"><div>' + sender + '<div class="hc-msg-bubble">' + escapeHtml(m.text || '') + '</div>' + time + '</div></div>';
+          html += '<div class="hc-msg ' + cls + '"><div>' + sender + '<div class="hc-msg-bubble">' + _hcFormatText(m.text || '') + '</div>' + time + '</div></div>';
         }
       });
       container.innerHTML = html;
@@ -18451,6 +18406,25 @@
     }
 
     function _hcEscapeAttr(s) { return (s || '').replace(/'/g, "\\'"); }
+
+    function _hcFormatText(text) {
+      var html = escapeHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+      html = html.replace(/\[video_guide:([a-zA-Z0-9_-]{11}):([^\]]*)\]/g, function(match, vid, title) {
+        return '<div style="margin:8px 0;border-radius:12px;overflow:hidden;border:1.5px solid rgba(239,68,68,0.3);background:#fef2f2;cursor:pointer;" onclick="openVideoGuidePlayer(\'' + vid + '\',\'' + title.replace(/'/g, "\\'") + '\')">' +
+          '<div style="position:relative;width:100%;padding-bottom:56.25%;background:url(https://img.youtube.com/vi/' + vid + '/mqdefault.jpg) center/cover #0f172a;">' +
+            '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(239,68,68,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">' +
+              '<span style="color:white;font-size:20px;margin-left:3px;">▶</span>' +
+            '</div>' +
+          '</div>' +
+          '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;">' +
+            '<span style="font-size:16px;">🎬</span>' +
+            '<span style="font-size:12px;font-weight:600;color:#dc2626;">' + title + '</span>' +
+            '<span style="margin-left:auto;font-size:11px;color:#64748b;">Tap to watch →</span>' +
+          '</div>' +
+        '</div>';
+      });
+      return html;
+    }
 
     var _hcToastTimer = null;
     function showHcToast(text, timeStr) {
@@ -20920,6 +20894,313 @@
         else _smObserver.observe(el, { attributes: true, attributeFilter: ['style'] });
       }
     });
+  })();
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- VIDEO GUIDES MANAGEMENT PANEL                                           -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <style>
+    #vgPanelOverlay { position:fixed;inset:0;z-index:9999;background:var(--bg,#f8fafc);display:none;flex-direction:column;overflow:hidden; }
+    #vgPanelOverlay.active { display:flex; }
+    .vg-panel-header { display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;flex-shrink:0; }
+    .vg-panel-header h3 { margin:0;font-size:18px;font-weight:700; }
+    .vg-panel-close { width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center; }
+    .vg-panel-close:hover { background:rgba(255,255,255,.35); }
+    .vg-panel-body { flex:1;overflow-y:auto;padding:16px 20px; }
+    .vg-add-form { background:var(--card,#fff);border:2px solid var(--border,#e2e8f0);border-radius:16px;padding:20px;margin-bottom:20px; }
+    .vg-add-form h4 { margin:0 0 14px;font-size:15px;color:var(--ink,#1e293b); }
+    .vg-form-row { margin-bottom:12px; }
+    .vg-form-row label { display:block;font-size:12px;font-weight:600;color:var(--muted,#64748b);margin-bottom:4px; }
+    .vg-form-row input, .vg-form-row textarea, .vg-form-row select { width:100%;padding:10px 14px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:13px;background:var(--surface,#f1f5f9);color:var(--ink,#1e293b);outline:none;box-sizing:border-box;font-family:inherit; }
+    .vg-form-row textarea { resize:vertical;min-height:60px;line-height:1.5; }
+    .vg-form-row input:focus, .vg-form-row textarea:focus, .vg-form-row select:focus { border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,0.12); }
+    .vg-form-actions { display:flex;gap:8px;margin-top:14px; }
+    .vg-btn-save { padding:10px 22px;border:none;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;font-weight:700;cursor:pointer;font-size:13px; }
+    .vg-btn-save:hover { filter:brightness(1.1); }
+    .vg-btn-cancel { padding:10px 22px;border:none;border-radius:10px;background:var(--border,#e2e8f0);color:var(--ink,#1e293b);font-weight:600;cursor:pointer;font-size:13px; }
+    .vg-video-card { display:flex;align-items:center;gap:14px;padding:14px;border:1.5px solid var(--border,#e2e8f0);border-radius:14px;background:var(--card,#fff);margin-bottom:10px;transition:all .2s; }
+    .vg-video-card:hover { border-color:#ef4444;box-shadow:0 4px 12px rgba(239,68,68,0.1); }
+    .vg-video-thumb { width:80px;height:45px;border-radius:8px;background-size:cover;background-position:center;background-color:#1e293b;flex-shrink:0;position:relative; }
+    .vg-video-thumb::after { content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:14px;text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .vg-video-info { flex:1;min-width:0; }
+    .vg-video-info h4 { font-size:14px;font-weight:700;color:var(--ink,#1e293b);margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .vg-video-info p { font-size:11px;color:var(--muted,#64748b);margin:0; }
+    .vg-device-badge { padding:3px 10px;border-radius:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0; }
+    .vg-device-badge.phone { background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe; }
+    .vg-device-badge.pc { background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe; }
+    .vg-video-actions { display:flex;gap:6px;flex-shrink:0; }
+    .vg-video-actions button { width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s; }
+    .vg-edit-btn { background:#fef3c7;color:#d97706; }
+    .vg-edit-btn:hover { background:#fde68a; }
+    .vg-del-btn { background:#fee2e2;color:#dc2626; }
+    .vg-del-btn:hover { background:#fecaca; }
+    .vg-preview-wrap { margin-top:8px;border-radius:12px;overflow:hidden;border:1.5px solid var(--border,#e2e8f0); }
+    .vg-preview-thumb { width:100%;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:#0f172a;position:relative;cursor:pointer; }
+    .vg-preview-thumb::after { content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:28px;background:rgba(0,0,0,.5);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
+    .vg-empty { text-align:center;padding:40px 20px;color:var(--muted,#64748b); }
+    .vg-empty span { font-size:48px;display:block;margin-bottom:12px; }
+    .vg-section-title { font-size:13px;font-weight:700;color:var(--muted,#64748b);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;display:flex;align-items:center;gap:8px; }
+  </style>
+  <script>
+  (function() {
+    var VG_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var VG_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _vgList = []; // [{id, title, desc, youtubeUrl, device:'phone'|'pc', aiPrompt}]
+    var _vgEditingId = null;
+
+    function _vgEsc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    function _vgExtractYtId(url) {
+      if (!url) return '';
+      var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : '';
+    }
+
+    function _vgEnsureOverlay() {
+      if (document.getElementById('vgPanelOverlay')) return;
+      var div = document.createElement('div');
+      div.id = 'vgPanelOverlay';
+      div.innerHTML =
+        '<div class="vg-panel-header">' +
+          '<h3>🎬 Video Guides</h3>' +
+          '<button class="vg-panel-close" onclick="closeVideoGuidesPanel()">&times;</button>' +
+        '</div>' +
+        '<div class="vg-panel-body" id="vgPanelBody">' +
+          '<div class="vg-add-form" id="vgAddForm">' +
+            '<h4 id="vgFormTitle">➕ Add New Video Guide</h4>' +
+            '<div class="vg-form-row">' +
+              '<label>YouTube URL</label>' +
+              '<input type="text" id="vgInputUrl" placeholder="https://www.youtube.com/watch?v=..." oninput="_vgPreviewUrl()">' +
+            '</div>' +
+            '<div class="vg-preview-wrap" id="vgPreviewWrap" style="display:none;">' +
+              '<div class="vg-preview-thumb" id="vgPreviewThumb"></div>' +
+            '</div>' +
+            '<div class="vg-form-row">' +
+              '<label>Title</label>' +
+              '<input type="text" id="vgInputTitle" placeholder="e.g. How to start Speaking Mock">' +
+            '</div>' +
+            '<div class="vg-form-row">' +
+              '<label>Short Description</label>' +
+              '<input type="text" id="vgInputDesc" placeholder="e.g. Full walkthrough for beginners">' +
+            '</div>' +
+            '<div class="vg-form-row">' +
+              '<label>Device Type</label>' +
+              '<select id="vgInputDevice">' +
+                '<option value="phone">📱 Phone / Tablet</option>' +
+                '<option value="pc">💻 PC / Mac</option>' +
+              '</select>' +
+            '</div>' +
+            '<div class="vg-form-row">' +
+              '<label>AI Support Prompt <span style="font-size:11px;color:var(--muted);font-weight:400;">(describes video content for AI)</span></label>' +
+              '<textarea id="vgInputAiPrompt" rows="3" placeholder="Describe what this video covers so the AI can suggest it to users. e.g. This video shows step-by-step how to start a speaking mock exam on a phone..."></textarea>' +
+            '</div>' +
+            '<div class="vg-form-actions">' +
+              '<button class="vg-btn-save" onclick="_vgSave()">💾 Save Video</button>' +
+              '<button class="vg-btn-cancel" id="vgCancelEditBtn" style="display:none;" onclick="_vgCancelEdit()">Cancel Edit</button>' +
+            '</div>' +
+            '<div id="vgFormStatus" style="font-size:12px;margin-top:8px;"></div>' +
+          '</div>' +
+          '<div class="vg-section-title">📱 Phone / Tablet Videos</div>' +
+          '<div id="vgPhoneList"></div>' +
+          '<div class="vg-section-title">💻 PC / Mac Videos</div>' +
+          '<div id="vgPcList"></div>' +
+        '</div>';
+      document.body.appendChild(div);
+    }
+
+    function _vgPreviewUrl() {
+      var url = document.getElementById('vgInputUrl').value.trim();
+      var vid = _vgExtractYtId(url);
+      var wrap = document.getElementById('vgPreviewWrap');
+      var thumb = document.getElementById('vgPreviewThumb');
+      if (vid) {
+        thumb.style.backgroundImage = 'url(https://img.youtube.com/vi/' + vid + '/mqdefault.jpg)';
+        wrap.style.display = '';
+      } else {
+        wrap.style.display = 'none';
+      }
+    }
+
+    async function _vgLoad() {
+      try {
+        var r = await fetch(VG_SB_URL + '/rest/v1/site_settings?key=eq.video_guides&select=value', {
+          headers: { 'apikey': VG_SB_KEY, 'Authorization': 'Bearer ' + VG_SB_KEY }
+        });
+        var d = await r.json();
+        if (d && d[0] && d[0].value) {
+          try { _vgList = JSON.parse(d[0].value); } catch(e) { _vgList = []; }
+        } else {
+          _vgList = [];
+        }
+      } catch(e) { _vgList = []; }
+      _vgRender();
+    }
+
+    async function _vgSaveToDb() {
+      var json = JSON.stringify(_vgList);
+      try {
+        var res = await fetch(VG_SB_URL + '/rest/v1/site_settings?key=eq.video_guides', {
+          method: 'PATCH',
+          headers: { 'apikey': VG_SB_KEY, 'Authorization': 'Bearer ' + VG_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+          body: JSON.stringify({ value: json, updated_at: new Date().toISOString() })
+        });
+        var data = await res.json();
+        if (!data || data.length === 0) {
+          await fetch(VG_SB_URL + '/rest/v1/site_settings', {
+            method: 'POST',
+            headers: { 'apikey': VG_SB_KEY, 'Authorization': 'Bearer ' + VG_SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ key: 'video_guides', value: json })
+          });
+        }
+      } catch(e) { throw e; }
+      // Update landing page data too
+      if (typeof _videoGuideData !== 'undefined') {
+        window._videoGuideData = _vgList;
+      }
+    }
+
+    function _vgRender() {
+      var phoneList = document.getElementById('vgPhoneList');
+      var pcList = document.getElementById('vgPcList');
+      if (!phoneList || !pcList) return;
+
+      var phones = _vgList.filter(function(v){ return v.device === 'phone'; });
+      var pcs = _vgList.filter(function(v){ return v.device === 'pc'; });
+
+      phoneList.innerHTML = phones.length === 0
+        ? '<div class="vg-empty"><span>📱</span>No phone/tablet videos yet</div>'
+        : phones.map(function(v){ return _vgCardHtml(v); }).join('');
+
+      pcList.innerHTML = pcs.length === 0
+        ? '<div class="vg-empty"><span>💻</span>No PC/Mac videos yet</div>'
+        : pcs.map(function(v){ return _vgCardHtml(v); }).join('');
+    }
+
+    function _vgCardHtml(v) {
+      var vid = _vgExtractYtId(v.youtubeUrl);
+      var thumbUrl = vid ? 'https://img.youtube.com/vi/' + vid + '/mqdefault.jpg' : '';
+      return '<div class="vg-video-card">' +
+        '<div class="vg-video-thumb" style="background-image:url(' + thumbUrl + ')"></div>' +
+        '<div class="vg-video-info">' +
+          '<h4>' + _vgEsc(v.title || 'Untitled') + '</h4>' +
+          '<p>' + _vgEsc(v.desc || '') + '</p>' +
+          (v.aiPrompt ? '<p style="margin-top:3px;font-size:10px;color:#059669;">✅ AI prompt set</p>' : '<p style="margin-top:3px;font-size:10px;color:#d97706;">⚠️ No AI prompt</p>') +
+        '</div>' +
+        '<span class="vg-device-badge ' + v.device + '">' + (v.device === 'phone' ? '📱' : '💻') + '</span>' +
+        '<div class="vg-video-actions">' +
+          '<button class="vg-edit-btn" onclick="_vgStartEdit(\'' + _vgEsc(v.id) + '\')" title="Edit">✏️</button>' +
+          '<button class="vg-del-btn" onclick="_vgDelete(\'' + _vgEsc(v.id) + '\')" title="Delete">🗑️</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    window._vgPreviewUrl = _vgPreviewUrl;
+
+    window._vgSave = async function() {
+      var url = document.getElementById('vgInputUrl').value.trim();
+      var title = document.getElementById('vgInputTitle').value.trim();
+      var desc = document.getElementById('vgInputDesc').value.trim();
+      var device = document.getElementById('vgInputDevice').value;
+      var aiPrompt = document.getElementById('vgInputAiPrompt').value.trim();
+      var status = document.getElementById('vgFormStatus');
+
+      if (!url) { status.innerHTML = '<span style="color:#dc2626;">YouTube URL is required</span>'; return; }
+      var vid = _vgExtractYtId(url);
+      if (!vid) { status.innerHTML = '<span style="color:#dc2626;">Invalid YouTube URL</span>'; return; }
+      if (!title) { status.innerHTML = '<span style="color:#dc2626;">Title is required</span>'; return; }
+
+      status.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+
+      if (_vgEditingId) {
+        // Edit existing
+        for (var i = 0; i < _vgList.length; i++) {
+          if (_vgList[i].id === _vgEditingId) {
+            _vgList[i].youtubeUrl = url;
+            _vgList[i].title = title;
+            _vgList[i].desc = desc;
+            _vgList[i].device = device;
+            _vgList[i].aiPrompt = aiPrompt;
+            break;
+          }
+        }
+      } else {
+        _vgList.push({
+          id: 'vg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+          youtubeUrl: url,
+          title: title,
+          desc: desc,
+          device: device,
+          aiPrompt: aiPrompt
+        });
+      }
+
+      try {
+        await _vgSaveToDb();
+        status.innerHTML = '<span style="color:#059669;">✅ Video saved!</span>';
+        _vgClearForm();
+        _vgRender();
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + (e.message || 'Unknown error') + '</span>';
+      }
+    };
+
+    function _vgClearForm() {
+      document.getElementById('vgInputUrl').value = '';
+      document.getElementById('vgInputTitle').value = '';
+      document.getElementById('vgInputDesc').value = '';
+      document.getElementById('vgInputDevice').value = 'phone';
+      document.getElementById('vgInputAiPrompt').value = '';
+      document.getElementById('vgPreviewWrap').style.display = 'none';
+      document.getElementById('vgFormTitle').textContent = '➕ Add New Video Guide';
+      document.getElementById('vgCancelEditBtn').style.display = 'none';
+      _vgEditingId = null;
+    }
+
+    window._vgStartEdit = function(id) {
+      var v = _vgList.find(function(x){ return x.id === id; });
+      if (!v) return;
+      _vgEditingId = id;
+      document.getElementById('vgInputUrl').value = v.youtubeUrl || '';
+      document.getElementById('vgInputTitle').value = v.title || '';
+      document.getElementById('vgInputDesc').value = v.desc || '';
+      document.getElementById('vgInputDevice').value = v.device || 'phone';
+      document.getElementById('vgInputAiPrompt').value = v.aiPrompt || '';
+      document.getElementById('vgFormTitle').textContent = '✏️ Edit Video Guide';
+      document.getElementById('vgCancelEditBtn').style.display = '';
+      document.getElementById('vgFormStatus').innerHTML = '';
+      _vgPreviewUrl();
+      document.getElementById('vgPanelBody').scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window._vgCancelEdit = function() {
+      _vgClearForm();
+      document.getElementById('vgFormStatus').innerHTML = '';
+    };
+
+    window._vgDelete = async function(id) {
+      if (!confirm('Delete this video guide?')) return;
+      _vgList = _vgList.filter(function(v){ return v.id !== id; });
+      try {
+        await _vgSaveToDb();
+        _vgRender();
+      } catch(e) {
+        alert('Failed to delete: ' + (e.message || 'Unknown error'));
+      }
+    };
+
+    window.openVideoGuidesPanel = async function() {
+      _vgEnsureOverlay();
+      document.getElementById('vgPanelOverlay').classList.add('active');
+      _vgClearForm();
+      await _vgLoad();
+    };
+
+    window.closeVideoGuidesPanel = function() {
+      var el = document.getElementById('vgPanelOverlay');
+      if (el) el.classList.remove('active');
+      _vgEditingId = null;
+    };
   })();
   </script>
 

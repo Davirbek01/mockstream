@@ -2243,6 +2243,64 @@
           </div>
         </div>
 
+        <!-- ═══════════════ 2.5 VIDEO GUIDES ═══════════════ -->
+        <div class="settings-accordion" id="accVideoGuides">
+          <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(220,38,38,.05));" onclick="toggleAccordion('accVideoGuides')">
+            <h4 style="color:#ef4444;"><span>🎬</span> Video Guides</h4>
+            <span class="settings-accordion-arrow" style="color:#ef4444;">▾</span>
+          </div>
+          <div class="settings-accordion-body">
+
+            <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">Manage video instruction guides shown to users. Videos are categorized by device type (Phone/Tablet or PC/Mac). AI support chat will automatically suggest relevant videos to users.</p>
+
+            <!-- Add New Video Form -->
+            <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;">
+              <h4 id="dsVgFormTitle" style="font-size:14px;font-weight:700;color:var(--ink);margin:0 0 14px;">➕ Add New Video Guide</h4>
+
+              <div style="margin-bottom:10px;">
+                <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;">YouTube URL</label>
+                <input type="text" id="dsVgUrl" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;" oninput="dsVgPreview()">
+              </div>
+              <div id="dsVgPreviewWrap" style="display:none;margin-bottom:10px;border-radius:10px;overflow:hidden;border:1px solid var(--border);">
+                <div id="dsVgPreviewThumb" style="width:100%;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:#0f172a;"></div>
+              </div>
+              <div style="display:flex;gap:10px;margin-bottom:10px;">
+                <div style="flex:1;">
+                  <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;">Title</label>
+                  <input type="text" id="dsVgTitle" placeholder="e.g. How to start Speaking Mock" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;">
+                </div>
+                <div style="flex:1;">
+                  <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;">Device Type</label>
+                  <select id="dsVgDevice" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;cursor:pointer;">
+                    <option value="phone">📱 Phone / Tablet</option>
+                    <option value="pc">💻 PC / Mac</option>
+                  </select>
+                </div>
+              </div>
+              <div style="margin-bottom:10px;">
+                <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;">Short Description</label>
+                <input type="text" id="dsVgDesc" placeholder="e.g. Full walkthrough for beginners" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;">
+              </div>
+              <div style="margin-bottom:10px;">
+                <label style="display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;">AI Support Prompt <span style="font-weight:400;">(describes video content for AI to suggest it)</span></label>
+                <textarea id="dsVgAiPrompt" rows="3" placeholder="Describe what this video covers so the AI can suggest it to users when they need help..." style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;background:var(--bg);color:var(--ink);outline:none;box-sizing:border-box;font-family:inherit;resize:vertical;line-height:1.5;"></textarea>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <button onclick="dsVgSave()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;font-weight:600;cursor:pointer;font-size:13px;">💾 Save Video</button>
+                <button id="dsVgCancelBtn" onclick="dsVgCancelEdit()" style="display:none;padding:10px 20px;border:none;border-radius:10px;background:var(--border);color:var(--ink);font-weight:600;cursor:pointer;font-size:13px;">Cancel Edit</button>
+              </div>
+              <div id="dsVgStatus" style="font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <!-- Video List -->
+            <div style="margin-bottom:8px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">📱 Phone / Tablet</div>
+            <div id="dsVgPhoneList" style="margin-bottom:16px;"></div>
+            <div style="margin-bottom:8px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">💻 PC / Mac</div>
+            <div id="dsVgPcList" style="margin-bottom:16px;"></div>
+
+          </div>
+        </div>
+
         <!-- ═══════════════ 3. COMMUNITY TAB ═══════════════ -->
         <div class="settings-accordion" id="accCommunity">
           <div class="settings-accordion-header" style="background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(124,58,237,.05));" onclick="toggleAccordion('accCommunity')">
@@ -5412,6 +5470,14 @@
           _promptFiles = [];
           renderPromptFilesList();
         }
+
+        // Video guides
+        if (map.video_guides) {
+          try { _dsVgList = JSON.parse(map.video_guides); } catch(e) { _dsVgList = []; }
+        } else {
+          _dsVgList = [];
+        }
+        dsVgRender();
       } catch(e) {
         console.log('[Settings] Load failed:', e);
       }
@@ -5708,6 +5774,170 @@
       document.getElementById('settingsMaxAiInlineMb').value = '8';
       document.getElementById('settingsMaxVoiceSec').value = '120';
       document.getElementById('voiceAttachStatus').innerHTML = '<span style="color:var(--muted);">Defaults restored. Click Save to apply.</span>';
+    }
+
+    // ── Video Guides Management ─────────────────────────────────────────────
+    var _dsVgList = [];
+    var _dsVgEditingId = null;
+
+    function _dsVgExtractYtId(url) {
+      if (!url) return '';
+      var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : '';
+    }
+
+    function dsVgPreview() {
+      var url = document.getElementById('dsVgUrl').value.trim();
+      var vid = _dsVgExtractYtId(url);
+      var wrap = document.getElementById('dsVgPreviewWrap');
+      var thumb = document.getElementById('dsVgPreviewThumb');
+      if (vid) {
+        thumb.style.backgroundImage = 'url(https://img.youtube.com/vi/' + vid + '/mqdefault.jpg)';
+        wrap.style.display = '';
+      } else {
+        wrap.style.display = 'none';
+      }
+    }
+
+    async function dsVgLoad() {
+      try {
+        var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.video_guides&select=value', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        var d = await r.json();
+        if (d && d[0] && d[0].value) {
+          try { _dsVgList = JSON.parse(d[0].value); } catch(e) { _dsVgList = []; }
+        } else {
+          _dsVgList = [];
+        }
+      } catch(e) { _dsVgList = []; }
+      dsVgRender();
+    }
+
+    async function _dsVgSaveToDb() {
+      await upsertSetting('video_guides', JSON.stringify(_dsVgList));
+    }
+
+    function dsVgRender() {
+      var phoneList = document.getElementById('dsVgPhoneList');
+      var pcList = document.getElementById('dsVgPcList');
+      if (!phoneList || !pcList) return;
+
+      var phones = _dsVgList.filter(function(v){ return v.device === 'phone'; });
+      var pcs = _dsVgList.filter(function(v){ return v.device === 'pc'; });
+
+      function cardHtml(v) {
+        var vid = _dsVgExtractYtId(v.youtubeUrl);
+        var thumbUrl = vid ? 'https://img.youtube.com/vi/' + vid + '/mqdefault.jpg' : '';
+        var esc = function(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+        return '<div style="display:flex;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:var(--card);margin-bottom:8px;transition:all .2s;">' +
+          '<div style="width:72px;height:40px;border-radius:8px;background:url(' + thumbUrl + ') center/cover #1e293b;flex-shrink:0;position:relative;">' +
+            '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:12px;text-shadow:0 1px 3px rgba(0,0,0,.5);">▶</span>' +
+          '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(v.title || 'Untitled') + '</div>' +
+            '<div style="font-size:11px;color:var(--muted);">' + esc(v.desc || '') + '</div>' +
+            (v.aiPrompt ? '<div style="font-size:10px;color:#059669;margin-top:2px;">✅ AI prompt set</div>' : '<div style="font-size:10px;color:#d97706;margin-top:2px;">⚠️ No AI prompt</div>') +
+          '</div>' +
+          '<div style="display:flex;gap:4px;flex-shrink:0;">' +
+            '<button onclick="dsVgStartEdit(\'' + esc(v.id) + '\')" style="width:30px;height:30px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;background:#fef3c7;color:#d97706;" title="Edit">✏️</button>' +
+            '<button onclick="dsVgDelete(\'' + esc(v.id) + '\')" style="width:30px;height:30px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;background:#fee2e2;color:#dc2626;" title="Delete">🗑️</button>' +
+          '</div>' +
+        '</div>';
+      }
+
+      phoneList.innerHTML = phones.length === 0
+        ? '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">No phone/tablet videos yet</div>'
+        : phones.map(cardHtml).join('');
+
+      pcList.innerHTML = pcs.length === 0
+        ? '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">No PC/Mac videos yet</div>'
+        : pcs.map(cardHtml).join('');
+    }
+
+    async function dsVgSave() {
+      var url = document.getElementById('dsVgUrl').value.trim();
+      var title = document.getElementById('dsVgTitle').value.trim();
+      var desc = document.getElementById('dsVgDesc').value.trim();
+      var device = document.getElementById('dsVgDevice').value;
+      var aiPrompt = document.getElementById('dsVgAiPrompt').value.trim();
+      var status = document.getElementById('dsVgStatus');
+
+      if (!url) { status.innerHTML = '<span style="color:#dc2626;">YouTube URL required</span>'; return; }
+      var vid = _dsVgExtractYtId(url);
+      if (!vid) { status.innerHTML = '<span style="color:#dc2626;">Invalid YouTube URL</span>'; return; }
+      if (!title) { status.innerHTML = '<span style="color:#dc2626;">Title required</span>'; return; }
+
+      status.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
+
+      if (_dsVgEditingId) {
+        for (var i = 0; i < _dsVgList.length; i++) {
+          if (_dsVgList[i].id === _dsVgEditingId) {
+            _dsVgList[i].youtubeUrl = url;
+            _dsVgList[i].title = title;
+            _dsVgList[i].desc = desc;
+            _dsVgList[i].device = device;
+            _dsVgList[i].aiPrompt = aiPrompt;
+            break;
+          }
+        }
+      } else {
+        _dsVgList.push({
+          id: 'vg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+          youtubeUrl: url, title: title, desc: desc, device: device, aiPrompt: aiPrompt
+        });
+      }
+
+      try {
+        await _dsVgSaveToDb();
+        status.innerHTML = '<span style="color:#059669;">✅ Video saved!</span>';
+        dsVgCancelEdit();
+        dsVgRender();
+      } catch(e) {
+        status.innerHTML = '<span style="color:#dc2626;">❌ Failed: ' + (e.message || 'Error') + '</span>';
+      }
+    }
+
+    function dsVgCancelEdit() {
+      document.getElementById('dsVgUrl').value = '';
+      document.getElementById('dsVgTitle').value = '';
+      document.getElementById('dsVgDesc').value = '';
+      document.getElementById('dsVgDevice').value = 'phone';
+      document.getElementById('dsVgAiPrompt').value = '';
+      document.getElementById('dsVgPreviewWrap').style.display = 'none';
+      document.getElementById('dsVgFormTitle').textContent = '➕ Add New Video Guide';
+      document.getElementById('dsVgCancelBtn').style.display = 'none';
+      document.getElementById('dsVgStatus').innerHTML = '';
+      _dsVgEditingId = null;
+    }
+
+    function dsVgStartEdit(id) {
+      var v = _dsVgList.find(function(x){ return x.id === id; });
+      if (!v) return;
+      _dsVgEditingId = id;
+      document.getElementById('dsVgUrl').value = v.youtubeUrl || '';
+      document.getElementById('dsVgTitle').value = v.title || '';
+      document.getElementById('dsVgDesc').value = v.desc || '';
+      document.getElementById('dsVgDevice').value = v.device || 'phone';
+      document.getElementById('dsVgAiPrompt').value = v.aiPrompt || '';
+      document.getElementById('dsVgFormTitle').textContent = '✏️ Edit Video Guide';
+      document.getElementById('dsVgCancelBtn').style.display = '';
+      document.getElementById('dsVgStatus').innerHTML = '';
+      dsVgPreview();
+      // Scroll to form
+      document.getElementById('dsVgFormTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function dsVgDelete(id) {
+      var ok = await customConfirm('Delete Video Guide', 'Delete this video guide? This cannot be undone.');
+      if (!ok) return;
+      _dsVgList = _dsVgList.filter(function(v){ return v.id !== id; });
+      try {
+        await _dsVgSaveToDb();
+        dsVgRender();
+      } catch(e) {
+        alert('Failed to delete: ' + (e.message || 'Error'));
+      }
     }
 
     // ── Community Settings ──────────────────────────────────────────────────

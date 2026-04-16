@@ -49,6 +49,7 @@
   var HC_DICT_IMAGE = false;
   var HC_AI_MODEL = 'gemini';
   var HC_DICT_AI_MODEL = 'gemini';
+  var _videoGuidesData = []; // loaded from Supabase for AI context
 
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
@@ -145,6 +146,16 @@
         applyHcSettingsVisibility();
       }).catch(function () {});
     } catch (e) {}
+    // Load video guides for AI context
+    try {
+      fetch(SB_URL + '/rest/v1/site_settings?key=eq.video_guides&select=value', {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (d && d[0] && d[0].value) {
+          try { _videoGuidesData = JSON.parse(d[0].value); } catch(e){ _videoGuidesData = []; }
+        }
+      }).catch(function(){});
+    } catch(e) {}
   }
 
   // Show/hide voice & attach buttons based on current settings
@@ -791,6 +802,24 @@
     // Capability block — always injected so Gemini knows about multimodal features
     var capabilityNote = '\n\n[Capabilities] Users in this chat can send: text messages, voice recordings (you will receive the audio inline), image attachments (you will see the image), and PDF attachments (you will see the PDF content). When you receive a voice message, listen carefully and respond in the same language the user spoke. When you receive an image or PDF, analyze its contents and respond helpfully. If a file is too large for direct analysis, you will receive metadata only — let the user know and suggest alternatives.';
 
+    // Video guides context — inject available video guides so AI can suggest them
+    var videoGuideContext = '';
+    if (_videoGuidesData && _videoGuidesData.length > 0) {
+      videoGuideContext = '\n\n[VIDEO GUIDES - IMPORTANT] You have access to video instruction guides. When a user asks about how to use the platform, has trouble navigating, or needs help with any feature, you should:\n1. First give a brief text instruction to help them.\n2. Then suggest watching the relevant video guide for a detailed walkthrough.\nWhen suggesting a video, use this EXACT format so it renders as an embedded player:\n[video_guide:YOUTUBE_ID:TITLE]\nFor example: [video_guide:abc123:How to start Speaking Mock]\n\nAvailable video guides:\n';
+      _videoGuidesData.forEach(function(v) {
+        var vid = '';
+        if (v.youtubeUrl) {
+          var m = v.youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+          vid = m ? m[1] : '';
+        }
+        var deviceLabel = v.device === 'phone' ? 'Phone/Tablet' : 'PC/Mac';
+        videoGuideContext += '- "' + (v.title || 'Untitled') + '" [' + deviceLabel + '] (YouTube ID: ' + vid + ')';
+        if (v.aiPrompt) videoGuideContext += ' — ' + v.aiPrompt;
+        videoGuideContext += '\n';
+      });
+      videoGuideContext += '\nIMPORTANT: When suggesting a video, always ask which device the user is using (phone or computer) if not clear, then suggest the matching video. If the user\'s device type is known, only suggest the video matching their device. Always provide a quick text instruction first, then offer the video as additional help.';
+    }
+
     var catPrompts = {
       support: 'You are in the SUPPORT tab. Help with technical issues, exam questions, platform navigation. Be patient and solution-oriented. If admin-provided context files are attached above, use them to answer questions accurately.',
       premium: 'You are in the PREMIUM tab. The user is interested in premium access or mock codes. If admin-provided context files (e.g. PDF with mock codes) are attached above, use them to answer the user\'s questions — including giving specific codes or information from those files when asked. Additionally, if the user has not shared their details yet, politely ask for their full name, phone number, and email so our admin team can assist further.',
@@ -802,7 +831,7 @@
     var recent = (messages[currentCategory] || []).slice(-11, -1);
 
     // System turn — text + optional prompt files (image/PDF/audio)
-    var systemParts = [{ text: 'System: ' + systemPrompt + capabilityNote + '\n\n' + catInst }];
+    var systemParts = [{ text: 'System: ' + systemPrompt + capabilityNote + videoGuideContext + '\n\n' + catInst }];
     var promptFilesArr = await loadPromptFilesData();
     console.log('[ChatBubble] Prompt files loaded:', promptFilesArr.length, promptFilesArr.map(function(f){ return f.url; }));
     for (var pfi = 0; pfi < promptFilesArr.length; pfi++) {
@@ -1143,7 +1172,26 @@
 
   function formatMsgText(text) {
     // Convert markdown bold and newlines
-    return escapeHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    var html = escapeHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    // Render video guide embeds: [video_guide:YOUTUBE_ID:TITLE]
+    html = html.replace(/\[video_guide:([a-zA-Z0-9_-]{11}):([^\]]*)\]/g, function(match, vid, title) {
+      return '<div class="cb-video-embed" style="margin:8px 0;border-radius:12px;overflow:hidden;border:1.5px solid rgba(239,68,68,0.3);background:#fef2f2;cursor:pointer;" onclick="(function(v,t){' +
+        'if(typeof openVideoGuidePlayer===\'function\'){openVideoGuidePlayer(v,t);}' +
+        'else{window.open(\'https://www.youtube.com/watch?v=\'+v,\'_blank\');}' +
+        '})(this.dataset.vid,this.dataset.title)" data-vid="' + vid + '" data-title="' + title + '">' +
+        '<div style="position:relative;width:100%;padding-bottom:56.25%;background:url(https://img.youtube.com/vi/' + vid + '/mqdefault.jpg) center/cover #0f172a;">' +
+          '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(239,68,68,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">' +
+            '<span style="color:white;font-size:20px;margin-left:3px;">▶</span>' +
+          '</div>' +
+        '</div>' +
+        '<div style="padding:8px 12px;display:flex;align-items:center;gap:8px;">' +
+          '<span style="font-size:16px;">🎬</span>' +
+          '<span style="font-size:12px;font-weight:600;color:#dc2626;">' + title + '</span>' +
+          '<span style="margin-left:auto;font-size:11px;color:#64748b;">Tap to watch →</span>' +
+        '</div>' +
+      '</div>';
+    });
+    return html;
   }
 
   function escapeHtml(s) {
