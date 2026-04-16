@@ -3734,9 +3734,11 @@
       showViewerLoader();
 
       fetch(reportUrl)
-        .then(function (resp) { return resp.blob(); })
-        .then(function (blob) {
-          var htmlBlob = new Blob([blob], { type: 'text/html; charset=utf-8' });
+        .then(function (resp) { return resp.text(); })
+        .then(function (htmlText) {
+          htmlText = injectMobileReportCSS(htmlText);
+          htmlText = injectWritingMobileCSS(htmlText);
+          var htmlBlob = new Blob([htmlText], { type: 'text/html; charset=utf-8' });
           var blobUrl = URL.createObjectURL(htmlBlob);
           iframe.src = blobUrl;
           iframe.dataset.blobUrl = blobUrl;
@@ -3893,6 +3895,8 @@
       // HTML reports
       for (var h = 0; h < htmlFiles.length; h++) {
         var htmlContent = await zip.files[htmlFiles[h]].async('text');
+        htmlContent = injectMobileReportCSS(htmlContent);
+        htmlContent = injectWritingMobileCSS(htmlContent);
         var htmlBlob = new Blob([htmlContent], { type: 'text/html; charset=utf-8' });
         var htmlUrl = URL.createObjectURL(htmlBlob);
         allBlobUrls.push(htmlUrl);
@@ -3914,6 +3918,7 @@
         if (speakingHtml) {
           var spContent = await speakingZip.files[speakingHtml].async('text');
           spContent = await extractAudioAndPatchHtml(speakingZip, spContent);
+          spContent = injectMobileReportCSS(spContent);
           var spBlob = new Blob([spContent], { type: 'text/html; charset=utf-8' });
           var spUrl = URL.createObjectURL(spBlob);
           allBlobUrls.push(spUrl);
