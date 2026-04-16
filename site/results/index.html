@@ -3999,13 +3999,18 @@
       'part3':   {label:'Part 3 Marking Criteria (Q8)',rows:'<tr><th>Score</th><th>Level</th><th>Descriptors</th></tr><tr><td><b>6</b></td><td>Above C1</td><td>Above the C1 level.</td></tr><tr><td><b>5</b></td><td>C1</td><td>Clear, complex grammar accurate, range of vocabulary, intelligible pronunciation.</td></tr><tr><td><b>4</b></td><td>Higher B2</td><td>Addresses each section: some complex grammar, sufficient vocabulary.</td></tr><tr><td><b>3</b></td><td>Lower B2</td><td>Only one section addressed.</td></tr><tr><td><b>2</b></td><td>Higher B1</td><td>Cannot construct coherent sustained response.</td></tr><tr><td><b>1</b></td><td>Lower B1</td><td>Reads directly from prompts.</td></tr><tr><td><b>0</b></td><td>Below B1</td><td>Below B1 or off-topic.</td></tr>'}
     };
 
+    // Script that repositions .criteria-toggle elements to after the scoring section
+    var REPOSITION_SCRIPT = '<script>document.querySelectorAll(".criteria-toggle").forEach(function(ct){var col=ct.closest(".questions-column");if(!col)return;var scoring=col.querySelector("[data-group]");if(!scoring)return;var wrap=scoring.parentElement;while(wrap&&wrap!==col&&!wrap.querySelector("h4"))wrap=wrap.parentElement;if(wrap&&wrap!==col&&wrap.parentElement===col){wrap.after(ct);}});<\/script>';
+
     function injectMobileReportCSS(html) {
       if (!html || html.indexOf('section-wrapper') === -1) return html;
-      // Already has mobile criteria toggles — just ensure CSS is present
+      // Already has mobile criteria toggles — ensure CSS + reposition to after scoring
       if (html.indexOf('criteria-toggle') !== -1) {
         if (html.indexOf('@media(max-width:768px)') === -1 && html.indexOf('@media (max-width: 768px)') === -1) {
           html = html.replace('</head>', REPORT_MOBILE_CSS + '</head>');
         }
+        // Always inject repositioning script so toggles end up after scoring
+        html = html.replace('</body>', REPOSITION_SCRIPT + '</body>');
         return html;
       }
       // Add CSS
