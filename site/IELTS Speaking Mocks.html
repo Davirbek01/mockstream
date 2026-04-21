@@ -6194,7 +6194,14 @@
       if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
       var routingMode = await _getAiRoutingMode('speaking');
       if (routingMode === 'gemma4') provider = 'gemma4';
-      console.log('[Transcribe] Provider:', provider);
+      // Text-only providers can't process audio — use the admin-chosen helper AI for transcription
+      if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
+        var helper = cp['scoring_transcription_provider'] || 'gemini';
+        console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
+        provider = helper;
+      } else {
+        console.log('[Transcribe] Provider:', provider);
+      }
 
       // OpenAI → Whisper API
       if (provider === 'openai') {

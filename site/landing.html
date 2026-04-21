@@ -19325,6 +19325,21 @@
     ];
 
     var _spCurrentProvider = 'gemini';
+    var _spTranscriptionProvider = 'gemini'; // helper AI for text-only providers
+
+    function _spSetTranscriptionHelper(h) {
+      _spTranscriptionProvider = h;
+      ['gemini','openai','claude'].forEach(function(k) {
+        var btn = document.getElementById('_spTrHelper_' + k);
+        if (!btn) return;
+        btn.style.background = (k === h) ? '#f59e0b' : 'transparent';
+        btn.style.color = (k === h) ? '#ffffff' : '#92400e';
+        btn.style.borderColor = '#f59e0b';
+      });
+      var note = document.getElementById('_spTrHelperNote');
+      var labels = { gemini: 'Gemini 2.0 Flash', openai: 'OpenAI Whisper', claude: 'Claude Sonnet' };
+      if (note) note.textContent = '✓ ' + (labels[h] || h) + ' will transcribe student audio, then ' + _spCurrentProvider.charAt(0).toUpperCase() + _spCurrentProvider.slice(1) + ' scores the text.';
+    }
 
     function _spSetProvider(p) {
       _spCurrentProvider = p;
@@ -19334,15 +19349,24 @@
       document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
       document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
       var warn = document.getElementById('_spAudioWarning');
+      var isTextOnly = (p === 'grok' || p === 'deepseek');
       if (!warn) {
         warn = document.createElement('div');
         warn.id = '_spAudioWarning';
-        warn.style.cssText = 'margin:8px 0 0;padding:8px 12px;background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;font-size:12px;color:#92400e;display:none;';
-        warn.textContent = '⚠️ Note: This provider is text-only. Speaking mocks will score based on transcript only — audio recordings cannot be listened to by this AI.';
+        warn.style.cssText = 'margin:8px 0 0;padding:10px 14px;background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;font-size:12px;color:#92400e;display:none;';
+        warn.innerHTML =
+          '<div style="font-weight:600;margin-bottom:8px;">⚠️ This provider cannot process audio. Choose a helper AI to transcribe speaking recordings:</div>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">' +
+            '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:5px 14px;border-radius:6px;border:1px solid #f59e0b;background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:#92400e;">✨ Gemini</button>' +
+            '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:5px 14px;border-radius:6px;border:1px solid #f59e0b;background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:#92400e;">🤖 OpenAI</button>' +
+            '<button id="_spTrHelper_claude" onclick="_spSetTranscriptionHelper(\'claude\')" style="padding:5px 14px;border-radius:6px;border:1px solid #f59e0b;background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:#92400e;">🟣 Claude</button>' +
+          '</div>' +
+          '<div id="_spTrHelperNote" style="font-size:11px;opacity:0.75;"></div>';
         var providerRow = document.querySelector('.sysprompt-provider-row');
         if (providerRow) providerRow.after(warn);
       }
-      warn.style.display = (p === 'grok' || p === 'deepseek') ? 'block' : 'none';
+      warn.style.display = isTextOnly ? 'block' : 'none';
+      if (isTextOnly) _spSetTranscriptionHelper(_spTranscriptionProvider);
     }
 
     // Tab switching
@@ -19449,6 +19473,7 @@
           if (el) el.value = map[key] || '';
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
+        if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
         status.innerHTML = '<span style="color:#10b981;">✓ Loaded ' + rows.length + ' saved prompt(s)</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Failed to load: ' + e.message + '</span>';
@@ -19491,6 +19516,10 @@
         var saved = 0, deleted = 0;
         await _spUpsertSetting('scoring_ai_provider', _spCurrentProvider);
         saved++;
+        if (_spCurrentProvider === 'grok' || _spCurrentProvider === 'deepseek') {
+          await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider);
+          saved++;
+        }
         for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
           var key = _SP_ALL_KEYS[i];
           var el = document.getElementById('sp_' + key);
