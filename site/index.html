@@ -3173,7 +3173,7 @@
     // ===== AI ROUTING MODE TOGGLE =====
     var _SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var _SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-    var _AI_ROUTER_KEY = 'ai_routing_mode';
+    var _AI_ROUTER_KEY = 'ai_routing_mode_' + ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
 
     function _applyAiRouterUI(mode) {
       var modes = ['api', 'gemma4', 'both'];
