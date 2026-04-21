@@ -7138,6 +7138,7 @@
         <button class="sysprompt-tab" data-tab="cefr-speaking">CEFR Speaking</button>
         <button class="sysprompt-tab" data-tab="ielts-writing">IELTS Writing</button>
         <button class="sysprompt-tab" data-tab="ielts-speaking">IELTS Speaking</button>
+        <button class="sysprompt-tab" data-tab="models">⚙️ Models</button>
       </div>
       <div class="sysprompt-body" id="sysPromptBody">
         <!-- CEFR Writing -->
@@ -7250,6 +7251,38 @@
           <div class="sysprompt-field">
             <label>Full Mock — User Prompt Template</label>
             <textarea id="sp_scoring_ielts_speaking_full_prompt" placeholder="User prompt template for IELTS full mock speaking..."></textarea>
+          </div>
+        </div>
+
+        <!-- ⚙️ Models -->
+        <div class="sysprompt-section" id="sec-models">
+          <h4 style="margin:0 0 6px;font-size:15px;">⚙️ AI Model Versions</h4>
+          <p style="margin:0 0 16px;font-size:12px;color:#888;">Update these when a provider releases a new model version. Leave blank to keep the current default.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="sysprompt-field" style="margin:0">
+              <label>OpenAI — Scoring model</label>
+              <input type="text" id="sp_scoring_model_openai" placeholder="gpt-4o-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>OpenAI — Transcription model (Whisper)</label>
+              <input type="text" id="sp_scoring_model_whisper" placeholder="whisper-1" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Gemini — Scoring &amp; Transcription model</label>
+              <input type="text" id="sp_scoring_model_gemini" placeholder="gemini-2.0-flash" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Claude model</label>
+              <input type="text" id="sp_scoring_model_claude" placeholder="claude-sonnet-4-20250514" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>Grok model</label>
+              <input type="text" id="sp_scoring_model_grok" placeholder="grok-3-mini" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0">
+              <label>DeepSeek model</label>
+              <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
           </div>
         </div>
       </div>
@@ -19321,7 +19354,10 @@
       'scoring_ielts_writing_full_system','scoring_ielts_writing_full_prompt',
       'scoring_ielts_speaking_system','scoring_ielts_speaking_prompt',
       'scoring_ielts_speaking_part_system','scoring_ielts_speaking_part_prompt',
-      'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt'
+      'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt',
+      'scoring_model_openai','scoring_model_whisper',
+      'scoring_model_gemini','scoring_model_claude',
+      'scoring_model_grok','scoring_model_deepseek'
     ];
 
     var _spCurrentProvider = 'gemini';

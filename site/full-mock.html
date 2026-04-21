@@ -8616,6 +8616,12 @@
           (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
           document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
           opts = opts || {};
+          var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
+          var _mdlWhisper  = (cp['scoring_model_whisper']  || '').trim() || 'whisper-1';
+          var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-2.0-flash';
+          var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
+          var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
+          var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
           var _hasImages = opts.contentParts && opts.contentParts.some(function(p){ return p.inline_data || p.inlineData; });
           var _imgNote = _hasImages ? '\n\n[NOTE: This AI provider cannot view images. Some questions reference pictures the candidate was shown. Score based on the question text and the candidate\'s response only. Do not penalize for image-related content you cannot see.]' : '';
           if (provider === 'openai') {
@@ -8627,7 +8633,7 @@
             if (opts.contentParts) uText = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
             uText += _imgNote;
             messages.push({ role: 'user', content: uText });
-            var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            var body = { model: _mdlOpenAI, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
@@ -8647,7 +8653,7 @@
             var uMsg = userPrompt;
             if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
             uMsg += _imgNote;
-            var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
+            var cBody = { model: _mdlClaude, max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
             if (systemText) cBody.system = systemText;
             if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
             return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getServerBackupKeys('claude').concat(_getBackupKeys('claude', cp)), async function(key) {
@@ -8670,7 +8676,7 @@
             if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
             uMsg += _imgNote;
             messages.push({ role: 'user', content: uMsg });
-            var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
+            var body = { model: _mdlGrok, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
             return await _callWithKeyRotation('grok', _GROK_KEY, _getServerBackupKeys('grok').concat(_getBackupKeys('grok', cp)), async function(key) {
@@ -8694,7 +8700,7 @@
             uMsg += _imgNote;
             if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
             messages.push({ role: 'user', content: uMsg });
-            var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
+            var body = { model: _mdlDeepseek, messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 8192);
             return await _callWithKeyRotation('deepseek', _DEEPSEEK_KEY, _getServerBackupKeys('deepseek').concat(_getBackupKeys('deepseek', cp)), async function(key) {
               var r = await fetch('https://api.deepseek.com/chat/completions', {
@@ -8743,7 +8749,7 @@
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
             return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
-              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + key, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
               });
               if (!r.ok) throw new Error('AI API error: ' + r.status);
@@ -8763,7 +8769,7 @@
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
             return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
-              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + key, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(gBody)
@@ -9137,12 +9143,13 @@ Empty responses = 0 points and skip analysis for that task.`;
 
           // OpenAI → Whisper API
           if (provider === 'openai') {
+            var _trWhisper = (cp['scoring_model_whisper'] || '').trim() || 'whisper-1';
             if (!API_KEY) { try { await getOpenAIKey(); } catch(e){} }
             if (API_KEY) {
               try {
                 var fd = new FormData();
                 fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
-                fd.append('model', 'whisper-1');
+                fd.append('model', _trWhisper);
                 fd.append('language', 'en');
                 return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
                   var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
@@ -9166,7 +9173,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                   var r = await fetch('https://api.anthropic.com/v1/messages', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-                    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: [
+                    body: JSON.stringify({ model: (cp['scoring_model_claude'] || '').trim() || 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: [
                       { type: 'text', text: 'Transcribe this audio exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
                       { type: 'document', source: { type: 'base64', media_type: blob.type || 'audio/webm', data: b64c } }
                     ]}]})
@@ -9184,7 +9191,7 @@ Empty responses = 0 points and skip analysis for that task.`;
           if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
           if (!GEMINI_KEY) throw new Error('No API key for transcription');
           var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
-          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [
               { text: 'Transcribe this audio recording exactly. Return ONLY the text or "[No speech detected]".' },
