@@ -5643,11 +5643,55 @@
       if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
     }
 
+    var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
+    async function _getAiRoutingMode(skill) {
+      skill = skill || 'writing';
+      if (_aiRoutingModeCache[skill] && Date.now() - (_aiRoutingModeCacheTime[skill] || 0) < 60000) return _aiRoutingModeCache[skill];
+      try {
+        var centerId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        var skillKey = 'ai_routing_mode_' + skill + '_' + centerId;
+        var legacyKey = 'ai_routing_mode_' + centerId;
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=in.(' + skillKey + ',' + legacyKey + ')&select=key,value', {
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+        });
+        var rows = await r.json();
+        var skillRow = Array.isArray(rows) && rows.find(function(x){ return x.key === skillKey; });
+        var legacyRow = Array.isArray(rows) && rows.find(function(x){ return x.key === legacyKey; });
+        _aiRoutingModeCache[skill] = (skillRow && skillRow.value) || (legacyRow && legacyRow.value) || 'api';
+      } catch(e) { _aiRoutingModeCache[skill] = 'api'; }
+      _aiRoutingModeCacheTime[skill] = Date.now();
+      return _aiRoutingModeCache[skill];
+    }
+
+    var _GEMMA4_URL = 'https://ai.mock-stream.com';
+    async function _callGemma4(promptText, timeoutMs) {
+      timeoutMs = timeoutMs || 120000;
+      var ctrl = new AbortController();
+      var timer = setTimeout(function(){ ctrl.abort(); }, timeoutMs);
+      try {
+        var resp = await fetch(_GEMMA4_URL + '/grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'scoring', prompt: promptText, text: '' }),
+          signal: ctrl.signal
+        });
+        clearTimeout(timer);
+        if (!resp.ok) throw new Error('Gemma4 HTTP ' + resp.status);
+        var d = await resp.json();
+        if (!d.ok) throw new Error(d.error || 'Gemma4 error');
+        return d.result;
+      } catch(e) { clearTimeout(timer); throw e; }
+    }
+
     async function _callScoringAI(systemText, userPrompt, opts) {
       var cp = await _loadScoringPrompts();
       var provider = cp['scoring_ai_provider'] || 'gemini';
       if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
-      console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
+
+      var routingMode = await _getAiRoutingMode(opts && opts.skill || 'writing');
+      if (routingMode === 'gemma4') { provider = 'gemma4'; }
+
+      console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase() + ' | Routing: ' + routingMode, 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
       (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
       opts = opts || {};
@@ -5720,6 +5764,29 @@
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
         var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
+      } else if (provider === 'gemma4') {
+        var _g4Text = (systemText ? systemText + '\n\n' : '') + userPrompt;
+        return await _callGemma4(_g4Text, 180000);
+      } else if (routingMode === 'both') {
+        var _bothText = (systemText ? systemText + '\n\n' : '') + userPrompt;
+        try {
+          console.log('[AI Routing] BOTH mode: trying Gemma4 first...');
+          return await _callGemma4(_bothText, 30000);
+        } catch(e) {
+          console.warn('[AI Routing] Gemma4 failed, falling back to Gemini:', e.message);
+        }
+        if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+        if (!GEMINI_KEY) throw new Error('No Gemini API key available');
+        var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3 } };
+        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
+        if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody) });
+        if (!r.ok) throw new Error('AI API error: ' + r.status);
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
       } else {
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -13347,7 +13414,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       const resultText = await attemptWithRetry(async () => {
         var _cp = await _loadScoringPrompts();
         var _sysInstr = _cp['scoring_cefr_writing_system'] || '';
-        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true });
+        return await _callScoringAI(_sysInstr, prompt, { temperature: 0.3, maxTokens: 16384, jsonMode: true, skill: 'writing' });
       });
 
       // Continue progress animation
@@ -16585,7 +16652,7 @@ ONLY ANALYZE THE TASKS SHOWN ABOVE (${selectedTaskNames.join(', ')}). PROVIDE CO
         // AI analysis (provider selected via System Prompts panel)
         {
           console.log('Running AI analysis...');
-          feedback = await _callScoringAI(systemPrompt, prompt, { temperature: 0.2, maxTokens: 16384 });
+          feedback = await _callScoringAI(systemPrompt, prompt, { temperature: 0.2, maxTokens: 16384, skill: 'writing' });
         }
 
         console.log('AI analysis complete');
