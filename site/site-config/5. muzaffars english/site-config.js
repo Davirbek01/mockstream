@@ -60,16 +60,32 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     var MAX_RETRIES = 2;
     var RETRY_DELAYS = [0, 5000]; // immediate + 5s retry
 
-    function attempt(n) {
-      // Rebuild FormData on retry (streams may be consumed)
+    var FALLBACK_BASE = 'https://davirbek.alwaysdata.net';
+
+    function buildBody() {
       var body = new FormData();
       body.append('testIdentifier', cfg.testIdentifier || '');
       body.append('skill', opts.skill || '');
       if (opts.text)    body.append('text', opts.text);
       if (opts.caption) body.append('caption', opts.caption);
       if (opts.file)    body.append('file', opts.file);
+      return body;
+    }
 
-      fetch(base + '/send-result', { method: 'POST', body: body })
+    function attemptFallback() {
+      if (base === FALLBACK_BASE) return;
+      console.log('[Routing] Trying fallback backend...');
+      fetch(FALLBACK_BASE + '/send-result', { method: 'POST', body: buildBody() })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d.ok) console.log('[Routing] \u2705 Sent via fallback backend');
+          else console.warn('[Routing] fallback also failed:', d.error);
+        })
+        .catch(function(e) { console.warn('[Routing] fallback fetch failed:', e); });
+    }
+
+    function attempt(n) {
+      fetch(base + '/send-result', { method: 'POST', body: buildBody() })
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d.ok) {
@@ -79,7 +95,7 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
             if (n < MAX_RETRIES - 1) {
               console.log('[Routing] Retrying in ' + (RETRY_DELAYS[n + 1] / 1000) + 's...');
               setTimeout(function () { attempt(n + 1); }, RETRY_DELAYS[n + 1]);
-            }
+            } else { attemptFallback(); }
           }
         })
         .catch(function (e) {
@@ -87,7 +103,7 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
           if (n < MAX_RETRIES - 1) {
             console.log('[Routing] Retrying in ' + (RETRY_DELAYS[n + 1] / 1000) + 's...');
             setTimeout(function () { attempt(n + 1); }, RETRY_DELAYS[n + 1]);
-          }
+          } else { attemptFallback(); }
         });
     }
 
