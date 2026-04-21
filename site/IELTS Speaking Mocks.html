@@ -6359,6 +6359,17 @@
           });
         });
       }
+      function deleteAudioFromDB(key) {
+        return openDB().then(db => {
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(DB_STORE, 'readwrite');
+            const store = tx.objectStore(DB_STORE);
+            const req = store.delete(key);
+            req.onsuccess = () => resolve();
+            req.onerror = e => reject(e.target.error);
+          });
+        });
+      }
       function hasAudioInDB(key) {
         return getAudioFromDB(key).then(blob => !!blob);
       }
@@ -6722,6 +6733,13 @@
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
+        const key = 'speaking_audio_q' + (qIndex + 1);
+
+        // Remove stale clip for this question to avoid previous-session leakage.
+        deleteAudioFromDB(key).catch(function (e) {
+          console.warn('Could not clear previous audio for', key, e && e.message ? e.message : e);
+        });
+
         ensureMediaStream().then(stream => {
           if (!stream) return;
 
@@ -6736,7 +6754,6 @@
             };
             mediaRecorder.onstop = () => {
               const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
-              const key = 'speaking_audio_q' + (currentQIndex + 1);
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
                 .catch(e => alert('Could not save audio: ' + e.message));
@@ -8718,6 +8735,8 @@
       // Modified to include audio preloading for OpenAI TTS, Gemini TTS and GTTS
       window._beginFlowFromTutorial = async function () {
         try {
+          var _resumeSession = false;
+
           // Check if this mock has pre-generated audio files (skip all TTS preloading)
           const hasPreGenAudio = window.SPEAKING_TEST_DATA_CACHED &&
             window.SPEAKING_TEST_DATA_CACHED.questions &&
@@ -8742,6 +8761,7 @@
               if (session && session.session_data.mockNumber === (window.SELECTED_MOCK_NUMBER || '01')) {
                 var choice = await SessionRecovery.prompt(session);
                 if (choice === 'resume') {
+                  _resumeSession = true;
                   window._srResumeIndex = session.session_data.questionIndex || 0;
                 } else {
                   await SessionRecovery.clear();
@@ -8749,10 +8769,17 @@
                 }
               } else if (session) {
                 await SessionRecovery.clear();
+                await clearAudioDB();
               }
             } catch(e) { console.warn('Session recovery check failed:', e); }
             SessionRecovery.start();
           }
+
+          // Fresh start (non-resume): clear old IndexedDB audio from previous sessions.
+          if (!_resumeSession) {
+            await clearAudioDB();
+          }
+
           beginFlow();
         } catch (e) {
           console.error('Error starting flow:', e);
