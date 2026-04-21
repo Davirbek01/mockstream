@@ -7529,6 +7529,168 @@
       }
     }
 
+    function _resolveSpeakingTranscriptionProvider(cp) {
+      var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') {
+        provider = String(window._centerConfig.aiProvider).toLowerCase();
+      }
+      if (provider === 'grok' || provider === 'deepseek') {
+        var helper = (cp['scoring_transcription_provider'] || cp['scoring_transcribe_helper_ai'] || 'gemini').toString().trim().toLowerCase();
+        if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini') helper = 'gemini';
+        console.log('[Transcribe] Text-only provider (' + provider + ') using helper:', helper);
+        provider = helper;
+      }
+      return provider;
+    }
+
+    async function _blobToBase64(blob) {
+      return await new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onloadend = function () { resolve(reader.result.split(',')[1]); };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function _transcribeAudioBlob(blob, cpOverride) {
+      var cp = cpOverride || await _loadScoringPrompts();
+      var provider = _resolveSpeakingTranscriptionProvider(cp);
+
+      // OpenAI transcription (Whisper family)
+      if (provider === 'openai') {
+        var _trWhisper = (cp['scoring_model_whisper'] || '').trim() || 'whisper-1';
+        if (!API_KEY) { try { await getKey(); } catch (e) {} }
+        if (API_KEY) {
+          var fd = new FormData();
+          fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+          fd.append('model', _trWhisper);
+          fd.append('language', 'en');
+          var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + API_KEY },
+            body: fd
+          });
+          if (!r.ok) {
+            var _failedOpenAITr = API_KEY;
+            API_KEY = null;
+            try { await getKey(_failedOpenAITr); } catch (e) {}
+            if (API_KEY) {
+              fd = new FormData();
+              fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+              fd.append('model', _trWhisper);
+              fd.append('language', 'en');
+              r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + API_KEY },
+                body: fd
+              });
+            }
+          }
+          if (r.ok) {
+            var j = await r.json();
+            return (j.text || '[No speech detected]').trim();
+          }
+        }
+      }
+
+      // Claude audio transcription
+      if (provider === 'claude') {
+        if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch (e) {} }
+        if (_CLAUDE_KEY) {
+          var b64c = await _blobToBase64(blob);
+          var r = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': _CLAUDE_KEY,
+              'anthropic-version': '2023-06-01',
+              'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+              model: (cp['scoring_model_claude'] || '').trim() || 'claude-sonnet-4-20250514',
+              max_tokens: 1024,
+              messages: [{
+                role: 'user',
+                content: [
+                  { type: 'text', text: 'Transcribe this audio exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+                  { type: 'document', source: { type: 'base64', media_type: blob.type || 'audio/webm', data: b64c } }
+                ]
+              }]
+            })
+          });
+          if (!r.ok) {
+            var _failedClaudeTr = _CLAUDE_KEY;
+            _CLAUDE_KEY = null;
+            try { _CLAUDE_KEY = await _fetchProviderKey('claude', _failedClaudeTr); } catch (e) {}
+            if (_CLAUDE_KEY) {
+              r = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-api-key': _CLAUDE_KEY,
+                  'anthropic-version': '2023-06-01',
+                  'anthropic-dangerous-direct-browser-access': 'true'
+                },
+                body: JSON.stringify({
+                  model: (cp['scoring_model_claude'] || '').trim() || 'claude-sonnet-4-20250514',
+                  max_tokens: 1024,
+                  messages: [{
+                    role: 'user',
+                    content: [
+                      { type: 'text', text: 'Transcribe this audio exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+                      { type: 'document', source: { type: 'base64', media_type: blob.type || 'audio/webm', data: b64c } }
+                    ]
+                  }]
+                })
+              });
+            }
+          }
+          if (r.ok) {
+            var cj = await r.json();
+            if (cj && !cj.error) {
+              return (cj.content && cj.content[0] && cj.content[0].text ? cj.content[0].text : '[No speech detected]').trim();
+            }
+          }
+        }
+      }
+
+      // Gemini transcription (primary for gemini; fallback for others)
+      if (!GEMINI_KEY) { try { await getGeminiKey(); } catch (e) {} }
+      if (!GEMINI_KEY) throw new Error('No API key for transcription');
+      var b64g = await _blobToBase64(blob);
+      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+            { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
+          ]}],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+        })
+      });
+      if (!gr.ok) {
+        var _failedGeminiTr = GEMINI_KEY;
+        GEMINI_KEY = null;
+        try { await getGeminiKey(_failedGeminiTr); } catch (e) {}
+        if (!GEMINI_KEY) throw new Error('Gemini transcribe error: ' + gr.status);
+        gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [
+              { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+              { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
+            ]}],
+            generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+          })
+        });
+      }
+      if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
+      var gd = await gr.json();
+      return (gd.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]').trim();
+    }
+
     // JSZip CDN
     const jszipScript = document.createElement('script');
     jszipScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
@@ -14311,28 +14473,10 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             console.log(`🎯 Practice mode: filtering to Q${minQ}-Q${maxQ} (${practicePart}), ${answers.length} answers`);
           }
 
-          // Determine transcription provider from the same admin scoring setting
+          // Determine transcription provider from admin settings (with helper fallback for text-only AIs)
           var _cpTranscribe = await _loadScoringPrompts();
-          var _transcribeProvider = (_cpTranscribe['scoring_ai_provider'] || 'gemini').toLowerCase();
-          if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') {
-            _transcribeProvider = String(window._centerConfig.aiProvider).toLowerCase();
-          }
-          var _useOpenAiTranscribe = _transcribeProvider === 'openai';
-
-          if (_useOpenAiTranscribe) {
-            if (!API_KEY) { try { await getKey(); } catch(e) {} }
-            if (!API_KEY) {
-              console.error('Failed to get OpenAI key for auto AI transcription');
-              return null;
-            }
-          } else {
-            if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e) {} }
-            if (!GEMINI_KEY) {
-              console.error('Failed to get Gemini key for auto AI transcription');
-              return null;
-            }
-          }
-          console.log('[Transcribe] Provider:', _useOpenAiTranscribe ? 'openai/whisper' : 'gemini');
+          var _resolvedTranscribeProvider = _resolveSpeakingTranscriptionProvider(_cpTranscribe);
+          console.log('[Transcribe] Provider:', _resolvedTranscribeProvider);
 
           // Start progress animation
           updateProgress(isPractice ? practicePart : 'p11', 10, 'Transcribing...');
@@ -14352,97 +14496,9 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
               // Add delay between requests to avoid rate limiting
               if (i > 0) await new Promise(r => setTimeout(r, 2000));
 
-              if (_useOpenAiTranscribe) {
-                var _trWhisper = (_cpTranscribe['scoring_model_whisper'] || '').trim() || 'whisper-1';
-                var _fd = new FormData();
-                _fd.append('file', new File([blob], `question_${qNum}.webm`, { type: 'audio/webm' }));
-                _fd.append('model', _trWhisper);
-                _fd.append('language', 'en');
-
-                var transcribeResp = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-                  method: 'POST',
-                  headers: { 'Authorization': 'Bearer ' + API_KEY },
-                  body: _fd
-                });
-
-                if (!transcribeResp.ok) {
-                  console.warn('[Transcribe/OpenAI] Request failed (' + transcribeResp.status + ') — re-fetching backup key...');
-                  var _failedOpenAITr = API_KEY;
-                  API_KEY = null;
-                  try { await getKey(_failedOpenAITr); } catch(e) {}
-                  if (API_KEY) {
-                    _fd = new FormData();
-                    _fd.append('file', new File([blob], `question_${qNum}.webm`, { type: 'audio/webm' }));
-                    _fd.append('model', _trWhisper);
-                    _fd.append('language', 'en');
-                    transcribeResp = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-                      method: 'POST',
-                      headers: { 'Authorization': 'Bearer ' + API_KEY },
-                      body: _fd
-                    });
-                  }
-                }
-
-                if (transcribeResp.ok) {
-                  var _trData = await transcribeResp.json();
-                  transcriptions.push({ questionNum: qNum, text: (_trData.text || '[No speech]').trim() });
-                  console.log(`✅ Q${qNum} transcribed (OpenAI)`);
-                } else {
-                  transcriptions.push({ questionNum: qNum, text: '[Transcription failed]' });
-                }
-              } else {
-                // Convert blob to base64 for Gemini audio inline_data
-                const base64Audio = await new Promise((resolve, reject) => {
-                  const reader = new FileReader();
-                  reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                  reader.onerror = reject;
-                  reader.readAsDataURL(blob);
-                });
-
-                var transcribeResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    contents: [{
-                      parts: [
-                        { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech is detected, return "[No speech]".' },
-                        { inline_data: { mime_type: 'audio/webm', data: base64Audio } }
-                      ]
-                    }],
-                    generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
-                  })
-                });
-
-                if (!transcribeResp.ok) {
-                  console.warn('[Transcribe/Gemini] Request failed (' + transcribeResp.status + ') — re-fetching backup key...');
-                  var _failedGeminiTr = GEMINI_KEY;
-                  GEMINI_KEY = null;
-                  try { await getGeminiKey(_failedGeminiTr); } catch(e) {}
-                  if (GEMINI_KEY) {
-                    transcribeResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        contents: [{
-                          parts: [
-                            { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech is detected, return "[No speech]".' },
-                            { inline_data: { mime_type: 'audio/webm', data: base64Audio } }
-                          ]
-                        }],
-                        generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
-                      })
-                    });
-                  }
-                }
-
-                if (transcribeResp.ok) {
-                  const data = await transcribeResp.json();
-                  transcriptions.push({ questionNum: qNum, text: (data.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech]').trim() });
-                  console.log(`✅ Q${qNum} transcribed (Gemini)`);
-                } else {
-                  transcriptions.push({ questionNum: qNum, text: '[Transcription failed]' });
-                }
-              }
+              const transcribedText = await _transcribeAudioBlob(blob, _cpTranscribe);
+              transcriptions.push({ questionNum: qNum, text: transcribedText });
+              console.log(`✅ Q${qNum} transcribed`);
             } catch (err) {
               console.error(`Error transcribing Q${qNum}:`, err);
               transcriptions.push({ questionNum: qNum, text: '[Error]' });
