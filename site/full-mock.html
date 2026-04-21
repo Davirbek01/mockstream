@@ -9124,8 +9124,13 @@ Empty responses = 0 points and skip analysis for that task.`;
           // Text-only providers can't process audio — use the admin-chosen helper AI for transcription
           if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
             var helper = cp['scoring_transcription_provider'] || 'gemini';
-            console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
-            provider = helper;
+            // If admin explicitly set the same provider as helper, attempt it directly (future capability)
+            if (helper === provider) {
+              console.log('[Transcribe] Direct mode for', provider, '(may have gained audio support)');
+            } else {
+              console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
+              provider = helper;
+            }
           } else {
             console.log('[Transcribe] Provider:', provider);
           }
