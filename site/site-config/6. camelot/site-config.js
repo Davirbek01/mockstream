@@ -36,33 +36,20 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     if (!base) return;
     var MAX_RETRIES = 2;
     var RETRY_DELAYS = [0, 5000];
-    var FALLBACK_BASE = 'https://davirbek.alwaysdata.net';
-    function buildBody() {
+    function attempt(n) {
       var body = new FormData();
       body.append('testIdentifier', cfg.testIdentifier || '');
       body.append('skill', opts.skill || '');
       if (opts.text) body.append('text', opts.text);
       if (opts.caption) body.append('caption', opts.caption);
       if (opts.file) body.append('file', opts.file);
-      return body;
-    }
-    function attemptFallback() {
-      if (base === FALLBACK_BASE) return;
-      fetch(FALLBACK_BASE + '/send-result', { method: 'POST', body: buildBody() })
-        .then(function(r) { return r.json(); })
-        .then(function(d) { if (d.ok) console.log('[Routing] \u2705 Sent via fallback backend'); })
-        .catch(function() {});
-    }
-    function attempt(n) {
-      fetch(base + '/send-result', { method: 'POST', body: buildBody() })
+      fetch(base + '/send-result', { method: 'POST', body: body })
         .then(function(r) { return r.json(); })
         .then(function(d) {
           if (!d.ok && n < MAX_RETRIES - 1) setTimeout(function() { attempt(n + 1); }, RETRY_DELAYS[n + 1]);
-          else if (!d.ok) attemptFallback();
         })
         .catch(function() {
           if (n < MAX_RETRIES - 1) setTimeout(function() { attempt(n + 1); }, RETRY_DELAYS[n + 1]);
-          else attemptFallback();
         });
     }
     attempt(0);
