@@ -7396,7 +7396,7 @@
           Full Speaking Mock
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All parts • Timed</div>
         </button>
-        <button onclick="_speakingModePartBased()"
+        <button id="speakingPracticeBtn" onclick="_speakingModePartBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Based Practice
@@ -7471,7 +7471,7 @@
           Full Writing Mock
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All tasks • 60 min timer</div>
         </button>
-        <button onclick="_writingModeTaskBased()"
+        <button id="cefrWritingPracticeBtn" onclick="_writingModeTaskBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Task Based Practice
@@ -7553,7 +7553,7 @@
           Full Writing Mock
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">Both tasks • 60 min timer</div>
         </button>
-        <button onclick="_ieltsWritingModeTaskBased()"
+        <button id="ieltsWritingPracticeBtn" onclick="_ieltsWritingModeTaskBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Task Based Practice
@@ -7650,7 +7650,7 @@
           Full Reading Test
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 3 passages • 60 min</div>
         </button>
-        <button onclick="_ieltsReadingModePassageBased()"
+        <button id="ieltsReadingPracticeBtn" onclick="_ieltsReadingModePassageBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Passage Practice
@@ -7717,7 +7717,7 @@
           Full Reading Test
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 5 parts • 60 min</div>
         </button>
-        <button onclick="_cefrReadingModePartBased()"
+        <button id="cefrReadingPracticeBtn" onclick="_cefrReadingModePartBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
@@ -7827,7 +7827,7 @@
           Full Listening Test
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 6 parts • 40 min</div>
         </button>
-        <button onclick="_cefrListeningModePartBased()"
+        <button id="cefrListeningPracticeBtn" onclick="_cefrListeningModePartBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
@@ -7915,7 +7915,7 @@
           Full Listening Test
           <div style="font-size:11px;font-weight:400;opacity:0.85;margin-top:4px;">All 4 parts • 40 min</div>
         </button>
-        <button onclick="_ieltsListeningModePartBased()"
+        <button id="ieltsListeningPracticeBtn" onclick="_ieltsListeningModePartBased()"
           style="flex:1;min-width:180px;padding:18px 16px;background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 100%);color:white;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.3);">
           <div style="font-size:28px;margin-bottom:6px;">🎯</div>
           Part Practice
@@ -8537,12 +8537,14 @@
         var label = document.getElementById('writingModeMockLabel');
         var num = _extractWritingMockNumber(pageUrl);
         if (label) label.textContent = 'CEFR Writing Mock ' + (num || '');
+        _applyPracticeState('cefrWritingPracticeBtn', 'cefr_writing');
         document.getElementById('writingModeModal').style.display = 'flex';
       } else if (category === 'ielts-writing') {
         _pendingIeltsWritingLaunch = { pageUrl, category };
         var label = document.getElementById('ieltsWritingModeMockLabel');
         var num = _extractWritingMockNumber(pageUrl);
         if (label) label.textContent = 'IELTS Writing Mock ' + (num || '');
+        _applyPracticeState('ieltsWritingPracticeBtn', 'ielts_writing');
         document.getElementById('ieltsWritingModeModal').style.display = 'flex';
       } else {
         loadMock(pageUrl, 'writing');
@@ -8629,6 +8631,8 @@
       } else {
         if (label) label.textContent = 'IELTS Speaking Mock ' + (num || '');
       }
+      var _spMockKey = (_pendingSpeakingLaunch && _pendingSpeakingLaunch.category === 'ielts-speaking') ? 'ielts_speaking' : 'cefr_speaking';
+      _applyPracticeState('speakingPracticeBtn', _spMockKey);
       document.getElementById('speakingModeModal').style.display = 'flex';
     }
 
@@ -8986,6 +8990,38 @@
     // --- Reading Access Code Modal Logic ---
     let _pendingReadingMock = null;
 
+    // ─── Practice Mode Enforcement in Mode Modals ───────────────────────────
+    // Greys out + disables the Part Practice button when admin disables practice mode.
+    function _applyPracticeState(btnId, mockKey) {
+      var btn = document.getElementById(btnId);
+      if (!btn) return;
+      var cc = window._centerConfig;
+      var disabled = cc && cc.mocks && cc.mocks[mockKey + '_practice'] === 'disabled';
+      if (disabled) {
+        btn.disabled = true;
+        btn.style.cssText = btn.style.cssText.replace(/background:[^;]+;/, '')
+          .replace(/box-shadow:[^;]+;/, '');
+        btn.style.background = 'linear-gradient(135deg,#9ca3af 0%,#6b7280 100%)';
+        btn.style.boxShadow = 'none';
+        btn.style.opacity = '0.65';
+        btn.style.cursor = 'not-allowed';
+        // Add deactivated badge if not already present
+        if (!btn.querySelector('._cgPracticeOff')) {
+          var badge = document.createElement('div');
+          badge.className = '_cgPracticeOff';
+          badge.style.cssText = 'font-size:10px;font-weight:700;background:rgba(0,0,0,0.3);border-radius:6px;padding:2px 7px;margin-top:5px;letter-spacing:0.5px;';
+          badge.textContent = '🚫 Deactivated';
+          btn.appendChild(badge);
+        }
+      } else {
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = '';
+        var existing = btn.querySelector('._cgPracticeOff');
+        if (existing) existing.remove();
+      }
+    }
+
     // --- IELTS Reading Mode Modal Logic ---
     var _pendingIeltsReadingUrl = null;
 
@@ -8995,6 +9031,7 @@
         var mockNum = _extractReadingMockNumber(pageUrl) || '??';
         var label = document.getElementById('ieltsReadingModeMockLabel');
         if (label) label.textContent = 'IELTS Reading Mock ' + mockNum;
+        _applyPracticeState('ieltsReadingPracticeBtn', 'ielts_reading');
         var modal = document.getElementById('ieltsReadingModeModal');
         if (modal) modal.style.display = 'flex';
       } else if (category === 'cefr-reading') {
@@ -9002,6 +9039,7 @@
         var mockNum = _extractReadingMockNumber(pageUrl) || '??';
         var label = document.getElementById('cefrReadingModeMockLabel');
         if (label) label.textContent = 'CEFR Reading Mock ' + mockNum;
+        _applyPracticeState('cefrReadingPracticeBtn', 'cefr_reading');
         var modal = document.getElementById('cefrReadingModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
@@ -9340,6 +9378,7 @@
         var mockNum = _extractListeningMockNumber(pageUrl) || '??';
         var label = document.getElementById('cefrListeningModeMockLabel');
         if (label) label.textContent = 'CEFR Listening Mock ' + mockNum;
+        _applyPracticeState('cefrListeningPracticeBtn', 'cefr_listening');
         var modal = document.getElementById('cefrListeningModeModal');
         if (modal) modal.style.display = 'flex';
       } else if (category === 'ielts-listening') {
@@ -9347,6 +9386,7 @@
         var mockNum = _extractListeningMockNumber(pageUrl) || '??';
         var label = document.getElementById('ieltsListeningModeMockLabel');
         if (label) label.textContent = 'IELTS Listening Mock ' + mockNum;
+        _applyPracticeState('ieltsListeningPracticeBtn', 'ielts_listening');
         var modal = document.getElementById('ieltsListeningModeModal');
         if (modal) modal.style.display = 'flex';
       } else {
