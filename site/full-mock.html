@@ -9114,16 +9114,83 @@ Empty responses = 0 points and skip analysis for that task.`;
             `;
         }
 
-        // Analyze speaking with Gemini AI - sequential transcription + analysis
+        // Transcribe a single audio blob using the admin's selected AI provider
+        async function _transcribeAudioBlob(blob) {
+          var cp = await _loadScoringPrompts();
+          var provider = cp['scoring_ai_provider'] || 'gemini';
+          if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+          var routingMode = await _getAiRoutingMode('speaking');
+          if (routingMode === 'gemma4') provider = 'gemma4';
+          console.log('[Transcribe] Provider:', provider);
+
+          // OpenAI → Whisper API
+          if (provider === 'openai') {
+            if (!API_KEY) { try { await getOpenAIKey(); } catch(e){} }
+            if (API_KEY) {
+              try {
+                var fd = new FormData();
+                fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+                fd.append('model', 'whisper-1');
+                fd.append('language', 'en');
+                return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
+                  var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+                    method: 'POST', headers: { 'Authorization': 'Bearer ' + key }, body: fd
+                  });
+                  if (!r.ok) throw new Error('Whisper error: ' + r.status);
+                  var j = await r.json();
+                  return (j.text || '[No speech detected]').trim();
+                });
+              } catch(e) { console.warn('[Transcribe] Whisper failed, falling back to Gemini:', e.message); }
+            }
+          }
+
+          // Claude → audio in message
+          if (provider === 'claude') {
+            if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+            if (_CLAUDE_KEY) {
+              try {
+                var b64c = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
+                return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getServerBackupKeys('claude').concat(_getBackupKeys('claude', cp)), async function(key) {
+                  var r = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+                    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: [
+                      { type: 'text', text: 'Transcribe this audio exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+                      { type: 'document', source: { type: 'base64', media_type: blob.type || 'audio/webm', data: b64c } }
+                    ]}]})
+                  });
+                  if (!r.ok) throw new Error('Claude audio error: ' + r.status);
+                  var j = await r.json();
+                  if (j.error) throw new Error(j.error.message);
+                  return (j.content[0].text || '[No speech detected]').trim();
+                });
+              } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
+            }
+          }
+
+          // Gemini (primary for 'gemini'; fallback for grok, deepseek, gemma4)
+          if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+          if (!GEMINI_KEY) throw new Error('No API key for transcription');
+          var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
+          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [
+              { text: 'Transcribe this audio recording exactly. Return ONLY the text or "[No speech detected]".' },
+              { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
+            ]}], generationConfig: { temperature: 0.1 } })
+          });
+          if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
+          var gd = await gr.json();
+          return (gd.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]').trim();
+        }
+
+        // Analyze speaking AI - sequential transcription + analysis
         async function analyzeSpeakingWithGemini(retryCount = 0) {
             try {
                 // Wait 4 seconds to ensure all asynchronous DB saves are completed
                 console.log('[AI] Stabilizing audio database before retrieval...');
                 updateSpeakingProgress('Preparing audio...', 5);
                 await new Promise(r => setTimeout(r, 4000));
-
-                if (!GEMINI_KEY) await getGeminiKey();
-                if (!GEMINI_KEY) throw new Error('No API key');
 
                 // Retrieve speaking recordings from IndexedDB
                 updateSpeakingProgress('Loading recordings...', 10);
@@ -9139,7 +9206,7 @@ Empty responses = 0 points and skip analysis for that task.`;
                     return { raw_score: 0, certificate_score: 0, cefr_level: 'N/A', feedback: 'No speaking recordings found. Please refresh and record again.', recorded_count: 0 };
                 }
 
-                // Transcribe sequentially with 1.5s delay to avoid Gemini rate limits
+                // Transcribe sequentially using the admin-selected AI provider
                 const transcriptions = [];
                 const transcribeStartProgress = 15;
                 const transcribeEndProgress = 75;
@@ -9152,31 +9219,8 @@ Empty responses = 0 points and skip analysis for that task.`;
                         if (i > 0) await new Promise(r => setTimeout(r, 1500));
                         console.log(`[AI] Transcribing ${rec.q}/${recordings.length}...`);
                         updateSpeakingProgress(`Transcribing Q${rec.q}/${recordings.length}...`, currentProgress);
-
-                        const base64Audio = await new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                            reader.onerror = reject;
-                            reader.readAsDataURL(rec.blob);
-                        });
-
-                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                contents: [{
-                                    parts: [
-                                        { text: 'Transcribe this audio recording exactly. Return ONLY the text or "[No speech detected]".' },
-                                        { inline_data: { mime_type: rec.blob.type, data: base64Audio } }
-                                    ]
-                                }],
-                                generationConfig: { temperature: 0.1 }
-                            })
-                        });
-
-                        const data = await res.json();
-                        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech]';
-                        transcriptions.push({ q: rec.q, text: text.trim() });
+                        const text = await _transcribeAudioBlob(rec.blob);
+                        transcriptions.push({ q: rec.q, text });
                     } catch (e) {
                         transcriptions.push({ q: rec.q, text: '[Error]' });
                     }

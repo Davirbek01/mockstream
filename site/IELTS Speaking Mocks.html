@@ -6187,6 +6187,72 @@
       }
     }
 
+    // Transcribe a single audio blob using the admin-selected AI provider
+    async function _transcribeAudioBlob(blob) {
+      var cp = await _loadScoringPrompts();
+      var provider = cp['scoring_ai_provider'] || 'gemini';
+      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      var routingMode = await _getAiRoutingMode('speaking');
+      if (routingMode === 'gemma4') provider = 'gemma4';
+      console.log('[Transcribe] Provider:', provider);
+
+      // OpenAI → Whisper API
+      if (provider === 'openai') {
+        if (!API_KEY) { try { await getKey(); } catch(e){} }
+        if (API_KEY) {
+          try {
+            var fd = new FormData();
+            fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+            fd.append('model', 'whisper-1');
+            fd.append('language', 'en');
+            var r = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+              method: 'POST', headers: { 'Authorization': 'Bearer ' + API_KEY }, body: fd
+            });
+            if (!r.ok) throw new Error('Whisper error: ' + r.status);
+            var j = await r.json();
+            return (j.text || '[No speech detected]').trim();
+          } catch(e) { console.warn('[Transcribe] Whisper failed, falling back to Gemini:', e.message); }
+        }
+      }
+
+      // Claude → audio in message
+      if (provider === 'claude') {
+        if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
+        if (_CLAUDE_KEY) {
+          try {
+            var b64c = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
+            var r = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+              body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1024, messages: [{ role: 'user', content: [
+                { type: 'text', text: 'Transcribe this audio exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+                { type: 'document', source: { type: 'base64', media_type: blob.type || 'audio/webm', data: b64c } }
+              ]}]})
+            });
+            if (!r.ok) throw new Error('Claude audio error: ' + r.status);
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message);
+            return (j.content[0].text || '[No speech detected]').trim();
+          } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
+        }
+      }
+
+      // Gemini (primary for 'gemini'; fallback for grok, deepseek, gemma4)
+      if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
+      if (!GEMINI_KEY) throw new Error('No API key for transcription');
+      var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
+      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [
+          { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+          { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
+        ]}], generationConfig: { temperature: 0.1, maxOutputTokens: 1024 } })
+      });
+      if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
+      var gd = await gr.json();
+      return (gd.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]').trim();
+    }
+
     // JSZip CDN
     const jszipScript = document.createElement('script');
     jszipScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
@@ -9478,7 +9544,7 @@
             else if (pid === 'p3') updateProgress('P3', 10, 'Transcribing...');
           }
 
-          // Transcribe all audio using Gemini
+          // Transcribe all audio using admin-selected AI provider
           const transcriptions = [];
           for (let i = 0; i < answers.length; i++) {
             const { key, blob } = answers[i];
@@ -9493,38 +9559,9 @@
 
             try {
               if (i > 0) await delay(1500);
-
-              const base64Audio = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-              });
-
-              const transcribeResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{
-                    parts: [
-                      { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech is detected, return "[No speech]".' },
-                      { inline_data: { mime_type: 'audio/webm', data: base64Audio } }
-                    ]
-                  }],
-                  generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
-                })
-              });
-
-              if (transcribeResp.ok) {
-                const data = await transcribeResp.json();
-                transcriptions.push({
-                  questionNum: qNum,
-                  text: (data.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech]').trim()
-                });
-                console.log(`✅ Q${qNum} transcribed`);
-              } else {
-                transcriptions.push({ questionNum: qNum, text: '[Transcription failed]' });
-              }
+              const text = await _transcribeAudioBlob(blob);
+              transcriptions.push({ questionNum: qNum, text });
+              console.log(`✅ Q${qNum} transcribed`);
             } catch (err) {
               console.error(`Error transcribing Q${qNum}:`, err);
               transcriptions.push({ questionNum: qNum, text: '[Error]' });
@@ -11580,14 +11617,14 @@ ${questionsContent}
           // Update loading messages
           $('#geminiLoading').innerHTML = `
             <div style="display:inline-block;width:50px;height:50px;border:5px solid #f3f4f6;border-top:5px solid #7c3aed;border-radius:50%;animation:spin 1s linear infinite"></div>
-            <p style="margin-top:16px;color:var(--muted);font-weight:600">Transcribing with Gemini...</p>
+            <p style="margin-top:16px;color:var(--muted);font-weight:600">Transcribing responses...</p>
           `;
           $('#openaiLoading').innerHTML = `
             <div style="display:inline-block;width:50px;height:50px;border:5px solid #f3f4f6;border-top:5px solid #059669;border-radius:50%;animation:spin 1s linear infinite"></div>
             <p style="margin-top:16px;color:var(--muted);font-weight:600">Waiting for transcription...</p>
           `;
 
-          // First, transcribe all audio using Gemini (faster)
+          // Transcribe all audio using admin-selected AI provider
           const transcriptions = [];
           const questionNumbers = [];
 
@@ -11603,35 +11640,8 @@ ${questionsContent}
 
             try {
               if (i > 0) await new Promise(r => setTimeout(r, 1500));
-
-              const base64Audio = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-              });
-
-              const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [{
-                    parts: [
-                      { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".' },
-                      { inline_data: { mime_type: 'audio/webm', data: base64Audio } }
-                    ]
-                  }],
-                  generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
-                })
-              });
-
-              if (geminiResponse.ok) {
-                const geminiData = await geminiResponse.json();
-                const transcribedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]';
-                transcriptions.push({ questionNum: actualQuestionNum, text: transcribedText.trim() });
-              } else {
-                transcriptions.push({ questionNum: actualQuestionNum, text: '[Transcription failed]' });
-              }
+              const transcribedText = await _transcribeAudioBlob(blob);
+              transcriptions.push({ questionNum: actualQuestionNum, text: transcribedText });
             } catch (err) {
               transcriptions.push({ questionNum: actualQuestionNum, text: '[Transcription error]' });
             }
@@ -12306,60 +12316,26 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
             throw new Error('No answers for selected questions');
           }
 
-          // Check which AI provider to use
-          const useGemini = window.speakingSelectedAiProvider === 'gemini';
-
-          // Get appropriate API key based on provider
-          if (useGemini) {
-            console.log('Using Gemini for transcription and analysis');
-            if (!GEMINI_KEY) {
-              console.log('Fetching Gemini key...');
-              await getGeminiKey();
-              console.log('Gemini key fetched:', GEMINI_KEY ? 'success' : 'failed');
-            }
-            if (!GEMINI_KEY) {
-              throw new Error('Failed to obtain Gemini API key');
-            }
-          } else {
-            console.log('Using OpenAI for transcription and analysis');
-            if (!API_KEY) {
-              console.log('Fetching OpenAI key...');
-              try {
-                await getKey();
-                console.log('OpenAI key fetched:', API_KEY ? 'success' : 'failed');
-              } catch (keyError) {
-                console.error('OpenAI key fetch error:', keyError);
-                throw new Error('Failed to fetch OpenAI key: ' + keyError.message);
-              }
-            }
-            if (!API_KEY) {
-              throw new Error('Failed to obtain OpenAI API key');
-            }
-          }
-
           const candidateName = $('#cand').value || 'Candidate';
           console.log('Starting AI score generation for:', candidateName);
 
           // Update loading message for transcription phase
-          const providerName = useGemini ? 'Gemini' : 'OpenAI Whisper';
           $('#aiScoreLoading').innerHTML = `
             <div style="display:inline-block;width:50px;height:50px;border:5px solid #f3f4f6;border-top:5px solid #7c3aed;border-radius:50%;animation:spin 1s linear infinite"></div>
             <p style="margin-top:16px;color:var(--muted);font-weight:600">Transcribing audio responses...</p>
-            <p style="margin-top:8px;color:var(--muted);font-size:14px">Processing ${answers.length} recordings with ${providerName}</p>
+            <p style="margin-top:8px;color:var(--muted);font-size:14px">Processing ${answers.length} recordings...</p>
           `;
 
-          // Transcribe all audio files
+          // Transcribe all audio files using admin-selected AI provider
           const transcriptions = [];
-          const questionNumbers = []; // Track actual question numbers
+          const questionNumbers = [];
 
           for (let i = 0; i < answers.length; i++) {
             const { key, blob } = answers[i];
-            // Extract actual question number from the key (e.g., "q1-audio" -> 1)
             const actualQuestionNum = parseInt(key.match(/q(\d+)/)?.[1] || (i + 1));
             questionNumbers.push(actualQuestionNum);
 
             try {
-              // Update progress
               $('#aiScoreLoading').innerHTML = `
                 <div style="display:inline-block;width:50px;height:50px;border:5px solid #f3f4f6;border-top:5px solid #7c3aed;border-radius:50%;animation:spin 1s linear infinite"></div>
                 <p style="margin-top:16px;color:var(--muted);font-weight:600">Transcribing Question ${actualQuestionNum} (${i + 1} of ${answers.length})...</p>
@@ -12367,136 +12343,17 @@ Do NOT artificially limit scores. Award the level the candidate truly deserves b
                   <div style="background:#7c3aed;height:100%;width:${((i + 1) / answers.length) * 100}%;transition:width 0.3s"></div>
                 </div>
               `;
-
-              if (useGemini) {
-                // Use Gemini for transcription
-                console.log(`Calling Gemini API for Q${actualQuestionNum} transcription...`);
-
-                // Add small delay between requests to avoid rate limiting
-                if (i > 0) {
-                  await new Promise(r => setTimeout(r, 2000));
-                }
-
-                // Convert blob to base64 using FileReader (avoids stack overflow)
-                const base64Audio = await new Promise((resolve, reject) => {
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    // Result is "data:audio/webm;base64,XXXXX" - extract just the base64 part
-                    const base64 = reader.result.split(',')[1];
-                    resolve(base64);
-                  };
-                  reader.onerror = reject;
-                  reader.readAsDataURL(blob);
-                });
-
-                const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    contents: [{
-                      parts: [
-                        {
-                          text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".'
-                        },
-                        {
-                          inline_data: {
-                            mime_type: 'audio/webm',
-                            data: base64Audio
-                          }
-                        }
-                      ]
-                    }],
-                    generationConfig: {
-                      temperature: 0.1,
-                      maxOutputTokens: 1024
-                    }
-                  })
-                });
-
-                if (geminiResponse.ok) {
-                  const geminiData = await geminiResponse.json();
-                  const transcribedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]';
-                  console.log(`Q${actualQuestionNum} transcribed successfully with Gemini`);
-                  transcriptions.push({
-                    questionNum: actualQuestionNum,
-                    text: transcribedText.trim()
-                  });
-                } else {
-                  const errorText = await geminiResponse.text();
-                  console.error(`Gemini transcription failed for Q${actualQuestionNum}:`, geminiResponse.status, errorText);
-                  transcriptions.push({
-                    questionNum: actualQuestionNum,
-                    text: `[Transcription failed: ${geminiResponse.status}]`
-                  });
-                }
-              } else {
-                // Use OpenAI Whisper for transcription (original code)
-                let whisperSuccess = false;
-                let whisperModelIndex = OPENAI_WHISPER_MODELS.indexOf(CURRENT_WHISPER_MODEL);
-
-                while (!whisperSuccess && whisperModelIndex < OPENAI_WHISPER_MODELS.length) {
-                  const modelToTry = OPENAI_WHISPER_MODELS[whisperModelIndex];
-                  const formData = new FormData();
-                  formData.append('file', new File([blob], `question_${actualQuestionNum}.webm`, { type: 'audio/webm' }));
-                  formData.append('model', modelToTry);
-                  formData.append('language', 'en');
-
-                  console.log(`Calling Whisper API for Q${actualQuestionNum} with model: ${modelToTry}`);
-                  const whisperResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-                    method: 'POST',
-                    headers: {
-                      'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: formData
-                  });
-
-                  if (whisperResponse.ok) {
-                    const transcription = await whisperResponse.json();
-                    console.log(`Q${actualQuestionNum} transcribed successfully with ${modelToTry}`);
-                    transcriptions.push({
-                      questionNum: actualQuestionNum,
-                      text: transcription.text || '[No speech detected]'
-                    });
-                    whisperSuccess = true;
-
-                    // Update current model if we had to switch
-                    if (modelToTry !== CURRENT_WHISPER_MODEL) {
-                      console.log(`Auto-switched Whisper model from ${CURRENT_WHISPER_MODEL} to ${modelToTry}`);
-                      CURRENT_WHISPER_MODEL = modelToTry;
-                    }
-                  } else {
-                    const errorData = await whisperResponse.json().catch(() => ({}));
-
-                    // If 404 (deprecated), try next model
-                    if (whisperResponse.status === 404 && whisperModelIndex < OPENAI_WHISPER_MODELS.length - 1) {
-                      console.warn(`Model ${modelToTry} deprecated, trying next model...`);
-                      whisperModelIndex++;
-                    } else {
-                      // Other error or last model failed
-                      console.error(`Transcription failed for Q${actualQuestionNum}:`, whisperResponse.status, errorData);
-                      transcriptions.push({
-                        questionNum: actualQuestionNum,
-                        text: `[Transcription failed: ${whisperResponse.status}]`
-                      });
-                      break;
-                    }
-                  }
-                }
-              }
+              if (i > 0) await new Promise(r => setTimeout(r, 1500));
+              const transcribedText = await _transcribeAudioBlob(blob);
+              transcriptions.push({ questionNum: actualQuestionNum, text: transcribedText });
+              console.log(`Q${actualQuestionNum} transcribed successfully`);
             } catch (err) {
               console.error(`Error transcribing Q${actualQuestionNum}:`, err);
-              transcriptions.push({
-                questionNum: actualQuestionNum,
-                text: '[Transcription error]'
-              });
+              transcriptions.push({ questionNum: actualQuestionNum, text: '[Transcription error]' });
             }
           }
 
-          // Update loading message for analysis phase
-          const analysisProviderName = useGemini ? 'Gemini AI' : 'GPT-4 Vision';
-          console.log(`All transcriptions completed. Starting ${analysisProviderName} analysis...`);
+          console.log('All transcriptions completed. Starting AI analysis...');
           $('#aiScoreLoading').innerHTML = `
             <div style="display:inline-block;width:50px;height:50px;border:5px solid #f3f4f6;border-top:5px solid #7c3aed;border-radius:50%;animation:spin 1s linear infinite"></div>
             <p style="margin-top:16px;color:var(--muted);font-weight:600">Analyzing responses with ${analysisProviderName}...</p>

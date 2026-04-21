@@ -7130,8 +7130,8 @@
         <button class="sysprompt-provider-btn active" id="spProviderGemini" onclick="_spSetProvider('gemini')">✨ Gemini</button>
         <button class="sysprompt-provider-btn" id="spProviderOpenai" onclick="_spSetProvider('openai')">🤖 OpenAI</button>
         <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
-        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')">⚡ Grok</button>
-        <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')">🔵 DeepSeek</button>
+        <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
       </div>
       <div class="sysprompt-tabs" id="sysPromptTabs">
         <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
@@ -19333,6 +19333,16 @@
       document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
       document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
       document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
+      var warn = document.getElementById('_spAudioWarning');
+      if (!warn) {
+        warn = document.createElement('div');
+        warn.id = '_spAudioWarning';
+        warn.style.cssText = 'margin:8px 0 0;padding:8px 12px;background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;font-size:12px;color:#92400e;display:none;';
+        warn.textContent = '⚠️ Note: This provider is text-only. Speaking mocks will score based on transcript only — audio recordings cannot be listened to by this AI.';
+        var providerRow = document.querySelector('.sysprompt-provider-row');
+        if (providerRow) providerRow.after(warn);
+      }
+      warn.style.display = (p === 'grok' || p === 'deepseek') ? 'block' : 'none';
     }
 
     // Tab switching
@@ -21738,8 +21748,8 @@
               { val: 'gemini', label: 'Gemini' },
               { val: 'openai', label: 'OpenAI' },
               { val: 'claude', label: 'Claude' },
-              { val: 'grok', label: 'Grok' },
-              { val: 'deepseek', label: 'DeepSeek' }
+              { val: 'grok', label: 'Grok ⚠️ (writing only)' },
+              { val: 'deepseek', label: 'DeepSeek ⚠️ (writing only)' }
             ]);
             h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
             h += '</div>';
