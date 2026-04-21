@@ -6200,7 +6200,7 @@
 
         var reply;
         if (model === 'gemini') {
-          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + _testDictKey, {
+          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + _testDictKey, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.2 } })
           });
@@ -6773,7 +6773,7 @@
       if (chat) { chat.appendChild(loadingDiv); chat.scrollTop = chat.scrollHeight; }
 
       try {
-        var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + _testAiKey, {
+        var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + _testAiKey, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contents: contents })

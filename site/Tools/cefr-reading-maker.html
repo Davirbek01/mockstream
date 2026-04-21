@@ -1139,7 +1139,7 @@ async function callGemini(apiKey, imageBlocks, systemPrompt, userMsg) {
   const parts = [];
   if (imageBlocks) { for (const img of imageBlocks) parts.push({ inlineData: { mimeType: img.mime, data: img.data } }); }
   parts.push({ text: userMsg });
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ systemInstruction: { parts: [{ text: systemPrompt }] }, contents: [{ parts }], generationConfig: { maxOutputTokens: 32000 } }),
   });

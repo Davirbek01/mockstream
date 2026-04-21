@@ -9785,7 +9785,7 @@ function printWritingAiModal() {
         if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
         if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
         if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + GEMINI_KEY, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(gBody)
