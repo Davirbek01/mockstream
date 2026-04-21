@@ -8670,7 +8670,11 @@
             var j = await r.json();
             if (j.error) throw new Error(j.error.message || 'API error');
             var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
-          } else if (provider === 'gemma4') {
+                    } else if (provider === 'gemma4') {
+                        if (opts && opts.gemmaTask === 'inline_corrections') {
+                            var _g4InlineUserText = opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt;
+                            return await _callGemma4((systemText ? systemText + '\n\n' : '') + _g4InlineUserText, 120000);
+                        }
             // Local Gemma4 via Ollama — use simplified prompt for better reliability
             var _skill = (opts && opts.skill) || 'writing';
             var _g4UserText = opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt;
@@ -8678,7 +8682,7 @@
             if (_skill === 'speaking') {
               _g4System = 'You are a CEFR speaking examiner. Score the candidate responses below.\n\nReturn ONLY valid JSON (no markdown) with this structure:\n{"overall_score":<0-100>,"cefr_level":"<Below B1|B1|B2|C1>","fluency":<0-25>,"vocabulary":<0-25>,"grammar":<0-25>,"pronunciation":<0-25>,"feedback":"<2 sentences>","strengths":["s1"],"improvements":["i1","i2"]}';
             } else {
-              _g4System = 'You are a CEFR writing examiner. Score the student writing tasks below.\n\nReturn ONLY valid JSON (no markdown, no explanation) with this exact structure:\n{"t11_score":<integer 0-5>,"t12_score":<integer 0-5>,"t2_score":<integer 0-6>,"raw_score":<sum>,"certificate_score":<use table: 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0>,"cefr_level":"<Below B1|B1|B2|C1>","feedback":"<2 sentences>","t11_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t12_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t2_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"top_improvements":["improvement1","improvement2","improvement3"]}';
+                            _g4System = 'You are a CEFR writing scorer. Return ONLY valid JSON (no markdown) with this exact structure:\n{"t11_score":0,"t12_score":0,"t2_score":0,"raw_score":0,"certificate_score":0,"cefr_level":"Below B1","feedback":"","t11_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t12_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t2_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"top_improvements":[]}\nUse integer scores only (t11 0-5, t12 0-5, t2 0-6). Set raw_score=t11+t12+t2. Use score map 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0. Set CEFR by certificate: 0-34 Below B1, 35-50 B1, 51-64 B2, 65-75 C1. Leave examiner_feedback/sample_answer empty.';
             }
             return await _callGemma4(_g4System + '\n\n' + _g4UserText, 180000);
           } else if (routingMode === 'both') {
@@ -8731,6 +8735,49 @@
             return j.candidates[0].content.parts[0].text;
           }
         }
+
+                function _extractJsonObject(rawText) {
+                    var text = String(rawText || '').trim();
+                    var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+                    if (fenceMatch) text = fenceMatch[1].trim();
+                    if (text.charAt(0) !== '{') {
+                        var start = text.indexOf('{');
+                        var end = text.lastIndexOf('}');
+                        if (start !== -1 && end > start) text = text.slice(start, end + 1);
+                    }
+                    return JSON.parse(text);
+                }
+
+                async function _fetchWritingInlineCorrectionsOnly(t11, t12, t2) {
+                    var correctionSystem = [
+                        'You are an English writing corrector.',
+                        'Return ONLY valid JSON (no markdown, no explanation).',
+                        'Add inline tags only: [GRAMMAR: wrong -> correct], [SPELL: wrong -> correct], [VOCAB: wrong -> better], [PUNCT: wrong -> correct], [L1: non-english-word].',
+                        'Do not provide teacher feedback. Do not provide sample answers.'
+                    ].join('\n');
+                    var correctionPrompt = [
+                        'Return this exact JSON schema only:',
+                        '{"t11_analysis":{"corrected_text":""},"t12_analysis":{"corrected_text":""},"t2_analysis":{"corrected_text":""}}',
+                        '',
+                        'Task 1.1 response:',
+                        t11 || '',
+                        '',
+                        'Task 1.2 response:',
+                        t12 || '',
+                        '',
+                        'Part 2 response:',
+                        t2 || ''
+                    ].join('\n');
+
+                    var correctionText = await _callScoringAI(correctionSystem, correctionPrompt, {
+                        temperature: 0.1,
+                        maxTokens: 4096,
+                        jsonMode: true,
+                        skill: 'writing',
+                        gemmaTask: 'inline_corrections'
+                    });
+                    return _extractJsonObject(correctionText);
+                }
 
         async function getGeminiKey() {
             try {
@@ -8958,7 +9005,11 @@ Empty responses = 0 points and skip analysis for that task.`;
                 // Parse JSON from response
                 const jsonMatch = text.match(/\{[\s\S]*\}/);
                 if (jsonMatch) {
-                    const result = JSON.parse(jsonMatch[0]);
+                    const result = _extractJsonObject(jsonMatch[0]);
+
+                    result.t11_analysis = result.t11_analysis || {};
+                    result.t12_analysis = result.t12_analysis || {};
+                    result.t2_analysis = result.t2_analysis || {};
 
                     // Ensure integer scores only
                     result.t11_score = Math.round(result.t11_score || 0);
@@ -8974,6 +9025,26 @@ Empty responses = 0 points and skip analysis for that task.`;
                     // Safety: Recalculate CEFR level from certificate_score to ensure correctness
                     const certScore = result.certificate_score || 0;
                     result.cefr_level = certScore >= 65 ? 'C1' : certScore >= 51 ? 'B2' : certScore >= 35 ? 'B1' : 'Below B1';
+
+                    const needsInline = (t11 && !result.t11_analysis.corrected_text) || (t12 && !result.t12_analysis.corrected_text) || (t2 && !result.t2_analysis.corrected_text);
+                    if (needsInline) {
+                        try {
+                            const inlineOnly = await _fetchWritingInlineCorrectionsOnly(t11, t12, t2);
+                            if (inlineOnly && inlineOnly.t11_analysis && !result.t11_analysis.corrected_text) result.t11_analysis.corrected_text = inlineOnly.t11_analysis.corrected_text || '';
+                            if (inlineOnly && inlineOnly.t12_analysis && !result.t12_analysis.corrected_text) result.t12_analysis.corrected_text = inlineOnly.t12_analysis.corrected_text || '';
+                            if (inlineOnly && inlineOnly.t2_analysis && !result.t2_analysis.corrected_text) result.t2_analysis.corrected_text = inlineOnly.t2_analysis.corrected_text || '';
+                        } catch (e) {
+                            console.warn('Inline-correction pass failed:', e.message);
+                        }
+                    }
+
+                    // User-requested simplification: keep only inline corrections
+                    result.t11_analysis.examiner_feedback = '';
+                    result.t12_analysis.examiner_feedback = '';
+                    result.t2_analysis.examiner_feedback = '';
+                    result.t11_analysis.sample_answer = '';
+                    result.t12_analysis.sample_answer = '';
+                    result.t2_analysis.sample_answer = '';
 
                     console.log('[AI] Writing analysis complete:', result);
                     return result;

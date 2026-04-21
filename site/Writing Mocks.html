@@ -5765,7 +5765,20 @@
         if (j.error) throw new Error(j.error.message || 'API error');
         var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
       } else if (provider === 'gemma4') {
-        var _g4System = 'You are a CEFR writing examiner. Score the student writing tasks below.\n\nReturn ONLY valid JSON (no markdown, no explanation) with this exact structure:\n{"t11_score":<integer 0-5>,"t12_score":<integer 0-5>,"t2_score":<integer 0-6>,"raw_score":<sum>,"certificate_score":<use table: 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0>,"cefr_level":"<Below B1|B1|B2|C1>","feedback":"<2 sentences>","t11_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t12_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t2_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"top_improvements":["improvement1","improvement2","improvement3"]}';
+        if (opts && opts.gemmaTask === 'inline_corrections') {
+          var _g4InlineText = (systemText ? systemText + '\n\n' : '') + userPrompt;
+          return await _callGemma4(_g4InlineText, 120000);
+        }
+        var _g4System = [
+          'You are a CEFR writing scorer.',
+          'Return ONLY valid JSON (no markdown) with this exact schema:',
+          '{"t11_score":0,"t12_score":0,"t2_score":0,"raw_score":0,"certificate_score":0,"cefr_level":"Below B1","overall_feedback":"","t11_corrected":"","t12_corrected":"","t2_corrected":"","t11_feedback":"","t12_feedback":"","t2_feedback":"","t11_sample":"","t12_sample":"","t2_sample":""}',
+          'Use integer scores only: t11 0-5, t12 0-5, t2 0-6.',
+          'Set raw_score=t11_score+t12_score+t2_score.',
+          'Use certificate map: 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0.',
+          'Set CEFR by certificate: 0-34 Below B1, 35-50 B1, 51-64 B2, 65-75 C1.',
+          'Leave corrected/feedback/sample fields empty strings.'
+        ].join('\n');
         var _g4Text = _g4System + '\n\n' + userPrompt;
         return await _callGemma4(_g4Text, 180000);
       } else if (routingMode === 'both') {
@@ -5809,6 +5822,55 @@
         if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
         return j.candidates[0].content.parts[0].text;
       }
+    }
+
+    function _extractJsonObject(rawText) {
+      var text = String(rawText || '').trim();
+      var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+      if (fenceMatch) text = fenceMatch[1].trim();
+      if (text.charAt(0) !== '{') {
+        var start = text.indexOf('{');
+        var end = text.lastIndexOf('}');
+        if (start !== -1 && end > start) text = text.slice(start, end + 1);
+      }
+      return JSON.parse(text);
+    }
+
+    async function _fetchInlineCorrectionsOnly(t11, t12, t2) {
+      var correctionSystem = [
+        'You are an English writing corrector.',
+        'Return ONLY valid JSON. Do not include markdown or any explanation.',
+        'Add inline tags only where there are clear errors:',
+        '[GRAMMAR: wrong -> correct], [SPELL: wrong -> correct], [VOCAB: wrong -> better], [PUNCT: wrong -> correct], [L1: non-english-word].',
+        'Do NOT add sample answers. Do NOT add teacher feedback. Do NOT add other fields.'
+      ].join('\n');
+      var correctionPrompt = [
+        'Respond with this exact JSON schema only:',
+        '{"t11_corrected":"","t12_corrected":"","t2_corrected":""}',
+        '',
+        'Task 1.1 response:',
+        t11 || '',
+        '',
+        'Task 1.2 response:',
+        t12 || '',
+        '',
+        'Part 2 response:',
+        t2 || ''
+      ].join('\n');
+
+      var correctionText = await _callScoringAI(correctionSystem, correctionPrompt, {
+        temperature: 0.1,
+        maxTokens: 4096,
+        jsonMode: true,
+        skill: 'writing',
+        gemmaTask: 'inline_corrections'
+      });
+      var parsed = _extractJsonObject(correctionText);
+      return {
+        t11_corrected: String(parsed.t11_corrected || ''),
+        t12_corrected: String(parsed.t12_corrected || ''),
+        t2_corrected: String(parsed.t2_corrected || '')
+      };
     }
 
     // AI Provider Selection (default: gemini)
@@ -13457,10 +13519,14 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       if (updateStep) updateStep('aiStep6', 'completed');
 
       // Parse and ensure integer scores
-      const result = JSON.parse(resultText);
-      result.t11_score = Math.round(result.t11_score || 0);
-      result.t12_score = Math.round(result.t12_score || 0);
-      result.t2_score = Math.round(result.t2_score || 0);
+      const result = _extractJsonObject(resultText);
+      if (!result.overall_feedback && result.feedback) result.overall_feedback = result.feedback;
+      if (result.t11_analysis && !result.t11_corrected) result.t11_corrected = result.t11_analysis.corrected_text || '';
+      if (result.t12_analysis && !result.t12_corrected) result.t12_corrected = result.t12_analysis.corrected_text || '';
+      if (result.t2_analysis && !result.t2_corrected) result.t2_corrected = result.t2_analysis.corrected_text || '';
+      result.t11_score = Math.round(Number(result.t11_score || result.t1_score || 0));
+      result.t12_score = Math.round(Number(result.t12_score || 0));
+      result.t2_score = Math.round(Number(result.t2_score || 0));
       result.raw_score = result.t11_score + result.t12_score + result.t2_score;
 
       // VALIDATION: Check if AI returned valid scores (not all zeros when there's actual content)
@@ -13475,6 +13541,29 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
           throw new Error('AI scoring failed. All scores returned as 0. Please retry.');
         }
       }
+
+      // Lightweight second pass: inline corrections only (no samples/teacher notes)
+      const missingInline = (t11 && !result.t11_corrected) || (t12 && !result.t12_corrected) || (t2 && !result.t2_corrected);
+      if (missingInline) {
+        try {
+          const inlineOnly = await attemptWithRetry(async () => await _fetchInlineCorrectionsOnly(t11, t12, t2), 2, 1500);
+          if (inlineOnly) {
+            if (!result.t11_corrected) result.t11_corrected = inlineOnly.t11_corrected || '';
+            if (!result.t12_corrected) result.t12_corrected = inlineOnly.t12_corrected || '';
+            if (!result.t2_corrected) result.t2_corrected = inlineOnly.t2_corrected || '';
+          }
+        } catch (e) {
+          console.warn('Inline-correction pass failed:', e.message);
+        }
+      }
+
+      // User-requested simplification: keep only inline corrections
+      result.t11_feedback = '';
+      result.t12_feedback = '';
+      result.t2_feedback = '';
+      result.t11_sample = '';
+      result.t12_sample = '';
+      result.t2_sample = '';
 
       // Recalculate certificate score based on integer raw score
       const scoreMap = { 16: 75, 15: 69, 14: 65, 13: 63, 12: 61, 11: 57, 10: 53, 9: 50, 8: 47, 7: 43, 6: 40, 5: 37, 4: 33, 3: 28, 2: 21, 1: 14, 0: 0 };
