@@ -91,7 +91,7 @@ def grade():
         ],
         'stream': False,
         'format': 'json',
-        'options': { 'num_predict': 1024, 'temperature': 0.2 }
+        'options': { 'num_predict': 4096, 'temperature': 0.2 }
     }).encode('utf-8')
 
     try:

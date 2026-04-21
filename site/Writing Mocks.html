@@ -5777,7 +5777,8 @@
           'Set raw_score=t11_score+t12_score+t2_score.',
           'Use certificate map: 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0.',
           'Set CEFR by certificate: 0-34 Below B1, 35-50 B1, 51-64 B2, 65-75 C1.',
-          'Leave corrected/feedback/sample fields empty strings.'
+          'Leave ALL string fields as empty strings (overall_feedback, t11_corrected, t12_corrected, t2_corrected, t11_feedback, t12_feedback, t2_feedback, t11_sample, t12_sample, t2_sample must ALL be empty).',
+          'Only fill: t11_score, t12_score, t2_score, raw_score, certificate_score, cefr_level.'
         ].join('\n');
         var _g4Text = _g4System + '\n\n' + userPrompt;
         return await _callGemma4(_g4Text, 180000);
