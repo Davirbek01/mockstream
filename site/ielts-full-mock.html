@@ -5382,6 +5382,7 @@
             state.examStarted = true;
             document.getElementById('tutorial-overlay').style.display = 'none';
             document.getElementById('app').style.display = 'block';
+            var _resumeSession = false;
 
             // Test IDs are already set from mock selection, no need to randomize
             // Support URL override for direct access
@@ -5400,6 +5401,7 @@
                 if (session) {
                   var choice = await SessionRecovery.prompt(session);
                   if (choice === 'resume') {
+                                        _resumeSession = true;
                     var sd = session.session_data;
                     state.step = sd.step || 0;
                     state.testIds = sd.testIds || state.testIds;
@@ -5418,6 +5420,11 @@
                 }
               } catch(e) { console.warn('Session recovery check failed:', e); }
             }
+
+                        // Fresh start (non-resume): ensure old speaking blobs from prior attempts are cleared.
+                        if (!_resumeSession) {
+                                state.answers.speaking = {};
+                        }
 
             showIeltsModTutorial(0);
             if (window.SessionRecovery) SessionRecovery.start();
@@ -8228,6 +8235,8 @@
         }
 
         async function startRecording(qIdx) {
+            const key = `S-${qIdx}`;
+            delete state.answers.speaking[key];
             audioChunks = [];
             const stream = await fmEnsureMediaStream();
             if (!stream) return;
@@ -8238,7 +8247,7 @@
                 mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
                 mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
-                    state.answers.speaking[`S-${qIdx}`] = blob;
+                    state.answers.speaking[key] = blob;
                 };
                 mediaRecorder.start();
             } catch (err) {
