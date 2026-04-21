@@ -166,6 +166,20 @@
       return;
     }
 
+    // ─── 6b. PRACTICE MODE (hide part-based practice buttons) ──────────
+    if (mockKey && cc.mocks && cc.mocks[mockKey + '_practice'] === 'disabled') {
+      window.CG_PRACTICE_DISABLED = true;
+      _cgWhenReady(function() {
+        var s = document.getElementById('cg-practice-disabled');
+        if (!s) {
+          s = document.createElement('style');
+          s.id = 'cg-practice-disabled';
+          s.textContent = '.mode-practice{display:none!important}';
+          document.head.appendChild(s);
+        }
+      });
+    }
+
     // ─── 7. MOCK ACCESS LEVEL (override access) ────────────────────────
     // Individual mock codes bypass center settings entirely
     var _hasIndividualCode = false;
