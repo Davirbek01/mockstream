@@ -8527,6 +8527,30 @@
           var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
           if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
         }
+        function _getBackupKeys(provider, cp) {
+          var keys = [];
+          for (var i = 2; i <= 5; i++) {
+            var k = cp['scoring_' + provider + '_key_' + i];
+            if (k && k.trim()) keys.push(k.trim());
+          }
+          return keys;
+        }
+        async function _callWithKeyRotation(provider, primaryKey, backupKeys, callFn) {
+          var keys = [primaryKey].concat(backupKeys || []).filter(Boolean);
+          if (!keys.length) throw new Error('No ' + provider + ' keys available');
+          var lastErr;
+          for (var ki = 0; ki < keys.length; ki++) {
+            try {
+              return await callFn(keys[ki]);
+            } catch(e) {
+              lastErr = e;
+              if (ki < keys.length - 1 && /429|quota|rate.?limit|too.?many/i.test(e.message || '')) {
+                console.warn('[AI] ' + provider + ' key #' + (ki+1) + ' rate limited, trying key #' + (ki+2) + '...');
+              } else { throw e; }
+            }
+          }
+          throw lastErr;
+        }
 
         // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
         var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
@@ -8601,15 +8625,17 @@
             var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
-            var r = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
-              body: JSON.stringify(body)
+            return await _callWithKeyRotation('openai', API_KEY, _getBackupKeys('openai', cp), async function(key) {
+              var r = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+                body: JSON.stringify(body)
+              });
+              if (!r.ok) throw new Error('AI API error: ' + r.status);
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              return j.choices[0].message.content;
             });
-            if (!r.ok) throw new Error('AI API error: ' + r.status);
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            return j.choices[0].message.content;
           } else if (provider === 'claude') {
             if (!_CLAUDE_KEY) { try { _CLAUDE_KEY = await _fetchProviderKey('claude'); } catch(e){} }
             if (!_CLAUDE_KEY) throw new Error('No Claude API key available');
@@ -8619,15 +8645,17 @@
             var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
             if (systemText) cBody.system = systemText;
             if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
-            var r = await fetch('https://api.anthropic.com/v1/messages', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'x-api-key': _CLAUDE_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-              body: JSON.stringify(cBody)
+            return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getBackupKeys('claude', cp), async function(key) {
+              var r = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+                body: JSON.stringify(cBody)
+              });
+              if (!r.ok) throw new Error('AI API error: ' + r.status);
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              return j.content[0].text;
             });
-            if (!r.ok) throw new Error('AI API error: ' + r.status);
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            return j.content[0].text;
           } else if (provider === 'grok') {
             if (!_GROK_KEY) { try { _GROK_KEY = await _fetchProviderKey('grok'); } catch(e){} }
             if (!_GROK_KEY) throw new Error('No Grok API key available');
@@ -8640,15 +8668,17 @@
             var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
-            var r = await fetch('https://api.x.ai/v1/chat/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROK_KEY },
-              body: JSON.stringify(body)
+            return await _callWithKeyRotation('grok', _GROK_KEY, _getBackupKeys('grok', cp), async function(key) {
+              var r = await fetch('https://api.x.ai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+                body: JSON.stringify(body)
+              });
+              if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Grok] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              return j.choices[0].message.content;
             });
-            if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Grok] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            return j.choices[0].message.content;
           } else if (provider === 'deepseek') {
             if (!_DEEPSEEK_KEY) { try { _DEEPSEEK_KEY = await _fetchProviderKey('deepseek'); } catch(e){} }
             if (!_DEEPSEEK_KEY) throw new Error('No DeepSeek API key available');
@@ -8661,15 +8691,17 @@
             messages.push({ role: 'user', content: uMsg });
             var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 8192);
-            var r = await fetch('https://api.deepseek.com/chat/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _DEEPSEEK_KEY },
-              body: JSON.stringify(body)
+            return await _callWithKeyRotation('deepseek', _DEEPSEEK_KEY, _getBackupKeys('deepseek', cp), async function(key) {
+              var r = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+                body: JSON.stringify(body)
+              });
+              if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[DeepSeek] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
             });
-            if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[DeepSeek] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
                     } else if (provider === 'gemma4') {
                         if (opts && opts.gemmaTask === 'inline_corrections') {
                             var _g4InlineUserText = opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt;
@@ -8705,14 +8737,16 @@
             if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
+            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getBackupKeys('gemini', cp), async function(key) {
+              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
+              });
+              if (!r.ok) throw new Error('AI API error: ' + r.status);
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+              return j.candidates[0].content.parts[0].text;
             });
-            if (!r.ok) throw new Error('AI API error: ' + r.status);
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
-            return j.candidates[0].content.parts[0].text;
           } else {
             if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
             if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -8723,16 +8757,18 @@
             if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(gBody)
+            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getBackupKeys('gemini', cp), async function(key) {
+              var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(gBody)
+              });
+              if (!r.ok) throw new Error('AI API error: ' + r.status);
+              var j = await r.json();
+              if (j.error) throw new Error(j.error.message || 'API error');
+              if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+              return j.candidates[0].content.parts[0].text;
             });
-            if (!r.ok) throw new Error('AI API error: ' + r.status);
-            var j = await r.json();
-            if (j.error) throw new Error(j.error.message || 'API error');
-            if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
-            return j.candidates[0].content.parts[0].text;
           }
         }
 
