@@ -8647,20 +8647,25 @@
           if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
         }
 
-        // ── AI Routing Mode (Gemma4 / API / BOTH) ──────────────────────────────
-        var _aiRoutingModeCache = null, _aiRoutingModeCacheTime = 0;
-        async function _getAiRoutingMode() {
-          if (_aiRoutingModeCache && Date.now() - _aiRoutingModeCacheTime < 60000) return _aiRoutingModeCache;
+        // ── AI Routing Mode (Gemma4 / API / BOTH) per skill ─────────────────────
+        var _aiRoutingModeCache = {}, _aiRoutingModeCacheTime = {};
+        async function _getAiRoutingMode(skill) {
+          skill = skill || 'writing';
+          if (_aiRoutingModeCache[skill] && Date.now() - (_aiRoutingModeCacheTime[skill] || 0) < 60000) return _aiRoutingModeCache[skill];
           try {
             var centerId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-            var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=eq.ai_routing_mode_' + centerId + '&select=value', {
+            var skillKey = 'ai_routing_mode_' + skill + '_' + centerId;
+            var legacyKey = 'ai_routing_mode_' + centerId;
+            var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=in.(' + skillKey + ',' + legacyKey + ')&select=key,value', {
               headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
             });
             var rows = await r.json();
-            _aiRoutingModeCache = (rows && rows[0] && rows[0].value) ? rows[0].value : 'api';
-          } catch(e) { _aiRoutingModeCache = 'api'; }
-          _aiRoutingModeCacheTime = Date.now();
-          return _aiRoutingModeCache;
+            var skillRow = Array.isArray(rows) && rows.find(function(x){ return x.key === skillKey; });
+            var legacyRow = Array.isArray(rows) && rows.find(function(x){ return x.key === legacyKey; });
+            _aiRoutingModeCache[skill] = (skillRow && skillRow.value) || (legacyRow && legacyRow.value) || 'api';
+          } catch(e) { _aiRoutingModeCache[skill] = 'api'; }
+          _aiRoutingModeCacheTime[skill] = Date.now();
+          return _aiRoutingModeCache[skill];
         }
 
         var _GEMMA4_URL = 'https://ai.mock-stream.com';
@@ -8687,7 +8692,7 @@
           var provider = cp['scoring_ai_provider'] || 'gemini';
           if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
 
-          var routingMode = await _getAiRoutingMode();
+          var routingMode = await _getAiRoutingMode(opts.skill || 'writing');
           if (routingMode === 'gemma4') { provider = 'gemma4'; }
 
           console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase() + ' | Routing: ' + routingMode, 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
@@ -8869,7 +8874,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             try {
                 var _cpW = await _loadScoringPrompts();
                 var _sysW = _cpW['scoring_ielts_writing_full_system'] || '';
-                const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, jsonMode: true });
+                const txt = await _callScoringAI(_sysW, prompt, { temperature: 0.5, jsonMode: true, skill: 'writing' });
                 if (!txt) throw new Error('Empty response from AI');
 
                 // Sanitize control characters that break JSON.parse
@@ -8971,7 +8976,7 @@ Provide your assessment in this exact JSON format (NOTE: scores MUST vary across
             try {
                 var _cpS = await _loadScoringPrompts();
                 var _sysS = _cpS['scoring_ielts_speaking_full_system'] || '';
-                const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3 });
+                const txt = await _callScoringAI(_sysS, prompt, { temperature: 0.3, skill: 'speaking' });
                 if (!txt) throw new Error('Empty response from AI');
 
                 // Sanitize control characters that break JSON.parse
