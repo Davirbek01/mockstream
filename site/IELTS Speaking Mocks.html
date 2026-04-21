@@ -5955,6 +5955,56 @@
       return _scoringPromptsCache || {};
     }
 
+    async function _getCenterAiProviderOverride() {
+      var fallback = '';
+      try {
+        var current = window._centerConfig;
+        if (current && current.aiProvider) {
+          var direct = String(current.aiProvider).trim().toLowerCase();
+          if (direct && direct !== 'default') fallback = direct;
+        }
+
+        var centerId = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || window.__CENTER_ID || 'mock_stream').toString().trim();
+        if (!centerId) return fallback;
+
+        var cacheKey = 'cg_cc_' + centerId;
+        try {
+          var cachedRaw = localStorage.getItem(cacheKey);
+          if (cachedRaw) {
+            var cached = JSON.parse(cachedRaw);
+            if (cached && typeof cached === 'object') {
+              window._centerConfig = cached;
+              if (!fallback) {
+                var cachedProvider = String(cached.aiProvider || '').trim().toLowerCase();
+                if (cachedProvider && cachedProvider !== 'default') fallback = cachedProvider;
+              }
+            }
+          }
+        } catch (e) {}
+
+        var r = await fetch('https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/site_settings?key=eq.' + encodeURIComponent('center_config_' + centerId) + '&select=value', {
+          headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2', 'Authorization': 'Bearer sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' }
+        });
+        if (!r.ok) return fallback;
+
+        var rows = await r.json();
+        if (!Array.isArray(rows) || !rows.length || !rows[0].value) return fallback;
+
+        var parsed = (typeof rows[0].value === 'string') ? JSON.parse(rows[0].value) : rows[0].value;
+        if (!parsed || typeof parsed !== 'object') return fallback;
+
+        window._centerConfig = parsed;
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify(parsed));
+          localStorage.setItem('cg_cc_ts_' + centerId, String(Date.now()));
+        } catch (e) {}
+
+        var fresh = String(parsed.aiProvider || '').trim().toLowerCase();
+        if (fresh && fresh !== 'default') return fresh;
+      } catch (e) {}
+      return fallback;
+    }
+
     var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
     async function _fetchProviderKey(m, exclude) {
       var url = 'https://davirbek.alwaysdata.net/key?model=' + m;
@@ -6005,8 +6055,10 @@
 
     async function _callScoringAI(systemText, userPrompt, opts) {
       var cp = await _loadScoringPrompts();
-      var provider = cp['scoring_ai_provider'] || 'gemini';
-      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      opts = opts || {};
+      var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+      var centerProvider = await _getCenterAiProviderOverride();
+      if (centerProvider) provider = centerProvider;
 
       var routingMode = await _getAiRoutingMode(opts.skill || 'speaking');
       if (routingMode === 'gemma4') { provider = 'gemma4'; }
@@ -6014,7 +6066,6 @@
       console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase() + ' | Routing: ' + routingMode, 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
       (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span, #geminiLoading p, ._aiLoadLabel').forEach(function(s){ s.textContent = (s.tagName === 'P' ? 'Analyzing with ' : 'Connecting to ') + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
-      opts = opts || {};
       var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
       var _mdlWhisper  = (cp['scoring_model_whisper']  || '').trim() || 'whisper-1';
       var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-2.0-flash';
@@ -6233,8 +6284,9 @@
     // Transcribe a single audio blob using the admin-selected AI provider
     async function _transcribeAudioBlob(blob) {
       var cp = await _loadScoringPrompts();
-      var provider = cp['scoring_ai_provider'] || 'gemini';
-      if (window._centerConfig && window._centerConfig.aiProvider && window._centerConfig.aiProvider !== 'default') provider = window._centerConfig.aiProvider;
+      var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+      var centerProvider = await _getCenterAiProviderOverride();
+      if (centerProvider) provider = centerProvider;
       var routingMode = await _getAiRoutingMode('speaking');
       if (routingMode === 'gemma4') provider = 'gemma4';
       // Text-only providers can't process audio — use the admin-chosen helper AI for transcription
