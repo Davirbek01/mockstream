@@ -6433,6 +6433,9 @@
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openCentersPanel(); }); toggleSidebar();" class="skill-btn" id="centersMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>🏢</span> Centers Management
           </a>
+          <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openAiRouterPanel(); }); toggleSidebar();" class="skill-btn" id="aiRouterMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(79,70,229,0.03));border:1.5px solid rgba(124,58,237,0.3);">
+            <span>🤖</span> AI Grading Router
+          </a>
           <a href="javascript:void(0)" onclick="openPrivateMessagesPanel(); toggleSidebar();" class="skill-btn" id="privateMessagesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(236,72,153,0.03));border:1.5px solid rgba(236,72,153,0.3);position:relative;">
             <span style="font-size:15px;">&#9993;&#65039;</span> Private Messages <span id="pmUnreadBadge" style="display:none;position:absolute;top:6px;right:10px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:16px;text-align:center;"></span>
           </a>
@@ -7093,6 +7096,39 @@
         </button>
       </div>
       <button class="modal-close-btn" onclick="closeTestsModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- AI Grading Router Panel Overlay -->
+  <div id="aiRouterOverlay" onclick="closeAiRouterPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+    <div onclick="event.stopPropagation()" style="background:#fff;border-radius:16px;width:90%;max-width:480px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+        <h3 style="margin:0;color:#fff;font-size:17px;font-weight:700;">🤖 AI Grading Router</h3>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span id="aiRouterPanelStatus" style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;">Loading...</span>
+          <button onclick="closeAiRouterPanel()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1;">✕</button>
+        </div>
+      </div>
+      <div style="padding:20px;">
+        <p style="margin:0 0 16px;font-size:13px;color:#6b7280;">Choose how student tests are graded. Changes apply instantly — no server restart needed.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="setAiRoutingModePanel('api')" id="aiRouterPanelBtn_api"
+            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
+            ☁️ API Only
+          </button>
+          <button onclick="setAiRoutingModePanel('gemma4')" id="aiRouterPanelBtn_gemma4"
+            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
+            🦙 GEMMA 4
+          </button>
+          <button onclick="setAiRoutingModePanel('both')" id="aiRouterPanelBtn_both"
+            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
+            🔀 BOTH (Fallback)
+          </button>
+        </div>
+        <p style="margin:12px 0 0;font-size:11px;color:#9ca3af;">
+          API Only = paid cloud APIs only &nbsp;|&nbsp; GEMMA 4 = local laptop only &nbsp;|&nbsp; BOTH = tries laptop first, falls back to paid API
+        </p>
+      </div>
     </div>
   </div>
 
@@ -9528,6 +9564,7 @@
           var pmItem = document.getElementById('privateMessagesMenuItem');
           var smItem = document.getElementById('supportMessagesMenuItem');
           var vgItem = document.getElementById('videoGuidesMenuItem');
+          var aiRItem = document.getElementById('aiRouterMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
@@ -9536,6 +9573,7 @@
           if (pmItem) { pmItem.style.display = ''; pmItem.classList.add('admin-revealed'); }
           if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
           if (vgItem) { vgItem.style.display = ''; vgItem.classList.add('admin-revealed'); }
+          if (aiRItem) { aiRItem.style.display = ''; aiRItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session
@@ -16263,6 +16301,76 @@
       var sub = document.getElementById('siteMgmtSubmenu');
       if (!sub) return;
       sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // ===== AI GRADING ROUTER PANEL =====
+    var _LND_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    var _LND_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+    var _LND_AI_ROUTER_KEY = 'ai_routing_mode_' + ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
+
+    function _applyAiRouterPanelUI(mode) {
+      var colors = { api: '#2563eb', gemma4: '#16a34a', both: '#7c3aed' };
+      var labels = { api: '☁️ API Only', gemma4: '🦙 GEMMA 4', both: '🔀 BOTH (Fallback)' };
+      ['api', 'gemma4', 'both'].forEach(function(m) {
+        var btn = document.getElementById('aiRouterPanelBtn_' + m);
+        if (!btn) return;
+        if (m === mode) {
+          btn.style.background = colors[m]; btn.style.color = '#fff';
+          btn.style.borderColor = colors[m]; btn.style.boxShadow = '0 4px 12px ' + colors[m] + '55';
+        } else {
+          btn.style.background = '#f9fafb'; btn.style.color = '#374151';
+          btn.style.borderColor = '#d1d5db'; btn.style.boxShadow = 'none';
+        }
+      });
+      var st = document.getElementById('aiRouterPanelStatus');
+      if (st) st.textContent = 'Active: ' + (labels[mode] || mode);
+    }
+
+    function openAiRouterPanel() {
+      var overlay = document.getElementById('aiRouterOverlay');
+      if (overlay) { overlay.style.display = 'flex'; }
+      // Load current mode
+      var cached = localStorage.getItem('ms_ai_routing_mode');
+      if (cached) _applyAiRouterPanelUI(cached);
+      fetch(_LND_SB_URL + '/rest/v1/site_settings?key=eq.' + _LND_AI_ROUTER_KEY + '&select=value', {
+        headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY }
+      }).then(function(r){ return r.json(); }).then(function(rows) {
+        var mode = (rows && rows[0] && rows[0].value) ? rows[0].value : 'api';
+        localStorage.setItem('ms_ai_routing_mode', mode);
+        _applyAiRouterPanelUI(mode);
+      }).catch(function(){});
+    }
+
+    function closeAiRouterPanel() {
+      var overlay = document.getElementById('aiRouterOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
+
+    async function setAiRoutingModePanel(mode) {
+      var st = document.getElementById('aiRouterPanelStatus');
+      if (st) st.textContent = 'Saving...';
+      try {
+        var patchResp = await fetch(_LND_SB_URL + '/rest/v1/site_settings?key=eq.' + _LND_AI_ROUTER_KEY, {
+          method: 'PATCH',
+          headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY,
+            'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+          body: JSON.stringify({ value: mode, updated_at: new Date().toISOString() })
+        });
+        var patchData = await patchResp.json();
+        if (!patchData || patchData.length === 0) {
+          await fetch(_LND_SB_URL + '/rest/v1/site_settings', {
+            method: 'POST',
+            headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY,
+              'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ key: _LND_AI_ROUTER_KEY, value: mode })
+          });
+        }
+        localStorage.setItem('ms_ai_routing_mode', mode);
+        _applyAiRouterPanelUI(mode);
+      } catch(e) {
+        var st2 = document.getElementById('aiRouterPanelStatus');
+        if (st2) st2.textContent = 'Save failed!';
+      }
     }
 
     // ===== SHARED ADMIN GATE (all Site Management features) =====
