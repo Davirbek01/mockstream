@@ -21730,6 +21730,17 @@
                 });
                 h += '</div>';
               }
+              if (!isFullMock && val !== 'disabled') {
+                var practiceVal = (cfg.mocks && cfg.mocks[mock.key + '_practice']) || 'enabled';
+                var pcColor = practiceVal === 'disabled' ? '#dc2626' : '#0d9488';
+                h += '<div style="margin-top:6px;padding-top:6px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;justify-content:space-between;">';
+                h += '<span style="font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">🧩 Practice Mode</span>';
+                h += '<select onchange="_cmSetMockPractice(\'' + cid + '\',\'' + mock.key + '\',this.value)" style="font-size:10px;padding:3px 6px;border-radius:5px;border:1px solid ' + pcColor + ';color:' + pcColor + ';background:#fff;font-weight:600;cursor:pointer;">';
+                h += '<option value="enabled"' + (practiceVal !== 'disabled' ? ' selected' : '') + '>✅ Enabled</option>';
+                h += '<option value="disabled"' + (practiceVal === 'disabled' ? ' selected' : '') + '>🚫 Disabled</option>';
+                h += '</select>';
+                h += '</div>';
+              }
               h += '</div>';
             });
             h += '</div>';
@@ -21966,6 +21977,13 @@
       _cmConfigs[centerId].mocks[mockKey] = val;
       // Re-render all cards so sub-controls appear/disappear properly
       _cmRenderBody();
+      _cmAutoSave(centerId);
+    };
+
+    window._cmSetMockPractice = function(centerId, mockKey, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].mocks) _cmConfigs[centerId].mocks = {};
+      _cmConfigs[centerId].mocks[mockKey + '_practice'] = val;
       _cmAutoSave(centerId);
     };
 
