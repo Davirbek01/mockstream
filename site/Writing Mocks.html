@@ -5765,7 +5765,8 @@
         if (j.error) throw new Error(j.error.message || 'API error');
         var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
       } else if (provider === 'gemma4') {
-        var _g4Text = (systemText ? systemText + '\n\n' : '') + userPrompt;
+        var _g4System = 'You are a CEFR writing examiner. Score the student writing tasks below.\n\nReturn ONLY valid JSON (no markdown, no explanation) with this exact structure:\n{"t11_score":<integer 0-5>,"t12_score":<integer 0-5>,"t2_score":<integer 0-6>,"raw_score":<sum>,"certificate_score":<use table: 16=75,15=69,14=65,13=63,12=61,11=57,10=53,9=50,8=47,7=43,6=40,5=37,4=33,3=28,2=21,1=14,0=0>,"cefr_level":"<Below B1|B1|B2|C1>","feedback":"<2 sentences>","t11_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t12_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"t2_analysis":{"relevance":"ON-TOPIC","word_penalty":0,"corrected_text":"","examiner_feedback":"","sample_answer":""},"top_improvements":["improvement1","improvement2","improvement3"]}';
+        var _g4Text = _g4System + '\n\n' + userPrompt;
         return await _callGemma4(_g4Text, 180000);
       } else if (routingMode === 'both') {
         var _bothText = (systemText ? systemText + '\n\n' : '') + userPrompt;
