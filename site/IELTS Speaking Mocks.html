@@ -6068,7 +6068,7 @@
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span, #geminiLoading p, ._aiLoadLabel').forEach(function(s){ s.textContent = (s.tagName === 'P' ? 'Analyzing with ' : 'Connecting to ') + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
       var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
       var _mdlWhisper  = (cp['scoring_model_whisper']  || '').trim() || 'whisper-1';
-      var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-2.0-flash';
+      var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-flash-latest';
       var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
@@ -6349,7 +6349,7 @@
       if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
       if (!GEMINI_KEY) throw new Error('No API key for transcription');
       var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
-      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-flash-latest') + ':generateContent?key=' + GEMINI_KEY, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [
           { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
@@ -11954,7 +11954,7 @@ SCORING GUIDELINES:
           } catch (e) { /* Skip failed images */ }
         }
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${(_scoringPromptsCache && _scoringPromptsCache['scoring_model_gemini'] ? _scoringPromptsCache['scoring_model_gemini'].trim() : 'gemini-2.0-flash')}:generateContent?key=${GEMINI_KEY}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${(_scoringPromptsCache && _scoringPromptsCache['scoring_model_gemini'] ? _scoringPromptsCache['scoring_model_gemini'].trim() : 'gemini-flash-latest')}:generateContent?key=${GEMINI_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

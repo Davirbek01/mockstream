@@ -7401,7 +7401,7 @@
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span, #geminiLoading p, ._aiLoadLabel').forEach(function(s){ s.textContent = (s.tagName === 'P' ? 'Analyzing with ' : 'Connecting to ') + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
       opts = opts || {};
       var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
-      var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-2.0-flash';
+      var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-flash-latest';
       var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
@@ -7712,7 +7712,7 @@
       if (!GEMINI_KEY) { try { await getGeminiKey(); } catch (e) {} }
       if (!GEMINI_KEY) throw new Error('No API key for transcription');
       var b64g = await _blobToBase64(blob);
-      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+      var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-flash-latest') + ':generateContent?key=' + GEMINI_KEY, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -7728,7 +7728,7 @@
         GEMINI_KEY = null;
         try { await getGeminiKey(_failedGeminiTr); } catch (e) {}
         if (!GEMINI_KEY) throw new Error('Gemini transcribe error: ' + gr.status);
-        gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+        gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-flash-latest') + ':generateContent?key=' + GEMINI_KEY, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -13828,7 +13828,7 @@ function printAiModal() {
                 reader.readAsDataURL(blob);
               });
 
-              const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
+              const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -14026,7 +14026,7 @@ SCORING GUIDELINES:
           } catch (e) { /* Skip failed images */ }
         }
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -15408,7 +15408,7 @@ RETURN ONLY THIS JSON FORMAT (no other text):
                   reader.readAsDataURL(blob);
                 });
 
-                const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
+                const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_KEY}`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'

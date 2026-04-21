@@ -8636,8 +8636,8 @@
               return await callFn(keys[ki]);
             } catch(e) {
               lastErr = e;
-              if (ki < keys.length - 1 && /429|quota|rate.?limit|too.?many/i.test(e.message || '')) {
-                console.warn('[AI] ' + provider + ' key #' + (ki+1) + ' rate limited, trying key #' + (ki+2) + '...');
+              if (ki < keys.length - 1 && /\b(?:404|429|quota|rate.?limit|too.?many|invalid|api[_ ]?key|permission|not[_ ]?found|unauthorized|forbidden)\b/i.test(e.message || '')) {
+                console.warn('[AI] ' + provider + ' key #' + (ki+1) + ' failed (' + (e.message||'').slice(0,80) + '), trying key #' + (ki+2) + '...');
               } else { throw e; }
             }
           }
@@ -8706,7 +8706,7 @@
           document.querySelectorAll('#aiStep2 span, #wpAiStep2 span').forEach(function(s){ s.textContent = 'Connecting to ' + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
           var _mdlOpenAI    = (cp['scoring_model_openai']   || '').trim() || 'gpt-4o-mini';
           var _mdlWhisper  = (cp['scoring_model_whisper']  || '').trim() || 'whisper-1';
-          var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-2.0-flash';
+          var _mdlGemini   = (cp['scoring_model_gemini']   || '').trim() || 'gemini-flash-latest';
           var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
           var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
           var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
@@ -9280,7 +9280,7 @@ Empty responses = 0 points and skip analysis for that task.`;
           if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
           if (!GEMINI_KEY) throw new Error('No API key for transcription');
           var b64g = await new Promise(function(res, rej) { var rd = new FileReader(); rd.onloadend = function(){ res(rd.result.split(',')[1]); }; rd.onerror = rej; rd.readAsDataURL(blob); });
-          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-2.0-flash') + ':generateContent?key=' + GEMINI_KEY, {
+          var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-flash-latest') + ':generateContent?key=' + GEMINI_KEY, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [
               { text: 'Transcribe this audio recording exactly. Return ONLY the text or "[No speech detected]".' },
