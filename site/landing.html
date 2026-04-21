@@ -7101,32 +7101,18 @@
 
   <!-- AI Grading Router Panel Overlay -->
   <div id="aiRouterOverlay" onclick="closeAiRouterPanel()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
-    <div onclick="event.stopPropagation()" style="background:#fff;border-radius:16px;width:90%;max-width:480px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+    <div onclick="event.stopPropagation()" style="background:#fff;border-radius:16px;width:94%;max-width:560px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column;">
+      <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
         <h3 style="margin:0;color:#fff;font-size:17px;font-weight:700;">🤖 AI Grading Router</h3>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span id="aiRouterPanelStatus" style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:500;">Loading...</span>
-          <button onclick="closeAiRouterPanel()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1;">✕</button>
-        </div>
+        <button onclick="closeAiRouterPanel()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1;">✕</button>
       </div>
-      <div style="padding:20px;">
-        <p style="margin:0 0 16px;font-size:13px;color:#6b7280;">Choose how student tests are graded. Changes apply instantly — no server restart needed.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="setAiRoutingModePanel('api')" id="aiRouterPanelBtn_api"
-            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
-            ☁️ API Only
-          </button>
-          <button onclick="setAiRoutingModePanel('gemma4')" id="aiRouterPanelBtn_gemma4"
-            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
-            🦙 GEMMA 4
-          </button>
-          <button onclick="setAiRoutingModePanel('both')" id="aiRouterPanelBtn_both"
-            style="flex:1;min-width:100px;padding:14px 8px;border-radius:10px;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-weight:700;font-size:14px;transition:all .2s;">
-            🔀 BOTH (Fallback)
-          </button>
+      <div style="padding:16px 20px;overflow-y:auto;flex:1;">
+        <p style="margin:0 0 14px;font-size:13px;color:#6b7280;">Set AI grading mode per center. Changes apply instantly.</p>
+        <div id="aiRouterCentersList" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="text-align:center;padding:24px;color:#9ca3af;font-size:13px;">Loading centers...</div>
         </div>
-        <p style="margin:12px 0 0;font-size:11px;color:#9ca3af;">
-          API Only = paid cloud APIs only &nbsp;|&nbsp; GEMMA 4 = local laptop only &nbsp;|&nbsp; BOTH = tries laptop first, falls back to paid API
+        <p style="margin:14px 0 0;font-size:11px;color:#9ca3af;">
+          ☁️ API Only = paid cloud APIs &nbsp;|&nbsp; 🦙 GEMMA 4 = local laptop &nbsp;|&nbsp; 🔀 BOTH = laptop first, fallback to paid API
         </p>
       </div>
     </div>
@@ -16306,39 +16292,104 @@
     // ===== AI GRADING ROUTER PANEL =====
     var _LND_SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var _LND_SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-    var _LND_AI_ROUTER_KEY = 'ai_routing_mode_' + ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
 
-    function _applyAiRouterPanelUI(mode) {
-      var colors = { api: '#2563eb', gemma4: '#16a34a', both: '#7c3aed' };
-      var labels = { api: '☁️ API Only', gemma4: '🦙 GEMMA 4', both: '🔀 BOTH (Fallback)' };
-      ['api', 'gemma4', 'both'].forEach(function(m) {
-        var btn = document.getElementById('aiRouterPanelBtn_' + m);
-        if (!btn) return;
-        if (m === mode) {
-          btn.style.background = colors[m]; btn.style.color = '#fff';
-          btn.style.borderColor = colors[m]; btn.style.boxShadow = '0 4px 12px ' + colors[m] + '55';
-        } else {
-          btn.style.background = '#f9fafb'; btn.style.color = '#374151';
-          btn.style.borderColor = '#d1d5db'; btn.style.boxShadow = 'none';
-        }
+    var _aiRouterColors = { api: '#2563eb', gemma4: '#16a34a', both: '#7c3aed' };
+    var _aiRouterLabels = { api: '☁️ API', gemma4: '🦙 GEMMA 4', both: '🔀 BOTH' };
+
+    function _renderAiRouterRow(centerId, brandName, currentMode) {
+      var safeId = centerId.replace(/[^a-zA-Z0-9_]/g, '_');
+      var row = document.createElement('div');
+      row.style.cssText = 'border:1.5px solid #e5e7eb;border-radius:12px;overflow:hidden;';
+      row.id = 'aiRouterRow_' + safeId;
+
+      var header = '<div style="background:#f9fafb;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">' +
+        '<div>' +
+          '<div style="font-weight:700;font-size:14px;color:#111;">' + (brandName || centerId) + '</div>' +
+          '<div style="font-size:11px;color:#9ca3af;">' + centerId + '</div>' +
+        '</div>' +
+        '<span id="aiRouterRowStatus_' + safeId + '" style="font-size:11px;font-weight:600;color:#6b7280;"></span>' +
+      '</div>';
+
+      var btns = '<div style="display:flex;gap:0;border-top:1px solid #e5e7eb;">';
+      ['api', 'gemma4', 'both'].forEach(function(m, i) {
+        var isLast = i === 2;
+        var borderR = isLast ? '' : 'border-right:1px solid #e5e7eb;';
+        btns += '<button id="aiRouterRowBtn_' + safeId + '_' + m + '" ' +
+          'onclick="setAiRoutingModeForCenter(\'' + centerId + '\',\'' + safeId + '\',\'' + m + '\')" ' +
+          'style="flex:1;padding:10px 4px;border:none;background:#fff;cursor:pointer;font-weight:600;font-size:12px;transition:all .15s;' + borderR + '">' +
+          _aiRouterLabels[m] + '</button>';
       });
-      var st = document.getElementById('aiRouterPanelStatus');
-      if (st) st.textContent = 'Active: ' + (labels[mode] || mode);
+      btns += '</div>';
+
+      row.innerHTML = header + btns;
+      // Apply active state
+      _applyAiRouterRowUI(safeId, currentMode || 'api');
+      return row;
     }
 
-    function openAiRouterPanel() {
+    function _applyAiRouterRowUI(safeId, mode) {
+      ['api', 'gemma4', 'both'].forEach(function(m) {
+        var btn = document.getElementById('aiRouterRowBtn_' + safeId + '_' + m);
+        if (!btn) return;
+        if (m === mode) {
+          btn.style.background = _aiRouterColors[m];
+          btn.style.color = '#fff';
+          btn.style.fontWeight = '700';
+        } else {
+          btn.style.background = '#fff';
+          btn.style.color = '#374151';
+          btn.style.fontWeight = '600';
+        }
+      });
+      var st = document.getElementById('aiRouterRowStatus_' + safeId);
+      if (st) { st.textContent = _aiRouterLabels[mode] || mode; st.style.color = _aiRouterColors[mode] || '#6b7280'; }
+    }
+
+    async function openAiRouterPanel() {
       var overlay = document.getElementById('aiRouterOverlay');
-      if (overlay) { overlay.style.display = 'flex'; }
-      // Load current mode
-      var cached = localStorage.getItem('ms_ai_routing_mode');
-      if (cached) _applyAiRouterPanelUI(cached);
-      fetch(_LND_SB_URL + '/rest/v1/site_settings?key=eq.' + _LND_AI_ROUTER_KEY + '&select=value', {
-        headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY }
-      }).then(function(r){ return r.json(); }).then(function(rows) {
-        var mode = (rows && rows[0] && rows[0].value) ? rows[0].value : 'api';
-        localStorage.setItem('ms_ai_routing_mode', mode);
-        _applyAiRouterPanelUI(mode);
-      }).catch(function(){});
+      if (overlay) overlay.style.display = 'flex';
+      var list = document.getElementById('aiRouterCentersList');
+      if (!list) return;
+      list.innerHTML = '<div style="text-align:center;padding:24px;color:#9ca3af;font-size:13px;">Loading centers...</div>';
+
+      try {
+        // Load all center configs
+        var r1 = await fetch(_LND_SB_URL + '/rest/v1/site_settings?key=like.center_site_config_*&select=key,value', {
+          headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY }
+        });
+        var cfgRows = await r1.json();
+
+        // Load all ai_routing_mode_* keys
+        var r2 = await fetch(_LND_SB_URL + '/rest/v1/site_settings?key=like.ai_routing_mode_*&select=key,value', {
+          headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY }
+        });
+        var modeRows = await r2.json();
+        var modeMap = {};
+        if (Array.isArray(modeRows)) modeRows.forEach(function(r) {
+          var id = r.key.replace('ai_routing_mode_', '');
+          modeMap[id] = r.value;
+        });
+
+        // Build center list: always include mock_stream + all configured centers
+        var centers = [{ id: 'mock_stream', brand: 'Mock Stream (Main Site)' }];
+        if (Array.isArray(cfgRows)) {
+          cfgRows.forEach(function(r) {
+            var id = r.key.replace('center_site_config_', '');
+            if (id === 'mock_stream') return; // already added
+            var cfg = {};
+            try { cfg = typeof r.value === 'string' ? JSON.parse(r.value) : r.value; } catch(e) {}
+            centers.push({ id: id, brand: cfg.brandName || id });
+          });
+        }
+
+        list.innerHTML = '';
+        centers.forEach(function(c) {
+          var row = _renderAiRouterRow(c.id, c.brand, modeMap[c.id] || 'api');
+          list.appendChild(row);
+        });
+      } catch(e) {
+        list.innerHTML = '<div style="color:#ef4444;padding:16px;font-size:13px;">Failed to load centers. Please try again.</div>';
+      }
     }
 
     function closeAiRouterPanel() {
@@ -16346,11 +16397,12 @@
       if (overlay) overlay.style.display = 'none';
     }
 
-    async function setAiRoutingModePanel(mode) {
-      var st = document.getElementById('aiRouterPanelStatus');
-      if (st) st.textContent = 'Saving...';
+    async function setAiRoutingModeForCenter(centerId, safeId, mode) {
+      var key = 'ai_routing_mode_' + centerId;
+      var st = document.getElementById('aiRouterRowStatus_' + safeId);
+      if (st) { st.textContent = 'Saving...'; st.style.color = '#9ca3af'; }
       try {
-        var patchResp = await fetch(_LND_SB_URL + '/rest/v1/site_settings?key=eq.' + _LND_AI_ROUTER_KEY, {
+        var patchResp = await fetch(_LND_SB_URL + '/rest/v1/site_settings?key=eq.' + key, {
           method: 'PATCH',
           headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY,
             'Content-Type': 'application/json', 'Prefer': 'return=representation' },
@@ -16362,15 +16414,20 @@
             method: 'POST',
             headers: { 'apikey': _LND_SB_KEY, 'Authorization': 'Bearer ' + _LND_SB_KEY,
               'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ key: _LND_AI_ROUTER_KEY, value: mode })
+            body: JSON.stringify({ key: key, value: mode })
           });
         }
-        localStorage.setItem('ms_ai_routing_mode', mode);
-        _applyAiRouterPanelUI(mode);
+        _applyAiRouterRowUI(safeId, mode);
       } catch(e) {
-        var st2 = document.getElementById('aiRouterPanelStatus');
-        if (st2) st2.textContent = 'Save failed!';
+        if (st) { st.textContent = 'Save failed!'; st.style.color = '#ef4444'; }
       }
+    }
+
+    // Keep old single-site function as alias for compatibility
+    function setAiRoutingModePanel(mode) {
+      var centerId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var safeId = centerId.replace(/[^a-zA-Z0-9_]/g, '_');
+      setAiRoutingModeForCenter(centerId, safeId, mode);
     }
 
     // ===== SHARED ADMIN GATE (all Site Management features) =====
