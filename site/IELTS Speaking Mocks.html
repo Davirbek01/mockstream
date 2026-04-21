@@ -6121,22 +6121,21 @@
         if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
         if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
         if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-        var _geminiKeys = [GEMINI_KEY];
-        if (cp['scoring_gemini_key_backup1']) _geminiKeys.push(cp['scoring_gemini_key_backup1'].trim());
-        if (cp['scoring_gemini_key_backup2']) _geminiKeys.push(cp['scoring_gemini_key_backup2'].trim());
-        var _gemRes = null;
-        for (var _gki = 0; _gki < _geminiKeys.length; _gki++) {
-          var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + _geminiKeys[_gki], {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
-          });
-          if (!r.ok) { console.warn('[Gemini] Key ' + (_gki+1) + '/' + _geminiKeys.length + ' failed (' + r.status + ')' + (_gki+1 < _geminiKeys.length ? ' — trying backup...' : '')); if (_gki+1 < _geminiKeys.length) continue; throw new Error('AI API error: ' + r.status); }
-          var j = await r.json();
-          if (j.error) { console.warn('[Gemini] Key ' + (_gki+1) + ' error: ' + (j.error.message||'API error') + (_gki+1 < _geminiKeys.length ? ' — trying backup...' : '')); if (_gki+1 < _geminiKeys.length) continue; throw new Error(j.error.message || 'API error'); }
-          if (!j.candidates || !j.candidates.length) { if (_gki+1 < _geminiKeys.length) continue; throw new Error('No response from AI'); }
-          if (_gki > 0) GEMINI_KEY = _geminiKeys[_gki];
-          _gemRes = j.candidates[0].content.parts[0].text; break;
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + GEMINI_KEY, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
+        });
+        if (!r.ok) {
+          console.warn('[Gemini] Key failed (' + r.status + ') — re-fetching backup from server...');
+          GEMINI_KEY = null; try { await getGeminiKey(); } catch(e) {}
+          if (!GEMINI_KEY) throw new Error('AI API error: ' + r.status);
+          var r2 = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + GEMINI_KEY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody) });
+          if (!r2.ok) throw new Error('AI API error: ' + r2.status);
+          r = r2;
         }
-        return _gemRes;
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
       } else {
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
@@ -6147,36 +6146,26 @@
         if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
         if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
         if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-        var _geminiKeys = [GEMINI_KEY];
-        if (cp['scoring_gemini_key_backup1']) _geminiKeys.push(cp['scoring_gemini_key_backup1'].trim());
-        if (cp['scoring_gemini_key_backup2']) _geminiKeys.push(cp['scoring_gemini_key_backup2'].trim());
-        var _gemRes = null;
-        for (var _gki = 0; _gki < _geminiKeys.length; _gki++) {
-          var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + _geminiKeys[_gki], {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(gBody)
+        var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + GEMINI_KEY, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(gBody)
+        });
+        if (!r.ok) {
+          console.warn('[Gemini] Key failed (' + r.status + ') — re-fetching backup from server...');
+          GEMINI_KEY = null;
+          try { await getGeminiKey(); } catch(e) {}
+          if (!GEMINI_KEY) throw new Error('AI API error: ' + r.status);
+          var r2 = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + _mdlGemini + ':generateContent?key=' + GEMINI_KEY, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
           });
-          if (!r.ok) {
-            console.warn('[Gemini] Key ' + (_gki+1) + '/' + _geminiKeys.length + ' failed (' + r.status + ')' + (_gki+1 < _geminiKeys.length ? ' — trying backup...' : ''));
-            if (_gki + 1 < _geminiKeys.length) continue;
-            throw new Error('AI API error: ' + r.status);
-          }
-          var j = await r.json();
-          if (j.error) {
-            console.warn('[Gemini] Key ' + (_gki+1) + ' error: ' + (j.error.message || 'API error') + (_gki+1 < _geminiKeys.length ? ' — trying backup...' : ''));
-            if (_gki + 1 < _geminiKeys.length) continue;
-            throw new Error(j.error.message || 'API error');
-          }
-          if (!j.candidates || !j.candidates.length) {
-            if (_gki + 1 < _geminiKeys.length) continue;
-            throw new Error('No response from AI');
-          }
-          if (_gki > 0) GEMINI_KEY = _geminiKeys[_gki]; // promote backup for this session
-          _gemRes = j.candidates[0].content.parts[0].text;
-          break;
+          if (!r2.ok) throw new Error('AI API error: ' + r2.status);
+          r = r2;
         }
-        return _gemRes;
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        if (!j.candidates || !j.candidates.length) throw new Error('No response from AI');
+        return j.candidates[0].content.parts[0].text;
       }
     }
 
