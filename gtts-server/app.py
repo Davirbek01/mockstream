@@ -64,7 +64,7 @@ def tts_audio():
                      download_name='audio.zip')
 
 
-OLLAMA_URL = 'http://localhost:11434/api/generate'
+OLLAMA_CHAT_URL = 'http://localhost:11434/api/chat'
 OLLAMA_MODEL = 'gemma4:e4b'
 
 
@@ -76,29 +76,41 @@ def grade():
 
     prompt = str(data.get('prompt', '')).strip()
     text = str(data.get('text', '')).strip()
-    grade_type = str(data.get('type', 'writing')).strip()  # 'writing' or 'speaking'
+    grade_type = str(data.get('type', 'writing')).strip()
 
-    if not prompt or not text:
-        return jsonify({'error': 'Missing prompt or text'}), 400
+    if not prompt:
+        return jsonify({'error': 'Missing prompt'}), 400
 
-    full_prompt = prompt + '\n\n' + text
+    user_content = prompt + ('\n\n' + text if text else '')
 
     payload = json.dumps({
         'model': OLLAMA_MODEL,
-        'prompt': full_prompt,
-        'stream': False
+        'messages': [
+            { 'role': 'system', 'content': 'You are a language examiner. Always respond with valid JSON only. No markdown, no explanation, no code fences.' },
+            { 'role': 'user', 'content': user_content }
+        ],
+        'stream': False,
+        'format': 'json',
+        'options': { 'num_predict': 1024, 'temperature': 0.2 }
     }).encode('utf-8')
 
     try:
         req = urllib.request.Request(
-            OLLAMA_URL,
+            OLLAMA_CHAT_URL,
             data=payload,
             headers={'Content-Type': 'application/json'},
             method='POST'
         )
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=180) as resp:
             result = json.loads(resp.read().decode('utf-8'))
-        return jsonify({'ok': True, 'result': result.get('response', ''), 'model': OLLAMA_MODEL, 'type': grade_type})
+        result_text = result.get('message', {}).get('content', '')
+        # Strip markdown code fences just in case
+        result_text = result_text.strip()
+        if result_text.startswith('```'):
+            result_text = result_text.split('\n', 1)[-1]
+            if result_text.endswith('```'):
+                result_text = result_text.rsplit('```', 1)[0].strip()
+        return jsonify({'ok': True, 'result': result_text, 'model': OLLAMA_MODEL, 'type': grade_type})
     except Exception as e:
         return jsonify({'ok': False, 'error': str(e)}), 502
 
