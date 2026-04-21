@@ -8523,10 +8523,15 @@
         }
 
         var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+        var _providerKeysCache = {};
         async function _fetchProviderKey(m) {
           var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
-          if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
+          if (!r.ok) throw new Error('Failed to fetch ' + m + ' key');
+          var d = await r.json();
+          if (d.keys && d.keys.length > 1) _providerKeysCache[m] = d.keys;
+          return d.key;
         }
+        function _getServerBackupKeys(m) { return (_providerKeysCache[m] || []).slice(1); }
         function _getBackupKeys(provider, cp) {
           var keys = [];
           for (var i = 2; i <= 5; i++) {
@@ -8625,7 +8630,7 @@
             var body = { model: 'gpt-4o-mini', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
-            return await _callWithKeyRotation('openai', API_KEY, _getBackupKeys('openai', cp), async function(key) {
+            return await _callWithKeyRotation('openai', API_KEY, _getServerBackupKeys('openai').concat(_getBackupKeys('openai', cp)), async function(key) {
               var r = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
@@ -8645,7 +8650,7 @@
             var cBody = { model: 'claude-sonnet-4-20250514', max_tokens: opts.maxTokens || 8192, messages: [{ role: 'user', content: uMsg }] };
             if (systemText) cBody.system = systemText;
             if (opts.temperature !== undefined) cBody.temperature = opts.temperature;
-            return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getBackupKeys('claude', cp), async function(key) {
+            return await _callWithKeyRotation('claude', _CLAUDE_KEY, _getServerBackupKeys('claude').concat(_getBackupKeys('claude', cp)), async function(key) {
               var r = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
@@ -8668,7 +8673,7 @@
             var body = { model: 'grok-3-mini', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = opts.maxTokens;
             if (opts.jsonMode) body.response_format = { type: 'json_object' };
-            return await _callWithKeyRotation('grok', _GROK_KEY, _getBackupKeys('grok', cp), async function(key) {
+            return await _callWithKeyRotation('grok', _GROK_KEY, _getServerBackupKeys('grok').concat(_getBackupKeys('grok', cp)), async function(key) {
               var r = await fetch('https://api.x.ai/v1/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
@@ -8691,7 +8696,7 @@
             messages.push({ role: 'user', content: uMsg });
             var body = { model: 'deepseek-chat', messages: messages, temperature: opts.temperature || 0.3 };
             if (opts.maxTokens) body.max_tokens = Math.min(opts.maxTokens, 8192);
-            return await _callWithKeyRotation('deepseek', _DEEPSEEK_KEY, _getBackupKeys('deepseek', cp), async function(key) {
+            return await _callWithKeyRotation('deepseek', _DEEPSEEK_KEY, _getServerBackupKeys('deepseek').concat(_getBackupKeys('deepseek', cp)), async function(key) {
               var r = await fetch('https://api.deepseek.com/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
@@ -8737,7 +8742,7 @@
             if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getBackupKeys('gemini', cp), async function(key) {
+            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
               var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(gBody)
               });
@@ -8757,7 +8762,7 @@
             if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
-            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getBackupKeys('gemini', cp), async function(key) {
+            return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
               var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
