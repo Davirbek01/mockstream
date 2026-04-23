@@ -4516,7 +4516,10 @@
       // Run blocked-status check (same as manual submit)
       try { _checkBlockedStatus(profile.fullName); } catch (e) {}
 
-      // Hide the overlay
+      // Mark submitted so the loader pipeline can proceed without requiring
+      // the user to click "Davom etish". If the overlay is currently visible,
+      // fade it out; if it's not yet shown, enterAndContinue will skip it.
+      nameSubmitted = true;
       var overlay = document.getElementById('nameOverlay');
       if (overlay && overlay.classList.contains('show')) {
         overlay.style.transition = 'opacity 0.3s ease';
@@ -4527,8 +4530,13 @@
           overlay.style.transition = '';
         }, 300);
       }
-      nameSubmitted = true;
+      // If loading is already running, poke the pipeline
       if (pendingTryShowApp) pendingTryShowApp();
+
+      // Clean the #access_token=... fragment from the URL for tidiness
+      if (window.location.hash && window.location.hash.indexOf('access_token') !== -1) {
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {}
+      }
     });
 
     function submitCandidateName() {
@@ -4617,8 +4625,15 @@
       setTimeout(() => {
         btn.style.display = 'none';
         progressContainer.classList.add('visible');
-        // Show the name input overlay
-        document.getElementById('nameOverlay').classList.add('show');
+        // If user is already signed in via Google (session restored by auth.js),
+        // skip the name overlay entirely — nameSubmitted was set by the
+        // 'mockStream:userSignedIn' event listener at page load.
+        if (nameSubmitted && sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
+          console.log('[index] Google session detected, skipping name overlay');
+        } else {
+          // Show the name input overlay
+          document.getElementById('nameOverlay').classList.add('show');
+        }
       }, 300);
 
       const startLoading = () => {
