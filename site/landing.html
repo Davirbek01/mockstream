@@ -16918,42 +16918,110 @@
       ];
       var div = document.createElement('div');
       div.id = 'siteMgmtGridOverlay';
-      div.style.cssText = 'position:fixed;inset:0;z-index:10180;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
+      div.style.cssText = 'position:fixed;inset:0;z-index:10180;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
       var cards = items.map(function (it, i) {
-        return '<button data-idx="' + i + '" class="smg-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;min-height:110px;background:var(--surface,#fff);border:1px solid rgba(148,163,184,.25);border-radius:14px;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;color:var(--ink,#0f172a);font:600 12.5px system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;line-height:1.25;">' +
-                 '<span style="font-size:28px;line-height:1;">' + it.icon + '</span>' +
-                 '<span>' + it.label + '</span>' +
+        return '<button data-idx="' + i + '" class="smg-card">' +
+                 '<span class="smg-icon">' + it.icon + '</span>' +
+                 '<span class="smg-label">' + it.label + '</span>' +
                '</button>';
       }).join('');
       div.innerHTML =
-        '<div style="width:100%;max-width:920px;background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:18px;padding:22px 22px 26px;box-shadow:0 30px 80px rgba(0,0,0,.45);">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">' +
-            '<div style="font:700 18px system-ui;">⚙️ Site Management</div>' +
-            '<button id="smgCloseBtn" aria-label="Close" style="background:none;border:0;font-size:22px;cursor:pointer;color:#64748b;line-height:1;padding:4px 8px;">×</button>' +
+        '<div class="smg-panel">' +
+          '<div class="smg-header">' +
+            '<div class="smg-title">⚙️ Site Management</div>' +
+            '<button id="smgCloseBtn" aria-label="Close" class="smg-close">×</button>' +
           '</div>' +
-          '<div style="font-size:12.5px;color:#64748b;margin-bottom:16px;">Administrator tools. Click any card to open.</div>' +
-          '<div id="smgGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">' + cards + '</div>' +
+          '<div class="smg-sub">Administrator tools. Click any card to open.</div>' +
+          '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
-      div.addEventListener('click', function (e) { if (e.target === div) div.style.display = 'none'; });
-      div.querySelector('#smgCloseBtn').onclick = function () { div.style.display = 'none'; };
+      div.addEventListener('click', function (e) { if (e.target === div) { div.style.display = 'none'; _removeSmgBackPill(); } });
+      div.querySelector('#smgCloseBtn').onclick = function () { div.style.display = 'none'; _removeSmgBackPill(); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
-        btn.addEventListener('mouseenter', function () { btn.style.transform = 'translateY(-2px)'; btn.style.boxShadow = '0 8px 22px rgba(0,0,0,.12)'; btn.style.borderColor = 'rgba(217,119,6,.5)'; });
-        btn.addEventListener('mouseleave', function () { btn.style.transform = ''; btn.style.boxShadow = ''; btn.style.borderColor = 'rgba(148,163,184,.25)'; });
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
           var it = items[idx];
           div.style.display = 'none';
+          _showSmgBackButton();
           try { it.fn(); } catch (e) { console.error('[siteMgmtGrid] handler error:', e); }
         });
       });
-      // Keyframe for fade-in (inject once)
+      // Inject styles once (keyframe + grid responsive styles + back pill)
       if (!document.getElementById('adminAuthKeyframes')) {
         var st = document.createElement('style');
         st.id = 'adminAuthKeyframes';
-        st.textContent = '@keyframes adminAuthFadeIn{from{opacity:0}to{opacity:1}}';
+        st.textContent =
+          '@keyframes adminAuthFadeIn{from{opacity:0}to{opacity:1}}' +
+          '.smg-panel{width:100%;max-width:920px;background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:18px;padding:22px 22px 26px;box-shadow:0 30px 80px rgba(0,0,0,.45);}' +
+          '.smg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}' +
+          '.smg-title{font:700 18px system-ui,-apple-system,Segoe UI,sans-serif;}' +
+          '.smg-close{background:none;border:0;font-size:22px;cursor:pointer;color:#64748b;line-height:1;padding:4px 8px;}' +
+          '.smg-sub{font-size:12.5px;color:#64748b;margin-bottom:16px;}' +
+          '.smg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}' +
+          '.smg-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 8px;min-height:108px;background:var(--surface,#fff);border:1px solid rgba(148,163,184,.25);border-radius:14px;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;color:var(--ink,#0f172a);font:600 12.5px system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;line-height:1.25;}' +
+          '.smg-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.12);border-color:rgba(217,119,6,.5);}' +
+          '.smg-icon{font-size:26px;line-height:1;}' +
+          '.smg-label{display:block;}' +
+          /* Tablet */
+          '@media (max-width:720px){.smg-panel{padding:16px 14px 18px;border-radius:14px;}.smg-grid{grid-template-columns:repeat(3,1fr);gap:8px;}.smg-card{min-height:86px;padding:12px 4px;gap:5px;font-size:11px;border-radius:11px;}.smg-icon{font-size:22px;}}' +
+          /* Narrow mobile — 3 per row stays, icons a hair smaller */
+          '@media (max-width:380px){.smg-grid{gap:6px;}.smg-card{min-height:80px;padding:10px 3px;font-size:10.5px;}.smg-icon{font-size:20px;}}' +
+          /* Back-to-menu floating pill */
+          '.smg-back-pill{position:fixed;bottom:18px;left:18px;z-index:10190;display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:999px;box-shadow:0 10px 30px rgba(15,23,42,.18);font:600 13px system-ui,-apple-system,Segoe UI,sans-serif;color:#0f172a;cursor:pointer;transition:transform .15s, box-shadow .15s;}' +
+          '.smg-back-pill:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(15,23,42,.24);}' +
+          '.smg-back-pill .smg-back-close{background:none;border:0;cursor:pointer;color:#94a3b8;font-size:16px;line-height:1;padding:0 0 0 4px;}' +
+          '@media (max-width:480px){.smg-back-pill{bottom:14px;left:14px;padding:9px 12px;font-size:12px;}}';
         document.head.appendChild(st);
       }
+    }
+
+    // Persistent floating "← Site Management" pill that re-opens the grid
+    // from wherever the admin currently is (works for any panel/modal).
+    function _showSmgBackButton() {
+      if (document.getElementById('smgBackPill')) return;
+      var pill = document.createElement('div');
+      pill.id = 'smgBackPill';
+      pill.className = 'smg-back-pill';
+      pill.innerHTML = '<span style="font-size:16px;line-height:1;">←</span>' +
+                       '<span>Site Management</span>' +
+                       '<button class="smg-back-close" aria-label="Dismiss">×</button>';
+      pill.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('smg-back-close')) {
+          pill.remove();
+          return;
+        }
+        _reopenSmgFromAnywhere();
+      });
+      document.body.appendChild(pill);
+    }
+
+    function _removeSmgBackPill() {
+      var p = document.getElementById('smgBackPill');
+      if (p) p.remove();
+    }
+
+    function _reopenSmgFromAnywhere() {
+      // Close any open admin panel/modal by clicking its close button or
+      // hiding common overlay containers. Falls back to just showing the
+      // grid on top (z-index 10180 already covers most panels).
+      try {
+        var closeSelectors = [
+          '#systemPromptsPanel .sp-close', '#testMakerModal .tm-close',
+          '#registeredUsersPanel .ru-close', '#writingPlusPanel .wp-close',
+          '#speakingPlusPanel .sp-close', '#readingPlusPanel .rp-close',
+          '#listeningPlusPanel .lp-close', '#centersPanel .cm-close',
+          '#aiRouterPanel .ai-close', '#privateMessagesPanel .pm-close',
+          '#supportMessagesPanel .sm-close', '#videoGuidesPanel .vg-close'
+        ];
+        closeSelectors.forEach(function (sel) {
+          var el = document.querySelector(sel);
+          if (el && typeof el.click === 'function') { try { el.click(); } catch (e) {} }
+        });
+      } catch (e) {}
+      // Show grid again
+      var grid = document.getElementById('siteMgmtGridOverlay');
+      if (grid) { grid.style.display = 'flex'; }
+      else { _showSiteMgmtGrid(); }
     }
 
     function _showSiteAdminPasscode() {
