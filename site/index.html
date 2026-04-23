@@ -17,6 +17,9 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -1952,6 +1955,69 @@
       transform: none;
     }
 
+    /* ===== Google Sign-in on name card ===== */
+    .google-signin-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      margin-bottom: 6px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      background: #fff;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .google-signin-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+    }
+    .google-signin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .google-signin-btn svg { flex-shrink: 0; }
+    .google-signin-hint {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .name-or-separator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .name-or-separator::before, .name-or-separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .guest-warning {
+      margin-top: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #92400e;
+      background: #fef3c7;
+      border-radius: 8px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    [data-theme="dark"] .google-signin-btn { background: #0f1716; border-color: #334155; color: #e6f1ef; }
+    [data-theme="dark"] .google-signin-btn:hover { background: #1a2423; border-color: #475569; }
+    [data-theme="dark"] .name-or-separator::before, [data-theme="dark"] .name-or-separator::after { background: #334155; }
+    [data-theme="dark"] .guest-warning { background: #3a2d0e; color: #fbbf24; }
+
     /* ===== SIDEBAR PROFILE ===== */
     .sidebar-profile {
       display: flex;
@@ -2779,6 +2845,15 @@
         <h2>Ismingizni kiriting</h2>
         <p class="name-card-sub">Familiyangiz va ismingizni kiriting</p>
 
+        <!-- Google sign-in (primary path) -->
+        <button type="button" class="google-signin-btn" id="googleSigninBtn" onclick="signInWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
+          <span>Google bilan davom etish</span>
+        </button>
+        <div class="google-signin-hint">Natijalaringiz har bir qurilmada saqlanadi</div>
+
+        <div class="name-or-separator"><span>yoki mehmon sifatida</span></div>
+
         <div class="name-field-group">
           <label for="nameInputSurname">Familiya (Surname)</label>
           <input type="text" id="nameInputSurname" placeholder="Familiyangiz" autocomplete="off" autocorrect="off"
@@ -2796,6 +2871,9 @@
         <button class="name-submit-btn" id="nameSubmitBtn" onclick="submitCandidateName()">
           Davom etish <span style="font-size:20px">→</span>
         </button>
+        <div class="guest-warning">
+          ⚠️ Mehmon sifatida: natijalar faqat shu qurilmada ko'rinadi
+        </div>
       </div>
     </div>
 
@@ -4396,6 +4474,62 @@
 
     let nameSubmitted = false;
     let pendingTryShowApp = null;
+
+    // ===== Google Sign-In integration =====
+    function signInWithGoogle() {
+      var btn = document.getElementById('googleSigninBtn');
+      if (!window.MockStream || !window.MockStream.auth) {
+        console.warn('[index] auth.js not loaded');
+        alert('Google sign-in temporarily unavailable. Please use guest mode below.');
+        return;
+      }
+      if (btn) {
+        btn.disabled = true;
+        var span = btn.querySelector('span');
+        if (span) span.textContent = 'Redirecting...';
+      }
+      // Return to this same page after OAuth
+      window.MockStream.auth.signInWithGoogle(window.location.href).catch(function (e) {
+        console.error('[index] Google sign-in failed:', e);
+        if (btn) {
+          btn.disabled = false;
+          var span = btn.querySelector('span');
+          if (span) span.textContent = 'Google bilan davom etish';
+        }
+        alert('Google sign-in failed: ' + (e && e.message ? e.message : 'unknown error'));
+      });
+    }
+
+    // When Google OAuth redirect returns and session is restored, auto-advance
+    // past the name card (auth.js has already filled CANDIDATE_FULL_NAME +
+    // CANDIDATE_SURNAME + CANDIDATE_FIRSTNAME for us).
+    window.addEventListener('mockStream:userSignedIn', function (ev) {
+      var profile = ev && ev.detail;
+      if (!profile || !profile.fullName) return;
+      // Mirror into inputs so any other downstream code sees them
+      var sIn = document.getElementById('nameInputSurname');
+      var fIn = document.getElementById('nameInputFirstname');
+      var parts = profile.fullName.trim().split(/\s+/);
+      if (sIn && parts.length >= 1) sIn.value = parts[0];
+      if (fIn && parts.length >= 2) fIn.value = parts.slice(1).join(' ');
+
+      // Run blocked-status check (same as manual submit)
+      try { _checkBlockedStatus(profile.fullName); } catch (e) {}
+
+      // Hide the overlay
+      var overlay = document.getElementById('nameOverlay');
+      if (overlay && overlay.classList.contains('show')) {
+        overlay.style.transition = 'opacity 0.3s ease';
+        overlay.style.opacity = '0';
+        setTimeout(function () {
+          overlay.classList.remove('show');
+          overlay.style.opacity = '';
+          overlay.style.transition = '';
+        }, 300);
+      }
+      nameSubmitted = true;
+      if (pendingTryShowApp) pendingTryShowApp();
+    });
 
     function submitCandidateName() {
       const surnameInput = document.getElementById('nameInputSurname');
