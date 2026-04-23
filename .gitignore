@@ -8,3 +8,14 @@ __pycache__/
 *.pyc
 *.py
 desktop.ini
+
+# Local SQL migrations that contain secrets (service role key, etc.)
+site/supabase-cleanup-fix.sql
+
+# Vite pilot — local dev tool only, never deploy
+vite-app/
+
+# React + Vite pilot — local only, never deploy
+react-app/
+
+supabase/.temp/
