@@ -110,11 +110,18 @@
     var cfg = window.SITE_CONFIG || {};
     var centerId = (window.__CENTER_ID || '').toString().trim();
 
+    var studentName = '';
+    try {
+      studentName = (sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
+                     localStorage.getItem('ms_candidate_name') || '').toString().trim().slice(0, 120);
+    } catch (e) {}
+
     var payload = {
       brandName:      cfg.brandName      || '',
       testIdentifier: cfg.testIdentifier || '',
       logoUrl:        cfg.logoUrl        || '',
-      directorName:   cfg.directorName   || ''
+      directorName:   cfg.directorName   || '',
+      studentName:    studentName
     };
 
     try {

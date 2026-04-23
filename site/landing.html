@@ -6449,6 +6449,9 @@
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openVideoGuidesPanel(); }); toggleSidebar();" class="skill-btn" id="videoGuidesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(239,68,68,0.03));border:1.5px solid rgba(239,68,68,0.3);position:relative;">
             <span style="font-size:15px;">🎬</span> Video Guides
           </a>
+          <a href="ip-blocker.html" onclick="toggleSidebar();" class="skill-btn" id="ipBlockerMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(220,38,38,0.03));border:1.5px solid rgba(220,38,38,0.3);">
+            <span>🛡️</span> IP Blocker
+          </a>
         </div>
       </li>
 
@@ -9628,6 +9631,7 @@
           var smItem = document.getElementById('supportMessagesMenuItem');
           var vgItem = document.getElementById('videoGuidesMenuItem');
           var aiRItem = document.getElementById('aiRouterMenuItem');
+          var ipbItem = document.getElementById('ipBlockerMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
@@ -9637,6 +9641,7 @@
           if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
           if (vgItem) { vgItem.style.display = ''; vgItem.classList.add('admin-revealed'); }
           if (aiRItem) { aiRItem.style.display = ''; aiRItem.classList.add('admin-revealed'); }
+          if (ipbItem) { ipbItem.style.display = ''; ipbItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session

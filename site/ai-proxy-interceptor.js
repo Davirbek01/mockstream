@@ -78,6 +78,12 @@
     var headers  = new Headers(nextInit.headers || (input && input.headers) || {});
     stripProviderAuthHeaders(headers);
     headers.set('x-ms-center', String(window.__CENTER_ID || ''));
+    try {
+      var _sn = '';
+      try { _sn = sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; } catch (e) {}
+      if (!_sn) { try { _sn = localStorage.getItem('ms_candidate_name') || ''; } catch (e) {} }
+      if (_sn) headers.set('x-ms-student', String(_sn).slice(0, 120));
+    } catch (_e) {}
     nextInit.headers = headers;
 
     // Preserve method/body when input was a Request object

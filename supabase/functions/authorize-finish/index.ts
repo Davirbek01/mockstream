@@ -56,12 +56,14 @@ async function logAttempt(opts: {
   centerId: string;
   status: string;
   errorMessage?: string;
+  studentName?: string;
 }) {
   try {
     await sb.from('ai_submission_logs').insert({
       ip:            opts.ip || null,
       user_agent:    opts.userAgent || null,
       center_id:     opts.centerId || null,
+      student_name:  opts.studentName || null,
       provider:      'authorize-finish',
       skill:         null,
       status:        opts.status,
@@ -94,32 +96,33 @@ Deno.serve(async (req) => {
     logoUrl:        typeof body.logoUrl        === 'string' ? body.logoUrl.trim()        : '',
     directorName:   typeof body.directorName   === 'string' ? body.directorName.trim()   : '',
   };
+  const studentName = typeof body.studentName === 'string' ? body.studentName.trim().slice(0, 120) : '';
 
   // -------- gate 1: IP blocklist --------
   if (ip) {
     const { data: blocked } = await sb.from('blocked_ips').select('ip').eq('ip', ip).maybeSingle();
     if (blocked) {
-      await logAttempt({ ip, userAgent, centerId, status: 'blocked_ip', errorMessage: ip });
+      await logAttempt({ ip, userAgent, centerId, studentName, status: 'blocked_ip', errorMessage: ip });
       return json(403, { error: 'blocked_ip' });
     }
   }
 
   // -------- gate 2: center registered? --------
   if (!centerId) {
-    await logAttempt({ ip, userAgent, centerId, status: 'bad_center', errorMessage: 'missing_center_header' });
+    await logAttempt({ ip, userAgent, centerId, studentName, status: 'bad_center', errorMessage: 'missing_center_header' });
     return json(403, { error: 'missing_center' });
   }
 
   const real = await readRow(`center_site_config_${centerId}`);
   if (!real) {
-    await logAttempt({ ip, userAgent, centerId, status: 'bad_center', errorMessage: 'no_site_config_row' });
+    await logAttempt({ ip, userAgent, centerId, studentName, status: 'bad_center', errorMessage: 'no_site_config_row' });
     return json(403, { error: 'unknown_center', centerId });
   }
 
   // -------- gate 3: center active? --------
   const gate = await readRow(`center_config_${centerId}`);
   if (gate && gate.active === false) {
-    await logAttempt({ ip, userAgent, centerId, status: 'bad_center', errorMessage: 'center_inactive' });
+    await logAttempt({ ip, userAgent, centerId, studentName, status: 'bad_center', errorMessage: 'center_inactive' });
     return json(403, { error: 'inactive_center', centerId });
   }
 
@@ -132,7 +135,7 @@ Deno.serve(async (req) => {
 
   if (mismatches.length > 0) {
     await logAttempt({
-      ip, userAgent, centerId,
+      ip, userAgent, centerId, studentName,
       status: 'tamper_detected',
       errorMessage: `mismatches=${mismatches.join(',')}; claim=${JSON.stringify(claim)}`
     });
@@ -140,7 +143,7 @@ Deno.serve(async (req) => {
   }
 
   // -------- success: return trusted data --------
-  await logAttempt({ ip, userAgent, centerId, status: 'ok' });
+  await logAttempt({ ip, userAgent, centerId, studentName, status: 'ok' });
   return json(200, {
     ok:   true,
     data: {

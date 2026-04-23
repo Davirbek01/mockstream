@@ -173,6 +173,7 @@ async function logCall(opts: {
   provider: string;
   skill:    string;
   status:   string;
+  studentName?: string;
   bytesIn?: number;
   bytesOut?:number;
   errorMessage?: string;
@@ -182,6 +183,7 @@ async function logCall(opts: {
       ip:            opts.ip || null,
       user_agent:    opts.userAgent || null,
       center_id:     opts.centerId || null,
+      student_name:  opts.studentName || null,
       provider:      opts.provider,
       skill:         opts.skill || null,
       status:        opts.status,
@@ -216,31 +218,32 @@ Deno.serve(async (req) => {
   const centerId  = (req.headers.get('x-ms-center') || '').trim();
   const userAgent = (req.headers.get('user-agent') || '').slice(0, 256);
   const skillHint = (req.headers.get('x-ms-skill') || '').slice(0, 32);
+  const studentName = (req.headers.get('x-ms-student') || '').slice(0, 120);
 
   // -------- gate 1: IP blocklist --------
   if (await isIpBlocked(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, status: 'blocked_ip', errorMessage: ip });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'blocked_ip', errorMessage: ip });
     return jsonErr(403, 'blocked_ip', ip);
   }
 
   // -------- gate 2: center whitelist --------
   const gate = await getCenterGate(centerId);
   if (!gate.allowed) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, status: 'bad_center', errorMessage: centerId });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'bad_center', errorMessage: centerId });
     return jsonErr(403, 'unknown_or_inactive_center',
       `centerId="${centerId}" not present in Center Hub or marked inactive.`);
   }
 
   // -------- gate 3: per-IP rate limit --------
   if (await ipRateExceeded(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, status: 'rate_limited' });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'rate_limited' });
     return jsonErr(429, 'rate_limited',
       `>${RATE_LIMIT_PER_10MIN} calls in 10 min from this IP.`);
   }
 
   // -------- gate 4: per-center daily cap --------
   if (await dailyCapExceeded(centerId, gate.dailyCap)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, status: 'rate_limited',
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'rate_limited',
              errorMessage: `daily_cap ${gate.dailyCap}` });
     return jsonErr(429, 'daily_cap_exceeded',
       `Center ${centerId} hit cap of ${gate.dailyCap}/day.`);
@@ -271,14 +274,14 @@ Deno.serve(async (req) => {
       duplex:  'half'
     });
   } catch (e: any) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, status: 'provider_error',
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'provider_error',
              errorMessage: (e?.message || String(e)).slice(0, 500) });
     return jsonErr(502, 'upstream_fetch_failed', e?.message || String(e));
   }
 
   // Log (don't block on log)
   logCall({
-    ip, userAgent, centerId, provider, skill: skillHint,
+    ip, userAgent, centerId, provider, skill: skillHint, studentName,
     status: upstream.ok ? 'ok' : 'provider_error',
     errorMessage: upstream.ok ? '' : `HTTP ${upstream.status}`
   });
