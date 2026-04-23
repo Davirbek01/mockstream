@@ -9847,8 +9847,19 @@
             }
             var a = window.MockStream && window.MockStream.auth;
             var txt = document.getElementById('guestUpgradeText');
+            if (!a || !a.signInWithGoogle) {
+              console.warn('[guestUpgradePill] auth.js not loaded');
+              alert('Google sign-in temporarily unavailable. Please refresh.');
+              return;
+            }
             if (txt) txt.textContent = 'Redirecting...';
-            if (a) a.signInWithGoogle(window.location.href);
+            // Same path as the welcome-page button: return to this same URL
+            // after OAuth. auth.js triggers mockStream:userSignedIn on return.
+            a.signInWithGoogle(window.location.href).catch(function (err) {
+              console.error('[guestUpgradePill] Google sign-in failed:', err);
+              if (txt) txt.textContent = '☁️ Save results to cloud';
+              alert('Google sign-in failed: ' + (err && err.message ? err.message : 'unknown error'));
+            });
           });
           document.body.appendChild(el);
         } else {

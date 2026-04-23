@@ -4537,6 +4537,16 @@
       if (window.location.hash && window.location.hash.indexOf('access_token') !== -1) {
         try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {}
       }
+
+      // Auto-advance past the welcome screen: if the user just returned
+      // from Google OAuth, skip the name card + progress bar and show the
+      // landing page immediately (same as if they had clicked Davom etish).
+      try {
+        var welcome = document.getElementById('welcomeScreen');
+        if (welcome && !welcome.classList.contains('hidden') && !isLoading) {
+          enterAndContinue();
+        }
+      } catch (e) { /* ignore */ }
     });
 
     function submitCandidateName() {
@@ -4804,16 +4814,21 @@
 
     // ===== AUTO-RESUME: skip welcome on refresh if user already entered =====
     (function autoResume() {
-      if (sessionStorage.getItem('ms_entered_app') === '1') {
-        // Restore name if stored
+      // Skip welcome if:
+      //   (a) the user previously entered the app in this session, OR
+      //   (b) the user is signed in with Google (auth.js restored the
+      //       session on load — CANDIDATE_FULL_NAME is populated).
+      var hasEntered = sessionStorage.getItem('ms_entered_app') === '1';
+      var hasGoogleSession = !!sessionStorage.getItem('CANDIDATE_FULL_NAME');
+      if (hasEntered || hasGoogleSession) {
         const savedName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name');
         if (savedName) nameSubmitted = true;
-        // Skip welcome screen instantly
         appFrame.src = 'landing.html';
         appFrame.onload = function () {
           welcomeScreen.classList.add('hidden');
           appFrame.classList.add('active');
           history.replaceState({ page: 'app' }, '', '');
+          sessionStorage.setItem('ms_entered_app', '1');
         };
       }
     })();
