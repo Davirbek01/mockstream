@@ -9,6 +9,8 @@
   <!-- Admin auth: Supabase Auth magic-link + write interceptor (required for RLS) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="admin-auth.js"></script>
+  <!-- Student Google Sign-In + Guest mode helper -->
+  <script src="auth.js"></script>
   <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -744,6 +746,74 @@
     }
     .pp-btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.4); }
     .pp-btn-save:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    /* Google sign-in block at top of profile popup */
+    .pp-google-wrap { margin-bottom: 16px; }
+    .pp-google-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fff;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .pp-google-btn:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .pp-google-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .pp-google-btn svg { flex-shrink: 0; }
+    .pp-signed-in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1.5px solid #10b981;
+      border-radius: 10px;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .pp-signout-btn {
+      padding: 5px 10px;
+      border: 1px solid #10b981;
+      border-radius: 6px;
+      background: transparent;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pp-signout-btn:hover { background: #10b981; color: #fff; }
+    .pp-or-separator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 4px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+    .pp-or-separator::before, .pp-or-separator::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .pp-or-separator span { white-space: nowrap; }
+    [data-theme="dark"] .pp-google-btn { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+    [data-theme="dark"] .pp-google-btn:hover { background: #1e293b; border-color: #475569; }
+    [data-theme="dark"] .pp-signed-in { background: #064e3b; border-color: #10b981; color: #d1fae5; }
+    [data-theme="dark"] .pp-signout-btn { color: #d1fae5; }
+    [data-theme="dark"] .pp-or-separator { color: #64748b; }
+    [data-theme="dark"] .pp-or-separator::before, [data-theme="dark"] .pp-or-separator::after { background: #334155; }
     [data-theme="dark"] .profile-popup { background: #1e293b; }
     [data-theme="dark"] .pp-title { color: #f1f5f9; }
     [data-theme="dark"] .pp-field input { background: #0f172a; border-color: #334155; color: #f1f5f9; }
@@ -9699,6 +9769,17 @@
         + '<div class="pp-subtitle">Tap photo to change it</div>'
         + '</div>'
         + '<div class="pp-body">'
+        + '<div class="pp-google-wrap" id="ppGoogleWrap">'
+        +   '<button type="button" class="pp-google-btn" id="ppGoogleBtn" onclick="ppSignInWithGoogle()">'
+        +     '<svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>'
+        +     '<span>Continue with Google</span>'
+        +   '</button>'
+        +   '<div class="pp-signed-in" id="ppSignedIn" style="display:none;">'
+        +     '<span id="ppSignedInText">✓ Signed in</span>'
+        +     '<button type="button" class="pp-signout-btn" onclick="ppSignOut()">Sign out</button>'
+        +   '</div>'
+        +   '<div class="pp-or-separator"><span>or continue as guest</span></div>'
+        + '</div>'
         + '<div class="pp-field"><label>Full Name <span class="pp-required">*</span></label><input type="text" id="ppName" maxlength="60" placeholder="Surname Firstname" autocomplete="off"></div>'
         + '<div class="pp-section-title">Contact Details (optional)</div>'
         + '<div class="pp-field"><label>📧 Email</label><input type="email" id="ppEmail" maxlength="100" placeholder="your@email.com" autocomplete="off"></div>'
@@ -9742,7 +9823,78 @@
         ppInitials.style.display = '';
       }
       overlay.classList.add('show');
+      _ppSyncAuthUi();
     }
+
+    // Sync the Google sign-in button / signed-in badge with current auth state
+    function _ppSyncAuthUi() {
+      try {
+        var btn = document.getElementById('ppGoogleBtn');
+        var signedBox = document.getElementById('ppSignedIn');
+        var signedText = document.getElementById('ppSignedInText');
+        if (!btn || !signedBox) return;
+        var auth = window.MockStream && window.MockStream.auth;
+        if (auth && auth.isSignedIn()) {
+          var user = auth.getCurrentUser();
+          var email = (user && user.email) || '';
+          btn.style.display = 'none';
+          signedBox.style.display = 'flex';
+          if (signedText) signedText.textContent = '✓ Signed in' + (email ? ' as ' + email : '');
+        } else {
+          btn.style.display = 'flex';
+          signedBox.style.display = 'none';
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    async function ppSignInWithGoogle() {
+      var btn = document.getElementById('ppGoogleBtn');
+      if (btn) { btn.disabled = true; btn.querySelector('span').textContent = 'Redirecting...'; }
+      var auth = window.MockStream && window.MockStream.auth;
+      if (!auth) {
+        alert('Sign-in is still loading. Please wait a moment and try again.');
+        if (btn) { btn.disabled = false; btn.querySelector('span').textContent = 'Continue with Google'; }
+        return;
+      }
+      // Redirect back to the same page they're on now
+      await auth.signInWithGoogle(window.location.href);
+    }
+
+    async function ppSignOut() {
+      var auth = window.MockStream && window.MockStream.auth;
+      if (!auth) return;
+      if (!confirm('Sign out of Google? Your progress stays but results will no longer sync across devices.')) return;
+      await auth.signOut();
+      // Refresh sidebar to default
+      try { _updateSidebarNameDisplay('Student'); } catch (e) {}
+      _ppSyncAuthUi();
+      // Blank the name field
+      var nameInput = document.getElementById('ppName');
+      if (nameInput) nameInput.value = '';
+    }
+
+    // When Google sign-in completes (post-redirect), refresh sidebar + popup
+    window.addEventListener('mockStream:userSignedIn', function (ev) {
+      try {
+        var profile = ev && ev.detail;
+        if (profile && profile.fullName) {
+          _updateSidebarNameDisplay(profile.fullName);
+        }
+        _ppSyncAuthUi();
+        // Pre-fill popup if it's open
+        var nameInput = document.getElementById('ppName');
+        if (nameInput && profile && profile.fullName && !nameInput.value) {
+          nameInput.value = profile.fullName;
+        }
+        var emailInput = document.getElementById('ppEmail');
+        if (emailInput && profile && profile.email && !emailInput.value) {
+          emailInput.value = profile.email;
+        }
+      } catch (e) { console.warn('[landing] signed-in handler error:', e); }
+    });
+    window.addEventListener('mockStream:userSignedOut', function () {
+      _ppSyncAuthUi();
+    });
 
     function closeProfilePopup() {
       var overlay = document.getElementById('profilePopupOverlay');
