@@ -117,8 +117,7 @@
     if (!cc) return;
 
     // Store for other scripts to read
-    window._centerConfig = cc;
-
+    window._centerConfig = cc;    try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     // ─── 1. ACTIVE CHECK ────────────────────────────────────────────────
     if (cc.active === false) {
       _cgBlockScreen('🚫', 'Center Deactivated', 'This learning center is currently deactivated. Access to all exams and features has been suspended.', '#dc2626');
@@ -416,6 +415,7 @@
   function _cgApplyAccessNow(cc) {
     if (!cc) return;
     window._centerConfig = cc;
+    try { document.dispatchEvent(new CustomEvent('mockStream:centerConfigLoaded', { detail: cc })); } catch (e) {}
     var mockKey = _cgDetectMockKey();
     if (mockKey && cc.mocks) {
       var lvl = cc.mocks[mockKey];

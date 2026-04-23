@@ -13,6 +13,7 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <script src="human-expert.js"></script>
   <script src="supabase-send.js"></script>
   <!-- Redirect to index on page reload/refresh -->
   <script>
@@ -4048,7 +4049,7 @@
       <h2 style="color:#059669;font-size:22px;margin-bottom:16px">Official Scoring Service</h2>
       <div
         style="background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:12px;padding:16px;margin-bottom:20px">
-        <p style="color:#92400e;font-weight:600;font-size:15px;margin:0;line-height:1.6">
+        <p data-he-warning style="color:#92400e;font-weight:600;font-size:15px;margin:0;line-height:1.6">
           ⚠️ <strong>This is a PAID service.</strong><br><br>
           Your work will be checked by an <strong>officially certified team of professionals</strong>.<br><br>
           📋 Results will be delivered within <strong>24 hours</strong>.<br><br>
@@ -18282,30 +18283,29 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
         // Gather candidate info
         const nameInput = document.getElementById('cand');
         const candidateName = (nameInput ? nameInput.value.trim() : '') || 'Unknown';
-        const mockNum = (window.SELECTED_MOCK_NUMBER || '01').padStart(2, '0');
+        const mockNum = (window.SELECTED_MOCK_NUMBER || '01').toString().padStart(2, '0');
         const now = new Date();
         const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
+        const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
 
-        const message = encodeURIComponent(
-          "\ud83d\udc4b Assalomu alaykum!\n" +
-          "Men mock topshirdim va ishimni sertifikatga ega mutaxassislar tomonidan tekshirilishini istayman.\n\n" +
-          "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
-          "\ud83d\udcdd Mock details:\n" +
-          "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
-          "\ud83c\udf10 Test: CEFR Speaking\n" +
-          "\ud83d\udc64 Test Taker: " + candidateName + "\n" +
-          "\ud83d\udcc4 Mock number: " + mockNum + "\n" +
-          "\ud83d\udcc5 Test Date: " + testDate + "\n" +
-          "\ud83c\udff7\ufe0f #" + (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream') + "\n\n" +
-          "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
-          "\ud83d\udcb3 To'lov ma'lumotlari:\n" +
-          "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
-          "\ud83d\udcb0 Narxi: 20,000 so'm\n" +
-          "\ud83c\udfe6 Karta: 9860 1606 4003 0377\n" +
-          "\u26a0\ufe0f Screenshot yuborilishi shart!\n\n" +
-          "\u2705 Natija 24 soat ichida yuboriladi."
-        );
-        window.open(((window.SITE_CONFIG && window.SITE_CONFIG.adminTelegram) || 'https://t.me/mrkhasanoff3') + `?text=${message}`, '_blank');
+        let url;
+        if (window.MockStream && window.MockStream.humanExpert) {
+          url = window.MockStream.humanExpert.buildTelegramUrl({
+            test: 'CEFR Speaking',
+            name: candidateName,
+            mock: mockNum,
+            date: testDate,
+            testId: testId
+          });
+        } else {
+          const message = encodeURIComponent(
+            "\ud83d\udc4b Assalomu alaykum!\nMen mock topshirdim va ishimni sertifikatga ega mutaxassislar tomonidan tekshirilishini istayman.\n\n" +
+            "\ud83d\udcdd Mock details:\n\ud83c\udf10 Test: CEFR Speaking\n\ud83d\udc64 Test Taker: " + candidateName + "\n\ud83d\udcc4 Mock number: " + mockNum + "\n\ud83d\udcc5 Test Date: " + testDate + "\n\ud83c\udff7\ufe0f #" + testId + "\n\n" +
+            "\ud83d\udcb0 Narxi: 20,000 so'm\n\ud83c\udfe6 Karta: 9860 1606 4003 0377\n\u2705 Natija 24 soat ichida yuboriladi."
+          );
+          url = ((window.SITE_CONFIG && window.SITE_CONFIG.adminTelegram) || 'https://t.me/mrkhasanoff3') + '?text=' + message;
+        }
+        window.open(url, '_blank');
         hidePaidServiceModal();
       }
 
