@@ -194,7 +194,8 @@
     getCurrentUser: getCurrentUser,
     isSignedIn: isSignedIn,
     onStateChange: onStateChange,
-    getProvider: getProvider
+    getProvider: getProvider,
+    getClient: _getClient
   };
 
   // Auto-init on DOMContentLoaded so pages don't have to call it manually.

@@ -36,15 +36,27 @@
     return;
   }
 
-  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANONKEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      storage: window.localStorage,
-      storageKey: 'ms-admin-auth'
-    }
-  });
+  // Reuse the same Supabase client / session as student-side auth.js when
+  // present — prevents "bad_oauth_state" errors that occur when two clients
+  // race to consume the same ?code=... PKCE callback on return from Google.
+  // If auth.js isn't loaded (older pages), fall back to our own client.
+  var sb;
+  if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.getClient === 'function') {
+    sb = window.MockStream.auth.getClient();
+  }
+  if (!sb) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANONKEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        storage: window.localStorage,
+        // Same storageKey as auth.js so they share a single session and
+        // neither races to consume the OAuth callback.
+        storageKey: 'ms_auth_session'
+      }
+    });
+  }
 
   async function currentSession() {
     var r = await sb.auth.getSession();
