@@ -89,6 +89,19 @@
     return true;
   }
 
+  async function signInWithGoogle() {
+    var redirect = window.location.origin + window.location.pathname;
+    var res = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: redirect,
+        queryParams: { access_type: 'offline', prompt: 'select_account' }
+      }
+    });
+    if (res.error) throw res.error;
+    return true;
+  }
+
   async function logout() {
     await sb.auth.signOut();
   }
@@ -104,7 +117,14 @@
     wrap.innerHTML =
       '<div style="background:#fff;border-radius:14px;max-width:360px;width:90%;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.3)">' +
         '<div style="font:700 16px system-ui;margin-bottom:10px">Admin sign-in</div>' +
-        '<div style="color:#475569;margin-bottom:14px">Enter your admin email. We\'ll send you a one-click login link.</div>' +
+        '<div style="color:#475569;margin-bottom:14px">Sign in with Google (recommended) or request a one-click email link.</div>' +
+        '<button id="msAdminGoogleBtn" style="width:100%;padding:11px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;color:#1e293b;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">' +
+          '<svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>' +
+          'Continue with Google' +
+        '</button>' +
+        '<div style="display:flex;align-items:center;gap:10px;margin:4px 0 12px;color:#94a3b8;font-size:11px;font-weight:500">' +
+          '<div style="flex:1;height:1px;background:#e2e8f0"></div>or email link<div style="flex:1;height:1px;background:#e2e8f0"></div>' +
+        '</div>' +
         '<input id="msAdminEmail" type="email" placeholder="you@example.com" ' +
           'style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;margin-bottom:10px" />' +
         '<button id="msAdminSendBtn" style="width:100%;padding:11px;border:0;border-radius:8px;' +
@@ -115,6 +135,22 @@
     document.body.appendChild(wrap);
     var close = function () { wrap.remove(); };
     wrap.querySelector('#msAdminCloseBtn').onclick = close;
+    wrap.querySelector('#msAdminGoogleBtn').onclick = async function () {
+      var btn = wrap.querySelector('#msAdminGoogleBtn');
+      var msg = wrap.querySelector('#msAdminMsg');
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      msg.style.color = '#0f766e';
+      msg.textContent = 'Redirecting to Google...';
+      try {
+        await signInWithGoogle();
+      } catch (e) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        msg.style.color = '#b91c1c';
+        msg.textContent = (e && e.message) || 'Google sign-in failed.';
+      }
+    };
     wrap.querySelector('#msAdminSendBtn').onclick = async function () {
       var em = (wrap.querySelector('#msAdminEmail').value || '').trim().toLowerCase();
       var msg = wrap.querySelector('#msAdminMsg');
@@ -158,6 +194,7 @@
     currentRole:   currentRole,
     requireLogin:  requireLogin,
     sendMagicLink: sendMagicLink,
+    signInWithGoogle: signInWithGoogle,
     logout:        logout,
     fetch:         authFetch
   };
