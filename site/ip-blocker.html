@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IP Blocker — Mock Stream</title>
+  <link rel="icon" href="data:;base64,=" />
+
+  <style>
+    :root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+            --brand:#7c3aed; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--ink);
+                font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+    .topbar { display:flex; align-items:center; gap:10px; padding:14px 22px; background:#fff;
+              border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+    .topbar h1 { margin:0; font-size:18px; font-weight:800; }
+    .topbar .sep { color:var(--muted); margin:0 6px; }
+    .topbar .right { margin-left:auto; display:flex; gap:8px; align-items:center; }
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px;
+           border:1px solid var(--line); background:#fff; color:var(--ink); cursor:pointer;
+           font-size:13px; font-weight:600; text-decoration:none; }
+    .btn:hover { background:#f8fafc; }
+    .btn.primary { background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; border-color:transparent; }
+    .btn.danger  { background:#dc2626; color:#fff; border-color:transparent; }
+    .btn.ghost   { background:transparent; border-color:transparent; color:var(--muted); }
+    .tabs { display:flex; gap:4px; padding:14px 22px 0; }
+    .tab  { padding:10px 16px; border-radius:10px 10px 0 0; background:#eef2ff22; cursor:pointer;
+            font-weight:600; color:var(--muted); border:1px solid transparent; border-bottom:0; }
+    .tab.active { background:#fff; color:var(--ink); border-color:var(--line); }
+    .panel { background:#fff; border:1px solid var(--line); border-radius:0 10px 10px 10px;
+             margin:0 22px 22px; padding:18px; }
+    .panel h2 { margin:0 0 12px; font-size:15px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { text-align:left; font-weight:700; color:var(--muted); border-bottom:1px solid var(--line);
+         padding:8px 10px; position:sticky; top:0; background:#fff; }
+    td { padding:10px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+    tr:hover td { background:#fafbfc; }
+    .pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; }
+    .pill.ok    { background:#dcfce7; color:#166534; }
+    .pill.warn  { background:#fef3c7; color:#92400e; }
+    .pill.bad   { background:#fee2e2; color:#991b1b; }
+    .pill.muted { background:#f1f5f9; color:#475569; }
+    .kv { display:flex; flex-wrap:wrap; gap:8px; margin:6px 0; }
+    .kv .chip { background:#f1f5f9; color:#334155; padding:2px 8px; border-radius:6px; font-size:11px; }
+    .empty { text-align:center; padding:40px; color:var(--muted); }
+    .form-row { display:flex; gap:8px; align-items:center; margin:10px 0 14px; flex-wrap:wrap; }
+    .form-row input[type=text] { padding:8px 10px; border:1px solid var(--line); border-radius:8px;
+                                 font-size:13px; min-width:160px; }
+    .notice { padding:10px 14px; border-radius:10px; font-size:13px; margin-bottom:14px; }
+    .notice.info { background:#eff6ff; color:#1e3a8a; border:1px solid #bfdbfe; }
+    .notice.warn { background:#fef3c7; color:#78350f; border:1px solid #fde68a; }
+    code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:12px; }
+    .muted { color:var(--muted); }
+    .row-actions { display:flex; gap:6px; }
+    .config-form { display:grid; grid-template-columns:max-content 1fr; gap:10px 14px; max-width:520px; align-items:center; }
+    .config-form input[type=number] { padding:6px 10px; border:1px solid var(--line); border-radius:6px; width:90px; font-size:13px; }
+    .switch { display:inline-flex; align-items:center; gap:8px; }
+    .switch input { accent-color:var(--brand); transform:scale(1.2); }
+    .hidden { display:none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <h1>🛡️ IP Blocker</h1>
+    <span class="sep">—</span>
+    <span class="muted">Mock Stream admin</span>
+    <div class="right">
+      <span id="adminEmail" class="muted" style="font-size:12px"></span>
+      <button class="btn ghost" id="btnLogout">Logout</button>
+      <a class="btn" href="landing.html">← Home</a>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="suspicious">🚨 Suspicious (24h)</div>
+    <div class="tab" data-tab="blocked">🚫 Blocked</div>
+    <div class="tab" data-tab="log">📜 Recent events</div>
+    <div class="tab" data-tab="config">⚙️ Auto-block</div>
+  </div>
+
+  <!-- SUSPICIOUS -->
+  <div class="panel" id="panel-suspicious">
+    <div id="shadowBanner" class="notice warn hidden">
+      <strong>Shadow mode is ON.</strong> Auto-block is <u>not enforced</u> — IPs below are <em>candidates</em>. Toggle off in the Auto-block tab once verified.
+    </div>
+    <div class="notice info">
+      Suspicious = ≥1 tamper or bad-center event in last 24h. Safe student traffic (<code>status=ok</code>) is excluded.
+    </div>
+    <div style="overflow:auto; max-height:60vh;">
+      <table id="tblSuspicious">
+        <thead>
+          <tr>
+            <th>IP</th><th>Calls</th><th>Failures</th><th>Tamper</th><th>Bad center</th>
+            <th>Centers seen</th><th>Student names seen</th><th>Last seen</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BLOCKED -->
+  <div class="panel hidden" id="panel-blocked">
+    <div class="form-row">
+      <input id="manualIp" type="text" placeholder="IP address (e.g. 79.104.10.5)" />
+      <input id="manualReason" type="text" placeholder="Reason (optional)" />
+      <button class="btn danger" id="btnManualBlock">Block IP</button>
+    </div>
+    <div style="overflow:auto; max-height:60vh;">
+      <table id="tblBlocked">
+        <thead>
+          <tr><th>IP</th><th>Reason</th><th>Blocked at</th><th>Action</th></tr>
+        </thead>
+        <tbody><tr><td colspan="4" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="panel hidden" id="panel-log">
+    <div class="form-row">
+      <label class="switch"><input type="checkbox" id="onlyFailures" checked /> Only failures</label>
+      <span class="muted">Showing last 200 events</span>
+      <button class="btn" id="btnReloadLog" style="margin-left:auto;">Reload</button>
+    </div>
+    <div style="overflow:auto; max-height:60vh;">
+      <table id="tblLog">
+        <thead>
+          <tr>
+            <th>Time</th><th>IP</th><th>Center</th><th>Student</th>
+            <th>Provider</th><th>Skill</th><th>Status</th><th>Error</th>
+          </tr>
+        </thead>
+        <tbody><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="panel hidden" id="panel-config">
+    <div class="notice info">
+      Auto-block rule: if the same IP triggers <strong>N tamper events</strong> within the window, insert it into the blocked list automatically. Keep <strong>Enforce OFF</strong> for the first 48 hours to review candidates.
+    </div>
+    <div class="config-form">
+      <label>Enforce auto-block</label>
+      <label class="switch"><input type="checkbox" id="cfgEnforce" /> <span id="cfgEnforceLabel">OFF (shadow mode)</span></label>
+      <label>Threshold (events)</label>
+      <input id="cfgThreshold" type="number" min="2" max="100" step="1" />
+      <label>Window (minutes)</label>
+      <input id="cfgWindow" type="number" min="5" max="1440" step="5" />
+      <div></div>
+      <button class="btn primary" id="btnSaveConfig">Save</button>
+    </div>
+    <div id="cfgMsg" class="muted" style="margin-top:10px;min-height:18px"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="admin-auth.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var FN_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/admin-ips';
+
+    // ---- auth gate -------------------------------------------------
+    (async function init() {
+      try {
+        var role = await window.AdminAuth.requireLogin();
+        var em = await window.AdminAuth.currentEmail();
+        document.getElementById('adminEmail').textContent = em;
+        if (role.role !== 'super_admin') {
+          document.body.innerHTML =
+            '<div style="padding:40px;max-width:520px;margin:40px auto;text-align:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px">' +
+            '<h2>Access denied</h2><p>IP Blocker is available to super-admins only (no center scope on your account).</p>' +
+            '<a class="btn" href="landing.html">← Back</a></div>';
+          return;
+        }
+        await loadSuspicious();
+        await loadConfig();
+      } catch (e) {
+        console.warn(e);
+      }
+    })();
+
+    document.getElementById('btnLogout').onclick = async function() {
+      await window.AdminAuth.logout();
+      location.reload();
+    };
+
+    // ---- tabs ------------------------------------------------------
+    var tabs = document.querySelectorAll('.tab');
+    tabs.forEach(function(t) {
+      t.onclick = function() {
+        tabs.forEach(function(x) { x.classList.remove('active'); });
+        t.classList.add('active');
+        var name = t.getAttribute('data-tab');
+        document.querySelectorAll('.panel').forEach(function(p) { p.classList.add('hidden'); });
+        document.getElementById('panel-' + name).classList.remove('hidden');
+        if (name === 'suspicious') loadSuspicious();
+        if (name === 'blocked')    loadBlocked();
+        if (name === 'log')        loadLog();
+        if (name === 'config')     loadConfig();
+      };
+    });
+
+    // ---- helpers ---------------------------------------------------
+    async function api(method, qs, body) {
+      var r = await window.AdminAuth.fetch(FN_URL + (qs || ''), {
+        method: method,
+        headers: body ? { 'Content-Type': 'application/json' } : {},
+        body:    body ? JSON.stringify(body) : undefined
+      });
+      var j = {};
+      try { j = await r.json(); } catch(_e) {}
+      if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      return j;
+    }
+
+    function fmtDate(s) {
+      try { return new Date(s).toLocaleString(); } catch(_e) { return s || ''; }
+    }
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+    // ---- Suspicious tab --------------------------------------------
+    async function loadSuspicious() {
+      var tb = document.querySelector('#tblSuspicious tbody');
+      tb.innerHTML = '<tr><td colspan="9" class="empty">Loading…</td></tr>';
+      try {
+        var j = await api('GET', '?view=suspicious');
+        var items = j.items || [];
+        if (!items.length) { tb.innerHTML = '<tr><td colspan="9" class="empty">No suspicious activity in last 24h 🎉</td></tr>'; return; }
+        tb.innerHTML = items.map(function(r) {
+          var names = Array.isArray(r.student_names) && r.student_names.length
+            ? r.student_names.slice(0, 8).map(function(n) { return '<span class="chip">' + esc(n) + '</span>'; }).join(' ')
+            : '<span class="muted">—</span>';
+          var statusPill = r.is_blocked ? '<span class="pill bad">BLOCKED</span>'
+                          : (r.tamper_events > 0 || r.bad_center_events > 0) ? '<span class="pill warn">SUSPICIOUS</span>'
+                          : '<span class="pill muted">noisy</span>';
+          return '<tr>' +
+            '<td><code>' + esc(r.ip) + '</code><div>' + statusPill + '</div></td>' +
+            '<td>' + r.total_calls + '</td>' +
+            '<td>' + r.failures + '</td>' +
+            '<td>' + r.tamper_events + '</td>' +
+            '<td>' + r.bad_center_events + '</td>' +
+            '<td>' + esc(r.centers || '—') + '</td>' +
+            '<td><div class="kv">' + names + '</div></td>' +
+            '<td>' + esc(fmtDate(r.last_seen)) + '</td>' +
+            '<td>' +
+              (r.is_blocked
+                ? '<button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button>'
+                : '<button class="btn danger" data-block="' + esc(r.ip) + '">Block</button>') +
+            '</td></tr>';
+        }).join('');
+        tb.querySelectorAll('[data-block]').forEach(function(b) {
+          b.onclick = function() { doBlock(b.getAttribute('data-block')); };
+        });
+        tb.querySelectorAll('[data-unblock]').forEach(function(b) {
+          b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
+        });
+      } catch (e) {
+        tb.innerHTML = '<tr><td colspan="9" class="empty">Error: ' + esc(e.message) + '</td></tr>';
+      }
+    }
+
+    // ---- Blocked tab -----------------------------------------------
+    async function loadBlocked() {
+      var tb = document.querySelector('#tblBlocked tbody');
+      tb.innerHTML = '<tr><td colspan="4" class="empty">Loading…</td></tr>';
+      try {
+        var j = await api('GET', '?view=blocked');
+        var items = j.items || [];
+        if (!items.length) { tb.innerHTML = '<tr><td colspan="4" class="empty">No blocked IPs.</td></tr>'; return; }
+        tb.innerHTML = items.map(function(r) {
+          return '<tr>' +
+            '<td><code>' + esc(r.ip) + '</code></td>' +
+            '<td>' + esc(r.reason || '—') + '</td>' +
+            '<td>' + esc(fmtDate(r.created_at)) + '</td>' +
+            '<td><button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button></td>' +
+          '</tr>';
+        }).join('');
+        tb.querySelectorAll('[data-unblock]').forEach(function(b) {
+          b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
+        });
+      } catch (e) {
+        tb.innerHTML = '<tr><td colspan="4" class="empty">Error: ' + esc(e.message) + '</td></tr>';
+      }
+    }
+
+    document.getElementById('btnManualBlock').onclick = async function() {
+      var ip = (document.getElementById('manualIp').value || '').trim();
+      var reason = (document.getElementById('manualReason').value || '').trim();
+      if (!ip) { alert('Enter an IP.'); return; }
+      await doBlock(ip, reason);
+      document.getElementById('manualIp').value = '';
+      document.getElementById('manualReason').value = '';
+    };
+
+    async function doBlock(ip, reason) {
+      if (!confirm('Block ' + ip + '?')) return;
+      try {
+        await api('POST', '', { ip: ip, reason: reason || '' });
+        await loadBlocked(); await loadSuspicious();
+      } catch (e) { alert('Block failed: ' + e.message); }
+    }
+    async function doUnblock(ip) {
+      if (!confirm('Unblock ' + ip + '?')) return;
+      try {
+        await api('DELETE', '?ip=' + encodeURIComponent(ip));
+        await loadBlocked(); await loadSuspicious();
+      } catch (e) { alert('Unblock failed: ' + e.message); }
+    }
+
+    // ---- Log tab ---------------------------------------------------
+    async function loadLog() {
+      var tb = document.querySelector('#tblLog tbody');
+      tb.innerHTML = '<tr><td colspan="8" class="empty">Loading…</td></tr>';
+      var only = document.getElementById('onlyFailures').checked ? '1' : '0';
+      try {
+        var j = await api('GET', '?view=log&limit=200&failures=' + only);
+        var items = j.items || [];
+        if (!items.length) { tb.innerHTML = '<tr><td colspan="8" class="empty">No events.</td></tr>'; return; }
+        tb.innerHTML = items.map(function(r) {
+          var cls = r.status === 'ok' ? 'ok'
+                  : r.status === 'tamper_detected' ? 'bad'
+                  : r.status === 'bad_center'      ? 'bad'
+                  : r.status === 'blocked_ip'      ? 'bad'
+                  : 'warn';
+          return '<tr>' +
+            '<td>' + esc(fmtDate(r.created_at)) + '</td>' +
+            '<td><code>' + esc(r.ip || '—') + '</code></td>' +
+            '<td>' + esc(r.center_id || '—') + '</td>' +
+            '<td>' + esc(r.student_name || '—') + '</td>' +
+            '<td>' + esc(r.provider || '—') + '</td>' +
+            '<td>' + esc(r.skill || '—') + '</td>' +
+            '<td><span class="pill ' + cls + '">' + esc(r.status) + '</span></td>' +
+            '<td class="muted" style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(r.error_message || '') + '">' + esc(r.error_message || '') + '</td>' +
+          '</tr>';
+        }).join('');
+      } catch (e) {
+        tb.innerHTML = '<tr><td colspan="8" class="empty">Error: ' + esc(e.message) + '</td></tr>';
+      }
+    }
+    document.getElementById('btnReloadLog').onclick = loadLog;
+    document.getElementById('onlyFailures').onchange = loadLog;
+
+    // ---- Config tab ------------------------------------------------
+    async function loadConfig() {
+      try {
+        var j = await api('GET', '?view=config');
+        var c = j.config || {};
+        document.getElementById('cfgEnforce').checked = !!c.enforce;
+        document.getElementById('cfgEnforceLabel').textContent = c.enforce ? 'ON (auto-blocking active)' : 'OFF (shadow mode)';
+        document.getElementById('cfgThreshold').value = c.threshold || 5;
+        document.getElementById('cfgWindow').value = c.window_minutes || 60;
+        // Shadow banner in suspicious tab
+        var banner = document.getElementById('shadowBanner');
+        if (banner) { banner.classList.toggle('hidden', !!c.enforce); }
+      } catch (e) {
+        document.getElementById('cfgMsg').textContent = 'Error: ' + e.message;
+      }
+    }
+    document.getElementById('cfgEnforce').addEventListener('change', function(e) {
+      document.getElementById('cfgEnforceLabel').textContent = e.target.checked ? 'ON (auto-blocking active)' : 'OFF (shadow mode)';
+    });
+    document.getElementById('btnSaveConfig').onclick = async function() {
+      var msg = document.getElementById('cfgMsg');
+      msg.style.color = '#64748b';
+      msg.textContent = 'Saving…';
+      try {
+        var body = {
+          config: {
+            enforce: document.getElementById('cfgEnforce').checked,
+            threshold: parseInt(document.getElementById('cfgThreshold').value, 10),
+            window_minutes: parseInt(document.getElementById('cfgWindow').value, 10)
+          }
+        };
+        await api('POST', '', body);
+        msg.style.color = '#16a34a';
+        msg.textContent = 'Saved.';
+        await loadSuspicious();
+      } catch (e) {
+        msg.style.color = '#dc2626';
+        msg.textContent = 'Error: ' + e.message;
+      }
+    };
+  })();
+  </script>
+</body>
+</html>

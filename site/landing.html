@@ -2,9 +2,13 @@
 <html data-theme="light" lang="en">
 
 <head>
+  <script src="./ai-proxy-interceptor.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0d9488" />
+  <!-- Admin auth: Supabase Auth magic-link + write interceptor (required for RLS) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="admin-auth.js"></script>
   <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -6445,6 +6449,9 @@
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openVideoGuidesPanel(); }); toggleSidebar();" class="skill-btn" id="videoGuidesMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(239,68,68,0.03));border:1.5px solid rgba(239,68,68,0.3);position:relative;">
             <span style="font-size:15px;">🎬</span> Video Guides
           </a>
+          <a href="ip-blocker.html" onclick="toggleSidebar();" class="skill-btn" id="ipBlockerMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(220,38,38,0.03));border:1.5px solid rgba(220,38,38,0.3);">
+            <span>🛡️</span> IP Blocker
+          </a>
         </div>
       </li>
 
@@ -9624,6 +9631,7 @@
           var smItem = document.getElementById('supportMessagesMenuItem');
           var vgItem = document.getElementById('videoGuidesMenuItem');
           var aiRItem = document.getElementById('aiRouterMenuItem');
+          var ipbItem = document.getElementById('ipBlockerMenuItem');
           if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
           if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
           if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
@@ -9633,6 +9641,7 @@
           if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
           if (vgItem) { vgItem.style.display = ''; vgItem.classList.add('admin-revealed'); }
           if (aiRItem) { aiRItem.style.display = ''; aiRItem.classList.add('admin-revealed'); }
+          if (ipbItem) { ipbItem.style.display = ''; ipbItem.classList.add('admin-revealed'); }
           sessionStorage.setItem('ms_admin_unlocked', '1');
         }
         // Auto-restore if previously unlocked this session
@@ -21584,6 +21593,19 @@
         // Skill Access: per-skill open access — 'off', 'premium', or 'regular'
         skillAccess: {
           speaking: 'off', writing: 'off', listening: 'off', reading: 'off', full_mock: 'off'
+        },
+        // Paper-Based Writing Exam toggle (shown on CEFR Writing Mocks + IELTS Writing Mock)
+        writingPaperMode: true,
+        // Human Expert modal (per-center editable "Official Scoring Service" popup + prefilled Telegram)
+        humanExpert: {
+          enabled: true,
+          title: "Official Scoring Service",
+          warningHtml: "\u26a0\ufe0f <strong>This is a PAID service.</strong><br><br>Your work will be checked by an <strong>officially certified team of professionals</strong>.<br><br>\ud83d\udccb Results will be delivered within <strong>{delivery}</strong>.<br><br>\ud83d\udcb0 Service fee: <strong>{price}</strong>",
+          price: "20,000 so'm",
+          delivery: "24 hours",
+          cardNumber: "9860 1606 4003 0377",
+          telegramUser: "https://t.me/mrkhasanoff3",
+          messageTemplate: "\ud83d\udc4b Assalomu alaykum!\nMen mock topshirdim va ishimni sertifikatga ega mutaxassislar tomonidan tekshirilishini istayman.\n\n\ud83d\udcdd Mock details:\n\ud83c\udf10 Test: {test}\n\ud83d\udc64 Test Taker: {name}\n\ud83d\udcc4 Mock number: {mock}\n\ud83d\udcc5 Test Date: {date}\n\ud83c\udff7\ufe0f #{testId}\n\n\ud83d\udcb3 To'lov ma'lumotlari:\n\ud83d\udcb0 Narxi: {price}\n\ud83c\udfe6 Karta: {card}\n\u26a0\ufe0f Screenshot yuborilishi shart!\n\n\u2705 Natija {delivery} ichida yuboriladi."
         }
       };
     }
@@ -21604,6 +21626,12 @@
       else {
         for (var fk in def.fullMockAi) {
           if (saved.fullMockAi[fk] === undefined) saved.fullMockAi[fk] = def.fullMockAi[fk];
+        }
+      }
+      if (!saved.humanExpert) saved.humanExpert = def.humanExpert;
+      else {
+        for (var hek in def.humanExpert) {
+          if (saved.humanExpert[hek] === undefined) saved.humanExpert[hek] = def.humanExpert[hek];
         }
       }
       if (!saved.skillAccess) saved.skillAccess = def.skillAccess;
@@ -21648,6 +21676,28 @@
         '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
         '<input type="text" value="' + _cmEsc(value || '') + '" placeholder="' + (placeholder || '') + '" onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" style="flex:1;padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
       '</div>';
+    }
+
+    // Text input for a nested property (e.g. humanExpert.price). Uses a custom setter function name.
+    function _cmNestedTextInput(centerId, setterFn, subKey, label, value, placeholder) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<input type="text" value="' + _cmEsc(value || '') + '" placeholder="' + (placeholder || '') + '" onchange="' + setterFn + '(\'' + centerId + '\',\'' + subKey + '\',this.value)" style="flex:1;padding:5px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);">' +
+      '</div>';
+    }
+
+    function _cmNestedTextarea(centerId, setterFn, subKey, label, value, placeholder, rows) {
+      return '<div style="display:flex;flex-direction:column;gap:4px;padding:6px 0;">' +
+        '<span style="font-size:12px;font-weight:600;">' + label + '</span>' +
+        '<textarea rows="' + (rows || 4) + '" placeholder="' + (placeholder || '') + '" onchange="' + setterFn + '(\'' + centerId + '\',\'' + subKey + '\',this.value)" style="width:100%;padding:6px 8px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;font-size:12px;background:var(--surface,#fff);color:var(--ink,#333);font-family:inherit;resize:vertical;">' + _cmEsc(value || '') + '</textarea>' +
+      '</div>';
+    }
+
+    function _cmNestedToggle(centerId, setterFn, subKey, label, checked) {
+      return '<label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;user-select:none;">' +
+        '<input type="checkbox" ' + (checked ? 'checked' : '') + ' onchange="' + setterFn + '(\'' + centerId + '\',\'' + subKey + '\',this.checked)" style="accent-color:#7c3aed;width:15px;height:15px;">' +
+        '<span style="font-size:12px;">' + label + '</span>' +
+      '</label>';
     }
 
     function _cmTimeInput(centerId, prop, label, value) {
@@ -21935,6 +21985,41 @@
             h += '</div>';
           }
 
+          // ═══════════════ HUMAN EXPERT & PAPER MODE ═══════════════
+          h += _cmSectionHeader(cid, 'humanExpert', '🧑‍🏫', 'Human Expert & Paper Mode');
+          if (_cmExpandedSections[cid + '_humanExpert']) {
+            var he = cfg.humanExpert || {};
+            h += '<div style="padding:10px 16px;">';
+
+            // ── Paper Mode Toggle ──
+            h += '<div style="padding:8px 10px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;margin-bottom:14px;">';
+            h += '<div style="font-size:12px;font-weight:700;color:#475569;margin-bottom:4px;">📝 Paper-Based Writing Exam</div>';
+            h += '<p style="font-size:11px;color:#64748b;margin:0 0 6px;">Shows the "Paper-Based Exam" button on CEFR Writing Mocks + IELTS Writing Mock. When off, the button stays visible but is greyed out with a red "Deactivated by your center" label.</p>';
+            h += _cmToggleInput(cid, 'writingPaperMode', '✅ Paper-Based Exam Enabled', cfg.writingPaperMode !== false);
+            h += '</div>';
+
+            // ── Human Expert Modal ──
+            h += '<div style="padding:10px 12px;background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;">';
+            h += '<div style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:2px;">💼 Human Expert "Official Scoring" popup</div>';
+            h += '<p style="font-size:11px;color:#92400e;margin:0 0 8px;">Applies to IELTS Speaking, CEFR Speaking, IELTS Writing, CEFR Writing finish overlays. Edit below; changes save automatically.</p>';
+            h += _cmNestedToggle(cid, '_cmSetHumanExpert', 'enabled', '✅ Show the Expert / Score button', he.enabled !== false);
+
+            if (he.enabled !== false) {
+              h += _cmNestedTextInput(cid, '_cmSetHumanExpert', 'title', 'Modal Title', he.title, 'e.g. Official Scoring Service');
+              h += _cmNestedTextarea(cid, '_cmSetHumanExpert', 'warningHtml', 'Warning / Description (HTML allowed; placeholders: {price}, {delivery})', he.warningHtml, '', 4);
+              h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+              h += _cmNestedTextInput(cid, '_cmSetHumanExpert', 'price', 'Price', he.price, "e.g. 20,000 so'm");
+              h += _cmNestedTextInput(cid, '_cmSetHumanExpert', 'delivery', 'Delivery Time', he.delivery, 'e.g. 24 hours');
+              h += '</div>';
+              h += _cmNestedTextInput(cid, '_cmSetHumanExpert', 'cardNumber', 'Payment Card', he.cardNumber, 'e.g. 9860 1606 4003 0377');
+              h += _cmNestedTextInput(cid, '_cmSetHumanExpert', 'telegramUser', 'Expert Telegram', he.telegramUser, '@handle  or  https://t.me/handle');
+              h += _cmNestedTextarea(cid, '_cmSetHumanExpert', 'messageTemplate', 'Prefilled Telegram Message (placeholders: {test} {name} {mock} {date} {testId} {price} {card} {delivery})', he.messageTemplate, '', 10);
+            }
+            h += '</div>';
+
+            h += '</div>';
+          }
+
         } // end if active
 
         h += '</div>'; // end card
@@ -22031,6 +22116,15 @@
       if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
       if (!_cmConfigs[centerId].fullMockAi) _cmConfigs[centerId].fullMockAi = {};
       _cmConfigs[centerId].fullMockAi[subKey] = val;
+      _cmAutoSave(centerId);
+    };
+
+    // Human Expert (nested)
+    window._cmSetHumanExpert = function(centerId, subKey, val) {
+      if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
+      if (!_cmConfigs[centerId].humanExpert) _cmConfigs[centerId].humanExpert = {};
+      _cmConfigs[centerId].humanExpert[subKey] = val;
+      if (subKey === 'enabled') _cmRenderBody();
       _cmAutoSave(centerId);
     };
 

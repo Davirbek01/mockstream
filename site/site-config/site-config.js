@@ -100,8 +100,22 @@ window.SITE_CONFIG = {
         } catch (e) {}
       }
     })
-    .catch(function () {});
-  } catch (e) {}
+    .catch(function () {})
+    .finally(function () {
+      // Signal to finish-gate.js (and any other listener) that SITE_CONFIG
+      // is populated with server values. Fire on both success and failure
+      // so the gate can always proceed.
+      try {
+        window.__SITE_CONFIG_READY__ = true;
+        document.dispatchEvent(new Event('ms:config-ready'));
+      } catch (e) {}
+    });
+  } catch (e) {
+    try {
+      window.__SITE_CONFIG_READY__ = true;
+      document.dispatchEvent(new Event('ms:config-ready'));
+    } catch (_) {}
+  }
 })();
 
 // ─── Routing backend — helper with retry for reliability ────────────────────
