@@ -9811,6 +9811,15 @@
     // for the current session.
     function _syncGuestUpgradePill() {
       try {
+        // Only show the pill on the main site — Google OAuth origins are
+        // not registered for clone Netlify subdomains, so the button would
+        // just 403 on those sites.
+        var _siteIdPill = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        if (_siteIdPill !== 'mock_stream') {
+          var elx = document.getElementById('guestUpgradePill');
+          if (elx) elx.style.display = 'none';
+          return;
+        }
         var auth = window.MockStream && window.MockStream.auth;
         var signedIn = auth && auth.isSignedIn();
         var dismissed = false;
