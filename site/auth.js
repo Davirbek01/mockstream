@@ -105,6 +105,8 @@
         try {
           window.dispatchEvent(new CustomEvent('mockStream:userSignedIn', { detail: profile }));
         } catch (e) {}
+        // Premium / admin auto-unlock (non-blocking)
+        try { applyPremiumUnlock(); } catch (e) {}
       }
 
       // Subscribe to future auth changes (e.g., user signs in from popup)
@@ -117,8 +119,10 @@
           try {
             window.dispatchEvent(new CustomEvent('mockStream:userSignedIn', { detail: profile }));
           } catch (e) {}
+          try { _premiumCache = null; applyPremiumUnlock(); } catch (e) {}
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
+          _premiumCache = null;
           _notifyListeners('signed_out', null);
           try {
             window.dispatchEvent(new CustomEvent('mockStream:userSignedOut'));
@@ -186,6 +190,65 @@
     return localStorage.getItem('ms_auth_provider') || 'guest';
   }
 
+  // --- Premium / admin role lookup (single source of truth) ---------------
+  // Returns { tier, role, center, active, isAdmin } or null if not premium.
+  // Cached per-session to avoid refetching on every click.
+  var _premiumCache = null;
+  async function checkPremiumRole(force) {
+    if (_premiumCache && !force) return _premiumCache;
+    var user = _currentUser;
+    if (!user || !user.email) { _premiumCache = null; return null; }
+    var email = String(user.email).toLowerCase();
+    try {
+      var url = SB_URL + '/rest/v1/premium_emails?email=eq.' +
+        encodeURIComponent(email) + '&select=tier,role,center,active';
+      var resp = await fetch(url, {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+      });
+      if (!resp.ok) { _premiumCache = null; return null; }
+      var rows = await resp.json();
+      if (!rows.length) { _premiumCache = null; return null; }
+      var m = rows[0];
+      var info = {
+        email: email,
+        tier: m.tier || 'standard',
+        role: m.role || null,
+        center: m.center || '',
+        active: m.active !== false,
+        isAdmin: m.role === 'admin'
+      };
+      _premiumCache = info;
+      return info;
+    } catch (e) {
+      console.warn('[auth] checkPremiumRole error:', e);
+      _premiumCache = null;
+      return null;
+    }
+  }
+
+  // Apply premium auto-unlock: mirror the flags that the sidebar VIP-email
+  // flow sets, so Google-signed-in premium users don't have to re-enter their
+  // email in the sidebar. Respects the active + center restrictions.
+  async function applyPremiumUnlock() {
+    var info = await checkPremiumRole();
+    if (!info) return null;
+    var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
+    if (!info.active && !info.isAdmin) return null;
+    if (info.center && info.center !== '' && info.center !== siteCenter) return null;
+    try {
+      sessionStorage.setItem('vipSessionAccess', 'true');
+      if (info.tier === 'premium') sessionStorage.setItem('vipPremiumAi', 'true');
+      localStorage.setItem('ms_vip_email', info.email);
+      localStorage.setItem('ms_vip_tier', info.tier);
+      if (info.isAdmin) localStorage.setItem('ms_admin_email', info.email);
+    } catch (e) {}
+    // Let the page know premium state changed
+    try {
+      window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: info }));
+    } catch (e) {}
+    return info;
+  }
+
   window.MockStream = window.MockStream || {};
   window.MockStream.auth = {
     init: init,
@@ -195,7 +258,9 @@
     isSignedIn: isSignedIn,
     onStateChange: onStateChange,
     getProvider: getProvider,
-    getClient: _getClient
+    getClient: _getClient,
+    checkPremiumRole: checkPremiumRole,
+    applyPremiumUnlock: applyPremiumUnlock
   };
 
   // Auto-init on DOMContentLoaded so pages don't have to call it manually.

@@ -6457,6 +6457,14 @@
         </a>
       </li>
 
+      <!-- Admin Dashboard (gated by Google + premium admin role) -->
+      <li class="admin-dashboard-menu-item">
+        <a href="javascript:void(0)" onclick="openAdminDashboard()">
+          <span class="menu-icon">🛡️</span> Admin Dashboard
+          <span class="dev-badge" style="margin-left:auto;font-size:10px;opacity:.7;">🔒</span>
+        </a>
+      </li>
+
       <!-- Help Center (easy access below My Results) -->
       <li class="sidebar-actions" style="margin-top:4px;padding-top:0;border-top:none;">
         <a href="javascript:void(0)" class="sidebar-action-btn support-btn" onclick="openHelpCenter(); toggleSidebar();" style="position:relative;">
@@ -6466,16 +6474,14 @@
         </a>
       </li>
 
-      <!-- Site Management (Admin Only) — Results Dashboard + Tools -->
-      <li class="site-management-menu-item">
-        <div class="skill-section-title" style="background:linear-gradient(135deg,#f59e0b22,#d9770622);border-left:3px solid #d97706;cursor:pointer;" onclick="toggleSiteManagement()">
+      <!-- Site Management (Admin Only, main site only) — opens grid overlay -->
+      <li class="site-management-menu-item" id="siteMgmtMenuItem">
+        <div class="skill-section-title" style="background:linear-gradient(135deg,#f59e0b22,#d9770622);border-left:3px solid #d97706;cursor:pointer;" onclick="openSiteMgmtGrid()">
           <span>⚙️</span> Site Management
           <span class="dev-badge">🔒</span>
         </div>
+        <!-- Legacy submenu kept hidden forever; grid overlay replaces it. -->
         <div class="site-mgmt-submenu" id="siteMgmtSubmenu" style="display:none;padding:6px 8px;">
-          <a href="results/index.html" onclick="toggleSidebar();" class="skill-btn" style="margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;" id="resultsDashboardMenuItem">
-            <span>📊</span> Results Dashboard
-          </a>
           <a href="javascript:void(0)" onclick="_requireAdminAccess(function(){ openSystemPromptsPanel(); }); toggleSidebar();" class="skill-btn" id="systemPromptsMenuItem" style="display:none;margin:4px 0;padding:10px 14px;font-size:13px;justify-content:flex-start;gap:8px;">
             <span>📝</span> System Prompts
           </a>
@@ -9687,60 +9693,11 @@
       if (avatarUrl) _showAvatarImage(avatarUrl);
       // Inject profile popup HTML
       _injectProfilePopup();
-      // Show Registered Users for main site only
+      // Site Management is main-site only; hide the whole li on clone sites.
       var _siteId = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-      // Admin menu items hidden by default — revealed via Ctrl+Shift+Alt+K or 5 taps on logo (mobile)
-      if (_siteId === 'mock_stream') {
-        function _revealAdminItems() {
-          var ruItem = document.getElementById('registeredUsersMenuItem');
-          var spItem = document.getElementById('systemPromptsMenuItem');
-          var tmItem = document.getElementById('testMakerMenuItem2');
-          var plusMenu = document.getElementById('plusSubmenu');
-          var cmItem = document.getElementById('centersMenuItem');
-          var pmItem = document.getElementById('privateMessagesMenuItem');
-          var smItem = document.getElementById('supportMessagesMenuItem');
-          var vgItem = document.getElementById('videoGuidesMenuItem');
-          var aiRItem = document.getElementById('aiRouterMenuItem');
-          var ipbItem = document.getElementById('ipBlockerMenuItem');
-          if (ruItem) { ruItem.style.display = ''; ruItem.classList.add('admin-revealed'); }
-          if (spItem) { spItem.style.display = ''; spItem.classList.add('admin-revealed'); }
-          if (tmItem) { tmItem.style.display = ''; tmItem.classList.add('admin-revealed'); }
-          if (plusMenu) { plusMenu.style.display = ''; plusMenu.classList.add('admin-revealed'); }
-          if (cmItem) { cmItem.style.display = ''; cmItem.classList.add('admin-revealed'); }
-          if (pmItem) { pmItem.style.display = ''; pmItem.classList.add('admin-revealed'); }
-          if (smItem) { smItem.style.display = ''; smItem.classList.add('admin-revealed'); }
-          if (vgItem) { vgItem.style.display = ''; vgItem.classList.add('admin-revealed'); }
-          if (aiRItem) { aiRItem.style.display = ''; aiRItem.classList.add('admin-revealed'); }
-          if (ipbItem) { ipbItem.style.display = ''; ipbItem.classList.add('admin-revealed'); }
-          sessionStorage.setItem('ms_admin_unlocked', '1');
-        }
-        // Auto-restore if previously unlocked this session
-        if (sessionStorage.getItem('ms_admin_unlocked') === '1') {
-          _revealAdminItems();
-        }
-        // Keyboard shortcut: Ctrl+Shift+Alt+K
-        document.addEventListener('keydown', function _adminShortcut(e) {
-          if (e.ctrlKey && e.shiftKey && e.altKey && (e.key === 'k' || e.key === 'K')) {
-            e.preventDefault();
-            _revealAdminItems();
-            document.removeEventListener('keydown', _adminShortcut);
-          }
-        });
-        // Mobile: 5 taps on landing logo
-        var _logoTaps = 0, _logoTimer = null;
-        var _welcomeLogo = document.getElementById('welcomeLogo');
-        if (_welcomeLogo) {
-          _welcomeLogo.addEventListener('click', function() {
-            _logoTaps++;
-            clearTimeout(_logoTimer);
-            _logoTimer = setTimeout(function() { _logoTaps = 0; }, 2000);
-            if (_logoTaps >= 5) {
-              _logoTaps = 0;
-              clearTimeout(_logoTimer);
-              _revealAdminItems();
-            }
-          });
-        }
+      var _smgLi = document.getElementById('siteMgmtMenuItem');
+      if (_smgLi && _siteId !== 'mock_stream') {
+        _smgLi.style.display = 'none';
       }
     })();
 
@@ -9845,6 +9802,59 @@
           signedBox.style.display = 'none';
         }
       } catch (e) { /* ignore */ }
+      _syncGuestUpgradePill();
+    }
+
+    // ===== Floating guest → Google upgrade pill =====
+    // Small persistent bottom-right pill shown to guests (not signed in with
+    // Google). Lets them upgrade after having used guest mode. Dismissable
+    // for the current session.
+    function _syncGuestUpgradePill() {
+      try {
+        var auth = window.MockStream && window.MockStream.auth;
+        var signedIn = auth && auth.isSignedIn();
+        var dismissed = false;
+        try { dismissed = sessionStorage.getItem('ms_guest_upgrade_dismissed') === '1'; } catch (e) {}
+        var el = document.getElementById('guestUpgradePill');
+        if (signedIn || dismissed) {
+          if (el) el.style.display = 'none';
+          return;
+        }
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'guestUpgradePill';
+          el.style.cssText = 'position:fixed;bottom:18px;right:18px;z-index:9999;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:999px;box-shadow:0 10px 30px rgba(15,23,42,.18);font:600 13px system-ui;color:#0f172a;cursor:pointer;transition:transform .15s, box-shadow .15s;';
+          el.innerHTML =
+            '<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" style="flex-shrink:0"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>' +
+            '<span id="guestUpgradeText">☁️ Save results to cloud</span>' +
+            '<button id="guestUpgradeClose" aria-label="Dismiss" style="background:none;border:0;cursor:pointer;color:#94a3b8;font-size:18px;line-height:1;padding:0 0 0 4px;">×</button>';
+          el.addEventListener('mouseenter', function () { el.style.transform = 'translateY(-2px)'; el.style.boxShadow = '0 14px 36px rgba(15,23,42,.24)'; });
+          el.addEventListener('mouseleave', function () { el.style.transform = ''; el.style.boxShadow = '0 10px 30px rgba(15,23,42,.18)'; });
+          el.addEventListener('click', function (e) {
+            if (e.target && e.target.id === 'guestUpgradeClose') {
+              try { sessionStorage.setItem('ms_guest_upgrade_dismissed', '1'); } catch (ex) {}
+              el.style.display = 'none';
+              return;
+            }
+            var a = window.MockStream && window.MockStream.auth;
+            var txt = document.getElementById('guestUpgradeText');
+            if (txt) txt.textContent = 'Redirecting...';
+            if (a) a.signInWithGoogle(window.location.href);
+          });
+          document.body.appendChild(el);
+        } else {
+          el.style.display = 'flex';
+        }
+      } catch (e) { /* ignore */ }
+    }
+    // Keep pill in sync on auth events
+    window.addEventListener('mockStream:userSignedIn', function () { _syncGuestUpgradePill(); });
+    window.addEventListener('mockStream:userSignedOut', function () { _syncGuestUpgradePill(); });
+    // Initial render after DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(_syncGuestUpgradePill, 400); });
+    } else {
+      setTimeout(_syncGuestUpgradePill, 400);
     }
 
     async function ppSignInWithGoogle() {
@@ -16517,10 +16527,12 @@
     }
 
     // ===== SITE MANAGEMENT TOGGLE =====
+    // Click on the "Site Management" sidebar header triggers the unified
+    // admin gate: 1) Google-authenticated admin email, 2) one-time session
+    // passcode, 3) full-page grid overlay. The individual tool buttons
+    // inside the legacy submenu are now no-op — we show the grid instead.
     function toggleSiteManagement() {
-      var sub = document.getElementById('siteMgmtSubmenu');
-      if (!sub) return;
-      sub.style.display = sub.style.display === 'none' ? 'block' : 'none';
+      openSiteMgmtGrid();
     }
 
     // ===== AI GRADING ROUTER PANEL =====
@@ -16683,13 +16695,245 @@
     }
 
     // ===== SHARED ADMIN GATE (all Site Management features) =====
+    // After the outer Site Management gate unlocks (Google admin + passcode),
+    // individual tool buttons just pass through. `_siteAdminUnlocked` is set
+    // by openSiteMgmtGrid() so we don't re-prompt.
     var _siteAdminUnlocked = false;
     var _siteAdminPendingAction = null;
 
     function _requireAdminAccess(callback) {
       if (_siteAdminUnlocked) { callback(); return; }
-      _siteAdminPendingAction = callback;
+      // Back-compat: if a tool is called without going through the grid
+      // (e.g. direct link), route through the unified gate + passcode.
+      requireAdminAuth(function () {
+        _requirePasscodeOnce(function () {
+          _siteAdminUnlocked = true;
+          _wpAdminUnlocked = true;
+          _spAdminUnlocked = true;
+          _ruAdminUnlocked = true;
+          callback();
+        });
+      }, 'tool');
+    }
+
+    // ===== UNIFIED ADMIN AUTH (Google-signed-in + premium_emails admin) =====
+    // Used by both Admin Dashboard and Site Management. If the current user
+    // is NOT signed in, shows a modal offering Google + magic-link fallback,
+    // then resumes the pending action after OAuth redirect via sessionStorage.
+    async function requireAdminAuth(onPass, target) {
+      try {
+        var auth = window.MockStream && window.MockStream.auth;
+        if (auth && auth.isSignedIn()) {
+          var info = await auth.checkPremiumRole();
+          if (info && info.isAdmin && info.active) { onPass(); return; }
+          // Signed in but not an admin — show a clear error (don't offer
+          // Google again since that account already failed the check).
+          _showAdminAuthModal({
+            target: target,
+            alreadySignedInEmail: info ? info.email : (auth.getCurrentUser() && auth.getCurrentUser().email) || '',
+            error: 'This Google account is not an admin.'
+          });
+          return;
+        }
+      } catch (e) { console.warn('[requireAdminAuth] check error', e); }
+      _showAdminAuthModal({ target: target });
+    }
+
+    // Remember pending action across OAuth redirect
+    function _setPendingAdminTarget(t) {
+      try { sessionStorage.setItem('ms_pending_admin_target', t || ''); } catch (e) {}
+    }
+    function _getPendingAdminTarget() {
+      try { return sessionStorage.getItem('ms_pending_admin_target') || ''; } catch (e) { return ''; }
+    }
+    function _clearPendingAdminTarget() {
+      try { sessionStorage.removeItem('ms_pending_admin_target'); } catch (e) {}
+    }
+
+    function _showAdminAuthModal(opts) {
+      opts = opts || {};
+      var existing = document.getElementById('adminAuthOverlay');
+      if (existing) existing.remove();
+      var div = document.createElement('div');
+      div.id = 'adminAuthOverlay';
+      div.style.cssText = 'position:fixed;inset:0;z-index:10200;background:rgba(15,23,42,0.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;animation:adminAuthFadeIn .2s ease;';
+      var errorHtml = opts.error
+        ? '<div style="margin:10px 0 0;padding:10px 12px;background:#fee2e2;color:#b91c1c;border-radius:8px;font-size:12px;text-align:left;">' + opts.error + (opts.alreadySignedInEmail ? '<br><span style="opacity:.7">Signed in as ' + opts.alreadySignedInEmail + '</span>' : '') + '</div>'
+        : '';
+      div.innerHTML =
+        '<div style="background:var(--surface,#fff);border-radius:16px;padding:26px 22px 18px;width:92vw;max-width:380px;box-shadow:0 24px 64px rgba(0,0,0,.35);text-align:center;">' +
+          '<div style="font-size:32px;margin-bottom:6px;">🔐</div>' +
+          '<h3 style="margin:0 0 4px;font-size:17px;color:var(--ink,#0f172a);">Admin sign-in required</h3>' +
+          '<p style="margin:0 0 16px;font-size:13px;color:#64748b;">Sign in with Google (recommended) or request a one-click email link.</p>' +
+          '<button id="adminAuthGoogleBtn" style="width:100%;padding:12px;border:1.5px solid #e2e8f0;border-radius:10px;background:#fff;color:#1e293b;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;">' +
+            '<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>' +
+            'Continue with Google' +
+          '</button>' +
+          '<div style="display:flex;align-items:center;gap:10px;margin:4px 0 10px;color:#94a3b8;font-size:11px;font-weight:500;">' +
+            '<div style="flex:1;height:1px;background:#e2e8f0;"></div>or email link<div style="flex:1;height:1px;background:#e2e8f0;"></div>' +
+          '</div>' +
+          '<input id="adminAuthEmail" type="email" placeholder="you@example.com" value="' + (opts.alreadySignedInEmail || '').replace(/"/g, '&quot;') + '" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;margin-bottom:10px;font-size:14px;box-sizing:border-box;">' +
+          '<button id="adminAuthMagicBtn" style="width:100%;padding:11px;border:0;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;cursor:pointer;font-size:14px;">Send magic link</button>' +
+          '<div id="adminAuthMsg" style="min-height:18px;margin-top:10px;font-size:12px;color:#0f766e;"></div>' +
+          errorHtml +
+          '<button id="adminAuthCancelBtn" style="margin-top:8px;background:none;border:0;color:#64748b;cursor:pointer;font-size:12px;">Cancel</button>' +
+        '</div>';
+      document.body.appendChild(div);
+      div.addEventListener('click', function (e) { if (e.target === div) div.remove(); });
+      div.querySelector('#adminAuthCancelBtn').onclick = function () { div.remove(); _clearPendingAdminTarget(); };
+      div.querySelector('#adminAuthGoogleBtn').onclick = async function () {
+        var b = this; b.disabled = true; b.style.opacity = '.6';
+        var m = div.querySelector('#adminAuthMsg');
+        m.textContent = 'Redirecting to Google...';
+        _setPendingAdminTarget(opts.target || 'sitemgmt');
+        try {
+          var auth = window.MockStream && window.MockStream.auth;
+          if (auth) await auth.signInWithGoogle(window.location.href);
+        } catch (e) {
+          b.disabled = false; b.style.opacity = '1';
+          m.style.color = '#b91c1c';
+          m.textContent = (e && e.message) || 'Google sign-in failed.';
+        }
+      };
+      div.querySelector('#adminAuthMagicBtn').onclick = async function () {
+        var em = (div.querySelector('#adminAuthEmail').value || '').trim().toLowerCase();
+        var m = div.querySelector('#adminAuthMsg');
+        if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+          m.style.color = '#b91c1c'; m.textContent = 'Enter a valid email'; return;
+        }
+        this.disabled = true;
+        m.style.color = '#0f766e'; m.textContent = 'Sending link...';
+        _setPendingAdminTarget(opts.target || 'sitemgmt');
+        try {
+          var aa = window.AdminAuth;
+          if (!aa || !aa.sendMagicLink) throw new Error('admin-auth.js not available');
+          await aa.sendMagicLink(em);
+          m.textContent = '✓ Check your inbox. Click the link to continue.';
+        } catch (e) {
+          this.disabled = false;
+          m.style.color = '#b91c1c';
+          m.textContent = (e && e.message) || 'Failed to send link.';
+        }
+      };
+    }
+
+    // After OAuth redirect, resume any pending admin action.
+    window.addEventListener('mockStream:userSignedIn', async function () {
+      var target = _getPendingAdminTarget();
+      if (!target) return;
+      _clearPendingAdminTarget();
+      // Give auth.js a tick to apply premium unlock
+      setTimeout(function () {
+        if (target === 'admindash') openAdminDashboard();
+        else if (target === 'sitemgmt') openSiteMgmtGrid();
+      }, 150);
+    });
+
+    // When auth.js auto-unlocks premium (Google-signed-in user found in
+    // premium_emails), refresh the sidebar VIP section so the user sees
+    // their premium state without having to re-enter their email.
+    window.addEventListener('mockStream:premiumUnlocked', function () {
+      try {
+        if (typeof showSuperUnlockedState === 'function') {
+          setTimeout(showSuperUnlockedState, 100);
+        }
+      } catch (e) {}
+    });
+
+    // ===== ONE-TIME SESSION PASSCODE (extra layer for Site Management) =====
+    function _isPasscodeUnlockedThisSession() {
+      try { return sessionStorage.getItem('ms_sitemgmt_passcode_ok') === '1'; }
+      catch (e) { return false; }
+    }
+    function _markPasscodeUnlocked() {
+      try { sessionStorage.setItem('ms_sitemgmt_passcode_ok', '1'); } catch (e) {}
+    }
+    function _requirePasscodeOnce(onPass) {
+      if (_isPasscodeUnlockedThisSession()) { onPass(); return; }
+      _siteAdminPendingAction = onPass;
       _showSiteAdminPasscode();
+    }
+
+    // ===== ADMIN DASHBOARD (replaces Results Dashboard in sidebar) =====
+    function openAdminDashboard() {
+      requireAdminAuth(function () {
+        // No per-feature passcode — Google admin is enough for view-only.
+        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+        window.location.href = 'results/index.html';
+      }, 'admindash');
+    }
+
+    // ===== SITE MANAGEMENT GRID OVERLAY =====
+    function openSiteMgmtGrid() {
+      requireAdminAuth(function () {
+        _requirePasscodeOnce(function () {
+          _siteAdminUnlocked = true;
+          _wpAdminUnlocked = true;
+          _spAdminUnlocked = true;
+          _ruAdminUnlocked = true;
+          _markPasscodeUnlocked();
+          try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+          _showSiteMgmtGrid();
+        });
+      }, 'sitemgmt');
+    }
+
+    function _showSiteMgmtGrid() {
+      var existing = document.getElementById('siteMgmtGridOverlay');
+      if (existing) { existing.style.display = 'flex'; return; }
+      var items = [
+        { icon: '📝', label: 'System Prompts',   fn: function(){ openSystemPromptsPanel(); } },
+        { icon: '🛠️', label: 'Test Maker',       fn: function(){ openTestMakerModal(); } },
+        { icon: '👥', label: 'Registered Users', fn: function(){ openRegisteredUsersPanel(); } },
+        { icon: '✏️', label: 'Writing Plus',     fn: function(){ openWritingPlusPanel(); } },
+        { icon: '🎤', label: 'Speaking Plus',    fn: function(){ openSpeakingPlusPanel(); } },
+        { icon: '📖', label: 'Reading Plus',     fn: function(){ openReadingPlusPanel(); } },
+        { icon: '🎧', label: 'Listening Plus',   fn: function(){ openListeningPlusPanel(); } },
+        { icon: '🏢', label: 'Centers',          fn: function(){ openCentersPanel(); } },
+        { icon: '🤖', label: 'AI Grading Router',fn: function(){ openAiRouterPanel(); } },
+        { icon: '✉️', label: 'Private Messages', fn: function(){ openPrivateMessagesPanel(); } },
+        { icon: '💬', label: 'Support Messages', fn: function(){ openSupportMessagesPanel(); } },
+        { icon: '🎬', label: 'Video Guides',     fn: function(){ openVideoGuidesPanel(); } },
+        { icon: '🛡️', label: 'IP Blocker',       fn: function(){ window.location.href = 'ip-blocker.html'; } }
+      ];
+      var div = document.createElement('div');
+      div.id = 'siteMgmtGridOverlay';
+      div.style.cssText = 'position:fixed;inset:0;z-index:10180;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
+      var cards = items.map(function (it, i) {
+        return '<button data-idx="' + i + '" class="smg-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;min-height:110px;background:var(--surface,#fff);border:1px solid rgba(148,163,184,.25);border-radius:14px;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;color:var(--ink,#0f172a);font:600 12.5px system-ui,-apple-system,Segoe UI,sans-serif;text-align:center;line-height:1.25;">' +
+                 '<span style="font-size:28px;line-height:1;">' + it.icon + '</span>' +
+                 '<span>' + it.label + '</span>' +
+               '</button>';
+      }).join('');
+      div.innerHTML =
+        '<div style="width:100%;max-width:920px;background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:18px;padding:22px 22px 26px;box-shadow:0 30px 80px rgba(0,0,0,.45);">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">' +
+            '<div style="font:700 18px system-ui;">⚙️ Site Management</div>' +
+            '<button id="smgCloseBtn" aria-label="Close" style="background:none;border:0;font-size:22px;cursor:pointer;color:#64748b;line-height:1;padding:4px 8px;">×</button>' +
+          '</div>' +
+          '<div style="font-size:12.5px;color:#64748b;margin-bottom:16px;">Administrator tools. Click any card to open.</div>' +
+          '<div id="smgGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">' + cards + '</div>' +
+        '</div>';
+      document.body.appendChild(div);
+      div.addEventListener('click', function (e) { if (e.target === div) div.style.display = 'none'; });
+      div.querySelector('#smgCloseBtn').onclick = function () { div.style.display = 'none'; };
+      div.querySelectorAll('.smg-card').forEach(function (btn) {
+        btn.addEventListener('mouseenter', function () { btn.style.transform = 'translateY(-2px)'; btn.style.boxShadow = '0 8px 22px rgba(0,0,0,.12)'; btn.style.borderColor = 'rgba(217,119,6,.5)'; });
+        btn.addEventListener('mouseleave', function () { btn.style.transform = ''; btn.style.boxShadow = ''; btn.style.borderColor = 'rgba(148,163,184,.25)'; });
+        btn.addEventListener('click', function () {
+          var idx = parseInt(btn.getAttribute('data-idx'), 10);
+          var it = items[idx];
+          div.style.display = 'none';
+          try { it.fn(); } catch (e) { console.error('[siteMgmtGrid] handler error:', e); }
+        });
+      });
+      // Keyframe for fade-in (inject once)
+      if (!document.getElementById('adminAuthKeyframes')) {
+        var st = document.createElement('style');
+        st.id = 'adminAuthKeyframes';
+        st.textContent = '@keyframes adminAuthFadeIn{from{opacity:0}to{opacity:1}}';
+        document.head.appendChild(st);
+      }
     }
 
     function _showSiteAdminPasscode() {
@@ -16740,6 +16984,7 @@
           _wpAdminUnlocked = true;
           _spAdminUnlocked = true;
           _ruAdminUnlocked = true;
+          _markPasscodeUnlocked();
           var fn = _siteAdminPendingAction;
           _siteAdminPendingAction = null;
           _closeSiteAdminPasscode();
