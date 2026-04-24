@@ -807,6 +807,11 @@
           studentName = prof.full_name || prof.name ||
                         (localStorage.getItem('ms_candidate_name') || u.email);
           unlockDashboard();
+          // Backfill of historical guest results runs in auth.js — give it a
+          // few seconds then re-fetch so freshly-claimed rows appear without
+          // requiring a manual refresh.
+          setTimeout(function () { try { fetchResults(); } catch (_) {} }, 2500);
+          setTimeout(function () { try { fetchResults(); } catch (_) {} }, 6000);
         }
         // else: stay on login gate
       }

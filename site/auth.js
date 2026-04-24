@@ -254,9 +254,12 @@
 
   // -----------------------------------------------------------------------
   // Backfill: when a user signs in with Google, find any previously-saved
-  // results in this center that match their student_name and have no
-  // user_email yet, and claim them. This way old guest progress shows up
-  // in My Results once they create an account.
+  // guest results that match this person and claim them under their email.
+  // We try several name variants so historical tests captured under
+  // different orderings ("Surname Firstname" vs "Firstname Surname") or
+  // different casings still get linked.
+  // This way old guest progress (e.g., last month's mocks) shows up in
+  // My Results immediately after the first sign-in.
   // -----------------------------------------------------------------------
   async function _backfillGuestResults(profile) {
     try {
@@ -266,24 +269,48 @@
                   sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
                   localStorage.getItem('ms_candidate_name') || '';
       if (!name) return;
-      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
       var SB_URL = (window.SITE_CONFIG && window.SITE_CONFIG.SUPABASE_URL) || window.SUPABASE_URL || '';
       var SB_KEY = (window.SITE_CONFIG && window.SITE_CONFIG.SUPABASE_ANON_KEY) || window.SUPABASE_ANON_KEY || '';
       if (!SB_URL || !SB_KEY) return;
-      var url = SB_URL + '/rest/v1/results' +
-        '?student_name=eq.' + encodeURIComponent(name) +
-        '&center=eq.'       + encodeURIComponent(center) +
-        '&user_email=is.null';
-      await fetch(url, {
-        method: 'PATCH',
-        headers: {
-          'apikey':        SB_KEY,
-          'Authorization': 'Bearer ' + SB_KEY,
-          'Content-Type':  'application/json',
-          'Prefer':        'return=minimal'
-        },
-        body: JSON.stringify({ user_email: email })
-      }).catch(function(){});
+
+      // Build a small set of name variants to match against student_name.
+      // Order doesn't matter — we'll OR them in PostgREST.
+      var variants = {};
+      var trimmed = name.trim().replace(/\s+/g, ' ');
+      variants[trimmed.toLowerCase()] = true;
+      var parts = trimmed.split(' ');
+      if (parts.length >= 2) {
+        variants[(parts.slice(1).join(' ') + ' ' + parts[0]).toLowerCase()] = true; // reverse order
+        variants[(parts[0] + ' ' + parts.slice(1).join(' ')).toLowerCase()] = true; // canonical
+      }
+      // PostgREST supports case-insensitive match via ilike. Build an "or="
+      // clause: or=(student_name.ilike.john*doe,student_name.ilike.doe*john,...)
+      var orParts = Object.keys(variants).map(function (v) {
+        // match exact (case-insensitive) — use ilike with no wildcards
+        // PostgREST commas inside or() must be quoted/encoded; simplest is to
+        // run one PATCH per variant which keeps URLs short and safe.
+        return v;
+      });
+
+      // Run one PATCH per variant (cheap, all hit the (student_name,center) index).
+      // We don't constrain by center — students who travel between centers
+      // (or whose center identifier differs across clones) still get linked.
+      for (var i = 0; i < orParts.length; i++) {
+        var v = orParts[i];
+        var url = SB_URL + '/rest/v1/results' +
+          '?student_name=ilike.' + encodeURIComponent(v) +
+          '&user_email=is.null';
+        await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json',
+            'Prefer':        'return=minimal'
+          },
+          body: JSON.stringify({ user_email: email })
+        }).catch(function(){});
+      }
     } catch (_e) { /* non-fatal */ }
   }
 
