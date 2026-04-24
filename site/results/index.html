@@ -1823,7 +1823,10 @@
     <div class="track-container">
       <div class="track-header">
         <h3>📈 <span id="trackTitle">Student Track</span></h3>
-        <button class="viewer-close" onclick="closeTrack()">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="trackBlockBtn" style="display:none;padding:6px 14px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#fff;background:#e53935;"></button>
+          <button class="viewer-close" onclick="closeTrack()">✕</button>
+        </div>
       </div>
       <div class="track-body" id="trackBody">
         <div class="loading"><div class="spinner"></div></div>
@@ -4675,6 +4678,95 @@
       historyHtml += '</div>';
 
       document.getElementById('trackBody').innerHTML = summaryHtml + chartHtml + historyHtml;
+
+      // Set up the Block / Unblock button (uses the same `candidates` row
+      // the Registered Users panel patches). Center is taken from the most
+      // recent result for this student.
+      _setupTrackBlockBtn(studentName, newest[0] && newest[0].center);
+    }
+
+    // ---------------- BLOCK / UNBLOCK (admin) ----------------
+    var _trackBlockState = { name: '', center: '', blocked: false };
+
+    async function _setupTrackBlockBtn(studentName, center) {
+      var btn = document.getElementById('trackBlockBtn');
+      if (!btn) return;
+      _trackBlockState.name = studentName || '';
+      _trackBlockState.center = center || '';
+      _trackBlockState.blocked = false;
+
+      if (!studentName || !center) {
+        btn.style.display = 'none';
+        return;
+      }
+
+      btn.style.display = '';
+      btn.disabled = true;
+      btn.style.background = '#94a3b8';
+      btn.textContent = '⏳ Loading...';
+      btn.onclick = null;
+
+      try {
+        var url = SUPABASE_URL + '/rest/v1/candidates' +
+          '?student_name=eq.' + encodeURIComponent(studentName) +
+          '&center=eq.' + encodeURIComponent(center) +
+          '&select=blocked';
+        var resp = await fetch(url, {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var rows = await resp.json();
+        _trackBlockState.blocked = !!(rows && rows[0] && rows[0].blocked);
+      } catch (e) {
+        console.warn('[track-block] status check failed:', e);
+        // Fall through: treat as not blocked so admin can still issue a block.
+      }
+
+      _renderTrackBlockBtn();
+    }
+
+    function _renderTrackBlockBtn() {
+      var btn = document.getElementById('trackBlockBtn');
+      if (!btn) return;
+      var b = _trackBlockState.blocked;
+      btn.disabled = false;
+      btn.style.background = b ? '#43a047' : '#e53935';
+      btn.textContent = b ? '✅ Unblock User' : '🚫 Block User';
+      btn.onclick = _toggleTrackBlockUser;
+    }
+
+    async function _toggleTrackBlockUser() {
+      var name = _trackBlockState.name;
+      var center = _trackBlockState.center;
+      var currentlyBlocked = _trackBlockState.blocked;
+      if (!name || !center) return;
+      var action = currentlyBlocked ? 'unblock' : 'block';
+      if (!confirm('Are you sure you want to ' + action + ' "' + name + '"?')) return;
+
+      var btn = document.getElementById('trackBlockBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Updating...'; btn.style.background = '#94a3b8'; }
+
+      try {
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/candidates' +
+          '?student_name=eq.' + encodeURIComponent(name) +
+          '&center=eq.' + encodeURIComponent(center), {
+          method: 'PATCH',
+          headers: {
+            'apikey':        SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type':  'application/json',
+            'Prefer':        'return=minimal'
+          },
+          body: JSON.stringify({ blocked: !currentlyBlocked })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        _trackBlockState.blocked = !currentlyBlocked;
+        _renderTrackBlockBtn();
+      } catch (e) {
+        alert('Failed to ' + action + ' user: ' + (e.message || e));
+        // Restore previous state
+        _renderTrackBlockBtn();
+      }
     }
 
     function parseScoreNum(score, examType) {
