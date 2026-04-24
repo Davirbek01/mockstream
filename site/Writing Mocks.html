@@ -15331,7 +15331,7 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       document.head.appendChild(s);
     })();
 
-    function openTelegramWithMessage() {
+    async function openTelegramWithMessage() {
       // Gather candidate info
       const nameInput = document.getElementById('cand');
       const candidateName = (nameInput ? nameInput.value.trim() : '') || 'Unknown';
