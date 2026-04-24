@@ -28,6 +28,7 @@
   var MAX_IMAGE_MB = 50;
   var MAX_PDF_MB = 100;
   var MAX_AI_INLINE_MB = 8;
+  var HC_SUPPORT_ENABLED = true;
   var HC_TEXT_ENABLED = true;
   var HC_VOICE_ENABLED = true;
   var HC_IMAGE_ENABLED = true;
@@ -53,11 +54,13 @@
 
   // Load admin-configured settings from localStorage (cached) or Supabase
   function loadHcSettings() {
-    // Fast path: localStorage cache
+    // First, load from localStorage cache for instant rendering
+    var sup = localStorage.getItem('ms_hc_support_enabled');
     var tx = localStorage.getItem('ms_hc_text_enabled');
     var v = localStorage.getItem('ms_hc_voice_enabled');
     var i = localStorage.getItem('ms_hc_image_enabled');
     var p = localStorage.getItem('ms_hc_pdf_enabled');
+    if (sup !== null) HC_SUPPORT_ENABLED = sup !== 'false';
     if (tx !== null) HC_TEXT_ENABLED = tx !== 'false';
     if (v !== null) HC_VOICE_ENABLED = v !== 'false';
     if (i !== null) HC_IMAGE_ENABLED = i !== 'false';
@@ -110,13 +113,14 @@
 
     // Background refresh from Supabase
     try {
-      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_private_enabled,hc_private_text_enabled,hc_private_voice_enabled,hc_private_image_enabled,hc_private_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model,hc_dict_ai_model)&select=key,value', {
+      fetch(SB_URL + '/rest/v1/site_settings?key=in.(hc_support_enabled,hc_text_enabled,hc_voice_enabled,hc_image_enabled,hc_pdf_enabled,hc_max_image_mb,hc_max_pdf_mb,hc_max_ai_inline_mb,hc_max_voice_sec,hc_community_enabled,hc_community_text_enabled,hc_community_voice_enabled,hc_community_image_enabled,hc_community_pdf_enabled,hc_private_enabled,hc_private_text_enabled,hc_private_voice_enabled,hc_private_image_enabled,hc_private_pdf_enabled,hc_dict_enabled,hc_dict_text,hc_dict_voice,hc_dict_image,hc_ai_model,hc_dict_ai_model)&select=key,value', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }).then(function (r) { return r.json(); }).then(function (rows) {
         if (!rows || !rows.length) return;
         var map = {};
         rows.forEach(function (r) { map[r.key] = r.value; });
         if ('hc_max_voice_sec' in map) { MAX_VOICE_SEC = parseInt(map.hc_max_voice_sec) || 120; localStorage.setItem('ms_hc_max_voice_sec', map.hc_max_voice_sec); }
+        if ('hc_support_enabled' in map) { HC_SUPPORT_ENABLED = map.hc_support_enabled !== 'false'; localStorage.setItem('ms_hc_support_enabled', map.hc_support_enabled); }
         if ('hc_text_enabled' in map) { HC_TEXT_ENABLED = map.hc_text_enabled !== 'false'; localStorage.setItem('ms_hc_text_enabled', map.hc_text_enabled); }
         if ('hc_voice_enabled' in map) { HC_VOICE_ENABLED = map.hc_voice_enabled !== 'false'; localStorage.setItem('ms_hc_voice_enabled', map.hc_voice_enabled); }
         if ('hc_image_enabled' in map) { HC_IMAGE_ENABLED = map.hc_image_enabled !== 'false'; localStorage.setItem('ms_hc_image_enabled', map.hc_image_enabled); }
@@ -200,6 +204,21 @@
     if (dictBtn) dictBtn.style.display = HC_DICT_ENABLED ? '' : 'none';
     if (!HC_DICT_ENABLED && currentCategory === 'dictionary') {
       switchCategory('support');
+    }
+    // Support tab button visibility (last so the fallback below has the
+    // final say). Hide all category buttons mapped to "support" — they
+    // share data-cat="support" / "premium" / "partner" but the user-
+    // facing Support tab is just data-cat="support".
+    var supportBtn = document.querySelector('.cb-cat-btn[data-cat="support"]');
+    if (supportBtn) supportBtn.style.display = HC_SUPPORT_ENABLED ? '' : 'none';
+    // Landing-page Help Center uses .hc-cat-btn instead of .cb-cat-btn
+    var lSupportBtn = document.querySelector('.hc-cat-btn[data-cat="support"]');
+    if (lSupportBtn) lSupportBtn.style.display = HC_SUPPORT_ENABLED ? '' : 'none';
+    if (!HC_SUPPORT_ENABLED && currentCategory === 'support') {
+      // Pick the first still-visible tab as a fallback.
+      if (HC_COMMUNITY_ENABLED) switchCategory('community');
+      else if (HC_PRIVATE_ENABLED) switchCategory('private');
+      else if (HC_DICT_ENABLED) switchCategory('dictionary');
     }
   }
 
@@ -985,21 +1004,110 @@
   }
 
   // ─── POLL FOR ADMIN REPLIES ───────────────────────────────────────────────
+  // Cache of all device_ids that share the signed-in Google email. This lets
+  // the Private tab pull admin DMs sent to the user on a *different* device
+  // (e.g. they took the test on phone, signed in with Google later on PC).
+  var _privateConvCache = { email: null, ids: null, ts: 0 };
+  async function _privateConvIds() {
+    var myConv = getConvId('private');
+    var email = (localStorage.getItem('ms_vip_email') || '').toLowerCase();
+    if (!email) {
+      try {
+        var prof = JSON.parse(localStorage.getItem('ms_candidate_profile') || '{}');
+        if (prof && prof.email) email = String(prof.email).toLowerCase();
+      } catch (_e) {}
+    }
+    if (!email) return [myConv];
+    // Refresh at most every 5 min
+    if (_privateConvCache.email === email && _privateConvCache.ids &&
+        (Date.now() - _privateConvCache.ts) < 5 * 60 * 1000) {
+      return _privateConvCache.ids;
+    }
+    try {
+      var resp = await sbFetch('/rest/v1/premium_devices?email=eq.' +
+        encodeURIComponent(email) + '&select=device_id');
+      var rows = await resp.json();
+      var seen = {};
+      var ids = [myConv];
+      seen[myConv] = true;
+      if (Array.isArray(rows)) {
+        rows.forEach(function (r) {
+          if (r.device_id) {
+            var c = r.device_id + '_private';
+            if (!seen[c]) { ids.push(c); seen[c] = true; }
+          }
+        });
+      }
+      _privateConvCache = { email: email, ids: ids, ts: Date.now() };
+      return ids;
+    } catch (_e) {
+      return [myConv];
+    }
+  }
+
   async function pollAdminReplies() {
     var gotNew = false;
+    // Honor admin-side "Clear All Private Messages" — if the global stamp
+    // is newer than what we've seen locally, flush our cached private
+    // messages so the user doesn't keep seeing ghost rows.
+    try {
+      var resp0 = await sbFetch('/rest/v1/site_settings?key=eq.hc_private_cleared_at&select=value');
+      var rows0 = await resp0.json();
+      if (Array.isArray(rows0) && rows0[0] && rows0[0].value) {
+        var serverStamp = parseInt(rows0[0].value, 10) || 0;
+        var localStamp = parseInt(localStorage.getItem('ms_hc_private_clear_seen') || '0', 10) || 0;
+        if (serverStamp > localStamp) {
+          messages.private = [];
+          lastSeenAdmin.private = 0;
+          saveLocal();
+          if (currentCategory === 'private') { try { renderMessages(); } catch (_e) {} }
+          localStorage.setItem('ms_hc_private_clear_seen', String(serverStamp));
+        }
+      }
+    } catch (_e) {}
     var cats = ['support', 'premium', 'partner', 'private'];
     for (var i = 0; i < cats.length; i++) {
       var cat = cats[i];
-      var convId = getConvId(cat);
       try {
-        var resp = await sbFetch('/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(convId) + '&role=eq.admin&order=created_at.desc&limit=20&select=content,created_at,attachment_url,attachment_type,attachment_name');
-        var data = await resp.json();
+        // For Private tab, also include conversation_ids belonging to other
+        // devices linked to this user's email (Google sign-in fan-out).
+        var data;
+        if (cat === 'private') {
+          var convIds = await _privateConvIds();
+          // PostgREST: conversation_id=in.(a,b,c) — quote each value.
+          var inList = convIds.map(function (c) { return '"' + c + '"'; }).join(',');
+          var resp = await sbFetch('/rest/v1/support_messages?conversation_id=in.(' +
+            encodeURIComponent(inList) + ')&role=eq.admin&order=created_at.desc&limit=40&select=content,created_at,attachment_url,attachment_type,attachment_name');
+          data = await resp.json();
+        } else {
+          var convId = getConvId(cat);
+          var resp2 = await sbFetch('/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(convId) + '&role=eq.admin&order=created_at.desc&limit=20&select=content,created_at,attachment_url,attachment_type,attachment_name');
+          data = await resp2.json();
+        }
         if (!data || !data.length) continue;
 
-        var existingCount = (messages[cat] || []).filter(function (m) { return m.role === 'admin'; }).length;
-        if (data.length > existingCount) {
-          var newMsgs = data.slice(0, data.length - existingCount).reverse();
-          newMsgs.forEach(function (am) {
+        // Dedup against what we already have (admin can fan-out the same
+        // message to multiple devices when DMing from the Registered Users
+        // panel or the Results table — we want to display it only once).
+        var seenKey = {};
+        (messages[cat] || []).forEach(function (m) {
+          if (m.role === 'admin') {
+            var k = (m.text || '') + '|' + Math.floor((m.ts || 0) / 60000);
+            seenKey[k] = true;
+          }
+        });
+        var fresh = [];
+        // `data` is desc by created_at — iterate ascending so order is natural
+        for (var di = data.length - 1; di >= 0; di--) {
+          var am = data[di];
+          var ts = new Date(am.created_at).getTime();
+          var k2 = (am.content || '') + '|' + Math.floor(ts / 60000);
+          if (seenKey[k2]) continue;
+          seenKey[k2] = true;
+          fresh.push(am);
+        }
+        if (fresh.length) {
+          fresh.forEach(function (am) {
             var msg = {
               role: 'admin',
               text: am.content,

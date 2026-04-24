@@ -109,6 +109,8 @@
         try { applyPremiumUnlock(); } catch (e) {}
         // Claim previously-saved guest results under this email (non-blocking)
         try { _backfillGuestResults(profile); } catch (e) {}
+        // Register this device so admin can DM the user (non-blocking)
+        try { _registerSignedInDevice(profile); } catch (e) {}
       }
 
       // Subscribe to future auth changes (e.g., user signs in from popup)
@@ -123,6 +125,7 @@
           } catch (e) {}
           try { _premiumCache = null; applyPremiumUnlock(); } catch (e) {}
           try { _backfillGuestResults(profile); } catch (e) {}
+          try { _registerSignedInDevice(profile); } catch (e) {}
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
@@ -250,6 +253,66 @@
       window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: info }));
     } catch (e) {}
     return info;
+  }
+
+  // -----------------------------------------------------------------------
+  // Register the current device under the signed-in user's email so the
+  // admin's "Send Private Message" feature in the Registered Users panel
+  // can find a device_id to deliver the DM to. Without this, only users
+  // who entered a VIP email or who already opened the Help Center had a
+  // device_id on record — every other Google user showed
+  // "No device found for this user yet".
+  // Uses upsert (Prefer: resolution=merge-duplicates) so re-signins just
+  // update last_seen instead of erroring on the (email, device_id) UNIQUE.
+  // -----------------------------------------------------------------------
+  function _miniDeviceInfo() {
+    var info = { type: 'desktop', os: 'Unknown', model: '', browser: 'Unknown' };
+    try {
+      var ua = navigator.userAgent || '';
+      if (/Mobi|Android|iPhone|iPad/i.test(ua)) info.type = 'mobile';
+      if (/Windows/i.test(ua)) info.os = 'Windows';
+      else if (/Mac OS X/i.test(ua)) info.os = 'macOS';
+      else if (/Android/i.test(ua)) info.os = 'Android';
+      else if (/iPhone|iPad|iOS/i.test(ua)) info.os = 'iOS';
+      else if (/Linux/i.test(ua)) info.os = 'Linux';
+      if (/Edg\//i.test(ua)) info.browser = 'Edge';
+      else if (/OPR|Opera/i.test(ua)) info.browser = 'Opera';
+      else if (/Chrome|CriOS/i.test(ua)) info.browser = 'Chrome';
+      else if (/Firefox|FxiOS/i.test(ua)) info.browser = 'Firefox';
+      else if (/Safari/i.test(ua)) info.browser = 'Safari';
+    } catch (_e) {}
+    return info;
+  }
+
+  async function _registerSignedInDevice(profile) {
+    try {
+      if (!profile || !profile.email) return;
+      var email = String(profile.email).toLowerCase();
+      var deviceId = '';
+      try { deviceId = localStorage.getItem('ms_device_id') || ''; } catch (_e) {}
+      if (!deviceId) {
+        deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        try { localStorage.setItem('ms_device_id', deviceId); } catch (_e) {}
+      }
+      var body = {
+        email: email,
+        device_id: deviceId,
+        device_info: _miniDeviceInfo(),
+        last_seen: new Date().toISOString()
+      };
+      // Upsert via PostgREST: on_conflict targets the (email, device_id) UNIQUE.
+      var url = SB_URL + '/rest/v1/premium_devices?on_conflict=email,device_id';
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type':  'application/json',
+          'Prefer':        'resolution=merge-duplicates,return=minimal'
+        },
+        body: JSON.stringify(body)
+      }).catch(function(){});
+    } catch (_e) { /* non-fatal */ }
   }
 
   // -----------------------------------------------------------------------

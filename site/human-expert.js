@@ -53,7 +53,7 @@
       "\ud83d\udc64 Test Taker: {name}\n" +
       "\ud83d\udcc4 Mock number: {mock}\n" +
       "\ud83d\udcc5 Test Date: {date}\n" +
-      "\ud83c\udff7\ufe0f #{testId}\n\n" +
+      "\ud83c\udff7\ufe0f #{testId}{viewReportLine}\n\n" +
       "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
       "\ud83d\udcb3 To'lov ma'lumotlari:\n" +
       "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n" +
@@ -96,6 +96,17 @@
   function buildTelegramUrl(vars) {
     var cfg = resolveConfig();
     vars = vars || {};
+    // Build the protected View Report line. We auto-pick the URL from
+    // window._lastSavedViewUrl (stamped by supabase-send.js after a
+    // successful save). Caller can also pass `vars.viewUrl` to override.
+    // We append `&lock=1` so view.html will require a passcode to open
+    // (prevents leakage if the teacher forwards the prefilled message).
+    var rawViewUrl = vars.viewUrl || (typeof window !== 'undefined' && window._lastSavedViewUrl) || '';
+    var lockedViewUrl = '';
+    if (rawViewUrl) {
+      lockedViewUrl = rawViewUrl + (rawViewUrl.indexOf('?') === -1 ? '?' : '&') + 'lock=1';
+    }
+    var viewReportLine = lockedViewUrl ? ('\n\ud83d\udcce View Report: ' + lockedViewUrl) : '';
     var filled = interpolate(cfg.messageTemplate, {
       test: vars.test || '',
       name: vars.name || 'Unknown',
@@ -104,7 +115,9 @@
       testId: vars.testId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream',
       price: cfg.price,
       card: cfg.cardNumber,
-      delivery: cfg.delivery
+      delivery: cfg.delivery,
+      viewReport: lockedViewUrl,
+      viewReportLine: viewReportLine
     });
     return cfg.telegramUrl + '?text=' + encodeURIComponent(filled);
   }

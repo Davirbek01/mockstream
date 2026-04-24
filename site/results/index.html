@@ -572,6 +572,106 @@
       box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
     }
 
+    /* Row actions container (DM + View) */
+    .row-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* DM button (per-row Send Private Message) */
+    .dm-btn {
+      background: #fff;
+      color: #4f46e5;
+      border: 1px solid #c7d2fe;
+      padding: 5px 9px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      line-height: 1;
+    }
+    .dm-btn:hover {
+      background: #eef2ff;
+      border-color: #818cf8;
+      transform: translateY(-1px);
+    }
+    .dm-btn-disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .dm-btn-disabled:hover {
+      background: #fff;
+      border-color: #c7d2fe;
+      transform: none;
+    }
+
+    /* Result-DM modal */
+    .result-dm-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 100000;
+      padding: 16px;
+    }
+    .result-dm-overlay.show { display: flex; }
+    .result-dm-card {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      overflow: hidden;
+      font-family: inherit;
+    }
+    .result-dm-head {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .result-dm-head h4 { margin: 0; font-size: 15px; font-weight: 800; }
+    .result-dm-head button {
+      background: transparent; border: none; color: #fff;
+      font-size: 22px; cursor: pointer; line-height: 1;
+    }
+    .result-dm-body { padding: 16px 18px; }
+    .result-dm-meta {
+      font-size: 12px; color: #64748b; margin-bottom: 10px; line-height: 1.4;
+    }
+    .result-dm-meta strong { color: #1e293b; }
+    .result-dm-body textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit; font-size: 14px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .result-dm-body textarea:focus {
+      outline: none; border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+    }
+    .result-dm-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; padding: 12px 18px; background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+    .result-dm-msg { font-size: 12px; color: #64748b; flex: 1; }
+    .result-dm-send {
+      background: linear-gradient(135deg,#4f46e5,#7c3aed);
+      color: #fff; border: none; padding: 8px 18px;
+      border-radius: 8px; font-weight: 700; font-size: 13px;
+      cursor: pointer;
+    }
+    .result-dm-send:disabled { opacity: 0.6; cursor: not-allowed; }
+
     /* Empty state */
     .empty-state {
       text-align: center;
@@ -2113,6 +2213,10 @@
 
               <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
                 <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <input type="checkbox" id="settingsSupportEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
+                  <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Support tab visible</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
                   <input type="checkbox" id="settingsTextEnabled" checked style="width:18px;height:18px;accent-color:#059669;cursor:pointer;">
                   <span style="font-size:13px;color:var(--ink);font-weight:600;">💬 Text messages</span>
                 </label>
@@ -3506,9 +3610,16 @@
           '<td><span class="score-display">' + escapeHtml(String(r.score || '—')) + '</span></td>' +
           '<td style="font-size:12px;white-space:nowrap;">' + devLabel + '</td>';
           var hasReport = r.report_path && r.report_path.length > 0;
+          // DM button — works for any user that has a device_id stamped on
+          // the result row (guests included). Falls back to email-based
+          // device lookup for legacy rows that pre-date the device_id column.
+          var canDm = !!(r.device_id || r.user_email);
+          var dmBtn = canDm
+            ? '<button class="dm-btn" title="Send private message" onclick="openResultDm(\'' + (r.id || '') + '\')">💬</button>'
+            : '<button class="dm-btn dm-btn-disabled" title="No device or email on this row" disabled>💬</button>';
           tr.innerHTML += hasReport
-            ? '<td><button class="view-btn" onclick="viewResult(\'' + (r.id || '') + '\')">View</button></td>'
-            : '<td><span style="color:var(--muted);font-size:11px;">Expired</span></td>';
+            ? '<td><div class="row-actions">' + dmBtn + '<button class="view-btn" onclick="viewResult(\'' + (r.id || '') + '\')">View</button></div></td>'
+            : '<td><div class="row-actions">' + dmBtn + '<span style="color:var(--muted);font-size:11px;">Expired</span></div></td>';
 
         tbody.appendChild(tr);
       });
@@ -3694,6 +3805,118 @@
     function hideViewerLoader() {
       var el = document.getElementById('viewerLoader');
       if (el) el.classList.remove('show');
+    }
+
+    // ===== Per-result Send Private Message =====
+    // Routes the admin DM into the user's Help Center → Private tab via
+    // the same support_messages table that the existing Registered Users
+    // panel and Site Management → Private Messages panel use.
+    // Destination conversation_id is always <device_id>_private.
+    // We always send to r.device_id, and (if r.user_email exists) ALSO
+    // fan out to every other device in premium_devices for that email,
+    // so a Google user reads the message on any of their signed-in devices.
+    function openResultDm(resultId) {
+      var r = (allResults || []).find(function (x) { return x.id === resultId; });
+      if (!r) { alert('Result not found.'); return; }
+      var ov = document.getElementById('resultDmOverlay');
+      if (!ov) return;
+      var meta = document.getElementById('resultDmMeta');
+      var ta = document.getElementById('resultDmText');
+      var msg = document.getElementById('resultDmMsg');
+      var btn = document.getElementById('resultDmSendBtn');
+      var center = (typeof CENTER_NAMES !== 'undefined' && CENTER_NAMES[r.center]) || r.center || '—';
+      var who = (r.user_email ? '✉️ ' + r.user_email : '👤 Guest');
+      meta.innerHTML =
+        '<strong>' + escapeHtml(r.student_name || 'Student') + '</strong> · ' +
+        escapeHtml(center) + '<br>' +
+        '<span style="color:#475569;">' + escapeHtml(who) + '</span>';
+      ta.value = '';
+      msg.textContent = '';
+      msg.style.color = '#64748b';
+      btn.disabled = false;
+      btn.textContent = '📨 Send';
+      btn.onclick = function () { _sendResultDm(r); };
+      ov.classList.add('show');
+      setTimeout(function () { try { ta.focus(); } catch (_e) {} }, 50);
+    }
+    window.openResultDm = openResultDm;
+
+    function closeResultDm() {
+      var ov = document.getElementById('resultDmOverlay');
+      if (ov) ov.classList.remove('show');
+    }
+    window.closeResultDm = closeResultDm;
+
+    async function _sendResultDm(r) {
+      var ta = document.getElementById('resultDmText');
+      var msg = document.getElementById('resultDmMsg');
+      var btn = document.getElementById('resultDmSendBtn');
+      var text = (ta && ta.value || '').trim();
+      function _say(t, color) { if (msg) { msg.textContent = t; msg.style.color = color || '#64748b'; } }
+      if (!text) { _say('Type a message first.', '#dc2626'); return; }
+      btn.disabled = true; btn.textContent = '⏳ Sending...';
+      try {
+        // Collect destination device_ids (deduped).
+        var devices = {};
+        if (r.device_id) devices[r.device_id] = true;
+        if (r.user_email) {
+          try {
+            var resp = await fetch(SUPABASE_URL + '/rest/v1/premium_devices?email=eq.' +
+              encodeURIComponent(r.user_email) + '&select=device_id', {
+              headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+            });
+            if (resp.ok) {
+              var rows = await resp.json();
+              rows.forEach(function (x) { if (x.device_id) devices[x.device_id] = true; });
+            }
+          } catch (_e) {}
+        }
+        var ids = Object.keys(devices);
+        if (!ids.length) {
+          _say('No device or email known for this user.', '#dc2626');
+          btn.disabled = false; btn.textContent = '📨 Send';
+          return;
+        }
+        var senderName = localStorage.getItem('ms_admin_email') || 'Admin';
+        var center = r.center || 'mock_stream';
+        var sent = 0, failed = 0;
+        for (var i = 0; i < ids.length; i++) {
+          var body = {
+            conversation_id: ids[i] + '_private',
+            role: 'admin',
+            sender_name: senderName,
+            content: text,
+            category: 'private',
+            center: center,
+            device_id: 'admin_panel'
+          };
+          try {
+            var pResp = await fetch(SUPABASE_URL + '/rest/v1/support_messages', {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify(body)
+            });
+            if (pResp.ok) sent++; else failed++;
+          } catch (_e2) { failed++; }
+        }
+        if (sent > 0) {
+          _say('✅ Delivered to ' + sent + ' device' + (sent === 1 ? '' : 's') +
+            (failed ? ' (' + failed + ' failed)' : ''), '#059669');
+          ta.value = '';
+          setTimeout(closeResultDm, 1200);
+        } else {
+          _say('❌ Send failed.', '#dc2626');
+        }
+      } catch (e) {
+        _say('Error: ' + (e && e.message || e), '#dc2626');
+      } finally {
+        btn.disabled = false; btn.textContent = '📨 Send';
+      }
     }
 
     function viewResult(resultId) {
@@ -5602,6 +5825,7 @@
         }
 
         // Voice & Attachment settings
+        document.getElementById('settingsSupportEnabled').checked = map.hc_support_enabled !== 'false';
         document.getElementById('settingsTextEnabled').checked = map.hc_text_enabled !== 'false';
         document.getElementById('settingsVoiceEnabled').checked = map.hc_voice_enabled !== 'false';
         document.getElementById('settingsImageEnabled').checked = map.hc_image_enabled !== 'false';
@@ -5909,6 +6133,7 @@
       var statusEl = document.getElementById('voiceAttachStatus');
       statusEl.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
       try {
+        var supportEnabled = document.getElementById('settingsSupportEnabled').checked;
         var textEnabled = document.getElementById('settingsTextEnabled').checked;
         var voiceEnabled = document.getElementById('settingsVoiceEnabled').checked;
         var imageEnabled = document.getElementById('settingsImageEnabled').checked;
@@ -5918,6 +6143,7 @@
         var maxAiInlineMb = parseInt(document.getElementById('settingsMaxAiInlineMb').value) || 8;
         var maxVoiceSec = parseInt(document.getElementById('settingsMaxVoiceSec').value) || 120;
 
+        await upsertSetting('hc_support_enabled', String(supportEnabled));
         await upsertSetting('hc_text_enabled', String(textEnabled));
         await upsertSetting('hc_voice_enabled', String(voiceEnabled));
         await upsertSetting('hc_image_enabled', String(imageEnabled));
@@ -5928,6 +6154,7 @@
         await upsertSetting('hc_max_voice_sec', String(maxVoiceSec));
 
         // Update localStorage cache for chat clients
+        localStorage.setItem('ms_hc_support_enabled', String(supportEnabled));
         localStorage.setItem('ms_hc_text_enabled', String(textEnabled));
         localStorage.setItem('ms_hc_voice_enabled', String(voiceEnabled));
         localStorage.setItem('ms_hc_image_enabled', String(imageEnabled));
@@ -5944,6 +6171,7 @@
     }
 
     function resetVoiceAttachSettings() {
+      document.getElementById('settingsSupportEnabled').checked = true;
       document.getElementById('settingsTextEnabled').checked = true;
       document.getElementById('settingsVoiceEnabled').checked = true;
       document.getElementById('settingsImageEnabled').checked = true;
@@ -6623,6 +6851,14 @@
         // Clear private messages from local cache
         _clearPrivateLocalStorage();
         if (typeof window._hcClearPrivate === 'function') window._hcClearPrivate();
+        // Bump a global "private cleared at" stamp so other browsers /
+        // other users notice on their next poll and flush their local
+        // cache too (otherwise they'd see ghost messages until manual
+        // cache clear). The chat-bubble polls site_settings on the same
+        // tick as it polls admin replies.
+        try {
+          await upsertSetting('hc_private_cleared_at', String(Date.now()));
+        } catch (_e) {}
         // Refresh Private Messages panel if open
         if (typeof loadPrivateAdmin === 'function') loadPrivateAdmin();
       } catch (e) {
@@ -8591,12 +8827,32 @@
     // Escape key for center hub + switch confirm
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
+        var dmOv = document.getElementById('resultDmOverlay');
+        if (dmOv && dmOv.classList.contains('show')) { closeResultDm(); return; }
         var switchOv = document.getElementById('chSwitchOverlay');
         if (switchOv.classList.contains('show')) { switchOv.classList.remove('show'); return; }
         if (document.getElementById('centerHubOverlay').classList.contains('show')) { closeCenterHub(); }
       }
     });
   </script>
+
+  <!-- ===== Per-result Send Private Message modal ===== -->
+  <div class="result-dm-overlay" id="resultDmOverlay" onclick="if(event.target===this)closeResultDm()">
+    <div class="result-dm-card">
+      <div class="result-dm-head">
+        <h4>💬 Send Private Message</h4>
+        <button onclick="closeResultDm()" title="Close">&times;</button>
+      </div>
+      <div class="result-dm-body">
+        <div class="result-dm-meta" id="resultDmMeta"></div>
+        <textarea id="resultDmText" placeholder="Type your message... It appears in the user's Help Center → Private tab as a notification."></textarea>
+      </div>
+      <div class="result-dm-foot">
+        <div class="result-dm-msg" id="resultDmMsg"></div>
+        <button class="result-dm-send" id="resultDmSendBtn">📨 Send</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 

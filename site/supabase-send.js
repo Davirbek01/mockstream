@@ -215,6 +215,18 @@
       }
     } catch (_e) {}
 
+    // Capture this device's id so the admin can DM the test-taker (guest or
+    // Google user) directly from the Results table. We reuse ms_device_id
+    // (the same key the Help Center uses) and create one if missing.
+    var _deviceId = '';
+    try {
+      _deviceId = localStorage.getItem('ms_device_id') || '';
+      if (!_deviceId) {
+        _deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('ms_device_id', _deviceId);
+      }
+    } catch (_e) {}
+
     var id  = uuid();
     var cfg = window.SITE_CONFIG || {};
 
@@ -256,6 +268,7 @@
         student_name: (opts.studentName || '').substring(0, 200),
         center:       cfg.testIdentifier || '',
         user_email:   _userEmail || null,
+        device_id:    _deviceId || null,
         exam_type:    opts.examType || '',
         skill:        opts.skill || '',
         score:        (opts.score || '').substring(0, 50),
@@ -295,6 +308,14 @@
 
       console.log('[Supabase] ✅ Result saved:', id);
       if (window.msProgress) window.msProgress.update('📨 Sending notification...');
+      // Stash on window so per-page features (e.g. the Human Expert
+      // Telegram prefilled message) can append a "View Report" link
+      // without re-saving. Cleared automatically when a new mock is
+      // started — for now we just overwrite.
+      try {
+        window._lastSavedResultId = id;
+        window._lastSavedViewUrl = viewUrl;
+      } catch (_e) {}
       return { id: id, viewUrl: viewUrl };
 
     } catch (err) {
@@ -306,9 +327,13 @@
 
   // ─── CAPTION HELPER ───────────────────────────────────────────────────────
   // Appends a "📎 View Report" link to an existing Telegram caption.
+  // Always appends `&lock=1` so the report viewer requires the BSB
+  // management code before opening — protects student work even if the
+  // channel link is forwarded outside the team.
   window.appendResultLink = function appendResultLink(caption, viewUrl) {
     if (!viewUrl) return caption;
-    return caption + '\n\n📎 View Report: ' + viewUrl;
+    var locked = viewUrl + (viewUrl.indexOf('?') === -1 ? '?' : '&') + 'lock=1';
+    return caption + '\n\n📎 View Report: ' + locked;
   };
 
 })();

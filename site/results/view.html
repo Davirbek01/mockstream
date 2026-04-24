@@ -218,12 +218,116 @@
     <iframe id="reportFrame"></iframe>
   </div>
 
+  <!-- ===== ACCESS CODE GATE (only shown when ?lock=1 is present) ===== -->
+  <div id="lockGate" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#fff;border-radius:16px;padding:32px 28px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.4);text-align:center;">
+      <div style="font-size:42px;margin-bottom:8px;">🔒</div>
+      <h2 style="color:#0d9488;font-size:20px;margin:0 0 6px;">Access Code Required</h2>
+      <p style="color:#64748b;font-size:13px;margin:0 0 16px;">This report is protected. Enter your management access code to view.</p>
+      <input id="lockGateInput" type="password" placeholder="Enter access code" autocomplete="off" autocorrect="off" spellcheck="false" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')" style="width:100%;padding:14px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:18px;text-align:center;letter-spacing:3px;font-weight:700;margin-bottom:12px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#0d9488'" onblur="this.style.borderColor='#e2e8f0'">
+      <div id="lockGateStatus" style="font-size:12px;min-height:18px;margin-bottom:10px;color:#dc2626;"></div>
+      <button id="lockGateVerifyBtn" style="width:100%;padding:12px;border:none;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;font-size:14px;font-weight:700;border-radius:10px;cursor:pointer;letter-spacing:0.3px;">Unlock Report</button>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     // ===== CONFIG =====
     var SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     var SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+    // ===== ACCESS-CODE GATE =====================================================
+    // When the URL contains `?lock=1` (used by the Human Expert Telegram
+    // prefilled message), require the admin to enter the same BSB
+    // management code that unlocks Site Management before showing the
+    // report. The unlocked state is cached per-result-id for 12 hours so
+    // the teacher doesn't have to re-enter on refresh.
+    function _isLockedRequest() {
+      try {
+        return new URLSearchParams(window.location.search).get('lock') === '1';
+      } catch (e) { return false; }
+    }
+    function _hasUnlockToken(resultId) {
+      try {
+        var raw = localStorage.getItem('ms_view_unlock_' + resultId);
+        if (!raw) return false;
+        var ts = parseInt(raw, 10) || 0;
+        // 12-hour TTL
+        return (Date.now() - ts) < (12 * 60 * 60 * 1000);
+      } catch (e) { return false; }
+    }
+    function _setUnlockToken(resultId) {
+      try { localStorage.setItem('ms_view_unlock_' + resultId, String(Date.now())); } catch (e) {}
+    }
+    async function _waitForUnlock(resultId) {
+      if (!_isLockedRequest()) return true;
+      if (_hasUnlockToken(resultId)) return true;
+
+      // Fetch the result's center first so the BSB verify call uses the
+      // SAME center the student belongs to. This makes locked links work
+      // across clone sites — a teacher on clone-A unlocks with clone-A's
+      // BSB code, a teacher on the main site uses the main site's code.
+      var resultCenter = 'mockstream';
+      try {
+        var metaResp = await fetch(SUPABASE_URL + '/rest/v1/results?id=eq.' + encodeURIComponent(resultId) + '&select=center', {
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        });
+        if (metaResp.ok) {
+          var metaRows = await metaResp.json();
+          if (metaRows && metaRows[0] && metaRows[0].center) {
+            resultCenter = String(metaRows[0].center).replace(/_/g, '');
+          }
+        }
+      } catch (e) { /* fall back to default */ }
+
+      return new Promise(function (resolve) {
+        var loadingScreen = document.getElementById('loadingScreen');
+        if (loadingScreen) loadingScreen.style.display = 'none';
+        var gate = document.getElementById('lockGate');
+        var inp = document.getElementById('lockGateInput');
+        var btn = document.getElementById('lockGateVerifyBtn');
+        var statusEl = document.getElementById('lockGateStatus');
+        gate.style.display = 'flex';
+        setTimeout(function () { try { inp.focus(); } catch (e) {} }, 100);
+        async function tryVerify() {
+          var code = (inp.value || '').trim();
+          if (!code) { statusEl.textContent = '❌ Please enter your access code'; return; }
+          btn.disabled = true; btn.textContent = '⏳ Verifying...'; statusEl.textContent = '';
+          try {
+            var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                passcode: code,
+                type: 'bsb',
+                validate: true,
+                timestamp: Date.now(),
+                source: 'view-report-lock',
+                center: resultCenter
+              })
+            });
+            if (!resp.ok) throw new Error('Server error');
+            var data = await resp.json();
+            if (data && data.access) {
+              _setUnlockToken(resultId);
+              gate.style.display = 'none';
+              if (loadingScreen) loadingScreen.style.display = 'flex';
+              resolve(true);
+            } else {
+              statusEl.textContent = '❌ Invalid access code';
+              btn.disabled = false; btn.textContent = 'Unlock Report';
+              try { inp.select(); } catch (e) {}
+            }
+          } catch (e) {
+            statusEl.textContent = '❌ Verification failed: ' + (e.message || 'network error');
+            btn.disabled = false; btn.textContent = 'Unlock Report';
+          }
+        }
+        btn.addEventListener('click', tryVerify);
+        inp.addEventListener('keypress', function (e) { if (e.key === 'Enter') tryVerify(); });
+      });
+    }
 
     (async function () {
       var params = new URLSearchParams(window.location.search);
@@ -233,6 +337,10 @@
         showError('Invalid Link', 'The result ID in this URL is missing or malformed.');
         return;
       }
+
+      // Wait for admin to enter the BSB access code if this is a locked link
+      var unlocked = await _waitForUnlock(resultId);
+      if (!unlocked) return;
 
       if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
         showError('Not Configured', 'Supabase connection has not been set up yet.');
