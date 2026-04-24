@@ -235,9 +235,29 @@
 
     try {
       // 1. Upload report file to Supabase Storage bucket "reports"
+      //    When opts.file is null/undefined (e.g. Human Expert request sent
+      //    BEFORE the student runs AI Score), we auto-generate a minimal
+      //    placeholder HTML so the admin view link is still valid.
       var ext = (opts.fileType === 'zip') ? '.zip' : '.html';
       var contentType = (opts.fileType === 'zip') ? 'application/zip' : 'text/html; charset=utf-8';
       var storagePath = (cfg.testIdentifier || 'unknown') + '/' + id + ext;
+
+      var fileToUpload = opts.file;
+      if (!fileToUpload) {
+        var _placeholderHtml =
+          '<!doctype html><html><head><meta charset="utf-8">' +
+          '<title>Human Expert Request</title></head>' +
+          '<body style="font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:24px;">' +
+          '<h1 style="color:#059669">Human Expert Request</h1>' +
+          '<p>This student requested a Human Expert review but did not run AI Score first, so no automated report is available.</p>' +
+          '<p><strong>Student:</strong> ' + ((opts.studentName || 'Unknown').replace(/[<>&]/g, '')) + '</p>' +
+          '<p><strong>Exam:</strong> ' + ((opts.examType || '') + ' ' + (opts.skill || '')).replace(/[<>&]/g, '') + '</p>' +
+          '<p><strong>Mock:</strong> ' + ((opts.mockNumber || '').replace(/[<>&]/g, '')) + '</p>' +
+          '<p><strong>Saved:</strong> ' + new Date().toISOString() + '</p>' +
+          '</body></html>';
+        fileToUpload = new Blob([_placeholderHtml], { type: 'text/html;charset=utf-8' });
+        contentType = 'text/html; charset=utf-8';
+      }
 
       var uploadRes = await fetch(
         SUPABASE_URL + '/storage/v1/object/reports/' + storagePath,
@@ -249,7 +269,7 @@
             'Content-Type':  contentType,
             'x-upsert':     'true'
           },
-          body: opts.file
+          body: fileToUpload
         }
       );
 
