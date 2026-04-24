@@ -7407,6 +7407,34 @@
               <label>DeepSeek model</label>
               <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
+
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
+              <label style="font-weight:700;color:#7c3aed;">✨ Gemini Dual-Key Billing</label>
+              <p style="margin:4px 0 10px;font-size:12px;color:#888;">Store two Gemini API keys (prepay &amp; postpay) and switch between them without redeploying.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div>
+                  <label style="font-size:12px;color:#666;">Active plan</label>
+                  <select id="sp_gemini_active_plan" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);">
+                    <option value="">(use server fallback)</option>
+                    <option value="prepay">💰 Prepay</option>
+                    <option value="postpay">📆 Postpay</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:12px;color:#666;">Status</label>
+                  <div id="sp_gemini_plan_status" style="padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:12px;background:var(--bg);color:#64748b;">—</div>
+                </div>
+              </div>
+              <div style="margin-top:10px;">
+                <label style="font-size:12px;color:#666;">Prepay API key</label>
+                <input type="password" id="sp_gemini_api_key_prepay" placeholder="AIza… (leave blank to keep current)" autocomplete="new-password" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);font-family:monospace;">
+              </div>
+              <div style="margin-top:8px;">
+                <label style="font-size:12px;color:#666;">Postpay API key</label>
+                <input type="password" id="sp_gemini_api_key_postpay" placeholder="AIza… (leave blank to keep current)" autocomplete="new-password" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);font-family:monospace;">
+              </div>
+              <p style="margin:8px 0 0;font-size:11px;color:#94a3b8;">Stored in Supabase <code>site_settings</code>. Keys are never shown after saving — leaving a field blank preserves the existing value.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -19899,14 +19927,36 @@
     async function getGeminiResponse(userText, audioBlob, attachmentPayload) {
       // Fetch API key from secure backend (same as writing/speaking mocks)
       if (!_helpCenterGeminiKey) {
+        // 1. Try Supabase site_settings dual-key selector (prepay/postpay)
         try {
-          var keyResp = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-          });
-          var keyData = await keyResp.json();
-          _helpCenterGeminiKey = keyData.key;
+          var sbUrl = (typeof SUPABASE_URL !== 'undefined') ? SUPABASE_URL : (window.SUPABASE_URL || '');
+          var sbKey = (typeof SUPABASE_ANON !== 'undefined') ? SUPABASE_ANON : (window.SUPABASE_ANON || '');
+          if (sbUrl && sbKey) {
+            var sResp = await fetch(sbUrl + '/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value', {
+              headers: { apikey: sbKey, Authorization: 'Bearer ' + sbKey }
+            });
+            if (sResp.ok) {
+              var sRows = await sResp.json();
+              var sMap = {};
+              (sRows || []).forEach(function(r){ sMap[r.key] = r.value; });
+              var plan = sMap['gemini_active_plan'];
+              if (plan && sMap['gemini_api_key_' + plan]) {
+                _helpCenterGeminiKey = sMap['gemini_api_key_' + plan];
+              }
+            }
+          }
         } catch(e) {}
+        // 2. Fall back to server endpoint
+        if (!_helpCenterGeminiKey) {
+          try {
+            var keyResp = await fetch('https://davirbek.alwaysdata.net/key?model=gemini', {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            var keyData = await keyResp.json();
+            _helpCenterGeminiKey = keyData.key;
+          } catch(e) {}
+        }
       }
 
       if (!_helpCenterGeminiKey) {
@@ -20525,6 +20575,29 @@
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
+        // Load Gemini dual-key settings (separate keys, not prefixed with scoring_)
+        try {
+          var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value', {
+            headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
+          });
+          var gRows = await gResp.json();
+          var gMap = {};
+          (gRows || []).forEach(function(r) { gMap[r.key] = r.value; });
+          var planSel = document.getElementById('sp_gemini_active_plan');
+          if (planSel) planSel.value = gMap['gemini_active_plan'] || '';
+          var prepayIn = document.getElementById('sp_gemini_api_key_prepay');
+          var postpayIn = document.getElementById('sp_gemini_api_key_postpay');
+          if (prepayIn) { prepayIn.value = ''; prepayIn.placeholder = gMap['gemini_api_key_prepay'] ? '✓ Saved (leave blank to keep)' : 'AIza… (not set)'; }
+          if (postpayIn) { postpayIn.value = ''; postpayIn.placeholder = gMap['gemini_api_key_postpay'] ? '✓ Saved (leave blank to keep)' : 'AIza… (not set)'; }
+          var statusBox = document.getElementById('sp_gemini_plan_status');
+          if (statusBox) {
+            var active = gMap['gemini_active_plan'] || '';
+            var hasKey = active && gMap['gemini_api_key_' + active];
+            if (!active) { statusBox.textContent = 'Server fallback'; statusBox.style.color = '#64748b'; }
+            else if (hasKey) { statusBox.textContent = '✓ ' + active + ' active'; statusBox.style.color = '#10b981'; }
+            else { statusBox.textContent = '⚠ ' + active + ' (key missing)'; statusBox.style.color = '#dc2626'; }
+          }
+        } catch(ge) { console.warn('[Gemini dual-key] load failed:', ge); }
         status.innerHTML = '<span style="color:#10b981;">✓ Loaded ' + rows.length + ' saved prompt(s)</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Failed to load: ' + e.message + '</span>';
@@ -20584,6 +20657,19 @@
             deleted++;
           }
         }
+        // Gemini dual-key: active plan + optional key rotation
+        try {
+          var planSel = document.getElementById('sp_gemini_active_plan');
+          if (planSel) {
+            var plan = (planSel.value || '').trim();
+            if (plan) { await _spUpsertSetting('gemini_active_plan', plan); saved++; }
+            else { await _spDeleteSetting('gemini_active_plan'); deleted++; }
+          }
+          var prepayIn = document.getElementById('sp_gemini_api_key_prepay');
+          var postpayIn = document.getElementById('sp_gemini_api_key_postpay');
+          if (prepayIn && prepayIn.value.trim()) { await _spUpsertSetting('gemini_api_key_prepay', prepayIn.value.trim()); prepayIn.value = ''; saved++; }
+          if (postpayIn && postpayIn.value.trim()) { await _spUpsertSetting('gemini_api_key_postpay', postpayIn.value.trim()); postpayIn.value = ''; saved++; }
+        } catch(ge) { console.warn('[Gemini dual-key] save failed:', ge); }
         status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' prompt(s), cleared ' + deleted + ' default(s)</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Save failed: ' + e.message + '</span>';

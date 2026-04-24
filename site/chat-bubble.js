@@ -260,6 +260,23 @@
   var _geminiKey = null;
   var _globalMsg = null; // { text, sent_at }
 
+  // ─── MOBILE DETECTION & SAFE FOCUS ─────────────────────────────────────────
+  // On mobile, calling .focus() on an <input> pops up the on-screen keyboard.
+  // We only want that when the user explicitly taps the input (browser handles
+  // that natively). For programmatic focus after sending a message, switching
+  // tabs, or receiving an AI response, we SKIP .focus() on touch devices so
+  // the keyboard doesn't auto-appear and cover the content.
+  var _isTouchDevice = (typeof window !== 'undefined') && (
+    ('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0)
+  );
+  function _safeFocus(el) {
+    if (!el) return;
+    if (_isTouchDevice) return; // don't auto-popup mobile keyboard
+    try { el.focus(); } catch (_e) {}
+  }
+
   // ─── COMMUNITY STATE ──────────────────────────────────────────────────────
   var _communityMessages = [];      // [{id, content, sender_name, device_id, role, parent_id, created_at}]
   var _communityLastPoll = 0;
@@ -800,11 +817,27 @@
 
   async function getAIReply(userText, audioBlob, attachmentPayload) {
     if (!_geminiKey) {
+      // 1. Try Supabase site_settings dual-key selector first
       try {
-        var r = await fetch('https://davirbek.alwaysdata.net/key?model=gemini');
-        var d = await r.json();
-        _geminiKey = d.key;
+        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value');
+        if (sResp.ok) {
+          var sRows = await sResp.json();
+          var sMap = {};
+          (sRows || []).forEach(function (r) { sMap[r.key] = r.value; });
+          var plan = sMap['gemini_active_plan'];
+          if (plan && sMap['gemini_api_key_' + plan]) {
+            _geminiKey = sMap['gemini_api_key_' + plan];
+          }
+        }
       } catch (e) {}
+      // 2. Fall back to server endpoint
+      if (!_geminiKey) {
+        try {
+          var r = await fetch('https://davirbek.alwaysdata.net/key?model=gemini');
+          var d = await r.json();
+          _geminiKey = d.key;
+        } catch (e) {}
+      }
     }
     if (!_geminiKey) return 'Our AI assistant is being set up. Your message has been saved and our team will respond shortly!';
 
@@ -1235,7 +1268,7 @@
       support: '👋 Hi! I\'m <strong>Mock Stream AI</strong>. How can I help you? Describe your issue and I\'ll do my best to assist.',
       premium: '👑 Welcome! Interested in <strong>Premium access</strong>? Tell me a bit about yourself and I\'ll connect you with our team.',
       partner: '🤝 Hello! Looking to <strong>partner with us</strong>? Tell me about your organization and we\'ll get in touch.',
-      private: '✉️ Hi! Send a <strong>private message</strong> directly to our admins. They\'ll reply here as soon as possible.'
+      private: '🛡️ Hi! This is a <strong>direct line to our Admin</strong> — they will personally reply to your message here as soon as possible.'
     };
     var welcomeHtml = welcomes[currentCategory] || welcomes.support;
     var html = '';
@@ -1440,6 +1473,15 @@
       return _sendDictLookup(text);
     }
 
+    // Hotline mode — super-admin inline reply to selected conversation
+    if (currentCategory === 'hotline') {
+      if (window._cbHotline && window._cbHotline.hasSelection()) {
+        input.value = '';
+        await window._cbHotline.sendReply(text);
+      }
+      return;
+    }
+
     // Private mode — save to Supabase, no AI reply
     if (currentCategory === 'private') {
       if (!HC_PRIVATE_TEXT_ENABLED) { alert('Text messages are currently disabled by the admin.'); return; }
@@ -1473,7 +1515,7 @@
         saveLocal();
         input.value = '';
         window._privateDmTarget = null;
-        if (input) input.placeholder = 'Send a private message to admin...';
+        if (input) input.placeholder = 'Message our Admin directly...';
       } else {
         // Regular user sending private message
         var userMsg = { role: 'user', text: text, category: 'private', time: timeStr };
@@ -1486,7 +1528,7 @@
 
       isSending = false;
       input.disabled = false;
-      input.focus();
+      _safeFocus(input);
       return;
     }
 
@@ -1541,7 +1583,7 @@
 
     isSending = false;
     input.disabled = false;
-    input.focus();
+    _safeFocus(input);
   }
 
   // ─── FILE ATTACHMENT ──────────────────────────────────────────────────────
@@ -2084,7 +2126,7 @@
       var input = document.getElementById('cb-input');
       var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
       if (HC_PRIVATE_TEXT_ENABLED) {
-        if (input) { input.style.display = ''; input.placeholder = 'Send a private message to admin...'; }
+        if (input) { input.style.display = ''; input.placeholder = 'Message our Admin directly...'; }
         if (sendBtn) sendBtn.style.display = '';
       } else {
         if (input) input.style.display = 'none';
@@ -2095,6 +2137,22 @@
       var typingBar = document.getElementById('cb-typing-bar');
       if (typingBar) typingBar.style.display = 'none';
       renderMessages();
+    } else if (cat === 'hotline') {
+      // Hotline: super-admin-only inbox. Hide attachments/voice; show text input only
+      // when a conversation is selected (for inline replies).
+      if (attachBtn) attachBtn.style.display = 'none';
+      if (voiceBtn) voiceBtn.style.display = 'none';
+      if (replyBanner) replyBanner.style.display = 'none';
+      var input = document.getElementById('cb-input');
+      var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+      var hasSel = window._cbHotline && window._cbHotline.hasSelection();
+      if (input) { input.style.display = hasSel ? '' : 'none'; input.placeholder = 'Reply to this user…'; }
+      if (sendBtn) sendBtn.style.display = hasSel ? '' : 'none';
+      var jumpBar = document.getElementById('cb-comm-jump-bar');
+      if (jumpBar) jumpBar.style.display = 'none';
+      var typingBar = document.getElementById('cb-typing-bar');
+      if (typingBar) typingBar.style.display = 'none';
+      if (window._cbHotline) window._cbHotline.renderCurrent();
     } else {
       // Restore normal visibility
       applyHcSettingsVisibility();
@@ -2183,6 +2241,23 @@
   async function _fetchAiKey(model) {
     if (_dictApiKeys[model]) return _dictApiKeys[model];
     if (model === 'gemini' && _geminiKey) { _dictApiKeys.gemini = _geminiKey; return _geminiKey; }
+    // For Gemini, try Supabase site_settings dual-key first
+    if (model === 'gemini') {
+      try {
+        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value');
+        if (sResp.ok) {
+          var sRows = await sResp.json();
+          var sMap = {};
+          (sRows || []).forEach(function (r) { sMap[r.key] = r.value; });
+          var plan = sMap['gemini_active_plan'];
+          if (plan && sMap['gemini_api_key_' + plan]) {
+            _dictApiKeys.gemini = sMap['gemini_api_key_' + plan];
+            _geminiKey = _dictApiKeys.gemini;
+            return _geminiKey;
+          }
+        }
+      } catch(e) {}
+    }
     try {
       var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + model);
       var d = await r.json();
@@ -2342,7 +2417,7 @@
     _renderDictionary();
     _dictSending = false;
     if (input) input.disabled = false;
-    if (input) input.focus();
+    _safeFocus(input);
   }
 
   var GTTS_SERVER_URL = 'https://english-server-p7y6.onrender.com/tts/audio';
@@ -2749,8 +2824,10 @@
             '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
             '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
-            '<button class="cb-cat-btn" data-cat="private">✉️ Private</button>' +
+            '<button class="cb-cat-btn" data-cat="private">🛡️ Admin</button>' +
             '<button class="cb-cat-btn" data-cat="dictionary">📖 Dictionary</button>' +
+            '<button class="cb-cat-btn" data-cat="hotline" style="display:none">🔥 Hotline<span id="cb-hotline-badge" style="display:none;margin-left:6px;background:#dc2626;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;">0</span></button>' +
+            '<button class="cb-cat-btn" data-cat="hotline" style="display:none">🔥 Hotline<span id="cb-hotline-badge" style="display:none;margin-left:6px;background:#dc2626;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;">0</span></button>' +
           '</div>' +
           '<div id="cb-global-banner"></div>' +
           '<div id="cb-typing-bar" style="display:none;"></div>' +
@@ -3739,7 +3816,7 @@
       banner.querySelector('#cb-reply-cancel').addEventListener('click', _cancelCommunityReply);
     }
     var input = document.getElementById('cb-input');
-    if (input) { input.placeholder = 'Reply to ' + senderName + '...'; input.focus(); }
+    if (input) { input.placeholder = 'Reply to ' + senderName + '...'; _safeFocus(input); }
   }
 
   // ─── Community Admin Passcode Popup ─────────────────────────────────────
@@ -3755,7 +3832,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#1e293b;">Admin Access</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#64748b;">Enter passcode to unlock admin features</p>' +
-        '<input type="password" id="cb-comm-passcode-input" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:15px;text-align:center;outline:none;box-sizing:border-box;">' +
+        '<input type="password" id="cb-comm-passcode-input" placeholder="••••••••" maxlength="20" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" style="width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:15px;text-align:center;outline:none;box-sizing:border-box;">' +
         '<div id="cb-comm-passcode-error" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="cb-comm-passcode-btn" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button id="cb-comm-passcode-cancel" style="margin-top:8px;background:none;border:none;color:#94a3b8;font-size:13px;cursor:pointer;">Cancel</button>' +
@@ -3858,7 +3935,7 @@
     }
 
     isSending = false;
-    if (input) { input.disabled = false; input.focus(); }
+    if (input) { input.disabled = false; _safeFocus(input); }
   }
 
   // ─── SUPABASE REALTIME ────────────────────────────────────────────────────
@@ -4065,7 +4142,10 @@
     _initRealtime();
 
     // Pre-check admin role for community messages
-    _checkCommunityRole();
+    _checkCommunityRole().then(function () {
+      // After role resolved, show Hotline tab if super-admin
+      if (window._cbHotline) window._cbHotline.applyTabVisibility();
+    });
 
     // Bind typing indicator to input
     setTimeout(function () {
@@ -4077,6 +4157,343 @@
     var fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME');
     if (fullName) localStorage.setItem('ms_candidate_name', fullName);
   }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // HOTLINE — Super-admin-only DM inbox tab
+  // ──────────────────────────────────────────────────────────────────────────
+  // Shows one row per conversation (grouped by conversation_id) across all
+  // admin-targeted categories (private, support, premium, partner) with an
+  // unread-count badge. Clicking a row opens a Telegram-like thread view
+  // where the super-admin replies inline. Replies reuse the existing
+  // private-DM Supabase schema (role='admin' support_messages rows).
+  // Visibility gated on _communityUserRole === 'super_admin'.
+  // ══════════════════════════════════════════════════════════════════════════
+  var _hotlineConversations = [];      // [{conversation_id, sender_name, device_id, category, last_content, last_time, unread_count, attachment_type}]
+  var _hotlineSelectedConv = null;     // { conversation_id, sender_name, device_id, category, messages: [] }
+  var _hotlineLoaded = false;
+  var _hotlinePollTimer = null;
+  var _hotlineSeenMax = {};            // { conversation_id: max_seen_created_at_iso }
+  var _hotlineSeenStorageKey = 'ms_hotline_seen_max_v1';
+  var _hotlineSending = false;
+  var HOTLINE_CATEGORIES = ['private', 'support', 'premium', 'partner'];
+
+  function _hotlineLoadSeen() {
+    try {
+      var raw = localStorage.getItem(_hotlineSeenStorageKey);
+      if (raw) _hotlineSeenMax = JSON.parse(raw) || {};
+    } catch (_e) { _hotlineSeenMax = {}; }
+  }
+  function _hotlineSaveSeen() {
+    try { localStorage.setItem(_hotlineSeenStorageKey, JSON.stringify(_hotlineSeenMax)); } catch (_e) {}
+  }
+
+  async function _hotlineIsSuperAdmin() {
+    // Re-use community role check; it caches after the first call
+    var role = await _checkCommunityRole();
+    return role === 'super_admin';
+  }
+
+  function _hotlineApplyTabVisibility() {
+    var btn = document.querySelector('.cb-cat-btn[data-cat="hotline"]');
+    if (!btn) return;
+    _hotlineIsSuperAdmin().then(function (ok) {
+      btn.style.display = ok ? '' : 'none';
+      if (ok) _hotlineStartPolling();
+    }).catch(function () {
+      btn.style.display = 'none';
+    });
+  }
+
+  function _hotlineCatLabel(cat) {
+    return cat === 'private' ? '🛡️ Admin' :
+           cat === 'support' ? '💬 Support' :
+           cat === 'premium' ? '👑 Premium' :
+           cat === 'partner' ? '🤝 Partner' :
+           cat;
+  }
+
+  async function _hotlineFetchConversations() {
+    _hotlineLoadSeen();
+    try {
+      var catFilter = 'category=in.(' + HOTLINE_CATEGORIES.join(',') + ')';
+      var url = '/rest/v1/support_messages?' + catFilter + '&order=created_at.desc&limit=500&select=id,conversation_id,role,sender_name,content,category,device_id,attachment_type,created_at';
+      var resp = await sbFetch(url);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      var rows = await resp.json();
+      if (!Array.isArray(rows)) rows = [];
+
+      // Group by conversation_id, keep latest user message as preview,
+      // count unread user messages (created_at > seen).
+      var byConv = {};
+      rows.forEach(function (r) {
+        if (!r || !r.conversation_id) return;
+        var c = byConv[r.conversation_id];
+        if (!c) {
+          c = {
+            conversation_id: r.conversation_id,
+            sender_name: r.sender_name || 'Anonymous',
+            device_id: r.device_id || '',
+            category: r.category || 'private',
+            last_content: '',
+            last_time: r.created_at,
+            unread_count: 0,
+            has_user_msg: false
+          };
+          byConv[r.conversation_id] = c;
+        }
+        // Prefer a real user/partner/etc sender_name over 'admin_bubble'
+        if (r.role !== 'admin' && r.sender_name && r.sender_name !== 'Anonymous') {
+          c.sender_name = r.sender_name;
+          if (r.device_id && r.device_id !== 'admin_bubble') c.device_id = r.device_id;
+        }
+        // last_content = most recent message of any role
+        if (!c.last_content) {
+          c.last_content = r.role === 'admin' ? '↪ ' : '';
+          c.last_content += (r.content || (r.attachment_type ? '[' + r.attachment_type + ']' : ''));
+          c.last_time = r.created_at;
+        }
+        // Count unread USER messages only (admin replies don't count)
+        if (r.role !== 'admin') {
+          c.has_user_msg = true;
+          var seen = _hotlineSeenMax[r.conversation_id] || '';
+          if (!seen || r.created_at > seen) {
+            c.unread_count++;
+          }
+        }
+      });
+
+      // Filter out conversations with zero user messages (admin-only noise)
+      var list = Object.keys(byConv).map(function (k) { return byConv[k]; })
+        .filter(function (c) { return c.has_user_msg; })
+        .sort(function (a, b) { return (b.last_time || '').localeCompare(a.last_time || ''); });
+
+      _hotlineConversations = list;
+      _hotlineLoaded = true;
+      _hotlineUpdateTabBadge();
+      return list;
+    } catch (e) {
+      console.warn('[Hotline] fetch error:', e);
+      return _hotlineConversations;
+    }
+  }
+
+  function _hotlineApplyInputVisibility() {
+    if (currentCategory !== 'hotline') return;
+    var input = document.getElementById('cb-input');
+    var overlay = document.getElementById('cb-overlay');
+    var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+    var hasSel = !!_hotlineSelectedConv;
+    if (input) { input.style.display = hasSel ? '' : 'none'; input.placeholder = 'Reply to this user…'; }
+    if (sendBtn) sendBtn.style.display = hasSel ? '' : 'none';
+  }
+
+  function _hotlineUpdateTabBadge() {
+    var total = 0;
+    _hotlineConversations.forEach(function (c) { total += (c.unread_count || 0); });
+    var badge = document.getElementById('cb-hotline-badge');
+    if (badge) {
+      if (total > 0) {
+        badge.style.display = '';
+        badge.textContent = total > 99 ? '99+' : String(total);
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  }
+
+  function _hotlineRenderList() {
+    var list = document.getElementById('cb-messages');
+    if (!list) return;
+    if (!_hotlineLoaded) {
+      list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:40px;">Loading conversations…</div>';
+      return;
+    }
+    if (!_hotlineConversations.length) {
+      list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:60px;">🔥 Hotline Inbox<br><span style="font-size:12px;">No user messages yet.</span></div>';
+      return;
+    }
+    var html = '<div style="padding:6px 4px;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">🔥 Hotline — ' + _hotlineConversations.length + ' conversation(s)</div>';
+    _hotlineConversations.forEach(function (c) {
+      var unread = c.unread_count || 0;
+      var badge = unread > 0
+        ? '<span style="background:#dc2626;color:#fff;font-size:11px;font-weight:700;border-radius:10px;padding:2px 7px;min-width:18px;text-align:center;">' + (unread > 99 ? '99+' : unread) + '</span>'
+        : '';
+      var time = c.last_time ? new Date(c.last_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+      var preview = (c.last_content || '').replace(/</g, '&lt;').substring(0, 80);
+      var initials = ((c.sender_name || '?').match(/\b\w/g) || ['?']).slice(0, 2).join('').toUpperCase();
+      var unreadBg = unread > 0 ? '#fef2f2' : '#fff';
+      html +=
+        '<div class="cb-hotline-conv" data-conv-id="' + escapeHtml(c.conversation_id) + '" ' +
+             'style="display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:' + unreadBg + ';border:1px solid #e5e7eb;margin:6px 0;cursor:pointer;transition:background .15s;"' +
+             ' onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'' + unreadBg + '\'">' +
+          '<div style="flex:0 0 38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">' + escapeHtml(initials) + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">' +
+              '<strong style="font-size:13px;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(c.sender_name) + '</strong>' +
+              '<span style="font-size:10px;color:#94a3b8;flex:0 0 auto;">' + time + '</span>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:2px;">' +
+              '<span style="font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;">' +
+                '<span style="color:#94a3b8;">' + _hotlineCatLabel(c.category) + '</span> · ' + escapeHtml(preview) +
+              '</span>' +
+              badge +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    });
+    list.innerHTML = html;
+    // Bind row clicks
+    list.querySelectorAll('.cb-hotline-conv').forEach(function (row) {
+      row.addEventListener('click', function () {
+        var convId = row.getAttribute('data-conv-id');
+        var conv = _hotlineConversations.find(function (c) { return c.conversation_id === convId; });
+        if (conv) _hotlineOpenThread(conv);
+      });
+    });
+  }
+
+  async function _hotlineOpenThread(conv) {
+    _hotlineSelectedConv = conv;
+    _hotlineApplyInputVisibility();
+    var list = document.getElementById('cb-messages');
+    if (list) list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:40px;">Loading messages…</div>';
+    try {
+      var url = '/rest/v1/support_messages?conversation_id=eq.' + encodeURIComponent(conv.conversation_id) + '&order=created_at.asc&limit=500&select=id,role,sender_name,content,attachment_url,attachment_type,attachment_name,created_at';
+      var resp = await sbFetch(url);
+      var rows = await resp.json();
+      if (!Array.isArray(rows)) rows = [];
+      conv.messages = rows;
+
+      // Mark latest user message as "seen"
+      var latestUserTime = '';
+      rows.forEach(function (m) { if (m.role !== 'admin' && m.created_at > latestUserTime) latestUserTime = m.created_at; });
+      if (latestUserTime) {
+        _hotlineSeenMax[conv.conversation_id] = latestUserTime;
+        _hotlineSaveSeen();
+        conv.unread_count = 0;
+        _hotlineUpdateTabBadge();
+      }
+      _hotlineRenderThread();
+    } catch (e) {
+      console.warn('[Hotline] thread load error:', e);
+      if (list) list.innerHTML = '<div style="text-align:center;color:#dc2626;font-size:13px;margin-top:40px;">Failed to load messages.</div>';
+    }
+  }
+
+  function _hotlineRenderThread() {
+    var conv = _hotlineSelectedConv;
+    if (!conv) { _hotlineRenderList(); return; }
+    var list = document.getElementById('cb-messages');
+    if (!list) return;
+    var msgs = conv.messages || [];
+    var html =
+      '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border-radius:12px;margin-bottom:8px;">' +
+        '<button id="cb-hotline-back" style="background:none;border:none;cursor:pointer;font-size:16px;color:#1e293b;padding:4px 8px;">← Back</button>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<strong style="font-size:13px;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">' + escapeHtml(conv.sender_name) + '</strong>' +
+          '<span style="font-size:11px;color:#64748b;">' + _hotlineCatLabel(conv.category) + '</span>' +
+        '</div>' +
+      '</div>';
+    if (!msgs.length) {
+      html += '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:20px;">No messages yet.</div>';
+    } else {
+      msgs.forEach(function (m) {
+        var isAdmin = m.role === 'admin';
+        var cls = isAdmin ? 'cb-msg-user' : 'cb-msg-ai'; // admin replies on right (like user bubble), user msgs on left
+        var label = isAdmin ? '' : '<div class="cb-msg-label">👤 ' + escapeHtml(m.sender_name || 'Anonymous') + '</div>';
+        var time = m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+        var bodyHtml = '';
+        if (m.attachment_url) {
+          if (m.attachment_type === 'voice') {
+            bodyHtml = buildVoiceMsgHtml(m.attachment_url);
+          } else if (m.attachment_type === 'image') {
+            bodyHtml = '<img src="' + escapeHtml(m.attachment_url) + '" class="cb-attachment-img" onclick="window.open(this.src)" alt="Image">';
+          } else {
+            bodyHtml = '<a href="' + escapeHtml(m.attachment_url) + '" target="_blank" style="color:#2563eb;text-decoration:underline;font-size:13px;">📎 ' + escapeHtml(m.attachment_name || 'attachment') + '</a>';
+          }
+          if (m.content) bodyHtml += '<div class="cb-msg-text" style="margin-top:4px;">' + escapeHtml(m.content) + '</div>';
+        } else {
+          bodyHtml = '<div class="cb-msg-text">' + escapeHtml(m.content || '') + '</div>';
+        }
+        html += '<div class="cb-msg ' + cls + '">' + label + bodyHtml + '<div class="cb-msg-time">' + time + '</div></div>';
+      });
+    }
+    list.innerHTML = html;
+    var backBtn = document.getElementById('cb-hotline-back');
+    if (backBtn) backBtn.addEventListener('click', function () {
+      _hotlineSelectedConv = null;
+      _hotlineApplyInputVisibility();
+      _hotlineFetchConversations().then(_hotlineRenderList);
+    });
+    // Scroll to bottom
+    list.scrollTop = list.scrollHeight;
+  }
+
+  async function _hotlineSendReply(text) {
+    if (_hotlineSending) return;
+    if (!_hotlineSelectedConv) return;
+    if (!text) return;
+    _hotlineSending = true;
+    var conv = _hotlineSelectedConv;
+    try {
+      var body = {
+        conversation_id: conv.conversation_id,
+        role: 'admin',
+        sender_name: getSenderName(),
+        content: text,
+        category: conv.category,
+        center: getCenter(),
+        device_id: 'admin_bubble'
+      };
+      await sbFetch('/rest/v1/support_messages', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify(body)
+      });
+      // Append locally without full reload
+      conv.messages = conv.messages || [];
+      conv.messages.push({
+        role: 'admin',
+        sender_name: body.sender_name,
+        content: text,
+        created_at: new Date().toISOString()
+      });
+      _hotlineRenderThread();
+    } catch (e) {
+      console.warn('[Hotline] reply error:', e);
+      alert('Failed to send reply. Please try again.');
+    } finally {
+      _hotlineSending = false;
+    }
+  }
+
+  function _hotlineStartPolling() {
+    if (_hotlinePollTimer) return;
+    _hotlineFetchConversations().then(function () {
+      // If currently on hotline tab & list view, re-render
+      if (currentCategory === 'hotline' && !_hotlineSelectedConv) _hotlineRenderList();
+    });
+    _hotlinePollTimer = setInterval(function () {
+      _hotlineFetchConversations().then(function () {
+        if (currentCategory === 'hotline' && !_hotlineSelectedConv) _hotlineRenderList();
+      });
+    }, 15000);
+  }
+
+  // Expose for switchCategory + sendMessage dispatch
+  window._cbHotline = {
+    applyTabVisibility: _hotlineApplyTabVisibility,
+    renderCurrent: function () {
+      if (_hotlineSelectedConv) _hotlineRenderThread();
+      else {
+        _hotlineRenderList();
+        _hotlineFetchConversations().then(_hotlineRenderList);
+      }
+    },
+    sendReply: _hotlineSendReply,
+    hasSelection: function () { return !!_hotlineSelectedConv; },
+    clearSelection: function () { _hotlineSelectedConv = null; }
+  };
 
   // Start when DOM is ready
   if (document.readyState === 'loading') {

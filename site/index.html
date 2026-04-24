@@ -2873,7 +2873,7 @@
     <div class="admin-passcode-modal">
       <h2>🔐 Admin Access</h2>
       <p>Enter the admin passcode to continue</p>
-      <input type="password" class="admin-passcode-input" id="adminPasscodeInput" placeholder="••••••••" maxlength="20">
+      <input type="password" class="admin-passcode-input" id="adminPasscodeInput" placeholder="••••••••" maxlength="20" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
       <div class="admin-error" id="adminPasscodeError"></div>
       <button class="admin-passcode-btn" id="adminPasscodeSubmit">Unlock Admin Panel</button>
       <button class="admin-cancel-btn" onclick="closeAdminModal()">Cancel</button>

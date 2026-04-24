@@ -31,6 +31,8 @@
 // Secrets:
 //   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY
 //   <PROVIDER>_API_KEY_2 ... _5  (optional backups; auto-used on 429/5xx)
+//   GEMINI_API_KEY_PREPAY, GEMINI_API_KEY_POSTPAY  (optional; used when
+//     site_settings.gemini_active_plan = 'prepay' or 'postpay')
 //   RATE_LIMIT_PER_10MIN  (default: 0 = disabled)
 //   AI_DAILY_CAP_DEFAULT  (default: 0 = unlimited; per-center value overrides)
 // =====================================================================
@@ -53,6 +55,8 @@ function collectKeys(base: string): string[] {
   return out;
 }
 const GEMINI_KEYS:   string[] = collectKeys('GEMINI_API_KEY');
+const GEMINI_KEY_PREPAY:  string = Deno.env.get('GEMINI_API_KEY_PREPAY')  || '';
+const GEMINI_KEY_POSTPAY: string = Deno.env.get('GEMINI_API_KEY_POSTPAY') || '';
 const OPENAI_KEYS:   string[] = collectKeys('OPENAI_API_KEY');
 const CLAUDE_KEYS:   string[] = collectKeys('CLAUDE_API_KEY');
 const GROK_KEYS:     string[] = collectKeys('GROK_API_KEY');
@@ -66,6 +70,32 @@ function keysFor(provider: string): string[] {
     case 'deepseek': return DEEPSEEK_KEYS;
     default:         return [];
   }
+}
+
+// Gemini dual-billing: read `gemini_active_plan` from site_settings and
+// return the matching dedicated key (prepay/postpay). Falls back to the
+// generic GEMINI_KEYS pool when nothing is configured so existing deploys
+// keep working. Cached for 60s to avoid a DB hit on every call.
+let _geminiPlanCache: { keys: string[]; until: number } | null = null;
+async function getGeminiKeys(): Promise<string[]> {
+  const now = Date.now();
+  if (_geminiPlanCache && _geminiPlanCache.until > now) return _geminiPlanCache.keys;
+  let keys: string[] = GEMINI_KEYS;
+  try {
+    const { data } = await sb
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'gemini_active_plan')
+      .maybeSingle();
+    const plan = (data?.value || '').toString().trim().toLowerCase();
+    if (plan === 'prepay' && GEMINI_KEY_PREPAY) {
+      keys = [GEMINI_KEY_PREPAY];
+    } else if (plan === 'postpay' && GEMINI_KEY_POSTPAY) {
+      keys = [GEMINI_KEY_POSTPAY];
+    }
+  } catch (_e) { /* fall back to default keys */ }
+  _geminiPlanCache = { keys, until: now + 60_000 };
+  return keys;
 }
 
 const RATE_LIMIT_PER_10MIN  = Number(Deno.env.get('RATE_LIMIT_PER_10MIN') || '0');  // 0 = disabled
@@ -333,7 +363,7 @@ Deno.serve(async (req) => {
   }
 
   // -------- resolve provider --------
-  const providerKeys = keysFor(provider);
+  const providerKeys = provider === 'gemini' ? await getGeminiKeys() : keysFor(provider);
   if (providerKeys.length === 0) {
     return jsonErr(400, 'unknown_or_unconfigured_provider', provider);
   }
