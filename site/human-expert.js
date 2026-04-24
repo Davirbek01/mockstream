@@ -113,7 +113,8 @@
       lockedViewUrl = rawViewUrl + (rawViewUrl.indexOf('?') === -1 ? '?' : '&') + 'lock=1';
     }
     var viewReportLine = lockedViewUrl ? ('\n\ud83d\udcce View Report: ' + lockedViewUrl) : '';
-    var filled = interpolate(cfg.messageTemplate, {
+    var tpl = String(cfg.messageTemplate || '');
+    var filled = interpolate(tpl, {
       test: vars.test || '',
       name: vars.name || 'Unknown',
       mock: vars.mock || '01',
@@ -125,6 +126,14 @@
       viewReport: lockedViewUrl,
       viewReportLine: viewReportLine
     });
+    // Safety net: if the center has a custom messageTemplate that doesn't
+    // include {viewReport} / {viewReportLine} placeholders (i.e. saved
+    // before this feature existed), auto-append the link so the admin
+    // always gets it. Without this, upgrading the feature on existing
+    // clone sites would be invisible until each center edits their config.
+    if (lockedViewUrl && tpl.indexOf('{viewReport}') === -1 && tpl.indexOf('{viewReportLine}') === -1) {
+      filled += '\n\n\ud83d\udcce View Report: ' + lockedViewUrl;
+    }
     return cfg.telegramUrl + '?text=' + encodeURIComponent(filled);
   }
 
