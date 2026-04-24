@@ -18279,7 +18279,7 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
         document.head.appendChild(s);
       })();
 
-      function openTelegramWithMessage() {
+      async function openTelegramWithMessage() {
         // Gather candidate info
         const nameInput = document.getElementById('cand');
         const candidateName = (nameInput ? nameInput.value.trim() : '') || 'Unknown';
@@ -18287,6 +18287,22 @@ REMEMBER: Your role is to ENCOURAGE language learners, not discourage them! Scor
         const now = new Date();
         const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
         const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
+
+        // Hybrid: if no _lastSavedViewUrl, save to Supabase first so Telegram message includes View Report link
+        if (!window._lastSavedViewUrl && window.sendToSupabase) {
+          try {
+            await window.sendToSupabase({
+              studentName: candidateName,
+              examType: 'cefr',
+              skill: 'speaking',
+              mockNumber: 'Mock ' + mockNum,
+              file: null,
+              fileType: 'html',
+              caption: '',
+              metadata: { human_expert: true }
+            });
+          } catch (e) { /* ignore, fallback to no link */ }
+        }
 
         let url;
         if (window.MockStream && window.MockStream.humanExpert) {
