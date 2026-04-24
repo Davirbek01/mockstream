@@ -98,10 +98,16 @@
     vars = vars || {};
     // Build the protected View Report line. We auto-pick the URL from
     // window._lastSavedViewUrl (stamped by supabase-send.js after a
-    // successful save). Caller can also pass `vars.viewUrl` to override.
+    // successful save), falling back to sessionStorage (which survives
+    // reloads). Caller can also pass `vars.viewUrl` to override.
     // We append `&lock=1` so view.html will require a passcode to open
     // (prevents leakage if the teacher forwards the prefilled message).
-    var rawViewUrl = vars.viewUrl || (typeof window !== 'undefined' && window._lastSavedViewUrl) || '';
+    var rawViewUrl = vars.viewUrl ||
+      (typeof window !== 'undefined' && window._lastSavedViewUrl) ||
+      '';
+    if (!rawViewUrl && typeof window !== 'undefined' && window.sessionStorage) {
+      try { rawViewUrl = sessionStorage.getItem('ms_lastSavedViewUrl') || ''; } catch (_e) {}
+    }
     var lockedViewUrl = '';
     if (rawViewUrl) {
       lockedViewUrl = rawViewUrl + (rawViewUrl.indexOf('?') === -1 ? '?' : '&') + 'lock=1';

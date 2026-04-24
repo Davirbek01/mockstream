@@ -328,13 +328,16 @@
 
       console.log('[Supabase] ✅ Result saved:', id);
       if (window.msProgress) window.msProgress.update('📨 Sending notification...');
-      // Stash on window so per-page features (e.g. the Human Expert
-      // Telegram prefilled message) can append a "View Report" link
-      // without re-saving. Cleared automatically when a new mock is
-      // started — for now we just overwrite.
+      // Stash on window AND sessionStorage so per-page features (e.g. the
+      // Human Expert Telegram prefilled message) can append a "View Report"
+      // link without re-saving — and survive a page reload / popup.
       try {
         window._lastSavedResultId = id;
         window._lastSavedViewUrl = viewUrl;
+        try {
+          sessionStorage.setItem('ms_lastSavedResultId', id);
+          sessionStorage.setItem('ms_lastSavedViewUrl', viewUrl);
+        } catch (_ss) {}
       } catch (_e) {}
       return { id: id, viewUrl: viewUrl };
 

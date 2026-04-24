@@ -6522,10 +6522,15 @@
       const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
       const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
 
-      // Hybrid: if no _lastSavedViewUrl, save to Supabase first so Telegram message includes View Report link
+      // Restore viewUrl stamped by a prior save (survives page reload)
+      if (!window._lastSavedViewUrl) {
+        try { window._lastSavedViewUrl = sessionStorage.getItem('ms_lastSavedViewUrl') || ''; } catch (_e) {}
+      }
+      // Hybrid: if still no viewUrl, save placeholder to Supabase so Telegram message includes View Report link
       if (!window._lastSavedViewUrl && window.sendToSupabase) {
         try {
-          await window.sendToSupabase({
+          console.log('[HE] No saved view URL — saving placeholder result for Human Expert link...');
+          var _heRes = await window.sendToSupabase({
             studentName: candName,
             examType: 'ielts',
             skill: 'writing',
@@ -6535,7 +6540,8 @@
             caption: '',
             metadata: { human_expert: true }
           });
-        } catch (e) { /* ignore, fallback to no link */ }
+          console.log('[HE] save result:', _heRes, 'viewUrl now:', window._lastSavedViewUrl);
+        } catch (e) { console.warn('[HE] save error:', e); }
       }
 
       let url;
