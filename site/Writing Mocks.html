@@ -15340,25 +15340,45 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       const testDate = String(now.getDate()).padStart(2, '0') + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + now.getFullYear();
       const testId = (window._siteTestId || (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream');
 
-      let url;
-      if (window.MockStream && window.MockStream.humanExpert) {
-        url = window.MockStream.humanExpert.buildTelegramUrl({
-          test: 'CEFR Writing',
-          name: candidateName,
-          mock: mockNum,
-          date: testDate,
-          testId: testId
-        });
-      } else {
-        const message = encodeURIComponent(
-          "\ud83d\udc4b Assalomu alaykum!\nMen mock topshirdim va ishimni sertifikatga ega mutaxassislar tomonidan tekshirilishini istayman.\n\n" +
-          "\ud83d\udcdd Mock details:\n\ud83c\udf10 Test: CEFR Writing\n\ud83d\udc64 Test Taker: " + candidateName + "\n\ud83d\udcc4 Mock number: " + mockNum + "\n\ud83d\udcc5 Test Date: " + testDate + "\n\ud83c\udff7\ufe0f #" + testId + "\n\n" +
-          "\ud83d\udcb0 Narxi: 20,000 so'm\n\ud83c\udfe6 Karta: 9860 1606 4003 0377\n\u2705 Natija 24 soat ichida yuboriladi."
-        );
-        url = ((window.SITE_CONFIG && window.SITE_CONFIG.adminTelegram) || 'https://t.me/mrkhasanoff3') + '?text=' + message;
+      // Hybrid: if no _lastSavedViewUrl, save to Supabase first
+      async function proceedWithTelegram() {
+        let url;
+        if (window.MockStream && window.MockStream.humanExpert) {
+          url = window.MockStream.humanExpert.buildTelegramUrl({
+            test: 'CEFR Writing',
+            name: candidateName,
+            mock: mockNum,
+            date: testDate,
+            testId: testId
+          });
+        } else {
+          const message = encodeURIComponent(
+            "\ud83d\udc4b Assalomu alaykum!\nMen mock topshirdim va ishimni sertifikatga ega mutaxassislar tomonidan tekshirilishini istayman.\n\n" +
+            "\ud83d\udcdd Mock details:\n\ud83c\udf10 Test: CEFR Writing\n\ud83d\udc64 Test Taker: " + candidateName + "\n\ud83d\udcc4 Mock number: " + mockNum + "\n\ud83d\udcc5 Test Date: " + testDate + "\n\ud83c\udff7\ufe0f #" + testId + "\n\n" +
+            "\ud83d\udcb0 Narxi: 20,000 so'm\n\ud83c\udfe6 Karta: 9860 1606 4003 0377\n\u2705 Natija 24 soat ichida yuboriladi."
+          );
+          url = ((window.SITE_CONFIG && window.SITE_CONFIG.adminTelegram) || 'https://t.me/mrkhasanoff3') + '?text=' + message;
+        }
+        window.open(url, '_blank');
+        hidePaidServiceModal();
       }
-      window.open(url, '_blank');
-      hidePaidServiceModal();
+
+      if (!window._lastSavedViewUrl && window.sendToSupabase) {
+        // Save minimal result for link
+        try {
+          await window.sendToSupabase({
+            studentName: candidateName,
+            examType: 'cefr',
+            skill: 'writing',
+            mockNumber: 'Mock ' + mockNum,
+            file: null,
+            fileType: 'html',
+            caption: '',
+            metadata: { human_expert: true }
+          });
+        } catch (e) { /* ignore, fallback to no link */ }
+      }
+      proceedWithTelegram();
     }
 
     // Paid service modal event listeners
