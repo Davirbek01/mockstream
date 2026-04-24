@@ -1745,26 +1745,7 @@
       min-height: 16px;
     }
 
-    /* ===== IFRAME CONTAINER ===== */
-    #appFrame {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      resize: none;
-      z-index: 50;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease;
-      background: var(--bg);
-    }
-
-    #appFrame.active {
-      opacity: 1;
-      visibility: visible;
-    }
+    /* (Iframe container CSS removed — index.html no longer hosts an iframe) */
 
     /* ===== FULLSCREEN TOGGLE BUTTON (welcome screen) ===== */
     #fsWelcomeBtn {
@@ -2884,8 +2865,8 @@
     </footer>
   </div>
 
-  <!-- App iframe (loads landing.html and all other pages) -->
-  <iframe id="appFrame" src="about:blank" allow="fullscreen; microphone; camera" allowfullscreen></iframe>
+  <!-- (Iframe removed: index.html now navigates directly to landing.html via window.location.
+        Browser back/forward and bookmarkable URLs work as on any normal site.) -->
 
   <!-- Admin Passcode Modal -->
   <div class="admin-modal-overlay" id="adminPasscodeModal">
@@ -4217,7 +4198,7 @@
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
     const welcomeScreen = document.getElementById('welcomeScreen');
-    const appFrame = document.getElementById('appFrame');
+    // appFrame removed — no iframe; we navigate the top window directly.
     const progressContainer = document.getElementById('progressContainer');
     const progressFill = document.getElementById('progressFill');
     const progressPercent = document.getElementById('progressPercent');
@@ -4647,63 +4628,30 @@
       }, 300);
 
       const startLoading = () => {
-        // Start preloading iframe in background
-        appFrame.src = 'landing.html';
-
-        let iframeReady = false;
-        let mocksReady = false;
+        // No iframe anymore — just animate the progress bar, then navigate
+        // the top window to landing.html. Use replace() so the welcome page
+        // does not sit in browser history (back from landing returns to
+        // whatever the user came from, not back to welcome).
         let progressDone = false;
 
         const tryShowApp = () => {
-          // Wait for all four: iframe loaded, mocks preloaded, progress done, AND name submitted
-          if (iframeReady && mocksReady && progressDone && nameSubmitted) {
-            // If user is blocked, don't show the app
+          if (progressDone && nameSubmitted) {
             if (window._userIsBlocked) return;
-            // Small delay for smooth transition
+            sessionStorage.setItem('ms_entered_app', '1');
             setTimeout(() => {
-              welcomeScreen.classList.add('hidden');
-              appFrame.classList.add('active');
-              // Push history state so back button works properly
-              history.pushState({ page: 'app' }, '', '');
-              // Remember that user passed welcome screen
-              sessionStorage.setItem('ms_entered_app', '1');
-            }, 300);
+              window.location.replace('landing.html');
+            }, 200);
           }
         };
 
         // Store tryShowApp so the name submit can trigger it later
         pendingTryShowApp = tryShowApp;
 
-        // Listen for mocksReady message from iframe
-        const mocksReadyHandler = (event) => {
-          if (event.data === 'mocksReady') {
-            mocksReady = true;
-            console.log('✅ All mocks preloaded - received signal from iframe');
-            tryShowApp();
-          }
-        };
-        window.addEventListener('message', mocksReadyHandler);
-
-        // Mark iframe as ready when loaded
-        appFrame.onload = () => {
-          iframeReady = true;
-          tryShowApp();
-        };
-
         // Start progress animation
         animateProgress(() => {
           progressDone = true;
           tryShowApp();
         });
-
-        // Fallback: if mocks don't report ready within 30 seconds, proceed anyway
-        setTimeout(() => {
-          if (!mocksReady) {
-            console.log('⚠️ Mocks preload timeout - proceeding anyway');
-            mocksReady = true;
-            tryShowApp();
-          }
-        }, 30000);
       };
 
       // Lock to portrait orientation on mobile
@@ -4737,8 +4685,6 @@
     // Reset welcome screen to initial state
     function resetWelcomeScreen() {
       welcomeScreen.classList.remove('hidden');
-      appFrame.classList.remove('active');
-      appFrame.src = 'about:blank';
 
       // Reset button
       const btn = document.getElementById('continueBtn');
@@ -4759,77 +4705,43 @@
       isLoading = false;
     }
 
-    // Listen for messages from iframe to navigate back to welcome or landing
-    window.addEventListener('message', function (event) {
-      if (event.data === 'toggleFullscreen') {
-        var elem = document.documentElement;
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-          if (document.exitFullscreen) document.exitFullscreen();
-          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-        } else {
-          if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
-          else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-          else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-        }
-      } else if (event.data === 'showWelcome') {
-        resetWelcomeScreen();
-        // Clear history state when going to welcome
-        history.replaceState({ page: 'welcome' }, '', '');
-      } else if (event.data === 'returnToLanding') {
-        // Navigate iframe back to landing page (stay in fullscreen)
-        appFrame.src = 'landing.html';
-      } else if (event.data && event.data.type === 'nameChanged') {
-        // Sidebar name edit — sync registration inputs
-        var si = document.getElementById('nameInputSurname');
-        var fi = document.getElementById('nameInputFirstname');
-        if (si && event.data.surname) si.value = event.data.surname;
-        if (fi && event.data.firstname) fi.value = event.data.firstname;
-      }
-    });
+    // (No iframe → no parent/child postMessage handlers needed. landing.html's
+    //  toggleFullscreen / nameChanged / mocksReady messages are already self-safe
+    //  when running as the top window.)
 
-    // ========== BROWSER HISTORY MANAGEMENT ==========
-    // Push state when entering the app
-    function pushAppState() {
-      history.pushState({ page: 'app' }, '', '');
-    }
-
-    // Handle browser back button
-    window.addEventListener('popstate', function (event) {
-      // If we're in the app (iframe showing), go back to landing or handle iframe navigation
-      if (appFrame.classList.contains('active')) {
-        // Send message to iframe to handle back navigation
-        try {
-          appFrame.contentWindow.postMessage('browserBack', '*');
-        } catch (e) {
-          // If iframe can't receive message, just prevent going back to welcome
-        }
-        // Push state again to prevent exiting the app
-        // The iframe will handle its own back navigation
-        history.pushState({ page: 'app' }, '', '');
-      }
-    });
-
-    // Initialize history state
-    history.replaceState({ page: 'welcome' }, '', '');
-
-    // ===== AUTO-RESUME: skip welcome on refresh if user already entered =====
+    // ===== AUTO-RESUME: skip welcome entirely if user already entered or is signed in =====
     (function autoResume() {
-      // Skip welcome if:
       //   (a) the user previously entered the app in this session, OR
       //   (b) the user is signed in with Google (auth.js restored the
-      //       session on load — CANDIDATE_FULL_NAME is populated).
+      //       session on load — CANDIDATE_FULL_NAME is populated), OR
+      //   (c) the URL hash contains an OAuth access_token — Supabase will
+      //       finish session-restore asynchronously, so we also wait for
+      //       the 'mockStream:userSignedIn' event before redirecting.
       var hasEntered = sessionStorage.getItem('ms_entered_app') === '1';
       var hasGoogleSession = !!sessionStorage.getItem('CANDIDATE_FULL_NAME');
-      if (hasEntered || hasGoogleSession) {
-        const savedName = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name');
-        if (savedName) nameSubmitted = true;
-        appFrame.src = 'landing.html';
-        appFrame.onload = function () {
-          welcomeScreen.classList.add('hidden');
-          appFrame.classList.add('active');
-          history.replaceState({ page: 'app' }, '', '');
-          sessionStorage.setItem('ms_entered_app', '1');
-        };
+      var hasOAuthHash = /access_token=|provider_token=/.test(window.location.hash || '');
+      function _go() {
+        sessionStorage.setItem('ms_entered_app', '1');
+        // replace() so welcome page does not stay in history
+        window.location.replace('landing.html');
+      }
+      if (hasEntered || hasGoogleSession) { _go(); return; }
+      if (hasOAuthHash) {
+        // OAuth callback in flight — auth.js will fire userSignedIn when ready.
+        window.addEventListener('mockStream:userSignedIn', _go, { once: true });
+        // Safety fallback: poll once a second for up to 8s in case the event
+        // fires before this listener is wired or the session restores via a
+        // different code path.
+        var tries = 0;
+        var iv = setInterval(function () {
+          tries++;
+          if (sessionStorage.getItem('CANDIDATE_FULL_NAME')) {
+            clearInterval(iv);
+            _go();
+          } else if (tries > 8) {
+            clearInterval(iv);
+          }
+        }, 1000);
       }
     })();
 

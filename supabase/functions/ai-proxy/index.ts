@@ -19,29 +19,57 @@
 //   2) Center whitelist      (row in public.site_settings
 //                             where key='center_config_{testId}'
 //                             AND value->>'active' != 'false')
-//   3) Rate limit per IP     (default: 20 calls / 10 min)
-//   4) Daily cap per center  (value->>'dailyMockLimit' or env default)
+//   3) Rate limit per IP     (env RATE_LIMIT_PER_10MIN; 0 = disabled, default 0)
+//   4) Daily cap per center  (value->>'dailyMockLimit'; 0 = unlimited, default 0)
+//   5) Daily cap per student (value->>'maxAttemptsPerStudent'; 0 = unlimited)
+//                             Identifies student by Google email (x-ms-email)
+//                             when present, otherwise falls back to IP.
 // Every forwarded call is logged to public.ai_submission_logs.
 //
 // Deploy:
 //   supabase functions deploy ai-proxy --no-verify-jwt
 // Secrets:
 //   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY
-//   RATE_LIMIT_PER_10MIN  (default: 20)
-//   AI_DAILY_CAP_DEFAULT  (default: 500)
+//   <PROVIDER>_API_KEY_2 ... _5  (optional backups; auto-used on 429/5xx)
+//   RATE_LIMIT_PER_10MIN  (default: 0 = disabled)
+//   AI_DAILY_CAP_DEFAULT  (default: 0 = unlimited; per-center value overrides)
 // =====================================================================
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL          = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY      = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const GEMINI_API_KEY        = Deno.env.get('GEMINI_API_KEY')   || '';
-const OPENAI_API_KEY        = Deno.env.get('OPENAI_API_KEY')   || '';
-const CLAUDE_API_KEY        = Deno.env.get('CLAUDE_API_KEY')   || '';
-const GROK_API_KEY          = Deno.env.get('GROK_API_KEY')     || '';
-const DEEPSEEK_API_KEY      = Deno.env.get('DEEPSEEK_API_KEY') || '';
-const RATE_LIMIT_PER_10MIN  = Number(Deno.env.get('RATE_LIMIT_PER_10MIN') || '20');
-const AI_DAILY_CAP_DEFAULT  = Number(Deno.env.get('AI_DAILY_CAP_DEFAULT') || '500');
+
+// Per-provider key list. Primary first, then optional _2 / _3 backups.
+// On 429 / 5xx the proxy auto-retries with the next key in the list.
+function collectKeys(base: string): string[] {
+  const out: string[] = [];
+  const primary = Deno.env.get(base) || '';
+  if (primary) out.push(primary);
+  for (let i = 2; i <= 5; i++) {
+    const k = Deno.env.get(`${base}_${i}`) || '';
+    if (k) out.push(k);
+  }
+  return out;
+}
+const GEMINI_KEYS:   string[] = collectKeys('GEMINI_API_KEY');
+const OPENAI_KEYS:   string[] = collectKeys('OPENAI_API_KEY');
+const CLAUDE_KEYS:   string[] = collectKeys('CLAUDE_API_KEY');
+const GROK_KEYS:     string[] = collectKeys('GROK_API_KEY');
+const DEEPSEEK_KEYS: string[] = collectKeys('DEEPSEEK_API_KEY');
+function keysFor(provider: string): string[] {
+  switch (provider) {
+    case 'gemini':   return GEMINI_KEYS;
+    case 'openai':   return OPENAI_KEYS;
+    case 'claude':   return CLAUDE_KEYS;
+    case 'grok':     return GROK_KEYS;
+    case 'deepseek': return DEEPSEEK_KEYS;
+    default:         return [];
+  }
+}
+
+const RATE_LIMIT_PER_10MIN  = Number(Deno.env.get('RATE_LIMIT_PER_10MIN') || '0');  // 0 = disabled
+const AI_DAILY_CAP_DEFAULT  = Number(Deno.env.get('AI_DAILY_CAP_DEFAULT') || '0');  // 0 = unlimited
 
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   auth: { persistSession: false }
@@ -65,50 +93,47 @@ interface ProviderTarget {
   headers: Record<string, string>;
 }
 
-// Map "/<provider>/<path>" → real upstream URL + auth headers
-function resolveTarget(provider: string, restPath: string, search: string): ProviderTarget | null {
+// Map "/<provider>/<path>" → real upstream URL + auth headers.
+// `key` selects which configured API key to use (for fallback retries).
+function resolveTarget(provider: string, restPath: string, search: string, key: string): ProviderTarget | null {
+  if (!key) return null;
   switch (provider) {
     case 'gemini': {
-      if (!GEMINI_API_KEY) return null;
       // Strip any browser-supplied ?key=...; we add ours
       const sp = new URLSearchParams(search);
       sp.delete('key');
-      sp.set('key', GEMINI_API_KEY);
+      sp.set('key', key);
       return {
         url: `https://generativelanguage.googleapis.com/${restPath}?${sp.toString()}`,
         headers: { 'Content-Type': 'application/json' }
       };
     }
     case 'openai': {
-      if (!OPENAI_API_KEY) return null;
       return {
         url: `https://api.openai.com/${restPath}${search || ''}`,
-        headers: { 'Authorization': `Bearer ${OPENAI_API_KEY}` }
+        headers: { 'Authorization': `Bearer ${key}` }
       };
     }
     case 'claude': {
-      if (!CLAUDE_API_KEY) return null;
       return {
         url: `https://api.anthropic.com/${restPath}${search || ''}`,
         headers: {
-          'x-api-key':         CLAUDE_API_KEY,
+          'x-api-key':         key,
           'anthropic-version': '2023-06-01',
           'Content-Type':      'application/json'
         }
       };
     }
     case 'grok': {
-      if (!GROK_API_KEY) return null;
       return {
         url: `https://api.x.ai/${restPath}${search || ''}`,
-        headers: { 'Authorization': `Bearer ${GROK_API_KEY}`, 'Content-Type': 'application/json' }
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' }
       };
     }
     case 'deepseek': {
-      if (!DEEPSEEK_API_KEY) return null;
       return {
         url: `https://api.deepseek.com/${restPath}${search || ''}`,
-        headers: { 'Authorization': `Bearer ${DEEPSEEK_API_KEY}`, 'Content-Type': 'application/json' }
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' }
       };
     }
     default:
@@ -126,25 +151,41 @@ async function isIpBlocked(ip: string): Promise<boolean> {
   return !!data;
 }
 
-async function getCenterGate(centerId: string): Promise<{ allowed: boolean; dailyCap: number }> {
-  if (!centerId) return { allowed: false, dailyCap: 0 };
+// Gate 6: per-account block. Admins flip candidates.blocked = true from the
+// Registered Users panel. Lookup is by Google email (case-insensitive),
+// scoped to the same center the user is currently submitting from so a
+// block on one center can't accidentally lock the same email on another.
+async function isEmailBlocked(email: string, centerId: string): Promise<boolean> {
+  if (!email) return false;
+  let q = sb.from('candidates').select('blocked').eq('email', email).eq('blocked', true);
+  if (centerId) q = q.eq('center', centerId);
+  const { data } = await q.maybeSingle();
+  return !!data;
+}
+
+async function getCenterGate(centerId: string): Promise<{ allowed: boolean; dailyCap: number; perStudentCap: number }> {
+  if (!centerId) return { allowed: false, dailyCap: 0, perStudentCap: 0 };
   const { data } = await sb
     .from('site_settings')
     .select('value')
     .eq('key', `center_config_${centerId}`)
     .maybeSingle();
-  if (!data) return { allowed: false, dailyCap: 0 };
+  if (!data) return { allowed: false, dailyCap: 0, perStudentCap: 0 };
   let v: any = data.value;
   if (typeof v === 'string') { try { v = JSON.parse(v); } catch { v = {}; } }
   const allowed  = v?.active !== false;
+  // dailyMockLimit: 0 (or missing) means unlimited → fall back to env default (also 0 = unlimited).
   const dailyCap = (typeof v?.dailyMockLimit === 'number' && v.dailyMockLimit > 0)
                      ? v.dailyMockLimit
                      : AI_DAILY_CAP_DEFAULT;
-  return { allowed, dailyCap };
+  const perStudentCap = (typeof v?.maxAttemptsPerStudent === 'number' && v.maxAttemptsPerStudent > 0)
+                     ? v.maxAttemptsPerStudent
+                     : 0;
+  return { allowed, dailyCap, perStudentCap };
 }
 
 async function ipRateExceeded(ip: string): Promise<boolean> {
-  if (!ip) return false;
+  if (!ip || RATE_LIMIT_PER_10MIN <= 0) return false;
   const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
   const { count } = await sb
     .from('ai_submission_logs')
@@ -155,7 +196,7 @@ async function ipRateExceeded(ip: string): Promise<boolean> {
 }
 
 async function dailyCapExceeded(centerId: string, cap: number): Promise<boolean> {
-  if (!centerId) return false;
+  if (!centerId || cap <= 0) return false;  // 0 / missing = unlimited
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const { count } = await sb
     .from('ai_submission_logs')
@@ -163,6 +204,29 @@ async function dailyCapExceeded(centerId: string, cap: number): Promise<boolean>
     .eq('center_id', centerId)
     .eq('status', 'ok')
     .gte('created_at', since);
+  return (count || 0) >= cap;
+}
+
+// Gate 5: per-student daily cap. Identifies a student by signed-in Google
+// email when supplied; otherwise falls back to IP (so guests can't bypass
+// by clearing local storage — they'd need to change network).
+async function studentCapExceeded(
+  centerId: string, email: string, ip: string, cap: number
+): Promise<boolean> {
+  if (!centerId || cap <= 0) return false;
+  if (!email && !ip) return false;
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  let q = sb.from('ai_submission_logs')
+    .select('id', { count: 'exact', head: true })
+    .eq('center_id', centerId)
+    .eq('status', 'ok')
+    .gte('created_at', since);
+  if (email) {
+    q = q.eq('user_email', email);
+  } else {
+    q = q.eq('ip', ip).is('user_email', null);
+  }
+  const { count } = await q;
   return (count || 0) >= cap;
 }
 
@@ -174,6 +238,7 @@ async function logCall(opts: {
   skill:    string;
   status:   string;
   studentName?: string;
+  userEmail?:   string;
   bytesIn?: number;
   bytesOut?:number;
   errorMessage?: string;
@@ -184,6 +249,7 @@ async function logCall(opts: {
       user_agent:    opts.userAgent || null,
       center_id:     opts.centerId || null,
       student_name:  opts.studentName || null,
+      user_email:    opts.userEmail || null,
       provider:      opts.provider,
       skill:         opts.skill || null,
       status:        opts.status,
@@ -219,71 +285,119 @@ Deno.serve(async (req) => {
   const userAgent = (req.headers.get('user-agent') || '').slice(0, 256);
   const skillHint = (req.headers.get('x-ms-skill') || '').slice(0, 32);
   const studentName = (req.headers.get('x-ms-student') || '').slice(0, 120);
+  const userEmail = (req.headers.get('x-ms-email') || '').slice(0, 160).toLowerCase();
 
   // -------- gate 1: IP blocklist --------
   if (await isIpBlocked(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'blocked_ip', errorMessage: ip });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'blocked_ip', errorMessage: ip });
     return jsonErr(403, 'blocked_ip', ip);
+  }
+
+  // -------- gate 6: per-account block (Google email) --------
+  if (await isEmailBlocked(userEmail, centerId)) {
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'blocked_email', errorMessage: userEmail });
+    return jsonErr(403, 'blocked_email',
+      `Account ${userEmail} is blocked for center ${centerId}.`);
   }
 
   // -------- gate 2: center whitelist --------
   const gate = await getCenterGate(centerId);
   if (!gate.allowed) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'bad_center', errorMessage: centerId });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'bad_center', errorMessage: centerId });
     return jsonErr(403, 'unknown_or_inactive_center',
       `centerId="${centerId}" not present in Center Hub or marked inactive.`);
   }
 
   // -------- gate 3: per-IP rate limit --------
   if (await ipRateExceeded(ip)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'rate_limited' });
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited' });
     return jsonErr(429, 'rate_limited',
       `>${RATE_LIMIT_PER_10MIN} calls in 10 min from this IP.`);
   }
 
   // -------- gate 4: per-center daily cap --------
   if (await dailyCapExceeded(centerId, gate.dailyCap)) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'rate_limited',
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited',
              errorMessage: `daily_cap ${gate.dailyCap}` });
     return jsonErr(429, 'daily_cap_exceeded',
       `Center ${centerId} hit cap of ${gate.dailyCap}/day.`);
   }
 
+  // -------- gate 5: per-student daily cap --------
+  if (await studentCapExceeded(centerId, userEmail, ip, gate.perStudentCap)) {
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'rate_limited',
+             errorMessage: `student_cap ${gate.perStudentCap}` });
+    const who = userEmail ? `email ${userEmail}` : `IP ${ip}`;
+    return jsonErr(429, 'student_cap_exceeded',
+      `${who} hit cap of ${gate.perStudentCap} AI calls/day for center ${centerId}.`);
+  }
+
   // -------- resolve provider --------
-  const target = resolveTarget(provider, restPath, search);
-  if (!target) {
+  const providerKeys = keysFor(provider);
+  if (providerKeys.length === 0) {
     return jsonErr(400, 'unknown_or_unconfigured_provider', provider);
   }
 
   // -------- forward request --------
-  const fwdHeaders: Record<string, string> = { ...target.headers };
   // Pass through Content-Type if the original request had something
   // specific (e.g. multipart for whisper).  Provider headers win.
   const incomingCt = req.headers.get('content-type');
-  if (incomingCt && !fwdHeaders['Content-Type'] && !fwdHeaders['content-type']) {
-    fwdHeaders['Content-Type'] = incomingCt;
+
+  // Buffer the body once so we can retry with a different key on 429/5xx.
+  const hasBody = !(req.method === 'GET' || req.method === 'HEAD');
+  let bodyBuf: ArrayBuffer | undefined = undefined;
+  if (hasBody) {
+    try { bodyBuf = await req.arrayBuffer(); } catch { bodyBuf = undefined; }
   }
 
-  let upstream: Response;
-  try {
-    upstream = await fetch(target.url, {
-      method:  req.method,
-      headers: fwdHeaders,
-      body:    req.method === 'GET' || req.method === 'HEAD' ? undefined : req.body,
-      // @ts-ignore - Deno-specific to allow streaming bodies
-      duplex:  'half'
-    });
-  } catch (e: any) {
-    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, status: 'provider_error',
-             errorMessage: (e?.message || String(e)).slice(0, 500) });
-    return jsonErr(502, 'upstream_fetch_failed', e?.message || String(e));
+  let upstream: Response | null = null;
+  let lastErr: any = null;
+  let usedKeyIdx = 0;
+
+  for (let i = 0; i < providerKeys.length; i++) {
+    const t = resolveTarget(provider, restPath, search, providerKeys[i]);
+    if (!t) continue;
+
+    const fwdHeaders: Record<string, string> = { ...t.headers };
+    if (incomingCt && !fwdHeaders['Content-Type'] && !fwdHeaders['content-type']) {
+      fwdHeaders['Content-Type'] = incomingCt;
+    }
+
+    try {
+      const r = await fetch(t.url, {
+        method:  req.method,
+        headers: fwdHeaders,
+        body:    hasBody ? bodyBuf : undefined
+      });
+      // If transient (429 or 5xx) and we have another key, retry.
+      if ((r.status === 429 || r.status >= 500) && i < providerKeys.length - 1) {
+        try { await r.body?.cancel(); } catch {}
+        lastErr = `HTTP ${r.status} on key#${i + 1}`;
+        continue;
+      }
+      upstream  = r;
+      usedKeyIdx = i;
+      break;
+    } catch (e: any) {
+      lastErr = e?.message || String(e);
+      if (i < providerKeys.length - 1) continue;
+    }
   }
 
-  // Log (don't block on log)
+  if (!upstream) {
+    logCall({ ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail, status: 'provider_error',
+             errorMessage: String(lastErr || 'fetch_failed').slice(0, 500) });
+    return jsonErr(502, 'upstream_fetch_failed', String(lastErr || 'fetch_failed'));
+  }
+
+  // Log (don't block on log). Mark which key index served it when >1 configured.
+  const keyTag = (providerKeys.length > 1) ? `key#${usedKeyIdx + 1}` : '';
   logCall({
-    ip, userAgent, centerId, provider, skill: skillHint, studentName,
+    ip, userAgent, centerId, provider, skill: skillHint, studentName, userEmail,
     status: upstream.ok ? 'ok' : 'provider_error',
-    errorMessage: upstream.ok ? '' : `HTTP ${upstream.status}`
+    errorMessage: upstream.ok
+      ? keyTag
+      : `HTTP ${upstream.status}${keyTag ? ` (${keyTag})` : ''}`
   });
 
   // Stream upstream response back

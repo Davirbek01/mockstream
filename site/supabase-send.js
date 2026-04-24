@@ -203,6 +203,25 @@
       return null;
     }
 
+    // Guests (not signed in with Google) do NOT have their results saved
+    // to My Results. They can still take the test; we just skip the upload
+    // + DB insert. A toast nudges them to sign in to keep their progress.
+    var _userEmail = '';
+    try {
+      if (window.MockStream && window.MockStream.auth) {
+        var _u = window.MockStream.auth.getCurrentUser();
+        if (_u && _u.email) _userEmail = String(_u.email).toLowerCase();
+      }
+    } catch (_e) {}
+    if (!_userEmail) {
+      console.log('[Supabase] Guest user — result not saved (sign in to keep progress).');
+      if (window.msProgress) {
+        try { window.msProgress.update('💡 Sign in with Google to save your results'); } catch(_){}
+        setTimeout(function(){ try { window.msProgress.hide(); } catch(_){} }, 2500);
+      }
+      return null;
+    }
+
     var id  = uuid();
     var cfg = window.SITE_CONFIG || {};
 
@@ -243,6 +262,7 @@
         id:           id,
         student_name: (opts.studentName || '').substring(0, 200),
         center:       cfg.testIdentifier || '',
+        user_email:   _userEmail,
         exam_type:    opts.examType || '',
         skill:        opts.skill || '',
         score:        (opts.score || '').substring(0, 50),

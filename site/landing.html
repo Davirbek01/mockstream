@@ -6448,14 +6448,14 @@
 
   <!-- Sidebar Menu -->
   <nav class="sidebar-menu" id="sidebarMenu">
-    <a href="javascript:void(0)" class="sidebar-profile" id="sidebarProfile" onclick="openProfilePopup()">
+    <a href="javascript:void(0)" class="sidebar-profile" id="sidebarProfile" onclick="_handleSidebarProfileClick()">
       <div class="sidebar-profile-avatar" id="sidebarAvatar" title="Tap to edit profile">
         <span id="sidebarAvatarInitials">S</span>
-        <span class="avatar-cam">📷</span>
+        <span class="avatar-cam" id="sidebarAvatarCam">📷</span>
       </div>
       <div class="sidebar-profile-info">
-        <div class="sidebar-profile-name" id="sidebarName"><span id="sidebarNameText">Student</span><span class="name-edit-icon">✏️</span></div>
-        <div class="sidebar-profile-role">Mock Stream Student</div>
+        <div class="sidebar-profile-name" id="sidebarName"><span id="sidebarNameText">Student</span><span class="name-edit-icon" id="sidebarNameEdit">✏️</span></div>
+        <div class="sidebar-profile-role" id="sidebarProfileRole">Mock Stream Student</div>
       </div>
     </a>
     <ul>
@@ -6492,9 +6492,9 @@
       </li>
 
       <!-- My Results Menu Item (Student) -->
-      <li class="my-results-menu-item">
-        <a href="results/my-results.html" onclick="toggleSidebar();">
-          <span class="menu-icon">📊</span> My Results
+      <li class="my-results-menu-item" id="myResultsMenuItem">
+        <a href="results/my-results.html" id="myResultsLink" onclick="return _handleMyResultsClick(event);">
+          <span class="menu-icon" id="myResultsIcon">📊</span> <span id="myResultsLabel">My Results</span>
         </a>
       </li>
 
@@ -9740,7 +9740,116 @@
       if (_smgLi && _siteId !== 'mock_stream') {
         _smgLi.style.display = 'none';
       }
+      // Apply guest-vs-signed-in styling (and re-apply on auth state change)
+      _applySidebarAuthMode();
+      window.addEventListener('mockStream:userSignedIn',  _applySidebarAuthMode);
+      window.addEventListener('mockStream:userSignedOut', _applySidebarAuthMode);
+      // auth.js may finish init slightly after DOMContentLoaded; refresh shortly
+      setTimeout(_applySidebarAuthMode, 800);
+      setTimeout(_applySidebarAuthMode, 2500);
     })();
+
+    // True only if the user is signed in with Google via Supabase auth.
+    function _isGoogleSignedIn() {
+      try {
+        return !!(window.MockStream && window.MockStream.auth &&
+                  window.MockStream.auth.isSignedIn &&
+                  window.MockStream.auth.isSignedIn());
+      } catch (_e) { return false; }
+    }
+
+    // Toggle sidebar between guest mode ("?" + Log in CTA) and signed-in.
+    function _applySidebarAuthMode() {
+      var signedIn = _isGoogleSignedIn();
+      var nameTextEl = document.getElementById('sidebarNameText');
+      var initialsEl = document.getElementById('sidebarAvatarInitials');
+      var camEl      = document.getElementById('sidebarAvatarCam');
+      var editEl     = document.getElementById('sidebarNameEdit');
+      var roleEl     = document.getElementById('sidebarProfileRole');
+      var avatarImg  = document.getElementById('sidebarAvatarImage');
+      var myResIcon  = document.getElementById('myResultsIcon');
+      var myResLabel = document.getElementById('myResultsLabel');
+      var myResLink  = document.getElementById('myResultsLink');
+      // NOTE: VIP code/email panel stays visible for guests too — that's how
+      // a non-Google user with a paid VIP code unlocks premium features.
+
+      if (!signedIn) {
+        // -------- GUEST MODE --------
+        if (nameTextEl) nameTextEl.textContent = 'Sign in';
+        // Google "G" logo as the avatar (white bg circle, brand colors).
+        if (initialsEl) initialsEl.innerHTML =
+          '<svg viewBox="6 6 36 36" width="100%" height="100%" style="display:block;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+            '<path fill="#4285F4" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C33.7 6.1 29.1 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>' +
+            '<path fill="#34A853" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C33.7 6.1 29.1 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>' +
+            '<path fill="#FBBC05" d="M24 44c5 0 9.5-1.9 12.9-5.1l-6-5.1c-1.9 1.4-4.3 2.2-6.9 2.2-5.3 0-9.7-3.4-11.3-8l-6.6 5.1C9.6 39.6 16.2 44 24 44z"/>' +
+            '<path fill="#EA4335" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6 5.1c-.4.4 6-4.4 6-14.6 0-1.3-.1-2.4-.4-3.5z"/>' +
+          '</svg>';
+        // Drop initials background tint so the white logo plate looks clean.
+        var avatarWrap = document.getElementById('sidebarAvatar');
+        if (avatarWrap) {
+          avatarWrap.style.background = '#fff';
+          avatarWrap.style.border     = '1px solid #dadce0';
+        }
+        if (camEl)  camEl.style.display  = 'none';
+        if (editEl) editEl.style.display = 'none';
+        if (roleEl) roleEl.textContent   = 'Continue with Google →';
+        if (avatarImg) avatarImg.style.display = 'none';
+        if (myResIcon)  myResIcon.textContent  = '🔒';
+        if (myResLabel) myResLabel.textContent = 'Sign in for results';
+        if (myResLink)  myResLink.setAttribute('href', 'javascript:void(0)');
+      } else {
+        // -------- SIGNED-IN MODE --------
+        var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
+                   localStorage.getItem('ms_candidate_name') || 'Student';
+        if (nameTextEl) nameTextEl.textContent = name;
+        _updateSidebarNameDisplay(name);
+        // Restore default avatar styling (cleared in guest mode for the G logo).
+        var avatarWrapSI = document.getElementById('sidebarAvatar');
+        if (avatarWrapSI) {
+          avatarWrapSI.style.background = '';
+          avatarWrapSI.style.border     = '';
+        }
+        if (camEl)  camEl.style.display  = '';
+        if (editEl) editEl.style.display = '';
+        if (roleEl) roleEl.textContent   = 'Mock Stream Student';
+        if (avatarImg) avatarImg.style.display = '';
+        if (myResIcon)  myResIcon.textContent  = '📊';
+        if (myResLabel) myResLabel.textContent = 'My Results';
+        if (myResLink)  myResLink.setAttribute('href', 'results/my-results.html');
+      }
+    }
+
+    // Sidebar profile click router: signed-in → edit profile; guest → Google sign-in.
+    function _handleSidebarProfileClick() {
+      if (_isGoogleSignedIn()) {
+        try { openProfilePopup(); } catch (_e) {}
+        return;
+      }
+      try {
+        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
+          // Redirect through index.html (the whitelisted Supabase callback URL).
+          // index.html's autoResume() detects the OAuth hash and forwards to landing.html.
+          var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
+          window.MockStream.auth.signInWithGoogle(_back);
+        }
+      } catch (_e) {}
+    }
+
+    // My Results click router: guest → trigger Google sign-in, never navigate.
+    function _handleMyResultsClick(ev) {
+      if (!_isGoogleSignedIn()) {
+        if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+        try {
+          if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
+            var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
+            window.MockStream.auth.signInWithGoogle(_back);
+          }
+        } catch (_e) {}
+        return false;
+      }
+      try { toggleSidebar(); } catch (_e) {}
+      return true;
+    }
 
     function _updateSidebarNameDisplay(name) {
       var nameTextEl = document.getElementById('sidebarNameText');
@@ -18569,13 +18678,24 @@
     }
 
     function _ensureRuOverlay() {
-      if (document.getElementById('ruOverlay')) return;
+      // If a previous version of the panel is in the DOM (e.g. from before a
+      // page-script update), rebuild it so the latest markup (tabs etc.) shows.
+      var existing = document.getElementById('ruOverlay');
+      if (existing) {
+        if (existing.querySelector('#ruTabs')) return;
+        existing.parentNode.removeChild(existing);
+      }
       var div = document.createElement('div');
       div.id = 'ruOverlay';
       div.className = 'ru-overlay';
       div.onclick = function(e) { if (e.target === div) closeRegisteredUsersPanel(); };
       div.innerHTML = '<div class="ru-panel">' +
         '<div class="ru-header"><h3>👥 Registered Users</h3><button class="ru-close" onclick="closeRegisteredUsersPanel()">&times;</button></div>' +
+        '<div id="ruTabs" style="display:flex;gap:6px;padding:0 14px 8px;flex-wrap:wrap;">' +
+          '<button type="button" class="ru-tab-btn" data-rutab="all"     onclick="_setRuTab(\'all\')"     style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="google"  onclick="_setRuTab(\'google\')"  style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="guest"   onclick="_setRuTab(\'guest\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+        '</div>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
         '<div class="ru-stats" id="ruStats"></div>' +
         '<div class="ru-list" id="ruList"><div class="ru-empty">Loading...</div></div>' +
@@ -18601,7 +18721,8 @@
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
         var [candResp, premResp] = await Promise.all([
-          fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc', {
+          // Fetch ALL candidates so we can split into Google-account vs Guest tabs
+          fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc&limit=5000', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
           }),
           fetch(SB_URL + '/rest/v1/premium_emails?select=email,tier,role,center,active', {
@@ -18616,12 +18737,32 @@
         premRows.forEach(function(p) {
           if (p.email) window._ruPremiumMap[p.email.toLowerCase()] = p;
         });
+        // ---- Bulk-load today's AI-call counts so each row can show "AI: N today"
+        try {
+          window._ruAiTodayMap = {};  // { 'email|name': N }
+          var since24 = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+          var aiResp = await fetch(
+            SB_URL + '/rest/v1/ai_submission_logs' +
+              '?select=user_email,student_name&status=eq.ok&created_at=gte.' +
+              encodeURIComponent(since24) + '&limit=10000',
+            { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }
+          );
+          if (aiResp.ok) {
+            var aiRows = await aiResp.json();
+            aiRows.forEach(function(r) {
+              var k = (r.user_email || r.student_name || '').toLowerCase();
+              if (!k) return;
+              window._ruAiTodayMap[k] = (window._ruAiTodayMap[k] || 0) + 1;
+            });
+          }
+        } catch (_aiErr) { window._ruAiTodayMap = {}; }
       } catch (e) {
         _ruData = [];
         window._ruPremiumMap = {};
         console.warn('[RegisteredUsers] Fetch error:', e);
       }
-      _renderRuList(_ruData);
+      _updateRuTabCounts();
+      _renderRuList(_ruData.filter(_ruTabFilter));
     }
 
     function closeRegisteredUsersPanel() {
@@ -18629,10 +18770,44 @@
       if (overlay) overlay.classList.remove('active');
     }
 
+    // Active sub-tab in the Registered Users panel: 'all' | 'google' | 'guest'
+    var _ruTab = 'all';
+    function _setRuTab(tab) {
+      _ruTab = tab;
+      // Update button visuals
+      var btns = document.querySelectorAll('#ruTabs .ru-tab-btn');
+      btns.forEach(function(b) {
+        var active = b.getAttribute('data-rutab') === tab;
+        b.style.background = active ? '#6366f1' : '#fff';
+        b.style.color      = active ? '#fff'    : '#333';
+      });
+      _filterRuList();
+    }
+    window._setRuTab = _setRuTab;
+
+    function _ruTabFilter(c) {
+      if (_ruTab === 'google') return !!(c.email && c.email.trim());
+      if (_ruTab === 'guest')  return !(c.email && c.email.trim());
+      return true;
+    }
+
+    function _updateRuTabCounts() {
+      var counts = { all: _ruData.length, google: 0, guest: 0 };
+      _ruData.forEach(function(c) {
+        if (c.email && c.email.trim()) counts.google++;
+        else counts.guest++;
+      });
+      ['all','google','guest'].forEach(function(k) {
+        var el = document.querySelector('#ruTabs [data-rucount="' + k + '"]');
+        if (el) el.textContent = '(' + counts[k] + ')';
+      });
+    }
+
     function _filterRuList() {
       var q = (document.getElementById('ruSearch').value || '').toLowerCase().trim();
-      if (!q) { _renderRuList(_ruData); return; }
-      var filtered = _ruData.filter(function(c) {
+      var base = _ruData.filter(_ruTabFilter);
+      if (!q) { _renderRuList(base); return; }
+      var filtered = base.filter(function(c) {
         var match = (c.student_name || '').toLowerCase().indexOf(q) !== -1 ||
                (c.email || '').toLowerCase().indexOf(q) !== -1 ||
                (c.center || '').toLowerCase().indexOf(q) !== -1 ||
@@ -18727,6 +18902,10 @@
         if (c.email) details.push('📧 ' + c.email);
         if (c.phone) details.push('📱 ' + c.phone);
         if (c.address) details.push('📍 ' + c.address);
+        // Daily AI-call count (today, last 24h)
+        var _aiKey = (c.email || c.student_name || '').toLowerCase();
+        var _aiToday = (window._ruAiTodayMap && window._ruAiTodayMap[_aiKey]) || 0;
+        if (_aiToday > 0) details.push('🤖 ' + _aiToday + ' AI today');
         var updatedStr = '';
         if (c.updated_at) {
           var _ud = new Date(c.updated_at);
@@ -18783,12 +18962,213 @@
       }
     }
 
+    // ----- AI-call counts (today + lifetime) for the user being viewed -----
+    async function _loadUserAiCallCounts(email, studentName) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var todayEl = document.getElementById('ruAiTodayStat');
+      var totalEl = document.getElementById('ruAiTotalStat');
+      function _set(el, n) { if (el) el.querySelector('.sv').textContent = n; }
+      try {
+        var since24 = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+        var filterToday = '?select=id&status=eq.ok&created_at=gte.' + encodeURIComponent(since24);
+        var filterTotal = '?select=id&status=eq.ok';
+        if (email) {
+          var em = encodeURIComponent(email.toLowerCase());
+          filterToday += '&user_email=eq.' + em;
+          filterTotal += '&user_email=eq.' + em;
+        } else if (studentName) {
+          var sn = encodeURIComponent(studentName);
+          filterToday += '&student_name=eq.' + sn + '&user_email=is.null';
+          filterTotal += '&student_name=eq.' + sn + '&user_email=is.null';
+        } else { _set(todayEl, 0); _set(totalEl, 0); return; }
+        var hdrs = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Prefer': 'count=exact', 'Range-Unit': 'items', 'Range': '0-0' };
+        var [tr, lr] = await Promise.all([
+          fetch(SB_URL + '/rest/v1/ai_submission_logs' + filterToday, { headers: hdrs }),
+          fetch(SB_URL + '/rest/v1/ai_submission_logs' + filterTotal, { headers: hdrs })
+        ]);
+        function _parseCount(resp) {
+          var cr = resp.headers.get('content-range') || '';
+          var m  = cr.match(/\/(\d+)$/);
+          return m ? Number(m[1]) : 0;
+        }
+        _set(todayEl, _parseCount(tr));
+        _set(totalEl, _parseCount(lr));
+      } catch (e) {
+        console.warn('[RU] AI count fetch error:', e);
+        _set(todayEl, '?'); _set(totalEl, '?');
+      }
+    }
+
+    // ----- Premium / Admin role assignment from the Registered Users panel -----
+    function _ruRoleMsg(text, kind) {
+      var el = document.getElementById('ruRoleMsg');
+      if (!el) return;
+      el.textContent = text || '';
+      el.style.color = kind === 'error' ? '#e53935' : (kind === 'success' ? '#10b981' : '#666');
+    }
+    async function _saveUserRole(email) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var tier   = (document.getElementById('ruRoleTier') || {}).value || 'premium';
+      var role   = (document.getElementById('ruRoleRole') || {}).value || 'user';
+      var center = ((document.getElementById('ruRoleCenter') || {}).value || '').trim();
+      var btn    = document.getElementById('ruRoleSaveBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
+      var existing = (window._ruPremiumMap || {})[email];
+      try {
+        var resp;
+        if (existing) {
+          resp = await fetch(SB_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
+            method: 'PATCH',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+          });
+        } else {
+          resp = await fetch(SB_URL + '/rest/v1/premium_emails', {
+            method: 'POST',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ email: email, tier: tier, role: role, center: center, active: true })
+          });
+        }
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        // Update local cache so the next render reflects it
+        window._ruPremiumMap = window._ruPremiumMap || {};
+        window._ruPremiumMap[email] = { email: email, tier: tier, role: role, center: center, active: true };
+        _ruRoleMsg('✅ Saved: ' + tier + ' / ' + role + (center ? ' @ ' + center : ''), 'success');
+        if (btn) { btn.disabled = false; btn.textContent = '💾 Update'; }
+      } catch (e) {
+        _ruRoleMsg('Failed: ' + e.message, 'error');
+        if (btn) { btn.disabled = false; btn.textContent = existing ? '💾 Update' : '➕ Assign'; }
+      }
+    }
+    async function _toggleUserRoleActive(email, makeActive) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ active: !!makeActive })
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        if (window._ruPremiumMap && window._ruPremiumMap[email]) window._ruPremiumMap[email].active = !!makeActive;
+        _ruRoleMsg(makeActive ? '▶ Activated' : '⏸ Deactivated', 'success');
+      } catch (e) {
+        _ruRoleMsg('Failed: ' + e.message, 'error');
+      }
+    }
+    async function _removeUserRole(email) {
+      if (!confirm('Remove premium / admin access for ' + email + '?')) return;
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      try {
+        var resp = await fetch(SB_URL + '/rest/v1/premium_emails?email=eq.' + encodeURIComponent(email), {
+          method: 'DELETE',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        if (window._ruPremiumMap) delete window._ruPremiumMap[email];
+        _ruRoleMsg('🗑 Removed', 'success');
+      } catch (e) {
+        _ruRoleMsg('Failed: ' + e.message, 'error');
+      }
+    }
+
+    // ----- Send Private DM from Registered Users panel → user's Help Center Private tab -----
+    // Looks up every device_id known for this user (from premium_devices and from prior private
+    // messages) and posts an admin reply into each <device_id>_private conversation, so the user
+    // sees the message no matter which device they're on.
+    async function _ruSendPrivateDm(email, studentName) {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var ta = document.getElementById('ruDmText');
+      var btn = document.getElementById('ruDmSendBtn');
+      var msg = document.getElementById('ruDmMsg');
+      function _say(t, color) { if (msg) { msg.textContent = t; msg.style.color = color || '#666'; } }
+      var text = (ta && ta.value || '').trim();
+      if (!text) { _say('Type a message first.', '#e53935'); return; }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Sending...'; }
+      _say('Looking up devices...');
+      try {
+        var deviceIds = {};
+        // Source 1: premium_devices (only for registered emails)
+        if (email) {
+          try {
+            var dResp = await fetch(SB_URL + '/rest/v1/premium_devices?email=eq.' + encodeURIComponent(email) + '&select=device_id', {
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+            });
+            if (dResp.ok) {
+              var dRows = await dResp.json();
+              dRows.forEach(function(r) { if (r.device_id) deviceIds[r.device_id] = true; });
+            }
+          } catch (_e) {}
+        }
+        // Source 2: prior private messages from this user
+        try {
+          var nameQ = encodeURIComponent(studentName);
+          var sResp = await fetch(SB_URL + '/rest/v1/support_messages?sender_name=eq.' + nameQ + '&category=eq.private&role=eq.user&select=device_id&order=created_at.desc&limit=20', {
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+          });
+          if (sResp.ok) {
+            var sRows = await sResp.json();
+            sRows.forEach(function(r) { if (r.device_id) deviceIds[r.device_id] = true; });
+          }
+        } catch (_e2) {}
+        var ids = Object.keys(deviceIds);
+        if (!ids.length) {
+          _say('No device found for this user yet — they need to open the app at least once after signing in.', '#e53935');
+          if (btn) { btn.disabled = false; btn.textContent = '📨 Send'; }
+          return;
+        }
+        _say('Sending to ' + ids.length + ' device' + (ids.length === 1 ? '' : 's') + '...');
+        var senderName = (typeof getMsAdminName === 'function' ? getMsAdminName() : null) || 'Admin';
+        var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+        var sent = 0, failed = 0;
+        for (var i = 0; i < ids.length; i++) {
+          var body = {
+            conversation_id: ids[i] + '_private',
+            role: 'admin',
+            sender_name: senderName,
+            content: text,
+            category: 'private',
+            center: center,
+            device_id: 'admin_panel'
+          };
+          try {
+            var pResp = await fetch(SB_URL + '/rest/v1/support_messages', {
+              method: 'POST',
+              headers: {
+                'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+                'Content-Type': 'application/json', 'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify(body)
+            });
+            if (pResp.ok) sent++; else failed++;
+          } catch (_e3) { failed++; }
+        }
+        if (sent > 0) {
+          _say('✅ Delivered to ' + sent + ' device' + (sent === 1 ? '' : 's') + (failed ? ' (' + failed + ' failed)' : ''), '#10b981');
+          if (ta) ta.value = '';
+        } else {
+          _say('❌ Send failed.', '#e53935');
+        }
+      } catch (e) {
+        _say('Error: ' + (e && e.message || e), '#e53935');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '📨 Send'; }
+      }
+    }
+    window._ruSendPrivateDm = _ruSendPrivateDm;
+
     async function _viewUserResults(studentName) {
       var searchEl = document.getElementById('ruSearch');
       var statsEl = document.getElementById('ruStats');
       var listEl = document.getElementById('ruList');
       // Save scroll state
       searchEl.style.display = 'none';
+      var tabsEl = document.getElementById('ruTabs');
+      if (tabsEl) tabsEl.style.display = 'none';
       statsEl.innerHTML = '<button class="ru-back-btn" onclick="_backToUsersList()">← Back to Users</button>';
       listEl.innerHTML = '<div class="ru-empty">Loading results...</div>';
       // Update header
@@ -18873,6 +19253,54 @@
         var _isBlocked = candidate && candidate.blocked;
         html += '<button id="ruBlockBtn" onclick="_toggleBlockUser(\'' + studentName.replace(/'/g, "\\'") + '\', \'' + center.replace(/'/g, "\\'") + '\', ' + (_isBlocked ? 'true' : 'false') + ')" style="margin-top:8px;padding:6px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#fff;background:' + (_isBlocked ? '#43a047' : '#e53935') + ';">' + (_isBlocked ? '✅ Unblock User' : '🚫 Block User') + '</button>';
         html += '</div></div>';
+
+        // ---- Premium / Admin role assignment (admin-only) ----
+        if (candidate.email) {
+          var _emL  = candidate.email.toLowerCase();
+          var _curP = (window._ruPremiumMap && window._ruPremiumMap[_emL]) || null;
+          var _curTier   = _curP ? (_curP.tier   || 'premium') : 'premium';
+          var _curRole   = _curP ? (_curP.role   || 'user')    : 'user';
+          var _curCenter = _curP ? (_curP.center || center)    : center;
+          var _curActive = _curP ? !!_curP.active : true;
+          html += '<div id="ruRoleBox" style="margin-top:8px;padding:12px;border:1px solid var(--ring,#e5e7eb);border-radius:12px;background:#fafbff;">';
+          html += '<div style="font-weight:700;font-size:13px;margin-bottom:8px;">🔑 Premium / Admin Access</div>';
+          html += '<div id="ruRoleStatus" style="font-size:11px;color:#666;margin-bottom:8px;">' +
+                  (_curP ? ('Current: <b>' + _curTier + '</b> / <b>' + _curRole + '</b> @ <b>' + (_curCenter || 'all') + '</b>' + (_curActive ? '' : ' (inactive)')) : 'No premium / admin role assigned.') +
+                  '</div>';
+          html += '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">';
+          html += '<select id="ruRoleTier" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">' +
+                    '<option value="premium"' + (_curTier==='premium' ? ' selected' : '') + '>premium</option>' +
+                    '<option value="free"'    + (_curTier==='free'    ? ' selected' : '') + '>free</option>' +
+                  '</select>';
+          html += '<select id="ruRoleRole" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">' +
+                    '<option value="user"'  + (_curRole==='user'  ? ' selected' : '') + '>user</option>' +
+                    '<option value="admin"' + (_curRole==='admin' ? ' selected' : '') + '>admin</option>' +
+                  '</select>';
+          html += '<input id="ruRoleCenter" type="text" value="' + (_curCenter || '').replace(/"/g,'&quot;') + '" placeholder="center (blank = all)" style="padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;flex:1;min-width:120px;">';
+          html += '<button id="ruRoleSaveBtn" onclick="_saveUserRole(\'' + _emL.replace(/'/g, "\\'") + '\')" style="padding:6px 14px;border:none;border-radius:6px;font-size:12px;font-weight:700;color:#fff;background:#6366f1;cursor:pointer;">' + (_curP ? '💾 Update' : '➕ Assign') + '</button>';
+          if (_curP) {
+            html += '<button onclick="_toggleUserRoleActive(\'' + _emL.replace(/'/g, "\\'") + '\', ' + (!_curActive) + ')" style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;font-weight:700;color:#fff;background:' + (_curActive ? '#f59e0b' : '#10b981') + ';cursor:pointer;">' + (_curActive ? '⏸ Deactivate' : '▶ Activate') + '</button>';
+            html += '<button onclick="_removeUserRole(\'' + _emL.replace(/'/g, "\\'") + '\')" style="padding:6px 12px;border:none;border-radius:6px;font-size:12px;font-weight:700;color:#fff;background:#9ca3af;cursor:pointer;">🗑 Remove</button>';
+          }
+          html += '</div>';
+          html += '<div id="ruRoleMsg" style="font-size:11px;margin-top:6px;min-height:14px;"></div>';
+          html += '</div>';
+        }
+
+        // ---- Send Private Message (writes to support_messages → user's Private tab) ----
+        if (candidate.email || studentName) {
+          var _dmEmAttr = (candidate.email || '').replace(/"/g, '&quot;');
+          var _dmNmAttr = studentName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          html += '<div id="ruDmBox" style="margin-top:8px;padding:12px;border:1px solid var(--ring,#e5e7eb);border-radius:12px;background:#f0f9ff;">';
+          html += '<div style="font-weight:700;font-size:13px;margin-bottom:8px;">✉️ Send Private Message</div>';
+          html += '<div style="font-size:11px;color:#666;margin-bottom:8px;">Sent to this user\'s Help Center → Private tab. They\'ll see a notification badge on the chat bubble.</div>';
+          html += '<textarea id="ruDmText" placeholder="Type a private message..." rows="3" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>';
+          html += '<div style="display:flex;gap:8px;align-items:center;margin-top:6px;">';
+          html += '<button id="ruDmSendBtn" onclick="_ruSendPrivateDm(\'' + _dmEmAttr + '\', \'' + _dmNmAttr + '\')" style="padding:7px 16px;border:none;border-radius:8px;font-size:12px;font-weight:700;color:#fff;background:#0ea5e9;cursor:pointer;">📨 Send</button>';
+          html += '<div id="ruDmMsg" style="font-size:11px;color:#666;flex:1;"></div>';
+          html += '</div>';
+          html += '</div>';
+        }
       }
 
       html += '<div class="ru-summary-row">';
@@ -18883,7 +19311,13 @@
       if (ieltsBest !== null) html += '<div class="ru-summary-stat"><div class="sv">' + ieltsBest + '</div><div class="sl">IELTS Best</div></div>';
       html += '<div class="ru-summary-stat"><div class="sv">' + Object.keys(skills).length + '</div><div class="sl">Skills</div></div>';
       html += '<div class="ru-summary-stat"><div class="sv">' + aiCount + '</div><div class="sl">AI Scored</div></div>';
+      // Daily + lifetime AI proxy calls (from ai_submission_logs)
+      html += '<div class="ru-summary-stat" id="ruAiTodayStat"><div class="sv">…</div><div class="sl">AI Today</div></div>';
+      html += '<div class="ru-summary-stat" id="ruAiTotalStat"><div class="sv">…</div><div class="sl">AI Total</div></div>';
       html += '</div>';
+
+      // Kick off async fetch for AI-call counts (non-blocking)
+      _loadUserAiCallCounts(candidate ? candidate.email : '', studentName);
 
       // Result cards
       results.forEach(function(r) {
@@ -19054,9 +19488,11 @@
       var searchEl = document.getElementById('ruSearch');
       searchEl.style.display = '';
       searchEl.value = '';
+      var tabsEl = document.getElementById('ruTabs');
+      if (tabsEl) tabsEl.style.display = '';
       var headerH3 = document.querySelector('.ru-header h3');
       if (headerH3) headerH3.innerHTML = '👥 Registered Users';
-      _renderRuList(_ruData);
+      _renderRuList(_ruData.filter(_ruTabFilter));
     }
 
     function _parseNum(score) {
@@ -22506,8 +22942,8 @@
           h += _cmSectionHeader(cid, 'limits', '📏', 'Limits & Quotas');
           if (_cmExpandedSections[cid + '_limits']) {
             h += '<div style="padding:10px 16px;">';
-            h += _cmNumberInput(cid, 'maxAttemptsPerStudent', 'Max Attempts/Student', cfg.maxAttemptsPerStudent, '0 = unlimited');
-            h += _cmNumberInput(cid, 'dailyMockLimit', 'Daily Mock Limit', cfg.dailyMockLimit, '0 = unlimited');
+            h += _cmNumberInput(cid, 'maxAttemptsPerStudent', 'Per-Student daily AI calls', cfg.maxAttemptsPerStudent, '0 = unlimited · tracked by Google account when signed in, otherwise by IP');
+            h += _cmNumberInput(cid, 'dailyMockLimit', 'Center daily max AI calls', cfg.dailyMockLimit, '0 = unlimited · total successful AI calls across this center per 24h');
             h += '</div>';
           }
 

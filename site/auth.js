@@ -107,6 +107,8 @@
         } catch (e) {}
         // Premium / admin auto-unlock (non-blocking)
         try { applyPremiumUnlock(); } catch (e) {}
+        // Claim previously-saved guest results under this email (non-blocking)
+        try { _backfillGuestResults(profile); } catch (e) {}
       }
 
       // Subscribe to future auth changes (e.g., user signs in from popup)
@@ -120,6 +122,7 @@
             window.dispatchEvent(new CustomEvent('mockStream:userSignedIn', { detail: profile }));
           } catch (e) {}
           try { _premiumCache = null; applyPremiumUnlock(); } catch (e) {}
+          try { _backfillGuestResults(profile); } catch (e) {}
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
@@ -247,6 +250,41 @@
       window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: info }));
     } catch (e) {}
     return info;
+  }
+
+  // -----------------------------------------------------------------------
+  // Backfill: when a user signs in with Google, find any previously-saved
+  // results in this center that match their student_name and have no
+  // user_email yet, and claim them. This way old guest progress shows up
+  // in My Results once they create an account.
+  // -----------------------------------------------------------------------
+  async function _backfillGuestResults(profile) {
+    try {
+      if (!profile || !profile.email) return;
+      var email = String(profile.email).toLowerCase();
+      var name  = profile.fullName ||
+                  sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
+                  localStorage.getItem('ms_candidate_name') || '';
+      if (!name) return;
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
+      var SB_URL = (window.SITE_CONFIG && window.SITE_CONFIG.SUPABASE_URL) || window.SUPABASE_URL || '';
+      var SB_KEY = (window.SITE_CONFIG && window.SITE_CONFIG.SUPABASE_ANON_KEY) || window.SUPABASE_ANON_KEY || '';
+      if (!SB_URL || !SB_KEY) return;
+      var url = SB_URL + '/rest/v1/results' +
+        '?student_name=eq.' + encodeURIComponent(name) +
+        '&center=eq.'       + encodeURIComponent(center) +
+        '&user_email=is.null';
+      await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type':  'application/json',
+          'Prefer':        'return=minimal'
+        },
+        body: JSON.stringify({ user_email: email })
+      }).catch(function(){});
+    } catch (_e) { /* non-fatal */ }
   }
 
   window.MockStream = window.MockStream || {};

@@ -350,19 +350,11 @@
     }
 
     // ─── LIMITS (daily mock limit & max attempts) ───────────────────────
-    if (cc.dailyMockLimit && cc.dailyMockLimit > 0) {
-      var today = new Date().toISOString().slice(0, 10);
-      var dlKey = 'cg_daily_' + testId + '_' + today;
-      var dailyCount = parseInt(localStorage.getItem(dlKey) || '0', 10);
-      window._cgDailyMockCount = dailyCount;
-      window._cgDailyMockLimit = cc.dailyMockLimit;
-      // Expose for mock pages to call _cgIncrementDaily() after starting a mock
-    }
-
-    if (cc.maxAttemptsPerStudent && cc.maxAttemptsPerStudent > 0) {
-      window._cgMaxAttempts = cc.maxAttemptsPerStudent;
-      // Expose for mock pages to check before starting
-    }
+    // Server-side enforcement only (Supabase ai-proxy gates 4 & 5). The
+    // browser-side counters were removed to avoid double-counting and to
+    // prevent stale localStorage from blocking legitimate students after
+    // the admin raises the limit. Helpers below are kept as no-ops so any
+    // existing mock-page call sites stay backward-compatible.
   }
 
   // ── Utility: Hide all elements matching a selector ────────────────────────
@@ -383,33 +375,11 @@
     return '#' + ('0' + r.toString(16)).slice(-2) + ('0' + g.toString(16)).slice(-2) + ('0' + b.toString(16)).slice(-2);
   }
 
-  // ── Expose helpers for mock pages ─────────────────────────────────────────
-  window._cgIncrementDaily = function () {
-    if (!window._cgDailyMockLimit) return true;
-    var today = new Date().toISOString().slice(0, 10);
-    var dlKey = 'cg_daily_' + testId + '_' + today;
-    var count = parseInt(localStorage.getItem(dlKey) || '0', 10) + 1;
-    if (count > window._cgDailyMockLimit) {
-      alert('Daily mock limit reached (' + window._cgDailyMockLimit + ' mocks/day). Please try again tomorrow.');
-      return false;
-    }
-    localStorage.setItem(dlKey, String(count));
-    return true;
-  };
-
-  window._cgCheckAttempts = function (mockKey) {
-    if (!window._cgMaxAttempts) return true;
-    var name = '';
-    try { name = sessionStorage.getItem('studentName') || localStorage.getItem('ms_student_name') || 'unknown'; } catch (e) {}
-    var aKey = 'cg_attempts_' + testId + '_' + name + '_' + (mockKey || 'general');
-    var count = parseInt(localStorage.getItem(aKey) || '0', 10);
-    if (count >= window._cgMaxAttempts) {
-      alert('Maximum attempts reached (' + window._cgMaxAttempts + ') for this mock. Please contact the administrator.');
-      return false;
-    }
-    localStorage.setItem(aKey, String(count + 1));
-    return true;
-  };
+  // ── Limit helpers: now no-ops. Enforcement happens server-side in the
+  //    Supabase ai-proxy edge function. Kept callable so existing mock pages
+  //    don't break; both always return true.
+  window._cgIncrementDaily = function () { return true; };
+  window._cgCheckAttempts  = function (_mockKey) { return true; };
 
   // ── Apply access overrides immediately (before DOM ready) ─────────────────
   function _cgApplyAccessNow(cc) {

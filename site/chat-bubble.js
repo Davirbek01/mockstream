@@ -924,7 +924,11 @@
           // New announcement the user hasn't seen yet
           if (_hasUnseenAnnouncement() && parsed.sent_at !== oldSentAt) {
             if (isOpen) {
-              renderMessages();
+              // Only re-render the message list if user is currently viewing
+              // a category that uses it; otherwise just refresh the banner so
+              // the Dictionary/Community view isn't blasted away.
+              if (_isMsgListCategory(currentCategory)) renderMessages();
+              else updateGlobalBanner();
               _markAnnouncementSeen();
             } else {
               showGlobalToast(parsed.text);
@@ -935,7 +939,10 @@
         }
       }
       _globalMsg = null;
-      if (isOpen) renderMessages();
+      if (isOpen) {
+        if (_isMsgListCategory(currentCategory)) renderMessages();
+        else updateGlobalBanner();
+      }
     } catch (e) {}
   }
 
@@ -1013,9 +1020,21 @@
     if (gotNew) {
       saveLocal();
       updateBadge();
-      if (isOpen) renderMessages();
-      else showToast();
+      if (isOpen) {
+        // Don't overwrite the Dictionary/Community view with the message list
+        // when admin replies arrive in a background category.
+        if (_isMsgListCategory(currentCategory)) renderMessages();
+      } else {
+        showToast();
+      }
     }
+  }
+
+  // Categories whose content is rendered into #cb-messages by renderMessages().
+  // Dictionary and Community render their own content into the same container,
+  // so renderMessages() must not run while one of those is active.
+  function _isMsgListCategory(cat) {
+    return cat === 'support' || cat === 'premium' || cat === 'partner' || cat === 'private';
   }
 
   // ─── UNREAD BADGE ─────────────────────────────────────────────────────────

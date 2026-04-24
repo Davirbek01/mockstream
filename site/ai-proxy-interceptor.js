@@ -84,6 +84,17 @@
       if (!_sn) { try { _sn = localStorage.getItem('ms_candidate_name') || ''; } catch (e) {} }
       if (_sn) headers.set('x-ms-student', String(_sn).slice(0, 120));
     } catch (_e) {}
+    // Email of signed-in user (Google) — more reliable than name for per-student tracking.
+    try {
+      var _em = '';
+      try {
+        var _u = window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                  ? window.MockStream.auth.getCurrentUser() : null;
+        if (_u && _u.email) _em = _u.email;
+      } catch (e) {}
+      if (!_em) { try { _em = localStorage.getItem('ms_user_email') || ''; } catch (e) {} }
+      if (_em) headers.set('x-ms-email', String(_em).slice(0, 160));
+    } catch (_e) {}
     nextInit.headers = headers;
 
     // Preserve method/body when input was a Request object

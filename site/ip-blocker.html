@@ -88,6 +88,10 @@
     <div class="notice info">
       Suspicious = ≥1 tamper or bad-center event in last 24h. Safe student traffic (<code>status=ok</code>) is excluded.
     </div>
+    <div class="form-row">
+      <input id="susSearch" type="text" placeholder="🔍 Search IP, center, or student name…" style="flex:1;min-width:240px;" />
+      <button class="btn" id="btnReloadSus">Reload</button>
+    </div>
     <div style="overflow:auto; max-height:60vh;">
       <table id="tblSuspicious">
         <thead>
@@ -107,6 +111,10 @@
       <input id="manualIp" type="text" placeholder="IP address (e.g. 79.104.10.5)" />
       <input id="manualReason" type="text" placeholder="Reason (optional)" />
       <button class="btn danger" id="btnManualBlock">Block IP</button>
+    </div>
+    <div class="form-row">
+      <input id="blkSearch" type="text" placeholder="🔍 Filter blocked IPs…" style="flex:1;min-width:240px;" />
+      <button class="btn" id="btnReloadBlk">Reload</button>
     </div>
     <div style="overflow:auto; max-height:60vh;">
       <table id="tblBlocked">
@@ -224,69 +232,104 @@
       return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
 
     // ---- Suspicious tab --------------------------------------------
+    var _susItems = [];  // cached, so search filters without refetch
+    function _renderSuspicious() {
+      var tb = document.querySelector('#tblSuspicious tbody');
+      var q  = (document.getElementById('susSearch').value || '').trim().toLowerCase();
+      var items = !q ? _susItems : _susItems.filter(function(r) {
+        var hay = [
+          r.ip || '', r.centers || '',
+          (Array.isArray(r.student_names) ? r.student_names.join(' ') : '')
+        ].join(' ').toLowerCase();
+        return hay.indexOf(q) !== -1;
+      });
+      if (!items.length) {
+        tb.innerHTML = '<tr><td colspan="9" class="empty">' +
+          (q ? 'No matches for “' + esc(q) + '”.' : 'No suspicious activity in last 24h 🎉') +
+          '</td></tr>';
+        return;
+      }
+      tb.innerHTML = items.map(function(r) {
+        var names = Array.isArray(r.student_names) && r.student_names.length
+          ? r.student_names.slice(0, 8).map(function(n) { return '<span class="chip">' + esc(n) + '</span>'; }).join(' ')
+          : '<span class="muted">—</span>';
+        var statusPill = r.is_blocked ? '<span class="pill bad">BLOCKED</span>'
+                        : (r.tamper_events > 0 || r.bad_center_events > 0) ? '<span class="pill warn">SUSPICIOUS</span>'
+                        : '<span class="pill muted">noisy</span>';
+        return '<tr>' +
+          '<td><code>' + esc(r.ip) + '</code><div>' + statusPill + '</div></td>' +
+          '<td>' + r.total_calls + '</td>' +
+          '<td>' + r.failures + '</td>' +
+          '<td>' + r.tamper_events + '</td>' +
+          '<td>' + r.bad_center_events + '</td>' +
+          '<td>' + esc(r.centers || '—') + '</td>' +
+          '<td><div class="kv">' + names + '</div></td>' +
+          '<td>' + esc(fmtDate(r.last_seen)) + '</td>' +
+          '<td>' +
+            (r.is_blocked
+              ? '<button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button>'
+              : '<button class="btn danger" data-block="' + esc(r.ip) + '">Block</button>') +
+          '</td></tr>';
+      }).join('');
+      tb.querySelectorAll('[data-block]').forEach(function(b) {
+        b.onclick = function() { doBlock(b.getAttribute('data-block')); };
+      });
+      tb.querySelectorAll('[data-unblock]').forEach(function(b) {
+        b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
+      });
+    }
     async function loadSuspicious() {
       var tb = document.querySelector('#tblSuspicious tbody');
       tb.innerHTML = '<tr><td colspan="9" class="empty">Loading…</td></tr>';
       try {
         var j = await api('GET', '?view=suspicious');
-        var items = j.items || [];
-        if (!items.length) { tb.innerHTML = '<tr><td colspan="9" class="empty">No suspicious activity in last 24h 🎉</td></tr>'; return; }
-        tb.innerHTML = items.map(function(r) {
-          var names = Array.isArray(r.student_names) && r.student_names.length
-            ? r.student_names.slice(0, 8).map(function(n) { return '<span class="chip">' + esc(n) + '</span>'; }).join(' ')
-            : '<span class="muted">—</span>';
-          var statusPill = r.is_blocked ? '<span class="pill bad">BLOCKED</span>'
-                          : (r.tamper_events > 0 || r.bad_center_events > 0) ? '<span class="pill warn">SUSPICIOUS</span>'
-                          : '<span class="pill muted">noisy</span>';
-          return '<tr>' +
-            '<td><code>' + esc(r.ip) + '</code><div>' + statusPill + '</div></td>' +
-            '<td>' + r.total_calls + '</td>' +
-            '<td>' + r.failures + '</td>' +
-            '<td>' + r.tamper_events + '</td>' +
-            '<td>' + r.bad_center_events + '</td>' +
-            '<td>' + esc(r.centers || '—') + '</td>' +
-            '<td><div class="kv">' + names + '</div></td>' +
-            '<td>' + esc(fmtDate(r.last_seen)) + '</td>' +
-            '<td>' +
-              (r.is_blocked
-                ? '<button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button>'
-                : '<button class="btn danger" data-block="' + esc(r.ip) + '">Block</button>') +
-            '</td></tr>';
-        }).join('');
-        tb.querySelectorAll('[data-block]').forEach(function(b) {
-          b.onclick = function() { doBlock(b.getAttribute('data-block')); };
-        });
-        tb.querySelectorAll('[data-unblock]').forEach(function(b) {
-          b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
-        });
+        _susItems = j.items || [];
+        _renderSuspicious();
       } catch (e) {
         tb.innerHTML = '<tr><td colspan="9" class="empty">Error: ' + esc(e.message) + '</td></tr>';
       }
     }
+    document.getElementById('susSearch').addEventListener('input', _renderSuspicious);
+    document.getElementById('btnReloadSus').onclick = loadSuspicious;
 
     // ---- Blocked tab -----------------------------------------------
+    var _blkItems = [];
+    function _renderBlocked() {
+      var tb = document.querySelector('#tblBlocked tbody');
+      var q  = (document.getElementById('blkSearch').value || '').trim().toLowerCase();
+      var items = !q ? _blkItems : _blkItems.filter(function(r) {
+        return ((r.ip || '') + ' ' + (r.reason || '')).toLowerCase().indexOf(q) !== -1;
+      });
+      if (!items.length) {
+        tb.innerHTML = '<tr><td colspan="4" class="empty">' +
+          (q ? 'No matches for “' + esc(q) + '”.' : 'No blocked IPs.') + '</td></tr>';
+        return;
+      }
+      tb.innerHTML = items.map(function(r) {
+        return '<tr>' +
+          '<td><code>' + esc(r.ip) + '</code></td>' +
+          '<td>' + esc(r.reason || '—') + '</td>' +
+          '<td>' + esc(fmtDate(r.created_at)) + '</td>' +
+          '<td><button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button></td>' +
+        '</tr>';
+      }).join('');
+      tb.querySelectorAll('[data-unblock]').forEach(function(b) {
+        b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
+      });
+    }
     async function loadBlocked() {
       var tb = document.querySelector('#tblBlocked tbody');
       tb.innerHTML = '<tr><td colspan="4" class="empty">Loading…</td></tr>';
       try {
         var j = await api('GET', '?view=blocked');
-        var items = j.items || [];
-        if (!items.length) { tb.innerHTML = '<tr><td colspan="4" class="empty">No blocked IPs.</td></tr>'; return; }
-        tb.innerHTML = items.map(function(r) {
-          return '<tr>' +
-            '<td><code>' + esc(r.ip) + '</code></td>' +
-            '<td>' + esc(r.reason || '—') + '</td>' +
-            '<td>' + esc(fmtDate(r.created_at)) + '</td>' +
-            '<td><button class="btn" data-unblock="' + esc(r.ip) + '">Unblock</button></td>' +
-          '</tr>';
-        }).join('');
-        tb.querySelectorAll('[data-unblock]').forEach(function(b) {
-          b.onclick = function() { doUnblock(b.getAttribute('data-unblock')); };
-        });
+        _blkItems = j.items || [];
+        _renderBlocked();
       } catch (e) {
         tb.innerHTML = '<tr><td colspan="4" class="empty">Error: ' + esc(e.message) + '</td></tr>';
       }
     }
+    document.getElementById('blkSearch').addEventListener('input', _renderBlocked);
+    document.getElementById('btnReloadBlk').onclick = loadBlocked;
 
     document.getElementById('btnManualBlock').onclick = async function() {
       var ip = (document.getElementById('manualIp').value || '').trim();

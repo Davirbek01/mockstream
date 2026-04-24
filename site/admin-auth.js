@@ -92,7 +92,9 @@
 
   async function sendMagicLink(email) {
     if (!email) throw new Error('email required');
-    var redirect = window.location.origin + window.location.pathname;
+    // Use whitelisted /index.html as redirect target (autoResume forwards back to landing).
+    var pathname = window.location.pathname.replace(/[^/]*$/, '') + 'index.html';
+    var redirect = window.location.origin + pathname;
     var res = await sb.auth.signInWithOtp({
       email: email,
       options: { emailRedirectTo: redirect }
@@ -102,7 +104,11 @@
   }
 
   async function signInWithGoogle() {
-    var redirect = window.location.origin + window.location.pathname;
+    // Supabase only whitelists /index.html — redirect through it.
+    // index.html's autoResume detects the OAuth hash and forwards back to landing.html
+    // once the userSignedIn event fires, so the admin can continue in the dashboard.
+    var pathname = window.location.pathname.replace(/[^/]*$/, '') + 'index.html';
+    var redirect = window.location.origin + pathname;
     var res = await sb.auth.signInWithOAuth({
       provider: 'google',
       options: {
