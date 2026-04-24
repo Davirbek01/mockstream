@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Results — Mock Stream</title>
   <script src="../site-config/site-config.js"></script>
+  <!-- Supabase JS + auth helper so we can gate by Google sign-in -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    // auth.js reads these globals
+    window.SUPABASE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    window.SUPABASE_ANONKEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+  </script>
+  <script src="../auth.js"></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = 'My Results — ' + window.SITE_CONFIG.brandName;
@@ -639,17 +647,16 @@
 
 <body>
 
-  <!-- ===== NAME GATE ===== -->
+  <!-- ===== LOGIN GATE (Google) ===== -->
   <div class="name-gate" id="nameGate">
     <div class="name-card">
-      <div class="icon">📊</div>
+      <div class="icon">🔒</div>
       <h2>My Results</h2>
-      <p>Enter your full name to view your test results.<br>Use the same name you entered when taking tests.</p>
-      <div class="name-inputs">
-        <input type="text" class="name-input" id="gateSurname" placeholder="Surname" autocomplete="off">
-        <input type="text" class="name-input" id="gateFirstname" placeholder="First name" autocomplete="off">
-      </div>
-      <button class="name-btn" id="gateSubmit">View My Results</button>
+      <p>Sign in with Google to view your test results.<br>Your guest results will be linked to your account automatically.</p>
+      <button class="name-btn" id="googleSignInBtn" style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
+        <span>Continue with Google</span>
+      </button>
       <div class="name-error" id="gateError"></div>
       <button class="name-back" onclick="window.location.href='../landing.html'">← Back to Home</button>
     </div>
@@ -665,6 +672,7 @@
       <div class="topbar-right">
         <button class="topbar-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
         <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
+        <button class="topbar-btn" onclick="signOutAndReload()">🚪 Sign out</button>
         <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
       </div>
     </div>
@@ -742,6 +750,7 @@
     var SUPABASE_ANON_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
     var studentName = '';
+    var userEmail   = '';
     var allResults = [];
     var filteredResults = [];
     var activeFilter = 'all';
@@ -771,25 +780,43 @@
       var cfg = window.SITE_CONFIG || {};
       document.getElementById('brandLabel').textContent = '— ' + (cfg.brandName || 'Mock Stream');
 
-      // Auto-fill from localStorage
-      var surname = localStorage.getItem('CANDIDATE_SURNAME') || '';
-      var firstname = localStorage.getItem('CANDIDATE_FIRSTNAME') || '';
-      document.getElementById('gateSurname').value = surname;
-      document.getElementById('gateFirstname').value = firstname;
+      // Wire Google sign-in button
+      document.getElementById('googleSignInBtn').addEventListener('click', function () {
+        var errEl = document.getElementById('gateError');
+        try {
+          // Remember to come back here after OAuth roundtrips through /index.html
+          localStorage.setItem('ms_oauth_next', '/results/my-results.html');
+        } catch (_e) {}
+        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
+          // Redirect target must be a whitelisted root URL — index.html will
+          // forward us back here once auth completes.
+          var back = window.location.origin + '/index.html';
+          window.MockStream.auth.signInWithGoogle(back);
+        } else {
+          errEl.textContent = 'Sign-in helper not loaded. Please refresh and try again.';
+        }
+      });
 
-      // Auto-submit if we have saved name
-      if (surname && firstname) {
-        submitName();
+      // Initialize auth — restores session from localStorage if any
+      function _afterAuthReady() {
+        var u = window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                  ? window.MockStream.auth.getCurrentUser() : null;
+        if (u && u.email) {
+          userEmail   = String(u.email).toLowerCase();
+          var prof    = u.user_metadata || {};
+          studentName = prof.full_name || prof.name ||
+                        (localStorage.getItem('ms_candidate_name') || u.email);
+          unlockDashboard();
+        }
+        // else: stay on login gate
       }
 
-      // Event listeners
-      document.getElementById('gateSubmit').addEventListener('click', submitName);
-      document.getElementById('gateFirstname').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') submitName();
-      });
-      document.getElementById('gateSurname').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') document.getElementById('gateFirstname').focus();
-      });
+      if (window.MockStream && window.MockStream.auth && window.MockStream.auth.init) {
+        window.MockStream.auth.init().then(_afterAuthReady).catch(_afterAuthReady);
+        // Also listen for live sign-in events (covers the rare case where
+        // session restores async after init() resolves)
+        window.addEventListener('mockStream:userSignedIn', _afterAuthReady, { once: true });
+      }
 
       // Filter tabs
       document.getElementById('filterTabs').addEventListener('click', function (e) {
@@ -803,28 +830,8 @@
     });
 
     // ====================================================================
-    // NAME GATE
+    // DASHBOARD UNLOCK
     // ====================================================================
-    function submitName() {
-      var surname = document.getElementById('gateSurname').value.trim();
-      var firstname = document.getElementById('gateFirstname').value.trim();
-      var errEl = document.getElementById('gateError');
-
-      if (!surname || !firstname) {
-        errEl.textContent = 'Please enter both your surname and first name.';
-        return;
-      }
-
-      if (surname.length < 2 || firstname.length < 2) {
-        errEl.textContent = 'Name is too short. Enter your real full name.';
-        return;
-      }
-
-      errEl.textContent = '';
-      studentName = surname + ' ' + firstname;
-      unlockDashboard();
-    }
-
     function unlockDashboard() {
       document.getElementById('nameGate').style.display = 'none';
       document.getElementById('dashboard').classList.add('show');
@@ -844,7 +851,15 @@
       document.getElementById('resultsList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
       document.getElementById('chartContent').innerHTML = '<div class="chart-empty">Loading...</div>';
 
-      var url = SUPABASE_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc';
+      // Primary filter is the signed-in user's email. Falls back to student_name
+      // only if for some reason userEmail is missing (shouldn't happen given the
+      // login gate above).
+      var url;
+      if (userEmail) {
+        url = SUPABASE_URL + '/rest/v1/results?user_email=eq.' + encodeURIComponent(userEmail) + '&select=*&order=created_at.desc';
+      } else {
+        url = SUPABASE_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc';
+      }
 
       fetch(url, {
         headers: {
@@ -883,6 +898,18 @@
 
     function refreshResults() {
       fetchResults();
+    }
+
+    function signOutAndReload() {
+      try {
+        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signOut) {
+          window.MockStream.auth.signOut().then(function () {
+            window.location.reload();
+          }).catch(function () { window.location.reload(); });
+          return;
+        }
+      } catch (_e) {}
+      window.location.reload();
     }
 
     // ====================================================================

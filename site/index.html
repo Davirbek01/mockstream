@@ -4722,6 +4722,18 @@
       var hasOAuthHash = /access_token=|provider_token=/.test(window.location.hash || '');
       function _go() {
         sessionStorage.setItem('ms_entered_app', '1');
+        // Honor an OAuth "next" target if a sub-page (e.g. results/my-results.html)
+        // stored one before redirecting through here for sign-in.
+        var next = '';
+        try { next = localStorage.getItem('ms_oauth_next') || ''; } catch (_e) {}
+        if (next) {
+          try { localStorage.removeItem('ms_oauth_next'); } catch (_e) {}
+          // Only allow same-origin paths beginning with "/" — never an arbitrary URL
+          if (/^\/[^/]/.test(next)) {
+            window.location.replace(next);
+            return;
+          }
+        }
         // replace() so welcome page does not stay in history
         window.location.replace('landing.html');
       }
