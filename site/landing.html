@@ -23105,13 +23105,25 @@
               ]);
             }
 
-            // ── Transcriber-AI picker for text-only providers (Grok / DeepSeek can't process audio)
-            if (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek') {
-              h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
-                '⚠️ ' + (cfg.aiProvider === 'grok' ? 'Grok' : 'DeepSeek') + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:' +
-              '</div>';
+            // ── Transcriber-AI picker (shown under EVERY scoring AI)
+            // For text-only providers (Grok / DeepSeek) a non-default helper is REQUIRED;
+            // for OpenAI / Gemini / Claude the default = use itself (native), but admins
+            // can still override to a cheaper transcriber (e.g. AssemblyAI) to save cost.
+            {
+              var _isTextOnly = (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek');
+              var _providerLabel = (cfg.aiProvider || 'gemini').charAt(0).toUpperCase() + (cfg.aiProvider || 'gemini').slice(1);
+              if (_isTextOnly) {
+                h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
+                  '⚠️ ' + _providerLabel + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:' +
+                '</div>';
+              } else {
+                h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
+                  '💡 By default ' + _providerLabel + ' transcribes its own audio. Override to use a cheaper / faster transcriber (e.g. AssemblyAI):' +
+                '</div>';
+              }
+              var _defaultLabel = _isTextOnly ? 'Default (system prompts)' : 'Default (' + _providerLabel + ' itself)';
               h += _cmSelectInput(cid, 'transcriberProvider', '↳ Transcriber AI', cfg.transcriberProvider || 'default', [
-                { val: 'default',    label: 'Default (system prompts)' },
+                { val: 'default',    label: _defaultLabel },
                 { val: 'gemini',     label: 'Gemini' },
                 { val: 'openai',     label: 'OpenAI (Whisper)' },
                 { val: 'assemblyai', label: 'AssemblyAI (cheap & fast)' }

@@ -6330,24 +6330,26 @@
       if (centerProvider) provider = centerProvider;
       var routingMode = await _getAiRoutingMode('speaking');
       if (routingMode === 'gemma4') provider = 'gemma4';
-      // Text-only providers can't process audio — use the admin-chosen helper AI for transcription
-      if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
-        // Per-center transcriber-AI override beats the system-prompts default.
-        var centerHelper = '';
-        try {
-          if (window._centerConfig && window._centerConfig.transcriberProvider
-              && window._centerConfig.transcriberProvider !== 'default') {
-            centerHelper = String(window._centerConfig.transcriberProvider).toLowerCase();
-          }
-        } catch (_e) {}
-        var helper = centerHelper || cp['scoring_transcription_provider'] || 'gemini';
-        // If admin explicitly set the same provider as helper, attempt it directly (future capability)
-        if (helper === provider) {
-          console.log('[Transcribe] Direct mode for', provider, '(may have gained audio support)');
-        } else {
-          console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper, centerHelper ? '(center override)' : '');
-          provider = helper;
+      // Per-center explicit transcriber override applies to ALL base providers.
+      // Default = use the base provider itself for transcription (native).
+      var centerTranscriber = '';
+      try {
+        if (window._centerConfig && window._centerConfig.transcriberProvider
+            && window._centerConfig.transcriberProvider !== 'default') {
+          centerTranscriber = String(window._centerConfig.transcriberProvider).toLowerCase();
         }
+      } catch (_e) {}
+      if (centerTranscriber
+          && (centerTranscriber === 'openai' || centerTranscriber === 'gemini'
+              || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude')) {
+        console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
+        provider = centerTranscriber;
+      } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
+        // Text-only provider with no override — fall back to system-prompts helper.
+        var helper = (cp['scoring_transcription_provider'] || 'gemini').toString().trim().toLowerCase();
+        if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini' && helper !== 'assemblyai') helper = 'gemini';
+        console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
+        provider = helper;
       } else {
         console.log('[Transcribe] Provider:', provider);
       }
