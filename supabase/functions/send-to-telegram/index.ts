@@ -228,6 +228,53 @@ Deno.serve(async (req) => {
   let primaryError: Record<string, unknown> | null = null;
 
   for (const target of fanoutTargets) {
+    // ─── DB-backed atomic reservation (cross-isolate dedup) ──────────
+    // Try to claim (idem_key, target_tag) for this attempt. If a row
+    // already exists AND it was a successful post, we skip re-posting
+    // and reuse the cached message_id. If it exists but was a failed
+    // attempt, we delete it and retry. If insert succeeds, this isolate
+    // owns the post.
+    let reserved = false;
+    if (idemKey) {
+      const { data: existing } = await sb
+        .from('telegram_send_log')
+        .select('ok, chat_id, message_id')
+        .eq('idem_key', idemKey)
+        .eq('target_tag', target.tag)
+        .maybeSingle();
+      if (existing) {
+        if (existing.ok) {
+          // Already posted successfully by an earlier attempt → don't double-send.
+          results.push({
+            target: target.tag, ok: true, deduped: true,
+            chat_id: existing.chat_id, message_id: existing.message_id
+          });
+          if (target.tag === centerId) primaryOk = true;
+          continue;
+        }
+        // Previous attempt failed — clear the row so we can retry.
+        await sb.from('telegram_send_log')
+          .delete()
+          .eq('idem_key', idemKey).eq('target_tag', target.tag);
+      }
+      // Insert reservation row (ok=false). If a parallel isolate races us
+      // to insert the same key, one will fail with a unique-violation; that
+      // isolate then yields and treats this target as already-handled.
+      const { error: insErr } = await sb
+        .from('telegram_send_log')
+        .insert({
+          idem_key: idemKey, target_tag: target.tag,
+          center: centerId, skill, chat_id: target.chatId, ok: false
+        });
+      if (insErr) {
+        // Race lost — another isolate is already posting this target.
+        results.push({ target: target.tag, ok: true, deduped: true, race: true });
+        if (target.tag === centerId) primaryOk = true;
+        continue;
+      }
+      reserved = true;
+    }
+
     try {
       let tgResp: Response;
       if (fileBytes) {
@@ -240,6 +287,10 @@ Deno.serve(async (req) => {
         const body = caption || text;
         if (!body) {
           results.push({ target: target.tag, ok: false, error: 'no_file_no_text' });
+          if (reserved) {
+            await sb.from('telegram_send_log').delete()
+              .eq('idem_key', idemKey).eq('target_tag', target.tag);
+          }
           continue;
         }
         tgResp = await fetch(apiBase + '/sendMessage', {
@@ -253,20 +304,35 @@ Deno.serve(async (req) => {
         const err = { target: target.tag, ok: false, status: tgResp.status, telegram: tgJson };
         results.push(err);
         if (target.tag === centerId) primaryError = err;
+        // Failed → release reservation so a legitimate retry can re-post.
+        if (reserved) {
+          await sb.from('telegram_send_log').delete()
+            .eq('idem_key', idemKey).eq('target_tag', target.tag);
+        }
       } else {
+        const msgId = tgJson.result?.message_id;
         results.push({
           target: target.tag,
           ok: true,
           chat_id: target.chatId,
           title: tgJson.result?.chat?.title,
-          message_id: tgJson.result?.message_id
+          message_id: msgId
         });
         if (target.tag === centerId) primaryOk = true;
+        // Mark reservation as completed.
+        if (reserved) {
+          await sb.from('telegram_send_log').update({ ok: true, message_id: String(msgId ?? '') })
+            .eq('idem_key', idemKey).eq('target_tag', target.tag);
+        }
       }
     } catch (e) {
       const err = { target: target.tag, ok: false, error: 'fetch_failed: ' + (e as Error).message };
       results.push(err);
       if (target.tag === centerId) primaryError = err;
+      if (reserved) {
+        await sb.from('telegram_send_log').delete()
+          .eq('idem_key', idemKey).eq('target_tag', target.tag);
+      }
     }
   }
 
