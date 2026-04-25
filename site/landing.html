@@ -20781,13 +20781,28 @@
       var status = document.getElementById('sysPromptStatus');
       status.innerHTML = '<span style="color:var(--muted);">Saving...</span>';
       try {
-        var saved = 0, deleted = 0;
+        // Safety: count non-empty textareas. If ALL prompt textareas are empty
+        // (e.g. user opened the panel and clicked Save before the load finished,
+        // or a network glitch returned no rows) refuse the save — we'd otherwise
+        // wipe years of prompt work. Provider/transcriber config still saves.
+        var nonEmptyCount = 0;
+        for (var ci = 0; ci < _SP_ALL_KEYS.length; ci++) {
+          var ce = document.getElementById('sp_' + _SP_ALL_KEYS[ci]);
+          if (ce && ce.value.trim()) nonEmptyCount++;
+        }
+        if (nonEmptyCount === 0) {
+          var ok = confirm('⚠️ All prompt fields are empty.\n\nIf you click OK, every saved prompt in the database will be DELETED.\n\nThis usually means the prompts did not finish loading. Click Cancel to abort.');
+          if (!ok) {
+            status.innerHTML = '<span style="color:#f59e0b;">Save aborted (empty form).</span>';
+            return;
+          }
+        }
+        var saved = 0, skipped = 0;
         await _spUpsertSetting('scoring_ai_provider', _spCurrentProvider);
         saved++;
-        if (_spCurrentProvider === 'grok' || _spCurrentProvider === 'deepseek') {
-          await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider);
-          saved++;
-        }
+        // Always persist transcriber-provider override (applies to ALL base providers now)
+        await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider || 'default');
+        saved++;
         for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
           var key = _SP_ALL_KEYS[i];
           var el = document.getElementById('sp_' + key);
@@ -20797,8 +20812,9 @@
             await _spUpsertSetting(key, val);
             saved++;
           } else {
-            await _spDeleteSetting(key);
-            deleted++;
+            // SAFETY: do NOT delete on empty. To remove a prompt, use Reset to Defaults.
+            // (Previous behaviour wiped prompts when textarea was blank — destroyed user data.)
+            skipped++;
           }
         }
         // Gemini active plan (saved/cleared on Save All; key buttons set _spPendingPlan)
@@ -20806,7 +20822,7 @@
           var pendingPlan = (typeof window._spPendingPlan === 'string') ? window._spPendingPlan : null;
           if (pendingPlan !== null) {
             if (pendingPlan) { await _spUpsertSetting('gemini_active_plan', pendingPlan); saved++; }
-            else { await _spDeleteSetting('gemini_active_plan'); deleted++; }
+            else { await _spDeleteSetting('gemini_active_plan'); }
             window._spPendingPlan = null;
           }
           // Security: ensure no plaintext API keys linger in site_settings.
@@ -20817,7 +20833,7 @@
             await _spDeleteSetting('gemini_api_key_' + legacySlots[lsi]);
           }
         } catch(ge) { console.warn('[Gemini multi-key] save failed:', ge); }
-        status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' prompt(s), cleared ' + deleted + ' default(s)</span>';
+        status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' setting(s)' + (skipped ? ', ' + skipped + ' empty field(s) skipped (use Reset to remove)' : '') + '</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Save failed: ' + e.message + '</span>';
       }
