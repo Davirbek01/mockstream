@@ -23,8 +23,7 @@
     { key: 'listening', label: '🎧 Listening' },
     { key: 'reading',   label: '📖 Reading'   },
     { key: 'writing',   label: '✏️ Writing'   },
-    { key: 'speaking',  label: '🎤 Speaking'  },
-    { key: 'full_mock', label: '🏆 Full Mock' }
+    { key: 'speaking',  label: '🎤 Speaking'  }
   ];
 
   var EXPIRY_OPTIONS = [
@@ -89,6 +88,8 @@
       '.cm-header h3{margin:0;font:700 15px system-ui,-apple-system,Segoe UI,sans-serif;}',
       '.cm-header .cm-role{font-size:11px;opacity:.85;margin-left:8px;padding:2px 7px;background:rgba(255,255,255,.18);border-radius:999px;}',
       '.cm-close{background:rgba(255,255,255,.18);border:0;color:#fff;font-size:18px;cursor:pointer;width:28px;height:28px;border-radius:50%;line-height:1;}',
+      '.cm-back-btn{background:rgba(255,255,255,.18);border:0;color:#fff;font-size:18px;cursor:pointer;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;}',
+      '.cm-back-btn:hover{background:rgba(255,255,255,.3);}',
       '.cm-tabs{display:flex;gap:2px;padding:6px 10px 0;border-bottom:1px solid rgba(148,163,184,.18);background:var(--surface-alt,#f8fafc);overflow-x:auto;}',
       '.cm-tab{flex:0 0 auto;padding:8px 12px;font:600 13px system-ui;background:transparent;border:0;border-bottom:2px solid transparent;cursor:pointer;color:#64748b;}',
       '.cm-tab.active{color:#7c3aed;border-bottom-color:#7c3aed;}',
@@ -166,14 +167,15 @@
     if (ov) ov.style.display = 'none';
   }
 
-  var state = { centers: [], role: null, currentCenter: null, view: null };
+  var state = { centers: [], role: null, currentCenter: null, view: null, fromSMG: false };
 
   /* -------------------------------------------------------------- gate */
   function renderGate() {
     var root = document.getElementById('cmRoot');
+    var backHtml = state.fromSMG ? '<button class="cm-back-btn" id="cmBackBtn" aria-label="Back">&#8592;</button>' : '';
     root.innerHTML =
       '<div class="cm-header"><h3>🔑 Code Management</h3>' +
-        '<button class="cm-close" id="cmCloseGate">×</button></div>' +
+        '<div style="display:flex;gap:6px;align-items:center;">'+backHtml+'<button class="cm-close" id="cmCloseGate">×</button></div></div>' +
       '<div class="cm-body">' +
         '<div class="cm-gate">' +
           '<div style="font-size:42px;margin-bottom:6px;">🔐</div>' +
@@ -185,6 +187,10 @@
         '</div>' +
       '</div>';
     document.getElementById('cmCloseGate').onclick = hide;
+    if (state.fromSMG) {
+      var bk = document.getElementById('cmBackBtn');
+      if (bk) bk.onclick = function() { hide(); if (typeof window._showSiteMgmtGrid === 'function') window._showSiteMgmtGrid(); };
+    }
     var input = document.getElementById('cmPass');
     var btn = document.getElementById('cmUnlock');
     input.addEventListener('input', function(){ this.value = this.value.replace(/\D/g,'').slice(0,8); });
@@ -238,11 +244,12 @@
     if (isSuper) tabs.push({ k:'admin', label:'Admin' });
     if (!state.view) state.view = 'codes';
 
+    var backHtml = state.fromSMG ? '<button class="cm-back-btn" id="cmBackBtn" aria-label="Back">&#8592;</button>' : '';
     root.innerHTML =
       '<div class="cm-header">' +
         '<div><h3>🔑 Code Management</h3>' +
         '<span class="cm-role">'+(isSuper?'super-admin':'clone admin')+'</span></div>' +
-        '<button class="cm-close" id="cmCloseMain">×</button>' +
+        '<div style="display:flex;gap:6px;align-items:center;">'+backHtml+'<button class="cm-close" id="cmCloseMain">×</button></div>' +
       '</div>' +
       '<div style="padding:12px 20px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
         '<span class="cm-label">Center:</span>' +
@@ -255,6 +262,10 @@
       '<div class="cm-body" id="cmBody"><div class="cm-empty">Loading…</div></div>';
 
     document.getElementById('cmCloseMain').onclick = hide;
+    if (state.fromSMG) {
+      var bk = document.getElementById('cmBackBtn');
+      if (bk) bk.onclick = function() { hide(); if (typeof window._showSiteMgmtGrid === 'function') window._showSiteMgmtGrid(); };
+    }
     document.getElementById('cmCenter').onchange = function(){ state.currentCenter = this.value; renderTab(); };
     document.getElementById('cmLogout').onclick = function(){ sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY); state.role=null; state.centers=[]; renderGate(); };
     root.querySelectorAll('.cm-tab').forEach(function(b){
@@ -339,11 +350,30 @@
       '</div>';
     }).join('');
 
+    var fm = mockMap['full_mock#1'];
+    var fmCode = fm ? fm.code : '';
+    var fmMeta = fm ? ('Expires: ' + fmtCountdown(fm.expires_at) + (fm.last_renewed_at ? ' · Renewed: ' + new Date(fm.last_renewed_at).toLocaleString() : '')) : 'No code yet';
+    var fullMockHtml = '<div class="cm-card">' +
+      '<h4>🏆 Full Mock Code</h4>' +
+      '<div class="cm-row">' +
+        (fmCode ? '<span class="cm-code" title="Click to copy" data-copy="'+fmCode+'">'+fmCode+'</span>' : '<span class="cm-code empty">— no code —</span>') +
+        '<span class="cm-meta">'+escapeHtml(fmMeta)+'</span>' +
+      '</div>' +
+      '<div class="cm-row">' +
+        '<span class="cm-label">Expiry:</span>' +
+        '<select class="cm-select cm-fm-exp">'+EXPIRY_OPTIONS.map(function(o){return '<option value="'+o.v+'">'+o.label+'</option>';}).join('')+'</select>' +
+        '<button class="cm-btn cm-renew-fm"'+(canEdit?'':' disabled')+'>↻ Renew</button>' +
+        (fmCode ? '<button class="cm-btn danger cm-revoke-fm"'+(canEdit?'':' disabled')+'>Revoke</button>' : '') +
+      '</div>' +
+    '</div>';
+
     body.innerHTML =
       disabledHint +
       '<div id="cmFlash"></div>' +
       '<h4 style="margin:4px 0 10px;font:700 14px system-ui;">VIP Codes (whole-center access)</h4>' +
       '<div class="cm-grid2">' + vipHtml + '</div>' +
+      '<h4 style="margin:18px 0 10px;font:700 14px system-ui;">Full Mock Code</h4>' +
+      fullMockHtml +
       '<h4 style="margin:18px 0 10px;font:700 14px system-ui;">Per-Mock Codes (single-test access)</h4>' +
       mockHtml;
 
@@ -410,6 +440,27 @@
         if (r.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r.error||'Failed');
       };
     });
+
+    // Full Mock renew/revoke
+    var fmRenewBtn = body.querySelector('.cm-renew-fm');
+    if (fmRenewBtn) {
+      fmRenewBtn.onclick = async function() {
+        var exp = body.querySelector('.cm-fm-exp').value;
+        if (!confirm('Generate a NEW Full Mock code? The old one will stop working immediately.')) return;
+        fmRenewBtn.disabled = true; fmRenewBtn.textContent = '⏳';
+        var r = await call('renew_mock', { center: state.currentCenter, skill: 'full_mock', mock_number: 1, expiry: expiryToISO(exp) });
+        if (r.ok) { flash('ok', 'New Full Mock code: '+r.code); renderTab(); }
+        else { flash('err', r.error||'Failed'); fmRenewBtn.disabled=false; fmRenewBtn.textContent='↻ Renew'; }
+      };
+    }
+    var fmRevokeBtn = body.querySelector('.cm-revoke-fm');
+    if (fmRevokeBtn) {
+      fmRevokeBtn.onclick = async function() {
+        if (!confirm('Revoke the Full Mock code?')) return;
+        var r = await call('revoke_mock', { center: state.currentCenter, skill: 'full_mock', mock_number: 1 });
+        if (r.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r.error||'Failed');
+      };
+    }
   }
 
   /* ---- Flags tab ----------------------------------------------------- */
@@ -539,6 +590,6 @@
   }
 
   /* -------------------------------------------------------------- expose */
-  window.openCodesPanel = show;
+  window.openCodesPanel = function(fromSMG) { state.fromSMG = !!fromSMG; show(); };
   window.codesPanel = { open: show, hide: hide, call: call };
 })();
