@@ -13,6 +13,7 @@
 //   /functions/v1/ai-proxy/claude/<rest-of-path>     →  api.anthropic.com/<rest-of-path>        (x-api-key CLAUDE_API_KEY)
 //   /functions/v1/ai-proxy/grok/<rest-of-path>       →  api.x.ai/<rest-of-path>                 (Bearer GROK_API_KEY)
 //   /functions/v1/ai-proxy/deepseek/<rest-of-path>   →  api.deepseek.com/<rest-of-path>         (Bearer DEEPSEEK_API_KEY)
+//   /functions/v1/ai-proxy/assemblyai/<rest-of-path> →  api.assemblyai.com/<rest-of-path>       (Authorization: ASSEMBLYAI_API_KEY — no "Bearer" prefix)
 //
 // Gates (all enforced before forwarding):
 //   1) IP blocklist          (public.blocked_ips)
@@ -29,7 +30,7 @@
 // Deploy:
 //   supabase functions deploy ai-proxy --no-verify-jwt
 // Secrets:
-//   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY
+//   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY, ASSEMBLYAI_API_KEY
 //   <PROVIDER>_API_KEY_2 ... _5  (optional backups; auto-used on 429/5xx)
 //   GEMINI_API_KEY_PREPAY,    GEMINI_API_KEY_PREPAY_2     (Gemini billing-slot keys)
 //   GEMINI_API_KEY_POSTPAY,   GEMINI_API_KEY_POSTPAY_2    (used when site_settings.gemini_active_plan
@@ -66,14 +67,16 @@ const OPENAI_KEYS:   string[] = collectKeys('OPENAI_API_KEY');
 const CLAUDE_KEYS:   string[] = collectKeys('CLAUDE_API_KEY');
 const GROK_KEYS:     string[] = collectKeys('GROK_API_KEY');
 const DEEPSEEK_KEYS: string[] = collectKeys('DEEPSEEK_API_KEY');
+const ASSEMBLYAI_KEYS: string[] = collectKeys('ASSEMBLYAI_API_KEY');
 function keysFor(provider: string): string[] {
   switch (provider) {
-    case 'gemini':   return GEMINI_KEYS;
-    case 'openai':   return OPENAI_KEYS;
-    case 'claude':   return CLAUDE_KEYS;
-    case 'grok':     return GROK_KEYS;
-    case 'deepseek': return DEEPSEEK_KEYS;
-    default:         return [];
+    case 'gemini':     return GEMINI_KEYS;
+    case 'openai':     return OPENAI_KEYS;
+    case 'claude':     return CLAUDE_KEYS;
+    case 'grok':       return GROK_KEYS;
+    case 'deepseek':   return DEEPSEEK_KEYS;
+    case 'assemblyai': return ASSEMBLYAI_KEYS;
+    default:           return [];
   }
 }
 
@@ -186,6 +189,17 @@ function resolveTarget(provider: string, restPath: string, search: string, key: 
       return {
         url: `https://api.deepseek.com/${restPath}${search || ''}`,
         headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' }
+      };
+    }
+    case 'assemblyai': {
+      // AssemblyAI auth = raw key in Authorization header (NO "Bearer" prefix).
+      // Three endpoints we forward:
+      //   POST /v2/upload        — body is raw audio bytes (Content-Type set by caller)
+      //   POST /v2/transcript    — body is JSON { audio_url, language_detection: true }
+      //   GET  /v2/transcript/{id} — polling for status
+      return {
+        url: `https://api.assemblyai.com/${restPath}${search || ''}`,
+        headers: { 'Authorization': key }
       };
     }
     default:
@@ -328,7 +342,7 @@ Deno.serve(async (req) => {
 
   if (!provider) {
     return jsonErr(400, 'missing_provider',
-      'Use /functions/v1/ai-proxy/<gemini|openai|claude|grok|deepseek>/<provider-path>');
+      'Use /functions/v1/ai-proxy/<gemini|openai|claude|grok|deepseek|assemblyai>/<provider-path>');
   }
 
   // -------- collect identity --------

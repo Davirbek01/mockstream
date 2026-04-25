@@ -27,7 +27,8 @@
     'api.openai.com':                    'openai',
     'api.anthropic.com':                 'claude',
     'api.x.ai':                          'grok',
-    'api.deepseek.com':                  'deepseek'
+    'api.deepseek.com':                  'deepseek',
+    'api.assemblyai.com':                'assemblyai'
   };
 
   var origFetch = window.fetch.bind(window);

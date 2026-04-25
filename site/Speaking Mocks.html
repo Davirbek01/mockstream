@@ -7601,7 +7601,7 @@
         } catch (_e) {}
         var helper = centerHelper
           || (cp['scoring_transcription_provider'] || cp['scoring_transcribe_helper_ai'] || 'gemini').toString().trim().toLowerCase();
-        if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini') helper = 'gemini';
+        if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini' && helper !== 'assemblyai') helper = 'gemini';
         console.log('[Transcribe] Text-only provider (' + provider + ') using helper:', helper, centerHelper ? '(center override)' : '');
         provider = helper;
       }
@@ -7615,6 +7615,49 @@
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
+    }
+
+    // AssemblyAI: 3-step flow (upload → request → poll). Auth + key rotation
+    // are handled server-side by ai-proxy (interceptor rewrites api.assemblyai.com
+    // URLs and strips client-side Authorization). Returns transcript text or ''.
+    async function _assemblyAiTranscribe(blob) {
+      // Step 1: upload raw audio bytes
+      var upR = await fetch('https://api.assemblyai.com/v2/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/octet-stream', 'Authorization': 'proxy' },
+        body: blob
+      });
+      if (!upR.ok) throw new Error('AssemblyAI upload error: ' + upR.status);
+      var upJ = await upR.json();
+      if (!upJ.upload_url) throw new Error('AssemblyAI upload returned no URL');
+
+      // Step 2: request transcription (auto language detection)
+      var trR = await fetch('https://api.assemblyai.com/v2/transcript', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'proxy' },
+        body: JSON.stringify({ audio_url: upJ.upload_url, language_detection: true })
+      });
+      if (!trR.ok) throw new Error('AssemblyAI transcript request error: ' + trR.status);
+      var trJ = await trR.json();
+      if (!trJ.id) throw new Error('AssemblyAI transcript request returned no id');
+
+      // Step 3: poll until done (max ~120s, 2s interval)
+      for (var i = 0; i < 60; i++) {
+        await new Promise(function(r){ setTimeout(r, 2000); });
+        var pollR = await fetch('https://api.assemblyai.com/v2/transcript/' + trJ.id, {
+          method: 'GET',
+          headers: { 'Authorization': 'proxy' }
+        });
+        if (!pollR.ok) throw new Error('AssemblyAI poll error: ' + pollR.status);
+        var pollJ = await pollR.json();
+        if (pollJ.status === 'completed') {
+          return ((pollJ.text || '').trim()) || '[No speech detected]';
+        }
+        if (pollJ.status === 'error') {
+          throw new Error('AssemblyAI: ' + (pollJ.error || 'transcription failed'));
+        }
+      }
+      throw new Error('AssemblyAI poll timeout');
     }
 
     async function _transcribeAudioBlob(blob, cpOverride) {
@@ -7734,6 +7777,14 @@
             }
           }
         }
+      }
+
+      // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
+      if (provider === 'assemblyai') {
+        try {
+          var aaT = await _assemblyAiTranscribe(blob);
+          if (aaT) return aaT;
+        } catch (e) { console.warn('[Transcribe] AssemblyAI failed, falling back to Gemini:', e.message); }
       }
 
       // Gemini transcription (primary for gemini; fallback for others)

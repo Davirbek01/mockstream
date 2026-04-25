@@ -9210,6 +9210,44 @@ Empty responses = 0 points and skip analysis for that task.`;
             `;
         }
 
+        // AssemblyAI: 3-step flow (upload → request → poll). Auth + key rotation
+        // are handled server-side by ai-proxy (interceptor rewrites api.assemblyai.com
+        // URLs and strips client-side Authorization). Returns transcript text or ''.
+        async function _assemblyAiTranscribe(blob) {
+          var upR = await fetch('https://api.assemblyai.com/v2/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/octet-stream', 'Authorization': 'proxy' },
+            body: blob
+          });
+          if (!upR.ok) throw new Error('AssemblyAI upload error: ' + upR.status);
+          var upJ = await upR.json();
+          if (!upJ.upload_url) throw new Error('AssemblyAI upload returned no URL');
+          var trR = await fetch('https://api.assemblyai.com/v2/transcript', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'proxy' },
+            body: JSON.stringify({ audio_url: upJ.upload_url, language_detection: true })
+          });
+          if (!trR.ok) throw new Error('AssemblyAI transcript request error: ' + trR.status);
+          var trJ = await trR.json();
+          if (!trJ.id) throw new Error('AssemblyAI transcript request returned no id');
+          for (var i = 0; i < 60; i++) {
+            await new Promise(function(r){ setTimeout(r, 2000); });
+            var pollR = await fetch('https://api.assemblyai.com/v2/transcript/' + trJ.id, {
+              method: 'GET',
+              headers: { 'Authorization': 'proxy' }
+            });
+            if (!pollR.ok) throw new Error('AssemblyAI poll error: ' + pollR.status);
+            var pollJ = await pollR.json();
+            if (pollJ.status === 'completed') {
+              return ((pollJ.text || '').trim()) || '[No speech detected]';
+            }
+            if (pollJ.status === 'error') {
+              throw new Error('AssemblyAI: ' + (pollJ.error || 'transcription failed'));
+            }
+          }
+          throw new Error('AssemblyAI poll timeout');
+        }
+
         // Transcribe a single audio blob using the admin's selected AI provider
         async function _transcribeAudioBlob(blob) {
           var cp = await _loadScoringPrompts();
@@ -9299,6 +9337,14 @@ Empty responses = 0 points and skip analysis for that task.`;
                 });
               } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
             }
+          }
+
+          // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
+          if (provider === 'assemblyai') {
+            try {
+              var aaT = await _assemblyAiTranscribe(blob);
+              if (aaT) return aaT;
+            } catch(e) { console.warn('[Transcribe] AssemblyAI failed, falling back to Gemini:', e.message); }
           }
 
           // Gemini (primary for 'gemini'; fallback for grok, deepseek, gemma4)
