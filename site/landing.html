@@ -20582,22 +20582,25 @@
       var theme = isTextOnly
         ? { bg: '#fef3c7', border: '#f59e0b', text: '#92400e', divider: 'rgba(245,158,11,0.35)' }
         : { bg: '#dbeafe', border: '#3b82f6', text: '#1e40af', divider: 'rgba(59,130,246,0.35)' };
-      box.style.cssText = 'margin:8px 0 0;padding:10px 14px;background:' + theme.bg + ';border:1px solid ' + theme.border + ';border-radius:8px;font-size:12px;color:' + theme.text + ';';
+      box.style.cssText = 'margin:6px 0 0;padding:6px 12px;background:' + theme.bg + ';border:1px solid ' + theme.border + ';border-radius:8px;font-size:11px;color:' + theme.text + ';flex-shrink:0;';
       var headline = isTextOnly
-        ? '⚠️ ' + providerLabel + ' cannot process audio. Choose a transcriber AI for speaking recordings:'
-        : '🎙️ Transcriber for speaking recordings (default uses ' + providerLabel + ' itself; pick a cheaper / faster transcriber if desired):';
+        ? '⚠️ ' + providerLabel + ' cannot process audio. Pick transcriber:'
+        : '🎙️ Transcriber (default = ' + providerLabel + ' itself):';
       box.innerHTML =
-        '<div style="font-weight:600;margin-bottom:8px;">' + headline + '</div>' +
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">' +
-          '<button id="_spTrHelper_default" onclick="_spSetTranscriptionHelper(\'default\')" style="padding:5px 14px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:' + theme.text + ';">⚙ Default</button>' +
-          '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:5px 14px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:' + theme.text + ';">✨ Gemini</button>' +
-          '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:5px 14px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:' + theme.text + ';">🤖 OpenAI</button>' +
-          '<button id="_spTrHelper_assemblyai" onclick="_spSetTranscriptionHelper(\'assemblyai\')" style="padding:5px 14px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:12px;font-weight:600;color:' + theme.text + ';">📝 AssemblyAI</button>' +
-        '</div>' +
-        '<div id="_spTrHelperNote" style="font-size:11px;opacity:0.75;"></div>';
+        '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
+          '<span style="font-weight:600;font-size:11px;">' + headline + '</span>' +
+          '<button id="_spTrHelper_default" onclick="_spSetTranscriptionHelper(\'default\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚙ Default</button>' +
+          '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">✨ Gemini</button>' +
+          '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">🤖 OpenAI</button>' +
+          '<button id="_spTrHelper_assemblyai" onclick="_spSetTranscriptionHelper(\'assemblyai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">📝 AssemblyAI</button>' +
+          '<span id="_spTrHelperNote" style="font-size:10px;opacity:0.7;flex-basis:100%;"></span>' +
+        '</div>';
       // For text-only providers, "default" maps to system-prompt helper (i.e. gemini-by-default).
       // For native providers, "default" means "use itself".
       _spSetTranscriptionHelper(_spTranscriptionProvider || 'default');
+      // Scroll body back to top so the prompt fields are visible after banner re-flow.
+      var body = document.getElementById('sysPromptBody');
+      if (body) body.scrollTop = 0;
     }
 
     // Tab switching
