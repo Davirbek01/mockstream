@@ -10975,6 +10975,7 @@
 
             var caption = '\uD83C\uDFAF CEFR Speaking Practice\n';
             caption += '\uD83D\uDC64 #' + cleanName + '\n';
+            var partNames = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
             caption += '\uD83C\uDF99\uFE0F ' + (partNames[window._practicePartId] || 'Part') + '\n';
 
             // Add AI scores if available
@@ -11013,7 +11014,6 @@
             var practiceAi = window._practiceAutoAiResult;
             if (window.sendToSupabase) {
               try {
-                var partNames = { p1: 'Part 1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
                 var sbResult = await window.sendToSupabase({
                   studentName: rawName,
                   examType: 'cefr',
