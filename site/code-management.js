@@ -592,29 +592,32 @@
         '</div>' +
       '</div>' +
       '<div class="cm-card">' +
-        '<h4>🔑 Set per-center admin passcode</h4>' +
-        '<div class="cm-row">' +
-          '<select class="cm-select" id="cmPcCenter">' +
+        '<h4>🔑 Per-center admin passcode</h4>' +
+        '<div class="cm-meta" style="margin-bottom:10px;">Pick a center, then tap Generate. The new code instantly replaces the old one — share it with the clone admin via Telegram DM.</div>' +
+        '<div class="cm-row" style="margin-bottom:10px;">' +
+          '<select class="cm-select" id="cmPcCenter" style="flex:1;">' +
             state.centers.map(function(c){ return '<option value="'+c.id+'">'+escapeHtml(c.display_name||c.id)+'</option>'; }).join('') +
           '</select>' +
-          '<input class="cm-input num" id="cmPcNew" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="4–8 digits">' +
-          '<button class="cm-btn ghost" id="cmGenPc" title="Generate random 6-digit code">🎲</button>' +
-          '<button class="cm-btn" id="cmSetPc">Save</button>' +
+        '</div>' +
+        '<div class="cm-vip-wrap">' +
+          '<div class="cm-code-vip empty" id="cmPcDisplay">— click Generate —</div>' +
+          '<div class="cm-copy-check" id="cmPcCopyCheck"><div class="cm-copy-check-icon">✅</div><div class="cm-copy-check-label">Copied!</div></div>' +
+        '</div>' +
+        '<div class="cm-row" style="margin-top:14px;justify-content:center;">' +
+          '<button class="cm-btn" id="cmGenPc">🎲 Generate &amp; replace</button>' +
         '</div>' +
       '</div>' +
       '<div class="cm-card">' +
-        '<h4>🛡️ Change SUPER-admin passcode</h4>' +
-        '<div class="cm-row">' +
-          '<input class="cm-input num" id="cmPcSuper" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="4–8 digits">' +
-          '<button class="cm-btn ghost" id="cmGenSuper" title="Generate random 6-digit code">🎲</button>' +
-          '<button class="cm-btn danger" id="cmSetSuper">Replace super-admin passcode</button>' +
+        '<h4>🛡️ SUPER-admin passcode</h4>' +
+        '<div class="cm-meta" style="margin-bottom:10px;">Tap Generate to instantly replace the super-admin passcode. <b>You will be logged out</b> — copy the new code first!</div>' +
+        '<div class="cm-vip-wrap">' +
+          '<div class="cm-code-vip empty" id="cmSuperDisplay">— click Generate —</div>' +
+          '<div class="cm-copy-check" id="cmSuperCopyCheck"><div class="cm-copy-check-icon">✅</div><div class="cm-copy-check-label">Copied!</div></div>' +
         '</div>' +
-        '<div class="cm-meta">⚠️ You will be logged out and must re-enter the new passcode.</div>' +
+        '<div class="cm-row" style="margin-top:14px;justify-content:center;">' +
+          '<button class="cm-btn danger" id="cmGenSuper">🎲 Generate &amp; replace</button>' +
+        '</div>' +
       '</div>';
-
-    body.querySelectorAll('input.num').forEach(function(inp){
-      inp.addEventListener('input', function(){ inp.value = inp.value.replace(/\D/g,'').slice(0,8); });
-    });
 
     document.getElementById('cmAddCenter').onclick = async function(){
       var id = document.getElementById('cmNewCenterId').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -625,41 +628,71 @@
       else flash('err', r.error||'Failed');
     };
 
-    document.getElementById('cmSetPc').onclick = async function(){
+    function showCopyCheck(overlayId) {
+      var o = document.getElementById(overlayId);
+      if (!o) return;
+      o.classList.add('show');
+      setTimeout(function(){ o.classList.remove('show'); }, 1400);
+    }
+
+    function wireCodeClick(displayId, overlayId) {
+      var d = document.getElementById(displayId);
+      d.onclick = function(){
+        if (d.classList.contains('empty')) return;
+        var code = d.textContent.trim();
+        if (!code) return;
+        navigator.clipboard.writeText(code).then(function(){ showCopyCheck(overlayId); });
+      };
+    }
+    wireCodeClick('cmPcDisplay', 'cmPcCopyCheck');
+    wireCodeClick('cmSuperDisplay', 'cmSuperCopyCheck');
+
+    document.getElementById('cmGenPc').onclick = async function(){
       var c = document.getElementById('cmPcCenter').value;
-      var p = document.getElementById('cmPcNew').value;
-      if (!/^\d{4,8}$/.test(p)) { flash('err','4–8 digits'); return; }
+      var cName = (state.centers.find(function(x){return x.id===c;})||{}).display_name || c;
+      if (!await cmConfirm({
+        icon: '🔑',
+        title: 'Replace passcode for ' + cName + '?',
+        message: 'The old passcode will stop working immediately. The new one will be shown here — copy it before closing.',
+        confirmLabel: 'Generate & replace',
+        confirmClass: ''
+      })) return;
+      var p = genPasscode(6);
+      var btn = document.getElementById('cmGenPc');
+      btn.disabled = true; btn.textContent = '⏳ Saving…';
       var r = await call('set_admin_passcode', { center: c, newPasscode: p });
-      flash(r.ok?'ok':'err', r.ok?'Saved':(r.error||'Failed'));
-      if (r.ok) document.getElementById('cmPcNew').value = '';
+      btn.disabled = false; btn.innerHTML = '🎲 Generate &amp; replace';
+      if (!r.ok) { flash('err', r.error||'Failed'); return; }
+      var d = document.getElementById('cmPcDisplay');
+      d.classList.remove('empty');
+      d.textContent = p;
+      try { navigator.clipboard.writeText(p).then(function(){ showCopyCheck('cmPcCopyCheck'); }); } catch(e){}
+      flash('ok', 'Saved. New passcode for ' + cName + ': ' + p);
     };
 
-    document.getElementById('cmGenPc').onclick = function(){
+    document.getElementById('cmGenSuper').onclick = async function(){
+      if (!await cmConfirm({
+        icon: '🛡️',
+        title: 'Replace SUPER-admin passcode?',
+        message: 'You will be logged out immediately. <b>Copy the new code first</b> — there is no recovery option!',
+        confirmLabel: 'Generate, replace & log out',
+        confirmClass: 'danger'
+      })) return;
       var p = genPasscode(6);
-      var inp = document.getElementById('cmPcNew');
-      inp.value = p;
-      copyAndFlash(p, 'Generated & copied: ' + p);
-    };
-
-    document.getElementById('cmSetSuper').onclick = async function(){
-      var p = document.getElementById('cmPcSuper').value;
-      if (!/^\d{4,8}$/.test(p)) { flash('err','4–8 digits'); return; }
-      if (!await cmConfirm({ icon: '⚠️', title: 'Replace super-admin passcode?', message: 'You will be logged out immediately after saving. There is no recovery option — make sure you remember the new passcode before confirming.', confirmLabel: 'Replace & log out', confirmClass: 'danger' })) return;
+      var btn = document.getElementById('cmGenSuper');
+      btn.disabled = true; btn.textContent = '⏳ Saving…';
       var r = await call('set_admin_passcode', { center: '__super__', newPasscode: p });
-      if (r.ok) {
-        flash('ok','Replaced. Logging out…');
-        setTimeout(function(){
-          sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY);
-          state.role=null; state.centers=[]; renderGate();
-        }, 800);
-      } else flash('err', r.error||'Failed');
-    };
-
-    document.getElementById('cmGenSuper').onclick = function(){
-      var p = genPasscode(6);
-      var inp = document.getElementById('cmPcSuper');
-      inp.value = p;
-      copyAndFlash(p, 'Generated & copied: ' + p);
+      btn.disabled = false; btn.innerHTML = '🎲 Generate &amp; replace';
+      if (!r.ok) { flash('err', r.error||'Failed'); return; }
+      var d = document.getElementById('cmSuperDisplay');
+      d.classList.remove('empty');
+      d.textContent = p;
+      try { navigator.clipboard.writeText(p).then(function(){ showCopyCheck('cmSuperCopyCheck'); }); } catch(e){}
+      flash('ok', 'Replaced & copied. Logging out in 6s…');
+      setTimeout(function(){
+        sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY);
+        state.role=null; state.centers=[]; renderGate();
+      }, 6000);
     };
   }
 
