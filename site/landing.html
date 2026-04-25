@@ -17194,7 +17194,8 @@
       '#aiRouterPanel .ai-panel',
       '#privateMessagesPanel .pm-panel',
       '#supportMessagesPanel .sm-panel',
-      '#videoGuidesPanel .vg-panel'
+      '#videoGuidesPanel .vg-panel',
+      '#cmOverlay .cm-panel'
     ];
 
     function _findVisibleAdminPanel() {
@@ -17297,7 +17298,8 @@
           '#speakingPlusPanel .sp-close', '#readingPlusPanel .rp-close',
           '#listeningPlusPanel .lp-close', '#centersPanel .cm-close',
           '#aiRouterPanel .ai-close', '#privateMessagesPanel .pm-close',
-          '#supportMessagesPanel .sm-close', '#videoGuidesPanel .vg-close'
+          '#supportMessagesPanel .sm-close', '#videoGuidesPanel .vg-close',
+          '#cmOverlay .cm-close'
         ];
         closeSelectors.forEach(function (sel) {
           var el = document.querySelector(sel);
