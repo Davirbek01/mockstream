@@ -7646,13 +7646,18 @@
       var upJ = await upR.json();
       if (!upJ.upload_url) throw new Error('AssemblyAI upload returned no URL');
 
-      // Step 2: request transcription (auto language detection)
+      // Step 2: request transcription. NOTE: do NOT use language_detection:true —
+      // AssemblyAI's default `nano`/`slam-1` speech_model rejects it with 400.
+      // CEFR/IELTS exams are English, so pin language_code instead.
       var trR = await fetch('https://api.assemblyai.com/v2/transcript', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'proxy' },
-        body: JSON.stringify({ audio_url: upJ.upload_url, language_detection: true })
+        body: JSON.stringify({ audio_url: upJ.upload_url, language_code: 'en' })
       });
-      if (!trR.ok) throw new Error('AssemblyAI transcript request error: ' + trR.status);
+      if (!trR.ok) {
+        var _errBody = ''; try { _errBody = await trR.text(); } catch(_){}
+        throw new Error('AssemblyAI transcript request error: ' + trR.status + ' ' + _errBody.slice(0,300));
+      }
       var trJ = await trR.json();
       if (!trJ.id) throw new Error('AssemblyAI transcript request returned no id');
 
