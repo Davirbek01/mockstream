@@ -66,6 +66,26 @@ function genCode(length = 8): string {
 function esc(s: string): string {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
+
+// Per-skill mock counts, synced into site_settings(key='mock_counts') by the
+// admin panel whenever it loads on landing.html (where the promocode dicts live).
+async function fetchMockCounts(): Promise<Record<'listening'|'reading'|'writing'|'speaking', number>> {
+  const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+  try {
+    const { data } = await sb.from('site_settings')
+      .select('value').eq('key', 'mock_counts').maybeSingle();
+    const v = (data?.value ?? null) as Record<string, unknown> | null;
+    if (!v || typeof v !== 'object') return def;
+    const out: Record<string, number> = { ...def };
+    for (const k of Object.keys(def)) {
+      const n = parseInt(String((v as Record<string, unknown>)[k] ?? ''), 10);
+      if (Number.isInteger(n) && n >= 1 && n <= 200) out[k] = n;
+    }
+    return out as typeof def;
+  } catch {
+    return def;
+  }
+}
 async function tg(method: string, payload: Record<string, unknown>) {
   try {
     const r = await fetch(`${TG_API}/${method}`, {
@@ -566,7 +586,7 @@ async function handleCallback(cb: any) {
     return sendMockListMenu(chat_id, center_id, c.display_name, skill as Skill, message_id);
   }
 
-  // mock_bulk:<center>  → ask user to pick a mode + count
+  // mock_bulk:<center>  → show detected counts + mode buttons
   if (data.startsWith('mock_bulk:')) {
     const center_id = data.slice('mock_bulk:'.length);
     if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
@@ -575,16 +595,22 @@ async function handleCallback(cb: any) {
     const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
     if (!c) { await answerCb(cb.id); return; }
     await answerCb(cb.id);
+    const counts = await fetchMockCounts();
+    const total = (counts.listening + counts.reading + counts.writing + counts.speaking) * 2;
     const text =
       `🏫 <b>${esc(c.display_name)}</b> — ⚡ <b>Bulk generate</b>\n\n` +
-      `Pick how many mocks per skill (Listening / Reading / Writing / Speaking) you want codes for. ` +
-      `Both 🟢 Regular and 🔥 Premium codes will be issued for every mock.\n\n` +
+      `📊 Mocks per skill (auto-detected):\n` +
+      `🎧 Listening: <b>${counts.listening}</b>\n` +
+      `📖 Reading: <b>${counts.reading}</b>\n` +
+      `✏️ Writing: <b>${counts.writing}</b>\n` +
+      `🎤 Speaking: <b>${counts.speaking}</b>\n` +
+      `<i>Total slots = ${total} (×2 tiers)</i>\n\n` +
       `• <b>Generate missing</b>: keeps existing codes, fills gaps only.\n` +
       `• <b>Regenerate ALL</b>: <u>revokes</u> existing codes and issues fresh ones.`;
     const kb = {
       inline_keyboard: [
-        [{ text: '⚡ Generate missing', callback_data: `mock_bulk_pick:${center_id}:missing` }],
-        [{ text: '🔄 Regenerate ALL', callback_data: `mock_bulk_pick:${center_id}:all` }],
+        [{ text: '⚡ Generate missing', callback_data: `mock_bulk_run:${center_id}:missing` }],
+        [{ text: '🔄 Regenerate ALL', callback_data: `mock_bulk_run:${center_id}:all` }],
         [{ text: '⬅️ Back', callback_data: `mock:${center_id}` }]
       ]
     };
@@ -592,36 +618,10 @@ async function handleCallback(cb: any) {
     return send(chat_id, text, { reply_markup: kb });
   }
 
-  // mock_bulk_pick:<center>:<mode>  → ask N (preset buttons)
-  if (data.startsWith('mock_bulk_pick:')) {
-    const [, center_id, mode] = data.split(':');
-    if (mode !== 'missing' && mode !== 'all') { await answerCb(cb.id); return; }
-    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
-      await answerCb(cb.id, 'Forbidden'); return;
-    }
-    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
-    if (!c) { await answerCb(cb.id); return; }
-    await answerCb(cb.id);
-    const verb = mode === 'all' ? '🔄 Regenerate ALL' : '⚡ Generate missing';
-    const ns = [10, 20, 50, 100];
-    const text =
-      `🏫 <b>${esc(c.display_name)}</b>\n${verb}\n\n` +
-      `How many mocks per skill?\nThis will affect <b>4 skills × 2 tiers × N mocks</b> rows.`;
-    const kb = {
-      inline_keyboard: [
-        ns.map(n => ({ text: `${n} mocks (×8 = ${n*8})`, callback_data: `mock_bulk_run:${center_id}:${mode}:${n}` })),
-        [{ text: '⬅️ Back', callback_data: `mock_bulk:${center_id}` }]
-      ]
-    };
-    if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
-    return send(chat_id, text, { reply_markup: kb });
-  }
-
-  // mock_bulk_run:<center>:<mode>:<n>  → execute bulk upsert
+  // mock_bulk_run:<center>:<mode>  → execute bulk upsert using detected counts
   if (data.startsWith('mock_bulk_run:')) {
-    const [, center_id, mode, nStr] = data.split(':');
-    const n = parseInt(nStr, 10);
-    if ((mode !== 'missing' && mode !== 'all') || !Number.isInteger(n) || n < 1 || n > 200) {
+    const [, center_id, mode] = data.split(':');
+    if (mode !== 'missing' && mode !== 'all') {
       await answerCb(cb.id, 'Bad input'); return;
     }
     if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
@@ -631,6 +631,7 @@ async function handleCallback(cb: any) {
     if (!c) { await answerCb(cb.id); return; }
     await answerCb(cb.id, 'Working…');
 
+    const counts = await fetchMockCounts();
     const allSkills: Skill[] = ['listening','reading','writing','speaking'];
     const tiers = ['regular','premium'] as const;
     const actor = session.role === 'super' ? 'bot:super' : `bot:clone:${center_id}`;
@@ -644,7 +645,8 @@ async function handleCallback(cb: any) {
     }
     const batch: Array<Record<string, unknown>> = [];
     for (const skill of allSkills) {
-      for (let m = 1; m <= n; m++) {
+      const cap = counts[skill] || 0;
+      for (let m = 1; m <= cap; m++) {
         for (const tier of tiers) {
           if (mode === 'missing' && existing.has(`${skill}#${m}#${tier}`)) continue;
           batch.push({
@@ -666,13 +668,13 @@ async function handleCallback(cb: any) {
     }
     sb.from('code_audit').insert({
       actor: 'bot', action: 'bulk_renew_mocks', center: center_id,
-      details: { mode, max_mock: n, written, via: 'telegram', chat_id, role: session.role, username }
+      details: { mode, counts, written, via: 'telegram', chat_id, role: session.role, username }
     }).then(() => {});
 
     const verb = mode === 'all' ? 'Regenerated' : 'Generated';
     const text =
       `✅ <b>${verb} ${written}</b> mock code${written === 1 ? '' : 's'} for <b>${esc(c.display_name)}</b>\n` +
-      `(mocks 1..${n} × 4 skills × 2 tiers, mode: <b>${mode}</b>)`;
+      `<i>(🎧${counts.listening} · 📖${counts.reading} · ✏️${counts.writing} · 🎤${counts.speaking}) × 2 tiers, mode: <b>${mode}</b></i>`;
     const kb = {
       inline_keyboard: [
         [{ text: '📚 Mock skills', callback_data: `mock:${center_id}` }],
