@@ -113,6 +113,13 @@
       '.cm-code-vip{display:block;width:100%;text-align:center;padding:18px 24px;border-radius:14px;background:#0f172a;color:#fbbf24;font:800 36px ui-monospace,Consolas,monospace;letter-spacing:8px;user-select:all;cursor:pointer;box-shadow:0 0 0 1px rgba(251,191,36,.2),0 0 18px rgba(251,191,36,.25),0 0 40px rgba(251,191,36,.12);transition:box-shadow .2s,transform .15s;}',
       '.cm-code-vip:hover{box-shadow:0 0 0 1px rgba(251,191,36,.4),0 0 28px rgba(251,191,36,.45),0 0 60px rgba(251,191,36,.2);transform:scale(1.01);}',
       '.cm-code-vip.empty{background:rgba(148,163,184,.08);color:#94a3b8;font-weight:500;font-size:18px;letter-spacing:2px;box-shadow:none;cursor:default;}',
+      '.cm-vip-wrap{position:relative;border-radius:14px;overflow:hidden;}',
+      '.cm-copy-check{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:rgba(15,23,42,.88);border-radius:14px;opacity:0;pointer-events:none;transition:opacity .15s;}',
+      '.cm-copy-check.show{opacity:1;}',
+      '.cm-copy-check-icon{font-size:48px;line-height:1;filter:drop-shadow(0 0 12px rgba(16,185,129,.8));}',
+      '.cm-copy-check-label{font:700 14px system-ui,-apple-system,Segoe UI,sans-serif;color:#10b981;letter-spacing:.5px;}',
+      '@keyframes cmCheckPop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}',
+      '.cm-copy-check.show .cm-copy-check-icon{animation:cmCheckPop .28s ease forwards;}',,
       '.cm-meta{font-size:11.5px;color:#94a3b8;margin-left:8px;}',
       '.cm-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}',
       '@media(max-width:560px){.cm-grid2{grid-template-columns:1fr;}}',
@@ -335,9 +342,12 @@
       var code = v ? v.code : '';
       var meta = v ? ('Expires: ' + fmtCountdown(v.expires_at) + (v.last_renewed_at ? ' · Renewed: ' + new Date(v.last_renewed_at).toLocaleString() : '')) : 'No code yet';
       return '<div class="cm-card" style="margin-bottom:0;text-align:center;">' +
-        (code
-          ? '<div class="cm-code-vip" title="Click to copy" data-copy="'+code+'">'+code+'</div>'
-          : '<div class="cm-code-vip empty">— no code yet —</div>') +
+        '<div class="cm-vip-wrap">' +
+          (code
+            ? '<div class="cm-code-vip" title="Click to copy" data-copy="'+code+'">'+code+'</div>'
+            : '<div class="cm-code-vip empty">— no code yet —</div>') +
+          '<div class="cm-copy-check" id="cmCopyCheck"><div class="cm-copy-check-icon">✅</div><div class="cm-copy-check-label">Copied!</div></div>' +
+        '</div>' +
         '<div style="font-size:11.5px;color:#94a3b8;margin:8px 0 14px;">'+escapeHtml(meta)+'</div>' +
         '<div class="cm-row" style="margin-bottom:0;justify-content:center;">' +
           '<span class="cm-label">Expiry:</span>' +
@@ -411,7 +421,14 @@
     function wireVipCard() {
       var vc = document.getElementById('cmVipCard');
       vc.querySelectorAll('[data-copy]').forEach(function(el){
-        el.onclick = function(){ navigator.clipboard.writeText(el.dataset.copy).then(function(){ flash('ok','Copied: '+el.dataset.copy); }); };
+        el.onclick = function(){
+          navigator.clipboard.writeText(el.dataset.copy).then(function(){
+            var overlay = vc.querySelector('#cmCopyCheck');
+            if (!overlay) return;
+            overlay.classList.add('show');
+            setTimeout(function(){ overlay.classList.remove('show'); }, 1400);
+          });
+        };
       });
       vc.querySelectorAll('.cm-renew-vip').forEach(function(b){
         b.onclick = async function(){
