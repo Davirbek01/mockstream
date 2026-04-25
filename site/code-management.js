@@ -136,15 +136,16 @@
   function show() {
     injectStyles();
     var ov = document.getElementById('cmOverlay');
-    if (ov) { ov.style.display = 'flex'; }
-    else {
+    if (!ov) {
       ov = document.createElement('div');
       ov.id = 'cmOverlay';
       ov.className = 'cm-overlay';
-      ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
       ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
       document.body.appendChild(ov);
     }
+    // Always rebuild the inner panel so cmRoot is guaranteed to exist.
+    ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
+    ov.style.display = 'flex';
     // Lock body scroll so wheel/touch on overlay doesn't bleed through to landing.
     try {
       window.__cmScrollY = window.scrollY || window.pageYOffset || 0;
