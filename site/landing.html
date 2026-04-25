@@ -17087,8 +17087,30 @@
     }
 
     function _showSiteMgmtGrid() {
+      // Always rebuild from scratch so any stale handlers / leftover panels
+      // from a previous session don't block re-opening a different card.
       var existing = document.getElementById('siteMgmtGridOverlay');
-      if (existing) { existing.style.display = 'flex'; return; }
+      if (existing) { existing.remove(); }
+      // Force-close any admin sub-panel that might still be sitting open
+      // from the previous time the grid was used.
+      try {
+        var leftoverCloseSelectors = [
+          '#systemPromptsPanel .sp-close', '#testMakerModal .tm-close',
+          '#registeredUsersPanel .ru-close', '#writingPlusPanel .wp-close',
+          '#speakingPlusPanel .sp-close', '#readingPlusPanel .rp-close',
+          '#listeningPlusPanel .lp-close', '#centersPanel .cm-close',
+          '#aiRouterPanel .ai-close', '#privateMessagesPanel .pm-close',
+          '#supportMessagesPanel .sm-close', '#videoGuidesPanel .vg-close',
+          '#cmOverlay .cm-close'
+        ];
+        leftoverCloseSelectors.forEach(function (sel) {
+          var el = document.querySelector(sel);
+          if (el && el.offsetParent !== null && typeof el.click === 'function') {
+            try { el.click(); } catch (e) {}
+          }
+        });
+      } catch (e) {}
+      _removeSmgBackPill();
       var items = [
         { icon: '📝', label: 'System Prompts',   fn: function(){ openSystemPromptsPanel(); } },
         { icon: '🛠️', label: 'Test Maker',       fn: function(){ openTestMakerModal(); } },
@@ -17124,13 +17146,13 @@
           '<div id="smgGrid" class="smg-grid">' + cards + '</div>' +
         '</div>';
       document.body.appendChild(div);
-      div.addEventListener('click', function (e) { if (e.target === div) { div.style.display = 'none'; _removeSmgBackPill(); } });
-      div.querySelector('#smgCloseBtn').onclick = function () { div.style.display = 'none'; _removeSmgBackPill(); };
+      div.addEventListener('click', function (e) { if (e.target === div) { div.remove(); _removeSmgBackPill(); } });
+      div.querySelector('#smgCloseBtn').onclick = function () { div.remove(); _removeSmgBackPill(); };
       div.querySelectorAll('.smg-card').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var idx = parseInt(btn.getAttribute('data-idx'), 10);
           var it = items[idx];
-          div.style.display = 'none';
+          div.remove();
           try { it.fn(); } catch (e) { console.error('[siteMgmtGrid] handler error:', e); }
           _showSmgBackButton();
         });
