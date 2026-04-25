@@ -119,28 +119,30 @@ window.SITE_CONFIG = {
 })();
 
 // ─── Routing backend — helper with retry for reliability ────────────────────
-// NOTE: u-se-r.alwaysdata.net does NOT send CORS headers for mock-stream.com /
-// mock-stream01.netlify.app, so direct browser POSTs are blocked. We route
-// through a Supabase Edge Function (`routing-proxy`) that forwards server-side
-// where CORS does not apply. The Edge Function preserves status + body 1:1.
+// Sends results to the Supabase `send-to-telegram` Edge Function which:
+//   1. Looks up the per-center channel mapping in `site_settings`
+//   2. Posts to the correct Telegram channel via Bot API
+//   3. Auto-fanouts to the "general" mixed-centers channels (super-admin view)
+//
+// Override knobs (for testing):
+//   window.__ROUTING_PROXY_BASE  – use a different Edge Function URL
+//   window.__ROUTING_DIRECT=true – bypass and hit cfg.routingBackendUrl (legacy alwaysdata)
 window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
   try {
     var cfg = window.SITE_CONFIG || {};
-    // Always use the Supabase proxy. Override with window.__ROUTING_PROXY_BASE
-    // for testing, or window.__ROUTING_DIRECT=true to hit alwaysdata directly.
-    var base;
+    var endpoint, isLegacy = false;
     if (window.__ROUTING_DIRECT) {
-      base = (cfg.routingBackendUrl || '').replace(/\/+$/, '');
-      if (!base) return;
+      var legacyBase = (cfg.routingBackendUrl || '').replace(/\/+$/, '');
+      if (!legacyBase) return;
+      endpoint = legacyBase + '/send-result';
+      isLegacy = true;
     } else {
-      base = (window.__ROUTING_PROXY_BASE
-        || 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/routing-proxy'
+      endpoint = (window.__ROUTING_PROXY_BASE
+        || 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/send-to-telegram'
       ).replace(/\/+$/, '');
     }
-    // Routing backend has Mock Stream registered as "mockstream" (no underscore),
-    // matching the admin backend convention. Without this translation the main
-    // site's results fall through and get routed to whichever clone channel the
-    // backend picks as default.
+    // Edge Function normalizes "mock_stream" → "mockstream", but keep the
+    // translation here too for legacy alwaysdata mode.
     var routingId = (cfg.testIdentifier === 'mock_stream') ? 'mockstream' : (cfg.testIdentifier || '');
 
     var MAX_RETRIES = 2;
@@ -155,7 +157,7 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
       if (opts.caption) body.append('caption', opts.caption);
       if (opts.file)    body.append('file', opts.file);
 
-      fetch(base + '/send-result', { method: 'POST', body: body })
+      fetch(endpoint, { method: 'POST', body: body })
         .then(function (r) {
           return r.json().catch(function () {
             return { ok: false, error: 'HTTP ' + r.status + ' (non-JSON response)' };
