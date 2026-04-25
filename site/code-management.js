@@ -598,6 +598,7 @@
             state.centers.map(function(c){ return '<option value="'+c.id+'">'+escapeHtml(c.display_name||c.id)+'</option>'; }).join('') +
           '</select>' +
           '<input class="cm-input num" id="cmPcNew" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="4–8 digits">' +
+          '<button class="cm-btn ghost" id="cmGenPc" title="Generate random 6-digit code">🎲</button>' +
           '<button class="cm-btn" id="cmSetPc">Save</button>' +
         '</div>' +
       '</div>' +
@@ -605,6 +606,7 @@
         '<h4>🛡️ Change SUPER-admin passcode</h4>' +
         '<div class="cm-row">' +
           '<input class="cm-input num" id="cmPcSuper" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="4–8 digits">' +
+          '<button class="cm-btn ghost" id="cmGenSuper" title="Generate random 6-digit code">🎲</button>' +
           '<button class="cm-btn danger" id="cmSetSuper">Replace super-admin passcode</button>' +
         '</div>' +
         '<div class="cm-meta">⚠️ You will be logged out and must re-enter the new passcode.</div>' +
@@ -632,6 +634,13 @@
       if (r.ok) document.getElementById('cmPcNew').value = '';
     };
 
+    document.getElementById('cmGenPc').onclick = function(){
+      var p = genPasscode(6);
+      var inp = document.getElementById('cmPcNew');
+      inp.value = p;
+      copyAndFlash(p, 'Generated & copied: ' + p);
+    };
+
     document.getElementById('cmSetSuper').onclick = async function(){
       var p = document.getElementById('cmPcSuper').value;
       if (!/^\d{4,8}$/.test(p)) { flash('err','4–8 digits'); return; }
@@ -644,6 +653,13 @@
           state.role=null; state.centers=[]; renderGate();
         }, 800);
       } else flash('err', r.error||'Failed');
+    };
+
+    document.getElementById('cmGenSuper').onclick = function(){
+      var p = genPasscode(6);
+      var inp = document.getElementById('cmPcSuper');
+      inp.value = p;
+      copyAndFlash(p, 'Generated & copied: ' + p);
     };
   }
 
@@ -684,6 +700,26 @@
     el.innerHTML = '<div class="cm-msg '+kind+'">'+escapeHtml(text)+'</div>';
     setTimeout(function(){ if (el.firstChild) el.firstChild.style.opacity = '0.4'; }, 2200);
     setTimeout(function(){ el.innerHTML = ''; }, 4000);
+  }
+
+  function genPasscode(len) {
+    len = len || 6;
+    var buf = new Uint32Array(len);
+    crypto.getRandomValues(buf);
+    var out = '';
+    for (var i = 0; i < len; i++) out += String(buf[i] % 10);
+    return out;
+  }
+
+  function copyAndFlash(text, msg) {
+    try {
+      navigator.clipboard.writeText(text).then(
+        function(){ flash('ok', msg || ('Copied: ' + text)); },
+        function(){ flash('ok', msg || ('Generated: ' + text)); }
+      );
+    } catch (e) {
+      flash('ok', msg || ('Generated: ' + text));
+    }
   }
 
   /* -------------------------------------------------------------- expose */
