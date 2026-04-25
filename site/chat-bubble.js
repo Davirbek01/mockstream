@@ -4670,6 +4670,8 @@
       });
     }
     list.innerHTML = html;
+    // Wire voice-message play buttons (was missing — hotline playback was dead).
+    try { initVoicePlayers(list); } catch (_e) {}
     var backBtn = document.getElementById('cb-hotline-back');
     if (backBtn) backBtn.addEventListener('click', function () {
       _hotlineSelectedConv = null;
