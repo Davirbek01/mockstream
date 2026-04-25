@@ -110,6 +110,9 @@
       '.cm-card h4{margin:0 0 8px;font:700 13.5px system-ui;}',
       '.cm-code{display:inline-block;padding:6px 12px;border-radius:8px;background:#0f172a;color:#fbbf24;font:700 17px ui-monospace,Consolas,monospace;letter-spacing:2px;user-select:all;cursor:pointer;}',
       '.cm-code.empty{background:rgba(148,163,184,.15);color:#94a3b8;font-weight:500;}',
+      '.cm-code-vip{display:block;width:100%;text-align:center;padding:18px 24px;border-radius:14px;background:#0f172a;color:#fbbf24;font:800 36px ui-monospace,Consolas,monospace;letter-spacing:8px;user-select:all;cursor:pointer;box-shadow:0 0 0 1px rgba(251,191,36,.2),0 0 18px rgba(251,191,36,.25),0 0 40px rgba(251,191,36,.12);transition:box-shadow .2s,transform .15s;}',
+      '.cm-code-vip:hover{box-shadow:0 0 0 1px rgba(251,191,36,.4),0 0 28px rgba(251,191,36,.45),0 0 60px rgba(251,191,36,.2);transform:scale(1.01);}',
+      '.cm-code-vip.empty{background:rgba(148,163,184,.08);color:#94a3b8;font-weight:500;font-size:18px;letter-spacing:2px;box-shadow:none;cursor:default;}',
       '.cm-meta{font-size:11.5px;color:#94a3b8;margin-left:8px;}',
       '.cm-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}',
       '@media(max-width:560px){.cm-grid2{grid-template-columns:1fr;}}',
@@ -331,12 +334,12 @@
       var v = vipMap[type];
       var code = v ? v.code : '';
       var meta = v ? ('Expires: ' + fmtCountdown(v.expires_at) + (v.last_renewed_at ? ' · Renewed: ' + new Date(v.last_renewed_at).toLocaleString() : '')) : 'No code yet';
-      return '<div class="cm-card" style="margin-bottom:0;">' +
-        '<div class="cm-row">' +
-          (code ? '<span class="cm-code" title="Click to copy" data-copy="'+code+'">'+code+'</span>' : '<span class="cm-code empty">— no code —</span>') +
-          '<span class="cm-meta">'+escapeHtml(meta)+'</span>' +
-        '</div>' +
-        '<div class="cm-row" style="margin-bottom:0;">' +
+      return '<div class="cm-card" style="margin-bottom:0;text-align:center;">' +
+        (code
+          ? '<div class="cm-code-vip" title="Click to copy" data-copy="'+code+'">'+code+'</div>'
+          : '<div class="cm-code-vip empty">— no code yet —</div>') +
+        '<div style="font-size:11.5px;color:#94a3b8;margin:8px 0 14px;">'+escapeHtml(meta)+'</div>' +
+        '<div class="cm-row" style="margin-bottom:0;justify-content:center;">' +
           '<span class="cm-label">Expiry:</span>' +
           '<select class="cm-select cm-vip-exp" data-type="'+type+'">'+EXPIRY_OPTIONS.map(function(o){return '<option value="'+o.v+'">'+o.label+'</option>';}).join('')+'</select>' +
           '<button class="cm-btn cm-renew-vip" data-type="'+type+'"'+(canEdit?'':' disabled')+'>↻ Renew</button>' +
