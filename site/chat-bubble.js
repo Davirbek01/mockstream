@@ -1695,7 +1695,10 @@
     fileInput.type = 'file';
     var acceptParts = [];
     var imgOn, pdfOn;
-    if (currentCategory === 'community') {
+    if (currentCategory === 'hotline') {
+      // Super-admin reply: bypass admin toggles.
+      imgOn = true; pdfOn = true;
+    } else if (currentCategory === 'community') {
       imgOn = HC_COMMUNITY_IMAGE_ENABLED; pdfOn = HC_COMMUNITY_PDF_ENABLED;
     } else if (currentCategory === 'private') {
       imgOn = HC_PRIVATE_IMAGE_ENABLED; pdfOn = HC_PRIVATE_PDF_ENABLED;
@@ -1871,7 +1874,8 @@
   async function startVoiceRecord() {
     if (isRecording) return;
     if (!_requireSignIn(currentCategory)) return;
-    var voiceOn = currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'private' ? HC_PRIVATE_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
+    // Hotline = super-admin replying to a user; admin toggles don't gate them.
+    var voiceOn = currentCategory === 'hotline' ? true : currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'private' ? HC_PRIVATE_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
     if (!voiceOn) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
       voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
