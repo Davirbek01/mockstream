@@ -247,7 +247,102 @@
   }
 
   function getConvId(category) {
-    return getDeviceId() + '_' + (category || 'support');
+    return getUserKey() + '_' + (category || 'support');
+  }
+
+  // Returns the signed-in Google email if available, else null.
+  function getSignedInEmail() {
+    try {
+      if (window.MockStream && window.MockStream.auth && window.MockStream.auth.isSignedIn && window.MockStream.auth.isSignedIn()) {
+        var u = window.MockStream.auth.getCurrentUser && window.MockStream.auth.getCurrentUser();
+        if (u && u.email) return String(u.email).toLowerCase();
+      }
+    } catch (_e) {}
+    return '';
+  }
+
+  // Stable per-user identity:
+  //   - Signed-in (Google): email — same on every device once they sign in.
+  //   - Guest:              device_id — but guests can no longer SEND in
+  //                         private/support/premium/partner (gated below),
+  //                         so this only matters for legacy threads.
+  function getUserKey() {
+    var email = getSignedInEmail();
+    if (email) return 'u:' + email; // 'u:' prefix avoids collision with old dev_xxx ids
+    return getDeviceId();
+  }
+
+  // Categories that REQUIRE Google sign-in to send.
+  var GUEST_BLOCKED_CATS = { support: 1, premium: 1, partner: 1, private: 1, community: 1 };
+
+  // Resume key — when guest hits the gate, we save the cat they were on
+  // so that after returning from Google OAuth we can re-open the bubble
+  // on the same tab automatically.
+  var CB_RESUME_KEY = 'ms_cb_resume_v1';
+  function _saveResume(cat) {
+    try { localStorage.setItem(CB_RESUME_KEY, JSON.stringify({ cat: cat || 'support', ts: Date.now() })); } catch (_e) {}
+  }
+  function _readResume() {
+    try {
+      var raw = localStorage.getItem(CB_RESUME_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      // Expire after 10 min so it doesn't pop up randomly later.
+      if (!o || !o.cat || (Date.now() - (o.ts || 0)) > 10 * 60 * 1000) {
+        localStorage.removeItem(CB_RESUME_KEY); return null;
+      }
+      return o;
+    } catch (_e) { return null; }
+  }
+  function _clearResume() { try { localStorage.removeItem(CB_RESUME_KEY); } catch (_e) {} }
+
+  // Show the "Sign in with Google" gate. Returns false to abort the send.
+  function _showSignInGate(cat) {
+    var existing = document.getElementById('cb-signin-gate');
+    if (existing) existing.remove();
+    var div = document.createElement('div');
+    div.id = 'cb-signin-gate';
+    div.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:16px;';
+    div.innerHTML =
+      '<div style="background:#fff;border-radius:18px;padding:26px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;">' +
+        '<div style="font-size:38px;margin-bottom:6px;">💬</div>' +
+        '<h3 style="margin:0 0 6px;font-size:17px;color:#111827;">Sign in to send messages</h3>' +
+        '<p style="margin:0 0 18px;font-size:13px;color:#6b7280;line-height:1.45;">Continue with your Google account to message us. Your conversations will sync across all your devices automatically.</p>' +
+        '<button id="cb-signin-google" style="width:100%;padding:12px 14px;border:1px solid #dadce0;border-radius:10px;background:#fff;color:#3c4043;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;">' +
+          '<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>' +
+          '<span>Continue with Google</span>' +
+        '</button>' +
+        '<button id="cb-signin-cancel" style="margin-top:10px;background:none;border:none;color:#6b7280;font-size:13px;cursor:pointer;">Maybe later</button>' +
+      '</div>';
+    document.body.appendChild(div);
+    document.getElementById('cb-signin-cancel').onclick = function () { div.remove(); };
+    div.onclick = function (e) { if (e.target === div) div.remove(); };
+    document.getElementById('cb-signin-google').onclick = function () {
+      try {
+        _saveResume(cat || currentCategory);
+        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
+          // Route through index.html (the whitelisted Supabase OAuth callback).
+          // index.html's autoResume() forwards back to landing.html on success.
+          var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
+          window.MockStream.auth.signInWithGoogle(_back);
+        } else {
+          alert('Sign-in is temporarily unavailable. Please refresh the page and try again.');
+        }
+      } catch (_e) {
+        alert('Sign-in failed. Please try again.');
+      }
+    };
+    return false;
+  }
+
+  // Gate: returns true if the user is allowed to send in this category.
+  // For guest-blocked categories without a Google session, shows the modal
+  // and returns false so callers abort.
+  function _requireSignIn(cat) {
+    var c = cat || currentCategory;
+    if (!GUEST_BLOCKED_CATS[c]) return true;
+    if (getSignedInEmail()) return true;
+    return _showSignInGate(c);
   }
 
   // ─── STATE ────────────────────────────────────────────────────────────────
@@ -1465,15 +1560,17 @@
 
     // Community mode — different path
     if (currentCategory === 'community') {
+      if (!_requireSignIn('community')) return;
       return sendCommunityMessage(text);
     }
 
-    // Dictionary mode — different path
+    // Dictionary mode — different path (no sign-in required, AI-only)
     if (currentCategory === 'dictionary') {
       return _sendDictLookup(text);
     }
 
     // Hotline mode — super-admin inline reply to selected conversation
+    // (super-admin is by definition signed in, gated by AdminAuth.currentRole)
     if (currentCategory === 'hotline') {
       if (window._cbHotline && window._cbHotline.hasSelection()) {
         input.value = '';
@@ -1481,6 +1578,9 @@
       }
       return;
     }
+
+    // Private/Support/Premium/Partner — require Google sign-in.
+    if (!_requireSignIn(currentCategory)) return;
 
     // Private mode — save to Supabase, no AI reply
     if (currentCategory === 'private') {
@@ -1588,6 +1688,8 @@
 
   // ─── FILE ATTACHMENT ──────────────────────────────────────────────────────
   async function handleFileAttach() {
+    // Block guests on signed-in-only categories before opening file picker.
+    if (!_requireSignIn(currentCategory)) return;
     var fileInput = document.createElement('input');
     fileInput.type = 'file';
     var acceptParts = [];
@@ -1665,6 +1767,17 @@
       }
 
       // ─── Private tab: upload file and save to support_messages, no AI ───
+      if (currentCategory === 'hotline') {
+        if (!window._cbHotline || !window._cbHotline.hasSelection()) return;
+        var url = await uploadToStorage(file, prefix);
+        if (url) {
+          await window._cbHotline.sendAttachment(url, type, file.name);
+        } else {
+          alert('Upload failed. Please try again.');
+        }
+        return;
+      }
+
       if (currentCategory === 'private') {
         var pendingMsg = { role: 'user', text: '', category: 'private', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), _loading: 'Uploading ' + file.name + '…' };
         messages.private.push(pendingMsg);
@@ -1756,6 +1869,7 @@
 
   async function startVoiceRecord() {
     if (isRecording) return;
+    if (!_requireSignIn(currentCategory)) return;
     var voiceOn = currentCategory === 'community' ? HC_COMMUNITY_VOICE_ENABLED : currentCategory === 'private' ? HC_PRIVATE_VOICE_ENABLED : currentCategory === 'dictionary' ? HC_DICT_VOICE : HC_VOICE_ENABLED;
     if (!voiceOn) { alert('Voice messages are currently disabled by the admin.'); return; }
     try {
@@ -1833,6 +1947,17 @@
       }
 
       // ─── Private tab: upload voice and save to support_messages, no AI ───
+      if (currentCategory === 'hotline') {
+        if (!window._cbHotline || !window._cbHotline.hasSelection()) return;
+        var url = await uploadToStorage(file, 'voice');
+        if (url) {
+          await window._cbHotline.sendAttachment(url, 'voice', file.name);
+        } else {
+          alert('Voice upload failed. Please try again.');
+        }
+        return;
+      }
+
       if (currentCategory === 'private') {
         var pendingMsg = { role: 'user', text: '', category: 'private', time: timeStr, _loading: 'Sending voice…' };
         messages.private.push(pendingMsg);
@@ -2138,14 +2263,13 @@
       if (typingBar) typingBar.style.display = 'none';
       renderMessages();
     } else if (cat === 'hotline') {
-      // Hotline: super-admin-only inbox. Hide attachments/voice; show text input only
-      // when a conversation is selected (for inline replies).
-      if (attachBtn) attachBtn.style.display = 'none';
-      if (voiceBtn) voiceBtn.style.display = 'none';
+      // Hotline: super-admin-only inbox. Attach/voice/text only when a conversation is selected.
+      var hasSel = window._cbHotline && window._cbHotline.hasSelection();
+      if (attachBtn) attachBtn.style.display = hasSel ? '' : 'none';
+      if (voiceBtn) voiceBtn.style.display = hasSel ? '' : 'none';
       if (replyBanner) replyBanner.style.display = 'none';
       var input = document.getElementById('cb-input');
       var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
-      var hasSel = window._cbHotline && window._cbHotline.hasSelection();
       if (input) { input.style.display = hasSel ? '' : 'none'; input.placeholder = 'Reply to this user…'; }
       if (sendBtn) sendBtn.style.display = hasSel ? '' : 'none';
       var jumpBar = document.getElementById('cb-comm-jump-bar');
@@ -4156,6 +4280,32 @@
     // Also persist candidate name to localStorage for cross-session identity
     var fullName = sessionStorage.getItem('CANDIDATE_FULL_NAME');
     if (fullName) localStorage.setItem('ms_candidate_name', fullName);
+
+    // ── Auto-resume after Google sign-in ─────────────────────────────────
+    // If the user clicked "Continue with Google" in the sign-in gate, we
+    // saved which chat-bubble category they were on. After OAuth round-trip
+    // they land back here; reopen the bubble on that exact tab so they
+    // don't have to start over from the welcome page.
+    function _maybeAutoResume() {
+      var r = _readResume();
+      if (!r) return;
+      if (!getSignedInEmail()) return; // wait for auth state to resolve
+      _clearResume();
+      try {
+        openBubble();
+        setTimeout(function () { switchCategory(r.cat); }, 50);
+      } catch (_e) {}
+    }
+    // Auth may resolve a tick after init; check now and on auth state change.
+    setTimeout(_maybeAutoResume, 300);
+    setTimeout(_maybeAutoResume, 1500);
+    try {
+      if (window.MockStream && window.MockStream.auth && window.MockStream.auth.onStateChange) {
+        window.MockStream.auth.onStateChange(function (event) {
+          if (event === 'signed_in' || event === 'SIGNED_IN') _maybeAutoResume();
+        });
+      }
+    } catch (_e) {}
   }
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -4300,9 +4450,13 @@
     var input = document.getElementById('cb-input');
     var overlay = document.getElementById('cb-overlay');
     var sendBtn = overlay && overlay.querySelector('.cb-send-btn');
+    var attachBtn = overlay && overlay.querySelector('.cb-attach-btn');
+    var voiceBtn = document.getElementById('cb-voice-btn');
     var hasSel = !!_hotlineSelectedConv;
     if (input) { input.style.display = hasSel ? '' : 'none'; input.placeholder = 'Reply to this user…'; }
     if (sendBtn) sendBtn.style.display = hasSel ? '' : 'none';
+    if (attachBtn) attachBtn.style.display = hasSel ? '' : 'none';
+    if (voiceBtn) voiceBtn.style.display = hasSel ? '' : 'none';
   }
 
   function _hotlineUpdateTabBadge() {
@@ -4569,6 +4723,49 @@
     else _hotlineRenderGroups();
   }
 
+  async function _hotlineSendAttachment(url, type, name) {
+    if (_hotlineSending) return;
+    if (!_hotlineSelectedConv) return;
+    if (!url) return;
+    _hotlineSending = true;
+    var conv = _hotlineSelectedConv;
+    try {
+      var body = {
+        conversation_id: conv.conversation_id,
+        role: 'admin',
+        sender_name: getSenderName(),
+        content: '',
+        category: conv.category,
+        center: getCenter(),
+        device_id: 'admin_bubble',
+        attachment_url: url,
+        attachment_type: type,
+        attachment_name: name || ''
+      };
+      await sbFetch('/rest/v1/support_messages', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify(body)
+      });
+      conv.messages = conv.messages || [];
+      conv.messages.push({
+        role: 'admin',
+        sender_name: body.sender_name,
+        content: '',
+        attachment_url: url,
+        attachment_type: type,
+        attachment_name: name || '',
+        created_at: new Date().toISOString()
+      });
+      _hotlineRenderThread();
+    } catch (e) {
+      console.warn('[Hotline] attachment send error:', e);
+      alert('Failed to send attachment. Please try again.');
+    } finally {
+      _hotlineSending = false;
+    }
+  }
+
   function _hotlineStartPolling() {
     if (_hotlinePollTimer) return;
     _hotlineFetchConversations().then(_hotlineRerenderCurrentView);
@@ -4592,6 +4789,7 @@
       }
     },
     sendReply: _hotlineSendReply,
+    sendAttachment: _hotlineSendAttachment,
     hasSelection: function () { return !!_hotlineSelectedConv; },
     clearSelection: function () { _hotlineSelectedConv = null; _hotlineSelectedGroup = null; }
   };
