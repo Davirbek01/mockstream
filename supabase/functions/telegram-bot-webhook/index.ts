@@ -263,6 +263,7 @@ async function sendVipCodeCard(
 async function sendMockSkillsMenu(chat_id: number, center_id: string, center_name: string, message_id?: number) {
   const text = `🏫 <b>${esc(center_name)}</b> — 📚 Mock codes\n\nPick a skill:`;
   const rows = SKILLS.map(s => [{ text: SKILL_LABEL[s], callback_data: `mock_skill:${center_id}:${s}` }]);
+  rows.push([{ text: '⚡ Bulk generate (all skills)', callback_data: `mock_bulk:${center_id}` }]);
   rows.push([{ text: '⬅️ Back', callback_data: `center:${center_id}` }]);
   const kb = { inline_keyboard: rows };
   if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
@@ -563,6 +564,123 @@ async function handleCallback(cb: any) {
     await saveSession({ chat_id, current_center: center_id, current_skill: skill, state: 'menu' });
     await answerCb(cb.id);
     return sendMockListMenu(chat_id, center_id, c.display_name, skill as Skill, message_id);
+  }
+
+  // mock_bulk:<center>  → ask user to pick a mode + count
+  if (data.startsWith('mock_bulk:')) {
+    const center_id = data.slice('mock_bulk:'.length);
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id);
+    const text =
+      `🏫 <b>${esc(c.display_name)}</b> — ⚡ <b>Bulk generate</b>\n\n` +
+      `Pick how many mocks per skill (Listening / Reading / Writing / Speaking) you want codes for. ` +
+      `Both 🟢 Regular and 🔥 Premium codes will be issued for every mock.\n\n` +
+      `• <b>Generate missing</b>: keeps existing codes, fills gaps only.\n` +
+      `• <b>Regenerate ALL</b>: <u>revokes</u> existing codes and issues fresh ones.`;
+    const kb = {
+      inline_keyboard: [
+        [{ text: '⚡ Generate missing', callback_data: `mock_bulk_pick:${center_id}:missing` }],
+        [{ text: '🔄 Regenerate ALL', callback_data: `mock_bulk_pick:${center_id}:all` }],
+        [{ text: '⬅️ Back', callback_data: `mock:${center_id}` }]
+      ]
+    };
+    if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+    return send(chat_id, text, { reply_markup: kb });
+  }
+
+  // mock_bulk_pick:<center>:<mode>  → ask N (preset buttons)
+  if (data.startsWith('mock_bulk_pick:')) {
+    const [, center_id, mode] = data.split(':');
+    if (mode !== 'missing' && mode !== 'all') { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id);
+    const verb = mode === 'all' ? '🔄 Regenerate ALL' : '⚡ Generate missing';
+    const ns = [10, 20, 50, 100];
+    const text =
+      `🏫 <b>${esc(c.display_name)}</b>\n${verb}\n\n` +
+      `How many mocks per skill?\nThis will affect <b>4 skills × 2 tiers × N mocks</b> rows.`;
+    const kb = {
+      inline_keyboard: [
+        ns.map(n => ({ text: `${n} mocks (×8 = ${n*8})`, callback_data: `mock_bulk_run:${center_id}:${mode}:${n}` })),
+        [{ text: '⬅️ Back', callback_data: `mock_bulk:${center_id}` }]
+      ]
+    };
+    if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+    return send(chat_id, text, { reply_markup: kb });
+  }
+
+  // mock_bulk_run:<center>:<mode>:<n>  → execute bulk upsert
+  if (data.startsWith('mock_bulk_run:')) {
+    const [, center_id, mode, nStr] = data.split(':');
+    const n = parseInt(nStr, 10);
+    if ((mode !== 'missing' && mode !== 'all') || !Number.isInteger(n) || n < 1 || n > 200) {
+      await answerCb(cb.id, 'Bad input'); return;
+    }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id, 'Working…');
+
+    const allSkills: Skill[] = ['listening','reading','writing','speaking'];
+    const tiers = ['regular','premium'] as const;
+    const actor = session.role === 'super' ? 'bot:super' : `bot:clone:${center_id}`;
+    const nowIso = new Date().toISOString();
+
+    const existing = new Set<string>();
+    if (mode === 'missing') {
+      const { data: rows } = await sb.from('mock_codes')
+        .select('skill, mock_number, tier').eq('center', center_id);
+      for (const r of rows ?? []) existing.add(`${r.skill}#${r.mock_number}#${r.tier}`);
+    }
+    const batch: Array<Record<string, unknown>> = [];
+    for (const skill of allSkills) {
+      for (let m = 1; m <= n; m++) {
+        for (const tier of tiers) {
+          if (mode === 'missing' && existing.has(`${skill}#${m}#${tier}`)) continue;
+          batch.push({
+            center: center_id, skill, mock_number: m, tier,
+            code: genCode(8), expires_at: null,
+            last_renewed_at: nowIso, last_renewed_by: actor
+          });
+        }
+      }
+    }
+    let written = 0;
+    for (let i = 0; i < batch.length; i += 250) {
+      const chunk = batch.slice(i, i + 250);
+      const { error } = await sb.from('mock_codes').upsert(chunk);
+      if (error) {
+        return send(chat_id, `❌ ${esc(error.message)}`);
+      }
+      written += chunk.length;
+    }
+    sb.from('code_audit').insert({
+      actor: 'bot', action: 'bulk_renew_mocks', center: center_id,
+      details: { mode, max_mock: n, written, via: 'telegram', chat_id, role: session.role, username }
+    }).then(() => {});
+
+    const verb = mode === 'all' ? 'Regenerated' : 'Generated';
+    const text =
+      `✅ <b>${verb} ${written}</b> mock code${written === 1 ? '' : 's'} for <b>${esc(c.display_name)}</b>\n` +
+      `(mocks 1..${n} × 4 skills × 2 tiers, mode: <b>${mode}</b>)`;
+    const kb = {
+      inline_keyboard: [
+        [{ text: '📚 Mock skills', callback_data: `mock:${center_id}` }],
+        [{ text: '🏫 Centers', callback_data: 'back:centers' }]
+      ]
+    };
+    if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+    return send(chat_id, text, { reply_markup: kb });
   }
 
   // mock_new:<center>:<skill>  → ask for number
