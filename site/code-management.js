@@ -674,8 +674,8 @@
       if (!await cmConfirm({
         icon: '🛡️',
         title: 'Replace SUPER-admin passcode?',
-        message: 'You will be logged out immediately. <b>Copy the new code first</b> — there is no recovery option!',
-        confirmLabel: 'Generate, replace & log out',
+        message: 'A new code will be generated and saved. You\'ll see it in a window that <b>requires you to confirm you copied it</b> before logout — no time pressure.',
+        confirmLabel: 'Generate & replace',
         confirmClass: 'danger'
       })) return;
       var p = genPasscode(6);
@@ -687,13 +687,56 @@
       var d = document.getElementById('cmSuperDisplay');
       d.classList.remove('empty');
       d.textContent = p;
-      try { navigator.clipboard.writeText(p).then(function(){ showCopyCheck('cmSuperCopyCheck'); }); } catch(e){}
-      flash('ok', 'Replaced & copied. Logging out in 6s…');
-      setTimeout(function(){
-        sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY);
-        state.role=null; state.centers=[]; renderGate();
-      }, 6000);
+      try { navigator.clipboard.writeText(p); } catch(e){}
+      await showSuperReveal(p);
+      sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY);
+      state.role=null; state.centers=[]; renderGate();
     };
+  }
+
+  /* Modal that reveals the new super-admin passcode and blocks logout
+     until user explicitly confirms they copied it. */
+  function showSuperReveal(code) {
+    return new Promise(function(resolve) {
+      var bd = document.createElement('div');
+      bd.className = 'cm-confirm-bd';
+      bd.innerHTML =
+        '<div class="cm-confirm-box" style="max-width:460px;">' +
+          '<div class="cm-confirm-icon">🛡️</div>' +
+          '<div class="cm-confirm-title">Your new SUPER-admin passcode</div>' +
+          '<div class="cm-confirm-msg">Save this somewhere safe <b>before</b> clicking continue. There is no way to recover it later.</div>' +
+          '<div class="cm-vip-wrap" style="margin:14px 0 6px;">' +
+            '<div class="cm-code-vip" id="cmRevealCode" style="cursor:pointer;">' + escapeHtml(code) + '</div>' +
+            '<div class="cm-copy-check" id="cmRevealCheck"><div class="cm-copy-check-icon">✅</div><div class="cm-copy-check-label">Copied!</div></div>' +
+          '</div>' +
+          '<div class="cm-row" style="justify-content:center;gap:10px;margin:6px 0 14px;">' +
+            '<button class="cm-btn ghost" id="cmRevealCopy">📋 Copy again</button>' +
+          '</div>' +
+          '<label style="display:flex;align-items:center;gap:8px;justify-content:center;font-size:13px;color:#444;margin-bottom:12px;cursor:pointer;">' +
+            '<input type="checkbox" id="cmRevealAck" style="width:18px;height:18px;cursor:pointer;"> I have saved this passcode somewhere safe' +
+          '</label>' +
+          '<div class="cm-confirm-actions" style="justify-content:center;">' +
+            '<button class="cm-btn danger" id="cmRevealOk" disabled>Log me out</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(bd);
+      function showCheck() {
+        var o = bd.querySelector('#cmRevealCheck');
+        o.classList.add('show');
+        setTimeout(function(){ o.classList.remove('show'); }, 1400);
+      }
+      function copy() {
+        try { navigator.clipboard.writeText(code).then(showCheck, showCheck); } catch(e){ showCheck(); }
+      }
+      bd.querySelector('#cmRevealCode').onclick = copy;
+      bd.querySelector('#cmRevealCopy').onclick = copy;
+      var ack = bd.querySelector('#cmRevealAck');
+      var ok = bd.querySelector('#cmRevealOk');
+      ack.onchange = function(){ ok.disabled = !ack.checked; };
+      ok.onclick = function(){ bd.remove(); resolve(); };
+      // initial copy already happened in caller — show the check overlay
+      setTimeout(showCheck, 60);
+    });
   }
 
   /* -------------------------------------------------------------- utils */
