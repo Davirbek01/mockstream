@@ -9,7 +9,10 @@
  */
 (function () {
   var SB_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-  var SB_ANON = (window.SB_ANON_KEY || window.SUPABASE_ANON_KEY || '');
+  // Publishable anon key — safe to expose. Required by the Supabase gateway
+  // even when the function itself runs with --no-verify-jwt.
+  var SB_ANON = window.SB_ANON_KEY || window.SUPABASE_ANON_KEY
+             || 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
 
   function _center() {
     try {
