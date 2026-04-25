@@ -134,7 +134,7 @@
   function show() {
     injectStyles();
     var ov = document.getElementById('cmOverlay');
-    if (ov) { ov.style.display = 'flex'; }
+    if (ov) { ov.style.display = 'block'; }
     else {
       ov = document.createElement('div');
       ov.id = 'cmOverlay';
