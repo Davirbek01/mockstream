@@ -1,59 +1,61 @@
 // =====================================================================
 // Supabase Edge Function: telegram-bot-webhook
 // ---------------------------------------------------------------------
-// Receives Telegram bot updates and runs an admin-only conversation
-// for managing VIP codes per center.
+// Admin-only Telegram bot for managing VIP + mock codes per center.
 //
-// Flow:
-//   /start  →  "Send super admin passcode"
-//   user types digits  →  validate against admin_passcodes(__super__)
-//   on success  →  reply keyboard listing all centers
-//   tap center  →  inline buttons: 👑 Premium / 🎟 Regular
-//   tap type    →  show current code + inline button "🔄 Revoke & New"
-//   tap revoke  →  generate new code, update vip_codes, show new code
+// Roles
+//   • super   → __super__ passcode → sees & manages every center
+//   • clone   → per-center passcode → sees & manages only that center
 //
-// State is persisted in bot_chat_sessions (per chat_id).
+// Conversation
+//   /start                      → ask passcode
+//   passcode entered            → role-aware center menu
+//   tap center                  → 👑 Premium / 🎟 Regular / 📚 Mock codes
+//   tap Premium/Regular         → show code card + 🔄 Revoke & generate new
+//   tap Mock codes              → choose skill (5 buttons)
+//   choose skill                → list existing mock # + ➕ New mock #
+//   tap mock #                  → show that mock's code + 🔄 Revoke & new
+//   tap ➕ New mock #           → bot asks "Send the mock number"
+//   user types number           → bot creates code and shows the card
 //
-// Env:
-//   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY  — auto-injected
-//   TELEGRAM_BOT_TOKEN                       — same bot used by send-to-telegram
-//   TELEGRAM_BOT_WEBHOOK_SECRET              — random string; Telegram sends it
-//                                              in X-Telegram-Bot-Api-Secret-Token
+// Sessions stored in bot_chat_sessions; auth expires after 30 min.
 //
-// Deploy:
-//   supabase functions deploy telegram-bot-webhook --no-verify-jwt
+// Env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (auto),
+//      TELEGRAM_BOT_TOKEN, TELEGRAM_BOT_WEBHOOK_SECRET
 //
-// Register webhook (one-time, after deploy):
-//   curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
-//     -d "url=https://<project>.supabase.co/functions/v1/telegram-bot-webhook" \
-//     -d "secret_token=<TELEGRAM_BOT_WEBHOOK_SECRET>"
+// Deploy:  supabase functions deploy telegram-bot-webhook --no-verify-jwt
 // =====================================================================
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const SUPABASE_URL       = Deno.env.get('SUPABASE_URL')!;
-const SERVICE_ROLE_KEY   = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const BOT_TOKEN          = Deno.env.get('TELEGRAM_BOT_TOKEN') || '';
-const WEBHOOK_SECRET     = Deno.env.get('TELEGRAM_BOT_WEBHOOK_SECRET') || '';
+const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!;
+const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const BOT_TOKEN        = Deno.env.get('TELEGRAM_BOT_TOKEN') || '';
+const WEBHOOK_SECRET   = Deno.env.get('TELEGRAM_BOT_WEBHOOK_SECRET') || '';
 
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession: false } });
-
 const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
-// Sessions older than this are treated as logged-out.
-const AUTH_TTL_MS = 30 * 60 * 1000; // 30 min
+const AUTH_TTL_MS = 30 * 60 * 1000;
+const SKILLS = ['listening','reading','writing','speaking','full_mock'] as const;
+type Skill = typeof SKILLS[number];
+const SKILL_LABEL: Record<Skill, string> = {
+  listening:  '🎧 Listening',
+  reading:    '📖 Reading',
+  writing:    '✍️ Writing',
+  speaking:   '🎙 Speaking',
+  full_mock:  '🏆 Full Mock'
+};
 
 // ─────────────────────────────────────────────────────────────────────
-// Helpers
+// Telegram + utility helpers
 // ─────────────────────────────────────────────────────────────────────
-
 function ctEq(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let d = 0;
   for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return d === 0;
 }
-
 function genCode(length = 8): string {
   const buf = new Uint32Array(length);
   crypto.getRandomValues(buf);
@@ -61,8 +63,10 @@ function genCode(length = 8): string {
   for (let i = 0; i < length; i++) out += String(buf[i] % 10);
   return out;
 }
-
-async function tg(method: string, payload: Record<string, unknown>): Promise<unknown> {
+function esc(s: string): string {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+async function tg(method: string, payload: Record<string, unknown>) {
   try {
     const r = await fetch(`${TG_API}/${method}`, {
       method: 'POST',
@@ -75,60 +79,48 @@ async function tg(method: string, payload: Record<string, unknown>): Promise<unk
     return null;
   }
 }
-
-function send(chat_id: number, text: string, extra: Record<string, unknown> = {}) {
-  return tg('sendMessage', { chat_id, text, parse_mode: 'HTML', ...extra });
-}
-
-function answerCb(callback_query_id: string, text?: string) {
-  return tg('answerCallbackQuery', { callback_query_id, text: text || '' });
-}
-
-function editText(chat_id: number, message_id: number, text: string, extra: Record<string, unknown> = {}) {
-  return tg('editMessageText', { chat_id, message_id, text, parse_mode: 'HTML', ...extra });
-}
+const send       = (chat_id: number, text: string, extra: Record<string, unknown> = {}) =>
+  tg('sendMessage', { chat_id, text, parse_mode: 'HTML', ...extra });
+const editText   = (chat_id: number, message_id: number, text: string, extra: Record<string, unknown> = {}) =>
+  tg('editMessageText', { chat_id, message_id, text, parse_mode: 'HTML', ...extra });
+const answerCb   = (callback_query_id: string, text?: string) =>
+  tg('answerCallbackQuery', { callback_query_id, text: text || '' });
 
 // ─────────────────────────────────────────────────────────────────────
 // Session
 // ─────────────────────────────────────────────────────────────────────
-
 interface Session {
   chat_id: number;
   username: string | null;
   authed: boolean;
   authed_at: string | null;
+  role: 'super' | 'clone' | null;
   current_center: string | null;
+  current_skill: string | null;
   state: string;
 }
 
 async function loadSession(chat_id: number, username: string | null): Promise<Session> {
-  const { data } = await sb
-    .from('bot_chat_sessions')
-    .select('*')
-    .eq('chat_id', chat_id)
-    .maybeSingle();
-
+  const { data } = await sb.from('bot_chat_sessions').select('*').eq('chat_id', chat_id).maybeSingle();
   if (data) {
-    // Expire stale auth
     if (data.authed && data.authed_at) {
       const age = Date.now() - new Date(data.authed_at).getTime();
       if (age > AUTH_TTL_MS) {
-        data.authed = false;
-        data.state = 'await_passcode';
         await sb.from('bot_chat_sessions').update({
-          authed: false, state: 'await_passcode', updated_at: new Date().toISOString()
+          authed: false, role: null, state: 'await_passcode',
+          current_center: null, current_skill: null,
+          updated_at: new Date().toISOString()
         }).eq('chat_id', chat_id);
+        data.authed = false; data.role = null; data.state = 'await_passcode';
+        data.current_center = null; data.current_skill = null;
       }
     }
     return data as Session;
   }
-
   const fresh: Session = {
-    chat_id,
-    username,
-    authed: false,
-    authed_at: null,
-    current_center: null,
+    chat_id, username,
+    authed: false, authed_at: null, role: null,
+    current_center: null, current_skill: null,
     state: 'await_passcode'
   };
   await sb.from('bot_chat_sessions').insert(fresh);
@@ -136,101 +128,122 @@ async function loadSession(chat_id: number, username: string | null): Promise<Se
 }
 
 async function saveSession(s: Partial<Session> & { chat_id: number }) {
-  await sb.from('bot_chat_sessions').upsert({
-    ...s, updated_at: new Date().toISOString()
-  });
+  await sb.from('bot_chat_sessions').upsert({ ...s, updated_at: new Date().toISOString() });
 }
 
 // ─────────────────────────────────────────────────────────────────────
 // Auth
 // ─────────────────────────────────────────────────────────────────────
+type AuthResult =
+  | { role: 'super' }
+  | { role: 'clone'; center: string }
+  | { role: 'none' };
 
-async function isSuperAdminPasscode(passcode: string): Promise<boolean> {
-  if (!passcode) return false;
-  const { data } = await sb
-    .from('admin_passcodes')
-    .select('passcode')
-    .eq('center', '__super__')
-    .maybeSingle();
-  if (!data) return false;
-  return ctEq(data.passcode, passcode);
+async function authenticate(passcode: string): Promise<AuthResult> {
+  if (!/^\d{4,8}$/.test(passcode)) return { role: 'none' };
+  const { data } = await sb.from('admin_passcodes').select('center, passcode');
+  if (!data) return { role: 'none' };
+  for (const row of data) {
+    if (ctEq(row.passcode, passcode)) {
+      if (row.center === '__super__') return { role: 'super' };
+      return { role: 'clone', center: row.center };
+    }
+  }
+  return { role: 'none' };
+}
+
+async function ownsCenter(session: Session, center_id: string): Promise<boolean> {
+  if (!session.authed) return false;
+  if (session.role === 'super') return true;
+  return session.role === 'clone' && session.current_center === center_id;
 }
 
 // ─────────────────────────────────────────────────────────────────────
 // UI builders
 // ─────────────────────────────────────────────────────────────────────
-
-async function sendCenterMenu(chat_id: number) {
-  const { data: centers } = await sb.from('centers').select('id, display_name').order('display_name');
-  const list = centers ?? [];
-  if (!list.length) {
-    return send(chat_id, '⚠️ No centers found.\n\nAdd centers via the Code Management panel first.');
+async function sendCenterMenu(chat_id: number, session: Session) {
+  let centers: Array<{ id: string; display_name: string }> = [];
+  if (session.role === 'super') {
+    const { data } = await sb.from('centers').select('id, display_name').order('display_name');
+    centers = data ?? [];
+  } else if (session.role === 'clone' && session.current_center) {
+    const { data } = await sb.from('centers').select('id, display_name')
+      .eq('id', session.current_center).maybeSingle();
+    if (data) centers = [data];
   }
 
-  // Build a 2-column reply keyboard. Each button is just the display_name.
+  if (!centers.length) {
+    return send(chat_id, '⚠️ No centers available.');
+  }
+
+  // Clone admin → jump straight into their single center
+  if (session.role === 'clone' && centers.length === 1) {
+    await saveSession({ chat_id: session.chat_id, current_center: centers[0].id, state: 'menu' });
+    return sendCenterTypePrompt(chat_id, centers[0].id, centers[0].display_name);
+  }
+
   const rows: Array<Array<{ text: string }>> = [];
-  for (let i = 0; i < list.length; i += 2) {
-    const row = [{ text: list[i].display_name }];
-    if (list[i + 1]) row.push({ text: list[i + 1].display_name });
+  for (let i = 0; i < centers.length; i += 2) {
+    const row = [{ text: centers[i].display_name }];
+    if (centers[i + 1]) row.push({ text: centers[i + 1].display_name });
     rows.push(row);
   }
   rows.push([{ text: '🔄 Refresh' }, { text: '🚪 Logout' }]);
 
   return send(chat_id,
     '🏫 <b>Select a center</b> to manage its codes:',
-    {
-      reply_markup: {
-        keyboard: rows,
-        resize_keyboard: true,
-        is_persistent: true
-      }
-    }
+    { reply_markup: { keyboard: rows, resize_keyboard: true, is_persistent: true } }
   );
 }
 
-async function sendCenterTypePrompt(chat_id: number, center_id: string, center_name: string) {
-  return send(chat_id,
-    `🏫 <b>${esc(center_name)}</b>\n\nWhich VIP code do you want?`,
-    {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: '👑 Premium', callback_data: `type:${center_id}:premium` },
-            { text: '🎟 Regular', callback_data: `type:${center_id}:regular` }
-          ],
-          [{ text: '⬅️ Back to centers', callback_data: 'back:centers' }]
-        ]
-      }
-    }
-  );
+function centerActionsKeyboard(center_id: string, isClone: boolean) {
+  const back = isClone
+    ? [{ text: '🚪 Logout', callback_data: 'logout' }]
+    : [{ text: '⬅️ Back to centers', callback_data: 'back:centers' }];
+  return {
+    inline_keyboard: [
+      [
+        { text: '👑 Premium', callback_data: `type:${center_id}:premium` },
+        { text: '🎟 Regular', callback_data: `type:${center_id}:regular` }
+      ],
+      [{ text: '📚 Mock codes', callback_data: `mock:${center_id}` }],
+      back
+    ]
+  };
 }
 
-async function sendVipCodeCard(chat_id: number, center_id: string, center_name: string, type: 'premium' | 'regular', message_id?: number) {
-  const { data } = await sb
-    .from('vip_codes')
-    .select('code, expires_at, last_renewed_at')
-    .eq('center', center_id)
-    .eq('type', type)
-    .maybeSingle();
+async function sendCenterTypePrompt(chat_id: number, center_id: string, center_name: string, message_id?: number) {
+  // Respect role for the back-button shape
+  const { data: sess } = await sb.from('bot_chat_sessions').select('role').eq('chat_id', chat_id).maybeSingle();
+  const isClone = sess?.role === 'clone';
+  const text = `🏫 <b>${esc(center_name)}</b>\n\nWhat do you want to manage?`;
+  const kb   = centerActionsKeyboard(center_id, isClone);
+  if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+  return send(chat_id, text, { reply_markup: kb });
+}
+
+async function sendVipCodeCard(
+  chat_id: number, center_id: string, center_name: string,
+  type: 'premium' | 'regular', message_id?: number
+) {
+  const { data } = await sb.from('vip_codes')
+    .select('code, expires_at, last_renewed_at, last_renewed_by')
+    .eq('center', center_id).eq('type', type).maybeSingle();
 
   const typeLabel = type === 'premium' ? '👑 Premium' : '🎟 Regular';
   let text: string;
   if (!data) {
-    text =
-      `🏫 <b>${esc(center_name)}</b> — ${typeLabel}\n\n` +
-      `<i>No code yet.</i>\n\n` +
-      `Tap below to generate a fresh code.`;
+    text = `🏫 <b>${esc(center_name)}</b> — ${typeLabel}\n\n<i>No code yet.</i>\n\nTap below to generate one.`;
   } else {
-    const expiry = data.expires_at
+    const expiry  = data.expires_at
       ? `\n📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}`
       : `\n♾ Never expires`;
     const renewed = data.last_renewed_at
-      ? `\n🕒 Last renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}`
+      ? `\n🕒 Last renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}` +
+        (data.last_renewed_by ? ` <i>by ${esc(data.last_renewed_by)}</i>` : '')
       : '';
-    text =
-      `🏫 <b>${esc(center_name)}</b> — ${typeLabel}\n\n` +
-      `<b>Current code:</b>\n<code>${esc(data.code)}</code>` +
-      expiry + renewed;
+    text = `🏫 <b>${esc(center_name)}</b> — ${typeLabel}\n\n` +
+           `<b>Current code:</b>\n<code>${esc(data.code)}</code>` + expiry + renewed;
   }
 
   const kb = {
@@ -243,20 +256,97 @@ async function sendVipCodeCard(chat_id: number, center_id: string, center_name: 
     ]
   };
 
-  if (message_id) {
-    return editText(chat_id, message_id, text, { reply_markup: kb });
-  }
+  if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
   return send(chat_id, text, { reply_markup: kb });
 }
 
-function esc(s: string): string {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+async function sendMockSkillsMenu(chat_id: number, center_id: string, center_name: string, message_id?: number) {
+  const text = `🏫 <b>${esc(center_name)}</b> — 📚 Mock codes\n\nPick a skill:`;
+  const rows = SKILLS.map(s => [{ text: SKILL_LABEL[s], callback_data: `mock_skill:${center_id}:${s}` }]);
+  rows.push([{ text: '⬅️ Back', callback_data: `center:${center_id}` }]);
+  const kb = { inline_keyboard: rows };
+  if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+  return send(chat_id, text, { reply_markup: kb });
+}
+
+async function sendMockListMenu(
+  chat_id: number, center_id: string, center_name: string, skill: Skill, message_id?: number
+) {
+  const { data } = await sb.from('mock_codes')
+    .select('mock_number, code, expires_at')
+    .eq('center', center_id).eq('skill', skill)
+    .order('mock_number');
+
+  const list = data ?? [];
+  const lines = [
+    `🏫 <b>${esc(center_name)}</b>`,
+    `${SKILL_LABEL[skill]} — mock codes`,
+    ''
+  ];
+  if (!list.length) {
+    lines.push('<i>No mock codes yet.</i>', 'Tap ➕ to add one.');
+  } else {
+    lines.push(`Tap a number to view / revoke its code.`);
+  }
+
+  const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
+  // Numbers grid (4 per row)
+  for (let i = 0; i < list.length; i += 4) {
+    buttons.push(list.slice(i, i + 4).map(m => ({
+      text: `#${m.mock_number}`,
+      callback_data: `mock_code:${center_id}:${skill}:${m.mock_number}`
+    })));
+  }
+  buttons.push([{ text: '➕ New mock #', callback_data: `mock_new:${center_id}:${skill}` }]);
+  buttons.push([
+    { text: '⬅️ Skills', callback_data: `mock:${center_id}` },
+    { text: '🏫 Centers', callback_data: 'back:centers' }
+  ]);
+
+  const kb = { inline_keyboard: buttons };
+  if (message_id) return editText(chat_id, message_id, lines.join('\n'), { reply_markup: kb });
+  return send(chat_id, lines.join('\n'), { reply_markup: kb });
+}
+
+async function sendMockCodeCard(
+  chat_id: number, center_id: string, center_name: string, skill: Skill, num: number, message_id?: number
+) {
+  const { data } = await sb.from('mock_codes')
+    .select('code, expires_at, last_renewed_at, last_renewed_by')
+    .eq('center', center_id).eq('skill', skill).eq('mock_number', num).maybeSingle();
+
+  let text: string;
+  if (!data) {
+    text = `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n<i>No code yet.</i>`;
+  } else {
+    const expiry  = data.expires_at
+      ? `\n📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}`
+      : `\n♾ Never expires`;
+    const renewed = data.last_renewed_at
+      ? `\n🕒 Last renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}` +
+        (data.last_renewed_by ? ` <i>by ${esc(data.last_renewed_by)}</i>` : '')
+      : '';
+    text = `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n` +
+           `<b>Current code:</b>\n<code>${esc(data.code)}</code>` + expiry + renewed;
+  }
+
+  const kb = {
+    inline_keyboard: [
+      [{ text: '🔄 Revoke & generate new', callback_data: `mock_renew:${center_id}:${skill}:${num}` }],
+      [{ text: '🗑 Delete this mock #',     callback_data: `mock_delete:${center_id}:${skill}:${num}` }],
+      [
+        { text: '⬅️ Back', callback_data: `mock_skill:${center_id}:${skill}` },
+        { text: '🏫 Centers', callback_data: 'back:centers' }
+      ]
+    ]
+  };
+  if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+  return send(chat_id, text, { reply_markup: kb });
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Conversation handlers
+// Handlers
 // ─────────────────────────────────────────────────────────────────────
-
 async function handleMessage(msg: any) {
   const chat_id = msg.chat?.id;
   if (!chat_id) return;
@@ -264,74 +354,120 @@ async function handleMessage(msg: any) {
   const textRaw = String(msg.text || '').trim();
   const session = await loadSession(chat_id, username);
 
-  // /start always resets to passcode prompt (unless already authed)
+  // /start
   if (textRaw === '/start') {
     if (session.authed) {
       await send(chat_id,
-        `👋 Welcome back${username ? ', <b>' + esc(username) + '</b>' : ''}!\n\nYou are already signed in.`);
-      return sendCenterMenu(chat_id);
+        `👋 Welcome back${username ? ', <b>' + esc(username) + '</b>' : ''}!\n\nAlready signed in as <b>${session.role === 'super' ? 'super admin' : 'clone admin'}</b>.`);
+      return sendCenterMenu(chat_id, session);
     }
     return send(chat_id,
       '🔐 <b>Mock Stream — Code Management</b>\n\n' +
-      'Send your <b>super admin passcode</b> to continue.',
+      'Send your <b>admin passcode</b> to continue.\n' +
+      '• Super admins → manage every center\n' +
+      '• Clone admins → manage only your own center',
       { reply_markup: { remove_keyboard: true } }
     );
   }
 
+  // /logout
   if (textRaw === '/logout' || textRaw === '🚪 Logout') {
-    await saveSession({ chat_id, authed: false, authed_at: null, state: 'await_passcode', current_center: null });
-    return send(chat_id,
-      '🚪 Logged out.\n\nSend /start to sign in again.',
-      { reply_markup: { remove_keyboard: true } }
-    );
+    await saveSession({
+      chat_id, authed: false, authed_at: null, role: null,
+      current_center: null, current_skill: null, state: 'await_passcode'
+    });
+    return send(chat_id, '🚪 Logged out.\n\nSend /start to sign in again.',
+      { reply_markup: { remove_keyboard: true } });
   }
 
-  // ── Not authed yet: treat any message as a passcode attempt ─────────
+  // ── Not authed: passcode attempt ─────────────────────────────────
   if (!session.authed) {
     if (!/^\d{4,8}$/.test(textRaw)) {
-      return send(chat_id,
-        '❌ Passcode must be 4–8 digits.\n\nSend your super admin passcode:');
+      return send(chat_id, '❌ Passcode must be 4–8 digits.\n\nSend your admin passcode:');
     }
-    const ok = await isSuperAdminPasscode(textRaw);
-    if (!ok) {
-      return send(chat_id,
-        '❌ Wrong passcode.\n\nTry again:');
+    const auth = await authenticate(textRaw);
+    if (auth.role === 'none') {
+      return send(chat_id, '❌ Wrong passcode.\n\nTry again:');
     }
+    const center = auth.role === 'clone' ? auth.center : null;
     await saveSession({
-      chat_id, username, authed: true,
-      authed_at: new Date().toISOString(),
-      state: 'menu', current_center: null
+      chat_id, username,
+      authed: true, authed_at: new Date().toISOString(),
+      role: auth.role,
+      current_center: center, current_skill: null,
+      state: 'menu'
     });
-    await send(chat_id,
-      `✅ <b>Authenticated</b> as super admin.\n\n` +
-      `Pick a center below. Session lasts 30 min.`);
-    return sendCenterMenu(chat_id);
+    const greeting = auth.role === 'super'
+      ? `✅ <b>Authenticated</b> as super admin.\nPick a center below. Session lasts 30 min.`
+      : `✅ <b>Authenticated</b> as clone admin for <b>${esc(center || '')}</b>.\nSession lasts 30 min.`;
+    await send(chat_id, greeting);
+    const fresh = await loadSession(chat_id, username);
+    return sendCenterMenu(chat_id, fresh);
   }
 
-  // ── Authed: handle reply-keyboard taps ──────────────────────────────
-  if (textRaw === '🔄 Refresh') {
-    return sendCenterMenu(chat_id);
+  // ── Authed: state-driven inputs ──────────────────────────────────
+  if (session.state === 'await_mock_number'
+      && session.current_center && session.current_skill
+      && /^\d{1,3}$/.test(textRaw)) {
+    const num = parseInt(textRaw, 10);
+    if (num < 1 || num > 999) {
+      return send(chat_id, '❌ Mock number must be 1–999. Try again:');
+    }
+    if (!await ownsCenter(session, session.current_center)) {
+      return send(chat_id, '❌ Forbidden.');
+    }
+    const skill = session.current_skill as Skill;
+    if (!SKILLS.includes(skill)) {
+      return send(chat_id, '❌ Bad skill.');
+    }
+    // Don't overwrite an existing mock — show its card instead
+    const { data: existing } = await sb.from('mock_codes')
+      .select('code').eq('center', session.current_center)
+      .eq('skill', skill).eq('mock_number', num).maybeSingle();
+
+    if (!existing) {
+      const code = genCode(8);
+      const { error } = await sb.from('mock_codes').insert({
+        center: session.current_center, skill, mock_number: num, code,
+        expires_at: null, last_renewed_at: new Date().toISOString(),
+        last_renewed_by: session.role === 'super' ? 'bot:super' : `bot:clone:${session.current_center}`
+      });
+      if (error) return send(chat_id, `❌ Failed: ${esc(error.message)}`);
+      sb.from('code_audit').insert({
+        actor: 'bot', action: 'create_mock',
+        center: session.current_center,
+        details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role }
+      }).then(() => {});
+    }
+
+    await saveSession({ chat_id, state: 'menu' });
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', session.current_center).maybeSingle();
+    return sendMockCodeCard(chat_id, session.current_center, c?.display_name || session.current_center, skill, num);
   }
 
-  // Otherwise: did the text match a center display_name?
+  // Reply-keyboard buttons
+  if (textRaw === '🔄 Refresh') return sendCenterMenu(chat_id, session);
+
+  // Center display_name match
   const { data: centers } = await sb.from('centers').select('id, display_name');
   const match = (centers ?? []).find(c => c.display_name === textRaw);
   if (match) {
-    await saveSession({ chat_id, current_center: match.id, state: 'await_type' });
+    if (session.role === 'clone' && session.current_center !== match.id) {
+      return send(chat_id, '❌ You can only manage your own center.');
+    }
+    await saveSession({ chat_id, current_center: match.id, current_skill: null, state: 'menu' });
     return sendCenterTypePrompt(chat_id, match.id, match.display_name);
   }
 
-  // Fallback help
-  return send(chat_id,
-    `ℹ️ Tap a <b>center button</b> below, or use /logout to end the session.`);
+  return send(chat_id, `ℹ️ Tap a button below, or use /logout.`);
 }
 
 async function handleCallback(cb: any) {
-  const chat_id = cb.message?.chat?.id;
+  const chat_id    = cb.message?.chat?.id;
   const message_id = cb.message?.message_id;
   if (!chat_id) return;
   const username = cb.from?.username || cb.from?.first_name || null;
-  const session = await loadSession(chat_id, username);
+  const session  = await loadSession(chat_id, username);
 
   if (!session.authed) {
     await answerCb(cb.id, 'Session expired — send /start');
@@ -339,76 +475,174 @@ async function handleCallback(cb: any) {
   }
 
   const data = String(cb.data || '');
+
+  // logout
+  if (data === 'logout') {
+    await answerCb(cb.id);
+    await saveSession({
+      chat_id, authed: false, authed_at: null, role: null,
+      current_center: null, current_skill: null, state: 'await_passcode'
+    });
+    return send(chat_id, '🚪 Logged out.\n\nSend /start to sign in again.',
+      { reply_markup: { remove_keyboard: true } });
+  }
+
   // back:centers
   if (data === 'back:centers') {
     await answerCb(cb.id);
-    return sendCenterMenu(chat_id);
+    await saveSession({ chat_id, current_skill: null, state: 'menu' });
+    return sendCenterMenu(chat_id, session);
   }
 
-  // center:<id>  (re-show type prompt)
+  // center:<id>
   if (data.startsWith('center:')) {
     const center_id = data.slice('center:'.length);
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
     const { data: c } = await sb.from('centers').select('id, display_name').eq('id', center_id).maybeSingle();
     if (!c) { await answerCb(cb.id, 'Center not found'); return; }
-    await saveSession({ chat_id, current_center: c.id, state: 'await_type' });
+    await saveSession({ chat_id, current_center: c.id, current_skill: null, state: 'menu' });
     await answerCb(cb.id);
-    return editText(chat_id, message_id,
-      `🏫 <b>${esc(c.display_name)}</b>\n\nWhich VIP code do you want?`,
-      {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              { text: '👑 Premium', callback_data: `type:${c.id}:premium` },
-              { text: '🎟 Regular', callback_data: `type:${c.id}:regular` }
-            ],
-            [{ text: '⬅️ Back to centers', callback_data: 'back:centers' }]
-          ]
-        }
-      }
-    );
+    return sendCenterTypePrompt(chat_id, c.id, c.display_name, message_id);
   }
 
   // type:<center>:<premium|regular>
   if (data.startsWith('type:')) {
     const [, center_id, type] = data.split(':');
     if (type !== 'premium' && type !== 'regular') { await answerCb(cb.id); return; }
-    const { data: c } = await sb.from('centers').select('id, display_name').eq('id', center_id).maybeSingle();
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
     if (!c) { await answerCb(cb.id, 'Center not found'); return; }
     await answerCb(cb.id);
-    return sendVipCodeCard(chat_id, c.id, c.display_name, type as 'premium' | 'regular', message_id);
+    return sendVipCodeCard(chat_id, center_id, c.display_name, type as 'premium' | 'regular', message_id);
   }
 
   // renew:<center>:<premium|regular>
   if (data.startsWith('renew:')) {
     const [, center_id, type] = data.split(':');
     if (type !== 'premium' && type !== 'regular') { await answerCb(cb.id); return; }
-    const { data: c } = await sb.from('centers').select('id, display_name').eq('id', center_id).maybeSingle();
-    if (!c) { await answerCb(cb.id, 'Center not found'); return; }
-
-    const code = genCode(8);
-    const { error } = await sb.from('vip_codes').upsert({
-      center: center_id,
-      type,
-      code,
-      expires_at: null,
-      last_renewed_at: new Date().toISOString(),
-      last_renewed_by: 'bot'
-    });
-    if (error) {
-      await answerCb(cb.id, 'Error generating code');
-      return send(chat_id, `❌ Failed to renew code: ${esc(error.message)}`);
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
     }
-
-    // Audit log
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id, 'Center not found'); return; }
+    const code = genCode(8);
+    const actor = session.role === 'super' ? 'bot:super' : `bot:clone:${center_id}`;
+    const { error } = await sb.from('vip_codes').upsert({
+      center: center_id, type, code, expires_at: null,
+      last_renewed_at: new Date().toISOString(), last_renewed_by: actor
+    });
+    if (error) { await answerCb(cb.id, 'Error'); return send(chat_id, `❌ ${esc(error.message)}`); }
     sb.from('code_audit').insert({
-      actor: 'bot',
-      action: 'renew_vip',
-      center: center_id,
-      details: { type, length: 8, via: 'telegram', chat_id, username }
+      actor: 'bot', action: 'renew_vip', center: center_id,
+      details: { type, length: 8, via: 'telegram', chat_id, role: session.role, username }
     }).then(() => {});
-
     await answerCb(cb.id, '✅ New code generated!');
-    return sendVipCodeCard(chat_id, c.id, c.display_name, type as 'premium' | 'regular', message_id);
+    return sendVipCodeCard(chat_id, center_id, c.display_name, type as 'premium' | 'regular', message_id);
+  }
+
+  // mock:<center>  → skills menu
+  if (data.startsWith('mock:')) {
+    const center_id = data.slice('mock:'.length);
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await saveSession({ chat_id, current_center: center_id, current_skill: null, state: 'menu' });
+    await answerCb(cb.id);
+    return sendMockSkillsMenu(chat_id, center_id, c.display_name, message_id);
+  }
+
+  // mock_skill:<center>:<skill>
+  if (data.startsWith('mock_skill:')) {
+    const [, center_id, skill] = data.split(':');
+    if (!SKILLS.includes(skill as Skill)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await saveSession({ chat_id, current_center: center_id, current_skill: skill, state: 'menu' });
+    await answerCb(cb.id);
+    return sendMockListMenu(chat_id, center_id, c.display_name, skill as Skill, message_id);
+  }
+
+  // mock_new:<center>:<skill>  → ask for number
+  if (data.startsWith('mock_new:')) {
+    const [, center_id, skill] = data.split(':');
+    if (!SKILLS.includes(skill as Skill)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    await saveSession({
+      chat_id, current_center: center_id, current_skill: skill,
+      state: 'await_mock_number'
+    });
+    await answerCb(cb.id);
+    return send(chat_id, `📚 Send the <b>mock number</b> (1–999) for ${SKILL_LABEL[skill as Skill]}:`);
+  }
+
+  // mock_code:<center>:<skill>:<num>
+  if (data.startsWith('mock_code:')) {
+    const [, center_id, skill, numStr] = data.split(':');
+    const num = parseInt(numStr, 10);
+    if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id);
+    return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
+  }
+
+  // mock_renew:<center>:<skill>:<num>
+  if (data.startsWith('mock_renew:')) {
+    const [, center_id, skill, numStr] = data.split(':');
+    const num = parseInt(numStr, 10);
+    if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    const code  = genCode(8);
+    const actor = session.role === 'super' ? 'bot:super' : `bot:clone:${center_id}`;
+    const { error } = await sb.from('mock_codes').upsert({
+      center: center_id, skill, mock_number: num, code, expires_at: null,
+      last_renewed_at: new Date().toISOString(), last_renewed_by: actor
+    });
+    if (error) { await answerCb(cb.id, 'Error'); return send(chat_id, `❌ ${esc(error.message)}`); }
+    sb.from('code_audit').insert({
+      actor: 'bot', action: 'renew_mock', center: center_id,
+      details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role, username }
+    }).then(() => {});
+    await answerCb(cb.id, '✅ New code generated!');
+    return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
+  }
+
+  // mock_delete:<center>:<skill>:<num>
+  if (data.startsWith('mock_delete:')) {
+    const [, center_id, skill, numStr] = data.split(':');
+    const num = parseInt(numStr, 10);
+    if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { error } = await sb.from('mock_codes').delete()
+      .eq('center', center_id).eq('skill', skill).eq('mock_number', num);
+    if (error) { await answerCb(cb.id, 'Error'); return send(chat_id, `❌ ${esc(error.message)}`); }
+    sb.from('code_audit').insert({
+      actor: 'bot', action: 'revoke_mock', center: center_id,
+      details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role, username }
+    }).then(() => {});
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    await answerCb(cb.id, '🗑 Deleted');
+    return sendMockListMenu(chat_id, center_id, c?.display_name || center_id, skill as Skill, message_id);
   }
 
   await answerCb(cb.id);
@@ -417,31 +651,20 @@ async function handleCallback(cb: any) {
 // ─────────────────────────────────────────────────────────────────────
 // Main handler
 // ─────────────────────────────────────────────────────────────────────
-
 Deno.serve(async (req) => {
   if (req.method !== 'POST') return new Response('ok');
-
-  // Verify Telegram secret token (optional but recommended)
   if (WEBHOOK_SECRET) {
     const got = req.headers.get('x-telegram-bot-api-secret-token') || '';
-    if (got !== WEBHOOK_SECRET) {
-      return new Response('forbidden', { status: 403 });
-    }
+    if (got !== WEBHOOK_SECRET) return new Response('forbidden', { status: 403 });
   }
-
   let update: any = {};
   try { update = await req.json(); } catch { return new Response('bad json', { status: 400 }); }
 
   try {
-    if (update.message) {
-      await handleMessage(update.message);
-    } else if (update.callback_query) {
-      await handleCallback(update.callback_query);
-    }
+    if (update.message) await handleMessage(update.message);
+    else if (update.callback_query) await handleCallback(update.callback_query);
   } catch (e) {
     console.error('[bot] handler error', e);
   }
-
-  // Always 200 so Telegram doesn't retry storms.
   return new Response('ok');
 });
