@@ -17158,25 +17158,29 @@
       var existing = document.getElementById('siteMgmtGridOverlay');
       if (existing) { existing.remove(); }
       // Force-close any admin sub-panel that might still be sitting open
-      // from the previous time the grid was used.
+      // from the previous time the grid was used. Each panel uses its own
+      // visibility scheme (display:none, .active class, .visible class), so
+      // we have to handle them individually using their REAL DOM ids.
       try {
-        var leftoverCloseSelectors = [
-          '#systemPromptsPanel .sp-close', '#testMakerModal .tm-close',
-          '#registeredUsersPanel .ru-close', '#writingPlusPanel .wp-close',
-          '#speakingPlusPanel .sp-close', '#readingPlusPanel .rp-close',
-          '#listeningPlusPanel .lp-close', '#centersPanel .cm-close',
-          '#aiRouterPanel .ai-close', '#privateMessagesPanel .pm-close',
-          '#supportMessagesPanel .sm-close', '#videoGuidesPanel .vg-close',
-          '#cmOverlay .cm-close'
-        ];
-        leftoverCloseSelectors.forEach(function (sel) {
-          var el = document.querySelector(sel);
-          if (el && el.offsetParent !== null && typeof el.click === 'function') {
-            try { el.click(); } catch (e) {}
-          }
-        });
+        // (a) Class-based overlays — remove the activator class.
+        ['ruOverlay','wpOverlay','spOverlay','rpOverlay','lpOverlay',
+         'aiRouterOverlay','pmOverlay','smOverlay','vgOverlay']
+          .forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) { el.classList.remove('active','visible'); }
+          });
+        // (b) Display-toggled overlays — set display:none directly.
+        ['sysPromptOverlay','testMakerOverlay','centersPanel','cmOverlay']
+          .forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) { el.classList.remove('visible','active'); el.style.display = 'none'; }
+          });
       } catch (e) {}
       _removeSmgBackPill();
+      // Also clear stale ← back-buttons that may have been injected into
+      // panels that are now hidden — they can intercept future clicks.
+      document.querySelectorAll('.smg-back-native, .smg-back-inline, #smgBackPill')
+        .forEach(function (n) { n.remove(); });
       var items = [
         { icon: '📝', label: 'System Prompts',   fn: function(){ openSystemPromptsPanel(); } },
         { icon: '🛠️', label: 'Test Maker',       fn: function(){ openTestMakerModal(); } },
@@ -17195,7 +17199,9 @@
       ];
       var div = document.createElement('div');
       div.id = 'siteMgmtGridOverlay';
-      div.style.cssText = 'position:fixed;inset:0;z-index:10180;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
+      // z-index 10250 sits above every sub-panel (cmOverlay 10200, ru/wp/sp 10100,
+      // testmaker 10000) so the grid is always interactive on top.
+      div.style.cssText = 'position:fixed;inset:0;z-index:10250;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;animation:adminAuthFadeIn .2s ease;';
       var cards = items.map(function (it, i) {
         return '<button data-idx="' + i + '" class="smg-card">' +
                  '<span class="smg-icon">' + it.icon + '</span>' +
