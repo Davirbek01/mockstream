@@ -6294,17 +6294,40 @@
       if (routingMode === 'gemma4') provider = 'gemma4';
       // Text-only providers can't process audio — use the admin-chosen helper AI for transcription
       if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
-        var helper = cp['scoring_transcription_provider'] || 'gemini';
+        // Per-center transcriber-AI override beats the system-prompts default.
+        var centerHelper = '';
+        try {
+          if (window._centerConfig && window._centerConfig.transcriberProvider
+              && window._centerConfig.transcriberProvider !== 'default') {
+            centerHelper = String(window._centerConfig.transcriberProvider).toLowerCase();
+          }
+        } catch (_e) {}
+        var helper = centerHelper || cp['scoring_transcription_provider'] || 'gemini';
         // If admin explicitly set the same provider as helper, attempt it directly (future capability)
         if (helper === provider) {
           console.log('[Transcribe] Direct mode for', provider, '(may have gained audio support)');
         } else {
-          console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
+          console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper, centerHelper ? '(center override)' : '');
           provider = helper;
         }
       } else {
         console.log('[Transcribe] Provider:', provider);
       }
+
+      // Scope a per-center Gemini billing-slot override (transcriberGeminiPlan)
+      // for the duration of this call; restored in finally so it doesn't bleed
+      // into later scoring requests on the same page.
+      var _prevPlan = window.__geminiPlanOverride;
+      try {
+        if (provider === 'gemini') {
+          try {
+            var cc = window._centerConfig;
+            var trPlan = cc && cc.transcriberGeminiPlan;
+            if (trPlan && trPlan !== 'default') {
+              window.__geminiPlanOverride = String(trPlan).toLowerCase();
+            }
+          } catch (_e) {}
+        }
 
       // OpenAI → Whisper API
       if (provider === 'openai') {
@@ -6362,6 +6385,9 @@
       if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
       var gd = await gr.json();
       return (gd.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]').trim();
+      } finally {
+        window.__geminiPlanOverride = _prevPlan;
+      }
     }
 
     // JSZip CDN

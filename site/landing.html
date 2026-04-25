@@ -22738,8 +22738,10 @@
         active: true, locked: false, mocks: mocks,
         // Branding
         brandColor: '', welcomeMessage: '', hidePoweredBy: false,
-        // AI & Scoring
+        // AI & Scoring (geminiPlan / transcriberProvider / transcriberGeminiPlan
+        // are 'default' = inherit from system prompts unless explicitly overridden)
         scoreBoost: 1, aiProvider: 'default', maxAiCallsDay: 0,
+        geminiPlan: 'default', transcriberProvider: 'default', transcriberGeminiPlan: 'default',
         // Full Mock AI sub-controls
         fullMockAi: {
           cefr_speaking: 'premium', cefr_writing: 'premium',
@@ -23082,13 +23084,52 @@
             h += '<div style="padding:10px 16px;">';
             h += _cmNumberInput(cid, 'scoreBoost', 'Score Boost', cfg.scoreBoost, '0-3');
             h += _cmSelectInput(cid, 'aiProvider', 'AI Provider', cfg.aiProvider || 'default', [
-              { val: 'default', label: 'Default' },
+              { val: 'default', label: 'Default (system prompts)' },
               { val: 'gemini', label: 'Gemini' },
               { val: 'openai', label: 'OpenAI' },
               { val: 'claude', label: 'Claude' },
-              { val: 'grok', label: 'Grok ⚠️ (writing only)' },
-              { val: 'deepseek', label: 'DeepSeek ⚠️ (writing only)' }
+              { val: 'grok', label: 'Grok ⚠️ (text only)' },
+              { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' }
             ]);
+
+            // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)
+            if (cfg.aiProvider === 'gemini') {
+              h += _cmSelectInput(cid, 'geminiPlan', '↳ Gemini Plan', cfg.geminiPlan || 'default', [
+                { val: 'default',      label: 'Default (system prompts)' },
+                { val: 'prepay',       label: 'Prepay · Key 1' },
+                { val: 'prepay_2',     label: 'Prepay · Key 2' },
+                { val: 'prepay_both',  label: 'Prepay · Both (auto-failover)' },
+                { val: 'postpay',      label: 'Postpay · Key 1' },
+                { val: 'postpay_2',    label: 'Postpay · Key 2' },
+                { val: 'postpay_both', label: 'Postpay · Both (auto-failover)' }
+              ]);
+            }
+
+            // ── Transcriber-AI picker for text-only providers (Grok / DeepSeek can't process audio)
+            if (cfg.aiProvider === 'grok' || cfg.aiProvider === 'deepseek') {
+              h += '<div style="padding:6px 0 4px 0;font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;margin:4px 0;padding:6px 10px;">' +
+                '⚠️ ' + (cfg.aiProvider === 'grok' ? 'Grok' : 'DeepSeek') + ' cannot process speaking-mock audio. Pick an assistant AI to transcribe audio first:' +
+              '</div>';
+              h += _cmSelectInput(cid, 'transcriberProvider', '↳ Transcriber AI', cfg.transcriberProvider || 'default', [
+                { val: 'default', label: 'Default (system prompts)' },
+                { val: 'gemini',  label: 'Gemini' },
+                { val: 'openai',  label: 'OpenAI (Whisper)' },
+                { val: 'claude',  label: 'Claude' }
+              ]);
+              // Nested Gemini-plan picker for the transcriber when it's Gemini.
+              if (cfg.transcriberProvider === 'gemini') {
+                h += _cmSelectInput(cid, 'transcriberGeminiPlan', '↳↳ Transcriber Gemini Plan', cfg.transcriberGeminiPlan || 'default', [
+                  { val: 'default',      label: 'Default (system prompts)' },
+                  { val: 'prepay',       label: 'Prepay · Key 1' },
+                  { val: 'prepay_2',     label: 'Prepay · Key 2' },
+                  { val: 'prepay_both',  label: 'Prepay · Both (auto-failover)' },
+                  { val: 'postpay',      label: 'Postpay · Key 1' },
+                  { val: 'postpay_2',    label: 'Postpay · Key 2' },
+                  { val: 'postpay_both', label: 'Postpay · Both (auto-failover)' }
+                ]);
+              }
+            }
+
             h += _cmNumberInput(cid, 'maxAiCallsDay', 'Max AI Calls/Day', cfg.maxAiCallsDay, '0 = unlimited');
             h += '</div>';
           }
@@ -23257,8 +23298,21 @@
     window._cmSetProp = function(centerId, prop, val) {
       if (!_cmConfigs[centerId]) _cmConfigs[centerId] = _cmDefaultConfig();
       _cmConfigs[centerId][prop] = val;
+      // Reset dependent sub-fields when the parent picker changes so a stale
+      // (now-hidden) value can't accidentally get sent on the next request.
+      if (prop === 'aiProvider') {
+        if (val !== 'gemini') _cmConfigs[centerId].geminiPlan = 'default';
+        if (val !== 'grok' && val !== 'deepseek') {
+          _cmConfigs[centerId].transcriberProvider = 'default';
+          _cmConfigs[centerId].transcriberGeminiPlan = 'default';
+        }
+      }
+      if (prop === 'transcriberProvider' && val !== 'gemini') {
+        _cmConfigs[centerId].transcriberGeminiPlan = 'default';
+      }
       // Re-render only for toggles that show/hide sub-fields
-      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode') {
+      if (prop === 'operatingHoursEnabled' || prop === 'examScheduleMode' || prop === 'maintenanceMode'
+          || prop === 'aiProvider' || prop === 'transcriberProvider') {
         _cmRenderBody();
       }
       _cmAutoSave(centerId);

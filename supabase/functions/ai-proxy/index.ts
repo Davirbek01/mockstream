@@ -77,16 +77,30 @@ function keysFor(provider: string): string[] {
   }
 }
 
+// Gemini multi-billing: map a plan string ("prepay" | "prepay_2" |
+// "prepay_both" | "postpay" | "postpay_2" | "postpay_both") to the
+// corresponding configured key(s). Returns [] when the plan is unknown
+// or when no matching key is configured. "_both" plans return both
+// slots so the caller's normal 429/5xx auto-failover loop covers them.
+function resolveGeminiKeysForPlan(plan: string): string[] {
+  const planMap: Record<string, string[]> = {
+    'prepay':       [GEMINI_KEY_PREPAY],
+    'prepay_2':     [GEMINI_KEY_PREPAY_2],
+    'prepay_both':  [GEMINI_KEY_PREPAY,  GEMINI_KEY_PREPAY_2],
+    'postpay':      [GEMINI_KEY_POSTPAY],
+    'postpay_2':    [GEMINI_KEY_POSTPAY_2],
+    'postpay_both': [GEMINI_KEY_POSTPAY, GEMINI_KEY_POSTPAY_2],
+  };
+  const list = planMap[(plan || '').trim().toLowerCase()];
+  if (!list) return [];
+  return list.filter(k => !!k);
+}
+
 // Gemini multi-billing: read `gemini_active_plan` from site_settings and
-// return the matching dedicated key(s). Supports six modes:
-//   prepay        → [PREPAY]
-//   prepay_2      → [PREPAY_2]
-//   prepay_both   → [PREPAY, PREPAY_2]    (auto-failover on 429/5xx)
-//   postpay       → [POSTPAY]
-//   postpay_2     → [POSTPAY_2]
-//   postpay_both  → [POSTPAY, POSTPAY_2]  (auto-failover on 429/5xx)
-// Falls back to the generic GEMINI_KEYS pool when nothing is configured.
-// Cached for 60s to avoid a DB hit on every call.
+// return the matching dedicated key(s). Falls back to the generic
+// GEMINI_KEYS pool when nothing is configured. Cached for 60s to avoid
+// a DB hit on every call. Per-request overrides (header `x-ms-gemini-plan`
+// sent by the center-management plumbing) bypass this cache entirely.
 let _geminiPlanCache: { keys: string[]; until: number } | null = null;
 async function getGeminiKeys(): Promise<string[]> {
   const now = Date.now();
@@ -99,18 +113,8 @@ async function getGeminiKeys(): Promise<string[]> {
       .eq('key', 'gemini_active_plan')
       .maybeSingle();
     const plan = (data?.value || '').toString().trim().toLowerCase();
-    const planMap: Record<string, string[]> = {
-      'prepay':       [GEMINI_KEY_PREPAY],
-      'prepay_2':     [GEMINI_KEY_PREPAY_2],
-      'prepay_both':  [GEMINI_KEY_PREPAY,  GEMINI_KEY_PREPAY_2],
-      'postpay':      [GEMINI_KEY_POSTPAY],
-      'postpay_2':    [GEMINI_KEY_POSTPAY_2],
-      'postpay_both': [GEMINI_KEY_POSTPAY, GEMINI_KEY_POSTPAY_2],
-    };
-    if (plan && planMap[plan]) {
-      const filtered = planMap[plan].filter(k => !!k);
-      if (filtered.length) keys = filtered;
-    }
+    const planKeys = resolveGeminiKeysForPlan(plan);
+    if (planKeys.length) keys = planKeys;
   } catch (_e) { /* fall back to default keys */ }
   _geminiPlanCache = { keys, until: now + 60_000 };
   return keys;
@@ -381,7 +385,18 @@ Deno.serve(async (req) => {
   }
 
   // -------- resolve provider --------
-  const providerKeys = provider === 'gemini' ? await getGeminiKeys() : keysFor(provider);
+  // Per-request Gemini plan override: a center can pick its own billing
+  // slot via the AI & Scoring panel (header set by ai-proxy-interceptor.js
+  // from window._centerConfig.geminiPlan / __geminiPlanOverride). Empty /
+  // missing / unknown plan falls through to the global default below.
+  let providerKeys: string[];
+  if (provider === 'gemini') {
+    const planHdr = (req.headers.get('x-ms-gemini-plan') || '').trim().toLowerCase();
+    const overrideKeys = planHdr ? resolveGeminiKeysForPlan(planHdr) : [];
+    providerKeys = overrideKeys.length ? overrideKeys : await getGeminiKeys();
+  } else {
+    providerKeys = keysFor(provider);
+  }
   if (providerKeys.length === 0) {
     return jsonErr(400, 'unknown_or_unconfigured_provider', provider);
   }

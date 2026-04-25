@@ -7591,9 +7591,18 @@
         provider = String(window._centerConfig.aiProvider).toLowerCase();
       }
       if (provider === 'grok' || provider === 'deepseek') {
-        var helper = (cp['scoring_transcription_provider'] || cp['scoring_transcribe_helper_ai'] || 'gemini').toString().trim().toLowerCase();
+        // Per-center transcriber-AI override beats the system-prompts default.
+        var centerHelper = '';
+        try {
+          if (window._centerConfig && window._centerConfig.transcriberProvider
+              && window._centerConfig.transcriberProvider !== 'default') {
+            centerHelper = String(window._centerConfig.transcriberProvider).toLowerCase();
+          }
+        } catch (_e) {}
+        var helper = centerHelper
+          || (cp['scoring_transcription_provider'] || cp['scoring_transcribe_helper_ai'] || 'gemini').toString().trim().toLowerCase();
         if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini') helper = 'gemini';
-        console.log('[Transcribe] Text-only provider (' + provider + ') using helper:', helper);
+        console.log('[Transcribe] Text-only provider (' + provider + ') using helper:', helper, centerHelper ? '(center override)' : '');
         provider = helper;
       }
       return provider;
@@ -7612,6 +7621,22 @@
       var cp = cpOverride || await _loadScoringPrompts();
       var centerProvider = await _getCenterAiProviderOverride();
       var provider = _resolveSpeakingTranscriptionProvider(cp, centerProvider);
+
+      // If transcription is being routed to Gemini AND the center configured
+      // a dedicated transcriber-Gemini billing slot, scope that plan override
+      // for the duration of this call so it doesn't leak into later scoring
+      // requests on this page.
+      var _prevPlan = window.__geminiPlanOverride;
+      try {
+        if (provider === 'gemini') {
+          try {
+            var cc = window._centerConfig;
+            var trPlan = cc && cc.transcriberGeminiPlan;
+            if (trPlan && trPlan !== 'default') {
+              window.__geminiPlanOverride = String(trPlan).toLowerCase();
+            }
+          } catch (_e) {}
+        }
 
       // OpenAI transcription (Whisper family)
       if (provider === 'openai') {
@@ -7746,6 +7771,9 @@
       if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
       var gd = await gr.json();
       return (gd.candidates?.[0]?.content?.parts?.[0]?.text || '[No speech detected]').trim();
+      } finally {
+        window.__geminiPlanOverride = _prevPlan;
+      }
     }
 
     // JSZip CDN

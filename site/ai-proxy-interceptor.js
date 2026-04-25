@@ -78,6 +78,23 @@
     var headers  = new Headers(nextInit.headers || (input && input.headers) || {});
     stripProviderAuthHeaders(headers);
     headers.set('x-ms-center', String(window.__CENTER_ID || ''));
+
+    // Per-center Gemini billing-slot override. Set on the request only when
+    // the upstream is Gemini. Priority: a thread-local __geminiPlanOverride
+    // (used by speaking-mock transcription helpers) > center config.
+    try {
+      if (newUrl.indexOf('/gemini/') !== -1) {
+        var plan = '';
+        try { plan = String(window.__geminiPlanOverride || '').trim().toLowerCase(); } catch (e) {}
+        if (!plan) {
+          try {
+            var cc = window._centerConfig;
+            if (cc && cc.geminiPlan) plan = String(cc.geminiPlan).trim().toLowerCase();
+          } catch (e) {}
+        }
+        if (plan && plan !== 'default') headers.set('x-ms-gemini-plan', plan);
+      }
+    } catch (_e) {}
     try {
       var _sn = '';
       try { _sn = sessionStorage.getItem('CANDIDATE_FULL_NAME') || ''; } catch (e) {}
