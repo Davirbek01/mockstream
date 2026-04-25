@@ -328,50 +328,73 @@ async function sendMockListMenu(
   return send(chat_id, lines.join('\n'), { reply_markup: kb });
 }
 
+// Tier picker: shown when a mock # is tapped. Asks user to choose Regular vs Premium.
 async function sendMockCodeCard(
   chat_id: number, center_id: string, center_name: string, skill: Skill, num: number, message_id?: number
 ) {
   const { data } = await sb.from('mock_codes')
-    .select('code, expires_at, last_renewed_at, last_renewed_by, tier')
-    .eq('center', center_id).eq('skill', skill).eq('mock_number', num);
-
-  const rows = data ?? [];
-  const reg = rows.find(r => r.tier === 'regular');
-  const pre = rows.find(r => r.tier === 'premium');
-
-  function renderTier(label: string, row: typeof rows[number] | undefined) {
-    if (!row) return `${label}\n<i>— not generated —</i>`;
-    const expiry  = row.expires_at
-      ? `\n📅 Expires: ${new Date(row.expires_at).toLocaleString('en-GB')}`
-      : `\n♾ Never expires`;
-    const renewed = row.last_renewed_at
-      ? `\n🕒 Renewed: ${new Date(row.last_renewed_at).toLocaleString('en-GB')}`
-      : '';
-    return `${label}\n<code>${esc(row.code)}</code>${expiry}${renewed}`;
-  }
+    .select('tier').eq('center', center_id).eq('skill', skill).eq('mock_number', num);
+  const has = new Set((data ?? []).map(r => r.tier));
+  const regTag = has.has('regular') ? '✅' : '⚪️';
+  const preTag = has.has('premium') ? '✅' : '⚪️';
 
   const text =
     `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n` +
-    renderTier('🟢 <b>Regular</b> <i>(unlocks mock only)</i>', reg) +
-    `\n\n` +
-    renderTier('🔥 <b>Premium</b> <i>(unlocks + AI grading + bonus features)</i>', pre);
+    `Pick the <b>tier</b> you want to manage:\n\n` +
+    `${regTag} 🟢 <b>Regular</b>\n<i>Unlocks the mock only — no AI grading, no retries, no transcripts.</i>\n\n` +
+    `${preTag} 🔥 <b>Premium</b>\n<i>Unlocks the mock + AI auto-analysis, retries, review screen, and transcripts.</i>`;
 
   const kb = {
     inline_keyboard: [
-      [
-        { text: reg ? '🔄 Regen 🟢 Regular' : '➕ Generate 🟢 Regular',
-          callback_data: `mock_renew:${center_id}:${skill}:${num}:regular` }
-      ],
-      [
-        { text: pre ? '🔄 Regen 🔥 Premium' : '➕ Generate 🔥 Premium',
-          callback_data: `mock_renew:${center_id}:${skill}:${num}:premium` }
-      ],
-      ...(reg ? [[{ text: '🗑 Delete 🟢 Regular', callback_data: `mock_delete:${center_id}:${skill}:${num}:regular` }]] : []),
-      ...(pre ? [[{ text: '🗑 Delete 🔥 Premium', callback_data: `mock_delete:${center_id}:${skill}:${num}:premium` }]] : []),
+      [{ text: '🟢 Regular', callback_data: `mock_tier:${center_id}:${skill}:${num}:regular` }],
+      [{ text: '🔥 Premium', callback_data: `mock_tier:${center_id}:${skill}:${num}:premium` }],
       [
         { text: '⬅️ Back', callback_data: `mock_skill:${center_id}:${skill}` },
         { text: '🏫 Centers', callback_data: 'back:centers' }
       ]
+    ]
+  };
+  if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
+  return send(chat_id, text, { reply_markup: kb });
+}
+
+// Single-tier card: shows the chosen tier's code + 3 buttons (Renew, Back, Home).
+async function sendMockTierCard(
+  chat_id: number, center_id: string, center_name: string,
+  skill: Skill, num: number, tier: 'regular' | 'premium', message_id?: number
+) {
+  const { data } = await sb.from('mock_codes')
+    .select('code, expires_at, last_renewed_at')
+    .eq('center', center_id).eq('skill', skill).eq('mock_number', num).eq('tier', tier)
+    .maybeSingle();
+
+  const tierTitle = tier === 'regular'
+    ? '🟢 <b>Regular</b> <i>(unlocks mock only)</i>'
+    : '🔥 <b>Premium</b> <i>(unlocks + AI grading + bonus features)</i>';
+
+  let body: string;
+  if (!data) {
+    body = '<i>— not generated yet —</i>\nTap 🔄 to issue a fresh code.';
+  } else {
+    const expiry = data.expires_at
+      ? `📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}`
+      : `♾ Never expires`;
+    const renewed = data.last_renewed_at
+      ? `\n🕒 Renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}`
+      : '';
+    body = `<code>${esc(data.code)}</code>\n${expiry}${renewed}`;
+  }
+
+  const text =
+    `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n` +
+    `${tierTitle}\n${body}`;
+
+  const renewLabel = data ? '🔄 Renew' : '➕ Generate';
+  const kb = {
+    inline_keyboard: [
+      [{ text: renewLabel, callback_data: `mock_renew:${center_id}:${skill}:${num}:${tier}` }],
+      [{ text: '⬅️ Back', callback_data: `mock_code:${center_id}:${skill}:${num}` }],
+      [{ text: '🏫 Home', callback_data: 'back:centers' }]
     ]
   };
   if (message_id) return editText(chat_id, message_id, text, { reply_markup: kb });
@@ -700,7 +723,7 @@ async function handleCallback(cb: any) {
     return send(chat_id, `📚 Send the <b>mock number</b> (1–999) for ${SKILL_LABEL[skill as Skill]}:`);
   }
 
-  // mock_code:<center>:<skill>:<num>
+  // mock_code:<center>:<skill>:<num>  → tier picker
   if (data.startsWith('mock_code:')) {
     const [, center_id, skill, numStr] = data.split(':');
     const num = parseInt(numStr, 10);
@@ -712,6 +735,21 @@ async function handleCallback(cb: any) {
     if (!c) { await answerCb(cb.id); return; }
     await answerCb(cb.id);
     return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
+  }
+
+  // mock_tier:<center>:<skill>:<num>:<tier>  → single-tier card
+  if (data.startsWith('mock_tier:')) {
+    const [, center_id, skill, numStr, tierRaw] = data.split(':');
+    const num = parseInt(numStr, 10);
+    const tier = (tierRaw === 'regular' || tierRaw === 'premium') ? tierRaw : null;
+    if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num) || !tier) { await answerCb(cb.id); return; }
+    if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
+      await answerCb(cb.id, 'Forbidden'); return;
+    }
+    const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
+    if (!c) { await answerCb(cb.id); return; }
+    await answerCb(cb.id);
+    return sendMockTierCard(chat_id, center_id, c.display_name, skill as Skill, num, tier, message_id);
   }
 
   // mock_renew:<center>:<skill>:<num>:<tier>
@@ -737,7 +775,7 @@ async function handleCallback(cb: any) {
       details: { skill, mock_number: num, tier, via: 'telegram', chat_id, role: session.role, username }
     }).then(() => {});
     await answerCb(cb.id, `✅ New ${tier} code generated!`);
-    return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
+    return sendMockTierCard(chat_id, center_id, c.display_name, skill as Skill, num, tier, message_id);
   }
 
   // mock_delete:<center>:<skill>:<num>:<tier?>  (tier optional = delete both)
