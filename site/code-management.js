@@ -253,6 +253,8 @@
       state.centers = r.centers || [];
       state.role = r.role;
       sessionStorage.setItem(ROLE_KEY, r.role);
+      // Mirror unlock to Site Management so it doesn't re-prompt this session.
+      try { sessionStorage.setItem('ms_sitemgmt_passcode_ok', '1'); } catch (e) {}
       renderMain();
     }
   }

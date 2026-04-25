@@ -17468,6 +17468,9 @@
           _spAdminUnlocked = true;
           _ruAdminUnlocked = true;
           _markPasscodeUnlocked();
+          // Share the verified passcode with the Code Management panel so it
+          // doesn't re-prompt for the same super-admin code in this session.
+          try { sessionStorage.setItem('cm_admin_passcode_v1', code); } catch (e) {}
           var fn = _siteAdminPendingAction;
           _siteAdminPendingAction = null;
           _closeSiteAdminPasscode();
