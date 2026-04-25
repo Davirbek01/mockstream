@@ -4169,6 +4169,7 @@
   // Visibility gated on _communityUserRole === 'super_admin'.
   // ══════════════════════════════════════════════════════════════════════════
   var _hotlineConversations = [];      // [{conversation_id, sender_name, device_id, category, last_content, last_time, unread_count, attachment_type}]
+  var _hotlineSelectedGroup = null;    // category name when drilled into a group's conv list
   var _hotlineSelectedConv = null;     // { conversation_id, sender_name, device_id, category, messages: [] }
   var _hotlineLoaded = false;
   var _hotlinePollTimer = null;
@@ -4219,6 +4220,14 @@
            cat === 'premium' ? '👑 Premium' :
            cat === 'partner' ? '🤝 Partner' :
            cat;
+  }
+
+  function _hotlineCatColor(cat) {
+    return cat === 'private' ? 'linear-gradient(135deg,#059669,#047857)' :
+           cat === 'support' ? 'linear-gradient(135deg,#3b82f6,#2563eb)' :
+           cat === 'premium' ? 'linear-gradient(135deg,#f59e0b,#d97706)' :
+           cat === 'partner' ? 'linear-gradient(135deg,#7c3aed,#6d28d9)' :
+                               'linear-gradient(135deg,#6366f1,#7c3aed)';
   }
 
   async function _hotlineFetchConversations() {
@@ -4310,6 +4319,66 @@
     }
   }
 
+  function _hotlineRenderGroups() {
+    var list = document.getElementById('cb-messages');
+    if (!list) return;
+    if (!_hotlineLoaded) {
+      list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:40px;">Loading conversations…</div>';
+      return;
+    }
+    // Bucket conversations by category
+    var buckets = {};
+    HOTLINE_CATEGORIES.forEach(function (k) { buckets[k] = { count: 0, unread: 0, last_time: '' }; });
+    _hotlineConversations.forEach(function (c) {
+      var k = c.category || 'private';
+      if (!buckets[k]) buckets[k] = { count: 0, unread: 0, last_time: '' };
+      buckets[k].count++;
+      buckets[k].unread += (c.unread_count || 0);
+      if ((c.last_time || '') > buckets[k].last_time) buckets[k].last_time = c.last_time || '';
+    });
+    var html = '<div style="padding:6px 4px;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">🔥 Hotline — Inbox Groups</div>';
+    HOTLINE_CATEGORIES.forEach(function (cat) {
+      var b = buckets[cat];
+      if (!b || !b.count) return; // skip empty groups
+      var unread = b.unread || 0;
+      var badge = unread > 0
+        ? '<span style="background:#dc2626;color:#fff;font-size:11px;font-weight:700;border-radius:10px;padding:2px 7px;min-width:18px;text-align:center;">' + (unread > 99 ? '99+' : unread) + '</span>'
+        : '';
+      var time = b.last_time ? new Date(b.last_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+      var unreadBg = unread > 0 ? '#fef2f2' : '#fff';
+      var label = _hotlineCatLabel(cat);
+      var emoji = label.split(' ')[0];
+      var name = label.split(' ').slice(1).join(' ');
+      html +=
+        '<div class="cb-hotline-group" data-group="' + cat + '" ' +
+             'style="display:flex;gap:10px;align-items:center;padding:14px 12px;border-radius:12px;background:' + unreadBg + ';border:1px solid #e5e7eb;margin:6px 0;cursor:pointer;transition:background .15s;"' +
+             ' onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'' + unreadBg + '\'">' +
+          '<div style="flex:0 0 44px;height:44px;border-radius:50%;background:' + _hotlineCatColor(cat) + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;">' + emoji + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">' +
+              '<strong style="font-size:14px;color:#1e293b;">' + escapeHtml(name) + '</strong>' +
+              '<span style="font-size:10px;color:#94a3b8;flex:0 0 auto;">' + time + '</span>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:3px;">' +
+              '<span style="font-size:12px;color:#64748b;">' + b.count + ' conversation' + (b.count === 1 ? '' : 's') + '</span>' +
+              badge +
+            '</div>' +
+          '</div>' +
+          '<span style="color:#cbd5e1;font-size:18px;flex:0 0 auto;">›</span>' +
+        '</div>';
+    });
+    if (!_hotlineConversations.length) {
+      html += '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:40px;">No user messages yet.</div>';
+    }
+    list.innerHTML = html;
+    list.querySelectorAll('.cb-hotline-group').forEach(function (row) {
+      row.addEventListener('click', function () {
+        _hotlineSelectedGroup = row.getAttribute('data-group');
+        _hotlineRenderList();
+      });
+    });
+  }
+
   function _hotlineRenderList() {
     var list = document.getElementById('cb-messages');
     if (!list) return;
@@ -4317,12 +4386,24 @@
       list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:40px;">Loading conversations…</div>';
       return;
     }
-    if (!_hotlineConversations.length) {
-      list.innerHTML = '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:60px;">🔥 Hotline Inbox<br><span style="font-size:12px;">No user messages yet.</span></div>';
+    var group = _hotlineSelectedGroup;
+    var convs = group
+      ? _hotlineConversations.filter(function (c) { return (c.category || 'private') === group; })
+      : _hotlineConversations;
+    var groupLabel = group ? _hotlineCatLabel(group) : '🔥 Hotline';
+    var html =
+      '<div style="display:flex;align-items:center;gap:8px;padding:8px 6px;margin-bottom:4px;">' +
+        (group ? '<button id="cb-hotline-back-groups" style="background:none;border:none;cursor:pointer;font-size:14px;color:#1e293b;padding:4px 8px;">← Groups</button>' : '') +
+        '<span style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">' + escapeHtml(groupLabel) + ' — ' + convs.length + ' conv.</span>' +
+      '</div>';
+    if (!convs.length) {
+      html += '<div style="text-align:center;color:#94a3b8;font-size:13px;margin-top:60px;">No conversations in this group.</div>';
+      list.innerHTML = html;
+      var bg0 = document.getElementById('cb-hotline-back-groups');
+      if (bg0) bg0.addEventListener('click', function () { _hotlineSelectedGroup = null; _hotlineRenderGroups(); });
       return;
     }
-    var html = '<div style="padding:6px 4px;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">🔥 Hotline — ' + _hotlineConversations.length + ' conversation(s)</div>';
-    _hotlineConversations.forEach(function (c) {
+    convs.forEach(function (c) {
       var unread = c.unread_count || 0;
       var badge = unread > 0
         ? '<span style="background:#dc2626;color:#fff;font-size:11px;font-weight:700;border-radius:10px;padding:2px 7px;min-width:18px;text-align:center;">' + (unread > 99 ? '99+' : unread) + '</span>'
@@ -4351,6 +4432,8 @@
         '</div>';
     });
     list.innerHTML = html;
+    var bg = document.getElementById('cb-hotline-back-groups');
+    if (bg) bg.addEventListener('click', function () { _hotlineSelectedGroup = null; _hotlineRenderGroups(); });
     // Bind row clicks
     list.querySelectorAll('.cb-hotline-conv').forEach(function (row) {
       row.addEventListener('click', function () {
@@ -4432,7 +4515,10 @@
     if (backBtn) backBtn.addEventListener('click', function () {
       _hotlineSelectedConv = null;
       _hotlineApplyInputVisibility();
-      _hotlineFetchConversations().then(_hotlineRenderList);
+      _hotlineFetchConversations().then(function () {
+        if (_hotlineSelectedGroup) _hotlineRenderList();
+        else _hotlineRenderGroups();
+      });
     });
     // Scroll to bottom
     list.scrollTop = list.scrollHeight;
@@ -4476,16 +4562,18 @@
     }
   }
 
+  function _hotlineRerenderCurrentView() {
+    if (currentCategory !== 'hotline') return;
+    if (_hotlineSelectedConv) return; // thread view manages its own
+    if (_hotlineSelectedGroup) _hotlineRenderList();
+    else _hotlineRenderGroups();
+  }
+
   function _hotlineStartPolling() {
     if (_hotlinePollTimer) return;
-    _hotlineFetchConversations().then(function () {
-      // If currently on hotline tab & list view, re-render
-      if (currentCategory === 'hotline' && !_hotlineSelectedConv) _hotlineRenderList();
-    });
+    _hotlineFetchConversations().then(_hotlineRerenderCurrentView);
     _hotlinePollTimer = setInterval(function () {
-      _hotlineFetchConversations().then(function () {
-        if (currentCategory === 'hotline' && !_hotlineSelectedConv) _hotlineRenderList();
-      });
+      _hotlineFetchConversations().then(_hotlineRerenderCurrentView);
     }, 15000);
   }
 
@@ -4493,15 +4581,19 @@
   window._cbHotline = {
     applyTabVisibility: _hotlineApplyTabVisibility,
     renderCurrent: function () {
-      if (_hotlineSelectedConv) _hotlineRenderThread();
-      else {
+      if (_hotlineSelectedConv) {
+        _hotlineRenderThread();
+      } else if (_hotlineSelectedGroup) {
         _hotlineRenderList();
-        _hotlineFetchConversations().then(_hotlineRenderList);
+        _hotlineFetchConversations().then(_hotlineRerenderCurrentView);
+      } else {
+        _hotlineRenderGroups();
+        _hotlineFetchConversations().then(_hotlineRerenderCurrentView);
       }
     },
     sendReply: _hotlineSendReply,
     hasSelection: function () { return !!_hotlineSelectedConv; },
-    clearSelection: function () { _hotlineSelectedConv = null; }
+    clearSelection: function () { _hotlineSelectedConv = null; _hotlineSelectedGroup = null; }
   };
 
   // Start when DOM is ready
