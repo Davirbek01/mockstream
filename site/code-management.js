@@ -199,6 +199,7 @@
   }
 
   var state = { centers: [], role: null, currentCenter: null, view: null, fromSMG: false, vipTab: 'premium' };
+  var MAIN_SITE_ID = 'mockstream'; // governed by super-admin passcode, no clone passcode needed
 
   /* -------------------------------------------------------------- gate */
   function renderGate() {
@@ -593,10 +594,10 @@
       '</div>' +
       '<div class="cm-card">' +
         '<h4>🔑 Per-center admin passcode</h4>' +
-        '<div class="cm-meta" style="margin-bottom:10px;">Pick a center to see its current passcode. Tap Generate to instantly replace it.</div>' +
+        '<div class="cm-meta" style="margin-bottom:10px;">Pick a center to see its current passcode. Tap Generate to instantly replace it. <i>(The main site uses the super-admin passcode below — it is not in this list.)</i></div>' +
         '<div class="cm-row" style="margin-bottom:10px;">' +
           '<select class="cm-select" id="cmPcCenter" style="flex:1;">' +
-            state.centers.map(function(c){ return '<option value="'+c.id+'">'+escapeHtml(c.display_name||c.id)+'</option>'; }).join('') +
+            state.centers.filter(function(c){ return c.id !== MAIN_SITE_ID; }).map(function(c){ return '<option value="'+c.id+'">'+escapeHtml(c.display_name||c.id)+'</option>'; }).join('') +
           '</select>' +
         '</div>' +
         '<div class="cm-vip-wrap">' +
