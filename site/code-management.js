@@ -438,18 +438,17 @@
         '<p style="margin:14px 0 8px;font:600 13px system-ui;color:#64748b;">Per-Mock Codes (single-test access)</p>' +
         '<div class="cm-card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;">' +
           '<h4 style="margin:0 0 6px;">⚡ Bulk generate (all 4 skills × both tiers)</h4>' +
-          '<p style="margin:0 0 10px;font-size:12.5px;color:#78350f;">Generates Regular + Premium codes for mocks <b>1..N</b> across Listening, Reading, Writing, Speaking in one click.</p>' +
+          '<p style="margin:0 0 8px;font-size:12.5px;color:#78350f;">Generates Regular + Premium codes for every mock the site ships, across Listening / Reading / Writing / Speaking.</p>' +
+          '<div id="cmBulkCounts" style="margin:0 0 10px;font:600 12.5px system-ui;color:#78350f;">📊 Detecting mock counts…</div>' +
           '<div class="cm-row">' +
-            '<label class="cm-label">Mocks per skill (N):</label>' +
-            '<input type="number" class="cm-input num" id="cmBulkN" min="1" max="200" value="50" style="width:90px;">' +
             '<label class="cm-label">Expiry:</label>' +
             '<select class="cm-select" id="cmBulkExp">' +
               EXPIRY_OPTIONS.map(function(o){ return '<option value="'+o.v+'">'+o.label+'</option>'; }).join('') +
             '</select>' +
           '</div>' +
           '<div class="cm-row" style="margin-bottom:0;">' +
-            '<button class="cm-btn" id="cmBulkMissing">⚡ Generate missing only</button>' +
-            '<button class="cm-btn danger" id="cmBulkAll">🔄 Regenerate ALL (revokes existing)</button>' +
+            '<button class="cm-btn" id="cmBulkMissing" disabled>⚡ Generate missing only</button>' +
+            '<button class="cm-btn danger" id="cmBulkAll" disabled>🔄 Regenerate ALL (revokes existing)</button>' +
           '</div>' +
         '</div>' +
         mockHtml +
@@ -586,26 +585,70 @@
     // Bulk generate / regenerate buttons
     var bulkMissingBtn = cb.querySelector('#cmBulkMissing');
     var bulkAllBtn     = cb.querySelector('#cmBulkAll');
-    function bulkN() {
-      var v = parseInt((cb.querySelector('#cmBulkN')||{}).value, 10);
-      if (!Number.isInteger(v) || v < 1 || v > 200) return null;
-      return v;
-    }
+    var bulkCountsEl   = cb.querySelector('#cmBulkCounts');
     function bulkExp() { return (cb.querySelector('#cmBulkExp')||{}).value || ''; }
+
+    // Detect per-skill mock counts from the promocode dictionaries the site
+    // ships (loaded by landing.html). Falls back to whatever the server has.
+    function detectLocalCounts() {
+      function maxKey(dict) {
+        if (!dict || typeof dict !== 'object') return 0;
+        var max = 0;
+        for (var k in dict) {
+          if (!Object.prototype.hasOwnProperty.call(dict, k)) continue;
+          var n = parseInt(k, 10);
+          if (n >= 1 && n <= 999 && n > max) max = n;
+        }
+        return max;
+      }
+      return {
+        listening: maxKey(window.LISTENING_MOCK_PROMOCODES),
+        reading:   maxKey(window.READING_MOCK_PROMOCODES),
+        writing:   maxKey(window.WRITING_MOCK_PROMOCODES),
+        speaking:  maxKey(window.SPEAKING_MOCK_PROMOCODES)
+      };
+    }
+    function countsFmt(c) {
+      return '🎧 ' + (c.listening||0) + ' · 📖 ' + (c.reading||0)
+           + ' · ✏️ ' + (c.writing||0) + ' · 🎤 ' + (c.speaking||0);
+    }
+    state.mockCounts = state.mockCounts || null;
+    (async function loadCounts() {
+      var local = detectLocalCounts();
+      var hasLocal = local.listening + local.reading + local.writing + local.speaking > 0;
+      // Always try to fetch the server's view first
+      var server = await call('get_mock_counts', {});
+      var counts = (server && server.ok && server.counts) ? server.counts : null;
+      // If we detected fresh dicts locally and they differ (or server has no record), sync.
+      if (hasLocal && (!counts ||
+          local.listening !== counts.listening || local.reading !== counts.reading ||
+          local.writing   !== counts.writing   || local.speaking !== counts.speaking)) {
+        var pushed = await call('set_mock_counts', { counts: local });
+        if (pushed && pushed.ok) counts = pushed.counts;
+      }
+      if (!counts) counts = local.listening ? local : { listening: 100, reading: 99, writing: 99, speaking: 99 };
+      state.mockCounts = counts;
+      var src = hasLocal ? 'detected from this page' : (server && server.ok && server.source === 'site_settings' ? 'last synced' : 'default');
+      if (bulkCountsEl) bulkCountsEl.innerHTML = '📊 Mocks per skill (' + src + '): ' + countsFmt(counts);
+      if (bulkMissingBtn) bulkMissingBtn.disabled = false;
+      if (bulkAllBtn)     bulkAllBtn.disabled     = false;
+    })();
+
     if (bulkMissingBtn) {
       bulkMissingBtn.onclick = async function() {
-        var n = bulkN();
-        if (!n) { flash('err','Enter mocks per skill (1–200)'); return; }
+        var c = state.mockCounts;
+        if (!c) { flash('err','Counts not loaded yet'); return; }
         if (!await cmConfirm({
           icon: '⚡',
-          title: 'Generate missing codes for mocks 1..'+n+'?',
-          message: 'For every skill (Listening / Reading / Writing / Speaking) and both tiers (Regular + Premium), this will create a code for any mock 1..<b>'+n+'</b> that does not yet have one.<br><br><b>Existing codes will NOT change.</b>',
+          title: 'Generate missing codes?',
+          message: 'For every mock the site has (' + countsFmt(c) + ') and both tiers (🟢 Regular + 🔥 Premium), this will create a code for any slot that does not yet have one.<br><br><b>Existing codes will NOT change.</b>',
           confirmLabel: 'Generate'
         })) return;
         bulkMissingBtn.disabled = true; bulkAllBtn.disabled = true;
         bulkMissingBtn.textContent = '⏳ Generating…';
         var r2 = await call('bulk_renew_mocks', {
-          center: state.currentCenter, max_mock: n, mode: 'missing', expiry: expiryToISO(bulkExp())
+          center: state.currentCenter, mode: 'missing',
+          max_mock_by_skill: c, expiry: expiryToISO(bulkExp())
         });
         bulkMissingBtn.disabled = false; bulkAllBtn.disabled = false;
         bulkMissingBtn.textContent = '⚡ Generate missing only';
@@ -615,19 +658,20 @@
     }
     if (bulkAllBtn) {
       bulkAllBtn.onclick = async function() {
-        var n = bulkN();
-        if (!n) { flash('err','Enter mocks per skill (1–200)'); return; }
+        var c = state.mockCounts;
+        if (!c) { flash('err','Counts not loaded yet'); return; }
         if (!await cmConfirm({
           icon: '🔄',
-          title: 'Regenerate ALL codes for mocks 1..'+n+'?',
-          message: 'This will <b>revoke every existing</b> Regular and Premium mock code for Listening / Reading / Writing / Speaking (mocks 1..<b>'+n+'</b>) and issue brand-new ones.<br><br>Anyone currently using an old code will lose access immediately.',
+          title: 'Regenerate ALL codes?',
+          message: 'This will <b>revoke every existing</b> Regular and Premium mock code for every mock the site has (' + countsFmt(c) + ') and issue brand-new ones.<br><br>Anyone currently using an old code will lose access immediately.',
           confirmLabel: 'Yes, regenerate all',
           confirmClass: 'danger'
         })) return;
         bulkAllBtn.disabled = true; bulkMissingBtn.disabled = true;
         bulkAllBtn.textContent = '⏳ Regenerating…';
         var r2 = await call('bulk_renew_mocks', {
-          center: state.currentCenter, max_mock: n, mode: 'all', expiry: expiryToISO(bulkExp())
+          center: state.currentCenter, mode: 'all',
+          max_mock_by_skill: c, expiry: expiryToISO(bulkExp())
         });
         bulkAllBtn.disabled = false; bulkMissingBtn.disabled = false;
         bulkAllBtn.textContent = '🔄 Regenerate ALL (revokes existing)';

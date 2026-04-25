@@ -292,27 +292,36 @@ Deno.serve(async (req) => {
       }
 
       // Bulk-issue/regenerate codes for every (skill × mock# 1..max × tier) for a center.
-      // Body: { center, max_mock (1..200), mode? 'missing'|'all', skills?, tiers?, expiry?, length? }
+      // Body: { center, max_mock?, max_mock_by_skill?, mode? 'missing'|'all', skills?, tiers?, expiry?, length? }
+      //   max_mock_by_skill: { listening: 100, reading: 99, writing: 99, speaking: 99 }
+      //     (preferred; falls back to max_mock for missing skills)
       //   mode='missing' (default) → only insert rows that don't exist (existing codes preserved)
       //   mode='all'                → upsert every cell (revokes/replaces existing codes)
       case 'bulk_renew_mocks': {
         const center = normCenter(body.center);
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
-        const maxMock = parseInt(String(body.max_mock ?? ''), 10);
-        if (!Number.isInteger(maxMock) || maxMock < 1 || maxMock > 200) {
-          return json(400, { ok: false, error: 'bad_max_mock' });
-        }
-        const mode = body.mode === 'all' ? 'all' : 'missing';
         const allSkills = ['listening','reading','writing','speaking'] as const;
+        const allTiers  = ['regular','premium'] as const;
         const skills = Array.isArray(body.skills) && body.skills.length
           ? body.skills.map((s: any) => String(s).toLowerCase()).filter((s: string) => (allSkills as readonly string[]).includes(s))
           : [...allSkills];
-        const allTiers = ['regular','premium'] as const;
         const tiers = Array.isArray(body.tiers) && body.tiers.length
           ? body.tiers.map((t: any) => String(t).toLowerCase()).filter((t: string) => (allTiers as readonly string[]).includes(t))
           : [...allTiers];
         if (!skills.length || !tiers.length) return json(400, { ok: false, error: 'bad_scope' });
+        const fallbackMax = parseInt(String(body.max_mock ?? ''), 10);
+        const bySkill: Record<string, number> = {};
+        const rawBy = body.max_mock_by_skill && typeof body.max_mock_by_skill === 'object' ? body.max_mock_by_skill : {};
+        for (const s of skills) {
+          let n = parseInt(String((rawBy as Record<string, unknown>)[s] ?? ''), 10);
+          if (!Number.isInteger(n) || n < 1) n = Number.isInteger(fallbackMax) ? fallbackMax : NaN;
+          if (!Number.isInteger(n) || n < 1 || n > 200) {
+            return json(400, { ok: false, error: 'bad_max_mock_for_' + s });
+          }
+          bySkill[s] = n;
+        }
+        const mode = body.mode === 'all' ? 'all' : 'missing';
         const length = Math.min(Math.max(parseInt(String(body.length ?? '8'), 10) || 8, 4), 8);
         const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
         const nowIso = new Date().toISOString();
@@ -328,7 +337,8 @@ Deno.serve(async (req) => {
 
         const batch: Array<Record<string, unknown>> = [];
         for (const skill of skills) {
-          for (let n = 1; n <= maxMock; n++) {
+          const cap = bySkill[skill];
+          for (let n = 1; n <= cap; n++) {
             for (const tier of tiers) {
               if (mode === 'missing' && existing.has(`${skill}#${n}#${tier}`)) continue;
               batch.push({
@@ -349,9 +359,49 @@ Deno.serve(async (req) => {
           written += chunk.length;
         }
         await audit(actorTag, 'bulk_renew_mocks', center, {
-          mode, max_mock: maxMock, skills, tiers, written
+          mode, max_mock_by_skill: bySkill, skills, tiers, written
         });
-        return json(200, { ok: true, written, mode, max_mock: maxMock, skills, tiers });
+        return json(200, { ok: true, written, mode, max_mock_by_skill: bySkill, skills, tiers });
+      }
+
+      // Mock count registry — tells the panel/bot how many mocks exist per skill.
+      // Stored in site_settings(key='mock_counts', value=jsonb).
+      case 'get_mock_counts': {
+        const { data } = await sb.from('site_settings')
+          .select('value, updated_at').eq('key', 'mock_counts').maybeSingle();
+        const v = (data?.value ?? null) as Record<string, unknown> | null;
+        const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+        const counts: Record<string, number> = { ...def };
+        if (v && typeof v === 'object') {
+          for (const k of Object.keys(def)) {
+            const n = parseInt(String((v as Record<string, unknown>)[k] ?? ''), 10);
+            if (Number.isInteger(n) && n >= 1 && n <= 200) counts[k] = n;
+          }
+        }
+        return json(200, {
+          ok: true, counts,
+          source: data ? 'site_settings' : 'default',
+          updated_at: data?.updated_at ?? null
+        });
+      }
+
+      // Sync detected counts (called by the panel on open).
+      case 'set_mock_counts': {
+        const raw = body.counts && typeof body.counts === 'object' ? body.counts : {};
+        const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+        const counts: Record<string, number> = {};
+        for (const k of Object.keys(def)) {
+          const n = parseInt(String((raw as Record<string, unknown>)[k] ?? ''), 10);
+          if (!Number.isInteger(n) || n < 1 || n > 200) {
+            return json(400, { ok: false, error: 'bad_count_for_' + k });
+          }
+          counts[k] = n;
+        }
+        const { error } = await sb.from('site_settings')
+          .upsert({ key: 'mock_counts', value: counts, updated_at: new Date().toISOString() });
+        if (error) throw error;
+        await audit(actorTag, 'set_mock_counts', null, { counts });
+        return json(200, { ok: true, counts });
       }
 
       case 'set_expiry': {
