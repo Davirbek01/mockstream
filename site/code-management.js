@@ -127,7 +127,17 @@
       '.cm-gate{max-width:380px;margin:0 auto;text-align:center;padding:28px 22px;}',
       '.cm-gate input{width:100%;padding:12px 14px;border:1.5px solid rgba(148,163,184,.4);border-radius:10px;font-size:18px;text-align:center;letter-spacing:4px;font-variant-numeric:tabular-nums;outline:none;background:var(--surface,#fff);color:var(--ink,#0f172a);box-sizing:border-box;margin:14px 0 6px;}',
       '.cm-gate input:focus{border-color:#7c3aed;}',
-      '.cm-empty{text-align:center;padding:30px 14px;color:#94a3b8;font-size:13px;}'
+      '.cm-empty{text-align:center;padding:30px 14px;color:#94a3b8;font-size:13px;}',
+      /* confirm dialog */
+      '.cm-confirm-bd{position:fixed;inset:0;z-index:10220;background:rgba(15,23,42,.62);display:flex;align-items:center;justify-content:center;padding:20px;}',
+      '.cm-confirm-box{background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:18px;padding:28px 24px 22px;max-width:370px;width:100%;box-shadow:0 28px 72px rgba(0,0,0,.38);text-align:center;animation:cmcPop .18s ease;}',
+      '@keyframes cmcPop{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}',
+      '.cm-confirm-icon{font-size:42px;margin-bottom:10px;line-height:1;}',
+      '.cm-confirm-title{font:700 16px system-ui,-apple-system,Segoe UI,sans-serif;margin:0 0 8px;}',
+      '.cm-confirm-msg{font-size:13px;color:#64748b;margin:0 0 22px;line-height:1.6;}',
+      '.cm-confirm-code{display:inline-block;padding:2px 8px;background:#0f172a;color:#fbbf24;font:600 14px ui-monospace,Consolas,monospace;border-radius:5px;letter-spacing:1.5px;vertical-align:middle;}',
+      '.cm-confirm-actions{display:flex;gap:10px;justify-content:center;}',
+      '.cm-confirm-actions .cm-btn{min-width:104px;padding:10px 18px;}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -390,7 +400,11 @@
       b.onclick = async function(){
         var type = b.dataset.type;
         var exp = body.querySelector('.cm-vip-exp[data-type="'+type+'"]').value;
-        if (!confirm('Generate a NEW '+type+' VIP code? The old one will stop working immediately.')) return;
+        var existing = vipMap[type];
+        var renewMsg = existing
+          ? 'A new code will be generated. The current code <span class="cm-confirm-code">'+existing.code+'</span> will stop working immediately — anyone using it will lose access.'
+          : 'A fresh access code will be created for this center. Share it only with authorised users.';
+        if (!await cmConfirm({ icon: existing ? '🔄' : '🔑', title: 'Generate new '+(type==='premium'?'Premium':'Regular')+' VIP code?', message: renewMsg, confirmLabel: existing ? 'Yes, replace' : 'Generate' })) return;
         b.disabled = true; b.textContent = '⏳';
         var r = await call('renew_vip', { center: state.currentCenter, type: type, expiry: expiryToISO(exp) });
         if (r.ok) { flash('ok', 'New '+type+' code: '+r.code); renderTab(); }
@@ -399,7 +413,8 @@
     });
     body.querySelectorAll('.cm-revoke-vip').forEach(function(b){
       b.onclick = async function(){
-        if (!confirm('Revoke the '+b.dataset.type+' VIP code?')) return;
+        var rCode = (vipMap[b.dataset.type] || {}).code || '—';
+        if (!await cmConfirm({ icon: '🗑️', title: 'Revoke '+(b.dataset.type==='premium'?'Premium':'Regular')+' VIP code?', message: 'Code <span class="cm-confirm-code">'+rCode+'</span> will be deactivated immediately. Anyone using it will lose access.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
         var r = await call('revoke_vip', { center: state.currentCenter, type: b.dataset.type });
         if (r.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r.error||'Failed');
       };
@@ -418,6 +433,10 @@
         var num = parseInt(card.querySelector('.cm-mock-num').value, 10);
         var exp = card.querySelector('.cm-mock-exp').value;
         if (!num || num < 1) { flash('err','Enter mock number'); return; }
+        var genExisting = mockMap[skill+'#'+num];
+        if (genExisting) {
+          if (!await cmConfirm({ icon: '🔄', title: 'Replace existing code?', message: 'A code already exists for Mock #'+num+': <span class="cm-confirm-code">'+genExisting.code+'</span>. It will stop working immediately.', confirmLabel: 'Replace' })) return;
+        }
         b.disabled = true; b.textContent = '⏳';
         var r = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num, expiry: expiryToISO(exp) });
         if (r.ok) { flash('ok', skill+' mock #'+num+' code: '+r.code); renderTab(); }
@@ -428,14 +447,16 @@
     body.querySelectorAll('.cm-renew-mock').forEach(function(b){
       b.onclick = async function(){
         var skill = b.dataset.skill, num = parseInt(b.dataset.num,10);
-        if (!confirm('Renew '+skill+' mock #'+num+'? Old code stops working.')) return;
+        var mExisting = mockMap[skill+'#'+num] || {};
+        if (!await cmConfirm({ icon: '🔄', title: 'Renew Mock #'+num+' code?', message: 'Current code <span class="cm-confirm-code">'+(mExisting.code||'—')+'</span> will stop working immediately. A new code will be issued.', confirmLabel: 'Renew' })) return;
         var r = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num });
         if (r.ok) { flash('ok','New code: '+r.code); renderTab(); } else flash('err', r.error||'Failed');
       };
     });
     body.querySelectorAll('.cm-revoke-mock').forEach(function(b){
       b.onclick = async function(){
-        if (!confirm('Revoke this mock code?')) return;
+        var mRevoke = mockMap[b.dataset.skill+'#'+b.dataset.num] || {};
+        if (!await cmConfirm({ icon: '🗑️', title: 'Revoke mock code?', message: 'Code <span class="cm-confirm-code">'+(mRevoke.code||'—')+'</span> will be deactivated immediately.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
         var r = await call('revoke_mock', { center: state.currentCenter, skill: b.dataset.skill, mock_number: parseInt(b.dataset.num,10) });
         if (r.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r.error||'Failed');
       };
@@ -446,7 +467,10 @@
     if (fmRenewBtn) {
       fmRenewBtn.onclick = async function() {
         var exp = body.querySelector('.cm-fm-exp').value;
-        if (!confirm('Generate a NEW Full Mock code? The old one will stop working immediately.')) return;
+        var fmRenewMsg = fmCode
+          ? 'Current code <span class="cm-confirm-code">'+fmCode+'</span> will stop working immediately — anyone using it will lose access.'
+          : 'A new Full Mock access code will be created for this center.';
+        if (!await cmConfirm({ icon: fmCode ? '🔄' : '🔑', title: 'Generate new Full Mock code?', message: fmRenewMsg, confirmLabel: fmCode ? 'Yes, replace' : 'Generate' })) return;
         fmRenewBtn.disabled = true; fmRenewBtn.textContent = '⏳';
         var r = await call('renew_mock', { center: state.currentCenter, skill: 'full_mock', mock_number: 1, expiry: expiryToISO(exp) });
         if (r.ok) { flash('ok', 'New Full Mock code: '+r.code); renderTab(); }
@@ -456,7 +480,7 @@
     var fmRevokeBtn = body.querySelector('.cm-revoke-fm');
     if (fmRevokeBtn) {
       fmRevokeBtn.onclick = async function() {
-        if (!confirm('Revoke the Full Mock code?')) return;
+        if (!await cmConfirm({ icon: '🗑️', title: 'Revoke Full Mock code?', message: 'Code <span class="cm-confirm-code">'+fmCode+'</span> will be deactivated immediately. Anyone using it will lose access.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
         var r = await call('revoke_mock', { center: state.currentCenter, skill: 'full_mock', mock_number: 1 });
         if (r.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r.error||'Failed');
       };
@@ -562,7 +586,7 @@
     document.getElementById('cmSetSuper').onclick = async function(){
       var p = document.getElementById('cmPcSuper').value;
       if (!/^\d{4,8}$/.test(p)) { flash('err','4–8 digits'); return; }
-      if (!confirm('Replace SUPER-admin passcode? Make sure you remember it.')) return;
+      if (!await cmConfirm({ icon: '⚠️', title: 'Replace super-admin passcode?', message: 'You will be logged out immediately after saving. There is no recovery option — make sure you remember the new passcode before confirming.', confirmLabel: 'Replace & log out', confirmClass: 'danger' })) return;
       var r = await call('set_admin_passcode', { center: '__super__', newPasscode: p });
       if (r.ok) {
         flash('ok','Replaced. Logging out…');
@@ -581,6 +605,30 @@
     });
   }
   function errMsg(e) { return '<div class="cm-msg err">⚠️ ' + escapeHtml(e||'Failed') + '</div>'; }
+
+  function cmConfirm(opts) {
+    return new Promise(function(resolve) {
+      var bd = document.createElement('div');
+      bd.className = 'cm-confirm-bd';
+      bd.innerHTML =
+        '<div class="cm-confirm-box">' +
+          '<div class="cm-confirm-icon">' + (opts.icon || '⚠️') + '</div>' +
+          '<div class="cm-confirm-title">' + escapeHtml(opts.title || 'Are you sure?') + '</div>' +
+          '<div class="cm-confirm-msg">' + (opts.message || '') + '</div>' +
+          '<div class="cm-confirm-actions">' +
+            '<button class="cm-btn muted" id="cmCfxCancel">Cancel</button>' +
+            '<button class="cm-btn ' + (opts.confirmClass || '') + '" id="cmCfxOk">' + escapeHtml(opts.confirmLabel || 'Confirm') + '</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(bd);
+      function done(v) { bd.remove(); resolve(v); }
+      bd.querySelector('#cmCfxCancel').onclick = function() { done(false); };
+      bd.querySelector('#cmCfxOk').onclick = function() { done(true); };
+      bd.addEventListener('click', function(e) { if (e.target === bd) done(false); });
+      setTimeout(function() { var ok = bd.querySelector('#cmCfxOk'); if (ok) ok.focus(); }, 30);
+    });
+  }
+
   function flash(kind, text) {
     var el = document.getElementById('cmFlash');
     if (!el) return;
