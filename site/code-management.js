@@ -63,8 +63,11 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': ANON,
-        'Authorization': 'Bearer ' + ANON
+        'apikey': ANON
+        // NOTE: no Authorization header — function is deployed with
+        // --no-verify-jwt, and sending a non-JWT publishable key as a
+        // Bearer token causes the Supabase gateway to 401 before our
+        // handler runs (which strips the CORS headers).
       },
       body: JSON.stringify(body)
     });
