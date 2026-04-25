@@ -4188,9 +4188,18 @@
   }
 
   async function _hotlineIsSuperAdmin() {
-    // Re-use community role check; it caches after the first call
-    var role = await _checkCommunityRole();
-    return role === 'super_admin';
+    // STRICT check: must have a real authenticated Supabase session
+    // (Google OAuth or magic-link), AND that session's email must be
+    // a super_admin (admin row in premium_emails with empty center).
+    // Falling back to localStorage email is unsafe — anyone could set
+    // ms_vip_email to a known admin address and unlock the inbox.
+    try {
+      if (window.AdminAuth && typeof window.AdminAuth.currentRole === 'function') {
+        var info = await window.AdminAuth.currentRole();
+        return !!(info && info.role === 'super_admin');
+      }
+    } catch (_e) { /* fall through */ }
+    return false;
   }
 
   function _hotlineApplyTabVisibility() {
