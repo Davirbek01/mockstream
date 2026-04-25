@@ -4,6 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./mock-code-verifier.js?v=1"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CEFR Reading Mock Tests</title>
@@ -1563,9 +1564,16 @@
             if (data2.access || data2.valid) {
               sessionStorage.setItem('readingPremiumEntry', 'false');
               return { valid: true, premiumEntry: false };
-            } else {
-              return { valid: false, error: 'Invalid or expired code.' };
             }
+          }
+        }
+
+        // Mock-Stream issued mock codes (Code Management / Telegram bot) — tier-aware
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          var msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'reading', mockNumber: mockNumber });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('readingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry, tier: msRes.tier };
           }
         }
 

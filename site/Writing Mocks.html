@@ -4,6 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./mock-code-verifier.js?v=1"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Writing Exam</title>
@@ -6910,6 +6911,30 @@
           } catch (err) {
             console.log('Backend check failed:', err.message);
           }
+        }
+
+        // Step 3: If still invalid, try Mock-Stream issued mock codes (tier-aware)
+        if (!isValid && typeof window.verifyMockStreamCode === 'function') {
+          try {
+            var msMockNum = (passcodeModal.dataset.pendingFile||'').match(/\d+/);
+            var msRes = await window.verifyMockStreamCode(passcode, {
+              skill: 'writing',
+              mockNumber: msMockNum ? msMockNum[0] : undefined
+            });
+            if (msRes && msRes.valid) {
+              isValid = true;
+              isPermanent = false;
+              if (msRes.premiumEntry) {
+                sessionStorage.setItem('tempPremiumAccess', 'true');
+                sessionStorage.setItem('vipPremiumAi', 'true');
+              } else {
+                sessionStorage.removeItem('tempPremiumAccess');
+                sessionStorage.removeItem('vipPremiumAi');
+              }
+              sessionStorage.setItem('tempPasscodeUsed', passcode);
+              console.log('✅ Mock-Stream code verified — tier=' + msRes.tier);
+            }
+          } catch (e) { console.log('Mock-Stream verify failed:', e.message); }
         }
 
         // Re-enable button

@@ -4,6 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./mock-code-verifier.js?v=1"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Full Mock Exam</title>
@@ -5906,6 +5907,16 @@
                             verified = true;
                             premium = true;
                         }
+                    }
+                }
+
+                // 3) If still not verified, try Mock-Stream issued mock codes (tier-aware)
+                if (!verified && typeof window.verifyMockStreamCode === 'function' && /^\d{4,12}$/.test(passcode)) {
+                    const msRes = await window.verifyMockStreamCode(passcode, { skill: 'full' });
+                    if (msRes && msRes.valid) {
+                        verified = true;
+                        premium = !!msRes.premiumEntry;
+                        console.log('[Full Mock] Mock-Stream code verified — tier=' + msRes.tier);
                     }
                 }
 
