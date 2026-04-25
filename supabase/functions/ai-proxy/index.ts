@@ -31,8 +31,11 @@
 // Secrets:
 //   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY
 //   <PROVIDER>_API_KEY_2 ... _5  (optional backups; auto-used on 429/5xx)
-//   GEMINI_API_KEY_PREPAY, GEMINI_API_KEY_POSTPAY  (optional; used when
-//     site_settings.gemini_active_plan = 'prepay' or 'postpay')
+//   GEMINI_API_KEY_PREPAY,    GEMINI_API_KEY_PREPAY_2     (Gemini billing-slot keys)
+//   GEMINI_API_KEY_POSTPAY,   GEMINI_API_KEY_POSTPAY_2    (used when site_settings.gemini_active_plan
+//     = 'prepay' | 'prepay_2' | 'prepay_both' | 'postpay' | 'postpay_2' | 'postpay_both' —
+//     '_both' modes try slot 1 first then auto-fail-over to slot 2 on 429/5xx,
+//     so a drained billing account can't take down all Gemini calls.)
 //   RATE_LIMIT_PER_10MIN  (default: 0 = disabled)
 //   AI_DAILY_CAP_DEFAULT  (default: 0 = unlimited; per-center value overrides)
 // =====================================================================
@@ -55,8 +58,10 @@ function collectKeys(base: string): string[] {
   return out;
 }
 const GEMINI_KEYS:   string[] = collectKeys('GEMINI_API_KEY');
-const GEMINI_KEY_PREPAY:  string = Deno.env.get('GEMINI_API_KEY_PREPAY')  || '';
-const GEMINI_KEY_POSTPAY: string = Deno.env.get('GEMINI_API_KEY_POSTPAY') || '';
+const GEMINI_KEY_PREPAY:    string = Deno.env.get('GEMINI_API_KEY_PREPAY')    || '';
+const GEMINI_KEY_PREPAY_2:  string = Deno.env.get('GEMINI_API_KEY_PREPAY_2')  || '';
+const GEMINI_KEY_POSTPAY:   string = Deno.env.get('GEMINI_API_KEY_POSTPAY')   || '';
+const GEMINI_KEY_POSTPAY_2: string = Deno.env.get('GEMINI_API_KEY_POSTPAY_2') || '';
 const OPENAI_KEYS:   string[] = collectKeys('OPENAI_API_KEY');
 const CLAUDE_KEYS:   string[] = collectKeys('CLAUDE_API_KEY');
 const GROK_KEYS:     string[] = collectKeys('GROK_API_KEY');
@@ -72,10 +77,16 @@ function keysFor(provider: string): string[] {
   }
 }
 
-// Gemini dual-billing: read `gemini_active_plan` from site_settings and
-// return the matching dedicated key (prepay/postpay). Falls back to the
-// generic GEMINI_KEYS pool when nothing is configured so existing deploys
-// keep working. Cached for 60s to avoid a DB hit on every call.
+// Gemini multi-billing: read `gemini_active_plan` from site_settings and
+// return the matching dedicated key(s). Supports six modes:
+//   prepay        → [PREPAY]
+//   prepay_2      → [PREPAY_2]
+//   prepay_both   → [PREPAY, PREPAY_2]    (auto-failover on 429/5xx)
+//   postpay       → [POSTPAY]
+//   postpay_2     → [POSTPAY_2]
+//   postpay_both  → [POSTPAY, POSTPAY_2]  (auto-failover on 429/5xx)
+// Falls back to the generic GEMINI_KEYS pool when nothing is configured.
+// Cached for 60s to avoid a DB hit on every call.
 let _geminiPlanCache: { keys: string[]; until: number } | null = null;
 async function getGeminiKeys(): Promise<string[]> {
   const now = Date.now();
@@ -88,10 +99,17 @@ async function getGeminiKeys(): Promise<string[]> {
       .eq('key', 'gemini_active_plan')
       .maybeSingle();
     const plan = (data?.value || '').toString().trim().toLowerCase();
-    if (plan === 'prepay' && GEMINI_KEY_PREPAY) {
-      keys = [GEMINI_KEY_PREPAY];
-    } else if (plan === 'postpay' && GEMINI_KEY_POSTPAY) {
-      keys = [GEMINI_KEY_POSTPAY];
+    const planMap: Record<string, string[]> = {
+      'prepay':       [GEMINI_KEY_PREPAY],
+      'prepay_2':     [GEMINI_KEY_PREPAY_2],
+      'prepay_both':  [GEMINI_KEY_PREPAY,  GEMINI_KEY_PREPAY_2],
+      'postpay':      [GEMINI_KEY_POSTPAY],
+      'postpay_2':    [GEMINI_KEY_POSTPAY_2],
+      'postpay_both': [GEMINI_KEY_POSTPAY, GEMINI_KEY_POSTPAY_2],
+    };
+    if (plan && planMap[plan]) {
+      const filtered = planMap[plan].filter(k => !!k);
+      if (filtered.length) keys = filtered;
     }
   } catch (_e) { /* fall back to default keys */ }
   _geminiPlanCache = { keys, until: now + 60_000 };

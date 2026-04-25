@@ -915,7 +915,7 @@
     if (!_geminiKey) {
       // 1. Try Supabase site_settings dual-key selector first
       try {
-        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value');
+        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_prepay_2,gemini_api_key_postpay,gemini_api_key_postpay_2)&select=key,value');
         if (sResp.ok) {
           var sRows = await sResp.json();
           var sMap = {};
@@ -2373,7 +2373,7 @@
     // For Gemini, try Supabase site_settings dual-key first
     if (model === 'gemini') {
       try {
-        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value');
+        var sResp = await sbFetch('/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_prepay_2,gemini_api_key_postpay,gemini_api_key_postpay_2)&select=key,value');
         if (sResp.ok) {
           var sRows = await sResp.json();
           var sMap = {};

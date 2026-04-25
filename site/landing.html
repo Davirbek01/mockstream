@@ -7409,31 +7409,40 @@
             </div>
 
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
-              <label style="font-weight:700;color:#7c3aed;">✨ Gemini Dual-Key Billing</label>
-              <p style="margin:4px 0 10px;font-size:12px;color:#888;">Store two Gemini API keys (prepay &amp; postpay) and switch between them without redeploying.</p>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <label style="font-weight:700;color:#7c3aed;">✨ Gemini Multi-Key Billing</label>
+              <p style="margin:4px 0 12px;font-size:12px;color:#888;">Pick which billing slot the AI proxy uses. <strong>Both</strong> mode tries slot 1 first and auto-fails over to slot 2 on rate-limit or quota errors — emergency backup if one billing account drains.</p>
+
+              <div style="display:flex;flex-direction:column;gap:10px;">
                 <div>
-                  <label style="font-size:12px;color:#666;">Active plan</label>
-                  <select id="sp_gemini_active_plan" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);">
-                    <option value="">(use server fallback)</option>
-                    <option value="prepay">💰 Prepay</option>
-                    <option value="postpay">📆 Postpay</option>
-                  </select>
+                  <div style="font-size:12px;color:#666;font-weight:600;margin-bottom:6px;">💰 Prepay accounts</div>
+                  <div class="sp-gemini-row" data-group="prepay" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay">Prepay 1</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay_2">Prepay 2</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="prepay_both">Both (auto-failover)</button>
+                  </div>
                 </div>
+
                 <div>
-                  <label style="font-size:12px;color:#666;">Status</label>
-                  <div id="sp_gemini_plan_status" style="padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:12px;background:var(--bg);color:#64748b;">—</div>
+                  <div style="font-size:12px;color:#666;font-weight:600;margin-bottom:6px;">📆 Postpay accounts</div>
+                  <div class="sp-gemini-row" data-group="postpay" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay">Postpay 1</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay_2">Postpay 2</button>
+                    <button type="button" class="sp-gemini-btn" data-plan="postpay_both">Both (auto-failover)</button>
+                  </div>
+                </div>
+
+                <div>
+                  <button type="button" class="sp-gemini-btn" data-plan="">⚙ Server fallback (no plan)</button>
                 </div>
               </div>
-              <div style="margin-top:10px;">
-                <label style="font-size:12px;color:#666;">Prepay API key</label>
-                <input type="password" id="sp_gemini_api_key_prepay" placeholder="AIza… (leave blank to keep current)" autocomplete="new-password" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);font-family:monospace;">
-              </div>
-              <div style="margin-top:8px;">
-                <label style="font-size:12px;color:#666;">Postpay API key</label>
-                <input type="password" id="sp_gemini_api_key_postpay" placeholder="AIza… (leave blank to keep current)" autocomplete="new-password" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text);font-family:monospace;">
-              </div>
-              <p style="margin:8px 0 0;font-size:11px;color:#94a3b8;">Stored in Supabase <code>site_settings</code>. Keys are never shown after saving — leaving a field blank preserves the existing value.</p>
+
+              <p style="margin:12px 0 0;font-size:11px;color:#94a3b8;">Selected plan saved to <code>site_settings.gemini_active_plan</code>. API keys live only in Edge Function secrets (<code>GEMINI_API_KEY_PREPAY</code>, <code>_PREPAY_2</code>, <code>_POSTPAY</code>, <code>_POSTPAY_2</code>) — no plaintext keys in the database.</p>
+
+              <style>
+                .sp-gemini-btn{padding:8px 14px;border:1.5px solid var(--ring);border-radius:8px;background:var(--bg);color:var(--text);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500;}
+                .sp-gemini-btn:hover{border-color:#7c3aed;background:rgba(124,58,237,.05);}
+                .sp-gemini-btn.active{border-color:#7c3aed;background:#7c3aed;color:#fff;box-shadow:0 2px 8px rgba(124,58,237,.3);}
+              </style>
             </div>
           </div>
         </div>
@@ -19932,7 +19941,7 @@
           var sbUrl = (typeof SUPABASE_URL !== 'undefined') ? SUPABASE_URL : (window.SUPABASE_URL || '');
           var sbKey = (typeof SUPABASE_ANON !== 'undefined') ? SUPABASE_ANON : (window.SUPABASE_ANON || '');
           if (sbUrl && sbKey) {
-            var sResp = await fetch(sbUrl + '/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value', {
+            var sResp = await fetch(sbUrl + '/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_prepay_2,gemini_api_key_postpay,gemini_api_key_postpay_2)&select=key,value', {
               headers: { apikey: sbKey, Authorization: 'Bearer ' + sbKey }
             });
             if (sResp.ok) {
@@ -20575,32 +20584,43 @@
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
-        // Load Gemini dual-key settings (separate keys, not prefixed with scoring_)
+        // Load Gemini active plan + bind button selector
         try {
-          var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=in.(gemini_active_plan,gemini_api_key_prepay,gemini_api_key_postpay)&select=key,value', {
+          var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.gemini_active_plan&select=value', {
             headers: { 'apikey': _SP_SB_KEY, 'Authorization': 'Bearer ' + _SP_SB_KEY }
           });
           var gRows = await gResp.json();
-          var gMap = {};
-          (gRows || []).forEach(function(r) { gMap[r.key] = r.value; });
-          var planSel = document.getElementById('sp_gemini_active_plan');
-          if (planSel) planSel.value = gMap['gemini_active_plan'] || '';
-          var prepayIn = document.getElementById('sp_gemini_api_key_prepay');
-          var postpayIn = document.getElementById('sp_gemini_api_key_postpay');
-          if (prepayIn) { prepayIn.value = ''; prepayIn.placeholder = gMap['gemini_api_key_prepay'] ? '✓ Saved (leave blank to keep)' : 'AIza… (not set)'; }
-          if (postpayIn) { postpayIn.value = ''; postpayIn.placeholder = gMap['gemini_api_key_postpay'] ? '✓ Saved (leave blank to keep)' : 'AIza… (not set)'; }
-          var statusBox = document.getElementById('sp_gemini_plan_status');
-          if (statusBox) {
-            var active = gMap['gemini_active_plan'] || '';
-            var hasKey = active && gMap['gemini_api_key_' + active];
-            if (!active) { statusBox.textContent = 'Server fallback'; statusBox.style.color = '#64748b'; }
-            else if (hasKey) { statusBox.textContent = '✓ ' + active + ' active'; statusBox.style.color = '#10b981'; }
-            else { statusBox.textContent = '⚠ ' + active + ' (key missing)'; statusBox.style.color = '#dc2626'; }
+          var activePlan = (gRows && gRows[0] && gRows[0].value) || '';
+          _spSetGeminiPlan(activePlan, false);
+          // One-time delegated click handler (idempotent)
+          if (!window._spGeminiBound) {
+            window._spGeminiBound = true;
+            document.querySelectorAll('.sp-gemini-btn').forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                _spSetGeminiPlan(btn.getAttribute('data-plan') || '', true);
+              });
+            });
           }
-        } catch(ge) { console.warn('[Gemini dual-key] load failed:', ge); }
+        } catch(ge) { console.warn('[Gemini multi-key] load failed:', ge); }
         status.innerHTML = '<span style="color:#10b981;">✓ Loaded ' + rows.length + ' saved prompt(s)</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Failed to load: ' + e.message + '</span>';
+      }
+    }
+
+    // Gemini active-plan button selector. `persist`=false → reflect DB only;
+    // true → user clicked, mark dirty for next Save All.
+    function _spSetGeminiPlan(plan, persist) {
+      plan = plan || '';
+      document.querySelectorAll('.sp-gemini-btn').forEach(function (btn) {
+        var v = btn.getAttribute('data-plan') || '';
+        if (v === plan) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+      if (persist) {
+        window._spPendingPlan = plan;
+        var status = document.getElementById('sysPromptStatus');
+        if (status) status.innerHTML = '<span style="color:#f59e0b;">● Plan changed — click Save All to apply</span>';
       }
     }
 
@@ -20657,19 +20677,22 @@
             deleted++;
           }
         }
-        // Gemini dual-key: active plan + optional key rotation
+        // Gemini active plan (saved/cleared on Save All; key buttons set _spPendingPlan)
         try {
-          var planSel = document.getElementById('sp_gemini_active_plan');
-          if (planSel) {
-            var plan = (planSel.value || '').trim();
-            if (plan) { await _spUpsertSetting('gemini_active_plan', plan); saved++; }
+          var pendingPlan = (typeof window._spPendingPlan === 'string') ? window._spPendingPlan : null;
+          if (pendingPlan !== null) {
+            if (pendingPlan) { await _spUpsertSetting('gemini_active_plan', pendingPlan); saved++; }
             else { await _spDeleteSetting('gemini_active_plan'); deleted++; }
+            window._spPendingPlan = null;
           }
-          var prepayIn = document.getElementById('sp_gemini_api_key_prepay');
-          var postpayIn = document.getElementById('sp_gemini_api_key_postpay');
-          if (prepayIn && prepayIn.value.trim()) { await _spUpsertSetting('gemini_api_key_prepay', prepayIn.value.trim()); prepayIn.value = ''; saved++; }
-          if (postpayIn && postpayIn.value.trim()) { await _spUpsertSetting('gemini_api_key_postpay', postpayIn.value.trim()); postpayIn.value = ''; saved++; }
-        } catch(ge) { console.warn('[Gemini dual-key] save failed:', ge); }
+          // Security: ensure no plaintext API keys linger in site_settings.
+          // (Older admin builds saved them here; new flow keeps keys only in
+          // Edge Function secrets.) Idempotent — DELETE on missing row is a no-op.
+          var legacySlots = ['prepay','prepay_2','postpay','postpay_2'];
+          for (var lsi = 0; lsi < legacySlots.length; lsi++) {
+            await _spDeleteSetting('gemini_api_key_' + legacySlots[lsi]);
+          }
+        } catch(ge) { console.warn('[Gemini multi-key] save failed:', ge); }
         status.innerHTML = '<span style="color:#10b981;">✓ Saved ' + saved + ' prompt(s), cleared ' + deleted + ' default(s)</span>';
       } catch(e) {
         status.innerHTML = '<span style="color:#dc2626;">Save failed: ' + e.message + '</span>';
