@@ -124,13 +124,8 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     var cfg = window.SITE_CONFIG || {};
     var base = (cfg.routingBackendUrl || '').replace(/\/+$/, '');
     if (!base) return;
-    // Routing backend has Mock Stream registered as "mockstream" (no underscore),
-    // matching the admin backend convention. Without this translation the main
-    // site's results fall through and get routed to whichever clone channel the
-    // backend picks as default.
-    var routingId = (cfg.testIdentifier === 'mock_stream') ? 'mockstream' : (cfg.testIdentifier || '');
     var fd = new FormData();
-    fd.append('testIdentifier', routingId);
+    fd.append('testIdentifier', cfg.testIdentifier || '');
     fd.append('skill', opts.skill || '');
     if (opts.text)    fd.append('text', opts.text);
     if (opts.caption) fd.append('caption', opts.caption);
@@ -142,7 +137,7 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     function attempt(n) {
       // Rebuild FormData on retry (streams may be consumed)
       var body = new FormData();
-      body.append('testIdentifier', routingId);
+      body.append('testIdentifier', cfg.testIdentifier || '');
       body.append('skill', opts.skill || '');
       if (opts.text)    body.append('text', opts.text);
       if (opts.caption) body.append('caption', opts.caption);

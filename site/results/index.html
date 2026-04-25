@@ -8525,13 +8525,11 @@
       js += '    var cfg = window.SITE_CONFIG || {};\n';
       js += "    var base = (cfg.routingBackendUrl || '').replace(/\\/+$/, '');\n";
       js += '    if (!base) return;\n';
-      js += '    // Routing backend has Mock Stream registered as "mockstream" (no underscore).\n';
-      js += "    var routingId = (cfg.testIdentifier === 'mock_stream') ? 'mockstream' : (cfg.testIdentifier || '');\n";
       js += '    var MAX_RETRIES = 2;\n';
       js += '    var RETRY_DELAYS = [0, 5000];\n';
       js += '    function attempt(n) {\n';
       js += '      var body = new FormData();\n';
-      js += "      body.append('testIdentifier', routingId);\n";
+      js += "      body.append('testIdentifier', cfg.testIdentifier || '');\n";
       js += "      body.append('skill', opts.skill || '');\n";
       js += "      if (opts.text) body.append('text', opts.text);\n";
       js += "      if (opts.caption) body.append('caption', opts.caption);\n";
