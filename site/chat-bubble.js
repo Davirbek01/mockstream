@@ -1768,7 +1768,19 @@
       } catch (e) { /* ignore */ }
     },
     goPremium: function () {
-      try { switchCategory('premium'); } catch (e) {}
+      // Open the user's Telegram chat with @mrkhasanoff3 with a friendly,
+      // pre-filled inquiry message in Uzbek (bold via Telegram markdown).
+      try {
+        var msg =
+          '💎 *Salom!*\n\n' +
+          '🚀 Men *Mock Stream Premium obunasini* sotib olmoqchiman.\n\n' +
+          '✨ Iltimos, narx, toʼlov usullari va premiumda ochiladigan imkoniyatlar haqida *qisqacha maʼlumot* bera olasizmi?\n\n' +
+          '🙏 Rahmat!';
+        var url = 'https://t.me/mrkhasanoff3?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank', 'noopener');
+      } catch (e) {
+        try { switchCategory('premium'); } catch (e2) {}
+      }
     }
   };
 
