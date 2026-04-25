@@ -24,6 +24,7 @@
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
   <script src="site-config/center-guard.js"></script>
+  <script src="code-management.js" defer></script>
   <script>
     if (window.SITE_CONFIG) {
       document.title = window.SITE_CONFIG.brandName;
@@ -17097,6 +17098,7 @@
         { icon: '📖', label: 'Reading Plus',     fn: function(){ openReadingPlusPanel(); } },
         { icon: '🎧', label: 'Listening Plus',   fn: function(){ openListeningPlusPanel(); } },
         { icon: '🏢', label: 'Centers',          fn: function(){ openCentersPanel(); } },
+        { icon: '🔑', label: 'Code Management',  fn: function(){ if (typeof openCodesPanel === 'function') openCodesPanel(); else alert('Code Management not loaded'); } },
         { icon: '🤖', label: 'AI Grading Router',fn: function(){ openAiRouterPanel(); } },
         { icon: '✉️', label: 'Private Messages', fn: function(){ openPrivateMessagesPanel(); } },
         { icon: '💬', label: 'Support Messages', fn: function(){ openSupportMessagesPanel(); } },

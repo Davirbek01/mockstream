@@ -8,6 +8,7 @@
   <title>Results Dashboard — Mock Stream</title>
   <script src="../center-id.js"></script>
   <script src="../site-config/site-config.js"></script>
+  <script src="../code-management.js" defer></script>
   <!-- Admin auth: Supabase Auth magic-link + write interceptor (required for RLS) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../admin-auth.js"></script>
@@ -1788,6 +1789,7 @@
       </div>
       <div class="topbar-right">
         <button class="topbar-btn" onclick="openPremiumPanel()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white;font-weight:700;">👑 Premium</button>
+        <button class="topbar-btn" onclick="if(typeof openCodesPanel==='function')openCodesPanel();else alert('Code Management not loaded');" style="background:linear-gradient(135deg,#7c3aed,#4338ca);color:white;font-weight:700;">🔑 Codes</button>
         <button class="topbar-btn main-site-only" onclick="openMessagesPanel()" style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;font-weight:700;">💬 Messages <span id="unreadBadge" style="display:none;background:#ef4444;color:white;border-radius:50%;padding:1px 6px;font-size:11px;margin-left:4px;"></span></button>
         <button class="topbar-btn main-site-only" onclick="openSettingsPanel()" style="background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:700;">⚙️ Settings</button>
         <button class="topbar-btn main-site-only" onclick="openCenterHub()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:700;">🏢 Centers</button>
