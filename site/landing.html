@@ -23,6 +23,33 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- Reroute legacy alwaysdata /verify calls to the Supabase verify-passcode edge function.
+       Both backends share the same JSON body shape ({code|passcode, center, ...}) and same
+       response shape ({access, valid, role}), so this shim is fully transparent. The new
+       function reads from Supabase mock_codes / vip_codes / admin_passcodes tables. -->
+  <script>
+    (function () {
+      var LEGACY_VERIFY_RX = /^https?:\/\/(?:admin0709|davirbek)\.alwaysdata\.net\/verify(?:\?.*)?$/i;
+      var SB_FN_URL  = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/verify-passcode';
+      var SB_ANON    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var _origFetch = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        try {
+          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          if (LEGACY_VERIFY_RX.test(url)) {
+            init = init || {};
+            init.headers = Object.assign({
+              'Content-Type': 'application/json',
+              'apikey':       SB_ANON,
+              'Authorization': 'Bearer ' + SB_ANON
+            }, init.headers || {});
+            return _origFetch(SB_FN_URL, init);
+          }
+        } catch (e) { /* fall through to normal fetch */ }
+        return _origFetch(input, init);
+      };
+    })();
+  </script>
   <script src="site-config/center-guard.js"></script>
   <script src="code-management.js?v=12" defer></script>
   <script>
