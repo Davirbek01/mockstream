@@ -291,6 +291,69 @@ Deno.serve(async (req) => {
         return json(200, { ok: true });
       }
 
+      // Bulk-issue/regenerate codes for every (skill × mock# 1..max × tier) for a center.
+      // Body: { center, max_mock (1..200), mode? 'missing'|'all', skills?, tiers?, expiry?, length? }
+      //   mode='missing' (default) → only insert rows that don't exist (existing codes preserved)
+      //   mode='all'                → upsert every cell (revokes/replaces existing codes)
+      case 'bulk_renew_mocks': {
+        const center = normCenter(body.center);
+        if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
+        if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
+        const maxMock = parseInt(String(body.max_mock ?? ''), 10);
+        if (!Number.isInteger(maxMock) || maxMock < 1 || maxMock > 200) {
+          return json(400, { ok: false, error: 'bad_max_mock' });
+        }
+        const mode = body.mode === 'all' ? 'all' : 'missing';
+        const allSkills = ['listening','reading','writing','speaking'] as const;
+        const skills = Array.isArray(body.skills) && body.skills.length
+          ? body.skills.map((s: any) => String(s).toLowerCase()).filter((s: string) => (allSkills as readonly string[]).includes(s))
+          : [...allSkills];
+        const allTiers = ['regular','premium'] as const;
+        const tiers = Array.isArray(body.tiers) && body.tiers.length
+          ? body.tiers.map((t: any) => String(t).toLowerCase()).filter((t: string) => (allTiers as readonly string[]).includes(t))
+          : [...allTiers];
+        if (!skills.length || !tiers.length) return json(400, { ok: false, error: 'bad_scope' });
+        const length = Math.min(Math.max(parseInt(String(body.length ?? '8'), 10) || 8, 4), 8);
+        const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
+        const nowIso = new Date().toISOString();
+
+        // Pre-load existing rows so we can skip in 'missing' mode
+        const existing = new Set<string>();
+        if (mode === 'missing') {
+          const { data: rows, error: e0 } = await sb.from('mock_codes')
+            .select('skill, mock_number, tier').eq('center', center);
+          if (e0) throw e0;
+          for (const r of rows ?? []) existing.add(`${r.skill}#${r.mock_number}#${r.tier}`);
+        }
+
+        const batch: Array<Record<string, unknown>> = [];
+        for (const skill of skills) {
+          for (let n = 1; n <= maxMock; n++) {
+            for (const tier of tiers) {
+              if (mode === 'missing' && existing.has(`${skill}#${n}#${tier}`)) continue;
+              batch.push({
+                center, skill, mock_number: n, tier,
+                code: genCode(length), expires_at: expiry,
+                last_renewed_at: nowIso, last_renewed_by: actorTag
+              });
+            }
+          }
+        }
+
+        // Chunked upsert (Supabase POST limit ≈ 1000 rows; we stay well under)
+        let written = 0;
+        for (let i = 0; i < batch.length; i += 250) {
+          const chunk = batch.slice(i, i + 250);
+          const { error } = await sb.from('mock_codes').upsert(chunk);
+          if (error) throw error;
+          written += chunk.length;
+        }
+        await audit(actorTag, 'bulk_renew_mocks', center, {
+          mode, max_mock: maxMock, skills, tiers, written
+        });
+        return json(200, { ok: true, written, mode, max_mock: maxMock, skills, tiers });
+      }
+
       case 'set_expiry': {
         const kind = String(body.kind ?? '');
         const center = normCenter(body.center);

@@ -436,6 +436,22 @@
       '<div class="cm-collapse-body" id="cmCollapseBody">' +
         fullMockHtml +
         '<p style="margin:14px 0 8px;font:600 13px system-ui;color:#64748b;">Per-Mock Codes (single-test access)</p>' +
+        '<div class="cm-card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;">' +
+          '<h4 style="margin:0 0 6px;">⚡ Bulk generate (all 4 skills × both tiers)</h4>' +
+          '<p style="margin:0 0 10px;font-size:12.5px;color:#78350f;">Generates Regular + Premium codes for mocks <b>1..N</b> across Listening, Reading, Writing, Speaking in one click.</p>' +
+          '<div class="cm-row">' +
+            '<label class="cm-label">Mocks per skill (N):</label>' +
+            '<input type="number" class="cm-input num" id="cmBulkN" min="1" max="200" value="50" style="width:90px;">' +
+            '<label class="cm-label">Expiry:</label>' +
+            '<select class="cm-select" id="cmBulkExp">' +
+              EXPIRY_OPTIONS.map(function(o){ return '<option value="'+o.v+'">'+o.label+'</option>'; }).join('') +
+            '</select>' +
+          '</div>' +
+          '<div class="cm-row" style="margin-bottom:0;">' +
+            '<button class="cm-btn" id="cmBulkMissing">⚡ Generate missing only</button>' +
+            '<button class="cm-btn danger" id="cmBulkAll">🔄 Regenerate ALL (revokes existing)</button>' +
+          '</div>' +
+        '</div>' +
         mockHtml +
       '</div>';
 
@@ -564,6 +580,59 @@
         if (!await cmConfirm({ icon: '🗑️', title: 'Revoke Full Mock code?', message: 'Code <span class="cm-confirm-code">'+fmCode+'</span> will be deactivated immediately. Anyone using it will lose access.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
         var r2 = await call('revoke_mock', { center: state.currentCenter, skill: 'full_mock', mock_number: 1 });
         if (r2.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r2.error||'Failed');
+      };
+    }
+
+    // Bulk generate / regenerate buttons
+    var bulkMissingBtn = cb.querySelector('#cmBulkMissing');
+    var bulkAllBtn     = cb.querySelector('#cmBulkAll');
+    function bulkN() {
+      var v = parseInt((cb.querySelector('#cmBulkN')||{}).value, 10);
+      if (!Number.isInteger(v) || v < 1 || v > 200) return null;
+      return v;
+    }
+    function bulkExp() { return (cb.querySelector('#cmBulkExp')||{}).value || ''; }
+    if (bulkMissingBtn) {
+      bulkMissingBtn.onclick = async function() {
+        var n = bulkN();
+        if (!n) { flash('err','Enter mocks per skill (1–200)'); return; }
+        if (!await cmConfirm({
+          icon: '⚡',
+          title: 'Generate missing codes for mocks 1..'+n+'?',
+          message: 'For every skill (Listening / Reading / Writing / Speaking) and both tiers (Regular + Premium), this will create a code for any mock 1..<b>'+n+'</b> that does not yet have one.<br><br><b>Existing codes will NOT change.</b>',
+          confirmLabel: 'Generate'
+        })) return;
+        bulkMissingBtn.disabled = true; bulkAllBtn.disabled = true;
+        bulkMissingBtn.textContent = '⏳ Generating…';
+        var r2 = await call('bulk_renew_mocks', {
+          center: state.currentCenter, max_mock: n, mode: 'missing', expiry: expiryToISO(bulkExp())
+        });
+        bulkMissingBtn.disabled = false; bulkAllBtn.disabled = false;
+        bulkMissingBtn.textContent = '⚡ Generate missing only';
+        if (r2.ok) { flash('ok','Generated '+r2.written+' new code'+(r2.written===1?'':'s')); renderTab(); }
+        else flash('err', r2.error||'Failed');
+      };
+    }
+    if (bulkAllBtn) {
+      bulkAllBtn.onclick = async function() {
+        var n = bulkN();
+        if (!n) { flash('err','Enter mocks per skill (1–200)'); return; }
+        if (!await cmConfirm({
+          icon: '🔄',
+          title: 'Regenerate ALL codes for mocks 1..'+n+'?',
+          message: 'This will <b>revoke every existing</b> Regular and Premium mock code for Listening / Reading / Writing / Speaking (mocks 1..<b>'+n+'</b>) and issue brand-new ones.<br><br>Anyone currently using an old code will lose access immediately.',
+          confirmLabel: 'Yes, regenerate all',
+          confirmClass: 'danger'
+        })) return;
+        bulkAllBtn.disabled = true; bulkMissingBtn.disabled = true;
+        bulkAllBtn.textContent = '⏳ Regenerating…';
+        var r2 = await call('bulk_renew_mocks', {
+          center: state.currentCenter, max_mock: n, mode: 'all', expiry: expiryToISO(bulkExp())
+        });
+        bulkAllBtn.disabled = false; bulkMissingBtn.disabled = false;
+        bulkAllBtn.textContent = '🔄 Regenerate ALL (revokes existing)';
+        if (r2.ok) { flash('ok','Regenerated '+r2.written+' code'+(r2.written===1?'':'s')); renderTab(); }
+        else flash('err', r2.error||'Failed');
       };
     }
   }
