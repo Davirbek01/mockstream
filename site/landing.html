@@ -19424,10 +19424,7 @@
         if (resp.ok) results = await resp.json();
       } catch (e) { console.warn('[RU] Results fetch error:', e); }
 
-      if (!results.length) {
-        listEl.innerHTML = '<div class="ru-empty">No results found for this user</div>';
-        return;
-      }
+      var hasResults = results.length > 0;
 
       // Summary stats
       var totalTests = results.length;
@@ -19557,6 +19554,10 @@
 
       // Kick off async fetch for AI-call counts (non-blocking)
       _loadUserAiCallCounts(candidate ? candidate.email : '', studentName);
+
+      if (!hasResults) {
+        html += '<div class="ru-empty" style="margin-top:12px;">No mock results yet for this user.</div>';
+      }
 
       // Result cards
       results.forEach(function(r) {
