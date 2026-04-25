@@ -5,6 +5,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./mock-code-verifier.js?v=1"></script>
   <meta charset="utf-8" />
   <meta content="width=device-width,initial-scale=1" name="viewport" />
   <title>Speaking exam (no mic)</title>
@@ -20371,6 +20372,25 @@ Please contact your instructor or upgrade to the full version with speech recogn
             if (window.unlockPremium && window.unlockPremium(fullName, code)) {
               isValid = true;
             }
+          }
+
+          // If still invalid, try Mock-Stream issued mock codes (tier-aware)
+          if (!isValid && typeof window.verifyMockStreamCode === 'function') {
+            try {
+              var msRes = await window.verifyMockStreamCode(code, { skill: 'speaking' });
+              if (msRes && msRes.valid) {
+                isValid = true;
+                if (msRes.premiumEntry) {
+                  sessionStorage.setItem('tempPremiumAccess', 'true');
+                  sessionStorage.setItem('vipPremiumAi', 'true');
+                } else {
+                  sessionStorage.removeItem('tempPremiumAccess');
+                  sessionStorage.removeItem('vipPremiumAi');
+                }
+                sessionStorage.setItem('tempPasscodeUsed', code);
+                console.log('✅ Mock-Stream code verified — tier=' + msRes.tier);
+              }
+            } catch (e) { console.log('Mock-Stream verify failed:', e.message); }
           }
 
           // Re-enable button

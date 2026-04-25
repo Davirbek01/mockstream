@@ -273,28 +273,27 @@ async function sendMockListMenu(
   chat_id: number, center_id: string, center_name: string, skill: Skill, message_id?: number
 ) {
   const { data } = await sb.from('mock_codes')
-    .select('mock_number, code, expires_at')
-    .eq('center', center_id).eq('skill', skill)
-    .order('mock_number');
+    .select('mock_number')
+    .eq('center', center_id).eq('skill', skill);
 
-  const list = data ?? [];
+  // Distinct mock numbers (a mock # can have up to 2 rows: regular + premium)
+  const nums = Array.from(new Set((data ?? []).map(m => m.mock_number))).sort((a, b) => a - b);
   const lines = [
     `🏫 <b>${esc(center_name)}</b>`,
     `${SKILL_LABEL[skill]} — mock codes`,
     ''
   ];
-  if (!list.length) {
+  if (!nums.length) {
     lines.push('<i>No mock codes yet.</i>', 'Tap ➕ to add one.');
   } else {
-    lines.push(`Tap a number to view / revoke its code.`);
+    lines.push(`Tap a number to view its 🟢 regular & 🔥 premium codes.`);
   }
 
   const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
-  // Numbers grid (4 per row)
-  for (let i = 0; i < list.length; i += 4) {
-    buttons.push(list.slice(i, i + 4).map(m => ({
-      text: `#${m.mock_number}`,
-      callback_data: `mock_code:${center_id}:${skill}:${m.mock_number}`
+  for (let i = 0; i < nums.length; i += 4) {
+    buttons.push(nums.slice(i, i + 4).map(n => ({
+      text: `#${n}`,
+      callback_data: `mock_code:${center_id}:${skill}:${n}`
     })));
   }
   buttons.push([{ text: '➕ New mock #', callback_data: `mock_new:${center_id}:${skill}` }]);
@@ -312,28 +311,42 @@ async function sendMockCodeCard(
   chat_id: number, center_id: string, center_name: string, skill: Skill, num: number, message_id?: number
 ) {
   const { data } = await sb.from('mock_codes')
-    .select('code, expires_at, last_renewed_at, last_renewed_by')
-    .eq('center', center_id).eq('skill', skill).eq('mock_number', num).maybeSingle();
+    .select('code, expires_at, last_renewed_at, last_renewed_by, tier')
+    .eq('center', center_id).eq('skill', skill).eq('mock_number', num);
 
-  let text: string;
-  if (!data) {
-    text = `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n<i>No code yet.</i>`;
-  } else {
-    const expiry  = data.expires_at
-      ? `\n📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}`
+  const rows = data ?? [];
+  const reg = rows.find(r => r.tier === 'regular');
+  const pre = rows.find(r => r.tier === 'premium');
+
+  function renderTier(label: string, row: typeof rows[number] | undefined) {
+    if (!row) return `${label}\n<i>— not generated —</i>`;
+    const expiry  = row.expires_at
+      ? `\n📅 Expires: ${new Date(row.expires_at).toLocaleString('en-GB')}`
       : `\n♾ Never expires`;
-    const renewed = data.last_renewed_at
-      ? `\n🕒 Last renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}` +
-        (data.last_renewed_by ? ` <i>by ${esc(data.last_renewed_by)}</i>` : '')
+    const renewed = row.last_renewed_at
+      ? `\n🕒 Renewed: ${new Date(row.last_renewed_at).toLocaleString('en-GB')}`
       : '';
-    text = `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n` +
-           `<b>Current code:</b>\n<code>${esc(data.code)}</code>` + expiry + renewed;
+    return `${label}\n<code>${esc(row.code)}</code>${expiry}${renewed}`;
   }
+
+  const text =
+    `🏫 <b>${esc(center_name)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n` +
+    renderTier('🟢 <b>Regular</b> <i>(unlocks mock only)</i>', reg) +
+    `\n\n` +
+    renderTier('🔥 <b>Premium</b> <i>(unlocks + AI grading + bonus features)</i>', pre);
 
   const kb = {
     inline_keyboard: [
-      [{ text: '🔄 Revoke & generate new', callback_data: `mock_renew:${center_id}:${skill}:${num}` }],
-      [{ text: '🗑 Delete this mock #',     callback_data: `mock_delete:${center_id}:${skill}:${num}` }],
+      [
+        { text: reg ? '🔄 Regen 🟢 Regular' : '➕ Generate 🟢 Regular',
+          callback_data: `mock_renew:${center_id}:${skill}:${num}:regular` }
+      ],
+      [
+        { text: pre ? '🔄 Regen 🔥 Premium' : '➕ Generate 🔥 Premium',
+          callback_data: `mock_renew:${center_id}:${skill}:${num}:premium` }
+      ],
+      ...(reg ? [[{ text: '🗑 Delete 🟢 Regular', callback_data: `mock_delete:${center_id}:${skill}:${num}:regular` }]] : []),
+      ...(pre ? [[{ text: '🗑 Delete 🔥 Premium', callback_data: `mock_delete:${center_id}:${skill}:${num}:premium` }]] : []),
       [
         { text: '⬅️ Back', callback_data: `mock_skill:${center_id}:${skill}` },
         { text: '🏫 Centers', callback_data: 'back:centers' }
@@ -420,26 +433,7 @@ async function handleMessage(msg: any) {
     if (!SKILLS.includes(skill)) {
       return send(chat_id, '❌ Bad skill.');
     }
-    // Don't overwrite an existing mock — show its card instead
-    const { data: existing } = await sb.from('mock_codes')
-      .select('code').eq('center', session.current_center)
-      .eq('skill', skill).eq('mock_number', num).maybeSingle();
-
-    if (!existing) {
-      const code = genCode(8);
-      const { error } = await sb.from('mock_codes').insert({
-        center: session.current_center, skill, mock_number: num, code,
-        expires_at: null, last_renewed_at: new Date().toISOString(),
-        last_renewed_by: session.role === 'super' ? 'bot:super' : `bot:clone:${session.current_center}`
-      });
-      if (error) return send(chat_id, `❌ Failed: ${esc(error.message)}`);
-      sb.from('code_audit').insert({
-        actor: 'bot', action: 'create_mock',
-        center: session.current_center,
-        details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role }
-      }).then(() => {});
-    }
-
+    // Just open the card. Admin then taps Generate 🟢 / 🔥 to create codes.
     await saveSession({ chat_id, state: 'menu' });
     const { data: c } = await sb.from('centers').select('display_name').eq('id', session.current_center).maybeSingle();
     return sendMockCodeCard(chat_id, session.current_center, c?.display_name || session.current_center, skill, num);
@@ -600,10 +594,11 @@ async function handleCallback(cb: any) {
     return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
   }
 
-  // mock_renew:<center>:<skill>:<num>
+  // mock_renew:<center>:<skill>:<num>:<tier>
   if (data.startsWith('mock_renew:')) {
-    const [, center_id, skill, numStr] = data.split(':');
+    const [, center_id, skill, numStr, tierRaw] = data.split(':');
     const num = parseInt(numStr, 10);
+    const tier = (tierRaw === 'regular' || tierRaw === 'premium') ? tierRaw : 'premium';
     if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cb.id); return; }
     if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
       await answerCb(cb.id, 'Forbidden'); return;
@@ -613,36 +608,44 @@ async function handleCallback(cb: any) {
     const code  = genCode(8);
     const actor = session.role === 'super' ? 'bot:super' : `bot:clone:${center_id}`;
     const { error } = await sb.from('mock_codes').upsert({
-      center: center_id, skill, mock_number: num, code, expires_at: null,
+      center: center_id, skill, mock_number: num, tier, code, expires_at: null,
       last_renewed_at: new Date().toISOString(), last_renewed_by: actor
     });
     if (error) { await answerCb(cb.id, 'Error'); return send(chat_id, `❌ ${esc(error.message)}`); }
     sb.from('code_audit').insert({
       actor: 'bot', action: 'renew_mock', center: center_id,
-      details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role, username }
+      details: { skill, mock_number: num, tier, via: 'telegram', chat_id, role: session.role, username }
     }).then(() => {});
-    await answerCb(cb.id, '✅ New code generated!');
+    await answerCb(cb.id, `✅ New ${tier} code generated!`);
     return sendMockCodeCard(chat_id, center_id, c.display_name, skill as Skill, num, message_id);
   }
 
-  // mock_delete:<center>:<skill>:<num>
+  // mock_delete:<center>:<skill>:<num>:<tier?>  (tier optional = delete both)
   if (data.startsWith('mock_delete:')) {
-    const [, center_id, skill, numStr] = data.split(':');
+    const [, center_id, skill, numStr, tierRaw] = data.split(':');
     const num = parseInt(numStr, 10);
     if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cb.id); return; }
     if (!await ownsCenter({ ...session, current_center: center_id }, center_id) && session.role !== 'super') {
       await answerCb(cb.id, 'Forbidden'); return;
     }
-    const { error } = await sb.from('mock_codes').delete()
+    let q = sb.from('mock_codes').delete()
       .eq('center', center_id).eq('skill', skill).eq('mock_number', num);
+    if (tierRaw === 'regular' || tierRaw === 'premium') q = q.eq('tier', tierRaw);
+    const { error } = await q;
     if (error) { await answerCb(cb.id, 'Error'); return send(chat_id, `❌ ${esc(error.message)}`); }
     sb.from('code_audit').insert({
       actor: 'bot', action: 'revoke_mock', center: center_id,
-      details: { skill, mock_number: num, via: 'telegram', chat_id, role: session.role, username }
+      details: { skill, mock_number: num, tier: tierRaw || 'all', via: 'telegram', chat_id, role: session.role, username }
     }).then(() => {});
     const { data: c } = await sb.from('centers').select('display_name').eq('id', center_id).maybeSingle();
     await answerCb(cb.id, '🗑 Deleted');
-    return sendMockListMenu(chat_id, center_id, c?.display_name || center_id, skill as Skill, message_id);
+    // If no rows left for this mock #, go back to list; otherwise stay on card
+    const { data: remain } = await sb.from('mock_codes').select('tier')
+      .eq('center', center_id).eq('skill', skill).eq('mock_number', num);
+    if (!remain || !remain.length) {
+      return sendMockListMenu(chat_id, center_id, c?.display_name || center_id, skill as Skill, message_id);
+    }
+    return sendMockCodeCard(chat_id, center_id, c?.display_name || center_id, skill as Skill, num, message_id);
   }
 
   await answerCb(cb.id);

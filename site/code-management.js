@@ -131,8 +131,11 @@
       '.cm-msg{padding:9px 12px;border-radius:8px;font-size:12.5px;margin:8px 0;}',
       '.cm-msg.ok{background:rgba(16,185,129,.12);color:#047857;}',
       '.cm-msg.err{background:rgba(220,38,38,.12);color:#b91c1c;}',
-      '.cm-mock-row{display:grid;grid-template-columns:120px 80px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(148,163,184,.2);}',
-      '@media(max-width:560px){.cm-mock-row{grid-template-columns:1fr 70px;grid-auto-rows:min-content;}.cm-mock-row .cm-mock-code-cell{grid-column:1/-1;}.cm-mock-row .cm-mock-actions{grid-column:1/-1;display:flex;gap:6px;}}',
+      '.cm-mock-row{display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(148,163,184,.2);}',
+      '.cm-mock-tier{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;}',
+      '.cm-mock-tier.empty{opacity:.65;}',
+      '.cm-tier-badge{display:inline-block;font-size:14px;line-height:1;}',
+      '@media(max-width:560px){.cm-mock-row{grid-template-columns:1fr;}.cm-mock-tier{padding:4px 0;}}',
       '.cm-audit{font:12px ui-monospace,Consolas,monospace;background:#0f172a;color:#cbd5e1;padding:12px;border-radius:10px;max-height:380px;overflow:auto;white-space:pre-wrap;}',
       '.cm-gate{max-width:380px;margin:0 auto;text-align:center;padding:28px 22px;}',
       '.cm-gate input{width:100%;padding:12px 14px;border:1.5px solid rgba(148,163,184,.4);border-radius:10px;font-size:18px;text-align:center;letter-spacing:4px;font-variant-numeric:tabular-nums;outline:none;background:var(--surface,#fff);color:var(--ink,#0f172a);box-sizing:border-box;margin:14px 0 6px;}',
@@ -336,7 +339,7 @@
     var vipMap = {};
     (r.vip||[]).forEach(function(v){ vipMap[v.type] = v; });
     var mockMap = {};
-    (r.mock||[]).forEach(function(m){ mockMap[m.skill+'#'+m.mock_number] = m; });
+    (r.mock||[]).forEach(function(m){ mockMap[m.skill+'#'+m.mock_number+'#'+(m.tier||'premium')] = m; });
 
     function buildVipCard(type) {
       var v = vipMap[type];
@@ -359,7 +362,7 @@
       '</div>';
     }
 
-    var fm = mockMap['full_mock#1'];
+    var fm = mockMap['full_mock#1#premium'] || mockMap['full_mock#1#regular'];
     var fmCode = fm ? fm.code : '';
     var fmMeta = fm ? ('Expires: ' + fmtCountdown(fm.expires_at) + (fm.last_renewed_at ? ' · Renewed: ' + new Date(fm.last_renewed_at).toLocaleString() : '')) : 'No code yet';
     var fullMockHtml = '<div class="cm-card">' +
@@ -377,16 +380,32 @@
     '</div>';
 
     var mockHtml = SKILLS.map(function(sk){
-      var entries = (r.mock||[]).filter(function(m){ return m.skill === sk.key; }).sort(function(a,b){ return a.mock_number-b.mock_number; });
-      var rows = entries.map(function(m){
-        return '<div class="cm-mock-row">' +
-          '<span><b>Mock #'+m.mock_number+'</b></span>' +
-          '<span class="cm-mock-code-cell"><span class="cm-code" title="Click to copy" data-copy="'+m.code+'">'+m.code+'</span></span>' +
-          '<span class="cm-meta">'+fmtCountdown(m.expires_at)+'</span>' +
-          '<span class="cm-mock-actions">' +
-            '<button class="cm-btn cm-renew-mock" data-skill="'+sk.key+'" data-num="'+m.mock_number+'"'+(canEdit?'':' disabled')+'>↻</button>' +
-            '<button class="cm-btn danger cm-revoke-mock" data-skill="'+sk.key+'" data-num="'+m.mock_number+'"'+(canEdit?'':' disabled')+'>×</button>' +
-          '</span>' +
+      var entries = (r.mock||[]).filter(function(m){ return m.skill === sk.key; });
+      // Group by mock_number, each row shows regular + premium tier columns
+      var byNum = {};
+      entries.forEach(function(m){ (byNum[m.mock_number] = byNum[m.mock_number] || {})[m.tier||'premium'] = m; });
+      var nums = Object.keys(byNum).map(function(n){return parseInt(n,10);}).sort(function(a,b){return a-b;});
+      function tierCell(m, sk_key, num, tier) {
+        if (m) {
+          return '<span class="cm-mock-tier" title="'+tier+'">'+
+            '<span class="cm-tier-badge cm-tier-'+tier+'">'+(tier==='premium'?'🔥':'🟢')+'</span> '+
+            '<span class="cm-code" title="Click to copy" data-copy="'+m.code+'">'+m.code+'</span> '+
+            '<button class="cm-btn cm-renew-mock" data-skill="'+sk_key+'" data-num="'+num+'" data-tier="'+tier+'"'+(canEdit?'':' disabled')+'>↻</button> '+
+            '<button class="cm-btn danger cm-revoke-mock" data-skill="'+sk_key+'" data-num="'+num+'" data-tier="'+tier+'"'+(canEdit?'':' disabled')+'>×</button>'+
+          '</span>';
+        }
+        return '<span class="cm-mock-tier empty">'+
+          '<span class="cm-tier-badge cm-tier-'+tier+'">'+(tier==='premium'?'🔥':'🟢')+'</span> '+
+          '<span class="cm-code empty">—</span> '+
+          '<button class="cm-btn cm-gen-mock-tier" data-skill="'+sk_key+'" data-num="'+num+'" data-tier="'+tier+'"'+(canEdit?'':' disabled')+'>+ Generate</button>'+
+        '</span>';
+      }
+      var rows = nums.map(function(num){
+        var m = byNum[num];
+        return '<div class="cm-mock-row">'+
+          '<span><b>Mock #'+num+'</b></span>'+
+          tierCell(m.regular, sk.key, num, 'regular')+
+          tierCell(m.premium, sk.key, num, 'premium')+
         '</div>';
       }).join('') || '<div class="cm-empty" style="padding:10px;">No mock codes yet for this skill.</div>';
       return '<div class="cm-card">' +
@@ -395,7 +414,8 @@
           '<span class="cm-label">Mock #:</span>' +
           '<input class="cm-input num cm-mock-num" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="1" style="width:70px;">' +
           '<select class="cm-select cm-mock-exp">'+EXPIRY_OPTIONS.map(function(o){return '<option value="'+o.v+'">'+o.label+'</option>';}).join('')+'</select>' +
-          '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'"'+(canEdit?'':' disabled')+'>+ Generate</button>' +
+          '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'" data-tier="regular"'+(canEdit?'':' disabled')+'>+ 🟢 Regular</button>' +
+          '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'" data-tier="premium"'+(canEdit?'':' disabled')+'>+ 🔥 Premium</button>' +
         '</div>' +
         rows +
       '</div>';
@@ -482,34 +502,45 @@
     cb.querySelectorAll('.cm-gen-mock').forEach(function(b){
       b.onclick = async function(){
         var skill = b.dataset.skill;
+        var tier = b.dataset.tier || 'premium';
         var card = b.closest('.cm-card');
         var num = parseInt(card.querySelector('.cm-mock-num').value, 10);
         var exp = card.querySelector('.cm-mock-exp').value;
         if (!num || num < 1) { flash('err','Enter mock number'); return; }
-        var genExisting = mockMap[skill+'#'+num];
+        var genExisting = mockMap[skill+'#'+num+'#'+tier];
         if (genExisting) {
-          if (!await cmConfirm({ icon: '🔄', title: 'Replace existing code?', message: 'A code already exists for Mock #'+num+': <span class="cm-confirm-code">'+genExisting.code+'</span>. It will stop working immediately.', confirmLabel: 'Replace' })) return;
+          if (!await cmConfirm({ icon: '🔄', title: 'Replace existing '+tier+' code?', message: 'A '+tier+' code already exists for Mock #'+num+': <span class="cm-confirm-code">'+genExisting.code+'</span>. It will stop working immediately.', confirmLabel: 'Replace' })) return;
         }
         b.disabled = true; b.textContent = '⏳';
-        var r2 = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num, expiry: expiryToISO(exp) });
-        if (r2.ok) { flash('ok', skill+' mock #'+num+' code: '+r2.code); renderTab(); }
+        var r2 = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num, tier: tier, expiry: expiryToISO(exp) });
+        if (r2.ok) { flash('ok', skill+' #'+num+' '+tier+' code: '+r2.code); renderTab(); }
+        else { flash('err', r2.error||'Failed'); b.disabled=false; b.textContent='+ Generate'; }
+      };
+    });
+    cb.querySelectorAll('.cm-gen-mock-tier').forEach(function(b){
+      b.onclick = async function(){
+        var skill = b.dataset.skill, num = parseInt(b.dataset.num,10), tier = b.dataset.tier;
+        b.disabled = true; b.textContent = '⏳';
+        var r2 = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num, tier: tier });
+        if (r2.ok) { flash('ok', skill+' #'+num+' '+tier+' code: '+r2.code); renderTab(); }
         else { flash('err', r2.error||'Failed'); b.disabled=false; b.textContent='+ Generate'; }
       };
     });
     cb.querySelectorAll('.cm-renew-mock').forEach(function(b){
       b.onclick = async function(){
-        var skill = b.dataset.skill, num = parseInt(b.dataset.num,10);
-        var mExisting = mockMap[skill+'#'+num] || {};
-        if (!await cmConfirm({ icon: '🔄', title: 'Renew Mock #'+num+' code?', message: 'Current code <span class="cm-confirm-code">'+(mExisting.code||'—')+'</span> will stop working immediately. A new code will be issued.', confirmLabel: 'Renew' })) return;
-        var r2 = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num });
-        if (r2.ok) { flash('ok','New code: '+r2.code); renderTab(); } else flash('err', r2.error||'Failed');
+        var skill = b.dataset.skill, num = parseInt(b.dataset.num,10), tier = b.dataset.tier || 'premium';
+        var mExisting = mockMap[skill+'#'+num+'#'+tier] || {};
+        if (!await cmConfirm({ icon: '🔄', title: 'Renew '+tier+' code for Mock #'+num+'?', message: 'Current '+tier+' code <span class="cm-confirm-code">'+(mExisting.code||'—')+'</span> will stop working immediately. A new code will be issued.', confirmLabel: 'Renew' })) return;
+        var r2 = await call('renew_mock', { center: state.currentCenter, skill: skill, mock_number: num, tier: tier });
+        if (r2.ok) { flash('ok','New '+tier+' code: '+r2.code); renderTab(); } else flash('err', r2.error||'Failed');
       };
     });
     cb.querySelectorAll('.cm-revoke-mock').forEach(function(b){
       b.onclick = async function(){
-        var mRevoke = mockMap[b.dataset.skill+'#'+b.dataset.num] || {};
-        if (!await cmConfirm({ icon: '🗑️', title: 'Revoke mock code?', message: 'Code <span class="cm-confirm-code">'+(mRevoke.code||'—')+'</span> will be deactivated immediately.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
-        var r2 = await call('revoke_mock', { center: state.currentCenter, skill: b.dataset.skill, mock_number: parseInt(b.dataset.num,10) });
+        var tier = b.dataset.tier || 'premium';
+        var mRevoke = mockMap[b.dataset.skill+'#'+b.dataset.num+'#'+tier] || {};
+        if (!await cmConfirm({ icon: '🗑️', title: 'Revoke '+tier+' mock code?', message: 'Code <span class="cm-confirm-code">'+(mRevoke.code||'—')+'</span> will be deactivated immediately.', confirmLabel: 'Revoke', confirmClass: 'danger' })) return;
+        var r2 = await call('revoke_mock', { center: state.currentCenter, skill: b.dataset.skill, mock_number: parseInt(b.dataset.num,10), tier: tier });
         if (r2.ok) { flash('ok','Revoked'); renderTab(); } else flash('err', r2.error||'Failed');
       };
     });

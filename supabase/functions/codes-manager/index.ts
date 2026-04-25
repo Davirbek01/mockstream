@@ -254,36 +254,40 @@ Deno.serve(async (req) => {
         const center = normCenter(body.center);
         const skill  = String(body.skill ?? '').toLowerCase().replace(/-/g, '_');
         const num    = parseInt(String(body.mock_number ?? ''), 10);
+        const tier   = String(body.tier ?? 'premium').toLowerCase();
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
         if (!['listening','reading','writing','speaking','full_mock'].includes(skill)) {
           return json(400, { ok: false, error: 'bad_skill' });
         }
+        if (!['regular','premium'].includes(tier)) return json(400, { ok: false, error: 'bad_tier' });
         if (!Number.isInteger(num) || num < 1 || num > 999) return json(400, { ok: false, error: 'bad_mock_number' });
         const length = Math.min(Math.max(parseInt(String(body.length ?? '8'), 10) || 8, 4), 8);
         const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
         const code = genCode(length);
         const { error } = await sb.from('mock_codes').upsert({
-          center, skill, mock_number: num, code, expires_at: expiry,
+          center, skill, mock_number: num, tier, code, expires_at: expiry,
           last_renewed_at: new Date().toISOString(),
           last_renewed_by: actorTag
         });
         if (error) throw error;
-        await audit(actorTag, 'renew_mock', center, { skill, mock_number: num, length, expiry });
-        return json(200, { ok: true, code, expires_at: expiry });
+        await audit(actorTag, 'renew_mock', center, { skill, mock_number: num, tier, length, expiry });
+        return json(200, { ok: true, code, tier, expires_at: expiry });
       }
 
       case 'revoke_mock': {
         const center = normCenter(body.center);
         const skill  = String(body.skill ?? '').toLowerCase().replace(/-/g, '_');
         const num    = parseInt(String(body.mock_number ?? ''), 10);
+        const tier   = body.tier ? String(body.tier).toLowerCase() : null;
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
-        const { error } = await sb.from('mock_codes')
-          .delete()
+        let q = sb.from('mock_codes').delete()
           .eq('center', center).eq('skill', skill).eq('mock_number', num);
+        if (tier && ['regular','premium'].includes(tier)) q = q.eq('tier', tier);
+        const { error } = await q;
         if (error) throw error;
-        await audit(actorTag, 'revoke_mock', center, { skill, mock_number: num });
+        await audit(actorTag, 'revoke_mock', center, { skill, mock_number: num, tier });
         return json(200, { ok: true });
       }
 

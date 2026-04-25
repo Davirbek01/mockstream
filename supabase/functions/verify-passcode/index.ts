@@ -146,15 +146,19 @@ Deno.serve(async (req) => {
   if (center && skill && mockNum != null) {
     const { data } = await sb
       .from('mock_codes')
-      .select('code, expires_at')
+      .select('code, expires_at, tier')
       .eq('center', center)
       .eq('skill', skill)
-      .eq('mock_number', mockNum)
-      .maybeSingle();
-    if (data && ctEq(data.code, code)) {
-      if (!data.expires_at || new Date(data.expires_at) > new Date()) {
-        await logAttempt(ip, true);
-        return json(200, { access: true, valid: true, role: 'mock' });
+      .eq('mock_number', mockNum);
+    if (data) {
+      for (const row of data) {
+        if (ctEq(row.code, code)) {
+          if (!row.expires_at || new Date(row.expires_at) > new Date()) {
+            await logAttempt(ip, true);
+            const t = (row as { tier?: string }).tier === 'regular' ? 'regular' : 'premium';
+            return json(200, { access: true, valid: true, role: t, source: 'mock', tier: t });
+          }
+        }
       }
     }
   }
@@ -164,17 +168,19 @@ Deno.serve(async (req) => {
   if (center) {
     const { data } = await sb
       .from('mock_codes')
-      .select('code, expires_at, skill, mock_number')
+      .select('code, expires_at, skill, mock_number, tier')
       .eq('center', center)
-      .eq('code', code)
-      .maybeSingle();
-    if (data) {
-      if (!data.expires_at || new Date(data.expires_at) > new Date()) {
-        await logAttempt(ip, true);
-        return json(200, {
-          access: true, valid: true, role: 'mock',
-          skill: data.skill, mock_number: data.mock_number
-        });
+      .eq('code', code);
+    if (data && data.length) {
+      for (const row of data) {
+        if (!row.expires_at || new Date(row.expires_at) > new Date()) {
+          await logAttempt(ip, true);
+          const t = (row as { tier?: string }).tier === 'regular' ? 'regular' : 'premium';
+          return json(200, {
+            access: true, valid: true, role: t, source: 'mock', tier: t,
+            skill: row.skill, mock_number: row.mock_number
+          });
+        }
       }
     }
   }
