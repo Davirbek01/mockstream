@@ -119,17 +119,29 @@ window.SITE_CONFIG = {
 })();
 
 // ─── Routing backend — helper with retry for reliability ────────────────────
+// NOTE: u-se-r.alwaysdata.net does NOT send CORS headers for mock-stream.com /
+// mock-stream01.netlify.app, so direct browser POSTs are blocked. We route
+// through a Supabase Edge Function (`routing-proxy`) that forwards server-side
+// where CORS does not apply. The Edge Function preserves status + body 1:1.
 window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
   try {
     var cfg = window.SITE_CONFIG || {};
-    var base = (cfg.routingBackendUrl || '').replace(/\/+$/, '');
-    if (!base) return;
-    var fd = new FormData();
-    fd.append('testIdentifier', cfg.testIdentifier || '');
-    fd.append('skill', opts.skill || '');
-    if (opts.text)    fd.append('text', opts.text);
-    if (opts.caption) fd.append('caption', opts.caption);
-    if (opts.file)    fd.append('file', opts.file);
+    // Always use the Supabase proxy. Override with window.__ROUTING_PROXY_BASE
+    // for testing, or window.__ROUTING_DIRECT=true to hit alwaysdata directly.
+    var base;
+    if (window.__ROUTING_DIRECT) {
+      base = (cfg.routingBackendUrl || '').replace(/\/+$/, '');
+      if (!base) return;
+    } else {
+      base = (window.__ROUTING_PROXY_BASE
+        || 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/routing-proxy'
+      ).replace(/\/+$/, '');
+    }
+    // Routing backend has Mock Stream registered as "mockstream" (no underscore),
+    // matching the admin backend convention. Without this translation the main
+    // site's results fall through and get routed to whichever clone channel the
+    // backend picks as default.
+    var routingId = (cfg.testIdentifier === 'mock_stream') ? 'mockstream' : (cfg.testIdentifier || '');
 
     var MAX_RETRIES = 2;
     var RETRY_DELAYS = [0, 5000]; // immediate + 5s retry
@@ -137,14 +149,18 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     function attempt(n) {
       // Rebuild FormData on retry (streams may be consumed)
       var body = new FormData();
-      body.append('testIdentifier', cfg.testIdentifier || '');
+      body.append('testIdentifier', routingId);
       body.append('skill', opts.skill || '');
       if (opts.text)    body.append('text', opts.text);
       if (opts.caption) body.append('caption', opts.caption);
       if (opts.file)    body.append('file', opts.file);
 
       fetch(base + '/send-result', { method: 'POST', body: body })
-        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          return r.json().catch(function () {
+            return { ok: false, error: 'HTTP ' + r.status + ' (non-JSON response)' };
+          });
+        })
         .then(function (d) {
           if (d.ok) {
             console.log('[Routing] \u2705 Sent to', d.routedTo && d.routedTo.title, n > 0 ? '(retry ' + n + ')' : '');
