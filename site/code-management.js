@@ -83,18 +83,16 @@
     var s = document.createElement('style');
     s.id = 'cmStyles';
     s.textContent = [
-      '.cm-overlay{position:fixed;inset:0;z-index:10200;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:8px;overflow:hidden;overscroll-behavior:contain;touch-action:none;}',
-      '.cm-panel{width:100%;max-width:980px;height:calc(100vh - 16px);max-height:calc(100vh - 16px);display:flex;flex-direction:column;background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;}',
-      'body.cm-locked{overflow:hidden!important;position:fixed;width:100%;}',
-      '@media(min-width:720px){.cm-panel{height:90vh;max-height:90vh;margin-top:0;}.cm-overlay{align-items:center;padding:14px;}}',
-      '.cm-header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(148,163,184,.25);background:linear-gradient(135deg,#7c3aed,#4338ca);color:#fff;}',
+      '.cm-overlay{position:fixed;inset:0;z-index:10200;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto;}',
+      '.cm-panel{width:100%;max-width:980px;max-height:92vh;display:flex;flex-direction:column;background:var(--surface,#fff);color:var(--ink,#0f172a);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;}',
+      '.cm-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(148,163,184,.25);background:linear-gradient(135deg,#7c3aed,#4338ca);color:#fff;}',
       '.cm-header h3{margin:0;font:700 16px system-ui,-apple-system,Segoe UI,sans-serif;}',
       '.cm-header .cm-role{font-size:11.5px;opacity:.85;margin-left:8px;padding:2px 8px;background:rgba(255,255,255,.18);border-radius:999px;}',
       '.cm-close{background:rgba(255,255,255,.18);border:0;color:#fff;font-size:20px;cursor:pointer;width:30px;height:30px;border-radius:50%;line-height:1;}',
-      '.cm-tabs{flex:0 0 auto;display:flex;gap:4px;padding:8px 12px 0;border-bottom:1px solid rgba(148,163,184,.18);background:var(--surface-alt,#f8fafc);overflow-x:auto;}',
+      '.cm-tabs{display:flex;gap:4px;padding:8px 12px 0;border-bottom:1px solid rgba(148,163,184,.18);background:var(--surface-alt,#f8fafc);overflow-x:auto;}',
       '.cm-tab{flex:0 0 auto;padding:10px 14px;font:600 13px system-ui;background:transparent;border:0;border-bottom:2px solid transparent;cursor:pointer;color:#64748b;}',
       '.cm-tab.active{color:#7c3aed;border-bottom-color:#7c3aed;}',
-      '.cm-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:16px 18px 28px;}',
+      '.cm-body{flex:1;overflow-y:auto;padding:18px 20px;}',
       '.cm-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}',
       '.cm-label{font:600 12.5px system-ui;color:#64748b;}',
       '.cm-input,.cm-select{padding:9px 12px;border:1px solid rgba(148,163,184,.4);border-radius:9px;font-size:13.5px;background:var(--surface,#fff);color:var(--ink,#0f172a);min-width:0;}',
@@ -136,22 +134,15 @@
   function show() {
     injectStyles();
     var ov = document.getElementById('cmOverlay');
-    if (!ov) {
+    if (ov) { ov.style.display = 'flex'; }
+    else {
       ov = document.createElement('div');
       ov.id = 'cmOverlay';
       ov.className = 'cm-overlay';
+      ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
       ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
       document.body.appendChild(ov);
     }
-    // Always rebuild the inner panel so cmRoot is guaranteed to exist.
-    ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
-    ov.style.display = 'flex';
-    // Lock body scroll so wheel/touch on overlay doesn't bleed through to landing.
-    try {
-      window.__cmScrollY = window.scrollY || window.pageYOffset || 0;
-      document.body.classList.add('cm-locked');
-      document.body.style.top = '-' + window.__cmScrollY + 'px';
-    } catch(e){}
     var saved = sessionStorage.getItem(SS_KEY);
     if (saved) {
       // verify still valid
@@ -172,13 +163,6 @@
   function hide() {
     var ov = document.getElementById('cmOverlay');
     if (ov) ov.style.display = 'none';
-    try {
-      document.body.classList.remove('cm-locked');
-      document.body.style.top = '';
-      if (typeof window.__cmScrollY === 'number') {
-        window.scrollTo(0, window.__cmScrollY);
-      }
-    } catch(e){}
   }
 
   var state = { centers: [], role: null, currentCenter: null, view: null };
@@ -259,7 +243,7 @@
         '<span class="cm-role">'+(isSuper?'super-admin':'clone admin')+'</span></div>' +
         '<button class="cm-close" id="cmCloseMain">×</button>' +
       '</div>' +
-      '<div style="flex:0 0 auto;padding:10px 18px 4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid rgba(148,163,184,.12);">' +
+      '<div style="padding:12px 20px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
         '<span class="cm-label">Center:</span>' +
         '<select class="cm-select" id="cmCenter"'+(isSuper?'':' disabled')+'>'+centerOpts+'</select>' +
         '<button class="cm-btn ghost" id="cmLogout" style="margin-left:auto;">Lock</button>' +
