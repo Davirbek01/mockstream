@@ -210,9 +210,11 @@ async function sendCenterMenu(chat_id: number, session: Session) {
   }
   rows.push([{ text: '🔄 Refresh' }, { text: '🚪 Logout' }]);
 
+  // NOTE: `is_persistent` removed so the user can collapse the center keyboard
+  // via Telegram's standard keyboard-toggle button (the icon next to paperclip).
   return send(chat_id,
-    '🏫 <b>Select a center</b> to manage its codes:',
-    { reply_markup: { keyboard: rows, resize_keyboard: true, is_persistent: true } }
+    '🏫 <b>Select a center</b> to manage its codes:\n\n<i>Tap the keyboard icon (next to the paperclip) to hide / show these buttons.</i>',
+    { reply_markup: { keyboard: rows, resize_keyboard: true } }
   );
 }
 

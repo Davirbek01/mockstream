@@ -51,6 +51,8 @@
     })();
   </script>
   <script src="site-config/center-guard.js"></script>
+  <!-- Verifier for plain 8-digit mock-stream-issued codes (regular/premium per-mock) -->
+  <script src="mock-code-verifier.js?v=2"></script>
   <script src="code-management.js?v=12" defer></script>
   <script>
     if (window.SITE_CONFIG) {
@@ -8468,6 +8470,16 @@
           }
         }
 
+        // Fallback: plain 8-digit mock-stream-issued code (regular/premium per-mock).
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'speaking', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('speakingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            sessionStorage.setItem('speakingIndividualCode', msRes.tier || 'regular');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
+          }
+        }
+
         return { valid: false, error: 'Invalid code. Please check your code or contact support.' };
       } catch (error) {
         console.error('Validation error:', error);
@@ -8698,6 +8710,15 @@
               return { valid: true, premiumEntry: false };
             }
             return { valid: false, error: 'Invalid or expired passcode.' };
+          }
+        }
+
+        // Fallback: plain 8-digit mock-stream-issued code (regular/premium per-mock).
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'writing', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('writingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
           }
         }
 
@@ -9169,6 +9190,15 @@
           }
         }
 
+        // Fallback: plain 8-digit mock-stream-issued code (regular/premium per-mock).
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'reading', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('readingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
+          }
+        }
+
         return { valid: false, error: 'Invalid code. Please check your code or contact support.' };
       } catch (error) {
         console.error('Reading validation error:', error);
@@ -9519,6 +9549,15 @@
               return { valid: true, premiumEntry: false };
             }
             return { valid: false, error: 'Invalid or expired passcode.' };
+          }
+        }
+
+        // Fallback: plain 8-digit mock-stream-issued code (regular/premium per-mock).
+        if (/^\d{4,12}$/.test(cleanInput) && typeof window.verifyMockStreamCode === 'function') {
+          const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'listening', mockNumber: parseInt(mockNumber, 10) });
+          if (msRes && msRes.valid) {
+            sessionStorage.setItem('listeningPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            return { valid: true, premiumEntry: !!msRes.premiumEntry };
           }
         }
 
