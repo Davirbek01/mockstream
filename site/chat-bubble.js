@@ -321,10 +321,11 @@
       try {
         _saveResume(cat || currentCategory);
         if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-          // Route through index.html (the whitelisted Supabase OAuth callback).
-          // index.html's autoResume() forwards back to landing.html on success.
-          var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
-          window.MockStream.auth.signInWithGoogle(_back);
+          // Redirect back to the CURRENT page (same pattern used by the sidebar's
+          // Google sign-in on landing.html). Supabase consumes the access_token
+          // hash on this page's load, fires onStateChange('signed_in'), which
+          // triggers _maybeAutoResume() to reopen the bubble on the saved tab.
+          window.MockStream.auth.signInWithGoogle(window.location.href);
         } else {
           alert('Sign-in is temporarily unavailable. Please refresh the page and try again.');
         }
