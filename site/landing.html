@@ -17214,7 +17214,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to access site management</p>' +
-        '<input type="password" id="siteAdminPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySiteAdminPasscode()">' +
+        '<input type="password" id="siteAdminPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySiteAdminPasscode()">' +
         '<div id="siteAdminPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="siteAdminPasscodeBtn" onclick="_verifySiteAdminPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#d97706,#b45309);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button onclick="_closeSiteAdminPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
@@ -17282,7 +17282,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view Writing Plus submissions</p>' +
-        '<input type="password" id="wpPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyWpPasscode()">' +
+        '<input type="password" id="wpPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyWpPasscode()">' +
         '<div id="wpPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="wpPasscodeBtn" onclick="_verifyWpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#0d9488,#115e59);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button onclick="_closeWpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
@@ -17707,7 +17707,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view Speaking Plus submissions</p>' +
-        '<input type="password" id="spPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
+        '<input type="password" id="spPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
         '<div id="spPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="spPasscodeBtn" onclick="_verifySpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button onclick="_closeSpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
@@ -18659,7 +18659,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to view registered users</p>' +
-        '<input type="password" id="ruPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyRuPasscode()">' +
+        '<input type="password" id="ruPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifyRuPasscode()">' +
         '<div id="ruPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="ruPasscodeBtn" onclick="_verifyRuPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#818cf8);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button onclick="_closeRuPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
@@ -20495,7 +20495,7 @@
         '<div style="font-size:28px;margin-bottom:8px;">🔐</div>' +
         '<h3 style="margin:0 0 4px;font-size:16px;">Admin Access Required</h3>' +
         '<p style="margin:0 0 16px;font-size:13px;color:#888;">Enter passcode to manage system prompts</p>' +
-        '<input type="password" id="spPasscodeInput" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
+        '<input type="password" id="spPasscodeInput" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="••••••••" maxlength="20" style="width:100%;padding:12px 14px;border:1px solid var(--ring,#e5e7eb);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface,#fff);color:var(--ink,#333);box-sizing:border-box;" onkeypress="if(event.key===\'Enter\')_verifySpPasscode()">' +
         '<div id="spPasscodeError" style="min-height:20px;margin:8px 0;font-size:13px;color:#f87171;"></div>' +
         '<button id="spPasscodeBtn" onclick="_verifySpPasscode()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;font-size:14px;cursor:pointer;">Unlock</button>' +
         '<button onclick="_closeSpPasscode()" style="margin-top:8px;background:none;border:none;color:#888;font-size:13px;cursor:pointer;">Cancel</button>' +
