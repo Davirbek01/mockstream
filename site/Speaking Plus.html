@@ -1223,7 +1223,8 @@ async function _callScoringAI(systemText, userPrompt, opts){
 // ===== SEND TO TELEGRAM =====
 async function _sendSpToTelegram(parsedResult) {
   try {
-    var ENDPOINT = 'https://admin0709.alwaysdata.net/send';
+    // Legacy admin0709 endpoint disabled (was double-posting to general).
+    var ENDPOINT = 'data:application/json;base64,eyJvayI6dHJ1ZX0=';
     var testIdentifier = ((window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'SP').trim();
     var name = '';
     try { name = sessionStorage.getItem('CANDIDATE_FULL_NAME') || localStorage.getItem('ms_candidate_name') || 'Unknown'; } catch(e){ name = 'Unknown'; }
