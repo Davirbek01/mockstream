@@ -142,7 +142,10 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ── 1. Try mock_codes (specific skill+mock_number, if provided) ──────────
+  // ── 1. Try mock_codes — ONLY when caller specifies skill+mock_number ─────
+  // (i.e. an actual per-mock unlock screen on Listening/Reading/Speaking/etc.)
+  // We deliberately do NOT do a center-wide "any mock_code by value" lookup,
+  // because mock codes must never unlock the global VIP input or admin gates.
   if (center && skill && mockNum != null) {
     const { data } = await sb
       .from('mock_codes')
@@ -163,29 +166,7 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ── 2. Try mock_codes (any skill/mock for this center, by code) ──────────
-  // This handles call sites that don't send skill/mock_number.
-  if (center) {
-    const { data } = await sb
-      .from('mock_codes')
-      .select('code, expires_at, skill, mock_number, tier')
-      .eq('center', center)
-      .eq('code', code);
-    if (data && data.length) {
-      for (const row of data) {
-        if (!row.expires_at || new Date(row.expires_at) > new Date()) {
-          await logAttempt(ip, true);
-          const t = (row as { tier?: string }).tier === 'regular' ? 'regular' : 'premium';
-          return json(200, {
-            access: true, valid: true, role: t, source: 'mock', tier: t,
-            skill: row.skill, mock_number: row.mock_number
-          });
-        }
-      }
-    }
-  }
-
-  // ── 3. Try VIP codes for this center (regular + premium) ─────────────────
+  // ── 2. Try VIP codes for this center (regular + premium) ─────────────────
   if (center) {
     const { data } = await sb
       .from('vip_codes')
@@ -203,7 +184,7 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ── 4. Try admin passcode (per-center, plus super-admin) ─────────────────
+  // ── 3. Try admin passcode (per-center, plus super-admin) ─────────────────
   // Site-admin passcode lookups: legacy clients send {passcode, type:'bsb'}
   // with the user's center. The DB stores per-center admin codes; '__super__'
   // is a global override.
