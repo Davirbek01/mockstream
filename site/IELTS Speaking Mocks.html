@@ -10157,28 +10157,19 @@ ${qJsonLines}
                 fd.append('zip', file);
                 fd.append('caption', caption);
 
-                const controller = new AbortController();
-                const resendTimeoutMs = window._ieltsZipBlob ? Math.max(60000, 60000 + Math.ceil(window._ieltsZipBlob.size / (1024 * 1024)) * 2000) : 120000;
-                const timeoutId = setTimeout(() => controller.abort(), resendTimeoutMs);
-                const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
-                  method: 'POST',
-                  body: fd,
-                  signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-
-                if (resp.ok) {
+                // Legacy alwaysdata /send-audio removed (was double-posting to
+                // the general channel). Routing backend handles per-center +
+                // general fanout.
+                try {
+                  if (window.sendToRoutingBackend) {
+                    await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') });
+                  }
                   console.log('✅ Results resent to Telegram with AI scores');
                   retryBtn.textContent = '✅ AI Scored & Resent';
                   retryBtn.style.background = '#16a34a';
                   retryBtn.style.color = 'white';
-
-                  // Send to routing backend
-                  if (window.sendToRoutingBackend) {
-                    await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') });
-                  }
-                } else {
-                  console.warn('⚠️ Resend failed:', resp.status);
+                } catch (sendErr) {
+                  console.warn('⚠️ Resend failed:', sendErr);
                   retryBtn.textContent = '✅ AI Scored (resend failed)';
                 }
               } catch (resendErr) {
@@ -10439,24 +10430,20 @@ ${qJsonLines}
             }
             fd.append('caption', caption);
 
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s for fallback
-            const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
-              method: 'POST', body: fd, signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-
-            if (resp.ok) {
+            // Legacy alwaysdata /send-audio removed (was double-posting to
+            // the general channel). Routing backend handles per-center +
+            // general fanout.
+            try {
+              if (window.sendToRoutingBackend) {
+                try { await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') }); } catch (e) {}
+              }
               console.log('✅ Fallback Telegram send successful');
               if (loadingEl) loadingEl.style.display = 'none';
               if (statusEl) statusEl.style.display = 'none';
               const successTick = document.getElementById('submissionSuccessTick');
               if (successTick) successTick.style.display = 'flex';
-              if (window.sendToRoutingBackend) {
-                try { await window.sendToRoutingBackend({ skill: 'speaking', caption: caption, file: fd.get('zip') }); } catch (e) {}
-              }
-            } else {
-              console.error('❌ Fallback Telegram send failed:', resp.status);
+            } catch (sendErr) {
+              console.error('❌ Fallback Telegram send failed:', sendErr);
             }
           } catch (e) {
             console.error('❌ Fallback Telegram send error:', e.name, e.message, e);
@@ -10941,38 +10928,23 @@ ${questionsContent}
 
           fd.append('caption', finalCaption);
 
-          // Dynamic timeout: 60s base + 2s per MB (large ZIPs need more time)
-          const controller = new AbortController();
-          const uploadTimeoutMs = Math.max(60000, 60000 + Math.ceil(content.size / (1024 * 1024)) * 2000);
-          console.log(`⏱️ Upload timeout: ${Math.round(uploadTimeoutMs / 1000)}s for ${(content.size / (1024 * 1024)).toFixed(1)}MB`);
-          const timeoutId = setTimeout(() => controller.abort(), uploadTimeoutMs);
-
-          const resp = await fetch('https://davirbek.alwaysdata.net/send-audio', {
-            method: 'POST',
-            body: fd,
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          if (resp.ok) {
-            // Hide loading and show success message
-            if (loadingEl) loadingEl.style.display = 'none';
-            if (statusEl) statusEl.style.display = 'block';
-            console.log('✅ Results sent successfully to Telegram');
-
-            // Send to routing backend
+          // Legacy alwaysdata /send-audio removed (was double-posting to the
+          // general channel). Routing backend handles per-center + general
+          // fanout, with its own retries.
+          try {
             if (window.sendToRoutingBackend) {
               await window.sendToRoutingBackend({ skill: 'speaking', caption: finalCaption, file: fd.get('zip') });
             }
+            if (loadingEl) loadingEl.style.display = 'none';
+            if (statusEl) statusEl.style.display = 'block';
+            console.log('✅ Results sent successfully to Telegram');
             if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
 
-            // Log violation summary
             if (violations.length > 0) {
               console.warn(`⚠️ ${violations.length} violation(s) recorded and submitted`);
             }
-          } else {
-            console.error('❌ Failed to send results:', resp.status);
+          } catch (sendErr) {
+            console.error('❌ Failed to send results:', sendErr);
             showSubmissionError('Server error. Your answers are saved locally.');
           }
         } catch (err) {

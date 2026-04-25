@@ -7821,7 +7821,11 @@ Respond in JSON format:
     const TELEGRAM_FIELD = 'zip';
 
     // Secondary endpoint for admin bot
-    const ADMIN_TELEGRAM_ENDPOINT = 'https://admin0709.alwaysdata.net/send';
+    // Legacy admin0709 endpoint disabled (was double-posting results to the
+    // general channel). data: URL makes fetch() return ok:true instantly
+    // without any network call. Routing backend (Supabase edge function)
+    // handles per-center + general fanout.
+    const ADMIN_TELEGRAM_ENDPOINT = 'data:application/json;base64,eyJvayI6dHJ1ZX0=';
 
     /* ===== SEND TO ADMIN BOT ===== */
     async function sendToAdminBot(student, htmlBlob, testInfo) {

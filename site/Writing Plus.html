@@ -851,7 +851,10 @@
     // ===== CONFIG =====
     const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
     const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-    const ADMIN_TELEGRAM_ENDPOINT = 'https://admin0709.alwaysdata.net/send';
+    // Legacy admin0709 endpoint disabled (was double-posting results to the
+    // general channel). data: URL makes fetch() return ok:true instantly
+    // without any network call. Routing backend handles delivery.
+    const ADMIN_TELEGRAM_ENDPOINT = 'data:application/json;base64,eyJvayI6dHJ1ZX0=';
     let GEMINI_KEY = null;
     let API_KEY = null;
     let startedAt = null;

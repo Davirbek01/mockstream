@@ -10093,31 +10093,16 @@ ${questionsHTML}
 
                     fd.set('caption', finalCaption);
 
-                    // Send to backend with extended timeout
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 seconds
-
-                    const resp = await fetch('https://davirbek.alwaysdata.net/send-full-mock', {
-                        method: 'POST',
-                        body: fd,
-                        signal: controller.signal
-                    });
-
-                    clearTimeout(timeoutId);
-
-                    if (resp.ok) {
-                        console.log('[Telegram] ✅ IELTS full mock results sent successfully');
-                        ieltsTelegramSent = true; // Mark as sent to prevent duplicates
-
-                        // Send to routing backend
-                        if (window.sendToRoutingBackend) {
-                            await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: fd.get('file') });
-                        }
-                        if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
-                        return; // Success - exit function
-                    } else {
-                        throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+                    // Send to routing backend (Supabase edge function — handles
+                    // per-center + general fanout). Legacy alwaysdata
+                    // /send-full-mock removed: it was double-posting to general.
+                    if (window.sendToRoutingBackend) {
+                        await window.sendToRoutingBackend({ skill: 'full-mock', caption: finalCaption, file: fd.get('file') });
                     }
+                    ieltsTelegramSent = true;
+                    console.log('[Telegram] ✅ IELTS full mock results sent successfully');
+                    if (window.msProgress) window.msProgress.success('✅ Results saved successfully!');
+                    return;
                 } catch (err) {
                     console.error(`[Telegram] ❌ Attempt ${attempt}/${MAX_RETRIES} failed:`, err.message);
 

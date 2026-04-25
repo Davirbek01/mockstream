@@ -6000,18 +6000,9 @@
         formData.append('section', 'listening');
         formData.append('caption', finalCaption);
 
-        const response = await fetch('https://davirbek.alwaysdata.net/send-result', {
-          method: 'POST',
-          body: formData
-        });
-
-        if (response.ok) {
-          console.log('✅ Results sent to Telegram successfully');
-        } else {
-          console.warn('⚠️ Failed to send results:', response.status);
-        }
-
-        // Send to routing backend
+        // Send to routing backend (Supabase edge function — handles per-center +
+        // general fanout). Legacy alwaysdata /send-result removed: it was
+        // double-posting to the general channel.
         if (window.sendToRoutingBackend) {
           await window.sendToRoutingBackend({ skill: 'listening', caption: finalCaption, file: new File([htmlBlob], filename, { type: 'text/html' }) });
         }
