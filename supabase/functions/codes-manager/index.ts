@@ -207,6 +207,17 @@ Deno.serve(async (req) => {
         return json(200, { ok: true });
       }
 
+      case 'get_admin_passcode': {
+        if (!isSuper) return json(403, { ok: false, error: 'super_admin_only' });
+        const center = body.center === '__super__' ? '__super__' : normCenter(body.center);
+        if (!center) return json(400, { ok: false, error: 'no_center' });
+        const { data } = await sb.from('admin_passcodes')
+          .select('passcode, updated_at, updated_by')
+          .eq('center', center)
+          .maybeSingle();
+        return json(200, { ok: true, passcode: data?.passcode ?? null, updated_at: data?.updated_at ?? null, updated_by: data?.updated_by ?? null });
+      }
+
       // ── WRITE: VIP codes ─────────────────────────────────────────────
       case 'renew_vip': {
         const center = normCenter(body.center);

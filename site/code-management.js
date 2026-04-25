@@ -593,7 +593,7 @@
       '</div>' +
       '<div class="cm-card">' +
         '<h4>🔑 Per-center admin passcode</h4>' +
-        '<div class="cm-meta" style="margin-bottom:10px;">Pick a center, then tap Generate. The new code instantly replaces the old one — share it with the clone admin via Telegram DM.</div>' +
+        '<div class="cm-meta" style="margin-bottom:10px;">Pick a center to see its current passcode. Tap Generate to instantly replace it.</div>' +
         '<div class="cm-row" style="margin-bottom:10px;">' +
           '<select class="cm-select" id="cmPcCenter" style="flex:1;">' +
             state.centers.map(function(c){ return '<option value="'+c.id+'">'+escapeHtml(c.display_name||c.id)+'</option>'; }).join('') +
@@ -646,6 +646,27 @@
     }
     wireCodeClick('cmPcDisplay', 'cmPcCopyCheck');
     wireCodeClick('cmSuperDisplay', 'cmSuperCopyCheck');
+
+    // Load and show current passcode for selected center / super-admin
+    async function loadCurrentPasscode(center, displayId) {
+      var d = document.getElementById(displayId);
+      if (!d) return;
+      d.classList.add('empty');
+      d.textContent = '⏳ loading…';
+      var r = await call('get_admin_passcode', { center: center });
+      if (!r.ok) { d.textContent = '— (cannot read) —'; return; }
+      if (r.passcode) {
+        d.classList.remove('empty');
+        d.textContent = r.passcode;
+      } else {
+        d.classList.add('empty');
+        d.textContent = '— not set yet —';
+      }
+    }
+    var pcSel = document.getElementById('cmPcCenter');
+    pcSel.onchange = function(){ loadCurrentPasscode(pcSel.value, 'cmPcDisplay'); };
+    if (pcSel.value) loadCurrentPasscode(pcSel.value, 'cmPcDisplay');
+    loadCurrentPasscode('__super__', 'cmSuperDisplay');
 
     document.getElementById('cmGenPc').onclick = async function(){
       var c = document.getElementById('cmPcCenter').value;
