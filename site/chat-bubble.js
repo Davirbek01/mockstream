@@ -1381,6 +1381,13 @@
       html += '<div class="cb-msg ' + cls + '">';
       html += label;
 
+      // Raw HTML cards (promo-code skill picker / number input / result)
+      if (m._html) {
+        html += m._html;
+        html += '</div>';
+        return;
+      }
+
       // Loading spinner for pending uploads
       if (m._loading) {
         html += '<div class="cb-attach-loading"><div class="cb-attach-spinner"></div><div class="cb-attach-loading-text">' + escapeHtml(m._loading) + '</div></div>';
@@ -1417,6 +1424,7 @@
     list.innerHTML = html;
     list.scrollTop = list.scrollHeight;
     initVoicePlayers(list);
+    if (typeof _bindPromoDelegation === 'function') _bindPromoDelegation();
   }
 
   function _parseDmQuote(text) {
@@ -1552,6 +1560,251 @@
     }
   }
 
+  // ─── SUPPORT-TAB PROMO CODE FLOW ──────────────────────────────────────────
+  // The support-tab AI doubles as a free-mock-code dispenser to upsell Premium.
+  // Detects user requests like "give me a code", "promokod", "kod ber", "код",
+  // "free mock", "demo", etc. across English / Russian / Uzbek and shows an
+  // interactive skill picker → mock # input → regular code + premium upsell.
+  // Rate-limited server-side: 1 code/hour, 4 codes/day per device+IP.
+
+  var MOCK_CODE_INTENT_RX = /\b(give\s*(me)?\s*(a\s*)?(free\s*)?(mock\s*)?(code|promo|promocode|coupon|key|trial|demo)|free\s+(mock|test|code)|test\s+code|promo\s*code|promo[-_ ]?kod|promokod|trial\s+access|how\s+(can|do)\s+i\s+(get|try)|let\s+me\s+try|i\s+want\s+to\s+try|kod\s+ber|kod\s+olish|kod\s+kerak|bepul\s+(mock|test|kod)|sinov|namuna|tekin\s+kod|promokod\s+ber|mockni?\s+sinab|sinab\s+ko['']?ray|sinab\s+ko['']?rmoqchi|код|промо\s*код|бесплатн\w*\s+(код|тест|мок)|пробн\w*\s+(код|доступ|версия)|дай\s+(мне\s+)?код|мне\s+нужен\s+код|хочу\s+попробовать|могу\s+ли\s+я\s+попроб|тест\s+бесплатно)\b/i;
+
+  var SKILL_LABELS = {
+    listening: '🎧 Listening',
+    reading:   '📖 Reading',
+    writing:   '✏️ Writing',
+    speaking:  '🎤 Speaking',
+    full_mock: '📚 Full Mock'
+  };
+
+  function _promoNowTime() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function _appendSupportCard(html) {
+    var card = { role: 'ai', _html: html, category: 'support', time: _promoNowTime() };
+    messages.support = messages.support || [];
+    messages.support.push(card);
+    renderMessages();
+    saveLocal();
+  }
+
+  function _replaceLastSupportCard(html) {
+    var arr = messages.support || [];
+    for (var i = arr.length - 1; i >= 0; i--) {
+      if (arr[i] && arr[i]._html) { arr[i]._html = html; break; }
+    }
+    renderMessages();
+    saveLocal();
+  }
+
+  function _renderSkillPickerCard() {
+    return ''
+      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:4px;">🎁 Try a free regular mock</div>'
+      +   '<div style="font-size:11.5px;color:#475569;line-height:1.45;margin-bottom:10px;">Pick a skill — I\'ll give you a code on the house. <em>(Free tier: 1/hour, 4/day.)</em></div>'
+      +   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'
+      +     '<button type="button" class="cb-promo-skill" data-skill="listening" style="padding:8px 6px;border-radius:9px;border:1.5px solid #93c5fd;background:#fff;color:#1d4ed8;font-size:12px;font-weight:600;cursor:pointer;">🎧 Listening</button>'
+      +     '<button type="button" class="cb-promo-skill" data-skill="reading"   style="padding:8px 6px;border-radius:9px;border:1.5px solid #93c5fd;background:#fff;color:#1d4ed8;font-size:12px;font-weight:600;cursor:pointer;">📖 Reading</button>'
+      +     '<button type="button" class="cb-promo-skill" data-skill="writing"   style="padding:8px 6px;border-radius:9px;border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;font-size:12px;font-weight:600;cursor:pointer;">✏️ Writing</button>'
+      +     '<button type="button" class="cb-promo-skill" data-skill="speaking"  style="padding:8px 6px;border-radius:9px;border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;font-size:12px;font-weight:600;cursor:pointer;">🎤 Speaking</button>'
+      +   '</div>'
+      +   '<button type="button" class="cb-promo-skill" data-skill="full_mock" style="margin-top:6px;width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #fcd34d;background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#b45309;font-size:12px;font-weight:700;cursor:pointer;">📚 Full Mock (one code, all skills)</button>'
+      + '</div>';
+  }
+
+  function _renderMockNumberCard(skill) {
+    var label = SKILL_LABELS[skill] || skill;
+    var safeSkill = escapeHtml(skill);
+    return ''
+      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">' + label + ' — pick a mock #</div>'
+      +   '<div style="font-size:11.5px;color:#475569;margin-bottom:8px;">Type the mock number you want to try (e.g. <strong>1</strong>, <strong>5</strong>, <strong>12</strong>).</div>'
+      +   '<div style="display:flex;gap:6px;">'
+      +     '<input type="number" min="1" max="999" id="cb-promo-num-input" data-skill="' + safeSkill + '" placeholder="#" style="flex:1;padding:8px 10px;border-radius:9px;border:1.5px solid #c7d2fe;font-size:13px;font-weight:600;color:#1e293b;outline:none;" />'
+      +     '<button type="button" class="cb-promo-num-submit" data-skill="' + safeSkill + '" style="padding:8px 14px;border-radius:9px;border:none;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-size:12px;font-weight:700;cursor:pointer;">Get code →</button>'
+      +   '</div>'
+      +   '<div style="margin-top:6px;text-align:right;">'
+      +     '<button type="button" class="cb-promo-back" style="background:none;border:none;color:#64748b;font-size:11px;cursor:pointer;text-decoration:underline;">← back</button>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  function _renderLoadingCard(label) {
+    return ''
+      + '<div class="cb-promo-card" style="background:#f1f5f9;border:1.5px solid #cbd5e1;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#475569;">'
+      +     '<div class="cb-attach-spinner" style="width:14px;height:14px;border:2px solid #cbd5e1;border-top-color:#2563eb;border-radius:50%;animation:cb-spin 0.7s linear infinite;"></div>'
+      +     escapeHtml(label || 'Loading…')
+      +   '</div>'
+      + '</div>';
+  }
+
+  function _renderUpsellHtml() {
+    return ''
+      + '<div style="margin-top:10px;padding:10px 12px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:10px;border:1.5px solid #fbbf24;">'
+      +   '<div style="font-size:12px;font-weight:700;color:#78350f;margin-bottom:4px;">🔥 Want more? Upgrade to Premium</div>'
+      +   '<div style="font-size:11px;color:#78350f;line-height:1.55;">'
+      +     '🤖 Instant AI scoring &amp; feedback<br>'
+      +     '📝 Full transcripts (speaking + writing)<br>'
+      +     '🔁 Unlimited retries<br>'
+      +     '⚡ One code unlocks all skills<br>'
+      +     '♾ No daily / hourly limits'
+      +   '</div>'
+      +   '<button type="button" class="cb-promo-go-premium" style="margin-top:8px;width:100%;padding:8px;border-radius:8px;border:none;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:12px;font-weight:700;cursor:pointer;">👑 Open Premium tab</button>'
+      + '</div>';
+  }
+
+  function _renderCodeResultCard(payload) {
+    var skillLabel = SKILL_LABELS[payload.skill] || payload.skill;
+    var dailyLeft  = payload.daily_remaining != null ? payload.daily_remaining : '?';
+    return ''
+      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1.5px solid #6ee7b7;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:4px;">✅ Here\'s your free regular code</div>'
+      +   '<div style="font-size:11.5px;color:#047857;margin-bottom:8px;">' + skillLabel + ' &middot; mock #' + escapeHtml(String(payload.mock_number)) + '</div>'
+      +   '<div style="display:flex;align-items:center;gap:6px;background:#fff;border:2px dashed #10b981;border-radius:10px;padding:10px;margin-bottom:6px;">'
+      +     '<code style="flex:1;font-family:Consolas,Menlo,monospace;font-size:16px;font-weight:800;color:#065f46;letter-spacing:1.5px;text-align:center;">' + escapeHtml(payload.code) + '</code>'
+      +     '<button type="button" class="cb-promo-copy" data-code="' + escapeHtml(payload.code) + '" style="padding:6px 10px;border-radius:7px;border:none;background:#10b981;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">Copy</button>'
+      +   '</div>'
+      +   '<div style="font-size:10.5px;color:#047857;line-height:1.5;">'
+      +     '<strong>Regular tier:</strong> unlocks the mock so you can practice. '
+      +     '<u>No</u> AI scoring, <u>no</u> transcripts, <u>no</u> retries — those are Premium-only.<br>'
+      +     '<span style="opacity:.85;">' + escapeHtml(String(dailyLeft)) + ' free code(s) left today.</span>'
+      +   '</div>'
+      +   _renderUpsellHtml()
+      + '</div>';
+  }
+
+  function _renderRateLimitCard(err) {
+    var msg = err && err.message ? err.message : 'You\'ve hit the free-tier limit. Try again later or upgrade to Premium.';
+    var retry = err && err.retry_after_seconds ? err.retry_after_seconds : 0;
+    var retryStr = '';
+    if (retry > 0) {
+      if (retry < 3600) retryStr = 'Try again in ~' + Math.ceil(retry / 60) + ' min.';
+      else retryStr = 'Try again in ~' + Math.ceil(retry / 3600) + ' hour(s).';
+    }
+    return ''
+      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="font-size:13px;font-weight:700;color:#991b1b;margin-bottom:4px;">⏳ Free-tier limit reached</div>'
+      +   '<div style="font-size:11.5px;color:#7f1d1d;line-height:1.5;margin-bottom:6px;">' + escapeHtml(msg) + (retryStr ? ' ' + escapeHtml(retryStr) : '') + '</div>'
+      +   _renderUpsellHtml()
+      + '</div>';
+  }
+
+  function _renderErrorCard(text) {
+    return ''
+      + '<div class="cb-promo-card" style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      +   '<div style="font-size:12px;color:#991b1b;font-weight:600;">⚠️ ' + escapeHtml(text) + '</div>'
+      +   '<button type="button" class="cb-promo-back" style="margin-top:6px;background:none;border:none;color:#991b1b;font-size:11px;cursor:pointer;text-decoration:underline;">← try again</button>'
+      + '</div>';
+  }
+
+  async function _fetchPromoCode(skill, mockNumber) {
+    var body = {
+      center: getCenter(),
+      skill: skill,
+      mock_number: mockNumber,
+      user_key: 'device:' + getDeviceId() + (getUserName ? '|name:' + (getUserName() || '') : '')
+    };
+    var resp = await fetch(SB_URL + '/functions/v1/get-promo-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+      body: JSON.stringify(body)
+    });
+    var json;
+    try { json = await resp.json(); } catch { json = { ok: false, error: 'bad_response' }; }
+    return { status: resp.status, body: json };
+  }
+
+  // Public handlers (used by inline onclick / event delegation)
+  window._cbPromo = {
+    pickSkill: function (skill) {
+      if (!SKILL_LABELS[skill]) return;
+      if (skill === 'full_mock') {
+        _replaceLastSupportCard(_renderLoadingCard('Fetching your full-mock code…'));
+        _fetchPromoCode('full_mock', 1).then(function (r) {
+          if (r.body && r.body.ok) _replaceLastSupportCard(_renderCodeResultCard(r.body));
+          else if (r.status === 429) _replaceLastSupportCard(_renderRateLimitCard(r.body));
+          else if (r.status === 404) _replaceLastSupportCard(_renderErrorCard('No full-mock code is available for your center right now. Please try a single skill or contact support.'));
+          else _replaceLastSupportCard(_renderErrorCard('Could not fetch a code (' + (r.body && r.body.error || 'unknown') + ').'));
+        }).catch(function () {
+          _replaceLastSupportCard(_renderErrorCard('Network error — check your connection and try again.'));
+        });
+      } else {
+        _replaceLastSupportCard(_renderMockNumberCard(skill));
+        setTimeout(function () {
+          var inp = document.getElementById('cb-promo-num-input');
+          if (inp) { inp.focus(); }
+        }, 50);
+      }
+    },
+    submitNumber: function (skill, num) {
+      var n = parseInt(num, 10);
+      if (!Number.isInteger(n) || n < 1 || n > 999) {
+        var inp = document.getElementById('cb-promo-num-input');
+        if (inp) { inp.style.borderColor = '#ef4444'; inp.focus(); }
+        return;
+      }
+      _replaceLastSupportCard(_renderLoadingCard('Fetching mock #' + n + '…'));
+      _fetchPromoCode(skill, n).then(function (r) {
+        if (r.body && r.body.ok) _replaceLastSupportCard(_renderCodeResultCard(r.body));
+        else if (r.status === 429) _replaceLastSupportCard(_renderRateLimitCard(r.body));
+        else if (r.status === 404) _replaceLastSupportCard(_renderErrorCard('Mock #' + n + ' is not available for ' + (SKILL_LABELS[skill] || skill) + ' right now.'));
+        else _replaceLastSupportCard(_renderErrorCard('Could not fetch a code (' + (r.body && r.body.error || 'unknown') + ').'));
+      }).catch(function () {
+        _replaceLastSupportCard(_renderErrorCard('Network error — check your connection and try again.'));
+      });
+    },
+    back: function () {
+      _replaceLastSupportCard(_renderSkillPickerCard());
+    },
+    copy: function (code, btn) {
+      try {
+        if (navigator.clipboard) navigator.clipboard.writeText(code);
+        else {
+          var ta = document.createElement('textarea'); ta.value = code; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        }
+        if (btn) { var orig = btn.textContent; btn.textContent = 'Copied!'; btn.style.background = '#059669'; setTimeout(function () { btn.textContent = orig; btn.style.background = '#10b981'; }, 1200); }
+      } catch (e) { /* ignore */ }
+    },
+    goPremium: function () {
+      try { switchCategory('premium'); } catch (e) {}
+    }
+  };
+
+  // Event delegation for promo cards (rebuilt on every renderMessages)
+  function _bindPromoDelegation() {
+    var list = document.getElementById('cb-messages');
+    if (!list || list._cbPromoBound) return;
+    list._cbPromoBound = true;
+    list.addEventListener('click', function (e) {
+      var t = e.target;
+      while (t && t !== list) {
+        if (t.classList) {
+          if (t.classList.contains('cb-promo-skill'))   { window._cbPromo.pickSkill(t.dataset.skill); return; }
+          if (t.classList.contains('cb-promo-num-submit')) {
+            var inp = document.getElementById('cb-promo-num-input');
+            window._cbPromo.submitNumber(t.dataset.skill, inp ? inp.value : '');
+            return;
+          }
+          if (t.classList.contains('cb-promo-back'))      { window._cbPromo.back(); return; }
+          if (t.classList.contains('cb-promo-copy'))      { window._cbPromo.copy(t.dataset.code, t); return; }
+          if (t.classList.contains('cb-promo-go-premium')){ window._cbPromo.goPremium(); return; }
+        }
+        t = t.parentNode;
+      }
+    });
+    // Enter key in number input submits
+    list.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var t = e.target;
+      if (t && t.id === 'cb-promo-num-input') {
+        e.preventDefault();
+        window._cbPromo.submitNumber(t.dataset.skill, t.value);
+      }
+    });
+  }
+
   // ─── SEND MESSAGE ─────────────────────────────────────────────────────────
   async function sendMessage() {
     if (isSending) return;
@@ -1582,6 +1835,22 @@
 
     // Private/Support/Premium/Partner — require Google sign-in.
     if (!_requireSignIn(currentCategory)) return;
+
+    // Support tab — intercept mock-code requests before hitting the AI.
+    if (currentCategory === 'support' && MOCK_CODE_INTENT_RX.test(text)) {
+      var t0 = _promoNowTime();
+      var userMsgIntent = { role: 'user', text: text, category: 'support', time: t0 };
+      messages.support = messages.support || [];
+      messages.support.push(userMsgIntent);
+      renderMessages();
+      saveLocal();
+      saveMsg(userMsgIntent);
+      input.value = '';
+      var introMsg = { role: 'ai', text: '🎁 Sure! I can give you a **free regular mock code** right now. Pick the skill you want to try — and remember, regular codes unlock the mock only (no AI grading or transcripts — those are Premium).', category: 'support', time: _promoNowTime() };
+      messages.support.push(introMsg);
+      _appendSupportCard(_renderSkillPickerCard());
+      return;
+    }
 
     // Private mode — save to Supabase, no AI reply
     if (currentCategory === 'private') {
