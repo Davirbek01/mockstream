@@ -148,11 +148,27 @@ window.sendToRoutingBackend = function sendToRoutingBackend(opts) {
     var MAX_RETRIES = 2;
     var RETRY_DELAYS = [0, 5000]; // immediate + 5s retry
 
+    // Idempotency key: same value reused across retries so the server can
+    // dedupe and avoid posting the same result twice to Telegram channels
+    // when a slow/failed response triggers a retry of an already-processed
+    // upload. Generated ONCE per submission (outside attempt()).
+    var idemKey = (function () {
+      try {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+          return window.crypto.randomUUID();
+        }
+      } catch (_) {}
+      return 'idem-' + Date.now().toString(36) + '-' +
+             Math.random().toString(36).slice(2, 10) + '-' +
+             Math.random().toString(36).slice(2, 10);
+    })();
+
     function attempt(n) {
       // Rebuild FormData on retry (streams may be consumed)
       var body = new FormData();
       body.append('testIdentifier', routingId);
       body.append('skill', opts.skill || '');
+      body.append('idempotency_key', idemKey);
       if (opts.text)    body.append('text', opts.text);
       if (opts.caption) body.append('caption', opts.caption);
       if (opts.file)    body.append('file', opts.file);

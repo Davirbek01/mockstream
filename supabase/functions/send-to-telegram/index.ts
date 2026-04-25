@@ -70,6 +70,30 @@ function normalizeCenterId(raw: string): string {
   return c;
 }
 
+// Idempotency cache: when a client retries a request with the same
+// idempotency_key (e.g. because the original response was slow / lost),
+// we return the cached response WITHOUT re-posting to Telegram. This
+// prevents the same result from appearing twice in the channels.
+//
+// Scope: per Edge Function instance (in-memory). Most retries hit the
+// same warm instance within seconds, so this catches the common case.
+// TTL: 10 min. Cap: 500 entries (drop oldest on overflow).
+type IdemEntry = { ts: number; status: number; body: Record<string, unknown> };
+const IDEM_CACHE = new Map<string, IdemEntry | Promise<IdemEntry>>();
+const IDEM_TTL_MS = 10 * 60 * 1000;
+const IDEM_MAX = 500;
+function idemSweep() {
+  const now = Date.now();
+  for (const [k, v] of IDEM_CACHE) {
+    if (v && !(v instanceof Promise) && now - v.ts > IDEM_TTL_MS) IDEM_CACHE.delete(k);
+  }
+  while (IDEM_CACHE.size > IDEM_MAX) {
+    const firstKey = IDEM_CACHE.keys().next().value;
+    if (firstKey === undefined) break;
+    IDEM_CACHE.delete(firstKey);
+  }
+}
+
 async function loadChannels(centerId: string): Promise<Record<string, string> | null> {
   const key = 'center_telegram_channels_' + centerId;
   const { data, error } = await sb
@@ -114,6 +138,7 @@ Deno.serve(async (req) => {
   const caption     = String(form.get('caption') || '');
   const text        = String(form.get('text') || '');
   const file        = form.get('file');
+  const idemKeyRaw  = String(form.get('idempotency_key') || '').trim();
 
   if (!centerIdRaw) return json(400, { ok: false, error: 'missing_testIdentifier' });
   if (!skillRaw)    return json(400, { ok: false, error: 'missing_skill' });
@@ -121,9 +146,39 @@ Deno.serve(async (req) => {
   const centerId = normalizeCenterId(centerIdRaw);
   const skill    = normalizeSkill(skillRaw);
 
+  // ─── Idempotency: short-circuit duplicate sends ────────────────────────
+  // The client sends the same `idempotency_key` on retries. If we've seen
+  // this key already (or a request with this key is currently in-flight),
+  // return the original response WITHOUT re-posting to Telegram.
+  const idemKey = idemKeyRaw ? `${centerId}|${skill}|${idemKeyRaw}` : '';
+  if (idemKey) {
+    const cached = IDEM_CACHE.get(idemKey);
+    if (cached) {
+      const entry = cached instanceof Promise ? await cached : cached;
+      return json(entry.status, { ...entry.body, deduped: true });
+    }
+  }
+
+  // Reserve the key with an in-flight promise so concurrent retries wait
+  // for the original request to finish instead of also posting.
+  let resolveIdem: ((e: IdemEntry) => void) | null = null;
+  if (idemKey) {
+    const inflight = new Promise<IdemEntry>((res) => { resolveIdem = res; });
+    IDEM_CACHE.set(idemKey, inflight);
+    idemSweep();
+  }
+  const finalize = (status: number, body: Record<string, unknown>) => {
+    if (idemKey && resolveIdem) {
+      const entry: IdemEntry = { ts: Date.now(), status, body };
+      IDEM_CACHE.set(idemKey, entry);
+      resolveIdem(entry);
+    }
+    return json(status, body);
+  };
+
   const channels = await loadChannels(centerId);
   if (!channels) {
-    return json(404, {
+    return finalize(404, {
       ok: false,
       error: 'no_channel_mapping_for_center',
       centerId,
@@ -133,7 +188,7 @@ Deno.serve(async (req) => {
 
   const chatId = channels[skill];
   if (!chatId) {
-    return json(404, {
+    return finalize(404, {
       ok: false,
       error: 'no_channel_for_skill',
       centerId,
@@ -216,12 +271,12 @@ Deno.serve(async (req) => {
   }
 
   if (!primaryOk) {
-    return json(502, { ok: false, error: 'telegram_api_error', primary: primaryError, results });
+    return finalize(502, { ok: false, error: 'telegram_api_error', primary: primaryError, results });
   }
 
   // Find primary result for backward-compat shape (routedTo, message_id)
   const primary = results.find(r => r.target === centerId) as Record<string, unknown> | undefined;
-  return json(200, {
+  return finalize(200, {
     ok: true,
     routedTo: { chat_id: primary?.chat_id, title: primary?.title },
     message_id: primary?.message_id,
