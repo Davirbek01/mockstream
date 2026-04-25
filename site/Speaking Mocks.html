@@ -7816,10 +7816,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [
-            { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+            { text: 'Transcribe this audio recording WORD-FOR-WORD, in FULL. Do NOT summarise, paraphrase, abbreviate, or stop early. Continue until the very last word the speaker says, even if the answer is 2+ minutes long. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
             { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
           ]}],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+          generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
         })
       });
       if (!gr.ok) {
@@ -7832,10 +7832,10 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [
-              { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
+              { text: 'Transcribe this audio recording WORD-FOR-WORD, in FULL. Do NOT summarise, paraphrase, abbreviate, or stop early. Continue until the very last word the speaker says, even if the answer is 2+ minutes long. Return ONLY the transcription text. If no speech, return "[No speech detected]".' },
               { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
             ]}],
-            generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+            generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
           })
         });
       }
@@ -13936,11 +13936,11 @@ function printAiModal() {
                 body: JSON.stringify({
                   contents: [{
                     parts: [
-                      { text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".' },
+                      { text: 'Transcribe this audio recording WORD-FOR-WORD, in FULL. Do NOT summarise, paraphrase, abbreviate, or stop early. Continue until the very last word the speaker says, even if the answer is 2+ minutes long. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".' },
                       { inline_data: { mime_type: 'audio/webm', data: base64Audio } }
                     ]
                   }],
-                  generationConfig: { temperature: 0.1, maxOutputTokens: 1024 }
+                  generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
                 })
               });
 
@@ -15519,7 +15519,7 @@ RETURN ONLY THIS JSON FORMAT (no other text):
                     contents: [{
                       parts: [
                         {
-                          text: 'Transcribe this audio recording exactly as spoken. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".'
+                          text: 'Transcribe this audio recording WORD-FOR-WORD, in FULL. Do NOT summarise, paraphrase, abbreviate, or stop early. Continue until the very last word the speaker says, even if the answer is 2+ minutes long. Return ONLY the transcription text, nothing else. If no speech is detected, return "[No speech detected]".'
                         },
                         {
                           inline_data: {
@@ -15531,7 +15531,7 @@ RETURN ONLY THIS JSON FORMAT (no other text):
                     }],
                     generationConfig: {
                       temperature: 0.1,
-                      maxOutputTokens: 1024
+                      maxOutputTokens: 8192
                     }
                   })
                 });

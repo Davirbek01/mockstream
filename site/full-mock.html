@@ -9367,9 +9367,9 @@ Empty responses = 0 points and skip analysis for that task.`;
           var gr = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + ((cp['scoring_model_gemini'] || '').trim() || 'gemini-flash-latest') + ':generateContent?key=' + GEMINI_KEY, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ contents: [{ parts: [
-              { text: 'Transcribe this audio recording exactly. Return ONLY the text or "[No speech detected]".' },
+              { text: 'Transcribe this audio recording WORD-FOR-WORD, in FULL. Do NOT summarise, paraphrase, abbreviate, or stop early. Continue until the very last word, even if the answer is 2+ minutes long. Return ONLY the transcription text or "[No speech detected]".' },
               { inline_data: { mime_type: blob.type || 'audio/webm', data: b64g } }
-            ]}], generationConfig: { temperature: 0.1 } })
+            ]}], generationConfig: { temperature: 0.1, maxOutputTokens: 8192 } })
           });
           if (!gr.ok) throw new Error('Gemini transcribe error: ' + gr.status);
           var gd = await gr.json();
