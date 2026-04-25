@@ -17260,24 +17260,11 @@
 
     var _smgBackInterval = null;
     function _showSmgBackButton() {
-      document.body.classList.add('smg-back-active');
-      _placeSmgBackButton();
-      if (_smgBackInterval) return;
-      // Re-check every 500ms so navigating between sub-panels keeps the
-      // button anchored to whichever one is currently visible.
-      _smgBackInterval = setInterval(function () {
-        if (!document.body.classList.contains('smg-back-active')) return;
-        // If our current button's panel is no longer visible, re-place.
-        var inline = document.querySelector('.smg-back-inline');
-        if (inline && inline.offsetParent !== null) {
-          // Still visible inside its panel — verify the panel itself still is.
-          var parent = inline.parentElement;
-          if (parent && parent.offsetParent !== null) return;
-        }
-        // Pill (fallback) is always in body — re-evaluate to see if a panel
-        // has now opened so we can move the button inside it.
-        _placeSmgBackButton();
-      }, 500);
+      // Disabled — the back pill caused stuck-overlay issues with the
+      // Code Management panel and is no longer used. Closing any sub-
+      // panel via its own × returns to the page; reopen the grid via
+      // the sidebar / 5-tap as usual.
+      return;
     }
 
     function _removeSmgBackPill() {
