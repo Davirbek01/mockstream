@@ -7606,12 +7606,19 @@
           return centerTranscriber;
         }
       }
+      // Global system-prompts default (set in landing.html System Prompts panel).
+      // Applies to all providers unless 'default' / empty.
+      var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
+      if (globalTr === 'default') globalTr = '';
+      if (globalTr === 'openai' || globalTr === 'gemini'
+          || globalTr === 'assemblyai' || globalTr === 'claude') {
+        console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
+        return globalTr;
+      }
       if (provider === 'grok' || provider === 'deepseek') {
-        // Text-only provider with no override — fall back to system-prompts helper.
-        var helper = (cp['scoring_transcription_provider'] || cp['scoring_transcribe_helper_ai'] || 'gemini').toString().trim().toLowerCase();
-        if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini' && helper !== 'assemblyai') helper = 'gemini';
-        console.log('[Transcribe] Text-only provider (' + provider + ') using helper:', helper);
-        provider = helper;
+        // Text-only provider with no override anywhere — last-resort gemini.
+        console.log('[Transcribe] Text-only provider (' + provider + ') with no override, defaulting to gemini.');
+        provider = 'gemini';
       }
       return provider;
     }

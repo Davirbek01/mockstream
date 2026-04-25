@@ -9270,14 +9270,20 @@ Empty responses = 0 points and skip analysis for that task.`;
                   || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude')) {
             console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
             provider = centerTranscriber;
-          } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
-            // Text-only provider with no override — fall back to system-prompts helper.
-            var helper = (cp['scoring_transcription_provider'] || 'gemini').toString().trim().toLowerCase();
-            if (helper !== 'openai' && helper !== 'claude' && helper !== 'gemini' && helper !== 'assemblyai') helper = 'gemini';
-            console.log('[Transcribe] Text-only provider (' + provider + '), using helper:', helper);
-            provider = helper;
           } else {
-            console.log('[Transcribe] Provider:', provider);
+            // Global system-prompts default applies to all providers.
+            var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
+            if (globalTr === 'default') globalTr = '';
+            if (globalTr === 'openai' || globalTr === 'gemini'
+                || globalTr === 'assemblyai' || globalTr === 'claude') {
+              console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
+              provider = globalTr;
+            } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
+              console.log('[Transcribe] Text-only provider (' + provider + ') with no override, defaulting to gemini.');
+              provider = 'gemini';
+            } else {
+              console.log('[Transcribe] Provider:', provider);
+            }
           }
 
           // Scope a per-center Gemini billing-slot override (transcriberGeminiPlan)
