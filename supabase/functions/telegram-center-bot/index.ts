@@ -259,23 +259,38 @@ async function setSupportMode(centerId: string, tgUserId: number, on: boolean): 
 
 // ─────────────────────────────────────────────────────────────────────
 // Per-user state for "awaiting passcode entry"
-// (lightweight in-memory map per isolate; OK because the wait is short
-//  and falls back gracefully if the user re-/start's)
+// Persisted in DB because Edge Function isolates are ephemeral — an
+// in-memory Map would silently lose the flag between the prompt request
+// and the user's reply (often served by a different cold isolate).
 // ─────────────────────────────────────────────────────────────────────
-const PASSCODE_PROMPT = new Map<string, number>();   // key = `${centerId}:${tgUserId}` → set time ms
-const PROMPT_TTL_MS   = 5 * 60 * 1000;
-function setAwaitingPasscode(centerId: string, tgUserId: number) {
-  PASSCODE_PROMPT.set(`${centerId}:${tgUserId}`, Date.now());
+const PROMPT_TTL_MINUTES = 5;
+async function setAwaitingPasscode(centerId: string, tgUserId: number) {
+  await sb.from('center_bot_passcode_prompts').upsert({
+    center_id:  centerId,
+    tg_user_id: tgUserId,
+    set_at:     new Date().toISOString()
+  });
 }
-function isAwaitingPasscode(centerId: string, tgUserId: number): boolean {
-  const k = `${centerId}:${tgUserId}`;
-  const t = PASSCODE_PROMPT.get(k);
-  if (!t) return false;
-  if (Date.now() - t > PROMPT_TTL_MS) { PASSCODE_PROMPT.delete(k); return false; }
+async function isAwaitingPasscode(centerId: string, tgUserId: number): Promise<boolean> {
+  const { data } = await sb
+    .from('center_bot_passcode_prompts')
+    .select('set_at')
+    .eq('center_id', centerId)
+    .eq('tg_user_id', tgUserId)
+    .maybeSingle();
+  if (!data) return false;
+  const ageMs = Date.now() - new Date(data.set_at).getTime();
+  if (ageMs > PROMPT_TTL_MINUTES * 60 * 1000) {
+    await clearAwaitingPasscode(centerId, tgUserId);
+    return false;
+  }
   return true;
 }
-function clearAwaitingPasscode(centerId: string, tgUserId: number) {
-  PASSCODE_PROMPT.delete(`${centerId}:${tgUserId}`);
+async function clearAwaitingPasscode(centerId: string, tgUserId: number) {
+  await sb.from('center_bot_passcode_prompts')
+    .delete()
+    .eq('center_id',  centerId)
+    .eq('tg_user_id', tgUserId);
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -300,7 +315,7 @@ async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: numbe
     return;
   }
   // Otherwise prompt for the center's admin passcode.
-  setAwaitingPasscode(cfg.center_id, tgUserId);
+  await setAwaitingPasscode(cfg.center_id, tgUserId);
   await send(cfg.bot_token, chatId,
     `🔐 <b>Admin passcode required</b>\n\nSend the admin passcode for <b>${esc(cfg.center_id)}</b>.\n\nTap <b>${BTN.CANCEL}</b> to abort.`,
     { reply_markup: passcodeKeyboard() });
@@ -308,14 +323,14 @@ async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: numbe
 
 async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId: number, firstName: string, text: string) {
   if (text === BTN.CANCEL || /^\/cancel\b/i.test(text)) {
-    clearAwaitingPasscode(cfg.center_id, tgUserId);
+    await clearAwaitingPasscode(cfg.center_id, tgUserId);
     await send(cfg.bot_token, chatId, `❌ Cancelled.`);
     await showMainMenu(cfg, chatId, firstName);
     return;
   }
   const expected = await getAdminPasscode(cfg.center_id);
   if (!expected) {
-    clearAwaitingPasscode(cfg.center_id, tgUserId);
+    await clearAwaitingPasscode(cfg.center_id, tgUserId);
     await send(cfg.bot_token, chatId,
       `⚠️ No admin passcode is configured for this center.\nAsk the owner to add one in <code>admin_passcodes</code>.`);
     await showMainMenu(cfg, chatId, firstName);
@@ -326,7 +341,7 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
     return;
   }
   // ✓ unlocked
-  clearAwaitingPasscode(cfg.center_id, tgUserId);
+  await clearAwaitingPasscode(cfg.center_id, tgUserId);
   await unlockAdmin(cfg.center_id, tgUserId);
   await showAdminMenu(cfg, chatId);
 }
@@ -412,7 +427,7 @@ Deno.serve(async (req: Request) => {
 
     // ── /start /menu /help → reset to main ────────────────────────────
     if (/^\/(start|menu|help)\b/i.test(text)) {
-      clearAwaitingPasscode(cfg.center_id, tgUserId);
+      await clearAwaitingPasscode(cfg.center_id, tgUserId);
       await setSupportMode(cfg.center_id, tgUserId, false);
       await showMainMenu(cfg, chatId, firstName);
       return new Response('ok');
