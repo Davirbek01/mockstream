@@ -32,6 +32,9 @@ const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 
+// Manager bot that owns the full admin panel — every center hands off here.
+const MANAGER_BOT_USERNAME = 'MS23_manager_bot';
+
 // ─────────────────────────────────────────────────────────────────────
 // Telegram helpers (per-bot — token is resolved per request)
 // ─────────────────────────────────────────────────────────────────────
@@ -290,8 +293,41 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number) {
   });
 }
 
-async function handleAdminTap(cfg: CenterConfig, chatId: number, _tgUserId: number) {
-  // No center-bot passcode — the manager bot already has its own auth.
+async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
+  // Already unlocked in this 12h window? Skip the passcode prompt.
+  if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
+    await showAdminMenu(cfg, chatId);
+    return;
+  }
+  // Otherwise prompt for the center's admin passcode.
+  setAwaitingPasscode(cfg.center_id, tgUserId);
+  await send(cfg.bot_token, chatId,
+    `🔐 <b>Admin passcode required</b>\n\nSend the admin passcode for <b>${esc(cfg.center_id)}</b>.\n\nTap <b>${BTN.CANCEL}</b> to abort.`,
+    { reply_markup: passcodeKeyboard() });
+}
+
+async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId: number, firstName: string, text: string) {
+  if (text === BTN.CANCEL || /^\/cancel\b/i.test(text)) {
+    clearAwaitingPasscode(cfg.center_id, tgUserId);
+    await send(cfg.bot_token, chatId, `❌ Cancelled.`);
+    await showMainMenu(cfg, chatId, firstName);
+    return;
+  }
+  const expected = await getAdminPasscode(cfg.center_id);
+  if (!expected) {
+    clearAwaitingPasscode(cfg.center_id, tgUserId);
+    await send(cfg.bot_token, chatId,
+      `⚠️ No admin passcode is configured for this center.\nAsk the owner to add one in <code>admin_passcodes</code>.`);
+    await showMainMenu(cfg, chatId, firstName);
+    return;
+  }
+  if (!ctEq(text.trim(), expected.trim())) {
+    await send(cfg.bot_token, chatId, `❌ Wrong passcode. Try again or tap <b>${BTN.CANCEL}</b>.`);
+    return;
+  }
+  // ✓ unlocked
+  clearAwaitingPasscode(cfg.center_id, tgUserId);
+  await unlockAdmin(cfg.center_id, tgUserId);
   await showAdminMenu(cfg, chatId);
 }
 
@@ -379,6 +415,12 @@ Deno.serve(async (req: Request) => {
       clearAwaitingPasscode(cfg.center_id, tgUserId);
       await setSupportMode(cfg.center_id, tgUserId, false);
       await showMainMenu(cfg, chatId, firstName);
+      return new Response('ok');
+    }
+
+    // ── Awaiting admin passcode ──────────────────────────────────────
+    if (isAwaitingPasscode(cfg.center_id, tgUserId)) {
+      await handlePasscodeAttempt(cfg, chatId, tgUserId, firstName, text);
       return new Response('ok');
     }
 

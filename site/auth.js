@@ -382,83 +382,10 @@
     } catch (_e) { /* non-fatal */ }
   }
 
-  // -----------------------------------------------------------------------
-  // Telegram Mini App identity bypass.
-  // Verifies initData server-side (HMAC against the bot token) and, on
-  // success, synthesises a `_currentUser` object that has the same shape
-  // the rest of the site expects from a Google sign-in. This unlocks the
-  // chat bubble + My Results section for users who arrived via the center
-  // bot — without forcing a Google account.
-  //
-  // We do NOT create a Supabase auth session — premium / RLS-gated DB
-  // writes still require a real Google sign-in or VIP email.
-  // -----------------------------------------------------------------------
-  async function signInWithTelegram(initData, centerId) {
-    if (!initData) return null;
-    var center = centerId || (window.__CENTER_ID || 'mock_stream');
-    try {
-      var resp = await fetch(SB_URL + '/functions/v1/verify-telegram-init', {
-        method: 'POST',
-        headers: {
-          'Content-Type':  'application/json',
-          'apikey':        SB_KEY,
-          'Authorization': 'Bearer ' + SB_KEY
-        },
-        body: JSON.stringify({ center_id: center, init_data: initData })
-      });
-      if (!resp.ok) {
-        console.warn('[auth] verify-telegram-init failed', resp.status);
-        return null;
-      }
-      var data = await resp.json();
-      if (!data || !data.ok || !data.user) return null;
-
-      var u = data.user;
-      var fullName = (u.first_name + ' ' + (u.last_name || '')).trim() ||
-                     (u.username ? '@' + u.username : '') ||
-                     ('Telegram user ' + u.id);
-      var syntheticEmail = 'tg_' + u.id + '@telegram.local';
-
-      // Shape it like a Supabase user object so existing call-sites Just Work.
-      _currentUser = {
-        id:                'tg_' + u.id,
-        email:             syntheticEmail,
-        user_metadata: {
-          full_name:    fullName,
-          name:         fullName,
-          given_name:   u.first_name || '',
-          family_name:  u.last_name || '',
-          avatar_url:   u.photo_url || '',
-          picture:      u.photo_url || '',
-          telegram_user: u
-        },
-        app_metadata: { provider: 'telegram' }
-      };
-
-      var profile = _extractProfile(_currentUser);
-      _applyToLocalStorage(profile);
-      _notifyListeners('signed_in', profile);
-
-      try {
-        window.dispatchEvent(new CustomEvent('mockStream:userSignedIn', { detail: profile }));
-      } catch (_e) {}
-
-      // Mark the provider explicitly so getProvider() reports 'telegram'.
-      try { localStorage.setItem('ms_auth_provider', 'telegram'); } catch (_e) {}
-      try { localStorage.setItem('ms_telegram_user', JSON.stringify(u)); } catch (_e) {}
-
-      return profile;
-    } catch (e) {
-      console.warn('[auth] signInWithTelegram error:', e);
-      return null;
-    }
-  }
-
   window.MockStream = window.MockStream || {};
   window.MockStream.auth = {
     init: init,
     signInWithGoogle: signInWithGoogle,
-    signInWithTelegram: signInWithTelegram,
     signOut: signOut,
     getCurrentUser: getCurrentUser,
     isSignedIn: isSignedIn,
