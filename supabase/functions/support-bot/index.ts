@@ -108,8 +108,9 @@ function premiumInline() {
 
 // ─────────────────────────────────────────────────────────────────────
 // Per-user mode (DB-backed; isolates are ephemeral)
+// Modes: 'support' | 'dictionary' | 'await_skill' | 'await_mock:<skill>'
 // ─────────────────────────────────────────────────────────────────────
-type Mode = 'support' | 'dictionary' | 'await_skill';
+type Mode = string;
 
 async function getMode(tgUserId: number): Promise<Mode> {
   const { data } = await sb
@@ -117,8 +118,7 @@ async function getMode(tgUserId: number): Promise<Mode> {
     .select('mode')
     .eq('tg_user_id', tgUserId)
     .maybeSingle();
-  const m = (data?.mode as Mode | undefined) || 'support';
-  return (m === 'support' || m === 'dictionary' || m === 'await_skill') ? m : 'support';
+  return (data?.mode as Mode | undefined) || 'support';
 }
 async function setMode(tgUserId: number, mode: Mode): Promise<void> {
   await sb.from('support_bot_user_modes').upsert({
@@ -207,10 +207,12 @@ function skillFromButton(text: string): string | null {
   }
 }
 
-async function issueCode(chatId: number, tgUserId: number, skill: string) {
+async function issueCode(chatId: number, tgUserId: number, skill: string, mockNumber?: number) {
   await sendChatAction(chatId, 'typing');
   const userKey = `tg_support_bot:${tgUserId}`;
   try {
+    const body: Record<string, unknown> = { center: CENTER, skill, user_key: userKey };
+    if (typeof mockNumber === 'number' && mockNumber > 0) body.mock_number = mockNumber;
     const r = await fetch(`${SUPABASE_URL}/functions/v1/get-promo-code`, {
       method: 'POST',
       headers: {
@@ -218,7 +220,7 @@ async function issueCode(chatId: number, tgUserId: number, skill: string) {
         'apikey':        SERVICE_ROLE_KEY,
         'Authorization': `Bearer ${SERVICE_ROLE_KEY}`
       },
-      body: JSON.stringify({ center: CENTER, skill, user_key: userKey })
+      body: JSON.stringify(body)
     });
     const j = await r.json();
 
@@ -291,7 +293,25 @@ async function handleSupportText(chatId: number, tgUserId: number, text: string)
   // Code request? Detect skill or ask for one.
   if (MOCK_CODE_INTENT_RX.test(text)) {
     const skill = detectSkill(text);
-    if (skill) { await issueCode(chatId, tgUserId, skill); return; }
+    if (skill === 'full_mock') {
+      await issueCode(chatId, tgUserId, 'full_mock', 1);
+      return;
+    }
+    if (skill) {
+      await setMode(tgUserId, `await_mock:${skill}`);
+      const label = ({
+        listening: '🎧 Listening',
+        reading:   '📖 Reading',
+        writing:   '✍️ Writing',
+        speaking:  '🎤 Speaking'
+      } as Record<string, string>)[skill] || skill;
+      await send(chatId,
+        `🔢 <b>${label} — pick a mock #</b>\n\n` +
+        `Type the mock number you want to try (e.g. <b>1</b>, <b>5</b>, <b>12</b>).\n\n` +
+        `Send <b>/cancel</b> to go back.`,
+        { reply_markup: { remove_keyboard: true } });
+      return;
+    }
     await setMode(tgUserId, 'await_skill');
     await send(chatId,
       `🎯 <b>Pick a skill</b> for your free regular code:`,
@@ -467,11 +487,48 @@ Deno.serve(async (req: Request) => {
       }
       const skill = skillFromButton(text) || detectSkill(text);
       if (skill) {
-        await setMode(tgUserId, 'support');
-        await issueCode(chatId, tgUserId, skill);
+        if (skill === 'full_mock') {
+          // Full mock has no per-skill numbering on the website — auto-pick #1.
+          await setMode(tgUserId, 'support');
+          await issueCode(chatId, tgUserId, skill, 1);
+          return new Response('ok');
+        }
+        await setMode(tgUserId, `await_mock:${skill}`);
+        const label = ({
+          listening: '🎧 Listening',
+          reading:   '📖 Reading',
+          writing:   '✍️ Writing',
+          speaking:  '🎤 Speaking'
+        } as Record<string, string>)[skill] || skill;
+        await send(chatId,
+          `🔢 <b>${label} — pick a mock #</b>\n\n` +
+          `Type the mock number you want to try (e.g. <b>1</b>, <b>5</b>, <b>12</b>).\n\n` +
+          `Send <b>/cancel</b> to go back.`,
+          { reply_markup: { remove_keyboard: true } });
         return new Response('ok');
       }
       await send(chatId, `Please tap one of the skill buttons below.`, { reply_markup: skillKeyboard() });
+      return new Response('ok');
+    }
+
+    // Awaiting mock-number input (skill already chosen)
+    if (mode.startsWith('await_mock:')) {
+      if (/^\/cancel\b/i.test(text) || text === BTN.CANCEL) {
+        await setMode(tgUserId, 'support');
+        await send(chatId, `❌ Cancelled.`, { reply_markup: mainKeyboard() });
+        return new Response('ok');
+      }
+      const skill = mode.slice('await_mock:'.length);
+      const m     = text.match(/\d{1,3}/);
+      const n     = m ? parseInt(m[0], 10) : NaN;
+      if (!Number.isInteger(n) || n < 1 || n > 999) {
+        await send(chatId,
+          `⚠️ Please send a valid mock number between <b>1</b> and <b>999</b> (e.g. <b>3</b>).\n\n` +
+          `Or send <b>/cancel</b> to go back.`);
+        return new Response('ok');
+      }
+      await setMode(tgUserId, 'support');
+      await issueCode(chatId, tgUserId, skill, n);
       return new Response('ok');
     }
 
