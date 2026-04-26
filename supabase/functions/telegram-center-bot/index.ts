@@ -119,29 +119,86 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// UI builders
+// UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
+const BTN = {
+  TAKE_MOCK:  '🎯 Take Mock',
+  ADMIN:      '👨\u200d🏫 Admin',
+  SUPPORT:    '💬 Support',
+  CANCEL:     '❌ Cancel',
+  // admin sub-menu
+  MOCK_CODES: '🎫 Mock codes',
+  PREMIUM:    '👑 Premium',
+  STATS:      '📊 Stats',
+  BROADCAST:  '📣 Broadcast',
+  LOCK_ADMIN: '🔒 Lock admin',
+  MAIN_MENU:  '⬅️ Main menu',
+  // support sub-menu
+  LEAVE_SUP:  '🚪 Leave Support'
+};
+
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    rows.push([{
-      text: '🎯 Take Mock',
-      web_app: { url: cfg.webapp_url }
-    }]);
+    rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
   }
   const second: unknown[] = [];
-  if (cfg.show_admin_btn)   second.push({ text: '👨‍🏫 Admin',   callback_data: 'menu:admin' });
-  if (cfg.show_support_btn) second.push({ text: '💬 Support', callback_data: 'menu:support' });
+  if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
+  if (cfg.show_support_btn) second.push({ text: BTN.SUPPORT });
   if (second.length) rows.push(second);
-  return { inline_keyboard: rows };
+  return {
+    keyboard:        rows,
+    resize_keyboard: true,
+    is_persistent:   true
+  };
+}
+
+function adminKeyboard(cfg: CenterConfig) {
+  const rows: unknown[][] = [];
+  if (cfg.show_mock_btn) {
+    rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+  }
+  rows.push([{ text: BTN.MOCK_CODES }, { text: BTN.PREMIUM }]);
+  rows.push([{ text: BTN.STATS },      { text: BTN.BROADCAST }]);
+  rows.push([{ text: BTN.LOCK_ADMIN }, { text: BTN.MAIN_MENU }]);
+  return {
+    keyboard:        rows,
+    resize_keyboard: true,
+    is_persistent:   true
+  };
+}
+
+function supportKeyboard() {
+  return {
+    keyboard:        [[{ text: BTN.LEAVE_SUP }]],
+    resize_keyboard: true,
+    is_persistent:   true
+  };
+}
+
+function passcodeKeyboard() {
+  return {
+    keyboard:        [[{ text: BTN.CANCEL }]],
+    resize_keyboard: true,
+    is_persistent:   true,
+    one_time_keyboard: false
+  };
 }
 
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `Tap <b>🎯 Take Mock</b> to open Mock Stream right inside Telegram — works on phone and desktop.\n\n` +
-    (cfg.show_admin_btn ? `<b>👨‍🏫 Admin</b> — for the center admin (passcode required).\n` : '') +
-    (cfg.show_support_btn ? `<b>💬 Support</b> — leave a message; we'll get back to you.\n` : '')
+    `Tap <b>🎯 Take Mock</b> to open Mock Stream right inside Telegram.\n` +
+    (cfg.show_admin_btn ? `Tap <b>👨\u200d🏫 Admin</b> for center management.\n` : '') +
+    (cfg.show_support_btn ? `Tap <b>💬 Support</b> to message us.\n` : '')
+  );
+}
+
+function adminMenuText(cfg: CenterConfig): string {
+  return (
+    `<b>👨\u200d🏫 Admin Panel — ${esc(cfg.center_id)}</b>\n\n` +
+    `Pick an action below. Session stays unlocked for 12 hours.\n` +
+    `<i>Code generation, stats and broadcast tools land in the next update.</i>`
   );
 }
 
@@ -214,30 +271,27 @@ function clearAwaitingPasscode(centerId: string, tgUserId: number) {
 // ─────────────────────────────────────────────────────────────────────
 // Handlers
 // ─────────────────────────────────────────────────────────────────────
-async function handleStart(cfg: CenterConfig, chatId: number, firstName: string) {
+async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string) {
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), {
     reply_markup: mainKeyboard(cfg)
   });
 }
 
-async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number, messageId: number) {
+async function showAdminMenu(cfg: CenterConfig, chatId: number) {
+  await send(cfg.bot_token, chatId, adminMenuText(cfg), {
+    reply_markup: adminKeyboard(cfg)
+  });
+}
+
+async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
   if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
-    await editText(cfg.bot_token, chatId, messageId,
-      `<b>👨‍🏫 Admin Panel</b>\n\nYou're unlocked for the next 12 hours.\n\n` +
-      `(Code-management & broadcast actions will appear here in the next update.)`, {
-        reply_markup: { inline_keyboard: [
-          [{ text: '⬅️ Back', callback_data: 'menu:home' }]
-        ]}
-      });
+    await showAdminMenu(cfg, chatId);
     return;
   }
   setAwaitingPasscode(cfg.center_id, tgUserId);
-  await editText(cfg.bot_token, chatId, messageId,
-    `🔐 <b>Admin passcode required</b>\n\nReply with the admin passcode for <b>${esc(cfg.center_id)}</b>.`, {
-      reply_markup: { inline_keyboard: [
-        [{ text: '⬅️ Cancel', callback_data: 'menu:home' }]
-      ]}
-    });
+  await send(cfg.bot_token, chatId,
+    `🔐 <b>Admin passcode required</b>\n\nReply with the admin passcode for <b>${esc(cfg.center_id)}</b>.\nTap <b>${BTN.CANCEL}</b> to go back.`,
+    { reply_markup: passcodeKeyboard() });
 }
 
 async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId: number, text: string) {
@@ -246,27 +300,18 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
   if (expected && ctEq(expected, supplied)) {
     clearAwaitingPasscode(cfg.center_id, tgUserId);
     await unlockAdmin(cfg.center_id, tgUserId);
-    await send(cfg.bot_token, chatId,
-      `✅ <b>Admin unlocked</b> for the next 12 hours.`, {
-        reply_markup: mainKeyboard(cfg)
-      });
+    await send(cfg.bot_token, chatId, `✅ <b>Admin unlocked</b> for 12 hours.`);
+    await showAdminMenu(cfg, chatId);
   } else {
-    await send(cfg.bot_token, chatId,
-      `❌ Wrong passcode. Try again or tap Cancel.`);
+    await send(cfg.bot_token, chatId, `❌ Wrong passcode. Try again or tap ${BTN.CANCEL}.`);
   }
 }
 
-async function handleSupportTap(cfg: CenterConfig, chatId: number, tgUserId: number, messageId: number) {
+async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: number) {
   await setSupportMode(cfg.center_id, tgUserId, true);
-  await editText(cfg.bot_token, chatId, messageId,
-    `💬 <b>Support mode</b>\n\n` +
-    `Send any message and we'll forward it to the team. We reply right here.\n\n` +
-    `Tap <b>Leave Support</b> when you're done.`, {
-      reply_markup: { inline_keyboard: [
-        [{ text: '🚪 Leave Support', callback_data: 'menu:support_close' }],
-        [{ text: '⬅️ Back to menu', callback_data: 'menu:home' }]
-      ]}
-    });
+  await send(cfg.bot_token, chatId,
+    `💬 <b>Support mode</b>\n\nSend any message and we'll forward it to the team. We reply right here.\n\nTap <b>${BTN.LEAVE_SUP}</b> when you're done.`,
+    { reply_markup: supportKeyboard() });
 }
 
 async function handleSupportMessage(
@@ -287,14 +332,13 @@ async function handleSupportMessage(
     from_display_name: displayName,
     body:              trimmed.slice(0, 4000)
   });
-  await send(cfg.bot_token, chatId,
-    `📨 Sent. We'll reply here as soon as possible.`);
+  await send(cfg.bot_token, chatId, `📨 Sent. We'll reply here as soon as possible.`);
 }
 
-async function handleHomeTap(cfg: CenterConfig, chatId: number, tgUserId: number, messageId: number) {
-  clearAwaitingPasscode(cfg.center_id, tgUserId);
-  await editText(cfg.bot_token, chatId, messageId,
-    welcomeText(cfg, ''), { reply_markup: mainKeyboard(cfg) });
+async function handleAdminAction(cfg: CenterConfig, chatId: number, label: string) {
+  await send(cfg.bot_token, chatId,
+    `🛠 <b>${esc(label)}</b> — coming in the next update.\n\n` +
+    `For now, manage these from the website's <b>Code Management</b> panel.`);
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -319,35 +363,10 @@ Deno.serve(async (req: Request) => {
   catch { return new Response('bad json', { status: 400 }); }
 
   try {
-    // ── callback_query (inline button taps) ───────────────────────────
-    const cb = update.callback_query as Record<string, unknown> | undefined;
-    if (cb) {
-      const cbId      = String(cb.id);
-      const data      = String(cb.data || '');
-      const fromUser  = (cb.from as Record<string, unknown>) || {};
-      const tgUserId  = Number(fromUser.id);
-      const message   = (cb.message as Record<string, unknown>) || {};
-      const chatId    = Number((message.chat as Record<string, unknown>)?.id);
-      const messageId = Number(message.message_id);
-      if (!tgUserId || !chatId || !messageId) {
-        await answerCb(cfg.bot_token, cbId);
-        return new Response('ok');
-      }
-
-      if (data === 'menu:home') {
-        await handleHomeTap(cfg, chatId, tgUserId, messageId);
-      } else if (data === 'menu:admin') {
-        if (!cfg.show_admin_btn) { await answerCb(cfg.bot_token, cbId, 'Disabled'); }
-        else await handleAdminTap(cfg, chatId, tgUserId, messageId);
-      } else if (data === 'menu:support') {
-        if (!cfg.show_support_btn) { await answerCb(cfg.bot_token, cbId, 'Disabled'); }
-        else await handleSupportTap(cfg, chatId, tgUserId, messageId);
-      } else if (data === 'menu:support_close') {
-        await setSupportMode(cfg.center_id, tgUserId, false);
-        await editText(cfg.bot_token, chatId, messageId,
-          `👋 You've left support mode.`, { reply_markup: mainKeyboard(cfg) });
-      }
-      await answerCb(cfg.bot_token, cbId);
+    // We no longer use inline callback buttons; ignore any stray callback_query.
+    if (update.callback_query) {
+      const cb = update.callback_query as Record<string, unknown>;
+      await answerCb(cfg.bot_token, String(cb.id));
       return new Response('ok');
     }
 
@@ -363,32 +382,88 @@ Deno.serve(async (req: Request) => {
     const firstName  = String(from.first_name || '');
     const lastName   = String(from.last_name  || '');
     const displayNm  = [firstName, lastName].filter(Boolean).join(' ').trim() || (username ? '@' + username : '');
-    const text       = String(message.text || '');
+    const text       = String(message.text || '').trim();
 
     if (!chatId || !tgUserId) return new Response('ok');
 
-    // /start (or /menu / /help) → show home
+    // ── /start /menu /help → reset to main ────────────────────────────
     if (/^\/(start|menu|help)\b/i.test(text)) {
       clearAwaitingPasscode(cfg.center_id, tgUserId);
       await setSupportMode(cfg.center_id, tgUserId, false);
-      await handleStart(cfg, chatId, firstName);
+      await showMainMenu(cfg, chatId, firstName);
       return new Response('ok');
     }
 
-    // Awaiting admin passcode
+    // ── Cancel from passcode prompt ──────────────────────────────────
+    if (text === BTN.CANCEL && isAwaitingPasscode(cfg.center_id, tgUserId)) {
+      clearAwaitingPasscode(cfg.center_id, tgUserId);
+      await showMainMenu(cfg, chatId, firstName);
+      return new Response('ok');
+    }
+
+    // ── Awaiting admin passcode ──────────────────────────────────────
     if (isAwaitingPasscode(cfg.center_id, tgUserId)) {
       await handlePasscodeAttempt(cfg, chatId, tgUserId, text);
       return new Response('ok');
     }
 
-    // In support mode → relay to inbox
+    // ── In support mode ──────────────────────────────────────────────
     if (await isInSupportMode(cfg.center_id, tgUserId)) {
+      if (text === BTN.LEAVE_SUP) {
+        await setSupportMode(cfg.center_id, tgUserId, false);
+        await send(cfg.bot_token, chatId, `👋 You've left support mode.`);
+        await showMainMenu(cfg, chatId, firstName);
+        return new Response('ok');
+      }
       await handleSupportMessage(cfg, chatId, tgUserId, username, displayNm, text);
       return new Response('ok');
     }
 
-    // Default: re-show menu so the user is never stuck
-    await handleStart(cfg, chatId, firstName);
+    // ── Main / admin menu button taps (text-matched) ─────────────────
+    if (text === BTN.ADMIN) {
+      if (!cfg.show_admin_btn) {
+        await send(cfg.bot_token, chatId, 'Admin button is disabled.');
+      } else {
+        await handleAdminTap(cfg, chatId, tgUserId);
+      }
+      return new Response('ok');
+    }
+
+    if (text === BTN.SUPPORT) {
+      if (!cfg.show_support_btn) {
+        await send(cfg.bot_token, chatId, 'Support button is disabled.');
+      } else {
+        await handleSupportEnter(cfg, chatId, tgUserId);
+      }
+      return new Response('ok');
+    }
+
+    // ── Admin sub-menu actions (only if admin is unlocked) ───────────
+    const isAdmin = await isAdminUnlocked(cfg.center_id, tgUserId);
+    if (isAdmin) {
+      if (text === BTN.MAIN_MENU) {
+        await showMainMenu(cfg, chatId, firstName);
+        return new Response('ok');
+      }
+      if (text === BTN.LOCK_ADMIN) {
+        await sb.from('center_bot_admin_sessions')
+          .delete()
+          .eq('center_id', cfg.center_id)
+          .eq('tg_user_id', tgUserId);
+        await send(cfg.bot_token, chatId, `🔒 Admin locked.`);
+        await showMainMenu(cfg, chatId, firstName);
+        return new Response('ok');
+      }
+      if (text === BTN.MOCK_CODES || text === BTN.PREMIUM ||
+          text === BTN.STATS      || text === BTN.BROADCAST) {
+        await handleAdminAction(cfg, chatId, text);
+        return new Response('ok');
+      }
+    }
+
+    // ── Default: re-show whichever menu the user belongs in ──────────
+    if (isAdmin) await showAdminMenu(cfg, chatId);
+    else         await showMainMenu(cfg, chatId, firstName);
     return new Response('ok');
 
   } catch (e) {
