@@ -311,6 +311,7 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number) {
 async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
   // Already unlocked in this 12h window? Skip the passcode prompt.
   if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
+    await clearAwaitingPasscode(cfg.center_id, tgUserId); // drop any stale flag
     await showAdminMenu(cfg, chatId);
     return;
   }
@@ -433,10 +434,23 @@ Deno.serve(async (req: Request) => {
       return new Response('ok');
     }
 
+    // Main-menu button taps always escape any pending passcode prompt
+    // (otherwise a stale "awaiting" row would treat the button text as
+    // the user's passcode attempt → "Wrong passcode" loop).
+    const isMenuButton = (
+      text === BTN.TAKE_MOCK || text === BTN.OPEN_WEB ||
+      text === BTN.ADMIN     || text === BTN.SUPPORT  ||
+      text === BTN.CANCEL    || text === BTN.LEAVE_SUP
+    );
+
     // ── Awaiting admin passcode ──────────────────────────────────────
-    if (isAwaitingPasscode(cfg.center_id, tgUserId)) {
+    if (!isMenuButton && await isAwaitingPasscode(cfg.center_id, tgUserId)) {
       await handlePasscodeAttempt(cfg, chatId, tgUserId, firstName, text);
       return new Response('ok');
+    }
+    // If user pressed a menu button, drop any stale awaiting flag.
+    if (isMenuButton) {
+      await clearAwaitingPasscode(cfg.center_id, tgUserId);
     }
 
     // ── In support mode ──────────────────────────────────────────────
