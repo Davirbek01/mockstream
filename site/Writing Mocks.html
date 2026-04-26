@@ -13663,8 +13663,22 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
           ? (result[practiceTask + '_score'] === 0)
           : (result.raw_score === 0);
         if (scoreZero) {
-          console.error('AI returned zero for assessed task despite having content - treating as failure');
-          throw new Error('AI scoring failed. All scores returned as 0. Please retry.');
+          // Off-topic / irrelevant submissions legitimately score 0. The AI
+          // signals this via the *_relevance fields ('OFF-TOPIC' or
+          // 'PARTIALLY OFF-TOPIC'). Only throw when we have NO relevance
+          // signal at all — that's a true AI failure.
+          const _rel = function (v) { return String(v || '').toUpperCase(); };
+          const tasksToCheck = isPractice ? [practiceTask] : ['t11', 't12', 't2'];
+          const offTopicDetected = tasksToCheck.some(function (k) {
+            var r = _rel(result[k + '_relevance']);
+            return r === 'OFF-TOPIC' || r === 'PARTIALLY OFF-TOPIC';
+          });
+          if (!offTopicDetected) {
+            console.error('AI returned zero for assessed task despite having content - treating as failure');
+            throw new Error('AI scoring failed. All scores returned as 0. Please retry.');
+          } else {
+            console.warn('AI returned zero score with OFF-TOPIC relevance — accepting as legitimate result.');
+          }
         }
       }
 
@@ -14308,8 +14322,17 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
 
-      // Check if this is a premium entry (auto AI scoring)
-      let isPremiumEntry = sessionStorage.getItem('writingPremiumEntry') === 'true' || sessionStorage.getItem('vipPremiumAi') === 'true';
+      // Check if this is a premium entry (auto AI scoring).
+      // An explicit per-test marker (writingPremiumEntry === 'false') means the
+      // user entered with a regular individual mock code and must NOT trigger AI
+      // even if a stale vipPremiumAi flag is hanging around from a prior session.
+      let isPremiumEntry;
+      {
+        const _wpEntry = sessionStorage.getItem('writingPremiumEntry');
+        if (_wpEntry === 'true')       isPremiumEntry = true;
+        else if (_wpEntry === 'false') isPremiumEntry = false;
+        else                           isPremiumEntry = sessionStorage.getItem('vipPremiumAi') === 'true';
+      }
       if (isPremiumEntry && !(window._isVipPremiumEmail && window._isVipPremiumEmail()) && window._centerConfig && window._centerConfig.mocks && window._centerConfig.mocks.cefr_writing === 'regular') isPremiumEntry = false;
 
       let submissionSuccess = false;
