@@ -122,7 +122,9 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 // UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  TAKE_MOCK:  '🎯 Take Mock',  OPEN_WEB:   '🌐 Open in browser',  ADMIN:      '👨\u200d🏫 Admin',
+  TAKE_MOCK:  '📱',
+  OPEN_WEB:   '💻',
+  ADMIN:      '👨\u200d🏫 Admin',
   SUPPORT:    '💬 Support',
   CANCEL:     '❌ Cancel',
   // admin sub-menu
@@ -139,8 +141,11 @@ const BTN = {
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
-    rows.push([{ text: BTN.OPEN_WEB }]);
+    // Two big side-by-side buttons: phone (Mini App) + computer (browser link)
+    rows.push([
+      { text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } },
+      { text: BTN.OPEN_WEB }
+    ]);
   }
   const second: unknown[] = [];
   if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
@@ -178,8 +183,8 @@ function passcodeKeyboard() {
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `<b>📱 Take mock — Mobile</b> — opens inside Telegram (best on phone).\n` +
-    `<b>💻 Take mock — PC/Mac</b> — full-screen in your browser (best on desktop).\n` +
+    `<b>📱 Phone</b> — take a mock inside Telegram (best on mobile).\n` +
+    `<b>💻 PC / Mac</b> — take a mock in your browser, full-screen.\n` +
     (cfg.show_admin_btn ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
     (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '')
   );
