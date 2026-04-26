@@ -156,7 +156,7 @@ async function getGeminiKey(): Promise<string | null> {
   return null;
 }
 
-async function callGemini(prompt: string, temperature = 0.7): Promise<string | null> {
+async function callGemini(prompt: string, temperature = 0.7, maxOutputTokens = 1024): Promise<string | null> {
   const key = await getGeminiKey();
   if (!key) { console.warn('[support-bot] no gemini key'); return null; }
   try {
@@ -167,7 +167,7 @@ async function callGemini(prompt: string, temperature = 0.7): Promise<string | n
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature, maxOutputTokens: 600 }
+          generationConfig: { temperature, maxOutputTokens }
         })
       }
     );
@@ -338,17 +338,35 @@ interface DictResult {
 
 async function handleDictText(chatId: number, _tgUserId: number, text: string) {
   await sendChatAction(chatId, 'typing');
-  const raw = await callGemini(DICT_PROMPT(text), 0.2);
+  const raw = await callGemini(DICT_PROMPT(text), 0.2, 800);
   if (!raw) {
     await send(chatId, `⚠️ Sorry, the dictionary service is unreachable. Please try again.`);
     return;
   }
   let parsed: DictResult | null = null;
-  try {
-    // Strip code fences if model added any.
-    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
-    parsed = JSON.parse(cleaned);
-  } catch (_e) {
+  // Strip code fences then extract the first balanced {...} block (Gemini sometimes
+  // appends commentary or wraps in ```json fences).
+  const stripped = raw.replace(/```(?:json)?/gi, '').trim();
+  const start = stripped.indexOf('{');
+  if (start >= 0) {
+    let depth = 0, end = -1, inStr = false, esc2 = false;
+    for (let i = start; i < stripped.length; i++) {
+      const c = stripped[i];
+      if (inStr) {
+        if (esc2) { esc2 = false; continue; }
+        if (c === '\\') { esc2 = true; continue; }
+        if (c === '"') inStr = false;
+        continue;
+      }
+      if (c === '"') { inStr = true; continue; }
+      if (c === '{') depth++;
+      else if (c === '}') { depth--; if (depth === 0) { end = i; break; } }
+    }
+    if (end > start) {
+      try { parsed = JSON.parse(stripped.slice(start, end + 1)); } catch { /* fall through */ }
+    }
+  }
+  if (!parsed) {
     await send(chatId,
       `📖 <b>Couldn't parse a structured answer.</b>\n\n${esc(raw).slice(0, 1500)}`);
     return;
