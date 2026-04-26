@@ -8686,6 +8686,7 @@
                 const data = await response.json();
                 if (data.access || data.valid) {
                   sessionStorage.setItem('writingPremiumEntry', 'true');
+                  sessionStorage.setItem('writingIndividualCode', 'premium');
                   sessionStorage.setItem('writingAiPasscode', aiPasscode);
                   return { valid: true, premiumEntry: true };
                 }
@@ -8707,6 +8708,7 @@
             const data = await response.json();
             if (data.access || data.valid) {
               sessionStorage.setItem('writingPremiumEntry', 'false');
+              sessionStorage.setItem('writingIndividualCode', 'regular');
               return { valid: true, premiumEntry: false };
             }
             return { valid: false, error: 'Invalid or expired passcode.' };
@@ -8718,6 +8720,7 @@
           const msRes = await window.verifyMockStreamCode(cleanInput, { skill: 'writing', mockNumber: parseInt(mockNumber, 10) });
           if (msRes && msRes.valid) {
             sessionStorage.setItem('writingPremiumEntry', msRes.premiumEntry ? 'true' : 'false');
+            sessionStorage.setItem('writingIndividualCode', msRes.tier || 'regular');
             return { valid: true, premiumEntry: !!msRes.premiumEntry };
           }
         }
@@ -9006,6 +9009,7 @@
       if (window.isSuperAccessUnlocked()) {
         const isVipAi = sessionStorage.getItem('vipPremiumAi') === 'true';
         sessionStorage.setItem('writingPremiumEntry', isVipAi ? 'true' : 'false');
+        sessionStorage.removeItem('writingIndividualCode');
         if (!isVipAi && _isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
         sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: isVipAi }));
         sessionStorage.setItem('writingCodeValidated', 'true');
@@ -9025,6 +9029,7 @@
         if (_caLevel !== 'off') {
           var _caPrem = _caLevel === 'premium';
           sessionStorage.setItem('writingPremiumEntry', _caPrem ? 'true' : 'false');
+          sessionStorage.removeItem('writingIndividualCode');
           if (!_caPrem && _isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
           sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: _caPrem }));
           sessionStorage.setItem('writingCodeValidated', 'true');
@@ -9036,6 +9041,7 @@
       // Check if code required
       if (!window.landingWritingMockRequiresPromocode(mockNumber)) {
         sessionStorage.setItem('writingPremiumEntry', 'false');
+        sessionStorage.removeItem('writingIndividualCode');
         if (_isWritingMockTaken(pageUrl)) { _showWritingTakenAlert(); return; }
         sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: false }));
         sessionStorage.setItem('writingCodeValidated', 'true');

@@ -5360,7 +5360,12 @@
                 passcodeInput.value = '';
 
                 state.isPremiumVip = premium;
-                if (premium) sessionStorage.setItem('vipPremiumAi', 'true');
+                if (premium) {
+                  sessionStorage.setItem('vipPremiumAi', 'true');
+                } else {
+                  // Regular individual code: do NOT inherit a stale premium flag.
+                  sessionStorage.removeItem('vipPremiumAi');
+                }
                 console.log('[IELTS Full Mock] Code verified. Premium AI:', premium);
 
                 // Proceed with exam

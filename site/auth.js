@@ -243,7 +243,12 @@
     if (info.center && info.center !== '' && info.center !== siteCenter) return null;
     try {
       sessionStorage.setItem('vipSessionAccess', 'true');
-      if (info.tier === 'premium') sessionStorage.setItem('vipPremiumAi', 'true');
+      if (info.tier === 'premium') {
+        sessionStorage.setItem('vipPremiumAi', 'true');
+      } else {
+        // Regular VIP must NOT inherit a stale premium flag from a prior session.
+        sessionStorage.removeItem('vipPremiumAi');
+      }
       localStorage.setItem('ms_vip_email', info.email);
       localStorage.setItem('ms_vip_tier', info.tier);
       if (info.isAdmin) localStorage.setItem('ms_admin_email', info.email);
