@@ -31,7 +31,44 @@ const PREMIUM_TG    = 'mrkhasanoff3';
 const PREMIUM_TEXT  =
   '💎 Salom!\n\n🚀 Men Mock Stream Premium obunasini sotib olmoqchiman. ' +
   'Iltimos narxlar va imkoniyatlar haqida ma\'lumot bera olasizmi?';
-const CENTER        = 'mock_stream'; // get-promo-code will normalise → 'mockstream'
+// Default center for users who open the bot via search (no deep-link).
+// Per-user override is stored in support_bot_user_centers.
+const DEFAULT_CENTER = 'mock_stream';
+
+// ---------------------------------------------------------------------
+// Per-user center (deep-link from each center bot sets this)
+// ---------------------------------------------------------------------
+async function getUserCenter(tgUserId: number): Promise<string> {
+  const { data } = await sb
+    .from('support_bot_user_centers')
+    .select('center_id')
+    .eq('tg_user_id', tgUserId)
+    .maybeSingle();
+  return (data?.center_id as string | undefined) || DEFAULT_CENTER;
+}
+async function setUserCenter(tgUserId: number, centerId: string): Promise<boolean> {
+  // Validate against centers table
+  const { data: c } = await sb
+    .from('centers')
+    .select('id, display_name')
+    .eq('id', centerId)
+    .maybeSingle();
+  if (!c) return false;
+  await sb.from('support_bot_user_centers').upsert({
+    tg_user_id: tgUserId,
+    center_id:  centerId,
+    updated_at: new Date().toISOString()
+  });
+  return true;
+}
+async function getCenterDisplayName(centerId: string): Promise<string> {
+  const { data } = await sb
+    .from('centers')
+    .select('display_name')
+    .eq('id', centerId)
+    .maybeSingle();
+  return (data?.display_name as string | undefined) || centerId;
+}
 
 // ─────────────────────────────────────────────────────────────────────
 // Telegram helpers
@@ -210,8 +247,9 @@ function skillFromButton(text: string): string | null {
 async function issueCode(chatId: number, tgUserId: number, skill: string, mockNumber?: number) {
   await sendChatAction(chatId, 'typing');
   const userKey = `tg_support_bot:${tgUserId}`;
+  const center  = await getUserCenter(tgUserId);
   try {
-    const body: Record<string, unknown> = { center: CENTER, skill, user_key: userKey };
+    const body: Record<string, unknown> = { center, skill, user_key: userKey };
     if (typeof mockNumber === 'number' && mockNumber > 0) body.mock_number = mockNumber;
     const r = await fetch(`${SUPABASE_URL}/functions/v1/get-promo-code`, {
       method: 'POST',
@@ -405,14 +443,14 @@ async function handleDictText(chatId: number, _tgUserId: number, text: string) {
 // ─────────────────────────────────────────────────────────────────────
 // Webhook entry
 // ─────────────────────────────────────────────────────────────────────
-async function welcome(chatId: number, firstName: string) {
+async function welcome(chatId: number, firstName: string, centerName: string) {
   await send(chatId,
     `<b>👋 Welcome, ${esc(firstName || 'friend')}!</b>\n\n` +
-    `I'm <b>Mock Stream AI</b> — your free helper:\n\n` +
+    `I'm <b>Mock Stream AI</b> — your free helper for <b>${esc(centerName)}</b>:\n\n` +
     `<b>🆓 Support</b> — ask me anything, or request a free regular mock code.\n` +
     `<b>📖 Dictionary</b> — quick English ⇄ Uzbek translations.\n` +
     `<b>👑 Premium</b> — unlock instant AI scoring, transcripts &amp; unlimited retries.\n\n` +
-    `Tap a button below to begin.`,
+    `<i>Tap a button below to begin. Send /center to switch center.</i>`,
     { reply_markup: mainKeyboard() });
 }
 
@@ -437,10 +475,45 @@ Deno.serve(async (req: Request) => {
     const text      = String(message.text || '').trim();
     if (!chatId || !tgUserId) return new Response('ok');
 
-    // /start /help /menu → welcome
-    if (/^\/(start|menu|help)\b/i.test(text)) {
+    // /start [center_id] /help /menu  → welcome (deep-link payload sets center)
+    const startMatch = text.match(/^\/start(?:@\w+)?(?:\s+(.+))?$/i);
+    if (startMatch || /^\/(menu|help)\b/i.test(text)) {
+      const payload = (startMatch?.[1] || '').trim().toLowerCase();
+      if (payload) {
+        const ok = await setUserCenter(tgUserId, payload);
+        if (!ok) {
+          await send(chatId,
+            `⚠️ Unknown center "<code>${esc(payload)}</code>". Using default.\n\n` +
+            `Send /center &lt;center_id&gt; to set it manually.`);
+        }
+      }
+      const center     = await getUserCenter(tgUserId);
+      const centerName = await getCenterDisplayName(center);
       await setMode(tgUserId, 'support');
-      await welcome(chatId, firstName);
+      await welcome(chatId, firstName, centerName);
+      return new Response('ok');
+    }
+
+    // /center [center_id] — show or set the user's center
+    const centerCmd = text.match(/^\/center(?:@\w+)?(?:\s+(.+))?$/i);
+    if (centerCmd) {
+      const arg = (centerCmd[1] || '').trim().toLowerCase();
+      if (arg) {
+        const ok = await setUserCenter(tgUserId, arg);
+        if (ok) {
+          const name = await getCenterDisplayName(arg);
+          await send(chatId, `✅ Center set to <b>${esc(name)}</b>. Free codes will now come from this center.`);
+        } else {
+          await send(chatId, `⚠️ Unknown center "<code>${esc(arg)}</code>".`);
+        }
+      } else {
+        const cur     = await getUserCenter(tgUserId);
+        const curName = await getCenterDisplayName(cur);
+        await send(chatId,
+          `🏫 <b>Current center:</b> ${esc(curName)} (<code>${esc(cur)}</code>)\n\n` +
+          `To switch, send <code>/center &lt;center_id&gt;</code>.\n` +
+          `Or open this bot from your center's official Telegram bot — that sets it automatically.`);
+      }
       return new Response('ok');
     }
 

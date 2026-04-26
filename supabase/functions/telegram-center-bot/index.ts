@@ -34,6 +34,7 @@ const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession
 
 // Manager bot that owns the full admin panel — every center hands off here.
 const MANAGER_BOT_USERNAME = 'MS23_manager_bot';
+const SUPPORT_BOT_USERNAME = 'MS23_support1_bot';
 
 // ─────────────────────────────────────────────────────────────────────
 // Telegram helpers (per-bot — token is resolved per request)
@@ -188,9 +189,19 @@ function welcomeText(cfg: CenterConfig, firstName: string): string {
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
     `<b>📱 Phone</b> — take a mock inside Telegram (best on mobile).\n` +
     `<b>💻 PC / Mac</b> — take a mock in your browser, full-screen.\n` +
-    (cfg.show_admin_btn ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
-    (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '')
+    (cfg.show_admin_btn   ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
+    (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '') +
+    `\n<i>Need a free code right now or want help from AI? Tap below ⤵️</i>`
   );
+}
+
+function supportBotInlineKeyboard(centerId: string) {
+  return {
+    inline_keyboard: [[
+      { text: '🆓 Free codes & AI help',
+        url: `https://t.me/${SUPPORT_BOT_USERNAME}?start=${encodeURIComponent(centerId)}` }
+    ]]
+  };
 }
 
 function adminMenuText(cfg: CenterConfig): string {
@@ -300,6 +311,13 @@ async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), {
     reply_markup: mainKeyboard(cfg)
   });
+  // Follow-up message with the deep-link to the shared support bot.
+  // (Telegram disallows mixing inline + reply markup in the same message,
+  // so we send the inline button as a separate message.)
+  await send(cfg.bot_token, chatId,
+    `🆓 <b>Free helper bot</b>\n\n` +
+    `Get a free regular mock code, ask AI any question or use the dictionary — all in one place.`,
+    { reply_markup: supportBotInlineKeyboard(cfg.center_id) });
 }
 
 async function showAdminMenu(cfg: CenterConfig, chatId: number) {
