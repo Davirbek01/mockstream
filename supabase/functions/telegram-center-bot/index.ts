@@ -122,8 +122,7 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 // UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  TAKE_MOCK:  '🎯 Take Mock',
-  ADMIN:      '👨\u200d🏫 Admin',
+  TAKE_MOCK:  '🎯 Take Mock',  OPEN_WEB:   '🌐 Open in browser',  ADMIN:      '👨\u200d🏫 Admin',
   SUPPORT:    '💬 Support',
   CANCEL:     '❌ Cancel',
   // admin sub-menu
@@ -141,6 +140,7 @@ function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
     rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+    rows.push([{ text: BTN.OPEN_WEB }]);
   }
   const second: unknown[] = [];
   if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
@@ -157,6 +157,7 @@ function adminKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
     rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
+    rows.push([{ text: BTN.OPEN_WEB }]);
   }
   rows.push([{ text: BTN.MOCK_CODES }, { text: BTN.PREMIUM }]);
   rows.push([{ text: BTN.STATS },      { text: BTN.BROADCAST }]);
@@ -188,9 +189,10 @@ function passcodeKeyboard() {
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `Tap <b>🎯 Take Mock</b> to open Mock Stream right inside Telegram.\n` +
-    (cfg.show_admin_btn ? `Tap <b>👨\u200d🏫 Admin</b> for center management.\n` : '') +
-    (cfg.show_support_btn ? `Tap <b>💬 Support</b> to message us.\n` : '')
+    `<b>🎯 Take Mock</b> — open inside Telegram (best on phone).\n` +
+    `<b>🌐 Open in browser</b> — full-screen on PC / desktop.\n` +
+    (cfg.show_admin_btn ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
+    (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '')
   );
 }
 
@@ -420,6 +422,19 @@ Deno.serve(async (req: Request) => {
     }
 
     // ── Main / admin menu button taps (text-matched) ─────────────────
+    if (text === BTN.OPEN_WEB) {
+      if (!cfg.show_mock_btn) {
+        await send(cfg.bot_token, chatId, 'Mock button is disabled.');
+      } else {
+        await send(cfg.bot_token, chatId,
+          `🌐 <b>Open Mock Stream in your browser</b>\n\n` +
+          `<a href="${esc(cfg.webapp_url)}">${esc(cfg.webapp_url)}</a>\n\n` +
+          `<i>Tap the link above — it opens in Chrome / Edge / Safari at full size.</i>`,
+          { disable_web_page_preview: false });
+      }
+      return new Response('ok');
+    }
+
     if (text === BTN.ADMIN) {
       if (!cfg.show_admin_btn) {
         await send(cfg.bot_token, chatId, 'Admin button is disabled.');
