@@ -99,7 +99,7 @@ function esc(s: string): string {
 // Keyboards
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  SUPPORT:  '� Support',
+  SUPPORT:  '🆘 Support',
   DICT:     '📖 Dictionary',
   PREMIUM:  '👑 Premium',
   // Skill picker (always visible on the main keyboard now)
@@ -549,7 +549,7 @@ Deno.serve(async (req: Request) => {
     if (text === BTN.SUPPORT) {
       await setMode(tgUserId, 'support');
       await send(chatId,
-        `� <b>Support mode — AI is now active</b>\n\n` +
+        `🆘 <b>Support mode — AI is now active</b>\n\n` +
         `Hi! I'm <b>Mock Stream AI</b>. Describe your issue (login, payment, code not working, ` +
         `technical problem, exam question — anything) and I'll do my best to help.\n\n` +
         `<i>Tap any skill button to exit Support and grab a free code instead.</i>`,
