@@ -127,12 +127,23 @@ function skillKeyboard() {
     keyboard: [
       [{ text: BTN.LISTEN }, { text: BTN.READ }],
       [{ text: BTN.WRITE  }, { text: BTN.SPEAK }],
-      [{ text: BTN.FULL }],
       [{ text: BTN.CANCEL }]
     ],
     resize_keyboard:  true,
     one_time_keyboard: true
   };
+}
+
+// Reusable response when a user asks for a full-mock free code.
+// Regular full-mock codes are NOT issued by the support bot — full mock is a
+// Premium-only perk (one code unlocks every skill).
+async function sendFullMockPremiumOnly(chatId: number) {
+  await send(chatId,
+    `📚 <b>Full mock is a Premium perk</b>\n\n` +
+    `The free regular tier covers each skill individually. Pick a single skill ` +
+    `(<b>Listening / Reading / Writing / Speaking</b>) for a free code, or upgrade to ` +
+    `<b>Premium</b> — one code that opens the whole mock plus AI scoring &amp; full transcripts.`,
+    { reply_markup: premiumInline() });
 }
 
 function premiumInline() {
@@ -239,7 +250,6 @@ function skillFromButton(text: string): string | null {
     case BTN.READ:   return 'reading';
     case BTN.WRITE:  return 'writing';
     case BTN.SPEAK:  return 'speaking';
-    case BTN.FULL:   return 'full_mock';
     default:         return null;
   }
 }
@@ -332,7 +342,7 @@ async function handleSupportText(chatId: number, tgUserId: number, text: string)
   if (MOCK_CODE_INTENT_RX.test(text)) {
     const skill = detectSkill(text);
     if (skill === 'full_mock') {
-      await issueCode(chatId, tgUserId, 'full_mock', 1);
+      await sendFullMockPremiumOnly(chatId);
       return;
     }
     if (skill) {
@@ -561,9 +571,8 @@ Deno.serve(async (req: Request) => {
       const skill = skillFromButton(text) || detectSkill(text);
       if (skill) {
         if (skill === 'full_mock') {
-          // Full mock has no per-skill numbering on the website — auto-pick #1.
           await setMode(tgUserId, 'support');
-          await issueCode(chatId, tgUserId, skill, 1);
+          await sendFullMockPremiumOnly(chatId);
           return new Response('ok');
         }
         await setMode(tgUserId, `await_mock:${skill}`);
