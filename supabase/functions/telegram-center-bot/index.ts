@@ -367,8 +367,15 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
 
 async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: number) {
   await setSupportMode(cfg.center_id, tgUserId, true);
+  // First, suggest the AI helper bot — most students just want a free code
+  // or a quick AI answer, no need to wait for a human.
   await send(cfg.bot_token, chatId,
-    `💬 <b>Support mode</b>\n\nSend any message and we'll forward it to the team. We reply right here.\n\nTap <b>${BTN.LEAVE_SUP}</b> when you're done.`,
+    `🆓 <b>Free helper bot</b>\n\n` +
+    `Get a free regular mock code, ask AI any question or use the dictionary — all in one place.`,
+    { reply_markup: supportBotInlineKeyboard(cfg.center_id) });
+  // Then enter human-relay support mode.
+  await send(cfg.bot_token, chatId,
+    `💬 <b>Support mode</b>\n\nIf you still want to talk to the team, send any message below and we'll forward it. We reply right here.\n\nTap <b>${BTN.LEAVE_SUP}</b> when you're done.`,
     { reply_markup: supportKeyboard() });
 }
 
