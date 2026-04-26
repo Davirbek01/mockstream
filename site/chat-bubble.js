@@ -220,6 +220,10 @@
       else if (HC_PRIVATE_ENABLED) switchCategory('private');
       else if (HC_DICT_ENABLED) switchCategory('dictionary');
     }
+    // Re-apply Support tab sub-mode (composer hidden in automated 'code' mode)
+    if (currentCategory === 'support' && typeof _applySupportSubMode === 'function') {
+      _applySupportSubMode();
+    }
   }
 
   // ─── IDENTITY ─────────────────────────────────────────────────────────────
@@ -348,6 +352,10 @@
 
   // ─── STATE ────────────────────────────────────────────────────────────────
   var currentCategory = 'support';
+  // Support tab sub-mode: 'code' (default — automated free-code flow, composer hidden)
+  // or 'chat' (user opted into AI conversation via the 🆘 Support button).
+  // Reset to 'code' every time the bubble is opened or the Support tab is entered.
+  var _supportSubMode = 'code';
   var messages = { support: [], premium: [], partner: [], private: [] };
   var lastSeenAdmin = { support: 0, premium: 0, partner: 0, private: 0 };
   var isOpen = false;
@@ -1357,6 +1365,23 @@
   function renderMessages() {
     var list = document.getElementById('cb-messages');
     if (!list) return;
+
+    // Support tab — automated 'code' sub-mode: replace conversation with the
+    // free-code skill picker (suppress chat history + composer entirely).
+    if (currentCategory === 'support' && _supportSubMode === 'code') {
+      updateGlobalBanner();
+      var introHtml =
+        '<div class="cb-msg cb-msg-ai"><div class="cb-msg-text">' +
+          '🎁 <strong>Get a free regular mock code</strong> — pick a skill below. ' +
+          'Need help with something else? Tap <strong>🆘 Talk to Support</strong>.' +
+        '</div></div>';
+      var pickerHtml = '<div class="cb-msg cb-msg-ai">' + _renderSkillPickerCard() + '</div>';
+      list.innerHTML = introHtml + pickerHtml;
+      list.scrollTop = list.scrollHeight;
+      if (typeof _bindPromoDelegation === 'function') _bindPromoDelegation();
+      return;
+    }
+
     var msgs = messages[currentCategory] || [];
 
     // Category-specific welcome messages
@@ -1610,6 +1635,10 @@
       +     '<button type="button" class="cb-promo-skill" data-skill="speaking"  style="padding:8px 6px;border-radius:9px;border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;font-size:12px;font-weight:600;cursor:pointer;">🎤 Speaking</button>'
       +   '</div>'
       +   '<button type="button" class="cb-promo-skill" data-skill="full_mock" style="margin-top:6px;width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #fcd34d;background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#b45309;font-size:12px;font-weight:700;cursor:pointer;">📚 Full Mock (one code, all skills)</button>'
+      +   '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #cbd5e1;text-align:center;">'
+      +     '<div style="font-size:11px;color:#64748b;margin-bottom:6px;">Need something else?</div>'
+      +     '<button type="button" class="cb-promo-open-support" style="width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #f87171;background:linear-gradient(135deg,#fef2f2,#fee2e2);color:#b91c1c;font-size:12px;font-weight:700;cursor:pointer;">🆘 Talk to Support (AI)</button>'
+      +   '</div>'
       + '</div>';
   }
 
@@ -1781,8 +1810,41 @@
       } catch (e) {
         try { switchCategory('premium'); } catch (e2) {}
       }
+    },
+    openSupport: function () {
+      // User opted into AI Support conversation. Flip sub-mode → 'chat',
+      // show the composer, and post a warm AI welcome message.
+      _supportSubMode = 'chat';
+      _applySupportSubMode();
+      var welcome = {
+        role: 'ai',
+        text: '👋 Hi! I\'m **Mock Stream AI Support**. How can I help you today? Describe your issue (login, payment, code not working, technical problem, etc.) and I\'ll do my best to assist.',
+        category: 'support',
+        time: _promoNowTime()
+      };
+      messages.support = messages.support || [];
+      messages.support.push(welcome);
+      renderMessages();
+      saveLocal();
+      setTimeout(function () {
+        var inp = document.getElementById('cb-input');
+        if (inp && inp.style.display !== 'none') inp.focus();
+      }, 80);
     }
   };
+
+  // Apply Support tab sub-mode visibility (composer hidden in 'code' mode).
+  function _applySupportSubMode() {
+    var overlay = document.getElementById('cb-overlay');
+    if (!overlay) return;
+    var inputBar = overlay.querySelector('.cb-input-bar');
+    if (!inputBar) return;
+    if (currentCategory === 'support' && _supportSubMode === 'code') {
+      inputBar.style.display = 'none';
+    } else {
+      inputBar.style.display = '';
+    }
+  }
 
   // Event delegation for promo cards (rebuilt on every renderMessages)
   function _bindPromoDelegation() {
@@ -1802,6 +1864,7 @@
           if (t.classList.contains('cb-promo-back'))      { window._cbPromo.back(); return; }
           if (t.classList.contains('cb-promo-copy'))      { window._cbPromo.copy(t.dataset.code, t); return; }
           if (t.classList.contains('cb-promo-go-premium')){ window._cbPromo.goPremium(); return; }
+          if (t.classList.contains('cb-promo-open-support')){ window._cbPromo.openSupport(); return; }
         }
         t = t.parentNode;
       }
@@ -2428,8 +2491,11 @@
         var container = overlay.querySelector('.cb-hc-container');
         if (container) { container.style.maxHeight = ''; container.style.marginBottom = ''; }
       }
+      // Reset Support tab to automated 'code' sub-mode each time bubble opens
+      _supportSubMode = 'code';
       markSeen();
       renderMessages();
+      if (currentCategory === 'support') _applySupportSubMode();
     }
   }
 
@@ -2472,7 +2538,12 @@
   }
 
   function switchCategory(cat) {
+    var prevCategory = currentCategory;
     currentCategory = cat;
+    // Entering Support/Code tab → always start in automated 'code' sub-mode.
+    if (cat === 'support' && prevCategory !== 'support') {
+      _supportSubMode = 'code';
+    }
     _communityReplyTo = null;
     var overlay = document.getElementById('cb-overlay');
     if (overlay) {
@@ -2574,6 +2645,8 @@
       var typingBar = document.getElementById('cb-typing-bar');
       if (typingBar) typingBar.style.display = 'none';
       renderMessages();
+      // Apply Support tab sub-mode (hide composer in 'code' sub-mode)
+      if (cat === 'support') _applySupportSubMode();
     }
   }
 
@@ -3230,7 +3303,7 @@
             '</div>' +
           '</div>' +
           '<div class="cb-hc-tabs">' +
-            '<button class="cb-cat-btn active" data-cat="support">💬 Support</button>' +
+            '<button class="cb-cat-btn active" data-cat="support">🎁 Code</button>' +
             '<button class="cb-cat-btn" data-cat="premium" style="display:none">👑 Premium</button>' +
             '<button class="cb-cat-btn" data-cat="partner" style="display:none">🤝 Partnership</button>' +
             '<button class="cb-cat-btn" data-cat="community">🌍 Community</button>' +
