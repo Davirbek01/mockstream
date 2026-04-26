@@ -154,19 +154,8 @@ function mainKeyboard(cfg: CenterConfig) {
 }
 
 function adminKeyboard(cfg: CenterConfig) {
-  const rows: unknown[][] = [];
-  if (cfg.show_mock_btn) {
-    rows.push([{ text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }]);
-    rows.push([{ text: BTN.OPEN_WEB }]);
-  }
-  rows.push([{ text: BTN.MOCK_CODES }, { text: BTN.PREMIUM }]);
-  rows.push([{ text: BTN.STATS },      { text: BTN.BROADCAST }]);
-  rows.push([{ text: BTN.LOCK_ADMIN }, { text: BTN.MAIN_MENU }]);
-  return {
-    keyboard:        rows,
-    resize_keyboard: true,
-    is_persistent:   true
-  };
+  // Admin shares the same main keyboard — actual code management lives in the manager bot.
+  return mainKeyboard(cfg);
 }
 
 function supportKeyboard() {
@@ -189,8 +178,8 @@ function passcodeKeyboard() {
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `<b>🎯 Take Mock</b> — open inside Telegram (best on phone).\n` +
-    `<b>🌐 Open in browser</b> — full-screen on PC / desktop.\n` +
+    `<b>📱 Take mock — Mobile</b> — opens inside Telegram (best on phone).\n` +
+    `<b>💻 Take mock — PC/Mac</b> — full-screen in your browser (best on desktop).\n` +
     (cfg.show_admin_btn ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
     (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '')
   );
@@ -198,10 +187,21 @@ function welcomeText(cfg: CenterConfig, firstName: string): string {
 
 function adminMenuText(cfg: CenterConfig): string {
   return (
-    `<b>👨\u200d🏫 Admin Panel — ${esc(cfg.center_id)}</b>\n\n` +
-    `Pick an action below. Session stays unlocked for 12 hours.\n` +
-    `<i>Code generation, stats and broadcast tools land in the next update.</i>`
+    `<b>✅ Admin unlocked — ${esc(cfg.center_id)}</b>\n\n` +
+    `Tap the button below to open the full code-management panel in <b>@${esc(MANAGER_BOT_USERNAME)}</b>.\n\n` +
+    `• 👑 Premium / 🎟 Regular passcodes\n` +
+    `• 📚 Mock codes per skill\n` +
+    `• 🔄 Revoke & regenerate\n\n` +
+    `<i>You'll be asked for the same passcode (<b>${esc(cfg.center_id)}</b>) once — then you'll see only your center.</i>`
   );
+}
+
+function adminInlineKeyboard() {
+  return {
+    inline_keyboard: [[
+      { text: '🔓 Open admin panel', url: `https://t.me/${MANAGER_BOT_USERNAME}` }
+    ]]
+  };
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -281,7 +281,7 @@ async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string
 
 async function showAdminMenu(cfg: CenterConfig, chatId: number) {
   await send(cfg.bot_token, chatId, adminMenuText(cfg), {
-    reply_markup: adminKeyboard(cfg)
+    reply_markup: adminInlineKeyboard()
   });
 }
 
@@ -469,16 +469,10 @@ Deno.serve(async (req: Request) => {
         await showMainMenu(cfg, chatId, firstName);
         return new Response('ok');
       }
-      if (text === BTN.MOCK_CODES || text === BTN.PREMIUM ||
-          text === BTN.STATS      || text === BTN.BROADCAST) {
-        await handleAdminAction(cfg, chatId, text);
-        return new Response('ok');
-      }
     }
 
-    // ── Default: re-show whichever menu the user belongs in ──────────
-    if (isAdmin) await showAdminMenu(cfg, chatId);
-    else         await showMainMenu(cfg, chatId, firstName);
+    // ── Default: re-show main menu ──────────────────────────────────────────────────────────────────────────────────────────────────
+    await showMainMenu(cfg, chatId, firstName);
     return new Response('ok');
 
   } catch (e) {
