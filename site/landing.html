@@ -8,45 +8,9 @@
   <meta name="theme-color" content="#0d9488" />
   <!-- Admin auth: Supabase Auth magic-link + write interceptor (required for RLS) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <!-- Telegram Mini App SDK — exposes window.Telegram.WebApp when launched from a bot -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Student Google Sign-In + Guest mode helper (MUST load BEFORE admin-auth.js so admin-auth can reuse its client) -->
   <script src="auth.js"></script>
   <script src="admin-auth.js"></script>
-  <script>
-    // ─── Telegram Mini App auth bypass ────────────────────────────────────
-    // When this page is opened from a center bot's "Take in 📱" button it
-    // arrives with ?tg=1 and Telegram.WebApp.initData populated. We verify
-    // initData server-side, then synthesise a signed-in user so the chat
-    // bubble + My Results section work without requiring Google sign-in.
-    (function () {
-      try {
-        var qs = new URLSearchParams(window.location.search);
-        var isTg = qs.get('tg') === '1' || qs.get('tg') === 'true';
-        var TG = window.Telegram && window.Telegram.WebApp;
-        if (!TG) return;
-        // Always tell Telegram we're ready + expand to full height.
-        try { TG.ready(); } catch (_e) {}
-        try { TG.expand(); } catch (_e) {}
-        if (!isTg || !TG.initData) return;
-
-        function attempt() {
-          if (!window.MockStream || !window.MockStream.auth || !window.MockStream.auth.signInWithTelegram) {
-            return setTimeout(attempt, 80);
-          }
-          if (window.MockStream.auth.isSignedIn && window.MockStream.auth.isSignedIn()) return;
-          var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) ||
-                       window.__CENTER_ID || 'mock_stream';
-          window.MockStream.auth.signInWithTelegram(TG.initData, center)
-            .then(function (profile) {
-              if (profile) console.info('[telegram-auth] signed in as', profile.fullName);
-            })
-            .catch(function (e) { console.warn('[telegram-auth] failed:', e); });
-        }
-        attempt();
-      } catch (e) { console.warn('[telegram-auth] init error:', e); }
-    })();
-  </script>
   <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
