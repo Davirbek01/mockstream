@@ -129,7 +129,7 @@ const BTN = {
   TAKE_MOCK:  'Take in 📱',
   OPEN_WEB:   'Take in 💻',
   ADMIN:      '👨\u200d🏫 Admin',
-  SUPPORT:    '💬 Support',
+  SUPPORT:    '🎁 Code',
   CANCEL:     '❌ Cancel',
   // admin sub-menu
   MOCK_CODES: '🎫 Mock codes',
@@ -139,7 +139,7 @@ const BTN = {
   LOCK_ADMIN: '🔒 Lock admin',
   MAIN_MENU:  '⬅️ Main menu',
   // support sub-menu
-  LEAVE_SUP:  '🚪 Leave Support'
+  LEAVE_SUP:  '🚪 Leave Code'
 };
 
 function mainKeyboard(cfg: CenterConfig) {
@@ -190,7 +190,7 @@ function welcomeText(cfg: CenterConfig, firstName: string): string {
     `<b>📱 Phone</b> — take a mock inside Telegram (best on mobile).\n` +
     `<b>💻 PC / Mac</b> — take a mock in your browser, full-screen.\n` +
     (cfg.show_admin_btn   ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
-    (cfg.show_support_btn ? `<b>💬 Support</b> — message the team.\n` : '') +
+    (cfg.show_support_btn ? `<b>🎁 Code</b> — free regular mock codes &amp; AI help.\n` : '') +
     `\n<i>Need a free code right now or want help from AI? Tap below ⤵️</i>`
   );
 }
@@ -375,7 +375,9 @@ async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: n
     { reply_markup: supportBotInlineKeyboard(cfg.center_id) });
   // Then enter human-relay support mode.
   await send(cfg.bot_token, chatId,
-    `💬 <b>Support mode</b>\n\nIf you still want to talk to the team, send any message below and we'll forward it. We reply right here.\n\nTap <b>${BTN.LEAVE_SUP}</b> when you're done.`,
+    `🎁 <b>Code mode</b>\n\nGrab a free regular mock code from our helper bot above. ` +
+    `If you'd rather talk to a human from the team, just send any message below and we'll forward it — we reply right here.\n\n` +
+    `Tap <b>${BTN.LEAVE_SUP}</b> when you're done.`,
     { reply_markup: supportKeyboard() });
 }
 

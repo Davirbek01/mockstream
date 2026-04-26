@@ -127,15 +127,9 @@ function mainKeyboard() {
 }
 
 function skillKeyboard() {
-  return {
-    keyboard: [
-      [{ text: BTN.LISTEN }, { text: BTN.READ }],
-      [{ text: BTN.WRITE  }, { text: BTN.SPEAK }],
-      [{ text: BTN.CANCEL }]
-    ],
-    resize_keyboard:  true,
-    one_time_keyboard: true
-  };
+  // Same layout as mainKeyboard — persistent, always visible. Avoids the
+  // collapsible 'one_time_keyboard' UX that hid skills after first tap.
+  return mainKeyboard();
 }
 
 // Reusable response when a user asks for a full-mock free code.
