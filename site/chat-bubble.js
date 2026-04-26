@@ -1615,6 +1615,20 @@
   }
 
   function _replaceLastSupportCard(html) {
+    // In automated 'code' sub-mode the picker lives in a synthetic DOM node
+    // (#cb-code-card) and is NOT backed by the messages.support array. Update
+    // the DOM node directly so skill/back/submit clicks remain responsive.
+    if (currentCategory === 'support' && _supportSubMode === 'code') {
+      var card = document.getElementById('cb-code-card');
+      if (card) {
+        // Replace the picker with the new card HTML in-place (preserve scroll).
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = html;
+        var newNode = wrapper.firstElementChild;
+        if (newNode) card.parentNode.replaceChild(newNode, card);
+        return;
+      }
+    }
     var arr = messages.support || [];
     for (var i = arr.length - 1; i >= 0; i--) {
       if (arr[i] && arr[i]._html) { arr[i]._html = html; break; }
@@ -1625,7 +1639,7 @@
 
   function _renderSkillPickerCard() {
     return ''
-      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:4px;">🎁 Try a free regular mock</div>'
       +   '<div style="font-size:11.5px;color:#475569;line-height:1.45;margin-bottom:10px;">Pick a skill — I\'ll give you a code on the house. <em>(Free tier: 1/hour, 4/day.)</em></div>'
       +   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'
@@ -1634,10 +1648,24 @@
       +     '<button type="button" class="cb-promo-skill" data-skill="writing"   style="padding:8px 6px;border-radius:9px;border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;font-size:12px;font-weight:600;cursor:pointer;">✏️ Writing</button>'
       +     '<button type="button" class="cb-promo-skill" data-skill="speaking"  style="padding:8px 6px;border-radius:9px;border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;font-size:12px;font-weight:600;cursor:pointer;">🎤 Speaking</button>'
       +   '</div>'
-      +   '<button type="button" class="cb-promo-skill" data-skill="full_mock" style="margin-top:6px;width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #fcd34d;background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#b45309;font-size:12px;font-weight:700;cursor:pointer;">📚 Full Mock (one code, all skills)</button>'
+      +   '<button type="button" class="cb-promo-skill" data-skill="full_mock" style="margin-top:6px;width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #fcd34d;background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#b45309;font-size:12px;font-weight:700;cursor:pointer;">📚 Full Mock — 👑 Premium only</button>'
       +   '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #cbd5e1;text-align:center;">'
       +     '<div style="font-size:11px;color:#64748b;margin-bottom:6px;">Need something else?</div>'
       +     '<button type="button" class="cb-promo-open-support" style="width:100%;padding:9px 6px;border-radius:9px;border:1.5px solid #f87171;background:linear-gradient(135deg,#fef2f2,#fee2e2);color:#b91c1c;font-size:12px;font-weight:700;cursor:pointer;">🆘 Talk to Support (AI)</button>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  function _renderFullMockPremiumCard() {
+    return ''
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1.5px solid #fcd34d;border-radius:14px;padding:14px 16px;max-width:320px;">'
+      +   '<div style="font-size:14px;font-weight:800;color:#78350f;margin-bottom:6px;">📚 Full Mock is a Premium feature</div>'
+      +   '<div style="font-size:12px;color:#78350f;line-height:1.55;margin-bottom:10px;">'
+      +     'The free regular tier covers each skill <b>individually</b>. Pick a single skill (Listening / Reading / Writing / Speaking) for a free code, or upgrade to <b>Premium</b> — one code unlocks the whole mock plus AI scoring and full transcripts.'
+      +   '</div>'
+      +   _renderUpsellHtml()
+      +   '<div style="margin-top:8px;text-align:right;">'
+      +     '<button type="button" class="cb-promo-back" style="background:none;border:none;color:#78350f;font-size:11px;cursor:pointer;text-decoration:underline;font-weight:600;">← back to skills</button>'
       +   '</div>'
       + '</div>';
   }
@@ -1646,7 +1674,7 @@
     var label = SKILL_LABELS[skill] || skill;
     var safeSkill = escapeHtml(skill);
     return ''
-      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1.5px solid #c7d2fe;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">' + label + ' — pick a mock #</div>'
       +   '<div style="font-size:11.5px;color:#475569;margin-bottom:8px;">Type the mock number you want to try (e.g. <strong>1</strong>, <strong>5</strong>, <strong>12</strong>).</div>'
       +   '<div style="display:flex;gap:6px;">'
@@ -1661,7 +1689,7 @@
 
   function _renderLoadingCard(label) {
     return ''
-      + '<div class="cb-promo-card" style="background:#f1f5f9;border:1.5px solid #cbd5e1;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:#f1f5f9;border:1.5px solid #cbd5e1;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#475569;">'
       +     '<div class="cb-attach-spinner" style="width:14px;height:14px;border:2px solid #cbd5e1;border-top-color:#2563eb;border-radius:50%;animation:cb-spin 0.7s linear infinite;"></div>'
       +     escapeHtml(label || 'Loading…')
@@ -1688,7 +1716,7 @@
     var skillLabel = SKILL_LABELS[payload.skill] || payload.skill;
     var dailyLeft  = payload.daily_remaining != null ? payload.daily_remaining : '?';
     return ''
-      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1.5px solid #6ee7b7;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1.5px solid #6ee7b7;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="font-size:13px;font-weight:700;color:#065f46;margin-bottom:4px;">✅ Here\'s your free regular code</div>'
       +   '<div style="font-size:11.5px;color:#047857;margin-bottom:8px;">' + skillLabel + ' &middot; mock #' + escapeHtml(String(payload.mock_number)) + '</div>'
       +   '<div style="display:flex;align-items:center;gap:6px;background:#fff;border:2px dashed #10b981;border-radius:10px;padding:10px;margin-bottom:6px;">'
@@ -1713,7 +1741,7 @@
       else retryStr = 'Try again in ~' + Math.ceil(retry / 3600) + ' hour(s).';
     }
     return ''
-      + '<div class="cb-promo-card" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="font-size:13px;font-weight:700;color:#991b1b;margin-bottom:4px;">⏳ Free-tier limit reached</div>'
       +   '<div style="font-size:11.5px;color:#7f1d1d;line-height:1.5;margin-bottom:6px;">' + escapeHtml(msg) + (retryStr ? ' ' + escapeHtml(retryStr) : '') + '</div>'
       +   _renderUpsellHtml()
@@ -1722,7 +1750,7 @@
 
   function _renderErrorCard(text) {
     return ''
-      + '<div class="cb-promo-card" style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
+      + '<div id="cb-code-card" class="cb-promo-card" style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:14px;padding:12px 14px;max-width:320px;">'
       +   '<div style="font-size:12px;color:#991b1b;font-weight:600;">⚠️ ' + escapeHtml(text) + '</div>'
       +   '<button type="button" class="cb-promo-back" style="margin-top:6px;background:none;border:none;color:#991b1b;font-size:11px;cursor:pointer;text-decoration:underline;">← try again</button>'
       + '</div>';
@@ -1750,15 +1778,8 @@
     pickSkill: function (skill) {
       if (!SKILL_LABELS[skill]) return;
       if (skill === 'full_mock') {
-        _replaceLastSupportCard(_renderLoadingCard('Fetching your full-mock code…'));
-        _fetchPromoCode('full_mock', 1).then(function (r) {
-          if (r.body && r.body.ok) _replaceLastSupportCard(_renderCodeResultCard(r.body));
-          else if (r.status === 429) _replaceLastSupportCard(_renderRateLimitCard(r.body));
-          else if (r.status === 404) _replaceLastSupportCard(_renderErrorCard('No full-mock code is available for your center right now. Please try a single skill or contact support.'));
-          else _replaceLastSupportCard(_renderErrorCard('Could not fetch a code (' + (r.body && r.body.error || 'unknown') + ').'));
-        }).catch(function () {
-          _replaceLastSupportCard(_renderErrorCard('Network error — check your connection and try again.'));
-        });
+        // Premium-only: don't fetch a code, just advertise Premium.
+        _replaceLastSupportCard(_renderFullMockPremiumCard());
       } else {
         _replaceLastSupportCard(_renderMockNumberCard(skill));
         setTimeout(function () {
