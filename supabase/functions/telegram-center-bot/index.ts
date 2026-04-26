@@ -122,8 +122,8 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 // UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  TAKE_MOCK:  '📱',
-  OPEN_WEB:   '💻',
+  TAKE_MOCK:  'Take in 📱',
+  OPEN_WEB:   'Take in 💻',
   ADMIN:      '👨\u200d🏫 Admin',
   SUPPORT:    '💬 Support',
   CANCEL:     '❌ Cancel',
