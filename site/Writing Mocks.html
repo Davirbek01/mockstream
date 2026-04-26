@@ -13501,10 +13501,11 @@ CEFR exams test COMMUNICATIVE COMPETENCE and ACCOMPLISHMENT, NOT perfection. The
 - Multiple non-English words (3+) = maximum score 2 for that task.
 
 ⚠️ OFF-TOPIC SCORING GUIDANCE (VERY IMPORTANT):
-- COMPLETELY OFF-TOPIC (writes about totally different subject): Score 0-1 MAXIMUM
+- COMPLETELY OFF-TOPIC (writes about totally different subject): Score exactly 1 (participation credit — the candidate did submit work, even if irrelevant). NEVER give 0 when there is a written attempt.
 - PARTIALLY OFF-TOPIC (addresses topic but misses key points): Score 2 max
 - OVERGENERALIZED (addresses topic broadly without specifics): Score 2-3 depending on quality
 - ON-TOPIC: Score based on other criteria normally
+- Reserve a score of 0 ONLY for blank/no-attempt tasks where the candidate wrote nothing meaningful at all.
 
 🚨 REPETITION/COPYING DETECTION (CRITICAL - CHECK THIS!):
 - Compare ALL THREE responses (Task 1.1, Task 1.2, Part 2) for similarities.
@@ -13653,10 +13654,21 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
       result.t11_score = Math.round(Number(result.t11_score || result.t1_score || 0));
       result.t12_score = Math.round(Number(result.t12_score || 0));
       result.t2_score = Math.round(Number(result.t2_score || 0));
+
+      // PARTICIPATION CREDIT: if the candidate submitted meaningful content for a
+      // task, never let it score 0 — award at least 1 point even when the work
+      // is completely off-topic / irrelevant. Truly empty tasks stay at 0.
+      var _hasT11 = !!(t11 && t11.trim().length > 10);
+      var _hasT12 = !!(t12 && t12.trim().length > 10);
+      var _hasT2  = !!(t2  && t2.trim().length  > 10);
+      if (_hasT11 && result.t11_score === 0) result.t11_score = 1;
+      if (_hasT12 && result.t12_score === 0) result.t12_score = 1;
+      if (_hasT2  && result.t2_score  === 0) result.t2_score  = 1;
+
       result.raw_score = result.t11_score + result.t12_score + result.t2_score;
 
       // VALIDATION: Check if AI returned valid scores (not all zeros when there's actual content)
-      const hasContent = (t11 && t11.trim().length > 10) || (t12 && t12.trim().length > 10) || (t2 && t2.trim().length > 10);
+      const hasContent = _hasT11 || _hasT12 || _hasT2;
       if (hasContent) {
         // In practice mode, only check the practiced task's score
         const scoreZero = isPractice
@@ -16664,10 +16676,11 @@ CEFR exams test COMMUNICATIVE COMPETENCE and ACCOMPLISHMENT, NOT perfection. The
 
 ⚠️ OFF-TOPIC SCORING GUIDANCE (VERY IMPORTANT):
 Be careful to check if the response addresses the ACTUAL task prompt. However, use good judgment:
-- COMPLETELY OFF-TOPIC (writes about totally different subject): Score 0-1/5 or 0-1/6 MAXIMUM. Example: Task asks about "hybrid learning opinion" but student writes about "neighborhood safety" - this is COMPLETELY irrelevant.
+- COMPLETELY OFF-TOPIC (writes about totally different subject): Score exactly 1/5 or 1/6 (participation credit — the candidate did submit work). NEVER give 0 when there is a written attempt. Example: Task asks about "hybrid learning opinion" but student writes about "neighborhood safety" — score 1, mark as COMPLETELY OFF-TOPIC.
 - PARTIALLY OFF-TOPIC (addresses topic but misses key points): Score 2-3/5 max. Some credit for attempting the general subject.
 - OVERGENERALIZED (addresses topic broadly without specifics): Score 2-4/5 depending on quality. Don't be too harsh if the general direction is correct.
 - ON-TOPIC: Score based on other criteria normally.
+- Reserve a score of 0 ONLY for blank/no-attempt tasks where the candidate wrote nothing meaningful at all.
 
 ⚠️ DO NOT be overly strict - a slight generalization is NOT off-topic. Only mark as "completely off-topic" when the response is about a TOTALLY DIFFERENT subject than what was asked.
 

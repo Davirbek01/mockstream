@@ -14801,24 +14801,24 @@ PART 1.1 CRITERIA (Q1-3) - Max 5:
 4 = ALL THREE on-topic, simple grammar with systematic errors, sufficient vocabulary
 3 = TWO on-topic with same features
 2 = TWO on-topic but limited to words/phrases, basic errors impede understanding
-1 = ONE on-topic
-0 = No meaningful language or all off-topic
+1 = ONE on-topic OR all responses off-topic but candidate spoke (participation credit)
+0 = No meaningful language at all (silence / no speech detected)
 
 PART 1.2 CRITERIA (Q4-6) - Max 5:
 5 = Above B1 level
 4 = ALL THREE on-topic, simple structures correct, errors in complex structures
 3 = TWO on-topic with same features
 2 = TWO on-topic but basic mistakes systematically occur
-1 = ONE on-topic
-0 = Below A2 or all off-topic
+1 = ONE on-topic OR all responses off-topic but candidate spoke (participation credit)
+0 = No meaningful speech detected
 
 PART 2 CRITERIA (Q7) - Max 5:
 5 = Above B2 level
 4 = ALL THREE bullet points addressed, complex grammar with minor errors
 3 = TWO bullet points addressed
 2 = TWO addressed but simple structures only
-1 = ONE addressed
-0 = Below B1 or off-topic
+1 = ONE addressed OR response off-topic but candidate spoke (participation credit)
+0 = No meaningful speech detected
 
 PART 3 CRITERIA (Q8) - Max 6:
 6 = Above C1 level
@@ -14826,8 +14826,8 @@ PART 3 CRITERIA (Q8) - Max 6:
 4 = Points from EACH SECTION, some complex grammar
 3 = Points from ONLY ONE SECTION
 2 = Heavily dependent on input prompts
-1 = Reads directly from prompts
-0 = Below B1 or off-topic
+1 = Reads directly from prompts OR response off-topic but candidate spoke (participation credit)
+0 = No meaningful speech detected
 
 CERTIFICATE CONVERSION: 21→75, 20→71, 19→67, 18→64, 17→61, 16→57, 15→54, 14→51, 13→49, 12→46, 11→43, 10→40, 9→38, 8→35, 7→32, 6→29, 5→26, 4→23, 3→19, 2→15, 1→11, 0→0
 
@@ -14835,9 +14835,10 @@ CEFR LEVELS: C1 (65-75), B2 (51-64), B1 (35-50), Below B1 (0-34)
 
 ⚠️ CRITICAL RULES — ALWAYS RETURN VALID JSON:
 • If a response is "[No speech]", "[Transcription failed]" or "[Error]", score that question as 0. In the feedback explain: "No speech was detected in this response."
-• If a response is completely off-topic or unintelligible, score it as 0 with feedback explaining WHY it scored 0 (e.g. "Response was completely off-topic / unrelated to the question").
-• NEVER refuse to score. ALWAYS return the full JSON with numeric scores, even if all scores are 0.
-• A score of 0 is a valid assessment — it means the candidate failed to produce relevant language for that part.
+• If a response is completely off-topic but the candidate DID speak / produce intelligible language, score the part as 1 (participation credit) — NOT 0. In the feedback explain WHY (e.g. "Response was completely off-topic / unrelated to the question — 1 point awarded for participation").
+• Reserve a score of 0 ONLY for parts where the candidate produced no meaningful speech at all (silence, transcription errors).
+• NEVER refuse to score. ALWAYS return the full JSON with numeric scores, even if all scores are 0 or 1.
+• A score of 0 means "no speech"; a score of 1 means "spoke but completely off-topic".
 
 ═══════════════════════════════════════════════════════════════════════════════
                          CANDIDATE'S RESPONSES
@@ -15001,10 +15002,32 @@ RETURN ONLY THIS JSON FORMAT (no other text):
             return defaultVal;
           }
 
-          const p11 = Math.min(5, Math.max(0, Math.round(findScore(result, 'p11', 0))));
-          const p12 = Math.min(5, Math.max(0, Math.round(findScore(result, 'p12', 0))));
-          const p2 = Math.min(5, Math.max(0, Math.round(findScore(result, 'p2', 0))));
-          const p3 = Math.min(6, Math.max(0, Math.round(findScore(result, 'p3', 0))));
+          const _findScore = findScore;
+          let p11 = Math.min(5, Math.max(0, Math.round(_findScore(result, 'p11', 0))));
+          let p12 = Math.min(5, Math.max(0, Math.round(_findScore(result, 'p12', 0))));
+          let p2  = Math.min(5, Math.max(0, Math.round(_findScore(result, 'p2',  0))));
+          let p3  = Math.min(6, Math.max(0, Math.round(_findScore(result, 'p3',  0))));
+
+          // PARTICIPATION CREDIT: if the candidate produced meaningful speech for
+          // any question in a part, never let that part score 0 — award at least
+          // 1 point. Truly empty parts (silence / [No speech] / [Error] across
+          // every question in the part) stay at 0.
+          function _partHasSpeech(qNumsArr) {
+            try {
+              return (transcriptions || []).some(function (t) {
+                if (!t || qNumsArr.indexOf(t.questionNum) === -1) return false;
+                var s = String(t.text || '').trim();
+                if (!s) return false;
+                if (/^\[(no speech|transcription failed|error)\]$/i.test(s)) return false;
+                return s.length >= 3;
+              });
+            } catch (e) { return false; }
+          }
+          if (p11 === 0 && _partHasSpeech([1, 2, 3]))    p11 = 1;
+          if (p12 === 0 && _partHasSpeech([4, 5, 6]))    p12 = 1;
+          if (p2  === 0 && _partHasSpeech([7]))          p2  = 1;
+          if (p3  === 0 && _partHasSpeech([8]))          p3  = 1;
+
           const _boost = (window.SITE_CONFIG && window.SITE_CONFIG.scoreBoost) || 0;
           const rawScore = Math.min(21, p11 + p12 + p2 + p3 + _boost);
 
