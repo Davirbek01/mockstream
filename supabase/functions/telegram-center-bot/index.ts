@@ -290,28 +290,9 @@ async function showAdminMenu(cfg: CenterConfig, chatId: number) {
   });
 }
 
-async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
-  if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
-    await showAdminMenu(cfg, chatId);
-    return;
-  }
-  setAwaitingPasscode(cfg.center_id, tgUserId);
-  await send(cfg.bot_token, chatId,
-    `🔐 <b>Admin passcode required</b>\n\nReply with the admin passcode for <b>${esc(cfg.center_id)}</b>.\nTap <b>${BTN.CANCEL}</b> to go back.`,
-    { reply_markup: passcodeKeyboard() });
-}
-
-async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId: number, text: string) {
-  const expected = await getAdminPasscode(cfg.center_id);
-  const supplied = text.trim();
-  if (expected && ctEq(expected, supplied)) {
-    clearAwaitingPasscode(cfg.center_id, tgUserId);
-    await unlockAdmin(cfg.center_id, tgUserId);
-    await send(cfg.bot_token, chatId, `✅ <b>Admin unlocked</b> for 12 hours.`);
-    await showAdminMenu(cfg, chatId);
-  } else {
-    await send(cfg.bot_token, chatId, `❌ Wrong passcode. Try again or tap ${BTN.CANCEL}.`);
-  }
+async function handleAdminTap(cfg: CenterConfig, chatId: number, _tgUserId: number) {
+  // No center-bot passcode — the manager bot already has its own auth.
+  await showAdminMenu(cfg, chatId);
 }
 
 async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: number) {
@@ -398,19 +379,6 @@ Deno.serve(async (req: Request) => {
       clearAwaitingPasscode(cfg.center_id, tgUserId);
       await setSupportMode(cfg.center_id, tgUserId, false);
       await showMainMenu(cfg, chatId, firstName);
-      return new Response('ok');
-    }
-
-    // ── Cancel from passcode prompt ──────────────────────────────────
-    if (text === BTN.CANCEL && isAwaitingPasscode(cfg.center_id, tgUserId)) {
-      clearAwaitingPasscode(cfg.center_id, tgUserId);
-      await showMainMenu(cfg, chatId, firstName);
-      return new Response('ok');
-    }
-
-    // ── Awaiting admin passcode ──────────────────────────────────────
-    if (isAwaitingPasscode(cfg.center_id, tgUserId)) {
-      await handlePasscodeAttempt(cfg, chatId, tgUserId, text);
       return new Response('ok');
     }
 
