@@ -99,10 +99,10 @@ function esc(s: string): string {
 // Keyboards
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  SUPPORT:  '🆓 Support',
+  SUPPORT:  '� Support',
   DICT:     '📖 Dictionary',
   PREMIUM:  '👑 Premium',
-  // Skill picker (after a code-request without a clear skill)
+  // Skill picker (always visible on the main keyboard now)
   LISTEN:   '🎧 Listening',
   READ:     '📖 Reading',
   WRITE:    '✍️ Writing',
@@ -112,8 +112,12 @@ const BTN = {
 };
 
 function mainKeyboard() {
+  // Code-first layout: skill buttons always visible. AI Support is opt-in.
   return {
     keyboard: [
+      [{ text: BTN.LISTEN }, { text: BTN.READ }],
+      [{ text: BTN.WRITE  }, { text: BTN.SPEAK }],
+      [{ text: BTN.FULL }],
       [{ text: BTN.SUPPORT }, { text: BTN.DICT }],
       [{ text: BTN.PREMIUM }]
     ],
@@ -156,7 +160,10 @@ function premiumInline() {
 
 // ─────────────────────────────────────────────────────────────────────
 // Per-user mode (DB-backed; isolates are ephemeral)
-// Modes: 'support' | 'dictionary' | 'await_skill' | 'await_mock:<skill>'
+// Modes: 'idle' (default — automated code flow only, no AI)
+//        | 'support' (AI conversation, opted-in via 🆘 Support button)
+//        | 'dictionary'
+//        | 'await_skill' | 'await_mock:<skill>'
 // ─────────────────────────────────────────────────────────────────────
 type Mode = string;
 
@@ -166,7 +173,7 @@ async function getMode(tgUserId: number): Promise<Mode> {
     .select('mode')
     .eq('tg_user_id', tgUserId)
     .maybeSingle();
-  return (data?.mode as Mode | undefined) || 'support';
+  return (data?.mode as Mode | undefined) || 'idle';
 }
 async function setMode(tgUserId: number, mode: Mode): Promise<void> {
   await sb.from('support_bot_user_modes').upsert({
@@ -456,11 +463,14 @@ async function handleDictText(chatId: number, _tgUserId: number, text: string) {
 async function welcome(chatId: number, firstName: string, centerName: string) {
   await send(chatId,
     `<b>👋 Welcome, ${esc(firstName || 'friend')}!</b>\n\n` +
-    `I'm <b>Mock Stream AI</b> — your free helper for <b>${esc(centerName)}</b>:\n\n` +
-    `<b>🆓 Support</b> — ask me anything, or request a free regular mock code.\n` +
-    `<b>📖 Dictionary</b> — quick English ⇄ Uzbek translations.\n` +
-    `<b>👑 Premium</b> — unlock instant AI scoring, transcripts &amp; unlimited retries.\n\n` +
-    `<i>Tap a button below to begin. Send /center to switch center.</i>`,
+    `I'm your free helper bot for <b>${esc(centerName)}</b>.\n\n` +
+    `🎁 <b>Tap a skill button below to get a free regular code</b> instantly:\n` +
+    `🎧 Listening &nbsp; 📖 Reading &nbsp; ✍️ Writing &nbsp; 🎤 Speaking\n\n` +
+    `📚 <b>Full mock</b> — Premium only.\n` +
+    `🆘 <b>Support</b> — talk to AI for help with anything else.\n` +
+    `📖 <b>Dictionary</b> — quick English ⇄ Uzbek lookup.\n` +
+    `👑 <b>Premium</b> — unlock AI scoring, transcripts &amp; unlimited retries.\n\n` +
+    `<i>Free tier: 1 code/hour, 4 codes/day. Send /center to switch center.</i>`,
     { reply_markup: mainKeyboard() });
 }
 
@@ -499,7 +509,7 @@ Deno.serve(async (req: Request) => {
       }
       const center     = await getUserCenter(tgUserId);
       const centerName = await getCenterDisplayName(center);
-      await setMode(tgUserId, 'support');
+      await setMode(tgUserId, 'idle');
       await welcome(chatId, firstName, centerName);
       return new Response('ok');
     }
@@ -545,7 +555,10 @@ Deno.serve(async (req: Request) => {
     if (text === BTN.SUPPORT) {
       await setMode(tgUserId, 'support');
       await send(chatId,
-        `🆓 <b>Support mode</b>\n\nAsk me anything, or just say <i>"give me a free code"</i> to get a regular mock code.`,
+        `� <b>Support mode — AI is now active</b>\n\n` +
+        `Hi! I'm <b>Mock Stream AI</b>. Describe your issue (login, payment, code not working, ` +
+        `technical problem, exam question — anything) and I'll do my best to help.\n\n` +
+        `<i>Tap any skill button to exit Support and grab a free code instead.</i>`,
         { reply_markup: mainKeyboard() });
       return new Response('ok');
     }
@@ -555,6 +568,30 @@ Deno.serve(async (req: Request) => {
         `📖 <b>Dictionary mode</b>\n\nSend any English or Uzbek word/phrase and I'll translate &amp; define it.`,
         { reply_markup: mainKeyboard() });
       return new Response('ok');
+    }
+
+    // Skill buttons — always work from any mode (code-first UX)
+    {
+      const directSkill = skillFromButton(text);
+      if (directSkill) {
+        await setMode(tgUserId, `await_mock:${directSkill}`);
+        const label = ({
+          listening: '🎧 Listening',
+          reading:   '📖 Reading',
+          writing:   '✍️ Writing',
+          speaking:  '🎤 Speaking'
+        } as Record<string, string>)[directSkill] || directSkill;
+        await send(chatId,
+          `🔢 <b>${label} — pick a mock #</b>\n\n` +
+          `Type the mock number you want to try (e.g. <b>1</b>, <b>5</b>, <b>12</b>).\n\n` +
+          `Send <b>/cancel</b> to go back.`);
+        return new Response('ok');
+      }
+      if (text === BTN.FULL) {
+        await setMode(tgUserId, 'idle');
+        await sendFullMockPremiumOnly(chatId);
+        return new Response('ok');
+      }
     }
 
     if (!text) return new Response('ok');
@@ -619,8 +656,18 @@ Deno.serve(async (req: Request) => {
       return new Response('ok');
     }
 
-    // Default: support
-    await handleSupportText(chatId, tgUserId, text);
+    if (mode === 'support') {
+      // AI conversation — user opted in via the 🆘 Support button.
+      await handleSupportText(chatId, tgUserId, text);
+      return new Response('ok');
+    }
+
+    // Default: 'idle' — automated code-flow mode. Free text is NOT sent to the AI.
+    // Gently nudge the user toward the buttons (or the explicit Support button).
+    await send(chatId,
+      `🎁 <b>Tap a skill button</b> below to get a free regular code instantly.\n\n` +
+      `Need help with something else? Tap <b>🆘 Support</b> to start an AI conversation.`,
+      { reply_markup: mainKeyboard() });
     return new Response('ok');
   } catch (e) {
     console.error('[support-bot] handler error:', e);
