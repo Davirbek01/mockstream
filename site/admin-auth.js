@@ -92,6 +92,31 @@
 
   async function sendMagicLink(email) {
     if (!email) throw new Error('email required');
+    // Eligibility gate: magic link is only for emails registered in
+    // premium_emails (admin or premium tier). Regular visitors must use
+    // Google sign-in. Without this check, anyone could request a link to
+    // any email, which Supabase auth allows by default.
+    try {
+      var elig = await fetch(SUPABASE_URL + '/rest/v1/rpc/_email_eligible_for_magic_link', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANONKEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANONKEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_email: email })
+      });
+      if (!elig.ok) throw new Error('eligibility_check_failed');
+      var ok = await elig.json();
+      if (ok !== true) {
+        throw new Error('This email is not registered as a premium or admin account. Please sign in with Google instead, or contact support.');
+      }
+    } catch (e) {
+      // Re-throw friendly error; eligibility check failures should NOT
+      // silently allow the link through.
+      if (e && e.message && e.message.indexOf('not registered') !== -1) throw e;
+      throw new Error('Could not verify email. Please try again.');
+    }
     // Use whitelisted /index.html as redirect target (autoResume forwards back to landing).
     var pathname = window.location.pathname.replace(/[^/]*$/, '') + 'index.html';
     var redirect = window.location.origin + pathname;
@@ -260,6 +285,26 @@
               JSON.stringify({ error: 'admin login required' }),
               { status: 401, headers: { 'Content-Type': 'application/json' } }
             );
+          }
+        }
+        // For ALL other Supabase REST calls: if a session exists,
+        // forward the user's JWT so RLS policies can identify them
+        // (needed for the new restrictive policies on results/
+        // premium_emails/premium_devices). Falls through silently if
+        // no session — anon access still works for public endpoints.
+        else if (url.indexOf(SUPABASE_URL) === 0 &&
+                 url.indexOf('/rest/v1/') !== -1) {
+          var s2 = await currentSession();
+          if (s2 && s2.access_token) {
+            init = init || {};
+            var hdrs2 = new Headers(init.headers || {});
+            // Only override if the caller didn't already set its own bearer token
+            var existingAuth = hdrs2.get('Authorization') || '';
+            if (!existingAuth || existingAuth.indexOf(s2.access_token) === -1) {
+              hdrs2.set('apikey', SUPABASE_ANONKEY);
+              hdrs2.set('Authorization', 'Bearer ' + s2.access_token);
+              init.headers = hdrs2;
+            }
           }
         }
       } catch (_e) { /* fall through to original fetch */ }

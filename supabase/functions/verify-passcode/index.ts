@@ -35,9 +35,43 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const VIP_TOKEN_SECRET = Deno.env.get('VIP_TOKEN_SECRET') || '';
+const VIP_TOKEN_TTL_SEC = 4 * 60 * 60; // 4 hours
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   auth: { persistSession: false }
 });
+
+// ── HMAC-SHA256 signed VIP token ──────────────────────────────────────────
+// Format: base64url(payload).base64url(sig)
+// Payload: { c: center, r: role, p: premium_ai, exp: unix_seconds }
+// Secret lives only in VIP_TOKEN_SECRET env var (never sent to browser).
+function b64urlEncode(bytes: Uint8Array): string {
+  let s = btoa(String.fromCharCode(...bytes));
+  return s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+async function mintVipToken(payload: Record<string, unknown>): Promise<string | null> {
+  if (!VIP_TOKEN_SECRET) return null;
+  try {
+    const enc = new TextEncoder();
+    const payloadJson = JSON.stringify(payload);
+    const payloadB64 = b64urlEncode(enc.encode(payloadJson));
+    const key = await crypto.subtle.importKey(
+      'raw', enc.encode(VIP_TOKEN_SECRET),
+      { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+    );
+    const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payloadB64));
+    const sigB64 = b64urlEncode(new Uint8Array(sig));
+    return `${payloadB64}.${sigB64}`;
+  } catch (_e) {
+    return null;
+  }
+}
+async function withToken(resp: Record<string, unknown>, role: string, premium: boolean, center: string): Promise<Record<string, unknown>> {
+  const exp = Math.floor(Date.now() / 1000) + VIP_TOKEN_TTL_SEC;
+  const token = await mintVipToken({ c: center, r: role, p: premium, exp });
+  if (token) resp.token = token;
+  return resp;
+}
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -124,6 +158,21 @@ Deno.serve(async (req) => {
   const mockNum = body.mock_number != null ? parseInt(String(body.mock_number), 10) : null;
 
   if (!code) {
+    // Allow code-less requests ONLY for center premium-mode token minting.
+    // Server-side check against centers table is authoritative (cache tampering
+    // on the client cannot fake this).
+    if (center) {
+      const { data: centerRow } = await sb
+        .from('centers')
+        .select('premium_mode')
+        .eq('id', center)
+        .maybeSingle();
+      if (centerRow?.premium_mode) {
+        await logAttempt(ip, true);
+        const resp = await withToken({ access: true, valid: true, role: 'premium', via: 'center_premium_mode' }, 'premium', true, center);
+        return json(200, resp);
+      }
+    }
     await logAttempt(ip, false);
     return json(200, { access: false, valid: false, error: 'no_code' });
   }
@@ -138,7 +187,8 @@ Deno.serve(async (req) => {
       .maybeSingle();
     if (centerRow?.premium_mode) {
       await logAttempt(ip, true);
-      return json(200, { access: true, valid: true, role: 'premium', via: 'center_premium_mode' });
+      const resp = await withToken({ access: true, valid: true, role: 'premium', via: 'center_premium_mode' }, 'premium', true, center);
+      return json(200, resp);
     }
   }
 
@@ -159,7 +209,8 @@ Deno.serve(async (req) => {
           if (!row.expires_at || new Date(row.expires_at) > new Date()) {
             await logAttempt(ip, true);
             const t = (row as { tier?: string }).tier === 'regular' ? 'regular' : 'premium';
-            return json(200, { access: true, valid: true, role: t, source: 'mock', tier: t });
+            const resp = await withToken({ access: true, valid: true, role: t, source: 'mock', tier: t }, t, t === 'premium', center);
+            return json(200, resp);
           }
         }
       }
@@ -177,7 +228,9 @@ Deno.serve(async (req) => {
         if (ctEq(row.code, code)) {
           if (!row.expires_at || new Date(row.expires_at) > new Date()) {
             await logAttempt(ip, true);
-            return json(200, { access: true, valid: true, role: row.type });
+            const r = String(row.type || 'regular');
+            const resp = await withToken({ access: true, valid: true, role: r }, r, r === 'premium', center);
+            return json(200, resp);
           }
         }
       }
@@ -199,10 +252,9 @@ Deno.serve(async (req) => {
       .maybeSingle();
     if (data && ctEq(data.passcode, code)) {
       await logAttempt(ip, true);
-      return json(200, {
-        access: true, valid: true,
-        role: c === '__super__' ? 'super_admin' : 'admin'
-      });
+      const r = c === '__super__' ? 'super_admin' : 'admin';
+      const resp = await withToken({ access: true, valid: true, role: r }, r, true, center || c);
+      return json(200, resp);
     }
   }
 

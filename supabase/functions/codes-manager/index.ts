@@ -88,6 +88,37 @@ async function authenticate(passcode: string): Promise<AuthResult> {
   return { role: 'none' };
 }
 
+// Browser-side admins authenticate via their Supabase JWT instead of a
+// numeric passcode. We resolve the JWT to an email via
+// supabase.auth.getUser(), then look up the email in `premium_emails` to
+// determine super-admin (center is empty/null) vs center-scoped admin.
+// Telegram bots / manager bots continue to use `adminPasscode`.
+async function authenticateViaJwt(jwt: string): Promise<AuthResult> {
+  if (!jwt) return { role: 'none' };
+  let email = '';
+  try {
+    const { data, error } = await sb.auth.getUser(jwt);
+    if (error || !data || !data.user || !data.user.email) return { role: 'none' };
+    email = data.user.email.toLowerCase();
+  } catch {
+    return { role: 'none' };
+  }
+  if (!email) return { role: 'none' };
+  // Hardcoded super-admin escape hatch (matches the DB-side _caller_is_admin).
+  if (email === 'davirbekkhasanov02@gmail.com') return { role: 'super_admin' };
+  const { data: row } = await sb
+    .from('premium_emails')
+    .select('center, role, active')
+    .eq('email', email)
+    .eq('role', 'admin')
+    .eq('active', true)
+    .maybeSingle();
+  if (!row) return { role: 'none' };
+  const center = (row.center || '').toString();
+  if (!center) return { role: 'super_admin' };
+  return { role: 'admin', center: normCenter(center) };
+}
+
 async function audit(actor: string, action: string, center: string | null, details: unknown) {
   sb.from('code_audit').insert({ actor, action, center, details }).then(() => {});
 }
@@ -100,7 +131,11 @@ Deno.serve(async (req) => {
   try { body = await req.json(); } catch { return json(400, { ok: false, error: 'bad_json' }); }
 
   const adminPasscode = String(body.adminPasscode ?? '').trim();
-  const auth = await authenticate(adminPasscode);
+  const userJwt       = String(body.userJwt ?? '').trim();
+  // Prefer JWT (browser admins). Fall back to passcode (bots).
+  let auth: AuthResult = { role: 'none' };
+  if (userJwt) auth = await authenticateViaJwt(userJwt);
+  if (auth.role === 'none' && adminPasscode) auth = await authenticate(adminPasscode);
   if (auth.role === 'none') return json(401, { ok: false, error: 'unauthorized' });
 
   const action = String(body.action ?? '');

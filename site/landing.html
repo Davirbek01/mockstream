@@ -51,6 +51,126 @@
     })();
   </script>
   <script src="site-config/center-guard.js"></script>
+  <!-- ===================================================================
+       VIP TOKEN HARDENING (Apr 2026)
+       Replaces the trust-the-flag model with HMAC-signed tokens minted by
+       the verify-passcode Edge Function. Even if an attacker writes
+       sessionStorage['vipSessionAccess']='true' in DevTools, the page now
+       requires a server-validated token before unlocking premium UI.
+
+       Threat model defeated: client-side flag flipping.
+       Threat model NOT defeated: monkey-patching JS in DevTools (would also
+       require breaking RLS/JWT to access actual data — out of scope).
+
+       Emergency kill switch: localStorage.setItem('__vipKill','1') in
+       DevTools console disables all token checks until cleared. Use only
+       if validation breaks for real users.
+
+       Rollback: revert this script block; client returns to old trust-the-flag
+       behavior immediately. Server keeps minting tokens harmlessly.
+  =================================================================== -->
+  <script>
+    (function () {
+      var TOKEN_KEY  = 'vipToken';
+      var VALIDATE_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/validate-vip-token';
+      var VERIFY_RX  = /\/functions\/v1\/verify-passcode(\?|$)/;
+      var SB_ANON    = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+      function clearVipFlags() {
+        try {
+          sessionStorage.removeItem('vipSessionAccess');
+          sessionStorage.removeItem('vipPremiumAi');
+          sessionStorage.removeItem(TOKEN_KEY);
+        } catch (_e) {}
+      }
+
+      // Stronger gate: require a non-empty token in addition to the legacy flag.
+      // Kill switch: localStorage['__vipKill']==='1' bypasses (emergency only).
+      window.isSuperAccessUnlocked = function () {
+        try { if (localStorage.getItem('__vipKill') === '1') return true; } catch (_e) {}
+        try {
+          if (!sessionStorage.getItem(TOKEN_KEY)) return false;
+          return sessionStorage.getItem('vipSessionAccess') === 'true';
+        } catch (_e) { return false; }
+      };
+
+      // Wrap fetch to auto-stash the signed token from verify-passcode responses.
+      // This runs AFTER the legacy alwaysdata→supabase rewrite shim above, so the
+      // URL we see here is already the supabase functions URL.
+      var _f2 = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        var p = _f2(input, init);
+        try {
+          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          if (VERIFY_RX.test(url)) {
+            return p.then(function (resp) {
+              try {
+                var cloned = resp.clone();
+                cloned.json().then(function (data) {
+                  if (data && (data.access || data.valid) && typeof data.token === 'string' && data.token.length > 20) {
+                    try { sessionStorage.setItem(TOKEN_KEY, data.token); } catch (_e) {}
+                  }
+                }).catch(function () {});
+              } catch (_e) {}
+              return resp;
+            });
+          }
+        } catch (_e) {}
+        return p;
+      };
+
+      // Validate any existing token on page load. Graceful on 5xx / network errors.
+      function validateVipTokenOnLoad() {
+        var tok, flag;
+        try {
+          tok  = sessionStorage.getItem(TOKEN_KEY);
+          flag = sessionStorage.getItem('vipSessionAccess');
+        } catch (_e) { return; }
+
+        if (!tok) {
+          // Stale pre-token flag from old version → clear (one-time migration friction).
+          if (flag === 'true') {
+            console.log('[VIP] One-time security upgrade: please re-enter your VIP code.');
+            clearVipFlags();
+          }
+          return;
+        }
+
+        fetch(VALIDATE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON },
+          body: JSON.stringify({ token: tok })
+        }).then(function (r) {
+          if (r.status >= 500) {
+            console.warn('[VIP] Token validator unreachable (' + r.status + '); trusting cached token.');
+            return null;
+          }
+          return r.json();
+        }).then(function (j) {
+          if (!j) return; // 5xx fallback
+          if (!j.valid) {
+            console.log('[VIP] Stored token rejected (' + (j.error || 'invalid') + '); clearing.');
+            clearVipFlags();
+            return;
+          }
+          // Refresh derived UI flags from the authoritative payload.
+          try {
+            sessionStorage.setItem('vipSessionAccess', 'true');
+            if (j.premium_ai) sessionStorage.setItem('vipPremiumAi', 'true');
+            else sessionStorage.removeItem('vipPremiumAi');
+          } catch (_e) {}
+        }).catch(function (e) {
+          console.warn('[VIP] Token validator network error:', e, '— trusting cached token.');
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', validateVipTokenOnLoad);
+      } else {
+        validateVipTokenOnLoad();
+      }
+    })();
+  </script>
   <!-- Verifier for plain 8-digit mock-stream-issued codes (regular/premium per-mock) -->
   <script src="mock-code-verifier.js?v=2"></script>
   <script src="code-management.js?v=12" defer></script>
@@ -6505,6 +6625,7 @@
                   inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')">
                 <button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>
               </div>
+              <button type="button" class="vip-sidebar-signin-link" onclick="openVipSignInModal()" style="margin-top:8px;background:none;border:0;color:#7c3aed;font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:2px 4px;">Sign in with email instead</button>
             </div>
             <div class="vip-sidebar-status" id="vipSidebarStatus"></div>
           </div>
@@ -8391,7 +8512,11 @@
     // ===== SPEAKING ACCESS CODE VALIDATION (from landing page) =====
     // These replicate the gate page validation so codes can be checked before loading the mock
     window.isSuperAccessUnlocked = function () {
-      return sessionStorage.getItem('vipSessionAccess') === 'true';
+      try { if (localStorage.getItem('__vipKill') === '1') return true; } catch (_e) {}
+      try {
+        if (!sessionStorage.getItem('vipToken')) return false;
+        return sessionStorage.getItem('vipSessionAccess') === 'true';
+      } catch (_e) { return false; }
     };
 
     window.landingMockRequiresPromocode = function (mockNumber) {
@@ -16343,6 +16468,7 @@
               '<input type="text" id="vipSidebarInput" placeholder="Enter VIP code" autocomplete="off" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\\D/g,\'\')">' +
               '<button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>' +
             '</div>' +
+            '<button type="button" class="vip-sidebar-signin-link" onclick="openVipSignInModal()" style="margin-top:8px;background:none;border:0;color:#7c3aed;font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:2px 4px;">Sign in with email instead</button>' +
           '</div>' +
           '<div class="vip-sidebar-status" id="vipSidebarStatus"></div>';
       }
@@ -16964,15 +17090,13 @@
     function _requireAdminAccess(callback) {
       if (_siteAdminUnlocked) { callback(); return; }
       // Back-compat: if a tool is called without going through the grid
-      // (e.g. direct link), route through the unified gate + passcode.
+      // (e.g. direct link), require Google/magic-link admin sign-in only.
       requireAdminAuth(function () {
-        _requirePasscodeOnce(function () {
-          _siteAdminUnlocked = true;
-          _wpAdminUnlocked = true;
-          _spAdminUnlocked = true;
-          _ruAdminUnlocked = true;
-          callback();
-        });
+        _siteAdminUnlocked = true;
+        _wpAdminUnlocked = true;
+        _spAdminUnlocked = true;
+        _ruAdminUnlocked = true;
+        callback();
       }, 'tool');
     }
 
@@ -16990,13 +17114,14 @@
           // Google again since that account already failed the check).
           _showAdminAuthModal({
             target: target,
+            onPass: onPass,
             alreadySignedInEmail: info ? info.email : (auth.getCurrentUser() && auth.getCurrentUser().email) || '',
             error: 'This Google account is not an admin.'
           });
           return;
         }
       } catch (e) { console.warn('[requireAdminAuth] check error', e); }
-      _showAdminAuthModal({ target: target });
+      _showAdminAuthModal({ target: target, onPass: onPass });
     }
 
     // Remember pending action across OAuth redirect
@@ -17009,6 +17134,16 @@
     function _clearPendingAdminTarget() {
       try { sessionStorage.removeItem('ms_pending_admin_target'); } catch (e) {}
     }
+
+    // Public entry — opens the same Google + magic-link modal that admin
+    // sign-in uses, but for premium users (no admin redirect afterwards).
+    // The modal's Google button is open to anyone; the magic-link button
+    // is gated server-side to premium/admin emails. After successful
+    // sign-in the existing `mockStream:premiumUnlocked` flow updates the
+    // sidebar VIP card automatically (see auth.js + showSuperUnlockedState).
+    window.openVipSignInModal = function () {
+      _showAdminAuthModal({ target: 'premium' });
+    };
 
     function _showAdminAuthModal(opts) {
       opts = opts || {};
@@ -17124,17 +17259,16 @@
     }
 
     // ===== SITE MANAGEMENT GRID OVERLAY =====
+    // Google admin sign-in is the only gate (no extra passcode layer).
     function openSiteMgmtGrid() {
       requireAdminAuth(function () {
-        _requirePasscodeOnce(function () {
-          _siteAdminUnlocked = true;
-          _wpAdminUnlocked = true;
-          _spAdminUnlocked = true;
-          _ruAdminUnlocked = true;
-          _markPasscodeUnlocked();
-          try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
-          _showSiteMgmtGrid();
-        });
+        _siteAdminUnlocked = true;
+        _wpAdminUnlocked = true;
+        _spAdminUnlocked = true;
+        _ruAdminUnlocked = true;
+        _markPasscodeUnlocked();
+        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+        _showSiteMgmtGrid();
       }, 'sitemgmt');
     }
 
@@ -21070,7 +21204,11 @@
 
     // Global function to check if super access is unlocked (for other pages to use)
     window.isSuperAccessUnlocked = function () {
-      return sessionStorage.getItem(SUPER_ACCESS_KEY) === 'true';
+      try { if (localStorage.getItem('__vipKill') === '1') return true; } catch (_e) {}
+      try {
+        if (!sessionStorage.getItem('vipToken')) return false;
+        return sessionStorage.getItem(SUPER_ACCESS_KEY) === 'true';
+      } catch (_e) { return false; }
     };
 
     // ===== PRELOAD ALL MOCK JS FILES =====

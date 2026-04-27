@@ -3124,11 +3124,16 @@
       if (sessionStorage.getItem('dashboard-auth') === 'true') {
         unlockDashboard();
       } else {
-        // Try auto-login with stored admin email
-        var savedAdminEmail = localStorage.getItem('ms_admin_email');
-        if (savedAdminEmail) {
-          autoLoginAdminEmail(savedAdminEmail);
-        }
+        // 1) Try Google / magic-link Supabase session: if user is signed in
+        //    via auth.js or admin-auth.js AND has an active admin row in
+        //    premium_emails, auto-unlock. This means a super-admin who
+        //    signed in on landing.html lands straight into the dashboard.
+        autoLoginSupabaseSession().then(function (ok) {
+          if (ok) return;
+          // 2) Fallback: auto-login with stored admin email (legacy).
+          var savedAdminEmail = localStorage.getItem('ms_admin_email');
+          if (savedAdminEmail) autoLoginAdminEmail(savedAdminEmail);
+        });
       }
 
       // Populate center filter
@@ -3222,6 +3227,28 @@
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = '→';
+      }
+    }
+
+    // Auto-unlock if a Supabase auth session exists (Google or magic-link)
+    // and the signed-in email has an active admin row in premium_emails.
+    // This is what makes a super-admin Google sign-in flow straight into
+    // the dashboard without re-typing a code.
+    async function autoLoginSupabaseSession() {
+      try {
+        var aa = window.AdminAuth;
+        if (!aa || typeof aa.currentRole !== 'function') return false;
+        var info = await aa.currentRole();
+        if (!info || !info.role) return false;
+        var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
+        // Center-scoped admin can only unlock its own clone; super_admin (center='') unlocks any.
+        if (info.role === 'admin' && info.center && info.center !== siteCenter) return false;
+        sessionStorage.setItem('dashboard-auth', 'true');
+        sessionStorage.setItem('dashboard-auth-method', 'supabase');
+        unlockDashboard();
+        return true;
+      } catch (e) {
+        return false;
       }
     }
 
@@ -3413,12 +3440,21 @@
       }
 
       try {
-        // Fetch ALL results from Supabase using offset pagination (default max is 1000/page)
+        // Fetch ALL results using KEYSET pagination on created_at.
+        // We previously used OFFSET pagination, but with RLS active that
+        // forces Postgres to evaluate the RLS predicate over every row
+        // before skipping, which times out (500) for center-scoped admins
+        // and any large table. Keyset uses an index range instead.
         var PAGE_SIZE = 1000;
-        var offset = 0;
+        var cursor = null;  // last seen created_at
+        var safetyCap = 200; // 200k rows max — plenty
         allResults = [];
-        while (true) {
-          var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE_SIZE + '&offset=' + offset;
+        while (safetyCap-- > 0) {
+          var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE_SIZE;
+          if (cursor) {
+            // strictly less than to avoid duplicates / infinite loop
+            url += '&created_at=lt.' + encodeURIComponent(cursor);
+          }
           var response = await fetch(url, {
             headers: {
               'apikey': SUPABASE_ANON_KEY,
@@ -3428,9 +3464,12 @@
           });
           if (!response.ok) throw new Error('Failed to fetch results');
           var page = await response.json();
+          if (!page.length) break;
           allResults = allResults.concat(page);
           if (page.length < PAGE_SIZE) break;
-          offset += PAGE_SIZE;
+          var last = page[page.length - 1];
+          if (!last || !last.created_at || last.created_at === cursor) break;
+          cursor = last.created_at;
         }
 
         // Clone sites: pre-filter to own center only
@@ -4402,9 +4441,9 @@
     var premiumEmails = [];
 
     function openPremiumPanel() {
-      // Only admin-email login can access premium panel
+      // Only admin-email login (legacy) or Supabase Google/magic-link admin can access premium panel
       var authMethod = sessionStorage.getItem('dashboard-auth-method');
-      if (authMethod !== 'email') {
+      if (authMethod !== 'email' && authMethod !== 'supabase') {
         alert('⚠️ Premium management requires admin email login.\nPlease log out and sign in with your admin email.');
         return;
       }

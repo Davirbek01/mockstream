@@ -55,9 +55,23 @@
   }
 
   /* -------------------------------------------------------------- API */
+  // Browser admins authenticate via their Supabase JWT (Google sign-in or
+  // magic link). The Edge Function still accepts adminPasscode for Telegram
+  // bots / manager bots that don't have a Supabase session.
+  async function getUserJwt() {
+    try {
+      var aa = window.AdminAuth;
+      if (aa && aa.currentSession) {
+        var s = await aa.currentSession();
+        return s && s.access_token ? s.access_token : '';
+      }
+    } catch (e) {}
+    return '';
+  }
+
   async function call(action, args) {
-    var passcode = sessionStorage.getItem(SS_KEY) || '';
-    var body = Object.assign({ adminPasscode: passcode, action: action }, args || {});
+    var jwt = await getUserJwt();
+    var body = Object.assign({ userJwt: jwt, action: action }, args || {});
     var resp = await fetch(FN_URL, {
       method: 'POST',
       headers: {
@@ -66,7 +80,8 @@
         // NOTE: no Authorization header — function is deployed with
         // --no-verify-jwt, and sending a non-JWT publishable key as a
         // Bearer token causes the Supabase gateway to 401 before our
-        // handler runs (which strips the CORS headers).
+        // handler runs (which strips the CORS headers). The user's JWT
+        // travels in the request body as `userJwt` instead.
       },
       body: JSON.stringify(body)
     });
@@ -179,22 +194,21 @@
       ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
       document.body.appendChild(ov);
     }
-    var saved = sessionStorage.getItem(SS_KEY);
-    if (saved) {
-      // verify still valid
-      call('list_centers', {}).then(function(r){
-        if (r && r.ok) {
-          state.centers = r.centers || [];
-          state.role = r.role;
-          renderMain();
-        } else {
-          sessionStorage.removeItem(SS_KEY);
-          renderGate();
-        }
-      });
-    } else {
-      renderGate();
-    }
+    // Show a transient “Loading…” frame while we verify the admin session.
+    document.getElementById('cmRoot').innerHTML =
+      '<div class="cm-header"><h3>🔑 Code Management</h3>' +
+        '<button class="cm-close" id="cmCloseLoad">×</button></div>' +
+      '<div class="cm-body"><div class="cm-empty">Verifying admin session…</div></div>';
+    document.getElementById('cmCloseLoad').onclick = hide;
+    call('list_centers', {}).then(function(r){
+      if (r && r.ok) {
+        state.centers = r.centers || [];
+        state.role = r.role;
+        renderMain();
+      } else {
+        renderSignInPrompt(r && r.error);
+      }
+    });
   }
   function hide() {
     var ov = document.getElementById('cmOverlay');
@@ -202,23 +216,28 @@
   }
 
   var state = { centers: [], role: null, currentCenter: null, view: null, fromSMG: false, vipTab: 'premium' };
-  var MAIN_SITE_ID = 'mockstream'; // governed by super-admin passcode, no clone passcode needed
+  var MAIN_SITE_ID = 'mockstream'; // governed by super-admin (no clone passcode needed)
 
   /* -------------------------------------------------------------- gate */
-  function renderGate() {
+  // Replaced the legacy numeric-passcode gate with a friendly prompt that
+  // tells the user to sign in via the existing AdminAuth modal (Google or
+  // magic link). Telegram bots still authenticate via adminPasscode
+  // server-side; this UI only ever runs in a browser.
+  function renderSignInPrompt(errCode) {
     var root = document.getElementById('cmRoot');
     var backHtml = state.fromSMG ? '<button class="cm-back-btn" id="cmBackBtn" aria-label="Back">&#8592;</button>' : '';
+    var msg = (errCode === 'unauthorized' || !errCode)
+      ? 'Sign in with your admin Google account (or request a magic link) to manage codes.'
+      : 'Could not verify admin session: ' + errCode;
     root.innerHTML =
       '<div class="cm-header"><h3>🔑 Code Management</h3>' +
         '<div style="display:flex;gap:6px;align-items:center;">'+backHtml+'<button class="cm-close" id="cmCloseGate">×</button></div></div>' +
       '<div class="cm-body">' +
         '<div class="cm-gate">' +
           '<div style="font-size:42px;margin-bottom:6px;">🔐</div>' +
-          '<h4 style="margin:0 0 4px;font:700 16px system-ui;">Admin passcode required</h4>' +
-          '<div style="font-size:12.5px;color:#64748b;">Super-admin or per-center passcode (4–8 digits).</div>' +
-          '<input id="cmPass" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="one-time-code" placeholder="••••••••">' +
-          '<div id="cmGateMsg" class="cm-msg" style="display:none;"></div>' +
-          '<button class="cm-btn" id="cmUnlock" style="width:100%;padding:12px;font-size:14px;margin-top:6px;">Unlock</button>' +
+          '<h4 style="margin:0 0 4px;font:700 16px system-ui;">Admin sign-in required</h4>' +
+          '<div style="font-size:12.5px;color:#64748b;margin-bottom:14px;">' + msg + '</div>' +
+          '<button class="cm-btn" id="cmSignInBtn" style="width:100%;padding:12px;font-size:14px;">Sign in as admin</button>' +
         '</div>' +
       '</div>';
     document.getElementById('cmCloseGate').onclick = hide;
@@ -226,37 +245,20 @@
       var bk = document.getElementById('cmBackBtn');
       if (bk) bk.onclick = function() { hide(); if (typeof window._showSiteMgmtGrid === 'function') window._showSiteMgmtGrid(); };
     }
-    var input = document.getElementById('cmPass');
-    var btn = document.getElementById('cmUnlock');
-    input.addEventListener('input', function(){ this.value = this.value.replace(/\D/g,'').slice(0,8); });
-    input.addEventListener('keydown', function(e){ if (e.key === 'Enter') doUnlock(); });
-    btn.onclick = doUnlock;
-    setTimeout(function(){ input.focus(); }, 50);
-    async function doUnlock() {
-      var msg = document.getElementById('cmGateMsg');
-      msg.style.display = 'none';
-      var v = (input.value||'').trim();
-      if (!/^\d{4,8}$/.test(v)) {
-        msg.className = 'cm-msg err'; msg.style.display = 'block'; msg.textContent = '❌ Enter 4–8 digits';
-        return;
+    document.getElementById('cmSignInBtn').onclick = async function() {
+      // Trigger the standard AdminAuth modal (Google + magic link). After
+      // sign-in completes (page may redirect via OAuth), re-attempt show().
+      try {
+        var aa = window.AdminAuth;
+        if (aa && aa.requireLogin) {
+          await aa.requireLogin();
+          show();
+          return;
+        }
+      } catch (e) {
+        // requireLogin throws when modal opened — that's expected.
       }
-      btn.disabled = true; btn.textContent = '⏳ Verifying…';
-      sessionStorage.setItem(SS_KEY, v);
-      var r = await call('list_centers', {});
-      btn.disabled = false; btn.textContent = 'Unlock';
-      if (!r.ok) {
-        sessionStorage.removeItem(SS_KEY);
-        msg.className = 'cm-msg err'; msg.style.display = 'block';
-        msg.textContent = '❌ ' + (r.error || 'Unauthorized');
-        return;
-      }
-      state.centers = r.centers || [];
-      state.role = r.role;
-      sessionStorage.setItem(ROLE_KEY, r.role);
-      // Mirror unlock to Site Management so it doesn't re-prompt this session.
-      try { sessionStorage.setItem('ms_sitemgmt_passcode_ok', '1'); } catch (e) {}
-      renderMain();
-    }
+    };
   }
 
   /* -------------------------------------------------------------- main */
@@ -291,7 +293,7 @@
       '<div style="padding:12px 20px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
         '<span class="cm-label">Center:</span>' +
         '<select class="cm-select" id="cmCenter"'+(isSuper?'':' disabled')+'>'+centerOpts+'</select>' +
-        '<button class="cm-btn ghost" id="cmLogout" style="margin-left:auto;">Lock</button>' +
+        '<button class="cm-btn ghost" id="cmLogout" style="margin-left:auto;">Close</button>' +
       '</div>' +
       '<div class="cm-tabs">' +
         tabs.map(function(t){ return '<button class="cm-tab'+(t.k===state.view?' active':'')+'" data-tab="'+t.k+'">'+t.label+'</button>'; }).join('') +
@@ -304,7 +306,7 @@
       if (bk) bk.onclick = function() { hide(); if (typeof window._showSiteMgmtGrid === 'function') window._showSiteMgmtGrid(); };
     }
     document.getElementById('cmCenter').onchange = function(){ state.currentCenter = this.value; renderTab(); };
-    document.getElementById('cmLogout').onclick = function(){ sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY); state.role=null; state.centers=[]; renderGate(); };
+    document.getElementById('cmLogout').onclick = function(){ hide(); };
     root.querySelectorAll('.cm-tab').forEach(function(b){
       b.onclick = function(){ state.view = b.dataset.tab; renderMain(); };
     });
@@ -857,8 +859,9 @@
       d.textContent = p;
       try { navigator.clipboard.writeText(p); } catch(e){}
       await showSuperReveal(p);
-      sessionStorage.removeItem(SS_KEY); sessionStorage.removeItem(ROLE_KEY);
-      state.role=null; state.centers=[]; renderGate();
+      // The super-admin passcode is for bot use only — the browser session
+      // stays signed in via Google/JWT, so just refresh the panel.
+      show();
     };
   }
 
