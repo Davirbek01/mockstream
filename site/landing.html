@@ -7178,6 +7178,107 @@
             </div>
           </div>
 
+          <!-- Other International Exams Section (coming soon) -->
+          <style>
+            .intl-exams-section {
+              margin-top: 18px;
+              padding: 24px 22px 22px;
+              background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+              border-radius: 20px;
+              border: 1.5px solid #e2e8f0;
+              box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+              position: relative;
+              overflow: hidden;
+            }
+            .intl-exams-section::before {
+              content: '';
+              position: absolute;
+              top: 0; left: 0; right: 0;
+              height: 4px;
+              background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6, #06b6d4);
+            }
+            .intl-exams-section .section-header { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
+            .intl-exams-section .section-header h3 {
+              margin: 0; font-size: 18px; font-weight: 800; color: #0f172a;
+              display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em;
+            }
+            .intl-exams-section .section-header h3 .ie-pill {
+              font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+              color: #b45309; background: #fef3c7; padding: 3px 8px; border-radius: 999px;
+            }
+            .intl-exams-section .section-header p { margin: 0; font-size: 13px; color: #64748b; font-weight: 500; }
+            .intl-exams-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+              gap: 12px;
+            }
+            .intl-exam-card {
+              position: relative;
+              padding: 16px 14px 14px;
+              background: #ffffff;
+              border: 1.5px solid #e2e8f0;
+              border-radius: 14px;
+              cursor: not-allowed;
+              transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+              opacity: 0.92;
+              overflow: hidden;
+              text-align: left;
+            }
+            .intl-exam-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08); border-color: #cbd5e1; }
+            .intl-exam-card .ie-tag {
+              display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+              padding: 3px 8px; border-radius: 6px; color: #fff; margin-bottom: 10px;
+            }
+            .intl-exam-card.sat .ie-tag { background: linear-gradient(135deg, #f59e0b, #d97706); }
+            .intl-exam-card .ie-name { font-size: 15px; font-weight: 800; color: #0f172a; margin: 0 0 4px; letter-spacing: -0.01em; }
+            .intl-exam-card .ie-desc { font-size: 12px; color: #64748b; margin: 0 0 12px; line-height: 1.45; min-height: 34px; }
+            .intl-exam-card .ie-soon {
+              display: inline-flex; align-items: center; gap: 5px;
+              font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+              color: #92400e; background: linear-gradient(135deg, #fef3c7, #fde68a);
+              padding: 4px 9px; border-radius: 999px; border: 1px solid #fcd34d;
+            }
+            .intl-exam-card .ie-soon::before { content: '⏳'; font-size: 11px; }
+            /* Dark mode */
+            [data-theme="dark"] .intl-exams-section,
+            body.dark-mode .intl-exams-section {
+              background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-color: #334155;
+            }
+            [data-theme="dark"] .intl-exams-section .section-header h3,
+            body.dark-mode .intl-exams-section .section-header h3 { color: #f1f5f9; }
+            [data-theme="dark"] .intl-exams-section .section-header h3 .ie-pill,
+            body.dark-mode .intl-exams-section .section-header h3 .ie-pill {
+              background: rgba(245, 158, 11, 0.18); color: #fcd34d;
+            }
+            [data-theme="dark"] .intl-exams-section .section-header p,
+            body.dark-mode .intl-exams-section .section-header p { color: #94a3b8; }
+            [data-theme="dark"] .intl-exam-card,
+            body.dark-mode .intl-exam-card { background: #1e293b; border-color: #334155; }
+            [data-theme="dark"] .intl-exam-card .ie-name,
+            body.dark-mode .intl-exam-card .ie-name { color: #f1f5f9; }
+            [data-theme="dark"] .intl-exam-card .ie-desc,
+            body.dark-mode .intl-exam-card .ie-desc { color: #94a3b8; }
+            @media (max-width: 600px) {
+              .intl-exams-grid { grid-template-columns: repeat(2, 1fr); }
+              .intl-exam-card .ie-desc { min-height: 0; }
+              .intl-exams-grid .intl-exam-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+            }
+          </style>
+          <div class="intl-exams-section" aria-label="Other International Exams">
+            <div class="section-header">
+              <h3>🌍 Other International Exams <span class="ie-pill">New tracks</span></h3>
+              <p>Standardised global tests beyond CEFR — mocks coming soon</p>
+            </div>
+            <div class="intl-exams-grid">
+              <div class="intl-exam-card sat" role="button" aria-disabled="true" title="SAT — Coming soon">
+                <span class="ie-tag">USA</span>
+                <h4 class="ie-name">SAT</h4>
+                <p class="ie-desc">US college admission test — Reading, Writing &amp; Math.</p>
+                <span class="ie-soon">Soon</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Learning Tools Section -->
           <div class="learning-tools-section">
             <div class="section-header">
