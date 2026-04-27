@@ -262,6 +262,26 @@
             );
           }
         }
+        // For ALL other Supabase REST calls: if a session exists,
+        // forward the user's JWT so RLS policies can identify them
+        // (needed for the new restrictive policies on results/
+        // premium_emails/premium_devices). Falls through silently if
+        // no session — anon access still works for public endpoints.
+        else if (url.indexOf(SUPABASE_URL) === 0 &&
+                 url.indexOf('/rest/v1/') !== -1) {
+          var s2 = await currentSession();
+          if (s2 && s2.access_token) {
+            init = init || {};
+            var hdrs2 = new Headers(init.headers || {});
+            // Only override if the caller didn't already set its own bearer token
+            var existingAuth = hdrs2.get('Authorization') || '';
+            if (!existingAuth || existingAuth.indexOf(s2.access_token) === -1) {
+              hdrs2.set('apikey', SUPABASE_ANONKEY);
+              hdrs2.set('Authorization', 'Bearer ' + s2.access_token);
+              init.headers = hdrs2;
+            }
+          }
+        }
       } catch (_e) { /* fall through to original fetch */ }
 
       return _origFetch(input, init);
