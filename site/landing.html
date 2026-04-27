@@ -6499,21 +6499,11 @@
             <span class="vip-sidebar-badge" id="vipSidebarBadge"></span>
           </div>
           <div class="vip-sidebar-body" id="vipSidebarBody">
-            <div class="vip-sidebar-tabs" id="vipSidebarTabs">
-              <button class="vip-sidebar-tab active" onclick="switchVipTab('code')">🔑 Code</button>
-              <button class="vip-sidebar-tab" onclick="switchVipTab('email')">📧 Email</button>
-            </div>
             <div class="vip-sidebar-pane active" id="vipPaneCode">
               <div class="vip-sidebar-input-row">
                 <input type="text" id="vipSidebarInput" placeholder="Enter VIP code" autocomplete="off"
                   inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\D/g,'')">
                 <button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>
-              </div>
-            </div>
-            <div class="vip-sidebar-pane" id="vipPaneEmail">
-              <div class="vip-sidebar-input-row">
-                <input type="email" id="vipEmailInput" placeholder="your@email.com" autocomplete="email">
-                <button id="vipEmailBtn" onclick="validateVipFromEmail()">→</button>
               </div>
             </div>
             <div class="vip-sidebar-status" id="vipSidebarStatus"></div>
@@ -16348,20 +16338,10 @@
       }
       if (vipBody) {
         vipBody.innerHTML =
-          '<div class="vip-sidebar-tabs" id="vipSidebarTabs">' +
-            '<button class="vip-sidebar-tab active" onclick="switchVipTab(\'code\')">🔑 Code</button>' +
-            '<button class="vip-sidebar-tab" onclick="switchVipTab(\'email\')">📧 Email</button>' +
-          '</div>' +
           '<div class="vip-sidebar-pane active" id="vipPaneCode">' +
             '<div class="vip-sidebar-input-row">' +
               '<input type="text" id="vipSidebarInput" placeholder="Enter VIP code" autocomplete="off" inputmode="numeric" pattern="[0-9]*" oninput="this.value=this.value.replace(/\\D/g,\'\')">' +
               '<button id="vipSidebarBtn" onclick="validateVipFromSidebar()">→</button>' +
-            '</div>' +
-          '</div>' +
-          '<div class="vip-sidebar-pane" id="vipPaneEmail">' +
-            '<div class="vip-sidebar-input-row">' +
-              '<input type="email" id="vipEmailInput" placeholder="your@email.com" autocomplete="email">' +
-              '<button id="vipEmailBtn" onclick="validateVipFromEmail()">→</button>' +
             '</div>' +
           '</div>' +
           '<div class="vip-sidebar-status" id="vipSidebarStatus"></div>';
