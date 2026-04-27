@@ -206,10 +206,25 @@
     if (!user || !user.email) { _premiumCache = null; return null; }
     var email = String(user.email).toLowerCase();
     try {
+      // Use the signed-in user's JWT (not the anon key) so the premium_emails
+      // RLS SELECT policy `pe_read_self_or_admin` can match jwt.email = row.email.
+      // Falls back to the anon key only if no session is available (which would
+      // fail RLS anyway, but keeps the call shape consistent).
+      var token = SB_KEY;
+      try {
+        var client = (window.MockStream && window.MockStream.auth &&
+                      typeof window.MockStream.auth.getClient === 'function')
+                       ? window.MockStream.auth.getClient() : null;
+        if (client && client.auth && typeof client.auth.getSession === 'function') {
+          var sess = await client.auth.getSession();
+          var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+          if (at) token = at;
+        }
+      } catch (_) { /* fall through with anon */ }
       var url = SB_URL + '/rest/v1/premium_emails?email=eq.' +
         encodeURIComponent(email) + '&select=tier,role,center,active';
       var resp = await fetch(url, {
-        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
       if (!resp.ok) { _premiumCache = null; return null; }
       var rows = await resp.json();
