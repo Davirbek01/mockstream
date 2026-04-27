@@ -3216,6 +3216,11 @@
         if (data.access) {
           sessionStorage.setItem('dashboard-auth', 'true');
           sessionStorage.setItem('dashboard-auth-method', 'passcode');
+          // Stash the passcode so the in-dashboard Code Management panel
+          // (which calls the codes-manager Edge Function) can authenticate.
+          // Without this it has no Google JWT and shows "Admin sign-in required".
+          // Lives only in sessionStorage — cleared when the tab closes.
+          try { sessionStorage.setItem('dashboard-admin-passcode', enteredCode); } catch (e) {}
           unlockDashboard();
         } else {
           throw new Error('Invalid code');
