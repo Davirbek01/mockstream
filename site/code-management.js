@@ -69,9 +69,21 @@
     return '';
   }
 
+  // Fallback: dashboards that signed in via passcode (no Google JWT) stash
+  // the admin passcode in sessionStorage so we can relay it to the Edge
+  // Function as `adminPasscode`. This keeps the Code Management panel
+  // accessible for users who chose the passcode tab on results dashboard.
+  function getDashboardPasscode() {
+    try { return sessionStorage.getItem('dashboard-admin-passcode') || ''; } catch (e) { return ''; }
+  }
+
   async function call(action, args) {
     var jwt = await getUserJwt();
     var body = Object.assign({ userJwt: jwt, action: action }, args || {});
+    if (!jwt) {
+      var pc = getDashboardPasscode();
+      if (pc) body.adminPasscode = pc;
+    }
     var resp = await fetch(FN_URL, {
       method: 'POST',
       headers: {
