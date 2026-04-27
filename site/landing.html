@@ -7133,6 +7133,10 @@
             @media (max-width: 600px) {
               .cambridge-exams-grid { grid-template-columns: repeat(2, 1fr); }
               .cambridge-exam-card .ce-desc { min-height: 0; }
+              /* Last odd card spans full width so it doesn't sit lonely */
+              .cambridge-exams-grid .cambridge-exam-card:last-child:nth-child(odd) {
+                grid-column: 1 / -1;
+              }
             }
           </style>
           <div class="cambridge-exams-section" aria-label="Cambridge English Exams">
