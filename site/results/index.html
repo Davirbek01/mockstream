@@ -3440,12 +3440,21 @@
       }
 
       try {
-        // Fetch ALL results from Supabase using offset pagination (default max is 1000/page)
+        // Fetch ALL results using KEYSET pagination on created_at.
+        // We previously used OFFSET pagination, but with RLS active that
+        // forces Postgres to evaluate the RLS predicate over every row
+        // before skipping, which times out (500) for center-scoped admins
+        // and any large table. Keyset uses an index range instead.
         var PAGE_SIZE = 1000;
-        var offset = 0;
+        var cursor = null;  // last seen created_at
+        var safetyCap = 200; // 200k rows max — plenty
         allResults = [];
-        while (true) {
-          var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE_SIZE + '&offset=' + offset;
+        while (safetyCap-- > 0) {
+          var url = SUPABASE_URL + '/rest/v1/results?select=*&order=created_at.desc&limit=' + PAGE_SIZE;
+          if (cursor) {
+            // strictly less than to avoid duplicates / infinite loop
+            url += '&created_at=lt.' + encodeURIComponent(cursor);
+          }
           var response = await fetch(url, {
             headers: {
               'apikey': SUPABASE_ANON_KEY,
@@ -3455,9 +3464,12 @@
           });
           if (!response.ok) throw new Error('Failed to fetch results');
           var page = await response.json();
+          if (!page.length) break;
           allResults = allResults.concat(page);
           if (page.length < PAGE_SIZE) break;
-          offset += PAGE_SIZE;
+          var last = page[page.length - 1];
+          if (!last || !last.created_at || last.created_at === cursor) break;
+          cursor = last.created_at;
         }
 
         // Clone sites: pre-filter to own center only
