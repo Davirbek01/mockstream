@@ -212,18 +212,40 @@ window._siteTestId          = window.SITE_CONFIG.testIdentifier;
 window._siteTelegramChannel = window.SITE_CONFIG.telegramChannel;
 
 // ─── VIP Access Policy auto-activation ───────────────────────────────────────
+// SECURITY: We do NOT trust SITE_CONFIG.access alone — a hacker could edit the
+// localStorage cache to set it to 'premium'. Instead we call the server's
+// verify-passcode function with no code; the server checks centers.premium_mode
+// (RLS-protected, anon-write blocked) and only mints a signed token when the
+// DB says the center is genuinely in premium mode. Tampered cache = no token =
+// no unlock (the page-load validator in landing.html clears the flag).
 (function () {
   var mode = (window.SITE_CONFIG.access || 'default').toLowerCase();
-  if (mode === 'premium' || mode === 'regular') {
-    try {
-      sessionStorage.setItem('vipSessionAccess', 'true');
-      if (mode === 'premium') {
-        sessionStorage.setItem('vipPremiumAi', 'true');
-      } else {
-        sessionStorage.removeItem('vipPremiumAi');
-      }
-    } catch (e) { /* sessionStorage unavailable */ }
-  }
+  if (mode !== 'premium' && mode !== 'regular') return;
+
+  // Skip if a valid token is already stored.
+  try { if (sessionStorage.getItem('vipToken')) return; } catch (_e) {}
+
+  var centerId = (window.SITE_CONFIG.testIdentifier || 'mock_stream').replace(/_/g, '');
+  var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+  var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+  fetch(SB_URL + '/functions/v1/verify-passcode', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+    body: JSON.stringify({ center: centerId })
+  }).then(function (r) { return r.json(); }).then(function (data) {
+    if (data && data.access && typeof data.token === 'string' && data.token.length > 20) {
+      try {
+        sessionStorage.setItem('vipToken', data.token);
+        sessionStorage.setItem('vipSessionAccess', 'true');
+        if (mode === 'premium' || data.role === 'premium') {
+          sessionStorage.setItem('vipPremiumAi', 'true');
+        }
+      } catch (_e) {}
+    }
+    // If server returns access:false, the cache was tampered with (or the
+    // center is no longer in premium mode). Do not unlock anything.
+  }).catch(function () { /* silent — visitor stays locked, can enter code manually */ });
 })();
 
 // --- Center Guard --- auto-load enforcement layer ---
