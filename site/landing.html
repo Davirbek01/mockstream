@@ -16964,15 +16964,13 @@
     function _requireAdminAccess(callback) {
       if (_siteAdminUnlocked) { callback(); return; }
       // Back-compat: if a tool is called without going through the grid
-      // (e.g. direct link), route through the unified gate + passcode.
+      // (e.g. direct link), require Google/magic-link admin sign-in only.
       requireAdminAuth(function () {
-        _requirePasscodeOnce(function () {
-          _siteAdminUnlocked = true;
-          _wpAdminUnlocked = true;
-          _spAdminUnlocked = true;
-          _ruAdminUnlocked = true;
-          callback();
-        });
+        _siteAdminUnlocked = true;
+        _wpAdminUnlocked = true;
+        _spAdminUnlocked = true;
+        _ruAdminUnlocked = true;
+        callback();
       }, 'tool');
     }
 
@@ -17035,10 +17033,6 @@
           '</div>' +
           '<input id="adminAuthEmail" type="email" placeholder="you@example.com" value="' + (opts.alreadySignedInEmail || '').replace(/"/g, '&quot;') + '" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;margin-bottom:10px;font-size:14px;box-sizing:border-box;">' +
           '<button id="adminAuthMagicBtn" style="width:100%;padding:11px;border:0;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;cursor:pointer;font-size:14px;">Send magic link</button>' +
-          '<div style="display:flex;align-items:center;gap:10px;margin:14px 0 10px;color:#94a3b8;font-size:11px;font-weight:500;">' +
-            '<div style="flex:1;height:1px;background:#e2e8f0;"></div>or<div style="flex:1;height:1px;background:#e2e8f0;"></div>' +
-          '</div>' +
-          '<button id="adminAuthPasscodeBtn" style="width:100%;padding:11px;border:1.5px solid #fcd34d;border-radius:8px;background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e;font-weight:700;cursor:pointer;font-size:14px;">🔑 Use super admin code</button>' +
           '<div id="adminAuthMsg" style="min-height:18px;margin-top:10px;font-size:12px;color:#0f766e;"></div>' +
           errorHtml +
           '<button id="adminAuthCancelBtn" style="margin-top:8px;background:none;border:0;color:#64748b;cursor:pointer;font-size:12px;">Cancel</button>' +
@@ -17079,26 +17073,6 @@
           m.style.color = '#b91c1c';
           m.textContent = (e && e.message) || 'Failed to send link.';
         }
-      };
-      // 3rd option: super-admin passcode bypass (server-verified). Closes the
-      // auth modal and opens the existing passcode overlay; on success runs
-      // the original callback (Admin Dashboard or Site Management).
-      div.querySelector('#adminAuthPasscodeBtn').onclick = function () {
-        var cb = opts.onPass;
-        var tgt = opts.target;
-        div.remove();
-        _requirePasscodeOnce(function () {
-          // Mark all admin-gated panels as unlocked for this session, just
-          // like openSiteMgmtGrid does after a successful passcode unlock.
-          _siteAdminUnlocked = true;
-          _wpAdminUnlocked = true;
-          _spAdminUnlocked = true;
-          _ruAdminUnlocked = true;
-          if (typeof cb === 'function') { cb(); return; }
-          // No explicit callback — fall back to the target hint.
-          if (tgt === 'admindash') openAdminDashboard();
-          else if (tgt === 'sitemgmt') openSiteMgmtGrid();
-        });
       };
     }
 
@@ -17149,17 +17123,16 @@
     }
 
     // ===== SITE MANAGEMENT GRID OVERLAY =====
+    // Google admin sign-in is the only gate (no extra passcode layer).
     function openSiteMgmtGrid() {
       requireAdminAuth(function () {
-        _requirePasscodeOnce(function () {
-          _siteAdminUnlocked = true;
-          _wpAdminUnlocked = true;
-          _spAdminUnlocked = true;
-          _ruAdminUnlocked = true;
-          _markPasscodeUnlocked();
-          try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
-          _showSiteMgmtGrid();
-        });
+        _siteAdminUnlocked = true;
+        _wpAdminUnlocked = true;
+        _spAdminUnlocked = true;
+        _ruAdminUnlocked = true;
+        _markPasscodeUnlocked();
+        try { if (typeof toggleSidebar === 'function') toggleSidebar(); } catch (e) {}
+        _showSiteMgmtGrid();
       }, 'sitemgmt');
     }
 
