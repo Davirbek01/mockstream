@@ -4429,9 +4429,9 @@
     var premiumEmails = [];
 
     function openPremiumPanel() {
-      // Only admin-email login can access premium panel
+      // Only admin-email login (legacy) or Supabase Google/magic-link admin can access premium panel
       var authMethod = sessionStorage.getItem('dashboard-auth-method');
-      if (authMethod !== 'email') {
+      if (authMethod !== 'email' && authMethod !== 'supabase') {
         alert('⚠️ Premium management requires admin email login.\nPlease log out and sign in with your admin email.');
         return;
       }
