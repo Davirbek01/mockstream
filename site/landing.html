@@ -6987,6 +6987,193 @@
             </div>
           </div>
 
+          <!-- Cambridge English Exams Section (coming soon) -->
+          <style>
+            .cambridge-exams-section {
+              margin-top: 28px;
+              padding: 24px 22px 22px;
+              background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+              border-radius: 20px;
+              border: 1.5px solid #e2e8f0;
+              box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+              position: relative;
+              overflow: hidden;
+            }
+            .cambridge-exams-section::before {
+              content: '';
+              position: absolute;
+              top: 0; left: 0; right: 0;
+              height: 4px;
+              background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4, #8b5cf6, #ec4899);
+            }
+            .cambridge-exams-section .section-header {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              margin-bottom: 18px;
+            }
+            .cambridge-exams-section .section-header h3 {
+              margin: 0;
+              font-size: 18px;
+              font-weight: 800;
+              color: #0f172a;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              letter-spacing: -0.01em;
+            }
+            .cambridge-exams-section .section-header h3 .ce-pill {
+              font-size: 10px;
+              font-weight: 700;
+              letter-spacing: 0.06em;
+              text-transform: uppercase;
+              color: #1e3a8a;
+              background: #dbeafe;
+              padding: 3px 8px;
+              border-radius: 999px;
+            }
+            .cambridge-exams-section .section-header p {
+              margin: 0;
+              font-size: 13px;
+              color: #64748b;
+              font-weight: 500;
+            }
+            .cambridge-exams-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+              gap: 12px;
+            }
+            .cambridge-exam-card {
+              position: relative;
+              padding: 16px 14px 14px;
+              background: #ffffff;
+              border: 1.5px solid #e2e8f0;
+              border-radius: 14px;
+              cursor: not-allowed;
+              transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+              opacity: 0.92;
+              overflow: hidden;
+              text-align: left;
+            }
+            .cambridge-exam-card:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+              border-color: #cbd5e1;
+            }
+            .cambridge-exam-card .ce-level {
+              display: inline-block;
+              font-size: 11px;
+              font-weight: 800;
+              letter-spacing: 0.08em;
+              padding: 3px 8px;
+              border-radius: 6px;
+              color: #fff;
+              margin-bottom: 10px;
+            }
+            .cambridge-exam-card.ket .ce-level    { background: linear-gradient(135deg, #10b981, #059669); }
+            .cambridge-exam-card.pet .ce-level    { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+            .cambridge-exam-card.fce .ce-level    { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+            .cambridge-exam-card.cae .ce-level    { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+            .cambridge-exam-card.cpe .ce-level    { background: linear-gradient(135deg, #ec4899, #db2777); }
+            .cambridge-exam-card .ce-name {
+              font-size: 15px;
+              font-weight: 800;
+              color: #0f172a;
+              margin: 0 0 4px;
+              letter-spacing: -0.01em;
+            }
+            .cambridge-exam-card .ce-desc {
+              font-size: 12px;
+              color: #64748b;
+              margin: 0 0 12px;
+              line-height: 1.45;
+              min-height: 34px;
+            }
+            .cambridge-exam-card .ce-soon {
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              font-size: 10.5px;
+              font-weight: 700;
+              letter-spacing: 0.07em;
+              text-transform: uppercase;
+              color: #92400e;
+              background: linear-gradient(135deg, #fef3c7, #fde68a);
+              padding: 4px 9px;
+              border-radius: 999px;
+              border: 1px solid #fcd34d;
+            }
+            .cambridge-exam-card .ce-soon::before {
+              content: '⏳';
+              font-size: 11px;
+            }
+            /* Dark mode */
+            [data-theme="dark"] .cambridge-exams-section,
+            body.dark-mode .cambridge-exams-section {
+              background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+              border-color: #334155;
+            }
+            [data-theme="dark"] .cambridge-exams-section .section-header h3,
+            body.dark-mode .cambridge-exams-section .section-header h3 { color: #f1f5f9; }
+            [data-theme="dark"] .cambridge-exams-section .section-header h3 .ce-pill,
+            body.dark-mode .cambridge-exams-section .section-header h3 .ce-pill {
+              background: rgba(59, 130, 246, 0.18); color: #93c5fd;
+            }
+            [data-theme="dark"] .cambridge-exams-section .section-header p,
+            body.dark-mode .cambridge-exams-section .section-header p { color: #94a3b8; }
+            [data-theme="dark"] .cambridge-exam-card,
+            body.dark-mode .cambridge-exam-card {
+              background: #1e293b;
+              border-color: #334155;
+            }
+            [data-theme="dark"] .cambridge-exam-card .ce-name,
+            body.dark-mode .cambridge-exam-card .ce-name { color: #f1f5f9; }
+            [data-theme="dark"] .cambridge-exam-card .ce-desc,
+            body.dark-mode .cambridge-exam-card .ce-desc { color: #94a3b8; }
+            @media (max-width: 600px) {
+              .cambridge-exams-grid { grid-template-columns: repeat(2, 1fr); }
+              .cambridge-exam-card .ce-desc { min-height: 0; }
+            }
+          </style>
+          <div class="cambridge-exams-section" aria-label="Cambridge English Exams">
+            <div class="section-header">
+              <h3>🎓 Cambridge English Exams <span class="ce-pill">New tracks</span></h3>
+              <p>Recognised global qualifications across CEFR levels — mocks coming soon</p>
+            </div>
+            <div class="cambridge-exams-grid">
+              <div class="cambridge-exam-card ket" role="button" aria-disabled="true" title="KET (A2 Key) — Coming soon">
+                <span class="ce-level">A2</span>
+                <h4 class="ce-name">KET</h4>
+                <p class="ce-desc">A2 Key — everyday English foundations.</p>
+                <span class="ce-soon">Soon</span>
+              </div>
+              <div class="cambridge-exam-card pet" role="button" aria-disabled="true" title="PET (B1 Preliminary) — Coming soon">
+                <span class="ce-level">B1</span>
+                <h4 class="ce-name">PET</h4>
+                <p class="ce-desc">B1 Preliminary — practical communication skills.</p>
+                <span class="ce-soon">Soon</span>
+              </div>
+              <div class="cambridge-exam-card fce" role="button" aria-disabled="true" title="FCE (B2 First) — Coming soon">
+                <span class="ce-level">B2</span>
+                <h4 class="ce-name">FCE</h4>
+                <p class="ce-desc">B2 First — upper-intermediate proficiency.</p>
+                <span class="ce-soon">Soon</span>
+              </div>
+              <div class="cambridge-exam-card cae" role="button" aria-disabled="true" title="CAE (C1 Advanced) — Coming soon">
+                <span class="ce-level">C1</span>
+                <h4 class="ce-name">CAE</h4>
+                <p class="ce-desc">C1 Advanced — academic and professional English.</p>
+                <span class="ce-soon">Soon</span>
+              </div>
+              <div class="cambridge-exam-card cpe" role="button" aria-disabled="true" title="CPE (C2 Proficiency) — Coming soon">
+                <span class="ce-level">C2</span>
+                <h4 class="ce-name">CPE</h4>
+                <p class="ce-desc">C2 Proficiency — mastery-level English.</p>
+                <span class="ce-soon">Soon</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Learning Tools Section -->
           <div class="learning-tools-section">
             <div class="section-header">
