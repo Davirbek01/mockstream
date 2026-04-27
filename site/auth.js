@@ -250,15 +250,50 @@
   // Apply premium auto-unlock: mirror the flags that the sidebar VIP-email
   // flow sets, so Google-signed-in premium users don't have to re-enter their
   // email in the sidebar. Respects the active + center restrictions.
+  //
+  // SECURITY: also obtains a server-signed HMAC vipToken from verify-passcode
+  // so isSuperAccessUnlocked() (which now requires both flag AND token) lets
+  // the page actually unlock. Without this, Google-signed-in premium users
+  // would have the flag but no token and would still see locked mocks.
   async function applyPremiumUnlock() {
     var info = await checkPremiumRole();
     if (!info) return null;
     var siteCenter = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || '';
     if (!info.active && !info.isAdmin) return null;
     if (info.center && info.center !== '' && info.center !== siteCenter) return null;
+
+    // Mint a server-validated vipToken from the user's Supabase JWT.
+    // The Edge Function re-checks premium_emails server-side — the client
+    // cannot forge this even if it tampers with the local checkPremiumRole
+    // result, because the token is HMAC-signed with VIP_TOKEN_SECRET.
+    var serverInfo = null;
+    try {
+      var client = _getClient();
+      var sess = client && client.auth ? await client.auth.getSession() : null;
+      var jwt = sess && sess.data && sess.data.session && sess.data.session.access_token;
+      if (jwt) {
+        var resp = await fetch(SB_URL + '/functions/v1/verify-passcode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY },
+          body: JSON.stringify({ email_auth: true, user_jwt: jwt, center: siteCenter })
+        });
+        if (resp.ok) {
+          var data = await resp.json();
+          if (data && data.access && data.token) {
+            serverInfo = data;
+            try { sessionStorage.setItem('vipToken', data.token); } catch (e) {}
+          }
+        }
+      }
+    } catch (e) { /* token mint best-effort; flag-only unlock won't pass new gate */ }
+
+    // Only set the legacy flag if we actually got a server token, so the
+    // hardened isSuperAccessUnlocked() (token + flag) consistently agrees.
+    if (!serverInfo) return null;
+
     try {
       sessionStorage.setItem('vipSessionAccess', 'true');
-      if (info.tier === 'premium') {
+      if (info.tier === 'premium' || info.isAdmin) {
         sessionStorage.setItem('vipPremiumAi', 'true');
       } else {
         // Regular VIP must NOT inherit a stale premium flag from a prior session.
