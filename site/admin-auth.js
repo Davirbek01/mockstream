@@ -235,6 +235,7 @@
     supabase:      sb,
     currentEmail:  currentEmail,
     currentRole:   currentRole,
+    currentSession: currentSession,
     requireLogin:  requireLogin,
     sendMagicLink: sendMagicLink,
     signInWithGoogle: signInWithGoogle,

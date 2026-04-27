@@ -158,6 +158,43 @@ Deno.serve(async (req) => {
   const mockNum = body.mock_number != null ? parseInt(String(body.mock_number), 10) : null;
 
   if (!code) {
+    // ── Email-based premium auto-unlock (Google / magic-link signed-in) ────
+    // Body: { email_auth: true, user_jwt: "<supabase access token>", center }
+    // Server validates JWT, extracts email, checks premium_emails, mints token.
+    // Cannot be forged client-side because JWT is signed by Supabase auth.
+    if (body.email_auth && typeof body.user_jwt === 'string' && body.user_jwt) {
+      try {
+        const { data: userData, error: userErr } = await sb.auth.getUser(body.user_jwt);
+        const email = userData?.user?.email ? String(userData.user.email).toLowerCase() : '';
+        if (!userErr && email) {
+          const { data: rows } = await sb
+            .from('premium_emails')
+            .select('tier, role, center, active')
+            .eq('email', email)
+            .eq('active', true);
+          if (rows && rows.length) {
+            // Prefer a row whose center matches this site, else fall back to
+            // any-center (empty/null center column treated as wildcard).
+            const match = rows.find((r: any) =>
+              !r.center || r.center === '' || normCenter(r.center) === center
+            ) || (rows.find((r: any) => r.role === 'admin') || null);
+            if (match) {
+              const role = match.role === 'admin'
+                ? 'admin'
+                : (match.tier === 'premium' ? 'premium' : 'regular');
+              const premium = match.tier === 'premium' || match.role === 'admin';
+              await logAttempt(ip, true);
+              const resp = await withToken(
+                { access: true, valid: true, role, via: 'email_auth', tier: match.tier, email },
+                role, premium, center || normCenter(match.center) || ''
+              );
+              return json(200, resp);
+            }
+          }
+        }
+      } catch (_e) { /* fall through to no_code */ }
+    }
+
     // Allow code-less requests ONLY for center premium-mode token minting.
     // Server-side check against centers table is authoritative (cache tampering
     // on the client cannot fake this).
