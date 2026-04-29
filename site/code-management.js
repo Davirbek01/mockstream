@@ -196,11 +196,16 @@
   /* -------------------------------------------------------------- shell */
   function show() {
     injectStyles();
-    var ov = document.getElementById('cmOverlay');
+    // Use a unique id distinct from the Centers panel's overlay (which also
+    // claims 'cmOverlay'); without this rename, reopening Site Management and
+    // picking Centers after Code Management was open returns to landing
+    // because _cmEnsureOverlay() finds the leftover Code Management element
+    // by id and short-circuits.
+    var ov = document.getElementById('codeMgmtOverlay');
     if (ov) { ov.style.display = 'block'; }
     else {
       ov = document.createElement('div');
-      ov.id = 'cmOverlay';
+      ov.id = 'codeMgmtOverlay';
       ov.className = 'cm-overlay';
       ov.innerHTML = '<div class="cm-panel"><div id="cmRoot"></div></div>';
       ov.addEventListener('click', function(e){ if (e.target === ov) hide(); });
@@ -214,7 +219,13 @@
     document.getElementById('cmCloseLoad').onclick = hide;
     call('list_centers', {}).then(function(r){
       if (r && r.ok) {
-        state.centers = r.centers || [];
+        // Hide the legacy 'mock_stream' (with underscore) row from the dropdown.
+        // The canonical id for the main site in lookup tables (vip_codes,
+        // mock_codes, admin_passcodes) is 'mockstream' — that's what
+        // MAIN_SITE_ID points to. The 'mock_stream' centers row still exists
+        // because some unnormalised write paths use it; it's not safe to
+        // delete the row, but it shouldn't appear as a separate option here.
+        state.centers = (r.centers || []).filter(function(c){ return c.id !== 'mock_stream'; });
         state.role = r.role;
         renderMain();
       } else {
@@ -223,7 +234,7 @@
     });
   }
   function hide() {
-    var ov = document.getElementById('cmOverlay');
+    var ov = document.getElementById('codeMgmtOverlay');
     if (ov) ov.style.display = 'none';
   }
 
