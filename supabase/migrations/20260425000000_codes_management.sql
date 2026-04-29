@@ -107,8 +107,6 @@ INSERT INTO public.centers (id, display_name) VALUES
   ('global',     'Global Education'),
   ('niners',     'Niner''s Academy'),
   ('muzaffars',  'Muzaffar''s English'),
-  ('camelot',    'Camelot'),
-  ('wisdom',     'Wisdom'),
   ('achievers',  'Achievers')
 ON CONFLICT (id) DO NOTHING;
 
