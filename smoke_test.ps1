@@ -1,4 +1,4 @@
-﻿$centers = @("mockstream","bek","global","niners","muzaffars","camelot","wisdom","general")
+﻿$centers = @("mockstream","bek","global","niners","muzaffars","general")
 $skills  = @("reading","listening","writing","speaking","full_mock")
 $url = "https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/send-to-telegram"
 $results = @()
