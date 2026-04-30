@@ -278,8 +278,31 @@ Deno.serve(async (req) => {
   // Site-admin passcode lookups: legacy clients send {passcode, type:'bsb'}
   // with the user's center. The DB stores per-center admin codes; '__super__'
   // is a global override.
+  //
+  // For view.html locked report links, clients also send result_id. The row
+  // is fetched here under service-role so (a) center admins can unlock links
+  // opened on cross-center clone domains where anon RLS blocks the meta read,
+  // and (b) the row data is bundled into the response so view.html doesn't
+  // need a separate REST fetch (which RLS would block for anon callers).
+  let lockedResultRow:
+    | { id: string; report_path: string; student_name: string; skill: string; exam_type: string; center: string }
+    | null = null;
+  const rawResultId = typeof body.result_id === 'string' ? body.result_id.trim() : '';
+  if (rawResultId && /^[0-9a-f-]{36}$/i.test(rawResultId)) {
+    const { data } = await sb
+      .from('results')
+      .select('id, report_path, student_name, skill, exam_type, center')
+      .eq('id', rawResultId)
+      .maybeSingle();
+    if (data) lockedResultRow = data as typeof lockedResultRow;
+  }
+
   const candidates: string[] = [];
-  if (center) candidates.push(center);
+  if (lockedResultRow && lockedResultRow.center) {
+    const rowCenter = normCenter(lockedResultRow.center);
+    if (rowCenter) candidates.push(rowCenter);
+  }
+  if (center && !candidates.includes(center)) candidates.push(center);
   candidates.push('__super__');
   for (const c of candidates) {
     const { data } = await sb
@@ -290,7 +313,20 @@ Deno.serve(async (req) => {
     if (data && ctEq(data.passcode, code)) {
       await logAttempt(ip, true);
       const r = c === '__super__' ? 'super_admin' : 'admin';
-      const resp = await withToken({ access: true, valid: true, role: r }, r, true, center || c);
+      const resp: Record<string, unknown> = await withToken({ access: true, valid: true, role: r }, r, true, center || c);
+      if (lockedResultRow) {
+        // Super admin sees any row; center admin only sees rows from their center.
+        const rowCenter = normCenter(lockedResultRow.center);
+        if (r === 'super_admin' || rowCenter === c) {
+          resp.report = {
+            id: lockedResultRow.id,
+            report_path: lockedResultRow.report_path,
+            student_name: lockedResultRow.student_name,
+            skill: lockedResultRow.skill,
+            exam_type: lockedResultRow.exam_type
+          };
+        }
+      }
       return json(200, resp);
     }
   }
