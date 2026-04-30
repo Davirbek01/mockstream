@@ -2581,6 +2581,9 @@
     }
     // Show/hide input bar elements based on tab
     var inputBar = overlay && overlay.querySelector('.cb-input-bar');
+    // Restore wrapper visibility — Code+code-sub-mode may have hidden it; per-tab logic below only toggles children.
+    // _applySupportSubMode() re-hides it for the Support/Code case at the end of this function.
+    if (inputBar) inputBar.style.display = '';
     var attachBtn = overlay && overlay.querySelector('.cb-attach-btn');
     var voiceBtn = document.getElementById('cb-voice-btn');
     var replyBanner = document.getElementById('cb-reply-banner');
