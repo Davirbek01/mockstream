@@ -24113,6 +24113,7 @@
     }
 
     window._cmSaveAll = async function() {
+      console.log('[CenterMgmt] _cmSaveAll v2 (RLS-aware, status-checked)');
       var status = document.getElementById('cmStatus');
       var setStatus = function(html, color) {
         if (status) status.innerHTML = '<span style="color:' + color + ';">' + html + '</span>';
