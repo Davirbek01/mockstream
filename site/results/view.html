@@ -742,25 +742,24 @@
     }
 
     // ===== HELPER: load content into iframe =====
+    // Always use blob URLs (matches the working admin-dashboard viewer at
+    // results/index.html:4387). The previous srcdoc fallback silently
+    // truncated speaking-mock HTML on mobile WebViews — speaking reports
+    // can carry ~10 MB of inline data:image base64 + audio refs, which
+    // exceeds WKWebView's srcdoc cap and made handleZipReport's catch
+    // fall through to the "Download Report" prompt on Telegram in-app.
     function loadIframeContent(iframe, htmlString, opts) {
       opts = opts || {};
+      iframe.removeAttribute('sandbox');
+      iframe.removeAttribute('srcdoc');
       if (opts.isPdf) {
-        iframe.removeAttribute('sandbox');
-        iframe.removeAttribute('srcdoc');
         iframe.src = opts.url;
         return;
       }
       htmlString = injectMobileReportCSS(htmlString);
       htmlString = injectWritingMobileCSS(htmlString);
-      iframe.removeAttribute('sandbox');
-      if (_canUseBlobInIframe) {
-        iframe.removeAttribute('srcdoc');
-        var blob = new Blob([htmlString], { type: 'text/html; charset=utf-8' });
-        iframe.src = URL.createObjectURL(blob);
-      } else {
-        iframe.removeAttribute('src');
-        iframe.srcdoc = htmlString;
-      }
+      var blob = new Blob([htmlString], { type: 'text/html; charset=utf-8' });
+      iframe.src = URL.createObjectURL(blob);
     }
 
     // ===== FULL MOCK: TABBED VIEWER =====
