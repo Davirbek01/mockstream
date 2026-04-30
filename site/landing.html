@@ -24114,36 +24114,87 @@
 
     window._cmSaveAll = async function() {
       var status = document.getElementById('cmStatus');
-      if (status) status.innerHTML = '<span style="color:#7c3aed;">Saving...</span>';
+      var setStatus = function(html, color) {
+        if (status) status.innerHTML = '<span style="color:' + color + ';">' + html + '</span>';
+      };
+
+      // Pre-flight: site_settings RLS rejects writes from anon callers, and
+      // the global fetch interceptor in admin-auth.js only attaches a JWT
+      // when a Supabase Auth session is active. Confirm super-admin sign-in
+      // before saving so we surface a clear prompt instead of a silent miss.
+      if (window.AdminAuth && typeof window.AdminAuth.currentRole === 'function') {
+        try {
+          var roleInfo = await window.AdminAuth.currentRole();
+          if (!roleInfo || roleInfo.role !== 'super_admin') {
+            setStatus('Sign in as super-admin to save', '#dc2626');
+            if (typeof window.AdminAuth.requireLogin === 'function') {
+              try { window.AdminAuth.requireLogin(); } catch (_e) {}
+            }
+            return;
+          }
+        } catch (e) {
+          setStatus('Auth check failed: ' + (e.message || e), '#dc2626');
+          return;
+        }
+      }
+
+      // 10s timeout per fetch so a hung request surfaces visibly instead of
+      // leaving the panel stuck on "Saving...".
+      var fetchWithTimeout = function(url, opts, ms) {
+        return new Promise(function(resolve, reject) {
+          var to = setTimeout(function() {
+            reject(new Error('timeout after ' + ms + 'ms'));
+          }, ms);
+          fetch(url, opts).then(function(r) {
+            clearTimeout(to);
+            resolve(r);
+          }, function(err) {
+            clearTimeout(to);
+            reject(err);
+          });
+        });
+      };
+
+      setStatus('Saving...', '#7c3aed');
       try {
         for (var i = 0; i < CM_CENTERS.length; i++) {
           var cid = CM_CENTERS[i].id;
           var key = 'center_config_' + cid;
           var val = JSON.stringify(_cmConfigs[cid] || _cmDefaultConfig());
-          var res = await fetch(CM_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
+          var res = await fetchWithTimeout(CM_SB_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent(key), {
             method: 'PATCH',
             headers: {
               'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
               'Content-Type': 'application/json', 'Prefer': 'return=representation'
             },
             body: JSON.stringify({ value: val, updated_at: new Date().toISOString() })
-          });
+          }, 10000);
+          if (!res.ok) {
+            var errTxt = '';
+            try { errTxt = await res.text(); } catch (_e) {}
+            throw new Error('PATCH ' + cid + ' → ' + res.status + (errTxt ? ': ' + errTxt.slice(0, 200) : ''));
+          }
           var data = await res.json();
           if (!data || data.length === 0) {
-            await fetch(CM_SB_URL + '/rest/v1/site_settings', {
+            var insRes = await fetchWithTimeout(CM_SB_URL + '/rest/v1/site_settings', {
               method: 'POST',
               headers: {
                 'apikey': CM_SB_KEY, 'Authorization': 'Bearer ' + CM_SB_KEY,
                 'Content-Type': 'application/json', 'Prefer': 'return=minimal'
               },
               body: JSON.stringify({ key: key, value: val })
-            });
+            }, 10000);
+            if (!insRes.ok) {
+              var errTxt2 = '';
+              try { errTxt2 = await insRes.text(); } catch (_e) {}
+              throw new Error('POST ' + cid + ' → ' + insRes.status + (errTxt2 ? ': ' + errTxt2.slice(0, 200) : ''));
+            }
           }
         }
-        if (status) status.innerHTML = '<span style="color:#10b981;">✓ All centers saved successfully!</span>';
+        setStatus('✓ All centers saved successfully!', '#10b981');
         setTimeout(function() { if (status) status.textContent = ''; }, 3000);
       } catch(e) {
-        if (status) status.innerHTML = '<span style="color:#dc2626;">Error: ' + e.message + '</span>';
+        setStatus('Error: ' + (e && e.message ? e.message : e), '#dc2626');
       }
     };
 
