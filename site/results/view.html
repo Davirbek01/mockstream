@@ -295,9 +295,13 @@
           if (!code) { statusEl.textContent = '❌ Please enter your access code'; return; }
           btn.disabled = true; btn.textContent = '⏳ Verifying...'; statusEl.textContent = '';
           try {
-            var resp = await fetch('https://admin0709.alwaysdata.net/verify', {
+            var resp = await fetch(SUPABASE_URL + '/functions/v1/verify-passcode', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+              },
               body: JSON.stringify({
                 passcode: code,
                 type: 'bsb',
