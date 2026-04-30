@@ -1607,7 +1607,8 @@
 
       .topbar-right {
         width: 100%;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         gap: 6px;
       }
 
@@ -1615,6 +1616,9 @@
         padding: 6px 10px;
         font-size: 12px;
         gap: 4px;
+        justify-content: center;
+        min-width: 0;
+        white-space: nowrap;
       }
 
       .stats-bar {
@@ -1698,7 +1702,7 @@
       }
 
       .topbar-btn {
-        padding: 5px 8px;
+        padding: 5px 6px;
         font-size: 11px;
         border-radius: 6px;
       }
