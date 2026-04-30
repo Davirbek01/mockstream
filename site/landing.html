@@ -13096,29 +13096,19 @@
     // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
-    // Lock to portrait orientation on mobile
-    function lockPortrait() {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('portrait').catch(() => { });
-      }
-    }
-
     // Fullscreen function
     function enterFullscreen() {
       const elem = document.documentElement;
       if (elem.requestFullscreen) {
         elem.requestFullscreen().then(() => {
           sessionStorage.setItem('mockstream_fullscreen', 'true');
-          lockPortrait();
         }).catch(() => { });
       } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
         sessionStorage.setItem('mockstream_fullscreen', 'true');
-        lockPortrait();
       } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
         sessionStorage.setItem('mockstream_fullscreen', 'true');
-        lockPortrait();
       }
     }
 
