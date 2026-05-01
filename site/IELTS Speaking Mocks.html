@@ -6913,6 +6913,11 @@
         return mediaStream;
       }
 
+      // See Speaking Mocks.html — same async-stop race fix. Resolved when the
+      // most recent stopRecording()'s onstop handler has finished writing its
+      // blob to IndexedDB, so callers can await persistence before reading IDB.
+      let _audioStopResolve = null;
+
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
@@ -6939,7 +6944,12 @@
               const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
-                .catch(e => alert('Could not save audio: ' + e.message));
+                .catch(e => alert('Could not save audio: ' + e.message))
+                .finally(() => {
+                  const r = _audioStopResolve;
+                  _audioStopResolve = null;
+                  if (r) r();
+                });
             };
             mediaRecorder.start();
           } catch (err) {
@@ -6949,9 +6959,19 @@
         });
       }
       function stopRecording() {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+          return Promise.resolve();
         }
+        return new Promise((resolve) => {
+          _audioStopResolve = resolve;
+          mediaRecorder.stop();
+          // Safety: never block forever if onstop somehow doesn't fire.
+          setTimeout(() => {
+            const r = _audioStopResolve;
+            _audioStopResolve = null;
+            if (r) r();
+          }, 5000);
+        });
       }
 
       /* THEME */
@@ -8722,39 +8742,42 @@
                 if (rec) rec.style.display = 'none';
                 speakDial.classList.remove('soon-end');
                 $('.status', q).textContent = 'Completed ✓';
-                // Stop audio recording and save
-                stopRecording();
-                q.classList.add('done'); q.removeAttribute('open');
+                // Stop audio recording and WAIT for save before transitioning,
+                // otherwise the last question's blob isn't in IndexedDB yet
+                // when auto-AI fires (race exposed in part-based practice).
+                stopRecording().then(() => {
+                  q.classList.add('done'); q.removeAttribute('open');
 
-                // Hide current question
-                q.classList.add('hidden');
+                  // Hide current question
+                  q.classList.add('hidden');
 
-                answered += 1;
-                if (window._practiceMode && window._practiceQRange) {
-                  scoreDone.textContent = i - window._practiceQRange[0] + 1;
-                } else {
-                  scoreDone.textContent = answered;
-                }
-
-                // Practice mode: check if we've reached the end of the practice range
-                var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
-
-                if (practiceEnded) {
-                  showCompletedQuestions();
-                  showFinishModal();
-                } else {
-                  const next = qs[i + 1];
-                  if (next) {
-                    next.classList.remove('locked');
-                    // auto-start next with appropriate announcements
-                    // (don't set 'open' here — runQuestion() will do it, avoiding a toggle event that starts speak() prematurely)
-                    handleQuestionTransition(i, i + 1);
+                  answered += 1;
+                  if (window._practiceMode && window._practiceQRange) {
+                    scoreDone.textContent = i - window._practiceQRange[0] + 1;
                   } else {
-                    // finished all - show completed questions view
+                    scoreDone.textContent = answered;
+                  }
+
+                  // Practice mode: check if we've reached the end of the practice range
+                  var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
+
+                  if (practiceEnded) {
                     showCompletedQuestions();
                     showFinishModal();
+                  } else {
+                    const next = qs[i + 1];
+                    if (next) {
+                      next.classList.remove('locked');
+                      // auto-start next with appropriate announcements
+                      // (don't set 'open' here — runQuestion() will do it, avoiding a toggle event that starts speak() prematurely)
+                      handleQuestionTransition(i, i + 1);
+                    } else {
+                      // finished all - show completed questions view
+                      showCompletedQuestions();
+                      showFinishModal();
+                    }
                   }
-                }
+                });
               }
             }
           }, 1000);
