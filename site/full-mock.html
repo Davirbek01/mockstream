@@ -7917,21 +7917,25 @@
         function advanceToNextQuestion() {
             clearInterval(speakingState.timerInterval);
             speakingState.isRunning = false;
-            // Stop recording when question ends
-            stopSpeakingRecording();
-            stopSpeakingAudio();
+            // Stop recording and WAIT for save before transitioning. Without
+            // the await, finishMod() reads IDB before the last question's blob
+            // is written and silently drops it (same race as Speaking Mocks /
+            // IELTS Speaking — most visible at the very last speaking question).
+            stopSpeakingRecording().then(() => {
+                stopSpeakingAudio();
 
-            const questions = state.currentTestData.questions || [];
+                const questions = state.currentTestData.questions || [];
 
-            if (speakingState.currentQ < questions.length - 1) {
-                speakingState.currentQ++;
-                speakingState.phase = 'prep';
-                // Re-render the speaking module
-                renderPart();
-            } else {
-                // All questions done, finish module
-                finishMod();
-            }
+                if (speakingState.currentQ < questions.length - 1) {
+                    speakingState.currentQ++;
+                    speakingState.phase = 'prep';
+                    // Re-render the speaking module
+                    renderPart();
+                } else {
+                    // All questions done, finish module
+                    finishMod();
+                }
+            });
         }
 
         // Reset speaking state when starting speaking module
@@ -8064,14 +8068,21 @@
                 };
 
                 recorder.onstop = () => {
+                    const finishStop = () => {
+                        const r = _speakingStopResolve;
+                        _speakingStopResolve = null;
+                        if (r) r();
+                    };
                     if (localChunks.length > 0) {
                         const blob = new Blob(localChunks, { type: mimeType || 'audio/webm' });
                         console.log(`[Speaking] 💾 Finalizing ${key} (${blob.size} bytes)...`);
                         saveSpeakingAudio(key, blob)
                             .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
-                            .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e));
+                            .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
+                            .finally(finishStop);
                     } else {
                         console.warn(`[Speaking] ⚠️ Empty recording for Q${qIndex + 1}`);
+                        finishStop();
                     }
                 };
 
@@ -8082,12 +8093,26 @@
             }
         }
 
-        // Stop recording
+        // Stop recording. Returns a Promise that resolves AFTER the
+        // recorder.onstop handler has finished writing the blob to IndexedDB.
+        // Same async-stop race fix as Speaking Mocks / IELTS Speaking — without
+        // this, finishMod() reads IDB before the last question's blob exists.
+        let _speakingStopResolve = null;
         function stopSpeakingRecording() {
-            if (speakingMediaRecorder && speakingMediaRecorder.state !== 'inactive') {
+            if (!speakingMediaRecorder || speakingMediaRecorder.state === 'inactive') {
+                return Promise.resolve();
+            }
+            return new Promise((resolve) => {
+                _speakingStopResolve = resolve;
                 speakingMediaRecorder.stop();
                 console.log('[Speaking] Recording stopped');
-            }
+                // Safety: never block forever if onstop somehow doesn't fire.
+                setTimeout(() => {
+                    const r = _speakingStopResolve;
+                    _speakingStopResolve = null;
+                    if (r) r();
+                }, 5000);
+            });
         }
 
         function saveAns(m, q, v, el) { state.answers[m][q] = v; const p = el.closest('.question-card'); if (p) p.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected')); el.classList.add('selected'); }
@@ -8160,10 +8185,15 @@
             mainAudio.currentTime = 0;
 
             if (state.modules[state.step].toLowerCase() === 'speaking') {
-                stopSpeakingRecording();
-                stopSpeakingAudio();
-                finalizeModule('speaking');
-                showRes();
+                // Wait for the in-flight recording's blob to land in IndexedDB
+                // before finalizeModule reads from it. Without this, the very
+                // last question is silently dropped when finishMod is reached
+                // via routes that don't already await (timer expiry, btn-next).
+                stopSpeakingRecording().then(() => {
+                    stopSpeakingAudio();
+                    finalizeModule('speaking');
+                    showRes();
+                });
             } else {
                 showBreak();
             }
