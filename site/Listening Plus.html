@@ -27,7 +27,7 @@
             if (!c.classList || !c.classList.contains('pg-modal-overlay')) c.style.display = 'none';
           });
           document.documentElement.classList.remove('pg-pending');
-          window.PremiumGate.openUpgradeModal('plus_' + SKILL);
+          window.PremiumGate.openUpgradeModal('plus_' + SKILL, { onClose: function () { window.location.href = 'landing.html'; } });
         }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', lockUI);
         else lockUI();
