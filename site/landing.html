@@ -24338,28 +24338,44 @@
   })();
   </script>
 
-  <!-- Premium gate: lock Plus menu items for non-admin non-premium users -->
+  <!-- Premium gate: lock Plus menu items + Part-Practice tiles for non-admin non-premium users -->
   <script>
   (function () {
-    function decoratePlus() {
-      if (!window.PremiumGate) { setTimeout(decoratePlus, 100); return; }
+    var PLUS_IDS = [
+      ['writingPlusMenuItem',   'writing'],
+      ['speakingPlusMenuItem',  'speaking'],
+      ['readingPlusMenuItem',   'reading'],
+      ['listeningPlusMenuItem', 'listening']
+    ];
+    var PART_IDS = [
+      ['speakingPracticeBtn',         'speaking'],
+      ['cefrWritingPracticeBtn',      'writing'],
+      ['ieltsWritingPracticeBtn',     'writing'],
+      ['cefrReadingPracticeBtn',      'reading'],
+      ['ieltsReadingPracticeBtn',     'reading'],
+      ['cefrListeningPracticeBtn',    'listening'],
+      ['ieltsListeningPracticeBtn',   'listening']
+    ];
+
+    function decorate() {
+      if (!window.PremiumGate) { setTimeout(decorate, 100); return; }
       if (window.PremiumGate.isAdmin()) return;
-      var ids = [
-        ['writingPlusMenuItem',   'writing'],
-        ['speakingPlusMenuItem',  'speaking'],
-        ['readingPlusMenuItem',   'reading'],
-        ['listeningPlusMenuItem', 'listening']
-      ];
-      ids.forEach(function (pair) {
+      PLUS_IDS.forEach(function (pair) {
         var el = document.getElementById(pair[0]);
         if (!el) return;
         if (window.PremiumGate.isPremiumTier(pair[1])) return;
         el.setAttribute('onclick', '');
         window.PremiumGate.applyLockBadge(el, 'plus_' + pair[1]);
       });
+      PART_IDS.forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        if (!el) return;
+        if (window.PremiumGate.isPremiumTier(pair[1])) return;
+        window.PremiumGate.applyLockBadge(el, 'part_practice_' + pair[1]);
+      });
     }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decoratePlus);
-    else decoratePlus();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decorate);
+    else decorate();
   })();
   </script>
 
