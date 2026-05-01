@@ -241,7 +241,7 @@
 
   var _modalEl = null;
 
-  function openUpgradeModal(reason) {
+  function openUpgradeModal(reason, opts) {
     try { console.info('[premium-gate] upgrade prompted:', reason || 'unknown'); } catch (e) {}
     if (_modalEl) return;
     if (typeof document === 'undefined') return;
@@ -264,7 +264,10 @@
       '</div>';
     document.body.appendChild(overlay);
     _modalEl = overlay;
-    function close() { if (_modalEl) { _modalEl.remove(); _modalEl = null; } }
+    function close() {
+      if (_modalEl) { _modalEl.remove(); _modalEl = null; }
+      try { if (opts && typeof opts.onClose === 'function') opts.onClose(); } catch (e) {}
+    }
     overlay.querySelector('.pg-modal-x').addEventListener('click', close);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
     overlay.querySelector('.pg-modal-cta').addEventListener('click', function () {
