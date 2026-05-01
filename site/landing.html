@@ -23,6 +23,8 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
   <!-- Reroute legacy alwaysdata /verify calls to the Supabase verify-passcode edge function.
        Both backends share the same JSON body shape ({code|passcode, center, ...}) and same
        response shape ({access, valid, role}), so this shim is fully transparent. The new
@@ -24333,6 +24335,31 @@
     } catch(e) {
       console.error('Center config enforcement error:', e);
     }
+  })();
+  </script>
+
+  <!-- Premium gate: lock Plus menu items for non-admin non-premium users -->
+  <script>
+  (function () {
+    function decoratePlus() {
+      if (!window.PremiumGate) { setTimeout(decoratePlus, 100); return; }
+      if (window.PremiumGate.isAdmin()) return;
+      var ids = [
+        ['writingPlusMenuItem',   'writing'],
+        ['speakingPlusMenuItem',  'speaking'],
+        ['readingPlusMenuItem',   'reading'],
+        ['listeningPlusMenuItem', 'listening']
+      ];
+      ids.forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        if (!el) return;
+        if (window.PremiumGate.isPremiumTier(pair[1])) return;
+        el.setAttribute('onclick', '');
+        window.PremiumGate.applyLockBadge(el, 'plus_' + pair[1]);
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decoratePlus);
+    else decoratePlus();
   })();
   </script>
 
