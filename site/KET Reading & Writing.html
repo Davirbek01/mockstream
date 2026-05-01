@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auto-theme.js"></script>
+  <script src="finish-gate.js" defer></script>
+  <script src="./ai-proxy-interceptor.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KET Reading &amp; Writing</title>
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
+  <script src="ket-mock-config.js"></script>
+  <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
+  <style>
+    :root { --primary:#16a34a; --primary-dark:#15803d; --primary-light:#dcfce7; --bg:#f8fafc; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; --danger:#dc2626; --warn:#f59e0b; --good:#10b981; --info:#3b82f6; --signal-blue:#1e40af; --soft-blue:#eff6ff; --soft-yellow:#fffbf2; --yellow-border:#fde68a; --green-soft:#f0fdf4; --green-soft-border:#bbf7d0; }
+    [data-theme="dark"], body.dark-mode {
+      --primary-light: rgba(34,197,94,.18);
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --signal-blue: #93c5fd;
+      --soft-blue: rgba(59,130,246,.12);
+      --soft-yellow: rgba(251,191,36,.10);
+      --yellow-border: rgba(251,191,36,.30);
+      --green-soft: rgba(34,197,94,.10);
+      --green-soft-border: rgba(34,197,94,.30);
+    }
+    [data-theme="dark"] .part-instruction, body.dark-mode .part-instruction { background: var(--soft-blue); border-color: rgba(59,130,246,.35); color: var(--signal-blue); }
+    [data-theme="dark"] .text-card, body.dark-mode .text-card { background: var(--soft-yellow); border-color: var(--yellow-border); color: #fde68a; }
+    [data-theme="dark"] .text-card .body, body.dark-mode .text-card .body { color: #fde68a; }
+    [data-theme="dark"] .passage, body.dark-mode .passage { background: var(--soft-yellow); border-color: var(--yellow-border); color: #fde68a; }
+    [data-theme="dark"] .writing-prompt-box, body.dark-mode .writing-prompt-box { background: var(--green-soft); border-color: var(--green-soft-border); color: #bbf7d0; }
+    [data-theme="dark"] .writing-area, body.dark-mode .writing-area { background: var(--soft-blue); border-color: rgba(59,130,246,.55); color: var(--text); }
+    [data-theme="dark"] .writing-area:focus, body.dark-mode .writing-area:focus { background: var(--green-soft); border-color: var(--primary); }
+    [data-theme="dark"] .gap-input, body.dark-mode .gap-input { background: var(--soft-blue); color: var(--signal-blue); border-color: rgba(59,130,246,.55); }
+    [data-theme="dark"] .gap-input:focus, body.dark-mode .gap-input:focus { background: var(--green-soft); color: #bbf7d0; border-color: var(--primary); }
+    [data-theme="dark"] .opt-check, body.dark-mode .opt-check { background: var(--card); }
+    [data-theme="dark"] .part-nav, body.dark-mode .part-nav { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .part-jump, body.dark-mode .part-jump { background: var(--card); color: #93c5fd; border-color: var(--border); }
+    [data-theme="dark"] .part-arrow, body.dark-mode .part-arrow { background: var(--card); border-color: var(--border); color: var(--muted); }
+    [data-theme="dark"] .submit-bar, body.dark-mode .submit-bar { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .pic-cell, body.dark-mode .pic-cell { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .pic-cell .cap, body.dark-mode .pic-cell .cap { color: var(--text); }
+    [data-theme="dark"] .results, body.dark-mode .results { background: var(--card); }
+    [data-theme="dark"] .score-row, body.dark-mode .score-row { border-color: var(--border); }
+    [data-theme="dark"] .topbar, body.dark-mode .topbar { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] body, body.dark-mode { background: var(--bg) !important; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); min-height:100vh; padding:0; color:var(--text); }
+
+    /* Top exam bar */
+    .topbar { position:sticky; top:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 2px 6px rgba(0,0,0,.04); }
+    .topbar .left { display:flex; align-items:center; gap:10px; }
+    .topbar .title { font-size:15px; font-weight:700; color:var(--primary-dark); }
+    .topbar .level { font-size:10px; font-weight:700; letter-spacing:1px; background:var(--primary-light); color:var(--primary-dark); padding:3px 8px; border-radius:6px; }
+    .timer { font-size:18px; font-weight:800; color:var(--primary-dark); font-variant-numeric:tabular-nums; padding:6px 12px; background:var(--primary-light); border-radius:10px; }
+    .timer.warn { background:#fef3c7; color:#92400e; }
+    .timer.danger { background:#fee2e2; color:#991b1b; animation:pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.7; } }
+
+    /* Part navigator */
+    .part-nav { position:sticky; top:55px; z-index:55; background:#f8fafc; border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .part-nav .left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .part-label { font-weight:700; font-size:15px; color:var(--text); }
+    .part-jump { border:1.5px solid var(--border); border-radius:8px; padding:6px 28px 6px 10px; background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%231e293b' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>") no-repeat right 8px center; font-size:13.5px; font-weight:700; color:var(--info); cursor:pointer; appearance:none; -webkit-appearance:none; }
+    .part-arrows { display:flex; gap:8px; }
+    .part-arrow { width:38px; height:38px; border-radius:50%; border:1.5px solid var(--border); background:#fff; font-size:16px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:.15s; color:var(--muted); }
+    .part-arrow:not(:disabled):hover { background:var(--primary-light); color:var(--primary-dark); border-color:var(--primary); }
+    .part-arrow.next { background:var(--info); color:#fff; border-color:var(--info); }
+    .part-arrow.next:hover { filter:brightness(1.05); }
+    .part-arrow:disabled { opacity:.35; cursor:not-allowed; }
+
+    /* Progress */
+    .progress-row { max-width:980px; margin:8px auto 0; padding:0 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:12.5px; color:var(--muted); font-weight:600; }
+    .progress-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--primary-dark)); transition:width .3s; width:0%; }
+
+    /* Container & part */
+    .container { max-width:980px; margin:0 auto; padding:14px 18px 90px; }
+    .part-page { background:transparent; }
+    .part-instruction { background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:14px; color:#1e40af; line-height:1.55; display:flex; gap:10px; align-items:flex-start; }
+    .part-instruction::before { content:"💡"; font-size:16px; flex-shrink:0; }
+    .part-instruction strong { color:#0c4a6e; }
+
+    /* Part 1 — coloured sign rows */
+    .item-row { display:grid; grid-template-columns:300px 1fr; gap:28px; padding:20px 0; border-bottom:1px solid var(--border); align-items:start; }
+    .item-row:last-child { border-bottom:none; }
+    .item-source { display:flex; flex-direction:column; align-items:flex-start; }
+    .source-label { display:inline-block; background:var(--danger); color:#fff; padding:3px 10px; border-radius:4px; font-size:10.5px; font-weight:700; letter-spacing:.5px; margin-bottom:8px; text-transform:none; }
+    .sign-box { width:100%; max-width:280px; padding:24px 16px; border-radius:10px; border:2px solid rgba(0,0,0,.1); text-align:center; font-weight:700; font-size:14px; line-height:1.5; white-space:pre-wrap; box-shadow:0 2px 8px rgba(0,0,0,.06); letter-spacing:.3px; }
+    .sign-box.colour-0 { background:#e9d5ff; color:#581c87; border-color:#c084fc; }
+    .sign-box.colour-1 { background:#fed7aa; color:#7c2d12; border-color:#fb923c; }
+    .sign-box.colour-2 { background:#fca5a5; color:#7f1d1d; border-color:#f87171; }
+    .sign-box.colour-3 { background:#bbf7d0; color:#14532d; border-color:#86efac; }
+    .sign-box.colour-4 { background:#fef08a; color:#713f12; border-color:#fde047; font-family:'Comic Sans MS','Segoe Print',cursive; font-weight:600; text-align:left; padding:18px 16px; }
+    .sign-box.colour-5 { background:#bae6fd; color:#0c4a6e; border-color:#7dd3fc; }
+    .sign-box.colour-6 { background:#fce7f3; color:#831843; border-color:#f9a8d4; }
+    .item-q .qstem { font-size:14.5px; font-weight:700; margin-bottom:10px; color:var(--text); }
+
+    @media (max-width:760px) { .item-row { grid-template-columns:1fr; gap:14px; } }
+
+    /* Options (checkbox style) */
+    .options { display:flex; flex-direction:column; gap:6px; }
+    .opt { display:flex; align-items:flex-start; gap:12px; padding:9px 12px; border-radius:8px; cursor:pointer; transition:.12s; font-size:14px; line-height:1.5; }
+    .opt:hover { background:var(--primary-light); }
+    .opt.selected { background:var(--primary-light); }
+    .opt-check { width:18px; height:18px; border:2px solid var(--border); border-radius:4px; flex-shrink:0; margin-top:2px; transition:.12s; position:relative; background:#fff; }
+    .opt:hover .opt-check { border-color:var(--primary); }
+    .opt.selected .opt-check { background:var(--primary); border-color:var(--primary); }
+    .opt.selected .opt-check::after { content:""; position:absolute; top:1px; left:5px; width:5px; height:9px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+    .opt input[type=radio] { display:none; }
+    .opt-letter { font-weight:800; color:var(--info); min-width:18px; }
+    .opt-text { flex:1; }
+
+    /* Parts 2-5 (passages / multi-text / cloze) */
+    .text-list { display:grid; gap:14px; margin-bottom:16px; }
+    .text-card { background:#fffbf2; border:1px solid #fde68a; border-radius:12px; padding:14px 16px; }
+    .text-card .label { display:inline-block; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#fff; padding:2px 10px; border-radius:6px; font-weight:800; font-size:12px; margin-bottom:6px; }
+    .text-card .name { font-weight:700; font-size:14px; margin-bottom:6px; color:var(--primary-dark); }
+    .text-card .body { font-size:13.5px; line-height:1.6; }
+    .passage { background:#fffbf2; border:1px solid #fde68a; border-radius:12px; padding:18px 20px; margin-bottom:16px; font-size:14.5px; line-height:1.7; white-space:pre-wrap; }
+    .passage h4 { color:var(--primary-dark); margin-bottom:10px; font-size:16px; }
+    .qrow { padding:14px 0; border-bottom:1px solid var(--border); }
+    .qrow:last-child { border-bottom:none; }
+    .qrow .qstem { font-size:14.5px; font-weight:700; margin-bottom:10px; color:var(--text); }
+    .qnum-pill { display:inline-block; min-width:28px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; padding:1px 9px; border-radius:6px; font-size:13px; margin-right:8px; text-align:center; }
+    .gap-input { border:1.5px solid var(--info); border-radius:6px; padding:3px 10px; font-size:14px; min-width:90px; max-width:140px; font-family:inherit; background:#eff6ff; color:#1e40af; font-weight:700; }
+    .gap-input:focus { outline:none; border-color:var(--primary); background:#dcfce7; color:var(--primary-dark); }
+
+    /* Writing parts */
+    .task-type-heading { font-size:16px; font-weight:700; color:var(--text); margin:14px 0 10px; }
+    .task-type-heading strong { color:var(--text); }
+    .writing-prompt-box { position:relative; background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:10px; padding:16px 36px 22px 20px; margin-bottom:14px; font-size:14.5px; line-height:1.6; color:#14532d; }
+    .writing-prompt-box .prompt-bullets { margin:8px 0 0 20px; padding-left:0; list-style:disc; }
+    .writing-prompt-box .prompt-bullets li { padding:3px 0; }
+    .prompt-pencil { position:absolute; bottom:6px; right:10px; font-size:14px; color:#15803d; opacity:.55; }
+    .writing-subtitle { font-size:14px; color:var(--text); margin-bottom:10px; }
+    .writing-subtitle strong { font-weight:700; }
+    .writing-area { width:100%; min-height:180px; border:1.5px solid var(--info); border-radius:8px; padding:14px; font-family:inherit; font-size:14.5px; line-height:1.6; resize:vertical; background:#eff6ff; color:var(--text); }
+    .writing-area:focus { outline:none; border-color:var(--primary); background:#dcfce7; }
+    .word-count { font-size:13px; color:var(--danger); margin-top:6px; text-align:right; font-weight:700; }
+    .word-count.ok { color:var(--good); }
+    .word-count.short { color:var(--danger); }
+    .word-count.over { color:var(--warn); }
+    .word-count .num { color:inherit; }
+    .bullets { list-style:none; padding:0; margin:8px 0 14px; }
+    .bullets li { padding:7px 12px; background:var(--primary-light); border-radius:8px; margin-bottom:6px; font-size:13.5px; color:var(--primary-dark); }
+    .bullets li::before { content:"• "; font-weight:700; }
+
+    /* Picture story grid */
+    .pic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:14px; }
+    .pic-cell { background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0; text-align:center; overflow:hidden; }
+    .pic-cell svg { width:100%; height:auto; max-height:200px; border-radius:6px; padding:8px; }
+    .pic-cell img { width:100%; height:240px; object-fit:cover; display:block; }
+    .pic-cell .cap { font-size:12.5px; color:var(--text); margin:8px 0 10px; font-weight:700; padding:0 6px; }
+    @media (max-width:600px) {
+      .pic-grid { grid-template-columns:1fr; }
+      .pic-cell img { height:280px; }
+    }
+
+    /* Submit bar */
+    .submit-bar { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--border); padding:12px 16px; display:flex; gap:10px; justify-content:center; align-items:center; box-shadow:0 -2px 10px rgba(0,0,0,.06); z-index:50; }
+    .btn { padding:10px 22px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; transition:.15s; }
+    .btn-primary { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(22,163,74,.3); }
+    .btn-ghost { background:transparent; color:var(--muted); }
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+    .results { background:#fff; border:2px solid var(--primary); border-radius:18px; padding:24px; margin:16px 0; }
+    .results h3 { color:var(--primary-dark); margin-bottom:10px; }
+    .score-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+    .score-row:last-child { border-bottom:none; font-weight:800; }
+    .loading { text-align:center; padding:60px 20px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="left">
+      <span class="title">📝 KET Reading &amp; Writing</span>
+      <span class="level">A2 KEY</span>
+    </div>
+    <div class="timer" id="timer">60:00</div>
+  </div>
+
+  <div class="part-nav" id="partNav" style="display:none;">
+    <div class="left">
+      <span class="part-label">Reading:</span>
+      <select class="part-jump" id="partJump"></select>
+    </div>
+    <div class="part-arrows">
+      <button class="part-arrow" id="prevBtn" aria-label="Previous part">◀</button>
+      <button class="part-arrow next" id="nextBtn" aria-label="Next part">▶</button>
+    </div>
+  </div>
+
+  <div class="progress-row" id="progressRow" style="display:none;">
+    <span id="progressLabel">Question 1 of 32</span>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span id="progressPart">Part 1 of 7</span>
+  </div>
+
+  <div class="container" id="container">
+    <div class="loading" id="loading">Loading mock…</div>
+  </div>
+
+  <div class="submit-bar" id="submitBar" style="display:none;">
+    <button class="btn btn-ghost" onclick="if(confirm('Leave this mock? Your answers will be lost.')) window.location.href='KET Reading &amp; Writing Mocks.html';">Cancel</button>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitMock()">Submit</button>
+  </div>
+
+  <script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var mock = (params.get('mock') || '01').replace(/[^0-9]/g, '').padStart(2, '0');
+
+    var script = document.createElement('script');
+    script.src = 'questions KET RW/ket-rw-test-' + mock + '.js';
+    script.onload = function () {
+      if (!window.KET_RW_TEST) {
+        document.getElementById('loading').textContent = 'Mock data not found.';
+        return;
+      }
+      renderTest(window.KET_RW_TEST);
+      startTimer((window.KET_RW_TEST.testInfo && window.KET_RW_TEST.testInfo.totalTime) || 60);
+    };
+    script.onerror = function () {
+      document.getElementById('loading').innerHTML =
+        '<div style="background:#fff;padding:32px;border-radius:18px;border:2px dashed #e2e8f0;">' +
+        '<div style="font-size:42px">📚</div>' +
+        '<h3 style="color:#15803d;margin:8px 0">Mock not available yet</h3>' +
+        '<p style="color:#64748b;margin-bottom:14px">Mock ' + mock + ' has not been authored yet.</p>' +
+        '<a href="KET Reading & Writing Mocks.html" style="display:inline-block;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;">← Back to mocks</a>' +
+        '</div>';
+    };
+    document.head.appendChild(script);
+  })();
+
+  // ───── State ─────
+  var ANSWERS = {};
+  var WRITING = { 6: '', 7: '' };
+  var SCORE_BY_PART = {};
+  var ALL_PART_PAGES = [];   // DOM nodes
+  var PART_META = [];        // [{partNumber, isWriting, qStart, qEnd}]
+  var CURRENT_IDX = 0;
+  var TOTAL_QUESTIONS = 32;
+
+  // ───── Renderer ─────
+  function renderTest(test) {
+    var c = document.getElementById('container');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('submitBar').style.display = '';
+    document.getElementById('partNav').style.display = '';
+    document.getElementById('progressRow').style.display = '';
+
+    TOTAL_QUESTIONS = test.testInfo.totalQuestions || 32;
+
+    test.reading.parts.forEach(function (p) {
+      var page = document.createElement('div');
+      page.className = 'part-page';
+      page.innerHTML = renderReadingPart(p);
+      c.appendChild(page);
+      ALL_PART_PAGES.push(page);
+      PART_META.push(meta(p, false));
+    });
+    test.writing.parts.forEach(function (p) {
+      var page = document.createElement('div');
+      page.className = 'part-page';
+      page.innerHTML = renderWritingPart(p);
+      c.appendChild(page);
+      ALL_PART_PAGES.push(page);
+      PART_META.push(meta(p, true));
+    });
+
+    populatePartJump();
+    wireOptionClicks();
+    wireGapInputs();
+    wireWritingAreas();
+    wireNav();
+    showPart(0);
+  }
+
+  function meta(p, isWriting) {
+    if (p.type === 'real-world-mcq')      return { partNumber: p.partNumber, isWriting: false, qStart: p.items[0].id,     qEnd: p.items[p.items.length-1].id };
+    if (p.type === 'multi-text-matching') return { partNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
+    if (p.type === 'long-text-mcq')       return { partNumber: p.partNumber, isWriting: false, qStart: p.questions[0].id, qEnd: p.questions[p.questions.length-1].id };
+    if (p.type === 'cloze-mcq')           return { partNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'cloze-open')          return { partNumber: p.partNumber, isWriting: false, qStart: p.gaps[0].id,      qEnd: p.gaps[p.gaps.length-1].id };
+    if (p.type === 'guided-writing')      return { partNumber: p.partNumber, isWriting: true,  qStart: 31, qEnd: 31 };
+    if (p.type === 'picture-story')       return { partNumber: p.partNumber, isWriting: true,  qStart: 32, qEnd: 32 };
+    return { partNumber: p.partNumber, isWriting: isWriting, qStart: 0, qEnd: 0 };
+  }
+
+  function populatePartJump() {
+    var sel = document.getElementById('partJump');
+    PART_META.forEach(function (m, idx) {
+      var opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = (m.isWriting ? 'Writing: Part ' : 'Part ') + m.partNumber +
+                        '   (Q' + m.qStart + (m.qStart !== m.qEnd ? '–' + m.qEnd : '') + ')';
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', function () { showPart(parseInt(sel.value, 10)); });
+  }
+
+  function wireNav() {
+    document.getElementById('prevBtn').addEventListener('click', function () { if (CURRENT_IDX > 0) showPart(CURRENT_IDX - 1); });
+    document.getElementById('nextBtn').addEventListener('click', function () { if (CURRENT_IDX < ALL_PART_PAGES.length - 1) showPart(CURRENT_IDX + 1); });
+  }
+
+  function showPart(idx) {
+    CURRENT_IDX = idx;
+    ALL_PART_PAGES.forEach(function (p, i) { p.style.display = i === idx ? '' : 'none'; });
+    var m = PART_META[idx];
+    document.getElementById('partJump').value = idx;
+    document.getElementById('prevBtn').disabled = idx === 0;
+    document.getElementById('nextBtn').disabled = idx === ALL_PART_PAGES.length - 1;
+    document.getElementById('progressLabel').textContent = m.qStart === m.qEnd ? 'Question ' + m.qStart : 'Questions ' + m.qStart + '–' + m.qEnd;
+    document.getElementById('progressPart').textContent = (m.isWriting ? 'Writing Part ' : 'Reading Part ') + m.partNumber + ' of 7';
+    document.getElementById('progressFill').style.width = ((m.qEnd / TOTAL_QUESTIONS) * 100).toFixed(1) + '%';
+    var sel = document.querySelector('.part-label');
+    if (sel) sel.textContent = m.isWriting ? 'Writing:' : 'Reading:';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function partInstruction(text) {
+    return '<div class="part-instruction">' + text + '</div>';
+  }
+
+  // Part 1
+  function renderRealWorldMcq(p) {
+    var h = partInstruction('<div>For each question, <strong>choose the correct answer.</strong> ' + escapeHtml(p.items[0].question.charAt(0).toUpperCase() === p.items[0].question.charAt(0) ? 'What does the text say?' : '') + '</div>');
+    p.items.forEach(function (it, idx) {
+      var colourClass = 'colour-' + (idx % 7);
+      var sourceLabel = (it.sourceType || 'sign').replace(/-/g, ' ').toUpperCase();
+      h += '<div class="item-row">';
+      h += '<div class="item-source">';
+      h += '<span class="source-label">Click to enlarge</span>';
+      h += '<div class="sign-box ' + colourClass + '" data-sign="1" tabindex="0" role="button">' + escapeHtml(it.source) + '</div>';
+      h += '</div>';
+      h += '<div class="item-q">';
+      h += '<div class="qstem"><span class="qnum-pill">' + it.id + '</span>' + escapeHtml(it.question) + '</div>';
+      h += renderOptions(it.id, it.options);
+      h += '</div></div>';
+    });
+    return h;
+  }
+
+  // Part 2
+  function renderMultiTextMatching(p) {
+    var h = partInstruction(escapeHtml(p.instruction) + (p.topic ? '<br><strong>' + escapeHtml(p.topic) + '</strong>' : ''));
+    h += '<div class="text-list">';
+    p.texts.forEach(function (t) {
+      h += '<div class="text-card"><span class="label">' + t.id + '</span> ' +
+           '<span class="name">' + escapeHtml(t.title) + '</span>' +
+           '<div class="body">' + escapeHtml(t.body) + '</div></div>';
+    });
+    h += '</div>';
+    p.questions.forEach(function (q) {
+      h += '<div class="qrow">';
+      h += '<div class="qstem"><span class="qnum-pill">' + q.id + '</span>' + escapeHtml(q.prompt) + '</div>';
+      h += renderOptions(q.id, p.texts.map(function (t) { return { letter: t.id, text: t.title }; }));
+      h += '</div>';
+    });
+    return h;
+  }
+
+  // Part 3
+  function renderLongTextMcq(p) {
+    var h = partInstruction(escapeHtml(p.instruction));
+    h += '<div class="passage">' + (p.title ? '<h4>' + escapeHtml(p.title) + '</h4>' : '') + escapeHtml(p.passage) + '</div>';
+    p.questions.forEach(function (q) {
+      h += '<div class="qrow">';
+      h += '<div class="qstem"><span class="qnum-pill">' + q.id + '</span>' + escapeHtml(q.prompt) + '</div>';
+      h += renderOptions(q.id, q.options);
+      h += '</div>';
+    });
+    return h;
+  }
+
+  // Part 4
+  function renderClozeMcq(p) {
+    var h = partInstruction(escapeHtml(p.instruction));
+    var rendered = escapeHtml(p.text).replace(/___(\d+)___/g, function (_, n) {
+      return '<strong style="color:#15803d;background:#dcfce7;padding:1px 8px;border-radius:6px">[ ' + p.gaps[parseInt(n)-1].id + ' ]</strong>';
+    });
+    h += '<div class="passage">' + (p.title ? '<h4>' + escapeHtml(p.title) + '</h4>' : '') + rendered + '</div>';
+    p.gaps.forEach(function (g) {
+      h += '<div class="qrow">';
+      h += '<div class="qstem"><span class="qnum-pill">' + g.id + '</span>Choose A, B or C:</div>';
+      h += renderOptions(g.id, g.options);
+      h += '</div>';
+    });
+    return h;
+  }
+
+  // Part 5
+  function renderClozeOpen(p) {
+    var h = partInstruction(escapeHtml(p.instruction));
+    var rendered = escapeHtml(p.text).replace(/___(\d+)___/g, function (_, n) {
+      var qid = p.gaps[parseInt(n)-1].id;
+      return '<input type="text" class="gap-input" data-qid="' + qid + '" data-kind="open" placeholder="' + qid + '" autocomplete="off" />';
+    });
+    h += '<div class="passage" style="white-space:pre-wrap">' + rendered + '</div>';
+    return h;
+  }
+
+  // Part 6
+  function renderGuidedWriting(p) {
+    var taskType = p.taskType || 'Email';
+    var taskLower = taskType.toLowerCase();
+    var recipient = p.recipient || '';
+    var wMin = p.wordMin || 25;
+    var wMax = p.wordMax || (wMin * 2);
+
+    var h = partInstruction('Write <strong>' + wMin + ' words</strong> or more.');
+    h += '<div class="task-type-heading">Type: <strong>' + escapeHtml(taskType) + '</strong></div>';
+    h += '<div class="writing-prompt-box">';
+    h += '<div>' + escapeHtml(p.instruction) + '</div>';
+    if (p.instructionDetail) h += '<div style="margin-top:8px">' + escapeHtml(p.instructionDetail) + '</div>';
+    if (p.bullets) {
+      h += '<ul class="prompt-bullets">';
+      p.bullets.forEach(function (b) { h += '<li>' + escapeHtml(b) + '</li>'; });
+      h += '</ul>';
+    }
+    h += '<span class="prompt-pencil" aria-hidden="true">✏️</span>';
+    h += '</div>';
+    if (recipient) {
+      h += '<div class="writing-subtitle">Write your <strong>' + escapeHtml(taskLower) + '</strong> to ' + escapeHtml(recipient) + ' <strong>using all the notes</strong>.</div>';
+    }
+    h += '<textarea class="writing-area" data-task="6" placeholder="Write your ' + escapeHtml(taskLower) + ' here..."></textarea>';
+    h += '<div class="word-count short" data-for="6" data-min="' + wMin + '" data-max="' + wMax + '">0 / ' + wMin + '-' + wMax + ' words</div>';
+    return h;
+  }
+
+  // Part 7
+  function renderPictureStory(p) {
+    var taskType = p.taskType || 'Story';
+    var taskLower = taskType.toLowerCase();
+    var wMin = p.wordMin || 35;
+    var wMax = p.wordMax || (wMin * 2);
+
+    var h = partInstruction('Write <strong>' + wMin + ' words</strong> or more.');
+    h += '<div class="task-type-heading">Type: <strong>' + escapeHtml(taskType) + '</strong></div>';
+    h += '<div class="writing-prompt-box">';
+    h += '<div>' + escapeHtml(p.instruction) + '</div>';
+    h += '<span class="prompt-pencil" aria-hidden="true">✏️</span>';
+    h += '</div>';
+    h += '<div class="pic-grid">';
+    p.pictures.forEach(function (pic) {
+      h += '<div class="pic-cell">' +
+            (pic.svg || (pic.imageUrl ? '<img src="'+pic.imageUrl+'" alt="'+escapeHtml(pic.alt||'')+'" style="width:100%;border-radius:6px"/>' : '')) +
+            '<div class="cap">' + escapeHtml(pic.caption || pic.alt || '') + '</div>' +
+           '</div>';
+    });
+    h += '</div>';
+    h += '<div class="writing-subtitle">Write the <strong>' + escapeHtml(taskLower) + '</strong> shown in the pictures.</div>';
+    h += '<textarea class="writing-area" data-task="7" placeholder="Write your story here..."></textarea>';
+    h += '<div class="word-count short" data-for="7" data-min="' + wMin + '" data-max="' + wMax + '">0 / ' + wMin + '-' + wMax + ' words</div>';
+    return h;
+  }
+
+  function renderReadingPart(p) {
+    switch (p.type) {
+      case 'real-world-mcq':       return renderRealWorldMcq(p);
+      case 'multi-text-matching':  return renderMultiTextMatching(p);
+      case 'long-text-mcq':        return renderLongTextMcq(p);
+      case 'cloze-mcq':            return renderClozeMcq(p);
+      case 'cloze-open':           return renderClozeOpen(p);
+      default: return '<em>Unknown part type: ' + escapeHtml(p.type) + '</em>';
+    }
+  }
+  function renderWritingPart(p) {
+    switch (p.type) {
+      case 'guided-writing': return renderGuidedWriting(p);
+      case 'picture-story':  return renderPictureStory(p);
+      default: return '';
+    }
+  }
+
+  function renderOptions(qid, options) {
+    var h = '<div class="options">';
+    options.forEach(function (o) {
+      h += '<label class="opt" data-qid="' + qid + '" data-letter="' + o.letter + '">' +
+            '<input type="radio" name="q' + qid + '" value="' + o.letter + '"/>' +
+            '<span class="opt-check"></span>' +
+            '<span class="opt-letter">' + o.letter + '</span>' +
+            '<span class="opt-text">' + escapeHtml(o.text) + '</span>' +
+           '</label>';
+    });
+    return h + '</div>';
+  }
+
+  // ───── Wiring ─────
+  function wireOptionClicks() {
+    document.querySelectorAll('.opt').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var qid = el.dataset.qid;
+        ANSWERS[qid] = el.dataset.letter;
+        document.querySelectorAll('.opt[data-qid="' + qid + '"]').forEach(function (sib) { sib.classList.remove('selected'); });
+        el.classList.add('selected');
+        var radio = el.querySelector('input[type=radio]');
+        if (radio) radio.checked = true;
+      });
+    });
+  }
+  function wireGapInputs() {
+    document.querySelectorAll('.gap-input').forEach(function (i) {
+      i.addEventListener('input', function () { ANSWERS[i.dataset.qid] = i.value.trim(); });
+    });
+  }
+  function wireWritingAreas() {
+    document.querySelectorAll('.writing-area').forEach(function (t) {
+      var task = t.dataset.task;
+      t.addEventListener('input', function () {
+        WRITING[task] = t.value;
+        var n = (t.value.trim().match(/\S+/g) || []).length;
+        var label = document.querySelector('.word-count[data-for="' + task + '"]');
+        if (!label) return;
+        var min = parseInt(label.dataset.min, 10) || 25;
+        var max = parseInt(label.dataset.max, 10) || (min * 2);
+        label.textContent = n + ' / ' + min + '-' + max + ' words';
+        label.classList.toggle('ok',    n >= min && n <= max);
+        label.classList.toggle('short', n < min);
+        label.classList.toggle('over',  n > max);
+      });
+    });
+  }
+
+  // ───── Timer ─────
+  var TIMER_END = 0, TIMER_INT = null;
+  function startTimer(minutes) {
+    TIMER_END = Date.now() + minutes * 60 * 1000;
+    var el = document.getElementById('timer');
+    function tick() {
+      var ms = TIMER_END - Date.now();
+      if (ms <= 0) { clearInterval(TIMER_INT); el.textContent = '00:00'; el.classList.add('danger'); submitMock(true); return; }
+      var s = Math.floor(ms/1000); var m = Math.floor(s/60); s = s % 60;
+      el.textContent = (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+      el.classList.toggle('warn',   ms < 10*60*1000 && ms >= 5*60*1000);
+      el.classList.toggle('danger', ms < 5*60*1000);
+    }
+    tick(); TIMER_INT = setInterval(tick, 1000);
+  }
+
+  // ───── Submit ─────
+  window.submitMock = function (isAuto) {
+    if (!isAuto && !confirm('Submit your answers now? You cannot change them after this.')) return;
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    var t = window.KET_RW_TEST;
+    var rTotal = 0, rCorrect = 0;
+    SCORE_BY_PART = {};
+
+    t.reading.parts.forEach(function (p) {
+      var partTotal = 0, partCorrect = 0;
+      function check(qid, expected, gotRaw) {
+        partTotal++; rTotal++;
+        var got = (gotRaw || '').toString().trim().toLowerCase();
+        var ok;
+        if (Array.isArray(expected)) ok = expected.some(function (a) { return a.toString().toLowerCase() === got; });
+        else ok = expected.toString().toLowerCase() === got;
+        if (ok) { partCorrect++; rCorrect++; }
+      }
+      switch (p.type) {
+        case 'real-world-mcq':      p.items.forEach(function (it) { check(it.id, it.correct, ANSWERS[it.id]); }); break;
+        case 'multi-text-matching': p.questions.forEach(function (q) { check(q.id, q.correct, ANSWERS[q.id]); }); break;
+        case 'long-text-mcq':       p.questions.forEach(function (q) { check(q.id, q.correct, ANSWERS[q.id]); }); break;
+        case 'cloze-mcq':           p.gaps.forEach(function (g) { check(g.id, g.correct, ANSWERS[g.id]); }); break;
+        case 'cloze-open':          p.gaps.forEach(function (g) { check(g.id, g.accept, ANSWERS[g.id]); }); break;
+      }
+      SCORE_BY_PART['Part ' + p.partNumber] = partCorrect + ' / ' + partTotal;
+    });
+
+    t.writing.parts.forEach(function (p) {
+      var task = p.partNumber === 6 ? '6' : '7';
+      var n = ((WRITING[task] || '').trim().match(/\S+/g) || []).length;
+      SCORE_BY_PART['Part ' + p.partNumber] = n + ' words (target ' + (p.wordMin || (p.partNumber===6?25:35)) + '+)';
+    });
+
+    showResults(rCorrect, rTotal);
+    recordAttempt();
+  };
+
+  function showResults(rCorrect, rTotal) {
+    var html = '<div class="results"><h3>📊 Your Result</h3>';
+    Object.keys(SCORE_BY_PART).forEach(function (k) {
+      html += '<div class="score-row"><span>' + k + '</span><span>' + SCORE_BY_PART[k] + '</span></div>';
+    });
+    html += '<div class="score-row"><span>Reading total</span><span>' + rCorrect + ' / ' + rTotal + '</span></div>';
+    html += '<div style="margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;font-size:13px;color:#64748b;line-height:1.55">' +
+            'Writing tasks (Parts 6 &amp; 7) will be reviewed by AI scoring for premium users. Your reading score above is auto-graded.' +
+            '</div>';
+    html += '<div style="display:flex;gap:8px;margin-top:14px"><a href="KET Reading & Writing Mocks.html" class="btn btn-primary" style="text-decoration:none;display:inline-block">Back to mocks</a></div>';
+    html += '</div>';
+    ALL_PART_PAGES.forEach(function (p) { p.style.display = 'none'; });
+    document.getElementById('container').insertAdjacentHTML('beforeend', html);
+    document.getElementById('submitBar').style.display = 'none';
+    document.getElementById('partNav').style.display = 'none';
+    document.getElementById('progressRow').style.display = 'none';
+    var r = document.querySelector('.results');
+    if (r) r.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function recordAttempt() {
+    try {
+      if (!window.PremiumGate || !window.PremiumGate.recordOpen) return;
+      var t = window.KET_RW_TEST;
+      window.PremiumGate.recordOpen({ skill: 'ket_reading_writing', exam_type: 'ket', mock_number: parseInt((t.testInfo.id || '').split('-').pop(), 10) || 1 });
+    } catch (e) {}
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  </script>
+</body>
+</html>
