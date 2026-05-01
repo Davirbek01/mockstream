@@ -308,73 +308,26 @@ window.KET_RW_TEST = {
         instruction: "Look at the three pictures. Write the story shown in the pictures.",
         wordMin: 35,
         wordMax: 60,
-        // 3 sequential scenes, original inline SVG line art (Mock Stream)
+        // 3 sequential scenes — Pexels-licensed photographs (free for commercial use)
+        // Hosted in our GCS bucket: gs://mockstream-listening-audio/KET/test 1/picture-story/
         pictures: [
           {
             id: 1,
-            alt: "A boy walks past a park bench and sees a wallet on it.",
-            caption: "1. The boy sees a wallet.",
-            svg:
-              '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A boy walks past a bench and notices a wallet on it">' +
-              '<rect x="0" y="120" width="200" height="40" fill="#dcfce7"/>' +
-              '<rect x="0" y="0" width="200" height="120" fill="#e0f2fe"/>' +
-              '<rect x="100" y="100" width="80" height="6" fill="#92400e"/>' +
-              '<rect x="106" y="106" width="6" height="20" fill="#92400e"/>' +
-              '<rect x="168" y="106" width="6" height="20" fill="#92400e"/>' +
-              '<rect x="130" y="92" width="22" height="10" rx="2" fill="#1e293b"/>' +
-              '<rect x="134" y="95" width="14" height="3" fill="#fbbf24"/>' +
-              '<circle cx="50" cy="80" r="9" fill="#fcd34d"/>' +
-              '<rect x="44" y="89" width="12" height="22" fill="#3b82f6"/>' +
-              '<line x1="44" y1="92" x2="36" y2="105" stroke="#3b82f6" stroke-width="3"/>' +
-              '<line x1="56" y1="92" x2="64" y2="105" stroke="#3b82f6" stroke-width="3"/>' +
-              '<line x1="46" y1="111" x2="42" y2="125" stroke="#1e293b" stroke-width="3"/>' +
-              '<line x1="54" y1="111" x2="58" y2="125" stroke="#1e293b" stroke-width="3"/>' +
-              '<text x="65" y="80" font-family="sans-serif" font-size="13" fill="#1e293b">!</text>' +
-              '</svg>'
+            alt: "A child sleeping peacefully on a pillow.",
+            caption: "1. Sara is sleeping.",
+            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-1.jpg"
           },
           {
             id: 2,
-            alt: "The boy opens the wallet and sees an identity card with a person's photo and address.",
-            caption: "2. He looks inside and finds an ID card.",
-            svg:
-              '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The boy opens the wallet and finds an ID card with photo and address">' +
-              '<rect width="200" height="160" fill="#fef3c7"/>' +
-              '<rect x="50" y="40" width="100" height="70" rx="6" fill="#1e293b"/>' +
-              '<rect x="56" y="46" width="88" height="58" rx="4" fill="#fbbf24"/>' +
-              '<rect x="64" y="55" width="34" height="42" rx="3" fill="#fff"/>' +
-              '<circle cx="81" cy="68" r="6" fill="#fcd34d"/>' +
-              '<path d="M71 92 q10 -10 20 0 v5 h-20 z" fill="#3b82f6"/>' +
-              '<rect x="104" y="58" width="36" height="3" fill="#1e293b"/>' +
-              '<rect x="104" y="66" width="32" height="2" fill="#1e293b"/>' +
-              '<rect x="104" y="72" width="28" height="2" fill="#1e293b"/>' +
-              '<rect x="104" y="78" width="34" height="2" fill="#1e293b"/>' +
-              '<rect x="104" y="84" width="22" height="2" fill="#1e293b"/>' +
-              '<text x="100" y="125" font-family="sans-serif" font-size="11" fill="#1e293b">ID Card</text>' +
-              '</svg>'
+            alt: "A child waking up and stretching her arms in bed.",
+            caption: "2. Sara wakes up.",
+            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-2.jpg"
           },
           {
             id: 3,
-            alt: "The boy gives the wallet back to its owner. The owner smiles and says thank you.",
-            caption: "3. He gives the wallet back to the owner.",
-            svg:
-              '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The boy returns the wallet to its owner who smiles and thanks him">' +
-              '<rect width="200" height="160" fill="#dcfce7"/>' +
-              '<circle cx="65" cy="55" r="11" fill="#fcd34d"/>' +
-              '<rect x="58" y="66" width="14" height="28" fill="#3b82f6"/>' +
-              '<line x1="72" y1="72" x2="92" y2="80" stroke="#3b82f6" stroke-width="4"/>' +
-              '<rect x="90" y="76" width="14" height="9" rx="2" fill="#1e293b"/>' +
-              '<rect x="58" y="66" width="14" height="28" fill="#3b82f6"/>' +
-              '<line x1="60" y1="94" x2="56" y2="115" stroke="#1e293b" stroke-width="3"/>' +
-              '<line x1="70" y1="94" x2="74" y2="115" stroke="#1e293b" stroke-width="3"/>' +
-              '<circle cx="135" cy="55" r="11" fill="#fcd34d"/>' +
-              '<path d="M129 56 q6 5 12 0" stroke="#1e293b" stroke-width="2" fill="none"/>' +
-              '<rect x="128" y="66" width="14" height="28" fill="#dc2626"/>' +
-              '<line x1="128" y1="72" x2="108" y2="78" stroke="#dc2626" stroke-width="4"/>' +
-              '<line x1="142" y1="72" x2="155" y2="80" stroke="#dc2626" stroke-width="4"/>' +
-              '<line x1="130" y1="94" x2="126" y2="115" stroke="#1e293b" stroke-width="3"/>' +
-              '<line x1="140" y1="94" x2="144" y2="115" stroke="#1e293b" stroke-width="3"/>' +
-              '<text x="78" y="40" font-family="sans-serif" font-size="11" fill="#15803d">"Thank you!"</text>' +
-              '</svg>'
+            alt: "A child eating breakfast happily.",
+            caption: "3. Sara has breakfast.",
+            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-3.jpg"
           }
         ],
         scoringRubric:
