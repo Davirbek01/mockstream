@@ -1209,18 +1209,17 @@
   (function () {
     var EXAM  = 'ielts';
     var SKILL = 'listening';
-    var CARD_SEL  = '[data-mock]';
     var CARD_ATTR = 'data-mock';
     var PART_SEL  = '.mode-btn.part1, .mode-btn.part2, .mode-btn.part3, .mode-btn.part4';
 
     function _decorate() {
       if (!window.PremiumGate) return;
 
-      // (1) Badge: "✓ Taken · N×" on each card with previous attempts
-      document.querySelectorAll(CARD_SEL).forEach(function (card) {
-        // Skip if already decorated
+      document.querySelectorAll('.test-card-wrap').forEach(function (card) {
         if (card.querySelector(':scope > .pg-taken-badge')) return;
-        var n = Number(card.getAttribute(CARD_ATTR));
+        var btn = card.querySelector('[' + CARD_ATTR + ']');
+        if (!btn) return;
+        var n = Number(btn.getAttribute(CARD_ATTR));
         if (!n) return;
         var count = window.PremiumGate.attemptCount({ skill: SKILL, exam_type: EXAM, mock_number: n });
         if (!count) return;
@@ -1230,7 +1229,6 @@
         card.appendChild(b);
       });
 
-      // (2) Lock Part-Practice buttons for non-admin non-premium
       if (!window.PremiumGate.isPremiumTier(SKILL) && !window.PremiumGate.isAdmin()) {
         document.querySelectorAll(PART_SEL).forEach(function (btn) {
           window.PremiumGate.applyLockBadge(btn, 'part_practice_' + SKILL + '_' + EXAM);
@@ -1241,15 +1239,16 @@
     function _refreshCrossDevice() {
       if (!window.PremiumGate || !window.PremiumGate.fetchTakenForUser) return;
       window.PremiumGate.fetchTakenForUser().then(function (rows) {
-        // Remove existing badges and re-render with merged counts
         document.querySelectorAll('.pg-taken-badge').forEach(function (b) { b.remove(); });
         var counts = {};
         rows.forEach(function (r) {
           if (r.skill !== SKILL || r.exam_type !== EXAM) return;
           counts[r.mock_number] = (counts[r.mock_number] || 0) + 1;
         });
-        document.querySelectorAll(CARD_SEL).forEach(function (card) {
-          var n = Number(card.getAttribute(CARD_ATTR));
+        document.querySelectorAll('.test-card-wrap').forEach(function (card) {
+          var btn = card.querySelector('[' + CARD_ATTR + ']');
+          if (!btn) return;
+          var n = Number(btn.getAttribute(CARD_ATTR));
           if (!counts[n]) return;
           var b = document.createElement('span');
           b.className = 'pg-taken-badge';
