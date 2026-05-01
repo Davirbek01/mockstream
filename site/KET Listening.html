@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="finish-gate.js" defer></script>
+  <script src="./ai-proxy-interceptor.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KET Listening</title>
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
+  <script src="ket-mock-config.js"></script>
+  <style>
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:#f8fafc; padding:20px; min-height:100vh; display:flex; align-items:center; justify-content:center; margin:0; }
+    .card { max-width:480px; background:#fff; border-radius:24px; padding:48px 32px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.08); }
+    .icon { font-size:64px; margin-bottom:16px; }
+    h1 { font-size:22px; color:#115e59; margin-bottom:8px; }
+    .badge { display:inline-block; background:linear-gradient(135deg,#0d9488,#115e59); color:#fff; padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; margin-bottom:18px; }
+    p { color:#64748b; font-size:14px; line-height:1.6; margin-bottom:18px; }
+    .back-btn { display:inline-block; background:linear-gradient(135deg,#0d9488,#115e59); color:#fff; padding:10px 24px; border-radius:12px; text-decoration:none; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="card" id="placeholder">
+    <div class="icon">🎧</div>
+    <div class="badge">UNDER CONSTRUCTION</div>
+    <h1>KET Listening</h1>
+    <p>This mock page is being built. The renderer for the 5 KET Listening parts (picture MCQ, long MCQ, gap-fill, text MCQ, matching) plus audio playback from GCS is in development.</p>
+    <p>Content for this mock will appear here as soon as it's authored.</p>
+    <a class="back-btn" href="KET Listening Mocks.html">← Back to mocks</a>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var mock = params.get('mock');
+      if (mock) {
+        // TODO: dynamically inject <script src="questions KET L/ket-listening-test-NN.js">
+        // and render window.KET_LISTENING_TEST when loaded.
+      }
+    })();
+  </script>
+</body>
+</html>

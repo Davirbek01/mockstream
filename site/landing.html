@@ -7212,6 +7212,28 @@
               content: '⏳';
               font-size: 11px;
             }
+            .cambridge-exam-card.active {
+              cursor: pointer;
+              opacity: 1;
+            }
+            .cambridge-exam-card.active:hover {
+              border-color: #10b981;
+              box-shadow: 0 12px 28px rgba(16, 185, 129, 0.18);
+            }
+            .cambridge-exam-card .ce-go {
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              font-size: 10.5px;
+              font-weight: 700;
+              letter-spacing: 0.07em;
+              text-transform: uppercase;
+              color: #065f46;
+              background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+              padding: 4px 9px;
+              border-radius: 999px;
+              border: 1px solid #6ee7b7;
+            }
             /* Dark mode */
             [data-theme="dark"] .cambridge-exams-section,
             body.dark-mode .cambridge-exams-section {
@@ -7250,11 +7272,11 @@
               <p>Recognised global qualifications across CEFR levels — mocks coming soon</p>
             </div>
             <div class="cambridge-exams-grid">
-              <div class="cambridge-exam-card ket" role="button" aria-disabled="true" title="KET (A2 Key) — Coming soon">
+              <div class="cambridge-exam-card ket active" role="button" tabindex="0" onclick="showKETOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showKETOptions()" title="KET (A2 Key)">
                 <span class="ce-level">A2</span>
                 <h4 class="ce-name">KET</h4>
                 <p class="ce-desc">A2 Key — everyday English foundations.</p>
-                <span class="ce-soon">Soon</span>
+                <span class="ce-go">Start →</span>
               </div>
               <div class="cambridge-exam-card pet" role="button" aria-disabled="true" title="PET (B1 Preliminary) — Coming soon">
                 <span class="ce-level">B1</span>
@@ -7648,6 +7670,33 @@
         </button>
       </div>
       <button class="modal-close-btn" onclick="closeSpeakingModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- KET Options Modal -->
+  <div class="speaking-modal-overlay" id="ketModal" onclick="closeKETModal(event)">
+    <div class="speaking-modal" onclick="event.stopPropagation()">
+      <h3>🎓 KET (A2 Key)</h3>
+      <p>Select a paper to practice</p>
+      <div class="speaking-options">
+        <button class="speaking-option-btn" onclick="selectKETType('rw')" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #16a34a">
+          <span class="option-icon">📝</span>
+          <span class="option-title" style="color:#15803d">Reading &amp; Writing</span>
+          <span class="option-desc">60 min · 32 questions</span>
+        </button>
+        <button class="speaking-option-btn" onclick="selectKETType('listening')" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488">
+          <span class="option-icon">🎧</span>
+          <span class="option-title" style="color:#115e59">Listening</span>
+          <span class="option-desc">30 min · 25 questions</span>
+        </button>
+        <button class="speaking-option-btn" onclick="selectKETType('speaking')" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎤</span>
+          <span class="option-title" style="color:#7c3aed">Speaking</span>
+          <span class="option-desc">8–10 min (paired) · arriving in v2</span>
+        </button>
+      </div>
+      <button class="modal-close-btn" onclick="closeKETModal()">Cancel</button>
     </div>
   </div>
 
@@ -13663,6 +13712,28 @@
         openSpeakingCategoryModal('ielts-speaking');
       } else {
         openSpeakingCategoryModal('cefr-speaking');
+      }
+    }
+
+    // ========== KET (A2 Key) OPTIONS MODAL ==========
+    function showKETOptions() {
+      var m = document.getElementById('ketModal');
+      if (m) m.classList.add('show');
+    }
+    function closeKETModal(event) {
+      var m = document.getElementById('ketModal');
+      if (!m) return;
+      if (!event || event.target === m) m.classList.remove('show');
+    }
+    function selectKETType(type) {
+      closeKETModal();
+      if (type === 'rw') {
+        loadMock('KET Reading & Writing Mocks.html', 'reading');
+      } else if (type === 'listening') {
+        loadMock('KET Listening Mocks.html', 'listening');
+      } else if (type === 'speaking') {
+        // KET Speaking is v2 — show Coming Soon page
+        loadMock('KET Speaking Mocks.html', 'speaking');
       }
     }
 
