@@ -279,20 +279,73 @@
     });
   }
 
+  // Derive the skill name from the reason string so applyLockBadge can re-check
+  // isPremiumTier(skill) at click time. Reasons follow the convention
+  //   <prefix>_<skill>[_<exam>]  (e.g. 'plus_speaking', 'part_practice_listening_cefr',
+  //   'listening_result_#aiAnalyzeBtn').
+  function _skillFromReason(reason) {
+    var r = (reason || '').toString();
+    if (r.indexOf('speaking')  !== -1) return 'speaking';
+    if (r.indexOf('writing')   !== -1) return 'writing';
+    if (r.indexOf('reading')   !== -1) return 'reading';
+    if (r.indexOf('listening') !== -1) return 'listening';
+    return '';
+  }
+
+  function _unlockEl(el) {
+    if (!el) return;
+    el.dataset.pgLocked = '0';
+    el.classList.remove('pg-locked');
+    var b = el.querySelector(':scope > .pg-lock-badge');
+    if (b) b.remove();
+  }
+
+  // Re-evaluate every locked element. Called when the page learns the user
+  // has become premium (e.g. async Google email-auth unlock completes after
+  // DOMContentLoaded-time decoration already locked things).
+  function _refreshLocks() {
+    try {
+      var nodes = document.querySelectorAll('[data-pg-locked="1"]');
+      for (var i = 0; i < nodes.length; i++) {
+        var el = nodes[i];
+        var sk = el.dataset.pgSkill || '';
+        if ((sk && isPremiumTier(sk)) || isAdmin()) _unlockEl(el);
+      }
+    } catch (e) {}
+  }
+
   function applyLockBadge(el, reason) {
     if (!el || el.dataset.pgLocked === '1') return;
+    var skill = _skillFromReason(reason);
+    // If the user is already premium for this skill (or admin), don't lock at all.
+    if ((skill && isPremiumTier(skill)) || isAdmin()) return;
     el.dataset.pgLocked = '1';
+    if (skill) el.dataset.pgSkill = skill;
     el.classList.add('pg-locked');
     var badge = document.createElement('span');
     badge.className = 'pg-lock-badge';
     badge.textContent = '🔒 Premium';
     el.appendChild(badge);
     el.addEventListener('click', function (e) {
+      // Re-check at click time so a lock applied before async sign-in completed
+      // self-corrects on first click instead of trapping a real premium user.
+      var sk = el.dataset.pgSkill || '';
+      if ((sk && isPremiumTier(sk)) || isAdmin()) {
+        _unlockEl(el);
+        return; // let the click through to original handlers
+      }
       e.preventDefault();
       e.stopImmediatePropagation();
       openUpgradeModal(reason || el.getAttribute('data-pg-reason') || 'lock');
     }, true);
   }
+
+  // Listen for late premium signals (Google sign-in completing async) so locked
+  // tiles visually unlock without requiring the user to click first.
+  try {
+    window.addEventListener('mockStream:premiumUnlocked', _refreshLocks);
+    window.addEventListener('mockStream:userSignedIn',    _refreshLocks);
+  } catch (e) {}
 
   window.PremiumGate = {
     isPremiumTier:     isPremiumTier,
