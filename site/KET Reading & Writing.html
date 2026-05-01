@@ -99,11 +99,21 @@
     .gap-input:focus { outline:none; border-color:var(--primary); background:#dcfce7; color:var(--primary-dark); }
 
     /* Writing parts */
-    .writing-area { width:100%; min-height:160px; border:1.5px solid var(--border); border-radius:10px; padding:12px; font-family:inherit; font-size:14.5px; line-height:1.55; resize:vertical; }
-    .writing-area:focus { outline:none; border-color:var(--primary); }
-    .word-count { font-size:12.5px; color:var(--muted); margin-top:6px; text-align:right; font-weight:600; }
+    .task-type-heading { font-size:16px; font-weight:700; color:var(--text); margin:14px 0 10px; }
+    .task-type-heading strong { color:var(--text); }
+    .writing-prompt-box { position:relative; background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:10px; padding:16px 36px 22px 20px; margin-bottom:14px; font-size:14.5px; line-height:1.6; color:#14532d; }
+    .writing-prompt-box .prompt-bullets { margin:8px 0 0 20px; padding-left:0; list-style:disc; }
+    .writing-prompt-box .prompt-bullets li { padding:3px 0; }
+    .prompt-pencil { position:absolute; bottom:6px; right:10px; font-size:14px; color:#15803d; opacity:.55; }
+    .writing-subtitle { font-size:14px; color:var(--text); margin-bottom:10px; }
+    .writing-subtitle strong { font-weight:700; }
+    .writing-area { width:100%; min-height:180px; border:1.5px solid var(--info); border-radius:8px; padding:14px; font-family:inherit; font-size:14.5px; line-height:1.6; resize:vertical; background:#eff6ff; color:var(--text); }
+    .writing-area:focus { outline:none; border-color:var(--primary); background:#dcfce7; }
+    .word-count { font-size:13px; color:var(--danger); margin-top:6px; text-align:right; font-weight:700; }
     .word-count.ok { color:var(--good); }
-    .word-count.short { color:var(--warn); }
+    .word-count.short { color:var(--danger); }
+    .word-count.over { color:var(--warn); }
+    .word-count .num { color:inherit; }
     .bullets { list-style:none; padding:0; margin:8px 0 14px; }
     .bullets li { padding:7px 12px; background:var(--primary-light); border-radius:8px; margin-bottom:6px; font-size:13.5px; color:var(--primary-dark); }
     .bullets li::before { content:"• "; font-weight:700; }
@@ -363,20 +373,45 @@
 
   // Part 6
   function renderGuidedWriting(p) {
-    var h = partInstruction(escapeHtml(p.instruction) + (p.instructionDetail ? '<br>' + escapeHtml(p.instructionDetail) : ''));
+    var taskType = p.taskType || 'Email';
+    var taskLower = taskType.toLowerCase();
+    var recipient = p.recipient || '';
+    var wMin = p.wordMin || 25;
+    var wMax = p.wordMax || (wMin * 2);
+
+    var h = partInstruction('Write <strong>' + wMin + ' words</strong> or more.');
+    h += '<div class="task-type-heading">Type: <strong>' + escapeHtml(taskType) + '</strong></div>';
+    h += '<div class="writing-prompt-box">';
+    h += '<div>' + escapeHtml(p.instruction) + '</div>';
+    if (p.instructionDetail) h += '<div style="margin-top:8px">' + escapeHtml(p.instructionDetail) + '</div>';
     if (p.bullets) {
-      h += '<ul class="bullets">';
+      h += '<ul class="prompt-bullets">';
       p.bullets.forEach(function (b) { h += '<li>' + escapeHtml(b) + '</li>'; });
       h += '</ul>';
     }
-    h += '<textarea class="writing-area" data-task="6" placeholder="Write your email here..."></textarea>';
-    h += '<div class="word-count" data-for="6">Words: 0 / ' + (p.wordMin || 25) + '+</div>';
+    h += '<span class="prompt-pencil" aria-hidden="true">✏️</span>';
+    h += '</div>';
+    if (recipient) {
+      h += '<div class="writing-subtitle">Write your <strong>' + escapeHtml(taskLower) + '</strong> to ' + escapeHtml(recipient) + ' <strong>using all the notes</strong>.</div>';
+    }
+    h += '<textarea class="writing-area" data-task="6" placeholder="Write your ' + escapeHtml(taskLower) + ' here..."></textarea>';
+    h += '<div class="word-count short" data-for="6" data-min="' + wMin + '" data-max="' + wMax + '">0 / ' + wMin + '-' + wMax + ' words</div>';
     return h;
   }
 
   // Part 7
   function renderPictureStory(p) {
-    var h = partInstruction(escapeHtml(p.instruction));
+    var taskType = p.taskType || 'Story';
+    var taskLower = taskType.toLowerCase();
+    var wMin = p.wordMin || 35;
+    var wMax = p.wordMax || (wMin * 2);
+
+    var h = partInstruction('Write <strong>' + wMin + ' words</strong> or more.');
+    h += '<div class="task-type-heading">Type: <strong>' + escapeHtml(taskType) + '</strong></div>';
+    h += '<div class="writing-prompt-box">';
+    h += '<div>' + escapeHtml(p.instruction) + '</div>';
+    h += '<span class="prompt-pencil" aria-hidden="true">✏️</span>';
+    h += '</div>';
     h += '<div class="pic-grid">';
     p.pictures.forEach(function (pic) {
       h += '<div class="pic-cell">' +
@@ -385,8 +420,9 @@
            '</div>';
     });
     h += '</div>';
+    h += '<div class="writing-subtitle">Write the <strong>' + escapeHtml(taskLower) + '</strong> shown in the pictures.</div>';
     h += '<textarea class="writing-area" data-task="7" placeholder="Write your story here..."></textarea>';
-    h += '<div class="word-count" data-for="7">Words: 0 / ' + (p.wordMin || 35) + '+</div>';
+    h += '<div class="word-count short" data-for="7" data-min="' + wMin + '" data-max="' + wMax + '">0 / ' + wMin + '-' + wMax + ' words</div>';
     return h;
   }
 
@@ -447,10 +483,12 @@
         var n = (t.value.trim().match(/\S+/g) || []).length;
         var label = document.querySelector('.word-count[data-for="' + task + '"]');
         if (!label) return;
-        var min = parseInt(label.textContent.split('/')[1]) || 25;
-        label.textContent = 'Words: ' + n + ' / ' + min + '+';
-        label.classList.toggle('ok', n >= min);
+        var min = parseInt(label.dataset.min, 10) || 25;
+        var max = parseInt(label.dataset.max, 10) || (min * 2);
+        label.textContent = n + ' / ' + min + '-' + max + ' words';
+        label.classList.toggle('ok',    n >= min && n <= max);
         label.classList.toggle('short', n < min);
+        label.classList.toggle('over',  n > max);
       });
     });
   }

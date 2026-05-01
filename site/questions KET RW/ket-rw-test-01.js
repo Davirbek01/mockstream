@@ -285,6 +285,8 @@ window.KET_RW_TEST = {
       {
         partNumber: 6,
         type: "guided-writing",
+        taskType: "Email",
+        recipient: "Sam",
         instruction: "You are going to a music concert next Saturday. Write an email to your English friend Sam.",
         instructionDetail: "In your email:",
         bullets: [
@@ -293,6 +295,7 @@ window.KET_RW_TEST = {
           "invite Sam to come with you"
         ],
         wordMin: 25,
+        wordMax: 50,
         scoringRubric:
           "Award full marks if the candidate addresses all three bullets clearly, uses A2-appropriate vocabulary and grammar, and writes 25 words or more. Penalise if a bullet is missing, the response is fewer than 25 words, or the email format is not recognisable."
       },
@@ -301,8 +304,10 @@ window.KET_RW_TEST = {
       {
         partNumber: 7,
         type: "picture-story",
+        taskType: "Story",
         instruction: "Look at the three pictures. Write the story shown in the pictures.",
         wordMin: 35,
+        wordMax: 60,
         // 3 sequential scenes, original inline SVG line art (Mock Stream)
         pictures: [
           {
