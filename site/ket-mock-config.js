@@ -5,7 +5,7 @@
 window.KET_MOCK_CONFIG = {
     // Number of available STATIC tests for each module
     // Dynamic mocks from Supabase (mock_tests table) are loaded automatically
-    reading_writing: 1,  // questions KET RW/ket-rw-test-01.js to ket-rw-test-NN.js
+    reading_writing: 2,  // questions KET RW/ket-rw-test-01.js to ket-rw-test-NN.js
     listening: 0,        // questions KET L/ket-listening-test-01.js to ket-listening-test-NN.js
     speaking: 0,         // questions KET S/questions01.js — speaking is v2 (placeholder for now)
 
