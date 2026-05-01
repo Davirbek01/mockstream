@@ -161,6 +161,10 @@
             if (j.premium_ai) sessionStorage.setItem('vipPremiumAi', 'true');
             else sessionStorage.removeItem('vipPremiumAi');
           } catch (_e) {}
+          // Tell premium-gate the unlock state may have changed so any locks
+          // applied at DOMContentLoaded (before this async validate finished)
+          // can re-evaluate and visually unlock.
+          try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'token_validate', role: j.role, premium_ai: !!j.premium_ai } })); } catch (_e) {}
         }).catch(function (e) {
           console.warn('[VIP] Token validator network error:', e, '— trusting cached token.');
         });
@@ -16957,6 +16961,8 @@
         } else {
           sessionStorage.removeItem('vipPremiumAi');
         }
+        // Notify premium-gate so any locks applied at DOMContentLoaded re-evaluate.
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'vip_code_sidebar', premium_ai: isPremiumAi } })); } catch (_e) {}
 
         status.className = 'vip-sidebar-status success';
         status.textContent = '✅ All features unlocked!';
@@ -17230,6 +17236,8 @@
           } else {
             sessionStorage.removeItem('vipPremiumAi');
           }
+          // Notify premium-gate so any locks applied at DOMContentLoaded re-evaluate.
+          try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'vip_email_sidebar', tier: match.tier } })); } catch (_e) {}
 
           // Remember email and tier for auto-login and center-guard checks
           localStorage.setItem('ms_vip_email', email);
