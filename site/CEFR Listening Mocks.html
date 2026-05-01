@@ -13,6 +13,8 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
   <script>if(window.SITE_CONFIG){var f=document.getElementById('site-favicon');if(f)f.href=window.SITE_CONFIG.logoUrl;}</script>
   <script src="questions S/questions.js"></script>
   <!-- Listening mock code configs -->
@@ -1456,6 +1458,73 @@
   })();
   </script>
   <script src="chat-bubble.js"></script>
+  <script>
+  (function () {
+    var EXAM  = 'cefr';
+    var SKILL = 'listening';
+    var CARD_SEL  = '[data-mock-num]';
+    var CARD_ATTR = 'data-mock-num';
+    var PART_SEL  = '.mode-btn.mode-practice';
+
+    function _decorate() {
+      if (!window.PremiumGate) return;
+
+      // (1) Badge: "✓ Taken · N×" on each card with previous attempts
+      document.querySelectorAll(CARD_SEL).forEach(function (card) {
+        // Skip if already decorated
+        if (card.querySelector(':scope > .pg-taken-badge')) return;
+        var n = Number(card.getAttribute(CARD_ATTR));
+        if (!n) return;
+        var count = window.PremiumGate.attemptCount({ skill: SKILL, exam_type: EXAM, mock_number: n });
+        if (!count) return;
+        var b = document.createElement('span');
+        b.className = 'pg-taken-badge';
+        b.textContent = count === 1 ? '✓ Taken' : '✓ Taken · ' + count + '×';
+        card.appendChild(b);
+      });
+
+      // (2) Lock Part-Practice buttons for non-admin non-premium
+      if (!window.PremiumGate.isPremiumTier(SKILL) && !window.PremiumGate.isAdmin()) {
+        document.querySelectorAll(PART_SEL).forEach(function (btn) {
+          window.PremiumGate.applyLockBadge(btn, 'part_practice_' + SKILL + '_' + EXAM);
+        });
+      }
+    }
+
+    function _refreshCrossDevice() {
+      if (!window.PremiumGate || !window.PremiumGate.fetchTakenForUser) return;
+      window.PremiumGate.fetchTakenForUser().then(function (rows) {
+        // Remove existing badges and re-render with merged counts
+        document.querySelectorAll('.pg-taken-badge').forEach(function (b) { b.remove(); });
+        var counts = {};
+        rows.forEach(function (r) {
+          if (r.skill !== SKILL || r.exam_type !== EXAM) return;
+          counts[r.mock_number] = (counts[r.mock_number] || 0) + 1;
+        });
+        document.querySelectorAll(CARD_SEL).forEach(function (card) {
+          var n = Number(card.getAttribute(CARD_ATTR));
+          if (!counts[n]) return;
+          var b = document.createElement('span');
+          b.className = 'pg-taken-badge';
+          b.textContent = counts[n] === 1 ? '✓ Taken' : '✓ Taken · ' + counts[n] + '×';
+          card.appendChild(b);
+        });
+      });
+    }
+
+    function _kick() {
+      _decorate();
+      _refreshCrossDevice();
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _kick);
+    else _kick();
+
+    // Re-decorate when cards get re-rendered (filter changes, Supabase mocks load, etc)
+    var mo = new MutationObserver(function () { _decorate(); });
+    if (document.body) mo.observe(document.body, { childList: true, subtree: true });
+  })();
+  </script>
 </body>
 
 </html>
