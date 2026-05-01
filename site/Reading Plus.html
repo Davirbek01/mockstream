@@ -9,6 +9,32 @@
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
+  <style>html.pg-pending{visibility:hidden}</style>
+  <script>
+    (function () {
+      var SKILL = 'reading';
+      document.documentElement.classList.add('pg-pending');
+      function check() {
+        if (!window.PremiumGate) { setTimeout(check, 50); return; }
+        if (window.PremiumGate.isAdmin() || window.PremiumGate.isPremiumTier(SKILL)) {
+          document.documentElement.classList.remove('pg-pending');
+          return;
+        }
+        function lockUI() {
+          Array.prototype.slice.call(document.body.children).forEach(function (c) {
+            if (!c.classList || !c.classList.contains('pg-modal-overlay')) c.style.display = 'none';
+          });
+          document.documentElement.classList.remove('pg-pending');
+          window.PremiumGate.openUpgradeModal('plus_' + SKILL);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', lockUI);
+        else lockUI();
+      }
+      check();
+    })();
+  </script>
   <script>
     (function(){
       function goBack(){

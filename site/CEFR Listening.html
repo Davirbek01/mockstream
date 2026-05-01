@@ -12,6 +12,8 @@
   <!-- Site Config (swap this script to change brand/skin) -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
   <script src="supabase-send.js"></script>
   <script src="session-recovery.js"></script>
   <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
@@ -4499,6 +4501,28 @@
     }
 
     function initTest() {
+      // ── Premium gate: block retake by regular tier, otherwise record open ──
+      try {
+        (function () {
+          if (!window.PremiumGate) return;
+          var __pgSkill = 'listening';
+          var __pgExam  = 'cefr';
+          var __pgMock  = Number(window._currentMockNumber || (new URLSearchParams(location.search)).get('test') || (new URLSearchParams(location.search)).get('mock') || 0);
+          if (!__pgMock) {
+            try { var _m = (urlParams.get('test') || '').match(/(\d+)/); if (_m) __pgMock = Number(_m[1]); } catch (e) {}
+          }
+          if (!__pgMock) return;
+          if (!window.PremiumGate.isPremiumTier(__pgSkill) && !window.PremiumGate.isAdmin()
+              && window.PremiumGate.hasTaken({ skill: __pgSkill, exam_type: __pgExam, mock_number: __pgMock })) {
+            window.PremiumGate.openUpgradeModal('retake_' + __pgSkill + '_' + __pgMock);
+            throw new Error('PG_RETAKE_BLOCKED');
+          }
+          window.PremiumGate.recordOpen({ skill: __pgSkill, exam_type: __pgExam, mock_number: __pgMock });
+        })();
+      } catch (e) {
+        if (e && e.message === 'PG_RETAKE_BLOCKED') return;
+        throw e;
+      }
       // Set timer (practice mode uses shorter time)
       if (window._practicePart) {
         var practiceTimeLookup = { 1: 7, 2: 7, 3: 6, 4: 6, 5: 7, 6: 7 };
@@ -5341,6 +5365,18 @@
           var closeBtn = document.getElementById('resultsCloseBtn');
           if (closeBtn) closeBtn.style.display = 'none';
         }
+      })();
+
+      // ── Premium gate: lock AI / transcript / review / retry buttons for regular tier ──
+      (function () {
+        if (!window.PremiumGate) return;
+        if (window.PremiumGate.isPremiumTier('listening') || window.PremiumGate.isAdmin()) return;
+        ['#aiAnalyzeBtn', '#aiRetryBtn', '#showTranscriptBtn', '#reviewAnswersBtn',
+         '#tryAgainBtn', '#btnReview', '#btnTranscripts', '#btnTryAgain', '[data-pg-lock]'].forEach(function (s) {
+          document.querySelectorAll(s).forEach(function (el) {
+            window.PremiumGate.applyLockBadge(el, 'listening_result_' + s);
+          });
+        });
       })();
 
       // Auto-submit results to backend (with processing spinner for regular entries)
