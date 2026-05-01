@@ -9008,7 +9008,14 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isSpeakingMockTaken(pageUrl) {
-      return false;
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('speaking') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractSpeakingMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'speaking', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (e) { return false; }
     }
     function _showSpeakingTakenAlert() {
       var ov = document.createElement('div');
@@ -9490,7 +9497,14 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isWritingMockTaken(pageUrl) {
-      return false;
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('writing') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractWritingMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'writing', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (e) { return false; }
     }
     function _showWritingTakenAlert() {
       var ov = document.createElement('div');
@@ -9855,7 +9869,14 @@
       return m ? m[1].replace(/\.js$/, '') : null;
     }
     function _isReadingMockTaken(pageUrl) {
-      return false;
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('reading') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractReadingMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'reading', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (e) { return false; }
     }
     function _showReadingTakenAlert() {
       var ov = document.createElement('div');
@@ -10095,7 +10116,14 @@
       return m ? m[1] : null;
     }
     function _isListeningMockTaken(pageUrl) {
-      return false;
+      try {
+        if (!window.PremiumGate) return false;
+        if (window.PremiumGate.isPremiumTier('listening') || window.PremiumGate.isAdmin()) return false;
+        var n = _extractListeningMockNumber(pageUrl);
+        if (!n) return false;
+        var examType = ((pageUrl || '').toLowerCase().indexOf('ielts') !== -1) ? 'ielts' : 'cefr';
+        return window.PremiumGate.hasTaken({ skill: 'listening', exam_type: examType, mock_number: parseInt(n, 10) });
+      } catch (e) { return false; }
     }
     function _showListeningTakenAlert() {
       var ov = document.createElement('div');

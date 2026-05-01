@@ -25,6 +25,26 @@
     return (n || '').toString().trim().toLowerCase();
   }
 
+  // Read candidate name with the same fallback chain the rest of the codebase uses:
+  //   sessionStorage CANDIDATE_FULL_NAME (set by Google sign-in or guest welcome submit)
+  //   → localStorage ms_candidate_name (auth.js / chat-bubble cache)
+  //   → localStorage CANDIDATE_SURNAME + CANDIDATE_FIRSTNAME (welcome page persistent cache)
+  // Without this fallback, recordOpen wrote rows with candidate_name='' in cases where
+  // sessionStorage had been wiped or the user navigated cross-tab.
+  function _candidateName() {
+    var n = '';
+    try {
+      if (window.sessionStorage) n = sessionStorage.getItem('CANDIDATE_FULL_NAME') || '';
+      if (!n && window.localStorage) n = localStorage.getItem('ms_candidate_name') || '';
+      if (!n && window.localStorage) {
+        var sn = (localStorage.getItem('CANDIDATE_SURNAME')   || '').trim();
+        var fn = (localStorage.getItem('CANDIDATE_FIRSTNAME') || '').trim();
+        if (sn || fn) n = (sn + ' ' + fn).trim();
+      }
+    } catch (e) {}
+    return n;
+  }
+
   function _center() {
     try {
       var c = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
@@ -123,8 +143,7 @@
   function recordOpen(o) {
     if (!o || !o.skill || o.mock_number == null) return;
     if (isAdmin()) return;
-    var name = '';
-    try { name = (window.sessionStorage && sessionStorage.getItem('CANDIDATE_FULL_NAME')) || ''; } catch (e) {}
+    var name = _candidateName();
     var row = {
       candidate_name: _normName(name),
       center:         o.center || _center(),
@@ -181,8 +200,7 @@
   }
 
   function _sbPatchSubmit(o) {
-    var name = '';
-    try { name = _normName((window.sessionStorage && sessionStorage.getItem('CANDIDATE_FULL_NAME')) || ''); } catch (e) {}
+    var name = _normName(_candidateName());
     if (!name) return;
     if (typeof fetch !== 'function') return;
     try {
@@ -201,8 +219,7 @@
   }
 
   function fetchTakenForUser() {
-    var name = '';
-    try { name = _normName((window.sessionStorage && sessionStorage.getItem('CANDIDATE_FULL_NAME')) || ''); } catch (e) {}
+    var name = _normName(_candidateName());
     if (!name || typeof fetch !== 'function') return Promise.resolve(_lsRead());
     var qs = '?candidate_name=eq.' + encodeURIComponent(name)
            + '&select=skill,mock_number,exam_type,opened_at';
