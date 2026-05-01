@@ -6,42 +6,404 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KET Reading &amp; Writing</title>
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
   <script src="ket-mock-config.js"></script>
+  <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
   <style>
-    body { font-family:'Segoe UI',system-ui,sans-serif; background:#f8fafc; padding:20px; min-height:100vh; display:flex; align-items:center; justify-content:center; margin:0; }
-    .card { max-width:480px; background:#fff; border-radius:24px; padding:48px 32px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.08); }
-    .icon { font-size:64px; margin-bottom:16px; }
-    h1 { font-size:22px; color:#15803d; margin-bottom:8px; }
-    .badge { display:inline-block; background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; margin-bottom:18px; }
-    p { color:#64748b; font-size:14px; line-height:1.6; margin-bottom:18px; }
-    .back-btn { display:inline-block; background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:10px 24px; border-radius:12px; text-decoration:none; font-weight:600; }
+    :root { --primary:#16a34a; --primary-dark:#15803d; --primary-light:#dcfce7; --bg:#f0fdf4; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; --danger:#dc2626; --warn:#f59e0b; --good:#10b981; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:linear-gradient(135deg,var(--bg),#dcfce7); min-height:100vh; padding:0; color:var(--text); }
+    .topbar { position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+    .topbar .left { display:flex; align-items:center; gap:10px; }
+    .topbar .title { font-size:15px; font-weight:700; color:var(--primary-dark); }
+    .topbar .level { font-size:10px; font-weight:700; letter-spacing:1px; background:var(--primary-light); color:var(--primary-dark); padding:3px 8px; border-radius:6px; }
+    .timer { font-size:18px; font-weight:800; color:var(--primary-dark); font-variant-numeric:tabular-nums; padding:6px 12px; background:var(--primary-light); border-radius:10px; }
+    .timer.warn { background:#fef3c7; color:#92400e; }
+    .timer.danger { background:#fee2e2; color:#991b1b; animation:pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.7; } }
+    .container { max-width:820px; margin:0 auto; padding:18px; }
+    .part { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px; margin-bottom:18px; box-shadow:0 4px 14px rgba(0,0,0,.04); }
+    .part-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
+    .part-num { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:800; letter-spacing:1px; }
+    .part-title { font-size:15px; font-weight:700; color:var(--primary-dark); }
+    .instruction { font-size:14px; color:var(--muted); margin-bottom:14px; line-height:1.55; white-space:pre-wrap; }
+    .source { background:#f8fafc; border:1px solid var(--border); border-left:4px solid var(--primary); border-radius:10px; padding:14px 16px; margin-bottom:12px; white-space:pre-wrap; font-size:14px; line-height:1.6; }
+    .source.notice { border-left-color:#dc2626; }
+    .source.sign { border-left-color:#92400e; background:#fef3c7; font-weight:700; text-align:center; }
+    .source.email, .source.note { border-left-color:#3b82f6; background:#eff6ff; }
+    .source.text-message { border-left-color:#10b981; background:#ecfdf5; }
+    .qstem { font-size:14.5px; font-weight:600; margin:10px 0 8px; color:var(--text); }
+    .qnum { display:inline-block; min-width:26px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; padding:1px 8px; border-radius:6px; font-size:13px; margin-right:6px; }
+    .options { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+    .opt { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:.12s; font-size:14px; }
+    .opt:hover { border-color:var(--primary); background:var(--primary-light); }
+    .opt.selected { border-color:var(--primary); background:var(--primary-light); }
+    .opt input { margin-top:3px; accent-color:var(--primary); }
+    .opt .letter { font-weight:800; color:var(--primary-dark); min-width:18px; }
+    .passage { background:#fffbf2; border:1px solid #fde68a; border-radius:12px; padding:18px 20px; margin-bottom:16px; font-size:14.5px; line-height:1.7; white-space:pre-wrap; }
+    .passage h4 { color:var(--primary-dark); margin-bottom:10px; font-size:16px; }
+    .text-list { display:grid; gap:12px; margin-bottom:16px; }
+    .text-card { background:#fffbf2; border:1px solid #fde68a; border-radius:12px; padding:14px 16px; }
+    .text-card .label { display:inline-block; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#fff; padding:2px 10px; border-radius:6px; font-weight:800; font-size:12px; margin-bottom:6px; }
+    .text-card .name { font-weight:700; font-size:14px; margin-bottom:6px; color:var(--primary-dark); }
+    .text-card .body { font-size:13.5px; line-height:1.6; }
+    .gap-input { border:1.5px solid var(--border); border-radius:6px; padding:3px 8px; font-size:14px; min-width:80px; max-width:120px; font-family:inherit; }
+    .gap-input:focus { outline:none; border-color:var(--primary); }
+    .pic-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+    .pic-cell { background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:8px; text-align:center; }
+    .pic-cell svg { width:100%; height:auto; max-height:160px; border-radius:6px; }
+    .pic-cell .cap { font-size:11.5px; color:var(--muted); margin-top:6px; font-weight:600; }
+    .writing-area { width:100%; min-height:140px; border:1.5px solid var(--border); border-radius:10px; padding:12px; font-family:inherit; font-size:14px; line-height:1.55; resize:vertical; }
+    .writing-area:focus { outline:none; border-color:var(--primary); }
+    .word-count { font-size:12px; color:var(--muted); margin-top:6px; text-align:right; }
+    .word-count.ok { color:var(--good); font-weight:700; }
+    .word-count.short { color:var(--warn); }
+    .bullets { list-style:none; padding-left:0; margin:6px 0 12px 0; }
+    .bullets li { padding:6px 12px; background:var(--primary-light); border-radius:8px; margin-bottom:5px; font-size:13.5px; color:var(--primary-dark); }
+    .bullets li::before { content:"• "; font-weight:700; }
+    .submit-bar { position:sticky; bottom:0; background:#fff; border-top:1px solid var(--border); padding:14px 16px; display:flex; gap:10px; justify-content:flex-end; box-shadow:0 -2px 8px rgba(0,0,0,.04); }
+    .btn { padding:10px 22px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; transition:.15s; }
+    .btn-primary { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(22,163,74,.3); }
+    .btn-ghost { background:transparent; color:var(--muted); }
+    .results { background:#fff; border:2px solid var(--primary); border-radius:18px; padding:24px; margin-top:18px; }
+    .results h3 { color:var(--primary-dark); margin-bottom:10px; }
+    .score-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+    .score-row:last-child { border-bottom:none; font-weight:800; }
+    .modal-mask { position:fixed; inset:0; background:rgba(15,23,42,.6); display:flex; align-items:center; justify-content:center; z-index:100; }
+    .modal-box { background:#fff; border-radius:18px; padding:24px; max-width:420px; text-align:center; }
+    .loading { text-align:center; padding:60px 20px; color:var(--muted); }
+    @media (max-width:600px) { .pic-grid { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
-  <div class="card" id="placeholder">
-    <div class="icon">📝</div>
-    <div class="badge">UNDER CONSTRUCTION</div>
-    <h1>KET Reading &amp; Writing</h1>
-    <p>This mock page is being built. The renderer for the 7 KET R&amp;W parts (matching, sentence MCQ, long-text MCQ, vocab cloze, grammar cloze, short message, story/email) is in development.</p>
-    <p>Content for this mock will appear here as soon as it's authored.</p>
-    <a class="back-btn" href="KET Reading &amp; Writing Mocks.html">← Back to mocks</a>
+  <div class="topbar">
+    <div class="left">
+      <span class="title">📝 KET Reading &amp; Writing</span>
+      <span class="level">A2 KEY</span>
+    </div>
+    <div class="timer" id="timer">60:00</div>
   </div>
+
+  <div class="container" id="container">
+    <div class="loading" id="loading">Loading mock…</div>
+  </div>
+
+  <div class="submit-bar" id="submitBar" style="display:none;">
+    <button class="btn btn-ghost" onclick="if(confirm('Leave this mock? Your answers will be lost.')) window.location.href='KET Reading &amp; Writing Mocks.html';">Cancel</button>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitMock()">Submit</button>
+  </div>
+
   <script>
-    // When content arrives: load ket-rw-test-NN.js based on ?mock=NN URL param
-    // and render parts via a dispatch table keyed on `type`.
-    (function () {
-      var params = new URLSearchParams(window.location.search);
-      var mock = params.get('mock');
-      if (mock) {
-        // TODO: dynamically inject <script src="questions KET RW/ket-rw-test-NN.js">
-        // and render window.KET_RW_TEST when loaded.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var mock = (params.get('mock') || '01').replace(/[^0-9]/g, '').padStart(2, '0');
+
+    var script = document.createElement('script');
+    script.src = 'questions KET RW/ket-rw-test-' + mock + '.js';
+    script.onload = function () {
+      if (!window.KET_RW_TEST) {
+        document.getElementById('loading').textContent = 'Mock data not found.';
+        return;
       }
-    })();
+      renderTest(window.KET_RW_TEST);
+      startTimer((window.KET_RW_TEST.testInfo && window.KET_RW_TEST.testInfo.totalTime) || 60);
+    };
+    script.onerror = function () {
+      document.getElementById('loading').innerHTML =
+        '<div style="background:#fff;padding:32px;border-radius:18px;border:2px dashed #e2e8f0;">' +
+        '<div style="font-size:42px">📚</div>' +
+        '<h3 style="color:#15803d;margin:8px 0">Mock not available yet</h3>' +
+        '<p style="color:#64748b;margin-bottom:14px">Mock ' + mock + ' has not been authored yet. Check the selection menu for available mocks.</p>' +
+        '<a href="KET Reading & Writing Mocks.html" style="display:inline-block;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;">← Back to mocks</a>' +
+        '</div>';
+    };
+    document.head.appendChild(script);
+  })();
+
+  // ───── State ─────
+  var ANSWERS = {};            // { qid: 'A'|'B'|'C'|'wordOrSentence' }
+  var WRITING = { 6: '', 7: '' };
+  var SCORE_BY_PART = {};
+
+  // ───── Renderer ─────
+  function renderTest(test) {
+    var c = document.getElementById('container');
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('submitBar').style.display = '';
+    var html = '';
+    test.reading.parts.forEach(function (p) { html += renderReadingPart(p); });
+    test.writing.parts.forEach(function (p) { html += renderWritingPart(p); });
+    c.insertAdjacentHTML('beforeend', html);
+    wireOptionClicks();
+    wireGapInputs();
+    wireWritingAreas();
+  }
+
+  function partHead(p, label) {
+    return '<div class="part-head"><span class="part-num">PART ' + p.partNumber + '</span>' +
+           '<span class="part-title">' + label + '</span></div>';
+  }
+
+  // Part 1
+  function renderRealWorldMcq(p) {
+    var h = '<section class="part">' + partHead(p, 'Questions ' + p.items[0].id + '–' + p.items[p.items.length-1].id);
+    h += '<div class="instruction">' + p.instruction + '</div>';
+    p.items.forEach(function (it) {
+      h += '<div class="source ' + (it.sourceType || '') + '">' + escapeHtml(it.source) + '</div>';
+      h += '<div class="qstem"><span class="qnum">' + it.id + '</span>' + escapeHtml(it.question) + '</div>';
+      h += renderOptions(it.id, it.options);
+    });
+    return h + '</section>';
+  }
+
+  // Part 2
+  function renderMultiTextMatching(p) {
+    var first = p.questions[0].id, last = p.questions[p.questions.length-1].id;
+    var h = '<section class="part">' + partHead(p, 'Questions ' + first + '–' + last);
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + (p.topic ? '\n\n' + escapeHtml(p.topic) : '') + '</div>';
+    h += '<div class="text-list">';
+    p.texts.forEach(function (t) {
+      h += '<div class="text-card"><span class="label">' + t.id + '</span> ' +
+           '<span class="name">' + escapeHtml(t.title) + '</span>' +
+           '<div class="body">' + escapeHtml(t.body) + '</div></div>';
+    });
+    h += '</div>';
+    p.questions.forEach(function (q) {
+      h += '<div class="qstem"><span class="qnum">' + q.id + '</span>' + escapeHtml(q.prompt) + '</div>';
+      h += renderOptions(q.id, p.texts.map(function (t) { return { letter: t.id, text: t.title }; }));
+    });
+    return h + '</section>';
+  }
+
+  // Part 3
+  function renderLongTextMcq(p) {
+    var first = p.questions[0].id, last = p.questions[p.questions.length-1].id;
+    var h = '<section class="part">' + partHead(p, 'Questions ' + first + '–' + last);
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + '</div>';
+    h += '<div class="passage">' + (p.title ? '<h4>' + escapeHtml(p.title) + '</h4>' : '') + escapeHtml(p.passage) + '</div>';
+    p.questions.forEach(function (q) {
+      h += '<div class="qstem"><span class="qnum">' + q.id + '</span>' + escapeHtml(q.prompt) + '</div>';
+      h += renderOptions(q.id, q.options);
+    });
+    return h + '</section>';
+  }
+
+  // Part 4
+  function renderClozeMcq(p) {
+    var first = p.gaps[0].id, last = p.gaps[p.gaps.length-1].id;
+    var h = '<section class="part">' + partHead(p, 'Questions ' + first + '–' + last);
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + '</div>';
+    var rendered = escapeHtml(p.text).replace(/___(\d+)___/g, function (_, n) {
+      return '<strong style="color:#15803d">[' + p.gaps[parseInt(n)-1].id + ']</strong>';
+    });
+    h += '<div class="passage">' + (p.title ? '<h4>' + escapeHtml(p.title) + '</h4>' : '') + rendered + '</div>';
+    p.gaps.forEach(function (g) {
+      h += '<div class="qstem"><span class="qnum">' + g.id + '</span>Choose A, B or C:</div>';
+      h += renderOptions(g.id, g.options);
+    });
+    return h + '</section>';
+  }
+
+  // Part 5
+  function renderClozeOpen(p) {
+    var first = p.gaps[0].id, last = p.gaps[p.gaps.length-1].id;
+    var h = '<section class="part">' + partHead(p, 'Questions ' + first + '–' + last);
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + '</div>';
+    var rendered = escapeHtml(p.text).replace(/___(\d+)___/g, function (_, n) {
+      var qid = p.gaps[parseInt(n)-1].id;
+      return '<input type="text" class="gap-input" data-qid="' + qid + '" data-kind="open" placeholder="' + qid + '" autocomplete="off" />';
+    });
+    h += '<div class="passage" style="white-space:pre-wrap">' + rendered + '</div>';
+    return h + '</section>';
+  }
+
+  // Part 6
+  function renderGuidedWriting(p) {
+    var h = '<section class="part">' + partHead(p, 'Question 31');
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + '</div>';
+    if (p.instructionDetail) h += '<div class="instruction" style="margin-bottom:6px">' + escapeHtml(p.instructionDetail) + '</div>';
+    if (p.bullets) {
+      h += '<ul class="bullets">';
+      p.bullets.forEach(function (b) { h += '<li>' + escapeHtml(b) + '</li>'; });
+      h += '</ul>';
+    }
+    h += '<textarea class="writing-area" data-task="6" placeholder="Write your email here..."></textarea>';
+    h += '<div class="word-count" data-for="6">Words: 0 / ' + (p.wordMin || 25) + '+</div>';
+    return h + '</section>';
+  }
+
+  // Part 7
+  function renderPictureStory(p) {
+    var h = '<section class="part">' + partHead(p, 'Question 32');
+    h += '<div class="instruction">' + escapeHtml(p.instruction) + '</div>';
+    h += '<div class="pic-grid">';
+    p.pictures.forEach(function (pic) {
+      h += '<div class="pic-cell">' +
+            (pic.svg || (pic.imageUrl ? '<img src="'+pic.imageUrl+'" alt="'+escapeHtml(pic.alt||'')+'" style="width:100%;border-radius:6px"/>' : '')) +
+            '<div class="cap">' + escapeHtml(pic.caption || pic.alt || '') + '</div>' +
+           '</div>';
+    });
+    h += '</div>';
+    h += '<textarea class="writing-area" data-task="7" placeholder="Write your story here..."></textarea>';
+    h += '<div class="word-count" data-for="7">Words: 0 / ' + (p.wordMin || 35) + '+</div>';
+    return h + '</section>';
+  }
+
+  function renderReadingPart(p) {
+    switch (p.type) {
+      case 'real-world-mcq':       return renderRealWorldMcq(p);
+      case 'multi-text-matching':  return renderMultiTextMatching(p);
+      case 'long-text-mcq':        return renderLongTextMcq(p);
+      case 'cloze-mcq':            return renderClozeMcq(p);
+      case 'cloze-open':           return renderClozeOpen(p);
+      default: return '<section class="part"><em>Unknown part type: ' + escapeHtml(p.type) + '</em></section>';
+    }
+  }
+  function renderWritingPart(p) {
+    switch (p.type) {
+      case 'guided-writing': return renderGuidedWriting(p);
+      case 'picture-story':  return renderPictureStory(p);
+      default: return '';
+    }
+  }
+
+  function renderOptions(qid, options) {
+    var h = '<div class="options">';
+    options.forEach(function (o) {
+      h += '<label class="opt" data-qid="' + qid + '" data-letter="' + o.letter + '">' +
+            '<input type="radio" name="q' + qid + '" value="' + o.letter + '"/>' +
+            '<span class="letter">' + o.letter + '</span> ' +
+            '<span>' + escapeHtml(o.text) + '</span>' +
+           '</label>';
+    });
+    return h + '</div>';
+  }
+
+  // ───── Wiring ─────
+  function wireOptionClicks() {
+    document.querySelectorAll('.opt').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var qid = el.dataset.qid;
+        ANSWERS[qid] = el.dataset.letter;
+        document.querySelectorAll('.opt[data-qid="' + qid + '"]').forEach(function (sib) { sib.classList.remove('selected'); });
+        el.classList.add('selected');
+        var radio = el.querySelector('input[type=radio]');
+        if (radio) radio.checked = true;
+      });
+    });
+  }
+  function wireGapInputs() {
+    document.querySelectorAll('.gap-input').forEach(function (i) {
+      i.addEventListener('input', function () { ANSWERS[i.dataset.qid] = i.value.trim(); });
+    });
+  }
+  function wireWritingAreas() {
+    document.querySelectorAll('.writing-area').forEach(function (t) {
+      var task = t.dataset.task;
+      t.addEventListener('input', function () {
+        WRITING[task] = t.value;
+        var n = (t.value.trim().match(/\S+/g) || []).length;
+        var label = document.querySelector('.word-count[data-for="' + task + '"]');
+        if (!label) return;
+        var min = parseInt(label.textContent.split('/')[1]) || 25;
+        label.textContent = 'Words: ' + n + ' / ' + min + '+';
+        label.classList.toggle('ok', n >= min);
+        label.classList.toggle('short', n < min);
+      });
+    });
+  }
+
+  // ───── Timer ─────
+  var TIMER_END = 0, TIMER_INT = null;
+  function startTimer(minutes) {
+    TIMER_END = Date.now() + minutes * 60 * 1000;
+    var el = document.getElementById('timer');
+    function tick() {
+      var ms = TIMER_END - Date.now();
+      if (ms <= 0) { clearInterval(TIMER_INT); el.textContent = '00:00'; el.classList.add('danger'); submitMock(true); return; }
+      var s = Math.floor(ms/1000); var m = Math.floor(s/60); s = s % 60;
+      el.textContent = (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+      el.classList.toggle('warn',   ms < 10*60*1000 && ms >= 5*60*1000);
+      el.classList.toggle('danger', ms < 5*60*1000);
+    }
+    tick(); TIMER_INT = setInterval(tick, 1000);
+  }
+
+  // ───── Submit ─────
+  window.submitMock = function (isAuto) {
+    if (!isAuto && !confirm('Submit your answers now? You cannot change them after this.')) return;
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    var t = window.KET_RW_TEST;
+    var rTotal = 0, rCorrect = 0;
+    SCORE_BY_PART = {};
+
+    t.reading.parts.forEach(function (p) {
+      var partTotal = 0, partCorrect = 0;
+      function check(qid, expected, gotRaw) {
+        partTotal++; rTotal++;
+        var got = (gotRaw || '').toString().trim().toLowerCase();
+        var ok;
+        if (Array.isArray(expected)) ok = expected.some(function (a) { return a.toString().toLowerCase() === got; });
+        else ok = expected.toString().toLowerCase() === got;
+        if (ok) { partCorrect++; rCorrect++; }
+      }
+      switch (p.type) {
+        case 'real-world-mcq':      p.items.forEach(function (it) { check(it.id, it.correct, ANSWERS[it.id]); }); break;
+        case 'multi-text-matching': p.questions.forEach(function (q) { check(q.id, q.correct, ANSWERS[q.id]); }); break;
+        case 'long-text-mcq':       p.questions.forEach(function (q) { check(q.id, q.correct, ANSWERS[q.id]); }); break;
+        case 'cloze-mcq':           p.gaps.forEach(function (g) { check(g.id, g.correct, ANSWERS[g.id]); }); break;
+        case 'cloze-open':          p.gaps.forEach(function (g) { check(g.id, g.accept, ANSWERS[g.id]); }); break;
+      }
+      SCORE_BY_PART['Part ' + p.partNumber] = partCorrect + ' / ' + partTotal;
+    });
+
+    t.writing.parts.forEach(function (p) {
+      var task = p.partNumber === 6 ? '6' : '7';
+      var n = ((WRITING[task] || '').trim().match(/\S+/g) || []).length;
+      SCORE_BY_PART['Part ' + p.partNumber] = n + ' words (target ' + (p.wordMin || (p.partNumber===6?25:35)) + '+)';
+    });
+
+    showResults(rCorrect, rTotal);
+    recordAttempt();
+  };
+
+  function showResults(rCorrect, rTotal) {
+    var html = '<div class="results"><h3>📊 Your Result</h3>';
+    Object.keys(SCORE_BY_PART).forEach(function (k) {
+      html += '<div class="score-row"><span>' + k + '</span><span>' + SCORE_BY_PART[k] + '</span></div>';
+    });
+    html += '<div class="score-row"><span>Reading total</span><span>' + rCorrect + ' / ' + rTotal + '</span></div>';
+    html += '<div style="margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;font-size:13px;color:#64748b;line-height:1.55">' +
+            'Writing tasks (Parts 6 &amp; 7) will be reviewed by AI scoring for premium users. Your reading score above is auto-graded.' +
+            '</div>';
+    html += '<div style="display:flex;gap:8px;margin-top:14px"><a href="KET Reading & Writing Mocks.html" class="btn btn-primary" style="text-decoration:none;display:inline-block">Back to mocks</a></div>';
+    html += '</div>';
+    document.getElementById('container').insertAdjacentHTML('beforeend', html);
+    document.getElementById('submitBar').style.display = 'none';
+    var r = document.querySelector('.results');
+    if (r) r.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function recordAttempt() {
+    try {
+      if (!window.PremiumGate || !window.PremiumGate.recordOpen) return;
+      var t = window.KET_RW_TEST;
+      window.PremiumGate.recordOpen({ skill: 'ket_reading_writing', exam_type: 'ket', mock_number: parseInt((t.testInfo.id || '').split('-').pop(), 10) || 1 });
+    } catch (e) {}
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  })();
   </script>
 </body>
 </html>
