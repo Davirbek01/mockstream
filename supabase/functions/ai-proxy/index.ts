@@ -11,9 +11,10 @@
 //   /functions/v1/ai-proxy/gemini/<rest-of-path>     →  generativelanguage.googleapis.com/<rest-of-path>?key=GEMINI_API_KEY
 //   /functions/v1/ai-proxy/openai/<rest-of-path>     →  api.openai.com/<rest-of-path>           (Bearer OPENAI_API_KEY)
 //   /functions/v1/ai-proxy/claude/<rest-of-path>     →  api.anthropic.com/<rest-of-path>        (x-api-key CLAUDE_API_KEY)
-//   /functions/v1/ai-proxy/grok/<rest-of-path>       →  api.x.ai/<rest-of-path>                 (Bearer GROK_API_KEY)
+//   /functions/v1/ai-proxy/grok/<rest-of-path>       →  api.x.ai/<rest-of-path>                 (Bearer GROK_API_KEY)              ← xAI's Grok (text)
 //   /functions/v1/ai-proxy/deepseek/<rest-of-path>   →  api.deepseek.com/<rest-of-path>         (Bearer DEEPSEEK_API_KEY)
 //   /functions/v1/ai-proxy/assemblyai/<rest-of-path> →  api.assemblyai.com/<rest-of-path>       (Authorization: ASSEMBLYAI_API_KEY — no "Bearer" prefix)
+//   /functions/v1/ai-proxy/groq/<rest-of-path>       →  api.groq.com/<rest-of-path>             (Bearer GROQ_API_KEY)              ← Groq Whisper (audio→text)
 //
 // Gates (all enforced before forwarding):
 //   1) IP blocklist          (public.blocked_ips)
@@ -30,8 +31,9 @@
 // Deploy:
 //   supabase functions deploy ai-proxy --no-verify-jwt
 // Secrets:
-//   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY, ASSEMBLYAI_API_KEY
+//   GEMINI_API_KEY, OPENAI_API_KEY, CLAUDE_API_KEY, GROK_API_KEY, DEEPSEEK_API_KEY, ASSEMBLYAI_API_KEY, GROQ_API_KEY
 //   <PROVIDER>_API_KEY_2 ... _5  (optional backups; auto-used on 429/5xx)
+//   Note: GROK_API_KEY (xAI) and GROQ_API_KEY (Groq Whisper) are different providers — the names differ by one letter.
 //   GEMINI_API_KEY_PREPAY,    GEMINI_API_KEY_PREPAY_2     (Gemini billing-slot keys)
 //   GEMINI_API_KEY_POSTPAY,   GEMINI_API_KEY_POSTPAY_2    (used when site_settings.gemini_active_plan
 //     = 'prepay' | 'prepay_2' | 'prepay_both' | 'postpay' | 'postpay_2' | 'postpay_both' —
@@ -68,6 +70,8 @@ const CLAUDE_KEYS:   string[] = collectKeys('CLAUDE_API_KEY');
 const GROK_KEYS:     string[] = collectKeys('GROK_API_KEY');
 const DEEPSEEK_KEYS: string[] = collectKeys('DEEPSEEK_API_KEY');
 const ASSEMBLYAI_KEYS: string[] = collectKeys('ASSEMBLYAI_API_KEY');
+// Groq Whisper (audio transcription). Distinct from GROK_KEYS above (xAI text).
+const GROQ_KEYS:       string[] = collectKeys('GROQ_API_KEY');
 function keysFor(provider: string): string[] {
   switch (provider) {
     case 'gemini':     return GEMINI_KEYS;
@@ -76,6 +80,7 @@ function keysFor(provider: string): string[] {
     case 'grok':       return GROK_KEYS;
     case 'deepseek':   return DEEPSEEK_KEYS;
     case 'assemblyai': return ASSEMBLYAI_KEYS;
+    case 'groq':       return GROQ_KEYS;
     default:           return [];
   }
 }
@@ -200,6 +205,17 @@ function resolveTarget(provider: string, restPath: string, search: string, key: 
       return {
         url: `https://api.assemblyai.com/${restPath}${search || ''}`,
         headers: { 'Authorization': key }
+      };
+    }
+    case 'groq': {
+      // Groq Whisper transcription (OpenAI-compatible API). Single-shot:
+      //   POST /openai/v1/audio/transcriptions — multipart/form-data with
+      //         file=<audio>, model=whisper-large-v3-turbo, response_format=json
+      // Bearer auth like OpenAI/DeepSeek. No Content-Type override (forwarded
+      // as-is so the multipart boundary set by the browser is preserved).
+      return {
+        url: `https://api.groq.com/${restPath}${search || ''}`,
+        headers: { 'Authorization': `Bearer ${key}` }
       };
     }
     default:
@@ -342,7 +358,7 @@ Deno.serve(async (req) => {
 
   if (!provider) {
     return jsonErr(400, 'missing_provider',
-      'Use /functions/v1/ai-proxy/<gemini|openai|claude|grok|deepseek|assemblyai>/<provider-path>');
+      'Use /functions/v1/ai-proxy/<gemini|openai|claude|grok|deepseek|assemblyai|groq>/<provider-path>');
   }
 
   // -------- collect identity --------

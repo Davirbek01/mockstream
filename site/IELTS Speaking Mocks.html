@@ -6336,6 +6336,29 @@
       throw new Error('AssemblyAI poll timeout');
     }
 
+    // Groq Whisper turbo: single POST, OpenAI-compatible multipart upload via
+    // ai-proxy. Default model whisper-large-v3-turbo; admin can override via
+    // scoring_model_groq_whisper site_setting. Returns transcript text or ''.
+    async function _groqTranscribe(blob, cp) {
+      var model = (cp && (cp['scoring_model_groq_whisper'] || '').toString().trim()) || 'whisper-large-v3-turbo';
+      var fd = new FormData();
+      fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+      fd.append('model', model);
+      fd.append('response_format', 'json');
+      fd.append('language', 'en');
+      var r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { 'Authorization': 'proxy' },
+        body: fd
+      });
+      if (!r.ok) {
+        var _errBody = ''; try { _errBody = await r.text(); } catch (_) {}
+        throw new Error('Groq transcribe error: ' + r.status + ' ' + _errBody.slice(0, 300));
+      }
+      var j = await r.json();
+      return ((j.text || '').trim()) || '[No speech detected]';
+    }
+
     // Transcribe a single audio blob using the admin-selected AI provider
     async function _transcribeAudioBlob(blob) {
       var cp = await _loadScoringPrompts();
@@ -6355,7 +6378,8 @@
       } catch (_e) {}
       if (centerTranscriber
           && (centerTranscriber === 'openai' || centerTranscriber === 'gemini'
-              || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude')) {
+              || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude'
+              || centerTranscriber === 'groq')) {
         console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
         provider = centerTranscriber;
       } else {
@@ -6363,7 +6387,8 @@
         var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
         if (globalTr === 'default') globalTr = '';
         if (globalTr === 'openai' || globalTr === 'gemini'
-            || globalTr === 'assemblyai' || globalTr === 'claude') {
+            || globalTr === 'assemblyai' || globalTr === 'claude'
+            || globalTr === 'groq') {
           console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
           provider = globalTr;
         } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
@@ -6429,6 +6454,15 @@
             return (j.content[0].text || '[No speech detected]').trim();
           } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
         }
+      }
+
+      // Groq Whisper turbo — cheapest + fastest (single POST, OpenAI-compatible
+      // multipart upload via ai-proxy interceptor).
+      if (provider === 'groq') {
+        try {
+          var grqT = await _groqTranscribe(blob, cp);
+          if (grqT) return grqT;
+        } catch(e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
       }
 
       // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
