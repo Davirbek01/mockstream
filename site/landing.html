@@ -6886,25 +6886,25 @@
           <span class="section-badge">Practice</span>
         </div>
         <div class="skills-grid learning-tools-grid">
-          <a href="javascript:void(0)" onclick="showTestsSubmenu(); toggleSidebar();"
+          <a href="javascript:void(0)" onclick="toggleSidebar(); _gateLearningTool('tests', showTestsSubmenu);"
             class="skill-btn learning-tool-btn tests">
             <span class="skill-icon">📋</span>
             <span class="skill-name">Tests</span>
             <span class="tool-badge" id="testsCountSidebar">0 Tests</span>
           </a>
-          <a href="javascript:void(0)" onclick="openCategoryModal('articles'); toggleSidebar();"
+          <a href="javascript:void(0)" onclick="toggleSidebar(); _gateLearningTool('articles', function(){ openCategoryModal('articles'); });"
             class="skill-btn learning-tool-btn articles">
             <span class="skill-icon">📰</span>
             <span class="skill-name">Articles</span>
             <span class="tool-badge" id="articlesCountSidebar">63 Articles</span>
           </a>
-          <a href="javascript:void(0)" onclick="openCategoryModal('flashcards'); toggleSidebar();"
+          <a href="javascript:void(0)" onclick="toggleSidebar(); _gateLearningTool('flashcards', function(){ openCategoryModal('flashcards'); });"
             class="skill-btn learning-tool-btn flashcards">
             <span class="skill-icon">🃏</span>
             <span class="skill-name">Flashcards</span>
             <span class="tool-badge" id="flashcardsCountSidebar">0 Topics</span>
           </a>
-          <a href="javascript:void(0)" onclick="openVideoGuideModal(); toggleSidebar();"
+          <a href="javascript:void(0)" onclick="toggleSidebar(); _gateLearningTool('videoguide', openVideoGuideModal);"
             class="skill-btn learning-tool-btn videoguide">
             <span class="skill-icon" style="background: linear-gradient(135deg, #fecaca, #fca5a5) !important;"><svg
                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;fill:#dc2626;">
@@ -7391,7 +7391,7 @@
               <p>Boost your skills with our practice materials</p>
             </div>
             <div class="learning-tools-grid">
-              <div class="learning-tool-card tests-card" onclick="showTestsSubmenu()">
+              <div class="learning-tool-card tests-card" onclick="_gateLearningTool('tests', showTestsSubmenu)">
                 <div class="tool-icon-wrapper">
                   <span class="tool-icon">📋</span>
                 </div>
@@ -7402,7 +7402,7 @@
                 <span class="tool-count-badge tests-count" id="testsCountBadge">0</span>
                 <span class="tool-arrow">→</span>
               </div>
-              <div class="learning-tool-card articles-card" onclick="openCategoryModal('articles')">
+              <div class="learning-tool-card articles-card" onclick="_gateLearningTool('articles', function(){ openCategoryModal('articles'); })">
                 <div class="tool-icon-wrapper">
                   <span class="tool-icon">📰</span>
                 </div>
@@ -7413,7 +7413,7 @@
                 <span class="featured-badge" id="articlesCountBadge">63</span>
                 <span class="tool-arrow">→</span>
               </div>
-              <div class="learning-tool-card flashcards-card" onclick="openCategoryModal('flashcards')">
+              <div class="learning-tool-card flashcards-card" onclick="_gateLearningTool('flashcards', function(){ openCategoryModal('flashcards'); })">
                 <div class="tool-icon-wrapper">
                   <span class="tool-icon">🃏</span>
                 </div>
@@ -7424,7 +7424,7 @@
                 <span class="featured-badge">Popular</span>
                 <span class="tool-arrow">→</span>
               </div>
-              <div class="learning-tool-card videoguide-card" onclick="openVideoGuideModal()">
+              <div class="learning-tool-card videoguide-card" onclick="_gateLearningTool('videoguide', openVideoGuideModal)">
                 <div class="tool-icon-wrapper">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -12623,6 +12623,24 @@
     document.addEventListener('DOMContentLoaded', updateLearningToolsCounts);
 
     // ===== TESTS MODAL FUNCTIONS =====
+    // Gate Learning Tools tiles for non-premium users.
+    // Premium = admin OR VIP premium OR any per-skill premium entry.
+    function _learningToolPremium() {
+      if (!window.PremiumGate) return true; // fail-open before script loads
+      if (window.PremiumGate.isAdmin()) return true;
+      return window.PremiumGate.isPremiumTier('writing') ||
+             window.PremiumGate.isPremiumTier('reading') ||
+             window.PremiumGate.isPremiumTier('listening') ||
+             window.PremiumGate.isPremiumTier('speaking');
+    }
+    function _gateLearningTool(toolKey, fn) {
+      if (!_learningToolPremium()) {
+        if (window.PremiumGate) window.PremiumGate.openUpgradeModal('learning_' + toolKey);
+        return;
+      }
+      fn();
+    }
+
     function showTestsSubmenu() {
       document.getElementById('testsModal').classList.add('show');
     }
