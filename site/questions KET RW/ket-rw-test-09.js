@@ -256,9 +256,9 @@ window.KET_RW_TEST = {
         wordMax: 60,
         // Pexels — Mikhail Nilov (free for commercial use)
         pictures: [
-          { id: 1, alt: "A child's hands typing on a laptop indoors.",                       caption: "1. Sam learns to use the laptop.",      imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-1.jpg" },
-          { id: 2, alt: "A child in pyjamas using a laptop, looking at the screen.",         caption: "2. He studies online every evening.",  imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-2.jpg" },
-          { id: 3, alt: "A child with a laptop and a small ukulele, learning music online.", caption: "3. Now he is learning music too.",      imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-3.jpg" }
+          { id: 1, alt: "A child's hands typing on a laptop at home.",                       caption: "1. Typing on a laptop.",            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-1.jpg" },
+          { id: 2, alt: "A young child looking at a laptop screen.",                          caption: "2. Using a laptop at home.",        imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-2.jpg" },
+          { id: 3, alt: "A child with a laptop and a small ukulele, learning music online.",  caption: "3. Learning music online.",          imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%209/picture-story/scene-3.jpg" }
         ],
         scoringRubric: "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more."
       }

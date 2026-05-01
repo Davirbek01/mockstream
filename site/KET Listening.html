@@ -13,8 +13,12 @@
   <script src="premium-gate.js" defer></script>
   <script src="ket-mock-config.js"></script>
   <style>
-    body { font-family:'Segoe UI',system-ui,sans-serif; background:#f8fafc; padding:20px; min-height:100vh; display:flex; align-items:center; justify-content:center; margin:0; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:#f8fafc; padding:20px; min-height:100vh; display:flex; align-items:center; justify-content:center; margin:0; color:#1e293b; }
     .card { max-width:480px; background:#fff; border-radius:24px; padding:48px 32px; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.08); }
+    [data-theme="dark"] body, body.dark-mode { background:#0f172a !important; color:#f1f5f9; }
+    [data-theme="dark"] .card, body.dark-mode .card { background:#1e293b; color:#f1f5f9; }
+    [data-theme="dark"] h1, body.dark-mode h1 { color:#5eead4; }
+    [data-theme="dark"] p, body.dark-mode p { color:#94a3b8; }
     .icon { font-size:64px; margin-bottom:16px; }
     h1 { font-size:22px; color:#115e59; margin-bottom:8px; }
     .badge { display:inline-block; background:linear-gradient(135deg,#0d9488,#115e59); color:#fff; padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; margin-bottom:18px; }

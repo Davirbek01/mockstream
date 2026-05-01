@@ -314,19 +314,19 @@ window.KET_RW_TEST = {
           {
             id: 1,
             alt: "A child sleeping peacefully on a pillow.",
-            caption: "1. Sara is sleeping.",
+            caption: "1. A child is sleeping.",
             imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-1.jpg"
           },
           {
             id: 2,
             alt: "A child waking up and stretching her arms in bed.",
-            caption: "2. Sara wakes up.",
+            caption: "2. The child wakes up.",
             imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-2.jpg"
           },
           {
             id: 3,
-            alt: "A child eating breakfast happily.",
-            caption: "3. Sara has breakfast.",
+            alt: "A child eating breakfast.",
+            caption: "3. Eating breakfast.",
             imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%201/picture-story/scene-3.jpg"
           }
         ],

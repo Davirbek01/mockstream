@@ -256,9 +256,9 @@ window.KET_RW_TEST = {
         wordMax: 60,
         // Pexels — Mikhail Nilov (free for commercial use)
         pictures: [
-          { id: 1, alt: "A boy choosing and reading a book in a library.",                       caption: "1. Tom chooses a book at the library.", imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-1.jpg" },
-          { id: 2, alt: "A young reader engaged with a book at home.",                           caption: "2. He reads it at home.",                imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-2.jpg" },
-          { id: 3, alt: "A boy in a black sweater reading a colourful comic book indoors.",     caption: "3. Now Tom reads every day.",            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-3.jpg" }
+          { id: 1, alt: "A child reading a book in a library.",                                 caption: "1. Reading in the library.",     imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-1.jpg" },
+          { id: 2, alt: "A young reader engaged with a book.",                                  caption: "2. Reading at home.",            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-2.jpg" },
+          { id: 3, alt: "A child reading a colourful comic book indoors.",                     caption: "3. Reading is fun.",             imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%203/picture-story/scene-3.jpg" }
         ],
         scoringRubric: "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more."
       }

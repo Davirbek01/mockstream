@@ -256,9 +256,9 @@ window.KET_RW_TEST = {
         wordMax: 60,
         // Pexels — Gustavo Fring (free for commercial use)
         pictures: [
-          { id: 1, alt: "A cheerful child holding a cookie cutter, ready to bake.",                caption: "1. Anya wants to make cookies.",          imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-1.jpg" },
-          { id: 2, alt: "A smiling girl with messy hands taking dough from a glass bowl.",         caption: "2. She makes the cookie dough.",          imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-2.jpg" },
-          { id: 3, alt: "Grandmother and granddaughter baking cookies together in the kitchen.",   caption: "3. She bakes them with her grandmother.", imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-3.jpg" }
+          { id: 1, alt: "A cheerful child holding a cookie cutter, ready to bake.",                caption: "1. A child wants to make cookies.",     imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-1.jpg" },
+          { id: 2, alt: "A smiling child with messy hands and a bowl in the kitchen.",             caption: "2. Making the cookie dough.",            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-2.jpg" },
+          { id: 3, alt: "Grandmother and child baking cookies together in the kitchen.",           caption: "3. Baking with grandmother.",            imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%206/picture-story/scene-3.jpg" }
         ],
         scoringRubric: "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more."
       }

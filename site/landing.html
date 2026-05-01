@@ -13727,13 +13727,14 @@
     }
     function selectKETType(type) {
       closeKETModal();
+      // Direct navigation (not loadMock iframe) so the URL bar updates and
+      // refresh keeps the user on the KET page instead of returning to landing.
       if (type === 'rw') {
-        loadMock('KET Reading & Writing Mocks.html', 'reading');
+        window.location.href = 'KET Reading & Writing Mocks.html';
       } else if (type === 'listening') {
-        loadMock('KET Listening Mocks.html', 'listening');
+        window.location.href = 'KET Listening Mocks.html';
       } else if (type === 'speaking') {
-        // KET Speaking is v2 — show Coming Soon page
-        loadMock('KET Speaking Mocks.html', 'speaking');
+        window.location.href = 'KET Speaking Mocks.html';
       }
     }
 

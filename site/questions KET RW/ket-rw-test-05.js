@@ -256,9 +256,9 @@ window.KET_RW_TEST = {
         wordMax: 60,
         // Pexels — Vlada Karpovich (free for commercial use)
         pictures: [
-          { id: 1, alt: "A young girl beginning a painting on an easel in a studio.",       caption: "1. Eva starts a new painting.",       imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-1.jpg" },
-          { id: 2, alt: "The same girl focusing on her painting in the workshop.",          caption: "2. She paints very carefully.",       imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-2.jpg" },
-          { id: 3, alt: "The girl painting on a canvas indoors, surrounded by art supplies.", caption: "3. She finishes her picture.",       imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-3.jpg" }
+          { id: 1, alt: "A child beginning a painting on an easel in a studio.",            caption: "1. Starting a new painting.",        imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-1.jpg" },
+          { id: 2, alt: "A child focusing on a painting at a table.",                       caption: "2. Painting carefully.",             imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-2.jpg" },
+          { id: 3, alt: "A child painting on a canvas indoors, surrounded by art supplies.", caption: "3. The picture is finished.",        imageUrl: "https://storage.googleapis.com/mockstream-listening-audio/KET/test%205/picture-story/scene-3.jpg" }
         ],
         scoringRubric: "Award full marks if the response describes all three pictures, uses A2-appropriate past or present tense, and writes 35 words or more."
       }
