@@ -6336,6 +6336,29 @@
       throw new Error('AssemblyAI poll timeout');
     }
 
+    // Groq Whisper turbo: single POST, OpenAI-compatible multipart upload via
+    // ai-proxy. Default model whisper-large-v3-turbo; admin can override via
+    // scoring_model_groq_whisper site_setting. Returns transcript text or ''.
+    async function _groqTranscribe(blob, cp) {
+      var model = (cp && (cp['scoring_model_groq_whisper'] || '').toString().trim()) || 'whisper-large-v3-turbo';
+      var fd = new FormData();
+      fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+      fd.append('model', model);
+      fd.append('response_format', 'json');
+      fd.append('language', 'en');
+      var r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { 'Authorization': 'proxy' },
+        body: fd
+      });
+      if (!r.ok) {
+        var _errBody = ''; try { _errBody = await r.text(); } catch (_) {}
+        throw new Error('Groq transcribe error: ' + r.status + ' ' + _errBody.slice(0, 300));
+      }
+      var j = await r.json();
+      return ((j.text || '').trim()) || '[No speech detected]';
+    }
+
     // Transcribe a single audio blob using the admin-selected AI provider
     async function _transcribeAudioBlob(blob) {
       var cp = await _loadScoringPrompts();
@@ -6355,7 +6378,8 @@
       } catch (_e) {}
       if (centerTranscriber
           && (centerTranscriber === 'openai' || centerTranscriber === 'gemini'
-              || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude')) {
+              || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude'
+              || centerTranscriber === 'groq')) {
         console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
         provider = centerTranscriber;
       } else {
@@ -6363,7 +6387,8 @@
         var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
         if (globalTr === 'default') globalTr = '';
         if (globalTr === 'openai' || globalTr === 'gemini'
-            || globalTr === 'assemblyai' || globalTr === 'claude') {
+            || globalTr === 'assemblyai' || globalTr === 'claude'
+            || globalTr === 'groq') {
           console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
           provider = globalTr;
         } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
@@ -6429,6 +6454,15 @@
             return (j.content[0].text || '[No speech detected]').trim();
           } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
         }
+      }
+
+      // Groq Whisper turbo — cheapest + fastest (single POST, OpenAI-compatible
+      // multipart upload via ai-proxy interceptor).
+      if (provider === 'groq') {
+        try {
+          var grqT = await _groqTranscribe(blob, cp);
+          if (grqT) return grqT;
+        } catch(e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
       }
 
       // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
@@ -6879,6 +6913,11 @@
         return mediaStream;
       }
 
+      // See Speaking Mocks.html — same async-stop race fix. Resolved when the
+      // most recent stopRecording()'s onstop handler has finished writing its
+      // blob to IndexedDB, so callers can await persistence before reading IDB.
+      let _audioStopResolve = null;
+
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
@@ -6905,7 +6944,12 @@
               const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
-                .catch(e => alert('Could not save audio: ' + e.message));
+                .catch(e => alert('Could not save audio: ' + e.message))
+                .finally(() => {
+                  const r = _audioStopResolve;
+                  _audioStopResolve = null;
+                  if (r) r();
+                });
             };
             mediaRecorder.start();
           } catch (err) {
@@ -6915,9 +6959,19 @@
         });
       }
       function stopRecording() {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+          return Promise.resolve();
         }
+        return new Promise((resolve) => {
+          _audioStopResolve = resolve;
+          mediaRecorder.stop();
+          // Safety: never block forever if onstop somehow doesn't fire.
+          setTimeout(() => {
+            const r = _audioStopResolve;
+            _audioStopResolve = null;
+            if (r) r();
+          }, 5000);
+        });
       }
 
       /* THEME */
@@ -8688,39 +8742,42 @@
                 if (rec) rec.style.display = 'none';
                 speakDial.classList.remove('soon-end');
                 $('.status', q).textContent = 'Completed ✓';
-                // Stop audio recording and save
-                stopRecording();
-                q.classList.add('done'); q.removeAttribute('open');
+                // Stop audio recording and WAIT for save before transitioning,
+                // otherwise the last question's blob isn't in IndexedDB yet
+                // when auto-AI fires (race exposed in part-based practice).
+                stopRecording().then(() => {
+                  q.classList.add('done'); q.removeAttribute('open');
 
-                // Hide current question
-                q.classList.add('hidden');
+                  // Hide current question
+                  q.classList.add('hidden');
 
-                answered += 1;
-                if (window._practiceMode && window._practiceQRange) {
-                  scoreDone.textContent = i - window._practiceQRange[0] + 1;
-                } else {
-                  scoreDone.textContent = answered;
-                }
-
-                // Practice mode: check if we've reached the end of the practice range
-                var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
-
-                if (practiceEnded) {
-                  showCompletedQuestions();
-                  showFinishModal();
-                } else {
-                  const next = qs[i + 1];
-                  if (next) {
-                    next.classList.remove('locked');
-                    // auto-start next with appropriate announcements
-                    // (don't set 'open' here — runQuestion() will do it, avoiding a toggle event that starts speak() prematurely)
-                    handleQuestionTransition(i, i + 1);
+                  answered += 1;
+                  if (window._practiceMode && window._practiceQRange) {
+                    scoreDone.textContent = i - window._practiceQRange[0] + 1;
                   } else {
-                    // finished all - show completed questions view
+                    scoreDone.textContent = answered;
+                  }
+
+                  // Practice mode: check if we've reached the end of the practice range
+                  var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
+
+                  if (practiceEnded) {
                     showCompletedQuestions();
                     showFinishModal();
+                  } else {
+                    const next = qs[i + 1];
+                    if (next) {
+                      next.classList.remove('locked');
+                      // auto-start next with appropriate announcements
+                      // (don't set 'open' here — runQuestion() will do it, avoiding a toggle event that starts speak() prematurely)
+                      handleQuestionTransition(i, i + 1);
+                    } else {
+                      // finished all - show completed questions view
+                      showCompletedQuestions();
+                      showFinishModal();
+                    }
                   }
-                }
+                });
               }
             }
           }, 1000);

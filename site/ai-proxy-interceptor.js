@@ -26,9 +26,10 @@
     'generativelanguage.googleapis.com': 'gemini',
     'api.openai.com':                    'openai',
     'api.anthropic.com':                 'claude',
-    'api.x.ai':                          'grok',
+    'api.x.ai':                          'grok',       // xAI Grok (text)
     'api.deepseek.com':                  'deepseek',
-    'api.assemblyai.com':                'assemblyai'
+    'api.assemblyai.com':                'assemblyai',
+    'api.groq.com':                      'groq'        // Groq Whisper (audio→text)
   };
 
   var origFetch = window.fetch.bind(window);

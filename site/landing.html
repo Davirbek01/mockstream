@@ -21297,7 +21297,7 @@
       var theme = isTextOnly
         ? { active: '#f59e0b', text: '#92400e', border: '#f59e0b' }
         : { active: '#2563eb', text: '#1e40af', border: '#3b82f6' };
-      ['default','gemini','openai','assemblyai'].forEach(function(k) {
+      ['default','gemini','openai','assemblyai','groq'].forEach(function(k) {
         var btn = document.getElementById('_spTrHelper_' + k);
         if (!btn) return;
         btn.style.background = (k === h) ? theme.active : 'transparent';
@@ -21308,7 +21308,8 @@
         'default':    isTextOnly ? ('Default — system prompts helper') : ('Default — ' + providerLabel + ' transcribes its own audio'),
         'gemini':     'Gemini 2.0 Flash',
         'openai':     'OpenAI Whisper',
-        'assemblyai': 'AssemblyAI Universal'
+        'assemblyai': 'AssemblyAI Universal',
+        'groq':       'Groq Whisper Turbo'
       };
       var note = document.getElementById('_spTrHelperNote');
       if (note) {
@@ -21353,6 +21354,7 @@
           '<button id="_spTrHelper_gemini" onclick="_spSetTranscriptionHelper(\'gemini\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">✨ Gemini</button>' +
           '<button id="_spTrHelper_openai" onclick="_spSetTranscriptionHelper(\'openai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">🤖 OpenAI</button>' +
           '<button id="_spTrHelper_assemblyai" onclick="_spSetTranscriptionHelper(\'assemblyai\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">📝 AssemblyAI</button>' +
+          '<button id="_spTrHelper_groq" onclick="_spSetTranscriptionHelper(\'groq\')" style="padding:3px 10px;border-radius:6px;border:1px solid ' + theme.border + ';background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:' + theme.text + ';">⚡ Groq</button>' +
           '<span id="_spTrHelperNote" style="font-size:10px;opacity:0.7;flex-basis:100%;"></span>' +
         '</div>';
       // For text-only providers, "default" maps to system-prompt helper (i.e. gemini-by-default).
@@ -23933,7 +23935,8 @@
                 { val: 'default',    label: _defaultLabel },
                 { val: 'gemini',     label: 'Gemini' },
                 { val: 'openai',     label: 'OpenAI (Whisper)' },
-                { val: 'assemblyai', label: 'AssemblyAI (cheap & fast)' }
+                { val: 'assemblyai', label: 'AssemblyAI (cheap & fast)' },
+                { val: 'groq',       label: 'Groq (Whisper Turbo · cheapest)' }
               ]);
               // Nested Gemini-plan picker for the transcriber when it's Gemini.
               if (cfg.transcriberProvider === 'gemini') {

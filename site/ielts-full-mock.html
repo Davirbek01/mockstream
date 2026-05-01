@@ -6104,14 +6104,17 @@
         }
 
         // Advance speaking question (used by admin skip & speaking dial taps)
-        function adminAdvanceSpeaking() {
+        async function adminAdvanceSpeaking() {
             if (speakingTimerId) { clearInterval(speakingTimerId); speakingTimerId = null; }
             // Dismiss any active part intro overlay
             if (fmPartIntroTimerId) { clearInterval(fmPartIntroTimerId); fmPartIntroTimerId = null; }
             if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
             const introOverlay = document.getElementById('fm-partIntroOverlay');
             if (introOverlay) introOverlay.style.display = 'none';
-            stopRecording();
+            // Await the in-flight blob save before advancing — particularly
+            // important on the last question, where the next call after this
+            // may be finishMod()/scoring which reads state.answers.speaking.
+            await stopRecording();
             stopSpeakingAudio();
             const allQ = fmQA('.fm-sq');
             const q = allQ[speakingCurrentIdx];
@@ -8241,6 +8244,13 @@
             }
         }
 
+        // Same async-stop race fix as Speaking Mocks / IELTS Speaking / full-mock.
+        // Resolved when the most recent recorder.onstop has finalised its blob into
+        // state.answers.speaking[key]. Lets callers await persistence before
+        // reading state.answers.speaking (otherwise the last question's blob is
+        // missing when finishMod / advance handlers move on).
+        let _ifmAudioStopResolve = null;
+
         async function startRecording(qIdx) {
             const key = `S-${qIdx}`;
             delete state.answers.speaking[key];
@@ -8255,6 +8265,9 @@
                 mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
                     state.answers.speaking[key] = blob;
+                    const r = _ifmAudioStopResolve;
+                    _ifmAudioStopResolve = null;
+                    if (r) r();
                 };
                 mediaRecorder.start();
             } catch (err) {
@@ -8263,9 +8276,19 @@
         }
 
         function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
+            if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+                return Promise.resolve();
             }
+            return new Promise((resolve) => {
+                _ifmAudioStopResolve = resolve;
+                mediaRecorder.stop();
+                // Safety: never block forever if onstop somehow doesn't fire.
+                setTimeout(() => {
+                    const r = _ifmAudioStopResolve;
+                    _ifmAudioStopResolve = null;
+                    if (r) r();
+                }, 5000);
+            });
         }
 
         // Teacher skip shortcut for speaking (Ctrl+Shift+Alt+F)
@@ -8280,7 +8303,7 @@
 
 
         // ===== MODULE FINISH & BREAK =====
-        function finishMod() {
+        async function finishMod() {
             // Guard against double-calls (especially speaking module has multiple end triggers)
             if (state._finishingMod) return;
             state._finishingMod = true;
@@ -8289,7 +8312,11 @@
             if (speakingTimerId) { clearInterval(speakingTimerId); speakingTimerId = null; }
             mainAudio.pause();
             stopSpeakingAudio();
-            stopRecording();
+            // Wait for the in-flight recording to finalise its blob into
+            // state.answers.speaking before downstream code reads from it.
+            // Without this, the last speaking question is silently dropped
+            // (same async-stop race as the other speaking flows).
+            await stopRecording();
             if (fmPartIntroAudio) { fmPartIntroAudio.pause(); fmPartIntroAudio = null; }
             if (fmPartIntroTimerId) { clearInterval(fmPartIntroTimerId); fmPartIntroTimerId = null; }
             document.getElementById('fm-partIntroOverlay').style.display = 'none';

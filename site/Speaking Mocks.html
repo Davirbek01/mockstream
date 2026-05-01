@@ -7604,7 +7604,8 @@
       } catch (_e) {}
       if (centerTranscriber) {
         if (centerTranscriber === 'openai' || centerTranscriber === 'gemini'
-            || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude') {
+            || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude'
+            || centerTranscriber === 'groq') {
           console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
           return centerTranscriber;
         }
@@ -7614,7 +7615,8 @@
       var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
       if (globalTr === 'default') globalTr = '';
       if (globalTr === 'openai' || globalTr === 'gemini'
-          || globalTr === 'assemblyai' || globalTr === 'claude') {
+          || globalTr === 'assemblyai' || globalTr === 'claude'
+          || globalTr === 'groq') {
         console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
         return globalTr;
       }
@@ -7689,6 +7691,31 @@
         }
       }
       throw new Error('AssemblyAI poll timeout');
+    }
+
+    // Groq Whisper: single POST, OpenAI-compatible multipart upload. Auth + key
+    // rotation handled server-side by ai-proxy (interceptor rewrites api.groq.com
+    // URLs and strips client-side Authorization). Default model is whisper-large-v3-turbo
+    // (cheapest, ~16x cheaper than AssemblyAI; admin can override via
+    // scoring_model_groq_whisper site_setting). Returns transcript text or ''.
+    async function _groqTranscribe(blob, cp) {
+      var model = (cp && (cp['scoring_model_groq_whisper'] || '').toString().trim()) || 'whisper-large-v3-turbo';
+      var fd = new FormData();
+      fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+      fd.append('model', model);
+      fd.append('response_format', 'json');
+      fd.append('language', 'en');
+      var r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { 'Authorization': 'proxy' },  // real Bearer attached by ai-proxy
+        body: fd
+      });
+      if (!r.ok) {
+        var _errBody = ''; try { _errBody = await r.text(); } catch (_) {}
+        throw new Error('Groq transcribe error: ' + r.status + ' ' + _errBody.slice(0, 300));
+      }
+      var j = await r.json();
+      return ((j.text || '').trim()) || '[No speech detected]';
     }
 
     async function _transcribeAudioBlob(blob, cpOverride) {
@@ -7808,6 +7835,15 @@
             }
           }
         }
+      }
+
+      // Groq Whisper turbo — fastest + cheapest (single POST, OpenAI-compatible
+      // multipart form, server-side key via ai-proxy interceptor).
+      if (provider === 'groq') {
+        try {
+          var grqT = await _groqTranscribe(blob, cp);
+          if (grqT) return grqT;
+        } catch (e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
       }
 
       // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
@@ -8278,6 +8314,14 @@
         return mediaStream;
       }
 
+      // Resolved when the most recent stopRecording()'s onstop handler has finished
+      // saving its blob to IndexedDB. Lets callers await blob persistence before
+      // reading the IDB store for transcription (otherwise the last question's
+      // blob is missed because mediaRecorder.stop() is fully async — the race is
+      // most visible at the end of part-based practice mode where the auto-AI
+      // flow fires immediately after the final question's speak timer ends).
+      let _audioStopResolve = null;
+
       function startRecording(qIndex) {
         currentQIndex = qIndex;
         audioChunks = [];
@@ -8304,7 +8348,12 @@
               const blob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
               saveAudioToDB(key, blob)
                 .then(() => updateDownloadButtons())
-                .catch(e => alert('Could not save audio: ' + e.message));
+                .catch(e => alert('Could not save audio: ' + e.message))
+                .finally(() => {
+                  const r = _audioStopResolve;
+                  _audioStopResolve = null;
+                  if (r) r();
+                });
             };
             mediaRecorder.start();
           } catch (err) {
@@ -8314,9 +8363,20 @@
         });
       }
       function stopRecording() {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-          mediaRecorder.stop();
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+          return Promise.resolve();
         }
+        return new Promise((resolve) => {
+          _audioStopResolve = resolve;
+          mediaRecorder.stop();
+          // Safety: never block forever. If onstop never fires (stream died /
+          // browser quirk), fall through after 5s so the UI doesn't freeze.
+          setTimeout(() => {
+            const r = _audioStopResolve;
+            _audioStopResolve = null;
+            if (r) r();
+          }, 5000);
+        });
       }
 
       /* THEME */
@@ -9841,30 +9901,35 @@
                 $('.status', q).textContent = 'Completed ✓';
                 // Auto-close image preview when Q4 speak time ends
                 if (i === 3) closeImagePreview();
-                // Stop audio recording and save
-                stopRecording();
-                q.classList.add('done'); q.removeAttribute('open');
+                // Stop audio recording and WAIT for save before transitioning.
+                // mediaRecorder.stop() schedules onstop async, which then writes
+                // the blob to IndexedDB; if we transition synchronously the
+                // last question's blob is missing from getAllRecordedAnswers
+                // when auto-AI fires (most visible in part-based practice).
+                stopRecording().then(() => {
+                  q.classList.add('done'); q.removeAttribute('open');
 
-                // Hide current question
-                q.classList.add('hidden');
+                  // Hide current question
+                  q.classList.add('hidden');
 
-                answered += 1;
-                const next = qs[i + 1];
-                var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
-                if (next && !practiceEnded) {
-                  next.classList.remove('locked'); next.setAttribute('open', '');
-                  // auto-start next
-                  runQuestion(i + 1);
-                  updatePartIndicator(i + 1);
-                } else {
-                  // finished all (or practice part done) - show completed questions view
-                  showCompletedQuestions();
-                  if (window._practiceMode) {
-                    showPracticeFinish();
+                  answered += 1;
+                  const next = qs[i + 1];
+                  var practiceEnded = window._practiceMode && window._practiceQRange && i >= window._practiceQRange[1];
+                  if (next && !practiceEnded) {
+                    next.classList.remove('locked'); next.setAttribute('open', '');
+                    // auto-start next
+                    runQuestion(i + 1);
+                    updatePartIndicator(i + 1);
                   } else {
-                    showFinishModal();
+                    // finished all (or practice part done) - show completed questions view
+                    showCompletedQuestions();
+                    if (window._practiceMode) {
+                      showPracticeFinish();
+                    } else {
+                      showFinishModal();
+                    }
                   }
-                }
+                });
               }
             }
           }, 1000);

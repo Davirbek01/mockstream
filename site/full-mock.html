@@ -7917,21 +7917,25 @@
         function advanceToNextQuestion() {
             clearInterval(speakingState.timerInterval);
             speakingState.isRunning = false;
-            // Stop recording when question ends
-            stopSpeakingRecording();
-            stopSpeakingAudio();
+            // Stop recording and WAIT for save before transitioning. Without
+            // the await, finishMod() reads IDB before the last question's blob
+            // is written and silently drops it (same race as Speaking Mocks /
+            // IELTS Speaking — most visible at the very last speaking question).
+            stopSpeakingRecording().then(() => {
+                stopSpeakingAudio();
 
-            const questions = state.currentTestData.questions || [];
+                const questions = state.currentTestData.questions || [];
 
-            if (speakingState.currentQ < questions.length - 1) {
-                speakingState.currentQ++;
-                speakingState.phase = 'prep';
-                // Re-render the speaking module
-                renderPart();
-            } else {
-                // All questions done, finish module
-                finishMod();
-            }
+                if (speakingState.currentQ < questions.length - 1) {
+                    speakingState.currentQ++;
+                    speakingState.phase = 'prep';
+                    // Re-render the speaking module
+                    renderPart();
+                } else {
+                    // All questions done, finish module
+                    finishMod();
+                }
+            });
         }
 
         // Reset speaking state when starting speaking module
@@ -8064,14 +8068,21 @@
                 };
 
                 recorder.onstop = () => {
+                    const finishStop = () => {
+                        const r = _speakingStopResolve;
+                        _speakingStopResolve = null;
+                        if (r) r();
+                    };
                     if (localChunks.length > 0) {
                         const blob = new Blob(localChunks, { type: mimeType || 'audio/webm' });
                         console.log(`[Speaking] 💾 Finalizing ${key} (${blob.size} bytes)...`);
                         saveSpeakingAudio(key, blob)
                             .then(() => console.log(`[Speaking] ✅ Saved ${key}`))
-                            .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e));
+                            .catch(e => console.error(`[Speaking] ❌ Save error ${key}:`, e))
+                            .finally(finishStop);
                     } else {
                         console.warn(`[Speaking] ⚠️ Empty recording for Q${qIndex + 1}`);
+                        finishStop();
                     }
                 };
 
@@ -8082,12 +8093,26 @@
             }
         }
 
-        // Stop recording
+        // Stop recording. Returns a Promise that resolves AFTER the
+        // recorder.onstop handler has finished writing the blob to IndexedDB.
+        // Same async-stop race fix as Speaking Mocks / IELTS Speaking — without
+        // this, finishMod() reads IDB before the last question's blob exists.
+        let _speakingStopResolve = null;
         function stopSpeakingRecording() {
-            if (speakingMediaRecorder && speakingMediaRecorder.state !== 'inactive') {
+            if (!speakingMediaRecorder || speakingMediaRecorder.state === 'inactive') {
+                return Promise.resolve();
+            }
+            return new Promise((resolve) => {
+                _speakingStopResolve = resolve;
                 speakingMediaRecorder.stop();
                 console.log('[Speaking] Recording stopped');
-            }
+                // Safety: never block forever if onstop somehow doesn't fire.
+                setTimeout(() => {
+                    const r = _speakingStopResolve;
+                    _speakingStopResolve = null;
+                    if (r) r();
+                }, 5000);
+            });
         }
 
         function saveAns(m, q, v, el) { state.answers[m][q] = v; const p = el.closest('.question-card'); if (p) p.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected')); el.classList.add('selected'); }
@@ -8160,10 +8185,15 @@
             mainAudio.currentTime = 0;
 
             if (state.modules[state.step].toLowerCase() === 'speaking') {
-                stopSpeakingRecording();
-                stopSpeakingAudio();
-                finalizeModule('speaking');
-                showRes();
+                // Wait for the in-flight recording's blob to land in IndexedDB
+                // before finalizeModule reads from it. Without this, the very
+                // last question is silently dropped when finishMod is reached
+                // via routes that don't already await (timer expiry, btn-next).
+                stopSpeakingRecording().then(() => {
+                    stopSpeakingAudio();
+                    finalizeModule('speaking');
+                    showRes();
+                });
             } else {
                 showBreak();
             }
@@ -9276,6 +9306,29 @@ Empty responses = 0 points and skip analysis for that task.`;
           throw new Error('AssemblyAI poll timeout');
         }
 
+        // Groq Whisper turbo: single POST, OpenAI-compatible multipart upload via
+        // ai-proxy. Default model whisper-large-v3-turbo; admin can override via
+        // scoring_model_groq_whisper site_setting. Returns transcript text or ''.
+        async function _groqTranscribe(blob, cp) {
+          var model = (cp && (cp['scoring_model_groq_whisper'] || '').toString().trim()) || 'whisper-large-v3-turbo';
+          var fd = new FormData();
+          fd.append('file', new File([blob], 'audio.webm', { type: blob.type || 'audio/webm' }));
+          fd.append('model', model);
+          fd.append('response_format', 'json');
+          fd.append('language', 'en');
+          var r = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+            method: 'POST',
+            headers: { 'Authorization': 'proxy' },
+            body: fd
+          });
+          if (!r.ok) {
+            var _errBody = ''; try { _errBody = await r.text(); } catch (_) {}
+            throw new Error('Groq transcribe error: ' + r.status + ' ' + _errBody.slice(0, 300));
+          }
+          var j = await r.json();
+          return ((j.text || '').trim()) || '[No speech detected]';
+        }
+
         // Transcribe a single audio blob using the admin's selected AI provider
         async function _transcribeAudioBlob(blob) {
           var cp = await _loadScoringPrompts();
@@ -9295,7 +9348,8 @@ Empty responses = 0 points and skip analysis for that task.`;
           } catch (_e) {}
           if (centerTranscriber
               && (centerTranscriber === 'openai' || centerTranscriber === 'gemini'
-                  || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude')) {
+                  || centerTranscriber === 'assemblyai' || centerTranscriber === 'claude'
+                  || centerTranscriber === 'groq')) {
             console.log('[Transcribe] Center override transcriber:', centerTranscriber, '(base scoring AI: ' + provider + ')');
             provider = centerTranscriber;
           } else {
@@ -9303,7 +9357,8 @@ Empty responses = 0 points and skip analysis for that task.`;
             var globalTr = (cp['scoring_transcription_provider'] || '').toString().trim().toLowerCase();
             if (globalTr === 'default') globalTr = '';
             if (globalTr === 'openai' || globalTr === 'gemini'
-                || globalTr === 'assemblyai' || globalTr === 'claude') {
+                || globalTr === 'assemblyai' || globalTr === 'claude'
+                || globalTr === 'groq') {
               console.log('[Transcribe] Global transcriber default:', globalTr, '(base scoring AI: ' + provider + ')');
               provider = globalTr;
             } else if (provider === 'grok' || provider === 'deepseek' || provider === 'gemma4') {
@@ -9373,6 +9428,15 @@ Empty responses = 0 points and skip analysis for that task.`;
                 });
               } catch(e) { console.warn('[Transcribe] Claude audio failed, falling back to Gemini:', e.message); }
             }
+          }
+
+          // Groq Whisper turbo — cheapest + fastest (single POST, OpenAI-compatible
+          // multipart upload via ai-proxy interceptor).
+          if (provider === 'groq') {
+            try {
+              var grqT = await _groqTranscribe(blob, cp);
+              if (grqT) return grqT;
+            } catch(e) { console.warn('[Transcribe] Groq failed, falling back to Gemini:', e.message); }
           }
 
           // AssemblyAI — cheap, fast (cloud-side ASR via proxy: upload → request → poll)
