@@ -7278,29 +7278,29 @@
                 <p class="ce-desc">A2 Key — everyday English foundations.</p>
                 <span class="ce-go">Start →</span>
               </div>
-              <div class="cambridge-exam-card pet" role="button" aria-disabled="true" title="PET (B1 Preliminary) — Coming soon">
+              <div class="cambridge-exam-card pet active" role="button" tabindex="0" onclick="showPETOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showPETOptions()" title="PET (B1 Preliminary)">
                 <span class="ce-level">B1</span>
                 <h4 class="ce-name">PET</h4>
                 <p class="ce-desc">B1 Preliminary — practical communication skills.</p>
-                <span class="ce-soon">Soon</span>
+                <span class="ce-go">Start →</span>
               </div>
-              <div class="cambridge-exam-card fce" role="button" aria-disabled="true" title="FCE (B2 First) — Coming soon">
+              <div class="cambridge-exam-card fce active" role="button" tabindex="0" onclick="showFCEOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showFCEOptions()" title="FCE (B2 First)">
                 <span class="ce-level">B2</span>
                 <h4 class="ce-name">FCE</h4>
                 <p class="ce-desc">B2 First — upper-intermediate proficiency.</p>
-                <span class="ce-soon">Soon</span>
+                <span class="ce-go">Start →</span>
               </div>
-              <div class="cambridge-exam-card cae" role="button" aria-disabled="true" title="CAE (C1 Advanced) — Coming soon">
+              <div class="cambridge-exam-card cae active" role="button" tabindex="0" onclick="showCAEOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showCAEOptions()" title="CAE (C1 Advanced)">
                 <span class="ce-level">C1</span>
                 <h4 class="ce-name">CAE</h4>
                 <p class="ce-desc">C1 Advanced — academic and professional English.</p>
-                <span class="ce-soon">Soon</span>
+                <span class="ce-go">Start →</span>
               </div>
-              <div class="cambridge-exam-card cpe" role="button" aria-disabled="true" title="CPE (C2 Proficiency) — Coming soon">
+              <div class="cambridge-exam-card cpe active" role="button" tabindex="0" onclick="showCPEOptions()" onkeypress="if(event.key==='Enter'||event.key===' ')showCPEOptions()" title="CPE (C2 Proficiency)">
                 <span class="ce-level">C2</span>
                 <h4 class="ce-name">CPE</h4>
                 <p class="ce-desc">C2 Proficiency — mastery-level English.</p>
-                <span class="ce-soon">Soon</span>
+                <span class="ce-go">Start →</span>
               </div>
             </div>
           </div>
@@ -7698,6 +7698,118 @@
         </button>
       </div>
       <button class="modal-close-btn" onclick="closeKETModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- PET Options Modal -->
+  <div class="speaking-modal-overlay" id="petModal" onclick="closePETModal(event)">
+    <div class="speaking-modal" onclick="event.stopPropagation()">
+      <h3>🎓 PET (B1 Preliminary)</h3>
+      <p>Select a paper to practice</p>
+      <div class="speaking-options">
+        <button class="speaking-option-btn" onclick="selectPETType('rw')" style="background:linear-gradient(135deg,#ecfeff,#cffafe);border:2px solid #06b6d4">
+          <span class="option-icon">📝</span>
+          <span class="option-title" style="color:#0891b2">Reading &amp; Writing</span>
+          <span class="option-desc">90 min · 32 reading + 2 writing</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎧</span>
+          <span class="option-title" style="color:#115e59">Listening</span>
+          <span class="option-desc">~30 min · 25 questions · arriving in v2</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎤</span>
+          <span class="option-title" style="color:#7c3aed">Speaking</span>
+          <span class="option-desc">~12 min (paired) · arriving in v2</span>
+        </button>
+      </div>
+      <button class="modal-close-btn" onclick="closePETModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- FCE Options Modal -->
+  <div class="speaking-modal-overlay" id="fceModal" onclick="closeFCEModal(event)">
+    <div class="speaking-modal" onclick="event.stopPropagation()">
+      <h3>🎓 FCE (B2 First)</h3>
+      <p>Select a paper to practice</p>
+      <div class="speaking-options">
+        <button class="speaking-option-btn" onclick="selectFCEType('rw')" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #3b82f6">
+          <span class="option-icon">📝</span>
+          <span class="option-title" style="color:#2563eb">Reading, UoE &amp; Writing</span>
+          <span class="option-desc">155 min · 52 reading + 2 writing</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎧</span>
+          <span class="option-title" style="color:#115e59">Listening</span>
+          <span class="option-desc">~40 min · 30 questions · arriving in v2</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎤</span>
+          <span class="option-title" style="color:#7c3aed">Speaking</span>
+          <span class="option-desc">~14 min (paired) · arriving in v2</span>
+        </button>
+      </div>
+      <button class="modal-close-btn" onclick="closeFCEModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CAE Options Modal -->
+  <div class="speaking-modal-overlay" id="caeModal" onclick="closeCAEModal(event)">
+    <div class="speaking-modal" onclick="event.stopPropagation()">
+      <h3>🎓 CAE (C1 Advanced)</h3>
+      <p>Select a paper to practice</p>
+      <div class="speaking-options">
+        <button class="speaking-option-btn" onclick="selectCAEType('rw')" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #8b5cf6">
+          <span class="option-icon">📝</span>
+          <span class="option-title" style="color:#7c3aed">Reading, UoE &amp; Writing</span>
+          <span class="option-desc">180 min · 56 reading + 2 writing</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎧</span>
+          <span class="option-title" style="color:#115e59">Listening</span>
+          <span class="option-desc">~40 min · 30 questions · arriving in v2</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎤</span>
+          <span class="option-title" style="color:#7c3aed">Speaking</span>
+          <span class="option-desc">~15 min (paired) · arriving in v2</span>
+        </button>
+      </div>
+      <button class="modal-close-btn" onclick="closeCAEModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- CPE Options Modal -->
+  <div class="speaking-modal-overlay" id="cpeModal" onclick="closeCPEModal(event)">
+    <div class="speaking-modal" onclick="event.stopPropagation()">
+      <h3>🎓 CPE (C2 Proficiency)</h3>
+      <p>Select a paper to practice</p>
+      <div class="speaking-options">
+        <button class="speaking-option-btn" onclick="selectCPEType('rw')" style="background:linear-gradient(135deg,#fdf2f8,#fce7f3);border:2px solid #ec4899">
+          <span class="option-icon">📝</span>
+          <span class="option-title" style="color:#db2777">Reading, UoE &amp; Writing</span>
+          <span class="option-desc">180 min · 53 reading + 2 writing</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #0d9488;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎧</span>
+          <span class="option-title" style="color:#115e59">Listening</span>
+          <span class="option-desc">~40 min · 30 questions · arriving in v2</span>
+        </button>
+        <button class="speaking-option-btn" type="button" disabled aria-disabled="true" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a855f7;position:relative;overflow:hidden;opacity:0.55;cursor:not-allowed">
+          <span style="position:absolute;top:6px;right:8px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px">SOON</span>
+          <span class="option-icon">🎤</span>
+          <span class="option-title" style="color:#7c3aed">Speaking</span>
+          <span class="option-desc">~16 min (paired) · arriving in v2</span>
+        </button>
+      </div>
+      <button class="modal-close-btn" onclick="closeCPEModal()">Cancel</button>
     </div>
   </div>
 
@@ -13736,6 +13848,90 @@
         window.location.href = 'KET Listening Mocks.html';
       } else if (type === 'speaking') {
         window.location.href = 'KET Speaking Mocks.html';
+      }
+    }
+
+    // ========== PET (B1 Preliminary) OPTIONS MODAL ==========
+    function showPETOptions() {
+      var m = document.getElementById('petModal');
+      if (m) m.classList.add('show');
+    }
+    function closePETModal(event) {
+      var m = document.getElementById('petModal');
+      if (!m) return;
+      if (!event || event.target === m) m.classList.remove('show');
+    }
+    function selectPETType(type) {
+      closePETModal();
+      if (type === 'rw') {
+        window.location.href = 'PET Reading & Writing Mocks.html';
+      } else if (type === 'listening') {
+        window.location.href = 'PET Listening Mocks.html';
+      } else if (type === 'speaking') {
+        window.location.href = 'PET Speaking Mocks.html';
+      }
+    }
+
+    // ========== FCE (B2 First) OPTIONS MODAL ==========
+    function showFCEOptions() {
+      var m = document.getElementById('fceModal');
+      if (m) m.classList.add('show');
+    }
+    function closeFCEModal(event) {
+      var m = document.getElementById('fceModal');
+      if (!m) return;
+      if (!event || event.target === m) m.classList.remove('show');
+    }
+    function selectFCEType(type) {
+      closeFCEModal();
+      if (type === 'rw') {
+        window.location.href = 'FCE Reading & Writing Mocks.html';
+      } else if (type === 'listening') {
+        window.location.href = 'FCE Listening Mocks.html';
+      } else if (type === 'speaking') {
+        window.location.href = 'FCE Speaking Mocks.html';
+      }
+    }
+
+    // ========== CAE (C1 Advanced) OPTIONS MODAL ==========
+    function showCAEOptions() {
+      var m = document.getElementById('caeModal');
+      if (m) m.classList.add('show');
+    }
+    function closeCAEModal(event) {
+      var m = document.getElementById('caeModal');
+      if (!m) return;
+      if (!event || event.target === m) m.classList.remove('show');
+    }
+    function selectCAEType(type) {
+      closeCAEModal();
+      if (type === 'rw') {
+        window.location.href = 'CAE Reading & Writing Mocks.html';
+      } else if (type === 'listening') {
+        window.location.href = 'CAE Listening Mocks.html';
+      } else if (type === 'speaking') {
+        window.location.href = 'CAE Speaking Mocks.html';
+      }
+    }
+
+    // ========== CPE (C2 Proficiency) OPTIONS MODAL ==========
+    function showCPEOptions() {
+      var m = document.getElementById('cpeModal');
+      if (m) m.classList.add('show');
+    }
+    function closeCPEModal(event) {
+      var m = document.getElementById('cpeModal');
+      if (!m) return;
+      if (!event || event.target === m) m.classList.remove('show');
+    }
+    function selectCPEType(type) {
+      closeCPEModal();
+      if (type === 'rw') {
+        window.location.href = 'CPE Reading & Writing Mocks.html';
+      } else if (type === 'listening') {
+        window.location.href = 'CPE Listening Mocks.html';
+      } else if (type === 'speaking') {
+        window.location.href = 'CPE Speaking Mocks.html';
       }
     }
 

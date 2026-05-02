@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auto-theme.js"></script>
+  <script src="finish-gate.js" defer></script>
+  <script src="./ai-proxy-interceptor.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PET Reading &amp; Writing Mock Tests</title>
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
+  <script src="pet-mock-config.js"></script>
+  <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
+  <style>
+    :root { --primary:#06b6d4; --primary-dark:#0891b2; --primary-light:#cffafe; --bg:#ecfeff; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; }
+    [data-theme="dark"], body.dark-mode { --primary-light:rgba(6,182,212,.18); --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f1f5f9; --muted:#94a3b8; }
+    [data-theme="dark"] body, body.dark-mode { background:linear-gradient(135deg,#0f172a,#1e293b) !important; color:var(--text); }
+    [data-theme="dark"] .card, body.dark-mode .card { background:var(--card); border-color:var(--border); color:var(--text); }
+    [data-theme="dark"] .card h3, body.dark-mode .card h3 { color:#67e8f9; }
+    [data-theme="dark"] .empty, body.dark-mode .empty { background:var(--card); border-color:var(--border); }
+    [data-theme="dark"] .empty h3, body.dark-mode .empty h3 { color:#67e8f9; }
+    [data-theme="dark"] .back-btn, body.dark-mode .back-btn { background:var(--card); color:#67e8f9; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:linear-gradient(135deg,var(--bg),#cffafe); min-height:100vh; padding:20px; color:var(--text); }
+    .container { max-width:900px; margin:0 auto; }
+    .header { text-align:center; margin-bottom:32px; padding:30px 20px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); border-radius:24px; color:#fff; box-shadow:0 10px 40px rgba(6,182,212,.3); }
+    .header h1 { font-size:24px; margin-bottom:6px; }
+    .header .sub { font-size:13px; opacity:.9; }
+    .level-badge { display:inline-block; background:rgba(255,255,255,.2); padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1px; margin-top:8px; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; background:#fff; color:var(--primary-dark); padding:8px 16px; border-radius:10px; text-decoration:none; font-weight:600; margin-bottom:18px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; cursor:pointer; transition:transform .15s,box-shadow .15s; position:relative; }
+    .card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.08); }
+    .card .num { font-size:11px; color:var(--muted); font-weight:600; letter-spacing:1px; }
+    .card h3 { font-size:16px; margin:6px 0 4px; color:var(--primary-dark); }
+    .card .meta { font-size:12px; color:var(--muted); }
+    .empty { text-align:center; padding:60px 20px; background:var(--card); border-radius:20px; border:2px dashed var(--border); }
+    .empty .icon { font-size:48px; margin-bottom:12px; }
+    .empty h3 { color:var(--primary-dark); margin-bottom:6px; }
+    .empty p { color:var(--muted); font-size:14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-btn" href="javascript:history.back()">← Back</a>
+    <div class="header">
+      <h1>📝 PET Reading &amp; Writing</h1>
+      <div class="sub">Combined paper • 90 minutes • 32 reading + 2 writing tasks</div>
+      <div class="level-badge">B1 PRELIMINARY</div>
+    </div>
+    <div id="mockGrid" class="grid"></div>
+    <div id="emptyState" class="empty" style="display:none;">
+      <div class="icon">📚</div>
+      <h3>No mocks available yet</h3>
+      <p>PET Reading &amp; Writing mocks are being prepared. Check back soon.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var cfg = window.PET_MOCK_CONFIG || { reading_writing: 0 };
+      var n = cfg.reading_writing || 0;
+      var grid = document.getElementById('mockGrid');
+      var empty = document.getElementById('emptyState');
+      if (!n) {
+        grid.style.display = 'none';
+        empty.style.display = '';
+        return;
+      }
+      for (var i = 1; i <= n; i++) {
+        var num = String(i).padStart(2, '0');
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.mockNumber = num;
+        card.innerHTML =
+          '<div class="num">MOCK ' + num + '</div>' +
+          '<h3>PET R&amp;W Mock ' + num + '</h3>' +
+          '<div class="meta">⏱️ 90 min · 32 reading + 2 writing</div>';
+        card.addEventListener('click', (function (n) {
+          return function () { window.location.href = 'PET Reading & Writing.html?mock=' + n; };
+        })(num));
+        grid.appendChild(card);
+      }
+    })();
+  </script>
+</body>
+</html>
