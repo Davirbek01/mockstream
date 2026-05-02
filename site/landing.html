@@ -19914,26 +19914,6 @@
           '<button type="button" class="ru-tab-btn" data-rutab="guest"   onclick="_setRuTab(\'guest\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
         '</div>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
-        // ── Grant premium by Telegram username (Phase 2 — Telegram-only users
-        //    have no email row to click on in the list, so this lets admins
-        //    grant directly by @username). ───────────────────────────────────
-        '<div id="ruTgGrant" style="margin:0 14px 10px;padding:10px 12px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;">' +
-          '<div style="font-weight:700;font-size:12px;color:#0369a1;margin-bottom:6px;">📨 Grant premium by Telegram username</div>' +
-          '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">' +
-            '<input id="ruTgUsername" type="text" placeholder="@username (no @ ok)" style="padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;flex:1;min-width:140px;">' +
-            '<select id="ruTgTier" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">' +
-              '<option value="premium" selected>premium</option>' +
-              '<option value="free">free</option>' +
-            '</select>' +
-            '<select id="ruTgRole" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">' +
-              '<option value="user" selected>user</option>' +
-              '<option value="admin">admin</option>' +
-            '</select>' +
-            '<input id="ruTgCenter" type="text" placeholder="center (blank = all)" style="padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;flex:1;min-width:120px;">' +
-            '<button id="ruTgSaveBtn" onclick="_saveTelegramRole()" style="padding:7px 14px;border:none;border-radius:6px;font-size:12px;font-weight:700;color:#fff;background:#0ea5e9;cursor:pointer;">➕ Grant</button>' +
-          '</div>' +
-          '<div id="ruTgMsg" style="font-size:11px;margin-top:6px;min-height:14px;"></div>' +
-        '</div>' +
         '<div class="ru-stats" id="ruStats"></div>' +
         '<div class="ru-list" id="ruList"><div class="ru-empty">Loading...</div></div>' +
         '</div>';

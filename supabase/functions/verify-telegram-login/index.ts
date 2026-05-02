@@ -164,11 +164,11 @@ Deno.serve(async (req) => {
       if (matches.length === 1) {
         matchedUserId = matches[0].id;
         matchedEmail  = matches[0].email ?? null;
-      } else if (matches.length > 1) {
-        // Ambiguous → refuse to auto-merge. User must sign in with Google
-        // first to disambiguate, then we can offer to attach Telegram.
-        return jerr(409, 'ambiguous_name_match');
       }
+      // matches.length === 0   → fall through, create new Telegram-only user
+      // matches.length >= 2    → ambiguous, also fall through to create new
+      //                          (safer than guessing the wrong account; an
+      //                          admin can manually link later if needed)
     }
 
     if (matchedUserId && matchedEmail) {
