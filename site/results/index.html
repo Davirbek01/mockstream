@@ -7901,23 +7901,33 @@
 
     // ============================================================
     // CHANNEL POSTS (NEWS) — review queue for AI-generated posts
+    // All ops route through the channel-posts-admin Edge Function which
+    // does its own server-side admin check by admin_email (works for both
+    // dashboard 'email' mode and 'supabase' Google mode — no JWT needed).
     // ============================================================
     var _cpFilter = 'pending';
     var _cpRows = [];
 
-    async function _cpGetAuthHeaders() {
-      // Use the signed-in user's JWT (admin) so RLS allows SELECT on channel_posts
-      var headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
+    function _cpAdminEmail() {
+      // Try Google session first (fresh JWT email), fall back to email-mode storage
       try {
-        var auth = window.MockStream && window.MockStream.auth;
-        var client = auth && auth.getClient && auth.getClient();
-        if (client) {
-          var sess = await client.auth.getSession();
-          var jwt = sess && sess.data && sess.data.session && sess.data.session.access_token;
-          if (jwt) headers.Authorization = 'Bearer ' + jwt;
-        }
+        var u = (window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                 && window.MockStream.auth.getCurrentUser());
+        if (u && u.email) return u.email.toLowerCase();
       } catch (_e) {}
-      return headers;
+      return (localStorage.getItem('ms_admin_email') || '').toLowerCase();
+    }
+    async function _cpAdminCall(payload) {
+      var adminEmail = _cpAdminEmail();
+      if (!adminEmail) throw new Error('No admin email available — sign in with Google or email mode first');
+      var resp = await fetch(SUPABASE_URL + '/functions/v1/channel-posts-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({ admin_email: adminEmail }, payload))
+      });
+      var data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.detail || data.error || ('HTTP ' + resp.status));
+      return data;
     }
     function _cpMsg(text, kind) {
       var el = document.getElementById('cpMsg');
@@ -7929,7 +7939,6 @@
       return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
     function openChannelPostsPanel() {
-      // Same admin gate as the rest of the dashboard — caller must already be authed.
       var authMethod = sessionStorage.getItem('dashboard-auth-method');
       if (authMethod !== 'email' && authMethod !== 'supabase') {
         alert('⚠️ Channel Posts requires admin email login.\nPlease log out and sign in with your admin email.');
@@ -7954,26 +7963,19 @@
     async function cpLoadAll() {
       var listEl = document.getElementById('cpList');
       listEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-      var headers = await _cpGetAuthHeaders();
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/channel_posts?select=*&order=created_at.desc&limit=200', {
-          headers: headers
+        var data = await _cpAdminCall({ op: 'list' });
+        _cpRows = data.rows || [];
+        // Update filter count badges from server-side counts
+        ['pending','published','rejected','failed'].forEach(function (s) {
+          var c = (data.counts && data.counts[s]) || 0;
+          var el = document.getElementById('cpCount' + s.charAt(0).toUpperCase() + s.slice(1));
+          if (el) el.textContent = c ? '(' + c + ')' : '';
         });
-        if (!resp.ok) {
-          var t = await resp.text();
-          throw new Error('HTTP ' + resp.status + ' — ' + t);
-        }
-        _cpRows = await resp.json();
       } catch (e) {
         _cpMsg('Failed to load: ' + (e.message || e), 'error');
         _cpRows = [];
       }
-      // Update count badges
-      ['pending','published','rejected','failed'].forEach(function (s) {
-        var c = _cpRows.filter(function (r) { return r.status === s; }).length;
-        var el = document.getElementById('cpCount' + s.charAt(0).toUpperCase() + s.slice(1));
-        if (el) el.textContent = c ? '(' + c + ')' : '';
-      });
       _cpRender();
     }
 
@@ -8056,17 +8058,9 @@
 
     async function cpSaveEdit(id) {
       var ta = document.getElementById('cp-text-' + id);
-      var newText = ta.value;
-      var headers = await _cpGetAuthHeaders();
-      headers['Content-Type'] = 'application/json';
-      headers['Prefer'] = 'return=minimal';
+      var newText = ta ? ta.value : '';
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/channel_posts?id=eq.' + id, {
-          method: 'PATCH', headers: headers,
-          body: JSON.stringify({ text_content: newText })
-        });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        // Update local cache
+        await _cpAdminCall({ op: 'update_text', post_id: id, text_content: newText });
         var row = _cpRows.find(function (r) { return r.id === id; });
         if (row) row.text_content = newText;
         _cpMsg('💾 Edits saved', 'success');
@@ -8076,19 +8070,12 @@
     }
 
     async function cpApprove(id) {
-      // Save current text first (in case admin edited but didn't click Save)
+      // Save the current edit first (in case admin edited but didn't click Save)
       await cpSaveEdit(id);
       _cpMsg('Posting to t.me/mock_stream ...', 'info');
-      var headers = await _cpGetAuthHeaders();
-      headers['Content-Type'] = 'application/json';
       try {
-        var resp = await fetch(SUPABASE_URL + '/functions/v1/publish-channel-post', {
-          method: 'POST', headers: headers,
-          body: JSON.stringify({ post_id: id })
-        });
-        var data = await resp.json();
-        if (!resp.ok || !data.ok) throw new Error(data.detail || data.error || ('HTTP ' + resp.status));
-        _cpMsg('✅ Published! Telegram message id: ' + data.telegram_message_id + (data.used_image ? ' (with image)' : ''), 'success');
+        var data = await _cpAdminCall({ op: 'publish', post_id: id });
+        _cpMsg('✅ Published! Telegram message id: ' + data.telegram_message_id + (data.used_image ? ' (with image)' : ' (text only — caption was too long)'), 'success');
         await cpLoadAll();
       } catch (e) {
         _cpMsg('Publish failed: ' + (e.message || e), 'error');
@@ -8098,15 +8085,8 @@
 
     async function cpReject(id) {
       if (!confirm('Reject this post? It will be marked rejected and not published.')) return;
-      var headers = await _cpGetAuthHeaders();
-      headers['Content-Type'] = 'application/json';
-      headers['Prefer'] = 'return=minimal';
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/channel_posts?id=eq.' + id, {
-          method: 'PATCH', headers: headers,
-          body: JSON.stringify({ status: 'rejected', rejected_at: new Date().toISOString() })
-        });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        await _cpAdminCall({ op: 'reject', post_id: id });
         _cpMsg('❌ Rejected', 'success');
         await cpLoadAll();
       } catch (e) {
@@ -8116,12 +8096,8 @@
 
     async function cpDelete(id) {
       if (!confirm('Permanently delete this post row?')) return;
-      var headers = await _cpGetAuthHeaders();
       try {
-        var resp = await fetch(SUPABASE_URL + '/rest/v1/channel_posts?id=eq.' + id, {
-          method: 'DELETE', headers: headers
-        });
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        await _cpAdminCall({ op: 'delete', post_id: id });
         _cpMsg('🗑 Deleted', 'success');
         await cpLoadAll();
       } catch (e) {
