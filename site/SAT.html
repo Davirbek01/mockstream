@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="auto-theme.js"></script>
+  <script src="finish-gate.js" defer></script>
+  <script src="./ai-proxy-interceptor.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAT Practice</title>
+  <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
+  <link rel="stylesheet" href="site-config/responsive-scaling.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  <!-- Desmos graphing calculator (free demo API key, sufficient for educational practice) -->
+  <script src="https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <!-- Desmos graphing calculator (loaded for Math sections) -->
+  <script src="https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <script src="center-id.js"></script>
+  <script src="site-config/site-config.js"></script>
+  <link rel="stylesheet" href="premium-gate.css">
+  <script src="premium-gate.js" defer></script>
+  <script src="sat-mock-config.js"></script>
+  <script>if (window.SITE_CONFIG) { var f = document.getElementById('site-favicon'); if (f) f.href = window.SITE_CONFIG.logoUrl; }</script>
+  <style>
+    :root { --primary:#0b3d91; --primary-dark:#082c6e; --primary-light:#dde7f9; --accent:#e8a317; --bg:#f4f7fb; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; --danger:#dc2626; --warn:#f59e0b; --good:#10b981; --info:#0ea5e9; --soft-blue:#eff6ff; }
+    [data-theme="dark"], body.dark-mode {
+      --primary-light: rgba(11,61,145,.18); --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#f1f5f9; --muted:#94a3b8; --soft-blue: rgba(11,61,145,.18);
+    }
+    [data-theme="dark"] body, body.dark-mode { background: var(--bg) !important; }
+    [data-theme="dark"] .topbar, body.dark-mode .topbar { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .question-card, body.dark-mode .question-card { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .passage, body.dark-mode .passage { background: rgba(11,61,145,.10); color: var(--text); }
+    [data-theme="dark"] .opt-check, body.dark-mode .opt-check { background: var(--card); }
+    [data-theme="dark"] .qnav, body.dark-mode .qnav { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .submit-bar, body.dark-mode .submit-bar { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .results, body.dark-mode .results { background: var(--card); }
+    [data-theme="dark"] .break-screen, body.dark-mode .break-screen { background: var(--card); }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); min-height:100vh; color:var(--text); }
+
+    /* Top bar */
+    .topbar { position:sticky; top:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; box-shadow:0 2px 6px rgba(0,0,0,.04); }
+    .topbar .left { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .topbar .title { font-size:15px; font-weight:700; color:var(--primary-dark); }
+    .topbar .module-label { font-size:12px; font-weight:700; letter-spacing:.5px; background:var(--primary-light); color:var(--primary-dark); padding:3px 10px; border-radius:6px; }
+    .timer { font-size:18px; font-weight:800; color:var(--primary-dark); font-variant-numeric:tabular-nums; padding:6px 12px; background:var(--primary-light); border-radius:10px; }
+    .timer.warn { background:#fef3c7; color:#92400e; }
+    .timer.danger { background:#fee2e2; color:#991b1b; animation:pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.7; } }
+
+    /* Question header */
+    .qheader { max-width:980px; margin:14px auto 0; padding:0 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:13px; color:var(--muted); font-weight:600; }
+    .domain-pill { background:rgba(232,163,23,.15); color:#7c4f00; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:700; letter-spacing:.4px; }
+    [data-theme="dark"] .domain-pill, body.dark-mode .domain-pill { background:rgba(232,163,23,.20); color:#fbbf24; }
+
+    /* Main content area */
+    /* Bottom padding clears the qnav (~56px) + submit bar (~58px) + safety. Mobile gets more in the @media block. */
+    .container { max-width:980px; margin:0 auto; padding:14px 18px 150px; }
+    .question-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px 24px; margin-bottom:14px; }
+    .passage { background:var(--soft-blue); border:1px solid #bfdbfe; border-radius:12px; padding:16px 18px; font-size:14.5px; line-height:1.7; white-space:pre-wrap; margin-bottom:16px; color:#0c4a6e; }
+    [data-theme="dark"] .passage { color:#bfdbfe; }
+    .stem { font-size:15.5px; font-weight:600; line-height:1.6; margin-bottom:14px; }
+    .stem strong { font-weight:700; color:var(--primary-dark); }
+
+    /* Math figure (inline SVG) */
+    .figure { display:flex; justify-content:center; margin:8px 0 14px; }
+    .figure svg { max-width:280px; height:auto; }
+
+    /* Options */
+    .options { display:flex; flex-direction:column; gap:8px; }
+    .opt { display:flex; align-items:flex-start; gap:12px; padding:11px 14px; border-radius:10px; cursor:pointer; transition:.12s; font-size:14.5px; line-height:1.55; border:1.5px solid var(--border); background:#fff; }
+    [data-theme="dark"] .opt, body.dark-mode .opt { background:var(--card); }
+    .opt:hover { border-color:var(--primary); background:var(--primary-light); }
+    .opt.selected { border-color:var(--primary); background:var(--primary-light); }
+    .opt-letter { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; border:1.5px solid var(--border); font-weight:800; color:var(--primary-dark); font-size:12.5px; flex-shrink:0; transition:.12s; background:#fff; }
+    .opt.selected .opt-letter { background:var(--primary); border-color:var(--primary); color:#fff; }
+    .opt-text { flex:1; }
+
+    /* SPR input */
+    .spr-row { display:flex; flex-direction:column; gap:8px; padding:14px 16px; background:var(--soft-blue); border:1.5px solid #bfdbfe; border-radius:10px; }
+    .spr-row label { font-size:13px; color:var(--muted); font-weight:600; }
+    .spr-row input { padding:10px 14px; font-size:16px; border:1.5px solid var(--info); border-radius:8px; max-width:220px; font-family:inherit; background:#fff; color:var(--text); font-weight:700; }
+    [data-theme="dark"] .spr-row input, body.dark-mode .spr-row input { background:var(--card); border-color:var(--info); }
+    .spr-row .help { font-size:12px; color:var(--muted); }
+
+    /* Question navigator */
+    .qnav { position:fixed; bottom:64px; left:0; right:0; background:#fff; border-top:1px solid var(--border); padding:10px 16px; display:flex; gap:6px; align-items:center; justify-content:center; flex-wrap:wrap; box-shadow:0 -2px 6px rgba(0,0,0,.04); z-index:50; }
+    .qbtn { width:34px; height:34px; border-radius:8px; border:1.5px solid var(--border); background:#fff; font-weight:700; font-size:13px; color:var(--muted); cursor:pointer; transition:.12s; }
+    [data-theme="dark"] .qbtn, body.dark-mode .qbtn { background:var(--card); }
+    .qbtn:hover { border-color:var(--primary); color:var(--primary-dark); }
+    .qbtn.current { background:var(--primary); border-color:var(--primary); color:#fff; }
+    .qbtn.answered { background:var(--primary-light); color:var(--primary-dark); border-color:var(--primary); }
+    .qbtn.marked::after { content:"⚑"; position:absolute; top:-6px; right:-6px; color:var(--accent); font-size:14px; }
+
+    /* Submit bar */
+    .submit-bar { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--border); padding:10px 16px; display:flex; gap:10px; justify-content:space-between; align-items:center; box-shadow:0 -2px 10px rgba(0,0,0,.06); z-index:55; }
+    .submit-bar .group { display:flex; gap:8px; }
+    .btn { padding:10px 18px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; transition:.15s; }
+    .btn-primary { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; }
+    .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(11,61,145,.3); }
+    .btn-ghost { background:transparent; color:var(--muted); border:1.5px solid var(--border); }
+    .btn-warn { background:var(--accent); color:#fff; }
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+    /* Review screen overlay */
+    .review-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.85); z-index:180; display:flex; align-items:center; justify-content:center; padding:20px; }
+    [data-theme="dark"] .review-overlay, body.dark-mode .review-overlay { background:rgba(0,0,0,0.85); }
+    .review-content { background:var(--card); border-radius:18px; padding:24px 28px; max-width:560px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.3); }
+    .review-content h2 { color:var(--primary-dark); margin-bottom:6px; font-size:22px; }
+    .review-content .review-summary { color:var(--muted); font-size:13.5px; margin-bottom:14px; line-height:1.55; }
+    .review-content .review-summary .ans-count { color:var(--good); font-weight:700; }
+    .review-content .review-summary .un-count { color:var(--danger); font-weight:700; }
+    .review-content .review-summary .mark-count { color:#d97706; font-weight:700; }
+    .review-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(50px, 1fr)); gap:8px; margin:16px 0 18px; }
+    .review-item { padding:10px 6px; border-radius:8px; text-align:center; font-weight:700; cursor:pointer; border:1.5px solid var(--border); background:#fff; position:relative; transition:.12s; font-size:13px; }
+    [data-theme="dark"] .review-item, body.dark-mode .review-item { background:#0f172a; }
+    .review-item:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    .review-item.answered { background:#dcfce7; border-color:#86efac; color:#166534; }
+    [data-theme="dark"] .review-item.answered, body.dark-mode .review-item.answered { background:rgba(16,185,129,.15); color:#86efac; }
+    .review-item.unanswered { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+    [data-theme="dark"] .review-item.unanswered, body.dark-mode .review-item.unanswered { background:rgba(220,38,38,.15); color:#fca5a5; }
+    .review-item.marked::after { content:"⚑"; position:absolute; top:-8px; right:-6px; color:#d97706; font-size:14px; text-shadow:0 0 2px #fff; }
+    .review-actions { display:flex; gap:10px; justify-content:space-between; margin-top:18px; }
+
+    /* Break screen */
+    .break-screen { position:fixed; inset:0; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; gap:20px; text-align:center; }
+    .break-screen h2 { font-size:28px; margin-bottom:8px; }
+    .break-screen p { font-size:15px; opacity:.95; max-width:520px; line-height:1.55; }
+    .break-timer { font-size:64px; font-weight:800; font-variant-numeric:tabular-nums; padding:18px 40px; background:rgba(255,255,255,.15); border-radius:18px; margin:18px 0; letter-spacing:2px; }
+    .break-screen button { padding:14px 32px; border-radius:14px; font-size:16px; font-weight:700; border:none; background:var(--accent); color:#fff; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.18); transition:.15s; }
+    .break-screen button:hover { transform:translateY(-2px); }
+
+    /* Results */
+    .results { background:var(--card); border:2px solid var(--primary); border-radius:18px; padding:28px; margin:16px 0; }
+    .results h3 { color:var(--primary-dark); margin-bottom:14px; font-size:22px; }
+    .scaled-row { display:flex; justify-content:space-between; align-items:baseline; padding:14px 0; border-bottom:1.5px solid var(--border); }
+    .scaled-row:last-child { border-bottom:none; font-weight:800; }
+    .scaled-row .section { font-weight:700; font-size:15px; }
+    .scaled-row .score { font-size:28px; font-weight:800; color:var(--primary-dark); font-variant-numeric:tabular-nums; }
+    .scaled-row .total .score { font-size:36px; color:var(--accent); }
+    .raw-detail { font-size:12px; color:var(--muted); }
+    .results .note { margin-top:18px; padding:14px 16px; background:rgba(232,163,23,.10); border-left:3px solid var(--accent); border-radius:8px; font-size:13px; color:var(--text); line-height:1.55; }
+
+    .loading { text-align:center; padding:80px 20px; color:var(--muted); }
+
+    /* ───── Tool buttons in topbar (strike, ref-sheet, calc, settings) ───── */
+    .topbar .right { display:flex; align-items:center; gap:6px; }
+    .tool-btn { width:36px; height:36px; border-radius:8px; border:1.5px solid var(--border); background:#fff; cursor:pointer; font-size:16px; transition:.12s; display:inline-flex; align-items:center; justify-content:center; }
+    [data-theme="dark"] .tool-btn, body.dark-mode .tool-btn { background:var(--card); }
+    .tool-btn:hover { border-color:var(--primary); background:var(--primary-light); }
+    .tool-btn:disabled { opacity:.4; cursor:not-allowed; }
+    .tool-btn.active { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+    /* ───── Strikethrough on MCQ options ───── */
+    .opt { position:relative; padding-right:42px; }
+    .opt-strike-btn { position:absolute; top:50%; right:8px; transform:translateY(-50%); width:26px; height:26px; border-radius:50%; border:1.5px solid var(--border); background:#fff; cursor:pointer; font-size:13px; font-weight:700; color:var(--muted); transition:.12s; display:inline-flex; align-items:center; justify-content:center; }
+    [data-theme="dark"] .opt-strike-btn, body.dark-mode .opt-strike-btn { background:var(--card); }
+    .opt-strike-btn:hover { border-color:var(--danger); color:var(--danger); }
+    .opt.struck { opacity:.55; }
+    .opt.struck .opt-text { text-decoration:line-through; }
+    .opt.struck .opt-letter { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+    [data-theme="dark"] .opt.struck .opt-letter, body.dark-mode .opt.struck .opt-letter { background:rgba(220,38,38,.18); color:#fca5a5; }
+
+    /* ───── Math reference sheet — floating draggable panel (Bluebook / OnePrep style) ───── */
+    .ref-panel { position:fixed; top:80px; left:24px; width:300px; max-height:65vh; background:var(--card); border:1.5px solid var(--border); border-radius:12px; box-shadow:0 10px 32px rgba(0,0,0,.18); z-index:95; display:none; flex-direction:column; overflow:hidden; }
+    [data-theme="dark"] .ref-panel, body.dark-mode .ref-panel { background:var(--card); border-color:var(--border); }
+    .ref-panel.show { display:flex; }
+    .ref-panel.minimized { max-height:42px; }
+    .ref-panel .ref-panel-header { display:flex; align-items:center; justify-content:space-between; padding:9px 12px; background:var(--soft-blue); border-bottom:1px solid var(--border); cursor:move; user-select:none; flex-shrink:0; }
+    [data-theme="dark"] .ref-panel .ref-panel-header, body.dark-mode .ref-panel .ref-panel-header { background:rgba(11,61,145,.18); }
+    .ref-panel .ref-panel-title { font-weight:700; color:var(--primary-dark); font-size:13.5px; }
+    [data-theme="dark"] .ref-panel .ref-panel-title, body.dark-mode .ref-panel .ref-panel-title { color:#93c5fd; }
+    .ref-panel .ref-panel-controls { display:flex; gap:2px; }
+    .ref-panel .ref-panel-controls button { background:none; border:none; font-size:15px; color:var(--muted); cursor:pointer; padding:2px 8px; border-radius:5px; line-height:1; }
+    .ref-panel .ref-panel-controls button:hover { background:rgba(0,0,0,.08); color:var(--primary-dark); }
+    .ref-panel .ref-panel-body { padding:11px 12px; overflow-y:auto; flex:1; min-height:0; }
+    .ref-panel.minimized .ref-panel-body { display:none; }
+
+    .ref-sheet { display:grid; grid-template-columns:1fr; gap:9px; font-size:13px; line-height:1.5; }
+    .ref-sheet .ref-item { display:flex; flex-direction:column; gap:3px; padding:7px 10px; background:var(--soft-blue); border-radius:7px; border:1px solid #bfdbfe; }
+    [data-theme="dark"] .ref-sheet .ref-item, body.dark-mode .ref-sheet .ref-item { border-color:rgba(11,61,145,.35); }
+    .ref-sheet .ref-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; font-weight:700; }
+    .ref-sheet .ref-formula { font-size:14px; }
+    .ref-sheet .ref-note { font-size:11.5px; color:var(--muted); padding:7px 10px; background:#fffbf2; border-left:3px solid var(--accent); border-radius:6px; margin-top:4px; }
+    [data-theme="dark"] .ref-sheet .ref-note, body.dark-mode .ref-sheet .ref-note { background:rgba(232,163,23,.10); }
+    @media (max-width:600px) { .ref-panel { width:calc(100vw - 32px); left:16px; max-height:70vh; } }
+
+    /* ───── Settings popover ───── */
+    .settings-popover { position:absolute; top:54px; right:14px; background:var(--card); border:1.5px solid var(--border); border-radius:12px; padding:14px; min-width:240px; box-shadow:0 10px 30px rgba(0,0,0,.15); z-index:90; display:none; }
+    .settings-popover.show { display:block; }
+    .settings-popover h4 { font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:8px 0 6px; font-weight:700; }
+    .settings-popover h4:first-child { margin-top:0; }
+    .settings-row { display:flex; gap:6px; }
+    .settings-row button { flex:1; padding:7px 8px; border-radius:7px; border:1.5px solid var(--border); background:#fff; cursor:pointer; font-size:13px; font-weight:600; }
+    [data-theme="dark"] .settings-row button, body.dark-mode .settings-row button { background:var(--card); }
+    .settings-row button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+
+    /* ───── Highlight passage text ───── */
+    .passage { user-select:text; cursor:auto; }
+    .user-highlight { background:#fef08a; padding:0 2px; border-radius:2px; }
+    [data-theme="dark"] .user-highlight, body.dark-mode .user-highlight { background:rgba(250,204,21,.35); color:#fde68a; }
+
+    /* ───── Desmos calculator panel — split-screen, calc on LEFT (Bluebook layout) ───── */
+    .calc-panel { position:fixed; top:55px; left:0; bottom:0; width:50vw; max-width:50vw; background:#fff; border-right:1.5px solid var(--border); box-shadow:4px 0 20px rgba(0,0,0,.10); z-index:95; display:none; flex-direction:column; }
+    [data-theme="dark"] .calc-panel, body.dark-mode .calc-panel { background:var(--card); border-right-color:var(--border); }
+    .calc-panel.show { display:flex; }
+    .calc-panel .calc-header { padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); font-weight:700; color:var(--primary-dark); flex-shrink:0; }
+    .calc-panel .calc-header button { background:none; border:none; font-size:20px; color:var(--muted); cursor:pointer; padding:4px 8px; border-radius:6px; }
+    .calc-panel .calc-header button:hover { background:var(--primary-light); color:var(--primary-dark); }
+    .calc-panel .calc-area { flex:1; min-height:0; }
+    /* When calc is open, push the main content to the right half */
+    body.calc-open .container { margin-left:50vw; max-width:none; padding-left:24px; padding-right:24px; }
+    body.calc-open .qheader { margin-left:50vw; max-width:none; padding-left:24px; padding-right:24px; }
+    body.calc-open .qnav { left:50vw; }
+    body.calc-open .submit-bar { left:50vw; }
+    /* Resizable divider between calc and content */
+    .calc-divider { position:fixed; top:55px; bottom:0; left:calc(50vw - 4px); width:8px; cursor:col-resize; z-index:96; display:none; background:transparent; }
+    .calc-divider::before { content:""; position:absolute; left:3px; top:50%; transform:translateY(-50%); width:2px; height:48px; background:var(--border); border-radius:2px; }
+    body.calc-open .calc-divider { display:block; }
+    .calc-divider:hover::before { background:var(--primary); }
+    /* Mobile fallback: full-screen overlay instead of split */
+    @media (max-width:768px) {
+      .calc-panel { width:100vw; max-width:100vw; right:0; }
+      body.calc-open .container,
+      body.calc-open .qheader,
+      body.calc-open .qnav,
+      body.calc-open .submit-bar { margin-left:0; left:0; }
+      .calc-divider { display:none !important; }
+    }
+
+    /* ───── Detailed score report (per-domain breakdown) ───── */
+    .domain-breakdown { margin-top:18px; padding:16px; background:rgba(11,61,145,.06); border-radius:10px; border-left:3px solid var(--primary); }
+    [data-theme="dark"] .domain-breakdown, body.dark-mode .domain-breakdown { background:rgba(11,61,145,.20); }
+    .domain-breakdown h4 { color:var(--primary-dark); margin-bottom:10px; font-size:14px; }
+    .domain-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; font-size:13.5px; gap:12px; }
+    .domain-row .label { flex:1; color:var(--text); }
+    .domain-row .bar { flex:0 0 100px; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+    .domain-row .bar-fill { height:100%; background:linear-gradient(90deg, var(--primary), var(--primary-dark)); transition:width .3s; }
+    .domain-row .raw { font-size:13px; font-weight:700; color:var(--primary-dark); min-width:50px; text-align:right; font-variant-numeric:tabular-nums; }
+
+    /* ───── Resume banner ───── */
+    .resume-banner { position:sticky; top:55px; z-index:55; background:#fef3c7; border-bottom:1px solid #fde68a; padding:10px 16px; display:flex; align-items:center; justify-content:center; gap:14px; font-size:13.5px; color:#7c4f00; font-weight:600; }
+    .resume-banner .btn { padding:5px 14px; font-size:13px; }
+
+    /* ───── Settings: text size scaling ───── */
+    body.text-small { font-size:13.5px; }
+    body.text-large { font-size:16px; }
+    body.text-large .stem { font-size:17px; }
+    body.text-large .opt { font-size:16px; }
+    body.text-large .passage { font-size:16px; }
+    body.text-small .stem { font-size:14.5px; }
+    body.text-small .opt { font-size:13.5px; }
+    body.text-small .passage { font-size:13.5px; }
+
+    @media (max-width:600px) {
+      .qnav { padding:8px 8px 6px; }
+      .qbtn { width:30px; height:30px; font-size:12px; }
+      .break-screen h2 { font-size:22px; }
+      .break-timer { font-size:48px; padding:14px 28px; }
+      .container { padding-bottom:170px; }            /* extra bottom clearance on mobile */
+      .opt { padding-right:38px; }                    /* keep strike button inside option */
+      .opt-strike-btn { right:6px; width:24px; height:24px; }
+      .topbar .right { gap:4px; }
+      .tool-btn { width:32px; height:32px; font-size:14px; }
+      .timer { font-size:16px; padding:5px 10px; }
+    }
+
+    /* Floating "highlight selected" hint that appears when text is selected in a passage */
+    .highlight-hint { position:fixed; background:#0b3d91; color:#fff; padding:8px 14px; border-radius:8px; font-size:13px; font-weight:700; box-shadow:0 4px 14px rgba(0,0,0,.25); z-index:100; cursor:pointer; pointer-events:auto; transition:opacity .15s; user-select:none; }
+    .highlight-hint:hover { background:#082c6e; }
+    .highlight-hint::before { content:"🖍 "; }
+    .toast { position:fixed; bottom:140px; left:50%; transform:translateX(-50%); background:#1e293b; color:#fff; padding:10px 18px; border-radius:8px; font-size:13.5px; font-weight:600; z-index:120; box-shadow:0 6px 20px rgba(0,0,0,.25); opacity:0; pointer-events:none; transition:opacity .2s; }
+    .toast.show { opacity:1; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="left">
+      <span class="title">📝 SAT Practice</span>
+      <span class="module-label" id="moduleLabel">Reading &amp; Writing — Module 1</span>
+    </div>
+    <div class="right">
+      <button id="hlBtn"        class="tool-btn" title="Highlight selected text" style="display:none;">🖍</button>
+      <button id="refSheetBtn"  class="tool-btn" title="Math reference sheet"     style="display:none;">📐</button>
+      <button id="calcBtn"      class="tool-btn" title="Graphing calculator"       style="display:none;">🧮</button>
+      <button id="settingsBtn"  class="tool-btn" title="Settings (text size, theme)">⚙️</button>
+      <span class="timer" id="timer">32:00</span>
+    </div>
+  </div>
+  <div class="settings-popover" id="settingsPop"></div>
+
+  <div class="qheader" id="qheader" style="display:none;">
+    <span id="qProgress">Question 1 of 8</span>
+    <span class="domain-pill" id="qDomain">DOMAIN</span>
+  </div>
+
+  <div class="container" id="container">
+    <div class="loading" id="loading">Loading SAT mock…</div>
+  </div>
+
+  <div class="qnav" id="qnav" style="display:none;"></div>
+
+  <div class="submit-bar" id="submitBar" style="display:none;">
+    <div class="group">
+      <button class="btn btn-ghost" id="prevBtn">◀ Back</button>
+      <button class="btn btn-warn" id="markBtn" type="button">⚑ Mark for review</button>
+    </div>
+    <div class="group">
+      <button class="btn btn-primary" id="nextBtn">Next ▶</button>
+      <button class="btn btn-primary" id="endModuleBtn" style="display:none;">End Module ▶</button>
+    </div>
+  </div>
+
+  <!-- Math reference sheet — floating draggable panel -->
+  <div class="ref-panel" id="refSheetPanel">
+    <div class="ref-panel-header" id="refSheetHeader">
+      <div class="ref-panel-title">📐 Reference Sheet</div>
+      <div class="ref-panel-controls">
+        <button id="refSheetMin" title="Minimize" aria-label="Minimize">▾</button>
+        <button id="refSheetClose" title="Close" aria-label="Close">×</button>
+      </div>
+    </div>
+    <div class="ref-panel-body">
+      <div class="ref-sheet" id="refSheetBody"><!-- populated by JS for clean KaTeX --></div>
+    </div>
+  </div>
+
+  <!-- Desmos calculator panel (split-screen, left side) -->
+  <div class="calc-panel" id="calcPanel">
+    <div class="calc-header">
+      <span>🧮 Graphing Calculator</span>
+      <button id="calcClose" aria-label="Close">×</button>
+    </div>
+    <div class="calc-area" id="calcArea"></div>
+  </div>
+  <div class="calc-divider" id="calcDivider" title="Drag to resize"></div>
+
+  <!-- Resume banner (shown if a saved attempt exists) -->
+  <div class="resume-banner" id="resumeBanner" style="display:none;">
+    <span>You have a saved attempt for this mock. Resume where you left off?</span>
+    <button class="btn btn-primary" id="resumeYes">Resume</button>
+    <button class="btn btn-ghost" id="resumeNo">Start fresh</button>
+  </div>
+
+  <!-- Review overlay (shown before submitting a module) -->
+  <div class="review-overlay" id="reviewOverlay" style="display:none;">
+    <div class="review-content">
+      <h2 id="reviewTitle">End of Module — Review</h2>
+      <div class="review-summary" id="reviewSummary"></div>
+      <div class="review-grid" id="reviewGrid"></div>
+      <div class="review-actions">
+        <button class="btn btn-ghost" id="reviewBack">← Back to questions</button>
+        <button class="btn btn-primary" id="reviewSubmit">Submit Module ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Break screen overlay (hidden by default) -->
+  <div class="break-screen" id="breakScreen" style="display:none;">
+    <h2>Break time</h2>
+    <p>Take a 10-minute break before the Math section. Stretch, stand up, drink some water. The Math section will be available when you're ready.</p>
+    <div class="break-timer" id="breakTimer">10:00</div>
+    <p style="font-size:13px;opacity:.85;">You can continue early at any time, or wait for the break to end.</p>
+    <button id="continueBtn">Continue to Math →</button>
+  </div>
+
+  <script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var mock = (params.get('mock') || '01').replace(/[^0-9]/g, '').padStart(2, '0');
+    var script = document.createElement('script');
+    script.src = 'questions SAT/sat-mock-' + mock + '.js';
+    script.onload = function () {
+      if (!window.SAT_TEST) {
+        document.getElementById('loading').textContent = 'Mock data not found.';
+        return;
+      }
+      bootMock(window.SAT_TEST);
+    };
+    script.onerror = function () {
+      document.getElementById('loading').innerHTML =
+        '<div style="background:#fff;padding:32px;border-radius:18px;border:2px dashed #e2e8f0;">' +
+        '<div style="font-size:42px">📚</div>' +
+        '<h3 style="color:#082c6e;margin:8px 0">Mock not available yet</h3>' +
+        '<p style="color:#64748b;margin-bottom:14px">Mock ' + mock + ' has not been authored yet.</p>' +
+        '<a href="SAT Mocks.html" style="display:inline-block;background:linear-gradient(135deg,#0b3d91,#082c6e);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;">← Back to mocks</a>' +
+        '</div>';
+    };
+    document.head.appendChild(script);
+  })();
+
+  // ───── State ─────
+  var TEST = null;
+  var PHASE = 'rw_m1';   // 'rw_m1' | 'rw_m2' | 'break' | 'math_m1' | 'math_m2' | 'results'
+  var M2_PATH = { rw: null, math: null };  // 'easy' | 'hard'
+  var ANSWERS = { rw_m1: {}, rw_m2: {}, math_m1: {}, math_m2: {} };
+  var MARKED  = { rw_m1: {}, rw_m2: {}, math_m1: {}, math_m2: {} };
+  var STRUCK  = { rw_m1: {}, rw_m2: {}, math_m1: {}, math_m2: {} };  // {qid: {letter: true}}
+  var HIGHLIGHTS = { rw_m1: {}, rw_m2: {}, math_m1: {}, math_m2: {} }; // {qid: ["string1","string2",...]}
+  var SETTINGS = { textSize: 'medium', theme: 'auto' };
+  var CURRENT_Q_IDX = 0;
+  var TIMER_END = 0, TIMER_INT = null;
+  var BREAK_END = 0, BREAK_INT = null;
+  var MODULE_DONE = { rw_m1:false, rw_m2:false, math_m1:false, math_m2:false };
+  var DESMOS = null;
+
+  function bootMock(t) {
+    TEST = t;
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('qheader').style.display = '';
+    document.getElementById('qnav').style.display = '';
+    document.getElementById('submitBar').style.display = '';
+    applySettingsToDom();
+    wireSettingsPopover();
+    wireRefSheet();
+    wireDesmos();
+    wireHighlight();
+
+    // Check for saved state
+    var saved = loadSavedState();
+    if (saved) {
+      var banner = document.getElementById('resumeBanner');
+      banner.style.display = 'flex';
+      document.getElementById('container').style.display = 'none';
+      document.getElementById('qheader').style.display = 'none';
+      document.getElementById('qnav').style.display = 'none';
+      document.getElementById('submitBar').style.display = 'none';
+      document.getElementById('resumeYes').addEventListener('click', function () {
+        restoreFromSaved(saved);
+        banner.style.display = 'none';
+        document.getElementById('container').style.display = '';
+        document.getElementById('qheader').style.display = '';
+        document.getElementById('qnav').style.display = '';
+        document.getElementById('submitBar').style.display = '';
+        startPhaseAfterRestore();
+      });
+      document.getElementById('resumeNo').addEventListener('click', function () {
+        clearSavedState();
+        banner.style.display = 'none';
+        document.getElementById('container').style.display = '';
+        document.getElementById('qheader').style.display = '';
+        document.getElementById('qnav').style.display = '';
+        document.getElementById('submitBar').style.display = '';
+        startPhase('rw_m1');
+      });
+    } else {
+      startPhase('rw_m1');
+    }
+  }
+
+  // ───── Phase management ─────
+  function currentModule() {
+    if (PHASE === 'rw_m1') return TEST.rw.module1;
+    if (PHASE === 'rw_m2') return TEST.rw['module2_' + M2_PATH.rw];
+    if (PHASE === 'math_m1') return TEST.math.module1;
+    if (PHASE === 'math_m2') return TEST.math['module2_' + M2_PATH.math];
+    return null;
+  }
+  function moduleLabel() {
+    if (PHASE === 'rw_m1')   return 'Reading & Writing — Module 1';
+    if (PHASE === 'rw_m2')   return 'Reading & Writing — Module 2 (' + (M2_PATH.rw === 'hard' ? 'harder' : 'standard') + ')';
+    if (PHASE === 'math_m1') return 'Math — Module 1';
+    if (PHASE === 'math_m2') return 'Math — Module 2 (' + (M2_PATH.math === 'hard' ? 'harder' : 'standard') + ')';
+    return '';
+  }
+  function moduleDuration() {
+    if (PHASE === 'rw_m1' || PHASE === 'rw_m2') return TEST.testInfo.rwModuleTime;
+    if (PHASE === 'math_m1' || PHASE === 'math_m2') return TEST.testInfo.mathModuleTime;
+    return 0;
+  }
+
+  function startPhase(phase) {
+    PHASE = phase;
+    CURRENT_Q_IDX = 0;
+    if (phase === 'break') { showBreak(); return; }
+    if (phase === 'results') { showResults(); return; }
+
+    var mod = currentModule();
+    if (!mod) return;
+
+    document.getElementById('moduleLabel').textContent = moduleLabel();
+    document.getElementById('breakScreen').style.display = 'none';
+    document.getElementById('container').style.display = '';
+    document.getElementById('qheader').style.display = '';
+    document.getElementById('qnav').style.display = '';
+    document.getElementById('submitBar').style.display = '';
+    updateToolButtonsForPhase();
+    startTimer(moduleDuration());
+    renderQuestion();
+    renderQNav();
+    saveState();
+  }
+
+  function updateToolButtonsForPhase() {
+    var isMath = (PHASE === 'math_m1' || PHASE === 'math_m2');
+    var isRW = (PHASE === 'rw_m1' || PHASE === 'rw_m2');
+    document.getElementById('refSheetBtn').style.display = isMath ? '' : 'none';
+    document.getElementById('calcBtn').style.display = isMath ? '' : 'none';
+    document.getElementById('hlBtn').style.display = isRW ? '' : 'none';
+    // Auto-close the calculator and reference sheet if leaving Math (Bluebook does the same)
+    if (!isMath && window._closeSatCalc) window._closeSatCalc();
+    if (!isMath && window._closeRefSheet) window._closeRefSheet();
+  }
+
+  // ───── Timer ─────
+  function startTimer(minutes) {
+    TIMER_END = Date.now() + minutes * 60 * 1000;
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    var el = document.getElementById('timer');
+    function tick() {
+      var ms = TIMER_END - Date.now();
+      if (ms <= 0) { clearInterval(TIMER_INT); el.textContent = '00:00'; el.classList.add('danger'); endModule(true); return; }
+      var s = Math.floor(ms/1000); var m = Math.floor(s/60); s = s % 60;
+      el.textContent = (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+      el.classList.toggle('warn',   ms < 5*60*1000 && ms >= 1*60*1000);
+      el.classList.toggle('danger', ms < 1*60*1000);
+    }
+    tick(); TIMER_INT = setInterval(tick, 1000);
+  }
+
+  // ───── Render question ─────
+  function renderQuestion() {
+    var mod = currentModule();
+    var q = mod.questions[CURRENT_Q_IDX];
+    var c = document.getElementById('container');
+    var ansKey = PHASE; // 'rw_m1' | 'rw_m2' | 'math_m1' | 'math_m2'
+    var prev = ANSWERS[ansKey][q.id];
+
+    var html = '<div class="question-card">';
+    if (q.passage) {
+      html += '<div class="passage">' + escapeHtml(q.passage) + '</div>';
+    }
+    if (q.figureSvg) {
+      html += '<div class="figure">' + q.figureSvg + '</div>';
+    }
+    html += '<div class="stem">' + escapeHtml(q.stem) + '</div>';
+
+    if (q.spr) {
+      html += '<div class="spr-row">';
+      html += '<label>Your answer (number, decimal, or fraction such as 3/4):</label>';
+      html += '<input type="text" id="sprInput" autocomplete="off" inputmode="decimal" value="' + escapeAttr(prev || '') + '" />';
+      html += '<div class="help">Up to 5 characters. Examples: 12, -3, 0.25, 3/4, .5</div>';
+      html += '</div>';
+    } else if (q.options) {
+      html += '<div class="options">';
+      q.options.forEach(function (o) {
+        var sel = (prev === o.letter) ? ' selected' : '';
+        var struck = (STRUCK[ansKey][q.id] && STRUCK[ansKey][q.id][o.letter]) ? ' struck' : '';
+        html += '<label class="opt' + sel + struck + '" data-letter="' + o.letter + '">' +
+                  '<span class="opt-letter">' + o.letter + '</span>' +
+                  '<span class="opt-text">' + escapeHtml(o.text) + '</span>' +
+                  '<span class="opt-strike-btn" data-strike="' + o.letter + '" role="button" tabindex="0" aria-label="Cross out option ' + o.letter + '" title="Cross out / restore">⊘</span>' +
+                '</label>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
+    c.innerHTML = html;
+
+    // Wire strike-out clicks (must NOT trigger option selection)
+    c.querySelectorAll('.opt-strike-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var letter = btn.dataset.strike;
+        if (!STRUCK[ansKey][q.id]) STRUCK[ansKey][q.id] = {};
+        if (STRUCK[ansKey][q.id][letter]) {
+          delete STRUCK[ansKey][q.id][letter];
+        } else {
+          STRUCK[ansKey][q.id][letter] = true;
+          // If this option was selected, clear the selection
+          if (ANSWERS[ansKey][q.id] === letter) {
+            delete ANSWERS[ansKey][q.id];
+          }
+        }
+        renderQuestion();
+        renderQNav();
+        saveState();
+      });
+    });
+
+    // Re-apply highlights to passage if any
+    if (q.passage && HIGHLIGHTS[ansKey][q.id] && HIGHLIGHTS[ansKey][q.id].length) {
+      var passageEl = c.querySelector('.passage');
+      if (passageEl) {
+        var html2 = passageEl.innerHTML;
+        HIGHLIGHTS[ansKey][q.id].forEach(function (frag) {
+          if (!frag) return;
+          var safe = escapeRegex(escapeHtml(frag));
+          var re = new RegExp(safe, 'g');
+          html2 = html2.replace(re, function (m) {
+            return '<mark class="user-highlight">' + m + '</mark>';
+          });
+        });
+        passageEl.innerHTML = html2;
+      }
+    }
+
+    // Wire option clicks (skip if user clicked the strike button inside)
+    c.querySelectorAll('.opt').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        if (e.target.closest('.opt-strike-btn')) return;  // strike button has its own handler
+        var letter = el.dataset.letter;
+        // Don't allow selecting a struck option
+        if (STRUCK[ansKey][q.id] && STRUCK[ansKey][q.id][letter]) return;
+        ANSWERS[ansKey][q.id] = letter;
+        c.querySelectorAll('.opt').forEach(function (sib) { sib.classList.remove('selected'); });
+        el.classList.add('selected');
+        renderQNav();
+        saveState();
+      });
+    });
+    // Wire SPR input
+    var sprIn = c.querySelector('#sprInput');
+    if (sprIn) {
+      sprIn.addEventListener('input', function () {
+        ANSWERS[ansKey][q.id] = sprIn.value.trim();
+        renderQNav();
+        saveState();
+      });
+    }
+
+    // Header
+    document.getElementById('qProgress').textContent = 'Question ' + (CURRENT_Q_IDX+1) + ' of ' + mod.questions.length;
+    document.getElementById('qDomain').textContent = (q.domain || '').toUpperCase();
+
+    // Bottom bar
+    document.getElementById('prevBtn').disabled = CURRENT_Q_IDX === 0;
+    document.getElementById('markBtn').classList.toggle('btn-warn', !!MARKED[ansKey][q.id]);
+    document.getElementById('markBtn').textContent = MARKED[ansKey][q.id] ? '✓ Marked' : '⚑ Mark for review';
+    if (CURRENT_Q_IDX === mod.questions.length - 1) {
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('endModuleBtn').style.display = '';
+    } else {
+      document.getElementById('nextBtn').style.display = '';
+      document.getElementById('endModuleBtn').style.display = 'none';
+    }
+
+    // KaTeX render
+    if (window.renderMathInElement) {
+      try {
+        renderMathInElement(c, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      } catch (e) {}
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderQNav() {
+    var mod = currentModule();
+    var ansKey = PHASE;
+    var nav = document.getElementById('qnav');
+    var html = '';
+    mod.questions.forEach(function (q, idx) {
+      var classes = ['qbtn'];
+      if (idx === CURRENT_Q_IDX) classes.push('current');
+      else if (ANSWERS[ansKey][q.id]) classes.push('answered');
+      if (MARKED[ansKey][q.id]) classes.push('marked');
+      html += '<button class="' + classes.join(' ') + '" data-idx="' + idx + '" style="position:relative">' + (idx+1) + '</button>';
+    });
+    nav.innerHTML = html;
+    nav.querySelectorAll('.qbtn').forEach(function (b) {
+      b.addEventListener('click', function () { goTo(parseInt(b.dataset.idx, 10)); });
+    });
+  }
+
+  function goTo(idx) {
+    var mod = currentModule();
+    if (idx < 0 || idx >= mod.questions.length) return;
+    CURRENT_Q_IDX = idx;
+    renderQuestion();
+    renderQNav();
+    saveState();
+  }
+
+  // ───── Bottom bar handlers ─────
+  document.addEventListener('DOMContentLoaded', wireBottom);
+  if (document.readyState === 'interactive' || document.readyState === 'complete') wireBottom();
+  function wireBottom() {
+    var prev = document.getElementById('prevBtn');
+    var next = document.getElementById('nextBtn');
+    var endM = document.getElementById('endModuleBtn');
+    var mark = document.getElementById('markBtn');
+    var cont = document.getElementById('continueBtn');
+    if (prev) prev.addEventListener('click', function () { goTo(CURRENT_Q_IDX - 1); });
+    if (next) next.addEventListener('click', function () { goTo(CURRENT_Q_IDX + 1); });
+    if (endM) endM.addEventListener('click', function () { showReviewScreen(); });
+    var rBack = document.getElementById('reviewBack');
+    var rSubmit = document.getElementById('reviewSubmit');
+    if (rBack) rBack.addEventListener('click', closeReviewScreen);
+    if (rSubmit) rSubmit.addEventListener('click', function () { closeReviewScreen(); endModule(false); });
+    if (mark) mark.addEventListener('click', function () {
+      var mod = currentModule();
+      if (!mod) return;
+      var q = mod.questions[CURRENT_Q_IDX];
+      MARKED[PHASE][q.id] = !MARKED[PHASE][q.id];
+      renderQuestion();
+      renderQNav();
+      saveState();
+    });
+    if (cont) cont.addEventListener('click', function () { endBreak(); });
+  }
+
+  // ───── Review screen (shown before submitting a module) ─────
+  function showReviewScreen() {
+    var mod = currentModule();
+    if (!mod) return;
+    var ansKey = PHASE;
+    var grid = document.getElementById('reviewGrid');
+    var html = '';
+    var answered = 0, unanswered = 0, marked = 0;
+    mod.questions.forEach(function (q, idx) {
+      var ans = ANSWERS[ansKey][q.id];
+      var isMarked = !!MARKED[ansKey][q.id];
+      var classes = ['review-item'];
+      if (ans != null && String(ans).trim() !== '') { classes.push('answered'); answered++; }
+      else { classes.push('unanswered'); unanswered++; }
+      if (isMarked) { classes.push('marked'); marked++; }
+      html += '<div class="' + classes.join(' ') + '" data-idx="' + idx + '">' + (idx+1) + '</div>';
+    });
+    grid.innerHTML = html;
+    grid.querySelectorAll('.review-item').forEach(function (el) {
+      el.addEventListener('click', function () {
+        goTo(parseInt(el.dataset.idx, 10));
+        closeReviewScreen();
+      });
+    });
+
+    var sumHtml = 'You have <span class="ans-count">' + answered + '</span> answered';
+    sumHtml += ', <span class="un-count">' + unanswered + '</span> unanswered';
+    if (marked > 0) sumHtml += ', <span class="mark-count">' + marked + '</span> marked for review';
+    sumHtml += ' in this module. ';
+    if (unanswered > 0 || marked > 0) {
+      sumHtml += 'Click any number to jump to that question, or submit to finish the module.';
+    } else {
+      sumHtml += 'Everything is answered — submit when you are ready.';
+    }
+    document.getElementById('reviewSummary').innerHTML = sumHtml;
+    document.getElementById('reviewTitle').textContent = moduleLabel() + ' — Review';
+    document.getElementById('reviewOverlay').style.display = 'flex';
+  }
+  function closeReviewScreen() {
+    document.getElementById('reviewOverlay').style.display = 'none';
+  }
+
+  // ───── End module / advance phase ─────
+  function endModule(timedOut) {
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    MODULE_DONE[PHASE] = true;
+
+    if (PHASE === 'rw_m1') {
+      var raw = countCorrect(TEST.rw.module1, ANSWERS.rw_m1);
+      M2_PATH.rw = (raw >= TEST.testInfo.rwM1Threshold) ? 'hard' : 'easy';
+      startPhase('rw_m2');
+    } else if (PHASE === 'rw_m2') {
+      startPhase('break');
+    } else if (PHASE === 'math_m1') {
+      var rawM = countCorrect(TEST.math.module1, ANSWERS.math_m1);
+      M2_PATH.math = (rawM >= TEST.testInfo.mathM1Threshold) ? 'hard' : 'easy';
+      startPhase('math_m2');
+    } else if (PHASE === 'math_m2') {
+      startPhase('results');
+    }
+  }
+
+  // ───── Break screen ─────
+  function showBreak() {
+    document.getElementById('container').style.display = 'none';
+    document.getElementById('qheader').style.display = 'none';
+    document.getElementById('qnav').style.display = 'none';
+    document.getElementById('submitBar').style.display = 'none';
+    document.getElementById('breakScreen').style.display = '';
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    document.getElementById('timer').textContent = '—';
+
+    BREAK_END = Date.now() + (TEST.testInfo.breakTime || 10) * 60 * 1000;
+    if (BREAK_INT) clearInterval(BREAK_INT);
+    var el = document.getElementById('breakTimer');
+    function tick() {
+      var ms = BREAK_END - Date.now();
+      if (ms <= 0) { clearInterval(BREAK_INT); el.textContent = '00:00'; endBreak(); return; }
+      var s = Math.floor(ms/1000); var m = Math.floor(s/60); s = s % 60;
+      el.textContent = (m<10?'0':'')+m + ':' + (s<10?'0':'')+s;
+    }
+    tick(); BREAK_INT = setInterval(tick, 1000);
+  }
+  function endBreak() {
+    if (BREAK_INT) clearInterval(BREAK_INT);
+    startPhase('math_m1');
+  }
+
+  // ───── Scoring ─────
+  function countCorrect(mod, answers) {
+    var correct = 0;
+    mod.questions.forEach(function (q) {
+      var got = answers[q.id];
+      if (got == null) return;
+      if (q.spr) {
+        if (sprMatches(got, q.accept || [])) correct++;
+      } else {
+        if ((got || '').toString().toUpperCase() === (q.correct || '').toString().toUpperCase()) correct++;
+      }
+    });
+    return correct;
+  }
+  function sprMatches(got, accept) {
+    var g = canon(got);
+    return accept.some(function (a) { return canon(a) === g; });
+  }
+  function canon(s) {
+    s = (s == null ? '' : String(s)).trim();
+    if (s === '') return '';
+    // Try to convert to a canonical decimal representation if possible
+    if (/^-?\d+(\.\d+)?$/.test(s)) {
+      var n = parseFloat(s);
+      return String(n);
+    }
+    if (/^-?\d*\/\d+$/.test(s)) {
+      var parts = s.split('/');
+      var num = parseFloat(parts[0] || '0'), den = parseFloat(parts[1]);
+      if (den === 0) return s;
+      var n = num / den;
+      return String(n);
+    }
+    return s;
+  }
+  function scaledRW(totalRaw, path, maxRaw) {
+    if (path === 'hard') {
+      return Math.max(360, Math.min(800, Math.round(360 + (totalRaw / maxRaw) * 440)));
+    }
+    return Math.max(200, Math.min(660, Math.round(200 + (totalRaw / maxRaw) * 460)));
+  }
+  function scaledMath(totalRaw, path, maxRaw) {
+    if (path === 'hard') {
+      return Math.max(360, Math.min(800, Math.round(360 + (totalRaw / maxRaw) * 440)));
+    }
+    return Math.max(200, Math.min(660, Math.round(200 + (totalRaw / maxRaw) * 460)));
+  }
+
+  function showResults() {
+    if (TIMER_INT) clearInterval(TIMER_INT);
+    document.getElementById('timer').textContent = 'Done';
+    document.getElementById('moduleLabel').textContent = 'Final results';
+    document.getElementById('qheader').style.display = 'none';
+    document.getElementById('qnav').style.display = 'none';
+    document.getElementById('submitBar').style.display = 'none';
+    document.getElementById('breakScreen').style.display = 'none';
+    // Hide tool buttons on results screen
+    document.getElementById('refSheetBtn').style.display = 'none';
+    document.getElementById('calcBtn').style.display = 'none';
+    document.getElementById('hlBtn').style.display = 'none';
+    clearSavedState();
+
+    var rwM1Raw = countCorrect(TEST.rw.module1, ANSWERS.rw_m1);
+    var rwM2Raw = countCorrect(TEST.rw['module2_' + M2_PATH.rw], ANSWERS.rw_m2);
+    var rwTotal = rwM1Raw + rwM2Raw;
+    var rwMax = TEST.rw.module1.questions.length + TEST.rw['module2_' + M2_PATH.rw].questions.length;
+
+    var mathM1Raw = countCorrect(TEST.math.module1, ANSWERS.math_m1);
+    var mathM2Raw = countCorrect(TEST.math['module2_' + M2_PATH.math], ANSWERS.math_m2);
+    var mathTotal = mathM1Raw + mathM2Raw;
+    var mathMax = TEST.math.module1.questions.length + TEST.math['module2_' + M2_PATH.math].questions.length;
+
+    var rwScaled = scaledRW(rwTotal, M2_PATH.rw, rwMax);
+    var mathS = scaledMath(mathTotal, M2_PATH.math, mathMax);
+    var totalScaled = rwScaled + mathS;
+
+    // Per-domain breakdown across both modules (combined)
+    function domainBreakdown(modA, ansA, modB, ansB) {
+      var stats = {};
+      function tally(mod, ans) {
+        mod.questions.forEach(function (q) {
+          var d = q.domain || 'Other';
+          if (!stats[d]) stats[d] = { correct: 0, total: 0 };
+          stats[d].total++;
+          var got = ans[q.id];
+          var ok;
+          if (got == null || String(got).trim() === '') ok = false;
+          else if (q.spr) ok = sprMatches(got, q.accept || []);
+          else ok = String(got).toUpperCase() === String(q.correct||'').toUpperCase();
+          if (ok) stats[d].correct++;
+        });
+      }
+      tally(modA, ansA); tally(modB, ansB);
+      return stats;
+    }
+    var rwDomains = domainBreakdown(TEST.rw.module1, ANSWERS.rw_m1, TEST.rw['module2_' + M2_PATH.rw], ANSWERS.rw_m2);
+    var mathDomains = domainBreakdown(TEST.math.module1, ANSWERS.math_m1, TEST.math['module2_' + M2_PATH.math], ANSWERS.math_m2);
+
+    function renderDomains(stats, title) {
+      var html = '<div class="domain-breakdown"><h4>' + title + ' — by domain</h4>';
+      Object.keys(stats).forEach(function (d) {
+        var s = stats[d];
+        var pct = s.total ? Math.round(100 * s.correct / s.total) : 0;
+        html += '<div class="domain-row">' +
+          '<span class="label">' + escapeHtml(d) + '</span>' +
+          '<span class="bar"><span class="bar-fill" style="width:' + pct + '%"></span></span>' +
+          '<span class="raw">' + s.correct + ' / ' + s.total + '</span>' +
+        '</div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    var html = '<div class="results">';
+    html += '<h3>📊 Your SAT Practice Result</h3>';
+    html += '<div class="scaled-row total"><span class="section">Total Scaled Score</span><span class="score">' + totalScaled + '</span></div>';
+    html += '<div class="scaled-row"><span class="section">Reading &amp; Writing<br><span class="raw-detail">M1: ' + rwM1Raw + '/' + TEST.rw.module1.questions.length + ' · M2 (' + M2_PATH.rw + '): ' + rwM2Raw + '/' + TEST.rw['module2_' + M2_PATH.rw].questions.length + ' · raw ' + rwTotal + '/' + rwMax + '</span></span><span class="score">' + rwScaled + '</span></div>';
+    html += '<div class="scaled-row"><span class="section">Math<br><span class="raw-detail">M1: ' + mathM1Raw + '/' + TEST.math.module1.questions.length + ' · M2 (' + M2_PATH.math + '): ' + mathM2Raw + '/' + TEST.math['module2_' + M2_PATH.math].questions.length + ' · raw ' + mathTotal + '/' + mathMax + '</span></span><span class="score">' + mathS + '</span></div>';
+    html += renderDomains(rwDomains, 'Reading &amp; Writing');
+    html += renderDomains(mathDomains, 'Math');
+    html += '<div class="note">Scaled scores are an approximation based on publicly known Digital SAT conversion patterns. The College Board does not publish exact tables (they vary by test form). Easy Module 2 caps each section around 660; the only way to reach a true 800 is to be routed to the harder Module 2.</div>';
+    html += '<div style="display:flex;gap:8px;margin-top:18px"><a href="SAT Mocks.html" class="btn btn-primary" style="text-decoration:none;display:inline-block">Back to mocks</a></div>';
+    html += '</div>';
+
+    var c = document.getElementById('container');
+    c.style.display = '';
+    c.innerHTML = html;
+    var r = document.querySelector('.results');
+    if (r) r.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+      if (window.PremiumGate && window.PremiumGate.recordOpen) {
+        window.PremiumGate.recordOpen({ skill: 'sat_full_mock', exam_type: 'sat', mock_number: parseInt((TEST.testInfo.id || '').split('-').pop(), 10) || 1 });
+      }
+    } catch (e) {}
+  }
+
+  // ───── Settings popover (text size + theme) ─────
+  function applySettingsToDom() {
+    document.body.classList.remove('text-small','text-large');
+    if (SETTINGS.textSize === 'small') document.body.classList.add('text-small');
+    if (SETTINGS.textSize === 'large') document.body.classList.add('text-large');
+    if (SETTINGS.theme === 'light') {
+      document.body.classList.remove('dark-mode');
+      document.documentElement.removeAttribute('data-theme');
+    } else if (SETTINGS.theme === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme','dark');
+    }
+    // 'auto' = let auto-theme.js / system preference handle it
+  }
+  function wireSettingsPopover() {
+    var pop = document.getElementById('settingsPop');
+    var btn = document.getElementById('settingsBtn');
+    function render() {
+      pop.innerHTML =
+        '<h4>Text size</h4>' +
+        '<div class="settings-row">' +
+          '<button data-size="small"  class="' + (SETTINGS.textSize==='small'?'active':'') + '">A−</button>' +
+          '<button data-size="medium" class="' + (SETTINGS.textSize==='medium'?'active':'') + '">A</button>' +
+          '<button data-size="large"  class="' + (SETTINGS.textSize==='large'?'active':'') + '">A+</button>' +
+        '</div>' +
+        '<h4>Theme</h4>' +
+        '<div class="settings-row">' +
+          '<button data-theme="auto"  class="' + (SETTINGS.theme==='auto'?'active':'')  + '">Auto</button>' +
+          '<button data-theme="light" class="' + (SETTINGS.theme==='light'?'active':'') + '">Light</button>' +
+          '<button data-theme="dark"  class="' + (SETTINGS.theme==='dark'?'active':'')  + '">Dark</button>' +
+        '</div>';
+      pop.querySelectorAll('button[data-size]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          SETTINGS.textSize = b.dataset.size;
+          applySettingsToDom(); render(); saveState();
+        });
+      });
+      pop.querySelectorAll('button[data-theme]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          SETTINGS.theme = b.dataset.theme;
+          applySettingsToDom(); render(); saveState();
+        });
+      });
+    }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      pop.classList.toggle('show');
+      if (pop.classList.contains('show')) render();
+    });
+    document.addEventListener('click', function (e) {
+      if (!pop.contains(e.target) && e.target !== btn) pop.classList.remove('show');
+    });
+  }
+
+  // ───── Math reference sheet ─────
+  function refSheetItems() {
+    return [
+      { l: 'Area of a rectangle',    f: '$A = \\ell \\cdot w$' },
+      { l: 'Area of a triangle',     f: '$A = \\tfrac{1}{2} b h$' },
+      { l: 'Area of a circle',       f: '$A = \\pi r^2$' },
+      { l: 'Circumference of circle',f: '$C = 2\\pi r$' },
+      { l: 'Volume of rect. prism',  f: '$V = \\ell \\cdot w \\cdot h$' },
+      { l: 'Volume of cylinder',     f: '$V = \\pi r^2 h$' },
+      { l: 'Volume of a cone',       f: '$V = \\tfrac{1}{3}\\pi r^2 h$' },
+      { l: 'Volume of a sphere',     f: '$V = \\tfrac{4}{3}\\pi r^3$' },
+      { l: 'Pythagorean theorem',    f: '$a^2 + b^2 = c^2$' },
+      { l: 'Quadratic formula',      f: '$x = \\dfrac{-b \\pm \\sqrt{b^2-4ac}}{2a}$' },
+      { l: 'Slope of a line',        f: '$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$' },
+      { l: 'Distance formula',       f: '$d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$' },
+      { l: '30°-60°-90° triangle',   f: '$1 : \\sqrt{3} : 2$' },
+      { l: '45°-45°-90° triangle',   f: '$1 : 1 : \\sqrt{2}$' },
+      { l: 'Sum of angles in triangle', f: '$180°$' },
+      { l: 'Number of degrees in a circle', f: '$360°$' }
+    ];
+  }
+  function wireRefSheet() {
+    var btn = document.getElementById('refSheetBtn');
+    var panel = document.getElementById('refSheetPanel');
+    var header = document.getElementById('refSheetHeader');
+    var minBtn = document.getElementById('refSheetMin');
+    var close = document.getElementById('refSheetClose');
+    var body = document.getElementById('refSheetBody');
+    var rendered = false;
+
+    function renderOnce() {
+      if (rendered) return;
+      var html = refSheetItems().map(function (it) {
+        return '<div class="ref-item"><span class="ref-label">' + escapeHtml(it.l) + '</span><span class="ref-formula">' + it.f + '</span></div>';
+      }).join('');
+      html += '<div class="ref-note">Note: Figures in the test are not necessarily drawn to scale.</div>';
+      body.innerHTML = html;
+      if (window.renderMathInElement) {
+        try { renderMathInElement(body, { delimiters: [{left:'$',right:'$',display:false}], throwOnError:false }); } catch (e) {}
+      }
+      rendered = true;
+    }
+
+    btn.addEventListener('click', function () {
+      if (panel.classList.contains('show')) {
+        panel.classList.remove('show');
+        btn.classList.remove('active');
+      } else {
+        renderOnce();
+        panel.classList.add('show');
+        btn.classList.add('active');
+      }
+    });
+    close.addEventListener('click', function () {
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+    });
+    minBtn.addEventListener('click', function () {
+      panel.classList.toggle('minimized');
+      minBtn.textContent = panel.classList.contains('minimized') ? '▴' : '▾';
+    });
+
+    // Drag the panel by its header
+    var dragOff = null;
+    header.addEventListener('mousedown', function (e) {
+      if (e.target.closest('button')) return;
+      var rect = panel.getBoundingClientRect();
+      dragOff = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function (e) {
+      if (!dragOff) return;
+      var x = Math.max(0, Math.min(window.innerWidth - 60, e.clientX - dragOff.x));
+      var y = Math.max(0, Math.min(window.innerHeight - 50, e.clientY - dragOff.y));
+      panel.style.left = x + 'px';
+      panel.style.top = y + 'px';
+    });
+    document.addEventListener('mouseup', function () { dragOff = null; });
+
+    // Auto-close when leaving Math
+    window._closeRefSheet = function () {
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+    };
+  }
+
+  // ───── Desmos calculator (split-screen, left side, resizable) ─────
+  function wireDesmos() {
+    var btn = document.getElementById('calcBtn');
+    var panel = document.getElementById('calcPanel');
+    var close = document.getElementById('calcClose');
+    var area = document.getElementById('calcArea');
+    var divider = document.getElementById('calcDivider');
+
+    function openCalc() {
+      panel.classList.add('show');
+      btn.classList.add('active');
+      document.body.classList.add('calc-open');
+      if (!DESMOS && typeof Desmos !== 'undefined') {
+        try {
+          DESMOS = Desmos.GraphingCalculator(area, {
+            keypad: true, graphpaper: true, expressions: true,
+            settingsMenu: false, zoomButtons: true
+          });
+        } catch (e) { area.textContent = 'Calculator unavailable.'; }
+      }
+    }
+    function closeCalc() {
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      document.body.classList.remove('calc-open');
+    }
+    btn.addEventListener('click', function () {
+      if (panel.classList.contains('show')) closeCalc(); else openCalc();
+    });
+    close.addEventListener('click', closeCalc);
+    window._closeSatCalc = closeCalc; // exposed so phase changes can close it
+
+    // Resizable divider
+    var dragging = false;
+    divider.addEventListener('mousedown', function (e) { dragging = true; e.preventDefault(); document.body.style.cursor = 'col-resize'; });
+    document.addEventListener('mousemove', function (e) {
+      if (!dragging) return;
+      var pct = Math.max(20, Math.min(80, (e.clientX / window.innerWidth) * 100));
+      panel.style.width = pct + 'vw';
+      panel.style.maxWidth = pct + 'vw';
+      divider.style.left = 'calc(' + pct + 'vw - 4px)';
+      document.querySelector('.container').style.marginLeft = pct + 'vw';
+      document.querySelector('.qheader').style.marginLeft = pct + 'vw';
+      document.querySelector('.qnav').style.left = pct + 'vw';
+      document.querySelector('.submit-bar').style.left = pct + 'vw';
+      if (DESMOS && DESMOS.resize) try { DESMOS.resize(); } catch (err) {}
+    });
+    document.addEventListener('mouseup', function () {
+      if (dragging) { dragging = false; document.body.style.cursor = ''; }
+    });
+  }
+
+  // ───── Highlight passage text ─────
+  function showToast(msg, ms) {
+    var t = document.querySelector('.toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.className = 'toast';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(function () { t.classList.remove('show'); }, ms || 3000);
+  }
+
+  function wireHighlight() {
+    var btn = document.getElementById('hlBtn');
+    var hint = null;
+
+    function applyHighlightToCurrentSelection() {
+      var sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0 || sel.toString().trim().length === 0) {
+        showToast('Select text in the passage first, then click 🖍 to highlight it.');
+        return false;
+      }
+      var range = sel.getRangeAt(0);
+      var passageEl = document.querySelector('.passage');
+      if (!passageEl || !passageEl.contains(range.commonAncestorContainer)) {
+        showToast('Highlights only work on passage text.');
+        return false;
+      }
+      var fragment = sel.toString().trim();
+      if (fragment.length < 2) {
+        showToast('Selection is too short to highlight.');
+        return false;
+      }
+      var mod = currentModule();
+      if (!mod) return false;
+      var q = mod.questions[CURRENT_Q_IDX];
+      var ansKey = PHASE;
+      if (!HIGHLIGHTS[ansKey][q.id]) HIGHLIGHTS[ansKey][q.id] = [];
+      // Toggle: if this exact fragment is already highlighted, remove it
+      var existingIdx = HIGHLIGHTS[ansKey][q.id].indexOf(fragment);
+      if (existingIdx !== -1) {
+        HIGHLIGHTS[ansKey][q.id].splice(existingIdx, 1);
+        showToast('Highlight removed.', 1500);
+      } else {
+        HIGHLIGHTS[ansKey][q.id].push(fragment);
+        showToast('Highlighted.', 1200);
+      }
+      sel.removeAllRanges();
+      renderQuestion();
+      saveState();
+      removeFloatingHint();
+      return true;
+    }
+
+    function removeFloatingHint() {
+      if (hint && hint.parentNode) { hint.parentNode.removeChild(hint); }
+      hint = null;
+    }
+
+    // mousedown preventDefault prevents the button from stealing focus and clearing the text selection
+    btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    btn.addEventListener('click', function () { applyHighlightToCurrentSelection(); });
+
+    // When user finishes selecting passage text, surface a floating "Highlight" hint
+    // anchored to the SELECTED TEXT (not the cursor). Always appears just above the selection's bounding box.
+    document.addEventListener('mouseup', function () {
+      // Defer to next tick so the browser has finalised the selection
+      setTimeout(positionHintForCurrentSelection, 0);
+    });
+    function positionHintForCurrentSelection() {
+      // Only act in R&W phases when the highlight button is visible
+      if (PHASE !== 'rw_m1' && PHASE !== 'rw_m2') { removeFloatingHint(); return; }
+      var sel = window.getSelection();
+      var passageEl = document.querySelector('.passage');
+      if (!sel || sel.rangeCount === 0 || sel.toString().trim().length < 2 || !passageEl) {
+        removeFloatingHint();
+        return;
+      }
+      var range = sel.getRangeAt(0);
+      if (!passageEl.contains(range.commonAncestorContainer)) {
+        removeFloatingHint();
+        return;
+      }
+      removeFloatingHint();
+      hint = document.createElement('div');
+      hint.className = 'highlight-hint';
+      hint.textContent = 'Highlight';
+      // Position the hint just above the selection's bounding box, horizontally centred over it
+      var rect = range.getBoundingClientRect();
+      var hintWidth = 110;
+      var x = Math.min(window.innerWidth - hintWidth - 8, Math.max(8, rect.left + (rect.width / 2) - (hintWidth / 2)));
+      var y = rect.top - 42;
+      // If the selection is too close to the top of the viewport, place the hint just below the selection instead
+      if (y < 8) y = rect.bottom + 8;
+      hint.style.left = x + 'px';
+      hint.style.top  = y + 'px';
+      hint.addEventListener('mousedown', function (ev) { ev.preventDefault(); });  // keep selection
+      hint.addEventListener('click', function () { applyHighlightToCurrentSelection(); });
+      document.body.appendChild(hint);
+    }
+    // Selection cleared elsewhere → drop the hint
+    document.addEventListener('selectionchange', function () {
+      var sel = window.getSelection();
+      if (!sel || sel.toString().trim().length === 0) removeFloatingHint();
+    });
+  }
+
+  // ───── Save / resume (localStorage) ─────
+  function storageKey() { return 'sat_mock_' + (TEST ? TEST.testInfo.id : 'unknown') + '_state'; }
+  function saveState() {
+    if (!TEST || PHASE === 'results') return;
+    try {
+      localStorage.setItem(storageKey(), JSON.stringify({
+        v: 1, PHASE, M2_PATH, ANSWERS, MARKED, STRUCK, HIGHLIGHTS,
+        CURRENT_Q_IDX, TIMER_END, BREAK_END, MODULE_DONE, SETTINGS,
+        savedAt: Date.now()
+      }));
+    } catch (e) {}
+  }
+  function loadSavedState() {
+    try {
+      var s = localStorage.getItem(storageKey());
+      if (!s) return null;
+      var d = JSON.parse(s);
+      if (!d || d.v !== 1) return null;
+      // Don't offer to resume a session that's older than 24h
+      if (Date.now() - (d.savedAt || 0) > 24*60*60*1000) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function clearSavedState() { try { localStorage.removeItem(storageKey()); } catch (e) {} }
+  function restoreFromSaved(d) {
+    PHASE = d.PHASE || 'rw_m1';
+    M2_PATH = d.M2_PATH || { rw: null, math: null };
+    ANSWERS = d.ANSWERS || { rw_m1:{}, rw_m2:{}, math_m1:{}, math_m2:{} };
+    MARKED = d.MARKED || { rw_m1:{}, rw_m2:{}, math_m1:{}, math_m2:{} };
+    STRUCK = d.STRUCK || { rw_m1:{}, rw_m2:{}, math_m1:{}, math_m2:{} };
+    HIGHLIGHTS = d.HIGHLIGHTS || { rw_m1:{}, rw_m2:{}, math_m1:{}, math_m2:{} };
+    CURRENT_Q_IDX = d.CURRENT_Q_IDX || 0;
+    MODULE_DONE = d.MODULE_DONE || { rw_m1:false, rw_m2:false, math_m1:false, math_m2:false };
+    SETTINGS = d.SETTINGS || SETTINGS;
+    applySettingsToDom();
+  }
+  function startPhaseAfterRestore() {
+    if (PHASE === 'break') { showBreak(); return; }
+    if (PHASE === 'results') { showResults(); return; }
+    var mod = currentModule();
+    if (!mod) { startPhase('rw_m1'); return; }
+    document.getElementById('moduleLabel').textContent = moduleLabel();
+    document.getElementById('breakScreen').style.display = 'none';
+    updateToolButtonsForPhase();
+    startTimer(moduleDuration());
+    renderQuestion();
+    renderQNav();
+  }
+
+  function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  function escapeAttr(s) {
+    return escapeHtml(s).replace(/`/g, '&#96;');
+  }
+  </script>
+</body>
+</html>
