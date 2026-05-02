@@ -10631,32 +10631,18 @@
       }
     }
 
-    // Sidebar profile click router: signed-in → edit profile; guest → Google sign-in.
+    // Sidebar profile click router: in either state, open the profile popup
+    // (which shows Google + Telegram for guests, edit-profile UI for signed-in).
     function _handleSidebarProfileClick() {
-      if (_isGoogleSignedIn()) {
-        try { openProfilePopup(); } catch (_e) {}
-        return;
-      }
-      try {
-        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-          // Redirect through index.html (the whitelisted Supabase callback URL).
-          // index.html's autoResume() detects the OAuth hash and forwards to landing.html.
-          var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
-          window.MockStream.auth.signInWithGoogle(_back);
-        }
-      } catch (_e) {}
+      try { openProfilePopup(); } catch (_e) {}
     }
 
-    // My Results click router: guest → trigger Google sign-in, never navigate.
+    // My Results click router: guest → open profile popup (Google + Telegram);
+    // signed-in → close sidebar so the link navigates to results page.
     function _handleMyResultsClick(ev) {
       if (!_isGoogleSignedIn()) {
         if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-        try {
-          if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-            var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
-            window.MockStream.auth.signInWithGoogle(_back);
-          }
-        } catch (_e) {}
+        try { openProfilePopup(); } catch (_e) {}
         return false;
       }
       try { toggleSidebar(); } catch (_e) {}
@@ -10812,21 +10798,11 @@
               el.style.display = 'none';
               return;
             }
-            var a = window.MockStream && window.MockStream.auth;
-            var txt = document.getElementById('guestUpgradeText');
-            if (!a || !a.signInWithGoogle) {
-              console.warn('[guestUpgradePill] auth.js not loaded');
-              alert('Google sign-in temporarily unavailable. Please refresh.');
-              return;
+            // Open the profile popup so the user can pick Google or Telegram.
+            try { openProfilePopup(); } catch (_e) {
+              console.warn('[guestUpgradePill] openProfilePopup failed', _e);
+              alert('Sign-in temporarily unavailable. Please refresh.');
             }
-            if (txt) txt.textContent = 'Redirecting...';
-            // Same path as the welcome-page button: return to this same URL
-            // after OAuth. auth.js triggers mockStream:userSignedIn on return.
-            a.signInWithGoogle(window.location.href).catch(function (err) {
-              console.error('[guestUpgradePill] Google sign-in failed:', err);
-              if (txt) txt.textContent = '☁️ Save results to cloud';
-              alert('Google sign-in failed: ' + (err && err.message ? err.message : 'unknown error'));
-            });
           });
           document.body.appendChild(el);
         } else {
