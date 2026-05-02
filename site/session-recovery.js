@@ -64,6 +64,9 @@
     },
 
     // ── Sync localStorage backup to Supabase ────────────────────────────
+    // Only removes the local copy if Supabase confirms a successful upsert.
+    // If the table is locked down (401/403/4xx) or the network is offline,
+    // the local copy stays so check() can still find it.
     _syncLocalBackup: async function () {
       if (!this._config) return;
       var key = 'sr_' + this._config.testType;
@@ -71,24 +74,64 @@
         var raw = localStorage.getItem(key);
         if (!raw) return;
         var payload = JSON.parse(raw);
-        // Check if it's for the same user
+        // Check if it's for the same user — wrong user → drop the leftover
         var uid = this._uid();
         if (!uid || payload.user_identifier !== uid) {
           localStorage.removeItem(key);
           return;
         }
-        // Upsert to Supabase
-        await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
+        // Try to upsert to Supabase; only clear local copy on success
+        var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: { 'Prefer': 'resolution=merge-duplicates' },
           body: JSON.stringify(payload)
         });
-        localStorage.removeItem(key);
-      } catch (e) { /* ignore */ }
+        if (r && r.ok) {
+          localStorage.removeItem(key);
+        }
+        // else: leave local copy in place as the source of truth
+      } catch (e) { /* network failure — keep local copy */ }
+    },
+
+    // ── Read most-recent payload from localStorage for current user ─────
+    _readLocal: function () {
+      if (!this._config) return null;
+      var key = 'sr_' + this._config.testType;
+      try {
+        var raw = localStorage.getItem(key);
+        if (!raw) return null;
+        var payload = JSON.parse(raw);
+        var uid = this._uid();
+        if (!uid || payload.user_identifier !== uid) return null;
+        // Honour expiry
+        if (payload.expires_at && new Date(payload.expires_at) < new Date()) {
+          localStorage.removeItem(key);
+          return null;
+        }
+        // Match Supabase row shape so callers don't need to branch
+        return {
+          id: 'local',
+          user_identifier: payload.user_identifier,
+          test_type: payload.test_type,
+          test_id: payload.test_id,
+          session_data: payload.session_data,
+          updated_at: payload.updated_at,
+          expires_at: payload.expires_at
+        };
+      } catch (e) { return null; }
+    },
+
+    // ── Write payload to localStorage (sync) ────────────────────────────
+    _writeLocal: function (payload) {
+      if (!this._config) return;
+      try {
+        localStorage.setItem('sr_' + this._config.testType, JSON.stringify(payload));
+      } catch (e) { /* quota exceeded — ignore */ }
     },
 
     // ── Check for existing session ──────────────────────────────────────
-    // Returns session object or null
+    // Returns session object or null. Tries Supabase first; falls back
+    // to localStorage if the table is locked down or the network is offline.
     check: async function () {
       if (!this._config) return null;
       var uid = this._uid();
@@ -103,18 +146,25 @@
           + '&test_type=eq.' + encodeURIComponent(this._config.testType)
           + '&select=*&limit=1'
         );
-        if (!r.ok) return null;
+        if (!r.ok) {
+          // Supabase rejected (401 RLS, 403, 5xx) — fall back to local
+          return this._readLocal();
+        }
         var data = await r.json();
         if (data && data.length > 0) {
           // Check expiry
           if (new Date(data[0].expires_at) < new Date()) {
             this._deleteById(data[0].id);
-            return null;
+            return this._readLocal();
           }
           return data[0];
         }
-      } catch (e) { /* ignore */ }
-      return null;
+        // Supabase returned no rows — fall back to local in case a save
+        // succeeded only locally (e.g. after the table was locked down)
+        return this._readLocal();
+      } catch (e) {
+        return this._readLocal();
+      }
     },
 
     // ── Show resume / start-fresh popup ─────────────────────────────────
@@ -209,7 +259,10 @@
       });
     },
 
-    // ── Async save to Supabase ──────────────────────────────────────────
+    // ── Async save to Supabase + localStorage fallback ─────────────────
+    // Always writes to localStorage first (synchronous, can't fail other
+    // than on quota), then tries Supabase. If Supabase 401/403/5xx or the
+    // network is offline, the local copy is still there for check() to find.
     save: async function () {
       if (!this._config || !this._active) return;
       var state = this._config.getState();
@@ -226,13 +279,18 @@
         expires_at: new Date(Date.now() + EXPIRY_HOURS * 3600000).toISOString()
       };
 
+      // Always persist to localStorage first — survives backend outages
+      this._writeLocal(payload);
+
       try {
-        await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
+        var r = await this._fetch('test_sessions?on_conflict=user_identifier,test_type', {
           method: 'POST',
           headers: { 'Prefer': 'resolution=merge-duplicates' },
           body: JSON.stringify(payload)
         });
-      } catch (e) { /* ignore */ }
+        // If Supabase took it, the local copy can be cleared on next sync.
+        // We leave it in place for now — _syncLocalBackup() handles cleanup.
+      } catch (e) { /* offline — local copy is the source of truth */ }
     },
 
     // ── Sync save for beforeunload ──────────────────────────────────────
