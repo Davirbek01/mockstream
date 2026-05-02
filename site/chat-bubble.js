@@ -310,7 +310,16 @@
     // Cancelling the gate doesn't actually break anything — the resume
     // key sits dormant until a future sign-in.
     _saveResume(cat || currentCategory);
-    var showTelegram = (window.__CENTER_ID === 'mock_stream');
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot'
+    };
+    var _cbBotUsername = TELEGRAM_BOT_BY_CENTER[window.__CENTER_ID || 'mock_stream'];
+    var showTelegram = !!_cbBotUsername;
     var telegramWrapHtml = showTelegram
       ? '<div id="cb-signin-telegram-wrap" style="margin-top:10px;display:flex;justify-content:center;"><div id="cb-signin-telegram-slot"></div></div>'
       : '';
@@ -373,7 +382,7 @@
           var s = document.createElement('script');
           s.async = true;
           s.src = 'https://telegram.org/js/telegram-widget.js?22';
-          s.setAttribute('data-telegram-login', 'mockstream_login_bot');
+          s.setAttribute('data-telegram-login', _cbBotUsername);
           s.setAttribute('data-size', 'medium');
           s.setAttribute('data-onauth', 'onTelegramAuth(user)');
           s.setAttribute('data-request-access', 'write');
@@ -402,7 +411,8 @@
           username: user.username || '',
           photo_url: user.photo_url || '',
           auth_date: user.auth_date,
-          hash: user.hash
+          hash: user.hash,
+          center: window.__CENTER_ID || 'mock_stream'
         })
       });
       var data = await resp.json();

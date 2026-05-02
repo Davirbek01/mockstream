@@ -13,13 +13,20 @@
 //   5. Generate a magic-link OTP and return {email, otp} so the client can
 //      call supabase.auth.verifyOtp(...) to establish a session
 //
-// Required Supabase Edge Function secrets:
-//   TELEGRAM_LOGIN_BOT_TOKEN    (set via dashboard — token for @mockstream_login_bot
-//                                ONLY. The existing TELEGRAM_BOT_TOKEN secret is
-//                                used by send-to-telegram + telegram-bot-webhook
-//                                for a different bot — do NOT reuse it here.)
+// Required Supabase Edge Function secrets — one bot per center, since
+// Telegram's /setdomain only allows ONE domain per bot. Phase 3:
+//   TELEGRAM_LOGIN_BOT_TOKEN              (mock_stream → @mockstream_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_BEK          (bek         → @bekzods_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_NINERS       (niners      → @niners_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL       (global      → @global_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS    (muzaffars   → @muzaffars_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS    (achievers   → @acheivers_login_bot)
 //   SUPABASE_URL                (auto-injected)
 //   SUPABASE_SERVICE_ROLE_KEY   (auto-injected)
+//
+// NOTE on _ACHEIVERS: the env-var name has the same misspelling as the
+// netlify URL (acheivers-mocks.netlify.app) even though the center ID
+// is "achievers" (correctly spelled). The map below handles this.
 //
 // Revert: delete the function via dashboard or
 //   `supabase functions delete verify-telegram-login` (if CLI installed)
@@ -85,14 +92,30 @@ Deno.serve(async (req) => {
   const last_name   = typeof body.last_name  === 'string' ? body.last_name  : '';
   const username    = typeof body.username   === 'string' ? body.username   : '';
   const photo_url   = typeof body.photo_url  === 'string' ? body.photo_url  : '';
+  const centerRaw   = typeof body.center === 'string' ? body.center.trim().toLowerCase() : '';
+  const center      = centerRaw || 'mock_stream';
 
   if (!id || !auth_date || !hash) return jerr(400, 'missing_fields');
 
-  // 2. Verify HMAC-SHA256 hash per Telegram spec
+  // 2. Per-center bot token. Each clone has its own bot because Telegram's
+  //    /setdomain accepts only one domain per bot. The env name for
+  //    "achievers" keeps the URL misspelling (acheivers-mocks.netlify.app).
+  const TOKEN_ENV_BY_CENTER: Record<string, string> = {
+    mock_stream: 'TELEGRAM_LOGIN_BOT_TOKEN',
+    bek:         'TELEGRAM_LOGIN_BOT_TOKEN_BEK',
+    niners:      'TELEGRAM_LOGIN_BOT_TOKEN_NINERS',
+    global:      'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL',
+    muzaffars:   'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',
+    achievers:   'TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS',
+  };
+  const envName = TOKEN_ENV_BY_CENTER[center];
+  if (!envName) return jerr(400, 'unknown_center', center);
+  const botToken = Deno.env.get(envName);
+  if (!botToken) return jerr(500, 'bot_token_unset', envName);
+
+  // 3. Verify HMAC-SHA256 hash per Telegram spec
   //    secret_key = SHA256(bot_token)
   //    data_check_string = sorted "key=value" lines joined by '\n', excluding hash
-  const botToken = Deno.env.get('TELEGRAM_LOGIN_BOT_TOKEN');
-  if (!botToken) return jerr(500, 'bot_token_unset');
 
   const fields: Record<string, string> = { id, auth_date };
   if (first_name) fields.first_name = first_name;

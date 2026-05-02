@@ -4486,10 +4486,20 @@
       });
     }
 
-    // ===== Telegram Login (Phase 1: only on mock_stream main domain) =====
+    // ===== Telegram Login (Phase 3: per-center bots, all 6 sites) =====
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot' // bot handle keeps URL misspelling
+    };
     var _idxTgWidgetInjected = false;
     function _initTelegramLogin() {
-      if (window.__CENTER_ID !== 'mock_stream') return;
+      var center = window.__CENTER_ID || 'mock_stream';
+      var botUsername = TELEGRAM_BOT_BY_CENTER[center];
+      if (!botUsername) return;
       var wrap = document.getElementById('telegramSigninWrap');
       var slot = document.getElementById('telegramSigninSlot');
       if (!wrap || !slot) return;
@@ -4498,7 +4508,7 @@
       var s = document.createElement('script');
       s.async = true;
       s.src = 'https://telegram.org/js/telegram-widget.js?22';
-      s.setAttribute('data-telegram-login', 'mockstream_login_bot');
+      s.setAttribute('data-telegram-login', botUsername);
       s.setAttribute('data-size', 'medium');
       s.setAttribute('data-onauth', 'onTelegramAuth(user)');
       s.setAttribute('data-request-access', 'write');
@@ -4532,7 +4542,8 @@
             username: user.username || '',
             photo_url: user.photo_url || '',
             auth_date: user.auth_date,
-            hash: user.hash
+            hash: user.hash,
+            center: window.__CENTER_ID || 'mock_stream'
           })
         });
         var data = await resp.json();
