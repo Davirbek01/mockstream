@@ -10631,32 +10631,18 @@
       }
     }
 
-    // Sidebar profile click router: signed-in → edit profile; guest → Google sign-in.
+    // Sidebar profile click router: in either state, open the profile popup
+    // (which shows Google + Telegram for guests, edit-profile UI for signed-in).
     function _handleSidebarProfileClick() {
-      if (_isGoogleSignedIn()) {
-        try { openProfilePopup(); } catch (_e) {}
-        return;
-      }
-      try {
-        if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-          // Redirect through index.html (the whitelisted Supabase callback URL).
-          // index.html's autoResume() detects the OAuth hash and forwards to landing.html.
-          var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
-          window.MockStream.auth.signInWithGoogle(_back);
-        }
-      } catch (_e) {}
+      try { openProfilePopup(); } catch (_e) {}
     }
 
-    // My Results click router: guest → trigger Google sign-in, never navigate.
+    // My Results click router: guest → open profile popup (Google + Telegram);
+    // signed-in → close sidebar so the link navigates to results page.
     function _handleMyResultsClick(ev) {
       if (!_isGoogleSignedIn()) {
         if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-        try {
-          if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-            var _back = window.location.origin + window.location.pathname.replace(/[^/]*$/, 'index.html');
-            window.MockStream.auth.signInWithGoogle(_back);
-          }
-        } catch (_e) {}
+        try { openProfilePopup(); } catch (_e) {}
         return false;
       }
       try { toggleSidebar(); } catch (_e) {}
@@ -10696,6 +10682,9 @@
         +   '<div class="pp-signed-in" id="ppSignedIn" style="display:none;">'
         +     '<span id="ppSignedInText">✓ Signed in</span>'
         +     '<button type="button" class="pp-signout-btn" onclick="ppSignOut()">Sign out</button>'
+        +   '</div>'
+        +   '<div class="pp-telegram-wrap" id="ppTelegramWrap" style="display:none;margin-top:10px;justify-content:center;">'
+        +     '<div id="ppTelegramWidgetSlot"></div>'
         +   '</div>'
         +   '<div class="pp-or-separator"><span>or continue as guest</span></div>'
         + '</div>'
@@ -10743,6 +10732,8 @@
       }
       overlay.classList.add('show');
       _ppSyncAuthUi();
+      // Inject the Telegram login widget into its slot if we're on the main domain
+      try { _initTelegramLogin(); } catch (e) {}
     }
 
     // Sync the Google sign-in button / signed-in badge with current auth state
@@ -10807,21 +10798,11 @@
               el.style.display = 'none';
               return;
             }
-            var a = window.MockStream && window.MockStream.auth;
-            var txt = document.getElementById('guestUpgradeText');
-            if (!a || !a.signInWithGoogle) {
-              console.warn('[guestUpgradePill] auth.js not loaded');
-              alert('Google sign-in temporarily unavailable. Please refresh.');
-              return;
+            // Open the profile popup so the user can pick Google or Telegram.
+            try { openProfilePopup(); } catch (_e) {
+              console.warn('[guestUpgradePill] openProfilePopup failed', _e);
+              alert('Sign-in temporarily unavailable. Please refresh.');
             }
-            if (txt) txt.textContent = 'Redirecting...';
-            // Same path as the welcome-page button: return to this same URL
-            // after OAuth. auth.js triggers mockStream:userSignedIn on return.
-            a.signInWithGoogle(window.location.href).catch(function (err) {
-              console.error('[guestUpgradePill] Google sign-in failed:', err);
-              if (txt) txt.textContent = '☁️ Save results to cloud';
-              alert('Google sign-in failed: ' + (err && err.message ? err.message : 'unknown error'));
-            });
           });
           document.body.appendChild(el);
         } else {
@@ -10855,7 +10836,7 @@
     async function ppSignOut() {
       var auth = window.MockStream && window.MockStream.auth;
       if (!auth) return;
-      if (!confirm('Sign out of Google? Your progress stays but results will no longer sync across devices.')) return;
+      if (!confirm('Sign out? Your progress stays but results will no longer sync across devices.')) return;
       await auth.signOut();
       // Refresh sidebar to default
       try { _updateSidebarNameDisplay('Student'); } catch (e) {}
@@ -10863,6 +10844,164 @@
       // Blank the name field
       var nameInput = document.getElementById('ppName');
       if (nameInput) nameInput.value = '';
+    }
+
+    // ===== Telegram Login (Phase 3: per-center bots, all 6 sites) =====
+    // Each center has its own bot because Telegram's /setdomain only allows
+    // one domain per bot. The bot username determines which avatar/name the
+    // student sees in the consent screen — matching their center's brand.
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot' // bot handle keeps URL misspelling
+    };
+    var _tgWidgetInjected = false;
+    function _initTelegramLogin() {
+      var center = window.__CENTER_ID || 'mock_stream';
+      var botUsername = TELEGRAM_BOT_BY_CENTER[center];
+      if (!botUsername) return; // no bot configured for this center yet
+      var wrap = document.getElementById('ppTelegramWrap');
+      var slot = document.getElementById('ppTelegramWidgetSlot');
+      if (!wrap || !slot) return;
+      wrap.style.display = 'flex';
+      if (_tgWidgetInjected) return;
+      // Inject the official Telegram Login Widget into the slot. It auto-renders
+      // a button as previousSibling and calls window.onTelegramAuth(user) on success.
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://telegram.org/js/telegram-widget.js?22';
+      s.setAttribute('data-telegram-login', botUsername);
+      s.setAttribute('data-size', 'medium');
+      s.setAttribute('data-onauth', 'onTelegramAuth(user)');
+      s.setAttribute('data-request-access', 'write');
+      slot.appendChild(s);
+      _tgWidgetInjected = true;
+    }
+
+    // Telegram widget callback. Receives the verified-by-Telegram payload and
+    // exchanges it for a Supabase session via the verify-telegram-login Edge Function.
+    window.onTelegramAuth = async function (user) {
+      if (!user || !user.id || !user.hash || !user.auth_date) {
+        console.warn('[telegram-login] invalid widget payload', user);
+        return;
+      }
+      var sbUrl = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      try {
+        var resp = await fetch(sbUrl + '/functions/v1/verify-telegram-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: user.id,
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            username: user.username || '',
+            photo_url: user.photo_url || '',
+            auth_date: user.auth_date,
+            hash: user.hash,
+            center: window.__CENTER_ID || 'mock_stream'
+          })
+        });
+        var data = await resp.json();
+        if (!resp.ok) {
+          console.error('[telegram-login] verify failed:', resp.status, data);
+          if (data && data.error === 'ambiguous_name_match') {
+            alert('Multiple accounts share your name. Please sign in with Google first to confirm which account is yours, then try Telegram again.');
+          } else {
+            alert('Telegram sign-in failed: ' + (data.error || 'unknown error'));
+          }
+          return;
+        }
+        if (!data.email || !data.otp) {
+          console.error('[telegram-login] missing email/otp in response', data);
+          alert('Telegram sign-in failed: no session token returned.');
+          return;
+        }
+        // Establish a real Supabase session via verifyOtp.
+        // auth.js exposes a public getClient() — same instance used for the
+        // Google flow, so the resulting session is stored in the shared
+        // ms_auth_session storage key and auth.js's onAuthStateChange picks
+        // it up automatically.
+        var auth = window.MockStream && window.MockStream.auth;
+        var client = auth && auth.getClient && auth.getClient();
+        if (!client) {
+          alert('Authentication library not loaded. Please refresh and try again.');
+          return;
+        }
+        var verifyResp = await client.auth.verifyOtp({ email: data.email, token: data.otp, type: 'email' });
+        if (verifyResp && verifyResp.error) {
+          console.error('[telegram-login] verifyOtp error:', verifyResp.error);
+          alert('Telegram sign-in failed: ' + verifyResp.error.message);
+          return;
+        }
+        console.log('[telegram-login] session established. created_new=' + data.created_new
+          + ' merged_from_google=' + data.merged_from_google);
+        // First-time Telegram-only users get a one-time legal-name confirmation
+        // (Telegram first/last name is often a nickname, not what should appear on
+        // certificates). Existing-Google merges skip this — they already had a name.
+        if (data.needs_legal_name_confirm) {
+          _openLegalNameModal(((data.profile && data.profile.first_name) || '') + ' '
+                              + ((data.profile && data.profile.last_name) || ''));
+        } else {
+          // Reload so the rest of the page picks up the new session via auth.js init()
+          window.location.reload();
+        }
+      } catch (e) {
+        console.error('[telegram-login] exception:', e);
+        alert('Telegram sign-in failed. Please check your connection and try again.');
+      }
+    };
+
+    // One-time legal-name confirmation modal for first-time Telegram-only users.
+    function _openLegalNameModal(prefilled) {
+      if (document.getElementById('lnmOverlay')) return;
+      var ov = document.createElement('div');
+      ov.id = 'lnmOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+      ov.innerHTML =
+        '<div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25);">'
+        + '<div style="text-align:center;font-size:38px;margin-bottom:6px;">📜</div>'
+        + '<h3 style="margin:0 0 6px;color:#0f172a;text-align:center;font-size:18px;">Confirm your full legal name</h3>'
+        + '<p style="margin:0 0 14px;color:#64748b;font-size:13px;text-align:center;line-height:1.5;">'
+        +   'This is the name that will appear on your certificate. Telegram nicknames are usually not the same as legal names.'
+        + '</p>'
+        + '<input type="text" id="lnmName" maxlength="80" placeholder="Surname Firstname" '
+        +   'style="width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:15px;outline:none;"'
+        +   'value="' + (prefilled || '').replace(/"/g, '&quot;').trim() + '">'
+        + '<div style="display:flex;gap:10px;margin-top:16px;">'
+        +   '<button id="lnmSkip" style="flex:1;padding:11px 0;border:2px solid #e2e8f0;background:#fff;color:#475569;border-radius:10px;font-weight:600;cursor:pointer;">Use this name</button>'
+        +   '<button id="lnmSave" style="flex:1;padding:11px 0;border:0;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-radius:10px;font-weight:700;cursor:pointer;">Save & continue</button>'
+        + '</div>'
+        + '</div>';
+      document.body.appendChild(ov);
+      var input = document.getElementById('lnmName');
+      input.focus(); input.select();
+      function _close(useName) {
+        var auth = window.MockStream && window.MockStream.auth;
+        var name = (useName || '').trim();
+        // Update Supabase user_metadata.full_name + local cache + sidebar so the
+        // value flows into all the places auth.js writes (CANDIDATE_FULL_NAME etc.)
+        (async function () {
+          try {
+            var c = auth && auth.getClient && auth.getClient();
+            if (c && name) {
+              await c.auth.updateUser({ data: { full_name: name } });
+            }
+          } catch (e) { console.warn('[telegram-login] updateUser failed', e); }
+          try {
+            if (name) {
+              sessionStorage.setItem('CANDIDATE_FULL_NAME', name);
+              localStorage.setItem('ms_candidate_name', name);
+            }
+          } catch (e) {}
+          ov.remove();
+          window.location.reload();
+        })();
+      }
+      document.getElementById('lnmSkip').onclick = function () { _close(input.value); };
+      document.getElementById('lnmSave').onclick = function () { _close(input.value); };
     }
 
     // When Google sign-in completes (post-redirect), refresh sidebar + popup
@@ -19814,7 +19953,7 @@
           fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc&limit=5000', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
           }),
-          fetch(SB_URL + '/rest/v1/premium_emails?select=email,tier,role,center,active', {
+          fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active', {
             headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
           })
         ]);
@@ -20131,6 +20270,56 @@
         if (btn) { btn.disabled = false; btn.textContent = existing ? '💾 Update' : '➕ Assign'; }
       }
     }
+    // Phase 2: grant premium by Telegram username (no email needed). The
+    // student gives admin their @handle, admin types it here. When the student
+    // signs in via Telegram on mock-stream.com, verify-passcode + auth.js's
+    // checkPremiumRole() match by user_metadata.telegram_username and
+    // unlock premium automatically — same way the existing email path works.
+    async function _saveTelegramRole() {
+      var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      var rawU  = ((document.getElementById('ruTgUsername') || {}).value || '').trim();
+      var u = rawU.replace(/^@/, '').toLowerCase();
+      var tier   = (document.getElementById('ruTgTier') || {}).value || 'premium';
+      var role   = (document.getElementById('ruTgRole') || {}).value || 'user';
+      var center = ((document.getElementById('ruTgCenter') || {}).value || '').trim();
+      var btn  = document.getElementById('ruTgSaveBtn');
+      var msg  = document.getElementById('ruTgMsg');
+      function _say(t, color) { if (msg) { msg.textContent = t; msg.style.color = color || '#475569'; } }
+      if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
+        _say('Enter a valid Telegram username (3–32 chars, letters/digits/underscore).', '#dc2626');
+        return;
+      }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ Saving...'; }
+      try {
+        // Try UPDATE first (in case already granted), fall back to INSERT.
+        var patchResp = await fetch(SB_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+          body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+        });
+        var patchData = patchResp.ok ? await patchResp.json() : null;
+        if (!patchData || patchData.length === 0) {
+          // No existing row → INSERT
+          var insResp = await fetch(SB_URL + '/rest/v1/premium_emails', {
+            method: 'POST',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ telegram_username: u, tier: tier, role: role, center: center, active: true })
+          });
+          if (!insResp.ok) {
+            var errTxt = await insResp.text();
+            throw new Error('HTTP ' + insResp.status + (errTxt ? (': ' + errTxt) : ''));
+          }
+        }
+        _say('✅ Granted to @' + u + ': ' + tier + ' / ' + role + (center ? ' @ ' + center : ''), '#10b981');
+      } catch (e) {
+        _say('Failed: ' + (e.message || e), '#dc2626');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '➕ Grant'; }
+      }
+    }
+    window._saveTelegramRole = _saveTelegramRole;
+
     async function _toggleUserRoleActive(email, makeActive) {
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';

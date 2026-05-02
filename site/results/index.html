@@ -1954,6 +1954,22 @@
           </select>
           <button class="premium-add-btn" id="premiumAddBtn" onclick="addPremiumEmail()">+ Add</button>
         </div>
+        <!-- Phase 2: grant by Telegram username (for users who can't use Google) -->
+        <div class="premium-add-form" style="margin-top:10px;background:#f0f9ff;padding:10px;border-radius:10px;border:1px solid #bae6fd;">
+          <input type="text" id="premiumTgInput" placeholder="@telegram_username" autocomplete="off" style="flex:1;">
+          <select id="premiumTgTier">
+            <option value="premium">Premium (AI)</option>
+            <option value="regular">Regular (Mocks)</option>
+          </select>
+          <select id="premiumTgRole">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <select id="premiumTgCenter">
+            <option value="">All Centers</option>
+          </select>
+          <button class="premium-add-btn" id="premiumTgAddBtn" onclick="addPremiumTelegram()" style="background:#0ea5e9;">📨 Add by Telegram</button>
+        </div>
         <div class="premium-msg" id="premiumMsg"></div>
         <div class="premium-count" id="premiumCount"></div>
         <div class="premium-list" id="premiumList">
@@ -2976,19 +2992,20 @@
         if (curVal) centerSelect.value = curVal;
       }
 
-      // 2. Premium center dropdown
-      var premSelect = document.getElementById('premiumCenterSelect');
-      if (premSelect) {
-        var pVal = premSelect.value;
-        premSelect.innerHTML = '<option value="">All Centers</option>';
+      // 2. Premium center dropdowns (email row + telegram row)
+      ['premiumCenterSelect', 'premiumTgCenter'].forEach(function (selId) {
+        var sel = document.getElementById(selId);
+        if (!sel) return;
+        var pVal = sel.value;
+        sel.innerHTML = '<option value="">All Centers</option>';
         Object.keys(CENTER_NAMES).forEach(function(key) {
           var opt = document.createElement('option');
           opt.value = key;
           opt.textContent = CENTER_NAMES[key];
-          premSelect.appendChild(opt);
+          sel.appendChild(opt);
         });
-        if (pVal) premSelect.value = pVal;
-      }
+        if (pVal) sel.value = pVal;
+      });
 
       // 3. Messages center tabs
       var tabsContainer = document.getElementById('centerTabs');
@@ -4562,7 +4579,12 @@
         var isAdminRow = (item.role === 'admin');
         var devClass = isAdminRow ? 'color:var(--ink-secondary);' : (devCount >= 5 ? 'color:#dc2626;font-weight:800;' : devCount >= 3 ? 'color:#d97706;font-weight:700;' : 'color:var(--ink-secondary);');
         var devLabel = isAdminRow ? (devCount + '/∞') : (devCount + '/5');
-        var escapedEmail = escapeHtml(item.email).replace(/'/g, "\\'");
+        // Display label: email if present, else @telegram_username (Phase 2).
+        var displayLabel = item.email
+          ? item.email
+          : (item.telegram_username ? '📨 @' + item.telegram_username : '(no identity)');
+        var escapedEmail = escapeHtml(item.email || '').replace(/'/g, "\\'");
+        var escapedTg    = escapeHtml(item.telegram_username || '').replace(/'/g, "\\'");
         var expiryBadge = '';
         if ((item.role === 'user' || item.role === 'student') && item.created_at) {
           var expDate = new Date(item.created_at); expDate.setMonth(expDate.getMonth() + 3);
@@ -4600,7 +4622,7 @@
 
         html += '<div class="premium-item-wrap" id="prem-' + item.id + '">'
           + '<div class="premium-item">'
-          + '<div class="premium-item-email">' + escapeHtml(item.email) + '</div>'
+          + '<div class="premium-item-email">' + escapeHtml(displayLabel) + '</div>'
           + '<span class="premium-item-tier ' + tierClass + '">' + tierLabel + '</span>'
           + '<span class="premium-item-role ' + roleClass + '">' + roleLabel + '</span>'
           + '<span class="premium-item-center">' + escapeHtml(centerLabel) + '</span>'
@@ -4668,6 +4690,73 @@
 
       btn.disabled = false;
       btn.textContent = '+ Add';
+    }
+
+    // Phase 2: grant premium by Telegram username (parallel to addPremiumEmail).
+    // Resolves to a row in premium_emails with email=NULL, telegram_username set.
+    // The verify-passcode Edge Function + auth.js checkPremiumRole() match by
+    // user_metadata.telegram_username when the student signs in via Telegram.
+    async function addPremiumTelegram() {
+      var input = document.getElementById('premiumTgInput');
+      var tierSelect = document.getElementById('premiumTgTier');
+      var roleSelect = document.getElementById('premiumTgRole');
+      var centerSelect = document.getElementById('premiumTgCenter');
+      var btn = document.getElementById('premiumTgAddBtn');
+      var raw = (input.value || '').trim();
+      var u = raw.replace(/^@/, '').toLowerCase();
+      var tier = tierSelect.value;
+      var role = roleSelect.value;
+      var center = centerSelect.value;
+
+      if (!u || !/^[a-zA-Z0-9_]{3,32}$/.test(u)) {
+        showPremiumMsg('Enter a valid Telegram username (3–32 chars, letters/digits/underscore)', 'error');
+        input.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = '...';
+
+      try {
+        // Try UPDATE first (in case @username already exists), else INSERT.
+        var patchResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails?telegram_username=eq.' + encodeURIComponent(u), {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({ tier: tier, role: role, center: center, active: true })
+        });
+        var patchData = patchResp.ok ? await patchResp.json() : null;
+        if (!patchData || patchData.length === 0) {
+          var insResp = await fetch(SUPABASE_URL + '/rest/v1/premium_emails', {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({ telegram_username: u, tier: tier, role: role, center: center, active: true })
+          });
+          if (!insResp.ok) {
+            var errData = await insResp.json().catch(function() { return {}; });
+            throw new Error(errData.message || ('HTTP ' + insResp.status));
+          }
+          showPremiumMsg('✅ @' + u + ' added as ' + tier + ' (' + role + ')', 'success');
+        } else {
+          showPremiumMsg('✅ @' + u + ' updated to ' + tier + ' (' + role + ')', 'success');
+        }
+        input.value = '';
+        loadPremiumEmails();
+      } catch (e) {
+        showPremiumMsg('Failed to add Telegram user: ' + (e.message || ''), 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = '📨 Add by Telegram';
     }
 
     async function togglePremium(id, newActive) {

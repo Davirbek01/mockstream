@@ -300,10 +300,29 @@
   }
   function _clearResume() { try { localStorage.removeItem(CB_RESUME_KEY); } catch (_e) {} }
 
-  // Show the "Sign in with Google" gate. Returns false to abort the send.
+  // Show the sign-in gate (Google + optional Telegram). Returns false to
+  // abort the send.
   function _showSignInGate(cat) {
     var existing = document.getElementById('cb-signin-gate');
     if (existing) existing.remove();
+    // Save the chat-bubble category up-front so any sign-in path (Google
+    // redirect or Telegram widget callback) can auto-resume the bubble.
+    // Cancelling the gate doesn't actually break anything — the resume
+    // key sits dormant until a future sign-in.
+    _saveResume(cat || currentCategory);
+    var TELEGRAM_BOT_BY_CENTER = {
+      mock_stream: 'mockstream_login_bot',
+      bek:         'bekzods_login_bot',
+      niners:      'niners_login_bot',
+      global:      'global_login_bot',
+      muzaffars:   'muzaffars_login_bot',
+      achievers:   'acheivers_login_bot'
+    };
+    var _cbBotUsername = TELEGRAM_BOT_BY_CENTER[window.__CENTER_ID || 'mock_stream'];
+    var showTelegram = !!_cbBotUsername;
+    var telegramWrapHtml = showTelegram
+      ? '<div id="cb-signin-telegram-wrap" style="margin-top:10px;display:flex;justify-content:center;"><div id="cb-signin-telegram-slot"></div></div>'
+      : '';
     var div = document.createElement('div');
     div.id = 'cb-signin-gate';
     div.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2147483647;display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -311,22 +330,31 @@
       '<div style="background:#fff;border-radius:18px;padding:26px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;">' +
         '<div style="font-size:38px;margin-bottom:6px;">💬</div>' +
         '<h3 style="margin:0 0 6px;font-size:17px;color:#111827;">Sign in to send messages</h3>' +
-        '<p style="margin:0 0 18px;font-size:13px;color:#6b7280;line-height:1.45;">Continue with your Google account to message us. Your conversations will sync across all your devices automatically.</p>' +
+        '<p style="margin:0 0 18px;font-size:13px;color:#6b7280;line-height:1.45;">Sign in to message us. Your conversations will sync across all your devices automatically.</p>' +
         '<button id="cb-signin-google" style="width:100%;padding:12px 14px;border:1px solid #dadce0;border-radius:10px;background:#fff;color:#3c4043;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;">' +
           '<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>' +
           '<span>Continue with Google</span>' +
         '</button>' +
+        telegramWrapHtml +
         '<button id="cb-signin-cancel" style="margin-top:10px;background:none;border:none;color:#6b7280;font-size:13px;cursor:pointer;">Maybe later</button>' +
       '</div>';
     document.body.appendChild(div);
-    document.getElementById('cb-signin-cancel').onclick = function () { div.remove(); };
-    div.onclick = function (e) { if (e.target === div) div.remove(); };
+    document.getElementById('cb-signin-cancel').onclick = function () {
+      // User backed out — clear the dangling resume key so a later unrelated
+      // sign-in doesn't auto-pop the bubble.
+      _clearResume();
+      div.remove();
+    };
+    div.onclick = function (e) {
+      if (e.target === div) {
+        _clearResume();
+        div.remove();
+      }
+    };
     document.getElementById('cb-signin-google').onclick = function () {
       try {
-        _saveResume(cat || currentCategory);
         if (window.MockStream && window.MockStream.auth && window.MockStream.auth.signInWithGoogle) {
-          // Redirect back to the CURRENT page (same pattern used by the sidebar's
-          // Google sign-in on landing.html). Supabase consumes the access_token
+          // Redirect back to the CURRENT page. Supabase consumes the access_token
           // hash on this page's load, fires onStateChange('signed_in'), which
           // triggers _maybeAutoResume() to reopen the bubble on the saved tab.
           window.MockStream.auth.signInWithGoogle(window.location.href);
@@ -337,7 +365,81 @@
         alert('Sign-in failed. Please try again.');
       }
     };
+
+    // Inject the Telegram Login Widget into its slot (mock_stream center only).
+    // The widget renders an iframe button; clicking it opens Telegram's consent
+    // popup, which on success calls window.onTelegramAuth(user). That handler is
+    // defined in landing.html / index.html when present, and falls back to the
+    // local _cbDefaultOnTelegramAuth below for pages where the chat bubble loads
+    // but neither of those handlers is around (e.g. CEFR Listening.html).
+    if (showTelegram) {
+      try {
+        var slot = document.getElementById('cb-signin-telegram-slot');
+        if (slot) {
+          if (typeof window.onTelegramAuth !== 'function') {
+            window.onTelegramAuth = _cbDefaultOnTelegramAuth;
+          }
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://telegram.org/js/telegram-widget.js?22';
+          s.setAttribute('data-telegram-login', _cbBotUsername);
+          s.setAttribute('data-size', 'medium');
+          s.setAttribute('data-onauth', 'onTelegramAuth(user)');
+          s.setAttribute('data-request-access', 'write');
+          slot.appendChild(s);
+        }
+      } catch (_tgErr) { /* widget injection failed — Google still works */ }
+    }
     return false;
+  }
+
+  // Local fallback for window.onTelegramAuth — used on pages where the
+  // chat bubble loads but landing.html / index.html are not in scope to
+  // provide their own handler. Same flow: verify on the Edge Function,
+  // call verifyOtp(), reload (which triggers _maybeAutoResume).
+  async function _cbDefaultOnTelegramAuth(user) {
+    if (!user || !user.id || !user.hash || !user.auth_date) return;
+    var sbUrl = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+    try {
+      var resp = await fetch(sbUrl + '/functions/v1/verify-telegram-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: user.id,
+          first_name: user.first_name || '',
+          last_name: user.last_name || '',
+          username: user.username || '',
+          photo_url: user.photo_url || '',
+          auth_date: user.auth_date,
+          hash: user.hash,
+          center: window.__CENTER_ID || 'mock_stream'
+        })
+      });
+      var data = await resp.json();
+      if (!resp.ok) {
+        alert('Telegram sign-in failed: ' + ((data && data.error) || 'unknown error'));
+        return;
+      }
+      if (!data.email || !data.otp) {
+        alert('Telegram sign-in failed: no session token returned.');
+        return;
+      }
+      var auth = window.MockStream && window.MockStream.auth;
+      var client = auth && auth.getClient && auth.getClient();
+      if (!client) {
+        alert('Authentication library not loaded. Please refresh and try again.');
+        return;
+      }
+      var verifyResp = await client.auth.verifyOtp({ email: data.email, token: data.otp, type: 'email' });
+      if (verifyResp && verifyResp.error) {
+        alert('Telegram sign-in failed: ' + verifyResp.error.message);
+        return;
+      }
+      // _maybeAutoResume will pick up the saved resume key after reload.
+      window.location.reload();
+    } catch (_e) {
+      alert('Telegram sign-in failed. Please check your connection and try again.');
+    }
   }
 
   // Gate: returns true if the user is allowed to send in this category.

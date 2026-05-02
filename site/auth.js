@@ -199,17 +199,24 @@
   // --- Premium / admin role lookup (single source of truth) ---------------
   // Returns { tier, role, center, active, isAdmin } or null if not premium.
   // Cached per-session to avoid refetching on every click.
+  // Matches premium_emails by either email (Google) or telegram_username
+  // (Telegram-only users); RLS lets the user read their own row by either.
   var _premiumCache = null;
   async function checkPremiumRole(force) {
     if (_premiumCache && !force) return _premiumCache;
     var user = _currentUser;
-    if (!user || !user.email) { _premiumCache = null; return null; }
-    var email = String(user.email).toLowerCase();
+    if (!user) { _premiumCache = null; return null; }
+    var email = user.email ? String(user.email).toLowerCase() : '';
+    // Telegram-signed-in users have user_metadata.telegram_username populated
+    // by the verify-telegram-login Edge Function. Strip leading @ defensively.
+    var meta = user.user_metadata || {};
+    var tgUsernameRaw = typeof meta.telegram_username === 'string' ? meta.telegram_username : '';
+    var tgUsername = tgUsernameRaw.toLowerCase().replace(/^@/, '').trim();
+    if (!email && !tgUsername) { _premiumCache = null; return null; }
     try {
       // Use the signed-in user's JWT (not the anon key) so the premium_emails
-      // RLS SELECT policy `pe_read_self_or_admin` can match jwt.email = row.email.
-      // Falls back to the anon key only if no session is available (which would
-      // fail RLS anyway, but keeps the call shape consistent).
+      // RLS SELECT policy can match jwt.email = row.email OR
+      // jwt.user_metadata.telegram_username = row.telegram_username.
       var token = SB_KEY;
       try {
         var client = (window.MockStream && window.MockStream.auth &&
@@ -221,17 +228,38 @@
           if (at) token = at;
         }
       } catch (_) { /* fall through with anon */ }
-      var url = SB_URL + '/rest/v1/premium_emails?email=eq.' +
-        encodeURIComponent(email) + '&select=tier,role,center,active';
+      // Build PostgREST `or=` filter: email match OR telegram_username match.
+      // If only one identity is known, use a single .eq() filter for clarity.
+      var filterParam;
+      if (email && tgUsername) {
+        filterParam = 'or=(email.eq.' + encodeURIComponent(email) +
+                      ',telegram_username.eq.' + encodeURIComponent(tgUsername) + ')';
+      } else if (email) {
+        filterParam = 'email=eq.' + encodeURIComponent(email);
+      } else {
+        filterParam = 'telegram_username=eq.' + encodeURIComponent(tgUsername);
+      }
+      var url = SB_URL + '/rest/v1/premium_emails?' + filterParam +
+                '&select=tier,role,center,active,email,telegram_username';
       var resp = await fetch(url, {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
       });
       if (!resp.ok) { _premiumCache = null; return null; }
       var rows = await resp.json();
       if (!rows.length) { _premiumCache = null; return null; }
+      // If both an email-row AND a telegram-row exist (a user who linked both),
+      // prefer the row with the more specific match for this session: email if
+      // the user signed in with Google, telegram_username otherwise.
       var m = rows[0];
+      if (rows.length > 1) {
+        var byEmail = rows.find(function (r) { return email && r.email && r.email.toLowerCase() === email; });
+        var byTg = rows.find(function (r) { return tgUsername && r.telegram_username && r.telegram_username.toLowerCase() === tgUsername; });
+        // If user has an email (Google), prefer that match; else fall back to telegram.
+        m = (email && byEmail) || byTg || m;
+      }
       var info = {
         email: email,
+        telegram_username: tgUsername,
         tier: m.tier || 'standard',
         role: m.role || null,
         center: m.center || '',
