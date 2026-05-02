@@ -11070,6 +11070,116 @@
             }
             if (!hasAudio) { console.log('No audio for practice send'); return; }
 
+            // ── Add a practice-mode HTML report (mirrors what the full-mock zip ships).
+            // Shows only the practiced part's questions, audio players, AI feedback and score.
+            try {
+              var _partNamesRpt = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
+              var _maxScoresRpt = { p11: 5, p12: 5, p2: 5, p3: 6 };
+              var _partId = window._practicePartId;
+              var _partName = _partNamesRpt[_partId] || 'Part';
+              var _aiRpt = window._practiceAutoAiResult || null;
+              var _testData = window.SPEAKING_TEST_DATA_CACHED || {};
+              var _testQs = (_testData.questions || []);
+              var _imgs = _testData.images || {};
+              var _studentNameRpt = (typeof getStudentName === 'function' ? getStudentName() : ($('#cand') ? $('#cand').value : '')) || 'Student';
+              var _mockNumRpt = window.SELECTED_MOCK_NUMBER || '01';
+              var _siteName = (window._siteLogoWording || (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream');
+              var _esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+
+              // Build question cards for the practiced range
+              var _qCards = '';
+              for (var _qi = range[0]; _qi <= range[1]; _qi++) {
+                var _q = _testQs[_qi] || {};
+                var _qNum = _qi + 1;
+                var _prompt = _q.prompt || ('Question ' + _qNum);
+                var _prep  = _q.prepTime || (_qNum === 4 ? '10s' : (_qNum >= 7 ? '60s' : '5s'));
+                var _badge = _q.badge || (_qNum === 4 ? '45s' : (_qNum >= 7 ? '120s' : '30s'));
+                var _imgsHtml = '';
+                if (_qNum >= 4 && _qNum <= 6 && (_imgs.img1 || _imgs.img2)) {
+                  _imgsHtml = '<div style="display:flex;gap:12px;margin:12px 0;flex-wrap:wrap">'
+                    + (_imgs.img1 ? '<img src="' + _esc(_imgs.img1) + '" style="width:calc(50% - 6px);border-radius:8px;border:2px solid #ddd">' : '')
+                    + (_imgs.img2 ? '<img src="' + _esc(_imgs.img2) + '" style="width:calc(50% - 6px);border-radius:8px;border:2px solid #ddd">' : '')
+                    + '</div>';
+                }
+                // Bullet/debate points for Q7 / Q8
+                var _extra = '';
+                if (_qNum === 7 && _q.bulletPoints) {
+                  _extra = '<ul style="margin:10px 0;padding-left:24px;line-height:1.7">' + _q.bulletPoints.map(function (b) { return '<li>' + _esc(b) + '</li>'; }).join('') + '</ul>';
+                }
+                if (_qNum === 8 && _q.debatePoints) {
+                  _extra = '<div style="background:#dbeafe;padding:12px;border-radius:8px;margin:8px 0"><strong>FOR:</strong><ul style="margin:6px 0 0 18px;line-height:1.7">' + (_q.debatePoints.for || []).map(function (b) { return '<li>' + _esc(b) + '</li>'; }).join('') + '</ul></div>'
+                    + '<div style="background:#fee2e2;padding:12px;border-radius:8px"><strong>AGAINST:</strong><ul style="margin:6px 0 0 18px;line-height:1.7">' + (_q.debatePoints.against || []).map(function (b) { return '<li>' + _esc(b) + '</li>'; }).join('') + '</ul></div>';
+                }
+                // AI per-question feedback
+                var _qK = 'q' + _qNum;
+                var _qFb  = _aiRpt && _aiRpt.questionFeedback   ? _aiRpt.questionFeedback[_qK]   : '';
+                var _qTrn = _aiRpt && _aiRpt.transcriptions     ? (_aiRpt.transcriptions.find(function (t) { return t.questionNum === _qNum; }) || {}).text : '';
+                var _qCor = _aiRpt && _aiRpt.questionCorrected  ? _aiRpt.questionCorrected[_qK]  : '';
+                var _qSam = _aiRpt && _aiRpt.questionSample     ? _aiRpt.questionSample[_qK]     : '';
+                var _aiSection = '';
+                if (_qFb || _qTrn || _qCor || _qSam) {
+                  _aiSection = '<div style="margin-top:14px;background:#f5f3ff;border:2px solid #a78bfa;border-radius:8px;padding:12px">'
+                    + '<div style="font-weight:700;color:#6d28d9;margin-bottom:6px">🤖 AI Analysis</div>'
+                    + (_qTrn ? '<div style="margin:6px 0"><b>Transcription:</b> ' + _esc(_qTrn) + '</div>' : '')
+                    + (_qFb  ? '<div style="margin:6px 0"><b>Feedback:</b> '      + _esc(_qFb)  + '</div>' : '')
+                    + (_qCor ? '<div style="margin:6px 0"><b>Corrected:</b> '     + _esc(_qCor) + '</div>' : '')
+                    + (_qSam ? '<div style="margin:6px 0"><b>Sample answer:</b> ' + _esc(_qSam) + '</div>' : '')
+                    + '</div>';
+                }
+                _qCards += '<div style="background:white;border-radius:10px;padding:18px;margin-bottom:18px;border:2px solid #e0e0e0">'
+                  + '<h3 style="color:#116a60;margin:0 0 10px;border-bottom:2px solid #116a60;padding-bottom:6px">Question ' + _qNum + '</h3>'
+                  + '<div style="font-size:1.05rem;line-height:1.55;margin:10px 0;font-weight:500">' + _esc(_prompt) + '</div>'
+                  + _imgsHtml
+                  + _extra
+                  + '<p style="color:#666;font-size:0.9em;margin:6px 0">⏱️ Prep: ' + _esc(_prep) + ' | Speaking: ' + _esc(_badge) + '</p>'
+                  + '<div style="background:#f0f9ff;padding:12px;border-radius:8px;border:2px solid #3b82f6;margin:10px 0">'
+                  + '<audio controls style="width:100%"><source src="answer_q' + _qNum + '.webm" type="audio/webm"></audio>'
+                  + '</div>'
+                  + _aiSection
+                  + '</div>';
+              }
+
+              // AI summary banner for this part
+              var _aiBanner = '';
+              if (_aiRpt) {
+                var _partScore = _aiRpt[_partId];
+                var _pMax = _maxScoresRpt[_partId];
+                _aiBanner = '<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b;border-radius:12px;padding:18px;margin:16px 0">'
+                  + '<h2 style="color:#92400e;margin:0 0 8px;font-size:1.3rem">🤖 AI Score — ' + _esc(_partName) + '</h2>'
+                  + '<div style="font-size:1.6rem;font-weight:800;color:#b45309">' + (_partScore != null ? _partScore : '—') + '<span style="font-size:1rem;color:#92400e">/' + _pMax + '</span></div>'
+                  + (_aiRpt.cefrLevel ? '<div style="margin-top:6px;color:#78350f"><b>CEFR Level:</b> ' + _esc(_aiRpt.cefrLevel) + '</div>' : '')
+                  + (_aiRpt.feedback ? '<div style="margin-top:10px;background:white;padding:12px;border-radius:8px;line-height:1.6">' + _esc(_aiRpt.feedback) + '</div>' : '')
+                  + '</div>';
+              }
+
+              var _practiceReportHTML = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+                + '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+                + '<title>' + _esc(_siteName) + ' — Speaking Practice Report (' + _esc(_partName) + ')</title>'
+                + '<style>body{font-family:Segoe UI,system-ui,sans-serif;background:#f5f5f5;margin:0;padding:20px;line-height:1.6;color:#333}'
+                + '.container{max-width:1100px;margin:0 auto;background:white;padding:28px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1)}'
+                + 'h1{color:#116a60;text-align:center;margin:0 0 18px;font-size:1.7rem;border-bottom:3px solid #116a60;padding-bottom:14px}'
+                + '.meta{background:#f9fafb;padding:18px;border-radius:8px;margin-bottom:22px;border:1px solid #e5e7eb;line-height:1.8}'
+                + '.meta b{color:#116a60}'
+                + '.tag{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:14px;font-size:.8rem;font-weight:700;margin-left:8px}'
+                + '</style></head><body><div class="container">'
+                + '<h1>🎙️ ' + _esc(_siteName) + ' · Speaking Practice Report<span class="tag">' + _esc(_partName) + '</span></h1>'
+                + '<div class="meta">'
+                +   '<b>👤 Student:</b> ' + _esc(_studentNameRpt) + '<br>'
+                +   '<b>📅 Date:</b> ' + new Date().toLocaleDateString('en-GB') + '<br>'
+                +   '<b>⏱️ Time:</b> ' + new Date().toLocaleTimeString('en-GB') + '<br>'
+                +   '<b>🔢 Mock №:</b> ' + _esc(_mockNumRpt) + '<br>'
+                +   '<b>🎯 Practiced part:</b> ' + _esc(_partName) + ' (Q' + (range[0] + 1) + '–Q' + (range[1] + 1) + ')'
+                + '</div>'
+                + _aiBanner
+                + _qCards
+                + '</div></body></html>';
+
+              resultsZip.file('Speaking_Practice_Report.html', _practiceReportHTML);
+              console.log('📄 Practice report HTML added to zip');
+            } catch (rptErr) {
+              console.warn('Practice report generation failed:', rptErr);
+            }
+
             var content = await resultsZip.generateAsync({ type: 'blob' });
             var studentName = getStudentNameForZip();
             var fd = new FormData();
