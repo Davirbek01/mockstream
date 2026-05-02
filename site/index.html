@@ -2833,6 +2833,11 @@
         </button>
         <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
 
+        <!-- Telegram login (Phase 1: only on mock_stream main domain — populated by JS) -->
+        <div class="telegram-signin-wrap" id="telegramSigninWrap" style="display:none;margin-top:10px;justify-content:center;">
+          <div id="telegramSigninSlot"></div>
+        </div>
+
         <div class="name-or-separator" id="nameOrSeparator"><span>yoki mehmon sifatida</span></div>
 
         <div class="name-field-group">
@@ -4479,6 +4484,145 @@
         }
         alert('Google sign-in failed: ' + (e && e.message ? e.message : 'unknown error'));
       });
+    }
+
+    // ===== Telegram Login (Phase 1: only on mock_stream main domain) =====
+    var _idxTgWidgetInjected = false;
+    function _initTelegramLogin() {
+      if (window.__CENTER_ID !== 'mock_stream') return;
+      var wrap = document.getElementById('telegramSigninWrap');
+      var slot = document.getElementById('telegramSigninSlot');
+      if (!wrap || !slot) return;
+      wrap.style.display = 'flex';
+      if (_idxTgWidgetInjected) return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://telegram.org/js/telegram-widget.js?22';
+      s.setAttribute('data-telegram-login', 'mockstream_login_bot');
+      s.setAttribute('data-size', 'medium');
+      s.setAttribute('data-onauth', 'onTelegramAuth(user)');
+      s.setAttribute('data-request-access', 'write');
+      slot.appendChild(s);
+      _idxTgWidgetInjected = true;
+    }
+    // Run on DOMContentLoaded so the slot exists when the widget script runs
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', _initTelegramLogin);
+    } else {
+      _initTelegramLogin();
+    }
+
+    // Telegram widget callback — verifies via Edge Function then establishes
+    // a Supabase session via verifyOtp. Existing post-sign-in code paths
+    // (auth.js + tryShowApp) take over after that.
+    window.onTelegramAuth = async function (user) {
+      if (!user || !user.id || !user.hash || !user.auth_date) {
+        console.warn('[telegram-login] invalid widget payload', user);
+        return;
+      }
+      var sbUrl = window.SUPABASE_URL || 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      try {
+        var resp = await fetch(sbUrl + '/functions/v1/verify-telegram-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: user.id,
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            username: user.username || '',
+            photo_url: user.photo_url || '',
+            auth_date: user.auth_date,
+            hash: user.hash
+          })
+        });
+        var data = await resp.json();
+        if (!resp.ok) {
+          console.error('[telegram-login] verify failed:', resp.status, data);
+          if (data && data.error === 'ambiguous_name_match') {
+            alert('Multiple accounts share your name. Please sign in with Google first to confirm which account is yours, then try Telegram again.');
+          } else {
+            alert('Telegram sign-in failed: ' + (data.error || 'unknown error'));
+          }
+          return;
+        }
+        if (!data.email || !data.otp) {
+          alert('Telegram sign-in failed: no session token returned.');
+          return;
+        }
+        var auth = window.MockStream && window.MockStream.auth;
+        var client = auth && auth.getClient && auth.getClient();
+        if (!client) {
+          alert('Authentication library not loaded. Please refresh and try again.');
+          return;
+        }
+        var verifyResp = await client.auth.verifyOtp({ email: data.email, token: data.otp, type: 'email' });
+        if (verifyResp && verifyResp.error) {
+          console.error('[telegram-login] verifyOtp error:', verifyResp.error);
+          alert('Telegram sign-in failed: ' + verifyResp.error.message);
+          return;
+        }
+        console.log('[telegram-login] session established. created_new=' + data.created_new
+          + ' merged_from_google=' + data.merged_from_google);
+        if (data.needs_legal_name_confirm) {
+          _idxOpenLegalNameModal(((data.profile && data.profile.first_name) || '') + ' '
+                                  + ((data.profile && data.profile.last_name) || ''));
+        } else {
+          // auth.js's onAuthStateChange has already populated CANDIDATE_FULL_NAME
+          // etc. Just reload so the rest of the page picks up the session.
+          window.location.reload();
+        }
+      } catch (e) {
+        console.error('[telegram-login] exception:', e);
+        alert('Telegram sign-in failed. Please check your connection and try again.');
+      }
+    };
+
+    // One-time legal-name confirmation modal for first-time Telegram-only users.
+    function _idxOpenLegalNameModal(prefilled) {
+      if (document.getElementById('lnmOverlay')) return;
+      var ov = document.createElement('div');
+      ov.id = 'lnmOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+      ov.innerHTML =
+        '<div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25);">'
+        + '<div style="text-align:center;font-size:38px;margin-bottom:6px;">📜</div>'
+        + '<h3 style="margin:0 0 6px;color:#0f172a;text-align:center;font-size:18px;">To‘liq ismingizni tasdiqlang</h3>'
+        + '<p style="margin:0 0 14px;color:#64748b;font-size:13px;text-align:center;line-height:1.5;">'
+        +   'Bu nom sertifikatda ko‘rsatiladi. Telegram\'dagi nom odatda haqiqiy ism emas.'
+        + '</p>'
+        + '<input type="text" id="lnmName" maxlength="80" placeholder="Familiya Ism" '
+        +   'style="width:100%;padding:12px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:15px;outline:none;"'
+        +   'value="' + (prefilled || '').replace(/"/g, '&quot;').trim() + '">'
+        + '<div style="display:flex;gap:10px;margin-top:16px;">'
+        +   '<button id="lnmSkip" style="flex:1;padding:11px 0;border:2px solid #e2e8f0;background:#fff;color:#475569;border-radius:10px;font-weight:600;cursor:pointer;">Shu nom</button>'
+        +   '<button id="lnmSave" style="flex:1;padding:11px 0;border:0;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-radius:10px;font-weight:700;cursor:pointer;">Saqlash</button>'
+        + '</div>'
+        + '</div>';
+      document.body.appendChild(ov);
+      var input = document.getElementById('lnmName');
+      input.focus(); input.select();
+      function _close(useName) {
+        var auth = window.MockStream && window.MockStream.auth;
+        var name = (useName || '').trim();
+        (async function () {
+          try {
+            var c = auth && auth.getClient && auth.getClient();
+            if (c && name) {
+              await c.auth.updateUser({ data: { full_name: name } });
+            }
+          } catch (e) { console.warn('[telegram-login] updateUser failed', e); }
+          try {
+            if (name) {
+              sessionStorage.setItem('CANDIDATE_FULL_NAME', name);
+              localStorage.setItem('ms_candidate_name', name);
+            }
+          } catch (e) {}
+          ov.remove();
+          window.location.reload();
+        })();
+      }
+      document.getElementById('lnmSkip').onclick = function () { _close(input.value); };
+      document.getElementById('lnmSave').onclick = function () { _close(input.value); };
     }
 
     // When opened inside Telegram (mobile or desktop Mini App), Google OAuth
