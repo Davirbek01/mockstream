@@ -3078,14 +3078,13 @@
     var _autoRefreshTimer = null;
     var AUTO_REFRESH_DEFAULT_MS = 60000;
     var AUTO_REFRESH_MS = AUTO_REFRESH_DEFAULT_MS;
-    var AUTO_REFRESH_ENABLED = true;
-
-    (function loadAutoRefreshSettings() {
-      var savedMs = parseInt(localStorage.getItem('dashboard-auto-refresh-ms') || '', 10);
-      if (!isNaN(savedMs) && savedMs >= 10000) AUTO_REFRESH_MS = savedMs;
-      var savedEnabled = localStorage.getItem('dashboard-auto-refresh-enabled');
-      if (savedEnabled !== null) AUTO_REFRESH_ENABLED = savedEnabled === 'true';
-    })();
+    // Auto-refresh is permanently OFF — the UI toggle was removed earlier
+    // because admins found the periodic page-blanking disruptive while reading
+    // a long results list. Hardcoded false (not read from localStorage) so
+    // any leftover 'true' value from before doesn't resurrect it.
+    var AUTO_REFRESH_ENABLED = false;
+    // Clean up the stale flag so it doesn't keep showing in browser dev tools.
+    try { localStorage.removeItem('dashboard-auto-refresh-enabled'); } catch (_e) {}
 
     // ====================================================================
     // THEME
@@ -3345,8 +3344,9 @@
       // Check for unread messages (admin notification)
       checkUnreadMessages();
       setInterval(checkUnreadMessages, 60000); // Re-check every 60s
-      updateAutoRefreshUI();
-      startResultsAutoRefresh();
+      // Auto-refresh of results was removed — see AUTO_REFRESH_ENABLED above.
+      // The function bodies below remain in case the toggle UI is re-added later,
+      // but nothing calls them on startup.
     }
 
     function startResultsAutoRefresh() {
