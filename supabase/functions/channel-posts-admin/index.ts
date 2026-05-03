@@ -18,7 +18,9 @@ import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const CHANNEL_ID = '@mock_stream';
-const FOOTER = `\n\n━━━━━━━━━━━━━\n🌐 mock\\-stream\\.com\n📺 youtube\\.com/@Mock\\-Stream\n💬 @DavirbekKhasanov\n📧 davirbekkhasanov@gmail\\.com`;
+// Plain-text footer (no parse_mode = no escaping needed). Telegram still
+// renders the URLs as clickable links and the emojis as emojis.
+const FOOTER = `\n\n━━━━━━━━━━━━━\n🌐 mock-stream.com\n📺 youtube.com/@Mock-Stream\n💬 @DavirbekKhasanov\n📧 davirbekkhasanov@gmail.com`;
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -149,7 +151,8 @@ Deno.serve(async (req) => {
           chat_id: CHANNEL_ID,
           photo: post.image_url,
           caption: captionOrText,
-          parse_mode: 'MarkdownV2',
+          // No parse_mode — plain text. Avoids Telegram's strict MarkdownV2
+          // escaping rules that Gemini gets wrong intermittently.
         }),
       });
     } else {
@@ -159,7 +162,8 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           chat_id: CHANNEL_ID,
           text: captionOrText,
-          parse_mode: 'MarkdownV2',
+          // No parse_mode — plain text. Avoids Telegram's strict MarkdownV2
+          // escaping rules that Gemini gets wrong intermittently.
           disable_web_page_preview: true,
         }),
       });

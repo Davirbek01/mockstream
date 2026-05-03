@@ -34,30 +34,44 @@ function jok(body: unknown) {
 
 // Topic pool with system instructions for Gemini. Each topic yields a short
 // channel post (100–250 words). Add new topics by appending here.
+// Common formatting guard appended to every prompt — keeps the AI from
+// introducing MarkdownV2 syntax (which Telegram's strict parser rejects
+// when special chars like ! or . aren't backslash-escaped). We post in
+// plain-text mode, so structure comes from emojis and line breaks only.
+const PLAIN_TEXT_RULES = `
+
+OUTPUT FORMAT RULES (strict):
+- Plain text only. NO markdown syntax of any kind.
+- Do NOT use *, _, [, ], (, ), \`, ~, # for formatting — they will appear literally.
+- Do NOT escape any character with backslash. Write punctuation normally.
+- Use emojis and line breaks for visual structure.
+- URLs render as clickable text automatically — but do NOT include any URLs (footer is appended separately).
+- Output the post body directly with no preamble, no "Here's a post:", no quotes around it.`;
+
 const TOPICS: Record<string, { label: string; textPrompt: string; imagePrompt: string }> = {
   ad_mock_stream: {
     label: 'Mock Stream promo',
-    textPrompt: `Write a friendly, non-pushy Telegram channel post (100-150 words) promoting Mock Stream — a free CEFR & IELTS exam prep platform. Highlight ONE specific feature each time (e.g. AI scoring, mock tests, instant feedback, multi-skill coverage). Include 2-3 relevant emojis. End with a clear CTA. Use Telegram MarkdownV2 formatting (bold with *, italic with _, escape special chars). Do NOT include any URLs or contact info — those are appended as a footer.`,
+    textPrompt: `Write a friendly, non-pushy Telegram channel post (100-150 words) promoting Mock Stream — a free CEFR & IELTS exam prep platform. Highlight ONE specific feature each time (e.g. AI scoring, mock tests, instant feedback, multi-skill coverage). Include 2-3 relevant emojis. End with a clear CTA.` + PLAIN_TEXT_RULES,
     imagePrompt: `A clean, modern illustration of a student studying English for an exam, with subtle Mock Stream branding feel — teal and orange color palette. Flat design, minimal text on image, 1:1 square format suitable for social media.`,
   },
   english_lifehack: {
     label: 'English study lifehack',
-    textPrompt: `Write a Telegram channel post (120-180 words) sharing ONE specific, actionable English-learning lifehack (e.g. shadowing technique, spaced repetition for vocab, reading aloud for fluency). Make it concrete with a 30-second example. Use 2-3 emojis. Telegram MarkdownV2 format (bold *, italic _, escape special chars). End with a question that invites engagement (no contact info — that's the footer).`,
+    textPrompt: `Write a Telegram channel post (120-180 words) sharing ONE specific, actionable English-learning lifehack (e.g. shadowing technique, spaced repetition for vocab, reading aloud for fluency). Make it concrete with a 30-second example. Use 2-3 emojis. End with a question that invites engagement.` + PLAIN_TEXT_RULES,
     imagePrompt: `A flat illustration of a study lifehack concept — visual metaphor like a brain with arrows, a notebook with sticky notes, or earbuds with sound waves. Soft pastel colors, friendly, square format.`,
   },
   cefr_grammar_micro: {
     label: 'CEFR grammar micro-lesson',
-    textPrompt: `Write a Telegram channel post (150-200 words) teaching ONE specific grammar point typically tested in CEFR exams (B1-C1 level). Pick a small precise topic — NOT "tenses in general" but e.g. "third conditional with 'wish'" or "reported speech: backshifting". Structure: 1) the rule in one sentence, 2) 2-3 example sentences, 3) ONE common mistake learners make. Use Telegram MarkdownV2. 2-3 emojis. No external links.`,
+    textPrompt: `Write a Telegram channel post (150-200 words) teaching ONE specific grammar point typically tested in CEFR exams (B1-C1 level). Pick a small precise topic — NOT "tenses in general" but e.g. "third conditional with 'wish'" or "reported speech: backshifting". Structure: 1) the rule in one sentence, 2) 2-3 example sentences, 3) ONE common mistake learners make. 2-3 emojis.` + PLAIN_TEXT_RULES,
     imagePrompt: `A minimalist chalkboard or notebook page illustration showing a grammar concept abstractly — formula-like layout, neat handwriting feel. Educational, professional, square format.`,
   },
   ielts_writing_phrase: {
     label: 'IELTS writing phrase',
-    textPrompt: `Write a Telegram channel post (120-180 words) introducing ONE high-impact phrase or collocation used in IELTS Writing Task 2 (band 7+ vocabulary). Format: 1) the phrase in bold, 2) what it means, 3) one example sentence in context, 4) when NOT to use it (overuse warning). Telegram MarkdownV2. 2-3 emojis. End with an encouragement to try using it in their next practice.`,
+    textPrompt: `Write a Telegram channel post (120-180 words) introducing ONE high-impact phrase or collocation used in IELTS Writing Task 2 (band 7+ vocabulary). Structure: 1) the phrase, 2) what it means, 3) one example sentence in context, 4) when NOT to use it (overuse warning). 2-3 emojis. End with an encouragement to try using it in their next practice.` + PLAIN_TEXT_RULES,
     imagePrompt: `An illustration of a hand writing in an exam booklet with a fountain pen, professional and academic feel. Subtle warm lighting, square format. No specific text on the page.`,
   },
   cefr_speaking_tip: {
     label: 'CEFR speaking exam tip',
-    textPrompt: `Write a Telegram channel post (120-180 words) giving ONE practical tip for the CEFR Speaking exam (specific to the Uzbekistan CEFR format with 4 parts: Q1-3 short answers, Q4-6 picture description, Q7 monologue, Q8 discussion). Pick ONE: handling nerves, stalling phrases, comparing pictures, structuring a monologue, etc. Make it actionable. Telegram MarkdownV2. 2-3 emojis. No external links.`,
+    textPrompt: `Write a Telegram channel post (120-180 words) giving ONE practical tip for the CEFR Speaking exam (specific to the Uzbekistan CEFR format with 4 parts: Q1-3 short answers, Q4-6 picture description, Q7 monologue, Q8 discussion). Pick ONE: handling nerves, stalling phrases, comparing pictures, structuring a monologue, etc. Make it actionable. 2-3 emojis.` + PLAIN_TEXT_RULES,
     imagePrompt: `A friendly illustration of a student speaking confidently in an exam setting with an examiner — clear gestures, calm vibe, soft warm colors, square format.`,
   },
 };
