@@ -1798,6 +1798,7 @@
         <button class="topbar-btn main-site-only" onclick="openSettingsPanel()" style="background:linear-gradient(135deg,#059669,#047857);color:white;font-weight:700;">⚙️ Settings</button>
         <button class="topbar-btn main-site-only" onclick="openCenterHub()" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;font-weight:700;">🏢 Centers</button>
         <button class="topbar-btn main-site-only" onclick="openStoragePanel()" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:white;font-weight:700;">💾 Storage</button>
+        <button class="topbar-btn main-site-only" onclick="openChannelPostsPanel()" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;font-weight:700;">📰 News</button>
         <button class="topbar-btn main-site-only" id="returnMainBtn" style="display:none;background:linear-gradient(135deg,#f59e0b,#dc2626);color:white;font-weight:700;animation:chPulse 2s infinite;" onclick="returnToMainSite()">🏠 Return to Mock Stream</button>
         <button class="topbar-btn" onclick="refreshResults()">🔄 Refresh</button>
         <button class="topbar-btn" onclick="window.location.href='../landing.html'">🏠 Home</button>
@@ -2686,6 +2687,91 @@
       </div>
     </div>
   </div>
+
+  <!-- ===== CHANNEL POSTS (NEWS) OVERLAY ===== -->
+  <div class="premium-overlay" id="channelPostsOverlay">
+    <div class="premium-container" style="max-width:920px;">
+      <div class="premium-header" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">
+        <h3>📰 Channel Posts — Review Queue</h3>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="cpGenerateNowBtn" onclick="cpGenerateNow()" style="background:rgba(255,255,255,0.22);border:none;color:white;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;">⚡ Generate Now</button>
+          <button class="viewer-close" onclick="closeChannelPostsPanel()">✕</button>
+        </div>
+      </div>
+      <div class="premium-body" id="channelPostsBody">
+        <!-- Top-level tabs: Posts queue vs Settings -->
+        <div style="display:flex;gap:6px;margin-bottom:12px;border-bottom:2px solid #e2e8f0;">
+          <button class="cp-tab cp-tab-active" data-cptab="posts" onclick="cpSetTab('posts')">📋 Posts</button>
+          <button class="cp-tab" data-cptab="settings" onclick="cpSetTab('settings')">⚙️ Settings</button>
+          <button class="cp-tab" data-cptab="topics" onclick="cpSetTab('topics')">📚 Topics</button>
+        </div>
+
+        <!-- POSTS tab -->
+        <div id="cpTabPosts">
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
+            <span style="font-size:12px;color:#64748b;">Filter:</span>
+            <button class="cp-filter-btn cp-filter-active" data-cpfilter="pending" onclick="cpSetFilter('pending')">Pending <span id="cpCountPending"></span></button>
+            <button class="cp-filter-btn" data-cpfilter="published" onclick="cpSetFilter('published')">Published <span id="cpCountPublished"></span></button>
+            <button class="cp-filter-btn" data-cpfilter="rejected" onclick="cpSetFilter('rejected')">Rejected <span id="cpCountRejected"></span></button>
+            <button class="cp-filter-btn" data-cpfilter="failed" onclick="cpSetFilter('failed')">Failed <span id="cpCountFailed"></span></button>
+            <div style="margin-left:auto;font-size:11px;color:#94a3b8;">Channel: <code id="cpChannelLabel">t.me/mock_stream</code></div>
+          </div>
+          <div id="cpMsg" style="min-height:18px;font-size:12px;margin-bottom:8px;"></div>
+          <div id="cpList" class="cp-list">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- SETTINGS tab -->
+        <div id="cpTabSettings" style="display:none;">
+          <div id="cpSettingsBody"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+
+        <!-- TOPICS tab -->
+        <div id="cpTabTopics" style="display:none;">
+          <div id="cpTopicsBody"><div class="loading"><div class="spinner"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    .cp-tab { padding:8px 16px;border:none;background:transparent;color:#64748b;font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px; }
+    .cp-tab.cp-tab-active { color:#0ea5e9;border-bottom-color:#0ea5e9; }
+    .cp-settings-row { display:flex;gap:10px;align-items:flex-start;margin:14px 0;padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px; }
+    [data-theme="dark"] .cp-settings-row { background:#1e293b;border-color:#334155; }
+    .cp-settings-row label { display:block;font-weight:700;font-size:13px;color:#0f172a;margin-bottom:6px; }
+    [data-theme="dark"] .cp-settings-row label { color:#e2e8f0; }
+    .cp-settings-row .cp-help { font-size:11px;color:#94a3b8;margin-top:4px; }
+    .cp-settings-row input[type="text"], .cp-settings-row input[type="number"], .cp-settings-row textarea, .cp-settings-row select { width:100%;padding:8px 10px;border:1px solid #cbd5e1;border-radius:7px;font-size:13px;box-sizing:border-box; }
+    .cp-settings-row textarea { resize:vertical;min-height:100px;font-family:'Segoe UI',monospace; }
+    .cp-toggle { display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:700; }
+    .cp-toggle input { width:auto !important; transform:scale(1.3); }
+    .cp-topic-card { border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:14px;background:#fff; }
+    [data-theme="dark"] .cp-topic-card { background:#1e293b;border-color:#334155;color:#e2e8f0; }
+    .cp-topic-card .cp-key { font-family:monospace;background:#f1f5f9;padding:2px 8px;border-radius:6px;font-size:12px;color:#475569; }
+    .cp-topic-card .cp-actions { display:flex;gap:6px;margin-top:10px; }
+  </style>
+  <style>
+    .cp-filter-btn { padding:5px 12px;border:1px solid #cbd5e1;border-radius:18px;background:#fff;color:#475569;font-size:12px;font-weight:600;cursor:pointer; }
+    .cp-filter-btn.cp-filter-active { background:#0ea5e9;color:#fff;border-color:#0ea5e9; }
+    .cp-list { display:flex;flex-direction:column;gap:14px; }
+    .cp-card { border:1px solid #e2e8f0;border-radius:12px;padding:14px;background:#fff;display:grid;grid-template-columns:160px 1fr;gap:14px; }
+    [data-theme="dark"] .cp-card { background:#1e293b;border-color:#334155;color:#e2e8f0; }
+    .cp-card .cp-img { width:160px;height:160px;border-radius:8px;background:#f1f5f9;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:32px;color:#94a3b8; }
+    .cp-card .cp-meta { font-size:11px;color:#64748b;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center; }
+    .cp-card .cp-topic-badge { background:#e0f2fe;color:#0369a1;padding:2px 10px;border-radius:10px;font-weight:700;font-size:11px; }
+    .cp-card textarea { width:100%;min-height:130px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-family:'Segoe UI',monospace;font-size:13px;line-height:1.5;resize:vertical;box-sizing:border-box; }
+    .cp-card .cp-actions { display:flex;gap:8px;margin-top:10px;flex-wrap:wrap; }
+    .cp-card .cp-btn { padding:7px 14px;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer; }
+    .cp-card .cp-btn-approve { background:#10b981;color:#fff; }
+    .cp-card .cp-btn-reject  { background:#ef4444;color:#fff; }
+    .cp-card .cp-btn-save    { background:#6366f1;color:#fff; }
+    .cp-card .cp-btn-delete  { background:#94a3b8;color:#fff; }
+    .cp-card .cp-btn:disabled { opacity:.55;cursor:wait; }
+    .cp-empty { text-align:center;padding:40px 20px;color:#94a3b8; }
+    .cp-error-banner { margin-top:8px;padding:8px 10px;background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;border-radius:8px;font-size:12px; }
+    @media (max-width:680px) { .cp-card { grid-template-columns:1fr;} .cp-card .cp-img { width:100%;height:200px; } }
+  </style>
 
   <!-- ===== CENTER HUB OVERLAY ===== -->
   <div class="premium-overlay" id="centerHubOverlay">
@@ -7848,6 +7934,448 @@
     }
     function closeStoragePanel() {
       document.getElementById('storageOverlay').classList.remove('show');
+    }
+
+    // ============================================================
+    // CHANNEL POSTS (NEWS) — review queue for AI-generated posts
+    // All ops route through the channel-posts-admin Edge Function which
+    // does its own server-side admin check by admin_email (works for both
+    // dashboard 'email' mode and 'supabase' Google mode — no JWT needed).
+    // ============================================================
+    var _cpFilter = 'pending';
+    var _cpRows = [];
+
+    function _cpAdminEmail() {
+      // Try Google session first (fresh JWT email), fall back to email-mode storage
+      try {
+        var u = (window.MockStream && window.MockStream.auth && window.MockStream.auth.getCurrentUser
+                 && window.MockStream.auth.getCurrentUser());
+        if (u && u.email) return u.email.toLowerCase();
+      } catch (_e) {}
+      return (localStorage.getItem('ms_admin_email') || '').toLowerCase();
+    }
+    async function _cpAdminCall(payload) {
+      var adminEmail = _cpAdminEmail();
+      if (!adminEmail) throw new Error('No admin email available — sign in with Google or email mode first');
+      var resp = await fetch(SUPABASE_URL + '/functions/v1/channel-posts-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({ admin_email: adminEmail }, payload))
+      });
+      var data = await resp.json();
+      if (!resp.ok || !data.ok) throw new Error(data.detail || data.error || ('HTTP ' + resp.status));
+      return data;
+    }
+    function _cpMsg(text, kind) {
+      var el = document.getElementById('cpMsg');
+      if (!el) return;
+      el.textContent = text || '';
+      el.style.color = kind === 'error' ? '#dc2626' : (kind === 'success' ? '#10b981' : '#475569');
+    }
+    function _cpEsc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function openChannelPostsPanel() {
+      var authMethod = sessionStorage.getItem('dashboard-auth-method');
+      if (authMethod !== 'email' && authMethod !== 'supabase') {
+        alert('⚠️ Channel Posts requires admin email login.\nPlease log out and sign in with your admin email.');
+        return;
+      }
+      document.getElementById('channelPostsOverlay').classList.add('show');
+      cpLoadAll();
+    }
+    function closeChannelPostsPanel() {
+      document.getElementById('channelPostsOverlay').classList.remove('show');
+    }
+    function cpSetFilter(f) {
+      _cpFilter = f;
+      var btns = document.querySelectorAll('.cp-filter-btn');
+      btns.forEach(function (b) {
+        if (b.getAttribute('data-cpfilter') === f) b.classList.add('cp-filter-active');
+        else b.classList.remove('cp-filter-active');
+      });
+      _cpRender();
+    }
+
+    async function cpLoadAll() {
+      var listEl = document.getElementById('cpList');
+      listEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      try {
+        var data = await _cpAdminCall({ op: 'list' });
+        _cpRows = data.rows || [];
+        // Update filter count badges from server-side counts
+        ['pending','published','rejected','failed'].forEach(function (s) {
+          var c = (data.counts && data.counts[s]) || 0;
+          var el = document.getElementById('cpCount' + s.charAt(0).toUpperCase() + s.slice(1));
+          if (el) el.textContent = c ? '(' + c + ')' : '';
+        });
+      } catch (e) {
+        _cpMsg('Failed to load: ' + (e.message || e), 'error');
+        _cpRows = [];
+      }
+      _cpRender();
+    }
+
+    function _cpRender() {
+      var listEl = document.getElementById('cpList');
+      var rows = _cpRows.filter(function (r) { return r.status === _cpFilter; });
+      if (rows.length === 0) {
+        listEl.innerHTML = '<div class="cp-empty">📭 No <b>' + _cpEsc(_cpFilter) + '</b> posts yet.<br><small>Cron fires twice daily M-F. Click "Generate Now" to make one immediately for testing.</small></div>';
+        return;
+      }
+      var TOPIC_LABELS = {
+        ad_mock_stream: '📣 Mock Stream promo',
+        english_lifehack: '💡 English lifehack',
+        cefr_grammar_micro: '📐 CEFR grammar',
+        ielts_writing_phrase: '✍️ IELTS phrase',
+        cefr_speaking_tip: '🎙 Speaking tip'
+      };
+      var html = '';
+      rows.forEach(function (r) {
+        var imgStyle = r.image_url
+          ? 'background-image:url(' + JSON.stringify(r.image_url) + ');'
+          : '';
+        var imgPlaceholder = r.image_url ? '' : '🖼';
+        var topicLabel = TOPIC_LABELS[r.topic] || r.topic;
+        var dt = new Date(r.created_at);
+        var dtStr = dt.toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+        var actions = '';
+        if (r.status === 'pending' || r.status === 'failed') {
+          actions =
+            '<button class="cp-btn cp-btn-save"    onclick="cpSaveEdit(\'' + r.id + '\')">💾 Save edits</button>' +
+            '<button class="cp-btn cp-btn-approve" onclick="cpApprove(\'' + r.id + '\')">✅ Approve &amp; Publish</button>' +
+            '<button class="cp-btn cp-btn-reject"  onclick="cpReject(\'' + r.id + '\')">❌ Reject</button>';
+        } else {
+          actions = '<button class="cp-btn cp-btn-delete" onclick="cpDelete(\'' + r.id + '\')">🗑 Delete row</button>';
+          if (r.status === 'published' && r.telegram_message_id) {
+            actions = '<a href="https://t.me/mock_stream/' + r.telegram_message_id + '" target="_blank" rel="noopener" style="font-size:12px;color:#0284c7;font-weight:700;text-decoration:none;">📨 View on Telegram</a>' + actions;
+          }
+        }
+        var errBanner = r.error_message
+          ? '<div class="cp-error-banner">⚠️ ' + _cpEsc(r.error_message) + '</div>' : '';
+        html += '<div class="cp-card" id="cp-card-' + r.id + '">'
+          + '<div class="cp-img" style="' + imgStyle + '">' + imgPlaceholder + '</div>'
+          + '<div>'
+          +   '<div class="cp-meta">'
+          +     '<span class="cp-topic-badge">' + _cpEsc(topicLabel) + '</span>'
+          +     '<span>' + _cpEsc(dtStr) + '</span>'
+          +     '<span>· status: <b>' + _cpEsc(r.status) + '</b></span>'
+          +   '</div>'
+          +   '<textarea id="cp-text-' + r.id + '">' + _cpEsc(r.text_content) + '</textarea>'
+          +   '<div class="cp-actions">' + actions + '</div>'
+          +   errBanner
+          + '</div>'
+          + '</div>';
+      });
+      listEl.innerHTML = html;
+    }
+
+    async function cpGenerateNow() {
+      var btn = document.getElementById('cpGenerateNowBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating...';
+      _cpMsg('Calling Gemini for text + image (~10-20s)...', 'info');
+      try {
+        var resp = await fetch(SUPABASE_URL + '/functions/v1/generate-channel-post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slot: 'manual' })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data.ok) throw new Error(data.detail || data.error || ('HTTP ' + resp.status));
+        _cpMsg('✅ Generated: ' + data.topic + (data.has_image ? ' (with image)' : ' (image failed)'), 'success');
+        cpSetFilter('pending');
+        await cpLoadAll();
+      } catch (e) {
+        _cpMsg('Failed: ' + (e.message || e), 'error');
+      }
+      btn.disabled = false;
+      btn.textContent = '⚡ Generate Now';
+    }
+
+    async function cpSaveEdit(id) {
+      var ta = document.getElementById('cp-text-' + id);
+      var newText = ta ? ta.value : '';
+      try {
+        await _cpAdminCall({ op: 'update_text', post_id: id, text_content: newText });
+        var row = _cpRows.find(function (r) { return r.id === id; });
+        if (row) row.text_content = newText;
+        _cpMsg('💾 Edits saved', 'success');
+      } catch (e) {
+        _cpMsg('Save failed: ' + (e.message || e), 'error');
+      }
+    }
+
+    async function cpApprove(id) {
+      // Save the current edit first (in case admin edited but didn't click Save)
+      await cpSaveEdit(id);
+      _cpMsg('Posting to t.me/mock_stream ...', 'info');
+      try {
+        var data = await _cpAdminCall({ op: 'publish', post_id: id });
+        _cpMsg('✅ Published! Telegram message id: ' + data.telegram_message_id + (data.used_image ? ' (with image)' : ' (text only — caption was too long)'), 'success');
+        await cpLoadAll();
+      } catch (e) {
+        _cpMsg('Publish failed: ' + (e.message || e), 'error');
+        await cpLoadAll();
+      }
+    }
+
+    async function cpReject(id) {
+      if (!confirm('Reject this post? It will be marked rejected and not published.')) return;
+      try {
+        await _cpAdminCall({ op: 'reject', post_id: id });
+        _cpMsg('❌ Rejected', 'success');
+        await cpLoadAll();
+      } catch (e) {
+        _cpMsg('Reject failed: ' + (e.message || e), 'error');
+      }
+    }
+
+    async function cpDelete(id) {
+      if (!confirm('Permanently delete this post row?')) return;
+      try {
+        await _cpAdminCall({ op: 'delete', post_id: id });
+        _cpMsg('🗑 Deleted', 'success');
+        await cpLoadAll();
+      } catch (e) {
+        _cpMsg('Delete failed: ' + (e.message || e), 'error');
+      }
+    }
+
+    // ============================================================
+    // News panel — tab switcher
+    // ============================================================
+    function cpSetTab(tab) {
+      var tabs = ['posts','settings','topics'];
+      tabs.forEach(function (t) {
+        var btn = document.querySelector('.cp-tab[data-cptab="' + t + '"]');
+        var pane = document.getElementById('cpTab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (btn) btn.classList.toggle('cp-tab-active', t === tab);
+        if (pane) pane.style.display = (t === tab) ? '' : 'none';
+      });
+      if (tab === 'settings') cpLoadSettings();
+      if (tab === 'topics')   cpLoadTopics();
+    }
+
+    // ============================================================
+    // SETTINGS tab
+    // ============================================================
+    var _cpSettings = null;
+    var CP_CRON_PRESETS = {
+      once_daily:        '1× per day  (M-F, 09:00 Tashkent)',
+      twice_daily:       '2× per day  (M-F, 09:00 + 17:00 Tashkent)',
+      thrice_daily:      '3× per day  (M-F, 08:00 + 13:00 + 18:00 Tashkent)',
+      four_times_daily:  '4× per day  (M-F, 08:00 + 12:00 + 16:00 + 20:00 Tashkent)'
+    };
+
+    async function cpLoadSettings() {
+      var bodyEl = document.getElementById('cpSettingsBody');
+      bodyEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      try {
+        var data = await _cpAdminCall({ op: 'settings_get' });
+        _cpSettings = data.settings;
+        cpRenderSettings();
+        // Sync the channel label in the posts tab
+        var ch = document.getElementById('cpChannelLabel');
+        if (ch && _cpSettings.channel_id) ch.textContent = 't.me/' + _cpSettings.channel_id.replace(/^@/, '');
+      } catch (e) {
+        bodyEl.innerHTML = '<div class="cp-error-banner">Failed: ' + _cpEsc(e.message || e) + '</div>';
+      }
+    }
+
+    function cpRenderSettings() {
+      var s = _cpSettings || {};
+      var presetOpts = Object.keys(CP_CRON_PRESETS).map(function (k) {
+        return '<option value="' + k + '"' + (k === s.cron_preset ? ' selected' : '') + '>' + _cpEsc(CP_CRON_PRESETS[k]) + '</option>';
+      }).join('');
+      var html =
+        '<div class="cp-settings-row" style="flex-direction:column;">' +
+          '<label>📅 Posting schedule</label>' +
+          '<select id="cpsCronPreset">' + presetOpts + '</select>' +
+          '<div class="cp-help">Cron job re-schedules immediately when you click Save.</div>' +
+        '</div>' +
+
+        '<div class="cp-settings-row" style="flex-direction:column;">' +
+          '<label>📏 Word count range (per post)</label>' +
+          '<div style="display:flex;gap:10px;align-items:center;">' +
+            'Min <input type="number" id="cpsMinWords" value="' + (s.min_words || 100) + '" min="20" max="1000" style="width:90px !important;">' +
+            'Max <input type="number" id="cpsMaxWords" value="' + (s.max_words || 200) + '" min="50" max="2000" style="width:90px !important;">' +
+            '<span class="cp-help">words</span>' +
+          '</div>' +
+          '<div class="cp-help">Gemini is told the target range. Strict word counting isn\'t enforced server-side.</div>' +
+        '</div>' +
+
+        '<div class="cp-settings-row">' +
+          '<label class="cp-toggle">' +
+            '<input type="checkbox" id="cpsAutoPublish"' + (s.auto_publish ? ' checked' : '') + '>' +
+            '⚡ Auto-publish (skip review queue)' +
+          '</label>' +
+          '<div class="cp-help" style="margin-left:auto;text-align:right;max-width:340px;">When ON, every cron-generated post immediately goes to the channel without admin approval. Use carefully — there\'s no second chance to edit.</div>' +
+        '</div>' +
+
+        '<div class="cp-settings-row" style="flex-direction:column;">' +
+          '<label>📨 Channel ID</label>' +
+          '<input type="text" id="cpsChannelId" value="' + _cpEsc(s.channel_id || '@mock_stream') + '">' +
+          '<div class="cp-help">Telegram channel handle (e.g. <code>@mock_stream</code>). The news bot must be admin in that channel.</div>' +
+        '</div>' +
+
+        '<div class="cp-settings-row" style="flex-direction:column;">' +
+          '<label>📝 Footer (appended to every post)</label>' +
+          '<textarea id="cpsFooter">' + _cpEsc(s.footer_text || '') + '</textarea>' +
+          '<div class="cp-help">Included verbatim at the end of every published post. Plain text — emojis OK, no MarkdownV2.</div>' +
+        '</div>' +
+
+        '<div style="display:flex;gap:8px;margin-top:14px;">' +
+          '<button onclick="cpSaveSettings()" style="padding:10px 24px;border:none;border-radius:8px;background:#0ea5e9;color:#fff;font-weight:700;cursor:pointer;">💾 Save settings</button>' +
+          '<button onclick="cpLoadSettings()" style="padding:10px 18px;border:1px solid #cbd5e1;background:#fff;color:#475569;border-radius:8px;font-weight:600;cursor:pointer;">↻ Reload</button>' +
+          '<div id="cpsMsg" style="margin-left:12px;align-self:center;font-size:12px;"></div>' +
+        '</div>';
+      document.getElementById('cpSettingsBody').innerHTML = html;
+    }
+
+    function _cpsMsg(text, kind) {
+      var el = document.getElementById('cpsMsg'); if (!el) return;
+      el.textContent = text || '';
+      el.style.color = kind === 'error' ? '#dc2626' : (kind === 'success' ? '#10b981' : '#475569');
+    }
+
+    async function cpSaveSettings() {
+      var minW = parseInt(document.getElementById('cpsMinWords').value, 10);
+      var maxW = parseInt(document.getElementById('cpsMaxWords').value, 10);
+      if (!Number.isFinite(minW) || !Number.isFinite(maxW) || maxW <= minW) {
+        _cpsMsg('Word count: max must be greater than min', 'error');
+        return;
+      }
+      var payload = {
+        op: 'settings_update',
+        cron_preset:  document.getElementById('cpsCronPreset').value,
+        min_words:    minW,
+        max_words:    maxW,
+        auto_publish: document.getElementById('cpsAutoPublish').checked,
+        channel_id:   document.getElementById('cpsChannelId').value.trim(),
+        footer_text:  document.getElementById('cpsFooter').value
+      };
+      try {
+        var data = await _cpAdminCall(payload);
+        _cpSettings = data.settings;
+        var msg = '✅ Saved';
+        if (data.reschedule) msg += ' · ' + data.reschedule;
+        _cpsMsg(msg, 'success');
+      } catch (e) {
+        _cpsMsg('Save failed: ' + (e.message || e), 'error');
+      }
+    }
+
+    // ============================================================
+    // TOPICS tab — CRUD for the editable topic pool
+    // ============================================================
+    var _cpTopics = [];
+
+    async function cpLoadTopics() {
+      var bodyEl = document.getElementById('cpTopicsBody');
+      bodyEl.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      try {
+        var data = await _cpAdminCall({ op: 'topics_list' });
+        _cpTopics = data.topics || [];
+        cpRenderTopics();
+      } catch (e) {
+        bodyEl.innerHTML = '<div class="cp-error-banner">Failed: ' + _cpEsc(e.message || e) + '</div>';
+      }
+    }
+
+    function cpRenderTopics() {
+      var html = '';
+      // Add-new card
+      html +=
+        '<div class="cp-topic-card" style="background:#f0f9ff;border-color:#bae6fd;">' +
+          '<div style="font-weight:700;font-size:14px;color:#0369a1;margin-bottom:8px;">➕ Add new topic</div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+            '<div><label style="font-size:11px;font-weight:700;">Key (snake_case, unique)</label><input type="text" id="cpNewKey" placeholder="e.g. ielts_speaking_phrase" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-family:monospace;font-size:12px;"></div>' +
+            '<div><label style="font-size:11px;font-weight:700;">Label (display name)</label><input type="text" id="cpNewLabel" placeholder="e.g. IELTS speaking phrase" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;"></div>' +
+          '</div>' +
+          '<div style="margin-top:8px;"><label style="font-size:11px;font-weight:700;">Text prompt (instruct Gemini for the post body)</label><textarea id="cpNewTextPrompt" rows="3" placeholder="Write a Telegram channel post about ..." style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;"></textarea></div>' +
+          '<div style="margin-top:8px;"><label style="font-size:11px;font-weight:700;">Image prompt (instruct Gemini for the picture)</label><textarea id="cpNewImagePrompt" rows="2" placeholder="A flat illustration of ..." style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;"></textarea></div>' +
+          '<div style="display:flex;gap:8px;margin-top:8px;align-items:center;">' +
+            '<button onclick="cpCreateTopic()" style="padding:7px 16px;border:none;border-radius:7px;background:#0ea5e9;color:#fff;font-weight:700;cursor:pointer;">➕ Create topic</button>' +
+            '<div id="cpNewMsg" style="font-size:11px;"></div>' +
+          '</div>' +
+        '</div>';
+
+      _cpTopics.forEach(function (t) {
+        html +=
+          '<div class="cp-topic-card" id="cpTopic-' + t.id + '">' +
+            '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">' +
+              '<span class="cp-key">' + _cpEsc(t.key) + '</span>' +
+              '<input type="text" value="' + _cpEsc(t.label) + '" id="cpTopicLabel-' + t.id + '" style="flex:1;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;font-weight:700;">' +
+              '<label class="cp-toggle" style="font-size:12px;font-weight:600;">' +
+                '<input type="checkbox" id="cpTopicEnabled-' + t.id + '"' + (t.enabled ? ' checked' : '') + '> Enabled' +
+              '</label>' +
+            '</div>' +
+            '<div><label style="font-size:11px;font-weight:700;">📝 Text prompt</label><textarea id="cpTopicTextPrompt-' + t.id + '" rows="3" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">' + _cpEsc(t.text_prompt) + '</textarea></div>' +
+            '<div style="margin-top:8px;"><label style="font-size:11px;font-weight:700;">🖼 Image prompt</label><textarea id="cpTopicImagePrompt-' + t.id + '" rows="2" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">' + _cpEsc(t.image_prompt) + '</textarea></div>' +
+            '<div class="cp-actions">' +
+              '<button onclick="cpUpdateTopic(\'' + t.id + '\')" style="padding:6px 14px;border:none;border-radius:7px;background:#10b981;color:#fff;font-weight:700;cursor:pointer;font-size:12px;">💾 Save</button>' +
+              '<button onclick="cpDeleteTopic(\'' + t.id + '\')" style="padding:6px 14px;border:none;border-radius:7px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:12px;">🗑 Delete</button>' +
+              '<div id="cpTopicMsg-' + t.id + '" style="font-size:11px;align-self:center;"></div>' +
+            '</div>' +
+          '</div>';
+      });
+      document.getElementById('cpTopicsBody').innerHTML = html;
+    }
+
+    function _cpTopicMsg(id, text, kind) {
+      var el = document.getElementById('cpTopicMsg-' + id); if (!el) return;
+      el.textContent = text || '';
+      el.style.color = kind === 'error' ? '#dc2626' : (kind === 'success' ? '#10b981' : '#475569');
+    }
+
+    async function cpCreateTopic() {
+      var msgEl = document.getElementById('cpNewMsg');
+      function _msg(t, c) { if (msgEl) { msgEl.textContent = t; msgEl.style.color = c || '#475569'; } }
+      try {
+        var data = await _cpAdminCall({
+          op: 'topic_create',
+          key:          document.getElementById('cpNewKey').value.trim(),
+          label:        document.getElementById('cpNewLabel').value.trim(),
+          text_prompt:  document.getElementById('cpNewTextPrompt').value,
+          image_prompt: document.getElementById('cpNewImagePrompt').value,
+          enabled: true
+        });
+        _msg('✅ Created: ' + data.topic.key, '#10b981');
+        // Clear and reload
+        document.getElementById('cpNewKey').value = '';
+        document.getElementById('cpNewLabel').value = '';
+        document.getElementById('cpNewTextPrompt').value = '';
+        document.getElementById('cpNewImagePrompt').value = '';
+        await cpLoadTopics();
+      } catch (e) {
+        _msg('Failed: ' + (e.message || e), '#dc2626');
+      }
+    }
+
+    async function cpUpdateTopic(id) {
+      try {
+        await _cpAdminCall({
+          op: 'topic_update', id: id,
+          label:        document.getElementById('cpTopicLabel-' + id).value.trim(),
+          text_prompt:  document.getElementById('cpTopicTextPrompt-' + id).value,
+          image_prompt: document.getElementById('cpTopicImagePrompt-' + id).value,
+          enabled:      document.getElementById('cpTopicEnabled-' + id).checked
+        });
+        _cpTopicMsg(id, '✅ Saved', 'success');
+      } catch (e) {
+        _cpTopicMsg(id, 'Failed: ' + (e.message || e), 'error');
+      }
+    }
+
+    async function cpDeleteTopic(id) {
+      if (!confirm('Delete this topic? Posts already generated for it stay.')) return;
+      try {
+        await _cpAdminCall({ op: 'topic_delete', id: id });
+        await cpLoadTopics();
+      } catch (e) {
+        _cpTopicMsg(id, 'Failed: ' + (e.message || e), 'error');
+      }
     }
 
     async function loadStoragePanel() {
