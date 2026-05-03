@@ -1,18 +1,9 @@
 // generate-channel-post
 // -----------------------------------------------------------------------------
-// Cron-triggered (twice daily M-F via pg_cron) generator for AI-authored
-// Telegram channel posts. Picks a topic from a rotating pool, calls Gemini
-// for the post text + an illustrative image, uploads the image to Supabase
-// Storage, and inserts a 'pending' row in channel_posts for admin review.
-//
-// Required Edge Function secrets:
-//   GEMINI_API_KEY              (already set — shared with ai-proxy)
-//   SUPABASE_URL                (auto-injected)
-//   SUPABASE_SERVICE_ROLE_KEY   (auto-injected)
-//
-// Manual fire (for testing without waiting for cron):
-//   POST https://<project>.supabase.co/functions/v1/generate-channel-post
-//   Body: {"slot": "manual", "topic": "english_lifehack"}  (topic optional)
+// Cron-triggered (twice daily M-F by default) generator. Reads topics + settings
+// from public.channel_topics + public.channel_post_settings (admin-editable),
+// calls Gemini for text + image, inserts pending row. If settings.auto_publish
+// is true, also publishes to Telegram inline.
 // -----------------------------------------------------------------------------
 
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
@@ -32,67 +23,49 @@ function jok(body: unknown) {
     { status: 200, headers: { 'Content-Type': 'application/json', ...CORS } });
 }
 
-// Topic pool with system instructions for Gemini. Each topic yields a short
-// channel post (100–250 words). Add new topics by appending here.
-// Common formatting guard appended to every prompt — keeps the AI from
-// introducing MarkdownV2 syntax (which Telegram's strict parser rejects
-// when special chars like ! or . aren't backslash-escaped). We post in
-// plain-text mode, so structure comes from emojis and line breaks only.
-const PLAIN_TEXT_RULES = `
+// Strict format guard appended to every text prompt — keeps the model from
+// emitting MarkdownV2 syntax, which Telegram's parser rejects on missing
+// escapes. We post in plain-text mode.
+function plainTextRules(minWords: number, maxWords: number): string {
+  return `
 
 OUTPUT FORMAT RULES (strict):
+- Length: ${minWords}-${maxWords} words.
 - Plain text only. NO markdown syntax of any kind.
 - Do NOT use *, _, [, ], (, ), \`, ~, # for formatting — they will appear literally.
 - Do NOT escape any character with backslash. Write punctuation normally.
 - Use emojis and line breaks for visual structure.
-- URLs render as clickable text automatically — but do NOT include any URLs (footer is appended separately).
+- Do NOT include any URLs (footer is appended separately).
 - Output the post body directly with no preamble, no "Here's a post:", no quotes around it.`;
+}
 
-const TOPICS: Record<string, { label: string; textPrompt: string; imagePrompt: string }> = {
-  ad_mock_stream: {
-    label: 'Mock Stream promo',
-    textPrompt: `Write a friendly, non-pushy Telegram channel post (100-150 words) promoting Mock Stream — a free CEFR & IELTS exam prep platform. Highlight ONE specific feature each time (e.g. AI scoring, mock tests, instant feedback, multi-skill coverage). Include 2-3 relevant emojis. End with a clear CTA.` + PLAIN_TEXT_RULES,
-    imagePrompt: `A clean, modern illustration of a student studying English for an exam, with subtle Mock Stream branding feel — teal and orange color palette. Flat design, minimal text on image, 1:1 square format suitable for social media.`,
-  },
-  english_lifehack: {
-    label: 'English study lifehack',
-    textPrompt: `Write a Telegram channel post (120-180 words) sharing ONE specific, actionable English-learning lifehack (e.g. shadowing technique, spaced repetition for vocab, reading aloud for fluency). Make it concrete with a 30-second example. Use 2-3 emojis. End with a question that invites engagement.` + PLAIN_TEXT_RULES,
-    imagePrompt: `A flat illustration of a study lifehack concept — visual metaphor like a brain with arrows, a notebook with sticky notes, or earbuds with sound waves. Soft pastel colors, friendly, square format.`,
-  },
-  cefr_grammar_micro: {
-    label: 'CEFR grammar micro-lesson',
-    textPrompt: `Write a Telegram channel post (150-200 words) teaching ONE specific grammar point typically tested in CEFR exams (B1-C1 level). Pick a small precise topic — NOT "tenses in general" but e.g. "third conditional with 'wish'" or "reported speech: backshifting". Structure: 1) the rule in one sentence, 2) 2-3 example sentences, 3) ONE common mistake learners make. 2-3 emojis.` + PLAIN_TEXT_RULES,
-    imagePrompt: `A minimalist chalkboard or notebook page illustration showing a grammar concept abstractly — formula-like layout, neat handwriting feel. Educational, professional, square format.`,
-  },
-  ielts_writing_phrase: {
-    label: 'IELTS writing phrase',
-    textPrompt: `Write a Telegram channel post (120-180 words) introducing ONE high-impact phrase or collocation used in IELTS Writing Task 2 (band 7+ vocabulary). Structure: 1) the phrase, 2) what it means, 3) one example sentence in context, 4) when NOT to use it (overuse warning). 2-3 emojis. End with an encouragement to try using it in their next practice.` + PLAIN_TEXT_RULES,
-    imagePrompt: `An illustration of a hand writing in an exam booklet with a fountain pen, professional and academic feel. Subtle warm lighting, square format. No specific text on the page.`,
-  },
-  cefr_speaking_tip: {
-    label: 'CEFR speaking exam tip',
-    textPrompt: `Write a Telegram channel post (120-180 words) giving ONE practical tip for the CEFR Speaking exam (specific to the Uzbekistan CEFR format with 4 parts: Q1-3 short answers, Q4-6 picture description, Q7 monologue, Q8 discussion). Pick ONE: handling nerves, stalling phrases, comparing pictures, structuring a monologue, etc. Make it actionable. 2-3 emojis.` + PLAIN_TEXT_RULES,
-    imagePrompt: `A friendly illustration of a student speaking confidently in an exam setting with an examiner — clear gestures, calm vibe, soft warm colors, square format.`,
-  },
-};
+async function pickTopic(supabase: any, override?: string): Promise<{ key: string; label: string; text_prompt: string; image_prompt: string }> {
+  // Fetch all enabled topics
+  const { data: topics, error } = await supabase
+    .from('channel_topics')
+    .select('key, label, text_prompt, image_prompt, sort_order')
+    .eq('enabled', true)
+    .order('sort_order', { ascending: true });
+  if (error) throw new Error('topics_fetch_failed: ' + error.message);
+  if (!topics || topics.length === 0) throw new Error('no_enabled_topics');
 
-// Round-robin / weighted-random picker — avoids picking the same topic two
-// slots in a row. We pull the most recent post's topic and exclude it.
-async function pickTopic(supabase: any, override?: string): Promise<string> {
-  if (override && TOPICS[override]) return override;
-  const allKeys = Object.keys(TOPICS);
-  // Get last published or pending topic to avoid repeats
+  if (override) {
+    const match = topics.find((t: any) => t.key === override);
+    if (match) return match;
+  }
+
+  // Avoid the most recent topic to keep the channel feed varied
   const { data: recent } = await supabase
     .from('channel_posts')
     .select('topic')
     .order('created_at', { ascending: false })
     .limit(1);
-  const lastTopic = recent && recent.length > 0 ? recent[0].topic : null;
-  const pool = lastTopic ? allKeys.filter(k => k !== lastTopic) : allKeys;
-  return pool[Math.floor(Math.random() * pool.length)];
+  const lastKey = recent && recent.length > 0 ? recent[0].topic : null;
+  const pool = lastKey ? topics.filter((t: any) => t.key !== lastKey) : topics;
+  const choices = pool.length > 0 ? pool : topics;
+  return choices[Math.floor(Math.random() * choices.length)];
 }
 
-// Call Gemini for text generation
 async function geminiText(prompt: string, apiKey: string): Promise<string> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
   const resp = await fetch(url, {
@@ -100,7 +73,7 @@ async function geminiText(prompt: string, apiKey: string): Promise<string> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.85, maxOutputTokens: 600 }
+      generationConfig: { temperature: 0.85, maxOutputTokens: 800 }
     })
   });
   if (!resp.ok) throw new Error(`Gemini text error ${resp.status}: ${await resp.text()}`);
@@ -110,7 +83,6 @@ async function geminiText(prompt: string, apiKey: string): Promise<string> {
   return text.trim();
 }
 
-// Call Gemini for image generation (Gemini 2.5 Flash Image)
 async function geminiImage(prompt: string, apiKey: string): Promise<Uint8Array> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${apiKey}`;
   const resp = await fetch(url, {
@@ -126,7 +98,6 @@ async function geminiImage(prompt: string, apiKey: string): Promise<Uint8Array> 
   const parts = data?.candidates?.[0]?.content?.parts || [];
   for (const p of parts) {
     if (p.inlineData?.data) {
-      // base64 → Uint8Array
       const bin = atob(p.inlineData.data);
       const bytes = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -134,6 +105,36 @@ async function geminiImage(prompt: string, apiKey: string): Promise<Uint8Array> 
     }
   }
   throw new Error('Gemini returned no image data');
+}
+
+// Inline publish path used when settings.auto_publish === true.
+async function publishToTelegram(
+  channelId: string, footerText: string,
+  textContent: string, imageUrl: string | null
+): Promise<{ messageId: number; usedImage: boolean }> {
+  const botToken = Deno.env.get('TELEGRAM_NEWS_BOT_TOKEN');
+  if (!botToken) throw new Error('bot_token_unset');
+
+  const captionOrText = textContent + footerText;
+  const useImage = !!imageUrl && captionOrText.length <= 1024;
+
+  const tgResp = useImage
+    ? await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: channelId, photo: imageUrl, caption: captionOrText }),
+      })
+    : await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: channelId, text: captionOrText, disable_web_page_preview: true }),
+      });
+
+  const tgData = await tgResp.json();
+  if (!tgResp.ok || !tgData.ok) {
+    throw new Error('telegram_send_failed: ' + (tgData?.description || `HTTP ${tgResp.status}`));
+  }
+  return { messageId: tgData?.result?.message_id, usedImage: useImage };
 }
 
 Deno.serve(async (req) => {
@@ -153,25 +154,31 @@ Deno.serve(async (req) => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
   );
 
-  // 1. Pick topic
-  const topic = await pickTopic(supabase, overrideTopic);
-  const t = TOPICS[topic];
-  if (!t) return jerr(400, 'unknown_topic', topic);
+  // Read settings (singleton row id=1)
+  const { data: settings, error: settingsErr } = await supabase
+    .from('channel_post_settings')
+    .select('channel_id, footer_text, min_words, max_words, auto_publish')
+    .eq('id', 1)
+    .maybeSingle();
+  if (settingsErr || !settings) return jerr(500, 'settings_fetch_failed', settingsErr?.message);
 
-  // 2. Generate text (independent of image — if image fails we still keep text)
+  // Pick topic
+  let topic;
+  try { topic = await pickTopic(supabase, overrideTopic); }
+  catch (e) { return jerr(500, 'topic_pick_failed', String((e as Error).message || e)); }
+
+  // Generate text with the per-topic prompt + global word-count rules
+  const fullPrompt = topic.text_prompt + plainTextRules(settings.min_words, settings.max_words);
   let textContent: string;
-  try {
-    textContent = await geminiText(t.textPrompt, apiKey);
-  } catch (e) {
-    return jerr(500, 'text_generation_failed', String((e as Error).message || e));
-  }
+  try { textContent = await geminiText(fullPrompt, apiKey); }
+  catch (e) { return jerr(500, 'text_generation_failed', String((e as Error).message || e)); }
 
-  // 3. Generate image
+  // Generate image (non-fatal if it fails — text-only post is still publishable)
   let imageUrl: string | null = null;
   let imageError: string | null = null;
   try {
-    const bytes = await geminiImage(t.imagePrompt, apiKey);
-    const filename = `${topic}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`;
+    const bytes = await geminiImage(topic.image_prompt, apiKey);
+    const filename = `${topic.key}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`;
     const { data: upData, error: upErr } = await supabase.storage
       .from('channel-post-images')
       .upload(filename, bytes, { contentType: 'image/png', upsert: false });
@@ -181,35 +188,62 @@ Deno.serve(async (req) => {
       .getPublicUrl(upData.path);
     imageUrl = pubData.publicUrl;
   } catch (e) {
-    // Non-fatal — text post can still be reviewed/published without image
     imageError = String((e as Error).message || e);
     console.warn('[generate-channel-post] image generation failed:', imageError);
   }
 
-  // 4. Insert pending row
+  // Insert as pending first so we have a row id even if auto-publish fails
   const { data: inserted, error: insErr } = await supabase
     .from('channel_posts')
     .insert({
-      topic,
+      topic: topic.key,
       text_content: textContent,
       image_url: imageUrl,
-      image_prompt: t.imagePrompt,
+      image_prompt: topic.image_prompt,
       status: 'pending',
       scheduled_for: new Date().toISOString(),
       error_message: imageError,
     })
     .select('id, topic, status')
     .single();
-
   if (insErr) return jerr(500, 'insert_failed', insErr.message);
+
+  // Auto-publish if enabled
+  let autoPublishStatus: string | null = null;
+  let autoPublishMsgId: number | null = null;
+  if (settings.auto_publish) {
+    try {
+      const r = await publishToTelegram(settings.channel_id, settings.footer_text, textContent, imageUrl);
+      await supabase.from('channel_posts')
+        .update({
+          status: 'published',
+          published_at: new Date().toISOString(),
+          telegram_message_id: r.messageId,
+          approved_at: new Date().toISOString(),
+          error_message: null,
+        })
+        .eq('id', inserted.id);
+      autoPublishStatus = 'published';
+      autoPublishMsgId = r.messageId;
+    } catch (e) {
+      const errMsg = String((e as Error).message || e);
+      await supabase.from('channel_posts')
+        .update({ status: 'failed', error_message: errMsg })
+        .eq('id', inserted.id);
+      autoPublishStatus = 'failed';
+    }
+  }
 
   return jok({
     ok: true,
     post_id: inserted.id,
-    topic,
+    topic: topic.key,
     slot,
     has_image: !!imageUrl,
     image_error: imageError,
+    auto_published: autoPublishStatus === 'published',
+    auto_publish_status: autoPublishStatus,
+    telegram_message_id: autoPublishMsgId,
     text_preview: textContent.slice(0, 200) + (textContent.length > 200 ? '…' : ''),
   });
 });
