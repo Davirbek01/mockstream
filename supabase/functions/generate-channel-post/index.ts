@@ -157,7 +157,7 @@ Deno.serve(async (req) => {
   // Read settings (singleton row id=1)
   const { data: settings, error: settingsErr } = await supabase
     .from('channel_post_settings')
-    .select('channel_id, footer_text, min_words, max_words, auto_publish')
+    .select('channel_id, footer_text, min_words, max_words, auto_publish, admin_chat_id')
     .eq('id', 1)
     .maybeSingle();
   if (settingsErr || !settings) return jerr(500, 'settings_fetch_failed', settingsErr?.message);
@@ -208,6 +208,67 @@ Deno.serve(async (req) => {
     .single();
   if (insErr) return jerr(500, 'insert_failed', insErr.message);
 
+  // ── DM the draft to admin (review queue mode only) ────────────────
+  // If admin_chat_id is set AND auto_publish is OFF, send the draft to the
+  // admin's Telegram with inline Approve/Reject buttons. The message_id is
+  // saved on the row so news-bot-webhook can edit it on button tap.
+  let adminDraftMessageId: number | null = null;
+  if (settings.admin_chat_id && !settings.auto_publish) {
+    try {
+      const botToken = Deno.env.get('TELEGRAM_NEWS_BOT_TOKEN');
+      if (botToken) {
+        const reviewCaption = `📝 New draft for review (topic: ${topic.label})\n\n${textContent}`;
+        const truncated = reviewCaption.length > 1024 ? reviewCaption.slice(0, 1021) + '…' : reviewCaption;
+        const dashboardUrl = 'https://mock-stream.com/results/index.html';
+        const replyMarkup = {
+          inline_keyboard: [
+            [
+              { text: '✅ Approve & Publish', callback_data: `approve:${inserted.id}` },
+              { text: '❌ Reject', callback_data: `reject:${inserted.id}` },
+            ],
+            [
+              { text: '🌐 Open dashboard for editing', url: dashboardUrl },
+            ],
+          ],
+        };
+        let dmResp: any;
+        if (imageUrl && truncated.length <= 1024) {
+          dmResp = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: settings.admin_chat_id,
+              photo: imageUrl,
+              caption: truncated,
+              reply_markup: replyMarkup,
+            }),
+          }).then(r => r.json());
+        } else {
+          dmResp = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: settings.admin_chat_id,
+              text: reviewCaption,
+              disable_web_page_preview: true,
+              reply_markup: replyMarkup,
+            }),
+          }).then(r => r.json());
+        }
+        if (dmResp?.ok) {
+          adminDraftMessageId = dmResp.result?.message_id;
+          await supabase.from('channel_posts')
+            .update({ admin_draft_message_id: adminDraftMessageId })
+            .eq('id', inserted.id);
+        } else {
+          console.warn('[generate-channel-post] admin DM failed:', dmResp?.description);
+        }
+      }
+    } catch (e) {
+      console.warn('[generate-channel-post] admin DM exception:', String((e as Error).message || e));
+    }
+  }
+
   // Auto-publish if enabled
   let autoPublishStatus: string | null = null;
   let autoPublishMsgId: number | null = null;
@@ -244,6 +305,8 @@ Deno.serve(async (req) => {
     auto_published: autoPublishStatus === 'published',
     auto_publish_status: autoPublishStatus,
     telegram_message_id: autoPublishMsgId,
+    admin_dm_sent: adminDraftMessageId !== null,
+    admin_draft_message_id: adminDraftMessageId,
     text_preview: textContent.slice(0, 200) + (textContent.length > 200 ? '…' : ''),
   });
 });

@@ -8225,6 +8225,18 @@
           '<div class="cp-help">Included verbatim at the end of every published post. Plain text — emojis OK, no MarkdownV2.</div>' +
         '</div>' +
 
+        // ── Telegram bot review (Phase 3) ────────────────────────────
+        '<div class="cp-settings-row" style="flex-direction:column;background:#fef3c7;border-color:#fbbf24;">' +
+          '<label>📱 Telegram bot review (optional)</label>' +
+          '<div class="cp-help" style="margin-bottom:8px;">When set, every new draft is DMed to your Telegram by <code>@mockstream_news_bot</code> with one-tap Approve/Reject buttons — so you can review on the go.</div>' +
+          '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">' +
+            '<input type="text" id="cpsAdminChatId" value="' + _cpEsc(String(s.admin_chat_id == null ? '' : s.admin_chat_id)) + '" placeholder="Your Telegram chat ID (numeric)" style="flex:1;min-width:200px;">' +
+            '<button onclick="cpConnectWebhook()" id="cpsWebhookBtn" style="padding:9px 14px;border:none;border-radius:7px;background:#7c3aed;color:#fff;font-weight:700;cursor:pointer;font-size:12px;">📡 Connect bot webhook</button>' +
+          '</div>' +
+          '<div class="cp-help" style="margin-top:6px;">Step 1: DM <a href="https://t.me/mockstream_news_bot" target="_blank" style="color:#0369a1;font-weight:700;">@mockstream_news_bot</a> with <code>/start</code> — it replies with your chat ID. Step 2: paste it above + Save. Step 3: click <b>Connect bot webhook</b> once (registers the webhook with Telegram so button taps reach our server).</div>' +
+          '<div id="cpsWebhookMsg" style="font-size:11px;margin-top:6px;"></div>' +
+        '</div>' +
+
         '<div style="display:flex;gap:8px;margin-top:14px;">' +
           '<button onclick="cpSaveSettings()" style="padding:10px 24px;border:none;border-radius:8px;background:#0ea5e9;color:#fff;font-weight:700;cursor:pointer;">💾 Save settings</button>' +
           '<button onclick="cpLoadSettings()" style="padding:10px 18px;border:1px solid #cbd5e1;background:#fff;color:#475569;border-radius:8px;font-weight:600;cursor:pointer;">↻ Reload</button>' +
@@ -8246,14 +8258,25 @@
         _cpsMsg('Word count: max must be greater than min', 'error');
         return;
       }
+      var chatIdRaw = (document.getElementById('cpsAdminChatId').value || '').trim();
+      var chatIdParsed = null;
+      if (chatIdRaw === '') {
+        chatIdParsed = null;
+      } else if (/^-?\d+$/.test(chatIdRaw)) {
+        chatIdParsed = parseInt(chatIdRaw, 10);
+      } else {
+        _cpsMsg('Telegram chat ID must be a number (or empty to disable)', 'error');
+        return;
+      }
       var payload = {
         op: 'settings_update',
-        cron_preset:  document.getElementById('cpsCronPreset').value,
-        min_words:    minW,
-        max_words:    maxW,
-        auto_publish: document.getElementById('cpsAutoPublish').checked,
-        channel_id:   document.getElementById('cpsChannelId').value.trim(),
-        footer_text:  document.getElementById('cpsFooter').value
+        cron_preset:    document.getElementById('cpsCronPreset').value,
+        min_words:      minW,
+        max_words:      maxW,
+        auto_publish:   document.getElementById('cpsAutoPublish').checked,
+        channel_id:     document.getElementById('cpsChannelId').value.trim(),
+        footer_text:    document.getElementById('cpsFooter').value,
+        admin_chat_id:  chatIdParsed
       };
       try {
         var data = await _cpAdminCall(payload);
@@ -8264,6 +8287,25 @@
       } catch (e) {
         _cpsMsg('Save failed: ' + (e.message || e), 'error');
       }
+    }
+
+    // One-time setup — registers the news-bot-webhook URL with Telegram so
+    // @mockstream_news_bot starts pushing /start + button taps to our function.
+    async function cpConnectWebhook() {
+      var btn = document.getElementById('cpsWebhookBtn');
+      var msgEl = document.getElementById('cpsWebhookMsg');
+      function _msg(t, c) { if (msgEl) { msgEl.textContent = t; msgEl.style.color = c || '#475569'; } }
+      btn.disabled = true;
+      btn.textContent = '⏳ Connecting...';
+      _msg('Calling Telegram setWebhook...', 'info');
+      try {
+        var data = await _cpAdminCall({ op: 'setup_webhook' });
+        _msg('✅ Webhook connected: ' + data.webhook_url, '#10b981');
+      } catch (e) {
+        _msg('Failed: ' + (e.message || e), '#dc2626');
+      }
+      btn.disabled = false;
+      btn.textContent = '📡 Connect bot webhook';
     }
 
     // ============================================================
