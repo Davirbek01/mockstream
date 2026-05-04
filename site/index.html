@@ -2009,6 +2009,38 @@
     }
     .google-signin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .google-signin-btn svg { flex-shrink: 0; }
+
+    /* Telegram sign-in — same shape/size as Google button so the two CTAs
+       read as a matched pair. Telegram-blue accent on hover. */
+    .telegram-signin-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      margin-top: 4px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      background: #fff;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 15px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .telegram-signin-btn:hover {
+      background: #f8fafc;
+      border-color: #37aee2;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(55, 174, 226, 0.18);
+    }
+    .telegram-signin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .telegram-signin-btn svg { flex-shrink: 0; }
+    [data-theme="dark"] .telegram-signin-btn { background: #0f1716; border-color: #334155; color: #e6f1ef; }
+    [data-theme="dark"] .telegram-signin-btn:hover { background: #1a2423; border-color: #37aee2; }
     .google-signin-hint {
       font-size: 12px;
       color: var(--muted);
@@ -2895,10 +2927,15 @@
         </button>
         <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
 
-        <!-- Telegram login (Phase 1: only on mock_stream main domain — populated by JS) -->
-        <div class="telegram-signin-wrap" id="telegramSigninWrap" style="display:none;margin-top:10px;justify-content:center;">
-          <div id="telegramSigninSlot"></div>
-        </div>
+        <!-- Telegram login — custom button, full-width to match Google's.
+             Hidden until JS confirms a per-center bot is configured. The
+             actual auth still goes through Telegram's OAuth window via
+             Telegram.Login.auth(...) (loaded by widget script), so security
+             is identical to the iframe widget. -->
+        <button type="button" class="telegram-signin-btn" id="telegramSigninBtn" style="display:none;" onclick="startTelegramLogin()">
+          <svg width="18" height="18" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg-grad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs><circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/><path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/></svg>
+          <span>Telegram bilan davom etish</span>
+        </button>
 
         <!-- Toggle for guest path. The original .name-or-separator id is kept on
              the toggle so the existing Telegram-WebView fallback can still hide
@@ -4555,7 +4592,12 @@
       });
     }
 
-    // ===== Telegram Login (Phase 3: per-center bots, all 6 sites) =====
+    // ===== Telegram Login (custom button, JS API) =====
+    // Each clone has its own bot (Telegram /setdomain only allows ONE domain
+    // per bot). The button is custom-styled to match the Google button — we
+    // can't restyle Telegram's iframe widget, so we load just the script
+    // (for the global Telegram.Login API) and trigger auth on tap with our
+    // own button. Bot ID per center is fetched from get-login-bot-ids.
     var TELEGRAM_BOT_BY_CENTER = {
       mock_stream: 'mockstream_login_bot',
       bek:         'bekzods_login_bot',
@@ -4565,27 +4607,60 @@
       achievers:   'acheivers_login_bot', // bot handle keeps URL misspelling
       record:      'multilevelrecord_sign_bot'
     };
-    var _idxTgWidgetInjected = false;
+    var _tgBotIdCache = null; // promise that resolves to {center: bot_id}
+    function _loadTelegramBotIds() {
+      if (_tgBotIdCache) return _tgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _tgBotIdCache = fetch(url, { headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _tgBotIdCache;
+    }
     function _initTelegramLogin() {
       var center = window.__CENTER_ID || 'mock_stream';
       var botUsername = TELEGRAM_BOT_BY_CENTER[center];
       if (!botUsername) return;
-      var wrap = document.getElementById('telegramSigninWrap');
-      var slot = document.getElementById('telegramSigninSlot');
-      if (!wrap || !slot) return;
-      wrap.style.display = 'flex';
-      if (_idxTgWidgetInjected) return;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://telegram.org/js/telegram-widget.js?22';
-      s.setAttribute('data-telegram-login', botUsername);
-      s.setAttribute('data-size', 'medium');
-      s.setAttribute('data-onauth', 'onTelegramAuth(user)');
-      s.setAttribute('data-request-access', 'write');
-      slot.appendChild(s);
-      _idxTgWidgetInjected = true;
+      var btn = document.getElementById('telegramSigninBtn');
+      if (!btn) return;
+      btn.style.display = 'flex';
+      // Pre-warm bot-id cache so the first click is instant.
+      _loadTelegramBotIds();
+      // Load the Telegram widget script once just for the JS API
+      // (Telegram.Login.auth). No iframe is rendered.
+      if (!window.__tgWidgetLoaded) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://telegram.org/js/telegram-widget.js?22';
+        document.head.appendChild(s);
+        window.__tgWidgetLoaded = true;
+      }
     }
-    // Run on DOMContentLoaded so the slot exists when the widget script runs
+    // Triggered by the custom Telegram button. Calls Telegram.Login.auth(...)
+    // which opens Telegram's official OAuth popup; on success the callback
+    // receives the same `user` payload that the iframe widget would have
+    // produced, so the existing onTelegramAuth(user) handler keeps working.
+    window.startTelegramLogin = async function () {
+      try {
+        var center = window.__CENTER_ID || 'mock_stream';
+        var botIds = await _loadTelegramBotIds();
+        var botId = botIds[center];
+        if (!botId) {
+          alert('Telegram sign-in is not configured for this center yet.');
+          return;
+        }
+        if (!window.Telegram || !window.Telegram.Login) {
+          alert('Telegram script is still loading. Please try again in a moment.');
+          return;
+        }
+        window.Telegram.Login.auth(
+          { bot_id: botId, request_access: 'write' },
+          function (user) { if (user) window.onTelegramAuth(user); }
+        );
+      } catch (e) {
+        console.error('[telegram-login] start error:', e);
+      }
+    };
+    // Run on DOMContentLoaded so the button exists.
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', _initTelegramLogin);
     } else {
@@ -4769,7 +4844,7 @@
         var apply = function () {
           var btn  = document.getElementById('googleSigninBtn');
           var hint = document.getElementById('googleSigninHint');
-          var tg   = document.getElementById('telegramSigninWrap');
+          var tg   = document.getElementById('telegramSigninBtn');
           var sep  = document.getElementById('nameOrSeparator');
           var sec  = document.getElementById('guestSection');
           if (btn)  btn.style.display  = 'none';
