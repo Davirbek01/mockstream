@@ -111,6 +111,9 @@
         try { _backfillGuestResults(profile); } catch (e) {}
         // Register this device so admin can DM the user (non-blocking)
         try { _registerSignedInDevice(profile); } catch (e) {}
+        // Stamp the candidates table so the Registered Users panel reflects
+        // this sign-in (Google or Telegram). Non-blocking.
+        try { _upsertCandidateFromAuth(profile); } catch (e) {}
       }
 
       // Subscribe to future auth changes (e.g., user signs in from popup)
@@ -126,6 +129,7 @@
           try { _premiumCache = null; applyPremiumUnlock(); } catch (e) {}
           try { _backfillGuestResults(profile); } catch (e) {}
           try { _registerSignedInDevice(profile); } catch (e) {}
+          try { _upsertCandidateFromAuth(profile); } catch (e) {}
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
@@ -438,6 +442,20 @@
         return v;
       });
 
+      // The PATCH is gated by `self_backfill_email` (USING user_email IS NULL,
+      // CHECK user_email = jwt.email), which only applies for the `authenticated`
+      // role. With the anon key alone, the request falls through to
+      // `rls_results_update` (admin-only) and silently no-ops.
+      var token = SB_KEY;
+      try {
+        var c = _getClient();
+        if (c && c.auth && typeof c.auth.getSession === 'function') {
+          var sess = await c.auth.getSession();
+          var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+          if (at) token = at;
+        }
+      } catch (_e) {}
+
       // Run one PATCH per variant (cheap, all hit the (student_name,center) index).
       // We don't constrain by center — students who travel between centers
       // (or whose center identifier differs across clones) still get linked.
@@ -450,7 +468,7 @@
           method: 'PATCH',
           headers: {
             'apikey':        SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
+            'Authorization': 'Bearer ' + token,
             'Content-Type':  'application/json',
             'Prefer':        'return=minimal'
           },
@@ -458,6 +476,45 @@
         }).catch(function(){});
       }
     } catch (_e) { /* non-fatal */ }
+  }
+
+  // Upsert a row into `candidates` so the Registered Users admin panel reflects
+  // this user. Routed through the `upsert_candidate` SECURITY DEFINER RPC
+  // because anon clients no longer have direct SELECT access to the table
+  // (privacy fix), which broke PostgREST's on_conflict upsert mechanic.
+  // Called automatically on every SIGNED_IN (Google + Telegram); also exposed
+  // publicly so supabase-send.js / index.html can call it on result submit /
+  // guest name submit.
+  async function _upsertCandidateFromAuth(profile) {
+    try {
+      if (!profile || !profile.fullName) return;
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      await fetch(SB_URL + '/rest/v1/rpc/upsert_candidate', {
+        method: 'POST',
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type':  'application/json'
+        },
+        body: JSON.stringify({
+          p_student_name: profile.fullName,
+          p_email:        (profile.email || '').toLowerCase(),
+          p_center:       center,
+          p_avatar_url:   profile.avatarUrl || ''
+        })
+      }).catch(function(){});
+    } catch (_e) {}
+  }
+
+  // Lightweight variant for callers that only know name + email + center
+  // (e.g. result submitters that don't have a full profile object).
+  function _upsertCandidateLight(name, email, center) {
+    if (!name) return;
+    return _upsertCandidateFromAuth({
+      fullName: name,
+      email: email || '',
+      avatarUrl: ''
+    });
   }
 
   window.MockStream = window.MockStream || {};
@@ -471,7 +528,8 @@
     getProvider: getProvider,
     getClient: _getClient,
     checkPremiumRole: checkPremiumRole,
-    applyPremiumUnlock: applyPremiumUnlock
+    applyPremiumUnlock: applyPremiumUnlock,
+    upsertCandidate: _upsertCandidateLight
   };
 
   // Auto-init on DOMContentLoaded so pages don't have to call it manually.

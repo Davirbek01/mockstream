@@ -10606,9 +10606,12 @@
         if (editEl) editEl.style.display = 'none';
         if (roleEl) roleEl.textContent   = 'Continue with Google →';
         if (avatarImg) avatarImg.style.display = 'none';
-        if (myResIcon)  myResIcon.textContent  = '🔒';
-        if (myResLabel) myResLabel.textContent = 'Sign in for results';
-        if (myResLink)  myResLink.setAttribute('href', 'javascript:void(0)');
+        // Guests now go straight to /results/my-results.html, which shows a
+        // blurred dashboard skeleton with Google + Telegram sign-in front-and-
+        // center. No need to bounce them through the profile popup.
+        if (myResIcon)  myResIcon.textContent  = '📊';
+        if (myResLabel) myResLabel.textContent = 'My Results';
+        if (myResLink)  myResLink.setAttribute('href', 'results/my-results.html');
       } else {
         // -------- SIGNED-IN MODE --------
         var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
@@ -10637,14 +10640,11 @@
       try { openProfilePopup(); } catch (_e) {}
     }
 
-    // My Results click router: guest → open profile popup (Google + Telegram);
-    // signed-in → close sidebar so the link navigates to results page.
+    // My Results click router: in either state, close the sidebar and let the
+    // link navigate to /results/my-results.html. The page itself decides what
+    // to render — blurred preview + sign-in card for guests, real data for
+    // signed-in users.
     function _handleMyResultsClick(ev) {
-      if (!_isGoogleSignedIn()) {
-        if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-        try { openProfilePopup(); } catch (_e) {}
-        return false;
-      }
       try { toggleSidebar(); } catch (_e) {}
       return true;
     }
@@ -11141,25 +11141,25 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-      var row = {
-        student_name: name,
-        email: profile.email || '',
-        phone: profile.phone || '',
-        address: profile.address || '',
-        avatar_url: localStorage.getItem('ms_avatar_url') || '',
-        center: center,
-        updated_at: new Date().toISOString()
-      };
+      // Route through the SECURITY DEFINER `upsert_candidate` RPC — anon can
+      // no longer SELECT candidates (privacy fix), which breaks PostgREST's
+      // on_conflict upsert mechanic.
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+        var resp = await fetch(SB_URL + '/rest/v1/rpc/upsert_candidate', {
           method: 'POST',
           headers: {
-            'apikey': SB_KEY,
+            'apikey':        SB_KEY,
             'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=merge-duplicates,return=minimal'
+            'Content-Type':  'application/json'
           },
-          body: JSON.stringify(row)
+          body: JSON.stringify({
+            p_student_name: name,
+            p_email:        (profile.email || '').toLowerCase(),
+            p_center:       center,
+            p_avatar_url:   localStorage.getItem('ms_avatar_url') || '',
+            p_phone:        profile.phone   || '',
+            p_address:      profile.address || ''
+          })
         });
         if (resp.ok) {
           console.log('[Profile] Candidate upserted:', name, center);
@@ -11171,19 +11171,27 @@
       }
     }
 
-    // Check if current user is blocked — reusable, call from multiple places
+    // Check if current user is blocked — reusable, call from multiple places.
+    // Uses the SECURITY DEFINER `is_candidate_blocked` RPC because anon clients
+    // can no longer SELECT the candidates table directly (privacy fix).
     async function _checkBlockedStatus(name) {
       if (!name) return false;
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(name) + '&center=eq.' + encodeURIComponent(center) + '&select=blocked', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        var resp = await fetch(SB_URL + '/rest/v1/rpc/is_candidate_blocked', {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ p_name: name, p_center: center })
         });
         if (!resp.ok) return false;
-        var rows = await resp.json();
-        if (rows.length && rows[0].blocked === true) {
+        var blocked = await resp.json();
+        if (blocked === true) {
           _enforceBlock(name);
           return true;
         }
@@ -19920,9 +19928,10 @@
       div.innerHTML = '<div class="ru-panel">' +
         '<div class="ru-header"><h3>👥 Registered Users</h3><button class="ru-close" onclick="closeRegisteredUsersPanel()">&times;</button></div>' +
         '<div id="ruTabs" style="display:flex;gap:6px;padding:0 14px 8px;flex-wrap:wrap;">' +
-          '<button type="button" class="ru-tab-btn" data-rutab="all"     onclick="_setRuTab(\'all\')"     style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="google"  onclick="_setRuTab(\'google\')"  style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="guest"   onclick="_setRuTab(\'guest\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
         '</div>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
         '<div class="ru-stats" id="ruStats"></div>' +
@@ -19947,14 +19956,28 @@
       document.getElementById('ruStats').textContent = '';
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+      // Anon clients can no longer SELECT candidates (RLS now requires
+      // _caller_is_admin()). Send the signed-in admin's JWT so the request
+      // passes the policy check.
+      var token = SB_KEY;
+      try {
+        var _c = window.MockStream && window.MockStream.auth &&
+                 typeof window.MockStream.auth.getClient === 'function'
+                   ? window.MockStream.auth.getClient() : null;
+        if (_c && _c.auth && typeof _c.auth.getSession === 'function') {
+          var _sess = await _c.auth.getSession();
+          var _at = _sess && _sess.data && _sess.data.session && _sess.data.session.access_token;
+          if (_at) token = _at;
+        }
+      } catch (_e) {}
       try {
         var [candResp, premResp] = await Promise.all([
           // Fetch ALL candidates so we can split into Google-account vs Guest tabs
           fetch(SB_URL + '/rest/v1/candidates?select=*&order=updated_at.desc&limit=5000', {
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           }),
           fetch(SB_URL + '/rest/v1/premium_emails?select=email,telegram_username,tier,role,center,active', {
-            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
           })
         ]);
         if (!candResp.ok) throw new Error('HTTP ' + candResp.status);
@@ -19998,8 +20021,25 @@
       if (overlay) overlay.classList.remove('active');
     }
 
-    // Active sub-tab in the Registered Users panel: 'all' | 'google' | 'guest'
+    // Active sub-tab in the Registered Users panel:
+    //   'all' | 'google' | 'telegram' | 'guest'
+    // Telegram-only users carry a synthetic email shaped like
+    // tg_<id>@telegram.mock-stream.com (created by the verify-telegram-login
+    // Edge Function). That pattern is the cheapest reliable signal.
     var _ruTab = 'all';
+    var _RU_TELEGRAM_EMAIL_RE = /^tg_\d+@telegram\.mock-stream\.com$/i;
+
+    function _ruIsTelegram(c) {
+      return !!(c.email && _RU_TELEGRAM_EMAIL_RE.test(c.email.trim()));
+    }
+    function _ruIsGoogle(c) {
+      // Has an email that ISN'T the Telegram synthetic.
+      return !!(c.email && c.email.trim() && !_ruIsTelegram(c));
+    }
+    function _ruIsGuest(c) {
+      return !(c.email && c.email.trim());
+    }
+
     function _setRuTab(tab) {
       _ruTab = tab;
       // Update button visuals
@@ -20014,18 +20054,20 @@
     window._setRuTab = _setRuTab;
 
     function _ruTabFilter(c) {
-      if (_ruTab === 'google') return !!(c.email && c.email.trim());
-      if (_ruTab === 'guest')  return !(c.email && c.email.trim());
+      if (_ruTab === 'google')   return _ruIsGoogle(c);
+      if (_ruTab === 'telegram') return _ruIsTelegram(c);
+      if (_ruTab === 'guest')    return _ruIsGuest(c);
       return true;
     }
 
     function _updateRuTabCounts() {
-      var counts = { all: _ruData.length, google: 0, guest: 0 };
+      var counts = { all: _ruData.length, google: 0, telegram: 0, guest: 0 };
       _ruData.forEach(function(c) {
-        if (c.email && c.email.trim()) counts.google++;
-        else counts.guest++;
+        if (_ruIsTelegram(c))    counts.telegram++;
+        else if (_ruIsGoogle(c)) counts.google++;
+        else                     counts.guest++;
       });
-      ['all','google','guest'].forEach(function(k) {
+      ['all','google','telegram','guest'].forEach(function(k) {
         var el = document.querySelector('#ruTabs [data-rucount="' + k + '"]');
         if (el) el.textContent = '(' + counts[k] + ')';
       });

@@ -195,6 +195,16 @@ Deno.serve(async (req) => {
     if (typeof body.max_words === 'number')   patch.max_words   = Math.round(body.max_words);
     if (typeof body.auto_publish === 'boolean') patch.auto_publish = body.auto_publish;
     if (typeof body.cron_preset === 'string') patch.cron_preset = body.cron_preset;
+    // admin_chat_id may be null (clear), a number (set), or a digit-string (set)
+    if (body.admin_chat_id !== undefined) {
+      if (body.admin_chat_id === null) {
+        patch.admin_chat_id = null;
+      } else if (typeof body.admin_chat_id === 'number' && Number.isFinite(body.admin_chat_id)) {
+        patch.admin_chat_id = Math.round(body.admin_chat_id);
+      } else if (typeof body.admin_chat_id === 'string' && /^-?\d+$/.test(body.admin_chat_id.trim())) {
+        patch.admin_chat_id = parseInt(body.admin_chat_id.trim(), 10);
+      }
+    }
 
     if (Object.keys(patch).length === 0) return jerr(400, 'no_fields_to_update');
 
@@ -271,6 +281,33 @@ Deno.serve(async (req) => {
   }
 
   // ── TOPICS: delete ────────────────────────────────────────────────
+  // ── BOT WEBHOOK: set / status ─────────────────────────────────────
+  // setup_webhook: registers the news-bot-webhook URL with Telegram so
+  //   @mockstream_news_bot starts pushing /start + callback_query updates
+  //   to our Edge Function. One-time operation per environment.
+  // webhook_status: read-only — fetches current webhook info from Telegram.
+  if (op === 'setup_webhook' || op === 'webhook_status') {
+    const botToken = Deno.env.get('TELEGRAM_NEWS_BOT_TOKEN');
+    if (!botToken) return jerr(500, 'bot_token_unset');
+    if (op === 'setup_webhook') {
+      const url = `https://${Deno.env.get('SUPABASE_URL')!.split('://')[1]}/functions/v1/news-bot-webhook`;
+      const r = await fetch(`https://api.telegram.org/bot${botToken}/setWebhook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url,
+          allowed_updates: ['message', 'callback_query'],
+          drop_pending_updates: true,
+        }),
+      }).then(r => r.json());
+      if (!r.ok) return jerr(502, 'set_webhook_failed', r.description || 'Telegram refused setWebhook');
+      return jok({ ok: true, webhook_url: url, telegram: r });
+    } else {
+      const r = await fetch(`https://api.telegram.org/bot${botToken}/getWebhookInfo`).then(r => r.json());
+      return jok({ ok: true, webhook_info: r.result || null });
+    }
+  }
+
   if (op === 'topic_delete') {
     const id = typeof body.id === 'string' ? body.id : '';
     if (!id) return jerr(400, 'missing_id');

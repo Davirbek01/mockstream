@@ -83,6 +83,8 @@ window.SITE_CONFIG = {
           if (lo) lo.src = window.SITE_CONFIG.logoUrl;
           var fc = document.getElementById('footerCopyright');
           if (fc) fc.innerHTML = '&copy; ' + new Date().getFullYear() + ' ' + window.SITE_CONFIG.brandName + '. All rights reserved.';
+          var ncb = document.getElementById('nameCardBrand');
+          if (ncb) ncb.textContent = window.SITE_CONFIG.brandName;
         } catch (e) {}
         // Update welcome logo/header elements (landing.html)
         try {

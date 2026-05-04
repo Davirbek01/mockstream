@@ -61,11 +61,17 @@
 
     /* ===== NAME GATE ===== */
     .name-gate {
+      position: fixed;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
+      z-index: 1000;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(248, 250, 252, 0.72));
+    }
+    [data-theme="dark"] .name-gate {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.65), rgba(2, 6, 23, 0.78));
     }
 
     .name-card {
@@ -156,8 +162,36 @@
     }
 
     /* ===== DASHBOARD ===== */
-    .dashboard { display: none; min-height: 100vh; }
-    .dashboard.show { display: block; }
+    .dashboard { min-height: 100vh; }
+    /* Guests see the dashboard skeleton blurred behind the sign-in card so the
+       page reads as "rich content waiting" instead of "locked". Pointer-events
+       are off so blurred buttons can't accidentally fire. */
+    .dashboard.guest-preview {
+      filter: blur(7px) saturate(0.85);
+      pointer-events: none;
+      user-select: none;
+    }
+    .dashboard.guest-preview .topbar { visibility: hidden; }
+
+    /* Skeleton placeholders shown only in guest-preview — empty chart axes
+       and gray row outlines, no fabricated numbers. */
+    .chart-skeleton {
+      width: 100%;
+      height: 220px;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 19px, var(--border) 19px 20px),
+        repeating-linear-gradient(90deg, transparent 0 49px, var(--border) 49px 50px);
+      border-radius: 8px;
+      opacity: 0.55;
+    }
+    .row-skeleton {
+      height: 70px;
+      border-radius: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
 
     .topbar {
       background: var(--surface);
@@ -647,23 +681,29 @@
 
 <body>
 
-  <!-- ===== LOGIN GATE (Google) ===== -->
+  <!-- ===== LOGIN GATE (Google + Telegram) ===== -->
   <div class="name-gate" id="nameGate">
     <div class="name-card">
       <div class="icon">🔒</div>
       <h2>My Results</h2>
-      <p>Sign in with Google to view your test results.<br>Your guest results will be linked to your account automatically.</p>
+      <p>Sign in with Google or Telegram to view your test results.<br>Your guest results will be linked to your account automatically.</p>
       <button class="name-btn" id="googleSignInBtn" style="display:flex;align-items:center;justify-content:center;gap:10px;">
         <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
         <span>Continue with Google</span>
       </button>
+      <div id="tgLoginWrap" style="display:none;margin-top:14px;flex-direction:column;align-items:center;gap:6px;">
+        <div style="font-size:12px;color:#94a3b8;letter-spacing:.06em;text-transform:uppercase;">or</div>
+        <div id="tgLoginSlot"></div>
+      </div>
       <div class="name-error" id="gateError"></div>
       <button class="name-back" onclick="window.location.href='../landing.html'">← Back to Home</button>
     </div>
   </div>
 
   <!-- ===== DASHBOARD ===== -->
-  <div class="dashboard" id="dashboard">
+  <!-- Starts in guest-preview mode (blurred skeleton). _afterAuthReady() removes
+       the class once the user is signed in. -->
+  <div class="dashboard guest-preview" id="dashboard">
 
     <div class="topbar">
       <div class="topbar-left">
@@ -773,12 +813,69 @@
       document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
     }
 
+    // Telegram Login Widget callback. Mirrors landing.html: exchanges the
+    // verified-by-Telegram payload for a Supabase session via the
+    // verify-telegram-login Edge Function, then auth.js picks up the session.
+    window.onTelegramAuth = async function (user) {
+      var errEl = document.getElementById('gateError');
+      if (!user || !user.id || !user.hash || !user.auth_date) {
+        if (errEl) errEl.textContent = 'Telegram returned an invalid payload.';
+        return;
+      }
+      try {
+        var resp = await fetch(SUPABASE_URL + '/functions/v1/verify-telegram-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: user.id,
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            username: user.username || '',
+            photo_url: user.photo_url || '',
+            auth_date: user.auth_date,
+            hash: user.hash,
+            center: window.__CENTER_ID || 'mock_stream'
+          })
+        });
+        var data = await resp.json();
+        if (!resp.ok || !data || !data.email || !data.otp) {
+          var msg = (data && data.error === 'ambiguous_name_match')
+            ? 'Multiple accounts share your name. Please sign in with Google first, then try Telegram.'
+            : 'Telegram sign-in failed: ' + ((data && data.error) || 'unknown error');
+          if (errEl) errEl.textContent = msg;
+          return;
+        }
+        var auth = window.MockStream && window.MockStream.auth;
+        var client = auth && auth.getClient && auth.getClient();
+        if (!client) {
+          if (errEl) errEl.textContent = 'Authentication library not loaded. Please refresh.';
+          return;
+        }
+        var verifyResp = await client.auth.verifyOtp({ email: data.email, token: data.otp, type: 'email' });
+        if (verifyResp && verifyResp.error) {
+          if (errEl) errEl.textContent = 'Telegram sign-in failed: ' + verifyResp.error.message;
+          return;
+        }
+        // Reload so auth.js init() picks up the new session and the dashboard
+        // unlock + backfill run in their normal order. First-time legal-name
+        // confirmation is handled by landing.html; here we just sign in.
+        window.location.reload();
+      } catch (e) {
+        console.error('[telegram-login] exception:', e);
+        if (errEl) errEl.textContent = 'Telegram sign-in failed. Check your connection and try again.';
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
       var theme = document.documentElement.getAttribute('data-theme');
       document.getElementById('themeBtn').textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
 
       var cfg = window.SITE_CONFIG || {};
       document.getElementById('brandLabel').textContent = '— ' + (cfg.brandName || 'Mock Stream');
+
+      // Paint the guest-preview skeleton immediately so the gate hovers over a
+      // populated-looking dashboard, not a blank page.
+      renderGuestSkeleton();
 
       // Wire Google sign-in button
       document.getElementById('googleSignInBtn').addEventListener('click', function () {
@@ -796,6 +893,34 @@
           errEl.textContent = 'Sign-in helper not loaded. Please refresh and try again.';
         }
       });
+
+      // Inject the Telegram Login Widget. Each center has its own bot because
+      // Telegram's /setdomain only allows one domain per bot.
+      var TELEGRAM_BOT_BY_CENTER = {
+        mock_stream: 'mockstream_login_bot',
+        bek:         'bekzods_login_bot',
+        niners:      'niners_login_bot',
+        global:      'global_login_bot',
+        muzaffars:   'muzaffars_login_bot',
+        achievers:   'acheivers_login_bot'
+      };
+      (function _initTelegramLogin() {
+        var center = window.__CENTER_ID || 'mock_stream';
+        var botUsername = TELEGRAM_BOT_BY_CENTER[center];
+        if (!botUsername) return;
+        var wrap = document.getElementById('tgLoginWrap');
+        var slot = document.getElementById('tgLoginSlot');
+        if (!wrap || !slot) return;
+        wrap.style.display = 'flex';
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://telegram.org/js/telegram-widget.js?22';
+        s.setAttribute('data-telegram-login', botUsername);
+        s.setAttribute('data-size', 'large');
+        s.setAttribute('data-onauth', 'onTelegramAuth(user)');
+        s.setAttribute('data-request-access', 'write');
+        slot.appendChild(s);
+      })();
 
       // Initialize auth — restores session from localStorage if any
       function _afterAuthReady() {
@@ -839,7 +964,9 @@
     // ====================================================================
     function unlockDashboard() {
       document.getElementById('nameGate').style.display = 'none';
-      document.getElementById('dashboard').classList.add('show');
+      var dash = document.getElementById('dashboard');
+      dash.classList.remove('guest-preview');
+      dash.classList.add('show');
 
       // Set student display
       document.getElementById('studentNameDisplay').textContent = studentName;
@@ -847,6 +974,19 @@
       document.getElementById('studentAvatar').textContent = initials.substring(0, 2);
 
       fetchResults();
+    }
+
+    // Render skeleton placeholders for the chart and results list while the
+    // dashboard is in guest-preview mode. No fabricated numbers — just shapes.
+    function renderGuestSkeleton() {
+      var chart = document.getElementById('chartContent');
+      if (chart) chart.innerHTML = '<div class="chart-skeleton" aria-hidden="true"></div>';
+      var list = document.getElementById('resultsList');
+      if (list) {
+        var rows = '';
+        for (var i = 0; i < 4; i++) rows += '<div class="row-skeleton" aria-hidden="true"></div>';
+        list.innerHTML = rows;
+      }
     }
 
     // ====================================================================
@@ -866,11 +1006,29 @@
         url = SUPABASE_URL + '/rest/v1/results?student_name=eq.' + encodeURIComponent(studentName) + '&select=*&order=created_at.desc';
       }
 
-      fetch(url, {
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      // Use the signed-in user's JWT in Authorization so the rls_results_select
+      // policy (matches user_email = jwt.email) returns our rows. The anon key
+      // alone has no jwt.email and the policy filters everything out.
+      var tokenP = Promise.resolve(SUPABASE_ANON_KEY);
+      try {
+        var _c = window.MockStream && window.MockStream.auth &&
+                 typeof window.MockStream.auth.getClient === 'function'
+                   ? window.MockStream.auth.getClient() : null;
+        if (_c && _c.auth && typeof _c.auth.getSession === 'function') {
+          tokenP = _c.auth.getSession().then(function (sess) {
+            var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+            return at || SUPABASE_ANON_KEY;
+          }).catch(function () { return SUPABASE_ANON_KEY; });
         }
+      } catch (_e) {}
+
+      tokenP.then(function (token) {
+        return fetch(url, {
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + token
+          }
+        });
       })
         .then(function (res) {
           if (!res.ok) throw new Error('Failed to fetch');
