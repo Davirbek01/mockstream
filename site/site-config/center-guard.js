@@ -236,12 +236,107 @@
       // Override CSS variables for buttons and accents
       var style = document.createElement('style');
       style.textContent =
+        ':root { --brand: ' + c + ' !important; }' +
         '.skill-btn:hover, .skill-btn.active { border-color: ' + c + ' !important; }' +
         '.card-btn { background: linear-gradient(135deg, ' + c + ', ' + _cgDarken(c, 20) + ') !important; }' +
         '.full-mock-card { border-color: ' + c + '33 !important; }' +
         '.full-mock-card:hover { border-color: ' + c + ' !important; box-shadow: 0 8px 30px ' + c + '22 !important; }';
       document.head.appendChild(style);
     }
+
+    // ─── ACCENT COLOR ───────────────────────────────────────────────────
+    if (cc.accentColor && cc.accentColor !== '') {
+      var ac = cc.accentColor;
+      var st = document.createElement('style');
+      st.textContent = ':root { --accent: ' + ac + ' !important; --accent-dark: ' + _cgDarken(ac, 15) + ' !important; }';
+      document.head.appendChild(st);
+    }
+
+    // ─── LOGO URL OVERRIDE ──────────────────────────────────────────────
+    // SITE_CONFIG.logoUrl already drives most logos. If the admin set a
+    // brand-new value via the Branding panel, overwrite it everywhere.
+    if (cc.logoUrl && cc.logoUrl !== '') {
+      window.SITE_CONFIG.logoUrl = cc.logoUrl;
+      ['logo','headerLogo','welcomeLogo','site-favicon','nameCardLogo'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          if (el.tagName === 'LINK') el.href = cc.logoUrl;
+          else el.src = cc.logoUrl;
+        }
+      });
+    }
+
+    // ─── HERO HEADING / SUBHEADING ──────────────────────────────────────
+    if (cc.heroHeading && cc.heroHeading !== '') {
+      var brandTitle = document.getElementById('brandTitle');
+      if (brandTitle) brandTitle.textContent = cc.heroHeading;
+      var headerTitle = document.getElementById('headerTitle');
+      if (headerTitle) headerTitle.textContent = cc.heroHeading;
+      var nameCardBrand = document.getElementById('nameCardBrand');
+      if (nameCardBrand) nameCardBrand.textContent = cc.heroHeading;
+    }
+    if (cc.heroSubheading && cc.heroSubheading !== '') {
+      var subEl = document.querySelector('.subtitle, .name-card-sub');
+      if (subEl) subEl.textContent = cc.heroSubheading;
+    }
+
+    // ─── HERO BACKGROUND IMAGE ──────────────────────────────────────────
+    if (cc.heroImageUrl && cc.heroImageUrl !== '') {
+      var heroSt = document.createElement('style');
+      heroSt.textContent =
+        '.hero, .welcome-screen, body.hero-bg { ' +
+        'background-image: url("' + cc.heroImageUrl + '") !important; ' +
+        'background-size: cover !important; background-position: center !important; }';
+      document.head.appendChild(heroSt);
+    }
+
+    // ─── CTA BUTTON TEXT ────────────────────────────────────────────────
+    if (cc.ctaText && cc.ctaText !== '') {
+      var contBtn = document.getElementById('continueBtn');
+      if (contBtn) {
+        // Replace the leading text node only, keep the arrow span intact.
+        var leadNode = contBtn.firstChild;
+        while (leadNode && leadNode.nodeType !== Node.TEXT_NODE) leadNode = leadNode.nextSibling;
+        if (leadNode) leadNode.nodeValue = ' ' + cc.ctaText + ' ';
+        else contBtn.textContent = cc.ctaText;
+      }
+    }
+
+    // ─── CUSTOM FONT (Google Fonts URL + family) ────────────────────────
+    if (cc.fontUrl && cc.fontUrl !== '' && /^https:\/\/fonts\.googleapis\.com\//.test(cc.fontUrl)) {
+      var lk = document.createElement('link');
+      lk.rel = 'stylesheet'; lk.href = cc.fontUrl;
+      document.head.appendChild(lk);
+    }
+    if (cc.fontFamily && cc.fontFamily !== '') {
+      var fSt = document.createElement('style');
+      fSt.textContent = 'body, button, input, select, textarea { font-family: ' + cc.fontFamily + ', system-ui, sans-serif !important; }';
+      document.head.appendChild(fSt);
+    }
+
+    // ─── FOOTER TAGLINE + SOCIAL LINKS ──────────────────────────────────
+    if (cc.footerTagline && cc.footerTagline !== '') {
+      var fTag = document.getElementById('footerTagline');
+      if (fTag) fTag.textContent = cc.footerTagline;
+      else {
+        // No dedicated slot? Append after the copyright line.
+        var fc = document.getElementById('footerCopyright');
+        if (fc) {
+          var span = document.createElement('span');
+          span.id = 'footerTagline';
+          span.style.cssText = 'display:block;font-size:12px;color:#888;margin-top:4px;';
+          span.textContent = cc.footerTagline;
+          fc.parentNode.insertBefore(span, fc.nextSibling);
+        }
+      }
+    }
+    var socialMap = { fb: cc.socialFb, ig: cc.socialIg, yt: cc.socialYt, tg: cc.socialTg };
+    Object.keys(socialMap).forEach(function (k) {
+      var url = socialMap[k];
+      if (!url) return;
+      var el = document.getElementById('socialLink_' + k);
+      if (el) { el.href = url; el.style.display = ''; }
+    });
 
     // ─── WELCOME MESSAGE ────────────────────────────────────────────────
     if (cc.welcomeMessage) {
