@@ -27,10 +27,26 @@
     (function tgMiniAppFullscreen() {
       try {
         var tg = window.Telegram && window.Telegram.WebApp;
-        if (!tg || !tg.initData) return; // not in Mini App
+        if (!tg) return;
+        // ready() + expand() are safe outside Mini App (no-op). Don't gate on
+        // initData — it's an empty string under some launch paths.
         if (typeof tg.ready === 'function') tg.ready();
         if (typeof tg.expand === 'function') tg.expand();
-        if (typeof tg.requestFullscreen === 'function') tg.requestFullscreen();
+        var goFullscreen = function () {
+          if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
+            tg.requestFullscreen();
+          }
+        };
+        // Try immediately, and again after the page settles — older clients
+        // need the WebApp lifecycle to finish before they accept fullscreen.
+        goFullscreen();
+        setTimeout(goFullscreen, 50);
+        setTimeout(goFullscreen, 300);
+        // Hook page-visibility too: when the Mini App regains focus from the
+        // background, request again (Telegram drops fullscreen on minimise).
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') goFullscreen();
+        });
       } catch (_e) {}
     })();
   </script>
