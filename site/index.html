@@ -17,6 +17,39 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- Telegram Mini App SDK + immediate fullscreen request. Runs inline before
+       layout so the Mini App expands to full viewport on first paint instead
+       of showing the bot header bar. requestFullscreen() needs Bot API 8.0+
+       (Telegram client v11+, Dec 2024); older clients silently ignore it and
+       fall back to the standard expanded Mini App view. -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    (function tgMiniAppFullscreen() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (!tg) return;
+        // ready() + expand() are safe outside Mini App (no-op). Don't gate on
+        // initData — it's an empty string under some launch paths.
+        if (typeof tg.ready === 'function') tg.ready();
+        if (typeof tg.expand === 'function') tg.expand();
+        var goFullscreen = function () {
+          if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
+            tg.requestFullscreen();
+          }
+        };
+        // Try immediately, and again after the page settles — older clients
+        // need the WebApp lifecycle to finish before they accept fullscreen.
+        goFullscreen();
+        setTimeout(goFullscreen, 50);
+        setTimeout(goFullscreen, 300);
+        // Hook page-visibility too: when the Mini App regains focus from the
+        // background, request again (Telegram drops fullscreen on minimise).
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') goFullscreen();
+        });
+      } catch (_e) {}
+    })();
+  </script>
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
@@ -1876,19 +1909,36 @@
       max-height: 520px;
       opacity: 1;
     }
+    /* Sign-in options collapse symmetrically when the guest section opens —
+       the screen stays compact while a guest is typing their name. */
+    .signin-options {
+      max-height: 220px;
+      overflow: hidden;
+      opacity: 1;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+    }
+    .signin-options.collapsed {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
     .guest-toggle {
       display: block;
       width: 100%;
       background: none;
       border: 0;
-      padding: 10px 0 8px;
+      padding: 12px 0 10px;
       margin: 6px 0 0;
-      color: #64748b;
-      font-size: 13px;
+      color: #475569;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       letter-spacing: 0.01em;
       font-family: inherit;
+    }
+    .guest-toggle strong {
+      color: #116a60;
+      font-weight: 800;
     }
     .guest-toggle:hover { color: #116a60; }
     .guest-toggle .chev {
@@ -1897,7 +1947,8 @@
       transition: transform 0.25s;
     }
     .guest-toggle.expanded .chev { transform: rotate(180deg); }
-    [data-theme="dark"] .guest-toggle { color: #94a3b8; }
+    [data-theme="dark"] .guest-toggle { color: #cbd5e1; }
+    [data-theme="dark"] .guest-toggle strong { color: #5eead4; }
     [data-theme="dark"] .guest-toggle:hover { color: #5eead4; }
 
     .name-field-group {
@@ -2009,6 +2060,38 @@
     }
     .google-signin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .google-signin-btn svg { flex-shrink: 0; }
+
+    /* Telegram sign-in — same shape/size as Google button so the two CTAs
+       read as a matched pair. Telegram-blue accent on hover. */
+    .telegram-signin-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      margin-top: 4px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      background: #fff;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 15px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .telegram-signin-btn:hover {
+      background: #f8fafc;
+      border-color: #37aee2;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(55, 174, 226, 0.18);
+    }
+    .telegram-signin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .telegram-signin-btn svg { flex-shrink: 0; }
+    [data-theme="dark"] .telegram-signin-btn { background: #0f1716; border-color: #334155; color: #e6f1ef; }
+    [data-theme="dark"] .telegram-signin-btn:hover { background: #1a2423; border-color: #37aee2; }
     .google-signin-hint {
       font-size: 12px;
       color: var(--muted);
@@ -2888,23 +2971,27 @@
         <h2 id="nameCardTitle">Welcome to <span id="nameCardBrand">Mock Stream</span></h2>
         <p class="name-card-sub">Davom etish uchun kiring</p>
 
-        <!-- Google sign-in (primary path) -->
-        <button type="button" class="google-signin-btn" id="googleSigninBtn" onclick="signInWithGoogle()">
-          <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
-          <span>Google bilan davom etish</span>
-        </button>
-        <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
+        <!-- Sign-in options (Google + Telegram). Collapsed when the guest
+             section is expanded, so the card stays compact while typing. -->
+        <div class="signin-options" id="signinOptions">
+          <button type="button" class="google-signin-btn" id="googleSigninBtn" onclick="signInWithGoogle()">
+            <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 5.9 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.4-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2c-.4.4 6.6-4.9 6.6-14.9 0-1.3-.1-2.6-.4-3.9z"/></svg>
+            <span>Google bilan davom etish</span>
+          </button>
+          <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
 
-        <!-- Telegram login (Phase 1: only on mock_stream main domain — populated by JS) -->
-        <div class="telegram-signin-wrap" id="telegramSigninWrap" style="display:none;margin-top:10px;justify-content:center;">
-          <div id="telegramSigninSlot"></div>
+          <!-- Telegram login — custom button, full-width to match Google's.
+               Hidden until JS confirms a per-center bot is configured. -->
+          <button type="button" class="telegram-signin-btn" id="telegramSigninBtn" style="display:none;" onclick="startTelegramLogin()">
+            <svg width="18" height="18" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="tg-grad" x1="120" y1="0" x2="120" y2="240" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#37aee2"/><stop offset="1" stop-color="#1e96c8"/></linearGradient></defs><circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/><path d="M81 128.5l-29-9c-6.3-1.9-6.3-6.3 1.4-9.4l113-43.6c5.2-2.1 8.1.6 6.4 7.6L153.6 188c-1.2 4.8-4.2 6-8.5 3.7l-23.7-17.5-11.4 11c-1.3 1.3-2.4 2.4-4.8 2.4l1.7-24.4 44.4-40.1c1.9-1.7-.4-2.6-3-1l-54.9 34.6-23.6-7.4z" fill="#fff"/></svg>
+            <span>Telegram bilan davom etish</span>
+          </button>
         </div>
 
-        <!-- Toggle for guest path. The original .name-or-separator id is kept on
-             the toggle so the existing Telegram-WebView fallback can still hide
-             it when needed (it then auto-expands the guest section). -->
+        <!-- Toggle for guest path. The id is kept as `nameOrSeparator` so
+             the existing Telegram-WebView fallback can still hide it. -->
         <button type="button" class="guest-toggle" id="nameOrSeparator" onclick="toggleGuestSection()">
-          yoki mehmon sifatida davom eting<span class="chev">▾</span>
+          yoki <strong>Mehmon</strong> sifatida davom eting<span class="chev">▾</span>
         </button>
 
         <div class="guest-section" id="guestSection">
@@ -4555,7 +4642,12 @@
       });
     }
 
-    // ===== Telegram Login (Phase 3: per-center bots, all 6 sites) =====
+    // ===== Telegram Login (custom button, JS API) =====
+    // Each clone has its own bot (Telegram /setdomain only allows ONE domain
+    // per bot). The button is custom-styled to match the Google button — we
+    // can't restyle Telegram's iframe widget, so we load just the script
+    // (for the global Telegram.Login API) and trigger auth on tap with our
+    // own button. Bot ID per center is fetched from get-login-bot-ids.
     var TELEGRAM_BOT_BY_CENTER = {
       mock_stream: 'mockstream_login_bot',
       bek:         'bekzods_login_bot',
@@ -4565,27 +4657,60 @@
       achievers:   'acheivers_login_bot', // bot handle keeps URL misspelling
       record:      'multilevelrecord_sign_bot'
     };
-    var _idxTgWidgetInjected = false;
+    var _tgBotIdCache = null; // promise that resolves to {center: bot_id}
+    function _loadTelegramBotIds() {
+      if (_tgBotIdCache) return _tgBotIdCache;
+      var url = 'https://zknyukkbtbcqgvkgjktb.supabase.co/functions/v1/get-login-bot-ids';
+      _tgBotIdCache = fetch(url, { headers: { 'apikey': 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2' } })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; });
+      return _tgBotIdCache;
+    }
     function _initTelegramLogin() {
       var center = window.__CENTER_ID || 'mock_stream';
       var botUsername = TELEGRAM_BOT_BY_CENTER[center];
       if (!botUsername) return;
-      var wrap = document.getElementById('telegramSigninWrap');
-      var slot = document.getElementById('telegramSigninSlot');
-      if (!wrap || !slot) return;
-      wrap.style.display = 'flex';
-      if (_idxTgWidgetInjected) return;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://telegram.org/js/telegram-widget.js?22';
-      s.setAttribute('data-telegram-login', botUsername);
-      s.setAttribute('data-size', 'medium');
-      s.setAttribute('data-onauth', 'onTelegramAuth(user)');
-      s.setAttribute('data-request-access', 'write');
-      slot.appendChild(s);
-      _idxTgWidgetInjected = true;
+      var btn = document.getElementById('telegramSigninBtn');
+      if (!btn) return;
+      btn.style.display = 'flex';
+      // Pre-warm bot-id cache so the first click is instant.
+      _loadTelegramBotIds();
+      // Load the Telegram widget script once just for the JS API
+      // (Telegram.Login.auth). No iframe is rendered.
+      if (!window.__tgWidgetLoaded) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://telegram.org/js/telegram-widget.js?22';
+        document.head.appendChild(s);
+        window.__tgWidgetLoaded = true;
+      }
     }
-    // Run on DOMContentLoaded so the slot exists when the widget script runs
+    // Triggered by the custom Telegram button. Calls Telegram.Login.auth(...)
+    // which opens Telegram's official OAuth popup; on success the callback
+    // receives the same `user` payload that the iframe widget would have
+    // produced, so the existing onTelegramAuth(user) handler keeps working.
+    window.startTelegramLogin = async function () {
+      try {
+        var center = window.__CENTER_ID || 'mock_stream';
+        var botIds = await _loadTelegramBotIds();
+        var botId = botIds[center];
+        if (!botId) {
+          alert('Telegram sign-in is not configured for this center yet.');
+          return;
+        }
+        if (!window.Telegram || !window.Telegram.Login) {
+          alert('Telegram script is still loading. Please try again in a moment.');
+          return;
+        }
+        window.Telegram.Login.auth(
+          { bot_id: botId, request_access: 'write' },
+          function (user) { if (user) window.onTelegramAuth(user); }
+        );
+      } catch (e) {
+        console.error('[telegram-login] start error:', e);
+      }
+    };
+    // Run on DOMContentLoaded so the button exists.
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', _initTelegramLogin);
     } else {
@@ -4744,9 +4869,14 @@
     window.toggleGuestSection = function () {
       var sec = document.getElementById('guestSection');
       var btn = document.getElementById('nameOrSeparator');
+      var opts = document.getElementById('signinOptions');
       if (!sec) return;
       var isExp = sec.classList.toggle('expanded');
-      if (btn) btn.classList.toggle('expanded', isExp);
+      if (btn)  btn.classList.toggle('expanded', isExp);
+      // When guest fields are visible, collapse Google + Telegram so the
+      // card doesn't overflow the viewport on phones. When the user hides
+      // the guest fields again, the sign-in options come back.
+      if (opts) opts.classList.toggle('collapsed', isExp);
       if (isExp) {
         setTimeout(function () {
           var f = document.getElementById('nameInputSurname');
@@ -4754,39 +4884,6 @@
         }, 280);
       }
     };
-
-    // When opened inside Telegram (mobile or desktop Mini App), Google OAuth
-    // cannot reliably complete — Telegram's WebView opens the OAuth flow in
-    // an isolated browsing context, and the redirected session token never
-    // makes it back to the WebView. Hide the Google + Telegram buttons and
-    // auto-expand the guest section so the user has a path forward.
-    (function hideGoogleInTelegram() {
-      try {
-        var ua = (navigator.userAgent || '').toLowerCase();
-        var inTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) ||
-                         ua.indexOf('telegram') !== -1;
-        if (!inTelegram) return;
-        var apply = function () {
-          var btn  = document.getElementById('googleSigninBtn');
-          var hint = document.getElementById('googleSigninHint');
-          var tg   = document.getElementById('telegramSigninWrap');
-          var sep  = document.getElementById('nameOrSeparator');
-          var sec  = document.getElementById('guestSection');
-          if (btn)  btn.style.display  = 'none';
-          if (hint) hint.style.display = 'none';
-          if (tg)   tg.style.display   = 'none';
-          if (sep)  sep.style.display  = 'none';
-          if (sec)  sec.classList.add('expanded');
-          var sub = document.querySelector('.name-card-sub');
-          if (sub) sub.textContent = 'Familiyangiz va ismingizni kiriting (mehmon sifatida)';
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', apply);
-        } else {
-          apply();
-        }
-      } catch (_e) {}
-    })();
 
     // When Google OAuth redirect returns and session is restored, auto-advance
     // past the name card (auth.js has already filled CANDIDATE_FULL_NAME +

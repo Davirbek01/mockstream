@@ -79,6 +79,7 @@ interface CenterConfig {
   show_admin_btn: boolean;
   show_mock_btn: boolean;
   show_support_btn: boolean;
+  show_dict_btn: boolean;
   active: boolean;
 }
 
@@ -109,6 +110,7 @@ async function loadCenterConfig(centerId: string): Promise<CenterConfig | null> 
     show_admin_btn:   data.show_admin_btn !== false,
     show_mock_btn:    data.show_mock_btn  !== false,
     show_support_btn: data.show_support_btn !== false,
+    show_dict_btn:    data.show_dict_btn !== false,
     active:           data.active !== false
   };
 }
@@ -126,10 +128,10 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 // UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  TAKE_MOCK:  'Take in 📱',
-  OPEN_WEB:   'Take in 💻',
+  TAKE_MOCK:  '🎯 Take Mock',
   ADMIN:      '👨\u200d🏫 Admin',
   SUPPORT:    '🎁 Code',
+  DICT:       '📖 Dictionary',
   CANCEL:     '❌ Cancel',
   // admin sub-menu
   MOCK_CODES: '🎫 Mock codes',
@@ -145,16 +147,20 @@ const BTN = {
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    // Two big side-by-side buttons: phone (Mini App) + computer (browser link)
+    // Single full-width Take Mock button — opens the site as a fullscreen
+    // Mini App via Telegram.WebApp.requestFullscreen() in index.html.
     rows.push([
-      { text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } },
-      { text: BTN.OPEN_WEB }
+      { text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }
     ]);
   }
   const second: unknown[] = [];
   if (cfg.show_admin_btn)   second.push({ text: BTN.ADMIN });
   if (cfg.show_support_btn) second.push({ text: BTN.SUPPORT });
   if (second.length) rows.push(second);
+  // Dictionary sits on its own row beneath Admin/Code so it's full-width and
+  // recognisable as a separate utility (it deep-links to the support bot
+  // straight into Dictionary mode).
+  if (cfg.show_dict_btn) rows.push([{ text: BTN.DICT }]);
   return {
     keyboard:        rows,
     resize_keyboard: true,
@@ -187,10 +193,10 @@ function passcodeKeyboard() {
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `<b>📱 Phone</b> — take a mock inside Telegram (best on mobile).\n` +
-    `<b>💻 PC / Mac</b> — take a mock in your browser, full-screen.\n` +
+    `<b>🎯 Take Mock</b> — open the platform in fullscreen and take a mock now.\n` +
     (cfg.show_admin_btn   ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
     (cfg.show_support_btn ? `<b>🎁 Code</b> — free regular mock codes &amp; AI help.\n` : '') +
+    (cfg.show_dict_btn    ? `<b>📖 Dictionary</b> — quick English ⇄ Uzbek lookup.\n` : '') +
     `\n<i>Need a free code right now or want help from AI? Tap below ⤵️</i>`
   );
 }
@@ -311,13 +317,10 @@ async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), {
     reply_markup: mainKeyboard(cfg)
   });
-  // Follow-up message with the deep-link to the shared support bot.
-  // (Telegram disallows mixing inline + reply markup in the same message,
-  // so we send the inline button as a separate message.)
-  await send(cfg.bot_token, chatId,
-    `🆓 <b>Free helper bot</b>\n\n` +
-    `Get a free regular mock code, ask AI any question or use the dictionary — all in one place.`,
-    { reply_markup: supportBotInlineKeyboard(cfg.center_id) });
+  // (The "Free helper bot" inline-button promo used to live here as a
+  // follow-up message but was removed: the 🎁 Code button already routes
+  // users to the same support bot, and 📖 Dictionary covers lookup —
+  // there's no longer a separate path that needs advertising.)
 }
 
 async function showAdminMenu(cfg: CenterConfig, chatId: number) {
@@ -367,13 +370,13 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
 
 async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: number) {
   await setSupportMode(cfg.center_id, tgUserId, true);
-  // First, suggest the AI helper bot — most students just want a free code
-  // or a quick AI answer, no need to wait for a human.
+  // Code mode keeps the support-bot promo because that's literally what
+  // the button does — surface free codes + AI help. Removed from the
+  // welcome flow only (where it was redundant alongside the new buttons).
   await send(cfg.bot_token, chatId,
     `🆓 <b>Free helper bot</b>\n\n` +
     `Get a free regular mock code, ask AI any question or use the dictionary — all in one place.`,
     { reply_markup: supportBotInlineKeyboard(cfg.center_id) });
-  // Then enter human-relay support mode.
   await send(cfg.bot_token, chatId,
     `🎁 <b>Code mode</b>\n\nGrab a free regular mock code from our helper bot above. ` +
     `If you'd rather talk to a human from the team, just send any message below and we'll forward it — we reply right here.\n\n` +
@@ -465,8 +468,9 @@ Deno.serve(async (req: Request) => {
     // (otherwise a stale "awaiting" row would treat the button text as
     // the user's passcode attempt → "Wrong passcode" loop).
     const isMenuButton = (
-      text === BTN.TAKE_MOCK || text === BTN.OPEN_WEB ||
+      text === BTN.TAKE_MOCK ||
       text === BTN.ADMIN     || text === BTN.SUPPORT  ||
+      text === BTN.DICT      ||
       text === BTN.CANCEL    || text === BTN.LEAVE_SUP
     );
 
@@ -493,19 +497,6 @@ Deno.serve(async (req: Request) => {
     }
 
     // ── Main / admin menu button taps (text-matched) ─────────────────
-    if (text === BTN.OPEN_WEB) {
-      if (!cfg.show_mock_btn) {
-        await send(cfg.bot_token, chatId, 'Mock button is disabled.');
-      } else {
-        await send(cfg.bot_token, chatId,
-          `🌐 <b>Open Mock Stream in your browser</b>\n\n` +
-          `<a href="${esc(cfg.webapp_url)}">${esc(cfg.webapp_url)}</a>\n\n` +
-          `<i>Tap the link above — it opens in Chrome / Edge / Safari at full size.</i>`,
-          { disable_web_page_preview: false });
-      }
-      return new Response('ok');
-    }
-
     if (text === BTN.ADMIN) {
       if (!cfg.show_admin_btn) {
         await send(cfg.bot_token, chatId, 'Admin button is disabled.');
@@ -520,6 +511,22 @@ Deno.serve(async (req: Request) => {
         await send(cfg.bot_token, chatId, 'Support button is disabled.');
       } else {
         await handleSupportEnter(cfg, chatId, tgUserId);
+      }
+      return new Response('ok');
+    }
+    if (text === BTN.DICT) {
+      if (!cfg.show_dict_btn) {
+        await send(cfg.bot_token, chatId, 'Dictionary button is disabled.');
+      } else {
+        // Send a one-line message + an inline button that deep-links into
+        // the support bot's Dictionary mode (see support-bot /start handler
+        // for the `dict_<center>` payload).
+        await send(cfg.bot_token, chatId,
+          `📖 <b>Dictionary</b> — quick English ⇄ Uzbek lookup.\n\nTap the button below to open it.`,
+          { reply_markup: { inline_keyboard: [[
+            { text: '📖 Open Dictionary',
+              url: `https://t.me/${SUPPORT_BOT_USERNAME}?start=dict_${encodeURIComponent(cfg.center_id)}` }
+          ]] } });
       }
       return new Response('ok');
     }

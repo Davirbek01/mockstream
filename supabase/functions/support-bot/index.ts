@@ -489,22 +489,44 @@ Deno.serve(async (req: Request) => {
     const text      = String(message.text || '').trim();
     if (!chatId || !tgUserId) return new Response('ok');
 
-    // /start [center_id] /help /menu  → welcome (deep-link payload sets center)
+    // /start [<center_id> | dict | dict_<center_id>] /help /menu
+    //   Bare /start                → welcome
+    //   /start <center_id>         → set the user's center, then welcome
+    //   /start dict                → enter dictionary mode immediately
+    //   /start dict_<center_id>    → set center AND enter dictionary mode
     const startMatch = text.match(/^\/start(?:@\w+)?(?:\s+(.+))?$/i);
     if (startMatch || /^\/(menu|help)\b/i.test(text)) {
       const payload = (startMatch?.[1] || '').trim().toLowerCase();
-      if (payload) {
-        const ok = await setUserCenter(tgUserId, payload);
+      let goDict = false;
+      let centerArg = '';
+      if (payload === 'dict') {
+        goDict = true;
+      } else if (payload.startsWith('dict_')) {
+        goDict = true;
+        centerArg = payload.slice(5);
+      } else {
+        centerArg = payload;
+      }
+      if (centerArg) {
+        const ok = await setUserCenter(tgUserId, centerArg);
         if (!ok) {
           await send(chatId,
-            `⚠️ Unknown center "<code>${esc(payload)}</code>". Using default.\n\n` +
+            `⚠️ Unknown center "<code>${esc(centerArg)}</code>". Using default.\n\n` +
             `Send /center &lt;center_id&gt; to set it manually.`);
         }
       }
       const center     = await getUserCenter(tgUserId);
       const centerName = await getCenterDisplayName(center);
-      await setMode(tgUserId, 'idle');
-      await welcome(chatId, firstName, centerName);
+      if (goDict) {
+        // Skip the welcome screen and drop straight into Dictionary mode.
+        await setMode(tgUserId, 'dictionary');
+        await send(chatId,
+          `📖 <b>Dictionary mode</b>\n\nSend any English or Uzbek word/phrase and I'll translate &amp; define it.`,
+          { reply_markup: mainKeyboard() });
+      } else {
+        await setMode(tgUserId, 'idle');
+        await welcome(chatId, firstName, centerName);
+      }
       return new Response('ok');
     }
 
