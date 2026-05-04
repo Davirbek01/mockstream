@@ -327,6 +327,17 @@
       var viewUrl = base + '?id=' + id;
 
       console.log('[Supabase] ✅ Result saved:', id);
+      // Stamp the candidates table so the Registered Users panel reflects this
+      // test-taker. Non-blocking — the result has already been saved above.
+      try {
+        if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.upsertCandidate === 'function') {
+          window.MockStream.auth.upsertCandidate(
+            (opts.studentName || '').substring(0, 200),
+            _userEmail || '',
+            cfg.testIdentifier || ''
+          );
+        }
+      } catch (_e) {}
       if (window.msProgress) window.msProgress.update('📨 Sending notification...');
       // Stash on window AND sessionStorage so per-page features (e.g. the
       // Human Expert Telegram prefilled message) can append a "View Report"

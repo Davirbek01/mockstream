@@ -111,6 +111,9 @@
         try { _backfillGuestResults(profile); } catch (e) {}
         // Register this device so admin can DM the user (non-blocking)
         try { _registerSignedInDevice(profile); } catch (e) {}
+        // Stamp the candidates table so the Registered Users panel reflects
+        // this sign-in (Google or Telegram). Non-blocking.
+        try { _upsertCandidateFromAuth(profile); } catch (e) {}
       }
 
       // Subscribe to future auth changes (e.g., user signs in from popup)
@@ -126,6 +129,7 @@
           try { _premiumCache = null; applyPremiumUnlock(); } catch (e) {}
           try { _backfillGuestResults(profile); } catch (e) {}
           try { _registerSignedInDevice(profile); } catch (e) {}
+          try { _upsertCandidateFromAuth(profile); } catch (e) {}
         } else if (event === 'SIGNED_OUT') {
           _currentUser = null;
           _premiumCache = null;
@@ -474,6 +478,45 @@
     } catch (_e) { /* non-fatal */ }
   }
 
+  // Upsert a row into `candidates` so the Registered Users admin panel reflects
+  // this user. Called automatically on every SIGNED_IN (Google + Telegram), and
+  // exposed publicly so supabase-send.js / index.html can also call it on
+  // result submit / guest name submit. Anon RLS allows the upsert.
+  async function _upsertCandidateFromAuth(profile) {
+    try {
+      if (!profile || !profile.fullName) return;
+      var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      var row = {
+        student_name: profile.fullName,
+        email: (profile.email || '').toLowerCase(),
+        center: center,
+        avatar_url: profile.avatarUrl || '',
+        updated_at: new Date().toISOString()
+      };
+      await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+        method: 'POST',
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type':  'application/json',
+          'Prefer':        'resolution=merge-duplicates,return=minimal'
+        },
+        body: JSON.stringify(row)
+      }).catch(function(){});
+    } catch (_e) {}
+  }
+
+  // Lightweight variant for callers that only know name + email + center
+  // (e.g. result submitters that don't have a full profile object).
+  function _upsertCandidateLight(name, email, center) {
+    if (!name) return;
+    return _upsertCandidateFromAuth({
+      fullName: name,
+      email: email || '',
+      avatarUrl: ''
+    });
+  }
+
   window.MockStream = window.MockStream || {};
   window.MockStream.auth = {
     init: init,
@@ -485,7 +528,8 @@
     getProvider: getProvider,
     getClient: _getClient,
     checkPremiumRole: checkPremiumRole,
-    applyPremiumUnlock: applyPremiumUnlock
+    applyPremiumUnlock: applyPremiumUnlock,
+    upsertCandidate: _upsertCandidateLight
   };
 
   // Auto-init on DOMContentLoaded so pages don't have to call it manually.

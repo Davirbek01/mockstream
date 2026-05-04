@@ -4837,6 +4837,16 @@
       // Check if this user is blocked (async, will show overlay if blocked)
       _checkBlockedStatus(fullName);
 
+      // Stamp the candidates table so guests appear in the Registered Users
+      // panel from their first welcome submit (not only when they edit their
+      // profile later).
+      try {
+        if (window.MockStream && window.MockStream.auth && typeof window.MockStream.auth.upsertCandidate === 'function') {
+          var _center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+          window.MockStream.auth.upsertCandidate(fullName, '', _center);
+        }
+      } catch (_e) {}
+
       // Cache for future visits
       localStorage.setItem('CANDIDATE_SURNAME', surname);
       localStorage.setItem('CANDIDATE_FIRSTNAME', firstname);

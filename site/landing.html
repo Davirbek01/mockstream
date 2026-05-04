@@ -19920,9 +19920,10 @@
       div.innerHTML = '<div class="ru-panel">' +
         '<div class="ru-header"><h3>👥 Registered Users</h3><button class="ru-close" onclick="closeRegisteredUsersPanel()">&times;</button></div>' +
         '<div id="ruTabs" style="display:flex;gap:6px;padding:0 14px 8px;flex-wrap:wrap;">' +
-          '<button type="button" class="ru-tab-btn" data-rutab="all"     onclick="_setRuTab(\'all\')"     style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="google"  onclick="_setRuTab(\'google\')"  style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
-          '<button type="button" class="ru-tab-btn" data-rutab="guest"   onclick="_setRuTab(\'guest\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="all"      onclick="_setRuTab(\'all\')"      style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#6366f1;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All <span data-rucount="all"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="google"   onclick="_setRuTab(\'google\')"   style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">🔑 Google <span data-rucount="google"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="telegram" onclick="_setRuTab(\'telegram\')" style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">✈️ Telegram <span data-rucount="telegram"></span></button>' +
+          '<button type="button" class="ru-tab-btn" data-rutab="guest"    onclick="_setRuTab(\'guest\')"    style="padding:6px 12px;border:1px solid #ddd;border-radius:18px;background:#fff;color:#333;font-size:12px;font-weight:700;cursor:pointer;">👤 Guests <span data-rucount="guest"></span></button>' +
         '</div>' +
         '<input class="ru-search" id="ruSearch" type="text" placeholder="Search by name, email, center..." oninput="_filterRuList()">' +
         '<div class="ru-stats" id="ruStats"></div>' +
@@ -19998,8 +19999,25 @@
       if (overlay) overlay.classList.remove('active');
     }
 
-    // Active sub-tab in the Registered Users panel: 'all' | 'google' | 'guest'
+    // Active sub-tab in the Registered Users panel:
+    //   'all' | 'google' | 'telegram' | 'guest'
+    // Telegram-only users carry a synthetic email shaped like
+    // tg_<id>@telegram.mock-stream.com (created by the verify-telegram-login
+    // Edge Function). That pattern is the cheapest reliable signal.
     var _ruTab = 'all';
+    var _RU_TELEGRAM_EMAIL_RE = /^tg_\d+@telegram\.mock-stream\.com$/i;
+
+    function _ruIsTelegram(c) {
+      return !!(c.email && _RU_TELEGRAM_EMAIL_RE.test(c.email.trim()));
+    }
+    function _ruIsGoogle(c) {
+      // Has an email that ISN'T the Telegram synthetic.
+      return !!(c.email && c.email.trim() && !_ruIsTelegram(c));
+    }
+    function _ruIsGuest(c) {
+      return !(c.email && c.email.trim());
+    }
+
     function _setRuTab(tab) {
       _ruTab = tab;
       // Update button visuals
@@ -20014,18 +20032,20 @@
     window._setRuTab = _setRuTab;
 
     function _ruTabFilter(c) {
-      if (_ruTab === 'google') return !!(c.email && c.email.trim());
-      if (_ruTab === 'guest')  return !(c.email && c.email.trim());
+      if (_ruTab === 'google')   return _ruIsGoogle(c);
+      if (_ruTab === 'telegram') return _ruIsTelegram(c);
+      if (_ruTab === 'guest')    return _ruIsGuest(c);
       return true;
     }
 
     function _updateRuTabCounts() {
-      var counts = { all: _ruData.length, google: 0, guest: 0 };
+      var counts = { all: _ruData.length, google: 0, telegram: 0, guest: 0 };
       _ruData.forEach(function(c) {
-        if (c.email && c.email.trim()) counts.google++;
-        else counts.guest++;
+        if (_ruIsTelegram(c))    counts.telegram++;
+        else if (_ruIsGoogle(c)) counts.google++;
+        else                     counts.guest++;
       });
-      ['all','google','guest'].forEach(function(k) {
+      ['all','google','telegram','guest'].forEach(function(k) {
         var el = document.querySelector('#ruTabs [data-rucount="' + k + '"]');
         if (el) el.textContent = '(' + counts[k] + ')';
       });
