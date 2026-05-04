@@ -5140,16 +5140,21 @@
       btn.onclick = null;
 
       try {
-        var url = SUPABASE_URL + '/rest/v1/candidates' +
-          '?student_name=eq.' + encodeURIComponent(studentName) +
-          '&center=eq.' + encodeURIComponent(center) +
-          '&select=blocked';
-        var resp = await fetch(url, {
-          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
+        // Use the SECURITY DEFINER RPC instead of selecting from candidates —
+        // anon clients can no longer read that table directly (privacy fix).
+        // The RPC returns only a boolean, so it can never leak row data.
+        var resp = await fetch(SUPABASE_URL + '/rest/v1/rpc/is_candidate_blocked', {
+          method: 'POST',
+          headers: {
+            'apikey':        SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ p_name: studentName, p_center: center })
         });
         if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        var rows = await resp.json();
-        _trackBlockState.blocked = !!(rows && rows[0] && rows[0].blocked);
+        var blocked = await resp.json();
+        _trackBlockState.blocked = blocked === true;
       } catch (e) {
         console.warn('[track-block] status check failed:', e);
         // Fall through: treat as not blocked so admin can still issue a block.

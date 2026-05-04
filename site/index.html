@@ -2635,25 +2635,25 @@
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-      var row = {
-        student_name: name,
-        email: profile.email || '',
-        phone: profile.phone || '',
-        address: profile.address || '',
-        avatar_url: localStorage.getItem('ms_avatar_url') || '',
-        center: center,
-        updated_at: new Date().toISOString()
-      };
+      // Route through the SECURITY DEFINER `upsert_candidate` RPC because anon
+      // can no longer SELECT the table (privacy fix), which breaks PostgREST's
+      // on_conflict upsert mechanic.
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+        var resp = await fetch(SB_URL + '/rest/v1/rpc/upsert_candidate', {
           method: 'POST',
           headers: {
-            'apikey': SB_KEY,
+            'apikey':        SB_KEY,
             'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=merge-duplicates,return=minimal'
+            'Content-Type':  'application/json'
           },
-          body: JSON.stringify(row)
+          body: JSON.stringify({
+            p_student_name: name,
+            p_email:        (profile.email || '').toLowerCase(),
+            p_center:       center,
+            p_avatar_url:   localStorage.getItem('ms_avatar_url') || '',
+            p_phone:        profile.phone   || '',
+            p_address:      profile.address || ''
+          })
         });
         if (resp.ok) {
           console.log('[Profile] Candidate upserted:', name, center);
@@ -2665,19 +2665,29 @@
       }
     }
 
-    // Check if current user is blocked — reusable
+    // Check if current user is blocked — reusable.
+    // Uses the SECURITY DEFINER `is_candidate_blocked` RPC (returns just a bool)
+    // because anon clients no longer have direct SELECT access to the candidates
+    // table — locking that down was the privacy fix; this RPC is the
+    // safe-by-design replacement for the every-page-load block check.
     async function _checkBlockedStatus(name) {
       if (!name) return false;
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
       var SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
       var SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
       try {
-        var resp = await fetch(SB_URL + '/rest/v1/candidates?student_name=eq.' + encodeURIComponent(name) + '&center=eq.' + encodeURIComponent(center) + '&select=blocked', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        var resp = await fetch(SB_URL + '/rest/v1/rpc/is_candidate_blocked', {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ p_name: name, p_center: center })
         });
         if (!resp.ok) return false;
-        var rows = await resp.json();
-        if (rows.length && rows[0].blocked === true) {
+        var blocked = await resp.json();
+        if (blocked === true) {
           _enforceBlock(name);
           return true;
         }

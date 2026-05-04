@@ -479,29 +479,29 @@
   }
 
   // Upsert a row into `candidates` so the Registered Users admin panel reflects
-  // this user. Called automatically on every SIGNED_IN (Google + Telegram), and
-  // exposed publicly so supabase-send.js / index.html can also call it on
-  // result submit / guest name submit. Anon RLS allows the upsert.
+  // this user. Routed through the `upsert_candidate` SECURITY DEFINER RPC
+  // because anon clients no longer have direct SELECT access to the table
+  // (privacy fix), which broke PostgREST's on_conflict upsert mechanic.
+  // Called automatically on every SIGNED_IN (Google + Telegram); also exposed
+  // publicly so supabase-send.js / index.html can call it on result submit /
+  // guest name submit.
   async function _upsertCandidateFromAuth(profile) {
     try {
       if (!profile || !profile.fullName) return;
       var center = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
-      var row = {
-        student_name: profile.fullName,
-        email: (profile.email || '').toLowerCase(),
-        center: center,
-        avatar_url: profile.avatarUrl || '',
-        updated_at: new Date().toISOString()
-      };
-      await fetch(SB_URL + '/rest/v1/candidates?on_conflict=student_name,center', {
+      await fetch(SB_URL + '/rest/v1/rpc/upsert_candidate', {
         method: 'POST',
         headers: {
           'apikey':        SB_KEY,
           'Authorization': 'Bearer ' + SB_KEY,
-          'Content-Type':  'application/json',
-          'Prefer':        'resolution=merge-duplicates,return=minimal'
+          'Content-Type':  'application/json'
         },
-        body: JSON.stringify(row)
+        body: JSON.stringify({
+          p_student_name: profile.fullName,
+          p_email:        (profile.email || '').toLowerCase(),
+          p_center:       center,
+          p_avatar_url:   profile.avatarUrl || ''
+        })
       }).catch(function(){});
     } catch (_e) {}
   }
