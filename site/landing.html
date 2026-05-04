@@ -23,6 +23,10 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- PWA manifest — built per-clone at runtime from SITE_CONFIG (brandName,
+       logoUrl, brandColor) so each clone's install prompt shows the right
+       brand. See site-config/pwa-manifest.js for the why. -->
+  <script src="site-config/pwa-manifest.js"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
   <!-- Reroute legacy alwaysdata /verify calls to the Supabase verify-passcode edge function.
