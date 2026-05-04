@@ -85,6 +85,13 @@ window.SITE_CONFIG = {
           if (fc) fc.innerHTML = '&copy; ' + new Date().getFullYear() + ' ' + window.SITE_CONFIG.brandName + '. All rights reserved.';
           var ncb = document.getElementById('nameCardBrand');
           if (ncb) ncb.textContent = window.SITE_CONFIG.brandName;
+          var ncl = document.getElementById('nameCardLogo');
+          var nce = document.getElementById('nameCardEmoji');
+          if (ncl && window.SITE_CONFIG.logoUrl) {
+            ncl.onload  = function () { ncl.hidden = false; if (nce) nce.style.display = 'none'; };
+            ncl.onerror = function () { ncl.hidden = true;  if (nce) nce.style.display = '';     };
+            ncl.src = window.SITE_CONFIG.logoUrl;
+          }
         } catch (e) {}
         // Update welcome logo/header elements (landing.html)
         try {
