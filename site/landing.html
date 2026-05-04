@@ -24305,13 +24305,45 @@
           h += _cmSectionHeader(cid, 'branding', '🎨', 'Branding & Identity');
           if (_cmExpandedSections[cid + '_branding']) {
             h += '<div style="padding:10px 16px;">';
+
+            // ── Colours ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:8px 0 4px;">Colours</div>';
             h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
               '<span style="font-size:12px;min-width:140px;">Brand Color</span>' +
               '<input type="color" value="' + (cfg.brandColor || '#7c3aed') + '" onchange="_cmSetProp(\'' + cid + '\',\'brandColor\',this.value)" style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
               '<span style="font-size:11px;color:#888;">' + (cfg.brandColor || 'default') + '</span>' +
             '</div>';
+            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+              '<span style="font-size:12px;min-width:140px;">Accent Color</span>' +
+              '<input type="color" value="' + (cfg.accentColor || '#0d9488') + '" onchange="_cmSetProp(\'' + cid + '\',\'accentColor\',this.value)" style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
+              '<span style="font-size:11px;color:#888;">' + (cfg.accentColor || 'default') + '</span>' +
+            '</div>';
+
+            // ── Logo + hero copy ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Logo &amp; Hero</div>';
+            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://...png');
+            h += _cmTextInput(cid, 'heroImageUrl',   'Hero Image URL',  cfg.heroImageUrl,   'optional bg image');
+            h += _cmTextInput(cid, 'heroHeading',    'Hero Heading',    cfg.heroHeading,    'Override of brand name');
+            h += _cmTextInput(cid, 'heroSubheading', 'Hero Subheading', cfg.heroSubheading, 'Tagline under brand');
+            h += _cmTextInput(cid, 'ctaText',        'CTA Button Text', cfg.ctaText,        'default: Continue');
             h += _cmTextInput(cid, 'welcomeMessage', 'Welcome Message', cfg.welcomeMessage, 'Shown on landing page');
+
+            // ── Typography ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Typography</div>';
+            h += _cmTextInput(cid, 'fontUrl', 'Google Font URL', cfg.fontUrl, 'https://fonts.googleapis.com/...');
+            h += _cmTextInput(cid, 'fontFamily', 'Font Family', cfg.fontFamily, 'e.g. "Inter", sans-serif');
+
+            // ── Footer ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Footer &amp; Social</div>';
+            h += _cmTextInput(cid, 'footerTagline', 'Footer Tagline', cfg.footerTagline, 'shown next to copyright');
+            h += _cmTextInput(cid, 'socialFb', 'Facebook URL',  cfg.socialFb, 'https://fb.com/...');
+            h += _cmTextInput(cid, 'socialIg', 'Instagram URL', cfg.socialIg, 'https://instagram.com/...');
+            h += _cmTextInput(cid, 'socialYt', 'YouTube URL',   cfg.socialYt, 'https://youtube.com/@...');
+            h += _cmTextInput(cid, 'socialTg', 'Telegram URL',  cfg.socialTg, 'https://t.me/...');
+
+            h += '<div style="margin-top:14px;">';
             h += _cmToggleInput(cid, 'hidePoweredBy', 'Hide "Powered by Mock Stream"', cfg.hidePoweredBy);
+            h += '</div>';
             h += '</div>';
           }
 
