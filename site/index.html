@@ -1806,12 +1806,12 @@
     }
 
     .name-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      padding: 36px 28px 28px;
-      max-width: 400px;
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 20px;
+      padding: 28px 24px 22px;
+      max-width: 380px;
       width: 100%;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.1);
       animation: cardSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       text-align: center;
     }
@@ -1829,30 +1829,67 @@
     }
 
     .name-card-icon {
-      width: 64px;
-      height: 64px;
+      width: 52px;
+      height: 52px;
       background: linear-gradient(135deg, #116a60, #0d9488);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 28px;
-      box-shadow: 0 8px 24px rgba(17, 106, 96, 0.35);
+      margin: 0 auto 12px;
+      font-size: 24px;
+      box-shadow: 0 6px 18px rgba(17, 106, 96, 0.32);
     }
 
     .name-card h2 {
       color: #116a60;
-      font-size: 22px;
+      font-size: 19px;
       margin: 0 0 4px;
       font-weight: 800;
+      letter-spacing: -0.01em;
     }
 
     .name-card .name-card-sub {
       color: #6b7280;
-      font-size: 13px;
-      margin: 0 0 24px;
+      font-size: 12.5px;
+      margin: 0 0 18px;
     }
+
+    /* Progressive disclosure: guest fields are collapsed until the toggle is
+       tapped. Keeps the common (signed-in) path under one viewport on phones. */
+    .guest-section {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+    }
+    .guest-section.expanded {
+      max-height: 520px;
+      opacity: 1;
+    }
+    .guest-toggle {
+      display: block;
+      width: 100%;
+      background: none;
+      border: 0;
+      padding: 10px 0 8px;
+      margin: 6px 0 0;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      font-family: inherit;
+    }
+    .guest-toggle:hover { color: #116a60; }
+    .guest-toggle .chev {
+      display: inline-block;
+      margin-left: 6px;
+      transition: transform 0.25s;
+    }
+    .guest-toggle.expanded .chev { transform: rotate(180deg); }
+    [data-theme="dark"] .guest-toggle { color: #94a3b8; }
+    [data-theme="dark"] .guest-toggle:hover { color: #5eead4; }
 
     .name-field-group {
       text-align: left;
@@ -2823,8 +2860,8 @@
     <div class="name-overlay" id="nameOverlay">
       <div class="name-card">
         <div class="name-card-icon">👤</div>
-        <h2>Ismingizni kiriting</h2>
-        <p class="name-card-sub">Familiyangiz va ismingizni kiriting</p>
+        <h2 id="nameCardTitle">Welcome to <span id="nameCardBrand">Mock Stream</span></h2>
+        <p class="name-card-sub">Davom etish uchun kiring</p>
 
         <!-- Google sign-in (primary path) -->
         <button type="button" class="google-signin-btn" id="googleSigninBtn" onclick="signInWithGoogle()">
@@ -2838,27 +2875,34 @@
           <div id="telegramSigninSlot"></div>
         </div>
 
-        <div class="name-or-separator" id="nameOrSeparator"><span>yoki mehmon sifatida</span></div>
-
-        <div class="name-field-group">
-          <label for="nameInputSurname">Familiya (Surname)</label>
-          <input type="text" id="nameInputSurname" placeholder="Familiyangiz" autocomplete="off" autocorrect="off"
-            spellcheck="false">
-          <div class="name-field-error" id="surnameError"></div>
-        </div>
-
-        <div class="name-field-group">
-          <label for="nameInputFirstname">Ism (Name)</label>
-          <input type="text" id="nameInputFirstname" placeholder="Ismingiz" autocomplete="off" autocorrect="off"
-            spellcheck="false">
-          <div class="name-field-error" id="firstnameError"></div>
-        </div>
-
-        <button class="name-submit-btn" id="nameSubmitBtn" onclick="submitCandidateName()">
-          Davom etish <span style="font-size:20px">→</span>
+        <!-- Toggle for guest path. The original .name-or-separator id is kept on
+             the toggle so the existing Telegram-WebView fallback can still hide
+             it when needed (it then auto-expands the guest section). -->
+        <button type="button" class="guest-toggle" id="nameOrSeparator" onclick="toggleGuestSection()">
+          yoki mehmon sifatida davom eting<span class="chev">▾</span>
         </button>
-        <div class="guest-warning">
-          ⚠️ Mehmon sifatida: natijalar faqat shu qurilmada ko'rinadi
+
+        <div class="guest-section" id="guestSection">
+          <div class="name-field-group">
+            <label for="nameInputSurname">Familiya (Surname)</label>
+            <input type="text" id="nameInputSurname" placeholder="Familiyangiz" autocomplete="off" autocorrect="off"
+              spellcheck="false">
+            <div class="name-field-error" id="surnameError"></div>
+          </div>
+
+          <div class="name-field-group">
+            <label for="nameInputFirstname">Ism (Name)</label>
+            <input type="text" id="nameInputFirstname" placeholder="Ismingiz" autocomplete="off" autocorrect="off"
+              spellcheck="false">
+            <div class="name-field-error" id="firstnameError"></div>
+          </div>
+
+          <button class="name-submit-btn" id="nameSubmitBtn" onclick="submitCandidateName()">
+            Davom etish <span style="font-size:20px">→</span>
+          </button>
+          <div class="guest-warning">
+            ⚠️ Mehmon sifatida: natijalar faqat shu qurilmada ko'rinadi
+          </div>
         </div>
       </div>
     </div>
@@ -4636,11 +4680,46 @@
       document.getElementById('lnmSave').onclick = function () { _close(input.value); };
     }
 
+    // Set the brand-aware welcome title once SITE_CONFIG resolves. Falls back
+    // to "Mock Stream" if the per-center config hasn't loaded yet (e.g. an
+    // offline first paint). All 6 clones reuse this same template.
+    (function setWelcomeBrand() {
+      var apply = function () {
+        try {
+          var brand = (window.SITE_CONFIG && window.SITE_CONFIG.brandName) || 'Mock Stream';
+          var el = document.getElementById('nameCardBrand');
+          if (el) el.textContent = brand;
+        } catch (_e) {}
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', apply);
+      } else {
+        apply();
+      }
+    })();
+
+    // Progressive disclosure: clicking "or continue as guest" expands the
+    // surname/firstname fields below. Defined as window.* so the inline
+    // onclick on the button can reach it.
+    window.toggleGuestSection = function () {
+      var sec = document.getElementById('guestSection');
+      var btn = document.getElementById('nameOrSeparator');
+      if (!sec) return;
+      var isExp = sec.classList.toggle('expanded');
+      if (btn) btn.classList.toggle('expanded', isExp);
+      if (isExp) {
+        setTimeout(function () {
+          var f = document.getElementById('nameInputSurname');
+          if (f) try { f.focus(); } catch (_e) {}
+        }, 280);
+      }
+    };
+
     // When opened inside Telegram (mobile or desktop Mini App), Google OAuth
     // cannot reliably complete — Telegram's WebView opens the OAuth flow in
     // an isolated browsing context, and the redirected session token never
-    // makes it back to the WebView. Hide the Google button and let users
-    // continue as guest by typing their name.
+    // makes it back to the WebView. Hide the Google + Telegram buttons and
+    // auto-expand the guest section so the user has a path forward.
     (function hideGoogleInTelegram() {
       try {
         var ua = (navigator.userAgent || '').toLowerCase();
@@ -4650,10 +4729,14 @@
         var apply = function () {
           var btn  = document.getElementById('googleSigninBtn');
           var hint = document.getElementById('googleSigninHint');
+          var tg   = document.getElementById('telegramSigninWrap');
           var sep  = document.getElementById('nameOrSeparator');
+          var sec  = document.getElementById('guestSection');
           if (btn)  btn.style.display  = 'none';
           if (hint) hint.style.display = 'none';
+          if (tg)   tg.style.display   = 'none';
           if (sep)  sep.style.display  = 'none';
+          if (sec)  sec.classList.add('expanded');
           var sub = document.querySelector('.name-card-sub');
           if (sub) sub.textContent = 'Familiyangiz va ismingizni kiriting (mehmon sifatida)';
         };
