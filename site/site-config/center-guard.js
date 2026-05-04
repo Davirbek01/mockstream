@@ -252,6 +252,37 @@
       document.head.appendChild(st);
     }
 
+    // ─── SECTION COLOURS (header / body / footer / button) ──────────────
+    // Each is independent: setting Header Color recolours only the header
+    // strip; Body Color paints the main background; Footer Color hits the
+    // footer; Button Color overrides the .card-btn / .name-submit-btn /
+    // .continue-btn gradient. Empty values fall through to the existing CSS.
+    var sectionRules = '';
+    if (cc.headerBg && cc.headerBg !== '') {
+      var hb = cc.headerBg;
+      sectionRules += '.header { background: linear-gradient(135deg, ' + hb + ', ' + _cgDarken(hb, 18) + ') !important; }';
+    }
+    if (cc.bodyBg && cc.bodyBg !== '') {
+      var bb = cc.bodyBg;
+      sectionRules += 'body, .welcome-screen, .landing-body, main { background-color: ' + bb + ' !important; }';
+    }
+    if (cc.footerBg && cc.footerBg !== '') {
+      var fb = cc.footerBg;
+      sectionRules += '.footer, footer { background: ' + fb + ' !important; }';
+    }
+    if (cc.buttonBg && cc.buttonBg !== '') {
+      var bg = cc.buttonBg;
+      sectionRules +=
+        '.continue-btn, .name-submit-btn, .card-btn { ' +
+          'background: linear-gradient(135deg, ' + bg + ', ' + _cgDarken(bg, 18) + ') !important; ' +
+        '}';
+    }
+    if (sectionRules) {
+      var sectSt = document.createElement('style');
+      sectSt.textContent = sectionRules;
+      document.head.appendChild(sectSt);
+    }
+
     // ─── LOGO URL OVERRIDE ──────────────────────────────────────────────
     // SITE_CONFIG.logoUrl already drives most logos. If the admin set a
     // brand-new value via the Branding panel, overwrite it everywhere.

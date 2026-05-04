@@ -24125,6 +24125,23 @@
       return s;
     }
 
+    // Compact colour-input row used by the Branding section. Empty string for
+    // `value` means "unset" — the swatch falls back to the placeholder hint
+    // and the label says "default" so the admin sees the field is overridable.
+    function _cmColorRow(centerId, prop, label, value, placeholder) {
+      var v = value || '';
+      var swatch = v || placeholder || '#cccccc';
+      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
+        '<span style="font-size:12px;min-width:140px;">' + label + '</span>' +
+        '<input type="color" value="' + swatch + '" ' +
+          'onchange="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',this.value)" ' +
+          'style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
+        '<span style="font-size:11px;color:#888;">' + (v || 'default') + '</span>' +
+        (v ? '<button type="button" onclick="_cmSetProp(\'' + centerId + '\',\'' + prop + '\',\'\');_cmRenderBody();" ' +
+          'title="Clear" style="margin-left:auto;border:0;background:transparent;color:#aaa;font-size:14px;cursor:pointer;">✕</button>' : '') +
+      '</div>';
+    }
+
     function _cmEsc(str) { return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
     // ── Overlay ─────────────────────────────────────────────────────────────
@@ -24306,18 +24323,20 @@
           if (_cmExpandedSections[cid + '_branding']) {
             h += '<div style="padding:10px 16px;">';
 
-            // ── Colours ──
-            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:8px 0 4px;">Colours</div>';
-            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
-              '<span style="font-size:12px;min-width:140px;">Brand Color</span>' +
-              '<input type="color" value="' + (cfg.brandColor || '#7c3aed') + '" onchange="_cmSetProp(\'' + cid + '\',\'brandColor\',this.value)" style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
-              '<span style="font-size:11px;color:#888;">' + (cfg.brandColor || 'default') + '</span>' +
-            '</div>';
-            h += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;">' +
-              '<span style="font-size:12px;min-width:140px;">Accent Color</span>' +
-              '<input type="color" value="' + (cfg.accentColor || '#0d9488') + '" onchange="_cmSetProp(\'' + cid + '\',\'accentColor\',this.value)" style="width:36px;height:28px;border:1px solid var(--ring,#e5e7eb);border-radius:6px;cursor:pointer;padding:1px;">' +
-              '<span style="font-size:11px;color:#888;">' + (cfg.accentColor || 'default') + '</span>' +
-            '</div>';
+            // ── Brand colours ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:8px 0 4px;">Brand Colours</div>';
+            h += _cmColorRow(cid, 'brandColor',  'Brand Color',  cfg.brandColor,  '#7c3aed');
+            h += _cmColorRow(cid, 'accentColor', 'Accent Color', cfg.accentColor, '#0d9488');
+
+            // ── Section colours (header / body / footer) and button colour.
+            //    All four default to empty so the existing CSS / brand-derived
+            //    gradient stays in effect; setting a value overrides one slice
+            //    of the page without forcing the others. ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Section Colours</div>';
+            h += _cmColorRow(cid, 'headerBg', 'Header Color', cfg.headerBg, '');
+            h += _cmColorRow(cid, 'bodyBg',   'Body Color',   cfg.bodyBg,   '');
+            h += _cmColorRow(cid, 'footerBg', 'Footer Color', cfg.footerBg, '');
+            h += _cmColorRow(cid, 'buttonBg', 'Button Color', cfg.buttonBg, '');
 
             // ── Logo + hero copy ──
             h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Logo &amp; Hero</div>';
@@ -24344,6 +24363,16 @@
             h += '<div style="margin-top:14px;">';
             h += _cmToggleInput(cid, 'hidePoweredBy', 'Hide "Powered by Mock Stream"', cfg.hidePoweredBy);
             h += '</div>';
+
+            // ── Reset to defaults ──
+            // One-click clear of every Branding-section field so a centre
+            // admin can experiment freely and bail out clean. Feature toggles
+            // (Mock Access / AI / Limits / etc.) are left untouched.
+            h += '<div style="margin-top:18px;padding-top:12px;border-top:1px dashed var(--ring,#e5e7eb);text-align:right;">' +
+              '<button type="button" onclick="_cmResetBranding(\'' + cid + '\')" ' +
+              'style="padding:6px 14px;border:1px solid #fecaca;border-radius:8px;background:#fff5f5;color:#b91c1c;font-size:12px;font-weight:600;cursor:pointer;">' +
+              '↺ Reset Branding to defaults' +
+            '</button></div>';
             h += '</div>';
           }
 
@@ -24568,6 +24597,33 @@
       var key = centerId + '_' + section;
       _cmExpandedSections[key] = !_cmExpandedSections[key];
       _cmRenderBody();
+    };
+
+    // Wipe every Branding-section property back to the default config so a
+    // centre admin can bail out cleanly after experimenting. Feature toggles
+    // (Mock Access / AI / Limits / Schedule / etc.) are intentionally left
+    // alone — Reset is scoped just to the visual / copy fields.
+    var _BRANDING_FIELDS = [
+      'brandColor', 'accentColor',
+      'headerBg', 'bodyBg', 'footerBg', 'buttonBg',
+      'logoUrl', 'heroImageUrl',
+      'heroHeading', 'heroSubheading',
+      'ctaText', 'welcomeMessage',
+      'fontUrl', 'fontFamily',
+      'footerTagline',
+      'socialFb', 'socialIg', 'socialYt', 'socialTg',
+      'hidePoweredBy'
+    ];
+    window._cmResetBranding = function(centerId) {
+      if (!confirm('Reset ALL Branding fields for "' + centerId + '" back to defaults? This clears colours, logo, hero copy, fonts, footer tagline and social links. Feature toggles are left untouched.')) return;
+      var cfg = _cmConfigs[centerId] || (_cmConfigs[centerId] = _cmDefaultConfig());
+      var def = _cmDefaultConfig();
+      _BRANDING_FIELDS.forEach(function (k) {
+        if (Object.prototype.hasOwnProperty.call(def, k)) cfg[k] = def[k];
+        else delete cfg[k];
+      });
+      _cmRenderBody();
+      _cmAutoSave(centerId);
     };
 
     window._cmToggle = function(centerId, prop, val) {
