@@ -438,6 +438,20 @@
         return v;
       });
 
+      // The PATCH is gated by `self_backfill_email` (USING user_email IS NULL,
+      // CHECK user_email = jwt.email), which only applies for the `authenticated`
+      // role. With the anon key alone, the request falls through to
+      // `rls_results_update` (admin-only) and silently no-ops.
+      var token = SB_KEY;
+      try {
+        var c = _getClient();
+        if (c && c.auth && typeof c.auth.getSession === 'function') {
+          var sess = await c.auth.getSession();
+          var at = sess && sess.data && sess.data.session && sess.data.session.access_token;
+          if (at) token = at;
+        }
+      } catch (_e) {}
+
       // Run one PATCH per variant (cheap, all hit the (student_name,center) index).
       // We don't constrain by center — students who travel between centers
       // (or whose center identifier differs across clones) still get linked.
@@ -450,7 +464,7 @@
           method: 'PATCH',
           headers: {
             'apikey':        SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
+            'Authorization': 'Bearer ' + token,
             'Content-Type':  'application/json',
             'Prefer':        'return=minimal'
           },
