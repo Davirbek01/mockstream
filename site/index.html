@@ -4852,39 +4852,6 @@
       }
     };
 
-    // When opened inside Telegram (mobile or desktop Mini App), Google OAuth
-    // cannot reliably complete — Telegram's WebView opens the OAuth flow in
-    // an isolated browsing context, and the redirected session token never
-    // makes it back to the WebView. Hide the Google + Telegram buttons and
-    // auto-expand the guest section so the user has a path forward.
-    (function hideGoogleInTelegram() {
-      try {
-        var ua = (navigator.userAgent || '').toLowerCase();
-        var inTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) ||
-                         ua.indexOf('telegram') !== -1;
-        if (!inTelegram) return;
-        var apply = function () {
-          var btn  = document.getElementById('googleSigninBtn');
-          var hint = document.getElementById('googleSigninHint');
-          var tg   = document.getElementById('telegramSigninBtn');
-          var sep  = document.getElementById('nameOrSeparator');
-          var sec  = document.getElementById('guestSection');
-          if (btn)  btn.style.display  = 'none';
-          if (hint) hint.style.display = 'none';
-          if (tg)   tg.style.display   = 'none';
-          if (sep)  sep.style.display  = 'none';
-          if (sec)  sec.classList.add('expanded');
-          var sub = document.querySelector('.name-card-sub');
-          if (sub) sub.textContent = 'Familiyangiz va ismingizni kiriting (mehmon sifatida)';
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', apply);
-        } else {
-          apply();
-        }
-      } catch (_e) {}
-    })();
-
     // When Google OAuth redirect returns and session is restored, auto-advance
     // past the name card (auth.js has already filled CANDIDATE_FULL_NAME +
     // CANDIDATE_SURNAME + CANDIDATE_FIRSTNAME for us).
