@@ -21,6 +21,7 @@
 //   TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL       (global      → @global_login_bot)
 //   TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS    (muzaffars   → @muzaffars_login_bot)
 //   TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS    (achievers   → @acheivers_login_bot)
+//   TELEGRAM_LOGIN_BOT_TOKEN_RECORD       (record      → @multilevelrecord_sign_bot)
 //   SUPABASE_URL                (auto-injected)
 //   SUPABASE_SERVICE_ROLE_KEY   (auto-injected)
 //
@@ -107,6 +108,7 @@ Deno.serve(async (req) => {
     global:      'TELEGRAM_LOGIN_BOT_TOKEN_GLOBAL',
     muzaffars:   'TELEGRAM_LOGIN_BOT_TOKEN_MUZAFFARS',
     achievers:   'TELEGRAM_LOGIN_BOT_TOKEN_ACHEIVERS',
+    record:      'TELEGRAM_LOGIN_BOT_TOKEN_RECORD',
   };
   const envName = TOKEN_ENV_BY_CENTER[center];
   if (!envName) return jerr(400, 'unknown_center', center);
