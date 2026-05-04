@@ -17,6 +17,23 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- Telegram Mini App SDK + immediate fullscreen request. Runs inline before
+       layout so the Mini App expands to full viewport on first paint instead
+       of showing the bot header bar. requestFullscreen() needs Bot API 8.0+
+       (Telegram client v11+, Dec 2024); older clients silently ignore it and
+       fall back to the standard expanded Mini App view. -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    (function tgMiniAppFullscreen() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (!tg || !tg.initData) return; // not in Mini App
+        if (typeof tg.ready === 'function') tg.ready();
+        if (typeof tg.expand === 'function') tg.expand();
+        if (typeof tg.requestFullscreen === 'function') tg.requestFullscreen();
+      } catch (_e) {}
+    })();
+  </script>
   <!-- Supabase Auth (Google Sign-In + guest hybrid) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
