@@ -126,8 +126,7 @@ async function getAdminPasscode(centerId: string): Promise<string | null> {
 // UI builders — persistent ReplyKeyboard (big buttons in place of input)
 // ─────────────────────────────────────────────────────────────────────
 const BTN = {
-  TAKE_MOCK:  'Take in 📱',
-  OPEN_WEB:   'Take in 💻',
+  TAKE_MOCK:  '🎯 Take Mock',
   ADMIN:      '👨\u200d🏫 Admin',
   SUPPORT:    '🎁 Code',
   CANCEL:     '❌ Cancel',
@@ -145,10 +144,10 @@ const BTN = {
 function mainKeyboard(cfg: CenterConfig) {
   const rows: unknown[][] = [];
   if (cfg.show_mock_btn) {
-    // Two big side-by-side buttons: phone (Mini App) + computer (browser link)
+    // Single full-width Take Mock button — opens the site as a fullscreen
+    // Mini App via Telegram.WebApp.requestFullscreen() in index.html.
     rows.push([
-      { text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } },
-      { text: BTN.OPEN_WEB }
+      { text: BTN.TAKE_MOCK, web_app: { url: cfg.webapp_url } }
     ]);
   }
   const second: unknown[] = [];
@@ -187,8 +186,7 @@ function passcodeKeyboard() {
 function welcomeText(cfg: CenterConfig, firstName: string): string {
   return (
     `<b>👋 Welcome, ${esc(firstName || 'student')}!</b>\n\n` +
-    `<b>📱 Phone</b> — take a mock inside Telegram (best on mobile).\n` +
-    `<b>💻 PC / Mac</b> — take a mock in your browser, full-screen.\n` +
+    `<b>🎯 Take Mock</b> — open the platform in fullscreen and take a mock now.\n` +
     (cfg.show_admin_btn   ? `<b>👨‍🏫 Admin</b> — center management (passcode).\n` : '') +
     (cfg.show_support_btn ? `<b>🎁 Code</b> — free regular mock codes &amp; AI help.\n` : '') +
     `\n<i>Need a free code right now or want help from AI? Tap below ⤵️</i>`
@@ -465,7 +463,7 @@ Deno.serve(async (req: Request) => {
     // (otherwise a stale "awaiting" row would treat the button text as
     // the user's passcode attempt → "Wrong passcode" loop).
     const isMenuButton = (
-      text === BTN.TAKE_MOCK || text === BTN.OPEN_WEB ||
+      text === BTN.TAKE_MOCK ||
       text === BTN.ADMIN     || text === BTN.SUPPORT  ||
       text === BTN.CANCEL    || text === BTN.LEAVE_SUP
     );
@@ -493,19 +491,6 @@ Deno.serve(async (req: Request) => {
     }
 
     // ── Main / admin menu button taps (text-matched) ─────────────────
-    if (text === BTN.OPEN_WEB) {
-      if (!cfg.show_mock_btn) {
-        await send(cfg.bot_token, chatId, 'Mock button is disabled.');
-      } else {
-        await send(cfg.bot_token, chatId,
-          `🌐 <b>Open Mock Stream in your browser</b>\n\n` +
-          `<a href="${esc(cfg.webapp_url)}">${esc(cfg.webapp_url)}</a>\n\n` +
-          `<i>Tap the link above — it opens in Chrome / Edge / Safari at full size.</i>`,
-          { disable_web_page_preview: false });
-      }
-      return new Response('ok');
-    }
-
     if (text === BTN.ADMIN) {
       if (!cfg.show_admin_btn) {
         await send(cfg.bot_token, chatId, 'Admin button is disabled.');
