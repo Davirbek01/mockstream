@@ -10606,9 +10606,12 @@
         if (editEl) editEl.style.display = 'none';
         if (roleEl) roleEl.textContent   = 'Continue with Google →';
         if (avatarImg) avatarImg.style.display = 'none';
-        if (myResIcon)  myResIcon.textContent  = '🔒';
-        if (myResLabel) myResLabel.textContent = 'Sign in for results';
-        if (myResLink)  myResLink.setAttribute('href', 'javascript:void(0)');
+        // Guests now go straight to /results/my-results.html, which shows a
+        // blurred dashboard skeleton with Google + Telegram sign-in front-and-
+        // center. No need to bounce them through the profile popup.
+        if (myResIcon)  myResIcon.textContent  = '📊';
+        if (myResLabel) myResLabel.textContent = 'My Results';
+        if (myResLink)  myResLink.setAttribute('href', 'results/my-results.html');
       } else {
         // -------- SIGNED-IN MODE --------
         var name = sessionStorage.getItem('CANDIDATE_FULL_NAME') ||
@@ -10637,14 +10640,11 @@
       try { openProfilePopup(); } catch (_e) {}
     }
 
-    // My Results click router: guest → open profile popup (Google + Telegram);
-    // signed-in → close sidebar so the link navigates to results page.
+    // My Results click router: in either state, close the sidebar and let the
+    // link navigate to /results/my-results.html. The page itself decides what
+    // to render — blurred preview + sign-in card for guests, real data for
+    // signed-in users.
     function _handleMyResultsClick(ev) {
-      if (!_isGoogleSignedIn()) {
-        if (ev) { ev.preventDefault(); ev.stopPropagation(); }
-        try { openProfilePopup(); } catch (_e) {}
-        return false;
-      }
       try { toggleSidebar(); } catch (_e) {}
       return true;
     }
