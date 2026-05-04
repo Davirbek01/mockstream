@@ -61,11 +61,17 @@
 
     /* ===== NAME GATE ===== */
     .name-gate {
+      position: fixed;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
+      z-index: 1000;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(248, 250, 252, 0.72));
+    }
+    [data-theme="dark"] .name-gate {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.65), rgba(2, 6, 23, 0.78));
     }
 
     .name-card {
@@ -156,8 +162,36 @@
     }
 
     /* ===== DASHBOARD ===== */
-    .dashboard { display: none; min-height: 100vh; }
-    .dashboard.show { display: block; }
+    .dashboard { min-height: 100vh; }
+    /* Guests see the dashboard skeleton blurred behind the sign-in card so the
+       page reads as "rich content waiting" instead of "locked". Pointer-events
+       are off so blurred buttons can't accidentally fire. */
+    .dashboard.guest-preview {
+      filter: blur(7px) saturate(0.85);
+      pointer-events: none;
+      user-select: none;
+    }
+    .dashboard.guest-preview .topbar { visibility: hidden; }
+
+    /* Skeleton placeholders shown only in guest-preview — empty chart axes
+       and gray row outlines, no fabricated numbers. */
+    .chart-skeleton {
+      width: 100%;
+      height: 220px;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 19px, var(--border) 19px 20px),
+        repeating-linear-gradient(90deg, transparent 0 49px, var(--border) 49px 50px);
+      border-radius: 8px;
+      opacity: 0.55;
+    }
+    .row-skeleton {
+      height: 70px;
+      border-radius: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
 
     .topbar {
       background: var(--surface);
@@ -667,7 +701,9 @@
   </div>
 
   <!-- ===== DASHBOARD ===== -->
-  <div class="dashboard" id="dashboard">
+  <!-- Starts in guest-preview mode (blurred skeleton). _afterAuthReady() removes
+       the class once the user is signed in. -->
+  <div class="dashboard guest-preview" id="dashboard">
 
     <div class="topbar">
       <div class="topbar-left">
@@ -837,6 +873,10 @@
       var cfg = window.SITE_CONFIG || {};
       document.getElementById('brandLabel').textContent = '— ' + (cfg.brandName || 'Mock Stream');
 
+      // Paint the guest-preview skeleton immediately so the gate hovers over a
+      // populated-looking dashboard, not a blank page.
+      renderGuestSkeleton();
+
       // Wire Google sign-in button
       document.getElementById('googleSignInBtn').addEventListener('click', function () {
         var errEl = document.getElementById('gateError');
@@ -924,7 +964,9 @@
     // ====================================================================
     function unlockDashboard() {
       document.getElementById('nameGate').style.display = 'none';
-      document.getElementById('dashboard').classList.add('show');
+      var dash = document.getElementById('dashboard');
+      dash.classList.remove('guest-preview');
+      dash.classList.add('show');
 
       // Set student display
       document.getElementById('studentNameDisplay').textContent = studentName;
@@ -932,6 +974,19 @@
       document.getElementById('studentAvatar').textContent = initials.substring(0, 2);
 
       fetchResults();
+    }
+
+    // Render skeleton placeholders for the chart and results list while the
+    // dashboard is in guest-preview mode. No fabricated numbers — just shapes.
+    function renderGuestSkeleton() {
+      var chart = document.getElementById('chartContent');
+      if (chart) chart.innerHTML = '<div class="chart-skeleton" aria-hidden="true"></div>';
+      var list = document.getElementById('resultsList');
+      if (list) {
+        var rows = '';
+        for (var i = 0; i < 4; i++) rows += '<div class="row-skeleton" aria-hidden="true"></div>';
+        list.innerHTML = rows;
+      }
     }
 
     // ====================================================================
