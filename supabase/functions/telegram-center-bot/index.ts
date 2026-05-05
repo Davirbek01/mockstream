@@ -1,12 +1,16 @@
 // telegram-center-bot — student-facing Telegram bot per center, dispatched
 // by ?center=<id>. /start shows: 🎯 Take Mock, 👨‍🏫 Admin, 🎁 Code, 📖 Dictionary.
+//
+// v45: Admin button now opens a FULL in-bot admin panel scoped to that
+// centre — no manager-bot redirect. Mirrors @MS23_manager_bot's flows
+// (VIP, mock codes, bulk renew) inside the per-centre bot itself, with
+// the hideRegularCodes flag filtering Regular tier rows + buttons for
+// clone admins on hidden-regulars centres.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const sb = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, { auth: { persistSession: false } });
-
-const MANAGER_BOT_USERNAME = 'MS23_manager_bot';
 
 // Premium-upsell target. Same Telegram handle support-bot uses so all
 // premium leads land in one inbox; matches the web Help Center pitch.
@@ -14,6 +18,16 @@ const PREMIUM_TG = 'mrkhasanoff3';
 const PREMIUM_TEXT =
   '💎 Salom!\n\n🚀 Men Mock Stream Premium obunasini sotib olmoqchiman. ' +
   'Iltimos narxlar va imkoniyatlar haqida ma\'lumot bera olasizmi?';
+
+const SKILLS = ['listening','reading','writing','speaking','full_mock'] as const;
+type Skill = typeof SKILLS[number];
+const SKILL_LABEL: Record<Skill, string> = {
+  listening: '🎧 Listening',
+  reading:   '📖 Reading',
+  writing:   '✍️ Writing',
+  speaking:  '🎤 Speaking',
+  full_mock: '🏆 Full Mock',
+};
 
 async function tg(token: string, method: string, payload: Record<string, unknown>) {
   try {
@@ -26,6 +40,8 @@ async function tg(token: string, method: string, payload: Record<string, unknown
 }
 const send = (token: string, chat_id: number, text: string, extra: Record<string, unknown> = {}) =>
   tg(token, 'sendMessage', { chat_id, text, parse_mode: 'HTML', ...extra });
+const editMessageText = (token: string, chat_id: number, message_id: number, text: string, extra: Record<string, unknown> = {}) =>
+  tg(token, 'editMessageText', { chat_id, message_id, text, parse_mode: 'HTML', ...extra });
 const sendChatAction = (token: string, chat_id: number, action: string) =>
   tg(token, 'sendChatAction', { chat_id, action });
 const answerCb = (token: string, callback_query_id: string, text?: string) =>
@@ -39,6 +55,13 @@ function ctEq(a: string, b: string): boolean {
 }
 function esc(s: string): string {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function genCode(length = 8): string {
+  const buf = new Uint32Array(length);
+  crypto.getRandomValues(buf);
+  let out = '';
+  for (let i = 0; i < length; i++) out += String(buf[i] % 10);
+  return out;
 }
 
 interface CenterConfig {
@@ -62,7 +85,7 @@ async function loadCenterConfig(centerId: string): Promise<CenterConfig | null> 
   try {
     const { data: cc } = await sb.from('site_settings').select('value').eq('key', `center_config_${centerId}`).maybeSingle();
     if (cc?.value) {
-      const parsed = JSON.parse(String(cc.value));
+      const parsed = typeof cc.value === 'string' ? JSON.parse(cc.value) : cc.value;
       if (parsed && parsed.freeCodeDispenser === false) freeCodeEnabled = false;
     }
   } catch (e) { console.warn('[center-bot] freeCodeDispenser load failed', e); }
@@ -80,6 +103,41 @@ async function loadCenterConfig(centerId: string): Promise<CenterConfig | null> 
 async function getAdminPasscode(centerId: string): Promise<string | null> {
   const { data } = await sb.from('admin_passcodes').select('passcode').eq('center', centerId).maybeSingle();
   return data?.passcode ? String(data.passcode) : null;
+}
+
+// Per-centre Hide Regular Codes flag — set via Centers Management →
+// Features Toggle. When true, the in-bot admin panel hides every Regular
+// tier surface for THIS centre's admin (no Regular VIP, no Regular mock
+// cell, bulk renew runs premium-only). The user already excluded
+// super-admin from this filter on the website; per-centre bots only ever
+// authenticate centre admins via the centre passcode, so the gate is
+// purely "is this centre's flag on".
+async function shouldHideRegulars(centerId: string): Promise<boolean> {
+  if (!centerId) return false;
+  try {
+    const { data } = await sb.from('site_settings').select('value').eq('key', `center_config_${centerId}`).maybeSingle();
+    if (!data?.value) return false;
+    const parsed = typeof data.value === 'string' ? JSON.parse(data.value) : data.value;
+    return !!(parsed && (parsed as Record<string, unknown>).hideRegularCodes === true);
+  } catch (_e) { return false; }
+}
+
+async function fetchMockCounts(): Promise<Record<'listening'|'reading'|'writing'|'speaking', number>> {
+  const def = { listening: 100, reading: 99, writing: 99, speaking: 99 };
+  try {
+    const { data } = await sb.from('site_settings').select('value').eq('key', 'mock_counts').maybeSingle();
+    const raw = data?.value;
+    let v: Record<string, unknown> | null = null;
+    if (typeof raw === 'string') { try { v = JSON.parse(raw); } catch { return def; } }
+    else if (raw && typeof raw === 'object') { v = raw as Record<string, unknown>; }
+    if (!v) return def;
+    const out: Record<string, number> = { ...def };
+    for (const k of Object.keys(def)) {
+      const n = parseInt(String(v[k] ?? ''), 10);
+      if (Number.isInteger(n) && n >= 1 && n <= 200) out[k] = n;
+    }
+    return out as typeof def;
+  } catch { return def; }
 }
 
 const BTN = {
@@ -149,13 +207,8 @@ function welcomeText(cfg: CenterConfig, firstName: string): string {
     `\n<i>Tap any button below ⤵️</i>`
   );
 }
-function adminMenuText(cfg: CenterConfig): string {
-  return `<b>✅ Admin unlocked — ${esc(cfg.center_id)}</b>\n\nTap the button below to open the full code-management panel in <b>@${esc(MANAGER_BOT_USERNAME)}</b>.`;
-}
-function adminInlineKeyboard() {
-  return { inline_keyboard: [[{ text: '🔓 Open admin panel', url: `https://t.me/${MANAGER_BOT_USERNAME}` }]] };
-}
 
+// ── Admin session: unlock + state (admin_state column on center_bot_admin_sessions). ──
 async function isAdminUnlocked(centerId: string, tgUserId: number): Promise<boolean> {
   const { data } = await sb.from('center_bot_admin_sessions').select('expires_at').eq('center_id', centerId).eq('tg_user_id', tgUserId).maybeSingle();
   if (!data) return false;
@@ -166,8 +219,20 @@ async function unlockAdmin(centerId: string, tgUserId: number): Promise<void> {
     center_id: centerId, tg_user_id: tgUserId,
     unlocked_at: new Date().toISOString(),
     expires_at: new Date(Date.now() + 12 * 60 * 60 * 1000).toISOString(),
+    admin_state: null,
   });
 }
+async function lockAdmin(centerId: string, tgUserId: number): Promise<void> {
+  await sb.from('center_bot_admin_sessions').delete().eq('center_id', centerId).eq('tg_user_id', tgUserId);
+}
+async function getAdminState(centerId: string, tgUserId: number): Promise<string | null> {
+  const { data } = await sb.from('center_bot_admin_sessions').select('admin_state').eq('center_id', centerId).eq('tg_user_id', tgUserId).maybeSingle();
+  return (data?.admin_state as string | null | undefined) || null;
+}
+async function setAdminState(centerId: string, tgUserId: number, state: string | null): Promise<void> {
+  await sb.from('center_bot_admin_sessions').update({ admin_state: state }).eq('center_id', centerId).eq('tg_user_id', tgUserId);
+}
+
 async function getSupportMode(centerId: string, tgUserId: number): Promise<string | null> {
   const { data } = await sb.from('center_bot_support_sessions').select('mode').eq('center_id', centerId).eq('tg_user_id', tgUserId).maybeSingle();
   return (data?.mode as string | null | undefined) || null;
@@ -207,6 +272,7 @@ async function clearAwaitingPasscode(centerId: string, tgUserId: number) {
   await sb.from('center_bot_passcode_prompts').delete().eq('center_id', centerId).eq('tg_user_id', tgUserId);
 }
 
+// ── Gemini lookup for the in-bot Dictionary mode (unchanged). ──
 let _geminiKey: string | null = null;
 async function getGeminiKey(): Promise<string | null> {
   if (_geminiKey) return _geminiKey;
@@ -240,7 +306,6 @@ async function callGemini(prompt: string, temperature = 0.2, maxOutputTokens = 8
     return typeof txt === 'string' ? txt.trim() : null;
   } catch (e) { console.warn('[center-bot] gemini call failed', e); return null; }
 }
-
 const DICT_PROMPT = (word: string) => (
   `You are a bilingual English⇄Uzbek dictionary assistant. The user typed: \"${word}\"\n\n` +
   `Respond ONLY with valid JSON (no markdown) in this exact shape:\n` +
@@ -263,7 +328,7 @@ async function lookupDictWord(token: string, chatId: number, text: string) {
     let depth = 0, end = -1, inStr = false, esc2 = false;
     for (let i = start; i < stripped.length; i++) {
       const c = stripped[i];
-      if (inStr) { if (esc2) { esc2 = false; continue; } if (c === '\\\\') { esc2 = true; continue; } if (c === '\"') inStr = false; continue; }
+      if (inStr) { if (esc2) { esc2 = false; continue; } if (c === '\\') { esc2 = true; continue; } if (c === '\"') inStr = false; continue; }
       if (c === '\"') { inStr = true; continue; }
       if (c === '{') depth++;
       else if (c === '}') { depth--; if (depth === 0) { end = i; break; } }
@@ -285,6 +350,7 @@ async function lookupDictWord(token: string, chatId: number, text: string) {
   await send(token, chatId, lines.join('\n'), { reply_markup: dictKeyboard() });
 }
 
+// ── Free-code dispenser (Code button — unchanged). ──
 function skillFromButton(text: string): string | null {
   switch (text) {
     case BTN.LISTEN: return 'listening';
@@ -345,16 +411,183 @@ async function issueCode(token: string, chatId: number, tgUserId: number, center
   }
 }
 
+// ─── In-bot ADMIN PANEL ──────────────────────────────────────────────────
+// All admin views use inline_keyboard (callback_data buttons) so the same
+// message can be edited in place as the admin navigates. The reply
+// keyboard (Take Mock / Admin / Code / Dictionary) stays untouched.
+async function showAdminMenu(cfg: CenterConfig, chatId: number, message_id?: number) {
+  const hideReg = await shouldHideRegulars(cfg.center_id);
+  const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
+  buttons.push([{ text: '👑 Premium VIP', callback_data: 'adm_vip:premium' }]);
+  if (!hideReg) buttons.push([{ text: '🎟 Regular VIP', callback_data: 'adm_vip:regular' }]);
+  buttons.push([{ text: '📚 Mock codes', callback_data: 'adm_mock' }]);
+  buttons.push([{ text: hideReg ? '⚡ Bulk generate (premium-only)' : '⚡ Bulk generate (all skills)', callback_data: 'adm_bulk' }]);
+  buttons.push([{ text: '🔒 Lock admin', callback_data: 'adm_lock' }]);
+  const lines = [
+    `🛠 <b>Admin — ${esc(cfg.center_id)}</b>`,
+    '',
+    `Manage your centre's codes:`,
+    '',
+    `• 👑 Premium VIP code`,
+  ];
+  if (!hideReg) lines.push(`• 🎟 Regular VIP code`);
+  lines.push(`• 📚 Mock codes per skill`);
+  lines.push(`• ⚡ Bulk-generate every mock at once`);
+  lines.push('');
+  lines.push(`<i>Auto-locks after 12h.</i>`);
+  const kb = { inline_keyboard: buttons };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, lines.join('\n'), { reply_markup: kb });
+  return send(cfg.bot_token, chatId, lines.join('\n'), { reply_markup: kb });
+}
+async function sendAdminVipCard(cfg: CenterConfig, chatId: number, type: 'premium' | 'regular', message_id?: number) {
+  const { data } = await sb.from('vip_codes').select('code, expires_at, last_renewed_at, last_renewed_by').eq('center', cfg.center_id).eq('type', type).maybeSingle();
+  const typeLabel = type === 'premium' ? '👑 Premium' : '🎟 Regular';
+  let text: string;
+  if (!data) {
+    text = `<b>${esc(cfg.center_id)}</b> — ${typeLabel}\n\n<i>No code yet.</i>\n\nTap below to generate one.`;
+  } else {
+    const expiry = data.expires_at ? `\n📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}` : `\n♾ Never expires`;
+    const renewed = data.last_renewed_at ? `\n🕒 Renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}` + (data.last_renewed_by ? ` <i>by ${esc(String(data.last_renewed_by))}</i>` : '') : '';
+    text = `<b>${esc(cfg.center_id)}</b> — ${typeLabel}\n\n<b>Current code:</b>\n<code>${esc(data.code)}</code>${expiry}${renewed}`;
+  }
+  const kb = { inline_keyboard: [
+    [{ text: '🔄 Revoke & generate new', callback_data: `adm_renew_vip:${type}` }],
+    [{ text: '⬅️ Back to admin menu', callback_data: 'adm_menu' }],
+  ] };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
+  return send(cfg.bot_token, chatId, text, { reply_markup: kb });
+}
+async function sendAdminMockSkills(cfg: CenterConfig, chatId: number, message_id?: number) {
+  const text = `<b>${esc(cfg.center_id)}</b> — 📚 Mock codes\n\nPick a skill:`;
+  const rows = SKILLS.map(s => [{ text: SKILL_LABEL[s], callback_data: `adm_mock_skill:${s}` }]);
+  rows.push([{ text: '⬅️ Back to admin menu', callback_data: 'adm_menu' }]);
+  const kb = { inline_keyboard: rows };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
+  return send(cfg.bot_token, chatId, text, { reply_markup: kb });
+}
+async function sendAdminMockList(cfg: CenterConfig, chatId: number, skill: Skill, message_id?: number) {
+  const hideReg = await shouldHideRegulars(cfg.center_id);
+  let q = sb.from('mock_codes').select('mock_number, tier').eq('center', cfg.center_id).eq('skill', skill);
+  if (hideReg) q = q.eq('tier', 'premium');
+  const { data } = await q;
+  const nums = Array.from(new Set((data ?? []).map(m => m.mock_number))).sort((a, b) => a - b);
+  const lines = [`<b>${esc(cfg.center_id)}</b>`, `${SKILL_LABEL[skill]} — mock codes`, ''];
+  if (!nums.length) lines.push(`<i>No mock codes yet.</i>`, `Tap ➕ to add one.`);
+  else lines.push(`Tap a number to view its ${hideReg ? 'premium' : '🟢 regular &amp; 🔥 premium'} code(s).`);
+  const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
+  for (let i = 0; i < nums.length; i += 4) buttons.push(nums.slice(i, i + 4).map(n => ({ text: `#${n}`, callback_data: `adm_mock_n:${skill}:${n}` })));
+  buttons.push([{ text: '➕ New mock #', callback_data: `adm_mock_new:${skill}` }]);
+  buttons.push([{ text: '⬅️ Skills', callback_data: 'adm_mock' }]);
+  const kb = { inline_keyboard: buttons };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, lines.join('\n'), { reply_markup: kb });
+  return send(cfg.bot_token, chatId, lines.join('\n'), { reply_markup: kb });
+}
+async function sendAdminMockCard(cfg: CenterConfig, chatId: number, skill: Skill, num: number, message_id?: number) {
+  const hideReg = await shouldHideRegulars(cfg.center_id);
+  let q = sb.from('mock_codes').select('tier').eq('center', cfg.center_id).eq('skill', skill).eq('mock_number', num);
+  if (hideReg) q = q.eq('tier', 'premium');
+  const { data } = await q;
+  const has = new Set((data ?? []).map(r => r.tier));
+  const preTag = has.has('premium') ? '✅' : '⚪️';
+  const regTag = has.has('regular') ? '✅' : '⚪️';
+  const lines: string[] = [
+    `<b>${esc(cfg.center_id)}</b>`,
+    `${SKILL_LABEL[skill]} #${num}`,
+    '',
+    `Pick the <b>tier</b> you want to manage:`,
+  ];
+  if (!hideReg) lines.push('', `${regTag} 🟢 <b>Regular</b>  <i>(unlocks mock only)</i>`);
+  lines.push('', `${preTag} 🔥 <b>Premium</b>  <i>(unlocks + AI grading + transcripts)</i>`);
+  const buttons: Array<Array<{ text: string; callback_data: string }>> = [];
+  if (!hideReg) buttons.push([{ text: '🟢 Regular', callback_data: `adm_mock_t:${skill}:${num}:regular` }]);
+  buttons.push([{ text: '🔥 Premium', callback_data: `adm_mock_t:${skill}:${num}:premium` }]);
+  buttons.push([{ text: '⬅️ Back', callback_data: `adm_mock_skill:${skill}` }]);
+  const kb = { inline_keyboard: buttons };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, lines.join('\n'), { reply_markup: kb });
+  return send(cfg.bot_token, chatId, lines.join('\n'), { reply_markup: kb });
+}
+async function sendAdminMockTierCard(cfg: CenterConfig, chatId: number, skill: Skill, num: number, tier: 'regular' | 'premium', message_id?: number) {
+  const { data } = await sb.from('mock_codes').select('code, expires_at, last_renewed_at').eq('center', cfg.center_id).eq('skill', skill).eq('mock_number', num).eq('tier', tier).maybeSingle();
+  const tierTitle = tier === 'regular' ? '🟢 <b>Regular</b> <i>(unlocks mock only)</i>' : '🔥 <b>Premium</b> <i>(unlocks + AI grading + transcripts)</i>';
+  let body: string;
+  if (!data) body = `<i>— not generated yet —</i>\nTap below to issue a fresh code.`;
+  else {
+    const expiry = data.expires_at ? `📅 Expires: ${new Date(data.expires_at).toLocaleString('en-GB')}` : `♾ Never expires`;
+    const renewed = data.last_renewed_at ? `\n🕒 Renewed: ${new Date(data.last_renewed_at).toLocaleString('en-GB')}` : '';
+    body = `<code>${esc(data.code)}</code>\n${expiry}${renewed}`;
+  }
+  const text = `<b>${esc(cfg.center_id)}</b>\n${SKILL_LABEL[skill]} #${num}\n\n${tierTitle}\n${body}`;
+  const renewLabel = data ? '🔄 Renew' : '➕ Generate';
+  const kb = { inline_keyboard: [
+    [{ text: renewLabel, callback_data: `adm_mock_renew:${skill}:${num}:${tier}` }],
+    [{ text: '⬅️ Back', callback_data: `adm_mock_n:${skill}:${num}` }],
+  ] };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
+  return send(cfg.bot_token, chatId, text, { reply_markup: kb });
+}
+async function sendAdminBulkMenu(cfg: CenterConfig, chatId: number, message_id?: number) {
+  const hideReg = await shouldHideRegulars(cfg.center_id);
+  const counts = await fetchMockCounts();
+  const tiersTxt = hideReg ? 'premium tier only' : 'both tiers (×2)';
+  const total = (counts.listening + counts.reading + counts.writing + counts.speaking) * (hideReg ? 1 : 2);
+  const text = `<b>${esc(cfg.center_id)}</b> — ⚡ <b>Bulk generate</b>\n\n📊 Mocks per skill (auto-detected):\n🎧 Listening: <b>${counts.listening}</b>\n📖 Reading: <b>${counts.reading}</b>\n✏️ Writing: <b>${counts.writing}</b>\n🎤 Speaking: <b>${counts.speaking}</b>\n<i>Total slots = ${total} (${tiersTxt})</i>\n\n• <b>Generate missing</b> — keeps existing codes, fills gaps only.\n• <b>Regenerate ALL</b> — <u>revokes</u> existing codes and issues fresh ones.`;
+  const kb = { inline_keyboard: [
+    [{ text: '⚡ Generate missing', callback_data: 'adm_bulk_run:missing' }],
+    [{ text: '🔄 Regenerate ALL', callback_data: 'adm_bulk_run:all' }],
+    [{ text: '⬅️ Back to admin menu', callback_data: 'adm_menu' }],
+  ] };
+  if (message_id) return editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
+  return send(cfg.bot_token, chatId, text, { reply_markup: kb });
+}
+async function runAdminBulk(cfg: CenterConfig, chatId: number, mode: 'missing' | 'all', message_id?: number) {
+  const hideReg = await shouldHideRegulars(cfg.center_id);
+  const counts = await fetchMockCounts();
+  const allSkills = ['listening','reading','writing','speaking'] as const;
+  const tiers = (hideReg ? ['premium'] : ['regular','premium']) as Array<'regular'|'premium'>;
+  const actor = `bot:center:${cfg.center_id}`;
+  const nowIso = new Date().toISOString();
+  const existing = new Set<string>();
+  if (mode === 'missing') {
+    const { data: rows } = await sb.from('mock_codes').select('skill, mock_number, tier').eq('center', cfg.center_id);
+    for (const r of rows ?? []) existing.add(`${r.skill}#${r.mock_number}#${r.tier}`);
+  }
+  const batch: Array<Record<string, unknown>> = [];
+  for (const skill of allSkills) {
+    const cap = (counts as Record<string, number>)[skill] || 0;
+    for (let m = 1; m <= cap; m++) {
+      for (const tier of tiers) {
+        if (mode === 'missing' && existing.has(`${skill}#${m}#${tier}`)) continue;
+        batch.push({ center: cfg.center_id, skill, mock_number: m, tier, code: genCode(8), expires_at: null, last_renewed_at: nowIso, last_renewed_by: actor });
+      }
+    }
+  }
+  let written = 0;
+  for (let i = 0; i < batch.length; i += 250) {
+    const chunk = batch.slice(i, i + 250);
+    const { error } = await sb.from('mock_codes').upsert(chunk);
+    if (error) { await send(cfg.bot_token, chatId, `❌ ${esc(error.message)}`); return; }
+    written += chunk.length;
+  }
+  sb.from('code_audit').insert({ actor, action: 'bulk_renew_mocks', center: cfg.center_id, details: { mode, counts, tiers, written, via: 'center-bot' } }).then(() => {});
+  const verb = mode === 'all' ? 'Regenerated' : 'Generated';
+  const text = `✅ <b>${verb} ${written}</b> mock code${written === 1 ? '' : 's'} for <b>${esc(cfg.center_id)}</b>\n<i>(🎧${counts.listening} · 📖${counts.reading} · ✏️${counts.writing} · 🎤${counts.speaking}) × ${tiers.length} tier${tiers.length === 1 ? '' : 's'}, mode: <b>${mode}</b></i>`;
+  const kb = { inline_keyboard: [
+    [{ text: '📚 Mock skills', callback_data: 'adm_mock' }],
+    [{ text: '⬅️ Admin menu', callback_data: 'adm_menu' }],
+  ] };
+  if (message_id) await editMessageText(cfg.bot_token, chatId, message_id, text, { reply_markup: kb });
+  else await send(cfg.bot_token, chatId, text, { reply_markup: kb });
+}
+
+// ── Standard handlers (mostly unchanged from v44 except admin path) ──
 async function showMainMenu(cfg: CenterConfig, chatId: number, firstName: string) {
   await send(cfg.bot_token, chatId, welcomeText(cfg, firstName), { reply_markup: mainKeyboard(cfg) });
-}
-async function showAdminMenu(cfg: CenterConfig, chatId: number) {
-  await send(cfg.bot_token, chatId, adminMenuText(cfg), { reply_markup: adminInlineKeyboard() });
 }
 async function handleAdminTap(cfg: CenterConfig, chatId: number, tgUserId: number) {
   if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
     await clearAwaitingPasscode(cfg.center_id, tgUserId);
-    await showAdminMenu(cfg, chatId); return;
+    await showAdminMenu(cfg, chatId);
+    return;
   }
   await setAwaitingPasscode(cfg.center_id, tgUserId);
   await send(cfg.bot_token, chatId,
@@ -378,6 +611,8 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
   }
   await clearAwaitingPasscode(cfg.center_id, tgUserId);
   await unlockAdmin(cfg.center_id, tgUserId);
+  await send(cfg.bot_token, chatId, `✅ <b>Admin unlocked — ${esc(cfg.center_id)}</b>`, { reply_markup: { remove_keyboard: true } });
+  await showMainMenu(cfg, chatId, firstName);
   await showAdminMenu(cfg, chatId);
 }
 async function handleSupportEnter(cfg: CenterConfig, chatId: number, tgUserId: number) {
@@ -398,6 +633,115 @@ async function handleDictEnter(cfg: CenterConfig, chatId: number, tgUserId: numb
     { reply_markup: dictKeyboard() });
 }
 
+// ── Callback dispatcher (admin panel uses these). ──
+async function handleCallback(cfg: CenterConfig, cb: Record<string, unknown>) {
+  const cbId  = String(cb.id || '');
+  const data  = String(cb.data || '');
+  const msg   = (cb.message as Record<string, unknown> | undefined) || {};
+  const chat  = (msg.chat as Record<string, unknown> | undefined) || {};
+  const from  = (cb.from as Record<string, unknown> | undefined) || {};
+  const chatId    = Number(chat.id);
+  const messageId = Number(msg.message_id);
+  const tgUserId  = Number(from.id);
+
+  if (!chatId || !tgUserId) {
+    await answerCb(cfg.bot_token, cbId);
+    return;
+  }
+  // All admin callbacks require a still-valid unlock.
+  if (!await isAdminUnlocked(cfg.center_id, tgUserId)) {
+    await answerCb(cfg.bot_token, cbId, 'Admin session expired — tap 👨‍🏫 Admin again');
+    return;
+  }
+  try {
+    if (data === 'adm_menu')      { await answerCb(cfg.bot_token, cbId); await showAdminMenu(cfg, chatId, messageId); return; }
+    if (data === 'adm_lock')      {
+      await answerCb(cfg.bot_token, cbId, 'Locked');
+      await lockAdmin(cfg.center_id, tgUserId);
+      await editMessageText(cfg.bot_token, chatId, messageId, '🔒 Admin session ended. Tap 👨‍🏫 Admin to unlock again.');
+      return;
+    }
+    if (data.startsWith('adm_vip:')) {
+      const type = data.slice('adm_vip:'.length) as 'premium' | 'regular';
+      if (type === 'regular' && await shouldHideRegulars(cfg.center_id)) { await answerCb(cfg.bot_token, cbId, 'Regular VIP is hidden for this centre'); return; }
+      await answerCb(cfg.bot_token, cbId);
+      await sendAdminVipCard(cfg, chatId, type, messageId);
+      return;
+    }
+    if (data.startsWith('adm_renew_vip:')) {
+      const type = data.slice('adm_renew_vip:'.length) as 'premium' | 'regular';
+      if (type === 'regular' && await shouldHideRegulars(cfg.center_id)) { await answerCb(cfg.bot_token, cbId, 'Regular VIP is hidden for this centre'); return; }
+      const code = genCode(8);
+      const actor = `bot:center:${cfg.center_id}`;
+      const { error } = await sb.from('vip_codes').upsert({ center: cfg.center_id, type, code, expires_at: null, last_renewed_at: new Date().toISOString(), last_renewed_by: actor });
+      if (error) { await answerCb(cfg.bot_token, cbId, 'Error'); return; }
+      sb.from('code_audit').insert({ actor, action: 'renew_vip', center: cfg.center_id, details: { type, via: 'center-bot' } }).then(() => {});
+      await answerCb(cfg.bot_token, cbId, '✅ New code generated!');
+      await sendAdminVipCard(cfg, chatId, type, messageId);
+      return;
+    }
+    if (data === 'adm_mock') { await answerCb(cfg.bot_token, cbId); await sendAdminMockSkills(cfg, chatId, messageId); return; }
+    if (data.startsWith('adm_mock_skill:')) {
+      const skill = data.slice('adm_mock_skill:'.length) as Skill;
+      if (!SKILLS.includes(skill)) { await answerCb(cfg.bot_token, cbId); return; }
+      await answerCb(cfg.bot_token, cbId);
+      await sendAdminMockList(cfg, chatId, skill, messageId);
+      return;
+    }
+    if (data.startsWith('adm_mock_n:')) {
+      const [, skill, numStr] = data.split(':');
+      const num = parseInt(numStr, 10);
+      if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num)) { await answerCb(cfg.bot_token, cbId); return; }
+      await answerCb(cfg.bot_token, cbId);
+      await sendAdminMockCard(cfg, chatId, skill as Skill, num, messageId);
+      return;
+    }
+    if (data.startsWith('adm_mock_t:')) {
+      const [, skill, numStr, tier] = data.split(':');
+      const num = parseInt(numStr, 10);
+      if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num) || (tier !== 'regular' && tier !== 'premium')) { await answerCb(cfg.bot_token, cbId); return; }
+      if (tier === 'regular' && await shouldHideRegulars(cfg.center_id)) { await answerCb(cfg.bot_token, cbId, 'Regular hidden for this centre'); return; }
+      await answerCb(cfg.bot_token, cbId);
+      await sendAdminMockTierCard(cfg, chatId, skill as Skill, num, tier, messageId);
+      return;
+    }
+    if (data.startsWith('adm_mock_renew:')) {
+      const [, skill, numStr, tier] = data.split(':');
+      const num = parseInt(numStr, 10);
+      if (!SKILLS.includes(skill as Skill) || !Number.isInteger(num) || (tier !== 'regular' && tier !== 'premium')) { await answerCb(cfg.bot_token, cbId); return; }
+      if (tier === 'regular' && await shouldHideRegulars(cfg.center_id)) { await answerCb(cfg.bot_token, cbId, 'Regular hidden for this centre'); return; }
+      const code = genCode(8);
+      const actor = `bot:center:${cfg.center_id}`;
+      const { error } = await sb.from('mock_codes').upsert({ center: cfg.center_id, skill, mock_number: num, tier, code, expires_at: null, last_renewed_at: new Date().toISOString(), last_renewed_by: actor });
+      if (error) { await answerCb(cfg.bot_token, cbId, 'Error'); return; }
+      sb.from('code_audit').insert({ actor, action: 'renew_mock', center: cfg.center_id, details: { skill, mock_number: num, tier, via: 'center-bot' } }).then(() => {});
+      await answerCb(cfg.bot_token, cbId, `✅ New ${tier} code!`);
+      await sendAdminMockTierCard(cfg, chatId, skill as Skill, num, tier, messageId);
+      return;
+    }
+    if (data.startsWith('adm_mock_new:')) {
+      const skill = data.slice('adm_mock_new:'.length) as Skill;
+      if (!SKILLS.includes(skill)) { await answerCb(cfg.bot_token, cbId); return; }
+      await setAdminState(cfg.center_id, tgUserId, `await_mock_num:${skill}`);
+      await answerCb(cfg.bot_token, cbId);
+      await send(cfg.bot_token, chatId, `📚 Send the <b>mock number</b> (1–999) for ${SKILL_LABEL[skill]}:`);
+      return;
+    }
+    if (data === 'adm_bulk') { await answerCb(cfg.bot_token, cbId); await sendAdminBulkMenu(cfg, chatId, messageId); return; }
+    if (data.startsWith('adm_bulk_run:')) {
+      const mode = data.slice('adm_bulk_run:'.length) as 'missing' | 'all';
+      if (mode !== 'missing' && mode !== 'all') { await answerCb(cfg.bot_token, cbId); return; }
+      await answerCb(cfg.bot_token, cbId, 'Working…');
+      await runAdminBulk(cfg, chatId, mode, messageId);
+      return;
+    }
+    await answerCb(cfg.bot_token, cbId);
+  } catch (e) {
+    console.warn('[center-bot] callback handler error', e);
+    await answerCb(cfg.bot_token, cbId);
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === 'GET') return new Response('telegram-center-bot online', { status: 200 });
   if (req.method !== 'POST') return new Response('method not allowed', { status: 405 });
@@ -412,8 +756,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     if (update.callback_query) {
-      const cb = update.callback_query as Record<string, unknown>;
-      await answerCb(cfg.bot_token, String(cb.id));
+      await handleCallback(cfg, update.callback_query as Record<string, unknown>);
       return new Response('ok');
     }
     const message = update.message as Record<string, unknown> | undefined;
@@ -442,6 +785,24 @@ Deno.serve(async (req: Request) => {
       text === BTN.LISTEN    || text === BTN.READ      || text === BTN.WRITE     ||
       text === BTN.SPEAK     || text === BTN.FULL
     );
+
+    // Admin "await_mock_num:<skill>" — admin tapped ➕ New mock #, expects a
+    // numeric reply. Handled before the passcode prompt so digits don't get
+    // misread as a passcode attempt.
+    if (await isAdminUnlocked(cfg.center_id, tgUserId)) {
+      const adminState = await getAdminState(cfg.center_id, tgUserId);
+      if (adminState && adminState.startsWith('await_mock_num:') && /^\d{1,3}$/.test(text)) {
+        const skill = adminState.slice('await_mock_num:'.length) as Skill;
+        const n = parseInt(text, 10);
+        if (n < 1 || n > 999 || !SKILLS.includes(skill)) {
+          await send(cfg.bot_token, chatId, `❌ Mock number must be 1–999. Try again:`);
+          return new Response('ok');
+        }
+        await setAdminState(cfg.center_id, tgUserId, null);
+        await sendAdminMockCard(cfg, chatId, skill, n);
+        return new Response('ok');
+      }
+    }
 
     if (!isMenuButton && await isAwaitingPasscode(cfg.center_id, tgUserId)) {
       await handlePasscodeAttempt(cfg, chatId, tgUserId, firstName, text);
@@ -558,11 +919,6 @@ Deno.serve(async (req: Request) => {
       if (!cfg.show_dict_btn) await send(cfg.bot_token, chatId, 'Dictionary button is disabled.');
       else                    await handleDictEnter(cfg, chatId, tgUserId);
       return new Response('ok');
-    }
-
-    const isAdmin = await isAdminUnlocked(cfg.center_id, tgUserId);
-    if (isAdmin) {
-      if (text === BTN.MAIN_MENU) { await showMainMenu(cfg, chatId, firstName); return new Response('ok'); }
     }
 
     await showMainMenu(cfg, chatId, firstName);
