@@ -17419,6 +17419,26 @@
         // Notify premium-gate so any locks applied at DOMContentLoaded re-evaluate.
         try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'vip_code_sidebar', premium_ai: isPremiumAi } })); } catch (_e) {}
 
+        // Defensive force-unlock — on slow mobile networks the event-listener
+        // path in premium-gate.js sometimes loses the race against decorate()
+        // and the lock badges stick. Walk every locked element ourselves and
+        // strip the badge when isPremiumTier(skill) now returns true. Doing
+        // it inline guarantees the user's first click after "All features
+        // unlocked!" hits an actually-unlocked element.
+        if (isPremiumAi) {
+          try {
+            document.querySelectorAll('[data-pg-locked="1"]').forEach(function (el) {
+              var sk = el.dataset.pgSkill || '';
+              var stillLocked = sk && window.PremiumGate && !window.PremiumGate.isPremiumTier(sk);
+              if (stillLocked) return;
+              el.dataset.pgLocked = '0';
+              el.classList.remove('pg-locked');
+              var b = el.querySelector(':scope > .pg-lock-badge');
+              if (b) b.remove();
+            });
+          } catch (_e) {}
+        }
+
         status.className = 'vip-sidebar-status success';
         status.textContent = '✅ All features unlocked!';
         setTimeout(() => { showSuperUnlockedState(); }, 800);
