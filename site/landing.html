@@ -10509,6 +10509,16 @@
         error.style.color = '#059669';
         error.textContent = '✅ Access verified!';
         sessionStorage.setItem('listeningPremiumEntry', result.premiumEntry ? 'true' : 'false');
+        // Tell premium-gate.js that the user just unlocked premium for
+        // this skill so the lock badge applied at DOMContentLoaded — when
+        // listeningPremiumEntry was still false — gets re-evaluated and
+        // removed before the Choose Your Mode modal opens. Without this
+        // dispatch, decorate()'s pg-lock-badge stays on Part Practice
+        // even though isPremiumTier('listening') now returns true, and
+        // the user sees a 'Premium' badge they shouldn't.
+        if (result.premiumEntry) {
+          try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'listening_access_code', skill: 'listening' } })); } catch (_e) {}
+        }
         if (!result.premiumEntry && _isListeningMockTaken(_pendingListeningMock.pageUrl)) {
           closeListeningAccessCodeModal(); _showListeningTakenAlert(); btn.disabled = false; btn.textContent = 'Verify & Start'; return;
         }
