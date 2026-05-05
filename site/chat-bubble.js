@@ -220,11 +220,49 @@
       else if (HC_PRIVATE_ENABLED) switchCategory('private');
       else if (HC_DICT_ENABLED) switchCategory('dictionary');
     }
+    // Per-centre Free Code Dispenser kill-switch. Centre admins can disable
+    // free codes via Centers Management → Features Toggle. When off, the
+    // tab stays visible but greyed (transparency); switchCategory shows a
+    // "Deactivated by your center" notice instead of the skill picker.
+    applyFreeCodeVisibility();
     // Re-apply Support tab sub-mode (composer hidden in automated 'code' mode)
     if (currentCategory === 'support' && typeof _applySupportSubMode === 'function') {
       _applySupportSubMode();
     }
   }
+
+  // ─── Free Code Dispenser kill-switch ─────────────────────────────────────
+  // Per-centre flag set via Centers Management → Features Toggle. Greys the
+  // 🎁 Code tab (transparency for students) instead of hiding it. The hard
+  // switch lives in switchCategory() below — when this returns true and the
+  // user lands on the support tab, we render a deactivation notice and skip
+  // the normal skill-picker / AI flow.
+  function isFreeCodeDisabled() {
+    try {
+      return !!(window._centerConfig && window._centerConfig.freeCodeDispenser === false);
+    } catch (e) { return false; }
+  }
+  function applyFreeCodeVisibility() {
+    var sel = '.cb-cat-btn[data-cat="support"], .hc-cat-btn[data-cat="support"]';
+    var btns = document.querySelectorAll(sel);
+    var disabled = isFreeCodeDisabled();
+    btns.forEach(function (b) {
+      if (disabled) {
+        b.style.opacity = '0.55';
+        b.style.cursor  = 'not-allowed';
+        b.title         = 'Deactivated by your center';
+        b.setAttribute('data-cb-disabled', '1');
+      } else {
+        b.style.opacity = '';
+        b.style.cursor  = '';
+        b.title         = '';
+        b.removeAttribute('data-cb-disabled');
+      }
+    });
+  }
+  // Re-run when center-guard finishes its async load so the flag flips
+  // without needing a page reload.
+  document.addEventListener('mockStream:centerConfigLoaded', applyFreeCodeVisibility);
 
   // ─── IDENTITY ─────────────────────────────────────────────────────────────
   function getDeviceId() {
@@ -2673,6 +2711,25 @@
       overlay.querySelectorAll('.cb-cat-btn').forEach(function (b) {
         b.classList.toggle('active', b.dataset.cat === cat);
       });
+    }
+    // Deactivation short-circuit: if Free Code Dispenser is off and the user
+    // lands on the support tab, render a "Deactivated by your center" card
+    // and skip the skill-picker / AI composer flow entirely.
+    if (cat === 'support' && isFreeCodeDisabled()) {
+      var msgs = document.getElementById('cb-messages');
+      if (msgs) {
+        msgs.innerHTML =
+          '<div style="padding:24px;margin:14px 12px;background:#fef2f2;border:1px dashed #fecaca;border-radius:14px;text-align:center;">' +
+            '<div style="font-size:36px;margin-bottom:6px;">🚫</div>' +
+            '<div style="font-weight:700;color:#991b1b;font-size:15px;margin-bottom:6px;">Free codes deactivated by your center</div>' +
+            '<div style="font-size:13px;color:#7f1d1d;line-height:1.55;">Your center has turned off free regular mock codes. Please reach out to your admin, or upgrade to <b>Premium</b> for instant unlimited access.</div>' +
+          '</div>';
+      }
+      var inputBar = overlay && overlay.querySelector('.cb-input-bar');
+      if (inputBar) inputBar.style.display = 'none';
+      var lockBtnD = document.getElementById('cb-comm-admin-lock');
+      if (lockBtnD) lockBtnD.style.display = 'none';
+      return;
     }
     // Show/hide admin lock button based on tab
     var lockBtn = document.getElementById('cb-comm-admin-lock');
