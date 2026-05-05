@@ -24483,6 +24483,12 @@
             // Telegram bot's 🎁 Code button (removed from keyboard when off,
             // since Telegram has no greyed-button state).
             h += _cmToggleInput(cid, 'freeCodeDispenser', '🎁 Free Code Dispenser', cfg.freeCodeDispenser !== false);
+            // Per-centre filter that hides regular-tier rows (8-digit Regular
+            // VIP, 12-digit Regular individual, regular Full Mock) from clone
+            // admins viewing the website Codes panel. Premium tier stays
+            // visible. Super-admin (you) sees everything regardless. Bot side
+            // is shipped separately.
+            h += _cmToggleInput(cid, 'hideRegularCodes', '🙈 Hide Regular Codes (clone admin)', cfg.hideRegularCodes === true);
             h += _cmToggleInput(cid, 'certificates', '📜 Certificates', cfg.certificates !== false);
             h += _cmToggleInput(cid, 'telegramNotifs', '📱 Telegram Notifications', cfg.telegramNotifs !== false);
             h += _cmToggleInput(cid, 'flashcards', '🃏 Flashcards', cfg.flashcards !== false);

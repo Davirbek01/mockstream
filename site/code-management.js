@@ -159,6 +159,8 @@
       '.cm-msg.ok{background:rgba(16,185,129,.12);color:#047857;}',
       '.cm-msg.err{background:rgba(220,38,38,.12);color:#b91c1c;}',
       '.cm-mock-row{display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(148,163,184,.2);}',
+      // Hide-Regular path drops the regular column → grid becomes Mock# + premium.
+      '.cm-card.cm-hide-reg .cm-mock-row{grid-template-columns:90px 1fr;}',
       '.cm-mock-tier{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;}',
       '.cm-mock-tier.empty{opacity:.65;}',
       '.cm-tier-badge{display:inline-block;font-size:14px;line-height:1;}',
@@ -240,6 +242,20 @@
 
   var state = { centers: [], role: null, currentCenter: null, view: null, fromSMG: false, vipTab: 'premium' };
   var MAIN_SITE_ID = 'mockstream'; // governed by super-admin (no clone passcode needed)
+
+  // Per-centre Hide Regular Codes filter. When the centre's
+  // center_config_<id> JSON has hideRegularCodes:true AND the viewer is a
+  // clone admin (not super-admin), the Codes panel hides every regular-tier
+  // row + control. Super-admin always sees everything regardless of the flag.
+  // Source of truth is window._centerConfig (set by site-config/center-guard.js)
+  // — only meaningful when the clone admin is on their own centre's site,
+  // which is exactly the case we filter for.
+  function _cmHideRegular() {
+    if (state.role === 'super_admin') return false;
+    try {
+      return !!(window._centerConfig && window._centerConfig.hideRegularCodes === true);
+    } catch (e) { return false; }
+  }
 
   /* -------------------------------------------------------------- gate */
   // Replaced the legacy numeric-passcode gate with a friendly prompt that
@@ -362,6 +378,10 @@
     var canEdit = state.role === 'super_admin' || (r.center && r.center.clone_can_edit);
     var disabledHint = canEdit ? '' :
       '<div class="cm-msg err">Renewing/revoking is disabled for clone admins (super-admin must enable <b>clone_can_edit</b>).</div>';
+    var hideReg = _cmHideRegular();
+    // If admin disabled Regulars while user was on the Regular VIP pill,
+    // snap them back to Premium so the active pill matches what's visible.
+    if (hideReg && state.vipTab === 'regular') state.vipTab = 'premium';
 
     var vipMap = {};
     (r.vip||[]).forEach(function(v){ vipMap[v.type] = v; });
@@ -389,7 +409,11 @@
       '</div>';
     }
 
-    var fm = mockMap['full_mock#1#premium'] || mockMap['full_mock#1#regular'];
+    // Hide-Regular path: only ever look at premium full-mock so the card
+    // never shows a regular code as a fallback.
+    var fm = hideReg
+      ? mockMap['full_mock#1#premium']
+      : (mockMap['full_mock#1#premium'] || mockMap['full_mock#1#regular']);
     var fmCode = fm ? fm.code : '';
     var fmMeta = fm ? ('Expires: ' + fmtCountdown(fm.expires_at) + (fm.last_renewed_at ? ' · Renewed: ' + new Date(fm.last_renewed_at).toLocaleString() : '')) : 'No code yet';
     var fullMockHtml = '<div class="cm-card">' +
@@ -407,8 +431,15 @@
     '</div>';
 
     var mockHtml = SKILLS.map(function(sk){
-      var entries = (r.mock||[]).filter(function(m){ return m.skill === sk.key; });
-      // Group by mock_number, each row shows regular + premium tier columns
+      var entries = (r.mock||[]).filter(function(m){
+        if (m.skill !== sk.key) return false;
+        // Drop regular rows entirely when the filter is on — clone admin
+        // never sees them, can't accidentally renew/revoke them.
+        if (hideReg && (m.tier||'premium') === 'regular') return false;
+        return true;
+      });
+      // Group by mock_number; row shows premium-only when hideReg is on,
+      // both columns otherwise.
       var byNum = {};
       entries.forEach(function(m){ (byNum[m.mock_number] = byNum[m.mock_number] || {})[m.tier||'premium'] = m; });
       var nums = Object.keys(byNum).map(function(n){return parseInt(n,10);}).sort(function(a,b){return a-b;});
@@ -431,30 +462,54 @@
         var m = byNum[num];
         return '<div class="cm-mock-row">'+
           '<span><b>Mock #'+num+'</b></span>'+
-          tierCell(m.regular, sk.key, num, 'regular')+
+          (hideReg ? '' : tierCell(m.regular, sk.key, num, 'regular'))+
           tierCell(m.premium, sk.key, num, 'premium')+
         '</div>';
       }).join('') || '<div class="cm-empty" style="padding:10px;">No mock codes yet for this skill.</div>';
-      return '<div class="cm-card">' +
+      return '<div class="cm-card' + (hideReg ? ' cm-hide-reg' : '') + '">' +
         '<h4>'+sk.label+' Mock Codes</h4>' +
         '<div class="cm-row">' +
           '<span class="cm-label">Mock #:</span>' +
           '<input class="cm-input num cm-mock-num" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="1" style="width:70px;">' +
           '<select class="cm-select cm-mock-exp">'+EXPIRY_OPTIONS.map(function(o){return '<option value="'+o.v+'">'+o.label+'</option>';}).join('')+'</select>' +
-          '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'" data-tier="regular"'+(canEdit?'':' disabled')+'>+ 🟢 Regular</button>' +
+          (hideReg ? '' : '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'" data-tier="regular"'+(canEdit?'':' disabled')+'>+ 🟢 Regular</button>') +
           '<button class="cm-btn cm-gen-mock" data-skill="'+sk.key+'" data-tier="premium"'+(canEdit?'':' disabled')+'>+ 🔥 Premium</button>' +
         '</div>' +
         rows +
       '</div>';
     }).join('');
 
+    // Hide-Regular path: drop the Regular VIP pill (premium-only switcher
+    // collapses to a single label) and skip the bulk-generate panel, since
+    // bulk-renew creates regular + premium together — exactly what we don't
+    // want clone admins to be able to fire when regulars are off.
+    var vipSwitcherHtml = hideReg
+      ? '<div class="cm-vip-switcher"><button class="cm-vip-pill active" data-vip="premium">👑 Premium VIP</button></div>'
+      : '<div class="cm-vip-switcher">' +
+          '<button class="cm-vip-pill'+(state.vipTab==='premium'?' active':'')+' " data-vip="premium">👑 Premium VIP</button>' +
+          '<button class="cm-vip-pill'+(state.vipTab==='regular'?' active':'')+' " data-vip="regular">🎟️ Regular VIP</button>' +
+        '</div>';
+    var bulkPanelHtml = hideReg ? '' :
+      '<div class="cm-card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;">' +
+        '<h4 style="margin:0 0 6px;">⚡ Bulk generate (all 4 skills × both tiers)</h4>' +
+        '<p style="margin:0 0 8px;font-size:12.5px;color:#78350f;">Generates Regular + Premium codes for every mock the site ships, across Listening / Reading / Writing / Speaking.</p>' +
+        '<div id="cmBulkCounts" style="margin:0 0 10px;font:600 12.5px system-ui;color:#78350f;">📊 Detecting mock counts…</div>' +
+        '<div class="cm-row">' +
+          '<label class="cm-label">Expiry:</label>' +
+          '<select class="cm-select" id="cmBulkExp">' +
+            EXPIRY_OPTIONS.map(function(o){ return '<option value="'+o.v+'">'+o.label+'</option>'; }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="cm-row" style="margin-bottom:0;">' +
+          '<button class="cm-btn" id="cmBulkMissing" disabled>⚡ Generate missing only</button>' +
+          '<button class="cm-btn danger" id="cmBulkAll" disabled>🔄 Regenerate ALL (revokes existing)</button>' +
+        '</div>' +
+      '</div>';
+
     body.innerHTML =
       disabledHint +
       '<div id="cmFlash"></div>' +
-      '<div class="cm-vip-switcher">' +
-        '<button class="cm-vip-pill'+(state.vipTab==='premium'?' active':'')+' " data-vip="premium">👑 Premium VIP</button>' +
-        '<button class="cm-vip-pill'+(state.vipTab==='regular'?' active':'')+' " data-vip="regular">🎟️ Regular VIP</button>' +
-      '</div>' +
+      vipSwitcherHtml +
       '<div id="cmVipCard">' + buildVipCard(state.vipTab) + '</div>' +
       '<div class="cm-collapse-hdr" id="cmCollapseHdr">' +
         '<span>🏆 Full Mock &amp; Per-Mock Codes</span>' +
@@ -463,21 +518,7 @@
       '<div class="cm-collapse-body" id="cmCollapseBody">' +
         fullMockHtml +
         '<p style="margin:14px 0 8px;font:600 13px system-ui;color:#64748b;">Per-Mock Codes (single-test access)</p>' +
-        '<div class="cm-card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fbbf24;">' +
-          '<h4 style="margin:0 0 6px;">⚡ Bulk generate (all 4 skills × both tiers)</h4>' +
-          '<p style="margin:0 0 8px;font-size:12.5px;color:#78350f;">Generates Regular + Premium codes for every mock the site ships, across Listening / Reading / Writing / Speaking.</p>' +
-          '<div id="cmBulkCounts" style="margin:0 0 10px;font:600 12.5px system-ui;color:#78350f;">📊 Detecting mock counts…</div>' +
-          '<div class="cm-row">' +
-            '<label class="cm-label">Expiry:</label>' +
-            '<select class="cm-select" id="cmBulkExp">' +
-              EXPIRY_OPTIONS.map(function(o){ return '<option value="'+o.v+'">'+o.label+'</option>'; }).join('') +
-            '</select>' +
-          '</div>' +
-          '<div class="cm-row" style="margin-bottom:0;">' +
-            '<button class="cm-btn" id="cmBulkMissing" disabled>⚡ Generate missing only</button>' +
-            '<button class="cm-btn danger" id="cmBulkAll" disabled>🔄 Regenerate ALL (revokes existing)</button>' +
-          '</div>' +
-        '</div>' +
+        bulkPanelHtml +
         mockHtml +
       '</div>';
 
