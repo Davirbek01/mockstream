@@ -506,11 +506,24 @@
         '</div>' +
       '</div>';
 
+    // Export-to-PDF card. Lets the admin pick which skills + ranges + tiers
+    // to bundle into a single printable document with the centre's logo
+    // and brand name in the header. hideReg pre-filters the tier picker
+    // so a clone admin on a hidden-regulars centre can only ever export
+    // premiums.
+    var exportCardHtml =
+      '<div class="cm-card" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-color:#a78bfa;margin-bottom:12px;">' +
+        '<h4 style="margin:0 0 6px;color:#5b21b6;">📄 Export Codes to PDF</h4>' +
+        '<p style="margin:0 0 8px;font-size:12.5px;color:#5b21b6;">Bundle selected mock + VIP codes into a printable PDF with the centre\'s logo in the header. Pick skills, ranges, and tiers, then generate.</p>' +
+        '<button class="cm-btn" id="cmExportPdfBtn" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border-color:#5b21b6;font-weight:700;">📄 Open export dialog</button>' +
+      '</div>';
+
     body.innerHTML =
       disabledHint +
       '<div id="cmFlash"></div>' +
       vipSwitcherHtml +
       '<div id="cmVipCard">' + buildVipCard(state.vipTab) + '</div>' +
+      exportCardHtml +
       '<div class="cm-collapse-hdr" id="cmCollapseHdr">' +
         '<span>🏆 Full Mock &amp; Per-Mock Codes</span>' +
         '<span class="cm-collapse-chevron" id="cmChevron">▾</span>' +
@@ -521,6 +534,15 @@
         bulkPanelHtml +
         mockHtml +
       '</div>';
+
+    // Export-PDF wiring. Defined inline (not inside renderCodesTab's helper
+    // closures) because the modal is appended to <body> and lives outside
+    // the codes panel — closing/reopening the codes panel must not orphan
+    // the export modal.
+    var exportBtn = document.getElementById('cmExportPdfBtn');
+    if (exportBtn) {
+      exportBtn.onclick = function () { _cmOpenExportModal(state.currentCenter, hideReg); };
+    }
 
     function wireVipCard() {
       var vc = document.getElementById('cmVipCard');
@@ -1031,6 +1053,363 @@
     } catch (e) {
       flash('ok', msg || ('Generated: ' + text));
     }
+  }
+
+  /* -------------------------------------------------------------- export PDF */
+  // Open the "Export Codes to PDF" dialog. Pre-loads counts (so default
+  // ranges are reasonable) and centre branding (so the PDF header shows
+  // the correct logo/name) before the modal renders.
+  async function _cmOpenExportModal(centerId, hideReg) {
+    if (!centerId) { flash('err', 'Pick a centre first'); return; }
+    // Mock counts for default ranges + brand info for the PDF header.
+    var counts;
+    try {
+      var r1 = await call('get_mock_counts', {});
+      counts = (r1 && r1.ok && r1.counts) ? r1.counts : { listening: 100, reading: 99, writing: 99, speaking: 99 };
+    } catch (e) { counts = { listening: 100, reading: 99, writing: 99, speaking: 99 }; }
+    var brand = await _cmFetchBrand(centerId);
+
+    var bd = document.createElement('div');
+    bd.className = 'cm-overlay';
+    bd.style.zIndex = '10500';
+    var skills = [
+      { key: 'listening', label: '🎧 Listening', cap: counts.listening },
+      { key: 'reading',   label: '📖 Reading',   cap: counts.reading   },
+      { key: 'writing',   label: '✍️ Writing',   cap: counts.writing   },
+      { key: 'speaking',  label: '🎤 Speaking',  cap: counts.speaking  },
+      { key: 'full_mock', label: '🏆 Full Mock', cap: 1                },
+    ];
+    var rowsHtml = skills.map(function (s) {
+      return '<div class="cm-row" style="align-items:center;gap:8px;margin-bottom:4px;">' +
+        '<label class="cm-toggle" style="min-width:130px;flex:0 0 auto;">' +
+          '<input type="checkbox" class="cm-exp-skill" data-skill="' + s.key + '" checked>' +
+          '<span>' + s.label + '</span>' +
+        '</label>' +
+        '<span class="cm-label" style="font-size:11px;color:#64748b;">From #</span>' +
+        '<input type="number" class="cm-input num cm-exp-from" data-skill="' + s.key + '" min="1" max="' + s.cap + '" value="1" style="width:64px;">' +
+        '<span class="cm-label" style="font-size:11px;color:#64748b;">to #</span>' +
+        '<input type="number" class="cm-input num cm-exp-to" data-skill="' + s.key + '" min="1" max="' + s.cap + '" value="' + s.cap + '" style="width:64px;">' +
+      '</div>';
+    }).join('');
+
+    var tierRowHtml = '<div class="cm-row" style="gap:14px;align-items:center;">' +
+      '<span class="cm-label">Tiers:</span>' +
+      (hideReg
+        ? '<label class="cm-toggle" style="opacity:0.5;cursor:not-allowed;"><input type="checkbox" disabled> 🟢 Regular <i style="font-size:11px;">(hidden for this centre)</i></label>'
+        : '<label class="cm-toggle"><input type="checkbox" id="cmExpTierReg" checked> 🟢 Regular</label>') +
+      '<label class="cm-toggle"><input type="checkbox" id="cmExpTierPre" checked> 🔥 Premium</label>' +
+    '</div>';
+
+    var vipRowHtml = '<div class="cm-row" style="gap:14px;align-items:center;">' +
+      '<span class="cm-label">VIP codes:</span>' +
+      '<label class="cm-toggle"><input type="checkbox" id="cmExpVip" checked> Include centre-wide VIP codes (Premium' + (hideReg ? '' : ' &amp; Regular') + ')</label>' +
+    '</div>';
+
+    // Modal uses inline styles instead of cm-modal-* classes (which the
+    // panel's stylesheet doesn't define) so the layout is self-contained
+    // and won't break if the cm-* CSS evolves separately.
+    bd.innerHTML =
+      '<div style="background:var(--card,#fff);max-width:640px;width:100%;margin:48px auto;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,0.35);overflow:hidden;">' +
+        '<div style="padding:14px 18px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;display:flex;align-items:center;justify-content:space-between;">' +
+          '<span style="font-weight:700;font-size:14.5px;">📄 Export Codes to PDF — ' + escapeHtml(brand.name) + '</span>' +
+          '<button id="cmExpClose" style="background:rgba(255,255,255,0.2);border:0;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1;">×</button>' +
+        '</div>' +
+        '<div style="padding:14px 18px;max-height:70vh;overflow-y:auto;">' +
+          '<p style="margin:0 0 10px;font-size:12.5px;color:#64748b;">Pick which mock codes to bundle. PDF will include the centre logo + brand name in the header.</p>' +
+          rowsHtml +
+          '<div style="height:8px;"></div>' +
+          tierRowHtml +
+          '<div style="height:6px;"></div>' +
+          vipRowHtml +
+          '<div id="cmExpStatus" style="margin-top:10px;font-size:12.5px;min-height:18px;color:#64748b;"></div>' +
+        '</div>' +
+        '<div style="padding:12px 18px;background:#f8fafc;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:8px;">' +
+          '<button class="cm-btn" id="cmExpCancel">Cancel</button>' +
+          '<button class="cm-btn" id="cmExpGo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border-color:#5b21b6;font-weight:700;">📄 Generate PDF</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(bd);
+
+    function done() { try { bd.remove(); } catch (e) {} }
+    bd.querySelector('#cmExpClose').onclick  = done;
+    bd.querySelector('#cmExpCancel').onclick = done;
+    bd.addEventListener('click', function (e) { if (e.target === bd) done(); });
+
+    bd.querySelector('#cmExpGo').onclick = async function () {
+      var statusEl = bd.querySelector('#cmExpStatus');
+      statusEl.style.color = '#5b21b6';
+      statusEl.textContent = '⏳ Fetching codes…';
+
+      // Read selections.
+      var picks = [];
+      bd.querySelectorAll('.cm-exp-skill').forEach(function (cb) {
+        if (!cb.checked) return;
+        var sk = cb.dataset.skill;
+        var from = parseInt(bd.querySelector('.cm-exp-from[data-skill="' + sk + '"]').value, 10) || 1;
+        var to   = parseInt(bd.querySelector('.cm-exp-to[data-skill="'   + sk + '"]').value, 10) || from;
+        if (to < from) { var t = from; from = to; to = t; }
+        picks.push({ skill: sk, from: from, to: to });
+      });
+      var includeReg = !hideReg && bd.querySelector('#cmExpTierReg') && bd.querySelector('#cmExpTierReg').checked;
+      var includePre = bd.querySelector('#cmExpTierPre').checked;
+      var includeVip = bd.querySelector('#cmExpVip').checked;
+      if (!picks.length && !includeVip) {
+        statusEl.style.color = '#dc2626';
+        statusEl.textContent = '⚠ Pick at least one skill or VIP codes.';
+        return;
+      }
+      if (!includeReg && !includePre) {
+        statusEl.style.color = '#dc2626';
+        statusEl.textContent = '⚠ Pick at least one tier.';
+        return;
+      }
+
+      // Fetch latest codes for the centre. list_codes already respects the
+      // hideRegularCodes server-side filter so a clone admin cannot pull
+      // regulars even by manipulating the form.
+      var data;
+      try {
+        data = await call('list_codes', { center: centerId });
+      } catch (e) { data = { ok: false, error: 'network' }; }
+      if (!data || !data.ok) {
+        statusEl.style.color = '#dc2626';
+        statusEl.textContent = '⚠ Failed to fetch codes' + (data && data.error ? ' (' + escapeHtml(data.error) + ')' : '') + '.';
+        return;
+      }
+
+      statusEl.textContent = '⏳ Loading PDF library…';
+      try {
+        if (typeof window.jspdf === 'undefined' && typeof window.jsPDF === 'undefined') {
+          await new Promise(function (resolve, reject) {
+            var s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            s.onload = resolve; s.onerror = reject;
+            document.head.appendChild(s);
+          });
+        }
+      } catch (e) {
+        statusEl.style.color = '#dc2626';
+        statusEl.textContent = '⚠ Could not load jsPDF.';
+        return;
+      }
+
+      statusEl.textContent = '⏳ Building PDF…';
+      try {
+        await _cmGeneratePdf({
+          centerId: centerId,
+          brand: brand,
+          picks: picks,
+          includeReg: includeReg,
+          includePre: includePre,
+          includeVip: includeVip,
+          vip: data.vip || [],
+          mock: data.mock || [],
+        });
+        statusEl.style.color = '#047857';
+        statusEl.textContent = '✓ PDF generated. Check your downloads.';
+        setTimeout(done, 1200);
+      } catch (e) {
+        console.error('[cm export-pdf] failed:', e);
+        statusEl.style.color = '#dc2626';
+        statusEl.textContent = '⚠ Build error: ' + escapeHtml((e && e.message) || 'unknown');
+      }
+    };
+  }
+
+  // Pull centre brand info (logoUrl + brandName) from
+  // site_settings.center_site_config_<id>. Falls back to the centres
+  // table display_name + the dashboard's 'mock-stream' default logo.
+  async function _cmFetchBrand(centerId) {
+    var fallbackName = centerId.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    var fallbackLogo = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+    try {
+      var r = await fetch(SUPABASE_URL + '/rest/v1/site_settings?key=eq.' + encodeURIComponent('center_site_config_' + centerId) + '&select=value', {
+        headers: { 'apikey': ANON, 'Authorization': 'Bearer ' + ANON }
+      });
+      var rows = await r.json();
+      if (rows && rows[0] && rows[0].value) {
+        var v = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+        return {
+          name: (v && v.brandName) || fallbackName,
+          logoUrl: (v && v.logoUrl) || fallbackLogo,
+          color: (v && v.brandColor) || '#7c3aed',
+        };
+      }
+    } catch (e) { /* fall through to fallbacks */ }
+    return { name: fallbackName, logoUrl: fallbackLogo, color: '#7c3aed' };
+  }
+
+  // Fetch a logo as a data-URL so jsPDF can embed it. Cross-origin images
+  // need anonymous CORS; if the host doesn't allow it we silently skip the
+  // image so the PDF still generates with just the brand name.
+  function _cmFetchImageAsDataUrl(url) {
+    return new Promise(function (resolve) {
+      try {
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
+          try {
+            var canvas = document.createElement('canvas');
+            canvas.width  = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            resolve(canvas.toDataURL('image/png'));
+          } catch (e) { resolve(null); }
+        };
+        img.onerror = function () { resolve(null); };
+        img.src = url;
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  // jsPDF-driven export. Header = logo + brand name. Body = VIP section
+  // (optional) then per-skill tables. Each skill table lists the picked
+  // mock-number range with one row per mock and one column per included
+  // tier. Sized for A4 portrait.
+  async function _cmGeneratePdf(opts) {
+    var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    if (!jsPDF) throw new Error('jsPDF not available');
+    var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+    var marginX = 14;
+    var y = 14;
+
+    // ─── Header: logo + brand name + subtitle ─────────────────────────
+    var logoData = await _cmFetchImageAsDataUrl(opts.brand.logoUrl);
+    var headerHeight = 22;
+    if (logoData) {
+      try { doc.addImage(logoData, 'PNG', marginX, y, 18, 18); } catch (e) {}
+    }
+    var titleX = logoData ? marginX + 22 : marginX;
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(opts.brand.color || '#1e293b');
+    doc.text(opts.brand.name, titleX, y + 8);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor('#64748b');
+    var todayStr = new Date().toLocaleDateString('en-GB');
+    doc.text('Codes export · ' + todayStr, titleX, y + 14);
+    y += headerHeight;
+
+    // Divider line under header.
+    doc.setDrawColor('#e5e7eb');
+    doc.setLineWidth(0.4);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 6;
+
+    // Index VIP and mock codes for fast lookup.
+    var vipMap = {}; (opts.vip || []).forEach(function (v) { vipMap[v.type] = v; });
+    var mockIdx = {};
+    (opts.mock || []).forEach(function (m) {
+      var key = m.skill + '#' + m.mock_number;
+      if (!mockIdx[key]) mockIdx[key] = {};
+      mockIdx[key][m.tier || 'premium'] = m;
+    });
+
+    var SKILL_LABEL = {
+      listening: '🎧 Listening',
+      reading:   '📖 Reading',
+      writing:   '✍️ Writing',
+      speaking:  '🎤 Speaking',
+      full_mock: '🏆 Full Mock',
+    };
+
+    function ensureSpace(rows) {
+      var needed = rows * 7 + 14;
+      if (y + needed > pageH - 14) { doc.addPage(); y = 14; }
+    }
+
+    function drawSectionTitle(text, color) {
+      ensureSpace(2);
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(color || '#1e293b');
+      doc.text(text, marginX, y + 5);
+      y += 9;
+    }
+
+    function drawTable(headers, rows, cellWidths) {
+      ensureSpace(2);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setFillColor('#f3f4f6');
+      doc.setDrawColor('#cbd5e1');
+      // Header row
+      var x = marginX;
+      doc.rect(marginX, y, cellWidths.reduce(function (a, b) { return a + b; }, 0), 7, 'FD');
+      headers.forEach(function (h, i) {
+        doc.setTextColor('#1e293b');
+        doc.text(String(h), x + 2, y + 5);
+        x += cellWidths[i];
+      });
+      y += 7;
+      doc.setFont('helvetica', 'normal');
+      rows.forEach(function (row) {
+        ensureSpace(1);
+        x = marginX;
+        doc.setDrawColor('#e5e7eb');
+        doc.rect(marginX, y, cellWidths.reduce(function (a, b) { return a + b; }, 0), 7);
+        row.forEach(function (cell, i) {
+          doc.setTextColor(cell.color || '#0f172a');
+          if (cell.bold) doc.setFont('helvetica', 'bold'); else doc.setFont('helvetica', 'normal');
+          doc.text(String(cell.text || cell), x + 2, y + 5);
+          x += cellWidths[i];
+        });
+        y += 7;
+      });
+      y += 4;
+    }
+
+    // ─── VIP section ───────────────────────────────────────────────────
+    if (opts.includeVip) {
+      drawSectionTitle('Centre VIP codes', '#7c3aed');
+      var vipRows = [];
+      if (vipMap.premium) vipRows.push([{ text: '👑 Premium', bold: true, color: '#7c3aed' }, { text: vipMap.premium.code }]);
+      if (!opts.includeReg ? false : (vipMap.regular ? true : false)) {
+        vipRows.push([{ text: '🎟 Regular', bold: true, color: '#0f766e' }, { text: vipMap.regular.code }]);
+      }
+      if (!vipRows.length) {
+        doc.setFontSize(10);
+        doc.setTextColor('#64748b');
+        doc.text('— no VIP codes for this centre —', marginX, y);
+        y += 8;
+      } else {
+        drawTable(['Tier', 'Code'], vipRows, [40, 60]);
+      }
+    }
+
+    // ─── Per-skill sections ────────────────────────────────────────────
+    opts.picks.forEach(function (pick) {
+      drawSectionTitle(SKILL_LABEL[pick.skill] + ' (#' + pick.from + ' – #' + pick.to + ')', '#1e293b');
+
+      var headers = ['Mock #'];
+      var widths  = [22];
+      if (opts.includeReg) { headers.push('🟢 Regular'); widths.push(45); }
+      if (opts.includePre) { headers.push('🔥 Premium'); widths.push(45); }
+
+      var rows = [];
+      for (var n = pick.from; n <= pick.to; n++) {
+        var key = pick.skill + '#' + n;
+        var entry = mockIdx[key] || {};
+        var row = [{ text: '#' + n, bold: true }];
+        if (opts.includeReg) row.push({ text: (entry.regular && entry.regular.code) || '—', color: entry.regular ? '#0f766e' : '#94a3b8' });
+        if (opts.includePre) row.push({ text: (entry.premium && entry.premium.code) || '—', color: entry.premium ? '#7c3aed' : '#94a3b8' });
+        rows.push(row);
+      }
+      drawTable(headers, rows, widths);
+    });
+
+    // Footer on last page.
+    doc.setFontSize(8);
+    doc.setTextColor('#94a3b8');
+    doc.text('Generated by Mock Stream — ' + new Date().toLocaleString('en-GB'), marginX, pageH - 8);
+
+    var safeName = opts.brand.name.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 40) || opts.centerId;
+    var dateTag  = new Date().toISOString().slice(0, 10);
+    doc.save(safeName + '-codes-' + dateTag + '.pdf');
   }
 
   /* -------------------------------------------------------------- expose */
