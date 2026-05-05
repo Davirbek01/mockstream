@@ -10,14 +10,16 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
-  <link rel="manifest" href="site-config/manifest.json" />
+  <!-- <link rel="manifest"> is injected by site-config/pwa-manifest.js with
+       the per-clone manifest path picked from window.__CENTER_ID. -->
   <link rel="apple-touch-icon" href="site-config/icons/icon-192.png" />
   <title>Mock Stream</title>
   <link rel="stylesheet" href="site-config/responsive-scaling.css">
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
-  <!-- PWA manifest — built per-clone at runtime from SITE_CONFIG. -->
+  <!-- PWA manifest — picks site-config/manifest-<__CENTER_ID>.json so each
+       clone's install prompt shows the right brand name + icon. -->
   <script src="site-config/pwa-manifest.js"></script>
   <!-- Telegram Mini App SDK + immediate fullscreen request. Runs inline before
        layout so the Mini App expands to full viewport on first paint instead
