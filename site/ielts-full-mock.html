@@ -8734,7 +8734,7 @@
                 }
 
         var _OPENAI_KEY = null;
-        var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+        var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null, _GROQ_KEY = null;
         async function _fetchProviderKey(m) {
           var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
           if (!r.ok) throw new Error('Failed to fetch ' + m + ' key'); var d = await r.json(); return d.key;
@@ -8867,6 +8867,28 @@
             var j = await r.json();
             if (j.error) throw new Error(j.error.message || 'API error');
             var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
+          } else if (provider === 'groq') {
+            // Groq hosts open-weight chat models via OpenAI-compatible API.
+            if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+            if (!_GROQ_KEY) throw new Error('No Groq API key available');
+            var _mdlGroqLocal = (cp['scoring_model_groq'] || '').trim() || 'llama-3.3-70b-versatile';
+            var messages = [];
+            if (systemText) messages.push({ role: 'system', content: systemText });
+            var uMsg = userPrompt;
+            if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+            messages.push({ role: 'user', content: uMsg });
+            var body = { model: _mdlGroqLocal, messages: messages, temperature: opts.temperature || 0.3 };
+            if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+            if (opts.jsonMode) body.response_format = { type: 'json_object' };
+            var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+              body: JSON.stringify(body)
+            });
+            if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Groq] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+            var j = await r.json();
+            if (j.error) throw new Error(j.error.message || 'API error');
+            var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
           } else if (provider === 'gemma4') {
             var _g4Text = (systemText ? systemText + '\n\n' : '') + userPrompt;
             return await _callGemma4(_g4Text, 180000);
@@ -8880,8 +8902,7 @@
             }
             if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
             if (!GEMINI_KEY) throw new Error('No Gemini API key available');
-            var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3 } };
-            if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+            var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } } };
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
             var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + GEMINI_KEY, {
@@ -8897,9 +8918,8 @@
             if (!GEMINI_KEY) throw new Error('No Gemini API key available');
             var gBody = {
               contents: [{ parts: [{ text: userPrompt }] }],
-              generationConfig: { temperature: opts.temperature || 0.3 }
+              generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } }
             };
-            if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
             if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
             if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
             var r = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + GEMINI_KEY, {

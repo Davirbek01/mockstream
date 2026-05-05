@@ -5693,7 +5693,7 @@
       return fallback;
     }
 
-    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null, _GROQ_KEY = null;
     var _providerKeysCache = {};
     async function _fetchProviderKey(m) {
       var r = await fetch('https://davirbek.alwaysdata.net/key?model=' + m, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
@@ -5786,6 +5786,7 @@
       var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
+      var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
       if (provider === 'openai') {
         if (!API_KEY) { try { await getKey(); } catch(e){} }
         if (!API_KEY) throw new Error('No OpenAI API key available');
@@ -5863,6 +5864,30 @@
           if (j.error) throw new Error(j.error.message || 'API error');
           var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
         });
+      } else if (provider === 'groq') {
+        // Groq hosts open-weight chat models (Llama 3.3 70B, Qwen 3 32B, Llama
+        // 4 Scout, etc.) via an OpenAI-compatible /chat/completions endpoint.
+        // The exact model is whatever string is configured in scoring_model_groq.
+        if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+        if (!_GROQ_KEY) throw new Error('No Groq API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        messages.push({ role: 'user', content: userPrompt });
+        if (opts.jsonMode && messages.length > 0) { var _last = messages[messages.length - 1]; _last.content += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.'; }
+        var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        return await _callWithKeyRotation('groq', _GROQ_KEY, _getServerBackupKeys('groq').concat(_getBackupKeys('groq', cp)), async function(key) {
+          var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+            body: JSON.stringify(body)
+          });
+          if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.error('[Groq] ' + r.status + ':', _e); throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); }
+          var j = await r.json();
+          if (j.error) throw new Error(j.error.message || 'API error');
+          var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
+        });
       } else if (provider === 'gemma4') {
         if (opts && opts.gemmaTask === 'inline_corrections') {
           var _g4InlineText = (systemText ? systemText + '\n\n' : '') + userPrompt;
@@ -5891,8 +5916,7 @@
         }
         if (!GEMINI_KEY) { try { await getGeminiKey(); } catch(e){} }
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
-        var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3 } };
-        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
+        var gBody = { contents: [{ parts: [{ text: userPrompt }] }], generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } } };
         if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
         if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
         return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
@@ -5908,9 +5932,8 @@
         if (!GEMINI_KEY) throw new Error('No Gemini API key available');
         var gBody = {
           contents: [{ parts: opts.contentParts || [{ text: userPrompt }] }],
-          generationConfig: { temperature: opts.temperature || 0.3 }
+          generationConfig: { temperature: opts.temperature || 0.3, maxOutputTokens: opts.maxTokens || 16000, thinkingConfig: { thinkingBudget: 2000 } }
         };
-        if (opts.maxTokens) gBody.generationConfig.maxOutputTokens = opts.maxTokens;
         if (opts.jsonMode) gBody.generationConfig.response_mime_type = 'application/json';
         if (systemText) gBody.systemInstruction = { parts: [{ text: systemText }] };
         return await _callWithKeyRotation('gemini', GEMINI_KEY, _getServerBackupKeys('gemini').concat(_getBackupKeys('gemini', cp)), async function(key) {
@@ -17464,7 +17487,12 @@ AREAS TO IMPROVE:
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ parts: [{ text: systemPrompt + '\n\n' + dualPrompt }] }],
-              generationConfig: { temperature: 0.2, maxOutputTokens: 4096 }
+              // Gemini 2.5 Flash spends output tokens on hidden reasoning before
+              // emitting visible content. With the old 4096 cap, thinking would
+              // sometimes consume the whole budget and the user got an empty
+              // response. Cap thinking explicitly + raise the visible budget so
+              // the structured JSON answer always fits.
+              generationConfig: { temperature: 0.2, maxOutputTokens: 12000, thinkingConfig: { thinkingBudget: 2000 } }
             })
           });
 
