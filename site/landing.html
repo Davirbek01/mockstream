@@ -10545,6 +10545,34 @@
       }
     }
 
+    // ===== MICROPHONE PERMISSION PRIMER =====
+    // Fire the browser mic prompt once per session on landing load. The same
+    // logic exists on the welcome page (index.html), but when a returning user
+    // is auto-signed-in via Google the welcome overlay is skipped entirely and
+    // the prompt never fires — so by the time they hit a Speaking mock the
+    // browser blocks recording. Asking on landing covers that path. The
+    // `microphonePermissionRequested` flag is the same key index.html uses, so
+    // first-time users who DO see the welcome overlay still only get prompted
+    // once.
+    (function _primeMicPermissionOnLanding() {
+      function ask() {
+        try {
+          if (sessionStorage.getItem('microphonePermissionRequested') === 'true') return;
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+          sessionStorage.setItem('microphonePermissionRequested', 'true');
+          navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+            stream.getTracks().forEach(function (t) { t.stop(); });
+            try { sessionStorage.setItem('microphonePermissionGranted', 'true'); } catch (_e) {}
+          }).catch(function (e) {
+            console.warn('[Landing] Microphone permission denied or unavailable:', e && e.message);
+          });
+        } catch (_e) {}
+      }
+      function init() { setTimeout(ask, 600); }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
+
     // ===== AUTO-RESUME AFTER ACCESS-CODE RELOAD =====
     // Each verify*AccessCode success now reloads the page so decorate() and
     // validateVipTokenOnLoad re-run with the fresh per-skill premium flags.
