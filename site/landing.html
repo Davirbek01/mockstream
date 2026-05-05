@@ -17398,6 +17398,20 @@
         if (response.ok) {
           const data = await response.json();
           if (data.access || data.valid) {
+            // Hard guard: admin / super-admin passcodes are NOT VIP codes.
+            // verify-passcode returns access=true for them so bots can use
+            // the same endpoint to unlock the in-bot admin panel, but the
+            // VIP sidebar must reject them — otherwise typing an admin
+            // passcode here grants vipSessionAccess on the website. Surface
+            // a clear, actionable error so the operator knows where the
+            // passcode actually belongs.
+            if (data.role === 'admin' || data.role === 'super_admin') {
+              status.className = 'vip-sidebar-status error';
+              status.textContent = '❌ That looks like an admin passcode. Use it inside the bot, not here.';
+              btn.disabled = false;
+              btn.textContent = '→';
+              return;
+            }
             validated = true;
             isPremiumAi = data.role === 'premium';
             if (typeof data.token === 'string' && data.token.length > 20) {
