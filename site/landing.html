@@ -24478,6 +24478,11 @@
           if (_cmExpandedSections[cid + '_features']) {
             h += '<div style="padding:10px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px 16px;">';
             h += _cmToggleInput(cid, 'helpCenter', '💬 Help Center', cfg.helpCenter !== false);
+            // Single switch for both surfaces: web Help Center's Code tab
+            // (greyed + "Deactivated" badge when off) and the per-centre
+            // Telegram bot's 🎁 Code button (removed from keyboard when off,
+            // since Telegram has no greyed-button state).
+            h += _cmToggleInput(cid, 'freeCodeDispenser', '🎁 Free Code Dispenser', cfg.freeCodeDispenser !== false);
             h += _cmToggleInput(cid, 'certificates', '📜 Certificates', cfg.certificates !== false);
             h += _cmToggleInput(cid, 'telegramNotifs', '📱 Telegram Notifications', cfg.telegramNotifs !== false);
             h += _cmToggleInput(cid, 'flashcards', '🃏 Flashcards', cfg.flashcards !== false);
