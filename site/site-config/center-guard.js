@@ -404,9 +404,23 @@
     }
 
     // ─── FEATURE TOGGLES ────────────────────────────────────────────────
-    // Help Center
+    // Help Center — hide both surfaces:
+    //   • Sidebar / landing-page Help Center entry (#chatBubble + the
+    //     onclick-style buttons)
+    //   • Floating chat-bubble FAB (#cb-fab) and overlay (#cb-overlay)
+    //     created at runtime by chat-bubble.js. The CSS rule wins over
+    //     the one-shot _cgHideAll because chat-bubble.js attaches the
+    //     FAB AFTER DOMContentLoaded — the rule covers future-created
+    //     elements automatically.
     if (cc.helpCenter === false) {
-      _cgHideAll('#chatBubble, #chatBubbleBtn, .helpcenter-overlay, .chat-bubble, [onclick*="openHelpCenter"]');
+      var hcStyle = document.createElement('style');
+      hcStyle.textContent =
+        '#chatBubble,#chatBubbleBtn,#cb-fab,#cb-overlay,' +
+        '.helpcenter-overlay,.chat-bubble,' +
+        '[onclick*="openHelpCenter"]' +
+        '{display:none!important;}';
+      document.head.appendChild(hcStyle);
+      _cgHideAll('#chatBubble, #chatBubbleBtn, #cb-fab, #cb-overlay, .helpcenter-overlay, .chat-bubble, [onclick*="openHelpCenter"]');
     }
 
     // Certificates (hide cert/PDF buttons)
