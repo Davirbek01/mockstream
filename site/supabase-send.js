@@ -204,9 +204,9 @@
     }
 
     // Capture signed-in user's email when available so the Registered Users
-    // panel can count Google-signed-in users (filter: user_email IS NOT NULL).
-    // Guests are still saved — just without an email stamp. They get the
-    // same view link + admin dashboard row as before.
+    // panel can count Google-signed-in users (filter: user_email IS NOT NULL)
+    // and so the My Results page can filter by user_email = me. Guests are
+    // still saved — just without an email stamp.
     var _userEmail = '';
     try {
       if (window.MockStream && window.MockStream.auth) {
@@ -214,6 +214,31 @@
         if (_u && _u.email) _userEmail = String(_u.email).toLowerCase();
       }
     } catch (_e) {}
+    // Fallback: most mock test pages (CEFR Listening / Reading / Writing /
+    // Speaking, IELTS variants, Full Mock, etc.) load supabase-send.js but
+    // not auth.js itself, so window.MockStream.auth is undefined there even
+    // though the user is signed in. auth.js on landing.html caches the
+    // profile (including email) under 'ms_candidate_profile' — read it as
+    // a fallback so the result is still stamped with the right email and
+    // My Results can find it.
+    if (!_userEmail) {
+      try {
+        var cached = localStorage.getItem('ms_candidate_profile');
+        if (cached) {
+          var profile = JSON.parse(cached);
+          if (profile && profile.email) _userEmail = String(profile.email).toLowerCase();
+        }
+      } catch (_e) {}
+    }
+    // Last-resort fallback: VIP email-sign-in path (auth.js writes
+    // 'ms_vip_email' separately from the OAuth profile), so a VIP user who
+    // signed in by entering their email also gets their results stamped.
+    if (!_userEmail) {
+      try {
+        var vipEmail = localStorage.getItem('ms_vip_email');
+        if (vipEmail) _userEmail = String(vipEmail).toLowerCase();
+      } catch (_e) {}
+    }
 
     // Capture this device's id so the admin can DM the test-taker (guest or
     // Google user) directly from the Results table. We reuse ms_device_id
