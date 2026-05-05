@@ -7997,6 +7997,21 @@
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderGroqLlama4Scout" onclick="_spSetGroqVariant('meta-llama/llama-4-scout-17b-16e-instruct','spProviderGroqLlama4Scout')" title="Vision-capable — image prompts work">⚡ Groq Llama 4 Scout 🖼️</button>
       </div>
+      <div class="sysprompt-provider-row" style="margin-top:6px;align-items:center;">
+        <span style="font-size:12px;color:#6b7280;font-weight:600;">🛟 Fallback if primary fails:</span>
+        <select id="sp_scoring_ai_fallback" style="padding:6px 10px;border:1px solid var(--ring);border-radius:6px;font-size:12px;background:var(--bg);color:var(--text);">
+          <option value="">— None (show error) —</option>
+          <option value="gemini">Gemini</option>
+          <option value="openai">OpenAI</option>
+          <option value="claude">Claude</option>
+          <option value="grok">Grok (text only)</option>
+          <option value="deepseek">DeepSeek (text only)</option>
+          <option value="groq:llama-3.3-70b-versatile">Groq Llama 3.3 70B</option>
+          <option value="groq:qwen/qwen3-32b">Groq Qwen 3 32B</option>
+          <option value="groq:meta-llama/llama-4-scout-17b-16e-instruct">Groq Llama 4 Scout</option>
+        </select>
+        <span style="font-size:11px;color:#9ca3af;">Tried only when ALL primary keys fail terminally. Leave empty to disable.</span>
+      </div>
       <div class="sysprompt-tabs" id="sysPromptTabs">
         <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
         <button class="sysprompt-tab" data-tab="cefr-speaking">CEFR Speaking</button>
@@ -21878,6 +21893,8 @@
       'scoring_model_openai','scoring_model_whisper',
       'scoring_model_gemini','scoring_model_claude',
       'scoring_model_grok','scoring_model_deepseek','scoring_model_groq'
+      // 'scoring_ai_fallback' is special-cased in saveScoringPrompts so it can
+      // be cleared back to "no fallback" (empty value still gets upserted).
     ];
 
     var _spCurrentProvider = 'gemini';
@@ -22087,6 +22104,10 @@
         });
         if (map['scoring_ai_provider']) _spSetProvider(map['scoring_ai_provider']);
         if (map['scoring_transcription_provider']) { _spTranscriptionProvider = map['scoring_transcription_provider']; _spSetTranscriptionHelper(_spTranscriptionProvider); }
+        // Load fallback selector (separate from generic loop since saveScoringPrompts
+        // also special-cases it to allow clearing back to empty/no-fallback).
+        var fbEl = document.getElementById('sp_scoring_ai_fallback');
+        if (fbEl) fbEl.value = map['scoring_ai_fallback'] || '';
         // Load Gemini active plan + bind button selector
         try {
           var gResp = await fetch(_SP_SB_URL + '/rest/v1/site_settings?key=eq.gemini_active_plan&select=value', {
@@ -22181,6 +22202,13 @@
         saved++;
         // Always persist transcriber-provider override (applies to ALL base providers now)
         await _spUpsertSetting('scoring_transcription_provider', _spTranscriptionProvider || 'default');
+        saved++;
+        // Always persist the fallback selector — even when set to empty
+        // ("None"), so changing FROM a real fallback TO "no fallback" actually
+        // takes effect. The generic loop below would otherwise skip-save
+        // empty values (intentional safeguard for prompt textareas).
+        var fbEl = document.getElementById('sp_scoring_ai_fallback');
+        await _spUpsertSetting('scoring_ai_fallback', (fbEl ? fbEl.value : '').trim());
         saved++;
         for (var i = 0; i < _SP_ALL_KEYS.length; i++) {
           var key = _SP_ALL_KEYS[i];
@@ -24600,7 +24628,23 @@
               { val: 'openai', label: 'OpenAI' },
               { val: 'claude', label: 'Claude' },
               { val: 'grok', label: 'Grok ⚠️ (text only)' },
-              { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' }
+              { val: 'deepseek', label: 'DeepSeek ⚠️ (text only)' },
+              { val: 'groq', label: 'Groq (uses System Prompts model)' }
+            ]);
+            // Per-centre fallback override. "default" = inherit global
+            // scoring_ai_fallback. Empty / "none" = no fallback. Other values
+            // are tried only when ALL primary keys fail terminally.
+            h += _cmSelectInput(cid, 'aiFallback', 'Fallback if primary fails', cfg.aiFallback || 'default', [
+              { val: 'default', label: 'Default (use global fallback)' },
+              { val: 'none', label: 'None (show error if primary fails)' },
+              { val: 'gemini', label: 'Gemini' },
+              { val: 'openai', label: 'OpenAI' },
+              { val: 'claude', label: 'Claude' },
+              { val: 'grok', label: 'Grok (text only)' },
+              { val: 'deepseek', label: 'DeepSeek (text only)' },
+              { val: 'groq:llama-3.3-70b-versatile', label: 'Groq Llama 3.3 70B' },
+              { val: 'groq:qwen/qwen3-32b', label: 'Groq Qwen 3 32B' },
+              { val: 'groq:meta-llama/llama-4-scout-17b-16e-instruct', label: 'Groq Llama 4 Scout (vision)' }
             ]);
 
             // ── Gemini billing-slot picker (shown only when Gemini is the per-center pick)

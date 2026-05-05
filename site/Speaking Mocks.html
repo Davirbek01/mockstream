@@ -7398,10 +7398,33 @@
     }
 
     async function _callScoringAI(systemText, userPrompt, opts) {
+      opts = opts || {};
+      // Cross-provider fallback wrapper — see comment in Writing Mocks.html for
+      // the full mechanic. First call enters the wrapper which recurses with
+      // _fallbackHandled=true; on terminal failure, recurses once more with
+      // _forceProvider/_forceModel set from the configured fallback.
+      if (!opts._fallbackHandled) {
+        opts._fallbackHandled = true;
+        try {
+          return await _callScoringAI(systemText, userPrompt, opts);
+        } catch (e) {
+          var _cpFb = await _loadScoringPrompts();
+          var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
+          if (!_rawFb || _rawFb === 'none' || _rawFb === 'default') throw e;
+          var _fbProv = _rawFb, _fbModel = null;
+          if (_rawFb.indexOf('groq:') === 0) { _fbProv = 'groq'; _fbModel = _rawFb.slice(5); }
+          var _primary = (_cpFb['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+          if (_fbProv === _primary) throw e;
+          console.warn('[Scoring] Primary "' + _primary + '" failed, falling back to "' + _fbProv + '"' + (_fbModel ? ' (' + _fbModel + ')' : '') + ': ' + (e && e.message));
+          return await _callScoringAI(systemText, userPrompt, Object.assign({}, opts, { _fallbackHandled: true, _forceProvider: _fbProv, _forceModel: _fbModel }));
+        }
+      }
       var cp = await _loadScoringPrompts();
-      var provider = (cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
-      var centerProvider = await _getCenterAiProviderOverride();
-      if (centerProvider) provider = centerProvider;
+      var provider = (opts._forceProvider || cp['scoring_ai_provider'] || 'gemini').toString().trim().toLowerCase();
+      if (!opts._forceProvider) {
+        var centerProvider = await _getCenterAiProviderOverride();
+        if (centerProvider) provider = centerProvider;
+      }
       console.log('%c[AI Scoring] Provider: ' + provider.toUpperCase(), 'color:#fff;background:#6d28d9;padding:2px 8px;border-radius:4px;font-weight:bold');
       (function(p){ var d=document.getElementById('_aiProviderBadge'); if(!d){d=document.createElement('div');d.id='_aiProviderBadge';d.style.cssText='position:fixed;top:12px;right:12px;z-index:999999;padding:6px 16px;border-radius:8px;font:bold 13px system-ui;color:#fff;background:#6d28d9;box-shadow:0 2px 12px rgba(0,0,0,.25);transition:opacity .5s;pointer-events:none';document.body.appendChild(d)} d.textContent='\u{1F916} AI: '+p.toUpperCase();d.style.opacity='1';clearTimeout(d._t);d._t=setTimeout(function(){d.style.opacity='0'},6000); })(provider);
       document.querySelectorAll('#aiStep2 span, #wpAiStep2 span, #geminiLoading p, ._aiLoadLabel').forEach(function(s){ s.textContent = (s.tagName === 'P' ? 'Analyzing with ' : 'Connecting to ') + provider.charAt(0).toUpperCase() + provider.slice(1) + ' AI...'; });
@@ -7412,6 +7435,7 @@
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
       var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
+      if (opts._forceModel && provider === 'groq') _mdlGroq = opts._forceModel;
       var _hasImages = opts.contentParts && opts.contentParts.some(function(p){ return p.inline_data || p.inlineData; });
       var _imgNote = _hasImages ? '\n\n[NOTE: This AI provider cannot view images. Some questions reference pictures the candidate was shown. Score based on the question text and the candidate\'s response only. Do not penalize for image-related content you cannot see.]' : '';
       if (provider === 'openai') {
