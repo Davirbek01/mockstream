@@ -17289,18 +17289,27 @@
       const vipIcon = document.querySelector('.vip-sidebar-icon');
 
       if (vipCard) {
+        const isPremium = sessionStorage.getItem('vipPremiumAi') === 'true';
         vipCard.classList.add('unlocked');
-        if (vipIcon) vipIcon.textContent = '✅';
+        if (vipIcon) vipIcon.textContent = isPremium ? '👑' : '🎟';
         if (vipBadge) {
-          vipBadge.textContent = 'Active';
+          vipBadge.textContent = isPremium ? 'Premium' : 'Regular';
           vipBadge.className = 'vip-sidebar-badge active';
         }
-        // Hide input, show "active" message + logout
+        // Hide input, show tier-specific status + logout. Tier label spells
+        // out exactly what the user just unlocked so a regular VIP can't be
+        // mistaken for premium at a glance.
         if (vipBody) {
-          const isPremium = sessionStorage.getItem('vipPremiumAi') === 'true';
+          const headline = isPremium ? '👑 Premium VIP unlocked' : '🎟 Regular VIP unlocked';
+          const subline  = isPremium
+            ? 'AI scoring + practice mocks + transcripts'
+            : 'Mocks only — no AI, no practice mode';
           vipBody.innerHTML = '<div style="text-align:center;padding:4px 0;">' +
-            '<div style="font-size:12px;font-weight:700;color:#047857;margin-bottom:6px;">' +
-              (isPremium ? '🤖 Premium AI Active' : '🔓 All Mocks Unlocked') +
+            '<div style="font-size:12.5px;font-weight:700;color:' + (isPremium ? '#7c3aed' : '#047857') + ';margin-bottom:2px;">' +
+              headline +
+            '</div>' +
+            '<div style="font-size:10.5px;color:#6b7280;margin-bottom:6px;line-height:1.35;">' +
+              subline +
             '</div>' +
             '<button onclick="logoutVip()" style="background:none;border:1px solid #d1d5db;color:#6b7280;padding:3px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:500;transition:all 0.2s;" onmouseover="this.style.borderColor=\'#ef4444\';this.style.color=\'#ef4444\'" onmouseout="this.style.borderColor=\'#d1d5db\';this.style.color=\'#6b7280\'">Sign Out</button>' +
             '</div>';
@@ -17454,8 +17463,19 @@
         }
 
         status.className = 'vip-sidebar-status success';
-        status.textContent = '✅ All features unlocked!';
-        setTimeout(() => { showSuperUnlockedState(); }, 800);
+        status.textContent = isPremiumAi ? '✅ Premium VIP unlocked!' : '✅ Regular VIP unlocked!';
+        // Reload after a short delay so the page re-decorates from a clean
+        // state. Without this, decorate() in landing.html had already
+        // run with the previous tier's value of vipPremiumAi cached, and
+        // its lock-badge decisions are baked in for the rest of the
+        // session — letting a regular code "inherit" premium UI when
+        // entered after a premium one had been swapped out.
+        // validateVipTokenOnLoad reruns on the fresh page, validates the
+        // freshly-stashed vipToken, and lands the page in the correct
+        // tier-aware state. Same end visual as the old showSuperUnlockedState
+        // path because the reloaded page detects the unlocked tier and
+        // shows the matching sidebar card.
+        setTimeout(() => { location.reload(); }, 800);
       } else {
         status.className = 'vip-sidebar-status error';
         status.textContent = '❌ Invalid or expired code';
