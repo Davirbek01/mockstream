@@ -5006,18 +5006,11 @@
       localStorage.setItem('CANDIDATE_SURNAME', surname);
       localStorage.setItem('CANDIDATE_FIRSTNAME', firstname);
 
-      // Request microphone permission once (applies to all same-origin iframes)
-      if (!sessionStorage.getItem('microphonePermissionRequested')) {
-        sessionStorage.setItem('microphonePermissionRequested', 'true');
-        navigator.mediaDevices && navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-          // Permission granted — stop tracks immediately (we just needed the prompt)
-          stream.getTracks().forEach(function(t) { t.stop(); });
-          sessionStorage.setItem('microphonePermissionGranted', 'true');
-          console.log('[Welcome] Microphone permission granted');
-        }).catch(function(e) {
-          console.warn('[Welcome] Microphone permission denied or unavailable:', e.message);
-        });
-      }
+      // Microphone permission is now requested on landing.html instead. The
+      // welcome page is skipped entirely on Google-restored sessions, so a
+      // prompt fired here would flash for a fraction of a second before the
+      // redirect — too fast for the user to react. landing.html prompts after
+      // its DOM settles, which is reachable from every auth path.
 
       // Hide name overlay with animation
       const overlay = document.getElementById('nameOverlay');
