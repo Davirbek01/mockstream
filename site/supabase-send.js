@@ -239,6 +239,25 @@
         if (vipEmail) _userEmail = String(vipEmail).toLowerCase();
       } catch (_e) {}
     }
+    // Final fallback: read the live Supabase session straight from the
+    // storage key that supabase-js writes ('ms_auth_session', set in
+    // auth.js's createClient call). This catches Telegram Mini-App users
+    // whose synthetic email ('tg_<id>@telegram.mock-stream.com') never
+    // landed in the ms_candidate_profile cache because auth.js wasn't
+    // loaded on the mock page they are currently submitting from.
+    // Without this, Telegram users' rows save with user_email=NULL and
+    // their My Results page is empty even though submissions go through.
+    if (!_userEmail) {
+      try {
+        var rawSession = localStorage.getItem('ms_auth_session');
+        if (rawSession) {
+          var sess = JSON.parse(rawSession);
+          var sessEmail = (sess && sess.user && sess.user.email)
+                       || (sess && sess.currentSession && sess.currentSession.user && sess.currentSession.user.email);
+          if (sessEmail) _userEmail = String(sessEmail).toLowerCase();
+        }
+      } catch (_e) {}
+    }
 
     // Capture this device's id so the admin can DM the test-taker (guest or
     // Google user) directly from the Results table. We reuse ms_device_id
