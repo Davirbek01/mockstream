@@ -1,0 +1,17 @@
+{
+  "name": "Multilevel Record — IELTS & CEFR Practice",
+  "short_name": "Multilevel Record",
+  "description": "Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment.",
+  "start_url": "../index.html",
+  "scope": "../",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "categories": ["education"],
+  "icons": [
+    { "src": "https://i.ibb.co/5xn3Cxms/image.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "https://i.ibb.co/5xn3Cxms/image.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "https://i.ibb.co/5xn3Cxms/image.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

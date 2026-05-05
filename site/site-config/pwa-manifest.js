@@ -1,90 +1,49 @@
 // =============================================================================
-// PWA MANIFEST — Dynamic, per-clone
+// PWA MANIFEST — Per-clone static-file picker
 // -----------------------------------------------------------------------------
-// Builds a Web App Manifest at runtime using the active centre's brand info
-// (SITE_CONFIG.brandName / .logoUrl / .brandColor) and registers it via a
-// Blob URL on the existing <link rel="manifest"> tag.
+// Each Netlify clone deploys with its own __CENTER_ID (set by center-id.js).
+// We point <link rel="manifest"> at a static, real-URL file per clone so the
+// browser's "install app" prompt picks up the right brand name + icon.
 //
-// Why dynamic instead of one static manifest.json per clone? Each centre's
-// brand info already lives in Supabase (`center_site_config_<id>`) and is
-// editable from Centers Management. With a Blob-URL manifest, an admin
-// changing the Logo URL or Brand Colour from the panel sees that reflected
-// in the next install prompt without a redeploy or a per-clone file.
+// Why not a Blob URL?
+//   Edge/Chrome reject Blob URLs for the installability check ("Add to Home
+//   Screen" disappears). A real, fetchable manifest URL is required.
 //
-// Re-runs on `ms:config-ready` (fired by site-config.js once the async
-// Supabase fetch resolves), so the manifest reflects the freshest brand
-// info — not just the synchronous default.
+// Why not one shared manifest.json?
+//   Then every clone shows the Mock Stream brand on install. Tried that, the
+//   install prompt was wrong on multilevelrecord.com / bekzodsmultilevel.com /
+//   etc. — that's the original bug this file fixes.
 //
-// Caveat: users who installed the PWA *before* this fix keep whatever name
-// + icon they installed with until they uninstall and reinstall. There's no
-// way to push a name change to an already-installed PWA.
+// Caveat: PWA install identity is frozen at deploy time. If an admin renames
+// a clone via Centers Management, the website renames live, but the install
+// prompt keeps the deployed name until someone updates manifest-<slug>.json
+// and pushes a new build. PWAs that are *already installed* never auto-update
+// their app name — uninstall and reinstall is the only way.
 // =============================================================================
 (function () {
   'use strict';
 
-  var DEFAULT_LOGO = 'https://i.ibb.co/WN0XY5Lv/logo.png';
+  var slug = (window.__CENTER_ID || 'mock_stream');
+  // Whitelist of slugs we have a static manifest file for. Anything else
+  // falls back to the default Mock Stream manifest.
+  var KNOWN = {
+    mock_stream: 1, bek: 1, niners: 1, global: 1,
+    muzaffars: 1, record: 1, achievers: 1
+  };
+  if (!KNOWN[slug]) slug = 'mock_stream';
 
-  function buildManifestUrl() {
-    var cfg  = window.SITE_CONFIG || {};
-    var name = (cfg.brandName  || 'Mock Stream').toString();
-    var logo = (cfg.logoUrl    || DEFAULT_LOGO).toString();
-    var theme = (cfg.brandColor || '#0d9488').toString();
+  // Resolve relative to wherever the calling page lives. index.html and
+  // landing.html both sit in /site, so 'site-config/manifest-<slug>.json'
+  // resolves correctly from either.
+  var href = 'site-config/manifest-' + slug + '.json';
 
-    var manifest = {
-      name: name + ' — IELTS & CEFR Practice',
-      short_name: name,
-      description: 'Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment.',
-      start_url: '/index.html',
-      scope: '/',
-      display: 'standalone',
-      orientation: 'any',
-      background_color: '#0f172a',
-      theme_color: theme,
-      categories: ['education'],
-      icons: [
-        { src: logo, sizes: '192x192', type: 'image/png', purpose: 'any' },
-        { src: logo, sizes: '512x512', type: 'image/png', purpose: 'any' },
-        { src: logo, sizes: '512x512', type: 'image/png', purpose: 'maskable' }
-      ]
-    };
-
-    var blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-    return URL.createObjectURL(blob);
-  }
-
-  function applyManifest() {
-    try {
-      var url = buildManifestUrl();
-      var link = document.querySelector('link[rel="manifest"]');
-      if (link) {
-        // Revoke the previous blob URL we created (if any) so we don't leak.
-        if (link.dataset.pwaBlob === '1' && /^blob:/i.test(link.href)) {
-          try { URL.revokeObjectURL(link.href); } catch (e) {}
-        }
-        link.href = url;
-      } else {
-        link = document.createElement('link');
-        link.rel  = 'manifest';
-        link.href = url;
-        document.head.appendChild(link);
-      }
-      link.dataset.pwaBlob = '1';
-    } catch (e) {
-      console.warn('[pwa-manifest] build failed', e);
-    }
-  }
-
-  function init() {
-    // Apply once with current SITE_CONFIG (sync default + cached values),
-    // then re-apply when the Supabase fetch resolves so brand-panel edits
-    // flow into the install prompt without a page reload.
-    applyManifest();
-    document.addEventListener('ms:config-ready', applyManifest);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  var link = document.querySelector('link[rel="manifest"]');
+  if (link) {
+    link.href = href;
   } else {
-    init();
+    link = document.createElement('link');
+    link.rel  = 'manifest';
+    link.href = href;
+    document.head.appendChild(link);
   }
 })();
