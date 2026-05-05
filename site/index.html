@@ -3349,32 +3349,16 @@
 
 
     // ===== ADMIN PANEL FUNCTIONALITY =====
-    // Passcode is validated via backend (alwaysdata)
-    let logoTapCount = 0;
+    // The 5-tap-on-logo trigger that opened the legacy alwaysdata-backed
+    // admin panel was removed in May 2026. Admin work now happens via
+    //   • Centers Management on landing.html (Google sign-in)
+    //   • @MS23_manager_bot for codes (Telegram passcode)
+    //   • each per-centre bot's in-bot Admin panel (centre passcode)
+    // The modal HTML + helper functions below are intentionally left as
+    // dead code so a quick rollback is one-line if anyone ever needs the
+    // legacy panel back. None of it is reachable without a trigger.
+    let logoTapCount = 0;        // kept so existing closures don't break
     let logoTapTimer = null;
-
-    // Logo tap detection (5 taps to open admin)
-    document.addEventListener('DOMContentLoaded', function () {
-      const logo = document.getElementById('logo');
-      if (logo) {
-        logo.addEventListener('click', function (e) {
-          e.stopPropagation();
-          logoTapCount++;
-
-          // Reset counter after 2 seconds of no taps
-          clearTimeout(logoTapTimer);
-          logoTapTimer = setTimeout(() => {
-            logoTapCount = 0;
-          }, 2000);
-
-          // Open admin modal after 5 taps
-          if (logoTapCount >= 5) {
-            logoTapCount = 0;
-            openAdminPasscodeModal();
-          }
-        });
-      }
-    });
 
     function openAdminPasscodeModal() {
       const modal = document.getElementById('adminPasscodeModal');
