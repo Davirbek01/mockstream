@@ -6010,7 +6010,7 @@
       return fallback;
     }
 
-    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null;
+    var _CLAUDE_KEY = null, _GROK_KEY = null, _DEEPSEEK_KEY = null, _GROQ_KEY = null;
     async function _fetchProviderKey(m, exclude) {
       var url = 'https://davirbek.alwaysdata.net/key?model=' + m;
       if (exclude) url += '&exclude=' + encodeURIComponent(exclude);
@@ -6077,6 +6077,7 @@
       var _mdlClaude   = (cp['scoring_model_claude']   || '').trim() || 'claude-sonnet-4-20250514';
       var _mdlGrok     = (cp['scoring_model_grok']     || '').trim() || 'grok-3-mini';
       var _mdlDeepseek = (cp['scoring_model_deepseek'] || '').trim() || 'deepseek-chat';
+      var _mdlGroq     = (cp['scoring_model_groq']     || '').trim() || 'llama-3.3-70b-versatile';
       var _hasImages = opts.contentParts && opts.contentParts.some(function(p){ return p.inline_data || p.inlineData; });
       var _imgNote = _hasImages ? '\n\n[NOTE: This AI provider cannot view images. Some questions reference pictures the candidate was shown. Score based on the question text and the candidate\'s response only. Do not penalize for image-related content you cannot see.]' : '';
       if (provider === 'openai') {
@@ -6174,6 +6175,30 @@
         var j = await r.json();
         if (j.error) throw new Error(j.error.message || 'API error');
         var _ds = j.choices[0].message.content; var _dm = _ds.match(/```(?:json)?\s*([\s\S]*?)```/); if (_dm) _ds = _dm[1].trim(); return _ds;
+      } else if (provider === 'groq') {
+        // Groq hosts open-weight chat models (Llama 3.3 70B, Qwen 3 32B, Llama
+        // 4 Scout, etc.) via an OpenAI-compatible /chat/completions endpoint.
+        if (!_GROQ_KEY) { try { _GROQ_KEY = await _fetchProviderKey('groq'); } catch(e){} }
+        if (!_GROQ_KEY) throw new Error('No Groq API key available');
+        var messages = [];
+        if (systemText) messages.push({ role: 'system', content: systemText });
+        var uMsg = userPrompt;
+        if (opts.contentParts) uMsg = opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n');
+        uMsg += _imgNote;
+        if (opts.jsonMode) uMsg += '\n\nIMPORTANT: Respond with valid JSON only, no markdown.';
+        messages.push({ role: 'user', content: uMsg });
+        var body = { model: _mdlGroq, messages: messages, temperature: opts.temperature || 0.3 };
+        if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+        if (opts.jsonMode) body.response_format = { type: 'json_object' };
+        var r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) { var _e = await r.text().catch(function(){return ''}); console.warn('[Groq] Key failed (' + r.status + ') — re-fetching backup from server...'); var _failedGroq = _GROQ_KEY; _GROQ_KEY = null; try { _GROQ_KEY = await _fetchProviderKey('groq', _failedGroq); } catch(e2) {} if (!_GROQ_KEY) throw new Error('AI API error: ' + r.status + ' ' + _e.slice(0,200)); var r2 = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _GROQ_KEY }, body: JSON.stringify(body) }); if (!r2.ok) { var _e2 = await r2.text().catch(function(){return ''}); throw new Error('AI API error: ' + r2.status + ' ' + _e2.slice(0,200)); } r = r2; }
+        var j = await r.json();
+        if (j.error) throw new Error(j.error.message || 'API error');
+        var _gs = j.choices[0].message.content; var _gm = _gs.match(/```(?:json)?\s*([\s\S]*?)```/); if (_gm) _gs = _gm[1].trim(); return _gs;
       } else if (provider === 'gemma4') {
         var _g4Text = (systemText ? systemText + '\n\n' : '') + (opts.contentParts ? opts.contentParts.filter(function(p){ return p.text; }).map(function(p){ return p.text; }).join('\n') : userPrompt);
         _g4Text += _imgNote;

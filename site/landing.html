@@ -7993,6 +7993,9 @@
         <button class="sysprompt-provider-btn" id="spProviderClaude" onclick="_spSetProvider('claude')">🟣 Claude</button>
         <button class="sysprompt-provider-btn" id="spProviderGrok" onclick="_spSetProvider('grok')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">⚡ Grok ⚠️</button>
         <button class="sysprompt-provider-btn" id="spProviderDeepseek" onclick="_spSetProvider('deepseek')" title="⚠️ Text only — Speaking mocks will use transcript-based scoring (no audio)">🔵 DeepSeek ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqQwen" onclick="_spSetGroqVariant('qwen/qwen3-32b','spProviderGroqQwen')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Qwen 3 32B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqLlama70B" onclick="_spSetGroqVariant('llama-3.3-70b-versatile','spProviderGroqLlama70B')" title="⚠️ Text only — Speaking mocks use transcript-based scoring (no audio)">⚡ Groq Llama 3.3 70B ⚠️</button>
+        <button class="sysprompt-provider-btn" id="spProviderGroqLlama4Scout" onclick="_spSetGroqVariant('meta-llama/llama-4-scout-17b-16e-instruct','spProviderGroqLlama4Scout')" title="Vision-capable — image prompts work">⚡ Groq Llama 4 Scout 🖼️</button>
       </div>
       <div class="sysprompt-tabs" id="sysPromptTabs">
         <button class="sysprompt-tab active" data-tab="cefr-writing">CEFR Writing</button>
@@ -8143,6 +8146,10 @@
             <div class="sysprompt-field" style="margin:0">
               <label>DeepSeek model</label>
               <input type="text" id="sp_scoring_model_deepseek" placeholder="deepseek-chat" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
+            </div>
+            <div class="sysprompt-field" style="margin:0;grid-column:1 / -1">
+              <label>Groq model (clicking a Groq provider button above prefills this)</label>
+              <input type="text" id="sp_scoring_model_groq" placeholder="llama-3.3-70b-versatile · qwen/qwen3-32b · meta-llama/llama-4-scout-17b-16e-instruct" style="width:100%;padding:8px 10px;border:1px solid var(--ring);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)">
             </div>
 
             <div class="sysprompt-field" style="margin:0;grid-column:1 / -1;border-top:1px dashed var(--ring);padding-top:12px;">
@@ -21870,7 +21877,7 @@
       'scoring_ielts_speaking_full_system','scoring_ielts_speaking_full_prompt',
       'scoring_model_openai','scoring_model_whisper',
       'scoring_model_gemini','scoring_model_claude',
-      'scoring_model_grok','scoring_model_deepseek'
+      'scoring_model_grok','scoring_model_deepseek','scoring_model_groq'
     ];
 
     var _spCurrentProvider = 'gemini';
@@ -21916,8 +21923,17 @@
       document.getElementById('spProviderClaude').classList.toggle('active', p === 'claude');
       document.getElementById('spProviderGrok').classList.toggle('active', p === 'grok');
       document.getElementById('spProviderDeepseek').classList.toggle('active', p === 'deepseek');
+      // The three Groq variant buttons are deactivated when a non-Groq provider
+      // is picked. _spSetGroqVariant() handles activating exactly the variant
+      // the user clicked (since they all share provider id 'groq').
+      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      if (p !== 'groq') {
+        groqBtns.forEach(function (id) { var b = document.getElementById(id); if (b) b.classList.remove('active'); });
+      }
       var providerLabel = p.charAt(0).toUpperCase() + p.slice(1);
-      var isTextOnly = (p === 'grok' || p === 'deepseek');
+      // Llama 4 Scout has vision; Qwen/Llama 3.3 70B do not. The variant button's
+      // own click handler refines the warning, so default Groq treatment is text-only.
+      var isTextOnly = (p === 'grok' || p === 'deepseek' || p === 'groq');
       var box = document.getElementById('_spAudioWarning');
       if (!box) {
         box = document.createElement('div');
@@ -21949,6 +21965,21 @@
       // Scroll body back to top so the prompt fields are visible after banner re-flow.
       var body = document.getElementById('sysPromptBody');
       if (body) body.scrollTop = 0;
+    }
+
+    // Three Groq variant buttons all share provider id 'groq' but preset
+    // a different model string in sp_scoring_model_groq. Backend code only
+    // sees provider='groq' + model=<chosen>, so a single 'groq' branch in
+    // each scoring page handles all three.
+    function _spSetGroqVariant(modelString, btnId) {
+      _spSetProvider('groq');
+      var fld = document.getElementById('sp_scoring_model_groq');
+      if (fld) fld.value = modelString;
+      var groqBtns = ['spProviderGroqQwen', 'spProviderGroqLlama70B', 'spProviderGroqLlama4Scout'];
+      groqBtns.forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) b.classList.toggle('active', id === btnId);
+      });
     }
 
     // Tab switching
