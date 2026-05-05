@@ -1262,10 +1262,29 @@
     });
   }
 
+  // jsPDF doesn't ship a font that can render emoji glyphs — they come
+  // out as garbage like "Ø<ß§". Strip them everywhere we draw text on the
+  // PDF (the panel UI keeps emoji because the browser supports them).
+  function _cmStripEmoji(s) {
+    if (s == null) return '';
+    return String(s)
+      // Standard emoji + symbol blocks
+      .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
+      .replace(/[\u{2600}-\u{27BF}]/gu, '')
+      .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+      .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+      .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, '')
+      .replace(/[‍️⃣]/g, '') // ZWJ + variation selectors
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   // jsPDF-driven export. Header = logo + brand name. Body = VIP section
   // (optional) then per-skill tables. Each skill table lists the picked
   // mock-number range with one row per mock and one column per included
-  // tier. Sized for A4 portrait.
+  // tier. Sized for A4 portrait. Uses Helvetica + Courier (mono codes)
+  // — both built into jsPDF, both render correctly without bundling a
+  // unicode font.
   async function _cmGeneratePdf(opts) {
     var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
     if (!jsPDF) throw new Error('jsPDF not available');
@@ -1274,31 +1293,43 @@
     var pageW = doc.internal.pageSize.getWidth();
     var pageH = doc.internal.pageSize.getHeight();
     var marginX = 14;
+    var contentW = pageW - 2 * marginX;
+    var brandColor = opts.brand.color || '#7c3aed';
+
+    // ─── Brand-coloured top band ──────────────────────────────────────
+    doc.setFillColor(brandColor);
+    doc.rect(0, 0, pageW, 4, 'F');
+
     var y = 14;
 
-    // ─── Header: logo + brand name + subtitle ─────────────────────────
+    // ─── Header: logo (rounded white-bg circle) + brand name + subtitle
     var logoData = await _cmFetchImageAsDataUrl(opts.brand.logoUrl);
-    var headerHeight = 22;
+    var logoSize = 20;
     if (logoData) {
-      try { doc.addImage(logoData, 'PNG', marginX, y, 18, 18); } catch (e) {}
+      // Subtle white rounded-rect behind the logo so coloured logos read
+      // even on the brand-tinted band; jsPDF roundedRect uses the same
+      // colour we set with setFillColor.
+      doc.setFillColor('#ffffff');
+      doc.roundedRect(marginX, y, logoSize, logoSize, 3, 3, 'F');
+      try { doc.addImage(logoData, 'PNG', marginX + 1, y + 1, logoSize - 2, logoSize - 2); } catch (e) {}
     }
-    var titleX = logoData ? marginX + 22 : marginX;
-    doc.setFontSize(18);
+    var titleX = logoData ? marginX + logoSize + 6 : marginX;
+    doc.setFontSize(20);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(opts.brand.color || '#1e293b');
-    doc.text(opts.brand.name, titleX, y + 8);
+    doc.setTextColor(brandColor);
+    doc.text(_cmStripEmoji(opts.brand.name) || 'Mock Stream', titleX, y + 9);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor('#64748b');
     var todayStr = new Date().toLocaleDateString('en-GB');
-    doc.text('Codes export · ' + todayStr, titleX, y + 14);
-    y += headerHeight;
+    doc.text('Codes export  ·  ' + todayStr, titleX, y + 16);
+    y += logoSize + 4;
 
     // Divider line under header.
     doc.setDrawColor('#e5e7eb');
     doc.setLineWidth(0.4);
     doc.line(marginX, y, pageW - marginX, y);
-    y += 6;
+    y += 8;
 
     // Index VIP and mock codes for fast lookup.
     var vipMap = {}; (opts.vip || []).forEach(function (v) { vipMap[v.type] = v; });
@@ -1309,105 +1340,174 @@
       mockIdx[key][m.tier || 'premium'] = m;
     });
 
+    // Plain ASCII labels — jsPDF's stock fonts can't render emoji.
     var SKILL_LABEL = {
-      listening: '🎧 Listening',
-      reading:   '📖 Reading',
-      writing:   '✍️ Writing',
-      speaking:  '🎤 Speaking',
-      full_mock: '🏆 Full Mock',
+      listening: 'Listening',
+      reading:   'Reading',
+      writing:   'Writing',
+      speaking:  'Speaking',
+      full_mock: 'Full Mock',
     };
 
+    function pageFooter() {
+      // Page-of-N footer. We re-set on every page right before adding a
+      // new one so the running page number is accurate; jsPDF does not
+      // back-fill placeholders.
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor('#94a3b8');
+      var pageNum = doc.internal.getNumberOfPages();
+      var ts = 'Generated ' + new Date().toLocaleString('en-GB');
+      doc.text(ts, marginX, pageH - 7);
+      doc.text('Page ' + pageNum, pageW - marginX, pageH - 7, { align: 'right' });
+    }
+
     function ensureSpace(rows) {
-      var needed = rows * 7 + 14;
-      if (y + needed > pageH - 14) { doc.addPage(); y = 14; }
+      var needed = rows * 7 + 18;
+      if (y + needed > pageH - 14) {
+        pageFooter();
+        doc.addPage();
+        // Re-paint the brand top band on every new page for continuity.
+        doc.setFillColor(brandColor);
+        doc.rect(0, 0, pageW, 4, 'F');
+        y = 14;
+      }
     }
 
-    function drawSectionTitle(text, color) {
+    // Rounded coloured pill behind a section title — much more "designed"
+    // than a plain text line, and uses the centre's brand colour so the
+    // PDF feels custom for each clone.
+    function drawSectionBar(text, fillHex) {
       ensureSpace(2);
-      doc.setFontSize(13);
+      doc.setFillColor(fillHex || brandColor);
+      doc.roundedRect(marginX, y, contentW, 9, 2, 2, 'F');
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(color || '#1e293b');
-      doc.text(text, marginX, y + 5);
-      y += 9;
+      doc.setTextColor('#ffffff');
+      doc.text(_cmStripEmoji(text), marginX + 4, y + 6);
+      y += 13;
     }
 
+    // Striped table renderer. Header row uses a soft slate fill; body
+    // rows alternate white / very-pale-slate so long lists stay scannable.
+    // Code cells render in Courier (mono) so digits line up vertically.
     function drawTable(headers, rows, cellWidths) {
       ensureSpace(2);
+      var totalW = cellWidths.reduce(function (a, b) { return a + b; }, 0);
+
+      // Header
+      doc.setFillColor('#f1f5f9');
+      doc.setDrawColor('#cbd5e1');
+      doc.setLineWidth(0.3);
+      doc.rect(marginX, y, totalW, 8, 'FD');
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.setFillColor('#f3f4f6');
-      doc.setDrawColor('#cbd5e1');
-      // Header row
+      doc.setTextColor('#0f172a');
       var x = marginX;
-      doc.rect(marginX, y, cellWidths.reduce(function (a, b) { return a + b; }, 0), 7, 'FD');
       headers.forEach(function (h, i) {
-        doc.setTextColor('#1e293b');
-        doc.text(String(h), x + 2, y + 5);
+        doc.text(_cmStripEmoji(String(h)), x + 3, y + 5.5);
         x += cellWidths[i];
       });
-      y += 7;
-      doc.setFont('helvetica', 'normal');
-      rows.forEach(function (row) {
+      y += 8;
+
+      // Body rows (alternating)
+      doc.setFontSize(10);
+      doc.setDrawColor('#e2e8f0');
+      doc.setLineWidth(0.2);
+      rows.forEach(function (row, idx) {
         ensureSpace(1);
+        var rowH = 7;
+        if (idx % 2 === 0) {
+          doc.setFillColor('#ffffff');
+        } else {
+          doc.setFillColor('#f8fafc');
+        }
+        doc.rect(marginX, y, totalW, rowH, 'FD');
         x = marginX;
-        doc.setDrawColor('#e5e7eb');
-        doc.rect(marginX, y, cellWidths.reduce(function (a, b) { return a + b; }, 0), 7);
         row.forEach(function (cell, i) {
-          doc.setTextColor(cell.color || '#0f172a');
-          if (cell.bold) doc.setFont('helvetica', 'bold'); else doc.setFont('helvetica', 'normal');
-          doc.text(String(cell.text || cell), x + 2, y + 5);
+          var c = (cell && typeof cell === 'object') ? cell : { text: cell };
+          doc.setTextColor(c.color || '#0f172a');
+          if (c.mono) doc.setFont('courier', c.bold ? 'bold' : 'normal');
+          else        doc.setFont('helvetica', c.bold ? 'bold' : 'normal');
+          doc.text(_cmStripEmoji(String(c.text == null ? '' : c.text)) || '-', x + 3, y + 4.8);
           x += cellWidths[i];
         });
-        y += 7;
+        y += rowH;
       });
-      y += 4;
+      y += 6;
     }
 
     // ─── VIP section ───────────────────────────────────────────────────
     if (opts.includeVip) {
-      drawSectionTitle('Centre VIP codes', '#7c3aed');
+      drawSectionBar('Centre VIP codes', brandColor);
       var vipRows = [];
-      if (vipMap.premium) vipRows.push([{ text: '👑 Premium', bold: true, color: '#7c3aed' }, { text: vipMap.premium.code }]);
-      if (!opts.includeReg ? false : (vipMap.regular ? true : false)) {
-        vipRows.push([{ text: '🎟 Regular', bold: true, color: '#0f766e' }, { text: vipMap.regular.code }]);
-      }
+      if (vipMap.premium) vipRows.push([
+        { text: 'Premium', bold: true, color: '#7c3aed' },
+        { text: vipMap.premium.code, mono: true, bold: true },
+      ]);
+      if (opts.includeReg && vipMap.regular) vipRows.push([
+        { text: 'Regular', bold: true, color: '#0f766e' },
+        { text: vipMap.regular.code, mono: true, bold: true },
+      ]);
       if (!vipRows.length) {
         doc.setFontSize(10);
-        doc.setTextColor('#64748b');
-        doc.text('— no VIP codes for this centre —', marginX, y);
-        y += 8;
+        doc.setFont('helvetica', 'italic');
+        doc.setTextColor('#94a3b8');
+        doc.text('No VIP codes generated for this centre yet.', marginX, y + 4);
+        y += 10;
       } else {
-        drawTable(['Tier', 'Code'], vipRows, [40, 60]);
+        drawTable(['Tier', 'Code'], vipRows, [40, contentW - 40]);
       }
     }
 
     // ─── Per-skill sections ────────────────────────────────────────────
+    var SKILL_COLOR = {
+      listening: '#0d9488',
+      reading:   '#2563eb',
+      writing:   '#d97706',
+      speaking:  '#dc2626',
+      full_mock: '#7c3aed',
+    };
     opts.picks.forEach(function (pick) {
-      drawSectionTitle(SKILL_LABEL[pick.skill] + ' (#' + pick.from + ' – #' + pick.to + ')', '#1e293b');
+      var label = SKILL_LABEL[pick.skill] + '  ·  Mock #' + pick.from +
+                  (pick.from === pick.to ? '' : ' – #' + pick.to);
+      drawSectionBar(label, SKILL_COLOR[pick.skill] || brandColor);
 
       var headers = ['Mock #'];
-      var widths  = [22];
-      if (opts.includeReg) { headers.push('🟢 Regular'); widths.push(45); }
-      if (opts.includePre) { headers.push('🔥 Premium'); widths.push(45); }
+      var widths  = [24];
+      var remaining = contentW - 24;
+      var tierCols = (opts.includeReg ? 1 : 0) + (opts.includePre ? 1 : 0);
+      var tierW = tierCols ? Math.floor(remaining / tierCols) : remaining;
+      if (opts.includeReg) { headers.push('Regular'); widths.push(tierW); }
+      if (opts.includePre) { headers.push('Premium'); widths.push(tierW); }
+      // Adjust last column to swallow rounding so total = contentW exactly.
+      var sum = widths.reduce(function (a, b) { return a + b; }, 0);
+      widths[widths.length - 1] += contentW - sum;
 
       var rows = [];
       for (var n = pick.from; n <= pick.to; n++) {
         var key = pick.skill + '#' + n;
         var entry = mockIdx[key] || {};
         var row = [{ text: '#' + n, bold: true }];
-        if (opts.includeReg) row.push({ text: (entry.regular && entry.regular.code) || '—', color: entry.regular ? '#0f766e' : '#94a3b8' });
-        if (opts.includePre) row.push({ text: (entry.premium && entry.premium.code) || '—', color: entry.premium ? '#7c3aed' : '#94a3b8' });
+        if (opts.includeReg) {
+          row.push(entry.regular
+            ? { text: entry.regular.code, mono: true, color: '#0f766e' }
+            : { text: '—', color: '#94a3b8' });
+        }
+        if (opts.includePre) {
+          row.push(entry.premium
+            ? { text: entry.premium.code, mono: true, bold: true, color: '#7c3aed' }
+            : { text: '—', color: '#94a3b8' });
+        }
         rows.push(row);
       }
       drawTable(headers, rows, widths);
     });
 
-    // Footer on last page.
-    doc.setFontSize(8);
-    doc.setTextColor('#94a3b8');
-    doc.text('Generated by Mock Stream — ' + new Date().toLocaleString('en-GB'), marginX, pageH - 8);
+    pageFooter(); // last page
 
-    var safeName = opts.brand.name.replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 40) || opts.centerId;
+    var safeName = (_cmStripEmoji(opts.brand.name) || opts.centerId)
+      .replace(/[^A-Za-z0-9_-]+/g, '_').slice(0, 40) || opts.centerId;
     var dateTag  = new Date().toISOString().slice(0, 10);
     doc.save(safeName + '-codes-' + dateTag + '.pdf');
   }
