@@ -9319,12 +9319,14 @@
         sessionStorage.setItem('speakingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('speakingCodeValidated', 'true');
 
-        setTimeout(() => {
-          const url = _pendingSpeakingMock.pageUrl;
-          const cat = _pendingSpeakingMock.category;
-          closeSpeakingAccessCodeModal();
-          _launchSpeakingMock(url, cat);
-        }, 400);
+        // Reload then auto-resume to the mode-picker modal. The reload guarantees
+        // decorate() and validateVipTokenOnLoad re-run with the freshly written
+        // tier flags so the lock badge on Part Practice reflects the current
+        // entry — no stale state from a previous code in this session.
+        try {
+          sessionStorage.setItem('speakingResumeAfterReload', JSON.stringify({ pageUrl: _pendingSpeakingMock.pageUrl, category: _pendingSpeakingMock.category }));
+        } catch (_e) {}
+        setTimeout(() => location.reload(), 800);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -9809,12 +9811,10 @@
         sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('writingCodeValidated', 'true');
 
-        setTimeout(() => {
-          const url = _pendingWritingMock.pageUrl;
-          const cat = _pendingWritingMock.category;
-          closeWritingAccessCodeModal();
-          _launchWritingMock(url, cat);
-        }, 400);
+        try {
+          sessionStorage.setItem('writingResumeAfterReload', JSON.stringify({ pageUrl: _pendingWritingMock.pageUrl, category: _pendingWritingMock.category }));
+        } catch (_e) {}
+        setTimeout(() => location.reload(), 800);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -10178,12 +10178,10 @@
         sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('readingCodeValidated', 'true');
 
-        setTimeout(() => {
-          const url = _pendingReadingMock.pageUrl;
-          const cat = _pendingReadingMock.category;
-          closeReadingAccessCodeModal();
-          _loadReadingMockOrShowMode(url, cat);
-        }, 400);
+        try {
+          sessionStorage.setItem('readingResumeAfterReload', JSON.stringify({ pageUrl: _pendingReadingMock.pageUrl, category: _pendingReadingMock.category }));
+        } catch (_e) {}
+        setTimeout(() => location.reload(), 800);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -10525,12 +10523,10 @@
         sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('listeningCodeValidated', 'true');
 
-        setTimeout(() => {
-          const url = _pendingListeningMock.pageUrl;
-          const cat = _pendingListeningMock.category;
-          closeListeningAccessCodeModal();
-          _loadListeningMockOrShowMode(url, cat);
-        }, 400);
+        try {
+          sessionStorage.setItem('listeningResumeAfterReload', JSON.stringify({ pageUrl: _pendingListeningMock.pageUrl, category: _pendingListeningMock.category }));
+        } catch (_e) {}
+        setTimeout(() => location.reload(), 800);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -10538,6 +10534,39 @@
         btn.disabled = false;
       }
     }
+
+    // ===== AUTO-RESUME AFTER ACCESS-CODE RELOAD =====
+    // Each verify*AccessCode success now reloads the page so decorate() and
+    // validateVipTokenOnLoad re-run with the fresh per-skill premium flags.
+    // After the reload, this picks up the stashed mock URL and re-opens the
+    // mode-picker modal so the user does not have to repick the mock or
+    // retype the code.
+    (function _resumeAfterAccessCodeReload() {
+      function tryOne(key, fn) {
+        var raw;
+        try { raw = sessionStorage.getItem(key); } catch (_e) { return; }
+        if (!raw) return;
+        try { sessionStorage.removeItem(key); } catch (_e) {}
+        try {
+          var data = JSON.parse(raw);
+          if (data && data.pageUrl && typeof fn === 'function') {
+            fn(data.pageUrl, data.category);
+          }
+        } catch (_e) {}
+      }
+      function init() {
+        // Defer one tick so decorate() in premium-gate.js runs first and the
+        // mode-picker buttons reflect the just-written tier flags.
+        setTimeout(function () {
+          tryOne('listeningResumeAfterReload', typeof _loadListeningMockOrShowMode === 'function' ? _loadListeningMockOrShowMode : null);
+          tryOne('readingResumeAfterReload',   typeof _loadReadingMockOrShowMode   === 'function' ? _loadReadingMockOrShowMode   : null);
+          tryOne('writingResumeAfterReload',   typeof _launchWritingMock           === 'function' ? _launchWritingMock           : null);
+          tryOne('speakingResumeAfterReload',  typeof _launchSpeakingMock          === 'function' ? _launchSpeakingMock          : null);
+        }, 150);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
 
     // ===== SIDEBAR MENU TOGGLE =====
     function toggleSidebar() {
