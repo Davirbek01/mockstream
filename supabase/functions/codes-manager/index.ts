@@ -68,6 +68,22 @@ function normCenter(c: unknown): string {
   return typeof c === 'string' ? c.toLowerCase().replace(/[_\s]/g, '') : '';
 }
 
+// Per-centre Hide-Regular-Codes flag, set via Centers Management → Features
+// Toggle. When true, clone admins (not super-admin) only ever see / can only
+// ever mutate premium-tier codes for that centre, regardless of whether they
+// reach this API via the website panel or @MS23_manager_bot. Stored in
+// site_settings.center_config_<id> JSON, alongside other per-centre flags.
+async function shouldHideRegulars(center: string): Promise<boolean> {
+  if (!center) return false;
+  try {
+    const { data } = await sb.from('site_settings')
+      .select('value').eq('key', `center_config_${center}`).maybeSingle();
+    if (!data?.value) return false;
+    const parsed = JSON.parse(String(data.value));
+    return !!(parsed && parsed.hideRegularCodes === true);
+  } catch (_e) { return false; }
+}
+
 type AuthResult =
   | { role: 'super_admin' }
   | { role: 'admin'; center: string }
@@ -172,16 +188,22 @@ Deno.serve(async (req) => {
         const center = normCenter(body.center);
         if (!center)            return json(400, { ok: false, error: 'no_center' });
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
-        const [vip, mock, centerRow] = await Promise.all([
+        const [vip, mock, centerRow, hideReg] = await Promise.all([
           sb.from('vip_codes').select('*').eq('center', center),
           sb.from('mock_codes').select('*').eq('center', center).order('skill').order('mock_number'),
-          sb.from('centers').select('*').eq('id', center).maybeSingle()
+          sb.from('centers').select('*').eq('id', center).maybeSingle(),
+          isSuper ? Promise.resolve(false) : shouldHideRegulars(center),
         ]);
+        // Strip every regular-tier row from the response when the caller is a
+        // clone admin and the centre has Hide Regular Codes ON. Super-admin
+        // always sees everything; regulars stay in the DB untouched.
+        const vipRows  = hideReg ? (vip.data  ?? []).filter(r => r.type !== 'regular')               : (vip.data  ?? []);
+        const mockRows = hideReg ? (mock.data ?? []).filter(r => (r.tier || 'premium') !== 'regular') : (mock.data ?? []);
         return json(200, {
           ok: true,
           center: centerRow.data,
-          vip: vip.data ?? [],
-          mock: mock.data ?? []
+          vip: vipRows,
+          mock: mockRows
         });
       }
 
@@ -260,6 +282,11 @@ Deno.serve(async (req) => {
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
         if (!['regular','premium'].includes(type)) return json(400, { ok: false, error: 'bad_type' });
+        // Block clone admins from creating regular VIP codes when their
+        // centre has Hide Regular Codes ON. Super-admin always allowed.
+        if (!isSuper && type === 'regular' && await shouldHideRegulars(center)) {
+          return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+        }
         const length = Math.min(Math.max(parseInt(String(body.length ?? '8'), 10) || 8, 4), 8);
         const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
         const code = genCode(length);
@@ -278,6 +305,9 @@ Deno.serve(async (req) => {
         const type   = String(body.type ?? '');
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
+        if (!isSuper && type === 'regular' && await shouldHideRegulars(center)) {
+          return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+        }
         const { error } = await sb.from('vip_codes').delete().eq('center', center).eq('type', type);
         if (error) throw error;
         await audit(actorTag, 'revoke_vip', center, { type });
@@ -297,6 +327,9 @@ Deno.serve(async (req) => {
         }
         if (!['regular','premium'].includes(tier)) return json(400, { ok: false, error: 'bad_tier' });
         if (!Number.isInteger(num) || num < 1 || num > 999) return json(400, { ok: false, error: 'bad_mock_number' });
+        if (!isSuper && tier === 'regular' && await shouldHideRegulars(center)) {
+          return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+        }
         const length = Math.min(Math.max(parseInt(String(body.length ?? '8'), 10) || 8, 4), 8);
         const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
         const code = genCode(length);
@@ -314,9 +347,17 @@ Deno.serve(async (req) => {
         const center = normCenter(body.center);
         const skill  = String(body.skill ?? '').toLowerCase().replace(/-/g, '_');
         const num    = parseInt(String(body.mock_number ?? ''), 10);
-        const tier   = body.tier ? String(body.tier).toLowerCase() : null;
+        let   tier: string | null = body.tier ? String(body.tier).toLowerCase() : null;
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
+        const hideReg = !isSuper && await shouldHideRegulars(center);
+        if (hideReg && tier === 'regular') {
+          return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+        }
+        // If a clone admin in hide-regulars mode tries to revoke without
+        // specifying a tier (would delete both), force premium-only so the
+        // regular row stays untouched.
+        if (hideReg && !tier) tier = 'premium';
         let q = sb.from('mock_codes').delete()
           .eq('center', center).eq('skill', skill).eq('mock_number', num);
         if (tier && ['regular','premium'].includes(tier)) q = q.eq('tier', tier);
@@ -341,9 +382,17 @@ Deno.serve(async (req) => {
         const skills = Array.isArray(body.skills) && body.skills.length
           ? body.skills.map((s: any) => String(s).toLowerCase()).filter((s: string) => (allSkills as readonly string[]).includes(s))
           : [...allSkills];
-        const tiers = Array.isArray(body.tiers) && body.tiers.length
+        let tiers = Array.isArray(body.tiers) && body.tiers.length
           ? body.tiers.map((t: any) => String(t).toLowerCase()).filter((t: string) => (allTiers as readonly string[]).includes(t))
           : [...allTiers];
+        // Hide-Regulars clamp: clone admins on a hidden-regulars centre can
+        // only bulk-generate premium tier. If they explicitly asked for
+        // regular only, reject; otherwise drop regular silently and proceed
+        // with premium-only.
+        if (!isSuper && await shouldHideRegulars(center)) {
+          tiers = tiers.filter((t: string) => t !== 'regular');
+          if (!tiers.length) return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+        }
         if (!skills.length || !tiers.length) return json(400, { ok: false, error: 'bad_scope' });
         const fallbackMax = parseInt(String(body.max_mock ?? ''), 10);
         const bySkill: Record<string, number> = {};
@@ -444,9 +493,13 @@ Deno.serve(async (req) => {
         const center = normCenter(body.center);
         if (!ownsCenter(center)) return json(403, { ok: false, error: 'forbidden' });
         if (!await canMutate(center)) return json(403, { ok: false, error: 'clone_edit_disabled' });
+        const hideReg = !isSuper && await shouldHideRegulars(center);
         const expiry = body.expiry ? new Date(String(body.expiry)).toISOString() : null;
         if (kind === 'vip') {
           const type = String(body.type ?? '');
+          if (hideReg && type === 'regular') {
+            return json(403, { ok: false, error: 'regulars_hidden_for_center' });
+          }
           const { error } = await sb.from('vip_codes')
             .update({ expires_at: expiry })
             .eq('center', center).eq('type', type);
@@ -454,9 +507,14 @@ Deno.serve(async (req) => {
         } else if (kind === 'mock') {
           const skill = String(body.skill ?? '').toLowerCase().replace(/-/g, '_');
           const num = parseInt(String(body.mock_number ?? ''), 10);
-          const { error } = await sb.from('mock_codes')
+          // Hide-Regulars clamp: scope the bulk update to premium-only so the
+          // regular row's expiry stays untouched even when the caller didn't
+          // pass a tier.
+          let q = sb.from('mock_codes')
             .update({ expires_at: expiry })
             .eq('center', center).eq('skill', skill).eq('mock_number', num);
+          if (hideReg) q = q.eq('tier', 'premium');
+          const { error } = await q;
           if (error) throw error;
         } else {
           return json(400, { ok: false, error: 'bad_kind' });
