@@ -17,6 +17,8 @@
   <!-- Site Config — center-id.js sets __CENTER_ID, site-config.js loads branding from Supabase -->
   <script src="center-id.js"></script>
   <script src="site-config/site-config.js"></script>
+  <!-- PWA manifest — built per-clone at runtime from SITE_CONFIG. -->
+  <script src="site-config/pwa-manifest.js"></script>
   <!-- Telegram Mini App SDK + immediate fullscreen request. Runs inline before
        layout so the Mini App expands to full viewport on first paint instead
        of showing the bot header bar. requestFullscreen() needs Bot API 8.0+
