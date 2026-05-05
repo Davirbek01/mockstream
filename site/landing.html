@@ -8,6 +8,29 @@
   <meta name="theme-color" content="#0d9488" />
   <!-- Admin auth: Supabase Auth magic-link + write interceptor (required for RLS) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <!-- Telegram Mini App SDK — needed on every page that uses BackButton or
+       expand(). Without this, system back gestures on Android/iOS just close
+       the Mini App. landing.html is the root, so we hide the back button. -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    (function tmaRootBackButton() {
+      try {
+        var tg = window.Telegram && window.Telegram.WebApp;
+        if (!tg) return;
+        if (typeof tg.ready === 'function') tg.ready();
+        if (typeof tg.expand === 'function') tg.expand();
+        if (tg.BackButton && typeof tg.BackButton.hide === 'function') tg.BackButton.hide();
+        // Fullscreen only on desktop. Mobile keeps the Telegram chrome visible
+        // (the ⋯ app-button stays available at the top) per the regular Mini
+        // App view.
+        var DESKTOP = { tdesktop: 1, macos: 1, weba: 1, webk: 1 };
+        if (DESKTOP[String(tg.platform || '').toLowerCase()]
+            && typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
+          tg.requestFullscreen();
+        }
+      } catch (_e) {}
+    })();
+  </script>
   <!-- Student Google Sign-In + Guest mode helper (MUST load BEFORE admin-auth.js so admin-auth can reuse its client) -->
   <script src="auth.js"></script>
   <script src="admin-auth.js"></script>

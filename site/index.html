@@ -36,6 +36,11 @@
         // initData — it's an empty string under some launch paths.
         if (typeof tg.ready === 'function') tg.ready();
         if (typeof tg.expand === 'function') tg.expand();
+        // Only request fullscreen on desktop platforms. On mobile (android /
+        // ios) we deliberately stay in the regular expanded view so the
+        // Telegram chrome with the ⋯ app-button stays visible at the top.
+        var DESKTOP = { tdesktop: 1, macos: 1, weba: 1, webk: 1 };
+        if (!DESKTOP[String(tg.platform || '').toLowerCase()]) return;
         var goFullscreen = function () {
           if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
             tg.requestFullscreen();
