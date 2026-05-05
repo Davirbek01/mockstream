@@ -277,6 +277,18 @@
           'background: linear-gradient(135deg, ' + bg + ', ' + _cgDarken(bg, 18) + ') !important; ' +
         '}';
     }
+    // ─── WELCOME SCREEN GRADIENT ────────────────────────────────────────
+    // Vibrant CSS gradient picked from the Branding panel preset list.
+    // Paints both the body background and #welcomeScreen so the splash
+    // page (index.html — logo + brand name + Continue) visibly shifts.
+    // .bg-pattern is dimmed so the chosen gradient stays the dominant
+    // colour instead of fighting the brand-glow radial overlay.
+    if (cc.welcomeGradient && cc.welcomeGradient !== '') {
+      var wg = cc.welcomeGradient;
+      sectionRules +=
+        'body, #welcomeScreen { background: ' + wg + ' !important; }' +
+        '#welcomeScreen .bg-pattern { opacity: 0.35 !important; }';
+    }
     if (sectionRules) {
       var sectSt = document.createElement('style');
       sectSt.textContent = sectionRules;

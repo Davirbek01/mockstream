@@ -24342,14 +24342,38 @@
             h += _cmColorRow(cid, 'footerBg', 'Footer Color', cfg.footerBg, '');
             h += _cmColorRow(cid, 'buttonBg', 'Button Color', cfg.buttonBg, '');
 
-            // ── Logo + hero copy ──
+            // ── Welcome-screen gradient picker.
+            //    Curated, vibrant CSS gradients that paint the splash page
+            //    background (index.html — the page with logo + brand name +
+            //    Continue button). Empty value = keep the default theme.
+            //    Overrides Body Color on index.html only. ──
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Welcome Page Gradient</div>';
+            h += _cmSelectInput(cid, 'welcomeGradient', 'Welcome Gradient', cfg.welcomeGradient || '', [
+              { val: '',                                                                  label: 'Default (current theme)' },
+              { val: 'linear-gradient(135deg,#ffeaa7 0%,#fab1a0 50%,#fd79a8 100%)',       label: 'Sunrise — Peach + Pink' },
+              { val: 'linear-gradient(135deg,#a8edea 0%,#fed6e3 100%)',                   label: 'Pastel — Mint + Pink' },
+              { val: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)',                   label: 'Indigo Dream' },
+              { val: 'linear-gradient(135deg,#f093fb 0%,#f5576c 100%)',                   label: 'Rose Burst' },
+              { val: 'linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)',                   label: 'Ocean Wave' },
+              { val: 'linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)',                   label: 'Mint Fresh' },
+              { val: 'linear-gradient(135deg,#fa709a 0%,#fee140 100%)',                   label: 'Sunset Glow' },
+              { val: 'linear-gradient(135deg,#30cfd0 0%,#330867 100%)',                   label: 'Aurora Blue' },
+              { val: 'linear-gradient(135deg,#a18cd1 0%,#fbc2eb 100%)',                   label: 'Lavender Pink' },
+              { val: 'linear-gradient(135deg,#ff9a9e 0%,#fad0c4 100%)',                   label: 'Soft Coral' },
+              { val: 'linear-gradient(135deg,#fbc2eb 0%,#a6c1ee 100%)',                   label: 'Pastel Sky' },
+              { val: 'linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%)',                   label: 'Apricot Cream' },
+              { val: 'linear-gradient(135deg,#84fab0 0%,#8fd3f4 100%)',                   label: 'Aqua Mint' }
+            ]);
+
+            // ── Logo + hero copy. Placeholders show the LIVE default text so
+            //    the admin sees exactly which string each field replaces. ──
             h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Logo &amp; Hero</div>';
-            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://...png');
-            h += _cmTextInput(cid, 'heroImageUrl',   'Hero Image URL',  cfg.heroImageUrl,   'optional bg image');
-            h += _cmTextInput(cid, 'heroHeading',    'Hero Heading',    cfg.heroHeading,    'Override of brand name');
-            h += _cmTextInput(cid, 'heroSubheading', 'Hero Subheading', cfg.heroSubheading, 'Tagline under brand');
-            h += _cmTextInput(cid, 'ctaText',        'CTA Button Text', cfg.ctaText,        'default: Continue');
-            h += _cmTextInput(cid, 'welcomeMessage', 'Welcome Message', cfg.welcomeMessage, 'Shown on landing page');
+            h += _cmTextInput(cid, 'logoUrl',        'Logo URL',        cfg.logoUrl,        'https://i.ibb.co/WN0XY5Lv/logo.png');
+            h += _cmTextInput(cid, 'heroImageUrl',   'Hero Image URL',  cfg.heroImageUrl,   '(optional) full-bleed background image URL');
+            h += _cmTextInput(cid, 'heroHeading',    'Hero Heading',    cfg.heroHeading,    'Mock Stream  ← brand name shown above subtitle');
+            h += _cmTextInput(cid, 'heroSubheading', 'Hero Subheading', cfg.heroSubheading, 'Your gateway to exam success. Practice makes perfect.');
+            h += _cmTextInput(cid, 'ctaText',        'CTA Button Text', cfg.ctaText,        'Continue');
+            h += _cmTextInput(cid, 'welcomeMessage', 'Welcome Message', cfg.welcomeMessage, 'Choose Your Mock Exam  ← landing page heading');
 
             // ── Typography ──
             h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.04em;text-transform:uppercase;margin:14px 0 4px;">Typography</div>';
@@ -24610,6 +24634,7 @@
     var _BRANDING_FIELDS = [
       'brandColor', 'accentColor',
       'headerBg', 'bodyBg', 'footerBg', 'buttonBg',
+      'welcomeGradient',
       'logoUrl', 'heroImageUrl',
       'heroHeading', 'heroSubheading',
       'ctaText', 'welcomeMessage',
