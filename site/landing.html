@@ -103,6 +103,12 @@
       // Wrap fetch to auto-stash the signed token from verify-passcode responses.
       // This runs AFTER the legacy alwaysdata→supabase rewrite shim above, so the
       // URL we see here is already the supabase functions URL.
+      //
+      // IMPORTANT: only stash the token for genuine VIP unlocks. verify-passcode
+      // mints a token for every successful path (including per-mock codes and
+      // admin/super-admin passcodes), but those must not be treated as session-
+      // wide VIP unlocks — otherwise entering a per-mock Listening code would
+      // light up the whole VIP sidebar after the next reload.
       var _f2 = window.fetch.bind(window);
       window.fetch = function (input, init) {
         var p = _f2(input, init);
@@ -113,9 +119,13 @@
               try {
                 var cloned = resp.clone();
                 cloned.json().then(function (data) {
-                  if (data && (data.access || data.valid) && typeof data.token === 'string' && data.token.length > 20) {
-                    try { sessionStorage.setItem(TOKEN_KEY, data.token); } catch (_e) {}
-                  }
+                  if (!data || !(data.access || data.valid)) return;
+                  if (typeof data.token !== 'string' || data.token.length <= 20) return;
+                  // Skip per-mock codes and admin passcodes — their tokens are
+                  // valid auth artifacts but must not unlock the VIP card.
+                  if (data.source === 'mock') return;
+                  if (data.role === 'admin' || data.role === 'super_admin') return;
+                  try { sessionStorage.setItem(TOKEN_KEY, data.token); } catch (_e) {}
                 }).catch(function () {});
               } catch (_e) {}
               return resp;
