@@ -600,18 +600,24 @@ async function handlePasscodeAttempt(cfg: CenterConfig, chatId: number, tgUserId
     await send(cfg.bot_token, chatId, `❌ Cancelled.`);
     await showMainMenu(cfg, chatId, firstName); return;
   }
-  const expected = await getAdminPasscode(cfg.center_id);
-  if (!expected) {
-    await clearAwaitingPasscode(cfg.center_id, tgUserId);
-    await send(cfg.bot_token, chatId, `⚠️ No admin passcode is configured for this center.`);
-    await showMainMenu(cfg, chatId, firstName); return;
+  // Accept EITHER this centre's admin passcode OR the global super-admin
+  // passcode (admin_passcodes row where center='__super__'). Mirrors how
+  // @MS23_manager_bot authenticates — super admin can unlock any clone bot.
+  const trimmed = text.trim();
+  const { data: rows } = await sb.from('admin_passcodes')
+    .select('center, passcode')
+    .in('center', [cfg.center_id, '__super__']);
+  let matched: { center: string; passcode: string } | null = null;
+  for (const row of (rows ?? []) as Array<{ center: string; passcode: string }>) {
+    if (row.passcode && ctEq(trimmed, String(row.passcode).trim())) { matched = row; break; }
   }
-  if (!ctEq(text.trim(), expected.trim())) {
+  if (!matched) {
     await send(cfg.bot_token, chatId, `❌ Wrong passcode. Try again or tap <b>${BTN.CANCEL}</b>.`); return;
   }
   await clearAwaitingPasscode(cfg.center_id, tgUserId);
   await unlockAdmin(cfg.center_id, tgUserId);
-  await send(cfg.bot_token, chatId, `✅ <b>Admin unlocked — ${esc(cfg.center_id)}</b>`, { reply_markup: { remove_keyboard: true } });
+  const tag = matched.center === '__super__' ? ' <i>(super admin)</i>' : '';
+  await send(cfg.bot_token, chatId, `✅ <b>Admin unlocked — ${esc(cfg.center_id)}</b>${tag}`, { reply_markup: { remove_keyboard: true } });
   await showMainMenu(cfg, chatId, firstName);
   await showAdminMenu(cfg, chatId);
 }
