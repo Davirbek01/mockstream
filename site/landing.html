@@ -12500,17 +12500,18 @@
         mocks.forEach(m => {
           const num = m.mock_number;
           const padded = String(num).padStart(2, '0');
+          const badgeName = `🧪 CEFR Speaking Mock ${padded} (Supabase pilot)`;
           // Upgrade existing entry if it points to a static .js file
           const idx = cefrSpeakingTests.findIndex(t => t.file === `questions S/questions${num}.js`);
           if (idx !== -1) {
             cefrSpeakingTests[idx].file = 'supabase:' + m.id;
-            cefrSpeakingTests[idx].name = m.title;
+            cefrSpeakingTests[idx].name = badgeName;
             cefrSpeakingTests[idx].icon = '🟢';
             cefrSpeakingTests[idx].dynamic = true;
-          } else if (!cefrSpeakingTests.some(t => t.name === m.title)) {
+          } else if (!cefrSpeakingTests.some(t => t.name === badgeName)) {
             cefrSpeakingTests.push({
               file: 'supabase:' + m.id,
-              name: m.title,
+              name: badgeName,
               icon: '🟢',
               dynamic: true
             });
@@ -12520,11 +12521,12 @@
           const cIdx = cefrSpeakingMocks.findIndex(t => t.name === mockName);
           if (cIdx !== -1) {
             cefrSpeakingMocks[cIdx].file = `Speaking Mocks.html?sbmock=${m.id}&auto=1`;
+            cefrSpeakingMocks[cIdx].name = badgeName;
             cefrSpeakingMocks[cIdx].icon = '🟢';
           } else {
             cefrSpeakingMocks.push({
               file: `Speaking Mocks.html?sbmock=${m.id}&auto=1`,
-              name: m.title,
+              name: badgeName,
               icon: '🟢',
               actionText: 'Start'
             });
@@ -12986,7 +12988,20 @@
 
     const ieltsSpeakingMocks = (() => {
       const mocks = [];
-      for (let i = 1; i <= 66; i++) {
+      // Mock 01 was migrated to Supabase mock_tests (id=10). Picker shows
+      // 🟢 indicator and routes via ?sbmock= so the page loads from
+      // mock_tests instead of the (deleted) static .js file.
+      mocks.push({
+        // test= is included so _extractSpeakingMockNumber() returns "01"
+        // (the regex picks up the first \d+ before "&"), keeping the
+        // promo-code/taken-state gates correct. The page itself reads
+        // sbmock= and ignores test= when sbmock is present.
+        file: 'IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-01&sbmock=10&auto=1',
+        name: '🧪 IELTS Speaking Mock 01 (Supabase pilot)',
+        icon: '🟢',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 66; i++) {
         const padded = String(i).padStart(2, '0');
         mocks.push({
           file: `IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-${padded}&auto=1`,
