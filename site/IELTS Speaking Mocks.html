@@ -134,8 +134,8 @@
         window._autoProceedLoader = loaderDiv;
       }
 
-      if (autoMode === '1' && testParam) {
-        console.log('[Auto-Proceed] Detected auto=1 with test=' + testParam);
+      if (autoMode === '1' && (testParam || sbMockParam)) {
+        console.log('[Auto-Proceed] Detected auto=1 with test=' + testParam + ' sbmock=' + sbMockParam);
 
         // Wait for DOM and mock selection data to be ready (options populated dynamically)
         const checkAndProceed = function () {
@@ -145,6 +145,24 @@
           if (!selector || !continueBtn) {
             // DOM not ready yet, try again
             setTimeout(checkAndProceed, 100);
+            return;
+          }
+
+          // ── Supabase dynamic mock: load directly without matching dropdown ──
+          if (sbMockParam) {
+            const sbValue = 'supabase:' + sbMockParam;
+            let opt = selector.querySelector('option[value="' + sbValue + '"]');
+            if (!opt) {
+              opt = document.createElement('option');
+              opt.value = sbValue;
+              opt.textContent = '🟢 Dynamic Mock';
+              opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
+              selector.appendChild(opt);
+            }
+            selector.value = sbValue;
+            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
+            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
+            setTimeout(() => { continueBtn.click(); }, 300);
             return;
           }
 
@@ -215,22 +233,6 @@
             }, 300);
           }
 
-          // ── Supabase dynamic mock via ?sbmock= ──
-          if (!found && sbMockParam) {
-            var sbValue = 'supabase:' + sbMockParam;
-            var opt = selector.querySelector('option[value="' + sbValue + '"]');
-            if (!opt) {
-              opt = document.createElement('option');
-              opt.value = sbValue;
-              opt.textContent = '🟢 Dynamic Mock';
-              opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
-              selector.appendChild(opt);
-            }
-            selector.value = sbValue;
-            window._lastSelectedMock = { value: sbValue, index: selector.selectedIndex, text: opt.textContent };
-            console.log('[Auto-Proceed] Selected Supabase mock:', sbValue);
-            setTimeout(() => { continueBtn.click(); }, 300);
-          }
         };
 
         // Start checking for DOM readiness
