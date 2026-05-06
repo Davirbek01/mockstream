@@ -20,12 +20,7 @@
         if (typeof tg.ready === 'function') tg.ready();
         if (typeof tg.expand === 'function') tg.expand();
         if (tg.BackButton && typeof tg.BackButton.hide === 'function') tg.BackButton.hide();
-        // Fullscreen only on desktop. Mobile keeps the Telegram chrome visible
-        // (the ⋯ app-button stays available at the top) per the regular Mini
-        // App view.
-        var DESKTOP = { tdesktop: 1, macos: 1, weba: 1, webk: 1 };
-        if (DESKTOP[String(tg.platform || '').toLowerCase()]
-            && typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
+        if (typeof tg.requestFullscreen === 'function' && !tg.isFullscreen) {
           tg.requestFullscreen();
         }
       } catch (_e) {}
