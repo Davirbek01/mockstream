@@ -142,6 +142,14 @@ Deno.serve(async (req) => {
 
   const action = (body.action || '') as string;
 
+  // mock_tests is global content shared by all 6 sites — a single mock change
+  // affects every clone's students. Only super_admin can mutate. Centre admins
+  // can still list/get/list_backups for visibility, but writes are gated.
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore']);
+  if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
+    return json(403, { error: 'super_admin_required' });
+  }
+
   try {
     switch (action) {
 

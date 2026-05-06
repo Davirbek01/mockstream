@@ -18305,6 +18305,16 @@
     // ===== SITE MANAGEMENT GRID OVERLAY =====
     // Google admin sign-in is the only gate (no extra passcode layer).
     function openSiteMgmtGrid() {
+      // Defense in depth: Site Management exposes super-admin actions
+      // across every centre (Centers, System Prompts, Code Management,
+      // Mock Settings…). It must ONLY run on the main mock-stream.com
+      // site, never on a clone — even for super-admin who could otherwise
+      // bypass the hidden-sidebar check by calling this from the console.
+      var _cidGuard = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      if (_cidGuard !== 'mock_stream') {
+        alert('Site Management is only available on the main mock-stream.com site.');
+        return;
+      }
       requireAdminAuth(function () {
         _siteAdminUnlocked = true;
         _wpAdminUnlocked = true;
@@ -25435,6 +25445,14 @@
     ];
 
     function openMockMgmtPanel() {
+      // Same defense-in-depth as openSiteMgmtGrid: lock to main site so
+      // a clone-side admin can't open the panel by calling this from the
+      // browser console.
+      var _cidGuard = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
+      if (_cidGuard !== 'mock_stream') {
+        alert('Mock Settings is only available on the main mock-stream.com site.');
+        return;
+      }
       // First-open requires the super-admin (or center-admin) passcode. The
       // panel doesn't trust _siteAdminUnlocked alone because the Edge
       // Function still needs a passcode in every request.
