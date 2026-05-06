@@ -8745,7 +8745,16 @@
           if (!opts._fallbackHandled) {
             opts._fallbackHandled = true;
             try {
-              return await _callScoringAI(systemText, userPrompt, opts);
+              var _ret = await _callScoringAI(systemText, userPrompt, opts);
+              // Validate JSON before declaring success — see Writing Mocks.html
+              // for the rationale. Gemini's trailing-garbage / truncation
+              // would otherwise crash the caller's _extractJsonObject AFTER
+              // _callScoringAI returns, bypassing the fallback chain.
+              if (opts.jsonMode === true && typeof _ret === 'string') {
+                try { _extractJsonObject(_ret); }
+                catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
+              }
+              return _ret;
             } catch (e) {
               var _cpFb = await _loadScoringPrompts();
               var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
