@@ -25314,6 +25314,25 @@
        so any change is one-click restorable. Reached via Site Management
        grid → 🧪 Mock Settings tile.
        ═══════════════════════════════════════════════════════════════════ -->
+  <style>
+    .mmg-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:14px; padding:18px 20px; }
+    .mmg-card {
+      --accent: #6366f1;
+      background:#fff; border:1.5px solid #e2e8f0; border-radius:14px;
+      padding:18px 14px 14px; cursor:pointer; transition:all .18s ease;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      box-shadow:0 1px 3px rgba(15,23,42,.04);
+    }
+    .mmg-card:hover {
+      transform:translateY(-2px); border-color:var(--accent);
+      box-shadow:0 8px 20px rgba(15,23,42,.08);
+    }
+    .mmg-card-icon { font-size:34px; line-height:1; }
+    .mmg-card-label { font-weight:700; color:#0f172a; font-size:14px; }
+    .mmg-card-meta { font-size:11px; color:#64748b; }
+    .mmg-card-soon { opacity:.45; cursor:not-allowed; }
+    .mmg-card-soon:hover { transform:none; box-shadow:0 1px 3px rgba(15,23,42,.04); border-color:#e2e8f0; }
+  </style>
   <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;">
     <div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;">
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #e2e8f0;">
@@ -25322,22 +25341,7 @@
         <button onclick="_mmgRefresh()" title="Reload list" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;color:#334155;">⟳ Reload</button>
         <button onclick="closeMockMgmtPanel()" aria-label="Close" style="background:none;border:0;font-size:22px;color:#64748b;cursor:pointer;line-height:1;">×</button>
       </div>
-      <div style="display:flex;gap:8px;padding:10px 20px;border-bottom:1px solid #f1f5f9;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:12px;font-weight:600;color:#475569;">Filter:</span>
-        <select id="mmgFilter" onchange="_mmgRender()" style="padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">
-          <option value="">All types</option>
-          <option value="ielts-reading">IELTS Reading</option>
-          <option value="ielts-listening">IELTS Listening</option>
-          <option value="ielts-writing">IELTS Writing</option>
-          <option value="ielts-speaking">IELTS Speaking</option>
-          <option value="cefr-reading">CEFR Reading</option>
-          <option value="cefr-listening">CEFR Listening</option>
-          <option value="cefr-writing">CEFR Writing</option>
-          <option value="cefr-speaking">CEFR Speaking</option>
-        </select>
-        <span style="flex:1;"></span>
-        <button onclick="_mmgNew()" style="background:#10b981;color:#fff;border:0;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;">＋ New mock</button>
-      </div>
+      <div id="mmgBreadcrumb" style="display:flex;gap:6px;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;font-size:12px;color:#64748b;flex-wrap:wrap;"></div>
       <div id="mmgListPane" style="flex:1;overflow-y:auto;padding:6px 0;">
         <div style="padding:24px;text-align:center;color:#94a3b8;font-size:13px;">Loading…</div>
       </div>
@@ -25414,6 +25418,21 @@
     window._mmgPasscode = window._mmgPasscode || '';
     window._mmgMocks    = [];
     window._mmgEditing  = null; // { id?, mock_type, mock_number, title, status, mock_data }
+    // Hierarchical navigation state. level: 'exams' | 'skills' | 'mocks'
+    // - exams: pick IELTS / CEFR (placeholder for future KET / PET / SAT / ...)
+    // - skills: pick Speaking / Writing / Reading / Listening
+    // - mocks: list of mock_tests rows for the chosen exam+skill combo
+    window._mmgNav = { level: 'exams', exam: null, skill: null };
+    var _MMG_EXAMS = [
+      { id: 'ielts', label: 'IELTS', icon: '🌍', color: '#dc2626' },
+      { id: 'cefr',  label: 'CEFR',  icon: '🇪🇺', color: '#2563eb' }
+    ];
+    var _MMG_SKILLS = [
+      { id: 'speaking',  label: 'Speaking',  icon: '🎤', color: '#7c3aed' },
+      { id: 'writing',   label: 'Writing',   icon: '✍️',  color: '#f59e0b' },
+      { id: 'reading',   label: 'Reading',   icon: '📖', color: '#10b981' },
+      { id: 'listening', label: 'Listening', icon: '🎧', color: '#0ea5e9' }
+    ];
 
     function openMockMgmtPanel() {
       // First-open requires the super-admin (or center-admin) passcode. The
@@ -25424,6 +25443,9 @@
         if (!pc) return;
         window._mmgPasscode = pc.trim();
       }
+      // Reset hierarchical nav to top level on every open so re-entries
+      // don't dump the user back into a deep view.
+      window._mmgNav = { level: 'exams', exam: null, skill: null };
       var ov = document.getElementById('mmgOverlay');
       ov.style.display = 'flex';
       requestAnimationFrame(function () { ov.style.opacity = '1'; });
@@ -25480,12 +25502,77 @@
       }
     }
 
+    function _mmgGo(level, exam, skill) {
+      window._mmgNav = { level: level, exam: exam || null, skill: skill || null };
+      _mmgRender();
+    }
+
+    function _mmgRenderBreadcrumb() {
+      var nav = window._mmgNav;
+      var bc = document.getElementById('mmgBreadcrumb');
+      var parts = ['<a href="#" onclick="event.preventDefault(); _mmgGo(\'exams\')" style="color:#2563eb;text-decoration:none;font-weight:600;">🏠 Home</a>'];
+      if (nav.exam) {
+        var ex = _MMG_EXAMS.find(function (x) { return x.id === nav.exam; });
+        if (nav.level === 'mocks') {
+          parts.push('<a href="#" onclick="event.preventDefault(); _mmgGo(\'skills\',\'' + nav.exam + '\')" style="color:#2563eb;text-decoration:none;font-weight:600;">' + (ex ? ex.icon + ' ' + ex.label : nav.exam) + '</a>');
+        } else {
+          parts.push('<span style="font-weight:600;color:#0f172a;">' + (ex ? ex.icon + ' ' + ex.label : nav.exam) + '</span>');
+        }
+      }
+      if (nav.skill && nav.level === 'mocks') {
+        var sk = _MMG_SKILLS.find(function (x) { return x.id === nav.skill; });
+        parts.push('<span style="font-weight:600;color:#0f172a;">' + (sk ? sk.icon + ' ' + sk.label : nav.skill) + '</span>');
+      }
+      bc.innerHTML = parts.join('<span style="opacity:.5;">›</span>');
+      // Add "+ New mock" button only when we're inside an exam+skill (so the
+      // type can be auto-prefilled). At higher levels there's nothing to add.
+      if (nav.level === 'mocks') {
+        bc.innerHTML += '<span style="flex:1;"></span><button onclick="_mmgNew()" style="background:#10b981;color:#fff;border:0;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;">＋ New mock</button>';
+      }
+    }
+
     function _mmgRender() {
-      var filter = document.getElementById('mmgFilter').value;
-      var list = (window._mmgMocks || []).filter(function (m) { return !filter || m.mock_type === filter; });
+      _mmgRenderBreadcrumb();
       var pane = document.getElementById('mmgListPane');
+      var nav = window._mmgNav;
+
+      if (nav.level === 'exams') {
+        // Top-level grid: pick an exam type. Future placeholders included.
+        var examCards = _MMG_EXAMS.map(function (ex) {
+          var count = (window._mmgMocks || []).filter(function (m) { return (m.mock_type || '').indexOf(ex.id + '-') === 0; }).length;
+          return '<button onclick="_mmgGo(\'skills\',\'' + ex.id + '\')" class="mmg-card" style="--accent:' + ex.color + ';">' +
+                   '<div class="mmg-card-icon">' + ex.icon + '</div>' +
+                   '<div class="mmg-card-label">' + ex.label + '</div>' +
+                   '<div class="mmg-card-meta">' + count + ' mock' + (count === 1 ? '' : 's') + '</div>' +
+                 '</button>';
+        }).join('');
+        var future = ['KET', 'PET', 'SAT', 'Flashcards'].map(function (lab) {
+          return '<div class="mmg-card mmg-card-soon" title="Coming soon"><div class="mmg-card-icon">🔒</div><div class="mmg-card-label">' + lab + '</div><div class="mmg-card-meta">soon</div></div>';
+        }).join('');
+        pane.innerHTML = '<div class="mmg-grid">' + examCards + future + '</div>';
+        return;
+      }
+
+      if (nav.level === 'skills') {
+        // Pick a skill within the chosen exam.
+        var skillCards = _MMG_SKILLS.map(function (sk) {
+          var typeKey = nav.exam + '-' + sk.id;
+          var count = (window._mmgMocks || []).filter(function (m) { return m.mock_type === typeKey; }).length;
+          return '<button onclick="_mmgGo(\'mocks\',\'' + nav.exam + '\',\'' + sk.id + '\')" class="mmg-card" style="--accent:' + sk.color + ';">' +
+                   '<div class="mmg-card-icon">' + sk.icon + '</div>' +
+                   '<div class="mmg-card-label">' + sk.label + '</div>' +
+                   '<div class="mmg-card-meta">' + count + ' mock' + (count === 1 ? '' : 's') + '</div>' +
+                 '</button>';
+        }).join('');
+        pane.innerHTML = '<div class="mmg-grid">' + skillCards + '</div>';
+        return;
+      }
+
+      // nav.level === 'mocks'
+      var typeKey = nav.exam + '-' + nav.skill;
+      var list = (window._mmgMocks || []).filter(function (m) { return m.mock_type === typeKey; });
       if (list.length === 0) {
-        pane.innerHTML = '<div style="padding:32px;text-align:center;color:#94a3b8;font-size:13px;">No mocks in <code>mock_tests</code> yet for this filter.<br><br>Click <strong>＋ New mock</strong> to create one, or migrate an existing static JS mock here.</div>';
+        pane.innerHTML = '<div style="padding:32px;text-align:center;color:#94a3b8;font-size:13px;">No <strong>' + typeKey + '</strong> mocks in <code>mock_tests</code> yet.<br><br>Click <strong>＋ New mock</strong> in the breadcrumb bar to create one.</div>';
         return;
       }
       var rows = list.map(function (m) {
@@ -25494,9 +25581,8 @@
           m.status === 'draft'     ? '<span style="background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;">DRAFT</span>' :
                                      '<span style="background:#fee2e2;color:#991b1b;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700;">' + (m.status || '?').toUpperCase() + '</span>';
         var when = m.updated_at ? new Date(m.updated_at).toLocaleString() : '';
-        return '<div style="display:grid;grid-template-columns:160px 80px 1fr 110px 220px 110px;gap:10px;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;font-size:12.5px;">' +
-                 '<div style="font-weight:600;color:#334155;">' + m.mock_type + '</div>' +
-                 '<div>#' + (m.mock_number == null ? '—' : m.mock_number) + '</div>' +
+        return '<div style="display:grid;grid-template-columns:80px 1fr 110px 220px 110px;gap:10px;align-items:center;padding:10px 20px;border-bottom:1px solid #f1f5f9;font-size:12.5px;">' +
+                 '<div>Mock #' + (m.mock_number == null ? '—' : m.mock_number) + '</div>' +
                  '<div style="color:#475569;">' + (m.title ? _mmgEsc(m.title) : '<i style="color:#94a3b8;">(no title)</i>') + '</div>' +
                  '<div>' + statusBadge + '</div>' +
                  '<div style="font-size:11px;color:#94a3b8;">' + when + '</div>' +
@@ -25523,9 +25609,13 @@
     }
 
     function _mmgNew() {
+      // Auto-pre-fill mock_type from the current breadcrumb so the user
+      // doesn't have to re-pick it. Falls back to ielts-reading at home view.
+      var nav = window._mmgNav || {};
+      var mt = (nav.exam && nav.skill) ? (nav.exam + '-' + nav.skill) : 'ielts-reading';
       window._mmgEditing = {
         id: null,
-        mock_type:   document.getElementById('mmgFilter').value || 'ielts-reading',
+        mock_type:   mt,
         mock_number: null,
         title:       '',
         status:      'draft',
