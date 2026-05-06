@@ -8965,12 +8965,28 @@
                     var text = String(rawText || '').trim();
                     var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
                     if (fenceMatch) text = fenceMatch[1].trim();
-                    if (text.charAt(0) !== '{') {
-                        var start = text.indexOf('{');
-                        var end = text.lastIndexOf('}');
-                        if (start !== -1 && end > start) text = text.slice(start, end + 1);
+                    // Brace-balanced first-object extractor. Same fix as
+                    // Writing Mocks.html — Gemini occasionally appends a
+                    // second JSON object or trailing thinking-text, which
+                    // makes JSON.parse(text) fail with "Unexpected
+                    // non-whitespace character at position N". Walking
+                    // with a depth counter (and skipping over string
+                    // literals so quoted braces don't confuse us) yields
+                    // exactly the first complete object.
+                    var start = text.indexOf('{');
+                    if (start === -1) throw new Error('No JSON object in AI response');
+                    var depth = 0, inString = false, escape = false, end = -1;
+                    for (var i = start; i < text.length; i++) {
+                        var ch = text.charAt(i);
+                        if (escape)         { escape = false; continue; }
+                        if (ch === '\\')    { escape = true;  continue; }
+                        if (ch === '"')     { inString = !inString; continue; }
+                        if (inString) continue;
+                        if (ch === '{')     depth++;
+                        else if (ch === '}'){ depth--; if (depth === 0) { end = i; break; } }
                     }
-                    return JSON.parse(text);
+                    if (end === -1) throw new Error('Unbalanced JSON in AI response');
+                    return JSON.parse(text.slice(start, end + 1));
                 }
 
                 async function _fetchWritingInlineCorrectionsOnly(t11, t12, t2) {
