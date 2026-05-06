@@ -5778,7 +5778,18 @@
       if (!opts._fallbackHandled) {
         opts._fallbackHandled = true;
         try {
-          return await _callScoringAI(systemText, userPrompt, opts);
+          var _ret = await _callScoringAI(systemText, userPrompt, opts);
+          // If caller asked for JSON, prove the AI actually returned parseable
+          // JSON before claiming success. Gemini occasionally emits trailing
+          // garbage / truncated output that the downstream JSON.parse chokes
+          // on — without this check that error happens AFTER _callScoringAI
+          // returns, so the fallback wrapper never sees it. Validating here
+          // makes parse failures trigger the same fallback path as 429/5xx.
+          if (opts.jsonMode === true && typeof _ret === 'string') {
+            try { _extractJsonObject(_ret); }
+            catch (pe) { throw new Error('json_parse_failed: ' + (pe && pe.message)); }
+          }
+          return _ret;
         } catch (e) {
           var _cpFb = await _loadScoringPrompts();
           var _rawFb = ((_cpFb['aiFallback'] && _cpFb['aiFallback'] !== 'default') ? _cpFb['aiFallback'] : (_cpFb['scoring_ai_fallback'] || '')).toString().trim().toLowerCase();
