@@ -12990,7 +12990,17 @@
     // ===== WRITING MOCKS ARRAYS =====
     const cefrWritingMocks = (() => {
       const mocks = [];
-      for (let i = 1; i <= 100; i++) {
+      // Mock 01 was migrated to Supabase mock_tests (id=9). Writing
+      // Mocks.html's auto-proceed gate requires ?test= to be present, so
+      // we pass both ?test=cefr-writing-mock-01 (satisfies the gate) and
+      // ?sbmock=9 (overrides static loading).
+      mocks.push({
+        file: 'Writing Mocks.html?test=cefr-writing-mock-01&sbmock=9&auto=1',
+        name: '🧪 CEFR Writing Mock 01 (Supabase pilot)',
+        icon: '✍️',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 100; i++) {
         const padded = String(i).padStart(2, '0');
         mocks.push({
           file: `Writing Mocks.html?test=cefr-writing-mock-${padded}&auto=1`,
