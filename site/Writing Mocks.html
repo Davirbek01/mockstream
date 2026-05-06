@@ -5979,14 +5979,31 @@
 
     function _extractJsonObject(rawText) {
       var text = String(rawText || '').trim();
+      // Strip ```json ... ``` fences if present.
       var fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
       if (fenceMatch) text = fenceMatch[1].trim();
-      if (text.charAt(0) !== '{') {
-        var start = text.indexOf('{');
-        var end = text.lastIndexOf('}');
-        if (start !== -1 && end > start) text = text.slice(start, end + 1);
+      // Walk the text with a brace-depth counter and pull out the FIRST
+      // balanced { ... } block. Old code did `lastIndexOf('}')` which
+      // chokes when Gemini appends a second JSON object or trailing
+      // thinking-text after the first one — the user reported a
+      // ~20%-of-the-time "JSON.parse: Unexpected non-whitespace character
+      // at position N" error, which is exactly that case. The walker
+      // also ignores braces inside string literals so quoted text like
+      // "the {answer} is" doesn't confuse the depth count.
+      var start = text.indexOf('{');
+      if (start === -1) throw new Error('No JSON object in AI response');
+      var depth = 0, inString = false, escape = false, end = -1;
+      for (var i = start; i < text.length; i++) {
+        var ch = text.charAt(i);
+        if (escape)         { escape = false; continue; }
+        if (ch === '\\')    { escape = true;  continue; }
+        if (ch === '"')     { inString = !inString; continue; }
+        if (inString) continue;
+        if (ch === '{')     depth++;
+        else if (ch === '}'){ depth--; if (depth === 0) { end = i; break; } }
       }
-      return JSON.parse(text);
+      if (end === -1) throw new Error('Unbalanced JSON in AI response');
+      return JSON.parse(text.slice(start, end + 1));
     }
 
     async function _fetchInlineCorrectionsOnly(t11, t12, t2) {
