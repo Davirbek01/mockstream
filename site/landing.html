@@ -25485,22 +25485,27 @@
     ];
 
     function openMockMgmtPanel() {
-      // Same defense-in-depth as openSiteMgmtGrid: lock to main site so
-      // a clone-side admin can't open the panel by calling this from the
-      // browser console.
+      // Defense-in-depth: lock to main site so a clone-side admin can't
+      // open the panel by calling this from the browser console.
       var _cidGuard = (window.SITE_CONFIG && window.SITE_CONFIG.testIdentifier) || 'mock_stream';
       if (_cidGuard !== 'mock_stream') {
         alert('Mock Settings is only available on the main mock-stream.com site.');
         return;
       }
-      // First-open requires the super-admin (or center-admin) passcode. The
-      // panel doesn't trust _siteAdminUnlocked alone because the Edge
-      // Function still needs a passcode in every request.
+      // First-open requires the super-admin (or center-admin) passcode.
+      // Show a custom branded modal instead of the browser's native prompt
+      // (which looks generic and exposes the passcode in plain text).
       if (!window._mmgPasscode) {
-        var pc = prompt('Enter your admin passcode to open Mock Settings:');
-        if (!pc) return;
-        window._mmgPasscode = pc.trim();
+        _mmgShowPasscodeModal(function (pc) {
+          window._mmgPasscode = pc.trim();
+          _mmgOpenAfterAuth();
+        });
+        return;
       }
+      _mmgOpenAfterAuth();
+    }
+
+    function _mmgOpenAfterAuth() {
       // Reset hierarchical nav to top level on every open so re-entries
       // don't dump the user back into a deep view.
       window._mmgNav = { level: 'exams', exam: null, skill: null };
@@ -25508,6 +25513,48 @@
       ov.style.display = 'flex';
       requestAnimationFrame(function () { ov.style.opacity = '1'; });
       _mmgRefresh();
+    }
+
+    function _mmgShowPasscodeModal(onSubmit) {
+      // Build once. Re-using the same DOM means input value is cleared on
+      // re-open via the browser's native input behaviour.
+      var existing = document.getElementById('mmgPasscodeOverlay');
+      if (existing) existing.remove();
+      var ov = document.createElement('div');
+      ov.id = 'mmgPasscodeOverlay';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:10240;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;animation:adminAuthFadeIn .2s ease;';
+      ov.innerHTML =
+        '<div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:400px;padding:26px 24px 22px;box-shadow:0 24px 64px rgba(0,0,0,.4);text-align:center;">' +
+          '<div style="font-size:38px;line-height:1;margin-bottom:6px;">🧪</div>' +
+          '<h3 style="margin:0 0 4px;font-size:17px;font-weight:700;color:#0f172a;">Mock Settings — Admin Access</h3>' +
+          '<p style="margin:0 0 16px;font-size:12.5px;color:#64748b;">Enter your super-admin passcode to manage Supabase-hosted mocks.</p>' +
+          '<input type="password" id="mmgPasscodeInput" inputmode="numeric" autocomplete="off" placeholder="••••••" maxlength="12" ' +
+            'style="width:100%;padding:13px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:18px;text-align:center;letter-spacing:6px;outline:none;transition:border-color .15s;font-family:ui-monospace,monospace;">' +
+          '<div id="mmgPasscodeError" style="min-height:16px;margin-top:8px;font-size:12px;color:#dc2626;font-weight:600;"></div>' +
+          '<div style="display:flex;gap:8px;margin-top:10px;">' +
+            '<button id="mmgPasscodeCancel" style="flex:1;padding:11px 0;border:1.5px solid #e2e8f0;border-radius:10px;background:#fff;color:#475569;font-weight:600;font-size:13.5px;cursor:pointer;transition:all .15s;">Cancel</button>' +
+            '<button id="mmgPasscodeSubmit" style="flex:2;padding:11px 0;border:0;border-radius:10px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,.3);transition:all .15s;">🔓 Open Mock Settings</button>' +
+          '</div>' +
+        '</div>';
+      document.body.appendChild(ov);
+      var input  = ov.querySelector('#mmgPasscodeInput');
+      var err    = ov.querySelector('#mmgPasscodeError');
+      var submit = ov.querySelector('#mmgPasscodeSubmit');
+      var cancel = ov.querySelector('#mmgPasscodeCancel');
+      // Focus the input so the user can start typing immediately. Defer one
+      // tick so iOS/Safari accept the focus call.
+      setTimeout(function () { try { input.focus(); } catch (_e) {} }, 30);
+      input.addEventListener('input', function () { err.textContent = ''; input.style.borderColor = '#e2e8f0'; });
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit.click(); else if (e.key === 'Escape') cancel.click(); });
+      function close() { ov.remove(); }
+      cancel.onclick = close;
+      ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+      submit.onclick = function () {
+        var v = (input.value || '').trim();
+        if (!v) { err.textContent = 'Passcode required.'; input.style.borderColor = '#dc2626'; input.focus(); return; }
+        close();
+        onSubmit(v);
+      };
     }
 
     function closeMockMgmtPanel() {
@@ -25604,10 +25651,9 @@
                    '<div class="mmg-card-meta">' + count + ' mock' + (count === 1 ? '' : 's') + '</div>' +
                  '</button>';
         }).join('');
-        var future = ['KET', 'PET', 'SAT', 'Flashcards'].map(function (lab) {
-          return '<div class="mmg-card mmg-card-soon" title="Coming soon"><div class="mmg-card-icon">🔒</div><div class="mmg-card-label">' + lab + '</div><div class="mmg-card-meta">soon</div></div>';
-        }).join('');
-        pane.innerHTML = '<div class="mmg-grid">' + examCards + future + '</div>';
+        // Future-exam placeholders (KET / PET / SAT / Flashcards) removed —
+        // we'll add real cards here when those exam tracks ship.
+        pane.innerHTML = '<div class="mmg-grid">' + examCards + '</div>';
         return;
       }
 
