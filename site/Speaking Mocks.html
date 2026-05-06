@@ -11295,7 +11295,8 @@
               caption += '\n\uD83E\uDDE0 AI Scoring:\n';
               caption += '\uD83D\uDCDD ' + _practicePartLabel + ': ' + _practicePartScore + '/' + _practicePartMax + '\n';
               caption += '\uD83C\uDFAF Performance: ' + _practiceQuality + '\n';
-              caption += '#AI_Scored\n';
+              // #AI_Scored moved to the trailing hashtag line below to match
+              // CEFR Writing practice formatting (single hashtag block at end).
             }
 
             caption += '\n\uD83D\uDCCB Mock Details:\n';
@@ -11314,6 +11315,7 @@
             caption += '\uD83D\uDCCA #all_' + monthTag + '\n';
             caption += '\uD83D\uDCCA #all_' + yearTag + '\n';
             caption += '#Practice #Speaking #CEFR';
+            if (practiceAi) caption += ' #AI_Scored';
 
             // Send to Supabase first (get result link for caption)
             var finalCaption = caption;
