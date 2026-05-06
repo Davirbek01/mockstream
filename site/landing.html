@@ -13082,6 +13082,52 @@
       return mocks;
     })();
 
+    // ── Append dynamic CEFR Writing mocks from Supabase ──
+    // Mirrors the CEFR Speaking fetcher above. Whenever a cefr-writing row
+    // is added or its title changes in mock_tests (status='published'), the
+    // matching cefrWritingMocks entry is upgraded on next page load — no
+    // code change needed per mock. Match strategy:
+    //   1. Static URL `?test=cefr-writing-mock-NN&auto=1`  (entries 02–N)
+    //   2. Existing sbmock=<id>  (Mock 01's static pin)
+    // Either match short-circuits to the same upgrade, so we never duplicate.
+    (async function loadDynamicCefrWritingMocks() {
+      try {
+        const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+        const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+        const res = await fetch(
+          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-writing&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
+          { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+        );
+        if (!res.ok) return;
+        const mocks = await res.json();
+        if (!mocks || !mocks.length) return;
+        let upgraded = 0;
+        mocks.forEach(m => {
+          const num = m.mock_number;
+          const padded = String(num).padStart(2, '0');
+          // Writing Mocks.html's auto-proceed bails to landing without ?test=,
+          // so we always include both ?test=cefr-writing-mock-NN and ?sbmock=<id>.
+          const newFile = `Writing Mocks.html?test=cefr-writing-mock-${padded}&sbmock=${m.id}&auto=1`;
+          const newName = `🟢 CEFR Writing Mock ${padded}`;
+          // Find by static name OR by an existing sbmock pin for this id.
+          const cIdx = cefrWritingMocks.findIndex(t =>
+            t.name === `CEFR Writing Mock ${padded}` ||
+            (t.file && t.file.indexOf('sbmock=' + m.id) !== -1)
+          );
+          if (cIdx !== -1) {
+            cefrWritingMocks[cIdx].file = newFile;
+            cefrWritingMocks[cIdx].name = newName;
+            cefrWritingMocks[cIdx].icon = '🟢';
+            upgraded++;
+          } else {
+            cefrWritingMocks.push({ file: newFile, name: newName, icon: '🟢', actionText: 'Start' });
+            upgraded++;
+          }
+        });
+        console.log(`🌐 Upgraded ${upgraded}/${mocks.length} CEFR Writing entries to Supabase`);
+      } catch (e) { console.warn('Dynamic CEFR Writing fetch failed:', e); }
+    })();
+
     // ===== UPDATE LEARNING TOOLS COUNTS =====
     function updateLearningToolsCounts() {
       const grammarCount = grammarTests.length;
@@ -25488,6 +25534,147 @@
     .mmg-card-meta { font-size:11px; color:#64748b; }
     .mmg-card-soon { opacity:.45; cursor:not-allowed; }
     .mmg-card-soon:hover { transform:none; box-shadow:0 1px 3px rgba(15,23,42,.04); border-color:#e2e8f0; }
+
+    /* ── Structured editor (CEFR Writing) ─────────────────────────────── */
+    .mmg-tabs-bar { display:flex; gap:2px; padding:0 18px; border-bottom:1px solid #e2e8f0; flex-wrap:wrap; background:#f8fafc; }
+    .mmg-tab { background:transparent; border:0; border-bottom:2.5px solid transparent;
+      padding:9px 12px; font-size:12px; font-weight:600; color:#64748b; cursor:pointer;
+      transition:all .15s ease; margin-bottom:-1px; white-space:nowrap; }
+    .mmg-tab:hover { color:#2563eb; }
+    .mmg-tab.active { color:#2563eb; border-bottom-color:#2563eb; background:#fff; }
+    .mmg-tab.mmg-tab-raw { color:#92400e; }
+    .mmg-tab.mmg-tab-raw.active { color:#92400e; border-bottom-color:#f59e0b; }
+    .mmg-pane { display:none; flex:1; overflow-y:auto; padding:14px 18px; flex-direction:column; gap:14px; }
+    .mmg-pane.active { display:flex; }
+    .mmg-pane.mmg-pane-raw.active { padding:0; gap:0; }
+    .mmg-field { display:flex; flex-direction:column; gap:4px; font-size:12px; }
+    .mmg-field > label { font-weight:600; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+    .mmg-field > input, .mmg-field > textarea {
+      border:1px solid #cbd5e1; border-radius:6px; padding:7px 10px;
+      font:13px ui-sans-serif, system-ui; resize:vertical; box-sizing:border-box; width:100%;
+    }
+    .mmg-field > textarea { font:12px ui-monospace, monospace; min-height:64px; line-height:1.5; }
+    .mmg-field-help { font-size:10.5px; color:#94a3b8; margin-top:-2px; }
+    .mmg-task-grid { display:grid; grid-template-columns:120px 140px; gap:8px 10px; align-items:start; }
+    .mmg-task-grid > .mmg-field-fullspan { grid-column:1/-1; }
+    .mmg-collapse { border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; }
+    .mmg-collapse > summary { padding:8px 12px; background:#f8fafc; font-weight:600; font-size:12px;
+      color:#334155; cursor:pointer; user-select:none; list-style:none; display:flex; align-items:center; gap:6px; }
+    .mmg-collapse > summary::before { content:'▶'; font-size:9px; color:#94a3b8; transition:transform .15s; }
+    .mmg-collapse[open] > summary::before { transform:rotate(90deg); }
+    .mmg-collapse[open] > summary { border-bottom:1px solid #e2e8f0; }
+    .mmg-collapse-body { padding:12px; display:flex; flex-direction:column; gap:10px; }
+    .mmg-vocab-row, .mmg-tokens-row {
+      display:grid; gap:6px; align-items:center;
+    }
+    .mmg-vocab-row { grid-template-columns:1fr 1fr 30px; }
+    .mmg-tokens-row { grid-template-columns:2fr 2fr 1fr 30px; }
+    .mmg-vocab-row > input, .mmg-tokens-row > input, .mmg-tokens-row > select {
+      border:1px solid #cbd5e1; border-radius:6px; padding:5px 8px; font-size:12px; box-sizing:border-box; width:100%;
+    }
+    .mmg-row-del {
+      background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; border-radius:6px;
+      padding:3px 8px; font-size:12px; font-weight:700; cursor:pointer; line-height:1;
+    }
+    .mmg-row-del:hover { background:#fecaca; }
+    .mmg-add-btn {
+      background:#ecfdf5; color:#047857; border:1px dashed #6ee7b7; border-radius:6px;
+      padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; align-self:flex-start;
+    }
+    .mmg-add-btn:hover { background:#d1fae5; }
+    .mmg-section-title { font-weight:700; font-size:13px; color:#0f172a; margin:6px 0 -2px; }
+    .mmg-tokens-header {
+      display:grid; grid-template-columns:2fr 2fr 1fr 30px; gap:6px;
+      font-weight:700; color:#475569; font-size:10.5px; text-transform:uppercase;
+      letter-spacing:0.4px; padding:4px 2px; border-bottom:1px solid #e2e8f0;
+    }
+    .mmg-empty-hint {
+      color:#94a3b8; font-size:12px; font-style:italic; padding:8px 0;
+    }
+    .mmg-detect-btn {
+      background:#eff6ff; color:#1e40af; border:1px solid #93c5fd; border-radius:6px;
+      padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer;
+    }
+    .mmg-detect-btn:hover { background:#dbeafe; }
+    .mmg-detect-result { font-size:11.5px; color:#475569; padding:4px 0; }
+    .mmg-warn-pill {
+      display:inline-block; background:#fef3c7; color:#92400e; padding:2px 8px;
+      border-radius:5px; font-size:10.5px; font-weight:700; margin-left:6px;
+    }
+
+    /* ── Sample field with live preview (the most-edited field per task) ─ */
+    .mmg-sample-wrap {
+      display:flex; flex-direction:column; border:1px solid #cbd5e1; border-radius:8px;
+      overflow:hidden; background:#fff;
+    }
+    .mmg-sample-toolbar {
+      display:flex; gap:4px; flex-wrap:wrap; align-items:center;
+      background:#f8fafc; padding:6px 8px; border-bottom:1px solid #e2e8f0;
+    }
+    .mmg-toolbar-hint {
+      font-size:10.5px; color:#64748b; margin-right:auto; margin-left:2px;
+    }
+    .mmg-mark-btn {
+      background:#fff; border:1px solid #cbd5e1; border-radius:5px;
+      padding:3px 9px; font-size:11px; font-weight:700; cursor:pointer;
+      transition:transform .08s ease;
+    }
+    .mmg-mark-btn:hover  { background:#f1f5f9; }
+    .mmg-mark-btn:active { transform:scale(0.95); }
+    .mmg-mark-btn[data-mtype="phrasal"] { color:#047857; border-color:#6ee7b7; }
+    .mmg-mark-btn[data-mtype="adv"]     { color:#c2410c; border-color:#fdba74; font-style:italic; }
+    .mmg-mark-btn[data-mtype="modal"]   { color:#0e7490; border-color:#67e8f9; }
+    .mmg-mark-btn[data-mtype="colloc"]  { color:#1e40af; border-color:#93c5fd; }
+    .mmg-mark-btn[data-mtype="idiom"]   { color:#7c2d12; border-color:#c4b5fd; text-decoration:underline; }
+    .mmg-mark-btn-clear { color:#64748b; }
+    .mmg-sample-source {
+      border:0; font:12px ui-monospace, monospace; padding:8px 10px;
+      resize:vertical; min-height:120px; outline:none; width:100%; box-sizing:border-box;
+    }
+    .mmg-sample-preview-label {
+      font-size:10px; font-weight:700; color:#475569; text-transform:uppercase;
+      letter-spacing:0.5px; padding:5px 12px; background:#f1f5f9; border-top:1px solid #e2e8f0;
+    }
+    .mmg-sample-preview {
+      padding:10px 12px; background:#fffbeb; font:13px ui-sans-serif, system-ui;
+      line-height:1.6; max-height:240px; overflow-y:auto;
+    }
+    .mmg-sample-preview p { margin:0 0 8px; }
+    .mmg-sample-preview p:last-child { margin-bottom:0; }
+    .mmg-sample-preview .ml-token         { padding:0 1px; border-radius:2px; }
+    .mmg-sample-preview .ml-token.phrasal { color:#047857; text-decoration:underline; }
+    .mmg-sample-preview .ml-token.adv     { color:#c2410c; font-style:italic; }
+    .mmg-sample-preview .ml-token.modal   { color:#0e7490; }
+    .mmg-sample-preview .ml-token.colloc  { color:#1e40af; font-weight:700; }
+    .mmg-sample-preview .ml-token.idiom   { color:#7c2d12; text-decoration:underline; }
+
+    /* ── Mobile / narrow-viewport fixes for the structured editor ─────── */
+    /* Triggers at iPhone-SE width and below — phones used as Telegram Mini App. */
+    @media (max-width: 600px) {
+      /* Metadata header: 4 cols → 2x2 so Title/Status fields aren't pinched. */
+      #mmgMetaGrid { grid-template-columns: 1fr 1fr !important; }
+      /* Tabs: scroll horizontally instead of wrapping (saves vertical space). */
+      .mmg-tabs-bar { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+      .mmg-tab { flex-shrink:0; }
+      /* Tokens row: drop to 2x2 — phrase/uz on top, type/delete below.
+         The type dropdown becomes readable; the row is taller but usable. */
+      .mmg-tokens-header { grid-template-columns:1fr 1fr; }
+      .mmg-tokens-header > span:nth-child(3),
+      .mmg-tokens-header > span:nth-child(4) { display:none; }
+      .mmg-tokens-row {
+        grid-template-columns:1fr 1fr;
+        grid-template-areas: "phrase uz" "type del";
+        row-gap:5px;
+      }
+      .mmg-tokens-row > input[data-fld="phrase"] { grid-area:phrase; }
+      .mmg-tokens-row > input[data-fld="uz"]     { grid-area:uz; }
+      .mmg-tokens-row > select[data-fld="type"]  { grid-area:type; }
+      .mmg-tokens-row > .mmg-row-del             { grid-area:del; justify-self:end; min-width:60px; }
+      /* Modal padding — reclaim sidebar space on phones. */
+      #mmgOverlay { padding:8px; }
+      .mmg-pane { padding:14px 12px; }
+      .mmg-tabs-bar { padding:0 12px; }
+    }
   </style>
   <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;">
     <div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;">
@@ -25511,7 +25698,7 @@
           <div id="mmgEditTitle" style="font-size:15px;font-weight:700;flex:1;">Edit mock</div>
           <button onclick="_mmgEditClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
         </div>
-        <div style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;font-size:12px;">
+        <div id="mmgMetaGrid" style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;font-size:12px;">
           <label>Type
             <select id="mmgFldType" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;margin-top:4px;">
               <option value="ielts-reading">IELTS Reading</option>
@@ -25534,12 +25721,36 @@
             </select>
           </label>
         </div>
-        <div style="padding:0 18px 8px;font-size:11px;color:#64748b;display:flex;align-items:center;gap:8px;">
-          <span style="flex:1;">mock_data (JSON) — must match the static-JS shape exactly. Click Validate before saving.</span>
-          <button onclick="_mmgValidate()" style="background:#fef3c7;color:#92400e;border:1px solid #f59e0b;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">⚙ Validate</button>
-          <button onclick="_mmgPretty()" title="Pretty-print" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">↔ Pretty</button>
+        <!-- Tab bar — shown for skill types with a structured editor (currently cefr-writing). -->
+        <div id="mmgTabsBar" class="mmg-tabs-bar" style="display:none;">
+          <button class="mmg-tab" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
+          <button class="mmg-tab" data-tab="part1" onclick="_mmgSwitchTab('part1')">Part 1 (shared)</button>
+          <button class="mmg-tab" data-tab="t11" onclick="_mmgSwitchTab('t11')">Task 1.1</button>
+          <button class="mmg-tab" data-tab="t12" onclick="_mmgSwitchTab('t12')">Task 1.2</button>
+          <button class="mmg-tab" data-tab="t2" onclick="_mmgSwitchTab('t2')">Task 2</button>
+          <button class="mmg-tab" data-tab="vocab" onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
+          <button class="mmg-tab" data-tab="tokens" onclick="_mmgSwitchTab('tokens')">Tokens</button>
+          <button class="mmg-tab mmg-tab-raw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
-        <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
+
+        <!-- Structured panes (rendered/populated by JS, not static HTML). -->
+        <div id="mmgPaneSettings" class="mmg-pane"></div>
+        <div id="mmgPanePart1"    class="mmg-pane"></div>
+        <div id="mmgPaneT11"      class="mmg-pane"></div>
+        <div id="mmgPaneT12"      class="mmg-pane"></div>
+        <div id="mmgPaneT2"       class="mmg-pane"></div>
+        <div id="mmgPaneVocab"    class="mmg-pane"></div>
+        <div id="mmgPaneTokens"   class="mmg-pane"></div>
+
+        <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
+        <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
+          <div style="padding:8px 18px;font-size:11px;color:#64748b;display:flex;align-items:center;gap:8px;">
+            <span style="flex:1;">mock_data (JSON) — must match the static-JS shape exactly. Click Validate before saving.</span>
+            <button onclick="_mmgValidate()" style="background:#fef3c7;color:#92400e;border:1px solid #f59e0b;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">⚙ Validate</button>
+            <button onclick="_mmgPretty()" title="Pretty-print" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;">↔ Pretty</button>
+          </div>
+          <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
+        </div>
         <div style="padding:14px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
           <button id="mmgBtnBackups" onclick="_mmgBackupsOpen()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">🕒 Backups…</button>
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
@@ -25844,9 +26055,518 @@
       document.getElementById('mmgFldData').value   = JSON.stringify(m.mock_data || {}, null, 2);
       document.getElementById('mmgBtnDelete').style.display  = m.id ? '' : 'none';
       document.getElementById('mmgBtnBackups').style.display = m.id ? '' : 'none';
+      // Decide editor mode (structured vs raw-only) based on mock_type, then
+      // either show the tab bar with structured panes or fall through to the
+      // raw-JSON-only legacy view.
+      _mmgInitTabs();
       document.getElementById('mmgEditModal').style.display = 'flex';
     }
     function _mmgEditClose() { document.getElementById('mmgEditModal').style.display = 'none'; }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Structured editor (CEFR Writing).
+    //
+    //   Source-of-truth model: the textarea (#mmgFldData) holds canonical
+    //   mock_data JSON. Structured tabs read from it on activation and flush
+    //   their edits back on tab-switch / save. This keeps the existing save
+    //   path (which parses the textarea) unchanged.
+    //
+    //   Adding support for another skill later: add an entry to the
+    //   _MMG_STRUCTURED_TYPES set and write a per-task renderer.
+    // ═══════════════════════════════════════════════════════════════════════
+    var _MMG_STRUCTURED_TYPES = { 'cefr-writing': true };
+    // Which tab is currently visible. We need this to know which pane to
+    // collect-from when the user clicks a different tab.
+    window._mmgActiveTab = 'raw';
+
+    function _mmgInitTabs() {
+      var type = document.getElementById('mmgFldType').value;
+      var bar  = document.getElementById('mmgTabsBar');
+      if (_MMG_STRUCTURED_TYPES[type]) {
+        bar.style.display = 'flex';
+        // Default to Part 1 — first content tab — for content-author flow.
+        // Power users can click "Raw JSON" tab if they prefer.
+        _mmgSwitchTab('part1');
+      } else {
+        bar.style.display = 'none';
+        // Force raw mode for all other types (existing behavior).
+        _mmgSwitchTab('raw');
+      }
+    }
+
+    function _mmgSwitchTab(tabId) {
+      // Flush whatever pane is currently visible back to the textarea so
+      // we never lose edits across a tab switch.
+      _mmgFlushStructuredToRaw();
+      window._mmgActiveTab = tabId;
+      // Toggle tab buttons.
+      var btns = document.querySelectorAll('.mmg-tab');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.toggle('active', btns[i].getAttribute('data-tab') === tabId);
+      }
+      // Toggle panes.
+      var paneIds = ['Settings','Part1','T11','T12','T2','Vocab','Tokens','Raw'];
+      var keyMap  = { settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2', vocab:'Vocab', tokens:'Tokens', raw:'Raw' };
+      for (var k = 0; k < paneIds.length; k++) {
+        document.getElementById('mmgPane' + paneIds[k]).classList.toggle('active', keyMap[tabId] === paneIds[k]);
+      }
+      // Render the freshly-shown pane from the latest textarea contents.
+      _mmgRenderPane(tabId);
+    }
+
+    function _mmgGetMockData() {
+      try { return JSON.parse(document.getElementById('mmgFldData').value || '{}') || {}; }
+      catch (e) { return null; }
+    }
+    function _mmgSetMockData(obj) {
+      document.getElementById('mmgFldData').value = JSON.stringify(obj, null, 2);
+    }
+
+    // Flush the currently-visible structured pane back into the textarea.
+    // Returns true on success, false if the pane couldn't collect (e.g.
+    // a numeric field was malformed). Callers (Save) check the return.
+    function _mmgFlushStructuredToRaw() {
+      var tab = window._mmgActiveTab;
+      if (tab === 'raw' || !tab) return true;
+      var md = _mmgGetMockData();
+      if (md === null) return true;  // raw JSON is broken — let user fix in Raw tab
+      try {
+        switch (tab) {
+          case 'settings': _mmgCollectSettings(md); break;
+          case 'part1':    _mmgCollectPart1(md);    break;
+          case 't11':      _mmgCollectTask(md, 't11'); break;
+          case 't12':      _mmgCollectTask(md, 't12'); break;
+          case 't2':       _mmgCollectTask(md, 't2');  break;
+          case 'vocab':    _mmgCollectVocab(md); break;
+          case 'tokens':   _mmgCollectTokens(md); break;
+        }
+      } catch (e) {
+        return false;
+      }
+      _mmgSetMockData(md);
+      return true;
+    }
+
+    function _mmgRenderPane(tabId) {
+      if (tabId === 'raw') return;  // textarea always reflects current state
+      var md = _mmgGetMockData();
+      if (md === null) {
+        var paneId = ({settings:'mmgPaneSettings',part1:'mmgPanePart1',t11:'mmgPaneT11',t12:'mmgPaneT12',t2:'mmgPaneT2',vocab:'mmgPaneVocab',tokens:'mmgPaneTokens'})[tabId];
+        document.getElementById(paneId).innerHTML = '<div class="mmg-empty-hint">⚠ Cannot render: the JSON in the Raw tab is invalid. Fix it first, then come back.</div>';
+        return;
+      }
+      switch (tabId) {
+        case 'settings': _mmgRenderSettings(md); break;
+        case 'part1':    _mmgRenderPart1(md);    break;
+        case 't11':      _mmgRenderTask(md, 't11', 'Task 1.1', '50–70 words', 'Short letter to a friend.'); break;
+        case 't12':      _mmgRenderTask(md, 't12', 'Task 1.2', '120–150 words', 'Formal letter to authority.'); break;
+        case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
+        case 'vocab':    _mmgRenderVocab(md);  break;
+        case 'tokens':   _mmgRenderTokens(md); break;
+      }
+    }
+
+    // ── Helpers for input-field building ────────────────────────────────
+    function _mmgEsc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function _mmgFieldText(label, id, value, help) {
+      return '<div class="mmg-field"><label for="'+id+'">'+_mmgEsc(label)+'</label>'
+        + '<input type="text" id="'+id+'" value="'+_mmgEsc(value || '')+'">'
+        + (help ? '<div class="mmg-field-help">'+_mmgEsc(help)+'</div>' : '')
+        + '</div>';
+    }
+    function _mmgFieldArea(label, id, value, help, minH) {
+      var styleH = minH ? ' style="min-height:'+minH+'px;"' : '';
+      return '<div class="mmg-field"><label for="'+id+'">'+_mmgEsc(label)+'</label>'
+        + '<textarea id="'+id+'"'+styleH+'>'+_mmgEsc(value || '')+'</textarea>'
+        + (help ? '<div class="mmg-field-help">'+_mmgEsc(help)+'</div>' : '')
+        + '</div>';
+    }
+
+    // Sample field with toolbar + live HTML preview. The toolbar wraps the
+    // current selection in <span class="ml-token TYPE">…</span> so the
+    // content author never has to type the markup by hand. The preview
+    // shows the rendered HTML with the same colour highlights students see.
+    function _mmgFieldSample(label, id, value, help) {
+      var safeVal = _mmgEsc(value || '');
+      // We escape with title= so the tooltip on hover hints what each button does.
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        + '<div class="mmg-sample-wrap">'
+        +   '<div class="mmg-sample-toolbar">'
+        +     '<span class="mmg-toolbar-hint">Select text below, then click:</span>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="phrasal" title="Wrap selection as phrasal verb"  onclick="_mmgMark(\'' + id + '\', \'phrasal\')">phrasal</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="adv"     title="Wrap selection as adverb"        onclick="_mmgMark(\'' + id + '\', \'adv\')">adv</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="modal"   title="Wrap selection as modal verb"    onclick="_mmgMark(\'' + id + '\', \'modal\')">modal</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="colloc"  title="Wrap selection as collocation"   onclick="_mmgMark(\'' + id + '\', \'colloc\')">colloc</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="idiom"   title="Wrap selection as idiom"         onclick="_mmgMark(\'' + id + '\', \'idiom\')">idiom</button>'
+        +     '<button type="button" class="mmg-mark-btn mmg-mark-btn-clear"   title="Remove the ml-token span around the selection" onclick="_mmgUnmark(\'' + id + '\')">clear</button>'
+        +   '</div>'
+        +   '<textarea id="' + id + '" class="mmg-sample-source" spellcheck="false" oninput="_mmgUpdatePreview(\'' + id + '\')">' + safeVal + '</textarea>'
+        +   '<div class="mmg-sample-preview-label">Preview (what students see)</div>'
+        +   '<div class="mmg-sample-preview" id="' + id + '_preview"></div>'
+        + '</div>'
+        + (help ? '<div class="mmg-field-help">' + _mmgEsc(help) + '</div>' : '')
+        + '</div>';
+    }
+    // Render the textarea contents into the preview. The preview is purely
+    // display-only — anything the user writes is shown as-is. We trust the
+    // admin's HTML; this is the same content the runner page sets via
+    // innerHTML on the student's screen.
+    function _mmgUpdatePreview(id) {
+      var src = document.getElementById(id);
+      var dst = document.getElementById(id + '_preview');
+      if (!src || !dst) return;
+      var html = src.value || '';
+      // Strip ```html … ``` markdown fences if present (some samples wrap in them).
+      html = html.replace(/^\s*```(?:html)?\s*/i, '').replace(/\s*```\s*$/i, '');
+      // Strip <!DOCTYPE>, <html>, <head>, <body> wrappers so preview matches the
+      // partial-fragment style the runner page actually injects.
+      html = html.replace(/<!DOCTYPE[^>]*>/gi, '')
+                 .replace(/<\/?html[^>]*>/gi, '')
+                 .replace(/<head[\s\S]*?<\/head>/gi, '')
+                 .replace(/<\/?body[^>]*>/gi, '');
+      dst.innerHTML = html;
+    }
+    // Wrap the textarea's current selection in <span class="ml-token TYPE">.
+    function _mmgMark(id, type) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var s = el.selectionStart, e = el.selectionEnd;
+      if (s === e) { _mmgStatus('Select text in the field first, then click a markup button.', '#92400e'); return; }
+      var before = el.value.slice(0, s);
+      var sel    = el.value.slice(s, e);
+      var after  = el.value.slice(e);
+      var wrapped = '<span class="ml-token ' + type + '">' + sel + '</span>';
+      el.value = before + wrapped + after;
+      // Place caret just after the new </span>.
+      var caret = before.length + wrapped.length;
+      el.focus();
+      el.setSelectionRange(caret, caret);
+      _mmgUpdatePreview(id);
+    }
+    // Inverse of _mmgMark: if the selection sits inside a <span class="ml-token …">
+    // pair, unwrap it. If the selection literally IS a wrapping span, drop it.
+    function _mmgUnmark(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var s = el.selectionStart, e = el.selectionEnd;
+      var sel = el.value.slice(s, e);
+      // First case: user selected exactly `<span class="ml-token X">…</span>`.
+      var m = sel.match(/^<span\s+class\s*=\s*["']ml-token\s+\w+["']\s*>([\s\S]*)<\/span>$/);
+      if (m) {
+        el.value = el.value.slice(0, s) + m[1] + el.value.slice(e);
+        el.setSelectionRange(s, s + m[1].length);
+        _mmgUpdatePreview(id);
+        return;
+      }
+      // Second case: caret/selection inside a token — unwrap the surrounding span.
+      var openRx  = /<span\s+class\s*=\s*["']ml-token\s+\w+["']\s*>/g;
+      var closeRx = /<\/span>/g;
+      var lastOpen = -1, lastOpenEnd = -1;
+      var mo;
+      while ((mo = openRx.exec(el.value)) !== null) {
+        if (mo.index >= s) break;
+        lastOpen = mo.index; lastOpenEnd = mo.index + mo[0].length;
+      }
+      if (lastOpen === -1) { _mmgStatus('No ml-token span around the selection.', '#92400e'); return; }
+      var firstClose = el.value.indexOf('</span>', e - 1);
+      if (firstClose === -1 || firstClose < lastOpenEnd) { _mmgStatus('No ml-token span around the selection.', '#92400e'); return; }
+      var inner = el.value.slice(lastOpenEnd, firstClose);
+      el.value = el.value.slice(0, lastOpen) + inner + el.value.slice(firstClose + '</span>'.length);
+      el.setSelectionRange(lastOpen, lastOpen + inner.length);
+      _mmgUpdatePreview(id);
+    }
+
+    // ── Settings tab ────────────────────────────────────────────────────
+    function _mmgRenderSettings(md) {
+      var s = (md.settings = md.settings || {});
+      var html = '<div class="mmg-section-title">Test settings (logo + headings)</div>';
+      html += _mmgFieldText('Exam title',     'mmgSet_examTitle',     s.examTitle,     'Shown on the test header (e.g., "Writing exam").');
+      html += _mmgFieldText('Heading 1',      'mmgSet_heading1',      s.heading1,      'First centred heading (org name in Uzbek).');
+      html += _mmgFieldText('Heading 2',      'mmgSet_heading2',      s.heading2,      'Second centred heading (test description).');
+      html += _mmgFieldText('Logo wording',   'mmgSet_logoWording',   s.logoWording,   'Text next to the logo image.');
+      html += _mmgFieldText('Logo URL',       'mmgSet_logoUrl',       s.logoUrl,       'Image URL for the logo.');
+      html += _mmgFieldText('Test identifier','mmgSet_testIdentifier',s.testIdentifier,'Internal ID — leave as "mock_stream" unless you know why.');
+      document.getElementById('mmgPaneSettings').innerHTML = html;
+    }
+    function _mmgCollectSettings(md) {
+      md.settings = md.settings || {};
+      var keys = ['examTitle','heading1','heading2','logoWording','logoUrl','testIdentifier'];
+      for (var i = 0; i < keys.length; i++) {
+        var el = document.getElementById('mmgSet_' + keys[i]);
+        if (el) md.settings[keys[i]] = el.value;
+      }
+    }
+
+    // ── Part 1 (shared context + scenario) tab ──────────────────────────
+    function _mmgRenderPart1(md) {
+      var t = (md.tasks = md.tasks || {});
+      var html = '<div class="mmg-section-title">Part 1 — shared context (used by both Task 1.1 and Task 1.2)</div>';
+      html += _mmgFieldArea('Context',  'mmgP1_context',  t.p1_context,  'One sentence setting up who the student is in the scenario.', 70);
+      html += _mmgFieldArea('Scenario / Email', 'mmgP1_scenario', t.p1_scenario, 'The full prompt the student responds to (e.g., a letter from the librarian). Newlines preserved.', 200);
+      document.getElementById('mmgPanePart1').innerHTML = html;
+    }
+    function _mmgCollectPart1(md) {
+      md.tasks = md.tasks || {};
+      var c = document.getElementById('mmgP1_context');
+      var s = document.getElementById('mmgP1_scenario');
+      if (c) md.tasks.p1_context  = c.value;
+      if (s) md.tasks.p1_scenario = s.value;
+    }
+
+    // ── Task tab (t11 / t12 / t2 — same template) ───────────────────────
+    function _mmgRenderTask(md, key, label, defaultTarget, sectionHelp) {
+      var t = (md.tasks = md.tasks || {});
+      var task = (t[key] = t[key] || {});
+      var paneId = 'mmgPane' + (key === 't11' ? 'T11' : key === 't12' ? 'T12' : 'T2');
+      var p = 'mmg' + key.toUpperCase() + '_';
+
+      var html = '<div class="mmg-section-title">' + _mmgEsc(label) + '</div>'
+              + (sectionHelp ? '<div class="mmg-field-help">' + _mmgEsc(sectionHelp) + '</div>' : '');
+
+      html += _mmgFieldText('Title',  p + 'title',  task.title  || label,         'Display label.');
+      html += _mmgFieldText('Target', p + 'target', task.target || defaultTarget, 'Word count target shown to the student (e.g., "50–70 words").');
+      html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt, 'The instruction the student reads. Plain text.', 100);
+      // Main model answer — gets the live-preview + markup-button treatment.
+      // Leveled samples (A1-B2) and Uzbek translations stay as plain textareas
+      // for now since they're collapsed by default and edited less often.
+      html += _mmgFieldSample('Model answer (sample)', p + 'sample', task.sample,
+        'Edit HTML on the left, see the rendered preview update live below. Use the toolbar buttons to mark vocabulary tokens — students get coloured highlights and hover-translations from the Tokens tab.');
+
+      // Level samples — collapsed by default.
+      html += '<details class="mmg-collapse"><summary>📚 Level-specific samples (A1 / A2 / B1 / B2)</summary>'
+            + '<div class="mmg-collapse-body">'
+            + _mmgFieldArea('A1',  p + 'sampleA1', task.sampleA1, '', 70)
+            + _mmgFieldArea('A2',  p + 'sampleA2', task.sampleA2, '', 70)
+            + _mmgFieldArea('B1',  p + 'sampleB1', task.sampleB1, '', 90)
+            + _mmgFieldArea('B2',  p + 'sampleB2', task.sampleB2, '', 110)
+            + '</div></details>';
+
+      // Uzbek translations — collapsed by default.
+      html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations</summary>'
+            + '<div class="mmg-collapse-body">'
+            + _mmgFieldArea('Uz · main sample',  p + 'uzSample',   task.uzSample,   '', 110)
+            + _mmgFieldArea('Uz · A1', p + 'uzSampleA1', task.uzSampleA1, '', 70)
+            + _mmgFieldArea('Uz · A2', p + 'uzSampleA2', task.uzSampleA2, '', 70)
+            + _mmgFieldArea('Uz · B1', p + 'uzSampleB1', task.uzSampleB1, '', 90)
+            + _mmgFieldArea('Uz · B2', p + 'uzSampleB2', task.uzSampleB2, '', 110)
+            + '</div></details>';
+
+      document.getElementById(paneId).innerHTML = html;
+      // Populate the preview pane now that the textarea exists in DOM.
+      _mmgUpdatePreview(p + 'sample');
+    }
+    function _mmgCollectTask(md, key) {
+      md.tasks = md.tasks || {};
+      var task = (md.tasks[key] = md.tasks[key] || {});
+      var p = 'mmg' + key.toUpperCase() + '_';
+      var fields = ['title','target','prompt','sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      for (var i = 0; i < fields.length; i++) {
+        var el = document.getElementById(p + fields[i]);
+        if (el) task[fields[i]] = el.value;
+      }
+    }
+
+    // ── Vocabulary tab ──────────────────────────────────────────────────
+    function _mmgRenderVocab(md) {
+      var v = (md.vocabulary = md.vocabulary || {});
+      var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
+              + '<div class="mmg-field-help">One list per task. Add as many rows as you like; click × to remove.</div>';
+      var groups = [
+        { key: 'task11', label: 'Task 1.1 vocabulary' },
+        { key: 'task12', label: 'Task 1.2 vocabulary' },
+        { key: 'task2',  label: 'Task 2 vocabulary'  }
+      ];
+      for (var g = 0; g < groups.length; g++) {
+        var key = groups[g].key;
+        var arr = (v[key] = Array.isArray(v[key]) ? v[key] : []);
+        html += '<details class="mmg-collapse" open><summary>' + _mmgEsc(groups[g].label)
+             + ' <span class="mmg-warn-pill">' + arr.length + '</span></summary>'
+             + '<div class="mmg-collapse-body">'
+             + '<div id="mmgVocList_' + key + '" style="display:flex;flex-direction:column;gap:5px;"></div>'
+             + '<button class="mmg-add-btn" onclick="_mmgVocabAdd(\'' + key + '\')">＋ Add row</button>'
+             + '</div></details>';
+      }
+      document.getElementById('mmgPaneVocab').innerHTML = html;
+      // Populate each list.
+      for (var i = 0; i < groups.length; i++) _mmgVocabRefresh(md, groups[i].key);
+    }
+    function _mmgVocabRefresh(md, key) {
+      var arr = (md.vocabulary && md.vocabulary[key]) || [];
+      var host = document.getElementById('mmgVocList_' + key);
+      if (!host) return;
+      var html = '';
+      for (var i = 0; i < arr.length; i++) {
+        var en = (arr[i] && arr[i].en) || '';
+        var uz = (arr[i] && arr[i].uz) || '';
+        html += '<div class="mmg-vocab-row" data-idx="' + i + '">'
+             +    '<input type="text" placeholder="English" value="' + _mmgEsc(en) + '" data-fld="en" data-key="' + key + '">'
+             +    '<input type="text" placeholder="Uzbek"   value="' + _mmgEsc(uz) + '" data-fld="uz" data-key="' + key + '">'
+             +    '<button class="mmg-row-del" title="Remove" onclick="_mmgVocabDel(\'' + key + '\', ' + i + ')">×</button>'
+             + '</div>';
+      }
+      if (!arr.length) html = '<div class="mmg-empty-hint">No rows yet. Click + Add row to start.</div>';
+      host.innerHTML = html;
+    }
+    function _mmgVocabAdd(key) {
+      // Collect current values back to mock_data so we don't lose other edits.
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectVocab(md);
+      md.vocabulary = md.vocabulary || {};
+      var arr = (md.vocabulary[key] = Array.isArray(md.vocabulary[key]) ? md.vocabulary[key] : []);
+      arr.push({ en: '', uz: '' });
+      _mmgSetMockData(md);
+      _mmgRenderVocab(md);
+    }
+    function _mmgVocabDel(key, idx) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectVocab(md);
+      var arr = (md.vocabulary && md.vocabulary[key]) || [];
+      arr.splice(idx, 1);
+      _mmgSetMockData(md);
+      _mmgRenderVocab(md);
+    }
+    function _mmgCollectVocab(md) {
+      md.vocabulary = md.vocabulary || {};
+      var keys = ['task11','task12','task2'];
+      for (var k = 0; k < keys.length; k++) {
+        var key = keys[k];
+        var host = document.getElementById('mmgVocList_' + key);
+        if (!host) continue;
+        var rows = host.querySelectorAll('.mmg-vocab-row');
+        var newArr = [];
+        for (var i = 0; i < rows.length; i++) {
+          var en = rows[i].querySelector('input[data-fld="en"]');
+          var uz = rows[i].querySelector('input[data-fld="uz"]');
+          newArr.push({ en: en ? en.value : '', uz: uz ? uz.value : '' });
+        }
+        md.vocabulary[key] = newArr;
+      }
+    }
+
+    // ── Token translations tab ──────────────────────────────────────────
+    var _MMG_TOKEN_TYPES = ['phrasal','adv','modal','colloc','idiom'];
+    function _mmgRenderTokens(md) {
+      var tt = (md.tokenTranslations = md.tokenTranslations || {});
+      var entries = Object.keys(tt).map(function(k) { return { phrase: k, uz: tt[k].uz || '', type: tt[k].type || 'phrasal' }; });
+      var html = '<div class="mmg-section-title">Token translations</div>'
+              + '<div class="mmg-field-help">Each <span style="font-family:ui-monospace,monospace;">&lt;span class="ml-token TYPE"&gt;phrase&lt;/span&gt;</span> in your samples needs an entry here so students can hover for the Uzbek translation.</div>'
+              + '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+              +   '<button class="mmg-detect-btn" onclick="_mmgTokensAutoDetect()">⚡ Auto-detect missing tokens from samples</button>'
+              +   '<span id="mmgTokensDetectResult" class="mmg-detect-result"></span>'
+              + '</div>'
+              + '<div class="mmg-tokens-header"><span>Phrase</span><span>Uzbek</span><span>Type</span><span></span></div>'
+              + '<div id="mmgTokensList" style="display:flex;flex-direction:column;gap:5px;"></div>'
+              + '<button class="mmg-add-btn" onclick="_mmgTokensAdd()">＋ Add token</button>';
+      document.getElementById('mmgPaneTokens').innerHTML = html;
+      _mmgTokensRefresh(entries);
+    }
+    function _mmgTokensRefresh(entries) {
+      var host = document.getElementById('mmgTokensList');
+      if (!host) return;
+      var html = '';
+      for (var i = 0; i < entries.length; i++) {
+        var e = entries[i];
+        var typeOpts = '';
+        for (var j = 0; j < _MMG_TOKEN_TYPES.length; j++) {
+          var v = _MMG_TOKEN_TYPES[j];
+          typeOpts += '<option value="' + v + '"' + (v === e.type ? ' selected' : '') + '>' + v + '</option>';
+        }
+        html += '<div class="mmg-tokens-row" data-idx="' + i + '">'
+             +    '<input type="text" placeholder="phrase from sample" value="' + _mmgEsc(e.phrase) + '" data-fld="phrase">'
+             +    '<input type="text" placeholder="Uzbek translation"   value="' + _mmgEsc(e.uz)     + '" data-fld="uz">'
+             +    '<select data-fld="type">' + typeOpts + '</select>'
+             +    '<button class="mmg-row-del" title="Remove" onclick="_mmgTokensDel(' + i + ')">×</button>'
+             + '</div>';
+      }
+      if (!entries.length) html = '<div class="mmg-empty-hint">No tokens yet. Use Auto-detect or + Add token.</div>';
+      host.innerHTML = html;
+    }
+    function _mmgTokensAdd() {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectTokens(md);
+      md.tokenTranslations = md.tokenTranslations || {};
+      // Use a unique-ish placeholder key the user can rename in-place.
+      var i = 1;
+      while (md.tokenTranslations['new phrase ' + i]) i++;
+      md.tokenTranslations['new phrase ' + i] = { uz: '', type: 'phrasal' };
+      _mmgSetMockData(md);
+      _mmgRenderTokens(md);
+    }
+    function _mmgTokensDel(idx) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectTokens(md);
+      var entries = Object.keys(md.tokenTranslations || {});
+      if (idx < 0 || idx >= entries.length) return;
+      delete md.tokenTranslations[entries[idx]];
+      _mmgSetMockData(md);
+      _mmgRenderTokens(md);
+    }
+    function _mmgCollectTokens(md) {
+      var host = document.getElementById('mmgTokensList');
+      if (!host) return;
+      var rows = host.querySelectorAll('.mmg-tokens-row');
+      var newObj = {};
+      for (var i = 0; i < rows.length; i++) {
+        var ph = rows[i].querySelector('input[data-fld="phrase"]');
+        var uz = rows[i].querySelector('input[data-fld="uz"]');
+        var ty = rows[i].querySelector('select[data-fld="type"]');
+        var phrase = ph ? ph.value.trim() : '';
+        if (!phrase) continue;
+        newObj[phrase] = { uz: uz ? uz.value : '', type: ty ? ty.value : 'phrasal' };
+      }
+      md.tokenTranslations = newObj;
+    }
+    function _mmgTokensAutoDetect() {
+      var md = _mmgGetMockData(); if (!md) { _mmgStatus('Raw JSON is invalid — fix in Raw tab first.', '#dc2626'); return; }
+      _mmgCollectTokens(md);
+      var existing = md.tokenTranslations || {};
+      var found = {};       // phrase → type, deduplicated across samples
+      var keys = ['t11','t12','t2'];
+      var sampleFields = ['sample','sampleA1','sampleA2','sampleB1','sampleB2'];
+      var rx = /<span\s+class\s*=\s*\\?["']ml-token\s+([a-z]+)\\?["']\s*>([^<]*)<\/span>/gi;
+      for (var k = 0; k < keys.length; k++) {
+        var task = (md.tasks && md.tasks[keys[k]]) || {};
+        for (var s = 0; s < sampleFields.length; s++) {
+          var html = task[sampleFields[s]] || '';
+          var m;
+          rx.lastIndex = 0;
+          while ((m = rx.exec(html)) !== null) {
+            var type   = (m[1] || 'phrasal').toLowerCase();
+            var phrase = (m[2] || '').trim();
+            if (!phrase) continue;
+            if (!found[phrase]) found[phrase] = type;
+          }
+        }
+      }
+      var added = 0, total = 0;
+      for (var phrase in found) {
+        total++;
+        if (!existing[phrase]) {
+          existing[phrase] = { uz: '', type: found[phrase] };
+          added++;
+        }
+      }
+      md.tokenTranslations = existing;
+      _mmgSetMockData(md);
+      _mmgRenderTokens(md);
+      var msg = 'Scanned all samples — found ' + total + ' unique tokens, added ' + added + ' new entries (Uz fields blank for you to fill).';
+      var resultEl = document.getElementById('mmgTokensDetectResult');
+      if (resultEl) { resultEl.textContent = msg; resultEl.style.color = '#047857'; }
+    }
+
+    // Re-init tabs whenever the user changes the mock type — switching between
+    // 'cefr-writing' and any other skill flips the structured editor on/off.
+    document.addEventListener('DOMContentLoaded', function() {
+      var t = document.getElementById('mmgFldType');
+      if (t && !t._mmgBound) {
+        t._mmgBound = true;
+        t.addEventListener('change', function() { _mmgInitTabs(); });
+      }
+    });
 
     function _mmgValidate() {
       try {
@@ -25869,6 +26589,13 @@
 
     async function _mmgSave() {
       var m = window._mmgEditing;
+      // If we're on a structured tab, flush its edits to the textarea first
+      // so the raw JSON is the latest. Returns false if a tab failed to
+      // collect (e.g. invalid number) — abort save in that case.
+      if (!_mmgFlushStructuredToRaw()) {
+        _mmgStatus('Could not save — fix the highlighted field first.', '#dc2626');
+        return;
+      }
       var typeV   = document.getElementById('mmgFldType').value;
       var numV    = document.getElementById('mmgFldNum').value;
       var titleV  = document.getElementById('mmgFldTitle').value.trim();

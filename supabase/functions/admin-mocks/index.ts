@@ -41,11 +41,42 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey, x-client-info'
 };
 
+// Per-IP rate limit on auth attempts. Tighter than verify-passcode's
+// 10/min because admin auth is rare (one human, occasional batch jobs)
+// while student verify is high-frequency. With 5/min the brute-force
+// budget for the 6-digit numeric passcode space is ~14 years.
+const RATE_LIMIT_MAX = 5;        // attempts
+const RATE_LIMIT_SEC = 60;       // window
+
 function json(status: number, body: unknown) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...CORS, 'Content-Type': 'application/json' }
   });
+}
+
+function getIp(req: Request): string {
+  return req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+      || req.headers.get('cf-connecting-ip')
+      || '';
+}
+
+async function rateLimited(ip: string): Promise<boolean> {
+  if (!ip) return false;
+  const since = new Date(Date.now() - RATE_LIMIT_SEC * 1000).toISOString();
+  const { count } = await sb
+    .from('admin_mocks_attempts')
+    .select('id', { count: 'exact', head: true })
+    .eq('ip', ip)
+    .eq('ok', false)
+    .gte('ts', since);
+  return (count ?? 0) >= RATE_LIMIT_MAX;
+}
+
+async function logAttempt(ip: string, ok: boolean, action: string, actor: string) {
+  if (!ip) return;
+  // Fire-and-forget; failure to log must not break the request path.
+  sb.from('admin_mocks_attempts').insert({ ip, ok, action, actor }).then(() => {});
 }
 
 function ctEq(a: string, b: string): boolean {
@@ -128,6 +159,16 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
   if (req.method !== 'POST')    return json(405, { error: 'POST required' });
 
+  const ip = getIp(req);
+
+  // Reject early if this IP has burned through the recent-failure budget.
+  // Only failed attempts count against the limit, so a legitimate admin
+  // doing many rapid edits is never throttled.
+  if (await rateLimited(ip)) {
+    await logAttempt(ip, false, '', 'rate_limited');
+    return json(429, { error: 'rate_limited' });
+  }
+
   let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { return json(400, { error: 'invalid_json' }); }
 
@@ -137,10 +178,16 @@ Deno.serve(async (req) => {
   let auth: AuthResult = { role: 'none' };
   if (userJwt)  auth = await authenticateViaJwt(userJwt);
   if (auth.role === 'none' && passcode) auth = await authenticate(passcode);
-  if (auth.role === 'none') return json(401, { error: 'unauthorized' });
+  if (auth.role === 'none') {
+    await logAttempt(ip, false, (body.action || '') as string, '');
+    return json(401, { error: 'unauthorized' });
+  }
   const actor = auth.role === 'super_admin' ? 'super_admin' : `admin:${auth.center}`;
 
   const action = (body.action || '') as string;
+  // Log success up-front (request still might fail with 4xx/5xx after this,
+  // but auth itself was OK — the audit trail wants both signals).
+  await logAttempt(ip, true, action, actor);
 
   // mock_tests is global content shared by all 6 sites — a single mock change
   // affects every clone's students. Only super_admin can mutate. Centre admins
