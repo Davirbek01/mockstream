@@ -13207,7 +13207,7 @@
     }
 
     // ===== CATEGORY MODAL FUNCTIONS =====
-    function openCategoryModal(category) {
+    async function openCategoryModal(category) {
       const modal = document.getElementById('categoryModal');
       const iconEl = document.getElementById('categoryModalIcon');
       const titleEl = document.getElementById('categoryModalTitle');
@@ -13331,6 +13331,32 @@
         }
       }
 
+      // Pre-fetch availability of any Supabase-hosted items in this list.
+      // Items pointing at ?sbmock=<id> need their mock_tests row checked —
+      // RLS only returns rows with status='published', so any deactivated /
+      // draft / missing row is filtered out at the API level. We treat that
+      // as "unavailable" and render the picker entry greyed + badged
+      // instead of leaving it clickable (which would fail silently).
+      const _sbAvailable = {};
+      try {
+        const _sbIds = [];
+        for (let _i = 0; _i < items.length; _i++) {
+          const _f = (items[_i] && items[_i].file) || '';
+          const _m = _f.match(/[?&]sbmock=([^&]+)/);
+          if (_m) _sbIds.push(_m[1]);
+        }
+        if (_sbIds.length) {
+          const _sbUrl = 'https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/mock_tests'
+                      + '?id=in.(' + _sbIds.join(',') + ')&select=id';
+          const _sbKey = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          const _r = await fetch(_sbUrl, { headers: { apikey: _sbKey, Authorization: 'Bearer ' + _sbKey } });
+          if (_r.ok) {
+            const _rows = await _r.json();
+            for (let _j = 0; _j < _rows.length; _j++) _sbAvailable[String(_rows[_j].id)] = true;
+          }
+        }
+      } catch (_e) { /* fail-open: treat all as available so no false negatives */ }
+
       // Generate list items
       const defaultIcon = '📚';
       if (items.length === 0) {
@@ -13408,14 +13434,28 @@
               secondaryAction = `<button onclick="${downloadHandler}" title="Download PDF" style="background:transparent;border:none;font-size:22px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.2s;" onmouseover="this.style.background='rgba(17,106,96,0.1)';this.style.transform='scale(1.1)';" onmouseout="this.style.background='transparent';this.style.transform='scale(1)';">📥</button>`;
             }
           }
+          // Override click + style if this is a Supabase-hosted item that
+          // the pre-fetch couldn't find (status != 'published' or deleted).
+          const _itemSbMatch = (item.file || '').match(/[?&]sbmock=([^&]+)/);
+          const _itemDisabled = _itemSbMatch && !_sbAvailable[_itemSbMatch[1]];
+          const _itemStyle = _itemDisabled
+            ? 'display:flex;align-items:center;opacity:0.45;cursor:not-allowed;pointer-events:none;'
+            : 'display:flex;align-items:center;';
+          const _itemClick = _itemDisabled
+            ? 'event.preventDefault();return false;'
+            : clickHandler;
+          const _unavailableBadge = _itemDisabled
+            ? '<span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;margin-left:8px;letter-spacing:0.4px;">🚫 UNAVAILABLE</span>'
+            : '';
           return `
-            <a href="#" onclick="${clickHandler}" class="category-modal-item" style="display:flex;align-items:center;">
+            <a href="#" onclick="${_itemClick}" class="category-modal-item" style="${_itemStyle}" aria-disabled="${_itemDisabled ? 'true' : 'false'}">
               <span class="item-icon">${itemIcon}</span>
               <span class="item-name" style="flex:1;">${item.name}</span>
               ${(item.levels || category === 'grammar' || category === 'vocabulary' || category === 'articles') ? '<span class="item-badge" style="background:linear-gradient(135deg,#059669,#2563eb);color:white;font-size:10px;padding:3px 8px;">B1–C1</span>' : ''}
               ${item.badge ? `<span class="item-badge${item.badge === 'OXF' ? ' badge-oxf' : ''}">${item.badge}</span>` : ''}
-              ${secondaryAction}
-              <span class="item-action" style="margin-left:8px;">${actionText}</span>
+              ${_unavailableBadge}
+              ${_itemDisabled ? '' : secondaryAction}
+              ${_itemDisabled ? '' : `<span class="item-action" style="margin-left:8px;">${actionText}</span>`}
             </a>`;
         }).join('');
 
