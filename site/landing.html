@@ -12083,8 +12083,9 @@
 
     const cefrSpeakingTests = [
       {
-        "file": "questions S/questions.js",
-        "name": "Mock 01"
+        "file": "supabase:11",
+        "dynamic": true,
+        "name": "🧪 Mock 01 (Supabase pilot)"
       },
       {
         "file": "questions S/questions02.js",
@@ -12534,7 +12535,17 @@
     })();
 
     const ieltsSpeakingTests = [];
-    for (let i = 1; i <= 66; i++) {
+    // Mock 01 was migrated to Supabase mock_tests (id=10). The renderer's
+    // ielts-speaking branch (further down in this file) detects the
+    // "supabase:<id>" marker on item.file and routes to ?sbmock= instead
+    // of the static ielts-speaking-mock-ai-NN URL.
+    ieltsSpeakingTests.push({
+      "file": "supabase:10",
+      "dynamic": true,
+      "name": "🧪 IELTS Speaking Mock 01 (Supabase pilot)",
+      "icon": "🎤"
+    });
+    for (let i = 2; i <= 66; i++) {
       ieltsSpeakingTests.push({
         "file": `questions IELTS S/ielts-speaking-mock-${i}.js`,
         "name": `IELTS Speaking Mock ${String(i).padStart(2, '0')}`,
@@ -13404,8 +13415,13 @@
               pageUrl = `Speaking Mocks.html?test=cefr-speaking-mock-${mockNum}&auto=1`;
             }
           } else if (category === 'ielts-speaking') {
-            const mockNum = (item.name.match(/\d+/) || ['01'])[0].padStart(2, '0');
-            pageUrl = `IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-${mockNum}&auto=1`;
+            if (item.dynamic && item.file && item.file.startsWith('supabase:')) {
+              const sbId = item.file.replace('supabase:', '');
+              pageUrl = `IELTS Speaking Mocks.html?sbmock=${sbId}&auto=1`;
+            } else {
+              const mockNum = (item.name.match(/\d+/) || ['01'])[0].padStart(2, '0');
+              pageUrl = `IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-${mockNum}&auto=1`;
+            }
           } else {
             pageUrl = item.file;
           }
