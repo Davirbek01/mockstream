@@ -11279,7 +11279,23 @@
               caption += '\n\uD83E\uDDE0 AI Scoring:\n';
               caption += '\uD83D\uDCCA Raw score: ' + practiceAi.rawScore + '/21\n';
               caption += '\uD83D\uDCCA Certificate: ' + practiceAi.certificateScore + '/75\n';
-              caption += '\uD83C\uDFC6 CEFR Level: ' + practiceAi.cefrLevel + '\n\n';
+              // Practice mode (single part). CEFR Level is derived from a
+              // FULL mock across all parts \u2014 reporting it after one part
+              // misrepresents the candidate (e.g., a 4/6 on Part 3 alone
+              // is strong but raw_score=4 maps to "Below B1"). Replace it
+              // in the Telegram caption with a quality label computed
+              // against the part's own max.
+              var _practicePartKey = window._practicePartId; // 'p11' | 'p12' | 'p2' | 'p3'
+              var _practicePartScore = (practiceAi && practiceAi[_practicePartKey]) || 0;
+              var _practicePartMax   = (_practicePartKey === 'p3') ? 6 : 5;
+              var _practicePct = _practicePartMax > 0 ? _practicePartScore / _practicePartMax : 0;
+              var _practiceQuality =
+                _practicePct >= 0.85 ? '\uD83C\uDF1F Excellent' :
+                _practicePct >= 0.70 ? '\u2705 Good' :
+                _practicePct >= 0.50 ? '\uD83D\uDFE1 Average' :
+                _practicePct >= 0.30 ? '\uD83D\uDFE0 Below average' :
+                                       '\uD83D\uDD34 Needs work';
+              caption += '\uD83C\uDFAF Performance: ' + _practiceQuality + '\n\n';
               caption += '\uD83D\uDCDD Part 1.1: ' + practiceAi.p11 + '/5\n';
               caption += '\uD83D\uDCDD Part 1.2: ' + practiceAi.p12 + '/5\n';
               caption += '\uD83D\uDCDD Part 2: ' + practiceAi.p2 + '/5\n';

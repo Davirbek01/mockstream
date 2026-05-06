@@ -14269,7 +14269,20 @@ RESPOND IN THIS EXACT JSON FORMAT ONLY (WHOLE NUMBER SCORES):
           if (aiResult) {
             caption += '\n\uD83E\uDD16 AI SCORING:\n';
             caption += '\uD83D\uDCCA Score: ' + (aiResult[taskId + '_score'] || 0) + '/' + maxS[taskId] + '\n';
-            if (aiResult.cefr_level) caption += '\uD83C\uDFAF CEFR Level: ' + aiResult.cefr_level + '\n';
+            // Practice mode (single task). Same rationale as CEFR Speaking
+            // practice \u2014 CEFR Level is a full-mock metric and misrepresents
+            // a single-task attempt. Replace with a quality label derived
+            // from this task's score / max.
+            var _wpTaskScore = (aiResult[taskId + '_score']) || 0;
+            var _wpTaskMax   = maxS[taskId] || 5;
+            var _wpPct = _wpTaskMax > 0 ? _wpTaskScore / _wpTaskMax : 0;
+            var _wpQuality =
+              _wpPct >= 0.85 ? '\uD83C\uDF1F Excellent' :
+              _wpPct >= 0.70 ? '\u2705 Good' :
+              _wpPct >= 0.50 ? '\uD83D\uDFE1 Average' :
+              _wpPct >= 0.30 ? '\uD83D\uDFE0 Below average' :
+                               '\uD83D\uDD34 Needs work';
+            caption += '\uD83C\uDFAF Performance: ' + _wpQuality + '\n';
           }
 
           caption += '\n\uD83D\uDCC1 Details:\n';
