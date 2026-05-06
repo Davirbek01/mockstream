@@ -13004,7 +13004,15 @@
 
     const ieltsWritingMocks = (() => {
       const mocks = [];
-      for (let i = 1; i <= 30; i++) {
+      // Mock 01 was migrated to Supabase mock_tests (id=8) — route via
+      // ?sbmock= instead of the static ielts-mock-01.js file.
+      mocks.push({
+        file: 'Writing IELTS Mock.html?sbmock=8&auto=1',
+        name: '🧪 IELTS Writing Mock 01 (Supabase pilot)',
+        icon: '✍️',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 30; i++) {
         const padded = String(i).padStart(2, '0');
         mocks.push({
           file: `Writing IELTS Mock.html?test=ielts-writing-mock-${padded}&auto=1`,
