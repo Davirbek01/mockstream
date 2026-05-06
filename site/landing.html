@@ -12516,9 +12516,16 @@
               dynamic: true
             });
           }
-          // Also upgrade category modal array
+          // Also upgrade category modal array. Match either by the
+          // hardcoded "CEFR Speaking Mock NN" name (for entries still
+          // pointing at the static .js file) OR by an existing sbmock=
+          // marker for this id (for entries already pinned to Supabase,
+          // e.g. Mock 01) — prevents a duplicate row in the picker.
           const mockName = `CEFR Speaking Mock ${padded}`;
-          const cIdx = cefrSpeakingMocks.findIndex(t => t.name === mockName);
+          const cIdx = cefrSpeakingMocks.findIndex(t =>
+            t.name === mockName ||
+            (t.file && t.file.indexOf('sbmock=' + m.id) !== -1)
+          );
           if (cIdx !== -1) {
             cefrSpeakingMocks[cIdx].file = `Speaking Mocks.html?sbmock=${m.id}&auto=1`;
             cefrSpeakingMocks[cIdx].name = badgeName;
@@ -12974,7 +12981,18 @@
     // ===== SPEAKING MOCKS ARRAYS =====
     const cefrSpeakingMocks = (() => {
       const mocks = [];
-      for (let i = 1; i <= 65; i++) {
+      // Mock 01 was migrated to Supabase mock_tests (id=11). The URL
+      // carries sbmock= so the picker's availability prefetch detects
+      // the row's status; if the row is deactivated/missing, the entry
+      // renders greyed-out with a 🚫 UNAVAILABLE badge instead of being
+      // clickable (the static .js file was deleted, so a click would 404).
+      mocks.push({
+        file: 'Speaking Mocks.html?sbmock=11&auto=1',
+        name: '🧪 CEFR Speaking Mock 01 (Supabase pilot)',
+        icon: '🟢',
+        actionText: 'Start'
+      });
+      for (let i = 2; i <= 65; i++) {
         const padded = String(i).padStart(2, '0');
         mocks.push({
           file: `Speaking Mocks.html?test=cefr-speaking-mock-${padded}&auto=1`,
@@ -14298,7 +14316,7 @@
     }
 
     // ========== SPEAKING MOCKS CATEGORY MODAL ==========
-    function openSpeakingCategoryModal(category) {
+    async function openSpeakingCategoryModal(category) {
       _categoryModalParent = showSpeakingOptions; // Back → Speaking format modal
 
       const modal = document.getElementById('categoryModal');
@@ -14345,6 +14363,31 @@
         }
       }
 
+      // Pre-fetch availability of Supabase-hosted items. RLS only returns
+      // rows with status='published', so deactivated/draft/missing rows
+      // are filtered out and we render those entries greyed + 🚫 badged
+      // instead of leaving them clickable (which would 404 on the deleted
+      // static .js file).
+      const _sbAvailable = {};
+      try {
+        const _sbIds = [];
+        for (let _i = 0; _i < items.length; _i++) {
+          const _f = (items[_i] && items[_i].file) || '';
+          const _m = _f.match(/[?&]sbmock=([^&]+)/);
+          if (_m) _sbIds.push(_m[1]);
+        }
+        if (_sbIds.length) {
+          const _sbUrl = 'https://zknyukkbtbcqgvkgjktb.supabase.co/rest/v1/mock_tests'
+                      + '?id=in.(' + _sbIds.join(',') + ')&select=id';
+          const _sbKey = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+          const _r = await fetch(_sbUrl, { headers: { apikey: _sbKey, Authorization: 'Bearer ' + _sbKey } });
+          if (_r.ok) {
+            const _rows = await _r.json();
+            for (let _j = 0; _j < _rows.length; _j++) _sbAvailable[String(_rows[_j].id)] = true;
+          }
+        }
+      } catch (_e) { /* fail-open: treat all as available so no false negatives */ }
+
       // Generate list items
       const defaultIcon = '🎤';
       if (items.length === 0) {
@@ -14357,11 +14400,21 @@
         listEl.innerHTML = items.map(item => {
           const itemIcon = item.icon || defaultIcon;
           const pageUrl = item.file;
-          let clickHandler = `handleSpeakingMockClick('${pageUrl}', '${category}'); return false;`;
+          const _sbMatch = (item.file || '').match(/[?&]sbmock=([^&]+)/);
+          const _disabled = _sbMatch && !_sbAvailable[_sbMatch[1]];
+          const _style = _disabled
+            ? 'opacity:0.45;cursor:not-allowed;pointer-events:none;'
+            : '';
+          const _click = _disabled
+            ? 'event.preventDefault();return false;'
+            : `handleSpeakingMockClick('${pageUrl}', '${category}'); return false;`;
+          const _badge = _disabled
+            ? '<span style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;margin-left:8px;letter-spacing:0.4px;">🚫 UNAVAILABLE</span>'
+            : '';
           return `
-            <a href="#" onclick="${clickHandler}" class="category-modal-item">
+            <a href="#" onclick="${_click}" class="category-modal-item" style="${_style}" aria-disabled="${_disabled ? 'true' : 'false'}">
               <span class="item-icon">${itemIcon}</span>
-              <span class="item-name">${item.name}</span>
+              <span class="item-name">${item.name}${_badge}</span>
               <span class="item-action">${actionText}</span>
             </a>`;
         }).join('');
