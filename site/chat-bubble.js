@@ -4793,6 +4793,15 @@
 
   // ─── INIT ─────────────────────────────────────────────────────────────────
   function init() {
+    // Hard gate: if the centre admin disabled the Help Center toggle, don't
+    // mount anything at all. Previously we relied on center-guard.js to hide
+    // #cb-fab via injected CSS, but in the Telegram Mini App WebView the CSS
+    // race could lose (or stale cached center-guard.js could be missing the
+    // rule entirely), and the bubble would stay visible. Skipping the mount
+    // up-front removes the dependency on CSS-injection ordering.
+    try {
+      if (window._centerConfig && window._centerConfig.helpCenter === false) return;
+    } catch (_e) {}
     loadLocal();
     syncFromLandingHC();
     injectCSS();
