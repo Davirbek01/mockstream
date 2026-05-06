@@ -25601,6 +25601,80 @@
       display:inline-block; background:#fef3c7; color:#92400e; padding:2px 8px;
       border-radius:5px; font-size:10.5px; font-weight:700; margin-left:6px;
     }
+
+    /* ── Sample field with live preview (the most-edited field per task) ─ */
+    .mmg-sample-wrap {
+      display:flex; flex-direction:column; border:1px solid #cbd5e1; border-radius:8px;
+      overflow:hidden; background:#fff;
+    }
+    .mmg-sample-toolbar {
+      display:flex; gap:4px; flex-wrap:wrap; align-items:center;
+      background:#f8fafc; padding:6px 8px; border-bottom:1px solid #e2e8f0;
+    }
+    .mmg-toolbar-hint {
+      font-size:10.5px; color:#64748b; margin-right:auto; margin-left:2px;
+    }
+    .mmg-mark-btn {
+      background:#fff; border:1px solid #cbd5e1; border-radius:5px;
+      padding:3px 9px; font-size:11px; font-weight:700; cursor:pointer;
+      transition:transform .08s ease;
+    }
+    .mmg-mark-btn:hover  { background:#f1f5f9; }
+    .mmg-mark-btn:active { transform:scale(0.95); }
+    .mmg-mark-btn[data-mtype="phrasal"] { color:#047857; border-color:#6ee7b7; }
+    .mmg-mark-btn[data-mtype="adv"]     { color:#c2410c; border-color:#fdba74; font-style:italic; }
+    .mmg-mark-btn[data-mtype="modal"]   { color:#0e7490; border-color:#67e8f9; }
+    .mmg-mark-btn[data-mtype="colloc"]  { color:#1e40af; border-color:#93c5fd; }
+    .mmg-mark-btn[data-mtype="idiom"]   { color:#7c2d12; border-color:#c4b5fd; text-decoration:underline; }
+    .mmg-mark-btn-clear { color:#64748b; }
+    .mmg-sample-source {
+      border:0; font:12px ui-monospace, monospace; padding:8px 10px;
+      resize:vertical; min-height:120px; outline:none; width:100%; box-sizing:border-box;
+    }
+    .mmg-sample-preview-label {
+      font-size:10px; font-weight:700; color:#475569; text-transform:uppercase;
+      letter-spacing:0.5px; padding:5px 12px; background:#f1f5f9; border-top:1px solid #e2e8f0;
+    }
+    .mmg-sample-preview {
+      padding:10px 12px; background:#fffbeb; font:13px ui-sans-serif, system-ui;
+      line-height:1.6; max-height:240px; overflow-y:auto;
+    }
+    .mmg-sample-preview p { margin:0 0 8px; }
+    .mmg-sample-preview p:last-child { margin-bottom:0; }
+    .mmg-sample-preview .ml-token         { padding:0 1px; border-radius:2px; }
+    .mmg-sample-preview .ml-token.phrasal { color:#047857; text-decoration:underline; }
+    .mmg-sample-preview .ml-token.adv     { color:#c2410c; font-style:italic; }
+    .mmg-sample-preview .ml-token.modal   { color:#0e7490; }
+    .mmg-sample-preview .ml-token.colloc  { color:#1e40af; font-weight:700; }
+    .mmg-sample-preview .ml-token.idiom   { color:#7c2d12; text-decoration:underline; }
+
+    /* ── Mobile / narrow-viewport fixes for the structured editor ─────── */
+    /* Triggers at iPhone-SE width and below — phones used as Telegram Mini App. */
+    @media (max-width: 600px) {
+      /* Metadata header: 4 cols → 2x2 so Title/Status fields aren't pinched. */
+      #mmgMetaGrid { grid-template-columns: 1fr 1fr !important; }
+      /* Tabs: scroll horizontally instead of wrapping (saves vertical space). */
+      .mmg-tabs-bar { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+      .mmg-tab { flex-shrink:0; }
+      /* Tokens row: drop to 2x2 — phrase/uz on top, type/delete below.
+         The type dropdown becomes readable; the row is taller but usable. */
+      .mmg-tokens-header { grid-template-columns:1fr 1fr; }
+      .mmg-tokens-header > span:nth-child(3),
+      .mmg-tokens-header > span:nth-child(4) { display:none; }
+      .mmg-tokens-row {
+        grid-template-columns:1fr 1fr;
+        grid-template-areas: "phrase uz" "type del";
+        row-gap:5px;
+      }
+      .mmg-tokens-row > input[data-fld="phrase"] { grid-area:phrase; }
+      .mmg-tokens-row > input[data-fld="uz"]     { grid-area:uz; }
+      .mmg-tokens-row > select[data-fld="type"]  { grid-area:type; }
+      .mmg-tokens-row > .mmg-row-del             { grid-area:del; justify-self:end; min-width:60px; }
+      /* Modal padding — reclaim sidebar space on phones. */
+      #mmgOverlay { padding:8px; }
+      .mmg-pane { padding:14px 12px; }
+      .mmg-tabs-bar { padding:0 12px; }
+    }
   </style>
   <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;">
     <div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;">
@@ -25624,7 +25698,7 @@
           <div id="mmgEditTitle" style="font-size:15px;font-weight:700;flex:1;">Edit mock</div>
           <button onclick="_mmgEditClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
         </div>
-        <div style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;font-size:12px;">
+        <div id="mmgMetaGrid" style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;font-size:12px;">
           <label>Type
             <select id="mmgFldType" style="width:100%;padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;margin-top:4px;">
               <option value="ielts-reading">IELTS Reading</option>
@@ -26112,6 +26186,100 @@
         + '</div>';
     }
 
+    // Sample field with toolbar + live HTML preview. The toolbar wraps the
+    // current selection in <span class="ml-token TYPE">…</span> so the
+    // content author never has to type the markup by hand. The preview
+    // shows the rendered HTML with the same colour highlights students see.
+    function _mmgFieldSample(label, id, value, help) {
+      var safeVal = _mmgEsc(value || '');
+      // We escape with title= so the tooltip on hover hints what each button does.
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        + '<div class="mmg-sample-wrap">'
+        +   '<div class="mmg-sample-toolbar">'
+        +     '<span class="mmg-toolbar-hint">Select text below, then click:</span>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="phrasal" title="Wrap selection as phrasal verb"  onclick="_mmgMark(\'' + id + '\', \'phrasal\')">phrasal</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="adv"     title="Wrap selection as adverb"        onclick="_mmgMark(\'' + id + '\', \'adv\')">adv</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="modal"   title="Wrap selection as modal verb"    onclick="_mmgMark(\'' + id + '\', \'modal\')">modal</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="colloc"  title="Wrap selection as collocation"   onclick="_mmgMark(\'' + id + '\', \'colloc\')">colloc</button>'
+        +     '<button type="button" class="mmg-mark-btn" data-mtype="idiom"   title="Wrap selection as idiom"         onclick="_mmgMark(\'' + id + '\', \'idiom\')">idiom</button>'
+        +     '<button type="button" class="mmg-mark-btn mmg-mark-btn-clear"   title="Remove the ml-token span around the selection" onclick="_mmgUnmark(\'' + id + '\')">clear</button>'
+        +   '</div>'
+        +   '<textarea id="' + id + '" class="mmg-sample-source" spellcheck="false" oninput="_mmgUpdatePreview(\'' + id + '\')">' + safeVal + '</textarea>'
+        +   '<div class="mmg-sample-preview-label">Preview (what students see)</div>'
+        +   '<div class="mmg-sample-preview" id="' + id + '_preview"></div>'
+        + '</div>'
+        + (help ? '<div class="mmg-field-help">' + _mmgEsc(help) + '</div>' : '')
+        + '</div>';
+    }
+    // Render the textarea contents into the preview. The preview is purely
+    // display-only — anything the user writes is shown as-is. We trust the
+    // admin's HTML; this is the same content the runner page sets via
+    // innerHTML on the student's screen.
+    function _mmgUpdatePreview(id) {
+      var src = document.getElementById(id);
+      var dst = document.getElementById(id + '_preview');
+      if (!src || !dst) return;
+      var html = src.value || '';
+      // Strip ```html … ``` markdown fences if present (some samples wrap in them).
+      html = html.replace(/^\s*```(?:html)?\s*/i, '').replace(/\s*```\s*$/i, '');
+      // Strip <!DOCTYPE>, <html>, <head>, <body> wrappers so preview matches the
+      // partial-fragment style the runner page actually injects.
+      html = html.replace(/<!DOCTYPE[^>]*>/gi, '')
+                 .replace(/<\/?html[^>]*>/gi, '')
+                 .replace(/<head[\s\S]*?<\/head>/gi, '')
+                 .replace(/<\/?body[^>]*>/gi, '');
+      dst.innerHTML = html;
+    }
+    // Wrap the textarea's current selection in <span class="ml-token TYPE">.
+    function _mmgMark(id, type) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var s = el.selectionStart, e = el.selectionEnd;
+      if (s === e) { _mmgStatus('Select text in the field first, then click a markup button.', '#92400e'); return; }
+      var before = el.value.slice(0, s);
+      var sel    = el.value.slice(s, e);
+      var after  = el.value.slice(e);
+      var wrapped = '<span class="ml-token ' + type + '">' + sel + '</span>';
+      el.value = before + wrapped + after;
+      // Place caret just after the new </span>.
+      var caret = before.length + wrapped.length;
+      el.focus();
+      el.setSelectionRange(caret, caret);
+      _mmgUpdatePreview(id);
+    }
+    // Inverse of _mmgMark: if the selection sits inside a <span class="ml-token …">
+    // pair, unwrap it. If the selection literally IS a wrapping span, drop it.
+    function _mmgUnmark(id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var s = el.selectionStart, e = el.selectionEnd;
+      var sel = el.value.slice(s, e);
+      // First case: user selected exactly `<span class="ml-token X">…</span>`.
+      var m = sel.match(/^<span\s+class\s*=\s*["']ml-token\s+\w+["']\s*>([\s\S]*)<\/span>$/);
+      if (m) {
+        el.value = el.value.slice(0, s) + m[1] + el.value.slice(e);
+        el.setSelectionRange(s, s + m[1].length);
+        _mmgUpdatePreview(id);
+        return;
+      }
+      // Second case: caret/selection inside a token — unwrap the surrounding span.
+      var openRx  = /<span\s+class\s*=\s*["']ml-token\s+\w+["']\s*>/g;
+      var closeRx = /<\/span>/g;
+      var lastOpen = -1, lastOpenEnd = -1;
+      var mo;
+      while ((mo = openRx.exec(el.value)) !== null) {
+        if (mo.index >= s) break;
+        lastOpen = mo.index; lastOpenEnd = mo.index + mo[0].length;
+      }
+      if (lastOpen === -1) { _mmgStatus('No ml-token span around the selection.', '#92400e'); return; }
+      var firstClose = el.value.indexOf('</span>', e - 1);
+      if (firstClose === -1 || firstClose < lastOpenEnd) { _mmgStatus('No ml-token span around the selection.', '#92400e'); return; }
+      var inner = el.value.slice(lastOpenEnd, firstClose);
+      el.value = el.value.slice(0, lastOpen) + inner + el.value.slice(firstClose + '</span>'.length);
+      el.setSelectionRange(lastOpen, lastOpen + inner.length);
+      _mmgUpdatePreview(id);
+    }
+
     // ── Settings tab ────────────────────────────────────────────────────
     function _mmgRenderSettings(md) {
       var s = (md.settings = md.settings || {});
@@ -26162,8 +26330,11 @@
       html += _mmgFieldText('Title',  p + 'title',  task.title  || label,         'Display label.');
       html += _mmgFieldText('Target', p + 'target', task.target || defaultTarget, 'Word count target shown to the student (e.g., "50–70 words").');
       html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt, 'The instruction the student reads. Plain text.', 100);
-      html += _mmgFieldArea('Model answer (sample)', p + 'sample', task.sample,
-        'The model answer — HTML allowed. <span class="ml-token TYPE">phrase</span> tags get highlighted; the Tokens tab links each phrase to its Uz translation.', 200);
+      // Main model answer — gets the live-preview + markup-button treatment.
+      // Leveled samples (A1-B2) and Uzbek translations stay as plain textareas
+      // for now since they're collapsed by default and edited less often.
+      html += _mmgFieldSample('Model answer (sample)', p + 'sample', task.sample,
+        'Edit HTML on the left, see the rendered preview update live below. Use the toolbar buttons to mark vocabulary tokens — students get coloured highlights and hover-translations from the Tokens tab.');
 
       // Level samples — collapsed by default.
       html += '<details class="mmg-collapse"><summary>📚 Level-specific samples (A1 / A2 / B1 / B2)</summary>'
@@ -26185,6 +26356,8 @@
             + '</div></details>';
 
       document.getElementById(paneId).innerHTML = html;
+      // Populate the preview pane now that the textarea exists in DOM.
+      _mmgUpdatePreview(p + 'sample');
     }
     function _mmgCollectTask(md, key) {
       md.tasks = md.tasks || {};
