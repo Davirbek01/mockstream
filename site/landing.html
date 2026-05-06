@@ -13004,10 +13004,14 @@
 
     const ieltsWritingMocks = (() => {
       const mocks = [];
-      // Mock 01 was migrated to Supabase mock_tests (id=8) — route via
-      // ?sbmock= instead of the static ielts-mock-01.js file.
+      // Mock 01 was migrated to Supabase mock_tests (id=8). The Writing
+      // IELTS test runner's auto-proceed gate bails to landing when
+      // ?test= is missing — so we pass BOTH ?test=ielts-writing-mock-01
+      // (satisfies the gate, drives mockNum extraction) AND ?sbmock=8
+      // (causes the loader to fetch from mock_tests instead of the now-
+      // deleted static ielts-mock-01.js file).
       mocks.push({
-        file: 'Writing IELTS Mock.html?sbmock=8&auto=1',
+        file: 'Writing IELTS Mock.html?test=ielts-writing-mock-01&sbmock=8&auto=1',
         name: '🧪 IELTS Writing Mock 01 (Supabase pilot)',
         icon: '✍️',
         actionText: 'Start'
