@@ -5268,21 +5268,19 @@
           if (!window.PremiumGate) return;
           var __pgSkill = 'writing';
           var __pgExam  = 'ielts';
-          var __pgMock  = Number(window._currentMockNumber || window.SELECTED_MOCK_NUMBER
-                          || (new URLSearchParams(location.search)).get('mock')
-                          || (new URLSearchParams(location.search)).get('test') || 0);
-          if (!__pgMock) {
-            try {
-              var _ms = document.getElementById('mockSelector');
-              if (_ms && _ms.value) {
-                var _mm = String(_ms.value).match(/(\d+)/);
-                if (_mm) __pgMock = Number(_mm[1]);
-              }
-            } catch (e) {}
-          }
-          if (!__pgMock) {
-            try { var _m = ((new URLSearchParams(location.search)).get('mock') || (new URLSearchParams(location.search)).get('test') || '').match(/(\d+)/); if (_m) __pgMock = Number(_m[1]); } catch (e) {}
-          }
+          // Extract human-readable mock number — must match landing.html's
+          // _extractWritingMockNumber (which keys taken-state). Using the
+          // Supabase row id (sbmock=) as mock_number breaks the match because
+          // landing reads the URL's `mock-NN` suffix.
+          var __pgMock = (function () {
+            var qs = new URLSearchParams(location.search);
+            var t = qs.get('test') || '';
+            var m = t.match(/mock[_-]?(\d+)/i);
+            if (m) return Number(m[1]);
+            var mp = qs.get('mock');
+            if (mp && /^\d+$/.test(mp)) return Number(mp);
+            return 0;
+          })();
           if (!__pgMock) return;
           if (!window.PremiumGate.isPremiumTier(__pgSkill) && !window.PremiumGate.isAdmin()
               && window.PremiumGate.hasTaken({ skill: __pgSkill, exam_type: __pgExam, mock_number: __pgMock })) {
