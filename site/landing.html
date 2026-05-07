@@ -26502,6 +26502,14 @@
     //   - sample fields are sampleAnswer / sampleBand5..9 / uzSampleBand5..9
     //   - markup uses <mark>…</mark>
     var _MMG_IW_CHART_TYPES = ['line_graph','bar_chart','pie_chart','table','map','process_diagram'];
+    // Standard IELTS rubric — pre-filled into the Instruction field on new
+    // mocks so the user doesn't retype boilerplate. Fully editable; per-task-
+    // type variants ("Discuss both views…", "What are the causes…") can be
+    // typed over the default.
+    var _MMG_IW_DEFAULT_INSTR = {
+      task1: 'Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',
+      task2: 'Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.'
+    };
     function _mmgRenderIwTask(md, key, label, defaultWords, defaultMinutes, sectionHelp) {
       var t = (md.tasks = md.tasks || {});
       var task = (t[key] = t[key] || {});
@@ -26521,8 +26529,13 @@
         'Recommended time in minutes (20 for Task 1, 40 for Task 2).');
       html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt,
         'The question or topic the student answers. Plain text.', 90);
-      html += _mmgFieldArea('Instruction', p + 'instruction', task.instruction,
-        'Sub-instruction shown below the prompt (e.g., "Discuss both sides and give your own opinion. Write at least 250 words.").', 70);
+      // Instruction defaults to the standard IELTS rubric for this task —
+      // editable, so admins can swap in "Discuss both views…" / "What are
+      // the causes…" / etc. for the matching task type. Empty string is
+      // treated as "use the default" so admins never face a blank box.
+      var instrValue = task.instruction || _MMG_IW_DEFAULT_INSTR[key] || '';
+      html += _mmgFieldArea('Instruction', p + 'instruction', instrValue,
+        'Sub-instruction shown below the prompt. Pre-filled with the standard IELTS rubric for this task — edit to match the prompt type (e.g., "Discuss both views…" for discussion essays).', 70);
 
       // Task 1 only: chart image.
       if (key === 'task1') {
