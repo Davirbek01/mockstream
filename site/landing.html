@@ -31,6 +31,7 @@
   <script src="admin-auth.js"></script>
   <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
@@ -6713,9 +6714,10 @@
 </head>
 
 <body>
-  <!-- Load question files for logo/wording -->
-  <script src="questions S/questions.js"></script>
-  <script src="questions W/writing-questions.js"></script>
+  <!-- (CEFR Speaking Mock 01 and CEFR Writing Mock 01 used to be loaded
+       here as <script src=...> for their logo/wording globals — those
+       files are now in Supabase and the runner pages fall back to
+       SITE_CONFIG.logoUrl / brandName when CEFR_LOGO_URL is undefined.) -->
   <!-- Speaking access code validation scripts -->
   <script src="passcodes.js"></script>
   <script src="speaking-promocodes.js"></script>
