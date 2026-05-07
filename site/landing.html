@@ -9126,9 +9126,12 @@
     };
 
     window.landingMockRequiresPromocode = function (mockNumber) {
+      // Every mock requires a code by default. Only Super VIP token (set by
+      // a verified site-wide VIP code), per-skill premium auth, or centre
+      // globalAccess/skillAccess override bypass this — and those checks run
+      // in handleSpeakingMockClick BEFORE this function is ever called.
       if (window.isSuperAccessUnlocked()) return false;
-      const paddedNumber = String(mockNumber).padStart(2, '0');
-      return !!(window.SPEAKING_MOCK_PROMOCODES && window.SPEAKING_MOCK_PROMOCODES[paddedNumber]);
+      return true;
     };
 
     window.validateFullSpeakingAccess = async function (inputValue, mockNumber, candidateName) {
@@ -9362,14 +9365,14 @@
         sessionStorage.setItem('speakingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('speakingCodeValidated', 'true');
 
-        // Reload then auto-resume to the mode-picker modal. The reload guarantees
-        // decorate() and validateVipTokenOnLoad re-run with the freshly written
-        // tier flags so the lock badge on Part Practice reflects the current
-        // entry — no stale state from a previous code in this session.
-        try {
-          sessionStorage.setItem('speakingResumeAfterReload', JSON.stringify({ pageUrl: _pendingSpeakingMock.pageUrl, category: _pendingSpeakingMock.category }));
-        } catch (_e) {}
-        setTimeout(() => location.reload(), 800);
+        // Tell premium-gate.js the per-skill tier flag just changed so its
+        // decorate() reruns and Part Practice's lock badge matches the new
+        // entry. No reload — the mock is already chosen, just launch it.
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'speaking_access_code', skill: 'speaking' } })); } catch (_e) {}
+        const _spResumeUrl = _pendingSpeakingMock.pageUrl;
+        const _spResumeCategory = _pendingSpeakingMock.category;
+        closeSpeakingAccessCodeModal();
+        setTimeout(() => _launchSpeakingMock(_spResumeUrl, _spResumeCategory), 300);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -9381,8 +9384,7 @@
     // ===== WRITING ACCESS CODE VALIDATION (from landing page) =====
     window.landingWritingMockRequiresPromocode = function (mockNumber) {
       if (window.isSuperAccessUnlocked()) return false;
-      const paddedNumber = String(mockNumber).padStart(2, '0');
-      return !!(window.WRITING_MOCK_PROMOCODES && window.WRITING_MOCK_PROMOCODES[paddedNumber]);
+      return true;
     };
 
     window.validateFullWritingAccess = async function (inputValue, mockNumber, candidateName) {
@@ -9854,10 +9856,11 @@
         sessionStorage.setItem('writingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('writingCodeValidated', 'true');
 
-        try {
-          sessionStorage.setItem('writingResumeAfterReload', JSON.stringify({ pageUrl: _pendingWritingMock.pageUrl, category: _pendingWritingMock.category }));
-        } catch (_e) {}
-        setTimeout(() => location.reload(), 800);
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'writing_access_code', skill: 'writing' } })); } catch (_e) {}
+        const _wrResumeUrl = _pendingWritingMock.pageUrl;
+        const _wrResumeCategory = _pendingWritingMock.category;
+        closeWritingAccessCodeModal();
+        setTimeout(() => _launchWritingMock(_wrResumeUrl, _wrResumeCategory), 300);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -9869,8 +9872,7 @@
     // ===== READING ACCESS CODE VALIDATION (from landing page) =====
     window.landingReadingMockRequiresPromocode = function (mockNumber) {
       if (window.isSuperAccessUnlocked()) return false;
-      const paddedNumber = String(mockNumber).padStart(2, '0');
-      return !!(window.READING_MOCK_PROMOCODES && window.READING_MOCK_PROMOCODES[paddedNumber]);
+      return true;
     };
 
     window.validateFullReadingAccess = async function (inputValue, mockNumber, candidateName) {
@@ -10221,10 +10223,11 @@
         sessionStorage.setItem('readingLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('readingCodeValidated', 'true');
 
-        try {
-          sessionStorage.setItem('readingResumeAfterReload', JSON.stringify({ pageUrl: _pendingReadingMock.pageUrl, category: _pendingReadingMock.category }));
-        } catch (_e) {}
-        setTimeout(() => location.reload(), 800);
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'reading_access_code', skill: 'reading' } })); } catch (_e) {}
+        const _rdResumeUrl = _pendingReadingMock.pageUrl;
+        const _rdResumeCategory = _pendingReadingMock.category;
+        closeReadingAccessCodeModal();
+        setTimeout(() => _loadReadingMockOrShowMode(_rdResumeUrl, _rdResumeCategory), 300);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
@@ -10236,8 +10239,7 @@
     // ===== LISTENING ACCESS CODE VALIDATION (from landing page) =====
     window.landingListeningMockRequiresPromocode = function (mockNumber) {
       if (window.isSuperAccessUnlocked()) return false;
-      const paddedNumber = String(mockNumber).padStart(2, '0');
-      return !!(window.LISTENING_MOCK_PROMOCODES && window.LISTENING_MOCK_PROMOCODES[paddedNumber]);
+      return true;
     };
 
     window.validateFullListeningAccess = async function (inputValue, mockNumber, candidateName) {
@@ -10557,19 +10559,17 @@
         // dispatch, decorate()'s pg-lock-badge stays on Part Practice
         // even though isPremiumTier('listening') now returns true, and
         // the user sees a 'Premium' badge they shouldn't.
-        if (result.premiumEntry) {
-          try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'listening_access_code', skill: 'listening' } })); } catch (_e) {}
-        }
+        try { window.dispatchEvent(new CustomEvent('mockStream:premiumUnlocked', { detail: { source: 'listening_access_code', skill: 'listening' } })); } catch (_e) {}
         if (!result.premiumEntry && _isListeningMockTaken(_pendingListeningMock.pageUrl)) {
           closeListeningAccessCodeModal(); _showListeningTakenAlert(); btn.disabled = false; btn.textContent = 'Verify & Start'; return;
         }
         sessionStorage.setItem('listeningLandingValidated', JSON.stringify({ mock: mockNumber, premiumEntry: result.premiumEntry || false }));
         sessionStorage.setItem('listeningCodeValidated', 'true');
 
-        try {
-          sessionStorage.setItem('listeningResumeAfterReload', JSON.stringify({ pageUrl: _pendingListeningMock.pageUrl, category: _pendingListeningMock.category }));
-        } catch (_e) {}
-        setTimeout(() => location.reload(), 800);
+        const _lsResumeUrl = _pendingListeningMock.pageUrl;
+        const _lsResumeCategory = _pendingListeningMock.category;
+        closeListeningAccessCodeModal();
+        setTimeout(() => _loadListeningMockOrShowMode(_lsResumeUrl, _lsResumeCategory), 300);
       } catch (err) {
         error.style.color = '#dc2626';
         error.textContent = '❌ Connection error. Please try again.';
