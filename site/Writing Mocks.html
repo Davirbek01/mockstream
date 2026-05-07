@@ -7177,7 +7177,31 @@
 
       // Helper to populate a task section with level data
       function updateTaskSection(contentEl, headingEl, wordCountEl, task, defaultType) {
-        if (!contentEl || !task?.sample) return;
+        if (!contentEl) return;
+        // No sample for this task → render an empty state and clear
+        // any leveled-sample data attributes that may be left from the
+        // previously-loaded mock. (Previously the function early-returned
+        // here, leaking the prior mock's samples into a freshly opened one.)
+        if (!task?.sample) {
+          contentEl.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#6b7280;">'
+                              +   '<div style="font-size:38px;margin-bottom:8px;opacity:0.6;">📝</div>'
+                              +   '<div style="font-style:italic;font-size:14px;">No sample available for this task.</div>'
+                              + '</div>';
+          // Wipe any cached level / Uz samples on this element.
+          contentEl.dataset.sampleC1c2 = '';
+          ['A1','A2','B1','B2'].forEach(lvl => {
+            const dataKey = 'sample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
+            contentEl.dataset[dataKey] = '';
+          });
+          contentEl.dataset.uzSampleC1c2 = '';
+          ['A1','A2','B1','B2'].forEach(lvl => {
+            const uzDataKey = 'uzSample' + lvl.charAt(0).toUpperCase() + lvl.slice(1).toLowerCase();
+            contentEl.dataset[uzDataKey] = '';
+          });
+          if (headingEl) headingEl.textContent = '';
+          if (wordCountEl) wordCountEl.textContent = '';
+          return;
+        }
         const cleanedSample = cleanSample(task.sample);
         contentEl.innerHTML = cleanedSample;
         // Store C1/C2 sample
@@ -7366,7 +7390,13 @@
     // Update vocabulary modal with new content
     function updateVocabularyModal(vocabulary) {
       const vocabContainer = document.getElementById('vocab-content-container');
-      if (!vocabContainer || !vocabulary) return;
+      if (!vocabContainer) return;
+      // Coerce missing/empty input to an empty object so the per-task
+      // checks below work uniformly. (Previously `!vocabulary` early-
+      // returned and left whichever vocab was last loaded — admins who
+      // ship a mock with no vocabulary saw stale content from the prior
+      // mock.)
+      vocabulary = vocabulary || {};
 
       let html = '';
 
@@ -7409,9 +7439,14 @@
         html += `</div></div></div>`;
       }
 
-      if (html) {
-        vocabContainer.innerHTML = html;
-      }
+      // Always update — either show the rendered vocab tasks, or show a
+      // friendly empty state. Don't leave whatever was there before.
+      vocabContainer.innerHTML = html || (
+        '<div style="text-align:center;padding:40px 20px;color:#6b7280;">'
+      +   '<div style="font-size:38px;margin-bottom:8px;opacity:0.6;">📚</div>'
+      +   '<div style="font-style:italic;font-size:14px;">No vocabulary available for this mock.</div>'
+      + '</div>'
+      );
     }
 
     // Check if a file exists
