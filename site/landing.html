@@ -26124,6 +26124,11 @@
       document.getElementById('mmgFldData').value   = JSON.stringify(m.mock_data || {}, null, 2);
       document.getElementById('mmgBtnDelete').style.display  = m.id ? '' : 'none';
       document.getElementById('mmgBtnBackups').style.display = m.id ? '' : 'none';
+      // Reset the active-tab marker so the first _mmgSwitchTab inside
+      // _mmgInitTabs doesn't flush stale DOM from the previously-edited mock
+      // back into the fresh textarea (caused "+ New mock" to inherit fields
+      // from whichever mock was edited last).
+      window._mmgActiveTab = 'raw';
       // Decide editor mode (structured vs raw-only) based on mock_type, then
       // either show the tab bar with structured panes or fall through to the
       // raw-JSON-only legacy view.
