@@ -3823,8 +3823,13 @@
       if (window.IELTS_WRITING_TEST_DATA) {
         currentTestData = window.IELTS_WRITING_TEST_DATA;
 
-        // Update gate with settings
-        const settings = currentTestData.settings;
+        // Defensive defaults — admins can save a half-filled mock from the
+        // editor (e.g., Task 1 done, Settings/Task 2 not yet). Don't hard-crash
+        // the student; render whatever's there and leave the rest blank.
+        const settings = currentTestData.settings || {};
+        const tasks    = currentTestData.tasks    || {};
+        const task1    = tasks.task1              || {};
+        const task2    = tasks.task2              || {};
 
         // Use CEFR logo AND wording (from questions S/questions.js)
         document.getElementById('gateLogo').src = window.CEFR_LOGO_URL || (window.SITE_CONFIG && window.SITE_CONFIG.logoUrl) || 'https://i.ibb.co/WN0XY5Lv/logo.png';
@@ -3837,15 +3842,17 @@
           document.getElementById('gateTimeInfo').textContent = settings.timeInfo;
         }
 
-        // Build prompts from tasks
-        const tasks = currentTestData.tasks;
+        // Build prompts from tasks. If a task is missing/blank, show a clear
+        // placeholder so the admin notices on QA — better than a silent empty box.
+        const t1Prompt = task1.prompt || '<em style="color:#94a3b8;">⚠ Task 1 prompt is missing — fill it in via Mock Settings.</em>';
+        const t2Prompt = task2.prompt || '<em style="color:#94a3b8;">⚠ Task 2 prompt is missing — fill it in via Mock Settings.</em>';
         PROMPTS = {
-          t1: "<span class='task-question'>" + tasks.task1.prompt + "</span><div class='task-instruction'>" + tasks.task1.instruction + "</div>",
-          t2: "<span class='task-question'>" + tasks.task2.prompt + "</span><div class='task-instruction'>" + tasks.task2.instruction + "</div>"
+          t1: "<span class='task-question'>" + t1Prompt + "</span><div class='task-instruction'>" + (task1.instruction || '') + "</div>",
+          t2: "<span class='task-question'>" + t2Prompt + "</span><div class='task-instruction'>" + (task2.instruction || '') + "</div>"
         };
 
         // Set chart image
-        CHART_IMAGE = tasks.task1.chartImageUrl || "https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg";
+        CHART_IMAGE = task1.chartImageUrl || "https://i.ibb.co/bgVC9kpY/Line-graph-ready.jpg";
         document.getElementById('chartImage').src = CHART_IMAGE;
 
         // Update prompts display
