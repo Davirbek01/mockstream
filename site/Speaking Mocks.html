@@ -5,6 +5,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./vision-factcheck.js"></script>
   <script src="./mock-code-verifier.js?v=2"></script>
   <link rel="stylesheet" href="premium-gate.css">
   <script src="premium-gate.js" defer></script>
@@ -15056,6 +15057,38 @@ If candidate's response does NOT relate to these pictures, mark as OFF-TOPIC.`;
             return `**Q${t.questionNum} (${part}):**\nQuestion: ${qText}\nResponse: "${t.text}"`;
           }).join('\n\n');
 
+          // ── Vision fact-check for Q4 (image-pair compare/contrast) ──
+          // Gated on per-centre toggle (window.SITE_CONFIG.visionFactCheck).
+          // Forced to Gemini regardless of which provider scores the rest.
+          // Why here: vision-capable providers (Gemini/OpenAI/Claude) already
+          // see the images via inline_data in contentParts, but text-only ones
+          // (DeepSeek/Grok) don't. Adding a Vision text report into the prompt
+          // gives EVERY provider chart-aware Task Achievement scoring.
+          let q4VisionBlock = '';
+          try {
+            const q4Prompt = (testData.questions && testData.questions[3] && testData.questions[3].prompt) || '';
+            const q4Transcript = (transcriptions.find(t => t.questionNum === 4) || {}).text || '';
+            const q4Images = [];
+            if (testData.images?.img1) q4Images.push(testData.images.img1);
+            if (testData.images?.img2) q4Images.push(testData.images.img2);
+            if (q4Images.length && q4Prompt && q4Transcript && q4Transcript !== '[No speech]'
+                && typeof window.factCheckImages === 'function') {
+              const q4Report = await window.factCheckImages({
+                taskType: 'cefr-speaking-q4',
+                imageUrls: q4Images,
+                prompt: q4Prompt,
+                studentText: q4Transcript
+              });
+              if (q4Report && typeof window.formatVisionReportForScoring === 'function') {
+                q4VisionBlock = window.formatVisionReportForScoring(
+                  q4Report, 'Q4 IMAGE-PAIR FACT-CHECK (Gemini Vision)'
+                );
+              }
+            }
+          } catch (visionErr) {
+            console.warn('[Vision] CEFR Q4 fact-check failed, scoring without:', visionErr);
+          }
+
           // Build practice mode note for the AI prompt
           const practicePartNames = { p11: 'Part 1.1', p12: 'Part 1.2', p2: 'Part 2', p3: 'Part 3' };
           const practiceNote = (isPractice && practiceRange) ? `
@@ -15079,7 +15112,7 @@ ${practiceNote}
 ${pictureContext}
 
 ${(img1Base64 || img2Base64) ? `IMPORTANT: Two images are attached to this request for Q4-Q6 relevance checking and sample answer generation. LOOK at the actual images to provide accurate descriptions.` : `(Note: No images were provided for this request due to a loading error, please rely on the text prompts for Q4-Q6).`}
-
+${q4VisionBlock}
 SCORING STRUCTURE:
 • Part 1.1 (Q1-3): Simple questions → ONE score 0-5 (A2 target)
 • Part 1.2 (Q4-6): Picture-based → ONE score 0-5 (B1 target)  

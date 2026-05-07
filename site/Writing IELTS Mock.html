@@ -4,6 +4,7 @@
 <head>
   <script src="finish-gate.js" defer></script>
   <script src="./ai-proxy-interceptor.js"></script>
+  <script src="./vision-factcheck.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>IELTS Academic Writing Mock Test</title>
@@ -9960,6 +9961,33 @@ function printWritingAiModal() {
       const task2Instruction = testData?.tasks?.task2?.instruction || 'Write at least 250 words.';
       const chartDescription = testData?.tasks?.task1?.chartDescription || 'A chart/graph/diagram';
 
+      // Vision fact-check (Gemini) — gated on centre admin toggle.
+      // When ON: Gemini Vision pre-analyses the Task 1 chart, identifies
+      // factual errors in the student's description, returns a structured
+      // report. We feed that report into the main scoring prompt below so
+      // the default AI scores Task Achievement with chart-aware context.
+      // When OFF (default): no Vision call, no extra cost.
+      // Forced to Gemini regardless of which AI the centre picked for the
+      // main scoring step. See site/vision-factcheck.js.
+      let visionReportT1 = null;
+      try {
+        const chartUrl = testData?.tasks?.task1?.chartImageUrl;
+        if (chartUrl && t1Text && t1Text.trim() && typeof window.factCheckImages === 'function') {
+          visionReportT1 = await window.factCheckImages({
+            taskType: 'ielts-writing-task1',
+            imageUrls: [chartUrl],
+            prompt: task1Prompt + '\n\n' + task1Instruction,
+            studentText: t1Text
+          });
+        }
+      } catch (visionErr) {
+        // Helper already swallows its own errors; this catch is paranoia.
+        console.warn('[Vision] unexpected failure, scoring without fact-check:', visionErr);
+      }
+      const visionBlockT1 = (visionReportT1 && typeof window.formatVisionReportForScoring === 'function')
+        ? window.formatVisionReportForScoring(visionReportT1, 'CHART FACT-CHECK (Gemini Vision) — Task 1')
+        : '';
+
       await delay(800);
       if (updateStep) { updateStep('aiStep3', 'completed'); updateStep('aiStep4', 'active'); }
 
@@ -10093,7 +10121,7 @@ Very few errors, wide vocabulary, complex structures used naturally.
 **CHART/GRAPH DESCRIPTION:** ${chartDescription}
 **TASK 2 PROMPT:** ${task2Prompt}
 **TASK 2 INSTRUCTION:** ${task2Instruction}
-
+${visionBlockT1}
 === STUDENT RESPONSES ===
 **TASK 1 Response:** ${t1Text || '[No response]'}
 **TASK 2 Response:** ${t2Text || '[No response]'}

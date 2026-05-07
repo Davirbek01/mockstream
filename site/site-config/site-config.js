@@ -119,6 +119,47 @@ window.SITE_CONFIG = {
         document.dispatchEvent(new Event('ms:config-ready'));
       } catch (e) {}
     });
+
+  // ─── Also fetch the centre's AI/scoring config row (separate from
+  // site-config branding above). Reads `center_config_<id>` and merges
+  // specific runtime-relevant fields into SITE_CONFIG. Today: just
+  // visionFactCheck. Future fields can be added to PICK below.
+  // ──────────────────────────────────────────────────────────────────
+  var ccCacheKey = 'ms_cc_' + centerId;
+  var ccTsKey = 'ms_cc_ts_' + centerId;
+  // Try cache first (instant)
+  try {
+    var ccCached = localStorage.getItem(ccCacheKey);
+    var ccCachedTs = parseInt(localStorage.getItem(ccTsKey) || '0', 10);
+    if (ccCached && (Date.now() - ccCachedTs < CACHE_TTL)) {
+      var ccPick = JSON.parse(ccCached);
+      Object.assign(window.SITE_CONFIG, ccPick);
+    }
+  } catch (e) {}
+  // Background refresh
+  try {
+    fetch(SB_URL + '/rest/v1/site_settings?key=eq.center_config_' +
+      encodeURIComponent(centerId) + '&select=value', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (rows) {
+      if (rows && rows.length && rows[0].value) {
+        var cc = typeof rows[0].value === 'string' ? JSON.parse(rows[0].value) : rows[0].value;
+        // PICK: only the AI/runtime fields the runner pages actually need.
+        // Keeps SITE_CONFIG focused; admin-only fields stay in center_config.
+        var picked = {
+          visionFactCheck: cc.visionFactCheck === true
+        };
+        Object.assign(window.SITE_CONFIG, picked);
+        try {
+          localStorage.setItem(ccCacheKey, JSON.stringify(picked));
+          localStorage.setItem(ccTsKey, String(Date.now()));
+        } catch (e) {}
+      }
+    })
+    .catch(function () {});
+  } catch (e) {}
   } catch (e) {
     try {
       window.__SITE_CONFIG_READY__ = true;
