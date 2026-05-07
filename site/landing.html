@@ -25690,6 +25690,27 @@
     /* IELTS Writing uses <mark>...</mark> instead of typed spans. */
     .mmg-sample-preview mark { background:#fef9c3; color:#713f12; padding:0 2px; border-radius:2px; font-weight:600; }
 
+    /* ── Reusable media upload widget (signed-URL upload to GCS) ──────── */
+    .mmg-upload-row { display:flex; gap:6px; align-items:center; }
+    .mmg-upload-row > input[type="text"] { flex:1; }
+    .mmg-upload-btn {
+      background:linear-gradient(135deg,#2563eb,#7c3aed);
+      color:#fff; border:0; border-radius:6px; padding:7px 12px;
+      font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;
+      box-shadow:0 1px 2px rgba(15,23,42,.12);
+    }
+    .mmg-upload-btn:hover { filter:brightness(1.05); }
+    .mmg-upload-btn:disabled { opacity:0.55; cursor:not-allowed; }
+    .mmg-upload-progress {
+      display:none; margin-top:6px; padding:6px 10px; border-radius:6px;
+      background:#f1f5f9; font-size:11.5px; color:#334155;
+    }
+    .mmg-upload-progress.active { display:block; }
+    .mmg-upload-progress.error { background:#fee2e2; color:#991b1b; }
+    .mmg-upload-progress.success { background:#dcfce7; color:#15803d; }
+    .mmg-upload-bar { height:4px; background:#e2e8f0; border-radius:2px; margin-top:4px; overflow:hidden; }
+    .mmg-upload-bar > div { height:100%; background:#2563eb; width:0%; transition:width .15s ease; }
+
     /* ── Mobile / narrow-viewport fixes for the structured editor ─────── */
     /* Triggers at iPhone-SE width and below — phones used as Telegram Mini App. */
     @media (max-width: 600px) {
@@ -26103,6 +26124,11 @@
       document.getElementById('mmgFldData').value   = JSON.stringify(m.mock_data || {}, null, 2);
       document.getElementById('mmgBtnDelete').style.display  = m.id ? '' : 'none';
       document.getElementById('mmgBtnBackups').style.display = m.id ? '' : 'none';
+      // Reset the active-tab marker so the first _mmgSwitchTab inside
+      // _mmgInitTabs doesn't flush stale DOM from the previously-edited mock
+      // back into the fresh textarea (caused "+ New mock" to inherit fields
+      // from whichever mock was edited last).
+      window._mmgActiveTab = 'raw';
       // Decide editor mode (structured vs raw-only) based on mock_type, then
       // either show the tab bar with structured panes or fall through to the
       // raw-JSON-only legacy view.
@@ -26476,6 +26502,14 @@
     //   - sample fields are sampleAnswer / sampleBand5..9 / uzSampleBand5..9
     //   - markup uses <mark>…</mark>
     var _MMG_IW_CHART_TYPES = ['line_graph','bar_chart','pie_chart','table','map','process_diagram'];
+    // Standard IELTS rubric — pre-filled into the Instruction field on new
+    // mocks so the user doesn't retype boilerplate. Fully editable; per-task-
+    // type variants ("Discuss both views…", "What are the causes…") can be
+    // typed over the default.
+    var _MMG_IW_DEFAULT_INSTR = {
+      task1: 'Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',
+      task2: 'Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.'
+    };
     function _mmgRenderIwTask(md, key, label, defaultWords, defaultMinutes, sectionHelp) {
       var t = (md.tasks = md.tasks || {});
       var task = (t[key] = t[key] || {});
@@ -26495,14 +26529,25 @@
         'Recommended time in minutes (20 for Task 1, 40 for Task 2).');
       html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt,
         'The question or topic the student answers. Plain text.', 90);
-      html += _mmgFieldArea('Instruction', p + 'instruction', task.instruction,
-        'Sub-instruction shown below the prompt (e.g., "Discuss both sides and give your own opinion. Write at least 250 words.").', 70);
+      // Instruction defaults to the standard IELTS rubric for this task —
+      // editable, so admins can swap in "Discuss both views…" / "What are
+      // the causes…" / etc. for the matching task type. Empty string is
+      // treated as "use the default" so admins never face a blank box.
+      var instrValue = task.instruction || _MMG_IW_DEFAULT_INSTR[key] || '';
+      html += _mmgFieldArea('Instruction', p + 'instruction', instrValue,
+        'Sub-instruction shown below the prompt. Pre-filled with the standard IELTS rubric for this task — edit to match the prompt type (e.g., "Discuss both views…" for discussion essays).', 70);
 
       // Task 1 only: chart image.
       if (key === 'task1') {
         html += '<div class="mmg-section-title">Chart / diagram</div>';
-        html += _mmgFieldText('Chart image URL', p + 'chartImageUrl', task.chartImageUrl,
-          'Public URL of the chart/graph/diagram image. Loads above the prompt for the student.');
+        html += _mmgUploadFieldHtml({
+          id: p + 'chartImageUrl',
+          value: task.chartImageUrl,
+          skill: 'ielts-writing',
+          accept: 'image/png,image/jpeg,image/webp,image/gif',
+          label: 'Chart image URL',
+          help: 'Click 📁 Upload to add a new chart from your computer (uploads to GCS, URL fills automatically). Or paste a public URL manually.'
+        });
         // Chart-type dropdown.
         var chartType = task.chartType || 'line_graph';
         var typeOpts = '';
@@ -26559,6 +26604,12 @@
         // Refresh thumbnail on URL input.
         var urlEl = document.getElementById(p + 'chartImageUrl');
         if (urlEl) urlEl.addEventListener('input', function() { _mmgUpdateChartPreview(p); });
+        // Wire the 📁 Upload button on the chart URL field.
+        _mmgUploadBind({
+          id: p + 'chartImageUrl',
+          skill: 'ielts-writing',
+          onUploaded: function() { _mmgUpdateChartPreview(p); }
+        });
       }
     }
     function _mmgCollectIwTask(md, key) {
@@ -26599,6 +26650,103 @@
       prev.innerHTML = '<img src="' + _mmgEsc(url) + '" alt="chart preview" '
         + 'style="max-width:100%;max-height:280px;border-radius:6px;" '
         + 'onerror="this.outerHTML=\'<span style=&quot;color:#dc2626;font-size:12px;&quot;>⚠ image failed to load — check URL</span>\'">';
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    //  Reusable media upload widget
+    // ─────────────────────────────────────────────────────────────────────
+    // Asks admin-mocks for a signed PUT URL, then PUTs the file directly
+    // to GCS. On success: writes the public URL into the target text input
+    // and fires the optional onUploaded callback (used by the chart field
+    // to refresh its thumbnail).
+    //
+    // _mmgUploadFieldHtml(opts) returns the HTML for a row with
+    //   [text input] [📁 Upload]  +  hidden file input  +  progress strip.
+    // _mmgUploadBind(opts) binds the click + change listeners post-render.
+    //
+    // opts: { id, value, skill, accept, label, help, onUploaded? }
+    // ─────────────────────────────────────────────────────────────────────
+    function _mmgUploadFieldHtml(opts) {
+      var label = opts.label || 'File URL';
+      var safeVal = _mmgEsc(opts.value || '');
+      var accept = opts.accept || 'image/*';
+      var btnId    = opts.id + '_upbtn';
+      var fileId   = opts.id + '_upfile';
+      var progId   = opts.id + '_upprog';
+      return '<div class="mmg-field"><label for="' + opts.id + '">' + _mmgEsc(label) + '</label>'
+        + '<div class="mmg-upload-row">'
+        +   '<input type="text" id="' + opts.id + '" value="' + safeVal + '">'
+        +   '<button type="button" class="mmg-upload-btn" id="' + btnId + '">📁 Upload</button>'
+        +   '<input type="file" id="' + fileId + '" accept="' + _mmgEsc(accept) + '" style="display:none;">'
+        + '</div>'
+        + '<div class="mmg-upload-progress" id="' + progId + '"></div>'
+        + (opts.help ? '<div class="mmg-field-help">' + _mmgEsc(opts.help) + '</div>' : '')
+        + '</div>';
+    }
+    function _mmgUploadBind(opts) {
+      var inputEl = document.getElementById(opts.id);
+      var btnEl   = document.getElementById(opts.id + '_upbtn');
+      var fileEl  = document.getElementById(opts.id + '_upfile');
+      var progEl  = document.getElementById(opts.id + '_upprog');
+      if (!btnEl || !fileEl) return;
+      btnEl.addEventListener('click', function() { fileEl.click(); });
+      fileEl.addEventListener('change', async function() {
+        var file = fileEl.files && fileEl.files[0];
+        if (!file) return;
+        // 25 MB hard cap (matches MAX_UPLOAD_MB in admin-mocks).
+        if (file.size > 25 * 1024 * 1024) {
+          _mmgUploadStatus(progEl, 'error', '⚠ File too large (' + Math.round(file.size/1024/1024) + ' MB) — max is 25 MB.');
+          fileEl.value = '';
+          return;
+        }
+        btnEl.disabled = true;
+        try {
+          // Step 1 — ask admin-mocks for a signed URL.
+          _mmgUploadStatus(progEl, 'active', 'Requesting upload URL…', 10);
+          var sig = await _mmgCall('gcs_signed_upload_url', {
+            skill: opts.skill,
+            filename: file.name,
+            contentType: file.type || 'application/octet-stream'
+          });
+          if (!sig || !sig.uploadUrl) throw new Error(sig && sig.error || 'no upload url');
+          // Step 2 — PUT the file directly to GCS.
+          _mmgUploadStatus(progEl, 'active', 'Uploading ' + _mmgPrettyBytes(file.size) + '…', 30);
+          var put = await fetch(sig.uploadUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': file.type || 'application/octet-stream' },
+            body: file
+          });
+          if (!put.ok) {
+            var body = await put.text().catch(function(){ return ''; });
+            throw new Error('GCS PUT failed: ' + put.status + ' ' + body.slice(0, 200));
+          }
+          // Step 3 — fill the URL input + fire optional callback.
+          inputEl.value = sig.publicUrl;
+          inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+          _mmgUploadStatus(progEl, 'success', '✓ Uploaded — URL filled in. Click Save to persist.', 100);
+          if (typeof opts.onUploaded === 'function') opts.onUploaded(sig.publicUrl);
+          // Auto-clear the success badge after a moment.
+          setTimeout(function() { progEl.classList.remove('active'); }, 4000);
+        } catch (e) {
+          _mmgUploadStatus(progEl, 'error', '⚠ Upload failed: ' + (e.message || e));
+        } finally {
+          btnEl.disabled = false;
+          fileEl.value = '';
+        }
+      });
+    }
+    function _mmgUploadStatus(progEl, kind, msg, pct) {
+      if (!progEl) return;
+      progEl.className = 'mmg-upload-progress active' + (kind === 'error' ? ' error' : kind === 'success' ? ' success' : '');
+      var bar = (typeof pct === 'number')
+        ? '<div class="mmg-upload-bar"><div style="width:' + pct + '%"></div></div>'
+        : '';
+      progEl.innerHTML = '<div>' + _mmgEsc(msg) + '</div>' + bar;
+    }
+    function _mmgPrettyBytes(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+      return (b/1024/1024).toFixed(1) + ' MB';
     }
 
     // Sample editor variant for IELTS Writing — wraps in <mark>…</mark>.

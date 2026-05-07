@@ -131,6 +131,139 @@ async function authenticateViaJwt(jwt: string): Promise<AuthResult> {
   return { role: 'admin', center: center.toLowerCase().replace(/[_\s]/g, '') };
 }
 
+// ─────────────────────────────────────────────────────────────────────
+// GCS V4 signed URL generation
+// ─────────────────────────────────────────────────────────────────────
+// We sign PUT URLs locally using the service account's private key — no
+// network call to Google's IAM API needed. The browser then uploads the
+// file directly to GCS using the signed URL, so the file bytes never
+// pass through this Edge Function (saves Supabase bandwidth, faster).
+//
+// Service account JSON shape (from Supabase secret GCS_SERVICE_ACCOUNT_JSON):
+//   { client_email: "...", private_key: "-----BEGIN PRIVATE KEY-----\n..." }
+// ─────────────────────────────────────────────────────────────────────
+
+const GCS_BUCKET = 'mockstream-listening-audio';
+
+// Folder layout in the bucket. Each skill that has uploaded media gets
+// its own subfolder. Anything new (charts, audio, images for new skills)
+// drops into the matching path.
+const GCS_FOLDERS: Record<string, string> = {
+  'ielts-writing':   'IELTS writing task one graphs',
+  'cefr-writing':    'CEFR writing media',
+  'ielts-listening': 'IELTS listening audio',
+  'cefr-listening':  'CEFR listening audio',
+  'ielts-speaking':  'IELTS speaking media',
+  'cefr-speaking':   'CEFR speaking media',
+  'ielts-reading':   'IELTS reading media',
+  'cefr-reading':    'CEFR reading media'
+};
+
+// Allowed MIME types per kind. Browser sends a content type with the file;
+// we refuse anything outside this list to keep the bucket clean.
+const ALLOWED_MIME = new Set([
+  'image/png','image/jpeg','image/webp','image/gif',
+  'audio/mpeg','audio/mp4','audio/ogg','audio/wav','audio/x-m4a','audio/x-wav'
+]);
+
+// Max upload size in MB. The browser is told this before it tries to upload.
+const MAX_UPLOAD_MB = 25;
+
+// PEM private key → CryptoKey for RSA-SHA256 signing.
+async function importPrivateKey(pem: string): Promise<CryptoKey> {
+  // Strip PEM headers/footers and whitespace, then base64-decode to DER.
+  const b64 = pem
+    .replace(/-----BEGIN PRIVATE KEY-----/g, '')
+    .replace(/-----END PRIVATE KEY-----/g, '')
+    .replace(/\s+/g, '');
+  const der = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  return await crypto.subtle.importKey(
+    'pkcs8',
+    der.buffer,
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+}
+
+// Hex-encode a byte array (lowercase).
+function toHex(buf: ArrayBuffer): string {
+  const arr = new Uint8Array(buf);
+  let s = '';
+  for (let i = 0; i < arr.length; i++) s += arr[i].toString(16).padStart(2, '0');
+  return s;
+}
+
+// SHA-256 hex digest.
+async function sha256Hex(input: string): Promise<string> {
+  const data = new TextEncoder().encode(input);
+  const buf = await crypto.subtle.digest('SHA-256', data);
+  return toHex(buf);
+}
+
+// RFC 3986 percent-encoding. encodeURIComponent is close but doesn't
+// escape '!*()'. GCS canonicalisation requires the strict version.
+function encodeRfc3986(s: string): string {
+  return encodeURIComponent(s).replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+}
+
+// Encode an object path for use inside a URL, BUT preserve forward slashes
+// (per GCS V4 signing spec — slashes are part of the canonical resource).
+function encodeObjectPath(path: string): string {
+  return path.split('/').map(encodeRfc3986).join('/');
+}
+
+interface SignedPutUrlOpts {
+  objectPath: string;          // e.g. 'IELTS writing task one graphs/foo.png'
+  contentType: string;         // exact value the browser will send in Content-Type
+  ttlSeconds: number;          // typically 600
+  serviceAccountEmail: string; // from JSON
+  privateKey: CryptoKey;       // imported via importPrivateKey
+}
+async function generateV4SignedPutUrl(opts: SignedPutUrlOpts): Promise<{ uploadUrl: string; expiresAt: string }> {
+  const now = new Date();
+  const datestamp   = now.toISOString().slice(0, 10).replace(/-/g, '');
+  const timestamp   = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const credentialScope = `${datestamp}/auto/storage/goog4_request`;
+  const credential      = `${opts.serviceAccountEmail}/${credentialScope}`;
+  const host = 'storage.googleapis.com';
+
+  // Headers we commit to in the signature. The browser MUST send exactly
+  // the same content-type, otherwise GCS rejects the PUT.
+  const signedHeaders = ['content-type', 'host'];
+  const canonicalHeaders =
+      `content-type:${opts.contentType}\n` +
+      `host:${host}\n`;
+
+  // Query string in canonical (sorted) order.
+  const queryParams: Record<string, string> = {
+    'X-Goog-Algorithm':     'GOOG4-RSA-SHA256',
+    'X-Goog-Credential':    credential,
+    'X-Goog-Date':          timestamp,
+    'X-Goog-Expires':       String(opts.ttlSeconds),
+    'X-Goog-SignedHeaders': signedHeaders.join(';')
+  };
+  const canonicalQueryString = Object.keys(queryParams).sort()
+    .map((k) => `${encodeRfc3986(k)}=${encodeRfc3986(queryParams[k])}`).join('&');
+
+  const canonicalUri = `/${GCS_BUCKET}/${encodeObjectPath(opts.objectPath)}`;
+  const canonicalRequest =
+      `PUT\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders.join(';')}\nUNSIGNED-PAYLOAD`;
+  const hashedCanonicalRequest = await sha256Hex(canonicalRequest);
+  const stringToSign = `GOOG4-RSA-SHA256\n${timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
+  const sig = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5',
+    opts.privateKey,
+    new TextEncoder().encode(stringToSign)
+  );
+  const signature = toHex(sig);
+
+  const uploadUrl =
+    `https://${host}${canonicalUri}?${canonicalQueryString}&X-Goog-Signature=${signature}`;
+  const expiresAt = new Date(Date.now() + opts.ttlSeconds * 1000).toISOString();
+  return { uploadUrl, expiresAt };
+}
+
 // Snapshot a row before mutating it. Reads the current row (or null for
 // inserts) and appends to mock_tests_backups so "Restore" can replay.
 async function snapshotMock(mockId: string | null, action: 'insert' | 'update' | 'delete', actor: string) {
@@ -192,7 +325,9 @@ Deno.serve(async (req) => {
   // mock_tests is global content shared by all 6 sites — a single mock change
   // affects every clone's students. Only super_admin can mutate. Centre admins
   // can still list/get/list_backups for visibility, but writes are gated.
-  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore']);
+  // Signed-upload URLs are also super-admin only — anyone with one can write
+  // a single file to the bucket.
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url']);
   if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
     return json(403, { error: 'super_admin_required' });
   }
@@ -310,6 +445,64 @@ Deno.serve(async (req) => {
         const { error } = await sb.from('mock_tests').upsert(restored, { onConflict: 'id' });
         if (error) return json(500, { error: error.message });
         return json(200, { id: s.mock_id, restored: true });
+      }
+
+      // ── GCS signed PUT URL — for in-editor media uploads ────────────
+      // Body: { skill, filename, contentType }
+      // Returns: { uploadUrl, publicUrl, objectPath, expiresAt }
+      // The browser then PUTs the file directly to uploadUrl with the
+      // EXACT same Content-Type header. publicUrl is what gets stored in
+      // mock_data (chartImageUrl / audioFile / etc).
+      case 'gcs_signed_upload_url': {
+        const skill = (body.skill || '') as string;
+        const filename = (body.filename || '') as string;
+        const contentType = (body.contentType || '') as string;
+        if (!skill)       return json(400, { error: 'skill required' });
+        if (!filename)    return json(400, { error: 'filename required' });
+        if (!contentType) return json(400, { error: 'contentType required' });
+        const folder = GCS_FOLDERS[skill];
+        if (!folder)      return json(400, { error: 'unknown_skill' });
+        if (!ALLOWED_MIME.has(contentType.toLowerCase())) {
+          return json(400, { error: 'unsupported_content_type', contentType });
+        }
+        // Sanitise filename — strip path separators, NUL bytes, leading dots.
+        // Keep alnum + dash/underscore/dot/space; everything else → underscore.
+        const safe = filename
+          .replace(/[\\\/\x00]/g, '')
+          .replace(/^\.+/, '')
+          .replace(/[^A-Za-z0-9._\- ]/g, '_')
+          .slice(0, 200);
+        if (!safe || safe === '.') return json(400, { error: 'bad_filename' });
+        const objectPath = `${folder}/${safe}`;
+
+        const sa = Deno.env.get('GCS_SERVICE_ACCOUNT_JSON') || '';
+        if (!sa) return json(500, { error: 'gcs_secret_missing' });
+        let saObj: { client_email: string; private_key: string };
+        try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        if (!saObj.client_email || !saObj.private_key) {
+          return json(500, { error: 'gcs_secret_missing_fields' });
+        }
+        let privateKey: CryptoKey;
+        try { privateKey = await importPrivateKey(saObj.private_key); }
+        catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
+
+        const { uploadUrl, expiresAt } = await generateV4SignedPutUrl({
+          objectPath,
+          contentType,
+          ttlSeconds: 600,             // 10 minutes — plenty for a chart/audio upload
+          serviceAccountEmail: saObj.client_email,
+          privateKey
+        });
+        // Public URL (assumes the bucket has Allow Public Read on its
+        // contents — same configuration as the existing audio).
+        const publicUrl = `https://storage.googleapis.com/${GCS_BUCKET}/${encodeObjectPath(objectPath)}`;
+        return json(200, {
+          uploadUrl,
+          publicUrl,
+          objectPath,
+          expiresAt,
+          maxBytes: MAX_UPLOAD_MB * 1024 * 1024
+        });
       }
 
       default:
