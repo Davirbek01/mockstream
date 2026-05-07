@@ -31,6 +31,7 @@
   <script src="admin-auth.js"></script>
   <meta name="description" content="Practice IELTS & CEFR Listening, Reading, Writing, and Speaking mock exams with AI assessment." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mock Stream" />
   <link rel="shortcut icon" id="site-favicon" href="https://i.ibb.co/WN0XY5Lv/logo.png">
@@ -6713,22 +6714,14 @@
 </head>
 
 <body>
-  <!-- Load question files for logo/wording -->
-  <script src="questions S/questions.js"></script>
-  <script src="questions W/writing-questions.js"></script>
+  <!-- (CEFR Speaking Mock 01 and CEFR Writing Mock 01 used to be loaded
+       here as <script src=...> for their logo/wording globals — those
+       files are now in Supabase and the runner pages fall back to
+       SITE_CONFIG.logoUrl / brandName when CEFR_LOGO_URL is undefined.) -->
   <!-- Speaking access code validation scripts -->
-  <script src="passcodes.js"></script>
-  <script src="speaking-promocodes.js"></script>
-  <script src="speaking-mock-codes.js"></script>
   <!-- Writing access code validation scripts -->
-  <script src="writing-promocodes.js"></script>
-  <script src="writing-mock-codes.js"></script>
   <!-- Reading access code validation scripts -->
-  <script src="reading-promocodes.js"></script>
-  <script src="reading-mock-codes.js"></script>
   <!-- Listening access code validation scripts -->
-  <script src="listening-promocodes.js"></script>
-  <script src="listening-mock-codes.js"></script>
 
   <!-- Sidebar Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -22621,62 +22614,32 @@
       } catch (_e) { return false; }
     };
 
-    // ===== PRELOAD ALL MOCK JS FILES =====
-    // This ensures all mocks are loaded before the gate opens (prevents blinking on mobile)
-    (async function preloadAllMocks() {
-      console.log('🔄 Starting mock preload...');
+    // ===== MOCK PRELOAD (removed) =====
+    // Previous behaviour: on landing.html load, eagerly fetch every static
+    // mock .js file (questions S/, questions W/) so the runner page didn't
+    // "blink" on first open. After the Phase 1+2 migrations, all CEFR
+    // Writing and IELTS Writing mocks live in Supabase, so most of those
+    // file paths 404'd on every page load — ~130 wasted network requests
+    // and a console full of red 404 lines on every visit.
+    //
+    // Mocks now load on-demand:
+    //   - Migrated mocks: dynamic fetcher in this file pulls from Supabase
+    //     when the picker opens, runner pages fetch their mock_data row
+    //     when the user clicks Start.
+    //   - Remaining static mocks (CEFR Reading/Listening, IELTS Reading/
+    //     Listening, etc.): the runner page loads its own .js file via
+    //     <script src=...> when opened. No preload needed.
+    //
+    // If we ever bring this back for a "warm caches before user clicks"
+    // optimisation, gate it on isOnline + a per-skill list that excludes
+    // already-Supabase'd skills. For now: just delete it.
 
-      // List of all mock JS files to preload
-      const speakingMocks = [];
-      for (let i = 1; i <= 30; i++) {
-        const num = i === 1 ? '' : String(i).padStart(2, '0');
-        speakingMocks.push(`questions S/questions${num}.js`);
-      }
-
-      const writingMocks = [];
-      for (let i = 1; i <= 69; i++) {
-        const num = i === 1 ? '' : String(i).padStart(2, '0');
-        writingMocks.push(`questions W/writing-questions${num}.js`);
-      }
-
-      const allMocks = [...speakingMocks, ...writingMocks];
-      let loaded = 0;
-      let failed = 0;
-
-      // Preload function - just fetches the file to cache it
-      const preloadFile = (url) => {
-        return new Promise((resolve) => {
-          const script = document.createElement('script');
-          script.src = url;
-          script.onload = () => {
-            loaded++;
-            script.remove(); // Clean up after preloading
-            resolve(true);
-          };
-          script.onerror = () => {
-            failed++;
-            script.remove();
-            resolve(false); // Don't reject, just mark as failed
-          };
-          document.head.appendChild(script);
-        });
-      };
-
-      // Preload in batches of 10 for better performance
-      const batchSize = 10;
-      for (let i = 0; i < allMocks.length; i += batchSize) {
-        const batch = allMocks.slice(i, i + batchSize);
-        await Promise.all(batch.map(preloadFile));
-      }
-
-      console.log(`✅ Mock preload complete: ${loaded} loaded, ${failed} not found`);
-
-      // Notify parent that mocks are ready
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage('mocksReady', '*');
-        console.log('📤 Sent mocksReady signal to parent');
-      }
-    })();
+    // Tell any iframe parent we're ready (the postMessage was the only
+    // useful side-effect of the old preload — Telegram Mini App embeds
+    // listen for it).
+    if (window.parent && window.parent !== window) {
+      try { window.parent.postMessage('mocksReady', '*'); } catch (_e) {}
+    }
 
     // Auto-open modal if URL parameter is present (e.g., from flashcards Home button)
     (function () {
@@ -25576,17 +25539,47 @@
     .mmg-card-soon:hover { transform:none; box-shadow:0 1px 3px rgba(15,23,42,.04); border-color:#e2e8f0; }
 
     /* ── Structured editor (CEFR Writing) ─────────────────────────────── */
-    .mmg-tabs-bar { display:flex; gap:2px; padding:0 18px; border-bottom:1px solid #e2e8f0; flex-wrap:wrap; background:#f8fafc; }
-    .mmg-tab { background:transparent; border:0; border-bottom:2.5px solid transparent;
-      padding:9px 12px; font-size:12px; font-weight:600; color:#64748b; cursor:pointer;
-      transition:all .15s ease; margin-bottom:-1px; white-space:nowrap; }
-    .mmg-tab:hover { color:#2563eb; }
-    .mmg-tab.active { color:#2563eb; border-bottom-color:#2563eb; background:#fff; }
+    /* Side-by-side layout: vertical tab sidebar + main pane area.
+       The wrapper `.mmg-edit-main` is a flex row that stretches to fill the
+       leftover height in the edit modal between the metadata grid and footer.
+       On narrow viewports we revert to the legacy stacked layout (horizontal
+       tabs scroll, panes below). */
+    .mmg-edit-main { display:flex; flex:1; overflow:hidden; min-height:0; }
+    .mmg-edit-panes { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
+    .mmg-tabs-bar {
+      display:flex; flex-direction:column; gap:1px;
+      padding:8px 0; border-right:1px solid #e2e8f0; background:#f8fafc;
+      width:200px; flex-shrink:0; overflow-y:auto;
+    }
+    .mmg-tab {
+      background:transparent; border:0; border-left:3px solid transparent;
+      padding:10px 16px; font-size:13px; font-weight:600; color:#475569;
+      cursor:pointer; transition:all .12s ease; white-space:nowrap;
+      text-align:left; width:100%; box-sizing:border-box;
+    }
+    .mmg-tab:hover { color:#2563eb; background:#f1f5f9; }
+    .mmg-tab.active { color:#2563eb; border-left-color:#2563eb; background:#eff6ff; }
     .mmg-tab.mmg-tab-raw { color:#92400e; }
-    .mmg-tab.mmg-tab-raw.active { color:#92400e; border-bottom-color:#f59e0b; }
-    .mmg-pane { display:none; flex:1; overflow-y:auto; padding:14px 18px; flex-direction:column; gap:14px; }
+    .mmg-tab.mmg-tab-raw.active { color:#92400e; border-left-color:#f59e0b; background:#fffbeb; }
+    .mmg-pane { display:none; flex:1; overflow-y:auto; padding:18px 22px; flex-direction:column; gap:14px; }
     .mmg-pane.active { display:flex; }
     .mmg-pane.mmg-pane-raw.active { padding:0; gap:0; }
+    /* Mobile / narrow viewport: stack tabs as horizontal scroll bar (legacy). */
+    @media (max-width: 700px) {
+      .mmg-edit-main { flex-direction:column; }
+      .mmg-tabs-bar {
+        flex-direction:row; width:auto; padding:0 8px; gap:0;
+        border-right:0; border-bottom:1px solid #e2e8f0;
+        overflow-x:auto; overflow-y:hidden; flex-shrink:0;
+      }
+      .mmg-tab {
+        border-left:0; border-bottom:2.5px solid transparent;
+        padding:9px 12px; font-size:12px; flex-shrink:0; width:auto;
+      }
+      .mmg-tab.active { border-left-color:transparent; border-bottom-color:#2563eb; background:#fff; }
+      .mmg-tab.mmg-tab-raw.active { border-left-color:transparent; border-bottom-color:#f59e0b; background:#fff; }
+      .mmg-pane { padding:14px 18px; }
+    }
     .mmg-field { display:flex; flex-direction:column; gap:4px; font-size:12px; }
     .mmg-field > label { font-weight:600; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
     .mmg-field > input, .mmg-field > textarea {
@@ -25690,6 +25683,108 @@
     /* IELTS Writing uses <mark>...</mark> instead of typed spans. */
     .mmg-sample-preview mark { background:#fef9c3; color:#713f12; padding:0 2px; border-radius:2px; font-weight:600; }
 
+    /* ── Samples tab: chip-row navigation + side-by-side editor ─────────── */
+    .mmg-chip-row { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:6px; }
+    .mmg-chip-label {
+      font-size:11px; font-weight:700; color:#475569;
+      text-transform:uppercase; letter-spacing:0.4px; margin-right:4px;
+    }
+    .mmg-chip {
+      background:#fff; border:1px solid #cbd5e1; border-radius:6px;
+      padding:6px 12px; font-size:12px; font-weight:600; color:#475569;
+      cursor:pointer; position:relative; transition:all .12s ease; white-space:nowrap;
+    }
+    .mmg-chip:hover { background:#f8fafc; border-color:#93c5fd; color:#1e40af; }
+    .mmg-chip.active { background:#2563eb; border-color:#2563eb; color:#fff; box-shadow:0 1px 4px rgba(37,99,235,0.25); }
+    /* Green dot in the corner = this chip's underlying field already has content. */
+    .mmg-chip.filled::after {
+      content:''; position:absolute; top:4px; right:4px;
+      width:6px; height:6px; background:#10b981; border-radius:50%;
+    }
+    .mmg-chip.active.filled::after { background:#ade7c2; }
+    /* Section divider line between the two chip rows and the editor. */
+    .mmg-samples-divider {
+      border-top:1px solid #e2e8f0; margin:8px 0 12px;
+    }
+
+    .mmg-sample-editor {
+      display:grid; grid-template-columns:1fr 1fr; gap:12px;
+      flex:1; min-height:0;
+    }
+    .mmg-sample-side {
+      display:flex; flex-direction:column;
+      border:1px solid #cbd5e1; border-radius:8px; overflow:hidden; background:#fff;
+      min-height:300px;
+    }
+    .mmg-sample-side-label {
+      background:#f1f5f9; color:#475569; padding:6px 12px;
+      font-size:10.5px; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.4px;
+      border-bottom:1px solid #e2e8f0; flex-shrink:0;
+    }
+    .mmg-sample-source-big {
+      flex:1; border:0; padding:10px 12px;
+      font:12.5px ui-monospace, monospace;
+      resize:none; outline:none; line-height:1.5;
+      box-sizing:border-box; width:100%; min-height:300px;
+    }
+    /* Preview pane on the right side. Same .mmg-sample-preview rules apply
+       (mark / ml-token highlight CSS), just gets a different shell. */
+    .mmg-sample-side .mmg-sample-preview {
+      flex:1; padding:12px 14px; background:#fffbeb;
+      font:13.5px ui-sans-serif, system-ui;
+      line-height:1.65; overflow-y:auto;
+      max-height:none; /* override the default 240px from inline-preview */
+    }
+    /* When the editor pane is on the Samples tab, override default mmg-pane
+       behaviour so flexbox stretches the side-by-side editor full height. */
+    .mmg-pane.mmg-samples-pane { gap:6px; }
+
+    /* Mobile / narrow: stack source above preview */
+    @media (max-width: 900px) {
+      .mmg-sample-editor { grid-template-columns:1fr; }
+      .mmg-sample-side { min-height:200px; }
+    }
+
+    /* ── List utilities (Vocabulary + Tokens tabs) ──────────────────────── */
+    .mmg-list-toolbar {
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+      margin:6px 0 8px;
+    }
+    .mmg-list-search {
+      flex:1; min-width:200px; position:relative;
+    }
+    .mmg-list-search > input {
+      width:100%; padding:7px 10px 7px 32px;
+      border:1px solid #cbd5e1; border-radius:6px;
+      font-size:13px; box-sizing:border-box; background:#fff;
+    }
+    .mmg-list-search > input:focus {
+      outline:none; border-color:#2563eb; box-shadow:0 0 0 2px rgba(37,99,235,.15);
+    }
+    .mmg-list-search::before {
+      content:'🔎'; position:absolute;
+      left:8px; top:50%; transform:translateY(-50%);
+      font-size:13px; pointer-events:none;
+    }
+    .mmg-list-headers {
+      display:grid; gap:6px;
+      font-size:10.5px; font-weight:700; color:#475569;
+      text-transform:uppercase; letter-spacing:0.4px;
+      padding:6px 4px 4px; border-bottom:1px solid #e2e8f0;
+      margin-top:4px;
+    }
+    .mmg-vocab-headers  { grid-template-columns:1fr 1fr 30px; }
+    .mmg-tokens-headers { grid-template-columns:2fr 2fr 1fr 30px; }
+    /* Empty state — friendlier than the old italic hint. */
+    .mmg-list-empty {
+      text-align:center; padding:28px 16px;
+      color:#64748b; font-size:13px;
+      background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;
+      margin-top:8px;
+    }
+    .mmg-list-empty > strong { display:block; color:#0f172a; font-size:14px; margin-bottom:4px; }
+
     /* ── Reusable media upload widget (signed-URL upload to GCS) ──────── */
     .mmg-upload-row { display:flex; gap:6px; align-items:center; }
     .mmg-upload-row > input[type="text"] { flex:1; }
@@ -25739,8 +25834,8 @@
       .mmg-tabs-bar { padding:0 12px; }
     }
   </style>
-  <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;">
-    <div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;">
+  <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:stretch;justify-content:stretch;opacity:0;transition:opacity .25s ease;">
+    <div style="background:#fff;color:#0f172a;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;">
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #e2e8f0;">
         <div style="font-size:20px;font-weight:700;flex:1;">🧪 Mock Settings</div>
         <span id="mmgWhoAmI" style="font-size:11px;color:#64748b;"></span>
@@ -25755,8 +25850,8 @@
     </div>
 
     <!-- Edit modal (overlays the list pane) -->
-    <div id="mmgEditModal" style="display:none;position:absolute;inset:0;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px;">
-      <div style="background:#fff;border-radius:14px;width:100%;max-width:840px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);">
+    <div id="mmgEditModal" style="display:none;position:absolute;inset:0;background:#fff;align-items:stretch;justify-content:stretch;">
+      <div style="background:#fff;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;">
         <div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
           <div id="mmgEditTitle" style="font-size:15px;font-weight:700;flex:1;">Edit mock</div>
           <button onclick="_mmgEditClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
@@ -25784,9 +25879,11 @@
             </select>
           </label>
         </div>
-        <!-- Tab bar — shown for skill types with a structured editor.
-             Buttons are conditionally visible based on the current mock_type
-             (CEFR Writing has Part 1/T1.1/T1.2/T2; IELTS Writing has Task 1/Task 2). -->
+        <!-- Tab bar (vertical sidebar on desktop, horizontal scroll on mobile)
+             + structured panes wrapped in a flex row so the sidebar can sit
+             beside the editing pane. Tab visibility per type is controlled by
+             .mmg-tab-cw / .mmg-tab-iw classes on individual buttons. -->
+        <div class="mmg-edit-main">
         <div id="mmgTabsBar" class="mmg-tabs-bar" style="display:none;">
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="part1"     onclick="_mmgSwitchTab('part1')">Part 1 (shared)</button>
@@ -25795,10 +25892,12 @@
           <button class="mmg-tab mmg-tab-cw"           data-tab="t2"        onclick="_mmgSwitchTab('t2')">Task 2</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task1"  onclick="_mmgSwitchTab('iw_task1')">Task 1</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task2"  onclick="_mmgSwitchTab('iw_task2')">Task 2</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
           <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
+        <div class="mmg-edit-panes">
 
         <!-- Structured panes (rendered/populated by JS, not static HTML). -->
         <div id="mmgPaneSettings" class="mmg-pane"></div>
@@ -25808,6 +25907,7 @@
         <div id="mmgPaneT2"       class="mmg-pane"></div>
         <div id="mmgPaneIwTask1"  class="mmg-pane"></div>
         <div id="mmgPaneIwTask2"  class="mmg-pane"></div>
+        <div id="mmgPaneSamples"  class="mmg-pane"></div>
         <div id="mmgPaneVocab"    class="mmg-pane"></div>
         <div id="mmgPaneTokens"   class="mmg-pane"></div>
 
@@ -25820,6 +25920,8 @@
           </div>
           <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
         </div>
+        </div><!-- /mmg-edit-panes -->
+        </div><!-- /mmg-edit-main -->
         <div style="padding:14px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
           <button id="mmgBtnBackups" onclick="_mmgBackupsOpen()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">🕒 Backups…</button>
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
@@ -26182,6 +26284,7 @@
     var _MMG_TAB_TO_PANE = {
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
+      samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
 
@@ -26231,6 +26334,7 @@
           case 't2':       _mmgCollectTask(md, 't2');  break;
           case 'iw_task1': _mmgCollectIwTask(md, 'task1'); break;
           case 'iw_task2': _mmgCollectIwTask(md, 'task2'); break;
+          case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
         }
@@ -26258,6 +26362,7 @@
         case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
         case 'iw_task1': _mmgRenderIwTask(md, 'task1', 'Task 1', 150, 20, 'Describe a chart/graph/diagram. Includes chart image and chart type.'); break;
         case 'iw_task2': _mmgRenderIwTask(md, 'task2', 'Task 2', 250, 40, 'Essay — present an argument or discuss both sides of a topic.'); break;
+        case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
       }
@@ -26453,40 +26558,21 @@
       html += _mmgFieldText('Title',  p + 'title',  task.title  || label,         'Display label.');
       html += _mmgFieldText('Target', p + 'target', task.target || defaultTarget, 'Word count target shown to the student (e.g., "50–70 words").');
       html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt, 'The instruction the student reads. Plain text.', 100);
-      // Main model answer — gets the live-preview + markup-button treatment.
-      // Leveled samples (A1-B2) and Uzbek translations stay as plain textareas
-      // for now since they're collapsed by default and edited less often.
-      html += _mmgFieldSample('Model answer (sample)', p + 'sample', task.sample,
-        'Edit HTML on the left, see the rendered preview update live below. Use the toolbar buttons to mark vocabulary tokens — students get coloured highlights and hover-translations from the Tokens tab.');
 
-      // Level samples — collapsed by default.
-      html += '<details class="mmg-collapse"><summary>📚 Level-specific samples (A1 / A2 / B1 / B2)</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('A1',  p + 'sampleA1', task.sampleA1, '', 70)
-            + _mmgFieldArea('A2',  p + 'sampleA2', task.sampleA2, '', 70)
-            + _mmgFieldArea('B1',  p + 'sampleB1', task.sampleB1, '', 90)
-            + _mmgFieldArea('B2',  p + 'sampleB2', task.sampleB2, '', 110)
-            + '</div></details>';
-
-      // Uzbek translations — collapsed by default.
-      html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('Uz · main sample',  p + 'uzSample',   task.uzSample,   '', 110)
-            + _mmgFieldArea('Uz · A1', p + 'uzSampleA1', task.uzSampleA1, '', 70)
-            + _mmgFieldArea('Uz · A2', p + 'uzSampleA2', task.uzSampleA2, '', 70)
-            + _mmgFieldArea('Uz · B1', p + 'uzSampleB1', task.uzSampleB1, '', 90)
-            + _mmgFieldArea('Uz · B2', p + 'uzSampleB2', task.uzSampleB2, '', 110)
-            + '</div></details>';
+      // Sample fields (main model answer + leveled A1-B2 + Uzbek translations)
+      // live in the dedicated Samples tab — it keeps each task tab short and
+      // the Samples tab gives one stop for all sample editing across tasks.
+      html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + A1–B2 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      // Populate the preview pane now that the textarea exists in DOM.
-      _mmgUpdatePreview(p + 'sample');
     }
     function _mmgCollectTask(md, key) {
       md.tasks = md.tasks || {};
       var task = (md.tasks[key] = md.tasks[key] || {});
       var p = 'mmg' + key.toUpperCase() + '_';
-      var fields = ['title','target','prompt','sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      // Only structural fields live on the task tab now. Sample fields are
+      // collected by _mmgCollectSamples while the Samples tab is active.
+      var fields = ['title','target','prompt'];
       for (var i = 0; i < fields.length; i++) {
         var el = document.getElementById(p + fields[i]);
         if (el) task[fields[i]] = el.value;
@@ -26567,38 +26653,12 @@
               + '</div>';
       }
 
-      // Main sample answer with toolbar + live preview (mark-based).
-      html += _mmgFieldSampleMark('Model sample answer', p + 'sampleAnswer', task.sampleAnswer,
-        'The reference model answer. Use the toolbar buttons to mark vocabulary phrases — students get hover-translations from the Tokens tab.');
-
-      // Band-leveled samples (5-9).
-      html += '<details class="mmg-collapse"><summary>📚 Band-level samples (5 / 6 / 7 / 8 / 9)</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldSampleMark('Band 5', p + 'sampleBand5', task.sampleBand5, '')
-            + _mmgFieldSampleMark('Band 6', p + 'sampleBand6', task.sampleBand6, '')
-            + _mmgFieldSampleMark('Band 7', p + 'sampleBand7', task.sampleBand7, '')
-            + _mmgFieldSampleMark('Band 8', p + 'sampleBand8', task.sampleBand8, '')
-            + _mmgFieldSampleMark('Band 9', p + 'sampleBand9', task.sampleBand9, '')
-            + '</div></details>';
-
-      // Uzbek translations.
-      html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations of band samples</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('Uz · Band 5', p + 'uzSampleBand5', task.uzSampleBand5, '', 90)
-            + _mmgFieldArea('Uz · Band 6', p + 'uzSampleBand6', task.uzSampleBand6, '', 90)
-            + _mmgFieldArea('Uz · Band 7', p + 'uzSampleBand7', task.uzSampleBand7, '', 90)
-            + _mmgFieldArea('Uz · Band 8', p + 'uzSampleBand8', task.uzSampleBand8, '', 90)
-            + _mmgFieldArea('Uz · Band 9', p + 'uzSampleBand9', task.uzSampleBand9, '', 90)
-            + '</div></details>';
+      // Sample answer + leveled (Band 5-9) + Uzbek translations live in the
+      // dedicated Samples tab, keeping each task tab focused on the
+      // structural fields (prompt + instruction + chart).
+      html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + Band 5–9 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      // Initialise previews + chart thumbnail.
-      _mmgUpdatePreview(p + 'sampleAnswer');
-      _mmgUpdatePreview(p + 'sampleBand5');
-      _mmgUpdatePreview(p + 'sampleBand6');
-      _mmgUpdatePreview(p + 'sampleBand7');
-      _mmgUpdatePreview(p + 'sampleBand8');
-      _mmgUpdatePreview(p + 'sampleBand9');
       if (key === 'task1') {
         _mmgUpdateChartPreview(p);
         // Refresh thumbnail on URL input.
@@ -26616,10 +26676,9 @@
       md.tasks = md.tasks || {};
       var task = (md.tasks[key] = md.tasks[key] || {});
       var p = 'mmgIw_' + key + '_';
-      // String fields.
-      var stringFields = ['title','prompt','instruction','sampleAnswer',
-        'sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
-        'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+      // Only structural fields here; sample fields are collected by
+      // _mmgCollectSamples while the Samples tab is active.
+      var stringFields = ['title','prompt','instruction'];
       for (var i = 0; i < stringFields.length; i++) {
         var el = document.getElementById(p + stringFields[i]);
         if (el) task[stringFields[i]] = el.value;
@@ -26749,6 +26808,28 @@
       return (b/1024/1024).toFixed(1) + ' MB';
     }
 
+    // Generic search-filter for vocab/tokens row lists. Hides rows whose
+    // input values don't include the query in any of the named fields.
+    // Hidden rows stay in DOM (so collect functions still see them); only
+    // their display is toggled.
+    function _mmgFilterRows(hostId, query, fieldNames) {
+      var host = document.getElementById(hostId);
+      if (!host) return;
+      var q = (query || '').trim().toLowerCase();
+      var rows = host.children;
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (!row || row.nodeType !== 1) continue;
+        if (!q) { row.style.display = ''; continue; }
+        var match = false;
+        for (var j = 0; j < fieldNames.length; j++) {
+          var inp = row.querySelector('input[data-fld="' + fieldNames[j] + '"], select[data-fld="' + fieldNames[j] + '"]');
+          if (inp && (inp.value || '').toLowerCase().indexOf(q) !== -1) { match = true; break; }
+        }
+        row.style.display = match ? '' : 'none';
+      }
+    }
+
     // Sample editor variant for IELTS Writing — wraps in <mark>…</mark>.
     // Toolbar buttons map to a TYPE that gets *added to tokenTranslations*
     // when the user marks a phrase, since <mark> alone has no type info.
@@ -26848,24 +26929,288 @@
         { key: 'task2',  label: 'Task 2 vocabulary'  }
       ];
     }
+    // ── Samples tab ─────────────────────────────────────────────────────
+    // One stop for ALL sample content across every task in this mock.
+    // Schema-aware:
+    //   CEFR Writing  → 3 sections (t11/t12/t2), each with main sample
+    //                   + leveled samples (A1 / A2 / B1 / B2) + Uz translations
+    //   IELTS Writing → 2 sections (task1/task2), each with main sample
+    //                   + leveled samples (Band 5/6/7/8/9) + Uz translations
+    // Each task section is its own <details>; the first one starts open.
+    var _MMG_CW_SAMPLE_SECTIONS = [
+      { key: 't11', label: 'Task 1.1 samples', subhint: 'Short letter to a friend.' },
+      { key: 't12', label: 'Task 1.2 samples', subhint: 'Formal letter to authority.' },
+      { key: 't2',  label: 'Task 2 samples',   subhint: 'Opinion piece.' }
+    ];
+    var _MMG_IW_SAMPLE_SECTIONS = [
+      { key: 'task1', label: 'Task 1 samples', subhint: 'Chart description (≥150 words).' },
+      { key: 'task2', label: 'Task 2 samples', subhint: 'Essay (≥250 words).' }
+    ];
+    var _MMG_CW_LEVELS = [
+      { fld: 'sampleA1', label: 'A1', minH: 70 },
+      { fld: 'sampleA2', label: 'A2', minH: 70 },
+      { fld: 'sampleB1', label: 'B1', minH: 90 },
+      { fld: 'sampleB2', label: 'B2', minH: 110 }
+    ];
+    var _MMG_CW_UZ_LEVELS = [
+      { fld: 'uzSample',   label: 'Uz · main sample', minH: 110 },
+      { fld: 'uzSampleA1', label: 'Uz · A1',          minH: 70 },
+      { fld: 'uzSampleA2', label: 'Uz · A2',          minH: 70 },
+      { fld: 'uzSampleB1', label: 'Uz · B1',          minH: 90 },
+      { fld: 'uzSampleB2', label: 'Uz · B2',          minH: 110 }
+    ];
+    var _MMG_IW_BAND_LEVELS = [
+      { fld: 'sampleBand5', label: 'Band 5' },
+      { fld: 'sampleBand6', label: 'Band 6' },
+      { fld: 'sampleBand7', label: 'Band 7' },
+      { fld: 'sampleBand8', label: 'Band 8' },
+      { fld: 'sampleBand9', label: 'Band 9' }
+    ];
+    var _MMG_IW_UZ_BANDS = [
+      { fld: 'uzSampleBand5', label: 'Uz · Band 5', minH: 90 },
+      { fld: 'uzSampleBand6', label: 'Uz · Band 6', minH: 90 },
+      { fld: 'uzSampleBand7', label: 'Uz · Band 7', minH: 90 },
+      { fld: 'uzSampleBand8', label: 'Uz · Band 8', minH: 90 },
+      { fld: 'uzSampleBand9', label: 'Uz · Band 9', minH: 90 }
+    ];
+    // Per-type sample option lists (which "sample slots" exist for this skill).
+    // The keys here MUST match the field names on the task object so the
+    // existing _mmgCollectSamples loops still work without modification.
+    var _MMG_CW_SAMPLE_SLOTS = [
+      { k: 'sample',     l: 'Main',    group: 'main' },
+      { k: 'sampleA1',   l: 'A1',      group: 'levels' },
+      { k: 'sampleA2',   l: 'A2',      group: 'levels' },
+      { k: 'sampleB1',   l: 'B1',      group: 'levels' },
+      { k: 'sampleB2',   l: 'B2',      group: 'levels' },
+      { k: 'uzSample',   l: 'Uz · Main', group: 'uz' },
+      { k: 'uzSampleA1', l: 'Uz · A1', group: 'uz' },
+      { k: 'uzSampleA2', l: 'Uz · A2', group: 'uz' },
+      { k: 'uzSampleB1', l: 'Uz · B1', group: 'uz' },
+      { k: 'uzSampleB2', l: 'Uz · B2', group: 'uz' }
+    ];
+    var _MMG_IW_SAMPLE_SLOTS = [
+      { k: 'sampleAnswer',   l: 'Main',     group: 'main' },
+      { k: 'sampleBand5',    l: 'Band 5',   group: 'levels' },
+      { k: 'sampleBand6',    l: 'Band 6',   group: 'levels' },
+      { k: 'sampleBand7',    l: 'Band 7',   group: 'levels' },
+      { k: 'sampleBand8',    l: 'Band 8',   group: 'levels' },
+      { k: 'sampleBand9',    l: 'Band 9',   group: 'levels' },
+      { k: 'uzSampleBand5',  l: 'Uz · B5',  group: 'uz' },
+      { k: 'uzSampleBand6',  l: 'Uz · B6',  group: 'uz' },
+      { k: 'uzSampleBand7',  l: 'Uz · B7',  group: 'uz' },
+      { k: 'uzSampleBand8',  l: 'Uz · B8',  group: 'uz' },
+      { k: 'uzSampleBand9',  l: 'Uz · B9',  group: 'uz' }
+    ];
+    function _mmgRenderSamples(md) {
+      var type = _mmgCurrentType();
+      var isIw = type === 'ielts-writing';
+      var pane = document.getElementById('mmgPaneSamples');
+      pane.classList.add('mmg-samples-pane');
+
+      // Define the inner navigation: which tasks + which sample slots.
+      var tasks  = isIw ? _MMG_IW_SAMPLE_SECTIONS : _MMG_CW_SAMPLE_SECTIONS;
+      var slots  = isIw ? _MMG_IW_SAMPLE_SLOTS : _MMG_CW_SAMPLE_SLOTS;
+      var idPrefix = function(taskKey) {
+        return isIw ? 'mmgIw_' + taskKey + '_' : 'mmg' + taskKey.toUpperCase() + '_';
+      };
+
+      // Initialise / coerce active state — survives across tab switches but
+      // resets if the type changed (e.g. switched the Type dropdown).
+      window._mmgSamplesState = window._mmgSamplesState || {};
+      var ss = window._mmgSamplesState;
+      if (!tasks.some(function(x){ return x.key === ss.task; })) ss.task = tasks[0].key;
+      if (!slots.some(function(x){ return x.k === ss.sample; })) ss.sample = slots[0].k;
+
+      // Make sure the active task object exists in mock_data.
+      md.tasks = md.tasks || {};
+      var activeTaskObj = (md.tasks[ss.task] = md.tasks[ss.task] || {});
+      var activeFieldId = idPrefix(ss.task) + ss.sample;
+      var activeVal = activeTaskObj[ss.sample] || '';
+      // 'main' and leveled samples get the marker toolbar; Uz fields are
+      // plain text (translations don't need <mark> markup themselves).
+      var activeSlot = slots.filter(function(s){ return s.k === ss.sample; })[0];
+      var showToolbar = activeSlot && activeSlot.group !== 'uz';
+
+      var html = '';
+      // Header
+      html += '<div class="mmg-section-title">Sample answers</div>'
+            + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully. <span style="color:#15803d;">●</span> = already has content.</div>';
+
+      // Task chip row
+      html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
+      for (var i = 0; i < tasks.length; i++) {
+        var tk = tasks[i].key;
+        var tObj = md.tasks[tk] || {};
+        var taskHasContent = slots.some(function(s){ return (tObj[s.k] || '').trim(); });
+        var taskActive = tk === ss.task ? ' active' : '';
+        var taskFilled = taskHasContent ? ' filled' : '';
+        html += '<button class="mmg-chip' + taskActive + taskFilled + '" '
+              + 'onclick="_mmgSamplesPickTask(\'' + tk + '\')">'
+              + _mmgEsc(tasks[i].label.replace(' samples','')) + '</button>';
+      }
+      html += '</div>';
+
+      // Sample-type chip row
+      html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Sample</span>';
+      for (var j = 0; j < slots.length; j++) {
+        var sl = slots[j];
+        var slFilled = (activeTaskObj[sl.k] || '').trim() ? ' filled' : '';
+        var slActive = sl.k === ss.sample ? ' active' : '';
+        html += '<button class="mmg-chip' + slActive + slFilled + '" '
+              + 'onclick="_mmgSamplesPickSample(\'' + sl.k + '\')">'
+              + _mmgEsc(sl.l) + '</button>';
+      }
+      html += '</div>';
+
+      html += '<div class="mmg-samples-divider"></div>';
+
+      // Editor: source LEFT + preview RIGHT (stacks on <900px via CSS).
+      html += '<div class="mmg-sample-editor">';
+
+      // SOURCE side
+      html += '<div class="mmg-sample-side">';
+      html += '<div class="mmg-sample-side-label">Source — ' + _mmgEsc(activeSlot ? activeSlot.l : '') + '</div>';
+      if (showToolbar) {
+        // Toolbar matches existing _mmgFieldSample / _mmgFieldSampleMark.
+        html += '<div class="mmg-sample-toolbar">'
+              + '<span class="mmg-toolbar-hint">Mark selected text:</span>';
+        if (isIw) {
+          var iwTypes = ['academic','linking','lexical','colloc','idiom'];
+          for (var b = 0; b < iwTypes.length; b++) {
+            html += '<button type="button" class="mmg-mark-btn" data-mtype="' + iwTypes[b] + '" '
+                  + 'onclick="_mmgMarkIw(\'' + activeFieldId + '\', \'' + iwTypes[b] + '\')">'
+                  + iwTypes[b] + '</button>';
+          }
+          html += '<button type="button" class="mmg-mark-btn mmg-mark-btn-clear" '
+                + 'onclick="_mmgUnmarkIw(\'' + activeFieldId + '\')">clear</button>';
+        } else {
+          var cwTypes = ['phrasal','adv','modal','colloc','idiom'];
+          for (var c = 0; c < cwTypes.length; c++) {
+            html += '<button type="button" class="mmg-mark-btn" data-mtype="' + cwTypes[c] + '" '
+                  + 'onclick="_mmgMark(\'' + activeFieldId + '\', \'' + cwTypes[c] + '\')">'
+                  + cwTypes[c] + '</button>';
+          }
+          html += '<button type="button" class="mmg-mark-btn mmg-mark-btn-clear" '
+                + 'onclick="_mmgUnmark(\'' + activeFieldId + '\')">clear</button>';
+        }
+        html += '</div>';
+      }
+      html += '<textarea id="' + activeFieldId + '" class="mmg-sample-source-big" spellcheck="false" '
+            + 'oninput="_mmgUpdatePreview(\'' + activeFieldId + '\')">' + _mmgEsc(activeVal) + '</textarea>';
+      html += '</div>';
+
+      // PREVIEW side
+      html += '<div class="mmg-sample-side">';
+      html += '<div class="mmg-sample-side-label">Preview · what students see</div>';
+      html += '<div class="mmg-sample-preview" id="' + activeFieldId + '_preview"></div>';
+      html += '</div>';
+
+      html += '</div>'; // end mmg-sample-editor
+
+      pane.innerHTML = html;
+      _mmgUpdatePreview(activeFieldId);
+    }
+    // Click handlers for the inner-navigation chips.
+    function _mmgSamplesPickTask(taskKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectSamples(md);     // flush whatever's in the visible textarea
+      _mmgSetMockData(md);
+      window._mmgSamplesState = window._mmgSamplesState || {};
+      window._mmgSamplesState.task = taskKey;
+      _mmgRenderSamples(md);
+    }
+    function _mmgSamplesPickSample(sampleKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectSamples(md);
+      _mmgSetMockData(md);
+      window._mmgSamplesState = window._mmgSamplesState || {};
+      window._mmgSamplesState.sample = sampleKey;
+      _mmgRenderSamples(md);
+    }
+    function _mmgCollectSamples(md) {
+      var type = _mmgCurrentType();
+      md.tasks = md.tasks || {};
+      if (type === 'cefr-writing') {
+        var cwAllFields = ['sample','sampleA1','sampleA2','sampleB1','sampleB2',
+                           'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+        for (var i = 0; i < _MMG_CW_SAMPLE_SECTIONS.length; i++) {
+          var key = _MMG_CW_SAMPLE_SECTIONS[i].key;
+          var task = (md.tasks[key] = md.tasks[key] || {});
+          var p = 'mmg' + key.toUpperCase() + '_';
+          for (var j = 0; j < cwAllFields.length; j++) {
+            var el = document.getElementById(p + cwAllFields[j]);
+            if (el) task[cwAllFields[j]] = el.value;
+          }
+        }
+      } else if (type === 'ielts-writing') {
+        var iwAllFields = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+                           'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+        for (var i2 = 0; i2 < _MMG_IW_SAMPLE_SECTIONS.length; i2++) {
+          var key2 = _MMG_IW_SAMPLE_SECTIONS[i2].key;
+          var task2 = (md.tasks[key2] = md.tasks[key2] || {});
+          var p2 = 'mmgIw_' + key2 + '_';
+          for (var j2 = 0; j2 < iwAllFields.length; j2++) {
+            var el2 = document.getElementById(p2 + iwAllFields[j2]);
+            if (el2) task2[iwAllFields[j2]] = el2.value;
+          }
+        }
+      }
+    }
+
     function _mmgRenderVocab(md) {
       var v = (md.vocabulary = md.vocabulary || {});
-      var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
-              + '<div class="mmg-field-help">One list per task. Add as many rows as you like; click × to remove.</div>';
       var groups = _mmgVocabGroupsForType(_mmgCurrentType());
-      for (var g = 0; g < groups.length; g++) {
-        var key = groups[g].key;
-        var arr = (v[key] = Array.isArray(v[key]) ? v[key] : []);
-        html += '<details class="mmg-collapse" open><summary>' + _mmgEsc(groups[g].label)
-             + ' <span class="mmg-warn-pill">' + arr.length + '</span></summary>'
-             + '<div class="mmg-collapse-body">'
-             + '<div id="mmgVocList_' + key + '" style="display:flex;flex-direction:column;gap:5px;"></div>'
-             + '<button class="mmg-add-btn" onclick="_mmgVocabAdd(\'' + key + '\')">＋ Add row</button>'
-             + '</div></details>';
+      // Make sure every task array exists (so chip counts are accurate).
+      for (var gi = 0; gi < groups.length; gi++) {
+        v[groups[gi].key] = Array.isArray(v[groups[gi].key]) ? v[groups[gi].key] : [];
       }
+
+      // Persist active task across renders; coerce if invalid for this type.
+      window._mmgVocabState = window._mmgVocabState || {};
+      if (!groups.some(function(x){ return x.key === window._mmgVocabState.task; })) {
+        window._mmgVocabState.task = groups[0].key;
+      }
+      var activeKey = window._mmgVocabState.task;
+
+      var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
+              + '<div class="mmg-field-help">One list per task. <span style="color:#15803d;">●</span> = list has rows. Use search to find an existing entry.</div>';
+
+      // Task chip row (count + filled dot per chip).
+      html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
+      for (var i = 0; i < groups.length; i++) {
+        var g = groups[i];
+        var arr = v[g.key] || [];
+        var filled = arr.length ? ' filled' : '';
+        var active = g.key === activeKey ? ' active' : '';
+        var label = g.label.replace(' vocabulary','') + ' (' + arr.length + ')';
+        html += '<button class="mmg-chip' + active + filled + '" '
+              + 'onclick="_mmgVocabPickTask(\'' + g.key + '\')">'
+              + _mmgEsc(label) + '</button>';
+      }
+      html += '</div>';
+
+      // Search + Add row toolbar.
+      html += '<div class="mmg-list-toolbar">'
+            +   '<div class="mmg-list-search"><input type="text" placeholder="Search English or Uzbek…" '
+            +      'oninput="_mmgFilterRows(\'mmgVocList_' + activeKey + '\', this.value, [\'en\',\'uz\'])"></div>'
+            +   '<button class="mmg-add-btn" onclick="_mmgVocabAdd(\'' + activeKey + '\')">＋ Add row</button>'
+            + '</div>';
+
+      // Column headers + list container.
+      html += '<div class="mmg-list-headers mmg-vocab-headers"><span>English</span><span>Uzbek</span><span></span></div>';
+      html += '<div id="mmgVocList_' + activeKey + '" style="display:flex;flex-direction:column;gap:5px;"></div>';
+
       document.getElementById('mmgPaneVocab').innerHTML = html;
-      // Populate each list.
-      for (var i = 0; i < groups.length; i++) _mmgVocabRefresh(md, groups[i].key);
+      _mmgVocabRefresh(md, activeKey);
+    }
+    // Switch active task (chips). Flush current task's edits before re-rendering.
+    function _mmgVocabPickTask(taskKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectVocab(md);
+      _mmgSetMockData(md);
+      window._mmgVocabState = window._mmgVocabState || {};
+      window._mmgVocabState.task = taskKey;
+      _mmgRenderVocab(md);
     }
     function _mmgVocabRefresh(md, key) {
       var arr = (md.vocabulary && md.vocabulary[key]) || [];
@@ -26881,7 +27226,7 @@
              +    '<button class="mmg-row-del" title="Remove" onclick="_mmgVocabDel(\'' + key + '\', ' + i + ')">×</button>'
              + '</div>';
       }
-      if (!arr.length) html = '<div class="mmg-empty-hint">No rows yet. Click + Add row to start.</div>';
+      if (!arr.length) html = '<div class="mmg-list-empty"><strong>No vocabulary yet for this task</strong>Click <em>＋ Add row</em> above to add the first English ↔ Uzbek pair.</div>';
       host.innerHTML = html;
     }
     function _mmgVocabAdd(key) {
@@ -26944,15 +27289,23 @@
       var helpHtml = isIelts
         ? 'Each <span style="font-family:ui-monospace,monospace;">&lt;mark&gt;phrase&lt;/mark&gt;</span> in your samples needs an entry here so students can hover for the Uzbek translation.'
         : 'Each <span style="font-family:ui-monospace,monospace;">&lt;span class="ml-token TYPE"&gt;phrase&lt;/span&gt;</span> in your samples needs an entry here so students can hover for the Uzbek translation.';
-      var html = '<div class="mmg-section-title">Token translations</div>'
-              + '<div class="mmg-field-help">' + helpHtml + '</div>'
-              + '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
-              +   '<button class="mmg-detect-btn" onclick="_mmgTokensAutoDetect()">⚡ Auto-detect missing tokens from samples</button>'
-              +   '<span id="mmgTokensDetectResult" class="mmg-detect-result"></span>'
-              + '</div>'
-              + '<div class="mmg-tokens-header"><span>Phrase</span><span>Uzbek</span><span>Type</span><span></span></div>'
-              + '<div id="mmgTokensList" style="display:flex;flex-direction:column;gap:5px;"></div>'
-              + '<button class="mmg-add-btn" onclick="_mmgTokensAdd()">＋ Add token</button>';
+
+      var html = '<div class="mmg-section-title">Token translations <span class="mmg-warn-pill" style="background:#dcfce7;color:#15803d;">' + entries.length + '</span></div>'
+              + '<div class="mmg-field-help">' + helpHtml + '</div>';
+
+      // Search + Auto-detect + Add toolbar.
+      html += '<div class="mmg-list-toolbar">'
+            +   '<div class="mmg-list-search"><input type="text" placeholder="Search phrase, translation, or type…" '
+            +      'oninput="_mmgFilterRows(\'mmgTokensList\', this.value, [\'phrase\',\'uz\',\'type\'])"></div>'
+            +   '<button class="mmg-detect-btn" onclick="_mmgTokensAutoDetect()">⚡ Auto-detect</button>'
+            +   '<button class="mmg-add-btn" onclick="_mmgTokensAdd()">＋ Add token</button>'
+            + '</div>'
+            + '<span id="mmgTokensDetectResult" class="mmg-detect-result"></span>';
+
+      // Column headers + list container.
+      html += '<div class="mmg-list-headers mmg-tokens-headers"><span>Phrase</span><span>Uzbek</span><span>Type</span><span></span></div>';
+      html += '<div id="mmgTokensList" style="display:flex;flex-direction:column;gap:5px;"></div>';
+
       document.getElementById('mmgPaneTokens').innerHTML = html;
       _mmgTokensRefresh(entries);
     }
@@ -26975,7 +27328,7 @@
              +    '<button class="mmg-row-del" title="Remove" onclick="_mmgTokensDel(' + i + ')">×</button>'
              + '</div>';
       }
-      if (!entries.length) html = '<div class="mmg-empty-hint">No tokens yet. Use Auto-detect or + Add token.</div>';
+      if (!entries.length) html = '<div class="mmg-list-empty"><strong>No token translations yet</strong>Click <em>⚡ Auto-detect</em> to scan all samples and pre-fill rows for every <code>&lt;mark&gt;</code> / <code>ml-token</code> phrase, or <em>＋ Add token</em> for a single one.</div>';
       host.innerHTML = html;
     }
     function _mmgTokensAdd() {
