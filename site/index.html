@@ -1901,59 +1901,176 @@
       margin: 0 0 18px;
     }
 
-    /* Progressive disclosure: guest fields are collapsed until the toggle is
-       tapped. Keeps the common (signed-in) path under one viewport on phones. */
-    .guest-section {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.35s ease, opacity 0.25s ease;
-    }
-    .guest-section.expanded {
-      max-height: 520px;
-      opacity: 1;
-    }
-    /* Sign-in options collapse symmetrically when the guest section opens —
-       the screen stays compact while a guest is typing their name. */
-    .signin-options {
-      max-height: 220px;
-      overflow: hidden;
-      opacity: 1;
-      transition: max-height 0.35s ease, opacity 0.25s ease;
-    }
-    .signin-options.collapsed {
-      max-height: 0;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .guest-toggle {
-      display: block;
-      width: 100%;
-      background: none;
-      border: 0;
-      padding: 12px 0 10px;
-      margin: 6px 0 0;
+    /* Guest section is always visible (no progressive disclosure). The
+       previous collapse-by-default flow caused too many "where is guest
+       mode?" questions, so the inputs are exposed up front and laid out
+       inline to keep the welcome card short on phones. */
+    .signin-options { /* sign-in buttons stay full size; no collapse */ }
+
+    .guest-heading {
+      text-align: center;
+      padding: 10px 0 10px;
+      margin: 8px 0 4px;
       color: #475569;
       font-size: 14px;
       font-weight: 600;
-      cursor: pointer;
       letter-spacing: 0.01em;
-      font-family: inherit;
+      border-top: 1px solid #e5e7eb;
     }
-    .guest-toggle strong {
+    .guest-heading strong {
       color: #116a60;
       font-weight: 800;
     }
-    .guest-toggle:hover { color: #116a60; }
-    .guest-toggle .chev {
-      display: inline-block;
-      margin-left: 6px;
-      transition: transform 0.25s;
+    [data-theme="dark"] .guest-heading {
+      color: #cbd5e1;
+      border-top-color: #334155;
     }
-    .guest-toggle.expanded .chev { transform: rotate(180deg); }
-    [data-theme="dark"] .guest-toggle { color: #cbd5e1; }
-    [data-theme="dark"] .guest-toggle strong { color: #5eead4; }
-    [data-theme="dark"] .guest-toggle:hover { color: #5eead4; }
+    [data-theme="dark"] .guest-heading strong { color: #5eead4; }
+
+    /* Compact one-row layout: [Familiya] [Ism] [→]
+       Stays on a single line down to ~360px viewports; stacks on tinier
+       devices via the media query below. */
+    .guest-name-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+      margin-bottom: 4px;
+    }
+    .guest-name-row input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 14px;
+      border: 2px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+      background: #f9fafb;
+      box-sizing: border-box;
+      transition: all 0.2s;
+      outline: none;
+      font-family: inherit;
+    }
+    .guest-name-row input:focus {
+      border-color: #116a60;
+      box-shadow: 0 0 0 3px rgba(17, 106, 96, 0.15);
+      background: #fff;
+    }
+    .guest-name-row input.invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    }
+    [data-theme="dark"] .guest-name-row input {
+      background: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
+    }
+    [data-theme="dark"] .guest-name-row input:focus {
+      border-color: #5eead4;
+      background: #0f172a;
+    }
+
+    .name-submit-btn-inline {
+      flex-shrink: 0;
+      width: 50px;
+      padding: 0;
+      background: linear-gradient(135deg, #116a60, #0d9488);
+      color: #fff;
+      border: 0;
+      border-radius: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(17, 106, 96, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .name-submit-btn-inline:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(17, 106, 96, 0.42);
+    }
+    .name-submit-btn-inline:active { transform: translateY(0); }
+    .name-submit-btn-inline:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Tiny phones (<360px width): stack inputs vertically, put the
+       submit button on its own row. ~2% of devices in 2026. */
+    @media (max-width: 359px) {
+      .guest-name-row {
+        flex-wrap: wrap;
+      }
+      .guest-name-row input {
+        flex: 1 1 100%;
+      }
+      .name-submit-btn-inline {
+        width: 100%;
+        height: 44px;
+        font-size: 18px;
+      }
+    }
+
+    /* ===== Two-step wizard (Familiya → Ism) =====
+       Only one step is .active at a time. Card height stays constant
+       across steps, no layout jumps. */
+    .guest-step {
+      display: none;
+    }
+    .guest-step.active {
+      display: block;
+      animation: guestStepFade 200ms ease;
+    }
+    @keyframes guestStepFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Back row is shown only on step 2 — small "← Surname" link that
+       returns to step 1 with the surname pre-filled for editing. */
+    .guest-back-row {
+      text-align: left;
+      margin: 0 0 8px;
+      animation: guestStepFade 200ms ease;
+    }
+    .guest-back-btn {
+      background: none;
+      border: 0;
+      color: #116a60;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+    .guest-back-btn:hover { text-decoration: underline; }
+    .guest-back-btn .surname-preview {
+      color: #475569;
+      font-weight: 600;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .guest-back-btn { color: #5eead4; }
+    [data-theme="dark"] .guest-back-btn .surname-preview { color: #cbd5e1; }
+
+    /* Hint text under the input — "or press Enter" */
+    .guest-step-hint {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin: 6px 0 4px;
+      padding-left: 4px;
+      letter-spacing: 0.01em;
+    }
+    [data-theme="dark"] .guest-step-hint { color: #64748b; }
 
     .name-field-group {
       text-align: left;
@@ -3018,32 +3135,44 @@
           <div class="google-signin-hint" id="googleSigninHint">Natijalaringiz har bir qurilmada saqlanadi</div>
         </div>
 
-        <!-- Toggle for guest path. The id is kept as `nameOrSeparator` so
-             the existing Telegram-WebView fallback can still hide it. -->
-        <button type="button" class="guest-toggle" id="nameOrSeparator" onclick="toggleGuestSection()">
-          yoki <strong>Mehmon</strong> sifatida davom eting<span class="chev">▾</span>
-        </button>
+        <!-- Static guest heading (no chevron, not clickable). The id stays
+             as `nameOrSeparator` for the Telegram-WebView fallback to hide it. -->
+        <div class="guest-heading" id="nameOrSeparator">
+          yoki <strong>Mehmon</strong> sifatida davom eting
+        </div>
 
         <div class="guest-section" id="guestSection">
-          <div class="name-field-group">
-            <label for="nameInputSurname">Familiya (Surname)</label>
-            <input type="text" id="nameInputSurname" placeholder="Familiyangiz" autocomplete="off" autocorrect="off"
-              spellcheck="false">
+          <!-- Back link to Step 1 — shown only on Step 2. -->
+          <div class="guest-back-row" id="guestBackRow" style="display:none;">
+            <button type="button" class="guest-back-btn" onclick="guestStepBack()" aria-label="Familiyani tahrirlash">
+              ← <span class="surname-preview" id="guestSurnamePreview"></span>
+            </button>
+          </div>
+
+          <!-- Step 1: Familiya (visible on load) -->
+          <div class="guest-step active" id="guestStep1">
+            <div class="guest-name-row">
+              <input type="text" id="nameInputSurname" placeholder="Familiya" aria-label="Familiya (Surname)"
+                autocomplete="off" autocorrect="off" spellcheck="false">
+              <button type="button" class="name-submit-btn-inline" onclick="guestStepNext1()"
+                aria-label="Keyingi" title="Keyingi (Enter)">→</button>
+            </div>
             <div class="name-field-error" id="surnameError"></div>
           </div>
 
-          <div class="name-field-group">
-            <label for="nameInputFirstname">Ism (Name)</label>
-            <input type="text" id="nameInputFirstname" placeholder="Ismingiz" autocomplete="off" autocorrect="off"
-              spellcheck="false">
+          <!-- Step 2: Ism (revealed after Step 1) -->
+          <div class="guest-step" id="guestStep2">
+            <div class="guest-name-row">
+              <input type="text" id="nameInputFirstname" placeholder="Ism" aria-label="Ism (Name)"
+                autocomplete="off" autocorrect="off" spellcheck="false">
+              <button type="button" class="name-submit-btn-inline" id="nameSubmitBtn" onclick="submitCandidateName()"
+                aria-label="Davom etish (Continue)" title="Davom etish (Enter)">→</button>
+            </div>
             <div class="name-field-error" id="firstnameError"></div>
           </div>
 
-          <button class="name-submit-btn" id="nameSubmitBtn" onclick="submitCandidateName()">
-            Davom etish <span style="font-size:20px">→</span>
-          </button>
           <div class="guest-warning">
-            ⚠️ Mehmon sifatida: natijalar faqat shu qurilmada ko'rinadi
+            ⚠️ Mehmon sifatida natijalar tarixini ko'ra olmaysiz
           </div>
         </div>
       </div>
@@ -4461,12 +4590,17 @@
         }
       }
 
-      // Allow Enter key to submit name
-      [surnameInput, firstnameInput].forEach(inp => {
-        if (inp) inp.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') submitCandidateName();
+      // Enter on Step 1 advances to Step 2; Enter on Step 2 submits.
+      if (surnameInput) {
+        surnameInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); guestStepNext1(); }
         });
-      });
+      }
+      if (firstnameInput) {
+        firstnameInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); submitCandidateName(); }
+        });
+      }
 
       // Auto-jump from surname to firstname on space key
       if (surnameInput && firstnameInput) {
@@ -4484,23 +4618,33 @@
     });
 
     function validateNameField(value) {
+      const INVALID = 'Noto\'g\'ri ism';
       const trimmed = value.trim();
-      if (trimmed.length < 2) return 'Kamida 2 ta harf kiriting';
-      if (/[0-9]/.test(trimmed)) return 'Raqamlar kiritish mumkin emas';
-      if (/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF' -]/.test(trimmed)) return 'Faqat harflar kiritish mumkin';
+      if (trimmed.length < 3) return INVALID;
+      if (/[0-9]/.test(trimmed)) return INVALID;
+      if (/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF' -]/.test(trimmed)) return INVALID;
       // Must have at least 2 consecutive letters
-      if (!/[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF]{2,}/.test(trimmed)) return 'Iltimos, to\'g\'ri ism kiriting';
+      if (!/[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF]{2,}/.test(trimmed)) return INVALID;
       // Block repeated characters (e.g. "aaaa", "sssss")
-      if (/(.)\1{2,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
+      if (/(.)\1{2,}/i.test(trimmed)) return INVALID;
+      // Block all-consonant or all-vowel gibberish ("Df", "Mff", "Aei").
+      // Only enforced when the input is pure Latin/ASCII; Cyrillic/Arabic
+      // names pass through this check (harder to classify by script).
+      const lettersOnly = trimmed.replace(/['\- ]/g, '');
+      if (/^[a-zA-Z]+$/.test(lettersOnly)) {
+        const hasVowel = /[aeiou]/i.test(lettersOnly);
+        const hasConsonant = /[bcdfghjklmnpqrstvwxyz]/i.test(lettersOnly);
+        if (!hasVowel || !hasConsonant) return INVALID;
+      }
       // Block too many consonants or vowels in a row (gibberish like "dfghj", "aeioua")
-      if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
-      if (/[aeiou]{4,}/i.test(trimmed)) return 'Iltimos, haqiqiy ismingizni kiriting';
+      if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(trimmed)) return INVALID;
+      if (/[aeiou]{4,}/i.test(trimmed)) return INVALID;
       // Block placeholder/generic words
       var lower = trimmed.toLowerCase();
       var placeholders = ['name','surname','ism','familiya','ismingiz','familiyangiz','test','admin','user','student',
         'firstname','lastname','first','last','hello','hi','none','null','undefined','asdf','qwerty','asd','qwer',
         'zxcv','abcd','abc','xyz','sdfdsf','dsfdsaf','fdsaf','fdsa','dsf','sdf','dfs','fds','jkl','ghjk'];
-      if (placeholders.indexOf(lower) !== -1) return 'Iltimos, haqiqiy ismingizni kiriting';
+      if (placeholders.indexOf(lower) !== -1) return INVALID;
       // Block keyboard-mash patterns: unique chars tightly clustered on one keyboard row
       if (trimmed.length >= 4) {
         var uniq = [];
@@ -4508,8 +4652,8 @@
           if (/[a-z]/.test(lower[ci]) && uniq.indexOf(lower[ci]) === -1) uniq.push(lower[ci]);
         }
         // Too few unique chars for name length (e.g. "ababab", "rerere")
-        if (trimmed.length >= 5 && uniq.length <= 2) return 'Iltimos, haqiqiy ismingizni kiriting';
-        if (trimmed.length >= 7 && uniq.length <= 3) return 'Iltimos, haqiqiy ismingizni kiriting';
+        if (trimmed.length >= 5 && uniq.length <= 2) return INVALID;
+        if (trimmed.length >= 7 && uniq.length <= 3) return INVALID;
         // Check if all unique chars sit on same keyboard row within a tight span
         var kbRows = ['qwertyuiop','asdfghjkl','zxcvbnm'];
         for (var ri = 0; ri < kbRows.length; ri++) {
@@ -4531,7 +4675,7 @@
             // If chars span at most unique_count+1 positions, they're tightly clustered = keyboard mash
             // e.g. {q,w,e,r} span=3 unique=4 → 3 <= 5 → flagged
             // e.g. {p,e,t,r} span=7 unique=4 → 7 <= 5 → safe ("Peter")
-            if (span <= uniq.length + 1) return 'Iltimos, haqiqiy ismingizni kiriting';
+            if (span <= uniq.length + 1) return INVALID;
           }
         }
       }
@@ -4873,26 +5017,59 @@
       }
     })();
 
-    // Progressive disclosure: clicking "or continue as guest" expands the
-    // surname/firstname fields below. Defined as window.* so the inline
-    // onclick on the button can reach it.
-    window.toggleGuestSection = function () {
-      var sec = document.getElementById('guestSection');
-      var btn = document.getElementById('nameOrSeparator');
-      var opts = document.getElementById('signinOptions');
-      if (!sec) return;
-      var isExp = sec.classList.toggle('expanded');
-      if (btn)  btn.classList.toggle('expanded', isExp);
-      // When guest fields are visible, collapse Google + Telegram so the
-      // card doesn't overflow the viewport on phones. When the user hides
-      // the guest fields again, the sign-in options come back.
-      if (opts) opts.classList.toggle('collapsed', isExp);
-      if (isExp) {
-        setTimeout(function () {
-          var f = document.getElementById('nameInputSurname');
-          if (f) try { f.focus(); } catch (_e) {}
-        }, 280);
+    // No-op stub. Guest fields are now always visible — the toggle is
+    // gone, but legacy callers (cached pages, browser extensions) might
+    // still reference this, so we keep a no-op for safety.
+    window.toggleGuestSection = function () { /* no-op */ };
+
+    // ===== Two-step guest wizard =====
+    // Step 1 (Familiya) → guestStepNext1() validates surname, fades in Step 2.
+    // Step 2 (Ism)      → submitCandidateName() validates both, then continues.
+    // Back arrow        → guestStepBack() returns to Step 1, surname pre-filled.
+
+    window.guestStepNext1 = function () {
+      var surnameInput = document.getElementById('nameInputSurname');
+      var surnameError = document.getElementById('surnameError');
+      var firstnameInput = document.getElementById('nameInputFirstname');
+      if (!surnameInput) return;
+      var err = (typeof validateNameField === 'function')
+        ? validateNameField(surnameInput.value)
+        : null;
+      if (err) {
+        if (surnameError) surnameError.textContent = err;
+        surnameInput.classList.add('invalid');
+        surnameInput.focus();
+        return;
       }
+      if (surnameError) surnameError.textContent = '';
+      surnameInput.classList.remove('invalid');
+
+      // Persist for the OAuth-restore path & subsequent reads.
+      var trimmed = surnameInput.value.trim();
+      surnameInput.value = trimmed;
+      try { localStorage.setItem('CANDIDATE_SURNAME', trimmed); } catch (_e) {}
+
+      var step1 = document.getElementById('guestStep1');
+      var step2 = document.getElementById('guestStep2');
+      var backRow = document.getElementById('guestBackRow');
+      var preview = document.getElementById('guestSurnamePreview');
+      if (preview) preview.textContent = trimmed;
+      if (step1) step1.classList.remove('active');
+      if (step2) step2.classList.add('active');
+      if (backRow) backRow.style.display = '';
+      // Defer focus so the fade-in animation has a frame to start.
+      setTimeout(function () { if (firstnameInput) try { firstnameInput.focus(); } catch (_e) {} }, 60);
+    };
+
+    window.guestStepBack = function () {
+      var step1 = document.getElementById('guestStep1');
+      var step2 = document.getElementById('guestStep2');
+      var backRow = document.getElementById('guestBackRow');
+      var surnameInput = document.getElementById('nameInputSurname');
+      if (step2) step2.classList.remove('active');
+      if (step1) step1.classList.add('active');
+      if (backRow) backRow.style.display = 'none';
+      setTimeout(function () { if (surnameInput) try { surnameInput.focus(); surnameInput.select(); } catch (_e) {} }, 60);
     };
 
     // When Google OAuth redirect returns and session is restored, auto-advance
