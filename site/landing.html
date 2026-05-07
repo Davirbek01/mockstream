@@ -25783,6 +25783,45 @@
       .mmg-sample-side { min-height:200px; }
     }
 
+    /* ── List utilities (Vocabulary + Tokens tabs) ──────────────────────── */
+    .mmg-list-toolbar {
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+      margin:6px 0 8px;
+    }
+    .mmg-list-search {
+      flex:1; min-width:200px; position:relative;
+    }
+    .mmg-list-search > input {
+      width:100%; padding:7px 10px 7px 32px;
+      border:1px solid #cbd5e1; border-radius:6px;
+      font-size:13px; box-sizing:border-box; background:#fff;
+    }
+    .mmg-list-search > input:focus {
+      outline:none; border-color:#2563eb; box-shadow:0 0 0 2px rgba(37,99,235,.15);
+    }
+    .mmg-list-search::before {
+      content:'🔎'; position:absolute;
+      left:8px; top:50%; transform:translateY(-50%);
+      font-size:13px; pointer-events:none;
+    }
+    .mmg-list-headers {
+      display:grid; gap:6px;
+      font-size:10.5px; font-weight:700; color:#475569;
+      text-transform:uppercase; letter-spacing:0.4px;
+      padding:6px 4px 4px; border-bottom:1px solid #e2e8f0;
+      margin-top:4px;
+    }
+    .mmg-vocab-headers  { grid-template-columns:1fr 1fr 30px; }
+    .mmg-tokens-headers { grid-template-columns:2fr 2fr 1fr 30px; }
+    /* Empty state — friendlier than the old italic hint. */
+    .mmg-list-empty {
+      text-align:center; padding:28px 16px;
+      color:#64748b; font-size:13px;
+      background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px;
+      margin-top:8px;
+    }
+    .mmg-list-empty > strong { display:block; color:#0f172a; font-size:14px; margin-bottom:4px; }
+
     /* ── Reusable media upload widget (signed-URL upload to GCS) ──────── */
     .mmg-upload-row { display:flex; gap:6px; align-items:center; }
     .mmg-upload-row > input[type="text"] { flex:1; }
@@ -26806,6 +26845,28 @@
       return (b/1024/1024).toFixed(1) + ' MB';
     }
 
+    // Generic search-filter for vocab/tokens row lists. Hides rows whose
+    // input values don't include the query in any of the named fields.
+    // Hidden rows stay in DOM (so collect functions still see them); only
+    // their display is toggled.
+    function _mmgFilterRows(hostId, query, fieldNames) {
+      var host = document.getElementById(hostId);
+      if (!host) return;
+      var q = (query || '').trim().toLowerCase();
+      var rows = host.children;
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (!row || row.nodeType !== 1) continue;
+        if (!q) { row.style.display = ''; continue; }
+        var match = false;
+        for (var j = 0; j < fieldNames.length; j++) {
+          var inp = row.querySelector('input[data-fld="' + fieldNames[j] + '"], select[data-fld="' + fieldNames[j] + '"]');
+          if (inp && (inp.value || '').toLowerCase().indexOf(q) !== -1) { match = true; break; }
+        }
+        row.style.display = match ? '' : 'none';
+      }
+    }
+
     // Sample editor variant for IELTS Writing — wraps in <mark>…</mark>.
     // Toolbar buttons map to a TYPE that gets *added to tokenTranslations*
     // when the user marks a phrase, since <mark> alone has no type info.
@@ -27135,22 +27196,58 @@
 
     function _mmgRenderVocab(md) {
       var v = (md.vocabulary = md.vocabulary || {});
-      var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
-              + '<div class="mmg-field-help">One list per task. Add as many rows as you like; click × to remove.</div>';
       var groups = _mmgVocabGroupsForType(_mmgCurrentType());
-      for (var g = 0; g < groups.length; g++) {
-        var key = groups[g].key;
-        var arr = (v[key] = Array.isArray(v[key]) ? v[key] : []);
-        html += '<details class="mmg-collapse" open><summary>' + _mmgEsc(groups[g].label)
-             + ' <span class="mmg-warn-pill">' + arr.length + '</span></summary>'
-             + '<div class="mmg-collapse-body">'
-             + '<div id="mmgVocList_' + key + '" style="display:flex;flex-direction:column;gap:5px;"></div>'
-             + '<button class="mmg-add-btn" onclick="_mmgVocabAdd(\'' + key + '\')">＋ Add row</button>'
-             + '</div></details>';
+      // Make sure every task array exists (so chip counts are accurate).
+      for (var gi = 0; gi < groups.length; gi++) {
+        v[groups[gi].key] = Array.isArray(v[groups[gi].key]) ? v[groups[gi].key] : [];
       }
+
+      // Persist active task across renders; coerce if invalid for this type.
+      window._mmgVocabState = window._mmgVocabState || {};
+      if (!groups.some(function(x){ return x.key === window._mmgVocabState.task; })) {
+        window._mmgVocabState.task = groups[0].key;
+      }
+      var activeKey = window._mmgVocabState.task;
+
+      var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
+              + '<div class="mmg-field-help">One list per task. <span style="color:#15803d;">●</span> = list has rows. Use search to find an existing entry.</div>';
+
+      // Task chip row (count + filled dot per chip).
+      html += '<div class="mmg-chip-row"><span class="mmg-chip-label">Task</span>';
+      for (var i = 0; i < groups.length; i++) {
+        var g = groups[i];
+        var arr = v[g.key] || [];
+        var filled = arr.length ? ' filled' : '';
+        var active = g.key === activeKey ? ' active' : '';
+        var label = g.label.replace(' vocabulary','') + ' (' + arr.length + ')';
+        html += '<button class="mmg-chip' + active + filled + '" '
+              + 'onclick="_mmgVocabPickTask(\'' + g.key + '\')">'
+              + _mmgEsc(label) + '</button>';
+      }
+      html += '</div>';
+
+      // Search + Add row toolbar.
+      html += '<div class="mmg-list-toolbar">'
+            +   '<div class="mmg-list-search"><input type="text" placeholder="Search English or Uzbek…" '
+            +      'oninput="_mmgFilterRows(\'mmgVocList_' + activeKey + '\', this.value, [\'en\',\'uz\'])"></div>'
+            +   '<button class="mmg-add-btn" onclick="_mmgVocabAdd(\'' + activeKey + '\')">＋ Add row</button>'
+            + '</div>';
+
+      // Column headers + list container.
+      html += '<div class="mmg-list-headers mmg-vocab-headers"><span>English</span><span>Uzbek</span><span></span></div>';
+      html += '<div id="mmgVocList_' + activeKey + '" style="display:flex;flex-direction:column;gap:5px;"></div>';
+
       document.getElementById('mmgPaneVocab').innerHTML = html;
-      // Populate each list.
-      for (var i = 0; i < groups.length; i++) _mmgVocabRefresh(md, groups[i].key);
+      _mmgVocabRefresh(md, activeKey);
+    }
+    // Switch active task (chips). Flush current task's edits before re-rendering.
+    function _mmgVocabPickTask(taskKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectVocab(md);
+      _mmgSetMockData(md);
+      window._mmgVocabState = window._mmgVocabState || {};
+      window._mmgVocabState.task = taskKey;
+      _mmgRenderVocab(md);
     }
     function _mmgVocabRefresh(md, key) {
       var arr = (md.vocabulary && md.vocabulary[key]) || [];
@@ -27166,7 +27263,7 @@
              +    '<button class="mmg-row-del" title="Remove" onclick="_mmgVocabDel(\'' + key + '\', ' + i + ')">×</button>'
              + '</div>';
       }
-      if (!arr.length) html = '<div class="mmg-empty-hint">No rows yet. Click + Add row to start.</div>';
+      if (!arr.length) html = '<div class="mmg-list-empty"><strong>No vocabulary yet for this task</strong>Click <em>＋ Add row</em> above to add the first English ↔ Uzbek pair.</div>';
       host.innerHTML = html;
     }
     function _mmgVocabAdd(key) {
@@ -27229,15 +27326,23 @@
       var helpHtml = isIelts
         ? 'Each <span style="font-family:ui-monospace,monospace;">&lt;mark&gt;phrase&lt;/mark&gt;</span> in your samples needs an entry here so students can hover for the Uzbek translation.'
         : 'Each <span style="font-family:ui-monospace,monospace;">&lt;span class="ml-token TYPE"&gt;phrase&lt;/span&gt;</span> in your samples needs an entry here so students can hover for the Uzbek translation.';
-      var html = '<div class="mmg-section-title">Token translations</div>'
-              + '<div class="mmg-field-help">' + helpHtml + '</div>'
-              + '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
-              +   '<button class="mmg-detect-btn" onclick="_mmgTokensAutoDetect()">⚡ Auto-detect missing tokens from samples</button>'
-              +   '<span id="mmgTokensDetectResult" class="mmg-detect-result"></span>'
-              + '</div>'
-              + '<div class="mmg-tokens-header"><span>Phrase</span><span>Uzbek</span><span>Type</span><span></span></div>'
-              + '<div id="mmgTokensList" style="display:flex;flex-direction:column;gap:5px;"></div>'
-              + '<button class="mmg-add-btn" onclick="_mmgTokensAdd()">＋ Add token</button>';
+
+      var html = '<div class="mmg-section-title">Token translations <span class="mmg-warn-pill" style="background:#dcfce7;color:#15803d;">' + entries.length + '</span></div>'
+              + '<div class="mmg-field-help">' + helpHtml + '</div>';
+
+      // Search + Auto-detect + Add toolbar.
+      html += '<div class="mmg-list-toolbar">'
+            +   '<div class="mmg-list-search"><input type="text" placeholder="Search phrase, translation, or type…" '
+            +      'oninput="_mmgFilterRows(\'mmgTokensList\', this.value, [\'phrase\',\'uz\',\'type\'])"></div>'
+            +   '<button class="mmg-detect-btn" onclick="_mmgTokensAutoDetect()">⚡ Auto-detect</button>'
+            +   '<button class="mmg-add-btn" onclick="_mmgTokensAdd()">＋ Add token</button>'
+            + '</div>'
+            + '<span id="mmgTokensDetectResult" class="mmg-detect-result"></span>';
+
+      // Column headers + list container.
+      html += '<div class="mmg-list-headers mmg-tokens-headers"><span>Phrase</span><span>Uzbek</span><span>Type</span><span></span></div>';
+      html += '<div id="mmgTokensList" style="display:flex;flex-direction:column;gap:5px;"></div>';
+
       document.getElementById('mmgPaneTokens').innerHTML = html;
       _mmgTokensRefresh(entries);
     }
@@ -27260,7 +27365,7 @@
              +    '<button class="mmg-row-del" title="Remove" onclick="_mmgTokensDel(' + i + ')">×</button>'
              + '</div>';
       }
-      if (!entries.length) html = '<div class="mmg-empty-hint">No tokens yet. Use Auto-detect or + Add token.</div>';
+      if (!entries.length) html = '<div class="mmg-list-empty"><strong>No token translations yet</strong>Click <em>⚡ Auto-detect</em> to scan all samples and pre-fill rows for every <code>&lt;mark&gt;</code> / <code>ml-token</code> phrase, or <em>＋ Add token</em> for a single one.</div>';
       host.innerHTML = html;
     }
     function _mmgTokensAdd() {
