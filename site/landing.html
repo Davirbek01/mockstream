@@ -25576,17 +25576,47 @@
     .mmg-card-soon:hover { transform:none; box-shadow:0 1px 3px rgba(15,23,42,.04); border-color:#e2e8f0; }
 
     /* ── Structured editor (CEFR Writing) ─────────────────────────────── */
-    .mmg-tabs-bar { display:flex; gap:2px; padding:0 18px; border-bottom:1px solid #e2e8f0; flex-wrap:wrap; background:#f8fafc; }
-    .mmg-tab { background:transparent; border:0; border-bottom:2.5px solid transparent;
-      padding:9px 12px; font-size:12px; font-weight:600; color:#64748b; cursor:pointer;
-      transition:all .15s ease; margin-bottom:-1px; white-space:nowrap; }
-    .mmg-tab:hover { color:#2563eb; }
-    .mmg-tab.active { color:#2563eb; border-bottom-color:#2563eb; background:#fff; }
+    /* Side-by-side layout: vertical tab sidebar + main pane area.
+       The wrapper `.mmg-edit-main` is a flex row that stretches to fill the
+       leftover height in the edit modal between the metadata grid and footer.
+       On narrow viewports we revert to the legacy stacked layout (horizontal
+       tabs scroll, panes below). */
+    .mmg-edit-main { display:flex; flex:1; overflow:hidden; min-height:0; }
+    .mmg-edit-panes { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
+    .mmg-tabs-bar {
+      display:flex; flex-direction:column; gap:1px;
+      padding:8px 0; border-right:1px solid #e2e8f0; background:#f8fafc;
+      width:200px; flex-shrink:0; overflow-y:auto;
+    }
+    .mmg-tab {
+      background:transparent; border:0; border-left:3px solid transparent;
+      padding:10px 16px; font-size:13px; font-weight:600; color:#475569;
+      cursor:pointer; transition:all .12s ease; white-space:nowrap;
+      text-align:left; width:100%; box-sizing:border-box;
+    }
+    .mmg-tab:hover { color:#2563eb; background:#f1f5f9; }
+    .mmg-tab.active { color:#2563eb; border-left-color:#2563eb; background:#eff6ff; }
     .mmg-tab.mmg-tab-raw { color:#92400e; }
-    .mmg-tab.mmg-tab-raw.active { color:#92400e; border-bottom-color:#f59e0b; }
-    .mmg-pane { display:none; flex:1; overflow-y:auto; padding:14px 18px; flex-direction:column; gap:14px; }
+    .mmg-tab.mmg-tab-raw.active { color:#92400e; border-left-color:#f59e0b; background:#fffbeb; }
+    .mmg-pane { display:none; flex:1; overflow-y:auto; padding:18px 22px; flex-direction:column; gap:14px; }
     .mmg-pane.active { display:flex; }
     .mmg-pane.mmg-pane-raw.active { padding:0; gap:0; }
+    /* Mobile / narrow viewport: stack tabs as horizontal scroll bar (legacy). */
+    @media (max-width: 700px) {
+      .mmg-edit-main { flex-direction:column; }
+      .mmg-tabs-bar {
+        flex-direction:row; width:auto; padding:0 8px; gap:0;
+        border-right:0; border-bottom:1px solid #e2e8f0;
+        overflow-x:auto; overflow-y:hidden; flex-shrink:0;
+      }
+      .mmg-tab {
+        border-left:0; border-bottom:2.5px solid transparent;
+        padding:9px 12px; font-size:12px; flex-shrink:0; width:auto;
+      }
+      .mmg-tab.active { border-left-color:transparent; border-bottom-color:#2563eb; background:#fff; }
+      .mmg-tab.mmg-tab-raw.active { border-left-color:transparent; border-bottom-color:#f59e0b; background:#fff; }
+      .mmg-pane { padding:14px 18px; }
+    }
     .mmg-field { display:flex; flex-direction:column; gap:4px; font-size:12px; }
     .mmg-field > label { font-weight:600; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
     .mmg-field > input, .mmg-field > textarea {
@@ -25739,8 +25769,8 @@
       .mmg-tabs-bar { padding:0 12px; }
     }
   </style>
-  <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s ease;">
-    <div style="background:#fff;color:#0f172a;border-radius:16px;width:100%;max-width:1100px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;">
+  <div id="mmgOverlay" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:10220;align-items:stretch;justify-content:stretch;opacity:0;transition:opacity .25s ease;">
+    <div style="background:#fff;color:#0f172a;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;">
       <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #e2e8f0;">
         <div style="font-size:20px;font-weight:700;flex:1;">🧪 Mock Settings</div>
         <span id="mmgWhoAmI" style="font-size:11px;color:#64748b;"></span>
@@ -25755,8 +25785,8 @@
     </div>
 
     <!-- Edit modal (overlays the list pane) -->
-    <div id="mmgEditModal" style="display:none;position:absolute;inset:0;background:rgba(15,23,42,.55);align-items:center;justify-content:center;padding:20px;">
-      <div style="background:#fff;border-radius:14px;width:100%;max-width:840px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);">
+    <div id="mmgEditModal" style="display:none;position:absolute;inset:0;background:#fff;align-items:stretch;justify-content:stretch;">
+      <div style="background:#fff;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;">
         <div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;">
           <div id="mmgEditTitle" style="font-size:15px;font-weight:700;flex:1;">Edit mock</div>
           <button onclick="_mmgEditClose()" style="background:none;border:0;font-size:20px;cursor:pointer;color:#64748b;">×</button>
@@ -25784,9 +25814,11 @@
             </select>
           </label>
         </div>
-        <!-- Tab bar — shown for skill types with a structured editor.
-             Buttons are conditionally visible based on the current mock_type
-             (CEFR Writing has Part 1/T1.1/T1.2/T2; IELTS Writing has Task 1/Task 2). -->
+        <!-- Tab bar (vertical sidebar on desktop, horizontal scroll on mobile)
+             + structured panes wrapped in a flex row so the sidebar can sit
+             beside the editing pane. Tab visibility per type is controlled by
+             .mmg-tab-cw / .mmg-tab-iw classes on individual buttons. -->
+        <div class="mmg-edit-main">
         <div id="mmgTabsBar" class="mmg-tabs-bar" style="display:none;">
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="part1"     onclick="_mmgSwitchTab('part1')">Part 1 (shared)</button>
@@ -25800,6 +25832,7 @@
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
           <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
+        <div class="mmg-edit-panes">
 
         <!-- Structured panes (rendered/populated by JS, not static HTML). -->
         <div id="mmgPaneSettings" class="mmg-pane"></div>
@@ -25822,6 +25855,8 @@
           </div>
           <textarea id="mmgFldData" spellcheck="false" style="flex:1;margin:0 18px 8px;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:12px ui-monospace,monospace;resize:none;min-height:280px;"></textarea>
         </div>
+        </div><!-- /mmg-edit-panes -->
+        </div><!-- /mmg-edit-main -->
         <div style="padding:14px 18px;border-top:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;">
           <button id="mmgBtnBackups" onclick="_mmgBackupsOpen()" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">🕒 Backups…</button>
           <button id="mmgBtnDelete" onclick="_mmgDelete()" style="background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;">Delete</button>
