@@ -25795,6 +25795,7 @@
           <button class="mmg-tab mmg-tab-cw"           data-tab="t2"        onclick="_mmgSwitchTab('t2')">Task 2</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task1"  onclick="_mmgSwitchTab('iw_task1')">Task 1</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task2"  onclick="_mmgSwitchTab('iw_task2')">Task 2</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
           <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
@@ -25808,6 +25809,7 @@
         <div id="mmgPaneT2"       class="mmg-pane"></div>
         <div id="mmgPaneIwTask1"  class="mmg-pane"></div>
         <div id="mmgPaneIwTask2"  class="mmg-pane"></div>
+        <div id="mmgPaneSamples"  class="mmg-pane"></div>
         <div id="mmgPaneVocab"    class="mmg-pane"></div>
         <div id="mmgPaneTokens"   class="mmg-pane"></div>
 
@@ -26182,6 +26184,7 @@
     var _MMG_TAB_TO_PANE = {
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
+      samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
 
@@ -26231,6 +26234,7 @@
           case 't2':       _mmgCollectTask(md, 't2');  break;
           case 'iw_task1': _mmgCollectIwTask(md, 'task1'); break;
           case 'iw_task2': _mmgCollectIwTask(md, 'task2'); break;
+          case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
         }
@@ -26258,6 +26262,7 @@
         case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
         case 'iw_task1': _mmgRenderIwTask(md, 'task1', 'Task 1', 150, 20, 'Describe a chart/graph/diagram. Includes chart image and chart type.'); break;
         case 'iw_task2': _mmgRenderIwTask(md, 'task2', 'Task 2', 250, 40, 'Essay — present an argument or discuss both sides of a topic.'); break;
+        case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
       }
@@ -26453,40 +26458,21 @@
       html += _mmgFieldText('Title',  p + 'title',  task.title  || label,         'Display label.');
       html += _mmgFieldText('Target', p + 'target', task.target || defaultTarget, 'Word count target shown to the student (e.g., "50–70 words").');
       html += _mmgFieldArea('Prompt', p + 'prompt', task.prompt, 'The instruction the student reads. Plain text.', 100);
-      // Main model answer — gets the live-preview + markup-button treatment.
-      // Leveled samples (A1-B2) and Uzbek translations stay as plain textareas
-      // for now since they're collapsed by default and edited less often.
-      html += _mmgFieldSample('Model answer (sample)', p + 'sample', task.sample,
-        'Edit HTML on the left, see the rendered preview update live below. Use the toolbar buttons to mark vocabulary tokens — students get coloured highlights and hover-translations from the Tokens tab.');
 
-      // Level samples — collapsed by default.
-      html += '<details class="mmg-collapse"><summary>📚 Level-specific samples (A1 / A2 / B1 / B2)</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('A1',  p + 'sampleA1', task.sampleA1, '', 70)
-            + _mmgFieldArea('A2',  p + 'sampleA2', task.sampleA2, '', 70)
-            + _mmgFieldArea('B1',  p + 'sampleB1', task.sampleB1, '', 90)
-            + _mmgFieldArea('B2',  p + 'sampleB2', task.sampleB2, '', 110)
-            + '</div></details>';
-
-      // Uzbek translations — collapsed by default.
-      html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('Uz · main sample',  p + 'uzSample',   task.uzSample,   '', 110)
-            + _mmgFieldArea('Uz · A1', p + 'uzSampleA1', task.uzSampleA1, '', 70)
-            + _mmgFieldArea('Uz · A2', p + 'uzSampleA2', task.uzSampleA2, '', 70)
-            + _mmgFieldArea('Uz · B1', p + 'uzSampleB1', task.uzSampleB1, '', 90)
-            + _mmgFieldArea('Uz · B2', p + 'uzSampleB2', task.uzSampleB2, '', 110)
-            + '</div></details>';
+      // Sample fields (main model answer + leveled A1-B2 + Uzbek translations)
+      // live in the dedicated Samples tab — it keeps each task tab short and
+      // the Samples tab gives one stop for all sample editing across tasks.
+      html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + A1–B2 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      // Populate the preview pane now that the textarea exists in DOM.
-      _mmgUpdatePreview(p + 'sample');
     }
     function _mmgCollectTask(md, key) {
       md.tasks = md.tasks || {};
       var task = (md.tasks[key] = md.tasks[key] || {});
       var p = 'mmg' + key.toUpperCase() + '_';
-      var fields = ['title','target','prompt','sample','sampleA1','sampleA2','sampleB1','sampleB2','uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+      // Only structural fields live on the task tab now. Sample fields are
+      // collected by _mmgCollectSamples while the Samples tab is active.
+      var fields = ['title','target','prompt'];
       for (var i = 0; i < fields.length; i++) {
         var el = document.getElementById(p + fields[i]);
         if (el) task[fields[i]] = el.value;
@@ -26567,38 +26553,12 @@
               + '</div>';
       }
 
-      // Main sample answer with toolbar + live preview (mark-based).
-      html += _mmgFieldSampleMark('Model sample answer', p + 'sampleAnswer', task.sampleAnswer,
-        'The reference model answer. Use the toolbar buttons to mark vocabulary phrases — students get hover-translations from the Tokens tab.');
-
-      // Band-leveled samples (5-9).
-      html += '<details class="mmg-collapse"><summary>📚 Band-level samples (5 / 6 / 7 / 8 / 9)</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldSampleMark('Band 5', p + 'sampleBand5', task.sampleBand5, '')
-            + _mmgFieldSampleMark('Band 6', p + 'sampleBand6', task.sampleBand6, '')
-            + _mmgFieldSampleMark('Band 7', p + 'sampleBand7', task.sampleBand7, '')
-            + _mmgFieldSampleMark('Band 8', p + 'sampleBand8', task.sampleBand8, '')
-            + _mmgFieldSampleMark('Band 9', p + 'sampleBand9', task.sampleBand9, '')
-            + '</div></details>';
-
-      // Uzbek translations.
-      html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations of band samples</summary>'
-            + '<div class="mmg-collapse-body">'
-            + _mmgFieldArea('Uz · Band 5', p + 'uzSampleBand5', task.uzSampleBand5, '', 90)
-            + _mmgFieldArea('Uz · Band 6', p + 'uzSampleBand6', task.uzSampleBand6, '', 90)
-            + _mmgFieldArea('Uz · Band 7', p + 'uzSampleBand7', task.uzSampleBand7, '', 90)
-            + _mmgFieldArea('Uz · Band 8', p + 'uzSampleBand8', task.uzSampleBand8, '', 90)
-            + _mmgFieldArea('Uz · Band 9', p + 'uzSampleBand9', task.uzSampleBand9, '', 90)
-            + '</div></details>';
+      // Sample answer + leveled (Band 5-9) + Uzbek translations live in the
+      // dedicated Samples tab, keeping each task tab focused on the
+      // structural fields (prompt + instruction + chart).
+      html += '<div class="mmg-field-help" style="margin-top:8px;padding:8px 10px;background:#f0f9ff;border:1px dashed #93c5fd;border-radius:6px;color:#1e40af;">💡 Sample answers (main + Band 5–9 + Uzbek) live in the <strong>Samples</strong> tab. Optional — leave empty if you don\'t need them for this mock.</div>';
 
       document.getElementById(paneId).innerHTML = html;
-      // Initialise previews + chart thumbnail.
-      _mmgUpdatePreview(p + 'sampleAnswer');
-      _mmgUpdatePreview(p + 'sampleBand5');
-      _mmgUpdatePreview(p + 'sampleBand6');
-      _mmgUpdatePreview(p + 'sampleBand7');
-      _mmgUpdatePreview(p + 'sampleBand8');
-      _mmgUpdatePreview(p + 'sampleBand9');
       if (key === 'task1') {
         _mmgUpdateChartPreview(p);
         // Refresh thumbnail on URL input.
@@ -26616,10 +26576,9 @@
       md.tasks = md.tasks || {};
       var task = (md.tasks[key] = md.tasks[key] || {});
       var p = 'mmgIw_' + key + '_';
-      // String fields.
-      var stringFields = ['title','prompt','instruction','sampleAnswer',
-        'sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
-        'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+      // Only structural fields here; sample fields are collected by
+      // _mmgCollectSamples while the Samples tab is active.
+      var stringFields = ['title','prompt','instruction'];
       for (var i = 0; i < stringFields.length; i++) {
         var el = document.getElementById(p + stringFields[i]);
         if (el) task[stringFields[i]] = el.value;
@@ -26848,6 +26807,161 @@
         { key: 'task2',  label: 'Task 2 vocabulary'  }
       ];
     }
+    // ── Samples tab ─────────────────────────────────────────────────────
+    // One stop for ALL sample content across every task in this mock.
+    // Schema-aware:
+    //   CEFR Writing  → 3 sections (t11/t12/t2), each with main sample
+    //                   + leveled samples (A1 / A2 / B1 / B2) + Uz translations
+    //   IELTS Writing → 2 sections (task1/task2), each with main sample
+    //                   + leveled samples (Band 5/6/7/8/9) + Uz translations
+    // Each task section is its own <details>; the first one starts open.
+    var _MMG_CW_SAMPLE_SECTIONS = [
+      { key: 't11', label: 'Task 1.1 samples', subhint: 'Short letter to a friend.' },
+      { key: 't12', label: 'Task 1.2 samples', subhint: 'Formal letter to authority.' },
+      { key: 't2',  label: 'Task 2 samples',   subhint: 'Opinion piece.' }
+    ];
+    var _MMG_IW_SAMPLE_SECTIONS = [
+      { key: 'task1', label: 'Task 1 samples', subhint: 'Chart description (≥150 words).' },
+      { key: 'task2', label: 'Task 2 samples', subhint: 'Essay (≥250 words).' }
+    ];
+    var _MMG_CW_LEVELS = [
+      { fld: 'sampleA1', label: 'A1', minH: 70 },
+      { fld: 'sampleA2', label: 'A2', minH: 70 },
+      { fld: 'sampleB1', label: 'B1', minH: 90 },
+      { fld: 'sampleB2', label: 'B2', minH: 110 }
+    ];
+    var _MMG_CW_UZ_LEVELS = [
+      { fld: 'uzSample',   label: 'Uz · main sample', minH: 110 },
+      { fld: 'uzSampleA1', label: 'Uz · A1',          minH: 70 },
+      { fld: 'uzSampleA2', label: 'Uz · A2',          minH: 70 },
+      { fld: 'uzSampleB1', label: 'Uz · B1',          minH: 90 },
+      { fld: 'uzSampleB2', label: 'Uz · B2',          minH: 110 }
+    ];
+    var _MMG_IW_BAND_LEVELS = [
+      { fld: 'sampleBand5', label: 'Band 5' },
+      { fld: 'sampleBand6', label: 'Band 6' },
+      { fld: 'sampleBand7', label: 'Band 7' },
+      { fld: 'sampleBand8', label: 'Band 8' },
+      { fld: 'sampleBand9', label: 'Band 9' }
+    ];
+    var _MMG_IW_UZ_BANDS = [
+      { fld: 'uzSampleBand5', label: 'Uz · Band 5', minH: 90 },
+      { fld: 'uzSampleBand6', label: 'Uz · Band 6', minH: 90 },
+      { fld: 'uzSampleBand7', label: 'Uz · Band 7', minH: 90 },
+      { fld: 'uzSampleBand8', label: 'Uz · Band 8', minH: 90 },
+      { fld: 'uzSampleBand9', label: 'Uz · Band 9', minH: 90 }
+    ];
+    function _mmgRenderSamples(md) {
+      var type = _mmgCurrentType();
+      var t = (md.tasks = md.tasks || {});
+      var html = '<div class="mmg-section-title">Sample answers</div>'
+              + '<div class="mmg-field-help">All samples are optional. Skip the ones you don\'t need; the runner falls back gracefully.</div>';
+
+      if (type === 'cefr-writing') {
+        for (var i = 0; i < _MMG_CW_SAMPLE_SECTIONS.length; i++) {
+          var sec = _MMG_CW_SAMPLE_SECTIONS[i];
+          var task = (t[sec.key] = t[sec.key] || {});
+          var p = 'mmg' + sec.key.toUpperCase() + '_';
+          var openAttr = i === 0 ? ' open' : '';
+          html += '<details class="mmg-collapse"' + openAttr + '><summary>'
+               +    _mmgEsc(sec.label) + ' <span class="mmg-warn-pill" style="background:#e0e7ff;color:#3730a3;">' + _mmgEsc(sec.subhint) + '</span>'
+               + '</summary><div class="mmg-collapse-body">';
+          // Main sample with toolbar + preview (CEFR variant — ml-token spans).
+          html += _mmgFieldSample('Model answer (main)', p + 'sample', task.sample,
+            'Edit HTML on the left, see the rendered preview update live below. Use the toolbar buttons to mark vocabulary tokens.');
+          // Leveled samples — nested details, collapsed by default.
+          html += '<details class="mmg-collapse"><summary>📚 Level-specific samples (A1 / A2 / B1 / B2)</summary><div class="mmg-collapse-body">';
+          for (var j = 0; j < _MMG_CW_LEVELS.length; j++) {
+            var L = _MMG_CW_LEVELS[j];
+            html += _mmgFieldArea(L.label, p + L.fld, task[L.fld], '', L.minH);
+          }
+          html += '</div></details>';
+          // Uzbek translations.
+          html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations</summary><div class="mmg-collapse-body">';
+          for (var k = 0; k < _MMG_CW_UZ_LEVELS.length; k++) {
+            var U = _MMG_CW_UZ_LEVELS[k];
+            html += _mmgFieldArea(U.label, p + U.fld, task[U.fld], '', U.minH);
+          }
+          html += '</div></details>';
+          html += '</div></details>';
+        }
+      } else if (type === 'ielts-writing') {
+        for (var i2 = 0; i2 < _MMG_IW_SAMPLE_SECTIONS.length; i2++) {
+          var sec2 = _MMG_IW_SAMPLE_SECTIONS[i2];
+          var task2 = (t[sec2.key] = t[sec2.key] || {});
+          var p2 = 'mmgIw_' + sec2.key + '_';
+          var openAttr2 = i2 === 0 ? ' open' : '';
+          html += '<details class="mmg-collapse"' + openAttr2 + '><summary>'
+               +    _mmgEsc(sec2.label) + ' <span class="mmg-warn-pill" style="background:#e0e7ff;color:#3730a3;">' + _mmgEsc(sec2.subhint) + '</span>'
+               + '</summary><div class="mmg-collapse-body">';
+          // Main sample with toolbar + preview (IELTS variant — <mark> tags).
+          html += _mmgFieldSampleMark('Model sample answer', p2 + 'sampleAnswer', task2.sampleAnswer,
+            'Use the toolbar buttons to mark vocabulary phrases — students get hover-translations from the Tokens tab.');
+          // Band-level samples.
+          html += '<details class="mmg-collapse"><summary>📚 Band-level samples (5 / 6 / 7 / 8 / 9)</summary><div class="mmg-collapse-body">';
+          for (var b = 0; b < _MMG_IW_BAND_LEVELS.length; b++) {
+            var B = _MMG_IW_BAND_LEVELS[b];
+            html += _mmgFieldSampleMark(B.label, p2 + B.fld, task2[B.fld], '');
+          }
+          html += '</div></details>';
+          // Uzbek translations.
+          html += '<details class="mmg-collapse"><summary>🇺🇿 Uzbek translations of band samples</summary><div class="mmg-collapse-body">';
+          for (var u = 0; u < _MMG_IW_UZ_BANDS.length; u++) {
+            var Ub = _MMG_IW_UZ_BANDS[u];
+            html += _mmgFieldArea(Ub.label, p2 + Ub.fld, task2[Ub.fld], '', Ub.minH);
+          }
+          html += '</div></details>';
+          html += '</div></details>';
+        }
+      }
+
+      document.getElementById('mmgPaneSamples').innerHTML = html;
+      // Initialise live previews for every sample textarea now in DOM.
+      if (type === 'cefr-writing') {
+        for (var ri = 0; ri < _MMG_CW_SAMPLE_SECTIONS.length; ri++) {
+          var rp = 'mmg' + _MMG_CW_SAMPLE_SECTIONS[ri].key.toUpperCase() + '_';
+          _mmgUpdatePreview(rp + 'sample');
+        }
+      } else if (type === 'ielts-writing') {
+        for (var rj = 0; rj < _MMG_IW_SAMPLE_SECTIONS.length; rj++) {
+          var rp2 = 'mmgIw_' + _MMG_IW_SAMPLE_SECTIONS[rj].key + '_';
+          _mmgUpdatePreview(rp2 + 'sampleAnswer');
+          for (var rb = 0; rb < _MMG_IW_BAND_LEVELS.length; rb++) {
+            _mmgUpdatePreview(rp2 + _MMG_IW_BAND_LEVELS[rb].fld);
+          }
+        }
+      }
+    }
+    function _mmgCollectSamples(md) {
+      var type = _mmgCurrentType();
+      md.tasks = md.tasks || {};
+      if (type === 'cefr-writing') {
+        var cwAllFields = ['sample','sampleA1','sampleA2','sampleB1','sampleB2',
+                           'uzSample','uzSampleA1','uzSampleA2','uzSampleB1','uzSampleB2'];
+        for (var i = 0; i < _MMG_CW_SAMPLE_SECTIONS.length; i++) {
+          var key = _MMG_CW_SAMPLE_SECTIONS[i].key;
+          var task = (md.tasks[key] = md.tasks[key] || {});
+          var p = 'mmg' + key.toUpperCase() + '_';
+          for (var j = 0; j < cwAllFields.length; j++) {
+            var el = document.getElementById(p + cwAllFields[j]);
+            if (el) task[cwAllFields[j]] = el.value;
+          }
+        }
+      } else if (type === 'ielts-writing') {
+        var iwAllFields = ['sampleAnswer','sampleBand5','sampleBand6','sampleBand7','sampleBand8','sampleBand9',
+                           'uzSampleBand5','uzSampleBand6','uzSampleBand7','uzSampleBand8','uzSampleBand9'];
+        for (var i2 = 0; i2 < _MMG_IW_SAMPLE_SECTIONS.length; i2++) {
+          var key2 = _MMG_IW_SAMPLE_SECTIONS[i2].key;
+          var task2 = (md.tasks[key2] = md.tasks[key2] || {});
+          var p2 = 'mmgIw_' + key2 + '_';
+          for (var j2 = 0; j2 < iwAllFields.length; j2++) {
+            var el2 = document.getElementById(p2 + iwAllFields[j2]);
+            if (el2) task2[iwAllFields[j2]] = el2.value;
+          }
+        }
+      }
+    }
+
     function _mmgRenderVocab(md) {
       var v = (md.vocabulary = md.vocabulary || {});
       var html = '<div class="mmg-section-title">Vocabulary lists (English ↔ Uzbek)</div>'
