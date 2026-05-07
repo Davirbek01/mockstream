@@ -22621,62 +22621,32 @@
       } catch (_e) { return false; }
     };
 
-    // ===== PRELOAD ALL MOCK JS FILES =====
-    // This ensures all mocks are loaded before the gate opens (prevents blinking on mobile)
-    (async function preloadAllMocks() {
-      console.log('🔄 Starting mock preload...');
+    // ===== MOCK PRELOAD (removed) =====
+    // Previous behaviour: on landing.html load, eagerly fetch every static
+    // mock .js file (questions S/, questions W/) so the runner page didn't
+    // "blink" on first open. After the Phase 1+2 migrations, all CEFR
+    // Writing and IELTS Writing mocks live in Supabase, so most of those
+    // file paths 404'd on every page load — ~130 wasted network requests
+    // and a console full of red 404 lines on every visit.
+    //
+    // Mocks now load on-demand:
+    //   - Migrated mocks: dynamic fetcher in this file pulls from Supabase
+    //     when the picker opens, runner pages fetch their mock_data row
+    //     when the user clicks Start.
+    //   - Remaining static mocks (CEFR Reading/Listening, IELTS Reading/
+    //     Listening, etc.): the runner page loads its own .js file via
+    //     <script src=...> when opened. No preload needed.
+    //
+    // If we ever bring this back for a "warm caches before user clicks"
+    // optimisation, gate it on isOnline + a per-skill list that excludes
+    // already-Supabase'd skills. For now: just delete it.
 
-      // List of all mock JS files to preload
-      const speakingMocks = [];
-      for (let i = 1; i <= 30; i++) {
-        const num = i === 1 ? '' : String(i).padStart(2, '0');
-        speakingMocks.push(`questions S/questions${num}.js`);
-      }
-
-      const writingMocks = [];
-      for (let i = 1; i <= 69; i++) {
-        const num = i === 1 ? '' : String(i).padStart(2, '0');
-        writingMocks.push(`questions W/writing-questions${num}.js`);
-      }
-
-      const allMocks = [...speakingMocks, ...writingMocks];
-      let loaded = 0;
-      let failed = 0;
-
-      // Preload function - just fetches the file to cache it
-      const preloadFile = (url) => {
-        return new Promise((resolve) => {
-          const script = document.createElement('script');
-          script.src = url;
-          script.onload = () => {
-            loaded++;
-            script.remove(); // Clean up after preloading
-            resolve(true);
-          };
-          script.onerror = () => {
-            failed++;
-            script.remove();
-            resolve(false); // Don't reject, just mark as failed
-          };
-          document.head.appendChild(script);
-        });
-      };
-
-      // Preload in batches of 10 for better performance
-      const batchSize = 10;
-      for (let i = 0; i < allMocks.length; i += batchSize) {
-        const batch = allMocks.slice(i, i + batchSize);
-        await Promise.all(batch.map(preloadFile));
-      }
-
-      console.log(`✅ Mock preload complete: ${loaded} loaded, ${failed} not found`);
-
-      // Notify parent that mocks are ready
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage('mocksReady', '*');
-        console.log('📤 Sent mocksReady signal to parent');
-      }
-    })();
+    // Tell any iframe parent we're ready (the postMessage was the only
+    // useful side-effect of the old preload — Telegram Mini App embeds
+    // listen for it).
+    if (window.parent && window.parent !== window) {
+      try { window.parent.postMessage('mocksReady', '*'); } catch (_e) {}
+    }
 
     // Auto-open modal if URL parameter is present (e.g., from flashcards Home button)
     (function () {
