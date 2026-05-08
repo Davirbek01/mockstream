@@ -188,6 +188,10 @@ const TTS_STYLE_PREFIX: Record<string, string> = {
   'voice-preview':  ''
 };
 
+// Gemini's TTS endpoint emits 16-bit signed mono PCM at this sample rate.
+// Used as the WAV header rate AND as the divisor when computing duration.
+const GEMINI_PCM_SAMPLE_RATE = 24000;
+
 // PEM private key → CryptoKey for RSA-SHA256 signing.
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
   // Strip PEM headers/footers and whitespace, then base64-decode to DER.
@@ -621,15 +625,22 @@ Deno.serve(async (req) => {
           if (!b64) {
             return json(502, { error: 'gemini_tts_failed', detail: 'no inlineData in response', sample: JSON.stringify(ttsJson).slice(0, 400) });
           }
-          pcmBytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+          try {
+            pcmBytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+          } catch {
+            // atob throws DOMException on non-standard base64 (e.g. URL-safe
+            // variants). Surface a specific diagnostic instead of leaking the
+            // generic atob error message into gemini_tts_failed.
+            return json(502, { error: 'gemini_tts_failed', detail: 'base64 decode failed — possible URL-safe encoding', b64Prefix: b64.slice(0, 20) });
+          }
         } catch (e) {
           return json(502, { error: 'gemini_tts_failed', detail: (e as Error).message });
         }
 
-        // 4) Wrap PCM as WAV (24 kHz mono 16-bit).
-        const wavBytes = pcmToWav(pcmBytes, 24000);
+        // 4) Wrap PCM as WAV (mono 16-bit at Gemini's native sample rate).
+        const wavBytes    = pcmToWav(pcmBytes, GEMINI_PCM_SAMPLE_RATE);
         const sizeBytes   = wavBytes.length;
-        const durationSec = +(pcmBytes.length / 2 / 24000).toFixed(2);
+        const durationSec = +(pcmBytes.length / 2 / GEMINI_PCM_SAMPLE_RATE).toFixed(2);
 
         // 5) Stub return — Task 4 fills in GCS upload.
         return json(501, { error: 'not_implemented', stage: 'task3-tts-only', sizeBytes, durationSec });
