@@ -27008,11 +27008,299 @@
       return 'part11';
     }
 
-    function _mmgRenderSpPart(md, partKey) {
-      var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
-      if (pane) pane.innerHTML = '<div class="mmg-empty-hint">Pane stub — implemented in Task 10.</div>';
+    // Returns the level array for the given mock_type. Each entry is
+    // { key, label, enKey, uzKey }. Main maps to sampleAnswer / uzSampleAnswer.
+    function _mmgLevelTabsFor(type) {
+      var levels = [{ key: 'main', label: 'Main', enKey: 'sampleAnswer', uzKey: 'uzSampleAnswer' }];
+      if (type === 'cefr-speaking') {
+        ['A1','A2','B1','B2'].forEach(function(L) {
+          levels.push({ key: L.toLowerCase(), label: L, enKey: 'sample' + L, uzKey: 'uzSample' + L });
+        });
+      } else {
+        [5,6,7,8,9].forEach(function(N) {
+          levels.push({ key: 'band' + N, label: 'Band ' + N, enKey: 'sampleBand' + N, uzKey: 'uzSampleBand' + N });
+        });
+      }
+      return levels;
     }
-    function _mmgCollectSpPart(md, partKey) { /* stub — Task 10 */ }
+    // Status glyph for a level: ✓ green = both filled, ● amber = one filled, ○ grey = both empty.
+    function _mmgLevelStatus(q, level) {
+      var en = (q[level.enKey] || '').trim();
+      var uz = (q[level.uzKey] || '').trim();
+      if (en && uz) return '✓';
+      if (en || uz) return '●';
+      return '○';
+    }
+
+    // Vocabulary sub-list (3 of these per question — starters/phrases/idioms).
+    // Each row is a single string input matching the existing data shape.
+    function _mmgVocabSubList(idPrefix, label, items) {
+      var rows = (items || []).map(function(s, i) {
+        return '<div class="mmg-bullet-row" data-idx="' + i + '" style="display:flex;gap:6px;margin:4px 0;">'
+          +      '<input type="text" data-fld="v" value="' + _mmgEsc(s) + '" style="flex:1;">'
+          +      '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>'
+          +    '</div>';
+      }).join('');
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        +    '<div id="' + idPrefix + '" class="mmg-vocab-sublist">' + (rows || '') + '</div>'
+        +    '<button type="button" class="mmg-add-btn" onclick="_mmgAddBulletRow(\'' + idPrefix + '\')">＋ Add</button>'
+        + '</div>';
+    }
+
+    // IELTS cue card bullet points editor (Q7 only).
+    function _mmgFieldBulletList(label, id, items) {
+      var rows = (items || []).map(function(s, i) {
+        return '<div class="mmg-bullet-row" data-idx="' + i + '" style="display:flex;gap:6px;margin:4px 0;">'
+          +      '<input type="text" data-fld="b" value="' + _mmgEsc(s) + '" style="flex:1;" placeholder="e.g., Why was it memorable?">'
+          +      '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>'
+          +    '</div>';
+      }).join('');
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        +    '<div id="' + id + '" class="mmg-bullets">' + (rows || '') + '</div>'
+        +    '<button type="button" class="mmg-add-btn" onclick="_mmgAddBulletRow(\'' + id + '\')">＋ Add bullet</button>'
+        + '</div>';
+    }
+
+    window._mmgAddBulletRow = function (hostId) {
+      var host = document.getElementById(hostId); if (!host) return;
+      var idx  = host.querySelectorAll('.mmg-bullet-row').length;
+      var fld  = host.classList.contains('mmg-bullets') ? 'b' : 'v';
+      var div  = document.createElement('div');
+      div.className = 'mmg-bullet-row';
+      div.dataset.idx = idx;
+      div.style.cssText = 'display:flex;gap:6px;margin:4px 0;';
+      div.innerHTML =
+          '<input type="text" data-fld="' + fld + '" value="" style="flex:1;">'
+        + '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>';
+      host.appendChild(div);
+    };
+
+    window._mmgRemoveRow = function (btn) {
+      var row = btn.closest('.mmg-bullet-row'); if (row) row.remove();
+    };
+
+    // Render one question block. qIndex is the index into mock_data.questions.
+    function _mmgRenderQuestionBlock(md, qIndex) {
+      var q = md.questions[qIndex] || {};
+      var type = _mmgCurrentType();
+      var levels = _mmgLevelTabsFor(type);
+      var idP = 'spQ' + qIndex;
+
+      var headerExtras = '';
+      if (type === 'ielts-speaking' && q.topic) {
+        headerExtras = ' · <span style="color:#64748b;">' + _mmgEsc(q.topic) + '</span>';
+      }
+
+      var audioHtml = _mmgFieldAudio('Audio (URL or upload)', idP + '_audio', q.audioFile || '', {
+        qIndex: qIndex,
+        defaultVoice: (md.settings && md.settings.voice) || 'Kore',
+        defaultModel: (md.settings && md.settings.tts_model) || 'premium'
+      });
+
+      var timingHtml =
+          '<div class="mmg-field-row" style="display:flex;gap:10px;">'
+        +   '<div class="mmg-field" style="flex:1;"><label>Prep time (sec)</label>'
+        +     '<input type="number" min="0" id="' + idP + '_prep" value="' + (q.prepTime == null ? '' : q.prepTime) + '"></div>'
+        +   '<div class="mmg-field" style="flex:1;"><label>Speak time (sec)</label>'
+        +     '<input type="number" min="0" id="' + idP + '_speak" value="' + (q.speakTime == null ? '' : q.speakTime) + '"></div>'
+        + '</div>';
+
+      var imagesHtml = '';
+      if (type === 'cefr-speaking' && (q.number === 4 || q.hasImages)) {
+        var checked = q.hasImages ? ' checked' : '';
+        var img1 = (md.images && md.images.img1) || '';
+        var img2 = (md.images && md.images.img2) || '';
+        imagesHtml =
+            '<div class="mmg-field"><label><input type="checkbox" id="' + idP + '_hasimg"' + checked + '> hasImages (Q4 image-pair)</label>'
+          +   '<div class="mmg-field-help">Images come from Settings tab → Top-level images. Toggle controls whether the runner displays them on this question.</div>'
+          +   (q.hasImages && (img1 || img2) ? '<div style="display:flex;gap:8px;margin-top:6px;">'
+              + (img1 ? '<img src="' + _mmgEsc(img1) + '" style="max-width:120px;max-height:80px;border:1px solid #e2e8f0;border-radius:6px;">' : '')
+              + (img2 ? '<img src="' + _mmgEsc(img2) + '" style="max-width:120px;max-height:80px;border:1px solid #e2e8f0;border-radius:6px;">' : '')
+              + '</div>' : '')
+          + '</div>';
+      }
+
+      var bulletsHtml = '';
+      if (type === 'ielts-speaking' && _mmgQuestionPartKey(q) === 'part2' && q.part === 'Part 2') {
+        bulletsHtml = _mmgFieldBulletList('Cue card bullet points', idP + '_bullets', q.bulletPoints || []);
+      }
+
+      var levelChips = levels.map(function(L) {
+        var dot = _mmgLevelStatus(q, L);
+        return '<button type="button" class="mmg-level-chip" data-level="' + L.key + '" '
+          + 'onclick="_mmgSpPickLevel(' + qIndex + ', \'' + L.key + '\')">'
+          + '<span class="mmg-level-dot mmg-level-dot-' + dot.charCodeAt(0) + '">' + dot + '</span> '
+          + _mmgEsc(L.label) + '</button>';
+      }).join('');
+
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      if (!window._mmgSpLevel[qIndex]) window._mmgSpLevel[qIndex] = 'main';
+      var activeLevel = window._mmgSpLevel[qIndex];
+      var activeLevelDef = levels.find(function(L){ return L.key === activeLevel; }) || levels[0];
+
+      var samplesHtml =
+          '<div class="mmg-field"><label>Samples (English ↔ Uzbek)</label>'
+        +   '<div class="mmg-level-chips" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;">' + levelChips + '</div>'
+        +   '<div class="mmg-sample-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+        +     '<div>' + _mmgFieldSample('English (' + activeLevelDef.label + ')', idP + '_en_' + activeLevel, q[activeLevelDef.enKey] || '', '') + '</div>'
+        +     '<div>' + _mmgFieldArea('Uzbek (' + activeLevelDef.label + ')', idP + '_uz_' + activeLevel, q[activeLevelDef.uzKey] || '', '', 200) + '</div>'
+        +   '</div>'
+        + '</div>';
+
+      var voc = q.vocabulary || {};
+      var vocabOpen = (voc.title || (voc.sentenceStarters && voc.sentenceStarters.length)) ? ' open' : '';
+      var vocabHtml =
+          '<details class="mmg-vocab-details"' + vocabOpen + '>'
+        +   '<summary style="cursor:pointer;font-weight:600;color:#475569;">📚 Vocabulary</summary>'
+        +   '<div class="mmg-field"><label>Title</label><input type="text" id="' + idP + '_voct" value="' + _mmgEsc(voc.title || '') + '" placeholder="e.g., Q1 - …"></div>'
+        +   _mmgVocabSubList(idP + '_vocs', 'Sentence starters', voc.sentenceStarters || [])
+        +   _mmgVocabSubList(idP + '_vocp', 'Phrases',           voc.phrases || [])
+        +   _mmgVocabSubList(idP + '_voci', 'Idioms',            voc.idioms || [])
+        + '</details>';
+
+      return '<details class="mmg-q-block" data-q-index="' + qIndex + '" open>'
+        +     '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
+        +       'Q' + (q.number || (qIndex + 1)) + ' · ' + _mmgEsc(q.part || '') + headerExtras
+        +     '</summary>'
+        +     '<div class="mmg-q-body" style="display:flex;flex-direction:column;gap:10px;padding:10px 4px;">'
+        +       _mmgFieldArea('Prompt', idP + '_prompt', q.prompt || '', '', 80)
+        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + samplesHtml + vocabHtml
+        +     '</div>'
+        + '</details>';
+    }
+
+    // Switch the active level inside one question's sample editor.
+    window._mmgSpPickLevel = function (qIndex, levelKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectQuestionBlock(md, qIndex);
+      _mmgSetMockData(md);
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      window._mmgSpLevel[qIndex] = levelKey;
+      var existing = document.querySelector('.mmg-q-block[data-q-index="' + qIndex + '"]');
+      if (existing) existing.outerHTML = _mmgRenderQuestionBlock(md, qIndex);
+    };
+
+    // Read every input inside one question block back into mock_data.questions[qIndex].
+    function _mmgCollectQuestionBlock(md, qIndex) {
+      var q = md.questions[qIndex] = md.questions[qIndex] || {};
+      var idP = 'spQ' + qIndex;
+      var type = _mmgCurrentType();
+
+      var promptEl = document.getElementById(idP + '_prompt');
+      if (promptEl) q.prompt = promptEl.value;
+
+      var audioEl = document.getElementById(idP + '_audio');
+      if (audioEl) q.audioFile = audioEl.value;
+
+      var prepEl  = document.getElementById(idP + '_prep');
+      var speakEl = document.getElementById(idP + '_speak');
+      if (prepEl  && prepEl.value  !== '') q.prepTime  = parseInt(prepEl.value,  10);
+      if (speakEl && speakEl.value !== '') q.speakTime = parseInt(speakEl.value, 10);
+
+      var imgEl = document.getElementById(idP + '_hasimg');
+      if (imgEl) q.hasImages = imgEl.checked;
+
+      var activeLevel = (window._mmgSpLevel && window._mmgSpLevel[qIndex]) || 'main';
+      var levels = _mmgLevelTabsFor(type);
+      var Ldef   = levels.find(function(L){ return L.key === activeLevel; }) || levels[0];
+      var enEl = document.getElementById(idP + '_en_' + activeLevel);
+      var uzEl = document.getElementById(idP + '_uz_' + activeLevel);
+      if (enEl) q[Ldef.enKey] = enEl.value;
+      if (uzEl) q[Ldef.uzKey] = uzEl.value;
+
+      var bulletsHost = document.getElementById(idP + '_bullets');
+      if (bulletsHost) {
+        var bRows = bulletsHost.querySelectorAll('.mmg-bullet-row input[data-fld="b"]');
+        var bArr = [];
+        for (var b = 0; b < bRows.length; b++) {
+          var v = (bRows[b].value || '').trim();
+          if (v) bArr.push(v);
+        }
+        q.bulletPoints = bArr;
+      }
+
+      var voc = q.vocabulary = q.vocabulary || {};
+      var vTitleEl = document.getElementById(idP + '_voct');
+      if (vTitleEl) voc.title = vTitleEl.value;
+      ['s','p','i'].forEach(function (suffix, idx) {
+        var key = ['sentenceStarters','phrases','idioms'][idx];
+        var host = document.getElementById(idP + '_voc' + suffix);
+        if (!host) return;
+        var rows = host.querySelectorAll('.mmg-bullet-row input[data-fld="v"]');
+        var arr = [];
+        for (var r = 0; r < rows.length; r++) {
+          var val = (rows[r].value || '').trim();
+          if (val) arr.push(val);
+        }
+        voc[key] = arr;
+      });
+    }
+
+    function _mmgRenderSpPart(md, partKey) {
+      if (!md) return;
+      var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
+      if (!pane) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+
+      var questionsInPart = [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (_mmgQuestionPartKey(md.questions[i]) === partKey) questionsInPart.push(i);
+      }
+
+      var partLabel = { part11:'Part 1.1', part12:'Part 1.2', part2:'Part 2', part3:'Part 3' }[partKey] || partKey;
+
+      var html = '<div class="mmg-section-title" style="display:flex;align-items:center;gap:10px;">'
+               +   '<span style="flex:1;">' + _mmgEsc(partLabel) + ' — ' + questionsInPart.length + ' question(s)</span>'
+               +   '<button type="button" class="mmg-add-btn" onclick="_mmgGenerateAllAudios(\'' + partKey + '\')">🎙 Generate all audios in this part</button>'
+               +   '<button type="button" class="mmg-add-btn" onclick="_mmgSpAddQuestion(\'' + partKey + '\')">＋ Add question</button>'
+               + '</div>';
+
+      if (!questionsInPart.length) {
+        html += '<div class="mmg-empty-hint">No questions in this part yet. Click <em>＋ Add question</em>.</div>';
+      } else {
+        for (var k = 0; k < questionsInPart.length; k++) {
+          html += _mmgRenderQuestionBlock(md, questionsInPart[k]);
+        }
+      }
+
+      pane.innerHTML = html;
+
+      // Wire upload buttons for each question's audio row using the existing helper.
+      for (var k2 = 0; k2 < questionsInPart.length; k2++) {
+        var qi = questionsInPart[k2];
+        _mmgUploadBind({
+          id:    'spQ' + qi + '_audio',
+          skill: _mmgCurrentType()
+        });
+      }
+    }
+
+    function _mmgCollectSpPart(md, partKey) {
+      if (!md) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (_mmgQuestionPartKey(md.questions[i]) === partKey) {
+          _mmgCollectQuestionBlock(md, i);
+        }
+      }
+    }
+
+    // Append a new question to mock_data.questions, defaulting `part` so it
+    // lands in the requested Part tab on next render.
+    window._mmgSpAddQuestion = function (partKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectSpPart(md, partKey);
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      var defaults = {
+        part11: { part: 'Part 1', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 },
+        part12: { part: 'Part 1', prepTime: 10, speakTime: 45,  number: md.questions.length + 1 },
+        part2:  { part: 'Part 2', prepTime: 60, speakTime: 120, number: md.questions.length + 1 },
+        part3:  { part: 'Part 3', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 }
+      }[partKey] || {};
+      md.questions.push(Object.assign({ prompt: '', audioFile: '' }, defaults));
+      _mmgSetMockData(md);
+      _mmgRenderSpPart(md, partKey);
+    };
 
     // Generic search-filter for vocab/tokens row lists. Hides rows whose
     // input values don't include the query in any of the named fields.
