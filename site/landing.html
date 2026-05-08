@@ -12479,61 +12479,113 @@
     ];
 
     // ── Append dynamic mocks from Supabase ──
+    // After the Phase 3 data migration, every speaking mock lives in
+    // mock_tests. This loader fetches them at page-load time and replaces
+    // the picker's static .js-pointing entries with ?sbmock= entries that
+    // route through the Supabase fetch path. Mock 01 keeps its
+    // "(Supabase pilot)" label as the original Phase-1 row; mocks 02+
+    // get the same display name they had before, just with a 🟢 icon.
     (async function loadDynamicSpeakingMocks() {
-      try {
-        const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
-        const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
-        const res = await fetch(
-          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.cefr-speaking&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
+      const SB_URL = 'https://zknyukkbtbcqgvkgjktb.supabase.co';
+      const SB_KEY = 'sb_publishable_SRLvRtRHU52FliLxA6gYaQ_I-v5LCk2';
+
+      // Helper: fetch every published row for a skill in one call.
+      async function fetchRows(skill) {
+        const r = await fetch(
+          `${SB_URL}/rest/v1/mock_tests?mock_type=eq.${skill}&status=eq.published&select=id,mock_number,title&order=mock_number.asc`,
           { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
         );
-        if (!res.ok) return;
-        const mocks = await res.json();
-        if (!mocks || !mocks.length) return;
-        mocks.forEach(m => {
-          const num = m.mock_number;
-          const padded = String(num).padStart(2, '0');
-          const badgeName = `🧪 CEFR Speaking Mock ${padded} (Supabase pilot)`;
-          // Upgrade existing entry if it points to a static .js file
-          const idx = cefrSpeakingTests.findIndex(t => t.file === `questions S/questions${num}.js`);
-          if (idx !== -1) {
-            cefrSpeakingTests[idx].file = 'supabase:' + m.id;
-            cefrSpeakingTests[idx].name = badgeName;
-            cefrSpeakingTests[idx].icon = '🟢';
-            cefrSpeakingTests[idx].dynamic = true;
-          } else if (!cefrSpeakingTests.some(t => t.name === badgeName)) {
-            cefrSpeakingTests.push({
-              file: 'supabase:' + m.id,
-              name: badgeName,
-              icon: '🟢',
-              dynamic: true
-            });
-          }
-          // Also upgrade category modal array. Match either by the
-          // hardcoded "CEFR Speaking Mock NN" name (for entries still
-          // pointing at the static .js file) OR by an existing sbmock=
-          // marker for this id (for entries already pinned to Supabase,
-          // e.g. Mock 01) — prevents a duplicate row in the picker.
-          const mockName = `CEFR Speaking Mock ${padded}`;
-          const cIdx = cefrSpeakingMocks.findIndex(t =>
-            t.name === mockName ||
-            (t.file && t.file.indexOf('sbmock=' + m.id) !== -1)
-          );
-          if (cIdx !== -1) {
-            cefrSpeakingMocks[cIdx].file = `Speaking Mocks.html?sbmock=${m.id}&auto=1`;
-            cefrSpeakingMocks[cIdx].name = badgeName;
-            cefrSpeakingMocks[cIdx].icon = '🟢';
-          } else {
-            cefrSpeakingMocks.push({
-              file: `Speaking Mocks.html?sbmock=${m.id}&auto=1`,
-              name: badgeName,
-              icon: '🟢',
-              actionText: 'Start'
-            });
-          }
-        });
-        console.log(`🌐 Added ${mocks.length} dynamic speaking mocks to landing`);
-      } catch (e) { console.warn('Dynamic mocks load failed:', e); }
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      }
+
+      // Helper: upgrade an entry in the testsArr (Take Test list) and
+      // mocksArr (modal picker list) for one Supabase row.
+      function upgrade(opts) {
+        const { row, testsArr, mocksArr, staticFilePattern, runnerUrl, label } = opts;
+        const padded = String(row.mock_number).padStart(2, '0');
+        const isPilot = row.mock_number === 1;
+        // Display name: pilots keep the "🧪 ... (Supabase pilot)" badge for
+        // historical clarity. Non-pilot rows get a normal name + the 🟢
+        // marker so authors at-a-glance see the picker is Supabase-backed.
+        const displayName = isPilot
+          ? `🧪 ${label} ${padded} (Supabase pilot)`
+          : `${label} ${padded}`;
+        const icon = '🟢';
+
+        // -- testsArr (the flat "Take Test" list) --
+        const testIdx = testsArr.findIndex((t) => t.file === staticFilePattern(row.mock_number));
+        if (testIdx !== -1) {
+          testsArr[testIdx].file = 'supabase:' + row.id;
+          testsArr[testIdx].name = displayName;
+          testsArr[testIdx].icon = icon;
+          testsArr[testIdx].dynamic = true;
+        } else if (!testsArr.some((t) => t.file === 'supabase:' + row.id)) {
+          testsArr.push({ file: 'supabase:' + row.id, name: displayName, icon, dynamic: true });
+        }
+
+        // -- mocksArr (the modal picker, what students actually click) --
+        // Match by name in any of three forms: the plain "Mock NN", the
+        // pilot-suffixed badge, or by sbmock=<id> already in the URL
+        // (catches entries that were upgraded on a previous page load).
+        const plainName = `${label} ${padded}`;
+        const pilotName = `🧪 ${label} ${padded} (Supabase pilot)`;
+        const mockIdx = mocksArr.findIndex((t) =>
+          t.name === plainName ||
+          t.name === pilotName ||
+          (t.file && t.file.indexOf('sbmock=' + row.id) !== -1)
+        );
+        if (mockIdx !== -1) {
+          mocksArr[mockIdx].file = runnerUrl(row.id, padded);
+          mocksArr[mockIdx].name = displayName;
+          mocksArr[mockIdx].icon = icon;
+        } else {
+          mocksArr.push({
+            file: runnerUrl(row.id, padded),
+            name: displayName,
+            icon,
+            actionText: 'Start'
+          });
+        }
+      }
+
+      // CEFR speaking
+      try {
+        const rows = await fetchRows('cefr-speaking');
+        for (const row of rows) {
+          upgrade({
+            row,
+            testsArr:          cefrSpeakingTests,
+            mocksArr:          cefrSpeakingMocks,
+            staticFilePattern: (n) => `questions S/questions${n}.js`,
+            // ?sbmock= alone is enough on Speaking Mocks.html (the runner
+            // accepts it standalone — see _extractSpeakingMockNumber).
+            runnerUrl:         (id, _padded) => `Speaking Mocks.html?sbmock=${id}&auto=1`,
+            label:             'CEFR Speaking Mock'
+          });
+        }
+        console.log(`🌐 CEFR Speaking: upgraded ${rows.length} picker entries from Supabase`);
+      } catch (e) { console.warn('CEFR speaking dynamic load failed:', e); }
+
+      // IELTS speaking — added in Phase 3b. Phase 1 only had a CEFR loader.
+      try {
+        const rows = await fetchRows('ielts-speaking');
+        for (const row of rows) {
+          upgrade({
+            row,
+            testsArr:          ieltsSpeakingTests,
+            mocksArr:          ieltsSpeakingMocks,
+            staticFilePattern: (n) => `questions IELTS S/ielts-speaking-mock-${n}.js`,
+            // IELTS Speaking Mocks.html keeps ?test=...-ai-NN in the URL so
+            // _extractSpeakingMockNumber() returns the padded number for
+            // promo-code / taken-state gates. ?sbmock= overrides static
+            // loading and is what actually drives the runner's Supabase fetch.
+            runnerUrl:         (id, padded) => `IELTS Speaking Mocks.html?test=ielts-speaking-mock-ai-${padded}&sbmock=${id}&auto=1`,
+            label:             'IELTS Speaking Mock'
+          });
+        }
+        console.log(`🌐 IELTS Speaking: upgraded ${rows.length} picker entries from Supabase`);
+      } catch (e) { console.warn('IELTS speaking dynamic load failed:', e); }
     })();
 
     const ieltsSpeakingTests = [];
