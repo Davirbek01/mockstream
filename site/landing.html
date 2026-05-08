@@ -25907,17 +25907,21 @@
              .mmg-tab-cw / .mmg-tab-iw classes on individual buttons. -->
         <div class="mmg-edit-main">
         <div id="mmgTabsBar" class="mmg-tabs-bar" style="display:none;">
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="part1"     onclick="_mmgSwitchTab('part1')">Part 1 (shared)</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t11"       onclick="_mmgSwitchTab('t11')">Task 1.1</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t12"       onclick="_mmgSwitchTab('t12')">Task 1.2</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t2"        onclick="_mmgSwitchTab('t2')">Task 2</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task1"  onclick="_mmgSwitchTab('iw_task1')">Task 1</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task2"  onclick="_mmgSwitchTab('iw_task2')">Task 2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part11" onclick="_mmgSwitchTab('sp_part11')">Part 1.1</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part12" onclick="_mmgSwitchTab('sp_part12')">Part 1.2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part2"  onclick="_mmgSwitchTab('sp_part2')">Part 2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part3"  onclick="_mmgSwitchTab('sp_part3')">Part 3</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -25932,6 +25936,11 @@
         <div id="mmgPaneSamples"  class="mmg-pane"></div>
         <div id="mmgPaneVocab"    class="mmg-pane"></div>
         <div id="mmgPaneTokens"   class="mmg-pane"></div>
+
+        <div id="mmgPaneSpPart11" class="mmg-pane"></div>
+        <div id="mmgPaneSpPart12" class="mmg-pane"></div>
+        <div id="mmgPaneSpPart2"  class="mmg-pane"></div>
+        <div id="mmgPaneSpPart3"  class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
