@@ -170,6 +170,24 @@ const ALLOWED_MIME = new Set([
 // Max upload size in MB. The browser is told this before it tries to upload.
 const MAX_UPLOAD_MB = 25;
 
+// Curated TTS voice list — must match _MMG_TTS_VOICES in site/landing.html.
+// Adding a new voice: update both lists AND re-run the preview-generation script.
+const TTS_VOICES = ['Kore','Charon','Aoede','Orus','Achird','Vindemiatrix','Leda','Puck'];
+
+// Two model tiers exposed in the editor — must match _MMG_TTS_MODELS in landing.html.
+const TTS_MODELS: Record<string, string> = {
+  budget:  'gemini-2.5-flash-preview-tts',
+  premium: 'gemini-2.5-pro-preview-tts'
+};
+
+// Per-skill style prefix prepended to the question text. Empty string for
+// voice-preview because the preview sample text is self-contained.
+const TTS_STYLE_PREFIX: Record<string, string> = {
+  'ielts-speaking': 'Read the following in a calm, clear, professional IELTS speaking examiner tone with natural intonation: ',
+  'cefr-speaking':  'Read the following in a calm, clear, professional CEFR speaking examiner tone with natural intonation: ',
+  'voice-preview':  ''
+};
+
 // PEM private key → CryptoKey for RSA-SHA256 signing.
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
   // Strip PEM headers/footers and whitespace, then base64-decode to DER.
@@ -539,6 +557,32 @@ Deno.serve(async (req) => {
           expiresAt,
           maxBytes: MAX_UPLOAD_MB * 1024 * 1024
         });
+      }
+
+      // ── Generate speaking question audio via Gemini TTS ───────────────
+      // Body: { skill, mock_number, question_number, text, voice?, model?, filename_override? }
+      // Returns: { publicUrl, objectPath, sizeBytes, durationSec, skipped? }
+      case 'generate_speaking_audio': {
+        // 1) Validate inputs.
+        const skill            = (body.skill || '') as string;
+        const mockNumber       = Number(body.mock_number);
+        const questionNumber   = Number(body.question_number);
+        const text             = String(body.text || '').trim();
+        const voice            = String(body.voice || 'Kore');
+        const model            = String(body.model || 'premium');
+        const filenameOverride = String(body.filename_override || '').trim();
+
+        if (!skill)                               return json(400, { error: 'bad_request', detail: 'skill required' });
+        if (!Number.isFinite(mockNumber)     || mockNumber     < 0) return json(400, { error: 'bad_request', detail: 'mock_number must be non-negative integer' });
+        if (!Number.isFinite(questionNumber) || questionNumber < 0) return json(400, { error: 'bad_request', detail: 'question_number must be non-negative integer' });
+        if (!text)                                return json(400, { error: 'bad_request', detail: 'text required' });
+        if (text.length > 1500)                   return json(400, { error: 'text_too_long', limit: 1500, got: text.length });
+        if (!GCS_FOLDERS[skill])                  return json(400, { error: 'unknown_skill', skill });
+        if (!TTS_VOICES.includes(voice))          return json(400, { error: 'unknown_voice', voice });
+        if (!TTS_MODELS[model])                   return json(400, { error: 'unknown_model', model });
+
+        // 2) Stub return — Tasks 3 + 4 fill in TTS + GCS upload.
+        return json(501, { error: 'not_implemented', stage: 'task2-skeleton' });
       }
 
       default:
