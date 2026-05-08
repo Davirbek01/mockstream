@@ -7,7 +7,7 @@
 
 window.SPEAKING_TEST_DATA = {
   "settings": {
-    "logoUrl": "https://i.ibb.co/WN0XY5Lv/logo.png",
+    "logoUrl": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/WN0XY5Lv-logo.png",
     "logoWording": "Mock Stream",
     "telegramChannel": "https://t.me/mock_stream",
     "testIdentifier": "mock_stream",
@@ -15,8 +15,8 @@ window.SPEAKING_TEST_DATA = {
     "heading2": "Chet tilini bilish darajasi"
   },
   "images": {
-    "img1": "https://i.ibb.co/8L9f7fTp/woman-walking-trails-mountain-1x1.webp",
-    "img2": "https://i.ibb.co/jPSVnjFt/singapore-public-private-body-to-come-up-with-v0-AQw-MXKi-Wx4i-EU0-Eqrj-G.jpg",
+    "img1": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/8L9f7fTp-woman-walking-trails-mountain-1x1.webp",
+    "img2": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/jPSVnjFt-singapore-public-private-body-to-come-up-with-v0-AQw-MXKi-Wx4i-EU0-Eqrj-G.jpg",
     "img1Alt": "Festival event",
     "img2Alt": "Museum visit"
   },
