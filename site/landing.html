@@ -25602,6 +25602,26 @@
       .mmg-tab.mmg-tab-raw.active { border-left-color:transparent; border-bottom-color:#f59e0b; background:#fff; }
       .mmg-pane { padding:14px 18px; }
     }
+    /* Speaking editor extras */
+    .mmg-q-block { border:1px solid #e2e8f0; border-radius:8px; padding:8px; margin-bottom:10px; background:#fff; }
+    .mmg-q-block[open] > .mmg-q-summary { background:#dbeafe; }
+    .mmg-q-summary::-webkit-details-marker { color:#2563eb; }
+    .mmg-level-chip { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:14px; padding:3px 9px; font-size:11.5px; cursor:pointer; }
+    .mmg-level-chip:hover { background:#e0f2fe; border-color:#7dd3fc; }
+    .mmg-level-dot-10003 { color:#15803d; }   /* ✓ */
+    .mmg-level-dot-9679  { color:#d97706; }   /* ● */
+    .mmg-level-dot-9675  { color:#94a3b8; }   /* ○ */
+    .mmg-icon-btn { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; padding:4px 8px; cursor:pointer; font-size:14px; }
+    .mmg-icon-btn:hover { background:#e0f2fe; }
+    .mmg-icon-btn:disabled { opacity:.5; cursor:wait; }
+    .mmg-bullet-row { display:flex; gap:6px; align-items:center; }
+    .mmg-row-del { background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; border-radius:6px; padding:2px 8px; cursor:pointer; }
+    .mmg-row-del:hover { background:#fee2e2; }
+    .mmg-vocab-details { border:1px dashed #cbd5e1; border-radius:6px; padding:6px 10px; background:#f8fafc; }
+    @media (max-width: 700px) {
+      .mmg-sample-pair { grid-template-columns:1fr !important; }
+      .mmg-voice-row { grid-template-columns:24px 1fr !important; row-gap:4px; }
+    }
     .mmg-field { display:flex; flex-direction:column; gap:4px; font-size:12px; }
     .mmg-field > label { font-weight:600; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
     .mmg-field > input, .mmg-field > textarea {
@@ -25907,17 +25927,21 @@
              .mmg-tab-cw / .mmg-tab-iw classes on individual buttons. -->
         <div class="mmg-edit-main">
         <div id="mmgTabsBar" class="mmg-tabs-bar" style="display:none;">
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="settings" onclick="_mmgSwitchTab('settings')">Settings</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="part1"     onclick="_mmgSwitchTab('part1')">Part 1 (shared)</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t11"       onclick="_mmgSwitchTab('t11')">Task 1.1</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t12"       onclick="_mmgSwitchTab('t12')">Task 1.2</button>
           <button class="mmg-tab mmg-tab-cw"           data-tab="t2"        onclick="_mmgSwitchTab('t2')">Task 2</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task1"  onclick="_mmgSwitchTab('iw_task1')">Task 1</button>
           <button class="mmg-tab mmg-tab-iw"           data-tab="iw_task2"  onclick="_mmgSwitchTab('iw_task2')">Task 2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part11" onclick="_mmgSwitchTab('sp_part11')">Part 1.1</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part12" onclick="_mmgSwitchTab('sp_part12')">Part 1.2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part2"  onclick="_mmgSwitchTab('sp_part2')">Part 2</button>
+          <button class="mmg-tab mmg-tab-cs mmg-tab-is" data-tab="sp_part3"  onclick="_mmgSwitchTab('sp_part3')">Part 3</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="samples"  onclick="_mmgSwitchTab('samples')">Samples</button>
           <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="vocab"    onclick="_mmgSwitchTab('vocab')">Vocabulary</button>
-          <button class="mmg-tab mmg-tab-cw mmg-tab-iw" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
-          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
+          <button class="mmg-tab mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="tokens"   onclick="_mmgSwitchTab('tokens')">Tokens</button>
+          <button class="mmg-tab mmg-tab-raw mmg-tab-cw mmg-tab-iw mmg-tab-cs mmg-tab-is" data-tab="raw" onclick="_mmgSwitchTab('raw')">⚙ Raw JSON</button>
         </div>
         <div class="mmg-edit-panes">
 
@@ -25932,6 +25956,11 @@
         <div id="mmgPaneSamples"  class="mmg-pane"></div>
         <div id="mmgPaneVocab"    class="mmg-pane"></div>
         <div id="mmgPaneTokens"   class="mmg-pane"></div>
+
+        <div id="mmgPaneSpPart11" class="mmg-pane"></div>
+        <div id="mmgPaneSpPart12" class="mmg-pane"></div>
+        <div id="mmgPaneSpPart2"  class="mmg-pane"></div>
+        <div id="mmgPaneSpPart3"  class="mmg-pane"></div>
 
         <!-- Raw JSON pane (the original textarea — kept as authoritative store + power-user fallback). -->
         <div id="mmgPaneRaw" class="mmg-pane mmg-pane-raw active" style="flex-direction:column;">
@@ -26275,8 +26304,10 @@
     // Each entry is { tabClass, defaultTab } — tabClass identifies which
     // .mmg-tab.mmg-tab-XX buttons in the bar to surface for this mock_type.
     var _MMG_STRUCTURED_TYPES = {
-      'cefr-writing':  { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
-      'ielts-writing': { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' }
+      'cefr-writing':   { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
+      'ielts-writing':  { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' },
+      'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
+      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -26306,6 +26337,7 @@
     var _MMG_TAB_TO_PANE = {
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
+      sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
@@ -26356,6 +26388,10 @@
           case 't2':       _mmgCollectTask(md, 't2');  break;
           case 'iw_task1': _mmgCollectIwTask(md, 'task1'); break;
           case 'iw_task2': _mmgCollectIwTask(md, 'task2'); break;
+          case 'sp_part11': _mmgCollectSpPart(md, 'part11'); break;
+          case 'sp_part12': _mmgCollectSpPart(md, 'part12'); break;
+          case 'sp_part2':  _mmgCollectSpPart(md, 'part2');  break;
+          case 'sp_part3':  _mmgCollectSpPart(md, 'part3');  break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -26384,6 +26420,10 @@
         case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
         case 'iw_task1': _mmgRenderIwTask(md, 'task1', 'Task 1', 150, 20, 'Describe a chart/graph/diagram. Includes chart image and chart type.'); break;
         case 'iw_task2': _mmgRenderIwTask(md, 'task2', 'Task 2', 250, 40, 'Essay — present an argument or discuss both sides of a topic.'); break;
+        case 'sp_part11': _mmgRenderSpPart(md, 'part11'); break;
+        case 'sp_part12': _mmgRenderSpPart(md, 'part12'); break;
+        case 'sp_part2':  _mmgRenderSpPart(md, 'part2');  break;
+        case 'sp_part3':  _mmgRenderSpPart(md, 'part3');  break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -26513,6 +26553,16 @@
     // Schema-aware: CEFR Writing has examTitle/heading1/heading2; IELTS Writing
     // has moduleTitle/timeInfo. Both share logoUrl/logoWording/testIdentifier.
     function _mmgSettingsKeysForType(type) {
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        return [
+          { k: 'logoUrl',         label: 'Logo URL',         help: 'Image URL for the logo.' },
+          { k: 'logoWording',     label: 'Logo wording',     help: 'Text next to the logo (e.g., "Mock Stream").' },
+          { k: 'telegramChannel', label: 'Telegram channel', help: 'e.g., @mock_stream — used in the report header.' },
+          { k: 'testIdentifier',  label: 'Test identifier',  help: 'Internal ID — leave as "mock_stream" unless you know why.' },
+          { k: 'heading1',        label: 'Heading 1',        help: 'First centred heading (org name in Uzbek).' },
+          { k: 'heading2',        label: 'Heading 2',        help: 'Second centred heading (test description).' }
+        ];
+      }
       if (type === 'ielts-writing') {
         return [
           { k: 'logoUrl',        label: 'Logo URL',        help: 'Image URL for the logo.' },
@@ -26534,20 +26584,70 @@
     }
     function _mmgRenderSettings(md) {
       var s = (md.settings = md.settings || {});
-      var keys = _mmgSettingsKeysForType(_mmgCurrentType());
+      var type = _mmgCurrentType();
+      var keys = _mmgSettingsKeysForType(type);
       var html = '<div class="mmg-section-title">Test settings (logo + headings)</div>';
       for (var i = 0; i < keys.length; i++) {
         var f = keys[i];
         html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
       }
+
+      // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        var images = (md.images = md.images || {});
+        html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
+        html += _mmgImageRow('img1', images.img1, images.img1Alt);
+        html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        html += _mmgRenderVoicePreviewGrid(md);
+        if (type === 'ielts-speaking') {
+          var ann = (md.announcements = md.announcements || {});
+          html += '<div class="mmg-section-title">Examiner announcements (IELTS)</div>'
+                + _mmgFieldArea('beforePart1',         'mmgAnnP1',  ann.beforePart1,         '', 60)
+                + _mmgFieldArea('beforePart2',         'mmgAnnP2',  ann.beforePart2,         '', 60)
+                + _mmgFieldArea('afterPart2Prep',      'mmgAnnP2P', ann.afterPart2Prep,      '', 60)
+                + _mmgFieldArea('beforePart2FollowUp', 'mmgAnnP2F', ann.beforePart2FollowUp, '', 60)
+                + _mmgFieldArea('beforePart3',         'mmgAnnP3',  ann.beforePart3,         '', 60)
+                + _mmgFieldArea('afterExam',           'mmgAnnEnd', ann.afterExam,           '', 60);
+        }
+        html += '<div style="margin-top:14px;"><button type="button" class="mmg-add-btn" onclick="_mmgGenerateAllAudios(\'all\')">🎙 Generate audio for all questions with current voice/model</button></div>';
+      }
+
       document.getElementById('mmgPaneSettings').innerHTML = html;
+
+      // Wire image upload buttons (speaking only).
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
+        _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
+      }
     }
     function _mmgCollectSettings(md) {
       md.settings = md.settings || {};
-      var keys = _mmgSettingsKeysForType(_mmgCurrentType());
+      var type = _mmgCurrentType();
+      var keys = _mmgSettingsKeysForType(type);
       for (var i = 0; i < keys.length; i++) {
         var el = document.getElementById('mmgSet_' + keys[i].k);
         if (el) md.settings[keys[i].k] = el.value;
+      }
+
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        md.images = md.images || {};
+        var get = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+        if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
+        if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
+        if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
+        if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+
+        if (type === 'ielts-speaking') {
+          md.announcements = md.announcements || {};
+          if (get('mmgAnnP1')  !== undefined) md.announcements.beforePart1         = get('mmgAnnP1');
+          if (get('mmgAnnP2')  !== undefined) md.announcements.beforePart2         = get('mmgAnnP2');
+          if (get('mmgAnnP2P') !== undefined) md.announcements.afterPart2Prep      = get('mmgAnnP2P');
+          if (get('mmgAnnP2F') !== undefined) md.announcements.beforePart2FollowUp = get('mmgAnnP2F');
+          if (get('mmgAnnP3')  !== undefined) md.announcements.beforePart3         = get('mmgAnnP3');
+          if (get('mmgAnnEnd') !== undefined) md.announcements.afterExam           = get('mmgAnnEnd');
+        }
+        // settings.voice / settings.tts_model are written immediately by
+        // _mmgPickTtsVoice / _mmgPickTtsModel — nothing to flush here.
       }
     }
 
@@ -26829,6 +26929,629 @@
       if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
       return (b/1024/1024).toFixed(1) + ' MB';
     }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Speaking editor — CEFR + IELTS. Reuses sample editor toolbar +
+    //   GCS upload helpers from the writing editor; adds Gemini TTS audio
+    //   generation per question.
+    // ═══════════════════════════════════════════════════════════════════════
+    // Curated list — must match TTS_VOICES in supabase/functions/admin-mocks/index.ts.
+    // Adding a voice: update both lists AND re-run generate-voice-previews.mjs.
+    var _MMG_TTS_VOICES = [
+      { code: 'Kore',         label: 'Firm — neutral examiner' },
+      { code: 'Charon',       label: 'Deep, informative — senior examiner' },
+      { code: 'Aoede',        label: 'Warm, friendly' },
+      { code: 'Orus',         label: 'Firm, articulate' },
+      { code: 'Achird',       label: 'Friendly, approachable' },
+      { code: 'Vindemiatrix', label: 'Gentle' },
+      { code: 'Leda',         label: 'Youthful, clear' },
+      { code: 'Puck',         label: 'Upbeat' }
+    ];
+    var _MMG_TTS_MODELS = [
+      { code: 'budget',  label: 'Budget (Flash) — fast, cheap' },
+      { code: 'premium', label: 'Premium (Pro) — richer intonation' }
+    ];
+    // Pre-generated voice preview URLs in GCS (created by generate-voice-previews.mjs).
+    function _mmgVoicePreviewUrl(model, voice) {
+      return 'https://storage.googleapis.com/mockstream-listening-audio/Voice%20previews/'
+           + encodeURIComponent(model) + '-' + encodeURIComponent(voice) + '.wav';
+    }
+    // Audio row: URL input + 🎙 Generate + 📤 Upload + per-Q voice/model + inline player.
+    // `id` is the unique DOM id prefix; the row writes to `<id>` (text input) and
+    // reads voice/model from `<id>_voice` and `<id>_model` (selects). The 📤 button +
+    // hidden file input + progress div use ids `<id>_upbtn`, `<id>_upfile`, `<id>_upprog`
+    // — exactly the shape `_mmgUploadBind` expects, so the upload wiring is reused
+    // verbatim from the writing editor.
+    function _mmgFieldAudio(label, id, value, opts) {
+      opts = opts || {};
+      var qIndex   = opts.qIndex == null ? -1 : opts.qIndex;
+      var defVoice = opts.defaultVoice || 'Kore';
+      var defModel = opts.defaultModel || 'premium';
+      var voiceOpts = _MMG_TTS_VOICES.map(function(v){
+        return '<option value="' + v.code + '"' + (v.code === defVoice ? ' selected' : '') + '>' + _mmgEsc(v.code) + '</option>';
+      }).join('');
+      var modelOpts = _MMG_TTS_MODELS.map(function(m){
+        return '<option value="' + m.code + '"' + (m.code === defModel ? ' selected' : '') + '>' + _mmgEsc(m.label) + '</option>';
+      }).join('');
+      var safeVal = _mmgEsc(value || '');
+      var initialSrc = value ? safeVal + (value.indexOf('?') === -1 ? '?t=' + Date.now() : '') : '';
+      var delShown = _mmgIsGcsSpeakingUrl(value || '');
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        + '<div class="mmg-audio-row" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">'
+        +   '<input type="text" id="' + id + '" value="' + safeVal + '" '
+        +     'placeholder="https://… or empty (TTS fallback)" '
+        +     'oninput="_mmgRebindAudioPlayer(\'' + id + '\')" style="flex:1;min-width:240px;">'
+        +   '<button type="button" class="mmg-icon-btn" title="Generate via Gemini TTS" '
+        +     'onclick="_mmgGenerateAudio(' + qIndex + ', \'' + id + '\')">🎙</button>'
+        +   '<button type="button" class="mmg-icon-btn" id="' + id + '_upbtn" title="Upload MP3/WAV">📤</button>'
+        +   '<input type="file" id="' + id + '_upfile" accept="audio/*" style="display:none;">'
+        +   '<button type="button" class="mmg-icon-btn" id="' + id + '_delbtn" title="Delete this audio from GCS" '
+        +     'style="' + (delShown ? '' : 'display:none;') + 'color:#dc2626;" '
+        +     'onclick="_mmgDeleteAudio(' + qIndex + ', \'' + id + '\')">🗑</button>'
+        +   '<select id="' + id + '_voice" title="Voice override (this regen only)" style="font-size:12px;padding:4px;">' + voiceOpts + '</select>'
+        +   '<select id="' + id + '_model" title="Model override (this regen only)" style="font-size:12px;padding:4px;">' + modelOpts + '</select>'
+        + '</div>'
+        + '<div id="' + id + '_upprog" class="mmg-upload-progress"></div>'
+        + '<audio id="' + id + '_audio" controls preload="none" '
+        +   'style="' + (value ? 'display:block;' : 'display:none;') + 'width:100%;margin-top:6px;" '
+        +   (initialSrc ? 'src="' + initialSrc + '"' : '') + '></audio>'
+        + '</div>';
+    }
+
+    // Match a URL that points to a deletable speaking-mock audio in GCS.
+    // Voice previews + listening audio + chart images are intentionally
+    // excluded so the 🗑 button can't wipe shared assets.
+    function _mmgIsGcsSpeakingUrl(url) {
+      if (!url) return false;
+      return /^https:\/\/storage\.googleapis\.com\/mockstream-listening-audio\/(CEFR%20speaking%20media|IELTS%20speaking%20media)\//.test(url);
+    }
+
+    // Re-bind <audio src> when the URL input changes. Called by oninput.
+    window._mmgRebindAudioPlayer = function (id) {
+      var input = document.getElementById(id);
+      var aud   = document.getElementById(id + '_audio');
+      var del   = document.getElementById(id + '_delbtn');
+      if (!input) return;
+      var url = (input.value || '').trim();
+      if (!url) {
+        if (aud) { aud.style.display = 'none'; aud.removeAttribute('src'); }
+        if (del) { del.style.display = 'none'; }
+        return;
+      }
+      if (aud) {
+        var sep = url.indexOf('?') === -1 ? '?' : '&';
+        aud.src = url + sep + 't=' + Date.now();
+        aud.style.display = 'block';
+      }
+      if (del) {
+        del.style.display = _mmgIsGcsSpeakingUrl(url) ? '' : 'none';
+      }
+    };
+
+    // Delete the GCS object referenced by the URL field at `id`.
+    window._mmgDeleteAudio = async function (qIndex, id) {
+      var input = document.getElementById(id);
+      if (!input) return;
+      var url = (input.value || '').trim();
+      if (!_mmgIsGcsSpeakingUrl(url)) {
+        alert('This URL isn\'t a deletable GCS audio.\n\nOnly newly-generated speaking audios under "CEFR speaking media/" or "IELTS speaking media/" can be deleted from here.');
+        return;
+      }
+      if (!confirm('Delete this audio from GCS permanently?\n\n' + url + '\n\nThe URL field will be cleared. Click Save to persist the cleared field.')) return;
+      var btnEl = document.getElementById(id + '_delbtn');
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+      try {
+        var j = await _mmgCall('delete_speaking_audio', { publicUrl: url });
+        if (!j || j.error) throw new Error((j && j.error) || 'unknown error');
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        _mmgStatus('🗑 Deleted audio for Q' + (qIndex + 1) + ' from GCS', '#15803d');
+      } catch (e) {
+        alert('Delete failed: ' + (e.message || e));
+      } finally {
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🗑'; }
+      }
+    };
+
+    // Generate audio for question `qIndex` and fill the URL input at `id`.
+    // Reads the current text from mock_data.questions[qIndex].prompt and the
+    // per-Q voice/model overrides from the row's selects (defaulting to mock-level).
+    window._mmgGenerateAudio = async function (qIndex, id) {
+      // Flush the currently-edited Part pane back into the JSON textarea so
+      // the prompt the user just typed (and any other unsaved field edits)
+      // are visible to this generate call. Without this, q.prompt would be
+      // stale until the user switched tabs.
+      if (typeof _mmgFlushStructuredToRaw === 'function') {
+        _mmgFlushStructuredToRaw();
+      }
+      var md = _mmgGetMockData();
+      if (!md || !md.questions || !md.questions[qIndex]) {
+        // Fall back to reading directly from the prompt textarea if the
+        // questions array doesn't have the index yet (e.g., brand-new mock
+        // where Save hasn't been clicked).
+        var promptElDirect = document.getElementById('spQ' + qIndex + '_prompt');
+        if (promptElDirect && (promptElDirect.value || '').trim()) {
+          alert('Question data not synced yet — click any other tab and back, then try again.');
+        } else {
+          alert('Question data not found. Save the prompt first.');
+        }
+        return;
+      }
+      var q = md.questions[qIndex];
+      var promptText = (q.prompt || '').trim();
+      // Last-resort fallback: read the live textarea directly.
+      if (!promptText) {
+        var promptEl = document.getElementById('spQ' + qIndex + '_prompt');
+        if (promptEl) promptText = (promptEl.value || '').trim();
+      }
+      if (!promptText) { alert('Question prompt is empty — write the prompt first.'); return; }
+
+      var voiceEl = document.getElementById(id + '_voice');
+      var modelEl = document.getElementById(id + '_model');
+      var voice   = voiceEl ? voiceEl.value : ((md.settings && md.settings.voice) || 'Kore');
+      var model   = modelEl ? modelEl.value : ((md.settings && md.settings.tts_model) || 'premium');
+
+      var skill = _mmgCurrentType(); // 'cefr-speaking' | 'ielts-speaking'
+      var mockNumber = parseInt(document.getElementById('mmgFldNum').value || '0', 10) || 0;
+
+      var btnEl = document.querySelector('.mmg-audio-row [onclick*="_mmgGenerateAudio(' + qIndex + ',"]');
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+
+      try {
+        var j = await _mmgCall('generate_speaking_audio', {
+          skill: skill, mock_number: mockNumber, question_number: q.number || (qIndex + 1),
+          text: promptText, voice: voice, model: model
+        });
+        if (!j || !j.publicUrl) throw new Error((j && j.error) || 'no publicUrl');
+        var input = document.getElementById(id);
+        if (input) {
+          input.value = j.publicUrl;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        _mmgStatus('🎙 Generated ' + (j.durationSec || '?') + 's audio for Q' + (q.number || (qIndex + 1)), '#15803d');
+      } catch (e) {
+        alert('Audio generation failed: ' + (e.message || e));
+      } finally {
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🎙'; }
+      }
+    };
+
+    // Sequential bulk generation. scope: 'all' or 'part11'/'part12'/'part2'/'part3'.
+    // Stops at the first failure so the user can see which question failed.
+    window._mmgGenerateAllAudios = async function (scope) {
+      var md = _mmgGetMockData(); if (!md || !md.questions) return;
+      var indices = [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (scope === 'all' || _mmgQuestionPartKey(md.questions[i]) === scope) indices.push(i);
+      }
+      if (!indices.length) { alert('No questions found for scope: ' + scope); return; }
+      if (!confirm('Generate audio for ' + indices.length + ' question(s)? Existing URLs will be overwritten.')) return;
+
+      for (var k = 0; k < indices.length; k++) {
+        var qIndex = indices[k];
+        _mmgStatus('Generating ' + (k + 1) + ' / ' + indices.length + ' (Q' + (md.questions[qIndex].number || (qIndex + 1)) + ')…');
+        var id = 'spQ' + qIndex + '_audio';
+        try {
+          await window._mmgGenerateAudio(qIndex, id);
+        } catch (e) {
+          _mmgStatus('Stopped at Q' + (md.questions[qIndex].number || (qIndex + 1)) + ' — ' + e.message, '#dc2626');
+          return;
+        }
+      }
+      _mmgStatus('✓ All ' + indices.length + ' audios generated.', '#15803d');
+    };
+
+    // Map a question's `part` field to one of the 4 Part tab keys.
+    // CEFR uses Q-numbers (1–3 → part11, 4–6 → part12, 7 → part2, 8 → part3).
+    // IELTS uses the `part` string directly (Part 2 / Part 2 Follow-up both → part2).
+    function _mmgQuestionPartKey(q) {
+      if (!q) return 'part11';
+      var p = String(q.part || '').toLowerCase();
+      if (p.indexOf('part 3') !== -1) return 'part3';
+      if (p.indexOf('part 2') !== -1) return 'part2';
+      // Part 1 — split by question number for CEFR (Q1–3 vs Q4–6).
+      var n = Number(q.number || 0);
+      if (n >= 4 && n <= 6) return 'part12';
+      return 'part11';
+    }
+
+    // Returns the level array for the given mock_type. Each entry is
+    // { key, label, enKey, uzKey }. Main maps to sampleAnswer / uzSampleAnswer.
+    function _mmgLevelTabsFor(type) {
+      var levels = [{ key: 'main', label: 'Main', enKey: 'sampleAnswer', uzKey: 'uzSampleAnswer' }];
+      if (type === 'cefr-speaking') {
+        ['A1','A2','B1','B2'].forEach(function(L) {
+          levels.push({ key: L.toLowerCase(), label: L, enKey: 'sample' + L, uzKey: 'uzSample' + L });
+        });
+      } else {
+        [5,6,7,8,9].forEach(function(N) {
+          levels.push({ key: 'band' + N, label: 'Band ' + N, enKey: 'sampleBand' + N, uzKey: 'uzSampleBand' + N });
+        });
+      }
+      return levels;
+    }
+    // Status glyph for a level: ✓ green = both filled, ● amber = one filled, ○ grey = both empty.
+    function _mmgLevelStatus(q, level) {
+      var en = (q[level.enKey] || '').trim();
+      var uz = (q[level.uzKey] || '').trim();
+      if (en && uz) return '✓';
+      if (en || uz) return '●';
+      return '○';
+    }
+
+    // Vocabulary sub-list (3 of these per question — starters/phrases/idioms).
+    // Each row is a single string input matching the existing data shape.
+    function _mmgVocabSubList(idPrefix, label, items) {
+      var rows = (items || []).map(function(s, i) {
+        return '<div class="mmg-bullet-row" data-idx="' + i + '" style="display:flex;gap:6px;margin:4px 0;">'
+          +      '<input type="text" data-fld="v" value="' + _mmgEsc(s) + '" style="flex:1;">'
+          +      '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>'
+          +    '</div>';
+      }).join('');
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        +    '<div id="' + idPrefix + '" class="mmg-vocab-sublist">' + (rows || '') + '</div>'
+        +    '<button type="button" class="mmg-add-btn" onclick="_mmgAddBulletRow(\'' + idPrefix + '\')">＋ Add</button>'
+        + '</div>';
+    }
+
+    // IELTS cue card bullet points editor (Q7 only).
+    function _mmgFieldBulletList(label, id, items) {
+      var rows = (items || []).map(function(s, i) {
+        return '<div class="mmg-bullet-row" data-idx="' + i + '" style="display:flex;gap:6px;margin:4px 0;">'
+          +      '<input type="text" data-fld="b" value="' + _mmgEsc(s) + '" style="flex:1;" placeholder="e.g., Why was it memorable?">'
+          +      '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>'
+          +    '</div>';
+      }).join('');
+      return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
+        +    '<div id="' + id + '" class="mmg-bullets">' + (rows || '') + '</div>'
+        +    '<button type="button" class="mmg-add-btn" onclick="_mmgAddBulletRow(\'' + id + '\')">＋ Add bullet</button>'
+        + '</div>';
+    }
+
+    window._mmgAddBulletRow = function (hostId) {
+      var host = document.getElementById(hostId); if (!host) return;
+      var idx  = host.querySelectorAll('.mmg-bullet-row').length;
+      var fld  = host.classList.contains('mmg-bullets') ? 'b' : 'v';
+      var div  = document.createElement('div');
+      div.className = 'mmg-bullet-row';
+      div.dataset.idx = idx;
+      div.style.cssText = 'display:flex;gap:6px;margin:4px 0;';
+      div.innerHTML =
+          '<input type="text" data-fld="' + fld + '" value="" style="flex:1;">'
+        + '<button type="button" class="mmg-row-del" title="Remove" onclick="_mmgRemoveRow(this)">×</button>';
+      host.appendChild(div);
+    };
+
+    window._mmgRemoveRow = function (btn) {
+      var row = btn.closest('.mmg-bullet-row'); if (row) row.remove();
+    };
+
+    // Render one question block. qIndex is the index into mock_data.questions.
+    function _mmgRenderQuestionBlock(md, qIndex) {
+      var q = md.questions[qIndex] || {};
+      var type = _mmgCurrentType();
+      var levels = _mmgLevelTabsFor(type);
+      var idP = 'spQ' + qIndex;
+
+      var headerExtras = '';
+      if (type === 'ielts-speaking' && q.topic) {
+        headerExtras = ' · <span style="color:#64748b;">' + _mmgEsc(q.topic) + '</span>';
+      }
+
+      var audioHtml = _mmgFieldAudio('Audio (URL or upload)', idP + '_audio', q.audioFile || '', {
+        qIndex: qIndex,
+        defaultVoice: (md.settings && md.settings.voice) || 'Kore',
+        defaultModel: (md.settings && md.settings.tts_model) || 'premium'
+      });
+
+      var timingHtml =
+          '<div class="mmg-field-row" style="display:flex;gap:10px;">'
+        +   '<div class="mmg-field" style="flex:1;"><label>Prep time (sec)</label>'
+        +     '<input type="number" min="0" id="' + idP + '_prep" value="' + (q.prepTime == null ? '' : q.prepTime) + '"></div>'
+        +   '<div class="mmg-field" style="flex:1;"><label>Speak time (sec)</label>'
+        +     '<input type="number" min="0" id="' + idP + '_speak" value="' + (q.speakTime == null ? '' : q.speakTime) + '"></div>'
+        + '</div>';
+
+      var imagesHtml = '';
+      if (type === 'cefr-speaking' && (q.number === 4 || q.hasImages)) {
+        var checked = q.hasImages ? ' checked' : '';
+        var img1 = (md.images && md.images.img1) || '';
+        var img2 = (md.images && md.images.img2) || '';
+        imagesHtml =
+            '<div class="mmg-field"><label><input type="checkbox" id="' + idP + '_hasimg"' + checked + '> hasImages (Q4 image-pair)</label>'
+          +   '<div class="mmg-field-help">Images come from Settings tab → Top-level images. Toggle controls whether the runner displays them on this question.</div>'
+          +   (q.hasImages && (img1 || img2) ? '<div style="display:flex;gap:8px;margin-top:6px;">'
+              + (img1 ? '<img src="' + _mmgEsc(img1) + '" style="max-width:120px;max-height:80px;border:1px solid #e2e8f0;border-radius:6px;">' : '')
+              + (img2 ? '<img src="' + _mmgEsc(img2) + '" style="max-width:120px;max-height:80px;border:1px solid #e2e8f0;border-radius:6px;">' : '')
+              + '</div>' : '')
+          + '</div>';
+      }
+
+      var bulletsHtml = '';
+      if (type === 'ielts-speaking' && _mmgQuestionPartKey(q) === 'part2' && q.part === 'Part 2') {
+        bulletsHtml = _mmgFieldBulletList('Cue card bullet points', idP + '_bullets', q.bulletPoints || []);
+      }
+
+      var levelChips = levels.map(function(L) {
+        var dot = _mmgLevelStatus(q, L);
+        return '<button type="button" class="mmg-level-chip" data-level="' + L.key + '" '
+          + 'onclick="_mmgSpPickLevel(' + qIndex + ', \'' + L.key + '\')">'
+          + '<span class="mmg-level-dot mmg-level-dot-' + dot.charCodeAt(0) + '">' + dot + '</span> '
+          + _mmgEsc(L.label) + '</button>';
+      }).join('');
+
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      if (!window._mmgSpLevel[qIndex]) window._mmgSpLevel[qIndex] = 'main';
+      var activeLevel = window._mmgSpLevel[qIndex];
+      var activeLevelDef = levels.find(function(L){ return L.key === activeLevel; }) || levels[0];
+
+      var samplesHtml =
+          '<div class="mmg-field"><label>Samples (English ↔ Uzbek)</label>'
+        +   '<div class="mmg-level-chips" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;">' + levelChips + '</div>'
+        +   '<div class="mmg-sample-pair" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+        +     '<div>' + _mmgFieldSample('English (' + activeLevelDef.label + ')', idP + '_en_' + activeLevel, q[activeLevelDef.enKey] || '', '') + '</div>'
+        +     '<div>' + _mmgFieldArea('Uzbek (' + activeLevelDef.label + ')', idP + '_uz_' + activeLevel, q[activeLevelDef.uzKey] || '', '', 200) + '</div>'
+        +   '</div>'
+        + '</div>';
+
+      var voc = q.vocabulary || {};
+      var vocabOpen = (voc.title || (voc.sentenceStarters && voc.sentenceStarters.length)) ? ' open' : '';
+      var vocabHtml =
+          '<details class="mmg-vocab-details"' + vocabOpen + '>'
+        +   '<summary style="cursor:pointer;font-weight:600;color:#475569;">📚 Vocabulary</summary>'
+        +   '<div class="mmg-field"><label>Title</label><input type="text" id="' + idP + '_voct" value="' + _mmgEsc(voc.title || '') + '" placeholder="e.g., Q1 - …"></div>'
+        +   _mmgVocabSubList(idP + '_vocs', 'Sentence starters', voc.sentenceStarters || [])
+        +   _mmgVocabSubList(idP + '_vocp', 'Phrases',           voc.phrases || [])
+        +   _mmgVocabSubList(idP + '_voci', 'Idioms',            voc.idioms || [])
+        + '</details>';
+
+      return '<details class="mmg-q-block" data-q-index="' + qIndex + '" open>'
+        +     '<summary class="mmg-q-summary" style="cursor:pointer;padding:6px 8px;background:#f1f5f9;border-radius:6px;font-weight:700;">'
+        +       'Q' + (q.number || (qIndex + 1)) + ' · ' + _mmgEsc(q.part || '') + headerExtras
+        +     '</summary>'
+        +     '<div class="mmg-q-body" style="display:flex;flex-direction:column;gap:10px;padding:10px 4px;">'
+        +       _mmgFieldArea('Prompt', idP + '_prompt', q.prompt || '', '', 80)
+        +       audioHtml + timingHtml + imagesHtml + bulletsHtml + samplesHtml + vocabHtml
+        +     '</div>'
+        + '</details>';
+    }
+
+    // Switch the active level inside one question's sample editor.
+    window._mmgSpPickLevel = function (qIndex, levelKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectQuestionBlock(md, qIndex);
+      _mmgSetMockData(md);
+      window._mmgSpLevel = window._mmgSpLevel || {};
+      window._mmgSpLevel[qIndex] = levelKey;
+      var existing = document.querySelector('.mmg-q-block[data-q-index="' + qIndex + '"]');
+      if (existing) existing.outerHTML = _mmgRenderQuestionBlock(md, qIndex);
+    };
+
+    // Read every input inside one question block back into mock_data.questions[qIndex].
+    function _mmgCollectQuestionBlock(md, qIndex) {
+      var q = md.questions[qIndex] = md.questions[qIndex] || {};
+      var idP = 'spQ' + qIndex;
+      var type = _mmgCurrentType();
+
+      var promptEl = document.getElementById(idP + '_prompt');
+      if (promptEl) q.prompt = promptEl.value;
+
+      var audioEl = document.getElementById(idP + '_audio');
+      if (audioEl) q.audioFile = audioEl.value;
+
+      var prepEl  = document.getElementById(idP + '_prep');
+      var speakEl = document.getElementById(idP + '_speak');
+      if (prepEl  && prepEl.value  !== '') q.prepTime  = parseInt(prepEl.value,  10);
+      if (speakEl && speakEl.value !== '') q.speakTime = parseInt(speakEl.value, 10);
+
+      var imgEl = document.getElementById(idP + '_hasimg');
+      if (imgEl) q.hasImages = imgEl.checked;
+
+      var activeLevel = (window._mmgSpLevel && window._mmgSpLevel[qIndex]) || 'main';
+      var levels = _mmgLevelTabsFor(type);
+      var Ldef   = levels.find(function(L){ return L.key === activeLevel; }) || levels[0];
+      var enEl = document.getElementById(idP + '_en_' + activeLevel);
+      var uzEl = document.getElementById(idP + '_uz_' + activeLevel);
+      if (enEl) q[Ldef.enKey] = enEl.value;
+      if (uzEl) q[Ldef.uzKey] = uzEl.value;
+
+      var bulletsHost = document.getElementById(idP + '_bullets');
+      if (bulletsHost) {
+        var bRows = bulletsHost.querySelectorAll('.mmg-bullet-row input[data-fld="b"]');
+        var bArr = [];
+        for (var b = 0; b < bRows.length; b++) {
+          var v = (bRows[b].value || '').trim();
+          if (v) bArr.push(v);
+        }
+        q.bulletPoints = bArr;
+      }
+
+      var voc = q.vocabulary = q.vocabulary || {};
+      var vTitleEl = document.getElementById(idP + '_voct');
+      if (vTitleEl) voc.title = vTitleEl.value;
+      ['s','p','i'].forEach(function (suffix, idx) {
+        var key = ['sentenceStarters','phrases','idioms'][idx];
+        var host = document.getElementById(idP + '_voc' + suffix);
+        if (!host) return;
+        var rows = host.querySelectorAll('.mmg-bullet-row input[data-fld="v"]');
+        var arr = [];
+        for (var r = 0; r < rows.length; r++) {
+          var val = (rows[r].value || '').trim();
+          if (val) arr.push(val);
+        }
+        voc[key] = arr;
+      });
+    }
+
+    function _mmgRenderSpPart(md, partKey) {
+      if (!md) return;
+      var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
+      if (!pane) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+
+      var questionsInPart = [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (_mmgQuestionPartKey(md.questions[i]) === partKey) questionsInPart.push(i);
+      }
+
+      var partLabel = { part11:'Part 1.1', part12:'Part 1.2', part2:'Part 2', part3:'Part 3' }[partKey] || partKey;
+
+      var html = '<div class="mmg-section-title" style="display:flex;align-items:center;gap:10px;">'
+               +   '<span style="flex:1;">' + _mmgEsc(partLabel) + ' — ' + questionsInPart.length + ' question(s)</span>'
+               +   '<button type="button" class="mmg-add-btn" onclick="_mmgGenerateAllAudios(\'' + partKey + '\')">🎙 Generate all audios in this part</button>'
+               +   '<button type="button" class="mmg-add-btn" onclick="_mmgSpAddQuestion(\'' + partKey + '\')">＋ Add question</button>'
+               + '</div>';
+
+      if (!questionsInPart.length) {
+        html += '<div class="mmg-empty-hint">No questions in this part yet. Click <em>＋ Add question</em>.</div>';
+      } else {
+        for (var k = 0; k < questionsInPart.length; k++) {
+          html += _mmgRenderQuestionBlock(md, questionsInPart[k]);
+        }
+      }
+
+      pane.innerHTML = html;
+
+      // Wire upload buttons for each question's audio row using the existing helper.
+      for (var k2 = 0; k2 < questionsInPart.length; k2++) {
+        var qi = questionsInPart[k2];
+        _mmgUploadBind({
+          id:    'spQ' + qi + '_audio',
+          skill: _mmgCurrentType()
+        });
+      }
+    }
+
+    function _mmgCollectSpPart(md, partKey) {
+      if (!md) return;
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      for (var i = 0; i < md.questions.length; i++) {
+        if (_mmgQuestionPartKey(md.questions[i]) === partKey) {
+          _mmgCollectQuestionBlock(md, i);
+        }
+      }
+    }
+
+    // Append a new question to mock_data.questions, defaulting `part` so it
+    // lands in the requested Part tab on next render.
+    window._mmgSpAddQuestion = function (partKey) {
+      var md = _mmgGetMockData(); if (!md) return;
+      _mmgCollectSpPart(md, partKey);
+      md.questions = Array.isArray(md.questions) ? md.questions : [];
+      var defaults = {
+        part11: { part: 'Part 1', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 },
+        part12: { part: 'Part 1', prepTime: 10, speakTime: 45,  number: md.questions.length + 1 },
+        part2:  { part: 'Part 2', prepTime: 60, speakTime: 120, number: md.questions.length + 1 },
+        part3:  { part: 'Part 3', prepTime: 5,  speakTime: 30,  number: md.questions.length + 1 }
+      }[partKey] || {};
+      md.questions.push(Object.assign({ prompt: '', audioFile: '' }, defaults));
+      _mmgSetMockData(md);
+      _mmgRenderSpPart(md, partKey);
+    };
+
+    // Inline image row with upload button + thumbnail. Used by speaking Settings tab.
+    function _mmgImageRow(slot, url, alt) {
+      var inputId = 'mmgSetImg' + (slot === 'img1' ? '1' : '2');
+      var altId   = inputId + 'Alt';
+      return '<div class="mmg-field-row" style="display:flex;gap:10px;align-items:end;">'
+        +   '<div class="mmg-field" style="flex:1;"><label>' + slot + ' URL</label>'
+        +     '<input type="text" id="' + inputId + '" value="' + _mmgEsc(url || '') + '" oninput="_mmgRebindThumb(\'' + inputId + '\')"></div>'
+        +   '<div class="mmg-field" style="flex:1;"><label>' + slot + ' Alt</label>'
+        +     '<input type="text" id="' + altId + '" value="' + _mmgEsc(alt || '') + '"></div>'
+        +   '<button type="button" class="mmg-icon-btn" id="' + inputId + '_upbtn" title="Upload image">📤</button>'
+        +   '<input type="file" id="' + inputId + '_upfile" accept="image/*" style="display:none;">'
+        + '</div>'
+        + '<img id="' + inputId + '_thumb" src="' + _mmgEsc(url || '') + '" style="' + (url ? '' : 'display:none;') + 'max-width:160px;max-height:100px;border:1px solid #e2e8f0;border-radius:6px;margin-top:6px;">'
+        + '<div id="' + inputId + '_upprog" class="mmg-upload-progress"></div>';
+    }
+
+    window._mmgRebindThumb = function (id) {
+      var input = document.getElementById(id);
+      var thumb = document.getElementById(id + '_thumb');
+      if (!input || !thumb) return;
+      thumb.src = input.value || '';
+      thumb.style.display = input.value ? '' : 'none';
+    };
+
+    // Voice & TTS model picker — radio per voice, model toggle pill, inline preview.
+    function _mmgRenderVoicePreviewGrid(md) {
+      var settings = md.settings = md.settings || {};
+      var selVoice = settings.voice    || 'Kore';
+      var selModel = settings.tts_model || 'premium';
+
+      var voicesArr = (typeof _MMG_TTS_VOICES !== 'undefined' && Array.isArray(_MMG_TTS_VOICES)) ? _MMG_TTS_VOICES : [];
+      // Each row has TWO radios — one per model. Selecting either sets BOTH
+      // mock_data.settings.voice AND mock_data.settings.tts_model in one click,
+      // so there's no separate "model toggle" to coordinate with.
+      var rows = voicesArr.map(function(v) {
+        var bChecked = (v.code === selVoice && selModel === 'budget')  ? ' checked' : '';
+        var pChecked = (v.code === selVoice && selModel === 'premium') ? ' checked' : '';
+        return '<div class="mmg-voice-row" data-voice="' + v.code + '" style="display:grid;grid-template-columns:130px 1fr 150px 150px;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid #f1f5f9;min-height:36px;">'
+          +    '<strong>' + _mmgEsc(v.code) + '</strong>'
+          +    '<span style="color:#64748b;font-size:12px;">' + _mmgEsc(v.label) + '</span>'
+          +    '<label class="mmg-voice-cell" style="display:flex;gap:6px;align-items:center;cursor:pointer;">'
+          +      '<input type="radio" name="mmgVoicePick" value="' + v.code + ':budget"' + bChecked + ' onchange="_mmgPickVoiceModel(\'' + v.code + '\',\'budget\')">'
+          +      '<button type="button" class="mmg-add-btn" onclick="event.preventDefault();event.stopPropagation();_mmgPlayVoicePreview(\'budget\',\'' + v.code + '\',this)">&#9654; Budget</button>'
+          +    '</label>'
+          +    '<label class="mmg-voice-cell" style="display:flex;gap:6px;align-items:center;cursor:pointer;">'
+          +      '<input type="radio" name="mmgVoicePick" value="' + v.code + ':premium"' + pChecked + ' onchange="_mmgPickVoiceModel(\'' + v.code + '\',\'premium\')">'
+          +      '<button type="button" class="mmg-add-btn" onclick="event.preventDefault();event.stopPropagation();_mmgPlayVoicePreview(\'premium\',\'' + v.code + '\',this)">&#9654; Premium</button>'
+          +    '</label>'
+          + '</div>';
+      }).join('');
+      if (!rows) {
+        rows = '<div style="padding:14px;color:#dc2626;font-size:13px;">⚠ No voices loaded — _MMG_TTS_VOICES is ' + (typeof _MMG_TTS_VOICES) + '. Check console.</div>';
+      }
+
+      var hint = '<div class="mmg-field-help" style="margin-bottom:6px;">Pick the (voice × model) combo that becomes the default for every 🎙 Generate in this mock. ▶ buttons play the pre-generated preview without changing the selection.</div>';
+      var headerRow = '<div style="display:grid;grid-template-columns:130px 1fr 150px 150px;gap:10px;padding:6px 10px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#475569;">'
+        + '<span>Voice</span><span></span><span>Budget (Flash)</span><span>Premium (Pro)</span>'
+        + '</div>';
+
+      return '<div class="mmg-section-title">Voice &amp; TTS model</div>'
+           + hint
+           + '<div style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;flex-shrink:0;overflow:hidden;">'
+           +   headerRow
+           +   rows
+           + '</div>';
+    }
+
+    // Set BOTH voice and model with one click. The radio name="mmgVoicePick" is
+    // shared across the 16 cells so picking any cell unselects the previous one.
+    window._mmgPickVoiceModel = function (voice, model) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.voice = voice;
+      md.settings.tts_model = model;
+      _mmgSetMockData(md);
+    };
+    // Legacy single-axis pickers kept for back-compat with any callers we missed.
+    window._mmgPickTtsVoice = function (code) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.voice = code;
+      _mmgSetMockData(md);
+    };
+    window._mmgPickTtsModel = function (code) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.tts_model = code;
+      _mmgSetMockData(md);
+      _mmgRenderSettings(md);
+    };
+    window._mmgPlayVoicePreview = function (model, voice, btnEl) {
+      var url = _mmgVoicePreviewUrl(model, voice);
+      var row = btnEl.closest('.mmg-voice-row');
+      var existing = row.querySelector('audio.mmg-voice-preview-audio');
+      if (existing) existing.remove();
+      var aud = document.createElement('audio');
+      aud.className = 'mmg-voice-preview-audio';
+      aud.controls = true;
+      aud.src = url;
+      aud.style.cssText = 'grid-column:1/-1;width:100%;margin-top:6px;';
+      row.appendChild(aud);
+      aud.play().catch(function(){ /* user gesture required on some browsers — controls let them retry */ });
+    };
 
     // Generic search-filter for vocab/tokens row lists. Hides rows whose
     // input values don't include the query in any of the named fields.
@@ -27293,8 +28016,10 @@
     //   CEFR Writing: phrasal/adv/modal/colloc/idiom
     //   IELTS Writing: academic/linking/lexical/colloc/idiom
     var _MMG_TOKEN_TYPES_BY_TYPE = {
-      'cefr-writing':  ['phrasal','adv','modal','colloc','idiom'],
-      'ielts-writing': ['academic','linking','lexical','colloc','idiom']
+      'cefr-writing':   ['phrasal','adv','modal','colloc','idiom'],
+      'ielts-writing':  ['academic','linking','lexical','colloc','idiom'],
+      'cefr-speaking':  ['phrasal','adv','modal','colloc','idiom','proverb'],
+      'ielts-speaking': ['phrasal','adv','modal','colloc','idiom','proverb']
     };
     function _mmgTokenTypesForCurrent() {
       return _MMG_TOKEN_TYPES_BY_TYPE[_mmgCurrentType()] || _MMG_TOKEN_TYPES_BY_TYPE['cefr-writing'];

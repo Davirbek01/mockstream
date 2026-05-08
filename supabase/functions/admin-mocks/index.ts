@@ -156,7 +156,8 @@ const GCS_FOLDERS: Record<string, string> = {
   'ielts-speaking':  'IELTS speaking media',
   'cefr-speaking':   'CEFR speaking media',
   'ielts-reading':   'IELTS reading media',
-  'cefr-reading':    'CEFR reading media'
+  'cefr-reading':    'CEFR reading media',
+  'voice-preview':   'Voice previews'
 };
 
 // Allowed MIME types per kind. Browser sends a content type with the file;
@@ -168,6 +169,28 @@ const ALLOWED_MIME = new Set([
 
 // Max upload size in MB. The browser is told this before it tries to upload.
 const MAX_UPLOAD_MB = 25;
+
+// Curated TTS voice list — must match _MMG_TTS_VOICES in site/landing.html.
+// Adding a new voice: update both lists AND re-run the preview-generation script.
+const TTS_VOICES = ['Kore','Charon','Aoede','Orus','Achird','Vindemiatrix','Leda','Puck'];
+
+// Two model tiers exposed in the editor — must match _MMG_TTS_MODELS in landing.html.
+const TTS_MODELS: Record<string, string> = {
+  budget:  'gemini-2.5-flash-preview-tts',
+  premium: 'gemini-2.5-pro-preview-tts'
+};
+
+// Per-skill style prefix prepended to the question text. Empty string for
+// voice-preview because the preview sample text is self-contained.
+const TTS_STYLE_PREFIX: Record<string, string> = {
+  'ielts-speaking': 'Read the following in a calm, clear, professional IELTS speaking examiner tone with natural intonation: ',
+  'cefr-speaking':  'Read the following in a calm, clear, professional CEFR speaking examiner tone with natural intonation: ',
+  'voice-preview':  ''
+};
+
+// Gemini's TTS endpoint emits 16-bit signed mono PCM at this sample rate.
+// Used as the WAV header rate AND as the divisor when computing duration.
+const GEMINI_PCM_SAMPLE_RATE = 24000;
 
 // PEM private key → CryptoKey for RSA-SHA256 signing.
 async function importPrivateKey(pem: string): Promise<CryptoKey> {
@@ -211,6 +234,41 @@ function encodeRfc3986(s: string): string {
 // (per GCS V4 signing spec — slashes are part of the canonical resource).
 function encodeObjectPath(path: string): string {
   return path.split('/').map(encodeRfc3986).join('/');
+}
+
+// Wrap raw 16-bit signed PCM mono bytes in a 44-byte RIFF/WAVE header.
+// Gemini TTS returns 24 kHz mono PCM (mime audio/L16;codecs=pcm;rate=24000).
+// Browsers play WAV natively — wrap once on the server and we never need
+// a client-side decoder.
+function pcmToWav(pcmBytes: Uint8Array, sampleRate: number = 24000): Uint8Array {
+  const numChannels = 1;
+  const bitsPerSample = 16;
+  const byteRate = sampleRate * numChannels * bitsPerSample / 8;
+  const blockAlign = numChannels * bitsPerSample / 8;
+  const WAV_HEADER_BYTES   = 44;   // 12 (RIFF desc) + 24 (fmt chunk) + 8 (data header)
+  const RIFF_SIZE_PREAMBLE =  8;   // "RIFF" + 4-byte file-size field excluded from `fileSize`
+  const dataSize = pcmBytes.length;
+  const fileSize = (WAV_HEADER_BYTES - RIFF_SIZE_PREAMBLE) + dataSize;
+  const buf = new Uint8Array(WAV_HEADER_BYTES + dataSize);
+  const dv = new DataView(buf.buffer);
+  // "RIFF" chunk descriptor
+  buf.set([0x52,0x49,0x46,0x46], 0);            // "RIFF"
+  dv.setUint32(4, fileSize, true);
+  buf.set([0x57,0x41,0x56,0x45], 8);            // "WAVE"
+  // "fmt " sub-chunk
+  buf.set([0x66,0x6d,0x74,0x20], 12);           // "fmt "
+  dv.setUint32(16, 16, true);                   // PCM fmt chunk size
+  dv.setUint16(20, 1, true);                    // audio format = PCM
+  dv.setUint16(22, numChannels, true);
+  dv.setUint32(24, sampleRate, true);
+  dv.setUint32(28, byteRate, true);
+  dv.setUint16(32, blockAlign, true);
+  dv.setUint16(34, bitsPerSample, true);
+  // "data" sub-chunk
+  buf.set([0x64,0x61,0x74,0x61], 36);           // "data"
+  dv.setUint32(40, dataSize, true);
+  buf.set(pcmBytes, 44);
+  return buf;
 }
 
 interface SignedPutUrlOpts {
@@ -262,6 +320,56 @@ async function generateV4SignedPutUrl(opts: SignedPutUrlOpts): Promise<{ uploadU
     `https://${host}${canonicalUri}?${canonicalQueryString}&X-Goog-Signature=${signature}`;
   const expiresAt = new Date(Date.now() + opts.ttlSeconds * 1000).toISOString();
   return { uploadUrl, expiresAt };
+}
+
+interface SignedDeleteUrlOpts {
+  objectPath: string;
+  ttlSeconds: number;
+  serviceAccountEmail: string;
+  privateKey: CryptoKey;
+}
+// V4 signed DELETE URL — same algorithm as the PUT helper above but with
+// HTTP method DELETE and only `host` in the signed headers (no body, no
+// content-type). The Edge Function fetches the resulting URL with method
+// 'DELETE' to remove a GCS object.
+async function generateV4SignedDeleteUrl(opts: SignedDeleteUrlOpts): Promise<{ deleteUrl: string; expiresAt: string }> {
+  const now = new Date();
+  const datestamp   = now.toISOString().slice(0, 10).replace(/-/g, '');
+  const timestamp   = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const credentialScope = `${datestamp}/auto/storage/goog4_request`;
+  const credential      = `${opts.serviceAccountEmail}/${credentialScope}`;
+  const host = 'storage.googleapis.com';
+
+  const signedHeaders = ['host'];
+  const canonicalHeaders = `host:${host}\n`;
+
+  const queryParams: Record<string, string> = {
+    'X-Goog-Algorithm':     'GOOG4-RSA-SHA256',
+    'X-Goog-Credential':    credential,
+    'X-Goog-Date':          timestamp,
+    'X-Goog-Expires':       String(opts.ttlSeconds),
+    'X-Goog-SignedHeaders': signedHeaders.join(';')
+  };
+  const canonicalQueryString = Object.keys(queryParams).sort()
+    .map((k) => `${encodeRfc3986(k)}=${encodeRfc3986(queryParams[k])}`).join('&');
+
+  const canonicalUri = `/${GCS_BUCKET}/${encodeObjectPath(opts.objectPath)}`;
+  const canonicalRequest =
+      `DELETE\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders.join(';')}\nUNSIGNED-PAYLOAD`;
+
+  const hashedCanonicalRequest = await sha256Hex(canonicalRequest);
+  const stringToSign = `GOOG4-RSA-SHA256\n${timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
+  const sig = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5',
+    opts.privateKey,
+    new TextEncoder().encode(stringToSign)
+  );
+  const signature = toHex(sig);
+
+  const deleteUrl =
+    `https://${host}${canonicalUri}?${canonicalQueryString}&X-Goog-Signature=${signature}`;
+  const expiresAt = new Date(Date.now() + opts.ttlSeconds * 1000).toISOString();
+  return { deleteUrl, expiresAt };
 }
 
 // Snapshot a row before mutating it. Reads the current row (or null for
@@ -327,7 +435,7 @@ Deno.serve(async (req) => {
   // can still list/get/list_backups for visibility, but writes are gated.
   // Signed-upload URLs are also super-admin only — anyone with one can write
   // a single file to the bucket.
-  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url']);
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio', 'delete_speaking_audio']);
   if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
     return json(403, { error: 'super_admin_required' });
   }
@@ -503,6 +611,214 @@ Deno.serve(async (req) => {
           expiresAt,
           maxBytes: MAX_UPLOAD_MB * 1024 * 1024
         });
+      }
+
+      // ── Generate speaking question audio via Gemini TTS ───────────────
+      // Body: { skill, mock_number, question_number, text, voice?, model?, filename_override? }
+      // Returns: { publicUrl, objectPath, sizeBytes, durationSec, skipped? }
+      case 'generate_speaking_audio': {
+        // 1) Validate inputs.
+        const skill            = (body.skill || '') as string;
+        const mockNumber       = Number(body.mock_number);
+        const questionNumber   = Number(body.question_number);
+        const text             = String(body.text || '').trim();
+        const voice            = String(body.voice || 'Kore');
+        const model            = String(body.model || 'premium');
+        const filenameOverride = String(body.filename_override || '').trim();
+
+        if (!skill)                               return json(400, { error: 'bad_request', detail: 'skill required' });
+        if (!Number.isInteger(mockNumber)     || mockNumber     < 0) return json(400, { error: 'bad_request', detail: 'mock_number must be non-negative integer' });
+        if (!Number.isInteger(questionNumber) || questionNumber < 0) return json(400, { error: 'bad_request', detail: 'question_number must be non-negative integer' });
+        if (!text)                                return json(400, { error: 'bad_request', detail: 'text required' });
+        if (text.length > 1500)                   return json(400, { error: 'text_too_long', limit: 1500, got: text.length });
+        if (!GCS_FOLDERS[skill])                  return json(400, { error: 'unknown_skill', skill });
+        if (!TTS_VOICES.includes(voice))          return json(400, { error: 'unknown_voice', voice });
+        if (!TTS_MODELS[model])                   return json(400, { error: 'unknown_model', model });
+
+        // 3) Build the Gemini request.
+        const apiKey = Deno.env.get('GEMINI_API_KEY') || '';
+        if (!apiKey) return json(500, { error: 'gemini_api_key_missing' });
+
+        const resolvedModel = TTS_MODELS[model];
+        const stylePrefix   = TTS_STYLE_PREFIX[skill] || '';
+        const fullText      = stylePrefix + text;
+
+        let pcmBytes: Uint8Array;
+        try {
+          const ttsRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${resolvedModel}:generateContent`,
+            {
+              method: 'POST',
+              headers: {
+                'x-goog-api-key': apiKey,
+                'Content-Type':   'application/json'
+              },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: fullText }] }],
+                generationConfig: {
+                  responseModalities: ['AUDIO'],
+                  speechConfig: {
+                    voiceConfig: {
+                      prebuiltVoiceConfig: { voiceName: voice }
+                    }
+                  }
+                }
+              })
+            }
+          );
+          if (!ttsRes.ok) {
+            const errText = await ttsRes.text().catch(() => '');
+            return json(502, { error: 'gemini_tts_failed', status: ttsRes.status, detail: errText.slice(0, 500) });
+          }
+          const ttsJson = await ttsRes.json();
+          const b64 = ttsJson?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+          if (!b64) {
+            return json(502, { error: 'gemini_tts_failed', detail: 'no inlineData in response', sample: JSON.stringify(ttsJson).slice(0, 400) });
+          }
+          try {
+            pcmBytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+          } catch {
+            // atob throws DOMException on non-standard base64 (e.g. URL-safe
+            // variants). Surface a specific diagnostic instead of leaking the
+            // generic atob error message into gemini_tts_failed.
+            return json(502, { error: 'gemini_tts_failed', detail: 'base64 decode failed — possible URL-safe encoding', b64Prefix: b64.slice(0, 20) });
+          }
+        } catch (e) {
+          return json(502, { error: 'gemini_tts_failed', detail: (e as Error).message });
+        }
+
+        // 4) Wrap PCM as WAV (mono 16-bit at Gemini's native sample rate).
+        const wavBytes    = pcmToWav(pcmBytes, GEMINI_PCM_SAMPLE_RATE);
+        const sizeBytes   = wavBytes.length;
+        const durationSec = +(pcmBytes.length / 2 / GEMINI_PCM_SAMPLE_RATE).toFixed(2);
+
+        // 5) Resolve the object path. filename_override is used by the preview script
+        //    (deterministic name); per-question audio gets a timestamp suffix to
+        //    bust browser cache after regeneration.
+        const folder = GCS_FOLDERS[skill];
+        let objectPath: string;
+        if (filenameOverride) {
+          // Sanitise — same rules as gcs_signed_upload_url.
+          const safe = filenameOverride
+            .replace(/[\\\/\x00]/g, '')
+            .replace(/^\.+/, '')
+            .replace(/[^A-Za-z0-9._\- ]/g, '_')
+            .slice(0, 200);
+          if (!safe || safe === '.') return json(400, { error: 'bad_filename' });
+          objectPath = `${folder}/${safe}`;
+        } else {
+          const nn = String(mockNumber).padStart(2, '0');
+          const ts = Math.floor(Date.now() / 1000);
+          objectPath = `${folder}/${skill}-mock-${nn}-q${questionNumber}-${ts}.wav`;
+        }
+
+        // 6) Idempotency — only when filename_override is set, skip if the file
+        //    already exists at that exact path.
+        const publicUrl = `https://storage.googleapis.com/${GCS_BUCKET}/${encodeObjectPath(objectPath)}`;
+        if (filenameOverride) {
+          try {
+            const headRes = await fetch(publicUrl, { method: 'HEAD' });
+            if (headRes.ok) {
+              return json(200, { publicUrl, objectPath, sizeBytes, durationSec, skipped: true });
+            }
+          } catch (_) { /* HEAD failed (network error or non-public bucket) — fall through to upload */ }
+        }
+
+        // 7) Sign + PUT to GCS using the existing service-account infra.
+        const sa = Deno.env.get('GCS_SERVICE_ACCOUNT_JSON') || '';
+        if (!sa) return json(500, { error: 'gcs_secret_missing' });
+        let saObj: { client_email: string; private_key: string };
+        try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        if (!saObj.client_email || !saObj.private_key) {
+          return json(500, { error: 'gcs_secret_missing_fields' });
+        }
+        let privateKey: CryptoKey;
+        try { privateKey = await importPrivateKey(saObj.private_key); }
+        catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
+
+        const { uploadUrl } = await generateV4SignedPutUrl({
+          objectPath,
+          contentType: 'audio/wav',
+          ttlSeconds: 600,             // matches gcs_signed_upload_url; only ~seconds elapse before we PUT
+          serviceAccountEmail: saObj.client_email,
+          privateKey
+        });
+
+        try {
+          const putRes = await fetch(uploadUrl, {
+            method:  'PUT',
+            headers: { 'Content-Type': 'audio/wav' },
+            body:    wavBytes
+          });
+          if (!putRes.ok) {
+            const errText = await putRes.text().catch(() => '');
+            return json(502, { error: 'gcs_upload_failed', status: putRes.status, detail: errText.slice(0, 400) });
+          }
+        } catch (e) {
+          return json(502, { error: 'gcs_upload_failed', detail: (e as Error).message });
+        }
+
+        return json(200, { publicUrl, objectPath, sizeBytes, durationSec });
+      }
+
+      // ── Delete a speaking-mock audio object from GCS ──────────────────
+      // Body: { publicUrl }
+      // Returns: { deleted:true, objectPath } | { error, ... }
+      // Refuses anything outside the speaking-media folders so the editor
+      // can't accidentally wipe voice previews, listening audio, etc.
+      case 'delete_speaking_audio': {
+        const publicUrl = String(body.publicUrl || '').trim();
+        if (!publicUrl) return json(400, { error: 'bad_request', detail: 'publicUrl required' });
+
+        const PREFIX = `https://storage.googleapis.com/${GCS_BUCKET}/`;
+        if (!publicUrl.startsWith(PREFIX)) {
+          return json(400, { error: 'unsupported_url', detail: 'must be in ' + GCS_BUCKET + ' bucket' });
+        }
+        // The publicUrl in mock_data was produced by encodeObjectPath, so
+        // each path segment is RFC3986-encoded. decodeURIComponent reverses
+        // that to get the literal object path.
+        let objectPath: string;
+        try { objectPath = decodeURIComponent(publicUrl.slice(PREFIX.length)); }
+        catch { return json(400, { error: 'bad_url' }); }
+
+        const ALLOWED_DELETE_FOLDERS = [
+          GCS_FOLDERS['cefr-speaking']  + '/',
+          GCS_FOLDERS['ielts-speaking'] + '/'
+        ];
+        if (!ALLOWED_DELETE_FOLDERS.some((f) => objectPath.startsWith(f))) {
+          return json(400, { error: 'protected_folder', detail: 'only speaking-media folders are deletable from the editor', objectPath });
+        }
+
+        const sa = Deno.env.get('GCS_SERVICE_ACCOUNT_JSON') || '';
+        if (!sa) return json(500, { error: 'gcs_secret_missing' });
+        let saObj: { client_email: string; private_key: string };
+        try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        if (!saObj.client_email || !saObj.private_key) {
+          return json(500, { error: 'gcs_secret_missing_fields' });
+        }
+        let privateKey: CryptoKey;
+        try { privateKey = await importPrivateKey(saObj.private_key); }
+        catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
+
+        const { deleteUrl } = await generateV4SignedDeleteUrl({
+          objectPath,
+          ttlSeconds: 600,
+          serviceAccountEmail: saObj.client_email,
+          privateKey
+        });
+
+        try {
+          const r = await fetch(deleteUrl, { method: 'DELETE' });
+          if (r.status === 404) return json(404, { error: 'not_found', objectPath });
+          if (!r.ok) {
+            const errText = await r.text().catch(() => '');
+            return json(502, { error: 'gcs_delete_failed', status: r.status, detail: errText.slice(0, 400) });
+          }
+        } catch (e) {
+          return json(502, { error: 'gcs_delete_failed', detail: (e as Error).message });
+        }
+
+        return json(200, { deleted: true, objectPath });
       }
 
       default:

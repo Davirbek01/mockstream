@@ -167,10 +167,15 @@
             opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
             selector.appendChild(opt);
           }
+          // Stamp mock_number on the option so the change handler at ~line 6741
+          // can read it back when building the Telegram caption + filename. The
+          // generated label '🟢 Dynamic Mock' contains no digits, so the regex
+          // fallback would otherwise miss and the caption would be blank.
+          opt.dataset.mockNumber = mockNum;
           selector.value = sbValue;
           found = true;
           window._lastSelectedWritingMock = { value: sbValue, text: opt.textContent };
-          console.log('[Auto-Proceed Writing] Selected Supabase mock:', sbValue);
+          console.log('[Auto-Proceed Writing] Selected Supabase mock:', sbValue, 'mockNum:', mockNum);
         }
 
         if (!found && !selector.value) {
@@ -6734,12 +6739,21 @@
         const selectedFile = this.value;
         const selectedOption = this.options[this.selectedIndex];
 
-        // Extract mock number from filename for Telegram
+        // Extract mock number for Telegram caption + URL.
         // writing-questions.js = Mock 01, writing-questions02.js = Mock 02, etc.
+        // Supabase mocks: use the data-mock-number attribute stamped on the
+        // option when the Supabase upgrade ran (see ~line 20685). The value
+        // 'supabase:<id>' carries only the row id, not the mock_number.
         if (selectedFile.startsWith('supabase:')) {
-          // Dynamic Supabase mock — extract number from option text
-          const sbTextMatch = selectedOption?.textContent?.match(/(\d+)/);
-          selectedMockNumber = sbTextMatch ? sbTextMatch[1] : '999';
+          const sbDataNum = selectedOption?.dataset?.mockNumber;
+          if (sbDataNum) {
+            selectedMockNumber = sbDataNum;
+          } else {
+            // Last-resort fallback: try to parse a "Mock NN" pattern from the
+            // visible label so legacy options without the data attr still work.
+            const sbTextMatch = selectedOption?.textContent?.match(/Mock\s*0*(\d+)/i);
+            selectedMockNumber = sbTextMatch ? sbTextMatch[1] : '';
+          }
         } else {
           const mockMatch = selectedFile.match(/writing-questions(\d*)\.js/);
           selectedMockNumber = mockMatch ? (mockMatch[1] || '1') : '1';
@@ -7037,9 +7051,17 @@
 
             // Load the mock
             if (selectedFile) {
-              // Extract mock number and update selectedMockNumber
-              const mockMatch = selectedFile.match(/\d+/);
-              selectedMockNumber = mockMatch ? mockMatch[0] : '';
+              // Extract mock number — Supabase entries carry the row id in
+              // the value (NOT the mock number), so prefer the option's
+              // data-mock-number attribute. Static .js entries: regex on
+              // the filename works.
+              if (selectedFile.startsWith('supabase:')) {
+                var sbOpt = mockSelector.querySelector('option[value="' + selectedFile + '"]');
+                selectedMockNumber = (sbOpt && sbOpt.dataset && sbOpt.dataset.mockNumber) || '';
+              } else {
+                const mockMatch = selectedFile.match(/\d+/);
+                selectedMockNumber = mockMatch ? mockMatch[0] : '';
+              }
 
               // Set the selector value back so Continue button works
               mockSelector.value = selectedFile;
@@ -20683,6 +20705,7 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
         // Upgrade: change value to supabase, update text & style
         existing.value = 'supabase:' + m.id;
         existing.textContent = '🟢 ' + m.title;
+        existing.dataset.mockNumber = num;          // authoritative source for caption + URL
         existing.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
         existing.removeAttribute('data-coming-soon');
         upgraded++;
@@ -20691,6 +20714,7 @@ document.querySelectorAll('#hsPanel .hs-action[href]').forEach(function(a){
         var opt = document.createElement('option');
         opt.value = 'supabase:' + m.id;
         opt.textContent = '🟢 ' + m.title;
+        opt.dataset.mockNumber = num;               // authoritative source for caption + URL
         opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
         selector.appendChild(opt);
         added++;
