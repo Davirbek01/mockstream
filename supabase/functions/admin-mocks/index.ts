@@ -581,8 +581,58 @@ Deno.serve(async (req) => {
         if (!TTS_VOICES.includes(voice))          return json(400, { error: 'unknown_voice', voice });
         if (!TTS_MODELS[model])                   return json(400, { error: 'unknown_model', model });
 
-        // 2) Stub return — Tasks 3 + 4 fill in TTS + GCS upload.
-        return json(501, { error: 'not_implemented', stage: 'task2-skeleton' });
+        // 3) Build the Gemini request.
+        const apiKey = Deno.env.get('GEMINI_API_KEY') || '';
+        if (!apiKey) return json(500, { error: 'gemini_api_key_missing' });
+
+        const resolvedModel = TTS_MODELS[model];
+        const stylePrefix   = TTS_STYLE_PREFIX[skill] || '';
+        const fullText      = stylePrefix + text;
+
+        let pcmBytes: Uint8Array;
+        try {
+          const ttsRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${resolvedModel}:generateContent`,
+            {
+              method: 'POST',
+              headers: {
+                'x-goog-api-key': apiKey,
+                'Content-Type':   'application/json'
+              },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: fullText }] }],
+                generationConfig: {
+                  responseModalities: ['AUDIO'],
+                  speechConfig: {
+                    voiceConfig: {
+                      prebuiltVoiceConfig: { voiceName: voice }
+                    }
+                  }
+                }
+              })
+            }
+          );
+          if (!ttsRes.ok) {
+            const errText = await ttsRes.text().catch(() => '');
+            return json(502, { error: 'gemini_tts_failed', status: ttsRes.status, detail: errText.slice(0, 500) });
+          }
+          const ttsJson = await ttsRes.json();
+          const b64 = ttsJson?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+          if (!b64) {
+            return json(502, { error: 'gemini_tts_failed', detail: 'no inlineData in response', sample: JSON.stringify(ttsJson).slice(0, 400) });
+          }
+          pcmBytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        } catch (e) {
+          return json(502, { error: 'gemini_tts_failed', detail: (e as Error).message });
+        }
+
+        // 4) Wrap PCM as WAV (24 kHz mono 16-bit).
+        const wavBytes = pcmToWav(pcmBytes, 24000);
+        const sizeBytes   = wavBytes.length;
+        const durationSec = +(pcmBytes.length / 2 / 24000).toFixed(2);
+
+        // 5) Stub return — Task 4 fills in GCS upload.
+        return json(501, { error: 'not_implemented', stage: 'task3-tts-only', sizeBytes, durationSec });
       }
 
       default:
