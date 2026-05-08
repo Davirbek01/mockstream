@@ -27411,31 +27411,54 @@
       var settings = md.settings = md.settings || {};
       var selVoice = settings.voice    || 'Kore';
       var selModel = settings.tts_model || 'premium';
-      var modelToggle = _MMG_TTS_MODELS.map(function(m) {
-        var act = m.code === selModel ? ' active' : '';
-        return '<button type="button" class="mmg-chip' + act + '" onclick="_mmgPickTtsModel(\'' + m.code + '\')">' + _mmgEsc(m.label) + '</button>';
-      }).join('');
 
       var voicesArr = (typeof _MMG_TTS_VOICES !== 'undefined' && Array.isArray(_MMG_TTS_VOICES)) ? _MMG_TTS_VOICES : [];
+      // Each row has TWO radios — one per model. Selecting either sets BOTH
+      // mock_data.settings.voice AND mock_data.settings.tts_model in one click,
+      // so there's no separate "model toggle" to coordinate with.
       var rows = voicesArr.map(function(v) {
-        var checked = v.code === selVoice ? ' checked' : '';
-        return '<div class="mmg-voice-row" data-voice="' + v.code + '" style="display:grid;grid-template-columns:24px 130px 1fr 110px 110px;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid #f1f5f9;min-height:32px;">'
-          +    '<input type="radio" name="mmgVoice" value="' + v.code + '"' + checked + ' onchange="_mmgPickTtsVoice(\'' + v.code + '\')">'
+        var bChecked = (v.code === selVoice && selModel === 'budget')  ? ' checked' : '';
+        var pChecked = (v.code === selVoice && selModel === 'premium') ? ' checked' : '';
+        return '<div class="mmg-voice-row" data-voice="' + v.code + '" style="display:grid;grid-template-columns:130px 1fr 150px 150px;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid #f1f5f9;min-height:36px;">'
           +    '<strong>' + _mmgEsc(v.code) + '</strong>'
           +    '<span style="color:#64748b;font-size:12px;">' + _mmgEsc(v.label) + '</span>'
-          +    '<button type="button" class="mmg-add-btn" onclick="_mmgPlayVoicePreview(\'budget\',\'' + v.code + '\',this)">&#9654; Budget</button>'
-          +    '<button type="button" class="mmg-add-btn" onclick="_mmgPlayVoicePreview(\'premium\',\'' + v.code + '\',this)">&#9654; Premium</button>'
+          +    '<label class="mmg-voice-cell" style="display:flex;gap:6px;align-items:center;cursor:pointer;">'
+          +      '<input type="radio" name="mmgVoicePick" value="' + v.code + ':budget"' + bChecked + ' onchange="_mmgPickVoiceModel(\'' + v.code + '\',\'budget\')">'
+          +      '<button type="button" class="mmg-add-btn" onclick="event.preventDefault();event.stopPropagation();_mmgPlayVoicePreview(\'budget\',\'' + v.code + '\',this)">&#9654; Budget</button>'
+          +    '</label>'
+          +    '<label class="mmg-voice-cell" style="display:flex;gap:6px;align-items:center;cursor:pointer;">'
+          +      '<input type="radio" name="mmgVoicePick" value="' + v.code + ':premium"' + pChecked + ' onchange="_mmgPickVoiceModel(\'' + v.code + '\',\'premium\')">'
+          +      '<button type="button" class="mmg-add-btn" onclick="event.preventDefault();event.stopPropagation();_mmgPlayVoicePreview(\'premium\',\'' + v.code + '\',this)">&#9654; Premium</button>'
+          +    '</label>'
           + '</div>';
       }).join('');
       if (!rows) {
         rows = '<div style="padding:14px;color:#dc2626;font-size:13px;">⚠ No voices loaded — _MMG_TTS_VOICES is ' + (typeof _MMG_TTS_VOICES) + '. Check console.</div>';
       }
 
+      var hint = '<div class="mmg-field-help" style="margin-bottom:6px;">Pick the (voice × model) combo that becomes the default for every 🎙 Generate in this mock. ▶ buttons play the pre-generated preview without changing the selection.</div>';
+      var headerRow = '<div style="display:grid;grid-template-columns:130px 1fr 150px 150px;gap:10px;padding:6px 10px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:#475569;">'
+        + '<span>Voice</span><span></span><span>Budget (Flash)</span><span>Premium (Pro)</span>'
+        + '</div>';
+
       return '<div class="mmg-section-title">Voice &amp; TTS model</div>'
-           + '<div style="display:flex;gap:8px;margin-bottom:10px;">' + modelToggle + '</div>'
-           + '<div style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;flex-shrink:0;">' + rows + '</div>';
+           + hint
+           + '<div style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;flex-shrink:0;overflow:hidden;">'
+           +   headerRow
+           +   rows
+           + '</div>';
     }
 
+    // Set BOTH voice and model with one click. The radio name="mmgVoicePick" is
+    // shared across the 16 cells so picking any cell unselects the previous one.
+    window._mmgPickVoiceModel = function (voice, model) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.voice = voice;
+      md.settings.tts_model = model;
+      _mmgSetMockData(md);
+    };
+    // Legacy single-axis pickers kept for back-compat with any callers we missed.
     window._mmgPickTtsVoice = function (code) {
       var md = _mmgGetMockData(); if (!md) return;
       md.settings = md.settings || {};
@@ -27447,7 +27470,7 @@
       md.settings = md.settings || {};
       md.settings.tts_model = code;
       _mmgSetMockData(md);
-      _mmgRenderSettings(md); // re-render so the toggle highlights the new pick
+      _mmgRenderSettings(md);
     };
     window._mmgPlayVoicePreview = function (model, voice, btnEl) {
       var url = _mmgVoicePreviewUrl(model, voice);
