@@ -671,7 +671,7 @@ Deno.serve(async (req) => {
             if (headRes.ok) {
               return json(200, { publicUrl, objectPath, sizeBytes, durationSec, skipped: true });
             }
-          } catch (_) { /* not present — proceed to generate */ }
+          } catch (_) { /* HEAD failed (network error or non-public bucket) — fall through to upload */ }
         }
 
         // 7) Sign + PUT to GCS using the existing service-account infra.
@@ -679,6 +679,9 @@ Deno.serve(async (req) => {
         if (!sa) return json(500, { error: 'gcs_secret_missing' });
         let saObj: { client_email: string; private_key: string };
         try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        if (!saObj.client_email || !saObj.private_key) {
+          return json(500, { error: 'gcs_secret_missing_fields' });
+        }
         let privateKey: CryptoKey;
         try { privateKey = await importPrivateKey(saObj.private_key); }
         catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
@@ -686,7 +689,7 @@ Deno.serve(async (req) => {
         const { uploadUrl } = await generateV4SignedPutUrl({
           objectPath,
           contentType: 'audio/wav',
-          ttlSeconds: 600,
+          ttlSeconds: 600,             // matches gcs_signed_upload_url; only ~seconds elapse before we PUT
           serviceAccountEmail: saObj.client_email,
           privateKey
         });
