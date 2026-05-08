@@ -26284,8 +26284,10 @@
     // Each entry is { tabClass, defaultTab } — tabClass identifies which
     // .mmg-tab.mmg-tab-XX buttons in the bar to surface for this mock_type.
     var _MMG_STRUCTURED_TYPES = {
-      'cefr-writing':  { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
-      'ielts-writing': { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' }
+      'cefr-writing':   { tabClass: 'mmg-tab-cw', defaultTab: 'part1' },
+      'ielts-writing':  { tabClass: 'mmg-tab-iw', defaultTab: 'iw_task1' },
+      'cefr-speaking':  { tabClass: 'mmg-tab-cs', defaultTab: 'settings' },
+      'ielts-speaking': { tabClass: 'mmg-tab-is', defaultTab: 'settings' }
     };
     // Which tab is currently visible. We need this to know which pane to
     // collect-from when the user clicks a different tab.
@@ -26315,6 +26317,7 @@
     var _MMG_TAB_TO_PANE = {
       settings:'Settings', part1:'Part1', t11:'T11', t12:'T12', t2:'T2',
       iw_task1:'IwTask1', iw_task2:'IwTask2',
+      sp_part11:'SpPart11', sp_part12:'SpPart12', sp_part2:'SpPart2', sp_part3:'SpPart3',
       samples:'Samples',
       vocab:'Vocab', tokens:'Tokens', raw:'Raw'
     };
@@ -26365,6 +26368,10 @@
           case 't2':       _mmgCollectTask(md, 't2');  break;
           case 'iw_task1': _mmgCollectIwTask(md, 'task1'); break;
           case 'iw_task2': _mmgCollectIwTask(md, 'task2'); break;
+          case 'sp_part11': _mmgCollectSpPart(md, 'part11'); break;
+          case 'sp_part12': _mmgCollectSpPart(md, 'part12'); break;
+          case 'sp_part2':  _mmgCollectSpPart(md, 'part2');  break;
+          case 'sp_part3':  _mmgCollectSpPart(md, 'part3');  break;
           case 'samples':  _mmgCollectSamples(md); break;
           case 'vocab':    _mmgCollectVocab(md); break;
           case 'tokens':   _mmgCollectTokens(md); break;
@@ -26393,6 +26400,10 @@
         case 't2':       _mmgRenderTask(md, 't2',  'Task 2',   '180–200 words', 'Opinion piece — has its own context inside the prompt.'); break;
         case 'iw_task1': _mmgRenderIwTask(md, 'task1', 'Task 1', 150, 20, 'Describe a chart/graph/diagram. Includes chart image and chart type.'); break;
         case 'iw_task2': _mmgRenderIwTask(md, 'task2', 'Task 2', 250, 40, 'Essay — present an argument or discuss both sides of a topic.'); break;
+        case 'sp_part11': _mmgRenderSpPart(md, 'part11'); break;
+        case 'sp_part12': _mmgRenderSpPart(md, 'part12'); break;
+        case 'sp_part2':  _mmgRenderSpPart(md, 'part2');  break;
+        case 'sp_part3':  _mmgRenderSpPart(md, 'part3');  break;
         case 'samples':  _mmgRenderSamples(md); break;
         case 'vocab':    _mmgRenderVocab(md);  break;
         case 'tokens':   _mmgRenderTokens(md); break;
@@ -26838,6 +26849,17 @@
       if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
       return (b/1024/1024).toFixed(1) + ' MB';
     }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //   Speaking editor — CEFR + IELTS. Reuses sample editor toolbar +
+    //   GCS upload helpers from the writing editor; adds Gemini TTS audio
+    //   generation per question.
+    // ═══════════════════════════════════════════════════════════════════════
+    function _mmgRenderSpPart(md, partKey) {
+      var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
+      if (pane) pane.innerHTML = '<div class="mmg-empty-hint">Pane stub — implemented in Task 10.</div>';
+    }
+    function _mmgCollectSpPart(md, partKey) { /* stub — Task 10 */ }
 
     // Generic search-filter for vocab/tokens row lists. Hides rows whose
     // input values don't include the query in any of the named fields.
