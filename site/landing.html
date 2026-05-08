@@ -27010,13 +27010,33 @@
     // Reads the current text from mock_data.questions[qIndex].prompt and the
     // per-Q voice/model overrides from the row's selects (defaulting to mock-level).
     window._mmgGenerateAudio = async function (qIndex, id) {
+      // Flush the currently-edited Part pane back into the JSON textarea so
+      // the prompt the user just typed (and any other unsaved field edits)
+      // are visible to this generate call. Without this, q.prompt would be
+      // stale until the user switched tabs.
+      if (typeof _mmgFlushStructuredToRaw === 'function') {
+        _mmgFlushStructuredToRaw();
+      }
       var md = _mmgGetMockData();
       if (!md || !md.questions || !md.questions[qIndex]) {
-        alert('Question data not found. Save the prompt first.');
+        // Fall back to reading directly from the prompt textarea if the
+        // questions array doesn't have the index yet (e.g., brand-new mock
+        // where Save hasn't been clicked).
+        var promptElDirect = document.getElementById('spQ' + qIndex + '_prompt');
+        if (promptElDirect && (promptElDirect.value || '').trim()) {
+          alert('Question data not synced yet — click any other tab and back, then try again.');
+        } else {
+          alert('Question data not found. Save the prompt first.');
+        }
         return;
       }
       var q = md.questions[qIndex];
       var promptText = (q.prompt || '').trim();
+      // Last-resort fallback: read the live textarea directly.
+      if (!promptText) {
+        var promptEl = document.getElementById('spQ' + qIndex + '_prompt');
+        if (promptEl) promptText = (promptEl.value || '').trim();
+      }
       if (!promptText) { alert('Question prompt is empty — write the prompt first.'); return; }
 
       var voiceEl = document.getElementById(id + '_voice');
