@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When you were a kid, did your parents encourage you to share things with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q1.mp3",
       "sampleAnswer": "Yes, my parents strongly emphasized sharing as an important value when I was growing up. They taught me to share toys with siblings and friends, food with family members, and to be generous with my belongings. I remember specific instances where they would praise me for sharing and gently correct me when I was being selfish. They modeled this behavior themselves by sharing with neighbors and helping relatives. However, looking back, I think they sometimes pushed sharing too hard without acknowledging that children also need to have some things that are exclusively theirs. I've learned that healthy sharing comes from genuine generosity rather than obligation, and that it's okay to have boundaries about personal possessions.",
       "vocabulary": {
         "title": "Q1 - Childhood Sharing",
@@ -79,7 +79,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is there anything you don't want to share?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q2.mp3",
       "sampleAnswer": "Yes, there are definitely certain things I prefer to keep private or exclusive. Personal items like my phone, laptop, or journal are off-limits because they contain private information and are essential to my daily life. I'm also reluctant to share items with significant sentimental value, like gifts from loved ones or family heirlooms, because they're irreplaceable and emotionally important. Expensive or delicate items that could be easily damaged are another category I'm protective about. Additionally, I value having some personal space and time that isn't shared—everyone needs boundaries and privacy. I don't think this makes me selfish; rather, it's about maintaining healthy boundaries and protecting things that are genuinely important to me.",
       "vocabulary": {
         "title": "Q2 - Sharing Boundaries",
@@ -122,7 +122,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of things are not suitable for sharing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q3.mp3",
       "sampleAnswer": "Several categories of items shouldn't be shared for practical, hygienic, or personal reasons. Personal hygiene items like toothbrushes, razors, or towels are unsuitable for sharing due to health and sanitation concerns. Prescription medications should never be shared as they're specifically prescribed for individual conditions and can be dangerous for others. Intimate personal items like underwear or certain cosmetics aren't appropriate to share. Items with significant sentimental or monetary value, like family heirlooms or expensive jewelry, are risky to share because loss or damage would be devastating. Passwords and personal security information should obviously never be shared. Work-related confidential information or intellectual property isn't appropriate to share outside authorized contexts. Finally, deeply personal experiences or secrets that others have confided in you shouldn't be shared, as that would breach trust.",
       "vocabulary": {
         "title": "Q3 - Unsuitable Items",
@@ -164,7 +164,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of things do you like to share with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q4.mp3",
       "sampleAnswer": "I enjoy sharing several types of things that bring mutual benefit or joy. I love sharing knowledge and skills—if I know how to do something that could help others, like a useful app or a cooking technique, I'm happy to teach them. I enjoy sharing experiences, like recommending good restaurants, movies, or travel destinations that I've discovered. Food is something I particularly like sharing; cooking for friends or bringing treats to share at work gives me pleasure. I'm also happy to share books, articles, or interesting content I've found online that others might appreciate. Resources and connections are valuable to share too—if I can introduce people who might benefit from knowing each other or share professional opportunities, I do so gladly. Sharing positive news and celebrating others' successes is something I believe in. Essentially, I like sharing things that create connection, add value to others' lives, or spread joy without significant cost or risk to myself.",
       "vocabulary": {
         "title": "Q4 - Sharing Enjoyment",
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who is the first person you would like to share good news with?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q5.mp3",
       "sampleAnswer": "The first person I typically share good news with is my mother. She's always been my biggest supporter and genuinely celebrates my successes without jealousy or competition. Her reaction to good news is so enthusiastic and proud that it amplifies my own happiness. I know she'll be excited for me regardless of how big or small the achievement is. After my mother, I usually tell my closest friend, who has been with me through various challenges and understands the context of why certain news is significant. The person I choose depends somewhat on the type of news—professional achievements I might share with a mentor or colleague first, while personal milestones I'd share with family. However, my mother is almost always the first call because her unconditional support and genuine joy make sharing good news even more rewarding.",
       "vocabulary": {
         "title": "Q5 - Sharing News",
@@ -251,7 +251,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Should schools teach students how to grow vegetables?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q6.mp3",
       "sampleAnswer": "Yes, I believe teaching students to grow vegetables would be valuable for multiple reasons. It provides hands-on learning about biology, ecology, and nutrition in a practical, engaging way that complements classroom theory. Students learn responsibility and patience by caring for plants over time and seeing the consequences of their actions. It connects children to food sources, helping them understand where food comes from rather than just seeing it as something that appears in supermarkets. This knowledge can promote healthier eating habits and environmental awareness. Gardening also offers therapeutic benefits and outdoor activity, which is increasingly important as children spend more time indoors with screens. It teaches practical life skills that students can use at home. However, implementation requires resources like space, materials, and knowledgeable instructors, which not all schools have. If feasible, even small-scale projects like container gardens or classroom herb growing can provide these benefits.",
       "vocabulary": {
         "title": "Q6 - School Gardens",
@@ -295,7 +295,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is growing vegetables popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q7.mp3",
       "sampleAnswer": "It's moderately popular but varies significantly by region and demographic. In rural areas and among older generations, growing vegetables remains common, often out of tradition or economic necessity. Many people maintain small kitchen gardens or allotments where they grow vegetables for personal consumption. However, in urban areas, especially among younger people, it's less common due to space constraints, busy lifestyles, and easy access to affordable produce in supermarkets. That said, there's been a growing trend toward urban gardening, community gardens, and balcony container gardening, driven by interest in organic food, sustainability, and the therapeutic aspects of gardening. The COVID-19 pandemic actually increased interest in home vegetable growing as people spent more time at home and became more conscious of food security. Overall, while it's not universally popular, there's renewed and growing interest, particularly among environmentally conscious individuals.",
       "vocabulary": {
         "title": "Q7 - Vegetable Growing Trends",
@@ -339,7 +339,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when someone apologized to you.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q8.mp3",
       "bulletPoints": [
         "who this person was, when this happened",
         "why this person had to apologize to you",
@@ -393,7 +393,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it's difficult for people to apologize in professional settings?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q9.mp3",
       "sampleAnswer": "Yes, I think many people find it challenging to apologize at work for several reasons. There's often concern that admitting mistakes will damage their professional reputation or career prospects, especially in competitive environments. Workplace hierarchies can make apologizing feel like showing weakness or losing status. Some organizational cultures don't encourage vulnerability or admission of errors. Pride and ego also play roles—apologizing requires humility that not everyone possesses. However, I believe that genuine apologies actually demonstrate strength, emotional intelligence, and professionalism. Leaders and colleagues who can admit mistakes and make amends tend to earn more respect and trust in the long run.",
       "vocabulary": {
         "title": "Q9 - Workplace Apologies",
@@ -434,7 +434,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever had difficulty accepting someone's apology?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q10.mp3",
       "sampleAnswer": "Yes, there have been times when accepting an apology was difficult. This usually happens when the apology feels insincere—like the person is just going through the motions without genuine remorse—or when it's a repeated offense and the apology rings hollow because behavior hasn't changed. Sometimes the hurt is so deep that even a genuine apology doesn't immediately heal the wound, and I need time to process my feelings before I can truly forgive. I've learned that it's okay to acknowledge an apology while being honest that you need time to rebuild trust. Forgiveness is often a process rather than an instant decision, especially for serious offenses.",
       "vocabulary": {
         "title": "Q10 - Accepting Apologies",
@@ -476,7 +476,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it important to say sorry?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q11.mp3",
       "sampleAnswer": "Yes, apologizing is fundamentally important for maintaining healthy relationships and functioning societies. Apologies serve multiple crucial functions. They acknowledge harm and validate the hurt person's feelings, which is essential for emotional healing. When someone apologizes, they're essentially saying 'I see that I hurt you, and your feelings matter,' which can be deeply meaningful. Apologies also demonstrate accountability and moral responsibility—they show that we recognize when our actions have violated social norms or hurt others. This accountability is foundational to trust in relationships. Apologies can repair damaged relationships by opening dialogue and creating opportunities for reconciliation. They also benefit the apologizer by relieving guilt and allowing them to move forward with integrity. From a social perspective, cultures that encourage appropriate apologies tend to have better conflict resolution and social cohesion. However, the importance lies in genuine apologies, not empty ones. Insincere apologies can actually make situations worse by adding insult to injury. The key elements of meaningful apologies include taking responsibility, expressing genuine remorse, understanding the impact of one's actions, making amends when possible, and committing to changed behavior.",
       "vocabulary": {
         "title": "Q11 - Importance of Apologies",
@@ -520,7 +520,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "In what situations do people say sorry?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q12.mp3",
       "sampleAnswer": "People apologize in diverse situations ranging from minor social infractions to serious offenses. Common everyday situations include accidentally bumping into someone, being late, interrupting someone speaking, or making small mistakes at work. These routine apologies maintain social harmony and show basic courtesy. More significant apologies occur when someone has hurt another person's feelings, broken trust, or caused harm—like forgetting an important event, saying something hurtful, or failing to keep a promise. Professional contexts require apologies for errors that affect colleagues or clients, missed deadlines, or inappropriate workplace behavior. In relationships, apologies are needed for arguments, insensitive comments, or neglecting partner's needs. Sometimes people apologize for things beyond their control, like bad weather at an event they organized, which is more about expressing empathy than admitting fault. Cultural differences affect when apologies are expected—some cultures apologize more frequently for minor things, while others reserve apologies for serious offenses. There are also strategic or political apologies from organizations or public figures addressing systemic problems or scandals. Unfortunately, some apologies are insincere or manipulative, offered to avoid consequences rather than from genuine remorse.",
       "vocabulary": {
         "title": "Q12 - Apology Situations",
@@ -563,7 +563,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people hate to say sorry?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q13.mp3",
       "sampleAnswer": "People resist apologizing for various psychological and social reasons. Pride and ego are primary factors—admitting wrongdoing can feel like admitting inferiority or weakness, which threatens self-image. Some people have fragile egos that can't tolerate acknowledging mistakes. Fear of consequences plays a role; they worry that apologizing will lead to punishment, loss of status, or being taken advantage of. In some cases, people genuinely don't believe they've done anything wrong due to different perspectives or lack of empathy—they can't see the situation from the other person's viewpoint. Upbringing matters too; if someone grew up in an environment where apologies were seen as weakness or were never modeled, they won't have learned this skill. Some people use defensiveness as a coping mechanism, immediately justifying their actions rather than considering they might be at fault. Power dynamics influence this—people in positions of authority sometimes feel that apologizing undermines their authority. Cultural factors also play a role; some cultures emphasize saving face and view public apologies as shameful. Additionally, some individuals have personality traits like narcissism that make them unable to accept responsibility or feel genuine remorse. Finally, past experiences where apologies were weaponized against them might make people reluctant to apologize in the future.",
       "vocabulary": {
         "title": "Q13 - Apology Resistance",
@@ -608,7 +608,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think people often say 'sorry' when they don't really mean it?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q14.mp3",
       "sampleAnswer": "Yes, unfortunately, insincere apologies are quite common in various contexts. People often offer perfunctory 'sorry's for minor social infractions—like saying sorry when squeezing past someone—which are more about social convention than genuine remorse. These aren't necessarily problematic as they serve a social lubricant function. More concerning are deliberately insincere apologies offered to avoid consequences, end uncomfortable conversations, or manipulate situations without any intention of changed behavior. You can often identify insincere apologies by certain characteristics: they lack specificity about what's being apologized for, they include qualifiers like 'if you were offended' that shift responsibility, they're followed immediately by excuses or justifications, or they're contradicted by subsequent behavior. Public figures and corporations often issue carefully worded non-apologies that express regret about outcomes while avoiding admission of wrongdoing. In relationships, repeated apologies for the same behavior without change indicate insincerity. However, I think most people can distinguish between routine social apologies and situations requiring genuine remorse. The real damage occurs when serious offenses receive insincere apologies, as this compounds the original hurt by showing the person doesn't truly care about the harm they caused.",
       "vocabulary": {
         "title": "Q14 - Insincere Apologies",
@@ -651,7 +651,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think every 'sorry' is from the bottom of the heart?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q15.mp3",
       "sampleAnswer": "No, definitely not every apology comes from genuine remorse or deep feeling. As I mentioned, many apologies are social conventions or strategic moves rather than heartfelt expressions. However, I don't think this is always problematic—context matters significantly. Routine social apologies for minor things don't need to be deeply felt; they're simply polite acknowledgments. The issue arises when serious situations that warrant genuine remorse receive superficial apologies. True heartfelt apologies have distinguishing characteristics: they're specific about the wrongdoing, they demonstrate understanding of the harm caused, they include visible emotional investment like vulnerability or discomfort, and most importantly, they're followed by changed behavior. You can often sense the difference between genuine and performative apologies through body language, tone, and whether the person seems more concerned about consequences for themselves or the hurt they've caused others. I think the sincerity of an apology exists on a spectrum rather than being binary. Some apologies might be partially genuine—the person feels some remorse but is also motivated by wanting to avoid consequences. The most meaningful apologies come when someone truly understands and regrets their impact on another person, regardless of external pressures.",
       "vocabulary": {
         "title": "Q15 - Apology Sincerity",
@@ -695,7 +695,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do people in your country like to say 'sorry'?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q16.mp3",
       "sampleAnswer": "The frequency and manner of apologizing in my country reflects our cultural values and social norms. Generally, people do apologize regularly for both minor and significant issues, which reflects values of politeness, harmony, and respect for others. We tend to apologize quite readily for small infractions like being slightly late, accidentally bumping into someone, or minor inconveniences—perhaps more frequently than in some other cultures. This reflects an emphasis on maintaining smooth social interactions and showing consideration. However, there are some cultural nuances. Older generations might be more formal and deliberate about apologies, while younger people might use 'sorry' more casually and frequently, sometimes almost as a verbal tic. In professional settings, there's generally an expectation of apologizing for mistakes or delays, though the formality varies by industry and hierarchy. That said, like everywhere, the sincerity and depth of apologies vary. Some people apologize too readily, even for things that aren't their fault, which can undermine the meaning. Others are reluctant to apologize, seeing it as weakness. There's also been some cultural discussion about whether we apologize too much for minor things, potentially diminishing the impact of apologies for serious matters. Overall, I'd say apologizing is generally accepted and practiced, but like most places, there's variation in how genuine and appropriate these apologies are.",
       "vocabulary": {
         "title": "Q16 - Cultural Apology Norms",
@@ -738,7 +738,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should people apologise for anything wrong they do?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-12-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-12-q17.mp3",
       "sampleAnswer": "This is a nuanced question that requires considering different types of wrongdoing and contexts. In principle, yes, people should apologize when they've genuinely harmed others, violated reasonable expectations, or made significant mistakes. Apologizing demonstrates accountability, respect for others, and moral integrity. It's essential for maintaining trust in relationships and functioning societies. However, there are important qualifications. First, the apology should be proportionate to the offense—minor, unintentional mistakes might warrant a brief acknowledgment, while serious harm requires more substantial apologies and amends. Second, people shouldn't apologize for things that aren't actually wrong or for which they're not responsible. Over-apologizing for everything, including things beyond one's control or normal boundaries, can be problematic and diminish the meaning of genuine apologies. Third, timing matters; sometimes immediate apologies are appropriate, while other situations benefit from reflection before apologizing to ensure it's genuine and thoughtful. Fourth, apologies should be accompanied by changed behavior when relevant—repeated apologies without change are meaningless. There are also complex situations where determining who should apologize isn't clear-cut, such as mutual conflicts where both parties contributed. In these cases, acknowledging one's own role while not necessarily accepting full blame might be appropriate. Additionally, some argue that certain systemic or historical wrongs require institutional or collective apologies, though these raise complex questions about responsibility across time and groups.",
       "vocabulary": {
         "title": "Q17 - Apology Obligations",

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you read books?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I am an <span class=\"ml-token adv\">avid</span> reader, so I <span class=\"ml-token adv\">typically</span> devour books on a daily basis. It offers me a phenomenal <span class=\"ml-token colloc\">intellectual escape</span> from the mundane routine of everyday life.</div>\n\n<div><span class=\"ml-token adv\">Whether</span> it is delving into historical non-fiction before bed or skimming through a gripping thriller during my commute, reading is an <span class=\"ml-token colloc\">indispensable habit</span> I <span class=\"ml-token adv\">rarely</span> break.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favourite place in your city?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token adv\">absolute</span> favourite spot is the sprawling botanical garden situated right in the <span class=\"ml-token colloc\">heart of the city</span>. The sheer <span class=\"ml-token colloc\">tranquil atmosphere</span> there provides a much-needed respite from the urban chaos.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, the vibrant floral displays change seasonally, ensuring every visit is a <span class=\"ml-token adv\">visually</span> stimulating experience. It is the perfect place to <span class=\"ml-token proverb\">\"recharge my batteries.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy trying new food?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Undoubtedly</span>! I consider myself quite an adventurous eater. Exploring exotic cuisines allows me to experience the <span class=\"ml-token colloc\">culinary heritage</span> of diverse cultures without even leaving my city.</div>\n\n<div><span class=\"ml-token adv\">However</span>, while I <span class=\"ml-token adv\">eagerly</span> sample spicy street food or unusual seafood dishes, I always have my comfort food to fall back on if a new dish doesn't <span class=\"ml-token proverb\">\"hit the spot.\"</span></div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the images",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture portrays a delightful scene of a family enjoying a picnic and cooking outdoors, possibly in a forest or park. The <span class=\"ml-token colloc\">relaxed ambiance</span> suggests they are embracing nature and spending <span class=\"ml-token colloc\">quality time</span> together.</div>\n\n<div><span class=\"ml-token adv\">In stark contrast</span>, the second image depicts a family preparing a meal inside a modern, well-equipped kitchen. It highlights a more structured, <span class=\"ml-token colloc\">domestic routine</span>. While both show families bonding over food, the settings are <span class=\"ml-token adv\">completely</span> different.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of cooking outdoors?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Cooking outdoors provides a <span class=\"ml-token adv\">highly</span> refreshing break from our usual indoor routines. <span class=\"ml-token adv\">Primarily</span>, the very act of being surrounded by nature can <span class=\"ml-token adv\">dramatically</span> lower stress levels and boost mental well-being. The fresh air and sunshine <span class=\"ml-token adv\">certainly</span> make the experience more invigorating.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, outdoor cooking often involves barbecuing or grilling, which imparts a <span class=\"ml-token colloc\">distinctive smoky flavour</span> to the food that is hard to replicate on a conventional stove. It turns meal preparation into an interactive <span class=\"ml-token colloc\">social event</span> rather than a solitary chore.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, it encourages families and friends to disconnect from technology and <span class=\"ml-token proverb\">\"live in the moment.\"</span></div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people still prefer cooking indoors?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Despite the charm of picnics, cooking indoors remains the preference for many due to its <span class=\"ml-token colloc\">unbeatable convenience</span>. <span class=\"ml-token adv\">First and foremost</span>, a modern kitchen is equipped with all necessary appliances and utensils <span class=\"ml-token adv\">readily</span> available, making the process far more <span class=\"ml-token colloc\">efficient and organized</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, indoor cooking provides a <span class=\"ml-token colloc\">controlled environment</span>. People don't have to worry about unpredictable weather conditions, like sudden rain or extreme heat, ruining their meal. It also eliminates the hassle of dealing with insects or wind.</div>\n\n<div><span class=\"ml-token adv\">In essence</span>, for daily sustenance, the practicality and hygiene of a kitchen <span class=\"ml-token adv\">consistently</span> outweigh the novelty of outdoor grilling.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a friend you trust a lot?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a friend you trust a lot?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "People today read fewer books than before.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-54-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-54-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Where do you usually get your books from?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">predominantly</span> purchase my books from online retailers because they offer an <span class=\"ml-token colloc\">extensive selection</span> and <span class=\"ml-token adv\">remarkably</span> fast delivery right to my doorstep. It's incredibly convenient to find niche titles that local stores might not carry.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I occasionally visit independent bookshops. There's something magical about browsing the shelves and finding a <span class=\"ml-token colloc\">hidden gem</span>. Plus, it feels good to support local businesses, ensuring I don't <span class=\"ml-token proverb\">\"put all my eggs in one basket.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it is important to have a good relationship with your neighbours?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">firmly</span> believe that cultivating a <span class=\"ml-token colloc\">harmonious relationship</span> with neighbors is absolutely essential. A friendly neighborhood creates a strong <span class=\"ml-token colloc\">sense of community</span> and ensures a safe, peaceful living environment for everyone involved.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, you never know when an emergency might occur. Having neighbors who can <span class=\"ml-token colloc\">lend a helping hand</span> is <span class=\"ml-token adv\">incredibly</span> reassuring. As the saying goes, <span class=\"ml-token proverb\">\"a near neighbor is better than a distant cousin.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who usually cooks in your family?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>In my household, the cooking duties are <span class=\"ml-token adv\">primarily</span> handled by my mother. She is an <span class=\"ml-token adv\">exceptionally</span> talented cook who intuitively knows how to blend spices perfectly. It's <span class=\"ml-token adv\">truly</span> her <span class=\"ml-token colloc\">culinary domain</span>, and she takes great pride in preparing nutritious meals.</div>\n\n<div><span class=\"ml-token adv\">However</span>, on weekends, my father and I often <span class=\"ml-token adv\">proactively</span> attempt to help out. While we might lack her <span class=\"ml-token colloc\">finesse</span>, sharing the responsibility is a great way to bond, demonstrating that <span class=\"ml-token proverb\">\"many hands make light work.\"</span></div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What activities are the children doing in each picture?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture depicts two children engaged in a <span class=\"ml-token adv\">quiet</span>, indoor activity—they are focused <span class=\"ml-token adv\">intently</span> on playing a board game together. The setting is cozy, suggesting a <span class=\"ml-token colloc\">calculated, mental pursuit</span> rather than physical exertion.</div>\n\n<div><span class=\"ml-token adv\">Conversely</span>, the second picture is <span class=\"ml-token adv\">bursting</span> with energy. It illustrates a group of children riding bicycles outdoors in a <span class=\"ml-token colloc\">sunlit park</span>. This scene is characterized by vigorous physical movement, fresh air, and a much more <span class=\"ml-token colloc\">dynamic social interaction</span> compared to the serene environment of the first image.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can outdoor physical activities help children grow compared to indoor games?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Outdoor physical activities offer numerous developmental benefits that <span class=\"ml-token adv\">simply</span> cannot be replicated indoors. <span class=\"ml-token adv\">Primarily</span>, running, jumping, and cycling are crucial for building <span class=\"ml-token colloc\">motor skills</span> and <span class=\"ml-token adv\">robust</span> cardiovascular health. Children <span class=\"ml-token adv\">naturally</span> burn off excess energy outside, which helps prevent childhood obesity.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, outdoor play exposes children to unpredictable environments. Navigating a park or coordinating team games helps them develop <span class=\"ml-token colloc\">spatial awareness</span>, resilience, and complex <span class=\"ml-token colloc\">problem-solving abilities</span> when negotiating rules.</div>\n\n<div><span class=\"ml-token adv\">While</span> indoor board games are <span class=\"ml-token adv\">excellent</span> for strategic thinking, the sheer physical exertion and exposure to sunlight found outdoors <span class=\"ml-token adv\">undoubtedly</span> help children grow up <span class=\"ml-token proverb\">\"fit as a fiddle.\"</span></div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why might some children choose indoor games over outdoor activities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Some children <span class=\"ml-token adv\">naturally</span> gravitate towards indoor games because they offer a highly structured, emotionally safe environment. <span class=\"ml-token adv\">Unlike</span> the unpredictable nature of an outdoor playground, a board game has <span class=\"ml-token colloc\">explicit rules</span> and clear turns, appealing to children who prefer logic and order.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, some introverted children simply find loud, chaotic outdoor settings overwhelming. They <span class=\"ml-token adv\">greatly</span> prefer the <span class=\"ml-token colloc\">quiet contemplation</span> required for a puzzle or a video game, allowing them to recharge their mental batteries <span class=\"ml-token adv\">comfortably</span>.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, <span class=\"ml-token colloc\">inclement weather</span> or a lack of safe parks in urban areas forces children inside. Under these circumstances, choosing indoor games is <span class=\"ml-token adv\">purely</span> a matter of making the best out of a bad situation—they must <span class=\"ml-token proverb\">\"make do with what they have.\"</span></div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe a place where people like exercising?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe a place where people like exercising?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "University education should be free.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-51-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-51-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

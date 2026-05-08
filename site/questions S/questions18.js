@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your school.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I attended a <span class=\"ml-token colloc\">public secondary school</span> in my hometown, which I graduated from a few years ago. It was a <span class=\"ml-token adv\">fairly</span> large school with about 1,500 students and a <span class=\"ml-token colloc\">dedicated teaching staff</span>.</div>\n\n<div>The school had <span class=\"ml-token colloc\">excellent facilities</span> including a well-equipped library, computer labs, and sports grounds. I <span class=\"ml-token adv\">particularly</span> enjoyed the science labs where we conducted <span class=\"ml-token colloc\">hands-on experiments</span>.</div>\n\n<div>What I loved most about my school was the <span class=\"ml-token colloc\">supportive atmosphere</span>. The teachers were <span class=\"ml-token adv\">genuinely</span> invested in our success and <span class=\"ml-token adv\">always</span> encouraged us to pursue our interests. I made lifelong friends there and have many <span class=\"ml-token colloc\">fond memories</span>. As they say, <span class=\"ml-token proverb\">\"School days are the best days of your life,\"</span> and I <span class=\"ml-token adv\">definitely</span> agree with that sentiment.</div>",
       "vocabulary": {
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favorite season?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My <span class=\"ml-token colloc\">absolute favorite</span> season is autumn. I <span class=\"ml-token adv\">genuinely</span> love everything about it – the <span class=\"ml-token colloc\">changing colors</span> of the leaves, the <span class=\"ml-token colloc\">crisp air</span>, and the comfortable temperatures.</div>\n\n<div>What I <span class=\"ml-token adv\">particularly</span> appreciate about autumn is the beautiful scenery. Watching the leaves turn from green to <span class=\"ml-token colloc\">vibrant shades</span> of orange, red, and gold is <span class=\"ml-token adv\">truly</span> breathtaking. It feels like nature is putting on a <span class=\"ml-token colloc\">spectacular show</span>.</div>\n\n<div>I also enjoy the <span class=\"ml-token colloc\">cozy atmosphere</span> that autumn brings. It's the perfect time for warm drinks, comfortable sweaters, and walks in the park. The weather is neither too hot nor too cold – just <span class=\"ml-token adv\">perfectly</span> pleasant. As poets <span class=\"ml-token adv\">often</span> say, autumn is a season that touches the soul with its <span class=\"ml-token colloc\">melancholic beauty</span>.</div>",
       "vocabulary": {
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually do on weekends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>On weekends, I <span class=\"ml-token adv\">typically</span> like to balance relaxation with <span class=\"ml-token colloc\">productive activities</span>. After a busy week, I need some time to <span class=\"ml-token phrasal\">recharge my batteries</span>.</div>\n\n<div>Saturday mornings are <span class=\"ml-token adv\">usually</span> spent sleeping in and enjoying a leisurely breakfast. In the afternoon, I <span class=\"ml-token adv\">often</span> meet up with friends for coffee or lunch. We might <span class=\"ml-token phrasal\">catch up</span> on each other's lives or watch a movie together.</div>\n\n<div>Sundays are a bit more structured. I try to do some <span class=\"ml-token colloc\">household chores</span>, prepare meals for the week ahead, and perhaps do some studying or <span class=\"ml-token colloc\">personal projects</span>. I also enjoy outdoor activities like jogging or cycling when the weather permits. <span class=\"ml-token adv\">Essentially</span>, weekends are my time to <span class=\"ml-token phrasal\">wind down</span> and prepare for the coming week.</div>",
       "vocabulary": {
@@ -154,7 +154,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see different <span class=\"ml-token colloc\">modes of transportation</span> that people use for traveling.</div>\n\n<div>The first image shows a <span class=\"ml-token colloc\">happy family</span> – what appears to be parents with their young child – walking on an airport tarmac towards an airplane. They're pulling colorful suitcases, with the child carrying a bright yellow one. The family seems excited and <span class=\"ml-token adv\">clearly</span> ready for their journey. They're all wearing casual clothes and face masks, suggesting this might be during or after the pandemic period. The atmosphere is one of anticipation and <span class=\"ml-token colloc\">family adventure</span>.</div>\n\n<div>The second picture presents a <span class=\"ml-token adv\">completely</span> different travel experience. We see a woman leaning out of a train window, taking photographs of the <span class=\"ml-token colloc\">stunning scenery</span> around her. The train is traveling through what looks like lush green tea plantations or hills. She appears to be enjoying the journey itself, capturing the beautiful <span class=\"ml-token colloc\">natural landscape</span>.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> contrast two ways of traveling – air travel, which is fast but less scenic, and train travel, which allows passengers to <span class=\"ml-token adv\">truly</span> appreciate the landscape. Both have their own unique charm and appeal to different types of travelers.</div>",
       "vocabulary": {
@@ -192,7 +192,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some challenges people face while traveling by plane?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Traveling by plane, while convenient, comes with several <span class=\"ml-token colloc\">notable challenges</span> that passengers often face.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, there's the issue of <span class=\"ml-token colloc\">flight delays</span> and cancellations. Weather conditions, technical problems, or air traffic can cause <span class=\"ml-token adv\">significant</span> disruptions to travel plans. This can be <span class=\"ml-token adv\">particularly</span> stressful when passengers have connecting flights or important appointments.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, the airport experience itself can be challenging. Long <span class=\"ml-token colloc\">security queues</span>, strict baggage restrictions, and the need to arrive hours before departure can be time-consuming and exhausting. Many travelers find the <span class=\"ml-token colloc\">check-in process</span> and security screenings quite stressful.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, there are physical discomforts associated with flying. <span class=\"ml-token colloc\">Jet lag</span> can affect travelers crossing multiple time zones, leaving them tired and disoriented. The <span class=\"ml-token colloc\">cramped seating</span> on many flights, especially in economy class, can cause discomfort during long journeys.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, there's the ever-present concern about <span class=\"ml-token colloc\">lost luggage</span>. Airlines occasionally mishandle baggage, leaving passengers without their belongings at their destination. Despite these challenges, air travel remains the fastest way to cover long distances.</div>",
       "vocabulary": {
@@ -230,7 +230,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How does traveling benefit people?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Traveling offers <span class=\"ml-token colloc\">numerous benefits</span> that can <span class=\"ml-token adv\">positively</span> impact people's lives in various ways.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and perhaps most <span class=\"ml-token adv\">importantly</span>, travel <span class=\"ml-token colloc\">broadens the mind</span>. When we visit new places, we're exposed to different cultures, traditions, and perspectives. This helps us become more <span class=\"ml-token colloc\">open-minded</span> and understanding of others. As Mark Twain said, <span class=\"ml-token proverb\">\"Travel is fatal to prejudice.\"</span></div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, traveling provides an excellent opportunity for <span class=\"ml-token colloc\">personal growth</span>. Navigating unfamiliar environments, solving unexpected problems, and communicating across language barriers all build confidence and <span class=\"ml-token colloc\">problem-solving skills</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, travel is a powerful <span class=\"ml-token colloc\">stress reliever</span>. Taking a break from daily routines and work responsibilities allows people to <span class=\"ml-token phrasal\">recharge mentally</span>. The excitement of exploring new places creates <span class=\"ml-token colloc\">lasting memories</span> and brings joy.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, travel strengthens relationships. Whether traveling with family, friends, or a partner, shared experiences create stronger bonds. Even solo travel can lead to meeting new people and forming <span class=\"ml-token colloc\">meaningful connections</span>. <span class=\"ml-token adv\">Ultimately</span>, travel enriches our lives in <span class=\"ml-token colloc\">countless ways</span>.</div>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe the time when you shared a secret with another person.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe the time when you shared a secret with another person.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Zoos Should Be Banned Worldwide",
-      "audioFile": "questions S/audio/cefr-speaking-mock-18-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-18-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can you describe a book that inspired you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>A book that profoundly inspired me was \"Sapiens\" by Yuval Noah Harari. It's a sweeping <span class=\"ml-token colloc\">historical account</span> of humankind, and <span class=\"ml-token adv\">essentially</span>, it reframed my understanding of our species' journey.</p><p>What struck me most was Harari's ability to connect seemingly disparate events and trends, illustrating how culture, technology, and biology have <span class=\"ml-token phrasal\">fed into</span> one another to shape our present. It made me <span class=\"ml-token phrasal\">think twice</span> about the narratives we often take for granted. I <span class=\"ml-token adv\">also</span> appreciated its unflinching look at the darker aspects of human history, <span class=\"ml-token colloc\">warts and all</span>, prompting a more nuanced perspective on progress.</p><p>The book ultimately inspired me to adopt a more interdisciplinary approach to learning and to question assumptions. It's a book that stays with you long after you've finished reading, <span class=\"ml-token idiom\">planting seeds of curiosity</span> and critical thought.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can you describe a school or college you like?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>The school I fondly remember is my high school, a place that <span class=\"ml-token colloc\">holds a special place</span> in my heart. It wasn't just the academics, <span class=\"ml-token adv\">although</span> they were certainly rigorous. It was the vibrant community, the dedicated teachers who <span class=\"ml-token phrasal\">went the extra mile</span>, and the sense of belonging that pervaded the atmosphere.</p><p>The school had a strong emphasis on extracurricular activities, offering a wide range of clubs and sports. This allowed me to explore my interests and develop skills outside the classroom. <span class=\"ml-token adv\">Moreover</span>, the school fostered a culture of intellectual curiosity and encouraged students to challenge themselves.</p><p>I remember the school fondly because it was a <span class=\"ml-token colloc\">formative environment</span> that shaped me into the person I am today. It instilled in me a love of learning, a sense of social responsibility, and the confidence to pursue my goals. It was, <span class=\"ml-token idiom\">in a nutshell</span>, a great place to grow up.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can teamwork improve learning?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Teamwork can <span class=\"ml-token adv\">significantly</span> improve learning by fostering collaboration and shared understanding. When students work together, they <span class=\"ml-token colloc\">bring diverse perspectives</span> and skills to the table, enriching the learning experience for everyone involved. This collaborative environment encourages active participation and critical thinking, leading to a deeper understanding of the subject matter.</p><p><span class=\"ml-token adv\">Furthermore</span>, teamwork promotes communication and problem-solving skills. Students learn to articulate their ideas clearly, listen to others' viewpoints, and <span class=\"ml-token phrasal\">work through</span> disagreements constructively. This not only enhances their academic performance but also prepares them for future collaborations in the workplace and beyond.</p><p><span class=\"ml-token adv\">Ultimately</span>, the <span class=\"ml-token colloc\">synergy created</span> through teamwork can lead to more creative and innovative solutions. By bouncing ideas off one another and challenging each other's assumptions, students can <span class=\"ml-token phrasal\">come up with</span> solutions that they might not have been able to achieve individually. <span class=\"ml-token proverb\">Two heads are better than one</span>, as they say.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe what is happening in each photo.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first photo, we see a family <span class=\"ml-token adv\">happily</span> engaged in a DIY project – painting their house. The atmosphere is one of collaboration and shared effort, with everyone, including the children, participating. They seem to be <span class=\"ml-token phrasal\">having a blast</span>, suggesting that the project is not just about getting the job done but <span class=\"ml-token adv\">also</span> about bonding as a family. The image evokes a sense of warmth, togetherness, and the satisfaction of creating something together.</p><p>The second photo contrasts sharply with the first. Here, we see professional painters at work, efficiently and methodically painting a house. The focus is on precision and expertise, with the painters using professional equipment and techniques. <span class=\"ml-token adv\">While</span> the scene appears orderly and professional, it lacks the personal touch and sense of camaraderie evident in the first photo. It is a purely transactional relationship, with the painters providing a service for a fee.</p><p><span class=\"ml-token adv\">Ultimately</span>, the two photos illustrate different approaches to home improvement. The first emphasizes family involvement and shared experiences, <span class=\"ml-token idiom\">killing two birds with one stone</span>, while the second prioritizes efficiency and expertise. Both approaches have their merits, depending on the homeowner's priorities and resources.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of repairing something yourself instead of hiring a professional?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, <span class=\"ml-token adv\">obviously</span>, the most immediate advantage is cost savings. Hiring a professional can <span class=\"ml-token phrasal\">run up</span> quite a bill, especially for complex jobs. Doing it yourself cuts out the labor costs entirely. <span class=\"ml-token colloc\">Beyond that</span>, there's a real sense of accomplishment that comes with completing a repair or project yourself. It's empowering to learn new skills and <span class=\"ml-token phrasal\">figure things out</span>.</p> <p>Furthermore, you have complete control over the quality of the work. When you hire someone, you're trusting them to do a good job, but you're not always sure what you're going to get. Doing it yourself allows you to ensure that everything is done to your standards, and you can take your time to <span class=\"ml-token phrasal\">iron out</span> any imperfections. <span class=\"ml-token idiom\">At the end of the day</span>, it's about saving money, gaining skills, and having control over the outcome.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why is the \"DIY\" (Do It Yourself) culture becoming more popular in the modern world?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The rise of DIY culture, I think, is multifaceted. <span class=\"ml-token adv\">Firstly</span>, there's a growing desire for self-sufficiency and a rejection of consumerism. People want to be less reliant on corporations and more in control of their own lives. DIY offers a way to <span class=\"ml-token phrasal\">take back</span> that control, whether it's through making your own clothes, growing your own food, or repairing your own appliances.</p> <p><span class=\"ml-token adv\">Secondly</span>, the internet has made DIY incredibly accessible. There are countless tutorials, forums, and online communities dedicated to every imaginable project. This means that anyone can learn to do just about anything, regardless of their background or skill level. <span class=\"ml-token idiom\">The world is your oyster</span> when it comes to information. <span class=\"ml-token adv\">Finally</span>, there's a growing appreciation for craftsmanship and handmade goods. In a world of mass-produced items, people are seeking out unique, personalized items that reflect their own individuality. DIY allows them to create things that are truly one-of-a-kind.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you spent time working or living in a rural area (village).",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you spent time working or living in a rural area (village).",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Physical Money Should Be Completely Replaced by Digital Currency",
-      "audioFile": "questions S/audio/cefr-speaking-mock-59-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-59-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

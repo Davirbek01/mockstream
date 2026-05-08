@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What helps you focus when you study?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>The single most effective thing that helps me concentrate is listening to <span class=\"ml-token colloc\">ambient instrumental music</span>. It creates a <span class=\"ml-token adv\">remarkably</span> calming background that drowns out distracting noises without pulling my attention away from the material.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I <span class=\"ml-token adv\">always</span> make sure to put my phone on silent mode and place it in another room. Eliminating the temptation of social media notifications is <span class=\"ml-token adv\">absolutely</span> crucial for maintaining my <span class=\"ml-token colloc\">train of thought</span>.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do you think learning English is important?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>In today's <span class=\"ml-token colloc\">interconnected world</span>, English serves as the <span class=\"ml-token adv\">undeniably</span> dominant lingua franca of international business, academia, and diplomacy. Mastering it opens doors to a <span class=\"ml-token colloc\">vast array</span> of career opportunities that would otherwise remain inaccessible.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, the overwhelming majority of online content — from scientific research papers to entertainment — is published in English. Without it, one is <span class=\"ml-token adv\">essentially</span> locked out of a massive <span class=\"ml-token colloc\">knowledge repository</span>. Learning English is not just a skill; it is a <span class=\"ml-token proverb\">\"passport to the world.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually buy when you go shopping?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>When I go shopping, I <span class=\"ml-token adv\">predominantly</span> purchase everyday essentials such as groceries, fresh produce, and household items. I am quite a <span class=\"ml-token colloc\">practical shopper</span>; I always prepare a detailed list beforehand to avoid <span class=\"ml-token colloc\">impulse purchases</span>.</div>\n\n<div><span class=\"ml-token adv\">Occasionally</span>, however, I <span class=\"ml-token adv\">do</span> treat myself to something special — perhaps a new book or a piece of clothing that catches my eye. I believe in maintaining a balance between being <span class=\"ml-token colloc\">financially prudent</span> and <span class=\"ml-token proverb\">\"rewarding yourself\"</span> for hard work.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe what is happening in each photo.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first photograph captures an old historical building that is <span class=\"ml-token adv\">currently</span> undergoing careful restoration. Workers or scaffolding can be seen around the structure, suggesting a <span class=\"ml-token adv\">meticulous</span> effort to preserve its original <span class=\"ml-token colloc\">architectural grandeur</span> while reinforcing its structural integrity.</div>\n\n<div><span class=\"ml-token adv\">In sharp contrast</span>, the second image showcases a futuristic glass skyscraper — a symbol of modern urban development. Its sleek, reflective facade represents the <span class=\"ml-token colloc\">cutting-edge design</span> philosophy of contemporary architecture. Together, the two images beautifully juxtapose tradition and modernity in the urban landscape.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of preserving old historical buildings in a modern city?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Preserving historical buildings in modern cities offers a multitude of <span class=\"ml-token adv\">profoundly</span> important benefits. <span class=\"ml-token adv\">First and foremost</span>, these structures serve as tangible links to our collective past. They tell the story of previous generations, their aesthetics, engineering prowess, and <span class=\"ml-token colloc\">cultural values</span>. Without them, a city risks losing its unique identity and becoming a generic concrete landscape.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, restored heritage buildings often become major <span class=\"ml-token colloc\">tourist attractions</span>, generating significant revenue for the local economy. Cities like Rome, Istanbul, and Samarkand thrive <span class=\"ml-token adv\">precisely</span> because of their preserved historical cores.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, blending old and new architecture creates a visually stunning and <span class=\"ml-token adv\">culturally</span> rich urban environment. It allows citizens to <span class=\"ml-token proverb\">\"remember where they came from\"</span> while striding confidently into the future.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer living in modern glass buildings instead of traditional ones?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The preference for modern glass buildings is driven by several <span class=\"ml-token adv\">highly</span> practical considerations. <span class=\"ml-token adv\">Primarily</span>, these structures are designed with state-of-the-art technology, offering superior <span class=\"ml-token colloc\">energy efficiency</span>, smart home features, and contemporary layouts that maximize space and natural light.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, modern buildings <span class=\"ml-token adv\">typically</span> come equipped with amenities like underground parking, gyms, and high-speed lifts, which cater to the fast-paced lifestyle of urban professionals. They represent a sense of <span class=\"ml-token colloc\">upward mobility</span> and progress.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, for many, living in a sleek skyscraper with panoramic city views is the <span class=\"ml-token adv\">ultimate</span> status symbol. While a traditional building has charm, a modern tower whispers <span class=\"ml-token proverb\">\"success.\"</span></div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you volunteered to help your community or a person in need.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you volunteered to help your community or a person in need.",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Cities should build more green spaces.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-56-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-56-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you type on a desktop or laptop keyboard every day?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q1.mp3",
       "sampleAnswer": "Yes, I type on a laptop keyboard virtually every day. Most of my work involves writing reports, sending emails, and doing research, all of which require extensive typing. I'd estimate I spend at least four to five hours a day typing, which has made me quite proficient over time. I actually prefer a laptop keyboard to a desktop one because I can work from different locations—cafés, libraries, or at home—without being tied to a fixed workstation. The portability suits my lifestyle, and I've become so accustomed to the feel of my laptop's keys that using other keyboards sometimes feels awkward. Typing has essentially become second nature to me, something I do almost without thinking.",
       "vocabulary": {
         "title": "Q1 - Daily Typing",
@@ -83,7 +83,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When did you learn how to type on a keyboard?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q2.mp3",
       "sampleAnswer": "I started learning to type properly when I was around twelve or thirteen years old. Before that, I used the classic two-finger 'hunt and peck' method, which was slow and inefficient. My school introduced a basic computer class that included touch-typing exercises, and that's where I developed the fundamentals. I remember it being quite frustrating at first—having to resist the urge to look down at the keys—but with consistent practice, muscle memory gradually took over. By the time I reached high school, I could type at a reasonable speed without looking at the keyboard. Looking back, learning touch-typing was one of the most practically useful skills I picked up during my school years, given how central typing is to almost everything I do today.",
       "vocabulary": {
         "title": "Q2 - Learning to Type",
@@ -129,7 +129,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you improve your typing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q3.mp3",
       "sampleAnswer": "I improve my typing mainly through consistent daily practice—the more I type, the faster and more accurate I become. I've also used online typing tools and speed tests occasionally to identify weak spots, such as certain letter combinations I tend to fumble. Paying attention to posture and hand positioning has helped too, since poor ergonomics can slow you down and cause strain over time. I try to avoid reverting to bad habits like looking at the keyboard, which forces my fingers to find the correct keys independently. Additionally, I find that typing varied content—emails, creative writing, technical documents—helps because different vocabulary and sentence structures challenge different finger movements. Over time, these small, deliberate efforts compound into noticeable improvements in both speed and accuracy.",
       "vocabulary": {
         "title": "Q3 - Improving Typing",
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you walk a lot?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q4.mp3",
       "sampleAnswer": "I'd say I walk a moderate amount. I try to incorporate walking into my daily routine wherever possible—taking the stairs instead of the lift, walking to nearby shops rather than driving, and going for a short evening stroll after dinner. I find walking a surprisingly effective way to clear my mind and decompress after a busy day. On weekends, I sometimes go for longer walks in parks or along nature trails, which I find genuinely refreshing. I'm not someone who tracks steps obsessively, but I'm conscious of not being too sedentary, so I make deliberate choices to walk when the opportunity arises. Overall, walking is probably my most consistent form of physical activity.",
       "vocabulary": {
         "title": "Q4 - Walking Habits",
@@ -223,7 +223,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you often go outside to have a walk when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q5.mp3",
       "sampleAnswer": "Yes, absolutely. When I was a child, going outside to walk and play was a natural part of daily life. We didn't have the same level of digital entertainment that children have today, so outdoor activities were the default way to spend free time. I remember walking to school with friends, exploring the neighbourhood after school, and spending weekends wandering around parks or open fields. There was a real sense of freedom and adventure in those walks—every street or path felt like it had something to discover. Looking back, those childhood walks gave me an appreciation for the outdoors and a habit of being physically active that has stayed with me into adulthood.",
       "vocabulary": {
         "title": "Q5 - Childhood Walking",
@@ -269,7 +269,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do people like to walk in parks?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q6.mp3",
       "sampleAnswer": "I think people are drawn to parks for a combination of physical, psychological, and social reasons. On a physical level, parks offer a safe, pleasant environment for exercise without the cost of a gym membership. Psychologically, being surrounded by greenery and open space has a well-documented calming effect—research consistently shows that time in nature reduces stress hormones and improves mood. Parks also provide a welcome escape from the noise and congestion of urban life, offering a sense of tranquillity that's hard to find elsewhere in a city. Socially, parks are communal spaces where people can walk with friends or family, watch others, or simply feel part of a community. The combination of fresh air, natural beauty, and a relaxed atmosphere makes parks uniquely appealing for walking compared to other environments.",
       "vocabulary": {
         "title": "Q6 - Walking in Parks",
@@ -316,7 +316,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Where would you like to take a long walk if you had the chance?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q7.mp3",
       "sampleAnswer": "If I had the opportunity, I'd love to walk the Camino de Santiago in Spain—a famous pilgrimage route that stretches hundreds of kilometres across the country. I'm drawn to it not just for the physical challenge but for the cultural and spiritual dimension it offers. Walking through ancient villages, vineyards, and rolling hills while meeting travellers from around the world sounds like an extraordinary experience. The Camino is also known for giving people time to reflect and gain perspective, which appeals to me enormously. Closer to home, I'd also love to explore the Himalayan foothills on a trekking trail—the combination of dramatic scenery, fresh mountain air, and the sense of achievement from completing a challenging route would be deeply satisfying.",
       "vocabulary": {
         "title": "Q7 - Dream Walk",
@@ -362,7 +362,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a toy that you liked when you were a child.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q8.mp3",
       "bulletPoints": [
         "what the toy was",
         "who gave it to you",
@@ -424,7 +424,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do children today play with the same kinds of toys as you did?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q9.mp3",
       "sampleAnswer": "Not entirely. While some classic toys like building blocks, dolls, and board games remain popular, today's children have a vastly wider range of options, particularly digital ones. Tablets, gaming consoles, and interactive apps have become dominant forms of play in a way that simply didn't exist when I was growing up. Even traditional toys have been updated—LEGO now has robotics sets that children can program, for example. I think the core desire to play, create, and imagine remains the same, but the tools and mediums have evolved dramatically. There are both gains and losses in this shift—digital toys can be highly educational and stimulating, but they may offer less opportunity for the kind of open-ended, physical, imaginative play that traditional toys encouraged.",
       "vocabulary": {
         "title": "Q9 - Toys Then vs Now",
@@ -470,7 +470,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think the toys children play with affect their development?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q10.mp3",
       "sampleAnswer": "Absolutely, I think toys have a significant influence on children's development. The toys a child engages with shape their cognitive, social, and emotional growth in meaningful ways. Construction toys like LEGO develop spatial reasoning and problem-solving. Role-play toys encourage empathy and social understanding. Board games teach turn-taking, strategic thinking, and how to handle winning and losing gracefully. Conversely, toys that are purely passive—where the child just watches rather than interacts—may offer less developmental benefit. The quality of play matters as much as the toy itself; a simple cardboard box can spark more creativity than an expensive electronic toy if it encourages active imagination. So while no single toy determines a child's development, the overall play environment and the types of engagement it promotes are genuinely important.",
       "vocabulary": {
         "title": "Q10 - Toys and Development",
@@ -520,7 +520,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does advertising influence children?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q11.mp3",
       "sampleAnswer": "Advertising has a profound and often underestimated influence on children, largely because children lack the critical media literacy to recognise persuasive intent. Young children in particular struggle to distinguish between entertainment and advertising, making them highly susceptible to marketing messages. Advertisers exploit this vulnerability by using bright colours, catchy jingles, beloved characters, and peer-association tactics to create powerful emotional connections with products. This can shape children's preferences, desires, and even their sense of identity—children may feel that owning a particular toy or wearing a certain brand is essential to fitting in socially. Advertising also influences children indirectly by shaping parental purchasing decisions through what's known as 'pester power'—children repeatedly requesting products they've seen advertised. Furthermore, advertising can promote unrealistic body images, gender stereotypes, and materialistic values that may have long-term psychological consequences. The cumulative effect of constant exposure to commercial messaging during formative years is a significant concern for child development experts.",
       "vocabulary": {
         "title": "Q11 - Advertising and Children",
@@ -571,7 +571,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think advertising that targets children should be banned?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q12.mp3",
       "sampleAnswer": "This is a genuinely complex question with compelling arguments on both sides. On one hand, there is a strong ethical case for restricting or banning advertising directed at young children. Children below a certain age—typically around seven or eight—cannot cognitively process the persuasive intent of advertising, which means they are essentially being manipulated by commercial interests without the capacity to defend themselves. Several countries, including Sweden and Norway, have already banned television advertising targeting children under twelve, and research suggests this has had positive effects on children's wellbeing and family dynamics. On the other hand, a complete ban raises practical and economic concerns—advertising funds much of the children's media content that families rely on, and defining what constitutes 'advertising targeting children' is legally complex. A middle-ground approach—strict regulation of content, timing, and techniques rather than an outright ban—may be more feasible and equally effective. Ultimately, I lean toward strong regulation rather than a blanket ban, combined with media literacy education to help children develop critical thinking about commercial messages.",
       "vocabulary": {
         "title": "Q12 - Banning Children's Advertising",
@@ -621,7 +621,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What toys are popular with boys and girls in your country now?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q13.mp3",
       "sampleAnswer": "In my country, as in many others, there's been a gradual but noticeable shift in toy preferences over recent years, though some traditional gender patterns persist. Among boys, action figures, remote-controlled vehicles, cricket equipment, and video gaming consoles remain very popular. Football and cricket gear are particularly common given the cultural significance of these sports. Among girls, dolls, kitchen sets, and arts-and-crafts materials continue to sell well, though there's growing interest in STEM-related toys, science kits, and building sets as awareness of gender stereotyping in toys increases. Interestingly, digital toys and gaming are increasingly popular across genders—mobile games and tablets are used by children of all backgrounds. There's also a growing market for educational toys that parents choose based on developmental value rather than gender. While toy marketing still tends to reinforce traditional gender lines—pink packaging for girls, blue for boys—consumer attitudes are slowly evolving, and many parents consciously choose to offer their children a broader range of toys regardless of gender.",
       "vocabulary": {
         "title": "Q13 - Popular Toys by Gender",
@@ -672,7 +672,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What's the difference between the toys kids play with now and those they played with in the past?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q14.mp3",
       "sampleAnswer": "The differences are quite striking and reflect broader technological and social changes. In the past, toys were predominantly physical and analogue—wooden blocks, marbles, spinning tops, handmade dolls, and simple board games. They required active physical engagement and often demanded creativity and imagination to use effectively, since the toy itself provided only a framework and the child supplied the narrative and meaning. Today's toys are far more technologically sophisticated. Electronic toys, interactive apps, augmented reality games, and programmable robots represent a fundamentally different kind of play experience. Many modern toys do much of the imaginative work for the child—they provide sounds, stories, and responses, leaving less room for the child's own creativity. Another key difference is the pace of change: in the past, a toy might remain popular for generations, whereas today's toy market is driven by rapid trend cycles, often tied to media franchises and seasonal releases. There's also a significant difference in cost—modern electronic toys are often considerably more expensive than the simple, durable toys of previous generations. However, it's worth noting that some classic toys have proven remarkably resilient, suggesting that the fundamental human desire for tactile, imaginative play endures regardless of technological change.",
       "vocabulary": {
         "title": "Q14 - Toys Past vs Present",
@@ -723,7 +723,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think parents should buy more toys for their kids or spend more time with them?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q15.mp3",
       "sampleAnswer": "Without hesitation, I believe spending quality time with children is far more valuable than buying them more toys. Research in child psychology consistently shows that parental attention, interaction, and emotional availability are the most critical factors in healthy child development—far more influential than material possessions. A child who has a parent who reads with them, plays imaginative games, listens to them, and engages with their interests will develop stronger emotional intelligence, language skills, and self-esteem than a child surrounded by expensive toys but lacking meaningful parental engagement. That said, I don't think it's a completely binary choice—thoughtfully chosen toys can be valuable tools that facilitate learning and play, especially when parents engage with those toys alongside their children. The problem arises when toys are used as substitutes for parental time rather than complements to it. In today's busy world, many parents feel guilty about not spending enough time with their children and compensate by buying gifts, but this rarely addresses the underlying need for connection. The most meaningful gift a parent can give is their presence and attention.",
       "vocabulary": {
         "title": "Q15 - Toys vs Time",
@@ -774,7 +774,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the advantages and disadvantages of modern toys?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q16.mp3",
       "sampleAnswer": "Modern toys offer a range of advantages that traditional toys couldn't match. Many are highly educational—coding toys, science kits, and interactive learning devices can introduce children to complex concepts in engaging ways. Electronic toys often provide immediate feedback and adapt to a child's skill level, which can be motivating. They can also connect children globally, enabling collaborative play across distances. Some modern toys, particularly those involving robotics or programming, develop genuinely valuable skills for the future job market.\n\nHowever, the disadvantages are equally significant. Many modern toys are passive or overly directive, leaving little room for the child's own imagination and creativity. The rapid pace of technological change means toys become obsolete quickly, encouraging a throwaway culture and generating significant electronic waste. They are often considerably more expensive, creating inequality between children from different socioeconomic backgrounds. Screen-based toys raise concerns about excessive screen time, reduced physical activity, and potential impacts on attention spans and sleep. There are also privacy concerns with connected toys that collect data. Furthermore, the addictive design features built into many digital toys—reward loops, notifications, social comparison—can be psychologically manipulative. Balancing the genuine benefits of modern toys with awareness of these risks is an important challenge for parents and policymakers alike.",
       "vocabulary": {
         "title": "Q16 - Modern Toys Pros & Cons",
@@ -826,7 +826,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should schools use toys and games as teaching tools?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-19-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-19-q17.mp3",
       "sampleAnswer": "Absolutely, and in fact the most progressive educational systems already do this extensively. The use of games and play-based learning in schools is strongly supported by research in educational psychology. When children learn through play, they are more engaged, retain information more effectively, and develop a positive association with learning that can last a lifetime. Games naturally incorporate many pedagogical principles—they set clear goals, provide immediate feedback, encourage trial and error, and reward persistence. Board games and strategy games develop critical thinking, mathematical reasoning, and social skills like negotiation and cooperation. Physical games and sports build teamwork, resilience, and physical health. Even digital games, when carefully chosen, can teach coding, problem-solving, and creative thinking. The key is intentionality—games and toys should be selected and facilitated by teachers with clear learning objectives in mind, rather than used simply as entertainment or time-fillers. There's also an equity consideration: schools can provide access to high-quality educational toys and games for children who may not have them at home, helping to level the playing field. Overall, integrating play into education is not a compromise on academic rigour—it's a recognition that engagement and enjoyment are prerequisites for deep learning.",
       "vocabulary": {
         "title": "Q17 - Toys in Education",

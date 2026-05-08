@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like meeting people from other countries?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I <span class=\"ml-token colloc\">derive immense pleasure</span> from meeting individuals from diverse cultural backgrounds. It's an enriching experience that broadens my perspective and challenges my preconceived notions. <span class=\"ml-token adv\">Frankly</span>, I believe that engaging with people from different countries is crucial for fostering global understanding and empathy.</p><p>These interactions often lead to stimulating conversations about history, traditions, and ways of life. I find it fascinating to learn about customs that <span class=\"ml-token colloc\">starkly contrast</span> with my own, and I <span class=\"ml-token colloc\">make a conscious effort</span> to understand the underlying reasons for these differences. <span class=\"ml-token adv\">Moreover</span>, it's a fantastic way to improve my language skills and even <span class=\"ml-token phrasal\">pick up</span> a few phrases in other languages. It’s a win-win, as they say. <span class=\"ml-token proverb\">When in Rome, do as the Romans do</span>.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy listening to the radio?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To be honest, I don't really <span class=\"ml-token phrasal\">tune in</span> to the radio very often these days. With the advent of streaming services and podcasts, the radio has become somewhat obsolete for me. <span class=\"ml-token adv\">That being said</span>, I do appreciate the role it plays in providing local news and emergency broadcasts.</p><p><span class=\"ml-token adv\">Occasionally</span>, when I'm driving long distances, I might scan through the stations to see if there's anything interesting on. There's a certain nostalgia associated with listening to the radio, especially if they are <span class=\"ml-token colloc\">playing old favourites</span>. <span class=\"ml-token adv\">Ultimately</span>, <span class=\"ml-token colloc\">times have changed</span> and I <span class=\"ml-token phrasal\">gravitate towards</span> other forms of media that <span class=\"ml-token colloc\">better suit</span> my needs and preferences. It's a matter of personal taste, <span class=\"ml-token idiom\">to each their own</span>.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like going for walks?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>I'm quite <span class=\"ml-token fond\">fond</span> of going for walks, yes. I find it to be an excellent way to de-stress and <span class=\"ml-token phrasal\">clear my head</span>. The simple act of putting one foot in front of the other, <span class=\"ml-token adv\">coupled with</span> fresh air and natural surroundings, can be incredibly therapeutic.</p><p>I particularly enjoy walking in parks or nature reserves where I can <span class=\"ml-token colloc\">immerse myself</span> in the beauty of the environment. It allows me to appreciate the small details that I might otherwise overlook in my busy daily life. <span class=\"ml-token adv\">Besides</span>, it's a great way to get some exercise without putting too much strain on my body. <span class=\"ml-token adv\">In short</span>, a good walk is <span class=\"ml-token idiom\">just what the doctor ordered</span> when I'm feeling overwhelmed or stressed. It helps you <span class=\"ml-token phrasal\">blow off steam</span>.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare the pace of life depicted in these two images.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The contrast between the pace of life depicted in these two images is <span class=\"ml-token colloc\">quite striking</span>. The first image portrays a fast-paced urban environment, characterized by towering skyscrapers, congested streets, and people hurrying about their business. It evokes a sense of urgency and constant motion, where time seems to be of the essence. <span class=\"ml-token adv\">Conversely</span>, the second image offers a starkly different scene, showcasing a tranquil rural setting with a person leisurely reading in a garden or a serene nature scene in a quiet village.</p><p>The city scene represents the pressures and demands of modern life, where individuals are constantly <span class=\"ml-token phrasal\">juggling</span> multiple responsibilities and striving to <span class=\"ml-token colloc\">meet deadlines</span>. It's a world of ambition, competition, and relentless pursuit of success. <span class=\"ml-token adv\">On the other hand</span>, the rural scene embodies a slower, more deliberate pace of life, where individuals prioritize relaxation, contemplation, and connection with nature. It's a world of simplicity, tranquility, and appreciation for the present moment. <span class=\"ml-token adv\">Ultimately</span>, both lifestyles have their own merits and drawbacks, and the ideal pace of life is subjective and dependent on individual preferences. It <span class=\"ml-token phrasal\">boils down to</span> what you value most.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How does spending time in nature improve a person's mental clarity and productivity?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Spending time in nature offers a <span class=\"ml-token colloc\">trifecta of benefits</span> for mental clarity and productivity. Firstly, the reduction in sensory overload is crucial. Urban environments <span class=\"ml-token phrasal\">bombard us with</span> constant noise and visual stimuli, which <span class=\"ml-token adv\">inevitably</span> leads to mental fatigue. Nature, <span class=\"ml-token adv\">on the other hand</span>, provides a calming, predictable environment, allowing our brains to rest and recharge. </p><p>Secondly, exposure to natural light and fresh air stimulates the production of serotonin and vitamin D, both of which are essential for mood regulation and cognitive function. <span class=\"ml-token idiom\">It's like hitting the reset button</span> on your brain. Studies have shown a direct correlation between time spent outdoors and improved concentration levels. <span class=\"ml-token adv\">Furthermore</span>, the physical activity often associated with being in nature, such as hiking or even a simple walk in the park, increases blood flow to the brain, further enhancing cognitive performance. <span class=\"ml-token proverb\">A sound mind in a sound body</span>, as they say. </p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why is it becoming increasingly difficult for people to completely disconnect from city life?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>It's <span class=\"ml-token adv\">undeniably</span> becoming increasingly difficult to completely disconnect from city life due to several converging factors. Firstly, technology plays a significant role. The <span class=\"ml-token colloc\">ubiquitous nature</span> of smartphones and the internet means that we are constantly connected to work, social media, and news cycles. <span class=\"ml-token idiom\">It's hard to switch off</span> when your email is always accessible.</p><p>Secondly, the economic pressures of modern life often necessitate being close to urban centers where job opportunities are concentrated. Many people simply can't afford to live in more remote, rural areas. <span class=\"ml-token adv\">Finally</span>, the convenience and amenities offered by city life, such as easy access to shopping, entertainment, and healthcare, are difficult to <span class=\"ml-token phrasal\">give up</span>. <span class=\"ml-token proverb\">Old habits die hard</span>, and the conveniences of urban living have become deeply ingrained in our daily routines.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you taught someone a practical skill.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you taught someone a practical skill.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Exams Should Be Held in All Schools",
-      "audioFile": "questions S/audio/cefr-speaking-mock-60-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-60-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

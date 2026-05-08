@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Describe your house.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, to begin with, my house is <span class=\"ml-token adv\">truly</span> a sanctuary for me. It's located in a serene residential area, offering a <span class=\"ml-token colloc\">peaceful retreat</span> from the hustle and bustle of city life. The house itself is a two-storey building with a <span class=\"ml-token colloc\">charming facade</span> that boasts a combination of traditional and contemporary elements, making it stand out in the neighborhood.</p>\n\n<p>When you <span class=\"ml-token phrasal\">step into</span> the house, you're greeted by a spacious living room, which is <span class=\"ml-token adv\">beautifully</span> adorned with art pieces that I've collected over the years. The living room seamlessly flows into the dining area, creating an <span class=\"ml-token colloc\">open-plan space</span> that's perfect for hosting friends and family. I've <span class=\"ml-token phrasal\">put a lot of effort into</span> making this area cozy and inviting, with plush sofas and a <span class=\"ml-token colloc\">state-of-the-art</span> entertainment system.</p>\n\n<p>Upstairs, there are three bedrooms, each with its own <span class=\"ml-token colloc\">en-suite bathroom</span>. My personal favorite is the master bedroom, which has a large bay window overlooking the garden. This room is my <span class=\"ml-token idiom\">little slice of heaven</span> where I can <span class=\"ml-token idiom\">let my hair down</span> after a long day. One of the standout features of my house is the <span class=\"ml-token colloc\">magnificent garden</span>, which is <span class=\"ml-token adv\">meticulously</span> maintained and provides a perfect space for outdoor gatherings or simply enjoying a quiet morning coffee.</p>\n\n<p>Overall, my house is not just a <span class=\"ml-token colloc\">place to live</span>, but rather a reflection of my personality and taste. It's a place where I can express myself and truly feel at home. After all, \"home is where the heart is,\" and my heart <span class=\"ml-token adv\">genuinely</span> resides here.</p>",
       "vocabulary": {
@@ -70,7 +70,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you get up early or late?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Well, I <span class=\"ml-token adv\">typically</span> get up <span class=\"ml-token adv\">quite</span> early, around 6 a.m. every day, and I believe this habit has <span class=\"ml-token phrasal\">set me up</span> for a <span class=\"ml-token colloc\">productive day</span>. I’ve always been a <span class=\"ml-token colloc\">morning person</span>, and I find that <span class=\"ml-token proverb\">\"the early bird catches the worm\"</span> <span class=\"ml-token adv\">truly</span> holds some merit. In the early morning, the world is <span class=\"ml-token adv\">remarkably</span> quiet, and it allows me to focus on my tasks without any distractions. I <span class=\"ml-token phrasal\">kick off</span> my day with a cup of coffee and some light reading, which <span class=\"ml-token idiom\">gets me in the right frame of mind</span> for the challenges ahead.</p>\n\n<p>Of course, there are days when I feel like <span class=\"ml-token idiom\">hitting the snooze button</span>, but I <span class=\"ml-token adv\">honestly</span> believe that <span class=\"ml-token colloc\">waking up early</span> has <span class=\"ml-token adv\">significantly</span> improved my <span class=\"ml-token colloc\">time management skills</span>. Moreover, it has given me the chance to <span class=\"ml-token phrasal\">embrace the day</span> fully before it becomes <span class=\"ml-token colloc\">hectic and overwhelming</span>. <span class=\"ml-token adv\">Ultimately</span>, getting up early has become an integral part of my <span class=\"ml-token colloc\">daily routine</span>, and I wouldn’t trade it for anything.</p>",
       "vocabulary": {
@@ -108,7 +108,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favourite drink?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To be <span class=\"ml-token idiom\">perfectly honest</span>, my favourite drink is <span class=\"ml-token colloc\">freshly brewed</span> coffee. There is something <span class=\"ml-token adv\">incredibly</span> invigorating about the aroma that <span class=\"ml-token phrasal\">wafts through</span> the air when you <span class=\"ml-token phrasal\">brew a cup</span>. It's not just a beverage; it’s an entire <span class=\"ml-token colloc\">sensory experience</span>. I <span class=\"ml-token phrasal\">picked up</span> the habit of drinking coffee during my university years when I often had to <span class=\"ml-token idiom\">burn the midnight oil</span> to meet assignment deadlines. I <span class=\"ml-token adv\">genuinely</span> believe that coffee, <span class=\"ml-token proverb\">\"like a good friend, is there when you need it most\"</span>. Additionally, I relish the <span class=\"ml-token colloc\">social experience</span> of having coffee with friends or colleagues. It's a <span class=\"ml-token phrasal\">great way to</span> catch up and <span class=\"ml-token colloc\">exchange ideas</span>, often leading to <span class=\"ml-token idiom\">a meeting of minds</span>. While there are many delightful drinks out there, coffee holds a special place in my heart for both its taste and its role in my daily routine.</p>",
       "vocabulary": {
@@ -146,7 +146,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>So, in the first picture, well, I can see a family at an airport, and they're clearly getting ready to board a plane. The thing is, the parents seem to be traveling with a young child, and they're <span class=\"ml-token phrasal\">pulling wheeled suitcases</span> across the runway toward the aircraft. Their relaxed body language and casual clothing kind of suggest that this is a leisure trip rather than, you know, a business journey. Overall, the scene <span class=\"ml-token colloc\">conveys a sense</span> of excitement and anticipation, as air travel is often associated with holidays and new experiences.</p>\n\n<p>Anyway, in the second picture, there's this woman leaning out of a train window while the train moves through a lush, green landscape, possibly in a rural or mountainous area. She looks cheerful and engaged with her surroundings, maybe enjoying the scenery or capturing the moment. The train itself seems quite traditional, which might indicate travel in a developing region or a popular tourist route known for its natural beauty.</p>\n\n<p>By the way, taken together, both images illustrate different modes of travel and highlight the joy of exploration. While the first image represents modern, fast-paced air travel with a focus on family convenience, the second emphasizes a slower, more immersive journey that allows travelers to connect closely with nature and their environment. Personally, I think both types of travel have their own unique charm.</p>",
       "vocabulary": {
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of travelling by train?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Travelling by train offers a myriad of benefits that <span class=\"ml-token adv\">truly</span> enhance the travel experience. <span class=\"ml-token colloc\">First and foremost</span>, it provides a <span class=\"ml-token colloc\">social experience</span> that many other forms of transportation simply cannot match. The ability to <span class=\"ml-token phrasal\">move around</span> freely in a train, the chance to meet new people or <span class=\"ml-token idiom\">let your hair down</span> in the dining car, and the opportunity to enjoy <span class=\"ml-token colloc\">scenic views</span> through panoramic windows, all contribute to a <span class=\"ml-token colloc\">memorable journey</span>.</p>\n\n<p>Moreover, trains are often more environmentally friendly than cars or planes. They <span class=\"ml-token phrasal\">cut down</span> on carbon emissions, making them a more sustainable option for the eco-conscious traveler. <span class=\"ml-token idiom\">On top of that</span>, the convenience of train stations located in city centers means <span class=\"ml-token phrasal\">getting to</span> your destination is <span class=\"ml-token adv\">typically</span> easier and more efficient.</p>\n\n<p><span class=\"ml-token proverb\">\"Travel broadens the mind\"</span>, and I <span class=\"ml-token adv\">wholeheartedly</span> believe that the comfort and ease of train travel <span class=\"ml-token phrasal\">play a part</span> in facilitating this. You can <span class=\"ml-token phrasal\">sit back</span>, <span class=\"ml-token phrasal\">relax</span>, and take in the beautiful landscapes without the stress and hassle of navigating traffic or worrying about flight delays.</p>\n\n<p>For me personally, one of the <span class=\"ml-token colloc\">greatest joys</span> of train travel is the sense of timelessness it imparts. As someone who enjoys reading, I find that trains provide the perfect environment to <span class=\"ml-token phrasal\">lose myself</span> in a novel while the world outside <span class=\"ml-token phrasal\">rushes by</span>. All in all, train travel is a <span class=\"ml-token colloc\">perfect blend</span> of leisure, convenience, and sustainability.</p>",
       "vocabulary": {
@@ -222,7 +222,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which ways of traveling do you prefer?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Personally, I <span class=\"ml-token adv\">absolutely</span> love traveling by train. There's something <span class=\"ml-token adv\">incredibly</span> charming about being able to <span class=\"ml-token phrasal\">sit back</span> and watch the scenery <span class=\"ml-token colloc\">pass by</span> without having to worry about traffic or navigating through an airport. In many cases, train travel can be <span class=\"ml-token colloc\">surprisingly efficient</span> and <span class=\"ml-token colloc\">cost-effective</span>, especially when traveling within a country or on a continent like Europe, where the railway network is <span class=\"ml-token colloc\">extensive and well-connected</span>.</p>\n\n<p>Beyond the practicalities, I find that trains offer a <span class=\"ml-token colloc\">unique social experience</span>. You often meet people from all walks of life and can <span class=\"ml-token phrasal\">strike up</span> a conversation in a way that's <span class=\"ml-token adv\">rarely</span> possible on other modes of transport. It's <span class=\"ml-token adv\">amazing</span> how many fascinating stories and insights you can <span class=\"ml-token phrasal\">pick up</span> just by chatting with a fellow passenger.</p>\n\n<p>That being said, I do enjoy flying when it's necessary. It's <span class=\"ml-token adv\">unquestionably</span> the fastest way to cover long distances, and the excitement of taking off and landing <span class=\"ml-token idiom\">never gets old</span> for me. However, given the choice, I would choose train travel over flying because, as the old saying goes, <span class=\"ml-token proverb\">\"It's the journey, not the destination.\"</span> This <span class=\"ml-token idiom\">holds true</span> for me, as I find that the journey by train <span class=\"ml-token phrasal\">offers so much more</span> than simply getting from point A to point B.</p>",
       "vocabulary": {
@@ -264,7 +264,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when you achieved a great goal.",
@@ -307,7 +307,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Smartphones should be banned in schools",
-      "audioFile": "questions S/audio/cefr-speaking-mock-12-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-12-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually carry an umbrella with you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I don't <span class=\"ml-token adv\">always</span> carry an umbrella, although I probably should. I tend to check the weather forecast on my phone before leaving the house, and if rain is expected, I'll grab a small <span class=\"ml-token colloc\">foldable umbrella</span>.</div>\n\n<div>That said, I've been caught in the rain without one more times than I'd like to admit, so I'm trying to <span class=\"ml-token colloc\">make it a habit</span> to keep one in my bag.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy taking photographs?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">really</span> enjoy taking photographs, especially when I'm travelling or spending time outdoors. I find it's a wonderful way to <span class=\"ml-token colloc\">capture memories</span> and appreciate the beauty around me.</div>\n\n<div>I mostly use my smartphone camera, which is <span class=\"ml-token adv\">surprisingly</span> good these days. I wouldn't call myself a professional, but I do like experimenting with <span class=\"ml-token colloc\">different angles</span> and lighting.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you good at remembering people's names?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I have to admit, I'm not <span class=\"ml-token adv\">particularly</span> good at remembering names, which can be quite embarrassing at times. I often find myself in situations where I recognise someone's face but <span class=\"ml-token colloc\">draw a complete blank</span> on their name.</div>\n\n<div>I've been trying to improve by <span class=\"ml-token colloc\">repeating the name</span> when I first meet someone and <span class=\"ml-token colloc\">associating it with</span> something memorable. It's a work in progress, though.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a person looking through the lens of a large, professional DSLR camera. They appear to be <span class=\"ml-token adv\">carefully</span> composing their shot, which suggests they take photography quite seriously.</div>\n\n<div>In the second picture, there's someone casually holding up a smartphone to take a quick photo of a landscape. The <span class=\"ml-token colloc\">key difference</span> between these two images is the level of equipment and <span class=\"ml-token colloc\">dedication involved</span> — one represents professional photography while the other shows everyday <span class=\"ml-token colloc\">casual snapping</span>.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of using a professional camera?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> benefits to using a professional camera. First and foremost, the <span class=\"ml-token colloc\">image quality</span> is vastly superior — professional cameras have larger sensors that capture more detail, richer colours, and perform <span class=\"ml-token adv\">significantly</span> better in low-light conditions.</div>\n\n<div>They also offer <span class=\"ml-token colloc\">manual controls</span> over settings like aperture, shutter speed, and ISO, giving the photographer complete creative freedom. Another major advantage is the range of interchangeable lenses available, which allow you to shoot everything from <span class=\"ml-token colloc\">wide-angle landscapes</span> to close-up portraits with stunning depth of field.</div>\n\n<div>For anyone pursuing photography as a career or a serious hobby, a professional camera is <span class=\"ml-token adv\">undoubtedly</span> a worthwhile investment. As they say, <span class=\"ml-token proverb\">\"a craftsman is only as good as his tools\"</span>, and having the right equipment makes all the difference.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do most people rely on smartphones for photography today?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The main reason most people rely on smartphones for photography is <span class=\"ml-token colloc\">sheer convenience</span>. Almost everyone carries a phone with them at all times, so it's always ready to capture a spontaneous moment.</div>\n\n<div>Modern smartphone cameras have also become <span class=\"ml-token adv\">remarkably</span> advanced, producing high-quality images that are more than sufficient for everyday use and social media sharing. Unlike professional cameras, smartphones don't require any technical knowledge — you simply point and shoot, and built-in software <span class=\"ml-token adv\">automatically</span> adjusts the settings for you.</div>\n\n<div>There's also the <span class=\"ml-token colloc\">instant sharing</span> factor: people can take a photo and post it online within seconds, which appeals to our desire for <span class=\"ml-token colloc\">immediate gratification</span>. As the saying goes, <span class=\"ml-token proverb\">\"the best camera is the one you have with you\"</span>, and for most people, that's their smartphone.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you had to wait a long time for something or someone.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you had to wait a long time for something or someone.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Public transportation should be completely free for everyone.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-38-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-38-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

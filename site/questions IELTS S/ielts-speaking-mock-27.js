@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think we can learn anything from dreams?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q1.mp3",
       "sampleAnswer": "That's a genuinely interesting question, and I think the honest answer is: possibly, though the evidence is more nuanced than popular culture suggests. From a psychological perspective, some researchers argue that dreams can offer a window into unconscious preoccupations—anxieties, unresolved conflicts, or desires that we don't fully acknowledge in waking life. The Freudian tradition placed enormous weight on dream interpretation as a therapeutic tool, though this approach has fallen out of favour in mainstream psychology. More contemporary research suggests that dreaming plays a role in memory consolidation and emotional processing—the brain appears to use sleep to integrate new experiences with existing knowledge, which may explain why we sometimes dream about things we've recently encountered. Whether we can consciously extract meaningful lessons from dreams is more debatable. I think paying attention to recurring themes or particularly vivid dreams can sometimes prompt useful self-reflection, even if the specific content isn't literally meaningful.",
       "vocabulary": {
         "title": "Q1 - Learning from Dreams",
@@ -86,7 +86,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do people in your country talk about their dreams?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q2.mp3",
       "sampleAnswer": "Yes, quite commonly, and I think this reflects a broader cultural openness to discussing inner life and personal experience. In my cultural context, dreams are often discussed within families—particularly vivid or unusual dreams tend to be shared at the breakfast table or in casual conversation. There's also a tradition of attributing significance to certain types of dreams—dreams about specific symbols or events are sometimes interpreted as omens or messages, particularly among older generations who may hold more traditional beliefs. This kind of dream interpretation is less common among younger, more educated people, who tend to approach dreams with a more sceptical, psychological lens. Social media has also created new spaces for sharing dreams—I've noticed that people sometimes post about particularly strange or memorable dreams online. Overall, I'd say dreams are a fairly common topic of casual conversation, though the degree of significance attributed to them varies considerably across generations and educational backgrounds.",
       "vocabulary": {
         "title": "Q2 - Talking About Dreams",
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think that dreams can come true?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q3.mp3",
       "sampleAnswer": "In the literal sense—that the specific events in a dream will happen in reality—I'm quite sceptical. The research on precognitive dreaming is not convincing, and I think the apparent cases where dreams 'come true' are largely explained by confirmation bias—we remember the rare occasions when a dream seems to match a subsequent event and forget the many more occasions when it doesn't. However, in a broader metaphorical sense, I think the idea that dreams can come true is genuinely meaningful. Aspirational dreams—the goals and visions we have for our lives—absolutely can be realised through sustained effort, planning, and a degree of good fortune. Some of the most significant human achievements began as what others might have dismissed as unrealistic dreams. I think maintaining ambitious aspirations while being realistic about the work required to achieve them is one of the most productive orientations a person can have. So I'd distinguish between literal dreams during sleep and metaphorical dreams as life goals—the former rarely come true, the latter often can.",
       "vocabulary": {
         "title": "Q3 - Can Dreams Come True",
@@ -186,7 +186,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to email, phone, or text your friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q4.mp3",
       "sampleAnswer": "It really depends on the nature of the communication and the relationship. For close friends, I tend to prefer messaging apps—they're immediate, conversational, and allow for the kind of informal, ongoing exchange that feels natural in a close friendship. Phone calls I reserve for situations where I want a more personal, real-time conversation—catching up properly with someone I haven't spoken to in a while, or discussing something that's too complex or emotionally significant for text. Email I use primarily for professional communication and for situations where I need to convey something in a more structured, formal way—it's not really how I communicate with friends socially. I think the medium shapes the message quite significantly—a phone call conveys warmth and presence in a way that text simply can't, while messaging is better for the kind of light, frequent contact that maintains a sense of connection without requiring a significant time commitment from either party.",
       "vocabulary": {
         "title": "Q4 - Email vs Phone vs Text",
@@ -236,7 +236,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you reply to emails as soon as you receive them?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q5.mp3",
       "sampleAnswer": "Not always, and I've become more deliberate about this over time. There's a culture in many professional environments of treating email as an always-on, immediate communication channel, which I think is actually counterproductive—constantly checking and responding to emails fragments your attention and makes sustained, focused work very difficult. I try to batch my email responses—checking and replying at set times during the day rather than responding immediately to every message as it arrives. That said, I do try to respond promptly to anything that's genuinely time-sensitive or that requires a quick answer. For more complex emails that require a thoughtful response, I sometimes deliberately delay replying until I have the time and mental space to respond properly, rather than firing off a hasty reply that doesn't fully address what's been asked. I think managing email well is actually an underrated professional skill—the people who handle it most effectively tend to be those who treat it as a tool they control rather than a constant demand on their attention.",
       "vocabulary": {
         "title": "Q5 - Replying to Emails",
@@ -287,7 +287,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think email will eventually replace letter writing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q6.mp3",
       "sampleAnswer": "In practical terms, it already largely has—the volume of personal letters written and sent has declined dramatically over the past few decades, and email has taken over the vast majority of the communicative functions that letters once served. However, I don't think letter writing will disappear entirely, and I think there's actually been something of a revival of interest in it in recent years, precisely because it feels distinctive and meaningful in a world saturated with digital communication. A handwritten letter carries a weight and intentionality that an email simply cannot replicate—the time and effort involved in writing, addressing, and posting a letter signals a level of care and attention that the recipient genuinely feels. For certain occasions—significant life events, expressions of deep gratitude or condolence—a handwritten letter remains the most appropriate and powerful form of communication. So I'd say email has replaced letters for routine communication, but the letter has found a new niche as a more deliberate, emotionally significant form of expression.",
       "vocabulary": {
         "title": "Q6 - Email vs Letter Writing",
@@ -338,7 +338,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you happy to receive emails that are advertising things?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q7.mp3",
       "sampleAnswer": "Honestly, no—I find unsolicited marketing emails one of the more irritating aspects of modern digital life. The sheer volume of promotional emails that arrive in most people's inboxes is overwhelming, and the vast majority of them are irrelevant to my actual needs and interests at any given time. I've become quite aggressive about unsubscribing from mailing lists and using filters to redirect promotional emails away from my main inbox. That said, I think there's a distinction worth making between genuinely unsolicited spam and marketing emails from brands or services I've chosen to engage with—if I've subscribed to a newsletter or bought from a company and they send me relevant offers, I'm more tolerant of that. The problem is that many companies abuse the permission they've been given, sending far more emails than is reasonable. I think the ideal would be for marketing emails to be genuinely useful and relevant rather than the scattershot, high-volume approach that most companies currently use.",
       "vocabulary": {
         "title": "Q7 - Advertising Emails",
@@ -388,7 +388,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a positive change that you have made recently in your daily routine.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q8.mp3",
       "bulletPoints": [
         "what the change is and how you've made it",
         "why you think it's a positive change",
@@ -448,7 +448,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it's easy or difficult to change daily habits?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q9.mp3",
       "sampleAnswer": "Genuinely difficult, in my experience, and the research on habit formation supports this. Habits are deeply ingrained patterns of behaviour that operate largely below the level of conscious decision-making—they're triggered by environmental cues and reinforced by reward cycles that the brain has developed over time. Breaking an established habit requires not just willpower but a deliberate redesign of the environment and routines that trigger it, which takes sustained effort and attention. The difficulty is compounded by the fact that the benefits of changing a habit are often delayed—you might not feel the positive effects of a new routine for weeks or months—while the discomfort of breaking an old one is immediate. Research by habit scientists like James Clear suggests that the most effective approach is to focus on small, incremental changes rather than dramatic overhauls, and to design your environment so that the desired behaviour becomes the path of least resistance. Even with the best strategies, though, changing habits requires patience and a tolerance for setbacks.",
       "vocabulary": {
         "title": "Q9 - Changing Daily Habits",
@@ -496,7 +496,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What motivates people to make positive changes in their lives?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q10.mp3",
       "sampleAnswer": "Motivation for change tends to come from a combination of push and pull factors. On the push side, people are often motivated to change by discomfort with their current situation—health problems, relationship difficulties, professional dissatisfaction, or a general sense that their life isn't aligned with their values. A crisis or a significant life event—an illness, a loss, a major transition—can be a powerful catalyst for change because it disrupts the inertia of existing habits and forces a reassessment of priorities. On the pull side, people are motivated by a compelling vision of what their life could look like—the desire to be healthier, more productive, more connected, or more fulfilled. Research suggests that intrinsic motivation—change driven by genuine personal values and desires rather than external pressure or social expectation—tends to produce more durable results. The most sustainable changes are usually those where the person has a clear sense of why the change matters to them personally, not just what they're supposed to do.",
       "vocabulary": {
         "title": "Q10 - Motivation for Change",
@@ -546,7 +546,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What do people normally plan in their daily lives?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q11.mp3",
       "sampleAnswer": "The scope and nature of daily planning varies enormously across individuals and life circumstances, but most people engage in at least some degree of forward-thinking about their immediate future. At the most basic level, people plan their work schedules—meetings, deadlines, tasks that need to be completed—and their domestic responsibilities: shopping, cooking, childcare, household maintenance. Many people also plan their social lives to some degree, coordinating with friends and family around shared activities and commitments. Financial planning—budgeting, saving, managing expenses—is another area where many people engage in deliberate forward-thinking, though the depth of this varies considerably with income level and financial literacy. Health-related planning—exercise routines, medical appointments, dietary choices—is increasingly common as awareness of preventive health grows. Beyond these practical domains, some people engage in more ambitious life planning—setting longer-term goals around career, relationships, education, or personal development—though this kind of structured self-reflection is less universal.",
       "vocabulary": {
         "title": "Q11 - Daily Planning",
@@ -598,7 +598,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is time management important in our daily lives?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q12.mp3",
       "sampleAnswer": "Extremely important, and I'd argue it's one of the most consequential skills a person can develop, though it's often undervalued in formal education. Time is the one truly non-renewable resource—unlike money or energy, it cannot be recovered once spent, which makes how we allocate it one of the most significant choices we make. Effective time management allows people to make progress on their most important goals while also meeting their obligations and maintaining their wellbeing—without it, people tend to be reactive rather than proactive, spending their time responding to immediate demands rather than investing in what matters most to them. Research consistently shows that people who manage their time well tend to experience lower stress, greater productivity, and higher life satisfaction. However, I think it's important to distinguish between time management as a tool for living a more intentional life and the kind of hyper-optimised, productivity-obsessed approach that treats every moment as an opportunity to be maximally efficient—the latter can be exhausting and counterproductive, leaving no space for rest, spontaneity, and the kind of unstructured time that is actually essential for creativity and wellbeing.",
       "vocabulary": {
         "title": "Q12 - Time Management",
@@ -650,7 +650,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What changes do people often make in their lives?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q13.mp3",
       "sampleAnswer": "The changes people make tend to cluster around a few key domains that are central to human wellbeing and identity. Health-related changes are among the most common—people frequently attempt to improve their diet, exercise more regularly, quit smoking, reduce alcohol consumption, or improve their sleep habits, often triggered by health concerns or a desire to feel better. Career changes are another significant category—people change jobs, switch industries, pursue further education, or start their own businesses, often in response to dissatisfaction, new opportunities, or changing life circumstances. Relationship changes—forming new partnerships, ending unhealthy ones, investing more in family relationships—are also common and often profoundly transformative. Lifestyle changes—moving to a new city or country, downsizing, simplifying, or conversely expanding one's life—reflect shifts in values and priorities. Finally, habit changes—the kind of small, daily adjustments that accumulate into significant differences over time—are perhaps the most common and the most underestimated in terms of their long-term impact.",
       "vocabulary": {
         "title": "Q13 - Changes People Make",
@@ -702,7 +702,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Who would make changes more often, young people or old people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q14.mp3",
       "sampleAnswer": "I think young people are generally more likely to make significant life changes, though the reasons are more nuanced than simply being more open-minded or flexible. Young people are at a life stage where change is structurally built in—they're transitioning from education to work, forming and ending relationships, establishing their identity, and making foundational decisions about career and lifestyle that older people have already made. There's also less to lose in terms of sunk costs—a young person who changes career direction hasn't invested decades in a particular path, which makes the decision less costly. Additionally, young people tend to have fewer fixed obligations—mortgages, dependents, established social networks—that constrain their choices. That said, I think it's a mistake to assume that older people don't change—research on personality and behaviour suggests that people continue to evolve throughout their lives, and many people make significant changes in middle age or later, often prompted by major life events like retirement, health changes, or the departure of children from the home. The nature of the changes may differ, but the capacity for change persists.",
       "vocabulary": {
         "title": "Q14 - Young vs Old: Making Changes",
@@ -752,7 +752,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it good for people to change jobs frequently?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q15.mp3",
       "sampleAnswer": "It depends significantly on the context, the individual, and what 'frequently' means, but I think the conventional wisdom that job-hopping is inherently negative has become outdated in the modern labour market. In previous generations, staying with a single employer for many years was the norm and was associated with loyalty, reliability, and career progression within a stable hierarchy. Today, the labour market is far more fluid—companies restructure, industries transform, and the skills required for success change rapidly. In this environment, changing jobs every few years can be a rational strategy for building a diverse skill set, expanding your professional network, and ensuring that your compensation keeps pace with your market value—research consistently shows that people who change jobs tend to earn more than those who stay in the same role. However, changing jobs too frequently—every six months or a year—can signal instability to employers and prevent you from developing the depth of expertise that comes from sustained engagement with a role or organisation. The ideal is probably a balance: staying long enough to make a meaningful contribution and develop genuine expertise, but being willing to move when a significantly better opportunity presents itself.",
       "vocabulary": {
         "title": "Q15 - Changing Jobs Frequently",
@@ -803,7 +803,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Who should get more promotion opportunities in the workplace, young people or older people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q16.mp3",
       "sampleAnswer": "I think promotion decisions should be based primarily on merit, capability, and the specific requirements of the role rather than on age, and I'm somewhat uncomfortable with the framing of the question as an either/or choice. That said, I recognise that in practice, both age groups face distinct challenges in the workplace that are worth acknowledging. Young people often struggle to be taken seriously despite strong capability, facing assumptions that they lack the experience or maturity for senior roles. Older workers, conversely, can face age discrimination—assumptions that they're less adaptable, less technologically capable, or closer to retirement than is actually the case. I think the most productive approach is to evaluate individuals on the basis of what they actually bring to a role: their skills, their track record, their leadership potential, and their ability to develop and grow. Organisations that promote based on age or seniority rather than merit tend to stagnate, while those that identify and develop talent at all career stages tend to be more dynamic and successful. Mentorship programmes that pair younger and older employees can also be valuable in ensuring that experience and fresh perspectives are both valued and utilised.",
       "vocabulary": {
         "title": "Q16 - Promotion: Young vs Older Workers",
@@ -855,7 +855,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do changes in society affect people's daily routines?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-27-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-27-q17.mp3",
       "sampleAnswer": "Societal changes have profound and often underappreciated effects on the texture of everyday life. Technological change is perhaps the most visible example—the smartphone has fundamentally restructured how people spend their time, transforming commutes, social interactions, leisure, and work in ways that would have been unimaginable a generation ago. The rise of remote and hybrid working, accelerated by the pandemic, has dramatically altered the daily routines of millions of people—removing the daily commute, blurring the boundaries between work and home, and changing the rhythm of the working day. Economic changes affect daily routines through their impact on working hours, financial security, and access to leisure—in periods of economic hardship, people work longer hours, take fewer holidays, and have less discretionary time. Cultural shifts—changing norms around gender roles, for example—have transformed domestic routines, with a more equitable distribution of household and childcare responsibilities becoming the expectation in many societies. Environmental concerns are also beginning to reshape daily routines—more people are making deliberate choices about transport, diet, and consumption in response to awareness of climate change. The cumulative effect of these societal forces on individual daily life is enormous, even when the changes feel gradual and incremental.",
       "vocabulary": {
         "title": "Q17 - Society Changes and Daily Routines",

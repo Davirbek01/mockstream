@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you use social media?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I use social media <span class=\"ml-token adv\">quite frequently</span>, I'd say several times a day. It's become an <span class=\"ml-token colloc\">integral part</span> of my daily routine, whether I'm checking updates from friends or staying informed about current events.</div>\n\n<div>I <span class=\"ml-token adv\">primarily</span> use platforms like Instagram and Telegram. Instagram is great for <span class=\"ml-token colloc\">visual content</span> and keeping up with friends' lives, while Telegram helps me stay connected with various groups and channels related to my interests and work.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I try to be mindful about my usage. It's easy to <span class=\"ml-token phrasal\">get sucked into</span> endless scrolling, so I've set <span class=\"ml-token colloc\">time limits</span> on my phone. As the saying goes, <span class=\"ml-token proverb\">\"Everything in moderation.\"</span> I believe social media is a useful tool, but it shouldn't <span class=\"ml-token phrasal\">take over</span> your life.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer texting or calling people?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I would say I <span class=\"ml-token adv\">generally</span> prefer texting over calling, though it <span class=\"ml-token adv\">really</span> depends on the situation and the person I'm communicating with.</div>\n\n<div>Texting is more convenient for <span class=\"ml-token colloc\">quick exchanges</span> and when I don't want to disturb someone. I can respond at my own pace and have time to think about what I want to say. It's also useful for sharing links, photos, or information that would be difficult to convey over the phone.</div>\n\n<div><span class=\"ml-token adv\">However</span>, for <span class=\"ml-token colloc\">important matters</span> or emotional conversations, I <span class=\"ml-token adv\">definitely</span> prefer calling or even meeting <span class=\"ml-token colloc\">face-to-face</span>. There's something about hearing someone's voice that makes communication more personal and <span class=\"ml-token adv\">genuinely</span> meaningful. As they say, <span class=\"ml-token proverb\">\"The tone of voice can say more than words.\"</span> You can't always <span class=\"ml-token phrasal\">pick up on</span> emotions through text.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What gadget or device could you not live without?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Without a doubt, my smartphone is the one device I <span class=\"ml-token adv\">absolutely</span> could not live without. It has become an <span class=\"ml-token colloc\">essential tool</span> that I rely on for <span class=\"ml-token adv\">virtually</span> every aspect of my daily life.</div>\n\n<div>My phone serves multiple purposes – it's my alarm clock, my camera, my music player, my navigation system, and my connection to the world. I use it for communication, work, entertainment, and even banking. It's <span class=\"ml-token adv\">incredibly</span> convenient to have all these functions in one <span class=\"ml-token colloc\">pocket-sized device</span>.</div>\n\n<div>I remember once when my phone broke, and I felt <span class=\"ml-token adv\">completely</span> lost for a few days! It made me realize how <span class=\"ml-token colloc\">dependent</span> we've become on technology. As the saying goes, <span class=\"ml-token proverb\">\"You don't know what you've got until it's gone.\"</span> While this dependency might be concerning, the convenience my smartphone provides is <span class=\"ml-token adv\">truly</span> unmatched.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different ways people communicate.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures present a <span class=\"ml-token adv\">striking</span> contrast between two different approaches to <span class=\"ml-token colloc\">human communication</span> in today's world.</div>\n\n<div>In the first image, we can see people engaged in <span class=\"ml-token colloc\">face-to-face conversation</span>. They appear to be <span class=\"ml-token adv\">genuinely</span> connected, making eye contact and actively listening to each other. There's a warmth and <span class=\"ml-token colloc\">personal connection</span> visible in their interaction. The atmosphere seems relaxed and engaging, with people <span class=\"ml-token adv\">fully</span> present in the moment.</div>\n\n<div>The second picture shows a <span class=\"ml-token adv\">completely</span> different scenario – people who are physically together but each absorbed in their own smartphone. Despite being in the same space, they seem <span class=\"ml-token colloc\">disconnected from each other</span>, focused on their screens rather than the people around them. This has become an <span class=\"ml-token adv\">increasingly</span> common sight in our <span class=\"ml-token colloc\">digital age</span>.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> illustrate how technology has changed the way we interact. While smartphones keep us connected to the wider world, they can <span class=\"ml-token adv\">sometimes</span> create barriers to <span class=\"ml-token colloc\">meaningful connection</span> with those <span class=\"ml-token adv\">physically</span> present. As they say, <span class=\"ml-token proverb\">\"We are connected to everyone but connected to no one.\"</span></div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of face-to-face communication?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Face-to-face communication offers numerous <span class=\"ml-token colloc\">significant benefits</span> that digital communication simply cannot replicate.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most <span class=\"ml-token adv\">importantly</span>, in-person conversations allow us to read <span class=\"ml-token colloc\">body language</span> and <span class=\"ml-token colloc\">facial expressions</span>. Research suggests that over 70% of communication is non-verbal. A smile, a frown, or a gesture can convey meaning that words alone cannot express. This makes conversations richer and helps avoid misunderstandings.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, face-to-face interaction builds stronger <span class=\"ml-token colloc\">emotional bonds</span>. When we're physically present with someone, we can offer a comforting hug, share a laugh, or simply enjoy each other's company. These <span class=\"ml-token colloc\">shared experiences</span> create lasting memories and deepen relationships.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, in-person communication demands our full attention. There are no notifications to distract us, no other chats to check. This <span class=\"ml-token colloc\">focused attention</span> makes the other person feel valued and respected.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, important discussions – whether business negotiations or personal matters – are often more effective face-to-face. Trust is built more easily when you can look someone in the eye. As the proverb says, <span class=\"ml-token proverb\">\"The eyes are the window to the soul.\"</span></div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why might some people prefer communicating through their phones?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several <span class=\"ml-token colloc\">valid reasons</span> why many people today prefer <span class=\"ml-token colloc\">digital communication</span> over face-to-face interaction.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, phone communication offers unmatched <span class=\"ml-token colloc\">convenience and flexibility</span>. You can send a message anytime, anywhere, without worrying about whether the other person is available. This is <span class=\"ml-token adv\">particularly</span> useful for people with busy schedules or those in different time zones.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, some people feel more comfortable expressing themselves through text. <span class=\"ml-token colloc\">Introverted individuals</span>, for example, may find face-to-face conversations draining or anxiety-inducing. Texting gives them time to think and compose their thoughts without the pressure of <span class=\"ml-token colloc\">immediate response</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, digital communication creates a <span class=\"ml-token colloc\">written record</span>. Important information, addresses, or instructions can be saved and referenced later. You can't do that with a spoken conversation.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, phones allow us to stay connected with people who are <span class=\"ml-token adv\">physically</span> far away. Thanks to messaging apps and video calls, we can maintain relationships across continents. For the younger generation who grew up with technology, <span class=\"ml-token colloc\">digital communication</span> feels as natural as breathing. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks.\"</span></div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when technology helped you solve a problem.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when technology helped you solve a problem.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Children Under 12 Should Not Have Their Own Smartphones",
-      "audioFile": "questions S/audio/cefr-speaking-mock-22-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-22-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

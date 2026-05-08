@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you and your friends do together?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q1.mp3",
       "sampleAnswer": "My friends and I engage in a variety of activities depending on our moods and schedules. We often meet for meals at restaurants or cafes, which provides a relaxed setting for conversation and catching up. We enjoy watching movies together, either at cinemas or at someone's home. Outdoor activities like hiking, cycling, or just walking in parks are popular, especially on nice weekends. We sometimes attend cultural events like concerts, exhibitions, or theater performances. Game nights—whether board games or video games—are a regular occurrence. We also support each other at important events like birthdays, celebrations, or even difficult times. Occasionally, we take short trips together to explore new places. What I value most is that we're flexible and the activity matters less than the quality time and genuine connection we share.",
       "vocabulary": {
         "title": "Q1 - Friend Activities",
@@ -81,7 +81,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are friends important to you?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q2.mp3",
       "sampleAnswer": "Yes, friends are extremely important to me and play a vital role in my life and well-being. They provide emotional support during difficult times and celebrate with me during happy moments, which makes life's ups and downs more manageable. Friends offer different perspectives and honest feedback that help me grow as a person and make better decisions. They're sources of fun, laughter, and shared experiences that create meaningful memories. Having friends also provides a sense of belonging and connection beyond family, which is essential for mental health. They understand aspects of my life and personality that family might not, and vice versa. Friends also expand my worldview by exposing me to different ideas, cultures, and experiences. While I value independence and alone time, I can't imagine a fulfilling life without close friendships.",
       "vocabulary": {
         "title": "Q2 - Friend Importance",
@@ -125,7 +125,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you value about your friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q3.mp3",
       "sampleAnswer": "I value several qualities in my friends that make our relationships meaningful. Trust and loyalty are paramount—knowing that they'll keep confidences and support me even when it's inconvenient is invaluable. I appreciate their honesty, even when it's uncomfortable; friends who tell me what I need to hear rather than just what I want to hear help me grow. Their sense of humor and ability to make me laugh, especially during stressful times, is something I treasure. I value that they accept me as I am, including my flaws and quirks, without judgment. Their reliability matters too—friends who follow through on commitments and show up when needed demonstrate respect for the relationship. I also appreciate the intellectual stimulation they provide through interesting conversations and different perspectives. Finally, I value their individual strengths and talents, which inspire me and from which I can learn.",
       "vocabulary": {
         "title": "Q3 - Friend Values",
@@ -170,7 +170,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a friend you have known for a long time?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q4.mp3",
       "sampleAnswer": "Yes, I have a close friend named Sarah whom I've known for over fifteen years—we met in middle school and have maintained our friendship through high school, university, and into our professional lives. What's remarkable about this friendship is how it has evolved and deepened over time. We've been through major life transitions together—educational changes, career starts, relationships, and personal challenges. The longevity of our friendship means we have shared history and inside jokes that no one else understands. She knows my family and I know hers, which adds another layer to our connection. Despite periods when we've lived in different cities or been busy with our separate lives, we've always maintained contact and picked up where we left off. This long-term friendship is particularly valuable because she's seen my growth and changes over the years and accepts all versions of me.",
       "vocabulary": {
         "title": "Q4 - Long Friendship",
@@ -215,7 +215,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Where do you and your friends often meet?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q5.mp3",
       "sampleAnswer": "We have several regular meeting spots depending on the occasion and purpose. Coffee shops are our most frequent choice for casual catch-ups—they provide a comfortable, neutral environment with good ambiance for conversation. We often meet at each other's homes for more relaxed, intimate gatherings, especially for dinners or movie nights. Restaurants are common for celebratory occasions or when we want to try new cuisines together. Parks and outdoor spaces are popular during good weather for walks or picnics. We sometimes meet at gyms or sports facilities if we're exercising together. For larger group gatherings, we might rent a space or use community centers. The location really depends on what we're planning to do, but the key is choosing places where we can talk comfortably and enjoy each other's company without too many distractions.",
       "vocabulary": {
         "title": "Q5 - Meeting Locations",
@@ -258,7 +258,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to spend time with one friend or with a group of friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q6.mp3",
       "sampleAnswer": "I enjoy both, but my preference depends on the situation and my mood. One-on-one time with a friend allows for deeper, more meaningful conversations where we can discuss personal topics, vulnerabilities, and complex thoughts without the dynamics of a group. It's easier to give someone full attention and really connect on an intimate level. However, group gatherings have their own appeal—they're often more energetic and fun, with diverse perspectives and group activities that wouldn't work with just two people. Groups can be less intense and provide variety in conversation and interaction. I find that I need a balance of both. When I'm emotionally drained or dealing with something personal, I prefer individual friends. When I want entertainment, celebration, or just light-hearted fun, groups are great. Ideally, I maintain both types of interactions in my social life.",
       "vocabulary": {
         "title": "Q6 - Social Dynamics",
@@ -303,7 +303,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is there a difference between where you meet friends now and where you used to meet them in the past?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q7.mp3",
       "sampleAnswer": "Yes, there's been a significant evolution in where and how I meet friends. In the past, particularly during school and university, we met primarily on campus—in classrooms, cafeterias, libraries, or dormitories. Our social spaces were largely determined by our educational institutions. We also frequently met at fast-food restaurants or inexpensive cafes because of limited budgets. Now, as working adults, we meet in more diverse and often more sophisticated locations—nicer restaurants, wine bars, or specialty coffee shops. We're more likely to meet at homes for dinner parties rather than just hanging out in dorm rooms. The timing has changed too—we used to meet spontaneously and frequently, whereas now we often need to schedule meetups in advance due to work and other commitments. There's also been a shift toward activity-based meetings—gyms, hiking trails, or cultural venues—rather than just sitting around. This evolution reflects our changing life stages, financial situations, and priorities.",
       "vocabulary": {
         "title": "Q7 - Meeting Evolution",
@@ -347,7 +347,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe the first time when you used a foreign language to communicate.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q8.mp3",
       "bulletPoints": [
         "where it happened",
         "when it happened",
@@ -402,7 +402,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you still study Spanish or use it regularly?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q9.mp3",
       "sampleAnswer": "I continued studying Spanish through high school and took some courses in university as well. While I don't use it daily in my current work, I try to maintain my skills by watching Spanish-language shows, reading occasionally, and using language apps. I've also traveled to Spanish-speaking countries a few more times, which provides opportunities to practice. My fluency has definitely improved since that first nervous conversation in Mexico, though I still have much to learn. I find that once you've broken through that initial barrier of actually using a language, it becomes much easier to continue improving.",
       "vocabulary": {
         "title": "Q9 - Continued Learning",
@@ -443,7 +443,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you recommend that people try to use foreign languages even when they're not confident?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q10.mp3",
       "sampleAnswer": "Absolutely, yes. While it's natural to feel nervous, I think using a language despite imperfect skills is essential for improvement and builds confidence much faster than classroom study alone. Native speakers are generally patient and appreciative when they see genuine effort, even if you make mistakes. The key is to approach it with humility and good humor—acknowledge that you're learning and most people will be supportive. Waiting until you feel completely confident means you might never actually use the language, because confidence comes from practice, not the other way around. Making mistakes in real conversations is how you learn what you actually need to know, as opposed to what textbooks think you should learn.",
       "vocabulary": {
         "title": "Q10 - Language Practice Advice",
@@ -485,7 +485,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Will minority languages disappear in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q11.mp3",
       "sampleAnswer": "Unfortunately, many minority languages are indeed at risk of disappearing, and some predictions suggest that up to half of the world's approximately 7,000 languages could vanish by the end of this century. This is happening due to several interconnected factors. Globalization and the dominance of major languages like English, Mandarin, and Spanish create economic and social pressures for speakers of minority languages to adopt more widely-spoken languages for better opportunities. Urbanization draws people away from traditional communities where minority languages thrive. Younger generations often don't learn their ancestral languages, preferring dominant languages for education and career advancement. Government policies sometimes actively discourage minority languages in favor of national unity through a common language. However, the outcome isn't entirely predetermined. There are counter-movements working to preserve endangered languages through documentation, education programs, digital resources, and cultural revitalization efforts. Some communities have successfully maintained or even revived languages through dedicated effort. Technology, particularly the internet and social media, provides new platforms for minority language use and learning. Whether minority languages survive depends largely on whether communities value them enough to invest in their preservation and whether governments support linguistic diversity. Some languages will likely disappear, but others may survive through conscious preservation efforts.",
       "vocabulary": {
         "title": "Q11 - Language Endangerment",
@@ -530,7 +530,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does one's age affect their language learning?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q12.mp3",
       "sampleAnswer": "Yes, age significantly affects language learning, though perhaps not as dramatically as commonly believed. Children, particularly those under seven, have remarkable language acquisition abilities. They learn pronunciation more easily, absorb grammar intuitively without explicit instruction, and can become truly native-like in multiple languages simultaneously. This is partly due to brain plasticity and partly because children learn through immersion without self-consciousness about making mistakes. However, the idea that adults can't learn languages effectively is a myth. Adults actually have advantages in certain aspects—better metacognitive skills, more developed learning strategies, greater ability to understand complex grammar explanations, and more motivation and discipline. What adults often lack is time, immersion opportunities, and the unselfconscious willingness to make mistakes that children have. Research shows that while children may achieve better pronunciation and more native-like fluency, adults can learn languages successfully and even more efficiently in some aspects, particularly in early stages. The critical period hypothesis suggests there's an optimal window for language learning, but this doesn't mean learning is impossible after that period, just potentially more challenging. Ultimately, motivation, quality of instruction, practice opportunities, and learning strategies matter more than age for adult learners.",
       "vocabulary": {
         "title": "Q12 - Age and Learning",
@@ -574,7 +574,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "At what age should children start learning a foreign language?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q13.mp3",
       "sampleAnswer": "The optimal age to start foreign language learning is a subject of ongoing debate among educators and researchers. From a purely linguistic perspective, earlier is generally better—children as young as three or four can begin learning additional languages with remarkable ease, and starting before age seven allows them to develop near-native pronunciation and intuitive grammar understanding. Early language learning also promotes cognitive benefits like enhanced executive function, better problem-solving skills, and increased metalinguistic awareness. However, practical considerations matter too. Very young children need appropriate, play-based, immersive methods rather than formal instruction, which requires specialized teachers and resources that aren't always available. Some research suggests that starting around age seven or eight, when children have developed literacy in their first language and can handle more structured learning, can also be effective and might be more practical for school systems. The key is that language learning should be sustained and consistent—starting early but then discontinuing is less effective than starting later but maintaining regular practice. Quality of instruction matters more than exact starting age. Ideally, I believe introducing languages informally through songs, games, and cultural exposure can begin very early, with more formal instruction starting around age six to eight, continuing consistently through education.",
       "vocabulary": {
         "title": "Q13 - Starting Age",
@@ -619,7 +619,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Which skill is more important, speaking or writing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q14.mp3",
       "sampleAnswer": "The relative importance of speaking versus writing depends entirely on the learner's goals and context, making it impossible to declare one universally more important. For most practical, everyday communication, speaking is arguably more essential. The majority of human interaction happens through speech, and being able to understand and respond verbally is crucial for travel, work, and social integration. Speaking also tends to be more immediately useful for language learners—you can navigate daily situations, build relationships, and access help through speaking. However, writing has its own critical importance. In academic and professional contexts, writing skills are often essential for success. Written communication allows for precision, permanence, and the ability to communicate across time and distance. In our digital age, much communication happens through text—emails, messages, social media—blurring the line between traditional writing and conversational exchange. From a learning perspective, writing reinforces grammar, vocabulary, and structure in ways that speaking alone might not. It allows for reflection and revision that spontaneous speech doesn't permit. Ideally, language learners should develop both skills, as they reinforce each other. However, if forced to prioritize, I'd say speaking should come first for most learners, as it's more immediately practical and motivating, with writing developed subsequently or simultaneously depending on needs.",
       "vocabulary": {
         "title": "Q14 - Speaking vs Writing",
@@ -662,7 +662,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does a person still need to learn other languages, if he or she is good at English?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q15.mp3",
       "sampleAnswer": "While English proficiency certainly provides significant advantages in our globalized world, there are compelling reasons to learn additional languages even if you're already good at English. First, English dominance isn't universal—billions of people don't speak English, and in many regions, knowing local languages is essential for meaningful interaction and opportunities. Learning other languages opens doors to different cultures, literatures, and ways of thinking that translations can't fully capture. There's a richness in experiencing media, literature, and conversation in their original languages. Cognitively, multilingualism provides benefits beyond communication—enhanced executive function, better problem-solving, delayed cognitive decline, and improved metalinguistic awareness. Professionally, multilingual individuals often have competitive advantages in international business, diplomacy, research, and many other fields. Even in English-dominant environments, additional languages can differentiate you. Personally, learning languages demonstrates cultural respect and facilitates deeper connections with people from different backgrounds. It also provides intellectual challenge and satisfaction. However, I acknowledge that learning languages requires significant time and effort, so the decision should be based on individual interests, goals, and opportunities. If someone has specific reasons—family heritage, career goals, personal interest in a culture, or cognitive benefits—then yes, learning additional languages is valuable regardless of English proficiency.",
       "vocabulary": {
         "title": "Q15 - Beyond English",
@@ -707,7 +707,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the benefits of being bilingual or multilingual?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q16.mp3",
       "sampleAnswer": "Being bilingual or multilingual offers extensive benefits across cognitive, social, economic, and personal dimensions. Cognitively, research consistently shows that multilingual individuals have enhanced executive function—better attention control, task-switching abilities, and working memory. They tend to have superior problem-solving skills and show greater cognitive flexibility. Studies suggest multilingualism may delay the onset of dementia and cognitive decline in aging. Multilingual people often have better metalinguistic awareness—understanding of how language works—which can improve communication even in their native language. Socially and culturally, multilingualism enables deeper connections with diverse communities, access to multiple cultural perspectives, and the ability to consume media, literature, and art in original languages. It facilitates travel and cross-cultural understanding. Economically, multilingual individuals often have competitive advantages in the job market, access to more career opportunities, and potentially higher earning potential in globalized industries. Personally, multilingualism can strengthen identity, particularly for heritage language speakers maintaining connections to their cultural roots. It provides intellectual satisfaction and opens up new ways of thinking—different languages can actually influence how we perceive and categorize the world. For children, growing up multilingual is associated with academic advantages and social benefits. The challenges of multilingualism—like occasional mixing of languages or slightly delayed vocabulary development in childhood—are far outweighed by these substantial lifelong benefits.",
       "vocabulary": {
         "title": "Q16 - Multilingual Benefits",
@@ -752,7 +752,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can governments support minority language preservation?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-13-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-13-q17.mp3",
       "sampleAnswer": "Governments can implement various policies and programs to support minority language preservation. Educational initiatives are crucial—offering bilingual education programs, teaching minority languages in schools, and providing resources for language instruction help transmit languages to younger generations. Official recognition and status for minority languages validates their importance and can mandate their use in government services, legal proceedings, and public signage. Funding for language documentation projects, including recording native speakers, creating dictionaries and grammar resources, and digitizing materials, preserves languages for future study and revitalization. Supporting media in minority languages—radio stations, television programs, newspapers, and digital content—creates spaces for language use and visibility. Governments can provide grants and support for cultural organizations, language nests, and community programs that promote minority language use. Legal protections ensuring the right to use minority languages in education, courts, and public services are important. Training and employing teachers who can teach in minority languages addresses practical barriers. Technology initiatives, like developing keyboards, fonts, and digital tools for minority languages, facilitate their use in modern contexts. Some governments have successfully implemented language revitalization programs modeled on successful examples like Welsh in Wales or Māori in New Zealand. However, preservation efforts must be community-driven with government support rather than imposed top-down, respecting the wishes and agency of minority language communities themselves.",
       "vocabulary": {
         "title": "Q17 - Government Support",

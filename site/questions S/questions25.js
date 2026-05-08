@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy traveling?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> love traveling! It's one of my greatest passions. There's something <span class=\"ml-token adv\">incredibly</span> exciting about exploring new places and experiencing different cultures.</div>\n\n<div>For me, traveling is not just about visiting tourist attractions – it's about <span class=\"ml-token colloc\">broadening my horizons</span> and gaining new perspectives on life. Every trip teaches me something new, whether it's about history, food, or how people in different parts of the world live.</div>\n\n<div>I try to travel whenever I have the opportunity, even if it's just a short weekend trip to a nearby city. As they say, <span class=\"ml-token proverb\">\"Travel is the only thing you buy that makes you richer.\"</span> I <span class=\"ml-token adv\">firmly</span> believe that investing in experiences is more valuable than buying material things.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer traveling alone or with others?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>That's an interesting question. <span class=\"ml-token adv\">Honestly</span>, I enjoy both, but if I had to choose, I would say I <span class=\"ml-token adv\">slightly</span> prefer traveling with others – <span class=\"ml-token adv\">particularly</span> with close friends or family.</div>\n\n<div>Traveling with companions has many advantages. You can <span class=\"ml-token colloc\">share experiences</span> and create memories together. It's also more fun to have someone to talk to during long journeys or to <span class=\"ml-token phrasal\">split the costs</span> of accommodation and food.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I also appreciate <span class=\"ml-token colloc\">solo travel</span> from time to time. It gives you complete freedom to do whatever you want, whenever you want. You can be spontaneous and change plans without consulting anyone. As the saying goes, <span class=\"ml-token proverb\">\"He who travels alone travels fastest, but he who travels with companions travels furthest.\"</span> Both have their merits.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's the most interesting place you've visited?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>The most interesting place I've ever visited would have to be Samarkand, the ancient city on the <span class=\"ml-token colloc\">Silk Road</span>. It was an <span class=\"ml-token adv\">absolutely</span> unforgettable experience.</div>\n\n<div>What made it so special was the <span class=\"ml-token adv\">incredibly</span> rich history and stunning architecture. Walking through the Registan Square, surrounded by those magnificent madrasas with their blue tiles, I felt like I had traveled back in time. The <span class=\"ml-token colloc\">historical significance</span> of the place was overwhelming.</div>\n\n<div>Beyond the architecture, I was <span class=\"ml-token adv\">deeply</span> impressed by the local culture and hospitality. The food was delicious, and the people were <span class=\"ml-token adv\">incredibly</span> welcoming. It reminded me of the proverb, <span class=\"ml-token proverb\">\"A journey of a thousand miles begins with a single step.\"</span> That trip inspired me to explore more of Central Asia's <span class=\"ml-token colloc\">hidden gems</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different types of holidays.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show <span class=\"ml-token adv\">dramatically</span> different approaches to taking a holiday, and both have their own appeal.</div>\n\n<div>The first image depicts a <span class=\"ml-token colloc\">relaxing beach holiday</span>. We can see a peaceful coastal scene, perfect for unwinding and escaping the stresses of daily life. This type of vacation is all about rest and relaxation – lying on the sand, listening to the waves, and soaking up the sun. It's the <span class=\"ml-token colloc\">ideal getaway</span> for people who need to recharge their batteries.</div>\n\n<div>The second picture presents a <span class=\"ml-token adv\">completely</span> different experience – <span class=\"ml-token colloc\">adventure travel</span> in the mountains. We can see a more active scene, suggesting hiking, exploration, and physical challenge. This type of holiday appeals to those who want excitement and prefer to <span class=\"ml-token phrasal\">push their limits</span> rather than simply relax.</div>\n\n<div>The contrast between these images is striking. One represents peace and tranquility, while the other represents adventure and adrenaline. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks\"</span> – the perfect holiday <span class=\"ml-token adv\">really</span> depends on what you're looking for. Some people need rest, while others crave adventure.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer relaxing beach holidays?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div><span class=\"ml-token colloc\">Beach holidays</span> have been popular for generations, and there are several reasons why many people prefer this type of vacation.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most importantly, beach holidays offer the perfect opportunity to <span class=\"ml-token colloc\">unwind and de-stress</span>. In our busy modern lives, people are constantly under pressure from work, family responsibilities, and daily challenges. A week lying on a beach with no schedule or obligations is exactly what many people need to <span class=\"ml-token phrasal\">recharge their batteries</span>.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, there's something <span class=\"ml-token adv\">naturally</span> therapeutic about being near water. The sound of waves, the fresh sea air, and the warmth of the sun all contribute to a sense of peace and well-being. Scientists have even shown that being near the ocean can reduce anxiety and improve <span class=\"ml-token colloc\">mental health</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, beach holidays are often <span class=\"ml-token colloc\">family-friendly</span> and accessible to people of all ages. Children can play in the sand while grandparents relax in the shade. There's no need for physical fitness or special skills. As the saying goes, <span class=\"ml-token proverb\">\"Sometimes the most productive thing you can do is relax.\"</span> Beach holidays allow people to do exactly that.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What attracts people to adventure travel?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div><span class=\"ml-token colloc\">Adventure travel</span> has become <span class=\"ml-token adv\">increasingly</span> popular in recent years, and there are several compelling reasons why people are drawn to this type of experience.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, adventure travel offers an <span class=\"ml-token colloc\">adrenaline rush</span> that you simply can't get from lying on a beach. Whether it's climbing mountains, white-water rafting, or exploring remote wilderness, these activities create excitement and a sense of achievement. Many people find this type of experience <span class=\"ml-token adv\">incredibly</span> rewarding.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, adventure travel allows people to <span class=\"ml-token phrasal\">step out of their comfort zone</span> and challenge themselves. In our comfortable modern lives, we rarely face real challenges. Adventure travel gives us the opportunity to test our limits and discover what we're capable of.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, this type of travel often leads to more <span class=\"ml-token colloc\">authentic experiences</span>. Adventure travelers typically visit off-the-beaten-path destinations and interact with local communities in ways that typical tourists don't. They come back with unique stories and memories.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, adventure travel creates a powerful sense of accomplishment. As they say, <span class=\"ml-token proverb\">\"Life begins at the end of your comfort zone.\"</span> Reaching a mountain summit or completing a challenging trek gives you memories and confidence that last a lifetime.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a trip or journey that you remember well.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a trip or journey that you remember well.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Traveling Abroad Is More Valuable Than Staying in Your Own Country for Holidays",
-      "audioFile": "questions S/audio/cefr-speaking-mock-25-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-25-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

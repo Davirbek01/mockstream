@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like modern art or traditional art?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q1.mp3",
       "sampleAnswer": "I tend to appreciate both, but for different reasons. Traditional art appeals to me because of its technical mastery and historical significance—works by Renaissance masters like Leonardo da Vinci demonstrate incredible skill and attention to detail. However, I also find modern art fascinating because it challenges conventional ideas and encourages viewers to think differently. Abstract and contemporary pieces often provoke thought and emotion in unexpected ways. If I had to choose, I'd say I lean slightly towards traditional art because I admire the craftsmanship, but I believe both forms have their unique value and place in the art world.",
       "vocabulary": {
         "title": "Q1 - Art Preferences",
@@ -77,7 +77,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it would be interesting for you to be an artist?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q2.mp3",
       "sampleAnswer": "While I find the idea appealing in some ways, I don't think I have the temperament or talent to be a professional artist. Being an artist requires not only technical skills but also creativity, patience, and the ability to handle criticism and financial uncertainty. I admire artists for their dedication and vision, but I prefer to appreciate art rather than create it. That said, I do enjoy creative hobbies like photography and sketching as a form of relaxation, but I wouldn't want the pressure of making it my career. I think being an artist is a calling that requires a special combination of passion and perseverance.",
       "vocabulary": {
         "title": "Q2 - Artist Career",
@@ -119,7 +119,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever visited an art gallery?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q3.mp3",
       "sampleAnswer": "Yes, I've visited several art galleries over the years. The most memorable was the National Gallery when I traveled to London a few years ago. I was particularly impressed by the collection of Impressionist paintings—seeing works by Monet and Van Gogh in person was quite moving. The scale and detail of the paintings are something you can't fully appreciate through photographs or reproductions. I also enjoy visiting local galleries in my city, which often feature contemporary artists and rotating exhibitions. These visits give me a chance to disconnect from technology and engage with art in a more contemplative way.",
       "vocabulary": {
         "title": "Q3 - Gallery Visits",
@@ -161,7 +161,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do if your item is heavy?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q4.mp3",
       "sampleAnswer": "When I need to carry something heavy, I try to be practical and strategic about it. First, I assess whether I can break it down into smaller, more manageable pieces or make multiple trips rather than straining myself. If that's not possible, I'll use tools like a trolley or wheeled bag to reduce the physical burden. I'm also not too proud to ask for help when needed—whether from family, friends, or even store staff. I've learned from experience that trying to carry everything at once can lead to injury or dropping items, so it's better to be patient and methodical.",
       "vocabulary": {
         "title": "Q4 - Heavy Items",
@@ -202,7 +202,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When you go to different places, do you carry different kinds of things?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q5.mp3",
       "sampleAnswer": "Absolutely, what I carry varies significantly depending on where I'm going and what I'll be doing. For work, I typically bring my laptop, documents, and professional essentials in a briefcase or backpack. When I'm going to the gym, I pack workout clothes, a water bottle, and toiletries. For casual outings or shopping, I might just carry a small bag with my wallet, phone, and keys. I've learned to be selective about what I bring because carrying unnecessary items can be burdensome. I also try to plan ahead—for instance, if I know I'll be out all day, I'll pack snacks, a charger, and perhaps a book or headphones.",
       "vocabulary": {
         "title": "Q5 - Situational Carrying",
@@ -243,7 +243,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is the difference between the things you carry in the evening and in the morning?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q6.mp3",
       "sampleAnswer": "There are quite noticeable differences between what I carry at different times of day. In the morning, I'm usually heading to work or running errands, so I carry more practical items—my laptop, work materials, lunch, and perhaps a coffee thermos. Everything is geared towards productivity and the day ahead. In the evening, however, I tend to carry less, as I'm usually heading home or going out socially. I might just have my phone, wallet, and perhaps a light jacket. If I'm going out for dinner or entertainment, I might bring a smaller, more stylish bag rather than my functional daytime backpack. The evening items are more about leisure and relaxation rather than work obligations.",
       "vocabulary": {
         "title": "Q6 - Time-based Carrying",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When you go out, what do you carry with you?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q7.mp3",
       "sampleAnswer": "I always make sure to carry the essentials—my phone, wallet, and keys are non-negotiable. Beyond that, I usually bring a reusable water bottle to stay hydrated, especially during warmer months. I also carry hand sanitizer and tissues, habits I developed during the pandemic that have stuck with me. Depending on the weather, I might bring an umbrella or sunglasses. If I'm planning to be out for an extended period, I'll also pack a portable charger for my phone, as I rely heavily on it for navigation, communication, and entertainment. I try to strike a balance between being prepared and not overburdening myself with unnecessary items.",
       "vocabulary": {
         "title": "Q7 - Essential Items",
@@ -326,7 +326,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a good friend who is important to you.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q8.mp3",
       "bulletPoints": [
         "who this person is, how long you've known each other",
         "how you met each other",
@@ -378,7 +378,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think you'll remain friends with this person in the future?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q9.mp3",
       "sampleAnswer": "Absolutely, I have no doubt about that. Our friendship has already lasted fifteen years and has survived various challenges—different universities, career changes, and even living in different cities for a period. We've proven that distance and time don't weaken our bond. I believe true friendships like ours are rare and worth maintaining, so I'm committed to keeping this relationship strong. I can easily imagine us being friends well into old age, perhaps watching our children become friends too.",
       "vocabulary": {
         "title": "Q9 - Future Friendship",
@@ -417,7 +417,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What qualities do you think make someone a good friend?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q10.mp3",
       "sampleAnswer": "I think several qualities are essential for a good friend. Trustworthiness is paramount—you need to know that your friend will keep your confidences and be reliable. Loyalty is also crucial, meaning they'll support you even when times are tough. Good friends should be honest, even when the truth is difficult to hear, because genuine feedback helps us grow. Empathy is important too—being able to understand and share in each other's feelings creates deeper connections. Finally, I value friends who are non-judgmental and accepting, allowing you to be your authentic self without fear of criticism.",
       "vocabulary": {
         "title": "Q10 - Friend Qualities",
@@ -457,7 +457,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think it is better for children to have a few close friends or many casual friends?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q11.mp3",
       "sampleAnswer": "I believe having a few close friends is generally more beneficial for children's development than having many casual acquaintances. Deep friendships teach children important social and emotional skills—they learn about trust, loyalty, conflict resolution, and empathy through sustained, meaningful relationships. Close friends provide emotional support and a sense of belonging that casual friendships often cannot. However, I don't think these are mutually exclusive. Ideally, children should have a core group of close friends while also maintaining friendly relationships with a broader circle of peers. This combination helps them develop both depth and breadth in their social skills. The close friendships provide security and intimacy, while casual friendships teach them to interact with diverse personalities and navigate different social situations.",
       "vocabulary": {
         "title": "Q11 - Friendship Depth",
@@ -499,7 +499,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think a child's relationship with friends can be replaced by that with other people, like parents or other family members?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q12.mp3",
       "sampleAnswer": "No, I don't think friendships can be fully replaced by family relationships, as they serve different but complementary functions in a child's development. Family relationships, particularly with parents, provide unconditional love, security, and guidance. However, friendships offer something unique—they're relationships of choice rather than obligation, which makes them fundamentally different. Through friendships, children learn to navigate peer relationships, practice social skills like negotiation and compromise, and develop their identity separate from their family. Friends also provide a different type of support—they're experiencing similar life stages and challenges, which creates a shared understanding that parents may not fully grasp. Additionally, friendships allow children to express themselves in ways they might not feel comfortable doing with family members. While family is irreplaceable in its own right, healthy friendships are essential for well-rounded social and emotional development.",
       "vocabulary": {
         "title": "Q12 - Friends vs Family",
@@ -542,7 +542,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it possible for managers to be friends with their workers?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q13.mp3",
       "sampleAnswer": "This is a complex question with no simple answer. While it's certainly possible for managers and employees to develop friendly relationships, maintaining a genuine friendship can be challenging due to the inherent power imbalance. The manager-employee dynamic requires professional boundaries—managers must make objective decisions about performance, promotions, and sometimes disciplinary actions, which can be compromised if personal friendships are involved. There's also the risk of perceived favoritism, which can damage team morale and create resentment among other employees. However, I don't think managers need to be cold or distant. They can be friendly, approachable, and supportive without crossing into personal friendship territory. Some workplaces with flat hierarchies and collaborative cultures may make such friendships more feasible, but in traditional corporate structures, it's generally wiser to maintain professional relationships during work hours while perhaps developing friendships after one party has left the organization.",
       "vocabulary": {
         "title": "Q13 - Workplace Friendships",
@@ -585,7 +585,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do children make friends at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q14.mp3",
       "sampleAnswer": "Children typically form friendships at school through a combination of proximity, shared activities, and common interests. In younger grades, friendships often develop simply because children sit near each other or are placed in the same group for activities—physical proximity naturally leads to interaction and familiarity. As children grow older, shared interests become more important. They bond over common hobbies, sports teams, or academic subjects. Extracurricular activities like music, drama, or sports clubs provide excellent opportunities for friendship formation because they bring together children with similar passions. Personality compatibility also plays a role—children gravitate towards peers with similar temperaments or complementary characteristics. The school environment facilitates these connections through structured social interactions like group projects, lunch breaks, and recess. Teachers can also influence friendship formation by thoughtfully organizing seating arrangements and group activities. In modern times, social media and online gaming have added another dimension, allowing school friendships to extend beyond school hours.",
       "vocabulary": {
         "title": "Q14 - School Friendships",
@@ -627,7 +627,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between friends made inside and outside the workplace?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q15.mp3",
       "sampleAnswer": "Workplace friendships and outside friendships have distinct characteristics that stem from their different contexts. Workplace friends are often brought together by circumstance rather than pure choice—you're placed in proximity with colleagues and naturally develop relationships through daily interaction and shared professional experiences. These friendships can be quite strong, as you spend significant time together and face common challenges. However, they're sometimes constrained by professional boundaries and may be influenced by office politics or competition. There's also the risk that workplace friendships might not survive if one person leaves the company or if professional conflicts arise. In contrast, friendships formed outside work are typically based more purely on personal compatibility and shared interests unrelated to career. They're free from professional complications and power dynamics, allowing for more authentic self-expression. Outside friendships also tend to provide better work-life balance, as they offer an escape from work-related stress and conversations. That said, some of the strongest friendships can develop at work when colleagues discover genuine personal connections beyond their professional roles.",
       "vocabulary": {
         "title": "Q15 - Workplace vs Outside Friends",
@@ -670,7 +670,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do children make friends when they are not at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q16.mp3",
       "sampleAnswer": "Children form friendships outside school through various channels and activities. Neighborhood connections are significant—children who live near each other often become friends through spontaneous outdoor play or organized neighborhood activities. Extracurricular activities like sports teams, music lessons, art classes, or scout groups provide structured environments where children with similar interests can meet and bond. Religious or community organizations also facilitate friendships through youth groups and social events. Family connections play a role too—children often become friends with the children of their parents' friends, or with cousins and extended family members. In recent years, online platforms and gaming communities have become increasingly important, allowing children to connect with peers who share their interests, though this requires careful parental supervision. Summer camps and holiday programs offer intensive friendship-building opportunities, as children spend extended time together in new environments. The key difference from school friendships is that these relationships are often more interest-based and voluntary, which can lead to particularly strong bonds.",
       "vocabulary": {
         "title": "Q16 - Non-School Friendships",
@@ -713,7 +713,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think online friendships are as valuable as face-to-face friendships?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-05-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-05-q17.mp3",
       "sampleAnswer": "This is a nuanced question that depends on various factors. Online friendships can certainly be valuable and meaningful—they allow people to connect across geographical boundaries and find others who share niche interests or experiences that might be rare in their local community. For people in isolated areas or with specific challenges, online friendships can provide crucial support and companionship. The depth of emotional connection in online friendships can be genuine, as people sometimes feel more comfortable opening up through text than in person. However, face-to-face friendships offer elements that online relationships struggle to replicate—physical presence, non-verbal communication, and shared real-world experiences create a different quality of connection. In-person friendships also tend to be more reliable in crisis situations, as friends can provide practical, immediate support. I think the ideal is a combination—online friendships can be valuable supplements to face-to-face relationships, and some online friendships can transition into real-world connections. The value ultimately depends on the depth of the connection, the effort both parties invest, and how the friendship meets each person's social and emotional needs.",
       "vocabulary": {
         "title": "Q17 - Online vs Face-to-face",

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your typical day.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Well, my typical day is <span class=\"ml-token adv\">fairly</span> structured. I usually wake up around 7 in the morning, have a quick breakfast, and then head off to my classes. After studying, I <span class=\"ml-token adv\">normally</span> spend some time reviewing my notes or working on assignments.</div>\n\n<div>In the evening, I like to <span class=\"ml-token colloc\">unwind</span> by going for a short walk or watching something online. I try to <span class=\"ml-token colloc\">stick to a routine</span> because it helps me stay organised and productive. As they say, <span class=\"ml-token proverb\">\"the early bird catches the worm\"</span> — starting the day early really makes a difference.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Who is your favourite sportsperson?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My favourite sportsperson is <span class=\"ml-token adv\">undoubtedly</span> Cristiano Ronaldo. I've always admired his <span class=\"ml-token colloc\">incredible work ethic</span> and determination. What sets him apart is not just his natural talent, but the <span class=\"ml-token colloc\">sheer dedication</span> he puts into training every single day.</div>\n\n<div>He's a living example of the saying <span class=\"ml-token proverb\">\"hard work beats talent when talent doesn't work hard.\"</span> His career has shown that with <span class=\"ml-token colloc\">discipline and perseverance</span>, you can reach the very top, which is <span class=\"ml-token adv\">truly</span> inspiring for young people like me.</div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of regular sports?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> benefits to doing regular sports. <span class=\"ml-token adv\">First and foremost</span>, physical activity keeps our body fit and healthy — it <span class=\"ml-token colloc\">boosts the immune system</span>, strengthens muscles, and helps maintain a healthy weight.</div>\n\n<div>Beyond the physical advantages, sports also have a <span class=\"ml-token adv\">tremendously</span> positive impact on <span class=\"ml-token colloc\">mental well-being</span>. Exercise releases endorphins, which reduce stress and improve mood. <span class=\"ml-token adv\">Additionally</span>, team sports teach invaluable <span class=\"ml-token colloc\">life skills</span> like cooperation, discipline, and resilience.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see a family <span class=\"ml-token adv\">enthusiastically</span> cleaning their home together. Each family member seems to be doing their part — some are sweeping, others are tidying up — and they appear to be enjoying the <span class=\"ml-token colloc\">shared activity</span>. It gives a warm feeling of <span class=\"ml-token colloc\">teamwork and togetherness</span>.</div>\n\n<div>In the second picture, there's a person sitting <span class=\"ml-token adv\">comfortably</span> in a chair while a robot takes care of the cleaning. The <span class=\"ml-token colloc\">contrast between</span> the two images is quite striking — one shows the value of <span class=\"ml-token colloc\">collective effort</span>, while the other highlights how technology is <span class=\"ml-token adv\">increasingly</span> replacing <span class=\"ml-token colloc\">domestic tasks</span>.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some families still prefer to clean their homes themselves?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why many families <span class=\"ml-token adv\">still</span> prefer to clean their homes themselves despite the availability of modern technology. <span class=\"ml-token adv\">Firstly</span>, cleaning together can be a form of <span class=\"ml-token colloc\">family bonding</span>. When everyone pitches in, it creates a sense of shared responsibility and teamwork, which <span class=\"ml-token colloc\">strengthens family ties</span>.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, many people find manual cleaning <span class=\"ml-token adv\">genuinely</span> satisfying — there's a sense of accomplishment that comes from seeing your home sparkle as a result of your own efforts. It also teaches children important <span class=\"ml-token colloc\">life skills</span> and the value of <span class=\"ml-token colloc\">hard work</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, some families <span class=\"ml-token adv\">simply</span> don't trust machines to do as thorough a job as a human can. They prefer the <span class=\"ml-token colloc\">personal touch</span> and the ability to pay attention to areas that a robot might miss. As the saying goes, <span class=\"ml-token proverb\">\"if you want something done right, do it yourself.\"</span></div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "If robots could do all household chores, how might family life and relationships change?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>If robots could handle all household chores, family life would <span class=\"ml-token adv\">undoubtedly</span> change in several significant ways. On the positive side, families would have much more <span class=\"ml-token colloc\">free time</span> to spend together on meaningful activities — going on outings, playing games, or simply talking. This could <span class=\"ml-token adv\">potentially</span> lead to <span class=\"ml-token colloc\">stronger emotional bonds</span> between family members.</div>\n\n<div><span class=\"ml-token adv\">However</span>, there could also be some <span class=\"ml-token colloc\">unintended consequences</span>. Household chores are often a way for families to work together as a team, teaching children responsibility and the importance of contributing to the household. Without these tasks, children might grow up with a weaker <span class=\"ml-token colloc\">sense of duty</span> and less appreciation for hard work.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, if people become too reliant on robots, they might lose basic <span class=\"ml-token colloc\">practical skills</span> like cooking and cleaning — skills that are essential for independent living. While technology can make life easier, it's important to <span class=\"ml-token colloc\">strike a balance</span> so that convenience doesn't come at the cost of personal development.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when a book or film deeply influenced you.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when a book or film deeply influenced you.",
@@ -292,7 +292,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Parents should monitor children's internet use.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-44-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-44-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

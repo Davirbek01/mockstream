@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer using the internet on your phone or computer?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">overwhelmingly</span> prefer using my smartphone for internet browsing due to its <span class=\"ml-token colloc\">unmatched convenience</span>. It allows me to stay connected <span class=\"ml-token adv\">seamlessly</span> whether I am commuting or grabbing a quick coffee.</div>\n\n<div><span class=\"ml-token adv\">However</span>, when tackling deep research or drafting professional emails, I <span class=\"ml-token adv\">invariably</span> switch to my computer. The larger screen and tactile keyboard make <span class=\"ml-token colloc\">heavy cognitive tasks</span> much more manageable.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Where do you usually study when you need to focus?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>When I require absolute concentration, I <span class=\"ml-token adv\">typically</span> head straight to the local library. The sheer <span class=\"ml-token colloc\">pin-drop silence</span> and the collective atmosphere of diligent students create the ideal environment for <span class=\"ml-token colloc\">deep work</span>.</div>\n\n<div><span class=\"ml-token adv\">Alternatively</span>, if the library is closed, I meticulously organize my bedroom desk into a distraction-free zone. By turning off my phone, I can <span class=\"ml-token adv\">effectively</span> <span class=\"ml-token proverb\">\"get down to business.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of fastfood do you like most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>If I have to choose, I am <span class=\"ml-token adv\">undoubtedly</span> partial to a good quality gourmet burger paired with crispy fries. When the ingredients are fresh and well-seasoned, it transforms a simple <span class=\"ml-token colloc\">guilty pleasure</span> into a <span class=\"ml-token colloc\">mouth-watering delight</span>.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I am <span class=\"ml-token adv\">acutely</span> aware of the severe health implications of eating junk food, so I <span class=\"ml-token adv\">strictly</span> limit these indulgences to perhaps once a month, ensuring it remains an <span class=\"ml-token proverb\">\"occasional treat.\"</span></div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the images",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture <span class=\"ml-token adv\">vividly</span> illustrates a modern approach to agriculture, showing an individual tending to vegetables in wooden planters atop an urban rooftop. It highlights a <span class=\"ml-token colloc\">resourceful utilization</span> of limited concrete space.</div>\n\n<div><span class=\"ml-token adv\">Conversely</span>, the second image depicts a more <span class=\"ml-token colloc\">conventional paradigm</span>. A farmer is working in a vast, open field, embodying the <span class=\"ml-token adv\">time-honored</span> traditions of <span class=\"ml-token colloc\">large-scale cultivation</span>. Together, they juxtapose <span class=\"ml-token proverb\">\"old world\"</span> rural farming alongside innovative urban sustainability.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of urban gardening?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Urban gardening presents a multitude of <span class=\"ml-token adv\">highly</span> significant benefits for city dwellers. <span class=\"ml-token adv\">Firstly</span>, it promotes unparalleled <span class=\"ml-token colloc\">environmental sustainability</span>. By growing food on rooftops or balconies, people drastically reduce the <span class=\"ml-token colloc\">carbon footprint</span> associated with transporting produce from rural farms.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, interacting with nature in a concrete jungle serves as a phenomenal <span class=\"ml-token colloc\">psychological anchor</span>. Tending to plants is <span class=\"ml-token adv\">profoundly</span> therapeutic, mitigating the chronic stress caused by the fast-paced urban lifestyle.</div>\n\n<div><span class=\"ml-token adv\">Lastly</span>, it guarantees access to <span class=\"ml-token adv\">absolutely</span> fresh, organic food free from harmful pesticides. Urban gardening proves that you can <span class=\"ml-token proverb\">\"bring the country to the city,\"</span> fostering a deeper appreciation for nature.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why is traditional farming still more important?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Despite the rise of urban initiatives, traditional farming remains <span class=\"ml-token adv\">unequivocally</span> crucial because of its <span class=\"ml-token colloc\">massive scale</span>. The sheer volume of crops required to feed the accelerating global population can <span class=\"ml-token adv\">only</span> be generated through vast tracts of rural land and <span class=\"ml-token colloc\">industrialized agricultural machinery</span>.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, traditional farming forms the <span class=\"ml-token colloc\">economic backbone</span> of countless developing nations. It provides essential livelihoods for millions of rural families and is <span class=\"ml-token adv\">vitally</span> important for international trade and export revenues.</div>\n\n<div><span class=\"ml-token adv\">Essentially</span>, while rooftop gardens are <span class=\"ml-token adv\">undoubtedly</span> charming and beneficial, they cannot <span class=\"ml-token proverb\">\"feed the masses.\"</span> Traditional agriculture will <span class=\"ml-token adv\">permanently</span> remain the foundation of global food security.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Can you describe an unusual hobby you tried?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Can you describe an unusual hobby you tried?",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Students should learn financial education at school.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-53-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-53-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

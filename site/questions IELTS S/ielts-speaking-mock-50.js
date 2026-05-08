@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often write down notes?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q1.mp3",
       "sampleAnswer": "I find that I'm increasingly dependent on writing notes as a cognitive externalization strategy—it's less about remembering the information itself and more about freeing up mental bandwidth for active processing. Whether it's scribbling a quick thought in a notebook or capturing a task in a digital app, the act of writing helps me to crystallize my ideas and ensures that important insights don't vanish into the periphery of my mind. I've noticed that my focus is significantly sharper when I have a clear, written record of my current priorities, making it an essential part of my daily productivity workflow.",
       "vocabulary": {
         "title": "Q1 - Writing Notes",
@@ -80,7 +80,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you make a lot of lists on your phone?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q2.mp3",
       "sampleAnswer": "My phone has essentially become my secondary brain, specifically for maintaining a vast array of lists that range from mundane grocery inventories to long-term professional objectives. The convenience of having these lists instantly accessible and synced across devices is a game-changer for organization and stress reduction. I find that compartmentalizing my life into these searchable, digital lists prevents that overwhelming feeling of having too many 'open loops' in my head. It's a very efficient way to maintain a sense of order in what can often be a quite chaotic and information-heavy environment.",
       "vocabulary": {
         "title": "Q2 - Lists on Your Phone",
@@ -126,7 +126,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it common in your country for people to write notes?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q3.mp3",
       "sampleAnswer": "Historically, note-taking was a deeply ingrained habit, especially in academic and professional settings, but there is definitely a generational divide in how people approach it today. Older generations still tend to favor the tactile experience of a physical planner or a traditional notebook, valuing the permanence and the 'slowness' of handwriting. Conversely, younger people are almost exclusively digital, utilizing voice-to-text or high-speed typing to capture information in real-time. Despite these different methods, the fundamental recognition that 'the palest ink is better than the best memory' remains a core part of our cultural approach to learning and organization.",
       "vocabulary": {
         "title": "Q3 - Note-taking Commonality",
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you often read the news online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q4.mp3",
       "sampleAnswer": "I'm a fairly habitual consumer of online news, though I've had to become much more discerning about my sources to avoid the pitfalls of misinformation and 'clickbait' culture. I tend to lean toward a small collection of reputable, international platforms that offer more long-form, analytical reporting rather than just breaking headlines. For me, the value of online news is the ability to cross-reference multiple perspectives instantaneously, which provides a much more holistic understanding of global events than a single, static source could ever offer. However, I do have to be mindful of 'doom-scrolling' and the potential for a constant news cycle to become quite taxing mentally.",
       "vocabulary": {
         "title": "Q4 - Reading Online News",
@@ -220,7 +220,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it convenient to read online news?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q5.mp3",
       "sampleAnswer": "The convenience of online news is absolutely unparalleled; it has essentially democratized access to information and broken down the geographical barriers that used to define our news consumption. Being able to access live, global updates in the palm of your hand at any hour is an extraordinary technological achievement. However, I think that this sheer convenience can be a double-edged sword; because it's so effortless to consume, we can sometimes fall into the habit of scanning headlines without really engaging with the depth or nuance of a story. So, while it's incredibly efficient for 'staying informed,' it requires a much more active and critical mindset to truly understand the complexities of what we're reading.",
       "vocabulary": {
         "title": "Q5 - Convenience of Online News",
@@ -267,7 +267,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What was the last article that you read about?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q6.mp3",
       "sampleAnswer": "The last piece of long-form journalism I read was a very thought-provoking deep dive into the practical applications and ethical implications of 'generative architecture'—specifically how AI is being used to design more energy-efficient and socially integrated urban spaces. It was fascinating to see how complex algorithms can optimize for factors like natural light and wind flow in ways that traditional designers might miss. I found it particularly engaging because it combined technological innovation with very human, sociological goals. It's the kind of intersectional reporting that makes online news so valuable—it allows you to explores the nexus of different fields and how they are collectively shaping our future environment.",
       "vocabulary": {
         "title": "Q6 - Last Article Read",
@@ -315,7 +315,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you still read newspapers?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q7.mp3",
       "sampleAnswer": "I rarely consume traditional physical newspapers anymore, largely because their static nature can't compete with the real-time updates and multimedia richness of digital platforms. However, I do still have a lingering nostalgia for the ritual of a Sunday paper—there's a specific kind of 'curated serendipity' in physical print where you might stumble across a fascinating article you would never have searched for online. I find that reading a physical paper encourages a much more sustained, focused type of attention compared to the rapid, fractured attention span often required by digital scrolling. So, while I've largely migrated to a digital-first approach for speed, I still value the printed word for those rarer moments of deep, uninterrupted reading.",
       "vocabulary": {
         "title": "Q7 - Still Read Newspapers?",
@@ -363,7 +363,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a shop you often visit.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q8.mp3",
       "bulletPoints": [
         "what shop it is, where it is",
         "what it sells",
@@ -422,7 +422,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like shopping?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q9.mp3",
       "sampleAnswer": "I have quite a binary relationship with shopping; I find the functional, 'utilitarian' aspect of buying necessities to be a chore that I try to automate as much as possible. I'm not someone who enjoys wandering through massive malls for its own sake. However, I am a huge advocate for 'experiential' shopping—the kind of deliberate exploration of independent boutiques, markets, or specialized shops where the interaction with the owner and the story behind the product are just as important as the item itself. To me, that kind of shopping is a form of leisure and a way to support local craftsmanship. So, while I dislike the consumerist side of shopping, I value it as a way to find unique objects and engage with my community.",
       "vocabulary": {
         "title": "Q9 - Do You Like Shopping?",
@@ -469,7 +469,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is shopping a popular activity in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q10.mp3",
       "sampleAnswer": "It's undeniably a cornerstone of our social and economic landscape; our cities are essentially designed around commercial hubs, and visiting a major shopping mall has become a default leisure activity for many families on the weekend. There is a very strong 'retail therapy' culture where shopping is used as a form of entertainment and stress relief. However, I think the nature of this popularity is shifting; while the footfall in physical malls remains high, there is a massive and growing preference for the convenience of e-commerce. This is changing the 'purpose' of physical shops—they are becoming more about brand experience and social gathering rather than just simple transactions. So, shopping remains incredibly popular, but the way we interact with 'the shop' is undergoing a fundamental transformation.",
       "vocabulary": {
         "title": "Q10 - Shopping Popularity",
@@ -517,7 +517,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think that people buy a lot of things that they don't need?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q11.mp3",
       "sampleAnswer": "We are undeniably living in an era of hyper-consumerism, where sophisticated marketing and the ease of digital transactions have created a culture of 'impulse acquisition.' I think that many people have been conditioned to equate the purchase of new objects with temporary emotional satisfaction, leading to a cycle of acquiring things that are rarely used and quickly discarded. This is exacerbated by the trend of 'fast fashion' and the perceived need to constantly upgrade our technology to keep pace with perceived social standards. The result is not just a cluttered living environment, but a significant and often overlooked environmental toll. We've moved away from valuing the longevity and utility of objects and toward a model of 'disposable novelty,' which I believe is ultimately unsustainable for both our personal finances and the planet.",
       "vocabulary": {
         "title": "Q11 - Unnecessary Purchases",
@@ -566,7 +566,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you often buy more than you expected?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q12.mp3",
       "sampleAnswer": "I try to be quite disciplined, but the physical and digital environments of modern commerce are meticulously engineered to trigger 'unplanned purchases' through subtle psychological nudges. In a supermarket, the layout and sensory experiences are designed to keep you in the building longer and encourage you to pick up items you hadn't considered. Online, the 'customers who bought this also bought...' algorithms are exceptionally effective at identifying parallel needs we didn't know we had. I find that I'm most likely to exceed my intended purchases when I'm feeling a bit decision-fatigued or when I haven't made a rigid list. It takes a significant amount of conscious effort to resist these highly effective 'attention traps' and remain focused on one's original intent. It's a constant battle between our rational planning and our instinctual reactions to abundance.",
       "vocabulary": {
         "title": "Q12 - Buying More Than Expected",
@@ -614,7 +614,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the advantages of shopping at a large mall compared to a local market?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q13.mp3",
       "sampleAnswer": "The primary advantage of a large mall is the sheer concentration of variety and the curated environment of comfort and predictability it provides. It's a climate-controlled, 'one-stop-shop' where you have access to a vast range of global brands, entertainment, and services in a single location—this is incredibly efficient for people with busy schedules. It also offers a higher level of after-sales security and a more standardized customer experience. Conversely, local markets provide a much more 'authentic' and social experience; you're often buying directly from the producer, which creates a sense of community and supports the local economy. Markets also tend to offer more unique, seasonal products that lack the sterile uniformity of mall-sold goods. Ultimately, the mall offers efficiency and status, while the market offers character, connection, and often more sustainable consumption patterns.",
       "vocabulary": {
         "title": "Q13 - Mall vs Market",
@@ -662,7 +662,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has the rise of e-commerce affected traditional brick-and-mortar shops?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q14.mp3",
       "sampleAnswer": "E-commerce has been a massive 'disruptive force' that has essentially forced a survival-of-the-fittest scenario for physical retail. Many mid-tier shops that relied solely on convenience and price have struggled to compete with the infinite inventory and lower overheads of online giants. This has led to the phenomenon of 'showrooming,' where customers visit a physical shop to inspect a product but then purchase it cheaper online. However, this pressure has also spurred incredible innovation; traditional shops are reinventing themselves as 'experience centers'—places where you go for expert advice, community events, or to engage with the brand's culture rather than just to pick up a box. The shops that survive are those that provide something the internet cannot: tactile reality, immediate gratification, and high-quality human interaction. The future of retail is likely a hybrid 'omnichannel' model.",
       "vocabulary": {
         "title": "Q14 - E-commerce vs Traditional Shops",
@@ -711,7 +711,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think consumerism is a positive or negative force in society?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q15.mp3",
       "sampleAnswer": "Consumerism is a profoundly complex and multifaceted force that acts as both the engine of our economic growth and a significant threat to our psychological and environmental wellbeing. On the positive side, it drives innovation, supports millions of jobs, and has undeniably raised the material standard of living for a large portion of the global population. It's the primary driver of technological progress. However, on the negative side, unchecked consumerism encourages a 'throwaway' culture that is depleting the Earth's resources at an unsustainable rate. It can also lead to a persistent sense of dissatisfaction, as we are constantly being told that our happiness is dependent on the 'next' purchase. I think the challenge for our generation is to move toward 'conscious consumerism'—where we recognize the power of our spending to shape the world and prioritize quality, ethical production, and environmental health over sheer volume.",
       "vocabulary": {
         "title": "Q15 - Consumerism: Positive or Negative?",
@@ -759,7 +759,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should children be taught about financial management and the value of money in school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q16.mp3",
       "sampleAnswer": "I am a firm believer that financial literacy is an essential life skill that should be a core part of the school curriculum from an early age. We are living in an increasingly complex financial world where children are targeted by marketing from the moment they have a screen, yet they often reach adulthood without a fundamental understanding of debt, interest, or the long-term consequences of their spending habits. Teaching them to distinguish between 'needs' and 'wants' and showing them how to navigate the psychological tricks of a consumerist society would be incredibly empowering. It's not just about math; it's about decision-making and delayed gratification. By providing this foundation in school, we can help to reduce future financial inequality and ensure that young people are not just consumers, but informed and responsible citizens of the economy.",
       "vocabulary": {
         "title": "Q16 - Financial Literacy in School",
@@ -808,7 +808,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do advertisements influence people's shopping habits?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-50-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-50-q17.mp3",
       "sampleAnswer": "Modern advertisements operate far beyond simply conveying information; they are highly sophisticated tools of 'persuasion architecture' that aim to bypass our rational minds and connect with our deepest insecurities and aspirations. By associating specific products with abstract concepts like success, status, or belonging, they create 'artificial needs' that drive our shopping habits. They utilize everything from color psychology and celebrity endorsements to algorithmic targeting to ensure that we are constantly exposed to the 'perfect' message for our specific profile. I think the impact is particularly profound in the digital age, where ads are integrated so seamlessly into our social lives that we often don't even recognize them as such. This constant pressure can lead to a culture of 'conspicuous consumption,' where we buy things to project a certain image rather than for their actual utility. It takes a very high degree of media literacy to navigate this environment without being unconsciously influenced.",
       "vocabulary": {
         "title": "Q17 - Influence of Advertisements",

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you usually on time for appointments?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">generally</span> try to be punctual for all my appointments. I believe that <span class=\"ml-token colloc\">being on time</span> shows respect for other people's schedules.</div>\n\n<div>I <span class=\"ml-token adv\">usually</span> set reminders on my phone about 30 minutes before any meeting or appointment. This gives me enough time to prepare and <span class=\"ml-token colloc\">make my way</span> to the destination without rushing.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I must admit that heavy traffic in Tashkent can sometimes make it difficult to arrive <span class=\"ml-token colloc\">right on the dot</span>. As they say, <span class=\"ml-token proverb\">\"Better three hours too soon than a minute too late\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How many languages can you speak?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I can speak three languages with <span class=\"ml-token colloc\">varying degrees</span> of fluency. My mother tongue is Uzbek, which I use <span class=\"ml-token adv\">daily</span> with my family and friends.</div>\n\n<div>I <span class=\"ml-token adv\">also</span> speak Russian quite well, as it's <span class=\"ml-token adv\">widely</span> used in my country for business and education. <span class=\"ml-token adv\">Additionally</span>, I've been learning English for several years now, and I'd say my level is upper-intermediate.</div>\n\n<div>I'm <span class=\"ml-token adv\">currently</span> working on improving my English because I believe that <span class=\"ml-token colloc\">being multilingual</span> opens many doors in terms of career opportunities and cultural understanding. As they say, <span class=\"ml-token proverb\">\"A different language is a different vision of life\"</span>.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favorite color and why?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My favourite colour is <span class=\"ml-token adv\">definitely</span> blue. I've been drawn to this colour for as long as I can remember.</div>\n\n<div>I think the main reason is that blue <span class=\"ml-token adv\">naturally</span> evokes a sense of <span class=\"ml-token colloc\">calm and tranquillity</span>. Whenever I look at a clear blue sky or the sea, I feel <span class=\"ml-token adv\">incredibly</span> relaxed and at peace.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, blue is a very <span class=\"ml-token colloc\">versatile colour</span> – it works well in clothing, interior design, and even in branding. Many people associate it with trust and reliability, which is why so many companies use it in their logos. As they say, <span class=\"ml-token proverb\">\"Colours are the smiles of nature\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures illustrate different approaches to <span class=\"ml-token colloc\">acquiring new skills</span>.</div>\n\n<div>In the first picture, I can see a person learning a <span class=\"ml-token colloc\">practical skill</span> directly from an experienced individual, <span class=\"ml-token adv\">probably</span> a mentor or instructor. They appear to be working together in a hands-on setting, which suggests a <span class=\"ml-token colloc\">traditional apprenticeship</span> style of learning where knowledge is passed on through direct interaction.</div>\n\n<div>The second picture shows someone learning <span class=\"ml-token adv\">independently</span>, <span class=\"ml-token adv\">likely</span> using online resources or tutorials on a computer. This represents a more modern, <span class=\"ml-token colloc\">self-directed approach</span> to education where people can learn at their own pace from the comfort of their home.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of learning practical skills directly from an experienced person?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> benefits to learning practical skills directly from someone with experience, much like the scene in the first picture.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, an experienced mentor can provide <span class=\"ml-token colloc\">immediate feedback</span> and correct mistakes on the spot, which <span class=\"ml-token adv\">significantly</span> speeds up the learning process. When you're learning something hands-on, like cooking or carpentry, having someone guide you in <span class=\"ml-token colloc\">real time</span> is invaluable.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, experienced people can share <span class=\"ml-token colloc\">practical tips and tricks</span> that you simply won't find in textbooks or online tutorials. These are often lessons learned through years of trial and error.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, learning from a person builds a <span class=\"ml-token colloc\">personal connection</span> and often leads to valuable networking opportunities. As they say, <span class=\"ml-token proverb\">\"Experience is the best teacher\"</span>, and learning from those who have it is the next best thing.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do many people today prefer to learn new things using online tutorials?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In today's digital age, online tutorials have become <span class=\"ml-token adv\">incredibly</span> popular, as we can see reflected in the second picture, and there are several reasons for this trend.</div>\n\n<div><span class=\"ml-token adv\">Primarily</span>, online learning offers unmatched <span class=\"ml-token colloc\">flexibility and convenience</span>. People can learn anything at any time, from anywhere, without having to <span class=\"ml-token colloc\">commute to a classroom</span> or coordinate schedules with an instructor. This is <span class=\"ml-token adv\">especially</span> appealing for those with busy lifestyles.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, online tutorials are often free or <span class=\"ml-token adv\">significantly</span> cheaper than formal courses. Platforms like YouTube, Coursera, and Khan Academy provide access to <span class=\"ml-token colloc\">world-class education</span> at no cost.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, people can learn at their <span class=\"ml-token colloc\">own pace</span> – they can pause, rewind, and rewatch content as many times as needed. As they say, <span class=\"ml-token proverb\">\"Knowledge is power\"</span>, and the internet has made that power accessible to everyone.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Tell me about a time when you had to work under pressure.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about a time when you had to work under pressure.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Governments should stop funding space exploration and focus on solving problems on Earth.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-31-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-31-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

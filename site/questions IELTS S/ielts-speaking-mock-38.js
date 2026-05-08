@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What types of outdoor activities are popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q1.mp3",
       "sampleAnswer": "My country has a fairly diverse range of outdoor activities that reflect both its geography and its cultural traditions. Walking and hiking are probably the most widely practised—the country has a well-developed network of trails and paths, and walking is accessible to people of almost all ages and fitness levels, which gives it a broad appeal. Cycling has grown significantly in popularity over the past decade, partly driven by investment in cycling infrastructure and partly by a growing awareness of its health and environmental benefits. Water-based activities—swimming, kayaking, sailing—are popular in coastal areas and around lakes and rivers. In winter, skiing and snowboarding attract significant numbers of participants in regions with suitable terrain. I think what's interesting is the way outdoor activity has become increasingly associated with wellbeing and mental health—there's a growing cultural recognition that time spent in nature has genuine psychological benefits, which has driven increased participation in outdoor activities across all age groups. Team sports played outdoors—football, rugby, cricket—also have large and passionate followings, though these are perhaps more accurately described as sports than outdoor activities in the general sense.",
       "vocabulary": {
         "title": "Q1 - Popular Outdoor Activities",
@@ -93,7 +93,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What outdoor sports do you like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q2.mp3",
       "sampleAnswer": "I have a genuine affection for outdoor sports that combine physical challenge with immersion in natural environments—the kind of activity where the setting is as much a part of the experience as the physical exertion itself. Running is probably my most regular outdoor activity—I find that running outdoors, particularly in parks or along trails, has a quality of mental clarity and physical engagement that running on a treadmill simply doesn't replicate. There's something about the variability of outdoor terrain, the changing light and weather, and the sense of moving through space rather than staying in one place that makes outdoor running a qualitatively different experience. I also enjoy cycling, particularly on longer routes that take you through varied landscapes. Swimming in open water—in lakes or the sea—is something I find genuinely exhilarating in a way that pool swimming isn't, partly because of the sensory richness of the environment and partly because of the slight element of unpredictability that open water introduces. I think what I value most in outdoor sports is the combination of physical engagement and the experience of being in natural environments—the sense that you're doing something with your body in a real place rather than in an artificial setting.",
       "vocabulary": {
         "title": "Q2 - Outdoor Sports You Like",
@@ -151,7 +151,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How much time do you spend outdoors every week?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q3.mp3",
       "sampleAnswer": "Honestly, probably less than I'd like to—which I think is a fairly common experience for people who work in office environments or who spend significant portions of their day in front of screens. I try to spend at least an hour or two outdoors each day, whether that's through a morning run, a walk during a lunch break, or a longer outing at the weekend. I find that the amount of time I spend outdoors has a significant effect on my mood and energy levels—days when I've spent time outside, particularly in green spaces or near water, tend to feel qualitatively better than days spent entirely indoors. At weekends, I try to do something more substantial—a longer walk or cycle ride—that gives me a more extended period of time in natural environments. I think the challenge for many people in modern urban life is that the default environment is indoors, and getting outside requires a deliberate decision and some effort. I've found that building outdoor time into my routine—making it a habit rather than something I do when I feel like it—is the most effective way of ensuring I actually do it.",
       "vocabulary": {
         "title": "Q3 - Time Spent Outdoors",
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think patience is important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q4.mp3",
       "sampleAnswer": "Yes, I think patience is genuinely important—and I think it's one of those qualities that becomes more obviously valuable the more you reflect on it. At the most basic level, patience is important because most worthwhile things take time—learning a skill, building a relationship, achieving a meaningful goal—and the ability to sustain effort and attention over time without becoming frustrated or giving up is essential for achieving anything of lasting value. Patience is also important in our relationships with others—the ability to listen without interrupting, to allow people to express themselves at their own pace, to tolerate differences without immediately trying to resolve them, is fundamental to genuine understanding and connection. I think patience has also become more important in the contemporary world, where the pace of technology and the constant availability of instant gratification have made it harder to tolerate delay or uncertainty. The ability to wait, to sit with uncertainty, and to resist the pull of immediate reward is a form of psychological resilience that I think is increasingly valuable. I also think patience is closely connected to wisdom—the recognition that things often take longer than we'd like and that forcing outcomes prematurely often makes them worse.",
       "vocabulary": {
         "title": "Q4 - Is Patience Important",
@@ -265,7 +265,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever lost your patience?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q5.mp3",
       "sampleAnswer": "Yes, of course—I think anyone who claims never to have lost their patience is either exceptionally unusual or not being entirely honest. The situations in which I'm most likely to lose patience are those involving repeated frustration—when something that should be simple keeps going wrong, when I'm trying to communicate something important and feel consistently misunderstood, or when I'm dealing with systems or bureaucracies that seem designed to obstruct rather than help. I've also noticed that my patience is significantly affected by external factors—when I'm tired, hungry, or under stress, my threshold for frustration is much lower, which means that things that I would normally handle calmly become genuinely irritating. I think losing patience occasionally is a normal human experience, and the important thing is not to never lose it but to recover quickly and to not allow a momentary loss of patience to damage relationships or lead to behaviour you regret. I've found that recognising the early signs of impatience—a tightening of the chest, a shortening of responses—and taking a deliberate pause before reacting is the most effective way of managing it.",
       "vocabulary": {
         "title": "Q5 - Losing Your Patience",
@@ -323,7 +323,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it important to be polite?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q6.mp3",
       "sampleAnswer": "Yes, I think politeness is genuinely important—though I think it's worth distinguishing between different kinds of politeness and what they actually represent. At its best, politeness is an expression of genuine respect and consideration for others—an acknowledgement that other people's feelings, time, and dignity matter. In this sense, it's not merely a social convention but a reflection of a deeper ethical orientation toward others. Politeness also has significant practical value—it makes social interactions more pleasant and productive, it reduces conflict, and it creates an environment in which people are more willing to cooperate and to help each other. I think the most important form of politeness is not the superficial kind—the formulaic pleasantries and social rituals that can be performed without any genuine feeling—but the deeper kind that involves actually attending to others, listening carefully, and treating people with genuine respect regardless of their status or position. I also think politeness is particularly important in situations of disagreement or conflict—the ability to express disagreement or criticism in a way that is direct but respectful is a genuinely valuable skill that makes difficult conversations more productive.",
       "vocabulary": {
         "title": "Q6 - Is Politeness Important",
@@ -381,7 +381,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do if others are not polite to you?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q7.mp3",
       "sampleAnswer": "My response depends significantly on the context and on my assessment of why the person is being impolite. If I think the impoliteness is situational—that the person is having a bad day, is under stress, or is simply not aware that their behaviour is coming across badly—I try to respond with patience and to not take it personally. I find that responding to rudeness with warmth or calm often defuses the situation more effectively than responding in kind. If the impoliteness seems more deliberate or persistent, I'm more likely to address it directly—to say, calmly and without aggression, that I'd prefer to be spoken to differently. I think the worst response to impoliteness is to match it—to become rude in return—because this tends to escalate the situation and rarely leads to a good outcome. I also try to maintain a certain perspective—most instances of impoliteness are not really about me, and allowing someone else's bad behaviour to significantly affect my mood gives them a kind of power over my experience that I'd rather not grant. I think the most effective response to impoliteness is usually a combination of not taking it personally and, where appropriate, calmly asserting your expectation of respectful treatment.",
       "vocabulary": {
         "title": "Q7 - Responding to Impoliteness",
@@ -438,7 +438,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a family member that did something that made you feel proud.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "what this person did",
@@ -501,7 +501,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it is important to make your family proud?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q9.mp3",
       "sampleAnswer": "I think this question touches on a genuinely complex tension between two important values—the desire to honour and please those we love, and the importance of living according to our own values and making our own choices. I think it's natural and healthy to want to make your family proud—the people who have invested in you, who care about your wellbeing, and whose opinion you respect are naturally people whose approval matters to you. However, I think the desire to make your family proud becomes problematic when it overrides your own judgment about what is right for you—when you make major life decisions based primarily on what will please your parents rather than what will make you genuinely fulfilled. I think the healthiest version of this is when family pride and personal fulfilment are aligned—when the things that make you proud of yourself are also things your family can be proud of. But when they diverge, I think personal integrity and genuine fulfilment have to take priority. The most loving families, I think, are those that want their members to be genuinely happy and fulfilled rather than simply successful by conventional measures.",
       "vocabulary": {
         "title": "Q9 - Making Your Family Proud",
@@ -557,7 +557,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there differences between how men and women express pride?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q10.mp3",
       "sampleAnswer": "I think there are some observable differences in how men and women tend to express pride, though I'd be cautious about overgeneralising—individual variation is enormous, and cultural context shapes these patterns significantly. In many cultures, men have traditionally been socialised to express pride in more restrained and less emotionally demonstrative ways—to show pride through actions rather than words, through continued investment and support rather than explicit emotional expression. Women, in many cultural contexts, have been more comfortable with explicit emotional expression, including the expression of pride in others. However, I think these patterns are changing as gender norms evolve—younger generations in many societies are less constrained by traditional expectations about emotional expression, and there's a growing recognition that emotional openness is valuable for everyone regardless of gender. I also think the context matters enormously—the way pride is expressed in a sports context, for example, is quite different from how it's expressed in a family context or a professional context, and these contextual differences may be more significant than gender differences. I'd be wary of treating gender differences in emotional expression as fixed or natural rather than as culturally shaped and historically contingent.",
       "vocabulary": {
         "title": "Q10 - Men, Women and Expressing Pride",
@@ -613,7 +613,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "On what occasions would adults feel proud of themselves?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q11.mp3",
       "sampleAnswer": "Adults feel proud of themselves in a wide range of situations, and I think the occasions that generate the deepest and most lasting pride tend to be those that involve overcoming genuine difficulty or achieving something that required sustained effort and commitment. Professional achievements—completing a significant project, receiving recognition for work, reaching a career milestone—are common occasions for pride, particularly in cultures where professional identity is closely tied to self-worth. But I think the pride that comes from professional success is often less deep and less lasting than the pride that comes from personal achievements that required genuine courage or resilience—completing a marathon, overcoming a fear, recovering from a serious illness or setback. Pride in one's relationships and in the people one has helped or supported is also significant—many adults feel their deepest pride not in their own achievements but in the achievements of their children, their students, or the people they have mentored. I also think there's a form of quiet pride that comes from living according to one's values—from having acted with integrity in a difficult situation, from having been honest when it would have been easier to deceive, from having been kind when kindness required effort. This kind of pride is perhaps less visible than achievement-based pride but may be more genuinely satisfying.",
       "vocabulary": {
         "title": "Q11 - When Adults Feel Proud of Themselves",
@@ -671,7 +671,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it a good idea to reward children for doing homework or housework?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q12.mp3",
       "sampleAnswer": "This is a question where the research and the intuitions of parents and educators sometimes point in different directions, and I think the answer is more nuanced than a simple yes or no. The concern with rewarding children for homework or housework is that it can undermine intrinsic motivation—if children come to see these activities as things they do for external rewards rather than as valuable in themselves, they may become less willing to do them when the rewards are removed. The research on this, particularly the work on what psychologists call 'overjustification,' suggests that external rewards can actually reduce the intrinsic motivation that might otherwise develop. However, I think the picture is more complex in practice. For activities that children find genuinely difficult or unpleasant, external rewards can provide the initial motivation needed to get started, and the experience of doing the activity may itself develop competence and eventually intrinsic motivation. I also think there's a difference between rewards that are expected and contingent—'do this and you'll get that'—and unexpected rewards that acknowledge effort and achievement without creating a transactional relationship. The most effective approach is probably to combine clear expectations with genuine acknowledgement of effort, while helping children understand why the activities matter rather than simply incentivising compliance.",
       "vocabulary": {
         "title": "Q12 - Rewarding Children for Homework/Housework",
@@ -727,7 +727,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What would children do to make their parents proud?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q13.mp3",
       "sampleAnswer": "Children make their parents proud in ways that reflect both the values of their families and the broader cultural context in which they're raised. In many families, academic achievement is the primary source of parental pride—good grades, admission to a prestigious school or university, or professional success are the milestones that parents most visibly celebrate. In other families, the emphasis is more on character—on kindness, integrity, resilience, and the quality of relationships—and children make their parents proud by demonstrating these qualities in how they treat others and how they navigate difficulty. Sporting achievement, artistic accomplishment, and community involvement are also common sources of parental pride. I think what's most interesting is the question of whether children are making their parents proud in ways that are genuinely aligned with their own values and aspirations, or whether they're performing for parental approval in ways that don't reflect who they actually are. The healthiest dynamic, I think, is one where parents are proud of their children for being genuinely themselves—for developing their own distinctive qualities and pursuing their own genuine interests—rather than for conforming to a template of success that the parents have defined.",
       "vocabulary": {
         "title": "Q13 - What Children Do to Make Parents Proud",
@@ -785,7 +785,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What advantages of yours make you proud?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q14.mp3",
       "sampleAnswer": "This is a question that requires a degree of self-reflection and a willingness to be honest about one's own qualities without either false modesty or arrogance—which is a balance that I find genuinely difficult to strike. The qualities I feel most genuinely proud of are not the ones that come most easily to me but the ones I've had to work at—the qualities that required sustained effort or that I've developed in response to difficulty. I think I'm reasonably proud of my intellectual curiosity—my genuine interest in ideas across different domains and my willingness to engage seriously with perspectives that challenge my own. I'm also proud of my commitment to honesty—my preference for saying what I actually think rather than what is socially convenient, even when this is uncomfortable. I think I'm proud of my capacity for sustained effort—my ability to commit to things that matter to me and to persist through difficulty without giving up. I'm less proud of qualities that come naturally to me without effort—I think pride is most appropriately felt in relation to things we've chosen and worked for rather than things we've simply been given. I also think genuine pride should be accompanied by humility—by an awareness of the ways in which one's advantages are partly the result of luck and circumstance rather than purely personal merit.",
       "vocabulary": {
         "title": "Q14 - Your Advantages That Make You Proud",
@@ -844,7 +844,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "When was the last time that you felt proud of yourself?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q15.mp3",
       "sampleAnswer": "I feel a genuine version of pride relatively rarely—I think I'm more inclined to notice what I haven't done well than to dwell on what I have—but I can think of a recent occasion that generated something close to it. A few months ago, I was involved in a situation where I had to deliver some difficult feedback to someone I care about—feedback that I knew they might not want to hear but that I believed was genuinely important for them. The temptation to soften the feedback to the point of ineffectiveness, or to avoid giving it altogether, was significant. I chose to give the feedback honestly but as kindly as I could, and the conversation, though initially uncomfortable, led to a genuine and productive exchange that I think was valuable for both of us. What I felt afterwards wasn't exactly pride in the conventional sense—it was more a sense of having acted with integrity, of having done something difficult because it was the right thing to do rather than the easy thing. I think this kind of quiet satisfaction—the feeling of having been true to your values in a situation where it would have been easier not to—is the form of pride that I find most genuine and most lasting.",
       "vocabulary": {
         "title": "Q15 - Last Time You Felt Proud of Yourself",
@@ -901,7 +901,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it good to reward children too often?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q16.mp3",
       "sampleAnswer": "No, I don't think rewarding children too often is beneficial, and I think the evidence from developmental psychology supports this view. The most significant concern is the effect on intrinsic motivation—when children are rewarded for everything they do, they can come to expect rewards as the normal condition of effort, and they may become less willing to engage in activities that don't offer immediate external recognition. This can undermine the development of the kind of self-directed motivation that is essential for success and fulfilment in adult life. There's also the question of what frequent rewards communicate about expectations—if children are rewarded for ordinary effort and ordinary achievement, they may develop an inflated sense of their own performance and struggle to cope with the honest feedback and genuine challenge that they will inevitably encounter as they grow older. I think the most effective approach is to reserve rewards for genuine achievement and genuine effort—to make them meaningful by making them relatively rare—and to focus more on helping children develop an internal sense of satisfaction in their own work. The goal should be to help children find the activity itself rewarding rather than to make them dependent on external validation. Praise and acknowledgement are important, but they should be specific, honest, and proportionate rather than constant and indiscriminate.",
       "vocabulary": {
         "title": "Q16 - Rewarding Children Too Often",
@@ -958,7 +958,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does national pride differ from personal pride?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-38-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-38-q17.mp3",
       "sampleAnswer": "National pride and personal pride are related but quite distinct phenomena, and I think the differences between them are philosophically interesting and practically important. Personal pride is grounded in something you have actually done or achieved—it's connected to your own choices, efforts, and character, and it's therefore something you can reasonably claim as your own. National pride, by contrast, is pride in something that you belong to rather than something you have done—it's pride in the achievements, history, and qualities of a collective that you're part of by accident of birth rather than by choice. This creates a philosophical puzzle: how can you be proud of something you didn't do and didn't choose? I think the most defensible form of national pride is not pride in national achievements per se but a kind of affection and appreciation for the culture, landscape, and people of one's country—a form of attachment that doesn't require claiming credit for things you didn't do. The more problematic forms of national pride are those that involve a sense of superiority over other nations or that lead people to defend their country's actions uncritically. I think national pride becomes genuinely dangerous when it prevents honest reckoning with a country's history and its failures as well as its achievements.",
       "vocabulary": {
         "title": "Q17 - National Pride vs Personal Pride",

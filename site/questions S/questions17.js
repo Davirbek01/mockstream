@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your room.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My room is my <span class=\"ml-token colloc\">personal sanctuary</span> where I spend most of my time when I'm at home. It's not <span class=\"ml-token adv\">particularly</span> large, but it's <span class=\"ml-token adv\">incredibly</span> cozy and <span class=\"ml-token adv\">perfectly</span> suited to my needs.</div>\n\n<div>The walls are painted in a <span class=\"ml-token colloc\">calming shade</span> of light blue, which helps me relax after a <span class=\"ml-token colloc\">long day</span>. I have a comfortable bed in one corner, a wooden desk where I study, and a bookshelf filled with my <span class=\"ml-token colloc\">favorite novels</span> and textbooks.</div>\n\n<div>What I love most about my room is the <span class=\"ml-token colloc\">natural lighting</span>. There's a large window that <span class=\"ml-token phrasal\">lets in</span> plenty of sunlight during the day. I've also added some plants to <span class=\"ml-token phrasal\">liven up</span> the space. As they say, <span class=\"ml-token proverb\">\"A tidy room reflects a tidy mind,\"</span> so I <span class=\"ml-token adv\">always</span> try to keep it organized.</div>",
       "vocabulary": {
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What time do you usually get up?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">typically</span> wake up around 6:30 in the morning on weekdays. I'm <span class=\"ml-token adv\">definitely</span> more of a <span class=\"ml-token colloc\">morning person</span>, and I find that starting my day early helps me be more productive.</div>\n\n<div>My morning routine is <span class=\"ml-token adv\">fairly</span> consistent. After my alarm goes off, I <span class=\"ml-token adv\">usually</span> spend a few minutes stretching before getting out of bed. Then I head to the kitchen to make myself a cup of coffee, which really helps me <span class=\"ml-token phrasal\">wake up properly</span>.</div>\n\n<div>On weekends, however, I tend to <span class=\"ml-token phrasal\">sleep in</span> a bit – maybe until 8 or 9 o'clock. It's nice to have that extra rest. As the saying goes, <span class=\"ml-token proverb\">\"The early bird catches the worm,\"</span> but <span class=\"ml-token adv\">occasionally</span> we all need a <span class=\"ml-token colloc\">lie-in</span>!</div>",
       "vocabulary": {
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do to stay healthy?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I try to maintain a <span class=\"ml-token colloc\">healthy lifestyle</span> through a combination of <span class=\"ml-token colloc\">regular exercise</span>, <span class=\"ml-token colloc\">balanced nutrition</span>, and <span class=\"ml-token colloc\">adequate rest</span>.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, I make sure to exercise at least three times a week. I <span class=\"ml-token adv\">usually</span> go jogging in the mornings and do some strength training at home. Physical activity <span class=\"ml-token adv\">definitely</span> helps me feel more energetic and reduces stress.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I pay close attention to what I eat. I try to include plenty of fruits, vegetables, and lean proteins in my diet while limiting processed foods and sugary drinks. I also drink lots of water throughout the day to <span class=\"ml-token phrasal\">stay hydrated</span>.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, I prioritize getting enough sleep – usually around seven to eight hours per night. As they say, <span class=\"ml-token proverb\">\"Health is wealth,\"</span> and I <span class=\"ml-token adv\">firmly</span> believe that taking care of your body is one of the best investments you can make.</div>",
       "vocabulary": {
@@ -154,7 +154,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see different <span class=\"ml-token colloc\">shopping environments</span> that represent two <span class=\"ml-token adv\">distinctly</span> different ways of buying groceries.</div>\n\n<div>In the first image, there's a couple shopping in what appears to be a modern supermarket. They're standing in an aisle with <span class=\"ml-token colloc\">neatly organized shelves</span> full of products. The man is wearing a plaid shirt and the woman is in a pink top. They have a shopping cart and seem to be <span class=\"ml-token adv\">carefully</span> selecting items from the refrigerated section. The atmosphere looks clean, well-lit, and very organized.</div>\n\n<div>The second picture shows a <span class=\"ml-token adv\">completely</span> different scene – an <span class=\"ml-token colloc\">open-air market</span> or farmer's market. A woman is purchasing <span class=\"ml-token colloc\">fresh produce</span> directly from a vendor. We can see colorful vegetables like tomatoes, eggplants, and various other items displayed in wooden crates. The interaction appears more personal, with the buyer and seller engaging directly.</div>\n\n<div>These images <span class=\"ml-token adv\">effectively</span> illustrate the contrast between <span class=\"ml-token colloc\">modern retail</span> and <span class=\"ml-token colloc\">traditional markets</span>. Each has its own charm and appeals to different <span class=\"ml-token colloc\">consumer preferences</span>.</div>",
       "vocabulary": {
@@ -192,7 +192,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of shopping in supermarkets compared to open-air markets?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Shopping in supermarkets offers several <span class=\"ml-token colloc\">distinct advantages</span> compared to <span class=\"ml-token colloc\">open-air markets</span>.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, convenience is a <span class=\"ml-token colloc\">major benefit</span>. Supermarkets are <span class=\"ml-token adv\">typically</span> open for longer hours, sometimes even 24/7, allowing customers to shop whenever it suits them. Everything is under one roof, so you can buy groceries, household items, and personal care products all in one trip.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, supermarkets offer a <span class=\"ml-token colloc\">wider variety</span> of products. You can find both local and imported goods, <span class=\"ml-token colloc\">seasonal items</span>, and specialty products that might not be available at traditional markets. The products are also <span class=\"ml-token adv\">clearly</span> labeled with prices and expiration dates.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, supermarkets provide a more <span class=\"ml-token colloc\">comfortable shopping experience</span>. They're air-conditioned, well-organized, and offer shopping carts and baskets. You don't have to worry about weather conditions like rain or extreme heat.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, supermarkets often accept various <span class=\"ml-token colloc\">payment methods</span> including credit cards and digital payments, whereas many open-air markets only accept cash. They also <span class=\"ml-token adv\">frequently</span> offer loyalty programs and discounts.</div>",
       "vocabulary": {
@@ -230,7 +230,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can shopping habits reflect cultural differences?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Shopping habits can <span class=\"ml-token adv\">significantly</span> reflect <span class=\"ml-token colloc\">cultural differences</span> in numerous ways.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, the preference between supermarkets and traditional markets often varies by culture. In many Asian and Middle Eastern countries, people <span class=\"ml-token adv\">still</span> prefer visiting local bazaars where they can <span class=\"ml-token phrasal\">haggle over</span> prices and build relationships with vendors. This reflects cultures that value <span class=\"ml-token colloc\">personal interaction</span> and community ties. In contrast, Western cultures often prioritize efficiency and convenience, hence the popularity of supermarkets.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, what people buy reveals <span class=\"ml-token colloc\">cultural values</span>. Some cultures emphasize buying fresh ingredients daily, as seen in Mediterranean and Asian cuisines, while others prefer bulk shopping for the week. The types of products available also differ – you'll find different spices, ingredients, and brands depending on the region.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, shopping frequency varies culturally. In some European countries, people enjoy daily visits to local markets as a <span class=\"ml-token colloc\">social activity</span>, whereas in others, weekly shopping trips are more common.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, payment preferences and bargaining practices differ. In many cultures, negotiating prices is expected and even enjoyed, while in others, <span class=\"ml-token colloc\">fixed pricing</span> is the norm.</div>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Tell me about the time when you shared a secret with another person.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about the time when you shared a secret with another person.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Smartphones Should Be Banned in Classrooms",
-      "audioFile": "questions S/audio/cefr-speaking-mock-17-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-17-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

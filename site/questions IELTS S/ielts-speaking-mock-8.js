@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think students would benefit more from more rules?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q1.mp3",
       "sampleAnswer": "This is a nuanced question that doesn't have a simple yes or no answer. I think it depends on the type and purpose of the rules. Some structure and guidelines are definitely necessary for creating a safe, productive learning environment—rules about respect, safety, and basic conduct are essential. However, excessive rules can be counterproductive, stifling creativity, independence, and critical thinking. Students need some freedom to make choices and learn from their mistakes. I believe the focus should be on having clear, reasonable rules that serve genuine educational purposes, rather than simply adding more rules for the sake of control. Quality matters more than quantity when it comes to school regulations.",
       "vocabulary": {
         "title": "Q1 - School Rules",
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a teacher who does his or her job very well?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q2.mp3",
       "sampleAnswer": "Yes, I remember my high school English teacher, Mrs. Thompson, who was exceptional at her job. What made her stand out was her ability to make literature engaging and relevant to our lives. She didn't just teach us to analyze texts mechanically; she encouraged us to connect themes to contemporary issues and our personal experiences. She was also incredibly patient and approachable, always willing to provide extra help or discuss ideas outside of class time. Her passion for the subject was contagious, and she had high expectations while also being supportive. She gave constructive feedback that actually helped us improve rather than just pointing out mistakes. Her teaching style combined structure with flexibility, and she genuinely cared about each student's progress.",
       "vocabulary": {
         "title": "Q2 - Effective Teacher",
@@ -121,7 +121,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What did you learn from visiting museums and art galleries?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q3.mp3",
       "sampleAnswer": "Museums and art galleries have taught me numerous valuable lessons beyond just factual knowledge. They've helped me develop a deeper appreciation for history and culture, showing me how people lived, thought, and created in different eras and societies. I've learned to observe carefully and interpret visual information, which is a skill that extends beyond art appreciation. Museums have also taught me about the importance of preservation and how we can learn from the past to inform the present. Visiting art galleries specifically has expanded my aesthetic sensibilities and taught me that there are multiple valid perspectives and interpretations of the same work. Perhaps most importantly, these visits have shown me the value of curiosity and lifelong learning—there's always something new to discover.",
       "vocabulary": {
         "title": "Q3 - Museum Learning",
@@ -164,7 +164,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think museums are important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q4.mp3",
       "sampleAnswer": "Absolutely, I believe museums play a crucial role in society for several reasons. They serve as custodians of our cultural heritage, preserving artifacts, artworks, and historical records for future generations. Museums provide educational opportunities that complement formal schooling, offering hands-on, visual learning experiences that can be more engaging than textbooks. They also promote cultural understanding and tolerance by exposing visitors to diverse cultures, perspectives, and historical narratives. From a research standpoint, museums are invaluable resources for scholars and scientists. They also contribute to local economies through tourism and provide public spaces for community engagement. In our increasingly digital world, museums offer tangible connections to the past and opportunities for contemplation that are becoming rare. While they need to evolve and become more accessible and inclusive, their fundamental importance remains undeniable.",
       "vocabulary": {
         "title": "Q4 - Museum Importance",
@@ -207,7 +207,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there many museums in your hometown?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q5.mp3",
       "sampleAnswer": "My hometown has a moderate number of museums, though not as many as larger metropolitan areas. We have a local history museum that documents the region's development from indigenous settlements through to modern times, which I find particularly interesting because it connects directly to my community's identity. There's also a small art museum that features both local artists and rotating exhibitions from national collections. Additionally, we have a science center that's more interactive and geared towards children, though adults can enjoy it too. While I wish we had more specialized museums—perhaps focusing on natural history or technology—I appreciate that our city has made efforts to preserve and share our cultural heritage. The museums we do have are well-maintained and offer regular programs and events for the community.",
       "vocabulary": {
         "title": "Q5 - Local Museums",
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like visiting museums and art galleries?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q6.mp3",
       "sampleAnswer": "Yes, I genuinely enjoy visiting museums and art galleries, though I'm selective about which ones I visit. I find them intellectually stimulating and appreciate the opportunity to learn about different subjects in an immersive environment. Art galleries particularly fascinate me because they allow me to experience creativity and expression in ways that photographs or digital reproductions can't capture. I enjoy the contemplative atmosphere that museums provide—it's a chance to slow down and engage deeply with objects and ideas. However, I prefer smaller, specialized museums over massive institutions that can be overwhelming. I also appreciate museums that use interactive displays and modern presentation techniques rather than just rows of artifacts with minimal explanation. When I travel, visiting local museums is always on my itinerary because they offer unique insights into the place I'm visiting.",
       "vocabulary": {
         "title": "Q6 - Museum Enjoyment",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you visited a museum?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q7.mp3",
       "sampleAnswer": "The last time I visited a museum was about three months ago when I went to the National Museum of Natural History during a trip to the capital. I spent several hours there exploring the dinosaur exhibits and the section on human evolution, which were absolutely fascinating. What I particularly enjoyed was an interactive display about climate change that used multimedia presentations to explain complex scientific concepts in an accessible way. I went with a friend who shares my interest in science, and we had great discussions about what we were seeing. The visit reminded me how much I enjoy museums and made me realize I should visit them more regularly. I'm actually planning to visit a contemporary art museum next month that's featuring an exhibition on digital art, which should be quite different from the natural history focus.",
       "vocabulary": {
         "title": "Q7 - Recent Visit",
@@ -335,7 +335,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a natural talent that you want to improve.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q8.mp3",
       "bulletPoints": [
         "what it is",
         "when you discovered it",
@@ -389,7 +389,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you set any specific goals for improving this talent?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q9.mp3",
       "sampleAnswer": "Yes, I have. My primary goal is to achieve C1 level fluency in Spanish within the next two years, which I'm tracking through regular proficiency tests. I've also set a goal to read at least one book per month in Spanish and to have weekly conversation practice with native speakers. Additionally, I'm aiming to pass a professional translation certification exam within three years. I find that having concrete, measurable goals helps me stay motivated and track my progress rather than just vaguely wanting to 'get better.'",
       "vocabulary": {
         "title": "Q9 - Specific Goals",
@@ -429,7 +429,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think natural talent is more important than hard work?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q10.mp3",
       "sampleAnswer": "I don't think it's an either-or situation. Natural talent provides a foundation and makes initial progress easier, but hard work is what transforms potential into actual achievement. I've seen people with less natural ability surpass those with more talent simply through dedication and consistent effort. In my own experience, my language talent gave me a head start, but without deliberate practice and study, I've plateaued. I believe the ideal combination is natural talent plus hard work—that's when people truly excel. But if I had to choose, I'd say hard work is ultimately more important because it's within our control.",
       "vocabulary": {
         "title": "Q10 - Talent vs Hard Work",
@@ -470,7 +470,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think it's more interesting to watch famous people's or ordinary people's shows?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q11.mp3",
       "sampleAnswer": "This depends on what you're looking for in entertainment and what type of show we're discussing. Famous people's shows, like celebrity interviews or documentaries about accomplished individuals, can be fascinating because these people often have extraordinary experiences, insights, and achievements to share. Their stories can be inspiring and provide glimpses into worlds most of us will never experience. However, ordinary people's shows—like reality TV featuring regular individuals or documentaries about everyday lives—can be equally compelling in different ways. They're often more relatable and authentic, showing struggles and triumphs that viewers can connect with personally. Shows featuring ordinary people can also be more diverse and representative of actual society. Personally, I find value in both. Celebrity content can be aspirational and entertaining, while ordinary people's stories can be more emotionally resonant and grounding. The quality of the content and storytelling matters more than whether the subjects are famous or not.",
       "vocabulary": {
         "title": "Q11 - Famous vs Ordinary Shows",
@@ -512,7 +512,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it possible for us to know that children who are 3 or 4 years old will become musicians and painters when they grow up?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q12.mp3",
       "sampleAnswer": "While we might observe early indicators of artistic or musical aptitude in young children, I don't think we can definitively predict their future careers or abilities at such a young age. Children develop at different rates, and what appears to be exceptional talent at three or four might simply be early development that others catch up to later. Conversely, some talents emerge later in childhood or even adulthood. Early interest or ability in music or art could indicate potential, but many factors influence whether that potential is realized—access to training, family support, personal motivation, and even chance opportunities. There are countless examples of successful musicians and artists who showed no particular talent as toddlers, and equally many cases of child prodigies who didn't pursue those fields as adults. I think it's more accurate to say we can identify children who show early interest or aptitude, which might warrant encouragement and opportunities, but we shouldn't make definitive predictions or limit their possibilities based on early observations.",
       "vocabulary": {
         "title": "Q12 - Predicting Talent",
@@ -555,7 +555,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think artists with talents should focus on their talents?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q13.mp3",
       "sampleAnswer": "This is a nuanced question with valid arguments on both sides. On one hand, focusing on one's natural talents makes practical sense—it's where you're most likely to excel and make unique contributions. Specialization allows for mastery, and the world benefits when talented individuals develop their gifts fully. From a career perspective, focusing on your strengths is often more rewarding and successful than struggling in areas where you have less aptitude. However, I don't think artists should focus exclusively on their talents to the exclusion of everything else. Developing a broad range of skills and knowledge can actually enhance artistic work—many great artists draw inspiration from diverse fields. Being well-rounded also provides financial security and career flexibility, which is important given the precarious nature of artistic careers. Additionally, exploring different areas can lead to unexpected discoveries and prevent burnout from over-specialization. I think the ideal approach is to prioritize and develop one's primary talents while maintaining breadth in other areas—a T-shaped skill set, if you will.",
       "vocabulary": {
         "title": "Q13 - Focus on Talents",
@@ -598,7 +598,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people like to watch talent shows?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q14.mp3",
       "sampleAnswer": "Talent shows appeal to audiences for multiple psychological and social reasons. Firstly, they provide entertainment through impressive performances—watching people demonstrate exceptional abilities is inherently enjoyable and often awe-inspiring. There's also a narrative element; talent shows typically follow contestants' journeys, creating emotional investment and drama that keeps viewers engaged. Many people find these shows aspirational and inspiring, seeing ordinary individuals achieve extraordinary things, which can motivate viewers in their own lives. The competitive aspect adds excitement and suspense—people enjoy predicting winners and experiencing the tension of elimination. Talent shows also offer a form of vicarious achievement; viewers feel connected to contestants' success. Additionally, these programs are often interactive, allowing audience participation through voting, which creates engagement and investment. From a social perspective, talent shows provide shared cultural experiences that people can discuss with friends and family. There's also an element of discovery—finding new artists or performers before they become famous. Finally, I think some viewers enjoy the critical aspect, judging performances and comparing their opinions with the judges', which makes them feel involved in the evaluation process.",
       "vocabulary": {
         "title": "Q14 - Talent Show Appeal",
@@ -641,7 +641,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it easy to identify children's talents?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q15.mp3",
       "sampleAnswer": "Identifying children's talents is actually quite challenging and complex. Some talents are more visible than others—musical ability, artistic skill, or athletic prowess often manifest in observable ways that are relatively easy to recognize. However, many talents are subtler and might not be apparent without specific opportunities or contexts. For instance, leadership ability, emotional intelligence, or analytical thinking might not be obvious in young children. There's also the issue of distinguishing between genuine talent and early development—some children appear talented simply because they've had more exposure or practice than their peers. Cultural and socioeconomic factors complicate identification too; children from privileged backgrounds often have more opportunities to discover and develop talents. Additionally, children's interests and abilities change as they grow, so what seems like a talent at one age might fade, while new abilities emerge. Teachers and parents might also have biases that affect their recognition of talents, potentially overlooking abilities that don't fit conventional categories. I think the best approach is to expose children to diverse experiences and watch for patterns of sustained interest, rapid learning, and intrinsic motivation rather than making quick judgments about talent.",
       "vocabulary": {
         "title": "Q15 - Identifying Talents",
@@ -685,7 +685,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should parents encourage their children to develop their talents from a young age?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q16.mp3",
       "sampleAnswer": "Yes, I believe parents should encourage children's talents, but with important caveats about how they do so. Encouragement should be supportive rather than pressuring—there's a significant difference between providing opportunities and pushing children beyond their interest or capacity. When children show genuine interest and aptitude in something, parents can help by providing resources, lessons, and time to practice. Early development of talents can build confidence, discipline, and skills that benefit children throughout life. However, this encouragement should be balanced with allowing children to explore broadly and change their minds. Parents shouldn't become so invested in a child's talent that it becomes about the parent's ambitions rather than the child's interests. It's also crucial to avoid over-scheduling children or making their worth contingent on performance in their talent area. The encouragement should foster intrinsic motivation rather than creating pressure or anxiety. Additionally, parents should be attentive to whether the child is genuinely enjoying the activity or just trying to please adults. The goal should be developing the whole child, not creating a prodigy. Moderate, child-centered encouragement is beneficial; excessive pressure or narrow focus can be harmful.",
       "vocabulary": {
         "title": "Q16 - Parental Encouragement",
@@ -729,7 +729,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What is the difference between talent and skill?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-08-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-08-q17.mp3",
       "sampleAnswer": "While talent and skill are related concepts, they have important distinctions. Talent refers to natural aptitude or innate ability—something you're born with that makes certain activities easier for you than for others. It's the raw potential or predisposition toward excellence in a particular area. For example, someone might have a natural ear for music or an intuitive understanding of spatial relationships. Skill, on the other hand, is developed through practice, training, and experience. It's the refined ability that comes from deliberate effort and learning. You can have talent without skill if you never develop it, and you can develop skills in areas where you have little natural talent through hard work and dedication. In reality, the highest levels of achievement typically require both—talent provides a foundation and makes progress easier, while skill development through practice is what transforms potential into actual competence and mastery. Another way to think about it is that talent is what you start with, while skill is what you build. Importantly, while we can't control our natural talents, we have significant control over skill development, which is why emphasizing effort and practice is often more productive than focusing solely on innate ability.",
       "vocabulary": {
         "title": "Q17 - Talent vs Skill",

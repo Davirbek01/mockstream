@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to wear shoes that are comfortable or good-looking?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q1.mp3",
       "sampleAnswer": "I definitely prioritize comfort over appearance when it comes to shoes. While I appreciate stylish footwear, I've learned from experience that wearing uncomfortable shoes can ruin your entire day—causing foot pain, blisters, and even affecting your posture. That said, I don't think comfort and style are mutually exclusive. There are plenty of brands nowadays that manage to combine both elements successfully. I tend to invest in quality shoes that look presentable while providing adequate support and cushioning. For special occasions, I might sacrifice some comfort for a few hours, but for daily wear, comfort is definitely my top priority.",
       "vocabulary": {
         "title": "Q1 - Shoe Preferences",
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do people like to wear shoes that are comfortable or good-looking?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q2.mp3",
       "sampleAnswer": "I think this varies considerably depending on age, lifestyle, and personal values. Younger people, particularly those influenced by fashion trends and social media, often prioritize appearance over comfort—they're willing to endure discomfort for the sake of looking stylish. However, as people get older and more practical, comfort tends to become increasingly important. Professionals who spend long hours on their feet, like teachers or healthcare workers, almost always choose comfort. Cultural factors also play a role—in some societies, appearance and status symbols are highly valued, while others emphasize practicality. Overall, I'd say there's been a shift towards comfort in recent years, with athleisure and casual styles becoming more socially acceptable in various settings.",
       "vocabulary": {
         "title": "Q2 - General Preferences",
@@ -120,7 +120,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How much money do you usually spend on shoes?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q3.mp3",
       "sampleAnswer": "My spending on shoes varies depending on the type and purpose. For everyday casual shoes or sneakers, I typically spend between fifty to one hundred dollars. However, for formal shoes or specialized footwear like running shoes, I'm willing to invest more—sometimes up to two hundred dollars or more—because quality really matters for these items. I've learned that buying cheap shoes is often a false economy; they wear out quickly and can cause foot problems. I'd rather buy fewer pairs of high-quality shoes that last longer than constantly replacing cheap ones. That said, I'm not extravagant—I wait for sales and do research to find the best value for money.",
       "vocabulary": {
         "title": "Q3 - Shoe Budget",
@@ -162,7 +162,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever bought shoes online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q4.mp3",
       "sampleAnswer": "Yes, I have, though I was initially hesitant about it. The main challenge with buying shoes online is that you can't try them on beforehand, which makes it difficult to assess the fit and comfort. However, I've developed strategies to minimize the risk—I stick to brands I'm familiar with, read customer reviews carefully, and always check the return policy before purchasing. I've had mixed experiences; sometimes the shoes fit perfectly and I'm delighted with the convenience, but other times I've had to return them because they didn't fit as expected. Overall, I still prefer buying shoes in physical stores when possible, but online shopping is convenient for repurchasing styles I already know or when I can't find what I want locally.",
       "vocabulary": {
         "title": "Q4 - Online Shopping",
@@ -204,7 +204,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you know anything about growing a plant?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q5.mp3",
       "sampleAnswer": "I have some basic knowledge about plant care, though I wouldn't consider myself an expert gardener. I understand the fundamentals—plants need adequate sunlight, water, and nutrients to thrive. Different species have different requirements; some prefer direct sunlight while others do better in shade, and watering needs vary considerably. I've learned through trial and error that overwatering is actually more harmful than underwatering for most houseplants. I also know about the importance of proper drainage, using appropriate soil, and occasionally fertilizing. My knowledge comes mainly from caring for a few houseplants and doing research when problems arise. I'm still learning, but I've managed to keep several plants alive for years, which I consider a success.",
       "vocabulary": {
         "title": "Q5 - Plant Knowledge",
@@ -246,7 +246,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What plants did you grow when you were younger?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q6.mp3",
       "sampleAnswer": "When I was a child, I remember growing simple, fast-growing plants that were suitable for beginners. We had a small vegetable garden where I helped grow tomatoes, cucumbers, and herbs like basil and mint. These were chosen because they're relatively easy to cultivate and produce visible results quickly, which kept me interested. I also remember planting sunflower seeds as a school project—watching them grow taller than me was quite exciting. My grandmother taught me how to care for these plants, showing me how to water them properly and remove weeds. Looking back, these early experiences gave me an appreciation for where food comes from and the patience required for gardening. It was a valuable learning experience, even though I didn't fully appreciate it at the time.",
       "vocabulary": {
         "title": "Q6 - Childhood Plants",
@@ -288,7 +288,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do people in your country send plants as gifts?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q7.mp3",
       "sampleAnswer": "Yes, giving plants as gifts is quite common in my country, though it's more popular for certain occasions than others. Potted plants or flowers are frequently given for housewarmings, as they symbolize growth and prosperity in a new home. They're also popular for hospital visits or to express sympathy, though the types of plants chosen vary depending on the situation. During festivals and celebrations, decorative plants like orchids or bonsai trees are considered thoughtful gifts. I think plants make excellent gifts because they're living things that can last for years with proper care, unlike cut flowers that wilt quickly. However, some people prefer not to give plants because they require ongoing maintenance, which could be seen as a burden rather than a gift. Overall, it's a culturally accepted practice, especially among people who appreciate gardening.",
       "vocabulary": {
         "title": "Q7 - Plants as Gifts",
@@ -330,7 +330,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an occasion when you lost your way.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q8.mp3",
       "bulletPoints": [
         "where it was",
         "what happened",
@@ -383,7 +383,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you still use paper maps after this experience?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q9.mp3",
       "sampleAnswer": "Actually, yes. That experience made me realize the value of having backup navigation methods. While I primarily rely on digital maps for convenience, I now make it a habit to pick up paper maps at tourist information centers when I travel. I also screenshot important routes on my phone before heading out, so I can access them even without internet. I've become much more cautious about depending solely on technology, especially when traveling abroad.",
       "vocabulary": {
         "title": "Q9 - Paper Maps",
@@ -423,7 +423,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How has this experience changed the way you prepare for trips?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q10.mp3",
       "sampleAnswer": "This incident completely transformed my travel preparation habits. I now always carry a portable power bank to keep my phone charged, and I download offline maps before visiting new places. I also make sure to have important addresses and contact information written down on paper, not just saved digitally. Additionally, I've learned to pay more attention to my surroundings and landmarks rather than blindly following GPS. I'm much more prepared for potential problems now, which actually makes me feel more confident and relaxed when traveling.",
       "vocabulary": {
         "title": "Q10 - Changed Habits",
@@ -464,7 +464,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do some people get lost more easily than others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q11.mp3",
       "sampleAnswer": "People's tendency to get lost varies due to several factors, both cognitive and behavioral. Some individuals have naturally better spatial awareness and sense of direction—they can instinctively orient themselves and remember routes more easily. This ability is partly innate but can also be developed through practice. Others struggle with spatial reasoning and find it difficult to create mental maps of their surroundings. Attention to detail also plays a role; people who notice and remember landmarks are less likely to get lost than those who don't pay attention to their environment. Additionally, over-reliance on GPS technology has actually weakened many people's natural navigation skills—they follow directions without understanding the overall route or geography. Stress and anxiety can also impair navigation abilities, as they reduce our capacity to process spatial information effectively. Finally, familiarity matters; people are more likely to get lost in unfamiliar environments where they lack reference points.",
       "vocabulary": {
         "title": "Q11 - Getting Lost Easily",
@@ -506,7 +506,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think it is important to be able to read a map?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q12.mp3",
       "sampleAnswer": "Yes, I believe map-reading remains an important skill despite the prevalence of GPS technology. While digital navigation is convenient and accurate, it has limitations—devices can malfunction, batteries die, and GPS signals can be unreliable in certain areas like dense forests or urban canyons. Being able to read a traditional map provides independence and resilience in these situations. Moreover, map-reading develops broader cognitive skills, including spatial reasoning, scale comprehension, and the ability to visualize geography. It also promotes a better understanding of one's environment and the relationships between different locations, rather than just following turn-by-turn directions blindly. From a practical standpoint, maps are still used in many professional contexts, from hiking and outdoor activities to urban planning and emergency services. I think it's a fundamental life skill that shouldn't be completely replaced by technology, even if it's not used daily.",
       "vocabulary": {
         "title": "Q12 - Map Reading Importance",
@@ -548,7 +548,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How can people find their way when they are lost?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q13.mp3",
       "sampleAnswer": "There are numerous strategies people can employ when they find themselves lost. The most obvious modern solution is using smartphone GPS and mapping applications, which can quickly identify your location and provide directions. However, if technology isn't available, traditional methods still work. Asking local people for directions is often effective, though language barriers can be challenging in foreign countries. Looking for landmarks or distinctive features can help orient yourself—tall buildings, mountains, or bodies of water can serve as reference points. In urban areas, finding major roads or public transportation hubs can help you navigate back to familiar territory. Some people use the sun's position to determine cardinal directions, though this requires some knowledge. Retracing your steps to the last known location is another viable strategy. In wilderness situations, staying put and waiting for help is often the safest option. The key is to remain calm, assess available resources, and choose the most appropriate method for the specific situation.",
       "vocabulary": {
         "title": "Q13 - Finding Your Way",
@@ -591,7 +591,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think that children should be taught to read paper maps at school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q14.mp3",
       "sampleAnswer": "Absolutely, I believe teaching children to read paper maps should remain part of the school curriculum. While digital navigation is dominant today, map-reading develops important cognitive and practical skills that extend beyond simple navigation. It teaches spatial thinking, scale comprehension, and the ability to interpret symbols and legends—skills that are transferable to many other areas of learning. Understanding maps also helps children grasp geography, distances, and the relationships between different places in a more holistic way than GPS can provide. From a practical perspective, it's a valuable backup skill for situations where technology fails. Additionally, map-reading encourages active engagement with one's environment rather than passive following of directions. It promotes problem-solving and critical thinking as children must analyze information and make decisions about routes. I don't think it needs to be a major focus, but basic map-reading skills should definitely be included in geography or life skills education.",
       "vocabulary": {
         "title": "Q14 - Teaching Maps",
@@ -634,7 +634,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are paper maps still necessary?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q15.mp3",
       "sampleAnswer": "While paper maps are certainly less essential than they once were, I wouldn't say they're completely obsolete. They still serve important purposes in specific contexts. For outdoor activities like hiking or camping in remote areas where phone signals are unreliable, paper maps are crucial safety tools. They don't require batteries or signal coverage, making them dependable in emergencies. In professional fields like surveying, urban planning, and military operations, detailed paper maps remain valuable reference materials. They're also useful for educational purposes, helping students understand geography and spatial relationships more comprehensively than digital screens allow. Additionally, some people simply prefer the tactile experience and broader perspective that physical maps provide—you can see a larger area at once without zooming in and out. However, for everyday urban navigation, paper maps have largely been superseded by digital alternatives. I think they'll continue to exist as specialized tools rather than everyday necessities, serving niche purposes where their unique advantages matter.",
       "vocabulary": {
         "title": "Q15 - Paper Maps Necessity",
@@ -677,7 +677,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do people react when they get lost?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q16.mp3",
       "sampleAnswer": "People's reactions to being lost vary considerably based on personality, experience, and the severity of the situation. Initially, most people experience some degree of anxiety or stress—it's a natural response to feeling disoriented and uncertain. Some individuals remain relatively calm and immediately start problem-solving, assessing their situation rationally and considering options. Others might panic, especially if they're in an unfamiliar or potentially dangerous environment. Age and experience play a role; seasoned travelers or outdoor enthusiasts typically handle being lost more calmly than those with less experience. Cultural factors also influence reactions—people from cultures that emphasize self-reliance might be more inclined to figure things out independently, while others might quickly seek help. In modern times, many people's first instinct is to check their phones for GPS or contact someone for assistance. Embarrassment is another common reaction, particularly if someone feels they should have been more careful or prepared. Over time, if the situation persists, initial panic often gives way to either resignation or determination, depending on the person's temperament and the circumstances.",
       "vocabulary": {
         "title": "Q16 - Reactions to Being Lost",
@@ -721,7 +721,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think it's important to do some preparation before you travel to new places?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-06-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-06-q17.mp3",
       "sampleAnswer": "Yes, I strongly believe that preparation is crucial for successful and enjoyable travel, though the extent of preparation needed varies depending on the destination and type of trip. Basic preparation should include researching accommodation, transportation options, and key attractions to maximize your time and budget. Understanding local customs, basic phrases in the local language, and cultural norms helps avoid misunderstandings and shows respect for the host culture. Practical preparations like checking visa requirements, getting necessary vaccinations, and arranging travel insurance are essential for avoiding serious problems. Having backup plans for navigation, communication, and emergencies provides peace of mind and resilience when things don't go as expected. However, I don't think every moment needs to be planned—leaving room for spontaneity and unexpected discoveries is part of what makes travel exciting. The key is finding a balance between being prepared enough to handle challenges confidently while remaining flexible enough to embrace new opportunities. Over-preparation can actually diminish the adventure, while under-preparation can lead to stress and missed opportunities.",
       "vocabulary": {
         "title": "Q17 - Travel Preparation",

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What job would you like to have in the future?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>In the future, I would love to work as a <span class=\"ml-token colloc\">language consultant</span> or interpreter. Languages have always been my passion, and I find the idea of bridging communication between different cultures <span class=\"ml-token adv\">incredibly</span> fulfilling.</div>\n\n<div>What attracts me to this career is the variety it offers. Every day would be different – I might be translating documents one day and interpreting at an <span class=\"ml-token colloc\">international conference</span> the next. It's a job that allows you to <span class=\"ml-token adv\">constantly</span> learn and grow.</div>\n\n<div>I also appreciate that this profession offers flexibility. I could work as a <span class=\"ml-token colloc\">freelancer</span>, choose my own projects, and even work remotely from anywhere in the world. As they say, <span class=\"ml-token proverb\">\"Choose a job you love, and you will never have to work a day in your life.\"</span> That's exactly what I'm aiming for.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer working alone or in a team?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be honest, I think I prefer a combination of both, though if I had to choose, I would lean <span class=\"ml-token adv\">slightly</span> towards <span class=\"ml-token colloc\">teamwork</span>.</div>\n\n<div>Working in a team has many advantages. You can <span class=\"ml-token phrasal\">bounce ideas off</span> colleagues, learn from others' experiences, and share the workload. There's also a social aspect that makes work more enjoyable. I find that <span class=\"ml-token colloc\">collaborative projects</span> often produce better results because different people bring different perspectives and skills.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I also value time to work independently. Some tasks require <span class=\"ml-token colloc\">deep concentration</span>, and having quiet time to focus is essential. I think the ideal situation is having a balance – team brainstorming sessions combined with individual work time. As they say, <span class=\"ml-token proverb\">\"Two heads are better than one,\"</span> but sometimes you need space to think.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is work-life balance important to you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token colloc\">Work-life balance</span> is <span class=\"ml-token adv\">absolutely</span> crucial to me. I firmly believe that no job is worth sacrificing your health, relationships, or personal happiness.</div>\n\n<div>In today's world, it's easy to become a <span class=\"ml-token colloc\">workaholic</span>. With smartphones and constant connectivity, work can follow us everywhere. I've seen people <span class=\"ml-token phrasal\">burn out</span> because they never disconnected from work. That's not the life I want to live.</div>\n\n<div>For me, balance means having time for family, friends, hobbies, and self-care alongside my <span class=\"ml-token colloc\">professional responsibilities</span>. When I have a good balance, I'm actually more productive at work because I'm refreshed and motivated. As the proverb says, <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy.\"</span> I think employers are <span class=\"ml-token adv\">increasingly</span> recognizing this too.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Compare these two pictures showing different work environments.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures illustrate the <span class=\"ml-token adv\">dramatically</span> different <span class=\"ml-token colloc\">work environments</span> that have become common in today's professional world.</div>\n\n<div>The first image shows someone working from home. We can see a person in a comfortable, relaxed setting with their laptop. The atmosphere appears calm and informal – they might even be in casual clothes. This represents the <span class=\"ml-token colloc\">remote work revolution</span> that has <span class=\"ml-token adv\">significantly</span> grown in recent years, <span class=\"ml-token adv\">especially</span> after the pandemic.</div>\n\n<div>The second picture presents a traditional <span class=\"ml-token colloc\">office environment</span>. We can see people working together in a professional setting with desks, computers, and colleagues around them. The atmosphere seems more formal and structured. There's <span class=\"ml-token adv\">clearly</span> more <span class=\"ml-token colloc\">social interaction</span> happening, with coworkers able to communicate directly.</div>\n\n<div>Both environments have their own character. The home setting offers comfort and flexibility, while the office provides structure and collaboration opportunities. These images reflect the ongoing debate about the future of work. As they say, <span class=\"ml-token proverb\">\"Different strokes for different folks\"</span> – what works best <span class=\"ml-token adv\">really</span> depends on the individual and the type of work they do.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of working from home?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Working from home offers numerous <span class=\"ml-token colloc\">significant benefits</span> that have made it <span class=\"ml-token adv\">increasingly</span> popular in recent years.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and perhaps most importantly, there's the <span class=\"ml-token colloc\">flexibility</span> it provides. You can often set your own schedule, take breaks when needed, and work during your most productive hours. This is <span class=\"ml-token adv\">particularly</span> valuable for parents or those with other responsibilities.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, working from home eliminates the <span class=\"ml-token colloc\">daily commute</span>. This saves significant time and money – no more sitting in traffic or crowded public transport. That extra hour or two can be spent sleeping, exercising, or with family.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, many people find they're more productive at home without <span class=\"ml-token colloc\">office distractions</span> – no colleagues interrupting, no unnecessary meetings, no office noise. You can create your ideal <span class=\"ml-token colloc\">work environment</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, remote work offers better <span class=\"ml-token colloc\">work-life balance</span>. You can easily handle personal tasks during breaks and spend more time with family. As the saying goes, <span class=\"ml-token proverb\">\"Home is where the heart is,\"</span> and for many, working where they feel most comfortable leads to greater job satisfaction.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why might some people prefer working in an office?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Despite the rise of remote work, many people still prefer the <span class=\"ml-token colloc\">traditional office environment</span> for several valid reasons.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, offices provide a clear <span class=\"ml-token colloc\">separation between work and home life</span>. When you leave the office, work stays behind. At home, it can be difficult to \"switch off\" when your workspace is also your living space. This <span class=\"ml-token colloc\">physical boundary</span> is important for many people's mental health.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, offices offer <span class=\"ml-token colloc\">social interaction</span> that humans naturally crave. Chatting with colleagues, having lunch together, and building friendships at work all contribute to job satisfaction. Working from home can be isolating and lonely for some people.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, offices often provide better infrastructure – faster internet, proper desks and chairs, meeting rooms, and IT support. Not everyone has a suitable <span class=\"ml-token colloc\">home workspace</span>.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, <span class=\"ml-token colloc\">collaboration and creativity</span> often flourish in person. Spontaneous conversations and <span class=\"ml-token phrasal\">brainstorming sessions</span> happen naturally in offices. As they say, <span class=\"ml-token proverb\">\"Great things in business are never done by one person; they're done by a team.\"</span> Some work simply requires face-to-face interaction.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe someone whose job you find interesting.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe someone whose job you find interesting.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Working From Home Is Better Than Working in an Office",
-      "audioFile": "questions S/audio/cefr-speaking-mock-24-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-24-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are there good work opportunities in your home country?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say the situation is mixed, to be honest. In recent years, the government has been <span class=\"ml-token adv\">actively</span> trying to create more <span class=\"ml-token colloc\">job opportunities</span>, especially in the IT and service sectors, and there's been a noticeable growth in start-ups and small businesses.</div>\n\n<div><span class=\"ml-token adv\">However</span>, in many rural areas, finding well-paid work is still quite challenging. A lot of young people move to bigger cities or even go abroad to <span class=\"ml-token colloc\">pursue better prospects</span>. I think there's potential, but the <span class=\"ml-token colloc\">job market</span> still has a long way to go.</div>",
       "vocabulary": {
@@ -64,7 +64,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Has your life changed much in the last year?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I'd say my life has changed <span class=\"ml-token adv\">quite significantly</span> over the past year. I started taking my studies more seriously and set some clear personal goals, which has <span class=\"ml-token adv\">really</span> helped me become more organised and focused.</div>\n\n<div>I've also become more independent — I've learned to <span class=\"ml-token colloc\">manage my time</span> better and take on more responsibilities. Looking back, I think these changes have been <span class=\"ml-token adv\">overwhelmingly</span> positive and have helped me <span class=\"ml-token colloc\">grow as a person</span>.</div>",
       "vocabulary": {
@@ -100,7 +100,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it easy for you to make new friends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'd say it depends on the situation. I'm <span class=\"ml-token adv\">generally</span> quite a sociable person, so in relaxed settings like a party or a group activity, I find it <span class=\"ml-token adv\">relatively</span> easy to <span class=\"ml-token colloc\">strike up a conversation</span> with new people.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I'm not the type to approach strangers out of the blue. I think building a real friendship takes time — it's not just about meeting someone once, it's about developing <span class=\"ml-token colloc\">mutual trust</span> and finding <span class=\"ml-token colloc\">common ground</span>.</div>",
       "vocabulary": {
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see people preparing food with the help of a robot. It looks like a modern, <span class=\"ml-token adv\">highly</span> technological kitchen where machines are assisting in the cooking process, which suggests a futuristic approach to meal preparation.</div>\n\n<div>In the second picture, people are cooking a traditional meal by hand, using <span class=\"ml-token colloc\">time-honoured methods</span>. The <span class=\"ml-token colloc\">contrast between</span> the two images highlights the difference between <span class=\"ml-token colloc\">modern innovation</span> and traditional culinary practices.</div>",
       "vocabulary": {
@@ -172,7 +172,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is technology making cooking better or worse?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>I believe technology is <span class=\"ml-token adv\">largely</span> making cooking better, although it's a double-edged sword. On the positive side, modern kitchen gadgets and smart appliances have made meal preparation faster and more <span class=\"ml-token colloc\">energy-efficient</span>. Apps and online recipes give people access to thousands of dishes from around the world, which <span class=\"ml-token adv\">significantly</span> expands our culinary horizons.</div>\n\n<div><span class=\"ml-token adv\">However</span>, there's a downside. As people rely more on technology, many are losing the <span class=\"ml-token colloc\">hands-on skills</span> that were once passed down through generations. Cooking used to be a social activity — families would gather in the kitchen and share knowledge. Now, some people just press a button on a machine and call it dinner.</div>\n\n<div>In my view, technology should <span class=\"ml-token colloc\">complement traditional cooking</span> rather than replace it. As the saying goes, <span class=\"ml-token proverb\">\"the best of both worlds\"</span> — we can enjoy modern convenience while still preserving the art of cooking by hand.</div>",
       "vocabulary": {
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer traditional methods?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why many people still prefer traditional cooking methods. <span class=\"ml-token adv\">Firstly</span>, traditional cooking is often seen as a way to <span class=\"ml-token colloc\">preserve cultural heritage</span>. Recipes passed down through generations carry deep personal and cultural meaning — they connect people to their roots and their family history.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, many people believe that food prepared by hand simply tastes better. There's a certain warmth and <span class=\"ml-token colloc\">personal touch</span> in homemade food that machines simply cannot replicate. The process of cooking <span class=\"ml-token adv\">itself</span> can be therapeutic — kneading dough, stirring a pot, and seasoning by taste are all <span class=\"ml-token colloc\">deeply satisfying</span> experiences.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, some people distrust technology in the kitchen because they feel it takes away control and creativity. As they say, <span class=\"ml-token proverb\">\"old ways are the best ways\"</span> — for many, the charm of cooking lies in doing it with your own two hands.</div>",
       "vocabulary": {
@@ -244,7 +244,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when silence helped you understand something better.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when silence helped you understand something better.",
@@ -285,7 +285,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Strict global rules are needed right now to stop climate change.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-42-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-42-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

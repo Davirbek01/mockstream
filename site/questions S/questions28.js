@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do/did you study?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'm <span class=\"ml-token adv\">currently</span> studying English Linguistics at the National University of Uzbekistan. It's a four-year bachelor's program that <span class=\"ml-token adv\">primarily</span> focuses on language theory, phonetics, and translation studies.</div>\n\n<div><span class=\"ml-token adv\">Previously</span>, I completed my secondary education at a specialized school where I had an <span class=\"ml-token colloc\">intensive curriculum</span> in foreign languages. This <span class=\"ml-token adv\">really</span> sparked my interest in <span class=\"ml-token colloc\">pursuing higher education</span> in this field.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"Knowledge is power\"</span> – and I believe studying languages opens many doors.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do/did you want to study that?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>There are several reasons why I chose to study English Linguistics. <span class=\"ml-token adv\">Primarily</span>, I've always been <span class=\"ml-token adv\">genuinely</span> fascinated by how languages work and how people communicate across cultures.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, English is the global <span class=\"ml-token colloc\">lingua franca</span>, so mastering it opens up countless <span class=\"ml-token colloc\">career opportunities</span> in international business, diplomacy, and education.</div>\n\n<div>I was <span class=\"ml-token adv\">also</span> inspired by my English teacher in school who showed me how beautiful and complex language can be. <span class=\"ml-token proverb\">\"A journey of a thousand miles begins with a single step\"</span> – and learning English was my first step toward a global career.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What subject do you enjoy studying most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Among all my subjects, I <span class=\"ml-token adv\">particularly</span> enjoy studying Stylistics and Literary Analysis. It's <span class=\"ml-token adv\">incredibly</span> fascinating to analyze how writers use language to create meaning and evoke emotions.</div>\n\n<div>I find it <span class=\"ml-token adv\">extremely</span> rewarding when I can <span class=\"ml-token colloc\">identify literary devices</span> like metaphors, irony, and symbolism in texts. It's like <span class=\"ml-token colloc\">solving a puzzle</span> – each text has hidden layers waiting to be discovered.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, this subject helps me <span class=\"ml-token colloc\">improve my writing skills</span> and express myself more eloquently. As they say, <span class=\"ml-token proverb\">\"The pen is mightier than the sword\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see people walking in different settings.</div>\n\n<div>The first picture shows a group of young people, <span class=\"ml-token adv\">probably</span> students or friends, crossing a zebra crossing on a city street. They appear to be chatting and enjoying each other's company while walking through what looks like a European-style residential area with apartment buildings.</div>\n\n<div>The second picture depicts a family – what appears to be parents with children – walking inside an aviation museum. They're <span class=\"ml-token adv\">clearly</span> <span class=\"ml-token colloc\">taking in the sights</span>, looking at a large aircraft on display. It's a <span class=\"ml-token colloc\">leisurely stroll</span> with an <span class=\"ml-token colloc\">educational purpose</span>.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to walk on your own or with others?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>To be <span class=\"ml-token adv\">completely</span> honest, I enjoy both, depending on my mood and purpose.</div>\n\n<div>When I need to <span class=\"ml-token colloc\">clear my head</span> or <span class=\"ml-token colloc\">gather my thoughts</span>, I prefer walking alone. There's something <span class=\"ml-token adv\">incredibly</span> therapeutic about a solitary walk – it gives me time for self-reflection and helps me <span class=\"ml-token colloc\">decompress after</span> a stressful day.</div>\n\n<div><span class=\"ml-token adv\">However</span>, walking with friends or family is <span class=\"ml-token adv\">equally</span> enjoyable. It's a great opportunity to <span class=\"ml-token colloc\">catch up</span> with loved ones, have meaningful conversations, and <span class=\"ml-token colloc\">strengthen bonds</span>. Walking together makes the time fly by!</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"If you want to go fast, go alone; if you want to go far, go together\"</span>.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you say that your city is a good place for walking?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Well, I have <span class=\"ml-token adv\">somewhat</span> mixed feelings about this. Let me explain.</div>\n\n<div>On the positive side, my city has some beautiful parks and <span class=\"ml-token colloc\">pedestrian-friendly zones</span> in the center. There are wide sidewalks in certain areas, and the government has been <span class=\"ml-token adv\">gradually</span> <span class=\"ml-token colloc\">improving the infrastructure</span> for pedestrians.</div>\n\n<div><span class=\"ml-token adv\">However</span>, there are <span class=\"ml-token adv\">significant</span> drawbacks. Many sidewalks are in poor condition, and some areas lack proper <span class=\"ml-token colloc\">pedestrian crossings</span>. The traffic can be <span class=\"ml-token adv\">quite</span> chaotic, and not all drivers respect pedestrian rights.</div>\n\n<div><span class=\"ml-token adv\">Overall</span>, while there's room for improvement, I'd say it's <span class=\"ml-token adv\">reasonably</span> good for walking if you stick to the main areas. As they say, <span class=\"ml-token proverb\">\"Rome wasn't built in a day\"</span> – our city is still developing.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Talk about meeting new people.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "How do people in your country meet new people?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Is it appropriate for adolescents to be sentenced to life without parole?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-28-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-28-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

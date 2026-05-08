@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it is important to learn about history?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">strongly</span> believe that learning about history is <span class=\"ml-token adv\">extremely</span> important. It helps us understand how our society has evolved and why things are the way they are today.</div>\n\n<div>By studying history, we can learn from the mistakes of <span class=\"ml-token colloc\">previous generations</span> and avoid repeating them. It also gives us a deeper appreciation of our <span class=\"ml-token colloc\">cultural heritage</span> and national identity.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, history teaches us <span class=\"ml-token colloc\">critical thinking</span> — we learn to analyse events, question sources, and form our own opinions. As they say, <span class=\"ml-token proverb\">\"Those who cannot remember the past are condemned to repeat it\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever taken part in a cultural festival or event?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I have! I <span class=\"ml-token adv\">actually</span> took part in our local Navruz celebration last year. It was an <span class=\"ml-token adv\">absolutely</span> fantastic experience.</div>\n\n<div>The festival was full of <span class=\"ml-token colloc\">traditional music</span>, dancing, and delicious food. I <span class=\"ml-token adv\">particularly</span> enjoyed watching the folk performances and trying different homemade dishes that people had prepared. It was a wonderful way to <span class=\"ml-token colloc\">connect with my roots</span>.</div>\n\n<div>I think cultural festivals are <span class=\"ml-token adv\">incredibly</span> important because they bring communities together and help preserve <span class=\"ml-token colloc\">traditions and customs</span> that might otherwise be forgotten. As they say, <span class=\"ml-token proverb\">\"Culture is the widening of the mind and of the spirit\"</span>.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer giving handmade gifts or buying ready-made ones?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">generally</span> prefer giving handmade gifts whenever I have the time and opportunity. There's something <span class=\"ml-token adv\">truly</span> special about a gift that someone has put personal effort into creating.</div>\n\n<div>For example, I once made a photo album for my best friend's birthday, filled with our favourite memories together. The <span class=\"ml-token colloc\">personal touch</span> made it much more meaningful than anything I could have bought from a shop. She was <span class=\"ml-token adv\">genuinely</span> moved by it.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I must admit that when I'm short on time, I do resort to buying <span class=\"ml-token colloc\">ready-made gifts</span>. The most important thing is the <span class=\"ml-token colloc\">thought behind the gift</span>, not its price tag. As they say, <span class=\"ml-token proverb\">\"It's the thought that counts\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe what is happening in each photo.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two photos show different approaches to <span class=\"ml-token colloc\">keeping our environment clean</span>.</div>\n\n<div>In the first photo, I can see a team of <span class=\"ml-token colloc\">professional cleaners</span> carrying out a clean-up operation. They appear to be wearing uniforms and using specialised equipment, which suggests this is a <span class=\"ml-token colloc\">paid service</span>. Everything looks very organised and <span class=\"ml-token adv\">efficiently</span> managed.</div>\n\n<div>The second photo presents a very different scene — a group of <span class=\"ml-token colloc\">community volunteers</span> working together to clean up their neighbourhood. They seem enthusiastic and motivated, doing this out of their own <span class=\"ml-token colloc\">goodwill</span> rather than for payment. The atmosphere looks much more <span class=\"ml-token adv\">collaborative</span> and community-spirited.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of community volunteer actions like clean-up days?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Community volunteer actions like clean-up days, as shown in the second photo, offer <span class=\"ml-token adv\">numerous</span> benefits that go far beyond just tidying up the streets.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, they create a strong <span class=\"ml-token colloc\">sense of community</span>. When neighbours come together to work towards a common goal, it builds bonds and strengthens <span class=\"ml-token colloc\">social connections</span>. People get to know each other better and develop a shared sense of pride in their neighbourhood.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, volunteer clean-ups have a direct and visible <span class=\"ml-token colloc\">positive impact</span> on the local environment. Removing litter, planting trees, and cleaning public spaces make the area more pleasant and healthier for everyone. It also raises <span class=\"ml-token colloc\">environmental awareness</span> among participants and onlookers alike.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, volunteering teaches valuable life skills such as teamwork, responsibility, and <span class=\"ml-token colloc\">civic engagement</span>. It's <span class=\"ml-token adv\">especially</span> beneficial for young people who learn the importance of giving back. As they say, <span class=\"ml-token proverb\">\"No act of kindness, no matter how small, is ever wasted\"</span>.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer paid services instead of doing things themselves?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">several</span> reasons why many people opt for paid services rather than doing things themselves, as we can see in the first photo.</div>\n\n<div><span class=\"ml-token adv\">Primarily</span>, the most obvious reason is <span class=\"ml-token colloc\">time constraints</span>. In today's fast-paced world, many people are <span class=\"ml-token adv\">extremely</span> busy with work, family responsibilities, and other commitments. Hiring a professional saves them valuable time that they can spend on more important or enjoyable activities.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, professionals bring <span class=\"ml-token colloc\">expertise and experience</span> that most ordinary people lack. Whether it's cleaning, plumbing, or car repair, a trained professional will <span class=\"ml-token adv\">typically</span> do a better job in less time. The quality of the result is <span class=\"ml-token adv\">usually</span> higher.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, some tasks can be physically demanding or even <span class=\"ml-token colloc\">risky</span> for untrained individuals. Paying for a service provides <span class=\"ml-token colloc\">peace of mind</span> and ensures the job is done safely and correctly. As they say, <span class=\"ml-token proverb\">\"Time is money\"</span>, and sometimes it makes more sense to pay someone else to do the work.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time when you changed your opinion about something.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time when you changed your opinion about something.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Traditional crafts and skills are no longer important in the modern world.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-34-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-34-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I'm <span class=\"ml-token adv\">currently</span> working as an English language teacher at a private language center in Tashkent. I've been in this profession for about three years now.</div>\n\n<div>My job <span class=\"ml-token adv\">primarily</span> involves teaching English to students of various levels, from beginners to advanced learners. I <span class=\"ml-token adv\">also</span> <span class=\"ml-token colloc\">prepare students</span> for international exams like IELTS and CEFR.</div>\n\n<div>It's a <span class=\"ml-token adv\">genuinely</span> rewarding career because I get to see my students <span class=\"ml-token colloc\">make progress</span> and achieve their goals. As they say, <span class=\"ml-token proverb\">\"Teaching is the profession that teaches all other professions\"</span>.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is the most important part of your job?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I believe the most important part of my job is <span class=\"ml-token colloc\">building rapport</span> with my students and creating a <span class=\"ml-token colloc\">supportive learning environment</span>.</div>\n\n<div>When students feel comfortable and motivated, they learn <span class=\"ml-token adv\">much</span> more <span class=\"ml-token adv\">effectively</span>. It's <span class=\"ml-token adv\">crucial</span> to understand each student's individual needs and <span class=\"ml-token colloc\">adapt my teaching style</span> accordingly.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I think <span class=\"ml-token colloc\">providing constructive feedback</span> is essential – helping students identify their weaknesses while <span class=\"ml-token adv\">also</span> acknowledging their strengths. As they say, <span class=\"ml-token proverb\">\"A good teacher can inspire hope and ignite the imagination\"</span>.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you work with other people or alone?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>In my job, I work in both settings, but <span class=\"ml-token adv\">predominantly</span> with other people.</div>\n\n<div>During classes, I'm <span class=\"ml-token adv\">constantly</span> interacting with students, which requires strong <span class=\"ml-token colloc\">interpersonal skills</span>. I <span class=\"ml-token adv\">also</span> <span class=\"ml-token colloc\">collaborate with</span> my colleagues to share teaching materials and discuss effective methodologies.</div>\n\n<div><span class=\"ml-token adv\">However</span>, lesson planning and grading are tasks I <span class=\"ml-token adv\">typically</span> do alone, which allows me to focus and be more productive. I <span class=\"ml-token adv\">actually</span> enjoy this balance – as they say, <span class=\"ml-token proverb\">\"Two heads are better than one\"</span>, but sometimes you need solitude to think creatively.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures show <span class=\"ml-token adv\">contrasting</span> ways of spending time – alone versus with others.</div>\n\n<div>In the first picture, I can see a young man relaxing alone on a comfortable couch. He's holding a cup, <span class=\"ml-token adv\">probably</span> coffee, and appears to be enjoying some quiet time by himself. The setting looks like a modern, cozy living room with natural light coming through the window.</div>\n\n<div>The second picture shows a <span class=\"ml-token adv\">completely</span> different scene – a group of friends playing hockey outdoors in winter. They look like they're having a great time together, laughing and being <span class=\"ml-token adv\">actively</span> engaged in the game. It's a <span class=\"ml-token colloc\">social activity</span> that brings people together.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you prefer to stay alone or with other people?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>This <span class=\"ml-token adv\">really</span> depends on the situation and my mood, but I'd say I <span class=\"ml-token adv\">generally</span> prefer a healthy balance of both.</div>\n\n<div>There are times when I <span class=\"ml-token adv\">desperately</span> need some <span class=\"ml-token colloc\">alone time</span> to recharge. After a busy week of work, I enjoy curling up with a good book or simply relaxing at home, much like the man in the first picture. Solitude gives me the space to <span class=\"ml-token colloc\">reflect on things</span> and <span class=\"ml-token colloc\">clear my mind</span>.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I'm <span class=\"ml-token adv\">also</span> quite sociable and love spending time with friends and family. Activities like the hockey game in the second picture are <span class=\"ml-token adv\">incredibly</span> fun and help <span class=\"ml-token colloc\">strengthen relationships</span>. Shared experiences create lasting memories.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"Everything in moderation\"</span> – too much of either can become tiresome.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you remember a time when you needed to cooperate with others?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">vividly</span> remember a time during my university years when cooperation was <span class=\"ml-token adv\">absolutely</span> essential.</div>\n\n<div>We had a major group project in our final year – we needed to organize a large-scale English language conference. There were about eight of us in the team, and each person had specific responsibilities.</div>\n\n<div>I was in charge of <span class=\"ml-token colloc\">coordinating speakers</span> while others handled logistics, marketing, and registration. It was <span class=\"ml-token adv\">challenging</span> because we had different opinions and working styles. There were moments of tension, but we learned to <span class=\"ml-token colloc\">compromise</span> and <span class=\"ml-token colloc\">find common ground</span>.</div>\n\n<div>The conference was a huge success, and the experience taught me the true value of <span class=\"ml-token colloc\">teamwork</span>. As they say, <span class=\"ml-token proverb\">\"Alone we can do so little; together we can do so much\"</span>.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Talk about education and schools.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Should schools teach both arts and science?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Do school uniforms make school a more effective place to learn?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-29-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-29-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

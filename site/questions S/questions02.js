@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like looking at photographs of yourself?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>To be perfectly honest, I <span class=\"ml-token adv\">really</span> enjoy looking at photographs of myself, but not out of vanity. For me, these photographs serve as a <span class=\"ml-token colloc\">social experience</span>, capturing moments and memories that I cherish deeply. It's <span class=\"ml-token adv\">incredibly</span> fascinating to reflect on personal growth and change over the years. As the saying goes, <span class=\"ml-token proverb\">\"a picture is worth a thousand words\"</span>, and I <span class=\"ml-token phrasal\">often look back</span> at my photos to <span class=\"ml-token phrasal\">pick up</span> on things I might have missed at the moment. They remind me of the people I've met, the places I've been, and the experiences I've had. In this fast-paced world, it's a <span class=\"ml-token idiom\">walk down memory lane</span> that allows me to <span class=\"ml-token idiom\">let my hair down</span> and appreciate the journey of life. Overall, while some may find it <span class=\"ml-token adv\">slightly</span> self-indulgent, I believe that photographs of oneself can be a powerful tool for self-reflection and nostalgia.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have any animals in your home as a pet?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Yes, I <span class=\"ml-token adv\">absolutely</span> adore animals, and I <span class=\"ml-token phrasal\">grew up</span> with pets around me. Currently, I have a dog named Max, who is a delightful Labrador Retriever. He's <span class=\"ml-token colloc\">not just</span> a pet; he's part of the family. Every morning, he greets me with a wagging tail and an infectious enthusiasm that <span class=\"ml-token idiom\">brightens my day</span>. Having Max has been a profound experience because I've <span class=\"ml-token phrasal\">learned to</span> be more responsible and compassionate. There’s <span class=\"ml-token proverb\">\"nothing like family\"</span> to comfort you, and in this sense, Max provides that <span class=\"ml-token colloc\">unconditional love</span> and companionship that is truly invaluable.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like reading books?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I <span class=\"ml-token adv\">genuinely</span> adore reading books. It's a <span class=\"ml-token colloc\">social experience</span> that allows me to <span class=\"ml-token phrasal\">dive into</span> different worlds and experience a myriad of perspectives. Reading has been a fundamental part of my life since childhood. I <span class=\"ml-token adv\">vividly</span> remember the first time I <span class=\"ml-token phrasal\">picked up</span> a novel and <span class=\"ml-token phrasal\">got lost</span> in its pages; it was as if the characters had <span class=\"ml-token idiom\">jumped off the page</span> and into my imagination.</p>\n\n<p><span class=\"ml-token adv\">Honestly</span>, I believe that reading is not just a hobby; it's a gateway to knowledge and <span class=\"ml-token colloc\">personal development</span>. Books have the power to transform one's mindset and broaden one's horizons. As the saying goes, <span class=\"ml-token proverb\">\"A reader lives a thousand lives before he dies\"</span>. This <span class=\"ml-token proverb\">\"quote\"</span> <span class=\"ml-token adv\">perfectly</span> encapsulates my experience with reading.</p>\n\n<p>Moreover, in today's <span class=\"ml-token colloc\">fast-paced world</span>, I find reading to be a <span class=\"ml-token colloc\">therapeutic escape</span> from the <span class=\"ml-token colloc\">hustle and bustle</span> of everyday life. It provides me with a sense of tranquility and allows me to <span class=\"ml-token phrasal\">let my hair down</span>, immersing myself in stories that are both <span class=\"ml-token adv\">profoundly</span> inspiring and <span class=\"ml-token adv\">incredibly</span> entertaining. Therefore, not only do I like reading books, but I also consider it an indispensable aspect of my existence.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the <span class=\"ml-token colloc\">first image</span>, I can <span class=\"ml-token phrasal\">see a young man</span> who appears to be <span class=\"ml-token idiom\">trying to catch a ride</span> on a busy street. His <span class=\"ml-token colloc\">fashion choice</span> is <span class=\"ml-token adv\">rather</span> striking, with an orange puffer vest over a grey sweater, which <span class=\"ml-token idiom\">adds a splash of color</span> to the scene. The presence of sunglasses hints at a sunny day, which might <span class=\"ml-token phrasal\">explain why</span> he's out and about. The backpack he carries <span class=\"ml-token phrasal\">suggests that</span> he's possibly on a journey or just <span class=\"ml-token phrasal\">heading somewhere</span> important. The cityscape in the background, with its tall buildings and busy street, <span class=\"ml-token idiom\">paints a picture</span> of urban hustle and bustle, <span class=\"ml-token proverb\">\"a city that never sleeps.\"</span> This image <span class=\"ml-token phrasal\">captures the essence</span> of metropolitan life, where everyone seems to be <span class=\"ml-token phrasal\">on the move</span>.</p>\n\n<p>As for the <span class=\"ml-token colloc\">second image</span>, it depicts a bus interior filled with passengers of diverse ages, <span class=\"ml-token colloc\">each engaged</span> in their own world. The senior couple at the front <span class=\"ml-token idiom\">catches my eye</span>, particularly the woman who is <span class=\"ml-token phrasal\">engrossed in</span> her smartphone, a sight that shows how technology <span class=\"ml-token phrasal\">bridges the gap</span> across generations. The <span class=\"ml-token colloc\">vibrant blue and yellow interiors</span> of the bus <span class=\"ml-token idiom\">add a touch of brightness</span> to this otherwise routine scene. Further down, the younger passengers are either <span class=\"ml-token phrasal\">chatting away</span> or <span class=\"ml-token phrasal\">caught up in</span> their digital worlds, illustrating how public transport becomes a microcosm of society. It’s <span class=\"ml-token adv\">incredibly</span> <span class=\"ml-token phrasal\">fascinating to see</span> how these images, despite being so different, <span class=\"ml-token idiom\">tell a story</span> of human connection and daily life.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which is more comfortable: a bus or a taxi?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>When discussing comfort, I <span class=\"ml-token adv\">genuinely</span> believe that taking a taxi <span class=\"ml-token colloc\">offers a more personalized</span> and relaxed experience compared to a bus. <span class=\"ml-token proverb\">\"Different strokes for different folks,\"</span> but for me, the level of convenience and privacy a taxi provides is <span class=\"ml-token adv\">truly</span> unmatched. First of all, in a taxi, you're not confined to a schedule. You can <span class=\"ml-token phrasal\">pick up</span> a taxi at any time, which is incredibly beneficial if you're running late or need to reach a destination <span class=\"ml-token adv\">swiftly</span>.</p>\n\n<p>Moreover, taxis <span class=\"ml-token colloc\">allow for a direct route</span> to your destination, eliminating the frequent stops that characterize bus journeys. This means you can <span class=\"ml-token idiom\">sit back and relax</span> without having to worry about the hustle and bustle of other passengers. Last month, I had an early morning flight, and I opted for a taxi. It was <span class=\"ml-token adv\">remarkably</span> comfortable as I could <span class=\"ml-token idiom\">let my hair down</span> and enjoy the quiet ride to the airport.</p>\n\n<p>On the other hand, buses can be <span class=\"ml-token idiom\">a mixed bag</span> when it comes to comfort. They're <span class=\"ml-token adv\">significantly</span> cheaper, which is a <span class=\"ml-token colloc\">budget-friendly option</span> for many. However, the experience varies depending on the time of day and location. During peak hours, buses can get <span class=\"ml-token colloc\">crowded and noisy</span>, making it hard to find a seat, let alone enjoy the ride.</p>\n\n<p>In conclusion, while both modes of transportation have their own merits, I <span class=\"ml-token adv\">honestly</span> find taxis to be <span class=\"ml-token colloc\">a more comfortable choice</span> for those who prioritize convenience and personal space.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think people should use public transport like buses more often instead of taxis?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p><span class=\"ml-token proverb\">\"Every little helps\"</span>, and when it comes to the environment, this <span class=\"ml-token proverb\">\"rings especially true\"</span>. I <span class=\"ml-token adv\">genuinely</span> believe that people should <span class=\"ml-token phrasal\">opt for</span> public transport like buses over taxis whenever feasible. Firstly, using buses is <span class=\"ml-token adv\">incredibly</span> beneficial from a sustainability perspective. Buses can carry a large number of passengers simultaneously, which <span class=\"ml-token colloc\">significantly reduces</span> the carbon footprint per person compared to taxis. Furthermore, public transport systems are <span class=\"ml-token adv\">constantly</span> being improved to be more efficient and convenient, making them a <span class=\"ml-token colloc\">viable alternative</span> to private hire vehicles.</p>\n\n<p>Moreover, the economic aspect cannot be overlooked. Public transportation is <span class=\"ml-token colloc\">substantially more</span> cost-effective, which can be particularly advantageous for people who <span class=\"ml-token idiom\">live on a shoestring budget</span>. I remember when I was a student, I would <span class=\"ml-token phrasal\">rely heavily on</span> buses to get around the city. It saved me a <span class=\"ml-token idiom\">pretty penny</span> over the years, allowing me to allocate funds to other necessities.</p>\n\n<p>That being said, I acknowledge that taxis do have their place, particularly for <span class=\"ml-token colloc\">direct routes</span> and when time is of the essence. However, if we are to consider the <span class=\"ml-token colloc\">bigger picture</span>, promoting the use of buses as a primary mode of transport could lead to <span class=\"ml-token colloc\">tangible benefits</span> for society as a whole. <span class=\"ml-token proverb\">\"The journey of a thousand miles begins with a single step\"</span>, and choosing to use public transport more regularly is one such step towards a sustainable future.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Discuss the following points:",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe an achievement that you consider a personal success.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Animal testing should be banned worldwide.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-02-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-02-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a hobby?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q1.mp3",
       "sampleAnswer": "I'm a dedicated practitioner of 'analog photography,' which I find to be a profoundly rewarding way to slow down in our hyper-digital world. Unlike the instant gratification of smartphone pictures, the 'chemically-driven' process of developing film requires a great deal of patience and precision. I enjoy the 'tangible nature' of the negative and the final print; there's a certain 'weight of authenticity' that a digital file simply can't replicate. It's more than just taking pictures; it's a study in 'composition and light' that changes how I perceive the environment around me. It acts as a vital 'creative outlet' that balances my more structured professional life.",
       "vocabulary": {
         "title": "Q1 - Personal Hobby",
@@ -81,7 +81,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What equipment do you need for it?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q2.mp3",
       "sampleAnswer": "The primary requirement is an 'analog SLR camera,' which is a beautifully mechanical piece of engineering that doesn't rely on batteries or sensors. Beyond the camera itself, I need various 'emulsion types' of film, each with its own 'tonal characteristics' and grain structure. For the actual development, I use a 'darkroom kit'—consisting of chemical baths, developing tanks, and an enlarger for making prints. It's a fairly 'gear-intensive' hobby, but I find that each piece of equipment adds a layer of 'craftsmanship' to the final image. You're not just pressing a button; you're managing a complex 'physical workflow.'",
       "vocabulary": {
         "title": "Q2 - Hobby Equipment",
@@ -126,7 +126,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think hobbies should be shared with other people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q3.mp3",
       "sampleAnswer": "I believe that 'communal engagement' can significantly enrich a hobby, as it provides opportunities for 'knowledge exchange' and the validation that comes from a shared passion. For instance, joining a photography club allows me to receive 'constructive critique' which is vital for technical growth. However, there is also immense value in the 'solitary pursuit' of a hobby; it can serve as a form of 'meditative isolation' where you are free from social expectations. I think the ideal is a 'hybrid approach'—where you have a core personal practice but occasionally step into 'niche communities' to spark new ideas and prevent stagnation. Hobbies are best when they offer both 'internal reflection' and 'external connection.'",
       "vocabulary": {
         "title": "Q3 - Shared vs Private Hobbies",
@@ -171,7 +171,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How often do you go online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q4.mp3",
       "sampleAnswer": "In the modern era, being 'online' is no longer a discrete event but has become a 'persistent background state' of our lives. I am essentially 'digitally tethered' throughout my entire workday for professional communication and research. However, I've recently become more 'intentional' about my connectivity, practicing 'digital hygiene' by disconnecting completely during my evening decompression. I would say my 'active usage'—where I'm consciously searching for information or consuming media—is around five to six hours a day. It's a balance between being 'globally informed' and ensuring that the 'digital noise' doesn't overwhelm my ability for deep, focused thought.",
       "vocabulary": {
         "title": "Q4 - Frequency of Internet Use",
@@ -215,7 +215,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you use the internet for?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q5.mp3",
       "sampleAnswer": "My internet usage is primarily 'utilitarian and educational'; I view it as an 'unparalleled repository' of human knowledge. I use it for 'asynchronous collaboration' with colleagues, accessing complex datasets for research, and staying updated on 'geopolitical developments.' Beyond work, it's also my primary 'cultural portal' for discovering niche music and independent cinema that isn't available through traditional channels. I try to avoid the 'algorithmic rabbit-holes' of social media, focusing instead on 'active information retrieval.' Essentially, the internet is my 'intellectual exoskeleton'—it enhances my ability to learn and communicate far beyond my biological limits.",
       "vocabulary": {
         "title": "Q5 - Internet Purpose",
@@ -261,7 +261,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite website?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q6.mp3",
       "sampleAnswer": "I'm a frequent visitor to certain 'open-source knowledge platforms' like Wikipedia or specialized archival sites, but my favorite is probably 'Arxiv,' where scientists share their 'pre-print research' papers. I find the 'democratization of high-level information' to be the internet's greatest triumph. It allows me to read original theories and data before they are 'filtered' through the lens of mainstream media. It's a very 'austere and functional' site, free from the manipulative 'attention-grabbing' design of social media platforms. I appreciate the 'intellectual purity' of a space dedicated solely to the advancement of human understanding.",
       "vocabulary": {
         "title": "Q6 - Favourite Website",
@@ -306,7 +306,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think children should be allowed unsupervised access to the internet?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q7.mp3",
       "sampleAnswer": "I believe that 'unfettered access' for children is increasingly risky given the 'algorithmic complexity' and potential for 'harmful content' online. While the internet is an amazing educational tool, children often lack the 'cognitive filters' and media literacy to distinguish between high-quality information and 'targeted manipulation.' I advocate for a 'stewardship model' where parents act as 'digital guides,' gradually introducing autonomy as the child's 'critical thinking' skills mature. It's not about being restrictive; it's about providing a 'protective scaffolding' during their formative years to ensure their 'online safety' and psychological well-being which is paramount in this digital era.",
       "vocabulary": {
         "title": "Q7 - Children & Internet Safety",
@@ -351,7 +351,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a piece of technology (not a phone) that you would like to own.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q8.mp3",
       "bulletPoints": [
         "what it is",
         "how you knew it",
@@ -405,7 +405,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How would such a device change your creative process?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q9.mp3",
       "sampleAnswer": "Owning a 3D printer would fundamentally shift my creative process from 'theoretical design' to 'iterative experimentation.' Currently, if I have an idea for a physical object, there is a massive 'friction of implementation'—I have to find a manufacturer or use clumsy hand-tools. With this tech, I could test a 'physical prototype' within hours. It would encourage a 'fail-fast' mentality where I can refine a design through multiple 'tangible versions' in a single weekend. It turns creativity into a much more 'dynamic and somatic' experience where the feedback loop between 'mind and matter' is almost instantaneous.",
       "vocabulary": {
         "title": "Q9 - Change in Creativity",
@@ -449,7 +449,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think expensive tech is always better?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q10.mp3",
       "sampleAnswer": "I would definitely argue against the idea that 'monetary value' is a direct proxy for 'utility or quality.' While high-end tech often offers 'superior precision or materials,' the 'law of diminishing returns' often applies—you pay 80% more for a 5% increase in performance. For many, a 'basic, robust tool' is actually superior because it's easier to maintain and doesn't carry the 'anxiety of ownership' associated with fragile, expensive devices. I believe 'optimal technology' is about the 'fit for purpose' rather than the price tag. Sometimes, the most 'elegant and effective' solutions are actually the most accessible ones.",
       "vocabulary": {
         "title": "Q10 - Cost vs Quality",
@@ -493,7 +493,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between talking with friends online and face-to-face?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q11.mp3",
       "sampleAnswer": "I think the primary difference is the 'bandwidth of nuance'; face-to-face interaction is a 'rich, multi-sensory exchange' where we process countless 'non-verbal cues'—micro-expressions, tone, and 'shared physical energy.' Online communication, even via video, is often 'compressed and fragmented,' which can lead to 'cognitive fatigue' and a potential for 'misinterpretation.' Furthermore, physical presence creates a sense of 'attentional exclusivity'—you are present with that person—wheras online chat is often 'multi-tasked and distracted.' While digital talk is great for 'operational efficiency' and staying connected across distances, it lacks the 'emotional resonance' and deep 'synchronization' that only occurs when we are in the same physical space.",
       "vocabulary": {
         "title": "Q11 - Online vs Face-to-Face",
@@ -537,7 +537,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Does technological development have a negative impact on communication?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q12.mp3",
       "sampleAnswer": "I think it's a 'double-edged sword'; technology has massively increased the 'quantity and reach' of our communication, but perhaps at the 'expense of depth.' We are witnessing the arrival of 'bite-sized communication'—emojis and 280-character thoughts—which can lead to a 'thinning of discourse.' Furthermore, the 'anonymity and distance' of the internet can sometimes erode 'empathy,' leading to more 'polarized and aggressive' interactions than would ever happen in person. However, it's also a 'democratizing force' that allows marginalized voices to be heard globally. The negative impact isn't 'intrinsic' to the tech itself, but rather a result of how we've designed our 'attention-harvesting platforms.' We need to be more 'intentional' about preserving human connection within these digital structures.",
       "vocabulary": {
         "title": "Q12 - Negative Technological Impact",
@@ -581,7 +581,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think technology unites or separates people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q13.mp3",
       "sampleAnswer": "I would argue that technology 'unites the distant' while simultaneously 'separating the present.' It's a 'paradox of proximity'; you can have a deep, real-time conversation with someone in a different hemisphere, yet be 'disconnected' from the person sitting directly across from you at dinner because you're both staring at screens. It unites us through 'shared digital experiences' and global movements, but it can 'atomize society' by allowing us to live in 'personalized filter bubbles' where we only encounter people who agree with us. Ultimately, technology is an 'amplifier' of human intent—it can be used to build 'bridges of understanding' or 'walls of tribalism,' depending on the 'virtue and literacy' of the user.",
       "vocabulary": {
         "title": "Q13 - Unity vs Separation",
@@ -625,7 +625,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What effects does technology have on people's relationships?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q14.mp3",
       "sampleAnswer": "Technology has introduced a new layer of 'relational complexity'; it provides a 'continuous digital tether' that allows for constant check-ins, which can foster 'emotional security' in long-distance relationships. However, it also creates the 'risk of surveillance' and an 'unhealthy expectation' of immediate availability. We're seeing the rise of 'performative intimacy,' where people spend more effort 'documenting' their relationship for social media than actually 'experiencing' it. I think it has also 'commoditized' social interaction through dating apps, leading to an 'abundance mindset' that can make relationships feel more 'disposable.' To maintain 'relational health,' we must learn to 'set boundaries' and preserve spaces that are entirely free from digital intrusion.",
       "vocabulary": {
         "title": "Q14 - Effects on Relationships",
@@ -670,7 +670,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between the technology of the past and that of today?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q15.mp3",
       "sampleAnswer": "The fundamental shift is from 'mechanical transparency' to 'algorithmic opacity.' In the past, technology was largely 'analog and physical'—if a clock broke, you could see the gears and understand why. Today's technology is 'digitally encapsulated' and relies on 'invisible code' and microscopic circuits that are completely 'inaccessible' to the average user. Furthermore, the 'pace of obsolescence' has accelerated dramatically; a tool used to be an 'intergenerational investment,' whereas today it is a 'temporary service' designed to be replaced in two years. We've gained incredible 'power and convenience,' but we've lost a certain 'tangible connection' to our tools. We've moved from being 'masters of mechanics' to 'users of interfaces.'",
       "vocabulary": {
         "title": "Q15 - Past vs Present Tech",
@@ -714,7 +714,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the differences between making friends in real life and online?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q16.mp3",
       "sampleAnswer": "Real-life friendship is often 'location-based and accidental'—you bond through the 'shared friction' of school, work, or neighborhood life. It requires 'physical vulnerability' and immediate 'social navigation' skills. Online friendship, however, is 'interest-based and intentional'; it allows for 'hyper-niche connections' with people who share your exact passions, regardless of where they live. However, online bonds can lack the 'contextual depth' of a real-life friend because you only see the 'curated version' of their personality. I think real-life friends are 'unavoidable layers' of our daily life, while online friends are 'voluntary participants' in our digital world. Both are valid, but they fulfill different 'evolutionary needs' for connection.",
       "vocabulary": {
         "title": "Q16 - Real-life vs Online Friends",
@@ -759,7 +759,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How will technology change communication in the next 20 years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-58-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-58-q17.mp3",
       "sampleAnswer": "I anticipate a move toward 'ambient and immersive' communication, probably through some form of 'non-invasive neural interface' or advanced 'augmented reality' that eliminates the need for screens entirely. We will likely see the 'dissolution of language barriers' through real-time, AI-driven 'seamless translation,' creating a truly 'polyglot global conversation.' However, this also brings the 'risk of total transparency,' where the 'private internal space' of the mind becomes increasingly difficult to preserve. I think we'll see a 'counter-movement' toward 'radical authenticity'—people seeking out 'non-digital, un-mediated' experiences as a luxury good. The challenge will be to ensure that we use these 'god-like tools' to enhance our 'humanity' rather than accidentally 'automating the soul' out of our interactions.",
       "vocabulary": {
         "title": "Q17 - Future of Communication",

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you go to bed early or late?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>To be <span class=\"ml-token adv\">perfectly</span> honest, I tend to go to bed <span class=\"ml-token adv\">rather</span> late, usually around midnight or even later. I've <span class=\"ml-token adv\">always</span> been a <span class=\"ml-token colloc\">night owl</span>, and I find that I'm most productive during the evening hours.</div>\n\n<div>That said, I <span class=\"ml-token adv\">fully</span> recognize that this isn't the <span class=\"ml-token colloc\">healthiest habit</span>. I've been trying to <span class=\"ml-token phrasal\">wind down</span> earlier and establish a better <span class=\"ml-token colloc\">sleep routine</span>. As they say, <span class=\"ml-token proverb\">\"Early to bed and early to rise makes a man healthy, wealthy, and wise.\"</span></div>\n\n<div>On weekends, I <span class=\"ml-token adv\">occasionally</span> stay up even later, especially if I'm watching a good movie or chatting with friends. However, I'm <span class=\"ml-token adv\">gradually</span> realizing the importance of <span class=\"ml-token colloc\">quality sleep</span> for my <span class=\"ml-token colloc\">overall well-being</span>.</div>",
       "vocabulary": {
@@ -78,7 +78,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Tell me about your house.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">currently</span> live in a <span class=\"ml-token colloc\">cozy apartment</span> located in a <span class=\"ml-token colloc\">residential area</span> of the city. It's a two-bedroom flat on the fourth floor of a modern building, which I've been renting for about three years now.</div>\n\n<div>The apartment is <span class=\"ml-token adv\">tastefully</span> decorated with a minimalist style. My favorite room is the living room, which has <span class=\"ml-token colloc\">large windows</span> that let in <span class=\"ml-token colloc\">plenty of natural light</span>. I've also set up a small <span class=\"ml-token colloc\">home office</span> in one corner where I work remotely.</div>\n\n<div>One thing I <span class=\"ml-token adv\">particularly</span> love about my place is the balcony. It offers a <span class=\"ml-token colloc\">stunning view</span> of the neighborhood, and I <span class=\"ml-token adv\">often</span> enjoy my morning coffee there. As they say, <span class=\"ml-token proverb\">\"Home is where the heart is,\"</span> and I've <span class=\"ml-token adv\">definitely</span> made this space my own.</div>",
       "vocabulary": {
@@ -116,7 +116,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is your favorite drink?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Without a doubt, my <span class=\"ml-token colloc\">all-time favorite</span> drink is green tea. I've been drinking it <span class=\"ml-token adv\">regularly</span> for several years now, and I <span class=\"ml-token adv\">genuinely</span> enjoy its <span class=\"ml-token colloc\">subtle flavor</span> and the way it makes me feel refreshed.</div>\n\n<div>What I <span class=\"ml-token adv\">particularly</span> appreciate about green tea is its <span class=\"ml-token colloc\">health benefits</span>. It's rich in antioxidants and helps me <span class=\"ml-token phrasal\">stay focused</span> throughout the day without the jitters that coffee sometimes gives me.</div>\n\n<div>I <span class=\"ml-token adv\">typically</span> have a cup in the morning and another in the afternoon. It's become a <span class=\"ml-token colloc\">daily ritual</span> that I <span class=\"ml-token adv\">truly</span> look forward to. As the saying goes, <span class=\"ml-token proverb\">\"A cup of tea solves everything,\"</span> and I <span class=\"ml-token adv\">wholeheartedly</span> agree with that sentiment.</div>",
       "vocabulary": {
@@ -154,7 +154,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see a <span class=\"ml-token colloc\">striking contrast</span> between <span class=\"ml-token colloc\">healthy eating</span> and <span class=\"ml-token colloc\">fast food consumption</span>.</div>\n\n<div>In the first image, there's a woman who appears to be in her kitchen, enjoying a <span class=\"ml-token colloc\">fresh salad</span>. She's surrounded by <span class=\"ml-token colloc\">colorful vegetables</span> like tomatoes, peppers, and greens. She looks happy and healthy, and her meal <span class=\"ml-token adv\">clearly</span> represents a <span class=\"ml-token colloc\">nutritious lifestyle</span>. The setting suggests she's made the effort to <span class=\"ml-token phrasal\">prepare</span> her own food.</div>\n\n<div>In contrast, the second picture shows a group of young people eating <span class=\"ml-token colloc\">fast food</span>, specifically burgers. They seem to be having fun and socializing, but the food they're consuming is <span class=\"ml-token adv\">considerably</span> less healthy. One person appears to be laughing, which suggests it's a <span class=\"ml-token colloc\">social gathering</span>.</div>\n\n<div>The images <span class=\"ml-token adv\">effectively</span> illustrate the <span class=\"ml-token colloc\">dietary choices</span> people make – some prioritize health while others may choose convenience or <span class=\"ml-token colloc\">social enjoyment</span>. It's a <span class=\"ml-token colloc\">thought-provoking comparison</span> about modern <span class=\"ml-token colloc\">eating habits</span>.</div>",
       "vocabulary": {
@@ -192,7 +192,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What benefits can people have by avoiding fast food?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Avoiding fast food can bring <span class=\"ml-token colloc\">numerous benefits</span> to people's lives, both physically and mentally.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, and most <span class=\"ml-token adv\">obviously</span>, there are significant <span class=\"ml-token colloc\">health benefits</span>. Fast food is <span class=\"ml-token adv\">typically</span> high in calories, saturated fats, sodium, and sugar. By avoiding it, people can <span class=\"ml-token phrasal\">reduce their risk</span> of obesity, heart disease, diabetes, and high blood pressure. They're likely to have more energy and feel <span class=\"ml-token adv\">generally</span> healthier.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, cooking at home instead of eating fast food can lead to <span class=\"ml-token colloc\">financial savings</span>. While fast food may seem cheap, the costs <span class=\"ml-token phrasal\">add up</span> over time. Preparing meals at home is <span class=\"ml-token adv\">considerably</span> more <span class=\"ml-token colloc\">cost-effective</span> in the long run.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, avoiding fast food encourages people to develop <span class=\"ml-token colloc\">cooking skills</span> and make more <span class=\"ml-token colloc\">mindful choices</span> about what they eat. This can lead to a greater appreciation for <span class=\"ml-token colloc\">fresh ingredients</span> and <span class=\"ml-token colloc\">balanced nutrition</span>.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, there's the <span class=\"ml-token colloc\">environmental impact</span>. Fast food chains contribute to packaging waste and industrial farming. By avoiding them, we can <span class=\"ml-token phrasal\">do our part</span> for the planet.</div>",
       "vocabulary": {
@@ -230,7 +230,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer to have unhealthy food?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why people <span class=\"ml-token adv\">often</span> choose unhealthy food over <span class=\"ml-token colloc\">nutritious alternatives</span>.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, convenience plays a <span class=\"ml-token colloc\">major role</span>. In today's <span class=\"ml-token colloc\">fast-paced world</span>, many people simply don't have the time to cook. Fast food is quick, readily available, and requires no preparation. After a long day at work, it's <span class=\"ml-token adv\">tempting</span> to just <span class=\"ml-token phrasal\">grab something</span> on the way home.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, unhealthy food is <span class=\"ml-token adv\">specifically</span> designed to taste good. Companies spend millions on research to create <span class=\"ml-token colloc\">addictive flavors</span> that trigger pleasure centers in our brains. The combination of salt, sugar, and fat is <span class=\"ml-token adv\">incredibly</span> satisfying to our taste buds.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, there's the <span class=\"ml-token colloc\">social aspect</span>. As we can see in the picture, eating fast food is often a <span class=\"ml-token colloc\">social activity</span>. Friends gathering for burgers or pizza is a common way to bond and socialize.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, cost can be a factor. While home cooking is cheaper in the long term, fast food often seems more <span class=\"ml-token colloc\">affordable</span> upfront, <span class=\"ml-token adv\">especially</span> for those on tight budgets. <span class=\"ml-token adv\">Unfortunately</span>, the <span class=\"ml-token colloc\">hidden costs</span> to health are much greater.</div>",
       "vocabulary": {
@@ -268,7 +268,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Tell me about something you did in your life that was a success.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about something you did in your life that was a success.",
@@ -311,7 +311,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Books Are Better than Movies for Storytelling",
-      "audioFile": "questions S/audio/cefr-speaking-mock-16-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-16-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

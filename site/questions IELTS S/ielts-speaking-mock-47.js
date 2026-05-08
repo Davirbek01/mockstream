@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to drink coffee or tea?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q1.mp3",
       "sampleAnswer": "I find myself somewhat divided on this, as I value both for very different reasons and at different times of the day. In the morning, I'm an ardent coffee enthusiast; I find that the robust aroma and the immediate psychological lift it provides are essential for kickstarting my daily routine and achieving a state of mental focus. However, as the day progresses, I tend to transition to tea, particularly high-quality green or herbal varieties. I find the experience of drinking tea to be more meditative and soothing—it lacks the sharp intensity of coffee and is much more conducive to a state of calm, sustained concentration in the afternoon. Ultimately, I see them not as competitors but as complementary tools for managing my energy levels and mood throughout the day.",
       "vocabulary": {
         "title": "Q1 - Coffee vs Tea",
@@ -86,7 +86,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you like to drink coffee?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q2.mp3",
       "sampleAnswer": "I'm quite particular about my coffee, and I generally prefer it prepared in a way that highlights the specific flavor profile of the beans rather than masking them with excessive additives. Most mornings, I opt for a meticulously crafted pour-over or a clean, black Americano—I find that the absence of milk and sugar allows the subtle notes of fruit, chocolate, or spice to emerge more clearly. There's something genuinely satisfying about the ritual of measuring the beans, grinding them fresh, and controlling the temperature of the water. That being said, I do occasionally enjoy a well-made oat-milk latte, especially on a cold afternoon; the creamy texture provides a different kind of comfort. But for me, the essence of coffee lies in its complexity and its ability to provide a moment of sensory focus in a busy day.",
       "vocabulary": {
         "title": "Q2 - How You Like Coffee",
@@ -135,7 +135,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is coffee a popular drink in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q3.mp3",
       "sampleAnswer": "Yes, coffee culture has undergone a genuine explosion in my country over the last decade, transitioning from a purely functional morning ritual to a sophisticated and highly visible part of our social fabric. You can see this most clearly in the proliferation of artisanal coffee shops and specialized roasteries that have become essential fixtures in almost every town and city. It's no longer just about the caffeine; it's about the appreciation of different origins, processing methods, and the skill of the barista. I think for many young professionals, the coffee shop has become a 'third space'—a neutral ground for both social interaction and remote work. However, there's still a strong traditional tea culture that coexists alongside this new coffee obsession, and I find it fascinating how different generations lean toward one or the other, often reflecting broader shifts in lifestyle and global influence.",
       "vocabulary": {
         "title": "Q3 - Coffee Popularity",
@@ -185,7 +185,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Were you good at science when you were in school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q4.mp3",
       "sampleAnswer": "I would describe my relationship with science as one of enthusiastic curiosity rather than innate brilliance; I was genuinely engaged by the 'why' and 'how' of the natural world, even if I sometimes struggled with the more rigorous mathematical aspects of physics. I found that I excelled in subjects where I could see a direct connection to observable reality—biology and certain parts of chemistry were particularly fascinating because they provided a framework for understanding the complexity of life and the materials that surround us. I always appreciated the scientific method—the idea that you could test ideas through observation and experiment—and I think that habit of critical thinking has stayed with me much longer than the specific formulas I learned. While I wasn't the top of the class, I found that my willingness to ask questions and to explore beyond the textbook meant that I always had a deep respect for the scientific process.",
       "vocabulary": {
         "title": "Q4 - Science in School",
@@ -234,7 +234,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What was your favorite scientific subject?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q5.mp3",
       "sampleAnswer": "My favorite scientific subject was undoubtedly biology, primarily because it offered such a profound and intricate window into the mechanics of life itself. I found the study of genetics and evolutionary biology to be particularly compelling—the idea that such complex systems could emerge from simple, underlying principles over vast periods of time is something that I still find genuinely awe-inspiring. I also appreciated how biology felt more 'tangible' than physics or chemistry; you could observe the principles of ecology or cell biology in the world right outside the classroom window. I think this early interest in the biological sciences shaped my broader worldview, giving me a deep appreciation for the interconnectedness of all living things and the extreme fragility of the ecosystems that support us. It wasn't just a subject; it was a way of seeing the world that felt both scientifically rigorous and deeply meaningful.",
       "vocabulary": {
         "title": "Q5 - Favorite Scientific Subject",
@@ -284,7 +284,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you use science in your life now?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q6.mp3",
       "sampleAnswer": "Although I don't work in a scientific field, I find that I use scientific principles and the scientific mindset almost daily, primarily as a tool for navigate the overwhelming volume of information and claims we face in the modern world. I try to apply the scientific method to my own decision-making—looking for evidence, questioning assumptions, and being willing to change my mind when presented with new data. More practically, I rely on my understanding of basic science in areas like nutrition, health, and environmental choice; understanding the fundamentals of how the body works or how climate change operates allows me to make more informed and responsible choices. I also think that staying informed about scientific breakthroughs—whether in space exploration, medicine, or technology—is a way of maintaining a sense of wonder and curiosity about the future. For me, science isn't just a set of facts; it's a critical lens through which I try to engage with reality more accurately and thoughtfully.",
       "vocabulary": {
         "title": "Q6 - Science in Your Life Now",
@@ -335,7 +335,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are science majors common in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q7.mp3",
       "sampleAnswer": "Yes, there is a very strong emphasis on STEM (Science, Technology, Engineering, and Mathematics) subjects in my country's higher education system, and science-related majors are among the most popular and highly sought-after. This is driven partly by a cultural respect for scientific inquiry, but also by very practical economic factors—there is a clear understanding that a degree in a scientific field often leads to more stable and well-paying career opportunities in our growing tech and healthcare sectors. The government and many private organisations actively encourage young people to pursue science through scholarships, specialized high schools, and public awareness campaigns. While this focus has led to a highly skilled workforce, some people worry that it's sometimes at the expense of the humanities and social sciences. However, generally speaking, being a 'science major' is seen as a mark of both intellectual ability and future potential, and it remains a very common and respected path for students in my country.",
       "vocabulary": {
         "title": "Q7 - Science Majors in Your Country",
@@ -383,7 +383,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a country in which you would like to work or live for a short period of time.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q8.mp3",
       "bulletPoints": [
         "what country or city it is",
         "how you know about it",
@@ -442,7 +442,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it's easier to live in a foreign country now than in the past?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q9.mp3",
       "sampleAnswer": "Yes, I believe that technology and globalization have made the experience of living in a foreign country significantly more accessible and less isolating than it was for previous generations. The ability to maintain instant, visual contact with family and friends through digital platforms has largely eliminated the 'geographical distance' that used to be a major source of homesickness. Furthermore, the sheer volume of information available online—from language apps to digital maps and community forums—allows us to navigate a new environment and to build social connections with a level of ease that would have been unimaginable twenty years ago. We are also seeing a more globalized job market and a more international outlook in many cities, which can make the transition easier. However, I think this ease also comes with a risk: the ability to stay so closely connected to your 'home' environment can sometimes prevent you from fully immersing yourself in the new culture. So while it's certainly easier logistically and emotionally, the challenge of genuine cultural integration remains as significant as ever.",
       "vocabulary": {
         "title": "Q9 - Living Abroad: Now vs Past",
@@ -491,7 +491,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the biggest challenges of moving to a new country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q10.mp3",
       "sampleAnswer": "Beyond the obvious logistical hurdles of visas and finding a place to live, I think the most profound challenges are psychological and social—the feeling of being 'untethered' from your existing support networks and the constant mental effort required to navigate an unfamiliar cultural terrain. Even for someone who is well-prepared, the lack of intuitive understanding of social cues, professional etiquette, and the subtle 'unwritten rules' of a new society can lead to a persistent sense of social fatigue and occasionally a loss of confidence. There's also the challenge of the language barrier, which can be an unexpected barrier to expressing your true personality and building deep connections. I think another significant challenge is the 'identity shift' that often happens—you're no longer seen through the lens of your history and status at home, but simply as a 'foreigner,' which can be quite a jarring experience. Overcoming these challenges requires a great deal of resilience, patience, and a willingness to be humble and to learn from your mistakes.",
       "vocabulary": {
         "title": "Q10 - Challenges of Moving Countries",
@@ -542,7 +542,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people like travelling?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q11.mp3",
       "sampleAnswer": "The appeal of travel is multifaceted, but I think its primary power lies in its ability to break the patterns of our daily lives and to provide a high-definition experience of the world and our own place in it. For many, travel is a form of self-expansion—an opportunity to encounter different cultures, landscapes, and ways of thinking that challenge our assumptions and broaden our horizons. There is a genuine psychological reward in the novelty of travel; the need to navigate unfamiliar situations can reinvigorate our curiosity and give us a fresh perspective on what matters. For others, it's about the search for wonder and beauty—experiencing things in person that they've only seen on a screen can be a very powerful and grounding experience. I also think travel provides a rare opportunity for disconnection—a chance to step away from the pressures and identities of our professional lives and to simply 'be' in a different context. Ultimately, I believe we travel not just to see new places, but to return home with a more nuanced and expanded version of ourselves.",
       "vocabulary": {
         "title": "Q11 - Why People Like Travelling",
@@ -591,7 +591,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What jobs can people do abroad for a short period of time?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q12.mp3",
       "sampleAnswer": "The types of short-term employment available abroad have expanded significantly, ranging from traditional seasonal work to highly specialized professional roles that reflect the growth of the 'gig economy' and the increase in remote work. Traditional options include seasonal agricultural work, roles in the hospitality and tourism sectors, or teaching English as a foreign language—these are often seen as 'bridge' roles for young people looking for cultural experience. However, there's a growing market for specialized consultants, project-based designers, or technical experts who move to a new country to work on a specific, time-limited project. These 'digital nomads' or short-term contractors can bring a fresh perspective to a local team while gaining valuable international experience. I think the key to finding these roles is a combination of having high-demand, transferable skills and being willing to navigate the often complex legal and visa requirements. Ultimately, the shift toward more flexible working patterns is making it easier for people to treat 'work' and 'travel' as integrated experiences rather than separate parts of their life.",
       "vocabulary": {
         "title": "Q12 - Short-term Jobs Abroad",
@@ -642,7 +642,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it good that now people have an opportunity to work abroad?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q13.mp3",
       "sampleAnswer": "Generally speaking, I believe that the increasing opportunity for international mobility is a positive development for both individual professionals and the global economy. For the individual, working in a foreign environment is a powerful catalyst for personal growth—it encourages adaptability, cultural intelligence, and the development of a more global perspective. Professionally, it allows for the cross-pollination of ideas and the sharing of best practices across borders, which can drive innovation in almost any field. I think it also fosters a greater sense of global community and mutual understanding, as people interact at a deeper, more professional level rather than just as tourists. However, there are potential drawbacks, such as 'brain drain' from developing countries or the risk of increasing local inequality in popular global hubs. But on balance, I think the benefits of exchange and the ability to pursue opportunities wherever they occur are much more significant. It's an essential part of a more interconnected and dynamic world.",
       "vocabulary": {
         "title": "Q13 - Opportunity to Work Abroad",
@@ -692,7 +692,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does working abroad affect a person's personality?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q14.mp3",
       "sampleAnswer": "Living and working in a foreign culture is often a genuinely transformative experience that can lead to significant shifts in a person's personality and worldview. One of the most common effects is an increase in resilience and self-reliance—the need to navigate unfamiliar systems and social cues forces you to develop a more resourceful and proactive approach to life. It also tends to increase 'openness to experience' and cognitive flexibility; when your habitual ways of thinking are constantly challenged, you become more adept at seeing problems from multiple perspectives. I also think it can lead to a healthy kind of humility—realizing that your own culture's way of doing things is just one of many equally valid approaches. However, it can also lead to a more complex sense of identity—a feeling of being 'in-between' cultures—which can be both a strength and a source of internal tension. Ultimately, I think working abroad makes people more adaptable, more empathetic, and more comfortable with ambiguity—qualities that are incredibly valuable in our complex, interconnected world.",
       "vocabulary": {
         "title": "Q14 - Personal Effects of Working Abroad",
@@ -743,7 +743,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should companies encourage their employees to work in different countries?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q15.mp3",
       "sampleAnswer": "I believe that forward-thinking organisations should actively encourage and facilitate international experience for their employees, as it's a strategic investment in developing a more versatile and globally-aware workforce. Employees who have worked in different countries bring back a wealth of diverse perspectives, new ways of problem-solving, and a deeper understanding of global markets, which can be a key driver of innovation and competitiveness. It's a powerful way to break down 'siloed' thinking and to foster a more integrated and collaborative company culture. Furthermore, offering international opportunities can be a very effective tool for talent retention and recruitment, as many high-performing professionals value the chance for personal and professional growth. Of course, the costs and logistical complexities of international relocation are significant, but I think the long-term benefits of having a leadership team with genuine international experience far outweigh the short-term expenses. It's about building an organisation that is truly reflective of the global marketplace.",
       "vocabulary": {
         "title": "Q15 - Companies Encouraging Work Abroad",
@@ -793,7 +793,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How has technology changed the experience of living abroad?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q16.mp3",
       "sampleAnswer": "Technology has fundamentally altered the texture of living abroad, transforming what was once a profound 'severing' of ties into a manageable and often highly connected experience. The most obvious change is the elimination of communication barriers—high-definition video calls and instant messaging mean that we are never truly 'away' from our loved ones, which can significantly mitigate the psychological toll of relocation. We also have access to an extraordinary range of digital tools—from language translation apps and digital maps to local community forums—that allow us to navigate new environments with unprecedented speed and confidence. This 'digital safety net' makes the logistics of living in a foreign country much less daunting. However, I think there's a subtler change: technology allows us to maintain our own 'digital home' wherever we are—we can listen to our favorite podcasts, follow our local news, and stay immersed in our own culture. While this is comforting, it can also act as a filter that prevents us from fully engaging with the physical reality and culture of the place where we actually live.",
       "vocabulary": {
         "title": "Q16 - Technology and Living Abroad",
@@ -841,7 +841,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Will physical travel become less important as virtual reality improves?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-47-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-47-q17.mp3",
       "sampleAnswer": "While virtual reality (VR) technologies are becoming incredibly sophisticated, I don't believe they will ever truly replace the profound and grounding experience of physical travel. VR can provide a wonderful visual and auditory simulation of a place, which is useful for education, virtual sightseeing, or previewing a destination. However, I think it lacks the essential 'unpredictability' and sensory richness of physical presence—the specific smell of a market, the feeling of the wind, the physical effort or discomfort of a journey, and most importantly, the spontaneous and unmediated social interactions that happen when you are actually there. Physical travel is a holistic experience that engages all our senses and requires a level of vulnerability that a simulation cannot replicate. Furthermore, I believe the value of travel lies as much in the 'friction' of the experience—the challenges of navigating a new environment—as it does in the destination itself. VR is an 'easy' experience; travel is a 'real' one. So while VR might replace some types of business travel or simple sightseeing, I think the human desire for genuine, physical encounter with the world will remain as strong as ever.",
       "vocabulary": {
         "title": "Q17 - Physical Travel vs VR",

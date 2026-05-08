@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What part of your day do you usually enjoy the most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>I would say that the part of my day I enjoy the most is the early evening, <span class=\"ml-token adv\">specifically</span> that window of time when I've finished work and I'm transitioning into relaxation mode. It’s when I can finally <span class=\"ml-token phrasal\">wind down</span> and <span class=\"ml-token phrasal\">switch off</span> from the demands of the day.</p><p><span class=\"ml-token adv\">Usually</span>, I'll make myself a cup of tea, maybe read a book or listen to some music. It's a time for me to recharge and prepare for the evening ahead. <span class=\"ml-token idiom\">It's my little slice of heaven</span>. <span class=\"ml-token adv\">Frankly</span>, without it, I think I'd <span class=\"ml-token phrasal\">burn out</span> pretty quickly.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think music can change your mood?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Absolutely, I believe music has a profound ability to alter one's mood. <span class=\"ml-token adv\">In fact</span>, I think it's one of the most powerful tools we have for emotional regulation. A lively, upbeat song can <span class=\"ml-token colloc\">lift your spirits</span> when you're feeling down, <span class=\"ml-token adv\">while conversely</span>, a melancholic piece can provide solace during times of sadness. <span class=\"ml-token idiom\">It's like music speaks a language that our emotions understand</span>.</p><p>I <span class=\"ml-token phrasal\">find myself gravitating</span> towards certain genres depending on how I'm feeling. <span class=\"ml-token adv\">For instance</span>, if I'm stressed, I might listen to classical music to calm my nerves. <span class=\"ml-token adv\">Ultimately</span>, I think music is a universal language that can profoundly impact our emotional state.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you usually do first when you arrive in a new place?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>The first thing I usually do when I arrive in a new place is try to <span class=\"ml-token phrasal\">get my bearings</span>. <span class=\"ml-token adv\">Essentially</span>, this means orienting myself and understanding the layout of my immediate surroundings. I'll often pull up a map on my phone to see where I am in relation to key landmarks or points of interest.</p><p><span class=\"ml-token adv\">After that</span>, I'll try to find a local café or market to <span class=\"ml-token phrasal\">soak up</span> the atmosphere and get a feel for the local culture. <span class=\"ml-token idiom\">It's a great way to hit the ground running</span> and start experiencing the place like a local, rather than just a tourist.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What different aspects of life are presented in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The first image depicts a person who appears to be a <span class=\"ml-token colloc\">workaholic</span>, likely working late in an office setting, and radiating stress and exhaustion. This image <span class=\"ml-token adv\">seemingly</span> represents a life dominated by work, where personal well-being is sacrificed for professional gains. <span class=\"ml-token adv\">Conversely</span>, the second image presents a stark contrast, showcasing an individual relaxing with their family at home, seemingly enjoying a well-balanced life filled with leisure and familial connection. <span class=\"ml-token phrasal\">It's like night and day</span>.</p><p>The images highlight the <span class=\"ml-token colloc\">stark difference</span> between a life consumed by work and one that prioritizes personal relationships and relaxation. <span class=\"ml-token adv\">Ultimately</span>, they prompt reflection on the importance of finding a healthy balance between professional ambition and personal fulfillment. <span class=\"ml-token idiom\">It's a reminder that all work and no play makes Jack a dull boy</span>, and <span class=\"ml-token colloc\">vice versa</span>.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do many people struggle to balance work and personal life?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, I think <span class=\"ml-token adv\">primarily</span>, it boils down to societal pressures and expectations. We live in a culture that often equates busyness with productivity, and <span class=\"ml-token colloc\">climbing the corporate ladder</span> often demands long hours and a significant <span class=\"ml-token\">investment</span> of personal time. This can lead to a situation where people feel compelled to prioritize work over everything else, <span class=\"ml-token phrasal\">putting aside</span> their own well-being and relationships.</p><p>Another factor is certainly the advent of technology, which has blurred the lines between work and personal life. With smartphones and constant email access, it's becoming increasingly difficult to <span class=\"ml-token phrasal\">switch off</span> from work, even when we're supposed to be relaxing or spending time with loved ones. It's a <span class=\"ml-token idiom\">slippery slope</span> that can quickly lead to burnout and a feeling of being constantly overwhelmed. Also, some people really just don't know where to start - <span class=\"ml-token proverb\">old habits die hard</span>.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can maintaining a healthy balance improve overall happiness?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>A healthy balance is absolutely crucial for overall happiness. When we prioritize both our work and personal lives, we're essentially investing in our own well-being. This means we're less likely to experience burnout, stress, and other negative emotions that can <span class=\"ml-token phrasal\">take a toll on</span> our mental and physical health. <span class=\"ml-token adv\">Moreover</span>, a balanced lifestyle allows us to nurture our relationships, pursue our passions, and engage in activities that bring us joy and fulfillment.</p><p>By allocating time for leisure, hobbies, and social connections, we create a more fulfilling and meaningful life. This, <span class=\"ml-token adv\">in turn</span>, boosts our self-esteem, increases our resilience, and enhances our overall sense of purpose. Essentially, it's about recognizing that we're not just cogs in a machine, but rather complex individuals with diverse needs and desires, and addressing those needs is <span class=\"ml-token idiom\">half the battle</span>. <span class=\"ml-token\">Ultimately</span>, it's about creating a life that feels authentic and meaningful, <span class=\"ml-token proverb\">living each day as if it were your last</span>.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe an experience that helped you become more independent.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe an experience that helped you become more independent.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Plastic Usage Should Be Banned",
-      "audioFile": "questions S/audio/cefr-speaking-mock-64-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-64-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

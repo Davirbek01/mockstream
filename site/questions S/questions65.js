@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you always carry a lot of keys with you?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Actually</span>, I don't carry many keys at all anymore. I've <span class=\"ml-token phrasal\">pared down</span> my keyring to just the essentials: my house key and a key for my bicycle lock. <span class=\"ml-token idiom\">To be honest</span>, I'm trying to move towards keyless entry systems where possible; it's just so much more convenient and reduces the risk of losing a whole bunch of keys. I think physical keys are gradually becoming a thing of the past.</p> <p>The fewer things I need to carry, the better, <span class=\"ml-token adv\">really</span>. I find it incredibly liberating to not have to <span class=\"ml-token phrasal\">fuss around</span> with a <span class=\"ml-token colloc\">bulky</span> keyring. I am considering upgrading my front door to one with a fingerprint scanner. <span class=\"ml-token proverb\">Less is more</span>, as they say, and that definitely applies to what I carry around daily.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you bought a pen or a pencil?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p><span class=\"ml-token adv\">Let me think</span>... The last time I bought a pen or pencil was probably a couple of months ago. I needed a set of colored pencils for a project I was working on; it involved some detailed diagrams and I wanted to make them visually appealing. <span class=\"ml-token idiom\">I'm not much of a stationery addict</span>, <span class=\"ml-token adv\">though</span>. I tend to use digital tools for most of my writing and drawing needs.</p> <p><span class=\"ml-token colloc\">As a matter of fact</span>, I find myself buying pens and pencils less and less frequently. Everything is digital now; even taking notes in meetings is done on a tablet. <span class=\"ml-token adv\">Indeed</span>, physical writing implements seem almost <span class=\"ml-token colloc\">quaint</span> in this day and age. <span class=\"ml-token phrasal\">It's a sign of the times</span>, I suppose!</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which country's traditional food do you like most?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>That's a tricky question, as there are so many incredible cuisines around the world! <span class=\"ml-token adv\">However</span>, if I had to pick just one, I'd probably say Italian food. <span class=\"ml-token idiom\">It hits all the right notes</span> for me: the simplicity of the ingredients, the incredible variety of dishes, and the sheer passion that goes into preparing it.</p> <p>From the <span class=\"ml-token colloc\">rustic</span> charm of a simple pasta dish to the <span class=\"ml-token colloc\">sophistication</span> of a perfectly executed risotto, Italian cuisine offers something for everyone. <span class=\"ml-token adv\">Moreover</span>, I appreciate the emphasis on fresh, seasonal ingredients. <span class=\"ml-token phrasal\">It just ticks all the boxes</span>. Plus, who can resist a good pizza or a scoop of gelato?</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>In the first image, I see a person typing something into a computer, and on the screen, there's what appears to be an incredibly detailed and realistic painting. <span class=\"ml-token adv\">Clearly</span>, it's depicting the use of AI to generate art from a text prompt. The second image shows a traditional artist, covered in paint, working intensely on a canvas. The contrast is <span class=\"ml-token colloc\">striking</span>.</p> <p>The images <span class=\"ml-token phrasal\">bring to the fore</span> the debate around AI and art. On one hand, you have the speed and efficiency of AI, capable of producing stunning visuals in seconds. <span class=\"ml-token adv\">On the other hand</span>, there's the human element, the years of practice, the emotional investment, and the <span class=\"ml-token colloc\">tangible</span> connection between the artist and their work. Both methods have their merits. The future of art is uncertain, <span class=\"ml-token adv\">though</span>. It will be interesting to see how these two worlds <span class=\"ml-token phrasal\">play out</span>.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are some of the advantages of using AI to create art or designs?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Well, <span class=\"ml-token adv\">undoubtedly</span>, AI offers a plethora of advantages in art and design. The speed <span class=\"ml-token colloc\">at which</span> AI can generate iterations is unparalleled; it can <span class=\"ml-token phrasal\">churn out</span> countless variations on a theme in a fraction of the time it would take a human artist. This allows for rapid prototyping and exploration of ideas that might otherwise be too time-consuming to pursue.</p> <p>Furthermore, AI can often uncover novel aesthetics or combinations that a human might not conceive of independently. It can analyze vast datasets of existing art and design, identifying patterns and trends that can then be synthesized into something new. <span class=\"ml-token idiom\">It's like having</span> a tireless collaborator who is always ready to experiment, pushing the boundaries of creative expression. <span class=\"ml-token adv\">Indeed</span>, the accessibility of AI tools democratizes art creation, allowing individuals with limited traditional artistic skills to <span class=\"ml-token phrasal\">bring their visions to life</span>.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer art that is handmade by a human?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Many people cherish handmade art for its inherent human touch and authenticity. There's a sense of connection with the artist, knowing that a real person poured their time, skill, and emotion into the piece. <span class=\"ml-token adv\">Indeed</span>, handmade art often carries imperfections that machine-made art lacks, and these imperfections are precisely what make it unique and appealing. <span class=\"ml-token colloc\">It stands to reason that</span> these imperfections showcase the artist's skill and the <span class=\"ml-token phrasal\">hands-on</span> process involved.</p> <p><span class=\"ml-token adv\">Furthermore</span>, handmade art often supports individual artists and small businesses, fostering a sense of community and preserving traditional crafts. <span class=\"ml-token idiom\">It's a way of</span> valuing human creativity and craftsmanship over mass production and technological efficiency. People appreciate the story behind the art, <span class=\"ml-token adv\">especially</span> if they know the artist. For some, it's about investing in something unique and meaningful, a piece that reflects their values and personality.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you taught a friend a technique to stay calm or reduce stress.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you taught a friend a technique to stay calm or reduce stress.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Driverless Cars Should Replace Human Drivers",
-      "audioFile": "questions S/audio/cefr-speaking-mock-65-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-65-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

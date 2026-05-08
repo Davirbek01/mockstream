@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of relationship do you have with your neighbours?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q1.mp3",
       "sampleAnswer": "My relationship with my neighbours is cordial but not particularly close—which I think is fairly typical of urban living in the contemporary world. We acknowledge each other when we meet, exchange pleasantries, and there's a general atmosphere of goodwill, but we don't socialise or spend time together in any meaningful way. I think this reflects a broader shift in how urban communities function—the anonymity of city life means that people's social networks are organised around shared interests and relationships rather than geographical proximity. I don't think this is necessarily a bad thing—the expectation that you should be close friends with whoever happens to live next door to you is somewhat arbitrary—but I do think there's something lost when neighbours are strangers to each other. The practical benefits of knowing your neighbours—the ability to help each other in emergencies, to look after each other's homes when away, to create a sense of collective responsibility for the shared space—are real and significant, and I think most people would benefit from slightly warmer relationships with those who live nearby.",
       "vocabulary": {
         "title": "Q1 - Relationship with Neighbours",
@@ -93,7 +93,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How can neighbours be helpful?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q2.mp3",
       "sampleAnswer": "Neighbours can be helpful in ways that range from the mundane to the genuinely important, and I think the value of a good neighbour is often underappreciated until you need one. At the most basic level, neighbours can provide practical assistance—accepting deliveries when you're not home, watering plants or feeding pets when you're away, lending tools or household items you don't use regularly. These small acts of mutual assistance make daily life significantly easier and create a sense of community that has real value. At a more significant level, neighbours can provide genuine support in emergencies—if something goes wrong at home, if you're ill, if there's a security concern, having someone nearby who knows you and is willing to help can be genuinely important. For elderly people living alone, good neighbours can be a crucial source of social contact and practical support. I think the most valuable thing neighbours can provide is a sense of being known and looked out for—the feeling that someone nearby is aware of you and would notice if something was wrong. This is a form of social security that is difficult to replicate through formal services.",
       "vocabulary": {
         "title": "Q2 - How Neighbours Can Be Helpful",
@@ -150,7 +150,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What kind of problems can people have with their neighbours in a big city?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q3.mp3",
       "sampleAnswer": "Urban living creates a particular set of neighbour-related problems that arise from the density of city life and the proximity of people with different lifestyles, schedules, and expectations. Noise is probably the most common and most contentious issue—in apartment buildings especially, the sounds of daily life travel easily between units, and what seems like normal behaviour to one person can be genuinely disruptive to another. Disputes about noise—music, parties, footsteps, pets—are among the most common causes of neighbour conflict. Shared spaces are another significant source of tension—disagreements about the use and maintenance of communal areas, parking, rubbish disposal, and the general upkeep of shared facilities can generate significant friction. Privacy is also a concern in dense urban environments—the sense that you're being observed or that your movements are known to those around you can be uncomfortable. I think the underlying issue in most neighbour disputes is a failure of communication—problems that could be resolved through a direct and respectful conversation are allowed to fester until they become serious conflicts. The anonymity of urban life means that many people feel uncomfortable approaching their neighbours directly, which allows small irritations to escalate.",
       "vocabulary": {
         "title": "Q3 - Problems with Neighbours in Cities",
@@ -208,7 +208,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think reading a magazine or a newspaper can help you learn a language?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q4.mp3",
       "sampleAnswer": "Yes, I think newspapers and magazines are genuinely valuable resources for language learning, and in some respects they offer advantages over more structured learning materials. The most obvious advantage is exposure to authentic language—the kind of language that native speakers actually use, in contexts that are meaningful and current. Newspapers in particular expose you to a wide range of vocabulary and grammatical structures across different registers—news reporting, opinion writing, feature journalism, and reviews all use language differently, and engaging with all of these develops a more rounded linguistic competence. There's also the motivational dimension—reading about topics that genuinely interest you is more engaging than working through textbook exercises, and engagement is one of the most important factors in language acquisition. The challenge is that authentic newspaper language can be quite demanding for learners at lower levels—the vocabulary is often specialised and the sentence structures can be complex. I think the ideal approach is to start with magazines on topics you're genuinely interested in, where the context helps you infer meaning, and to gradually move toward more demanding material as your proficiency develops.",
       "vocabulary": {
         "title": "Q4 - Newspapers/Magazines for Language Learning",
@@ -265,7 +265,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do you think some people prefer magazines to newspapers?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q5.mp3",
       "sampleAnswer": "I think the preference for magazines over newspapers reflects some genuine differences in what each medium offers and what different readers are looking for. Magazines typically offer more depth and more visual richness than newspapers—the longer format allows for more thorough exploration of topics, more sophisticated design, and a reading experience that feels less rushed and more leisurely. For readers who are interested in a particular subject—whether that's fashion, technology, cooking, or culture—a specialist magazine offers a depth of coverage and a community of interest that a general newspaper cannot provide. Magazines also tend to have a longer shelf life—a newspaper is typically read once and discarded, while a magazine might be kept, returned to, and shared. There's also an aesthetic dimension—many magazines are beautifully designed objects that people enjoy owning and displaying, which is not something that applies to newspapers. I think the decline of print newspapers has been more dramatic than the decline of print magazines, partly because magazines have been better at finding niches and building loyal communities of readers around specific interests.",
       "vocabulary": {
         "title": "Q5 - Why People Prefer Magazines to Newspapers",
@@ -322,7 +322,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to read local news or international news?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q6.mp3",
       "sampleAnswer": "My preference shifts depending on what's happening in the world and what I'm trying to understand. I find international news more consistently engaging because it covers a wider range of events and ideas, and because understanding global developments—political, economic, environmental—feels genuinely important for making sense of the world we live in. However, I think local news has a value that is often underappreciated—it covers the decisions and events that most directly affect daily life, and it provides a form of accountability for local institutions and decision-makers that national and international media cannot provide. The decline of local journalism is something I find genuinely concerning—as local newspapers have closed or reduced their coverage, there's been a significant reduction in the scrutiny of local government, local businesses, and local institutions, which has real consequences for democratic accountability. I try to follow both, though I find that the volume of international news can be overwhelming, and I've become more selective about what I engage with in order to avoid the kind of news fatigue that makes it difficult to maintain genuine interest and attention.",
       "vocabulary": {
         "title": "Q6 - Local vs International News",
@@ -379,7 +379,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "In the future, do you think more people will read magazines or fewer people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q7.mp3",
       "sampleAnswer": "I think the future of magazines is genuinely uncertain, but I suspect that the total number of people reading magazines in the traditional print sense will continue to decline, while the number engaging with magazine-style content in digital formats will remain significant or even grow. The economic model of print magazines has been under severe pressure for years—advertising revenue has migrated to digital platforms, and the costs of printing and distribution are significant. Many magazines have already moved to digital-only formats, and I expect this trend to continue. However, I think there will always be a market for high-quality print magazines—the physical object has qualities that digital formats don't replicate, and there's a segment of readers who value the experience of reading a beautifully produced print magazine. I also think specialist magazines—those that serve a passionate community of interest—are more resilient than general interest publications, because their readers are more committed and more willing to pay for quality content. The overall trajectory is probably toward fewer but more committed readers of print, alongside a much larger audience for digital magazine content.",
       "vocabulary": {
         "title": "Q7 - Future of Magazine Reading",
@@ -435,7 +435,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a film you watched recently that you felt disappointed about.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q8.mp3",
       "bulletPoints": [
         "what it was",
         "why you decided to watch it",
@@ -500,7 +500,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think film critics are useful?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q9.mp3",
       "sampleAnswer": "Yes, I think good film criticism is genuinely valuable, though I think it's important to distinguish between different kinds of criticism and different ways of using it. At its best, film criticism does something that goes well beyond telling you whether a film is worth watching—it helps you understand what a film is doing, how it works, what it's in conversation with, and what it means. A really good review can enhance your experience of a film by giving you a framework for understanding it, and it can continue to be interesting long after you've seen the film. I also think criticism serves an important cultural function—it creates a record of how films were received and understood at the time of their release, which is valuable for understanding both the films and the culture that produced them. The challenge is that the democratisation of criticism—the fact that anyone can now publish a review online—has made it harder to find criticism that is genuinely informed and thoughtful. I think the most useful critics are those who have a deep knowledge of film history and theory, a distinctive perspective, and the ability to write engagingly about what they see.",
       "vocabulary": {
         "title": "Q9 - Are Film Critics Useful",
@@ -555,7 +555,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How has the way people watch films changed in recent years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q10.mp3",
       "sampleAnswer": "The way people watch films has changed dramatically over the past decade, driven primarily by the rise of streaming platforms and the associated shift in viewing habits. The most significant change is probably the shift from cinema as the primary venue for watching films to the home as the default viewing environment. Streaming services have made an enormous library of films available on demand, at any time, on a wide range of devices, which has fundamentally changed the relationship between viewers and films. The experience of watching a film has also changed—the ability to pause, rewind, and watch in multiple sessions has altered the rhythm of film viewing in ways that affect how films are experienced and perhaps how they are made. The social dimension of film watching has also shifted—while cinema-going remains a social activity, much home viewing is solitary or involves small groups rather than the larger communal experience of the cinema. I think the pandemic accelerated many of these trends significantly—the closure of cinemas forced people to adapt to home viewing, and many of the habits formed during that period have persisted. The theatrical release window has also shortened considerably, meaning that films are available on streaming platforms much sooner after their cinema release than was previously the case.",
       "vocabulary": {
         "title": "Q10 - How Film Watching Has Changed",
@@ -611,7 +611,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are actors and actresses important to movies?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q11.mp3",
       "sampleAnswer": "Actors are undeniably important to films, but I think the nature and extent of their importance varies significantly depending on the kind of film and the kind of acting involved. In films that are primarily character-driven—where the story is essentially about human beings and their relationships, decisions, and inner lives—the quality of the acting is absolutely central to whether the film works. A great performance can elevate a mediocre script, and a weak performance can undermine even the best material. In more spectacle-driven films—action films, animated films, visual effects-heavy productions—the importance of individual acting performances is somewhat reduced, though even here, the ability of an actor to create a compelling presence and to make an audience care about a character is valuable. I think what's most interesting is the question of what acting actually is—the ability to create the illusion of genuine emotion and authentic experience in a highly artificial context is a remarkable skill that is easy to underestimate. The best actors make it look effortless, which can lead people to undervalue what they do. I think actors are important not just for their technical skill but for their ability to serve as a point of identification for audiences—to give viewers someone to follow and care about through the story.",
       "vocabulary": {
         "title": "Q11 - Are Actors Important to Movies",
@@ -661,7 +661,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think films with famous actors or actresses are more likely to become successful films?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q12.mp3",
       "sampleAnswer": "Famous actors certainly increase the likelihood of commercial success, but the relationship between star power and film quality is much more complex and less reliable than the film industry sometimes assumes. From a commercial perspective, a well-known actor or actress brings several advantages—they attract audiences who are fans of their previous work, they generate media attention and publicity, and they provide a form of quality assurance that helps audiences decide whether to invest their time and money. This is why studios are willing to pay enormous salaries for established stars. However, the history of cinema is full of examples of films with major stars that failed commercially and critically, and of films with unknown actors that became significant successes. I think the relationship between star power and success is strongest in certain genres—action films and romantic comedies, for example—where audiences are partly buying the persona of the star rather than the specific story. In more serious dramatic films, the quality of the script and direction tends to matter more than the fame of the cast. I also think the rise of streaming has somewhat disrupted the traditional star system—streaming platforms can promote films directly to audiences without relying on star power to drive cinema attendance.",
       "vocabulary": {
         "title": "Q12 - Famous Actors and Film Success",
@@ -717,7 +717,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Are historical films popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q13.mp3",
       "sampleAnswer": "Historical films have a significant and loyal audience in my country, though I think their popularity varies considerably depending on the period and the approach. Films set in periods of national history that are particularly resonant—wars, revolutions, periods of significant social change—tend to attract large audiences, partly because they engage with questions of national identity and collective memory that people find genuinely compelling. There's also a general appetite for period drama—the visual richness of historical settings, the costumes, the architecture, and the sense of a world that is both familiar and foreign—that seems to be quite consistent across different cultures. I think historical films occupy an interesting cultural position—they're simultaneously entertainment and a form of popular history, and they shape how many people understand the past in ways that academic history rarely does. This creates both an opportunity and a responsibility—historical films can make the past vivid and accessible, but they can also distort it in ways that are difficult to correct. The most successful historical films tend to be those that find a way to make historical events feel personally relevant—to connect the experiences of people in the past to questions and concerns that contemporary audiences recognise.",
       "vocabulary": {
         "title": "Q13 - Historical Films in Your Country",
@@ -773,7 +773,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why are Japanese animated films so popular?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q14.mp3",
       "sampleAnswer": "Japanese animated films—particularly those associated with Studio Ghibli and directors like Hayao Miyazaki—have achieved a remarkable level of global popularity that I think reflects some genuinely distinctive qualities that set them apart from most other animation. The most fundamental quality is their willingness to engage with complex emotional and thematic territory that most animation, particularly Western animation aimed at children, tends to avoid. Miyazaki's films deal with themes like environmentalism, the nature of good and evil, the experience of growing up, loss, and the relationship between the human and natural worlds in ways that are genuinely sophisticated and that resonate with adult audiences as much as with children. The visual quality of these films is also extraordinary—the hand-drawn animation has a warmth and expressiveness that digital animation often lacks, and the attention to detail in the environments and character design creates worlds that feel genuinely inhabited and real. I also think there's a cultural dimension—Japanese animation draws on a visual and narrative tradition that is genuinely different from Western storytelling conventions, which gives it a freshness and unpredictability that audiences find appealing. The films also tend to resist easy resolution—they're comfortable with ambiguity and complexity in ways that make them more interesting to think about after watching.",
       "vocabulary": {
         "title": "Q14 - Why Japanese Animated Films Are Popular",
@@ -831,7 +831,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you believe movie reviews?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q15.mp3",
       "sampleAnswer": "I find movie reviews useful but I don't treat them as definitive—I use them as one input among several when deciding whether to watch a film, and I'm quite selective about which critics I trust and why. The most useful reviews, for me, are those written by critics whose taste I've come to understand over time—not necessarily critics whose taste matches mine exactly, but critics whose perspective I can calibrate against my own. If a critic I know tends to like a certain kind of film and dislikes another, I can use their review as useful information even when I expect to disagree with their conclusion. I'm more sceptical of aggregated review scores—systems like Rotten Tomatoes reduce the complexity of critical opinion to a single number in ways that can be quite misleading. A film that receives mixed reviews from critics with very different perspectives might score 60% on such a system, but that number tells you very little about whether you specifically will enjoy it. I also think there's a significant difference between critical reception at the time of release and the longer-term assessment of a film's quality—many films that were poorly reviewed on release have come to be recognised as significant works, and vice versa.",
       "vocabulary": {
         "title": "Q15 - Do You Believe Movie Reviews",
@@ -886,7 +886,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What kinds of movies are popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q16.mp3",
       "sampleAnswer": "The most commercially successful films in my country tend to follow global patterns—action films, superhero films, and animated family films dominate the box office, reflecting both the marketing power of the major studios and the broad appeal of these genres across different demographic groups. Romantic comedies and thrillers also have consistent audiences. However, I think it's important to distinguish between what's commercially popular and what's culturally significant—some of the films that have had the most impact on the culture are not the biggest box office successes. There's also a significant domestic film industry that produces films in the local language and that engages with local stories, histories, and concerns—these films often have passionate audiences even if they don't compete commercially with Hollywood productions. I think the streaming era has also diversified what people watch—the availability of films from different countries and traditions has expanded the range of films that people in my country engage with, and there's a growing audience for international cinema that wouldn't have existed a decade ago. Comedy is also consistently popular—local comedies that engage with recognisable cultural situations and characters tend to perform very well.",
       "vocabulary": {
         "title": "Q16 - Popular Movie Types in Your Country",
@@ -943,7 +943,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should actors be paid more than other professionals?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-37-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-37-q17.mp3",
       "sampleAnswer": "This is a question that touches on some fundamental issues about how market economies value different kinds of work, and I think the honest answer is that the current distribution of rewards in the entertainment industry reflects market forces rather than any coherent principle of desert or social value. The most famous actors are paid extraordinary sums because they have a rare combination of talent, charisma, and public recognition that generates significant commercial value—studios are willing to pay them because their involvement increases the likelihood of commercial success. In this sense, their pay reflects their market value rather than a judgment about their social worth. I think the more interesting question is whether this market valuation is just—and here I think there are real reasons to be uncomfortable. Teachers, nurses, social workers, and many other professionals who provide enormous social value are paid a fraction of what top actors earn, which reflects a significant misalignment between market value and social contribution. I don't think actors should necessarily be paid less—I think the problem is that other professions are paid too little relative to their social contribution. The solution is to raise the floor rather than to lower the ceiling.",
       "vocabulary": {
         "title": "Q17 - Should Actors Be Paid More",

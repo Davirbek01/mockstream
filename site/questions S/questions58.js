@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer hot weather or cold weather?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>Personally, I <span class=\"ml-token phrasal\">lean towards</span> colder weather. I find the oppressive heat of summer to be quite draining, and it often leaves me feeling sluggish and unproductive. <span class=\"ml-token adv\">Moreover</span>, the need for constant air conditioning can <span class=\"ml-token colloc\">take its toll</span> on the environment.</p> <p>Cold weather, <span class=\"ml-token adv\">on the other hand</span>, is invigorating. I enjoy the crispness in the air, the opportunity to <span class=\"ml-token colloc\">bundle up</span> in cozy sweaters, and the way a fresh snowfall transforms the landscape. <span class=\"ml-token idiom\">It's right up my alley</span>. Plus, activities like skiing and snowboarding are a great way to <span class=\"ml-token phrasal\">blow off steam</span> and enjoy the outdoors.</p>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can you live without technology for a day?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>That's a challenging question. I think <span class=\"ml-token proverb\">it depends on what you mean by 'live.'</span> Could I survive? Probably, <span class=\"ml-token adv\">yes</span>. Could I maintain my current lifestyle and level of productivity? <span class=\"ml-token adv\">Almost certainly</span> not. Technology is so <span class=\"ml-token colloc\">intertwined with</span> every aspect of my life, from communication and work to entertainment and information gathering, that <span class=\"ml-token phrasal\">going cold turkey</span> would be incredibly disruptive.</p> <p>I suppose I could <span class=\"ml-token phrasal\">fall back on</span> older methods – writing letters instead of emails, reading physical books instead of online articles, and relying on maps instead of GPS. <span class=\"ml-token adv\">However</span>, it would be a significant adjustment and would undoubtedly slow me down. <span class=\"ml-token idiom\">It's a tall order</span>, but perhaps a worthwhile experiment in disconnecting from the digital world.</p>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer home-cooked food or restaurant food?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<p>That's a tough one! <span class=\"ml-token adv\">Generally speaking</span>, I appreciate both for different reasons. Home-cooked food holds a special place in my heart because it's often associated with comfort, tradition, and the love that goes into preparing it. <span class=\"ml-token proverb\">There's no place like home</span>, and that certainly extends to the kitchen.</p> <p><span class=\"ml-token adv\">However</span>, restaurant food offers a unique culinary experience. It allows me to explore new flavors, try different cuisines, and enjoy the convenience of not having to cook or clean up. <span class=\"ml-token idiom\">It's a nice treat</span> <span class=\"ml-token adv\">every now and then</span>. <span class=\"ml-token phrasal\">It boils down to</span> the occasion and my mood. If I'm seeking comfort and familiarity, I'll <span class=\"ml-token phrasal\">opt for</span> home-cooked meals. If I'm feeling adventurous and want to try something new, I'll head to a restaurant.</p>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe the different types of homes shown in the photos.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Okay, in the first photo, we see a towering skyscraper, which is <span class=\"ml-token adv\">clearly</span> located in a bustling city center. The building is made of glass and steel, and it <span class=\"ml-token colloc\">exudes modernity</span> and sophistication. <span class=\"ml-token adv\">Presumably</span>, it houses offices, apartments, or a combination of both. <span class=\"ml-token idiom\">It's a real concrete jungle</span>.</p> <p>In contrast, the second photo depicts a small, wooden house nestled in a serene forest or village. <span class=\"ml-token adv\">It's quite a contrast</span>. The house is surrounded by lush greenery, and it <span class=\"ml-token colloc\">emanates a sense of</span> peace and tranquility. <span class=\"ml-token adv\">Undoubtedly</span>, this is a place where one can escape the hustle and bustle of city life and <span class=\"ml-token phrasal\">get back to</span> nature. <span class=\"ml-token phrasal\">It just goes to show</span> how differently people live.</p>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the benefits of living in a quiet house close to nature?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>Living in a quiet house close to nature offers a <span class=\"ml-token idiom\">world of benefits</span> that cater to both physical and mental well-being. The most obvious is the reduced stress levels; the absence of urban noise pollution allows for a much more relaxed atmosphere where you can <span class=\"ml-token phrasal\">unwind</span> and recharge. This tranquility directly contributes to improved sleep quality, which, <span class=\"ml-token adv\">in turn</span>, enhances cognitive function and overall mood.</p> <p>Beyond the psychological advantages, being close to nature encourages a more active lifestyle. Hiking, gardening, or simply taking a walk in the woods become readily accessible, promoting physical fitness and a stronger connection with the environment. <span class=\"ml-token adv\">Furthermore</span>, the cleaner air quality is a significant boon for respiratory health. <span class=\"ml-token colloc\">All in all</span>, a quiet house nestled in nature offers a <span class=\"ml-token proverb\">breath of fresh air</span>, fostering a healthier and more balanced existence.</p>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do some people prefer living in a busy city with many facilities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<p>The allure of a busy city, <span class=\"ml-token adv\">despite its drawbacks</span>, lies primarily in the unparalleled convenience and access it offers. The sheer density of amenities, from diverse culinary experiences to cutting-edge entertainment venues, means that residents are <span class=\"ml-token colloc\">spoiled for choice</span>. Everything is, quite literally, at your doorstep.</p> <p><span class=\"ml-token adv\">Furthermore</span>, cities are often epicenters of professional opportunity, attracting ambitious individuals seeking career advancement and networking possibilities. The concentration of industries and businesses fosters a dynamic and competitive environment, which can be highly stimulating for those driven by success. <span class=\"ml-token idiom\">It's a trade-off</span>: sacrificing tranquility for opportunity, and for many, <span class=\"ml-token colloc\">it's a price worth paying</span>.</p>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a time you spent a day without using any electronic gadgets.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a time you spent a day without using any electronic gadgets.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "AI Should Replace Humans in Dangerous Jobs",
-      "audioFile": "questions S/audio/cefr-speaking-mock-58-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-58-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

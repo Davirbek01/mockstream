@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of seeing a film at the cinema?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q1.mp3",
       "sampleAnswer": "The cinema offers an experience that home viewing, however technically sophisticated, genuinely cannot replicate. The most obvious advantage is scale—a large screen and a high-quality sound system create an immersive experience that draws you into the film in a way that watching on a television or laptop simply doesn't. There's also the social dimension—watching a film with an audience creates a shared experience that amplifies the emotional impact. Laughter is funnier when others are laughing, tension is more palpable when you can feel the collective held breath of an audience, and the shared experience of a powerful film creates a kind of communal emotional event. The cinema also imposes a particular quality of attention—you're in a darkened room with no distractions, no ability to pause or check your phone, which means you engage with the film more fully than you might at home. For films that are designed to be experienced cinematically—action films, science fiction, anything with ambitious visual storytelling—the cinema is really the intended medium, and watching them at home is a diminished version of the experience the filmmakers intended.",
       "vocabulary": {
         "title": "Q1 - Advantages of Cinema",
@@ -91,7 +91,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Which actor would you like to play you in a film?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q2.mp3",
       "sampleAnswer": "This is a question I find genuinely difficult to answer, partly because the premise requires a degree of self-knowledge that I'm not sure I have—you'd need to understand how you come across to others, which is notoriously difficult. If I'm thinking about it seriously, I'd want someone who could convey a combination of qualities that I'd like to think characterise me—intellectual curiosity, a certain wry humour, and a capacity for genuine feeling that isn't always immediately visible. I'd also want someone who could convey the gap between how one presents oneself and what one actually feels—that interior life that doesn't always make it to the surface. An actor who is good at playing people who are thinking rather than performing—who can make you feel the weight of a character's inner life without spelling it out—would be ideal. I think the most interesting films about real people are those where the actor finds something true about the person rather than simply impersonating them, and that's what I'd want.",
       "vocabulary": {
         "title": "Q2 - Actor to Play You in a Film",
@@ -144,7 +144,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually watch films alone or with others?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q3.mp3",
       "sampleAnswer": "My preference varies depending on the film and what I'm hoping to get from the experience. For films that I expect to be emotionally demanding or intellectually complex—the kind of film that requires full attention and that I want to think about carefully—I often prefer to watch alone, because the presence of others can be distracting and because I want to be able to process my reactions without the social dimension of shared viewing. For films that are primarily entertaining—comedies, action films, anything designed to be enjoyed as a shared experience—I strongly prefer watching with others, because the social dimension genuinely enhances the experience. There's also the question of what happens after the film—I find that discussing a film with someone who has just watched it with you is one of the most enjoyable forms of conversation, and that's only possible if you've watched it together. I think the ideal is to have both options available—to be able to choose based on the film and the mood—which is one of the advantages of the current streaming era over the cinema-only model of previous generations.",
       "vocabulary": {
         "title": "Q3 - Watching Films Alone or With Others",
@@ -198,7 +198,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are museums popular in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q4.mp3",
       "sampleAnswer": "Museums occupy an interesting position in my country's cultural landscape—they're well-regarded and well-funded, and the major national museums attract significant visitor numbers, but I'm not sure 'popular' in the sense of being a regular part of most people's lives is quite accurate. The major museums in the capital city are genuinely impressive institutions that draw both domestic visitors and tourists, and they tend to be free to enter, which removes a significant barrier. However, I think museum-going is more of an occasional cultural activity for most people—something you do on a school trip, when you have visitors from out of town, or when a particularly interesting exhibition is on—rather than a regular leisure activity. There's also a significant geographical dimension—people who live in or near major cities have much better access to museums than those in rural areas. I think the pandemic period was interesting in this regard—the closure of museums made many people realise how much they valued them, and there was a significant surge in museum attendance when they reopened.",
       "vocabulary": {
         "title": "Q4 - Museums in Your Country",
@@ -252,7 +252,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Did you visit museums when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q5.mp3",
       "sampleAnswer": "Yes, fairly regularly—and I think those early experiences shaped my relationship with museums in ways that have persisted into adulthood. My parents were quite intentional about taking us to museums, and I remember being genuinely captivated by certain exhibits—particularly natural history museums, with their dinosaur skeletons and geological specimens, and science museums with their interactive displays. I think what made those visits memorable was the combination of the physical scale of the objects—seeing a full-sized dinosaur skeleton in person is genuinely awe-inspiring in a way that pictures in books cannot replicate—and the sense that you were in the presence of something real and significant. I also remember school trips to museums, which were a mixed experience—the educational framing sometimes made them feel like an extension of school rather than an adventure, but the best ones managed to make the material feel genuinely exciting. I think early museum experiences are important in shaping whether people become museum-goers as adults, and I feel fortunate to have had positive ones.",
       "vocabulary": {
         "title": "Q5 - Visiting Museums as a Child",
@@ -307,7 +307,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like to visit museums nowadays?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q6.mp3",
       "sampleAnswer": "Yes, genuinely—though my relationship with museums has evolved as I've got older. As a child, I was drawn primarily by the spectacle—the large objects, the dramatic displays, the sense of wonder. As an adult, I find I'm more interested in the curatorial choices—how a museum decides what to display, how it frames and contextualises its collection, what stories it chooses to tell and what it leaves out. I've become more interested in the politics of museums—questions about provenance, about whose history is being told and from whose perspective, about the relationship between museums and the communities whose heritage they hold. I find that the museums I find most interesting now are those that engage seriously with these questions rather than presenting their collections as neutral or self-evident. I also appreciate the physical experience of being in the presence of significant objects—there's something that photographs and digital reproductions cannot capture about standing in front of an original painting or a genuinely ancient artefact. I try to visit museums when I travel, and I find they're often the best way to understand a place and its history.",
       "vocabulary": {
         "title": "Q6 - Visiting Museums Now",
@@ -363,7 +363,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think you should pay to visit museums?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q7.mp3",
       "sampleAnswer": "This is a question I feel fairly strongly about—I think access to cultural institutions, including museums, should be as free and universal as possible, and I'm generally opposed to admission charges for publicly funded museums. The argument for free admission is fundamentally about equity and access: culture and knowledge should not be commodities available only to those who can afford them. Museums that hold national collections—objects that belong, in a meaningful sense, to everyone—have a particular obligation to make those collections accessible to all. Free museums also tend to attract a more diverse audience, which benefits both the institutions and the visitors. That said, I recognise the financial realities—museums are expensive to run, and public funding is often insufficient. I think the solution is better public funding rather than admission charges, but I also think there's a reasonable case for voluntary donations, gift aid schemes, and charges for special exhibitions while keeping the permanent collection free. The model of free permanent collections with paid special exhibitions seems to me a reasonable compromise that maintains broad access while generating some revenue.",
       "vocabulary": {
         "title": "Q7 - Paying to Visit Museums",
@@ -419,7 +419,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a popular person.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q8.mp3",
       "bulletPoints": [
         "who this person is, how this person became famous",
         "how you know this person",
@@ -480,7 +480,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think fame changes people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q9.mp3",
       "sampleAnswer": "Yes, I think fame almost inevitably changes people, though the nature and extent of the change depends significantly on the person, the kind of fame, and the speed at which it arrives. The most obvious mechanism is the change in how others relate to you—when people treat you differently, when they project expectations and assumptions onto you, when your every word and action is scrutinised and commented upon, it's very difficult not to internalise some of that and to start performing a version of yourself rather than simply being yourself. Fame also changes your material circumstances in ways that alter your relationship with ordinary life—when you can afford anything, when you're surrounded by people who are paid to agree with you, when you're insulated from the ordinary friction of daily life, you lose the experiences and feedback that keep most people grounded. I think the people who navigate fame most successfully are those who maintain strong relationships with people who knew them before they were famous and who treat them as ordinary human beings—and who have a strong enough sense of their own identity not to be entirely reshaped by external perception.",
       "vocabulary": {
         "title": "Q9 - Does Fame Change People",
@@ -535,7 +535,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it better to be famous or to be ordinary?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q10.mp3",
       "sampleAnswer": "I think this is a question that most people answer differently depending on whether they're imagining fame from the outside or thinking carefully about what it actually involves. From the outside, fame looks appealing—recognition, influence, material comfort, the sense that your work or your existence matters to many people. But when you think about what fame actually involves—the loss of privacy, the constant scrutiny, the difficulty of knowing whether people like you for yourself or for your status, the way it distorts relationships—it becomes much less obviously desirable. I think the honest answer is that most people would benefit from a moderate amount of recognition in their field—enough to feel that their work is valued and to have influence in their area of expertise—without the full burden of celebrity. The kind of fame that comes from being genuinely respected by people whose opinion you respect is probably more satisfying than the kind that comes from being widely known by people who don't really know you. I think the question also depends on what you value—if you value privacy, authenticity, and ordinary human connection, fame is likely to undermine all of those things.",
       "vocabulary": {
         "title": "Q10 - Famous vs Ordinary",
@@ -588,7 +588,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why are some students popular in school?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q11.mp3",
       "sampleAnswer": "Popularity in school is a fascinating and somewhat complex social phenomenon that operates quite differently from popularity in adult life. In school, popularity tends to be driven by a combination of social confidence, physical attractiveness, athletic ability, and the willingness to take social risks—to be funny, to challenge authority, to be seen as cool rather than conformist. Academic achievement is a more complicated factor—in some school cultures it confers status, in others it actively undermines it. I think the students who tend to be most popular are those who are socially skilled in the particular way that school social dynamics reward—they're good at reading the room, at managing their image, at forming and maintaining alliances. What's interesting is that the qualities that make someone popular in school are not necessarily the qualities that lead to success or happiness in adult life—the research on this is actually quite striking, suggesting that the most popular students in school don't necessarily become the most successful or fulfilled adults. I think school popularity is partly about conformity to a very specific and temporary set of social norms, and the people who struggle with those norms often find that the qualities that made them outsiders in school become genuine assets in adult life.",
       "vocabulary": {
         "title": "Q11 - Why Students Are Popular in School",
@@ -644,7 +644,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it important for a teacher to be popular?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q12.mp3",
       "sampleAnswer": "I think this question requires a careful distinction between different senses of 'popular.' If popular means well-liked by students in a superficial sense—entertaining, easy-going, not demanding—then I don't think it's particularly important, and it can actually be counterproductive. Teachers who prioritise being liked over being effective may avoid the difficult conversations, the high expectations, and the rigorous feedback that genuinely help students learn. However, if popular means respected, trusted, and genuinely valued by students—the kind of teacher whose class students look forward to and whose influence persists long after they've left school—then yes, I think this kind of popularity is both important and closely connected to teaching effectiveness. The research on effective teaching consistently identifies the quality of the teacher-student relationship as one of the strongest predictors of learning outcomes. Students learn better from teachers they trust and respect, and they're more willing to take intellectual risks, to ask questions, and to persist through difficulty when they feel that their teacher genuinely cares about their progress. I think the best teachers are popular in the deepest sense—not because they're entertaining, but because they're genuinely invested in their students' growth.",
       "vocabulary": {
         "title": "Q12 - Should Teachers Be Popular",
@@ -700,7 +700,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think good teachers are always popular among students?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q13.mp3",
       "sampleAnswer": "No, and I think this is an important point that challenges a somewhat naive assumption about teaching. The qualities that make a teacher genuinely effective—high expectations, rigorous feedback, the willingness to challenge students and to hold them to demanding standards—are not always the qualities that make a teacher immediately popular. Students often appreciate demanding teachers more in retrospect than in the moment—the teacher who pushed you hardest, who refused to accept mediocre work, who made you think more carefully than you wanted to, is often the one you're most grateful for years later. There's also a timing issue—good teaching often involves short-term discomfort in service of long-term growth, and students are not always well-positioned to evaluate this trade-off in the moment. That said, I don't think there's a necessary conflict between being demanding and being liked—the best teachers manage to combine high expectations with genuine warmth, respect, and care for their students, and this combination tends to generate both effectiveness and genuine affection. The teachers who are unpopular for the wrong reasons—those who are harsh, dismissive, or unfair—are not the same as those who are unpopular because they hold students to high standards.",
       "vocabulary": {
         "title": "Q13 - Are Good Teachers Always Popular",
@@ -756,7 +756,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What are the qualities of a good teacher?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q14.mp3",
       "sampleAnswer": "The qualities of a genuinely good teacher are more varied and more demanding than is sometimes assumed, and I think the best teachers combine qualities that don't always naturally go together. Deep subject knowledge is foundational—you can't teach what you don't understand, and the depth of a teacher's knowledge shapes the quality of the questions they can ask and the connections they can draw. But subject knowledge alone is insufficient—the ability to explain complex ideas clearly, to find the right analogy or example for a particular student, to sense where understanding has broken down and to approach the same idea from a different angle, is a distinct skill that requires both empathy and creativity. High expectations—the genuine belief that all students can achieve more than they currently are—are also crucial, because expectations shape outcomes in ways that are well-documented. The ability to build relationships—to create an environment of trust and psychological safety in which students feel comfortable taking intellectual risks—is another essential quality. Patience, adaptability, and the willingness to reflect on and improve one's own practice are also important. And I think genuine enthusiasm for the subject—the ability to communicate why it matters and why it's interesting—is something that students respond to powerfully and that no amount of pedagogical technique can fully substitute for.",
       "vocabulary": {
         "title": "Q14 - Qualities of a Good Teacher",
@@ -814,7 +814,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it easier to become popular nowadays?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q15.mp3",
       "sampleAnswer": "In some ways yes, and in some ways the question of what 'popular' means has become more complicated. Social media has dramatically lowered the barriers to reaching a large audience—anyone with a smartphone and an internet connection can potentially reach millions of people, and the mechanisms of virality mean that content can spread globally almost instantaneously. In this sense, it's never been easier to achieve a form of visibility that would have been impossible for ordinary people in previous generations. However, I think the relationship between visibility and genuine popularity—in the sense of being genuinely liked, respected, and valued—is more complicated. The internet has also made it easier to attract negative attention, to be misrepresented, and to become the subject of coordinated hostility. The kind of popularity that social media enables is also often shallow and transient—follower counts and view numbers don't necessarily translate into genuine connection or lasting influence. I think the deeper question is whether the kind of popularity that really matters—being genuinely respected and valued by people whose opinion you respect—has become easier or harder. My sense is that this kind of popularity is as difficult as it ever was, because it depends on the quality of what you do and who you are rather than on your ability to game algorithmic systems.",
       "vocabulary": {
         "title": "Q15 - Is It Easier to Become Popular Now",
@@ -870,7 +870,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do people want to be popular?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q16.mp3",
       "sampleAnswer": "The desire for popularity is deeply rooted in human psychology and has evolutionary origins that predate modern society by hundreds of thousands of years. For most of human evolutionary history, social standing within a group was directly connected to survival and reproductive success—being liked, respected, and valued by your community meant access to resources, protection, and mates. The psychological mechanisms that drove people to seek social approval in those environments are still present in modern humans, even though the contexts in which they operate have changed dramatically. At a more immediate level, popularity satisfies fundamental psychological needs—the need to belong, to be valued, to have one's existence acknowledged and affirmed by others. These are genuine needs, not superficial ones, and the pain of social rejection is real and significant. I think the desire for popularity also reflects a desire for influence—to matter, to have your ideas and actions affect the world around you. The problem arises when the desire for popularity becomes disconnected from the things that make popularity meaningful—genuine achievement, authentic connection, real contribution—and becomes an end in itself, pursued through performance and manipulation rather than through genuine quality.",
       "vocabulary": {
         "title": "Q16 - Why People Want to Be Popular",
@@ -926,7 +926,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How does social media affect people's desire for popularity?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-35-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-35-q17.mp3",
       "sampleAnswer": "Social media has profoundly amplified and distorted the human desire for popularity in ways that I think are genuinely concerning, particularly for younger people. The most significant effect is the quantification of social approval—likes, followers, views, and shares provide a continuous, real-time numerical measure of how much other people value your content, which triggers the same psychological reward mechanisms as social approval in face-to-face contexts but in a much more intense and addictive form. This creates powerful incentives to optimise your behaviour and presentation for maximum approval rather than for authenticity or genuine connection. Social media also expands the reference group against which people compare themselves—instead of comparing yourself to the people around you, you're comparing yourself to the most popular people in the world, which makes almost everyone feel inadequate. The business models of social media platforms are built around maximising engagement, which means they're designed to exploit the desire for popularity in ways that keep people coming back. I think the effects on adolescent mental health are particularly concerning—the period of adolescence, when identity is being formed and social belonging is especially important, is also the period when social media use is most intense and when the distortions it creates are most damaging.",
       "vocabulary": {
         "title": "Q17 - Social Media and Desire for Popularity",

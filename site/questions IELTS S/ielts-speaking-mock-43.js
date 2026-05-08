@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you define volunteer work?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q1.mp3",
       "sampleAnswer": "I define volunteer work as any activity where an individual contributes their time, skills, and energy to a cause or organisation without the expectation of financial compensation, and I think the essential element is the voluntary nature of the contribution—the idea that you're choosing to give because you believe in the value of the work or the importance of the cause. It's often motivated by a desire to contribute to the common good, to support a particular community, or to address a specific social or environmental challenge. However, I think the definition is broader than just formal charity work—it includes informal acts of community support, participation in grassroots movements, and the sharing of professional expertise for non-profit purposes. I also think volunteer work is a reciprocal relationship—while the volunteer gives, they also receive: new perspectives, deeper social connections, and a sense of purpose that can be difficult to find in purely professional or personal settings. Ultimately, I see it as a form of social capital—an investment in the health and cohesion of a community that benefits both the giver and the receiver.",
       "vocabulary": {
         "title": "Q1 - Defining Volunteer Work",
@@ -89,7 +89,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What was your first day at work like?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q2.mp3",
       "sampleAnswer": "My first day at work was a mixture of genuine excitement and quite significant anxiety—an experience that I think is fairly universal when stepping into a new professional environment. The overwhelming impression was one of being flooded with information: new names, complex procedures, the particular unwritten rules of the office culture, and the technical details of the role itself. I remember feeling a strong desire to make a positive impression, which probably made me more formal and perhaps more hesitant than I needed to be. I also found the transition from the structured environment of education to the more fluid and self-directed world of professional work to be quite profound—the sense that you're suddenly responsible for results rather than just grades is a significant shift in perspective. Looking back, I think what I found most valuable about that first day wasn't the technical information I learned, but the glimpse it gave me into the social dynamics of the team and the values of the organisation—those early observations turned out to be much more important for my long-term success than I realised at the time.",
       "vocabulary": {
         "title": "Q2 - First Day at Work",
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is the climate like in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q3.mp3",
       "sampleAnswer": "The climate in my country is quite varied due to its size and geography, but it's generally characterised by distinct seasonal transitions and a fair degree of unpredictability, which I think shapes the national character in significant ways. In the coastal regions, the climate is temperate and maritime, with relatively mild winters and cool summers, and a significant amount of rainfall throughout the year—this creates the lush greenery that the country is known for. Inland areas experience more continental influences, with greater temperature extremes—colder winters and hotter, drier summers. I think the most defining feature of our climate is the lack of guaranteed sunshine, even in summer, which has created a kind of national obsession with the weather and a culture of being prepared for all eventualities. There's also a growing awareness of how the climate is changing—winters are becoming milder and wetter, and heatwaves in summer are becoming more frequent and more intense. I find the variety of the climate genuinely enjoyable—the distinctness of the seasons gives a natural rhythm to the year that I would miss in a place with a more uniform climate.",
       "vocabulary": {
         "title": "Q3 - Climate in Your Country",
@@ -196,7 +196,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does bad weather ever affect transport in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q4.mp3",
       "sampleAnswer": "Yes, extreme weather events have a significant and often disruptive impact on our transport infrastructure, revealing the vulnerabilities of systems that are generally designed for more moderate conditions. Heavy snowfall, although relatively infrequent in the lowlands, can bring both road and rail networks to a standstill because we simply haven't invested in the kind of expensive snow-clearing equipment that countries with regular snow possess. Flooding is an increasingly common problem, with heavy rainfall overwhelming drainage systems and damaging bridges and railway lines. Even high temperatures in summer have started to cause issues—buckling railway tracks and melting road surfaces that were not engineered for extreme heat. I think these disruptions raise important questions about the resilience of our infrastructure in the face of climate change—the cost of upgrading systems to withstand more extreme weather is enormous, but the economic and social cost of frequent transport failures is also significant. I find it fascinating how a relatively small amount of snow or rain can reveal the technological fragility of a modern, highly interconnected society.",
       "vocabulary": {
         "title": "Q4 - Bad Weather Affecting Transport",
@@ -252,7 +252,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Has the weather changed much in your country in recent years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q5.mp3",
       "sampleAnswer": "Yes, there's a strong consensus among both scientists and the general public that the weather patterns in my country have shifted quite significantly over the last few decades, reflecting global trends in climate change. The most noticeable change has been the increase in average temperatures—winters are generally milder and less reliable in terms of snow, while summers are becoming hotter and more prone to extreme heatwaves that were previously very rare. We're also seeing more extreme precipitation events—the rainfall is becoming more concentrated, leading to more frequent and more severe flooding. I think these changes have moved the conversation about climate change from something theoretical and distant to something immediate and tangible—when you've experienced several 'once-in-a-century' floods or heatwaves in a single decade, it's difficult to ignore the reality of what's happening. I also notice a change in the timing of the seasons—nature seems to be waking up earlier in the spring, which has complex effects on ecosystems and agriculture. While some people enjoy the warmer summers, I think there's a growing sense of unease about the unpredictability and intensity of the new weather patterns.",
       "vocabulary": {
         "title": "Q5 - Weather Changes in Recent Years",
@@ -306,7 +306,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Would you say the weather in your hometown is suitable for working (or studying)?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q6.mp3",
       "sampleAnswer": "I think the weather in my hometown is actually very conducive to focused work and study, precisely because it lacks the kind of intense, consistent sunshine that can be a major distraction. Most of the year, the weather is cool and often slightly overcast, which I find creates a natural environment for sustained indoor activity—there isn't the same internal conflict between wanting to be outside and needing to be at a desk that you experience on rare, beautiful data. The moderate temperatures also mean that you're rarely too hot or too cold to concentrate, which is a significant advantage for cognitive tasks. I think there's also something about the rhythm of the weather—the frequent transitions and the lack of extreme heat or cold—that provides a steady, if somewhat muted, background for a productive daily routine. Of course, the lack of sun can be a bit demoralising in the depths of winter, and I think it requires a certain degree of mental discipline to stay motivated when the days are short and grey. But on balance, I think the mild, unremarkable weather of my hometown is a much better environment for intellectual work than a place with more extreme or more traditionally 'beautiful' weather.",
       "vocabulary": {
         "title": "Q6 - Weather for Work/Study",
@@ -361,7 +361,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does the weather affect the way that you feel?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q7.mp3",
       "sampleAnswer": "Yes, I'm quite sensitive to the weather, and I think its impact on my mood and energy levels is genuine even if it's sometimes subtle. Clear, bright sunshine has a very direct positive effect—it creates a sense of openness and possibility that makes me feel more energetic and optimistic. Conversely, long periods of grey, overcast weather can lead to a kind of mental lethargy and a more introverted, quiet mood—which isn't necessarily negative, but it's a very different state from the one induced by sun. I also find that certain types of weather have a powerful emotional resonance—the freshness after a heavy rain, the stillness before a storm, or the crispness of a cold winter morning all trigger quite specific internal states. I think the most significant impact is on my energy levels—I'm much more likely to be active and to take on new projects when the weather is improving. I'm aware that this could be partly cultural—we've been conditioned to associate sun with happiness and rain with melancholy—but I also think there's a real physiological dimension to how we respond to light and temperature. I've learned to adapt to this by being mindful of how the weather is affecting me and by trying to align my activities with my natural energy patterns.",
       "vocabulary": {
         "title": "Q7 - Weather Affecting Feelings",
@@ -415,7 +415,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe something you can't live without (not a computer or phone).",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q8.mp3",
       "bulletPoints": [
         "what it is",
         "how you use it",
@@ -478,7 +478,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think people are too materialistic these days?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q9.mp3",
       "sampleAnswer": "Yes, I think there's a genuine tension between the values of consumerism and a more meaningful sense of wellbeing, and I think many modern societies are currently struggle to find a healthy balance. The constant pressure from advertising and social media creates a culture where having and showing off material possessions is often equated with success and happiness—an equation that is not supported by the research on human flourishing. This leads to a kind of 'hedonic treadmill' where people are constantly pursuing new things but never reaching a state of lasting satisfaction. However, I think it's important to distinguish between materialism—valuing things for their status or as a substitute for meaning—and a genuine appreciation for objects that have utility, beauty, or personal significance. The problem is not the objects themselves, but the role we expect them to play in our lives. I see a growing counter-movement toward minimalism and intentional living, which suggests that many people are becoming aware of the costs of excessive materialism and are looking for ways to simplify their lives and focus on experiences and relationships over possessions.",
       "vocabulary": {
         "title": "Q9 - Materialism",
@@ -529,7 +529,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it better to have many small things or one expensive thing?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q10.mp3",
       "sampleAnswer": "I think the answer depends heavily on the context and the nature of the thing in question, but as a general principle, I find myself increasingly drawn to the idea of 'fewer, better things.' Having one high-quality, well-made item often provides a much higher level of utility and pleasure over the long term than having many cheaper, lower-quality items. A single, beautifully crafted tool or piece of furniture can be a joy to use for a lifetime and may even increase in value, whereas many cheap items often break easily and contribute to a culture of waste. I also think there's a significant psychological benefit to having fewer possessions—it reduces clutter, simplifies choices, and allows you to form a deeper connection with the things you do own. Of course, there are exceptions—some things are inherently ephemeral or varied, and in those cases, variety might be more valuable than quality. But in general, I think the move toward quality over quantity is a more sustainable and genuinely satisfying way to live—it encourages us to be more intentional about what we bring into our lives and to value more highly what we have.",
       "vocabulary": {
         "title": "Q10 - Quality vs Quantity",
@@ -580,7 +580,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think that keeping old things in a family is a great way to connect with the past?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q11.mp3",
       "sampleAnswer": "Yes, I think family heirlooms and old possessions act as powerful physical bridges to the past, providing a type of tangible connection to history that no amount of reading or looking at photos can quite replicate. These objects carry what I think of as 'narrative weight'—they are physical embodiments of the stories, values, and experiences of previous generations. For example, a piece of jewellery, an old tool, or even a simple kitchen implement that was used by a grandparent carries a sense of their actual life—you can touch what they touched, and in doing so, the history of your family becomes less abstract and more personal. I also think these objects provide a sense of continuity in a rapidly changing world—they remind us that we are part of a longer story that extends backward and forward in time. However, I think the value lies not in the objects themselves, but in the stories we tell about them—an old object whose history has been forgotten is just an old object. The real power of keeping old things is that they serve as prompts for the intergenerational sharing of stories, which is how a family's identity and values are truly preserved.",
       "vocabulary": {
         "title": "Q11 - Family Heirlooms",
@@ -632,7 +632,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do grown-ups hate to throw away old things?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q12.mp3",
       "sampleAnswer": "The reluctance that many adults feel about throwing away old things is genuinely complex, and I think it has more to do with the emotional and psychological associations attached to objects than with the objects themselves. For many people, possessions are closely tied to their identity and their memories—discarding an object can feel like discarding a part of their own history or a memory of a particular person or time. There's also what psychologists call the 'endowment effect'—the tendency to value things more highly simply because we own them, which is often compounded by the time and effort we've invested in acquiring or maintaining them. I think for older generations, the reluctance may also be a legacy of a different economic era—one of scarcity or at least less abundance—where things were made to last and the idea of throwing something away that still had potential utility was seen as genuinely wasteful. There's also a kind of aspirational hoarding—keeping things because of who we think we might become or what we think we might do in the future. I think the challenge for many adults is distinguishing between objects that provide genuine value or meaning and those that have simply become a form of psychological baggage that constrains them.",
       "vocabulary": {
         "title": "Q12 - Reluctance to Throw Away Things",
@@ -684,7 +684,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How have people's shopping habits changed in recent decades?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q13.mp3",
       "sampleAnswer": "People's shopping habits have undergone a profound transformation over the last few decades, driven primarily by technological change and the subsequent shifts in consumer expectations and retail infrastructure. The most obvious change is the move from physical, high-street shopping to online e-commerce—a shift that has changed not just where we buy, but how we buy. We now have access to a global marketplace 24/7, with the ability to compare prices, read reviews, and have items delivered to our doorstep with unprecedented speed. This has led to a much more research-driven and price-conscious consumer culture. We've also seen the rise of 'fast' everything—fast fashion, fast furniture, fast electronics—where items are produced cheaply and discarded quickly, leading to a much more disposable orientation toward possessions. Conversely, there's a growing but still minority movement toward ethical and sustainable consumption—an increased awareness of the environmental and social impact of our purchases. I think the most interesting change is the shift from 'shopping as a necessity' to 'shopping as entertainment'—the way that digital platforms have made the act of browsing and buying a primary form of leisure activity, blurred the line between content and commerce.",
       "vocabulary": {
         "title": "Q13 - Changing Shopping Habits",
@@ -735,7 +735,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "How do shops attract customers?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q14.mp3",
       "sampleAnswer": "Shops attract customers through an increasingly sophisticated combination of psychological cues, experiential design, and data-driven marketing, and the strategies they use have become much more subtle as the retail landscape has become more competitive. In physical retail, the focus has shifted toward creating an 'experience'—using lighting, music, scent, and spatial design to create a particular mood that encourages people to linger and to associate the brand with positive emotions. The goal is to make the shop a destination in itself. In the digital world, the strategies are more about personalisation and frictionless interaction—using algorithms to provide tailored recommendations, using social proof like reviews and influencer endorsements, and creating an almost addictive cycle of notifications and limited-time offers. Both physical and digital shops use high-level psychological techniques like scarcity—the idea that an item is low in stock—and social proof—the idea that everyone else is buying it—to create a sense of urgency. I think the most effective strategy in the contemporary market is building a 'lifestyle brand'—where customers are not just buying a product, but are buying into a particular set of values or an identity that the shop has carefully constructed.",
       "vocabulary": {
         "title": "Q14 - How Shops Attract Customers",
@@ -789,7 +789,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What makes people buy new things?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q15.mp3",
       "sampleAnswer": "The motivations that drive people to buy new things are diverse and often operate at several different levels simultaneously. At the most basic level, there's the functional motivation—the need to replace something that is broken, worn out, or no longer fit for purpose. However, in modern consumer societies, functional needs are often overshadowed by psychological and social motivations. One of the primary drivers is the desire for novelty—the genuine psychological pleasure that comes from experiencing something new, which is a powerful and very human impulse. There's also the social dimension—the use of possessions as markers of status, identity, or belonging. Buying a new item can be a way of signaling that you're part of a certain group or that you've achieved a certain level of success. I think another significant factor is the influence of sophisticated marketing and the constant exposure to new products through social media, which creates what psychologists call 'manufactured needs'—the feeling that you lack something you didn't even know existed five minutes ago. Ultimately, I think many people buy new things as a form of 'retail therapy'—using the act of purchase to manage their mood or to provide a temporary sense of control and optimism in an uncertain world.",
       "vocabulary": {
         "title": "Q15 - Why People Buy New Things",
@@ -839,7 +839,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why do all children like toys?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q16.mp3",
       "sampleAnswer": "I think the universal appeal of toys for children is rooted in the essential role that play plays in human development—toys are not just entertainment; they're the tools that children use to explore, understand, and master the world around them. At a very basic level, toys provide sensory stimulation—the different textures, colours, and sounds of toys are fascinating to a child's developing brain. As children get older, toys become more about imagination and the rehearsal of adult roles—a doll or a set of blocks allows a child to create and control their own world, which is a powerful form of cognitive and social development. I also think toys provide a way for children to express and manage their emotions in a safe, play-based context. The variety of toys available reflects the variety of children's interests and developmental needs—from the physical challenges of a ball to the complex problem-solving of a puzzle. Ultimately, I think children like toys because play is their primary way of learning, and toys are the objects that make that learning possible and enjoyable. There's also a simple but important emotional dimension—toys often represent a source of comfort and security for children, particularly in the case of soft toys or dolls.",
       "vocabulary": {
         "title": "Q16 - Why Children Like Toys",
@@ -887,7 +887,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think it's good for a child to take his or her favourite toy with them all the time?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-43-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-43-q17.mp3",
       "sampleAnswer": "I think this is a situation that depends heavily on the age of the child and the specific circumstances, but in general, I find myself holding a cautiously positive view. For younger children, a favourite toy often functions as what psychologists call a 'transitional object'—something that provides a sense of security and continuity when the child is in new or challenging environments. In this sense, taking a toy along can be a healthy and effective way for a child to manage anxiety and to feel a sense of home and belonging wherever they are. However, I think as children get older, it's important for them to gradually develop the internal resources to manage their emotions without relying on a physical object. If a child is still compulsively carrying a toy at an age where it's no longer socially or developmentally appropriate, it might be a sign of underlying anxiety that needs to be addressed. I also think there's a practical dimension—taking a toy everywhere risks it being lost or damaged, which can be devastating for a child and can create unnecessary stress for both child and parent. I think the ideal approach is one of gentle transition—allowing the toy in situations where it's genuinely needed, while encouraging the child to engage with the world more independently in others.",
       "vocabulary": {
         "title": "Q17 - Taking Toys Everywhere",

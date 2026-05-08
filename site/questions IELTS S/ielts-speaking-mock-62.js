@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Are you a patient person?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q1.mp3",
       "sampleAnswer": "I would describe myself as someone who has 'cultivated' a high degree of patience over time, though it didn't come naturally to me. I've realized that in our 'hyper-accelerated' modern world, the ability to wait without 'mental agitation' is a significant 'competitive advantage.' I try to view periods of waiting not as 'wasted time,' but as 'interstitial spaces' for reflection or observation. This 'shift in perspective' has significantly reduced my stress levels and improved my 'decision-making quality' because I'm less likely to rush into poorly considered actions. It's an ongoing practice of 'emotional regulation.'",
       "vocabulary": {
         "title": "Q1 - Self-Assessment of Patience",
@@ -81,7 +81,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you ever get impatient?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q2.mp3",
       "sampleAnswer": "Of course, I'm certainly not 'immune' to bouts of impatience, especially when I encounter 'unnecessary systemic friction'—like bureaucratic delays or inefficient processes that have no logical justification. I find that my patience 'evaporates' most quickly when there is a 'perceived lack of respect' for other people's time. In those moments, I can feel a sense of 'internal restlessness' and a desire to 'expedite the outcome.' However, I've learned to 'intercept' these feelings before they manifest in my behavior, usually by focusing on something 'autonomous' within my control, like a deep breathing exercise or mental planning.",
       "vocabulary": {
         "title": "Q2 - Triggers of Impatience",
@@ -127,7 +127,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "When was the last time you lost your patience?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q3.mp3",
       "sampleAnswer": "The most recent instance occurred last week during a particularly 'clunky technical glitch' while I was trying to submit an urgent project. After three hours of work, the software 'crashed without autosaving,' which triggered an immediate 'visceral frustration.' I felt a strong urge to react 'destructively,' but I managed to 'reframe the situation' as an opportunity to produce a 'more refined second version' of the project. I ended up spending the night redoing the work, but I did so with a 'calm focus' instead of anger. It was a test of my 'resilience' as much as my patience, and I think I passed.",
       "vocabulary": {
         "title": "Q3 - Recent Impatience",
@@ -170,7 +170,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you have a pet?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q4.mp3",
       "sampleAnswer": "I don't currently have a pet, primarily due to my 'peripatetic lifestyle' and the 'high-intensity nature' of my professional commitments. I believe that animal companionship is a 'significant responsibility' that requires a level of 'attentional consistency' that I simply cannot provide at this stage of my life. However, I have a deep 'vicarious appreciation' for pets and often volunteer at a local animal shelter when my schedule permits. For me, it's a way to experience the 'biological bond' with animals without the 'owner's burden' of full-time care. If I were to get one in the future, it would definitely be a 'rescue animal' that needs a stable environment.",
       "vocabulary": {
         "title": "Q4 - Owning a Pet",
@@ -215,7 +215,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What's your favourite animal?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q5.mp3",
       "sampleAnswer": "I'm profoundly fascinated by the 'biological intelligence' and 'complex social structures' of elephants. I find their 'multi-generational memory' and their capacity for 'profound grief and empathy' to be extremely moving. They represent a kind of 'sentient wisdom' that is quite rare in the animal kingdom. On a more 'aesthetic level,' I also have a great deal of respect for the 'architectural precision' of spiders and the 'solitary stoicism' of birds of prey. Each species offers a different 'philosophical lens' through which to view the natural world. If I had to choose one that resonates most, it would be the elephant for its 'social cohesion.'",
       "vocabulary": {
         "title": "Q5 - Favourite Animal",
@@ -261,7 +261,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What is a popular pet to have in your country?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q6.mp3",
       "sampleAnswer": "In my country, there is a clear 'cultural dominance' of dogs, which are often viewed as 'integral family members' rather than just domestic animals. We've seen a recent shift toward 'medium-sized, high-intelligence breeds' that are adaptable to both suburban and urban living. Cats follow closely, especially among 'career-focused individuals' who appreciate their 'autonomous nature' and lower maintenance requirements. There's also a growing 'niche interest' in more 'unconventional companions' like reptiles or exotic birds, though this remains a 'minority trend.' The choice of pet often reflects the owner's 'personal philosophy' regarding companionship and independence.",
       "vocabulary": {
         "title": "Q6 - Popular Pets",
@@ -306,7 +306,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do people have pets?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q7.mp3",
       "sampleAnswer": "I believe the primary motivation is the search for 'unconditional emotional resonance' in an increasingly 'fragmented social landscape.' Pets provide a unique form of 'non-verbal companionship' that reduces 'existential isolation' and provides a consistent 'sense of purpose.' Furthermore, caring for another living being acts as a 'psychological anchor,' grounding us in 'daily routines' and physical reality. For many, a pet is a 'biological bridge' to the natural world—a reminder of 'simpler emotional truths' that are often obscured by the complexity of human relationships. Essentially, they fulfill a 'fundamental primate need' for connection and caretaking that modern life often neglects.",
       "vocabulary": {
         "title": "Q7 - Reasons for Having Pets",
@@ -350,7 +350,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a person who makes plans a lot and is good at planning.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q8.mp3",
       "bulletPoints": [
         "who this person is",
         "how you know this person",
@@ -408,7 +408,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you prefer to plan your own activities or leave them to someone else?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q9.mp3",
       "sampleAnswer": "I would characterize my preference as a 'flexible autonomy'; I enjoy setting the 'high-level strategic goals' for my life, but I'm more than happy to 'outsource' the 'granular logistics' to an expert if possible. I find that 'decision fatigue' is a real cognitive burden, so having a 'trusted curator' for social or travel plans allows me to remain in a state of 'relaxed receptivity.' However, for anything related to my 'professional trajectory' or 'personal health,' I insist on being the 'sole primary architect.' It's about 'allocating my cognitive energy' to the areas that define my long-term future, rather than the 'trivial details' of the day-to-day.",
       "vocabulary": {
         "title": "Q9 - Planning Preference",
@@ -454,7 +454,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is it possible to plan too much?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q10.mp3",
       "sampleAnswer": "I believe that 'over-planning' is a common 'psychological trap' that can lead to 'experiential rigidity.' When we try to eliminate all 'uncertainty,' we also accidentally eliminate the 'possibility of serendipity'—those unexpected, beautiful moments that are often the highlights of our lives. Furthermore, a plan that is too 'granular' is extremely 'fragile'; if one tiny 'variable' changes, the entire structure can 'collapse,' causing unnecessary 'stress and disorientation.' The ideal approach is to have a 'robust framework' that provides 'direction' while remaining 'permeable' enough to allow for 'unplanned exploration.' We should use plans as 'maps,' not as 'scripts.'",
       "vocabulary": {
         "title": "Q10 - Over-planning Risks",
@@ -499,7 +499,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "In general, do you think planning is important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q11.mp3",
       "sampleAnswer": "I consider planning to be a 'foundational cognitive tool' for 'mitigating risk' and maximizing 'resource efficiency.' In a 'finite life' with limited time and energy, having a 'strategic blueprint' ensures that our actions are 'aligned' with our long-term values rather than just responding to 'immediate stimuli.' Furthermore, the act of planning itself produces 'psychological clarity'; it forces us to 'confront trade-offs' and define what is truly 'paramount.' While plans must remain 'adaptable,' the lack of a plan usually leads to 'drift'—a state where we are 'reactive' to the world rather than 'proactive.' It's the difference between being a 'passenger' and being the 'navigator' of your own existence.",
       "vocabulary": {
         "title": "Q11 - Importance of Planning",
@@ -546,7 +546,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think everyone in your country makes everyday plans?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q12.mp3",
       "sampleAnswer": "I think there's a significant 'socio-economic and generational divide' in how planning is practiced. Among the 'digitally-native' younger generation, there's a strong trend toward 'meticulous daily optimization'—using apps to track everything from 'caloric intake' to 'sleep cycles.' Conversely, the older generation often relies on a more 'intuitive and rhythmic' approach to life, where the plan is 'implicit' rather than 'codified.' I also believe that 'financial precariousness' often forces a very 'short-term survival mindset' that makes 'long-range planning' a luxury they cannot afford. So, while 'functional scheduling' is common, the 'sophistication' of that planning varies immensely across different 'demographic layers.'",
       "vocabulary": {
         "title": "Q12 - National Planning Habits",
@@ -592,7 +592,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think children should plan their future careers?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q13.mp3",
       "sampleAnswer": "I believe that 'career planning' at a young age should focus on 'directional exploration' rather than 'destination-fixation.' Encouraging a child to 'prematurely lock-in' a specific profession can be 'developmentally stunting,' as it ignores the 'dynamic nature' of the modern labor market and the 'evolution' of their own interests. Instead, we should help them plan for the 'acquisition of meta-skills'—like 'critical thinking and emotional intelligence'—which will remain 'perennially valuable' regardless of the specific industry. We should teach them to 'plan for versatility' rather than 'certainty.' A child's career plan should be a 'discovery document,' not a 'contract.'",
       "vocabulary": {
         "title": "Q13 - Career Planning for Children",
@@ -637,7 +637,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Should children ask their teachers or parents for advice when making plans?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q14.mp3",
       "sampleAnswer": "I see both as 'essential but distinct' sources of 'navigational intelligence.' Parents provide the 'foundational understanding' of the child's 'internal temperament' and long-term values, acting as a 'moral compass.' Teachers, however, offer 'meritocratic objectivity' and a broader 'contextual knowledge' of external opportunities and academic hurdles. The ideal situation is one where the child 'synthesizes' these two different 'perspectives.' However, it's also vital that the adults transition from being 'decision-makers' to being 'facilitators of autonomy.' The child must eventually learn the 'consequences of their own mapping'—advice should be 'scaffolding' that supports their choice, not a 'mandate' that replaces it.",
       "vocabulary": {
         "title": "Q14 - Advisory Roles",
@@ -683,7 +683,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What activities do we need to plan ahead?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q15.mp3",
       "sampleAnswer": "I think we need to prioritize 'high-consequence' and 'resource-intensive' activities for our 'deep planning sessions.' This includes 'financial solvency' for retirement, 'career transitions' that require significant retraining, and anything involving 'multi-stakeholder coordination,' like international travel or major family events. These are the 'macro-moves' of a life that cannot be easily 'reversed.' Conversely, we should resist the urge to plan 'low-stakes leisure' or 'creative endeavors' too meticulously, as these require 'spontaneity and intuition' to be meaningful. The goal is to 'automate and plan' the 'logistical infrastructure' of our lives so that we have the 'mental bandwidth' to be spontaneous in our human connections.",
       "vocabulary": {
         "title": "Q15 - Strategic Planning Areas",
@@ -727,7 +727,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is making study plans popular among young people?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q16.mp3",
       "sampleAnswer": "It's become 'exceptionally popular,' almost to the point of being a 'performative subculture' online—what's often called 'studygram' or 'productive aesthetic.' Young people are increasingly obsessed with 'hyper-detailed scheduling,' 'Pomodoro timing,' and 'color-coded visualization' of their academic progress. While this indicates a high level of 'personal accountability' and 'ambition,' I'm concerned that it can sometimes prioritize the 'appearance of productivity' over actual 'cognitive absorption.' There's a risk of 'process-fetishization' where they spend more time 'decorating the plan' than actually 'engaging with the material.' However, when used as a 'genuine organizational tool,' these plans are a powerful way to manage the 'unprecedented information load' of modern education.",
       "vocabulary": {
         "title": "Q16 - Study Planning Trends",
@@ -771,7 +771,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you think choosing a college major is closely related to a person's future career?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-62-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-62-q17.mp3",
       "sampleAnswer": "I believe the 'causal link' between a major and a career is 'loosening significantly' as our economy becomes more 'skills-based' rather than 'credentials-based.' While 'technical fields' like medicine or engineering require a 'specific academic path,' many 'leadership and strategic roles' in the modern world value a 'diverse intellectual background' more than a specific degree. A person with a 'Philosophy major' might end up leading an AI ethics team. I think the 'primary value' of a major is the 'structural way of thinking' it instills, rather than the 'subject matter' itself. We are moving toward a world of 'career pivots,' where the ability to 'apply a mental model' from one field to another is the most 'valuable career plan' one can have.",
       "vocabulary": {
         "title": "Q17 - Major vs Career",

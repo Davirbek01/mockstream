@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you usually wear a watch?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">actually</span> wear a watch every day. It's become such a <span class=\"ml-token colloc\">daily habit</span> that I feel incomplete without it on my wrist.</div>\n\n<div>I prefer wearing a classic analogue watch because I think it looks more <span class=\"ml-token adv\">elegant</span> and professional. Even though I have a phone that tells the time, glancing at my watch is much quicker and more <span class=\"ml-token colloc\">discreet</span>, <span class=\"ml-token adv\">especially</span> during meetings or classes.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, I see my watch as a <span class=\"ml-token colloc\">fashion accessory</span> that complements my outfit. As they say, <span class=\"ml-token proverb\">\"Time and tide wait for no man\"</span>, so having a watch is a good reminder to <span class=\"ml-token colloc\">make the most of</span> every moment.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever grown a plant or a flower?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I have! A few years ago, I <span class=\"ml-token adv\">actually</span> tried growing tomatoes and basil on my balcony. It was a <span class=\"ml-token adv\">really</span> rewarding experience.</div>\n\n<div>I <span class=\"ml-token adv\">particularly</span> enjoyed watching the plants grow from tiny seeds into something I could <span class=\"ml-token adv\">actually</span> use in cooking. It taught me a lot about patience and the importance of <span class=\"ml-token colloc\">consistent care</span> — watering them regularly and making sure they got enough sunlight.</div>\n\n<div><span class=\"ml-token adv\">Unfortunately</span>, I don't have much time for gardening these days, but I'd love to <span class=\"ml-token colloc\">take it up</span> again in the future. As they say, <span class=\"ml-token proverb\">\"To plant a garden is to believe in tomorrow\"</span>.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you smile often in your daily life?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I'd say I smile <span class=\"ml-token adv\">quite</span> often throughout the day. I'm <span class=\"ml-token adv\">generally</span> a cheerful person, and I believe that smiling can <span class=\"ml-token colloc\">brighten up</span> not only my own mood but also the people around me.</div>\n\n<div>I <span class=\"ml-token adv\">especially</span> smile when I'm spending time with friends or family, or when something funny happens unexpectedly. Even small things like a kind message or a beautiful sunset can bring a <span class=\"ml-token colloc\">genuine smile</span> to my face.</div>\n\n<div>I also think smiling is <span class=\"ml-token adv\">incredibly</span> important in social situations — it makes you appear more <span class=\"ml-token colloc\">approachable and friendly</span>. As they say, <span class=\"ml-token proverb\">\"A smile is the universal welcome\"</span>.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>These two pictures present a <span class=\"ml-token colloc\">striking contrast</span> between two very different methods of producing goods.</div>\n\n<div>In the first picture, I can see a large factory or <span class=\"ml-token colloc\">production facility</span> where goods are being manufactured on a massive scale. Everything appears to be automated and <span class=\"ml-token adv\">highly</span> efficient, with identical products being produced in large quantities on an <span class=\"ml-token colloc\">assembly line</span>.</div>\n\n<div>The second picture shows a very different scene — a craftsperson <span class=\"ml-token adv\">carefully</span> making items by hand. This represents a more traditional, <span class=\"ml-token colloc\">artisanal approach</span> where each product is unique and made with personal attention and skill. The atmosphere feels much more <span class=\"ml-token adv\">intimate</span> and creative.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of buying factory-made, mass-produced goods?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">several</span> significant advantages to buying factory-made, mass-produced goods, as illustrated in the first picture.</div>\n\n<div><span class=\"ml-token adv\">Firstly</span>, mass-produced items are <span class=\"ml-token adv\">generally</span> much more <span class=\"ml-token colloc\">affordable</span> than handmade products. Because factories produce goods in large quantities, the <span class=\"ml-token colloc\">cost per unit</span> is significantly lower, making them accessible to a wider range of consumers.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, factory-made goods offer <span class=\"ml-token colloc\">consistency and reliability</span>. Every product coming off the assembly line meets the same quality standards, so customers know <span class=\"ml-token adv\">exactly</span> what they're getting. There are fewer surprises in terms of quality.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, mass production allows for greater <span class=\"ml-token colloc\">availability</span> — these products are stocked in stores everywhere and can be replaced easily if something breaks. As they say, <span class=\"ml-token proverb\">\"Necessity is the mother of invention\"</span>, and factories have made essential goods available to millions.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why do people often value handmade items, even if they are more expensive?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Many people are willing to pay a premium for handmade items, as shown in the second picture, and there are <span class=\"ml-token adv\">several</span> compelling reasons for this.</div>\n\n<div><span class=\"ml-token adv\">Primarily</span>, handmade products are <span class=\"ml-token colloc\">unique and one-of-a-kind</span>. Unlike factory goods, each handcrafted item has its own character and small imperfections that make it <span class=\"ml-token adv\">truly</span> special. People appreciate owning something that nobody else has.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, there's a deep appreciation for the <span class=\"ml-token colloc\">skill and craftsmanship</span> involved. When you buy a handmade item, you're paying for hours of dedicated work, years of expertise, and genuine passion. It feels more <span class=\"ml-token colloc\">meaningful</span> than a product made by a machine.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, many people choose handmade goods because they want to <span class=\"ml-token colloc\">support local artisans</span> and small businesses rather than large corporations. There's also a growing awareness that handmade products are often more <span class=\"ml-token colloc\">environmentally sustainable</span>. As they say, <span class=\"ml-token proverb\">\"The best things in life are worth waiting for\"</span>.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Tell me about a time you made a big purchase.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Tell me about a time you made a big purchase.",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "The government is responsible for environmental protection.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-33-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-33-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think photos are the best way to remember something?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">firmly</span> believe that photos are one of the best ways to capture memories. They provide a <span class=\"ml-token colloc\">visual record</span> of special moments that our minds <span class=\"ml-token adv\">gradually</span> forget over time.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, looking back at an old photograph can <span class=\"ml-token adv\">instantly</span> trigger strong emotions and transport you right back to that exact day. As people often say, <span class=\"ml-token proverb\">\"a picture is worth a thousand words,\"</span> making it an invaluable tool for <span class=\"ml-token colloc\">preserving history</span>.</div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy studying history?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div><span class=\"ml-token adv\">Absolutely</span>, I find studying history to be <span class=\"ml-token adv\">incredibly</span> fascinating. Exploring ancient civilizations and understanding how our modern society was formed gives me a <span class=\"ml-token colloc\">profound sense</span> of perspective.</div>\n\n<div>Learning about the successes and failures of our ancestors is not only interesting but also <span class=\"ml-token adv\">highly</span> educational. It helps us avoid repeating the same mistakes because, as the saying goes, <span class=\"ml-token proverb\">\"history repeats itself\"</span> if we do not learn from it.</div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think shoes are a good gift?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I think shoes can be a <span class=\"ml-token adv\">wonderfully</span> practical gift, <span class=\"ml-token adv\">especially</span> if you know the person’s exact size and taste. High-quality footwear is something everyone needs on a <span class=\"ml-token colloc\">daily basis</span>.</div>\n\n<div><span class=\"ml-token adv\">However</span>, buying shoes for someone else can be quite risky since comfort and fit are highly <span class=\"ml-token colloc\">subjective preferences</span>. If you get it wrong, it might end up just gathering dust in the closet, so <span class=\"ml-token proverb\">\"it's better to be safe than sorry\"</span> and perhaps give a gift card instead.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "Describe these pictures.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>The first picture shows a <span class=\"ml-token colloc\">bustling modern city</span> with towering skyscrapers and tourists exploring the urban landscape. The focus here is clearly on <span class=\"ml-token colloc\">urban tourism</span>, architecture, and the fast-paced city life.</div>\n\n<div>In stark contrast, the second picture displays a group of hikers walking through a <span class=\"ml-token colloc\">serene natural environment</span>. They are surrounded by lush greenery, escaping the city to <span class=\"ml-token adv\">fully</span> immerse themselves in nature. The images highlight two <span class=\"ml-token adv\">completely</span> different styles of recreation: seeking excitement in the concrete jungle versus finding peace in the <span class=\"ml-token colloc\">great outdoors</span>.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Why are many young people nowadays interested in traveling to modern cities?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are several reasons why modern cities are <span class=\"ml-token adv\">incredibly</span> attractive to younger generations. <span class=\"ml-token adv\">Firstly</span>, urban centers are hubs of culture, entertainment, and innovation. Young people are <span class=\"ml-token adv\">naturally</span> drawn to the <span class=\"ml-token colloc\">vibrant nightlife</span>, world-class restaurants, and countless cultural events that only a metropolis can provide.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, traveling to a modern city is <span class=\"ml-token adv\">highly</span> convenient. Infrastructure like public transportation makes sightseeing easy, and discovering <span class=\"ml-token colloc\">famous landmarks</span> they have seen on social media is a big draw. They want to experience that <span class=\"ml-token colloc\">cosmopolitan lifestyle</span> firsthand.</div>\n\n<div><span class=\"ml-token adv\">Ultimately</span>, modern cities offer a <span class=\"ml-token colloc\">sense of endless possibility</span>. The energy of the crowd and the architectural marvels make city breaks <span class=\"ml-token adv\">immensely</span> popular because, for adventurous youth, <span class=\"ml-token proverb\">\"the sky is the limit\"</span> when exploring a new urban destination.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Does organizing trips to nature have a positive effect on mental health?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Yes, <span class=\"ml-token adv\">without a doubt</span>, organizing trips to nature has a <span class=\"ml-token adv\">profoundly</span> positive impact on mental well-being. Modern life is filled with screens, notifications, and stress, which <span class=\"ml-token adv\">inevitably</span> takes a toll on our minds. Escaping to nature provides a <span class=\"ml-token colloc\">digital detox</span> that allows the brain to rest.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, scientific studies have shown that spending time in green spaces <span class=\"ml-token adv\">significantly</span> lowers cortisol levels, which reduces anxiety and depression. Breathing in fresh air and enjoying the <span class=\"ml-token colloc\">tranquil surroundings</span> helps people clear their heads.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, nature walks usually involve <span class=\"ml-token colloc\">physical exertion</span>, which releases endorphins, the body's natural mood elevators. Connecting with the natural world is <span class=\"ml-token adv\">essentially</span> a way to <span class=\"ml-token colloc\">recharge one's batteries</span>, proving that <span class=\"ml-token proverb\">\"nature is the best physician.\"</span></div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a situation where you solved a problem in a creative way.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Describe a situation where you solved a problem in a creative way.",
@@ -293,7 +293,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Social media has a strong influence on young people’s behavior and opinions.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-47-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-47-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

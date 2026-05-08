@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you usually prepare for exams?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>When it comes to exam preparation, I usually start by creating a <span class=\"ml-token colloc\">detailed study schedule</span> a few weeks in advance. This helps me break down the material into <span class=\"ml-token colloc\">manageable chunks</span> instead of cramming at the last minute.</div>\n\n<div>I also find it <span class=\"ml-token adv\">highly</span> effective to practice with past papers and explain the concepts to a friend. <span class=\"ml-token adv\">Overall</span>, consistency is key for me, because as they say, <span class=\"ml-token proverb\">\"by failing to prepare, you are preparing to fail.\"</span></div>",
       "vocabulary": {
@@ -65,7 +65,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Have you ever joined a sports team?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">certainly</span> have. During high school, I was part of the local volleyball team. We practiced twice a week and <span class=\"ml-token adv\">occasionally</span> competed in regional tournaments, which was <span class=\"ml-token adv\">incredibly</span> exciting.</div>\n\n<div>Being on that team taught me invaluable lessons about <span class=\"ml-token colloc\">collaboration</span> and discipline. It really showed me the importance of <span class=\"ml-token colloc\">pulling your weight</span> and supporting others, because in a team, <span class=\"ml-token proverb\">\"a chain is only as strong as its weakest link.\"</span></div>",
       "vocabulary": {
@@ -102,7 +102,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do you usually spend your evenings?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>My evenings are usually quite <span class=\"ml-token colloc\">relaxed and quiet</span>. After finishing work or studies, I like to <span class=\"ml-token colloc\">wind down</span> by reading a few chapters of a novel or catching up on the latest news.</div>\n\n<div>If I have some free time, I <span class=\"ml-token adv\">often</span> call my friends or family members to see how their day went. <span class=\"ml-token adv\">Overall</span>, I use my evenings to <span class=\"ml-token colloc\">recharge my batteries</span> so I can be ready and <span class=\"ml-token adv\">fresh</span> for the next day.</div>",
       "vocabulary": {
@@ -139,7 +139,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In the first picture, I can see someone using an online dictionary on a digital device. It looks <span class=\"ml-token adv\">highly</span> convenient and efficient, as they can <span class=\"ml-token colloc\">instantly search</span> for meanings, pronunciations, and synonyms with just a few taps.</div>\n\n<div>In the second picture, a person is looking up words in a <span class=\"ml-token colloc\">traditional paper dictionary</span>. They are physically flipping through the pages to find what they need. The <span class=\"ml-token colloc\">contrast between</span> the two images perfectly illustrates the shift from <span class=\"ml-token colloc\">traditional study methods</span> to <span class=\"ml-token colloc\">modern digital solutions</span>.</div>",
       "vocabulary": {
@@ -176,7 +176,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What are the advantages of using an online dictionary?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>There are <span class=\"ml-token adv\">numerous</span> advantages to using an online dictionary over a physical one. <span class=\"ml-token adv\">Firstly</span>, the speed and convenience are <span class=\"ml-token adv\">unmatched</span>. You can find the definition of a word in a matter of milliseconds, which saves a <span class=\"ml-token colloc\">considerable amount</span> of time during reading or writing.</div>\n\n<div><span class=\"ml-token adv\">Secondly</span>, online dictionaries offer multimedia features that paper dictionaries simply cannot provide. For instance, you can click an audio icon to hear the <span class=\"ml-token colloc\">exact pronunciation</span> of a word, which is <span class=\"ml-token adv\">incredibly</span> helpful for language learners mastering <span class=\"ml-token colloc\">spoken communication</span>.</div>\n\n<div><span class=\"ml-token adv\">Finally</span>, digital dictionaries are <span class=\"ml-token adv\">constantly</span> updated with new words, slang, and idioms. Language is always evolving, and online platforms keep pace much faster than printed editions. As they say, <span class=\"ml-token proverb\">\"time is money,\"</span> and the efficiency of digital tools makes them <span class=\"ml-token adv\">indispensable</span> today.</div>",
       "vocabulary": {
@@ -213,7 +213,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Can using a paper dictionary help people remember words better?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">strongly</span> believe that using a paper dictionary can actually aid in memory retention. When you use a physical book, the process is <span class=\"ml-token adv\">inherently</span> slower. You have to think about alphabetical order, scan the page, and <span class=\"ml-token adv\">actively</span> search for the word. This extra effort and <span class=\"ml-token colloc\">cognitive engagement</span> often make the word stick in your mind longer.</div>\n\n<div><span class=\"ml-token adv\">Moreover</span>, while scanning a page, you often stumble upon other interesting words nearby. This <span class=\"ml-token colloc\">accidental learning</span> broadens your vocabulary in a way that typing a single word into a search bar does not.</div>\n\n<div><span class=\"ml-token adv\">Furthermore</span>, using a physical book provides a <span class=\"ml-token colloc\">tactile experience</span> that many people find less distracting than looking at a screen filled with notifications. While digital tools are faster, the <span class=\"ml-token proverb\">\"slow and steady\"</span> approach of a paper dictionary often leads to <span class=\"ml-token colloc\">deeper learning</span>.</div>",
       "vocabulary": {
@@ -250,7 +250,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Share a time when you visited a historical or cultural site.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q7.mp3",
       "hasImages": false,
       "bulletPoints": [
         "Share a time when you visited a historical or cultural site.",
@@ -292,7 +292,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Schools should start later in the day.",
-      "audioFile": "questions S/audio/cefr-speaking-mock-45-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-45-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [

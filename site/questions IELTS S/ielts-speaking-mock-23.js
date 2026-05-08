@@ -36,7 +36,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you like bags?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q1.mp3",
       "sampleAnswer": "Yes, I have a genuine appreciation for well-designed bags. I think a good bag is one of the most practical accessories a person can own—it needs to be functional, durable, and ideally aesthetically pleasing as well. I'm particularly drawn to bags that are thoughtfully designed with useful compartments and made from quality materials that age well. I'm not someone who collects bags for fashion purposes, but I do invest in a few high-quality pieces that serve specific purposes—a sturdy backpack for everyday use, a more formal bag for work or professional settings, and a compact bag for travel. I find that a well-chosen bag genuinely improves your daily life by keeping you organised and making it easier to carry what you need.",
       "vocabulary": {
         "title": "Q1 - Liking Bags",
@@ -86,7 +86,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What types of bags do you use in your everyday life?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q2.mp3",
       "sampleAnswer": "In my everyday life, I primarily use a backpack—it's my go-to bag for most situations because it distributes weight evenly across both shoulders, which is important given how much I typically carry: a laptop, books, a water bottle, and various other essentials. For shorter outings or social occasions where a backpack would look out of place, I use a smaller crossbody bag or a tote, depending on how much I need to carry. When travelling, I use a larger, more structured bag with multiple compartments that helps me stay organised across different days and contexts. I've moved away from single-shoulder bags over the years because I found they caused discomfort on longer days. Each bag I use regularly has been chosen for a specific purpose, which I think is a more practical approach than having one bag for everything.",
       "vocabulary": {
         "title": "Q2 - Everyday Bags",
@@ -136,7 +136,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you put in these bags?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q3.mp3",
       "sampleAnswer": "The contents vary depending on the bag and the occasion. In my everyday backpack, I typically carry my laptop, a notebook, pens, my phone charger, a reusable water bottle, and sometimes a book or reading material. I also keep a small pouch with essentials like earphones, a portable power bank, and any medications I might need. For social outings with a smaller bag, I pare it down to just the absolute necessities—wallet, phone, keys, and perhaps a small notebook. When travelling, I'm more deliberate about packing—I try to minimise what I carry to avoid unnecessary weight while ensuring I have everything I might need for the day. I've found that being intentional about what goes into a bag, rather than just throwing things in, makes a significant difference to how organised and prepared I feel.",
       "vocabulary": {
         "title": "Q3 - Bag Contents",
@@ -184,7 +184,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What sorts of bags do women like to buy?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q4.mp3",
       "sampleAnswer": "From what I've observed, women's bag preferences are incredibly diverse and tend to reflect a combination of practical needs, personal style, and social context. Handbags and totes remain perennially popular because they're versatile and can transition from casual to professional settings. Designer handbags hold particular appeal for many women as status symbols and fashion statements—brands like Louis Vuitton, Gucci, and Chanel have built entire identities around their bag designs. Crossbody bags have grown significantly in popularity in recent years, particularly among younger women, because they're hands-free and practical for busy daily life. Backpacks have also become increasingly fashionable as a women's accessory, moving beyond their purely functional origins. That said, I think it's important to avoid overgeneralising—individual preferences vary enormously based on lifestyle, age, profession, and personal taste, and many women prioritise function over fashion when choosing bags.",
       "vocabulary": {
         "title": "Q4 - Women's Bag Preferences",
@@ -234,7 +234,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Is your birthday now still as important to you as when you were a child?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q5.mp3",
       "sampleAnswer": "Honestly, not quite in the same way. As a child, birthdays felt genuinely magical—they were days of special treatment, presents, cake, and the undivided attention of family and friends. There was a sense of excitement and anticipation in the days leading up to it that I remember vividly. As an adult, birthdays still matter to me, but the significance has shifted. Rather than excitement about gifts and celebrations, I find myself using birthdays as a natural moment for reflection—taking stock of the past year, thinking about what I've achieved and what I want to do differently. The social dimension remains important—I appreciate when friends and family remember and make an effort—but the childlike thrill has naturally faded. I think this is a fairly universal experience as people grow older and the novelty of birthdays diminishes.",
       "vocabulary": {
         "title": "Q5 - Birthday Importance",
@@ -283,7 +283,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think it's important to give someone a card when it's their birthday?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q6.mp3",
       "sampleAnswer": "I think the gesture matters more than the specific medium. A birthday card, when it contains a genuinely personal and thoughtful message, can be a meaningful expression of affection and recognition—it shows that you've taken time to acknowledge someone's day in a deliberate way. However, a generic store-bought card with just a signature carries relatively little emotional weight. In the digital age, a heartfelt message sent via text or social media can be just as meaningful as a physical card, and arguably more so if it's specific and personal. What I think truly matters is that the person feels remembered and valued on their birthday, regardless of the format. The physical card has a certain charm and permanence—people often keep meaningful cards for years—but it's the thought and sincerity behind it that counts, not the object itself.",
       "vocabulary": {
         "title": "Q6 - Birthday Cards",
@@ -332,7 +332,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think the price of gifts/presents is important?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q7.mp3",
       "sampleAnswer": "Not inherently, though I understand why people sometimes feel pressure around gift prices. The most meaningful gifts I've received have rarely been the most expensive—they've been the ones that showed genuine thought and understanding of who I am and what I care about. A book chosen because someone knows your specific interests, a handmade item, or an experience shared together can be far more touching than an expensive but impersonal purchase. That said, I think there are social contexts where the price of a gift does carry some significance—at formal occasions or in cultures where gift-giving is governed by strong social norms, spending too little can be perceived as disrespectful. But in close personal relationships, I firmly believe that thoughtfulness and personalisation are far more important than monetary value. The best gifts reflect knowledge of the person, not the depth of the giver's wallet.",
       "vocabulary": {
         "title": "Q7 - Gift Prices",
@@ -382,7 +382,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Describe a great dinner that you and your friends or family members enjoyed.",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q8.mp3",
       "bulletPoints": [
         "who organised this dinner, where you had it",
         "what you talked about during the meal",
@@ -446,7 +446,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you think sharing meals together is important for families?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q9.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q9.mp3",
       "sampleAnswer": "Absolutely, I think shared meals are one of the most important rituals a family can maintain. Research consistently shows that families who eat together regularly have stronger bonds, better communication, and children who perform better academically and have fewer behavioural problems. The dinner table is one of the few contexts in modern life where family members are physically present together without the distraction of screens or separate activities, which creates a natural space for conversation, connection, and the sharing of daily experiences. Shared meals also transmit cultural and family traditions—recipes, stories, and rituals that give children a sense of identity and belonging. In an increasingly fragmented and busy world, the family meal is a simple but powerful anchor for relationships.",
       "vocabulary": {
         "title": "Q9 - Family Meals",
@@ -493,7 +493,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Has the way people celebrate special occasions with food changed in recent years?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q10.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q10.mp3",
       "sampleAnswer": "Yes, quite significantly. One of the most notable changes is the rise of restaurant dining for celebrations that would previously have been held at home. As disposable incomes have risen and the restaurant industry has diversified, eating out for birthdays, anniversaries, and other milestones has become the norm rather than the exception in many societies. Social media has also had a profound influence—there's now a strong incentive to choose visually impressive venues and dishes that photograph well, which has changed what people prioritise when planning celebratory meals. Food delivery services have created another shift—it's now possible to have restaurant-quality food at home without the effort of cooking, which has blurred the distinction between home celebrations and eating out. There's also been a growing interest in food experiences—cooking classes, tasting menus, food tours—as alternatives to traditional celebratory dinners.",
       "vocabulary": {
         "title": "Q10 - Changing Celebration Food",
@@ -543,7 +543,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Why is it important to share food with others during a celebration?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q11.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q11.mp3",
       "sampleAnswer": "Sharing food during celebrations serves functions that go far beyond simple nutrition—it's a deeply social and symbolic act with roots in human culture going back thousands of years. At its most fundamental level, sharing food signals trust, generosity, and goodwill. In virtually every culture around the world, offering food to others is a gesture of hospitality and inclusion, and accepting it is a sign of trust and connection. During celebrations specifically, shared food reinforces the bonds between participants—the act of eating together, of sharing the same dishes and drinks, creates a sense of communal experience and belonging that strengthens relationships. Food also carries cultural and emotional significance: traditional dishes served at celebrations connect people to their heritage, family history, and shared identity. There's also a practical social dimension—the shared meal provides a structured context for conversation and interaction, giving people a reason to gather and a comfortable framework within which to connect.",
       "vocabulary": {
         "title": "Q11 - Sharing Food at Celebrations",
@@ -591,7 +591,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do you like to cook at home?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q12.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q12.mp3",
       "sampleAnswer": "Yes, I genuinely enjoy cooking at home, though my relationship with it has evolved over time. I didn't cook much when I was younger—I found it time-consuming and intimidating—but as I've grown older and developed more skills and confidence in the kitchen, I've come to see cooking as a genuinely creative and satisfying activity. There's something deeply satisfying about transforming raw ingredients into a finished dish, particularly when it turns out well. I also appreciate the control that home cooking gives you over what you eat—you know exactly what's in your food, you can adjust flavours to your preference, and you can make healthier choices than restaurant or takeaway food typically allows. I find cooking particularly enjoyable when I'm not rushed—when I have time to try a new recipe, experiment with ingredients, and enjoy the process rather than just focusing on the outcome. Cooking for others adds another layer of satisfaction—there's real pleasure in feeding people well.",
       "vocabulary": {
         "title": "Q12 - Cooking at Home",
@@ -640,7 +640,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Is it a hassle to prepare a meal at home?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q13.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q13.mp3",
       "sampleAnswer": "It can be, depending on the complexity of the meal, the time available, and how organised you are. For simple, everyday meals—a stir-fry, pasta, eggs—the preparation is relatively quick and straightforward, and most people can manage it without significant effort. However, more elaborate meals—a roast dinner, a multi-course meal for guests, dishes requiring long preparation or cooking times—can indeed be quite demanding in terms of time, skill, and energy. The hassle factor is also significantly influenced by how well-equipped and organised your kitchen is. If you have good ingredients readily available, sharp knives, and a well-organised workspace, cooking is much more enjoyable. If you have to shop for every ingredient, work in a cramped space, and clean up extensively afterwards, it can feel genuinely burdensome. I think the key is finding a balance—developing a repertoire of simple, reliable meals for everyday cooking while reserving more ambitious cooking for occasions when you have the time and energy to enjoy the process.",
       "vocabulary": {
         "title": "Q13 - Hassle of Home Cooking",
@@ -689,7 +689,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "Do people prefer to eat out at restaurants or eat at home on special occasions?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q14.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q14.mp3",
       "sampleAnswer": "This varies considerably by culture, generation, and personal preference, but I think there's a general trend in many societies toward eating out for special occasions, particularly in urban areas. Restaurants offer several advantages for celebrations: they remove the burden of cooking and cleaning, they provide a special atmosphere that's distinct from everyday home life, and they offer professional service and a level of culinary expertise that most home cooks can't match. For many people, going to a restaurant signals that an occasion is genuinely special—it's a deliberate investment of time and money that marks the event as significant. However, there's a strong counter-preference for home celebrations, particularly among older generations and in cultures where home cooking is a central expression of hospitality and love. A home-cooked meal prepared with care can feel more personal and meaningful than even the finest restaurant experience. The choice often comes down to what the occasion means to the people involved and what kind of experience they want to create.",
       "vocabulary": {
         "title": "Q14 - Eating Out vs Home for Occasions",
@@ -738,7 +738,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "People are spending less and less time having meals with their families these days. Is this good or bad?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q15.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q15.mp3",
       "sampleAnswer": "I think this is largely a negative development, though the picture is nuanced. The decline in shared family meals is well-documented and is driven by several factors: longer working hours, the rise of individual schedules particularly among teenagers, the prevalence of screens and personal devices, and the convenience of eating on the go. The consequences are significant. Research consistently shows that regular family meals are associated with better mental health outcomes for children and adolescents, stronger family bonds, improved communication skills, and healthier eating habits. The family meal is one of the few remaining contexts where family members are reliably present together without distraction, and its decline represents a loss of a valuable daily ritual. That said, I think it's important to avoid romanticising the past—not all family meals were positive experiences, and quality matters more than frequency. A family that has one genuinely connected, screen-free meal together per week may benefit more than one that eats together every day in distracted silence. The goal should be meaningful connection, not just physical co-presence.",
       "vocabulary": {
         "title": "Q15 - Decline of Family Meals",
@@ -790,7 +790,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What food do you eat on special occasions?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q16.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q16.mp3",
       "sampleAnswer": "On special occasions, I tend to eat food that's more elaborate, indulgent, or culturally significant than what I'd have on an ordinary day. In my family, certain dishes have become associated with specific celebrations—a particular biryani recipe that my mother makes for Eid, a rich lamb curry for family gatherings, and a specific dessert that appears at birthdays. These dishes carry emotional and cultural weight beyond their taste—they're connected to memory, tradition, and a sense of continuity with the past. When eating out for special occasions, I tend to choose restaurants that offer something I wouldn't normally cook at home—perhaps a cuisine I'm less familiar with, a tasting menu that showcases a chef's creativity, or a restaurant with a particularly special atmosphere. I also tend to be more adventurous with food choices on special occasions, willing to try dishes I might hesitate over on an ordinary day. The sense that the occasion is special seems to lower inhibitions and increase the willingness to experiment.",
       "vocabulary": {
         "title": "Q16 - Special Occasion Food",
@@ -838,7 +838,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 7,
       "speakTime": 45,
       "prompt": "What do people talk about during meals?",
-      "audioFile": "questions IELTS S/audio/ielts-speaking-mock-23-q17.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/IELTS%20speaking%20media/ielts-speaking-mock-23-q17.mp3",
       "sampleAnswer": "Meal conversations tend to reflect the nature of the relationship between the people eating together and the context of the meal. In family settings, conversation often centres on daily life—what everyone has been doing, upcoming plans, news about relatives, and shared memories. These conversations, while seemingly mundane, serve an important function: they keep family members informed about each other's lives and maintain a sense of connection and shared narrative. Among friends, meal conversations tend to be more varied and exploratory—current events, shared interests, personal experiences, and the kind of wide-ranging discussion that deepens friendships. In professional settings, meals often serve as a context for relationship-building, where the conversation is deliberately kept lighter and more personal than it would be in a formal meeting, allowing colleagues to connect as people rather than just as professionals. Research on conversation during meals suggests that the most satisfying meal conversations involve genuine listening, reciprocal sharing, and a balance between serious topics and lighter, humorous exchanges. The meal provides a natural rhythm and structure that facilitates this kind of conversation in a way that other social contexts don't always allow.",
       "vocabulary": {
         "title": "Q17 - Meal Conversations",

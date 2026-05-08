@@ -28,7 +28,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you do in your free time?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q1.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q1.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>In my free time, I <span class=\"ml-token adv\">usually</span> pursue a variety of hobbies to unwind after a long day. I'm <span class=\"ml-token adv\">particularly</span> fond of reading fiction novels, as they allow me to escape into different worlds.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, I enjoy going for walks in the park, which helps me <span class=\"ml-token colloc\">recharge my batteries</span> both mentally and physically. On weekends, I sometimes <span class=\"ml-token colloc\">meet up with</span> friends for coffee or watch movies together.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"All work and no play makes Jack a dull boy\"</span> – so I make sure to <span class=\"ml-token colloc\">strike a balance</span> between work and leisure.</div>",
       "vocabulary": {
@@ -66,7 +66,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you enjoy reading?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q2.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q2.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>Yes, I <span class=\"ml-token adv\">absolutely</span> love reading! I'd consider myself an <span class=\"ml-token colloc\">avid reader</span> who enjoys various genres, from mystery novels to self-help books.</div>\n\n<div>Reading allows me to <span class=\"ml-token colloc\">broaden my horizons</span> and learn about different cultures and perspectives. There's something <span class=\"ml-token adv\">incredibly</span> relaxing about <span class=\"ml-token phrasal\">immersing myself in</span> a captivating story after a busy day.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"A reader lives a thousand lives before he dies\"</span> – I <span class=\"ml-token adv\">genuinely</span> believe that books open doors to endless possibilities and knowledge.</div>",
       "vocabulary": {
@@ -104,7 +104,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "Do you read or write stories or poems?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q3.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q3.mp3",
       "hasImages": false,
       "sampleAnswer": "<div>I <span class=\"ml-token adv\">mainly</span> read stories rather than write them. I find reading fiction <span class=\"ml-token adv\">quite</span> therapeutic and enjoyable – it helps me <span class=\"ml-token colloc\">escape from reality</span> for a while.</div>\n\n<div><span class=\"ml-token adv\">However</span>, I <span class=\"ml-token adv\">occasionally</span> jot down my thoughts in a journal, which is a form of creative writing, I suppose. As for poems, I appreciate reading them but I've never <span class=\"ml-token adv\">really</span> tried writing poetry myself.</div>\n\n<div>I admire people who can <span class=\"ml-token colloc\">express themselves</span> through literary works like that. As they say, <span class=\"ml-token proverb\">\"The pen is mightier than the sword\"</span> – words have incredible power.</div>",
       "vocabulary": {
@@ -142,7 +142,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 10,
       "speakTime": 45,
       "prompt": "What do you see in these pictures?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q4.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q4.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In these two pictures, I can see different ways friends <span class=\"ml-token colloc\">spend quality time</span> together.</div>\n\n<div>In the first image, there are two young women at what appears to be a campsite. They're sitting at a wooden table having breakfast or a meal together, surrounded by tents and trees. They seem to be enjoying a <span class=\"ml-token colloc\">casual conversation</span> in a peaceful outdoor setting. The atmosphere looks <span class=\"ml-token adv\">incredibly</span> relaxed and natural.</div>\n\n<div>In the second picture, I can see two men cycling together on a quiet street. They're facing each other, <span class=\"ml-token adv\">possibly</span> having stopped to chat. Both images show friends <span class=\"ml-token colloc\">bonding through</span> shared activities, whether it's camping or cycling.</div>\n\n<div>As they say, <span class=\"ml-token proverb\">\"A friend in need is a friend indeed\"</span> – these pictures show the importance of nurturing friendships through <span class=\"ml-token colloc\">shared experiences</span>.</div>",
       "vocabulary": {
@@ -180,7 +180,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "How do people in your country usually make friends?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q5.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q5.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>In my country, people <span class=\"ml-token adv\">typically</span> make friends through various social settings.</div>\n\n<div>The most common way is through school or university, where young people <span class=\"ml-token adv\">naturally</span> form friendships with classmates who share <span class=\"ml-token colloc\">common interests</span>. Workplaces are <span class=\"ml-token adv\">also</span> important for adults to <span class=\"ml-token colloc\">expand their social circles</span>.</div>\n\n<div><span class=\"ml-token adv\">Additionally</span>, many people meet through <span class=\"ml-token colloc\">mutual friends</span> at gatherings or celebrations. In traditional communities, neighbourhood connections remain strong, and people often <span class=\"ml-token phrasal\">strike up</span> conversations with their neighbors.</div>\n\n<div><span class=\"ml-token adv\">Recently</span>, joining clubs or sports teams has become popular for meeting like-minded individuals. As they say, <span class=\"ml-token proverb\">\"No man is an island\"</span> – we all need social connections.</div>",
       "vocabulary": {
@@ -218,7 +218,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 5,
       "speakTime": 30,
       "prompt": "What do you think of making friends on the internet?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q6.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q6.mp3",
       "hasImages": true,
       "sampleAnswer": "<div>I think making friends on the internet has both advantages and disadvantages.</div>\n\n<div>On the positive side, it allows people to <span class=\"ml-token colloc\">bridge geographical gaps</span> and connect with others who share similar interests, regardless of location. Social media and online communities can help introverted people feel more comfortable <span class=\"ml-token colloc\">expressing themselves</span>.</div>\n\n<div><span class=\"ml-token adv\">However</span>, there are <span class=\"ml-token adv\">significant</span> concerns about online friendships. It's difficult to verify someone's true identity, and cases of catfishing are <span class=\"ml-token adv\">quite</span> common. Virtual interactions can never <span class=\"ml-token adv\">fully</span> replace <span class=\"ml-token colloc\">face-to-face communication</span>.</div>\n\n<div><span class=\"ml-token adv\">Overall</span>, I believe online friendships can be <span class=\"ml-token colloc\">genuine connections</span>, but people should exercise caution. As they say, <span class=\"ml-token proverb\">\"All that glitters is not gold\"</span> – things online aren't always what they seem.</div>",
       "vocabulary": {
@@ -256,7 +256,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Education and Teachers",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q7.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q7.mp3",
       "bulletPoints": [
         "Do you think teachers are paid enough?",
         "Do you think your country should spend more money on schools?",
@@ -299,7 +299,7 @@ window.SPEAKING_TEST_DATA = {
       "prepTime": 60,
       "speakTime": 120,
       "prompt": "Should laptops be allowed in classrooms?",
-      "audioFile": "questions S/audio/cefr-speaking-mock-27-q8.mp3",
+      "audioFile": "https://storage.googleapis.com/mockstream-listening-audio/CEFR%20speaking%20media/cefr-speaking-mock-27-q8.mp3",
       "hasImages": false,
       "debatePoints": {
         "for": [
