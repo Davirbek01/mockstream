@@ -26533,6 +26533,16 @@
     // Schema-aware: CEFR Writing has examTitle/heading1/heading2; IELTS Writing
     // has moduleTitle/timeInfo. Both share logoUrl/logoWording/testIdentifier.
     function _mmgSettingsKeysForType(type) {
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        return [
+          { k: 'logoUrl',         label: 'Logo URL',         help: 'Image URL for the logo.' },
+          { k: 'logoWording',     label: 'Logo wording',     help: 'Text next to the logo (e.g., "Mock Stream").' },
+          { k: 'telegramChannel', label: 'Telegram channel', help: 'e.g., @mock_stream — used in the report header.' },
+          { k: 'testIdentifier',  label: 'Test identifier',  help: 'Internal ID — leave as "mock_stream" unless you know why.' },
+          { k: 'heading1',        label: 'Heading 1',        help: 'First centred heading (org name in Uzbek).' },
+          { k: 'heading2',        label: 'Heading 2',        help: 'Second centred heading (test description).' }
+        ];
+      }
       if (type === 'ielts-writing') {
         return [
           { k: 'logoUrl',        label: 'Logo URL',        help: 'Image URL for the logo.' },
@@ -26554,20 +26564,70 @@
     }
     function _mmgRenderSettings(md) {
       var s = (md.settings = md.settings || {});
-      var keys = _mmgSettingsKeysForType(_mmgCurrentType());
+      var type = _mmgCurrentType();
+      var keys = _mmgSettingsKeysForType(type);
       var html = '<div class="mmg-section-title">Test settings (logo + headings)</div>';
       for (var i = 0; i < keys.length; i++) {
         var f = keys[i];
         html += _mmgFieldText(f.label, 'mmgSet_' + f.k, s[f.k], f.help);
       }
+
+      // Speaking-only extras: images, voice picker, IELTS announcements, bulk-audio button.
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        var images = (md.images = md.images || {});
+        html += '<div class="mmg-section-title">Top-level images (used by hasImages questions)</div>';
+        html += _mmgImageRow('img1', images.img1, images.img1Alt);
+        html += _mmgImageRow('img2', images.img2, images.img2Alt);
+        html += _mmgRenderVoicePreviewGrid(md);
+        if (type === 'ielts-speaking') {
+          var ann = (md.announcements = md.announcements || {});
+          html += '<div class="mmg-section-title">Examiner announcements (IELTS)</div>'
+                + _mmgFieldArea('beforePart1',         'mmgAnnP1',  ann.beforePart1,         '', 60)
+                + _mmgFieldArea('beforePart2',         'mmgAnnP2',  ann.beforePart2,         '', 60)
+                + _mmgFieldArea('afterPart2Prep',      'mmgAnnP2P', ann.afterPart2Prep,      '', 60)
+                + _mmgFieldArea('beforePart2FollowUp', 'mmgAnnP2F', ann.beforePart2FollowUp, '', 60)
+                + _mmgFieldArea('beforePart3',         'mmgAnnP3',  ann.beforePart3,         '', 60)
+                + _mmgFieldArea('afterExam',           'mmgAnnEnd', ann.afterExam,           '', 60);
+        }
+        html += '<div style="margin-top:14px;"><button type="button" class="mmg-add-btn" onclick="_mmgGenerateAllAudios(\'all\')">🎙 Generate audio for all questions with current voice/model</button></div>';
+      }
+
       document.getElementById('mmgPaneSettings').innerHTML = html;
+
+      // Wire image upload buttons (speaking only).
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        _mmgUploadBind({ id: 'mmgSetImg1', skill: type });
+        _mmgUploadBind({ id: 'mmgSetImg2', skill: type });
+      }
     }
     function _mmgCollectSettings(md) {
       md.settings = md.settings || {};
-      var keys = _mmgSettingsKeysForType(_mmgCurrentType());
+      var type = _mmgCurrentType();
+      var keys = _mmgSettingsKeysForType(type);
       for (var i = 0; i < keys.length; i++) {
         var el = document.getElementById('mmgSet_' + keys[i].k);
         if (el) md.settings[keys[i].k] = el.value;
+      }
+
+      if (type === 'cefr-speaking' || type === 'ielts-speaking') {
+        md.images = md.images || {};
+        var get = function (id) { var e = document.getElementById(id); return e ? e.value : undefined; };
+        if (get('mmgSetImg1')    !== undefined) md.images.img1    = get('mmgSetImg1');
+        if (get('mmgSetImg1Alt') !== undefined) md.images.img1Alt = get('mmgSetImg1Alt');
+        if (get('mmgSetImg2')    !== undefined) md.images.img2    = get('mmgSetImg2');
+        if (get('mmgSetImg2Alt') !== undefined) md.images.img2Alt = get('mmgSetImg2Alt');
+
+        if (type === 'ielts-speaking') {
+          md.announcements = md.announcements || {};
+          if (get('mmgAnnP1')  !== undefined) md.announcements.beforePart1         = get('mmgAnnP1');
+          if (get('mmgAnnP2')  !== undefined) md.announcements.beforePart2         = get('mmgAnnP2');
+          if (get('mmgAnnP2P') !== undefined) md.announcements.afterPart2Prep      = get('mmgAnnP2P');
+          if (get('mmgAnnP2F') !== undefined) md.announcements.beforePart2FollowUp = get('mmgAnnP2F');
+          if (get('mmgAnnP3')  !== undefined) md.announcements.beforePart3         = get('mmgAnnP3');
+          if (get('mmgAnnEnd') !== undefined) md.announcements.afterExam           = get('mmgAnnEnd');
+        }
+        // settings.voice / settings.tts_model are written immediately by
+        // _mmgPickTtsVoice / _mmgPickTtsModel — nothing to flush here.
       }
     }
 
@@ -27300,6 +27360,83 @@
       md.questions.push(Object.assign({ prompt: '', audioFile: '' }, defaults));
       _mmgSetMockData(md);
       _mmgRenderSpPart(md, partKey);
+    };
+
+    // Inline image row with upload button + thumbnail. Used by speaking Settings tab.
+    function _mmgImageRow(slot, url, alt) {
+      var inputId = 'mmgSetImg' + (slot === 'img1' ? '1' : '2');
+      var altId   = inputId + 'Alt';
+      return '<div class="mmg-field-row" style="display:flex;gap:10px;align-items:end;">'
+        +   '<div class="mmg-field" style="flex:1;"><label>' + slot + ' URL</label>'
+        +     '<input type="text" id="' + inputId + '" value="' + _mmgEsc(url || '') + '" oninput="_mmgRebindThumb(\'' + inputId + '\')"></div>'
+        +   '<div class="mmg-field" style="flex:1;"><label>' + slot + ' Alt</label>'
+        +     '<input type="text" id="' + altId + '" value="' + _mmgEsc(alt || '') + '"></div>'
+        +   '<button type="button" class="mmg-icon-btn" id="' + inputId + '_upbtn" title="Upload image">📤</button>'
+        +   '<input type="file" id="' + inputId + '_upfile" accept="image/*" style="display:none;">'
+        + '</div>'
+        + '<img id="' + inputId + '_thumb" src="' + _mmgEsc(url || '') + '" style="' + (url ? '' : 'display:none;') + 'max-width:160px;max-height:100px;border:1px solid #e2e8f0;border-radius:6px;margin-top:6px;">'
+        + '<div id="' + inputId + '_upprog" class="mmg-upload-progress"></div>';
+    }
+
+    window._mmgRebindThumb = function (id) {
+      var input = document.getElementById(id);
+      var thumb = document.getElementById(id + '_thumb');
+      if (!input || !thumb) return;
+      thumb.src = input.value || '';
+      thumb.style.display = input.value ? '' : 'none';
+    };
+
+    // Voice & TTS model picker — radio per voice, model toggle pill, inline preview.
+    function _mmgRenderVoicePreviewGrid(md) {
+      var settings = md.settings = md.settings || {};
+      var selVoice = settings.voice    || 'Kore';
+      var selModel = settings.tts_model || 'premium';
+      var modelToggle = _MMG_TTS_MODELS.map(function(m) {
+        var act = m.code === selModel ? ' active' : '';
+        return '<button type="button" class="mmg-chip' + act + '" onclick="_mmgPickTtsModel(\'' + m.code + '\')">' + _mmgEsc(m.label) + '</button>';
+      }).join('');
+
+      var rows = _MMG_TTS_VOICES.map(function(v) {
+        var checked = v.code === selVoice ? ' checked' : '';
+        return '<div class="mmg-voice-row" data-voice="' + v.code + '" style="display:grid;grid-template-columns:24px 130px 1fr 110px 110px;gap:8px;align-items:center;padding:6px 4px;border-bottom:1px solid #f1f5f9;">'
+          +    '<input type="radio" name="mmgVoice" value="' + v.code + '"' + checked + ' onchange="_mmgPickTtsVoice(\'' + v.code + '\')">'
+          +    '<strong>' + _mmgEsc(v.code) + '</strong>'
+          +    '<span style="color:#64748b;font-size:12px;">' + _mmgEsc(v.label) + '</span>'
+          +    '<button type="button" class="mmg-add-btn" onclick="_mmgPlayVoicePreview(\'budget\',\'' + v.code + '\',this)">&#9654; Budget</button>'
+          +    '<button type="button" class="mmg-add-btn" onclick="_mmgPlayVoicePreview(\'premium\',\'' + v.code + '\',this)">&#9654; Premium</button>'
+          + '</div>';
+      }).join('');
+
+      return '<div class="mmg-section-title">Voice &amp; TTS model</div>'
+           + '<div style="display:flex;gap:8px;margin-bottom:10px;">' + modelToggle + '</div>'
+           + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">' + rows + '</div>';
+    }
+
+    window._mmgPickTtsVoice = function (code) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.voice = code;
+      _mmgSetMockData(md);
+    };
+    window._mmgPickTtsModel = function (code) {
+      var md = _mmgGetMockData(); if (!md) return;
+      md.settings = md.settings || {};
+      md.settings.tts_model = code;
+      _mmgSetMockData(md);
+      _mmgRenderSettings(md); // re-render so the toggle highlights the new pick
+    };
+    window._mmgPlayVoicePreview = function (model, voice, btnEl) {
+      var url = _mmgVoicePreviewUrl(model, voice);
+      var row = btnEl.closest('.mmg-voice-row');
+      var existing = row.querySelector('audio.mmg-voice-preview-audio');
+      if (existing) existing.remove();
+      var aud = document.createElement('audio');
+      aud.className = 'mmg-voice-preview-audio';
+      aud.controls = true;
+      aud.src = url;
+      aud.style.cssText = 'grid-column:1/-1;width:100%;margin-top:6px;';
+      row.appendChild(aud);
+      aud.play().catch(function(){ /* user gesture required on some browsers — controls let them retry */ });
     };
 
     // Generic search-filter for vocab/tokens row lists. Hides rows whose
