@@ -642,8 +642,70 @@ Deno.serve(async (req) => {
         const sizeBytes   = wavBytes.length;
         const durationSec = +(pcmBytes.length / 2 / GEMINI_PCM_SAMPLE_RATE).toFixed(2);
 
-        // 5) Stub return — Task 4 fills in GCS upload.
-        return json(501, { error: 'not_implemented', stage: 'task3-tts-only', sizeBytes, durationSec });
+        // 5) Resolve the object path. filename_override is used by the preview script
+        //    (deterministic name); per-question audio gets a timestamp suffix to
+        //    bust browser cache after regeneration.
+        const folder = GCS_FOLDERS[skill];
+        let objectPath: string;
+        if (filenameOverride) {
+          // Sanitise — same rules as gcs_signed_upload_url.
+          const safe = filenameOverride
+            .replace(/[\\\/\x00]/g, '')
+            .replace(/^\.+/, '')
+            .replace(/[^A-Za-z0-9._\- ]/g, '_')
+            .slice(0, 200);
+          if (!safe || safe === '.') return json(400, { error: 'bad_filename' });
+          objectPath = `${folder}/${safe}`;
+        } else {
+          const nn = String(mockNumber).padStart(2, '0');
+          const ts = Math.floor(Date.now() / 1000);
+          objectPath = `${folder}/${skill}-mock-${nn}-q${questionNumber}-${ts}.wav`;
+        }
+
+        // 6) Idempotency — only when filename_override is set, skip if the file
+        //    already exists at that exact path.
+        const publicUrl = `https://storage.googleapis.com/${GCS_BUCKET}/${encodeObjectPath(objectPath)}`;
+        if (filenameOverride) {
+          try {
+            const headRes = await fetch(publicUrl, { method: 'HEAD' });
+            if (headRes.ok) {
+              return json(200, { publicUrl, objectPath, sizeBytes, durationSec, skipped: true });
+            }
+          } catch (_) { /* not present — proceed to generate */ }
+        }
+
+        // 7) Sign + PUT to GCS using the existing service-account infra.
+        const sa = Deno.env.get('GCS_SERVICE_ACCOUNT_JSON') || '';
+        if (!sa) return json(500, { error: 'gcs_secret_missing' });
+        let saObj: { client_email: string; private_key: string };
+        try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        let privateKey: CryptoKey;
+        try { privateKey = await importPrivateKey(saObj.private_key); }
+        catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
+
+        const { uploadUrl } = await generateV4SignedPutUrl({
+          objectPath,
+          contentType: 'audio/wav',
+          ttlSeconds: 600,
+          serviceAccountEmail: saObj.client_email,
+          privateKey
+        });
+
+        try {
+          const putRes = await fetch(uploadUrl, {
+            method:  'PUT',
+            headers: { 'Content-Type': 'audio/wav' },
+            body:    wavBytes
+          });
+          if (!putRes.ok) {
+            const errText = await putRes.text().catch(() => '');
+            return json(502, { error: 'gcs_upload_failed', status: putRes.status, detail: errText.slice(0, 400) });
+          }
+        } catch (e) {
+          return json(502, { error: 'gcs_upload_failed', detail: (e as Error).message });
+        }
+
+        return json(200, { publicUrl, objectPath, sizeBytes, durationSec });
       }
 
       default:
