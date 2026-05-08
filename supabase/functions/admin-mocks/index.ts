@@ -322,6 +322,56 @@ async function generateV4SignedPutUrl(opts: SignedPutUrlOpts): Promise<{ uploadU
   return { uploadUrl, expiresAt };
 }
 
+interface SignedDeleteUrlOpts {
+  objectPath: string;
+  ttlSeconds: number;
+  serviceAccountEmail: string;
+  privateKey: CryptoKey;
+}
+// V4 signed DELETE URL — same algorithm as the PUT helper above but with
+// HTTP method DELETE and only `host` in the signed headers (no body, no
+// content-type). The Edge Function fetches the resulting URL with method
+// 'DELETE' to remove a GCS object.
+async function generateV4SignedDeleteUrl(opts: SignedDeleteUrlOpts): Promise<{ deleteUrl: string; expiresAt: string }> {
+  const now = new Date();
+  const datestamp   = now.toISOString().slice(0, 10).replace(/-/g, '');
+  const timestamp   = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const credentialScope = `${datestamp}/auto/storage/goog4_request`;
+  const credential      = `${opts.serviceAccountEmail}/${credentialScope}`;
+  const host = 'storage.googleapis.com';
+
+  const signedHeaders = ['host'];
+  const canonicalHeaders = `host:${host}\n`;
+
+  const queryParams: Record<string, string> = {
+    'X-Goog-Algorithm':     'GOOG4-RSA-SHA256',
+    'X-Goog-Credential':    credential,
+    'X-Goog-Date':          timestamp,
+    'X-Goog-Expires':       String(opts.ttlSeconds),
+    'X-Goog-SignedHeaders': signedHeaders.join(';')
+  };
+  const canonicalQueryString = Object.keys(queryParams).sort()
+    .map((k) => `${encodeRfc3986(k)}=${encodeRfc3986(queryParams[k])}`).join('&');
+
+  const canonicalUri = `/${GCS_BUCKET}/${encodeObjectPath(opts.objectPath)}`;
+  const canonicalRequest =
+      `DELETE\n${canonicalUri}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders.join(';')}\nUNSIGNED-PAYLOAD`;
+
+  const hashedCanonicalRequest = await sha256Hex(canonicalRequest);
+  const stringToSign = `GOOG4-RSA-SHA256\n${timestamp}\n${credentialScope}\n${hashedCanonicalRequest}`;
+  const sig = await crypto.subtle.sign(
+    'RSASSA-PKCS1-v1_5',
+    opts.privateKey,
+    new TextEncoder().encode(stringToSign)
+  );
+  const signature = toHex(sig);
+
+  const deleteUrl =
+    `https://${host}${canonicalUri}?${canonicalQueryString}&X-Goog-Signature=${signature}`;
+  const expiresAt = new Date(Date.now() + opts.ttlSeconds * 1000).toISOString();
+  return { deleteUrl, expiresAt };
+}
+
 // Snapshot a row before mutating it. Reads the current row (or null for
 // inserts) and appends to mock_tests_backups so "Restore" can replay.
 async function snapshotMock(mockId: string | null, action: 'insert' | 'update' | 'delete', actor: string) {
@@ -385,7 +435,7 @@ Deno.serve(async (req) => {
   // can still list/get/list_backups for visibility, but writes are gated.
   // Signed-upload URLs are also super-admin only — anyone with one can write
   // a single file to the bucket.
-  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio']);
+  const WRITE_ACTIONS = new Set(['create', 'update', 'delete', 'restore', 'gcs_signed_upload_url', 'generate_speaking_audio', 'delete_speaking_audio']);
   if (WRITE_ACTIONS.has(action) && auth.role !== 'super_admin') {
     return json(403, { error: 'super_admin_required' });
   }
@@ -709,6 +759,66 @@ Deno.serve(async (req) => {
         }
 
         return json(200, { publicUrl, objectPath, sizeBytes, durationSec });
+      }
+
+      // ── Delete a speaking-mock audio object from GCS ──────────────────
+      // Body: { publicUrl }
+      // Returns: { deleted:true, objectPath } | { error, ... }
+      // Refuses anything outside the speaking-media folders so the editor
+      // can't accidentally wipe voice previews, listening audio, etc.
+      case 'delete_speaking_audio': {
+        const publicUrl = String(body.publicUrl || '').trim();
+        if (!publicUrl) return json(400, { error: 'bad_request', detail: 'publicUrl required' });
+
+        const PREFIX = `https://storage.googleapis.com/${GCS_BUCKET}/`;
+        if (!publicUrl.startsWith(PREFIX)) {
+          return json(400, { error: 'unsupported_url', detail: 'must be in ' + GCS_BUCKET + ' bucket' });
+        }
+        // The publicUrl in mock_data was produced by encodeObjectPath, so
+        // each path segment is RFC3986-encoded. decodeURIComponent reverses
+        // that to get the literal object path.
+        let objectPath: string;
+        try { objectPath = decodeURIComponent(publicUrl.slice(PREFIX.length)); }
+        catch { return json(400, { error: 'bad_url' }); }
+
+        const ALLOWED_DELETE_FOLDERS = [
+          GCS_FOLDERS['cefr-speaking']  + '/',
+          GCS_FOLDERS['ielts-speaking'] + '/'
+        ];
+        if (!ALLOWED_DELETE_FOLDERS.some((f) => objectPath.startsWith(f))) {
+          return json(400, { error: 'protected_folder', detail: 'only speaking-media folders are deletable from the editor', objectPath });
+        }
+
+        const sa = Deno.env.get('GCS_SERVICE_ACCOUNT_JSON') || '';
+        if (!sa) return json(500, { error: 'gcs_secret_missing' });
+        let saObj: { client_email: string; private_key: string };
+        try { saObj = JSON.parse(sa); } catch { return json(500, { error: 'gcs_secret_invalid' }); }
+        if (!saObj.client_email || !saObj.private_key) {
+          return json(500, { error: 'gcs_secret_missing_fields' });
+        }
+        let privateKey: CryptoKey;
+        try { privateKey = await importPrivateKey(saObj.private_key); }
+        catch (e) { return json(500, { error: 'gcs_key_import_failed', detail: (e as Error).message }); }
+
+        const { deleteUrl } = await generateV4SignedDeleteUrl({
+          objectPath,
+          ttlSeconds: 600,
+          serviceAccountEmail: saObj.client_email,
+          privateKey
+        });
+
+        try {
+          const r = await fetch(deleteUrl, { method: 'DELETE' });
+          if (r.status === 404) return json(404, { error: 'not_found', objectPath });
+          if (!r.ok) {
+            const errText = await r.text().catch(() => '');
+            return json(502, { error: 'gcs_delete_failed', status: r.status, detail: errText.slice(0, 400) });
+          }
+        } catch (e) {
+          return json(502, { error: 'gcs_delete_failed', detail: (e as Error).message });
+        }
+
+        return json(200, { deleted: true, objectPath });
       }
 
       default:

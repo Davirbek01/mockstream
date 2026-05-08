@@ -26975,6 +26975,7 @@
       }).join('');
       var safeVal = _mmgEsc(value || '');
       var initialSrc = value ? safeVal + (value.indexOf('?') === -1 ? '?t=' + Date.now() : '') : '';
+      var delShown = _mmgIsGcsSpeakingUrl(value || '');
       return '<div class="mmg-field"><label>' + _mmgEsc(label) + '</label>'
         + '<div class="mmg-audio-row" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">'
         +   '<input type="text" id="' + id + '" value="' + safeVal + '" '
@@ -26984,6 +26985,9 @@
         +     'onclick="_mmgGenerateAudio(' + qIndex + ', \'' + id + '\')">🎙</button>'
         +   '<button type="button" class="mmg-icon-btn" id="' + id + '_upbtn" title="Upload MP3/WAV">📤</button>'
         +   '<input type="file" id="' + id + '_upfile" accept="audio/*" style="display:none;">'
+        +   '<button type="button" class="mmg-icon-btn" id="' + id + '_delbtn" title="Delete this audio from GCS" '
+        +     'style="' + (delShown ? '' : 'display:none;') + 'color:#dc2626;" '
+        +     'onclick="_mmgDeleteAudio(' + qIndex + ', \'' + id + '\')">🗑</button>'
         +   '<select id="' + id + '_voice" title="Voice override (this regen only)" style="font-size:12px;padding:4px;">' + voiceOpts + '</select>'
         +   '<select id="' + id + '_model" title="Model override (this regen only)" style="font-size:12px;padding:4px;">' + modelOpts + '</select>'
         + '</div>'
@@ -26994,16 +26998,59 @@
         + '</div>';
     }
 
+    // Match a URL that points to a deletable speaking-mock audio in GCS.
+    // Voice previews + listening audio + chart images are intentionally
+    // excluded so the 🗑 button can't wipe shared assets.
+    function _mmgIsGcsSpeakingUrl(url) {
+      if (!url) return false;
+      return /^https:\/\/storage\.googleapis\.com\/mockstream-listening-audio\/(CEFR%20speaking%20media|IELTS%20speaking%20media)\//.test(url);
+    }
+
     // Re-bind <audio src> when the URL input changes. Called by oninput.
     window._mmgRebindAudioPlayer = function (id) {
       var input = document.getElementById(id);
       var aud   = document.getElementById(id + '_audio');
-      if (!input || !aud) return;
+      var del   = document.getElementById(id + '_delbtn');
+      if (!input) return;
       var url = (input.value || '').trim();
-      if (!url) { aud.style.display = 'none'; aud.removeAttribute('src'); return; }
-      var sep = url.indexOf('?') === -1 ? '?' : '&';
-      aud.src = url + sep + 't=' + Date.now();
-      aud.style.display = 'block';
+      if (!url) {
+        if (aud) { aud.style.display = 'none'; aud.removeAttribute('src'); }
+        if (del) { del.style.display = 'none'; }
+        return;
+      }
+      if (aud) {
+        var sep = url.indexOf('?') === -1 ? '?' : '&';
+        aud.src = url + sep + 't=' + Date.now();
+        aud.style.display = 'block';
+      }
+      if (del) {
+        del.style.display = _mmgIsGcsSpeakingUrl(url) ? '' : 'none';
+      }
+    };
+
+    // Delete the GCS object referenced by the URL field at `id`.
+    window._mmgDeleteAudio = async function (qIndex, id) {
+      var input = document.getElementById(id);
+      if (!input) return;
+      var url = (input.value || '').trim();
+      if (!_mmgIsGcsSpeakingUrl(url)) {
+        alert('This URL isn\'t a deletable GCS audio.\n\nOnly newly-generated speaking audios under "CEFR speaking media/" or "IELTS speaking media/" can be deleted from here.');
+        return;
+      }
+      if (!confirm('Delete this audio from GCS permanently?\n\n' + url + '\n\nThe URL field will be cleared. Click Save to persist the cleared field.')) return;
+      var btnEl = document.getElementById(id + '_delbtn');
+      if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+      try {
+        var j = await _mmgCall('delete_speaking_audio', { publicUrl: url });
+        if (!j || j.error) throw new Error((j && j.error) || 'unknown error');
+        input.value = '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        _mmgStatus('🗑 Deleted audio for Q' + (qIndex + 1) + ' from GCS', '#15803d');
+      } catch (e) {
+        alert('Delete failed: ' + (e.message || e));
+      } finally {
+        if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🗑'; }
+      }
     };
 
     // Generate audio for question `qIndex` and fill the URL input at `id`.
