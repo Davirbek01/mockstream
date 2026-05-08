@@ -27417,7 +27417,6 @@
       }).join('');
 
       var voicesArr = (typeof _MMG_TTS_VOICES !== 'undefined' && Array.isArray(_MMG_TTS_VOICES)) ? _MMG_TTS_VOICES : [];
-      console.log('[mmg-voice-grid] _MMG_TTS_VOICES has', voicesArr.length, 'entries');
       var rows = voicesArr.map(function(v) {
         var checked = v.code === selVoice ? ' checked' : '';
         return '<div class="mmg-voice-row" data-voice="' + v.code + '" style="display:grid;grid-template-columns:24px 130px 1fr 110px 110px;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid #f1f5f9;min-height:32px;">'
@@ -27434,7 +27433,7 @@
 
       return '<div class="mmg-section-title">Voice &amp; TTS model</div>'
            + '<div style="display:flex;gap:8px;margin-bottom:10px;">' + modelToggle + '</div>'
-           + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;">' + rows + '</div>';
+           + '<div style="border:1px solid #e2e8f0;border-radius:8px;background:#fff;flex-shrink:0;">' + rows + '</div>';
     }
 
     window._mmgPickTtsVoice = function (code) {
