@@ -27902,8 +27902,10 @@
     //   CEFR Writing: phrasal/adv/modal/colloc/idiom
     //   IELTS Writing: academic/linking/lexical/colloc/idiom
     var _MMG_TOKEN_TYPES_BY_TYPE = {
-      'cefr-writing':  ['phrasal','adv','modal','colloc','idiom'],
-      'ielts-writing': ['academic','linking','lexical','colloc','idiom']
+      'cefr-writing':   ['phrasal','adv','modal','colloc','idiom'],
+      'ielts-writing':  ['academic','linking','lexical','colloc','idiom'],
+      'cefr-speaking':  ['phrasal','adv','modal','colloc','idiom','proverb'],
+      'ielts-speaking': ['phrasal','adv','modal','colloc','idiom','proverb']
     };
     function _mmgTokenTypesForCurrent() {
       return _MMG_TOKEN_TYPES_BY_TYPE[_mmgCurrentType()] || _MMG_TOKEN_TYPES_BY_TYPE['cefr-writing'];
