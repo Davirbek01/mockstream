@@ -223,9 +223,11 @@ function pcmToWav(pcmBytes: Uint8Array, sampleRate: number = 24000): Uint8Array 
   const bitsPerSample = 16;
   const byteRate = sampleRate * numChannels * bitsPerSample / 8;
   const blockAlign = numChannels * bitsPerSample / 8;
+  const WAV_HEADER_BYTES   = 44;   // 12 (RIFF desc) + 24 (fmt chunk) + 8 (data header)
+  const RIFF_SIZE_PREAMBLE =  8;   // "RIFF" + 4-byte file-size field excluded from `fileSize`
   const dataSize = pcmBytes.length;
-  const fileSize = 36 + dataSize;
-  const buf = new Uint8Array(44 + dataSize);
+  const fileSize = (WAV_HEADER_BYTES - RIFF_SIZE_PREAMBLE) + dataSize;
+  const buf = new Uint8Array(WAV_HEADER_BYTES + dataSize);
   const dv = new DataView(buf.buffer);
   // "RIFF" chunk descriptor
   buf.set([0x52,0x49,0x46,0x46], 0);            // "RIFF"
