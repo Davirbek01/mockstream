@@ -26855,6 +26855,27 @@
     //   GCS upload helpers from the writing editor; adds Gemini TTS audio
     //   generation per question.
     // ═══════════════════════════════════════════════════════════════════════
+    // Curated list — must match TTS_VOICES in supabase/functions/admin-mocks/index.ts.
+    // Adding a voice: update both lists AND re-run generate-voice-previews.mjs.
+    var _MMG_TTS_VOICES = [
+      { code: 'Kore',         label: 'Firm — neutral examiner' },
+      { code: 'Charon',       label: 'Deep, informative — senior examiner' },
+      { code: 'Aoede',        label: 'Warm, friendly' },
+      { code: 'Orus',         label: 'Firm, articulate' },
+      { code: 'Achird',       label: 'Friendly, approachable' },
+      { code: 'Vindemiatrix', label: 'Gentle' },
+      { code: 'Leda',         label: 'Youthful, clear' },
+      { code: 'Puck',         label: 'Upbeat' }
+    ];
+    var _MMG_TTS_MODELS = [
+      { code: 'budget',  label: 'Budget (Flash) — fast, cheap' },
+      { code: 'premium', label: 'Premium (Pro) — richer intonation' }
+    ];
+    // Pre-generated voice preview URLs in GCS (created by generate-voice-previews.mjs).
+    function _mmgVoicePreviewUrl(model, voice) {
+      return 'https://storage.googleapis.com/mockstream-listening-audio/Voice%20previews/'
+           + encodeURIComponent(model) + '-' + encodeURIComponent(voice) + '.wav';
+    }
     function _mmgRenderSpPart(md, partKey) {
       var pane = document.getElementById('mmgPaneSp' + partKey.charAt(0).toUpperCase() + partKey.slice(1));
       if (pane) pane.innerHTML = '<div class="mmg-empty-hint">Pane stub — implemented in Task 10.</div>';
