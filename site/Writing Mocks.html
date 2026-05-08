@@ -167,10 +167,15 @@
             opt.style.cssText = 'background:white;color:#6366f1;font-weight:600;';
             selector.appendChild(opt);
           }
+          // Stamp mock_number on the option so the change handler at ~line 6741
+          // can read it back when building the Telegram caption + filename. The
+          // generated label '🟢 Dynamic Mock' contains no digits, so the regex
+          // fallback would otherwise miss and the caption would be blank.
+          opt.dataset.mockNumber = mockNum;
           selector.value = sbValue;
           found = true;
           window._lastSelectedWritingMock = { value: sbValue, text: opt.textContent };
-          console.log('[Auto-Proceed Writing] Selected Supabase mock:', sbValue);
+          console.log('[Auto-Proceed Writing] Selected Supabase mock:', sbValue, 'mockNum:', mockNum);
         }
 
         if (!found && !selector.value) {
